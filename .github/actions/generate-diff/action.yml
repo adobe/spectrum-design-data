@@ -46,10 +46,14 @@ runs:
       shell: bash
       run: moon setup
 
+    - name: Resolve pnpm store path
+      id: pnpm-store
+      shell: bash
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
     - name: Cache pnpm store
       uses: actions/cache@v4
       with:
-        path: ~/.local/share/pnpm/store
+        path: ${{ steps.pnpm-store.outputs.path }}
         key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
         restore-keys: pnpm-${{ runner.os }}-
 

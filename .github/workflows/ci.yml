@@ -17,8 +17,9 @@ jobs:
   # with the rust job so JS-only PRs get fast feedback without waiting for
   # the full Rust + wasm build.
   #
-  # If you add a new moon project with CI tasks that do NOT depend on sdk:build,
-  # sdk-wasm:build, or @adobe/design-data-wasm, add its target below.
+  # Target lists live in .github/ci-targets.json (single source of truth).
+  # Edit that file to add/remove targets; the ci-targets-guard job enforces
+  # that every runInCI moon task is accounted for.
   node:
     name: Node
     runs-on: ubuntu-latest
@@ -33,27 +34,18 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
         uses: actions/cache@v4
         with:
-          path: ~/.local/share/pnpm/store
+          path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: pnpm-${{ runner.os }}-
       - name: Run Node CI tasks
-        run: |
-          moon ci \
-            tokens:buildTokens \
-            tokens:buildManifest \
-            component-schemas:test \
-            design-data-spec:check \
-            token-diff-generator:ci \
-            component-diff-generator:ci \
-            spectrum-diff-core:ci \
-            optimized-diff:test \
-            release-analyzer:test \
-            demo:ci \
-            spectrum-design-data-mcp:test \
-            component-options-editor:test
+        run: moon ci $(jq -r '.node[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:
@@ -64,8 +56,9 @@ jobs:
   # sdk-wasm:build. Uses Swatinem/rust-cache to persist the Cargo build cache
   # across runs, turning cold 455-crate compiles into fast incremental builds.
   #
-  # If you add a new moon task that depends on sdk:build, sdk-wasm:build, or
-  # @adobe/design-data-wasm (workspace:*), add its target below.
+  # Target lists live in .github/ci-targets.json (single source of truth).
+  # Edit that file to add/remove targets; the ci-targets-guard job enforces
+  # that every runInCI moon task is accounted for.
   rust:
     name: Rust
     runs-on: ubuntu-latest
@@ -93,26 +86,37 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
+      - name: Resolve pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
         uses: actions/cache@v4
         with:
-          path: ~/.local/share/pnpm/store
+          path: ${{ steps.pnpm-store.outputs.path }}
           key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: pnpm-${{ runner.os }}-
       - name: Run Rust CI tasks
-        run: |
-          moon ci \
-            sdk:lint \
-            sdk:test \
-            sdk-wasm:ci \
-            tokens:test \
-            design-data:validate \
-            design-data:roundtrip-verify \
-            design-data:legacy-output \
-            design-data-glue:ci \
-            design-data-agent-mcp:test \
-            token-naming-audit:ci
+        run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
         if: success() || failure()
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Validates that every moon task with runInCI enabled is listed in
+  # .github/ci-targets.json (node or rust) or explicitly excluded.
+  # Fails if a new task is added to the workspace without being categorized,
+  # preventing silent coverage gaps.
+  ci-targets-guard:
+    name: CI Targets Guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - name: Check CI target coverage
+        run: node .github/scripts/check-ci-coverage.mjs
