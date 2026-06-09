@@ -71,15 +71,8 @@ jobs:
 
       - run: npm install -g pnpm@10.17.1
 
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+        uses: ./.github/actions/cache-pnpm-store
 
       - run: pnpm install --frozen-lockfile
 
@@ -166,16 +159,8 @@ jobs:
 
       - run: npm install -g pnpm@10.17.1
 
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+        uses: ./.github/actions/cache-pnpm-store
 
       # --ignore-scripts skips prepare hooks (e.g. docs/s2-tokens-viewer uses
       # `mkdir -p` which is not available on the Windows runner).
@@ -241,15 +226,8 @@ jobs:
 
       - run: npm install -g pnpm@10.17.1
 
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+        uses: ./.github/actions/cache-pnpm-store
 
       - run: pnpm install --frozen-lockfile
 

@@ -42,20 +42,14 @@ runs:
       with:
         auto-install: true
 
+    # Cache the pnpm store before moon setup so that setup's own pnpm
+    # invocations benefit from the cached packages.
+    - name: Cache pnpm store
+      uses: ./.github/actions/cache-pnpm-store
+
     - name: Setup moon
       shell: bash
       run: moon setup
-
-    - name: Resolve pnpm store path
-      id: pnpm-store
-      shell: bash
-      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-    - name: Cache pnpm store
-      uses: actions/cache@v4
-      with:
-        path: ${{ steps.pnpm-store.outputs.path }}
-        key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: pnpm-${{ runner.os }}-
 
     - name: Install tool dependencies
       shell: bash

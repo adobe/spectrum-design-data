@@ -34,16 +34,8 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+        uses: ./.github/actions/cache-pnpm-store
       - name: Run Node CI tasks
         run: moon ci $(jq -r '.node[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
@@ -86,16 +78,8 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
-      - name: Resolve pnpm store path
-        id: pnpm-store
-        shell: bash
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
       - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+        uses: ./.github/actions/cache-pnpm-store
       - name: Run Rust CI tasks
         run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
@@ -111,10 +95,9 @@ jobs:
     name: CI Targets Guard
     runs-on: ubuntu-latest
     steps:
+      # Shallow checkout is sufficient — this job only reads static config files
+      # (moon.yml, .github/ci-targets.json) to verify task coverage.
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          filter: blob:none
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
