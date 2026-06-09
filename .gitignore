@@ -7,6 +7,9 @@ yarn-error.log*
 lerna-debug.log*
 diff.txt
 /site
+
+# Generated review report from tools/s2-docs-to-document-blocks transform
+document-blocks-review.md
 .next
 /docs/site/out
 

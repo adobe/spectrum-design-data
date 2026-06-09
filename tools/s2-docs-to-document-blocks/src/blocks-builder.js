@@ -50,6 +50,11 @@ function normalize(text) {
 /**
  * Build a content string from a heading + body.
  * Format: "Heading sentence. Body prose."
+ *
+ * NOTE: normalize() is URL-safe (does not touch URL characters), so rewriteLinks()
+ * is intentionally called AFTER normalize() on the assembled string.  Do not add
+ * URL-touching logic to normalize() or the link rewrite will produce double-encoded
+ * or malformed URLs.
  */
 function buildContent(heading, body) {
   const h = heading.trim();
@@ -121,17 +126,41 @@ function extractParagraphs(body) {
 }
 
 /**
- * Detect duplicate content within a set of blocks.
- * Returns a Set of content strings that appear more than once.
+ * Normalize a content string to a stable dedup key.
+ *
+ * Conservative intent: collapse surface-level scrape artefacts (smart quotes,
+ * punctuation variation, extra whitespace, markdown link syntax) so that
+ * near-duplicate blocks produced by the External-links dump and the proper
+ * Behaviors/Usage sections get deduplicated.  NOT intended to aggressively
+ * collapse distinct prose — only superficial noise differences.
+ *
+ * Normalization steps (in order):
+ *   1. Lowercase
+ *   2. Smart quotes / em-dashes → ASCII equivalents
+ *   3. Strip markdown link labels, keeping only the display text
+ *   4. Remove all non-alphanumeric-or-space characters
+ *   5. Collapse whitespace
+ *
+ * @param {string} content
+ * @returns {string}
  */
-function findDuplicateContent(blocks) {
-  const seen = new Map();
-  for (const block of blocks) {
-    const key = block.content.trim().toLowerCase();
-    seen.set(key, (seen.get(key) ?? 0) + 1);
-  }
-  return new Set(
-    [...seen.entries()].filter(([, count]) => count > 1).map(([key]) => key),
+export function normalizeForDedup(content) {
+  return (
+    content
+      .toLowerCase()
+      // smart single quotes → ASCII apostrophe
+      .replace(/[‘’‚‛]/g, "'")
+      // smart double quotes → ASCII double-quote
+      .replace(/[“”„‟]/g, '"')
+      // em-dash / en-dash → space
+      .replace(/[–—]/g, " ")
+      // strip markdown link syntax: [text](url) → text
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      // remove everything that isn't a-z, 0-9, or space
+      .replace(/[^a-z0-9 ]/g, "")
+      // collapse whitespace
+      .replace(/\s+/g, " ")
+      .trim()
   );
 }
 
@@ -175,8 +204,11 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
     }
 
     // ── External links (scraper artifact) → guideline blocks ─────────────
-    // This section sometimes contains the real prose when the scraper failed
-    // to populate the proper sections.
+    // On ~64 pages the scraper mislabels a catch-all section "## External links"
+    // that actually contains the real prose (Overview, Behaviors, Usage guidelines
+    // content).  The content is genuine; near-duplicate blocks that overlap with the
+    // properly-labelled sections are removed by the normalizeForDedup pass below.
+    // Root cause (parser heading detection) is tracked as a separate follow-up item.
     if (headingKey === "external links") {
       if (section.subsections.length > 0) {
         // Subsections present — treat like Usage guidelines
@@ -186,6 +218,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
           blocks.push({
             type: "guideline",
             content: buildContent(sub.heading, sub.content),
+            // _source tag is internal provenance — stripped before dedup/output (see below)
             _source: "external-links",
           });
         }
@@ -201,7 +234,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
         }
       }
       flags.push(
-        'REVIEW: "## External links" section contained prose — content may overlap with other sections; verify placement and remove duplicates.',
+        'INFO: "## External links" section contained prose (scraper artefact) — near-duplicate blocks auto-removed.',
       );
       continue;
     }
@@ -302,17 +335,21 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
     }
   }
 
-  // Strip internal _source metadata before deduplicating
+  // Strip internal _source metadata before deduplicating.
+  // _source: "external-links" is a build-time provenance tag added above for the
+  // External-links scraper artefact section.  It is intentionally NOT written to the
+  // output JSON — it is only used here as a processing hint.
   const strippedBlocks = blocks.map(({ _source: _ignored, ...rest }) => rest); // eslint-disable-line no-unused-vars
 
-  // Auto-remove duplicate content (keep first occurrence).
-  // Duplicates are a partial-scrape artefact — silently removing them is safer
-  // than leaving bad data in the JSON.
+  // Auto-remove near-duplicate content (keep first occurrence).
+  // Uses normalizeForDedup() rather than an exact-string comparison so that blocks
+  // differing only by smart quotes, markdown link syntax, or punctuation variation
+  // — a common scraper artefact — are also collapsed.
   const seen = new Set();
   const dedupedBlocks = [];
   let removedCount = 0;
   for (const block of strippedBlocks) {
-    const key = block.content.trim().toLowerCase();
+    const key = normalizeForDedup(block.content);
     if (seen.has(key)) {
       removedCount++;
     } else {
@@ -322,7 +359,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
   }
   if (removedCount > 0) {
     flags.push(
-      `INFO: removed ${removedCount} duplicate block(s) — partial-scrape artefact auto-cleaned.`,
+      `INFO: removed ${removedCount} near-duplicate block(s) — partial-scrape artefact auto-cleaned.`,
     );
   }
 

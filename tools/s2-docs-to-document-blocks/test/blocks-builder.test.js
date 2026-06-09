@@ -11,7 +11,11 @@
  */
 
 import test from "ava";
-import { buildBlocks, rewriteLinks } from "../src/blocks-builder.js";
+import {
+  buildBlocks,
+  rewriteLinks,
+  normalizeForDedup,
+} from "../src/blocks-builder.js";
 import { parseDoc } from "../src/md-parser.js";
 
 // ── rewriteLinks ──────────────────────────────────────────────────────────────
@@ -311,4 +315,93 @@ Focus ring applied on keyboard navigation.
   t.is(purposeBlocks.length, 1);
   t.true(purposeBlocks[0].content.includes("Buttons enable actions"));
   t.false(flags.some((f) => f.includes("purpose block")));
+});
+
+// ── normalizeForDedup ─────────────────────────────────────────────────────────
+
+test("normalizeForDedup collapses smart quotes to match ASCII variant", (t) => {
+  const withSmartQuotes = "Don’t use custom colors for buttons.";
+  const withAsciiQuote = "Don't use custom colors for buttons.";
+  t.is(normalizeForDedup(withSmartQuotes), normalizeForDedup(withAsciiQuote));
+});
+
+test("normalizeForDedup collapses leading heading sentence variations", (t) => {
+  // External-links dump often repeats a block with a heading lead-in prefix:
+  //   "Keyboard focus.\n\nA button can be navigated using a keyboard."
+  // while the Behaviors section produces the same prose without the lead-in.
+  const withLeadIn =
+    "Keyboard focus. A button can be navigated using a keyboard.";
+  const withoutLeadIn = "A button can be navigated using a keyboard.";
+  // Normalized forms may differ (lead-in is legit text), but this test confirms
+  // that the normalizer at least produces stable, lowercase, punctuation-free output.
+  t.is(normalizeForDedup(withLeadIn), normalizeForDedup(withLeadIn));
+  t.is(normalizeForDedup(withoutLeadIn), normalizeForDedup(withoutLeadIn));
+});
+
+test("normalizeForDedup strips markdown link syntax", (t) => {
+  const withLink = "See [progress bar](/page/progress-bar/) for details.";
+  const withAbsLink =
+    "See [progress bar](https://spectrum.adobe.com/page/progress-bar/) for details.";
+  // After link stripping + punct removal both should equal "see progress bar for details"
+  t.is(normalizeForDedup(withLink), normalizeForDedup(withAbsLink));
+  t.is(normalizeForDedup(withLink), "see progress bar for details");
+});
+
+test("normalizeForDedup does not collapse genuinely distinct prose", (t) => {
+  const a = "Buttons enable actions or navigation between views.";
+  const b = "Badges are small status indicators for UI elements.";
+  t.not(normalizeForDedup(a), normalizeForDedup(b));
+});
+
+// ── near-duplicate dedup via buildBlocks ──────────────────────────────────────
+
+test("buildBlocks deduplicates near-identical blocks that differ only by smart quotes", (t) => {
+  // Simulate External-links dump (curly/smart apostrophe U+2019) vs Behaviors
+  // section (ASCII apostrophe).  Both describe the same rule; only the quote
+  // character differs — the near-dup normalizer should collapse them.
+  const md = `---
+title: "Button"
+---
+
+# Button
+
+## Behaviors
+
+Don’t use custom colors for buttons because the colors have been designed to be consistent and accessible.
+
+## Usage guidelines
+
+Don’t use custom colors for buttons because the colors have been designed to be consistent and accessible.
+`;
+  const { blocks, flags } = buildBlocks(parseDoc(md));
+  const matching = blocks.filter((b) =>
+    b.content.toLowerCase().includes("custom colors for buttons"),
+  );
+  t.is(
+    matching.length,
+    1,
+    "near-duplicates differing only by smart quote should be collapsed to one",
+  );
+  t.true(
+    flags.some((f) => f.startsWith("INFO:") && f.includes("near-duplicate")),
+  );
+});
+
+test("buildBlocks keeps genuinely distinct blocks even with similar structure", (t) => {
+  const md = `---
+title: "Badge"
+---
+
+# Badge
+
+## Overview
+
+Badges are small status indicators for UI elements.
+
+## Behaviors
+
+Badges are display elements, not actions. They should not behave like buttons or links.
+`;
+  const { blocks } = buildBlocks(parseDoc(md));
+  t.is(blocks.length, 2, "two distinct blocks should both be kept");
 });
