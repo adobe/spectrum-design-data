@@ -14,7 +14,8 @@
     "component-options-editor:test",
     "component-options-editor:build",
     "component-options-editor:validate",
-    "root:test"
+    "root:test",
+    "s2-docs-to-document-blocks:test"
   ],
   "rust": [
     "sdk:lint",
