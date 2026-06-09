@@ -18,8 +18,11 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 #
 #   Phase 2 — `build-binaries` + `release`  (version-PR merge only)
 #     Both jobs gate on hasChangesets==false.
-#     `build-binaries` compiles the Rust CLI for all four platforms in a matrix
-#     and uploads the binaries as GitHub Actions artifacts.
+#     `build-binaries` additionally gates on `cliReleaseNeeded==true` — it only
+#     runs when sdk/cli/Cargo.toml carries a version not yet tagged as a GitHub
+#     Release. This avoids 4 expensive matrix builds on npm-only releases where
+#     the CLI version is unchanged. The `changesets` job detects this by checking
+#     for an existing `design-data-cli@<version>` git tag.
 #     `release` publishes npm packages via changeset publish (OIDC), then
 #     downloads the built artifacts and attaches them to the GitHub Release
 #     tagged by the design-data-cli Cargo.toml version. Only an actual binary
@@ -40,10 +43,25 @@ jobs:
       pull-requests: write
     outputs:
       hasChangesets: ${{ steps.cs.outputs.hasChangesets }}
+      cliReleaseNeeded: ${{ steps.cli.outputs.cliReleaseNeeded }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Detect CLI release
+        id: cli
+        shell: bash
+        run: |
+          CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          TAG="design-data-cli@${CLI_VERSION}"
+          if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            echo "CLI ${CLI_VERSION} already released (tag ${TAG} exists) — skipping binary build."
+            echo "cliReleaseNeeded=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "CLI ${CLI_VERSION} not yet released — binary build will run."
+            echo "cliReleaseNeeded=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: actions/setup-node@v4
         with:
@@ -83,11 +101,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-  # ── Phase 2a: build — runs on every version-PR merge ───────────────────────
+  # ── Phase 2a: build — runs only when CLI version is not yet released ────────
   build-binaries:
     name: Build binary (${{ matrix.platform }})
     needs: changesets
-    if: needs.changesets.outputs.hasChangesets == 'false'
+    if: >-
+      needs.changesets.outputs.hasChangesets == 'false' &&
+      needs.changesets.outputs.cliReleaseNeeded == 'true'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -211,9 +231,8 @@ jobs:
 
       # Download the binaries built by build-binaries and attach them to the
       # GitHub Release tagged by the design-data-cli Cargo.toml version.
-      # Skipped when build-binaries did not succeed (e.g. it was skipped due
-      # to no code changes that affect the binary — currently build-binaries
-      # always runs on version-PR merge, so this only fires on build failure).
+      # Skipped when build-binaries did not run (cliReleaseNeeded==false for
+      # npm-only releases) or when it failed.
       - name: Download binary artifacts
         if: needs.build-binaries.result == 'success'
         uses: actions/download-artifact@v4
