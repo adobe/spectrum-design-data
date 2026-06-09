@@ -19,6 +19,11 @@
   ],
   "author": "Adobe",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/changeset-linter"
+  },
   "dependencies": {
     "commander": "^12.1.0",
     "glob": "^11.0.0",

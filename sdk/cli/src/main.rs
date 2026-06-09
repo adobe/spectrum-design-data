@@ -89,6 +89,9 @@ struct TuiArgs {
     /// Replay a previously recorded NDJSON message stream and print the final buffer.
     #[arg(long)]
     replay: Option<PathBuf>,
+    /// Run headless (no TTY), replay messages if given, and print the final frame as ANSI SGR.
+    #[arg(long)]
+    snapshot_ansi: bool,
 }
 
 #[derive(Subcommand)]
@@ -1550,6 +1553,7 @@ fn run_tui(args: TuiArgs) -> ExitCode {
         no_resume_wizard: args.no_resume_wizard,
         record: args.record,
         replay: args.replay,
+        snapshot_ansi: args.snapshot_ansi,
     };
     match design_data_tui::launch(opts) {
         Ok(()) => ExitCode::SUCCESS,

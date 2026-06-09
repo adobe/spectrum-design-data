@@ -6136,7 +6136,7 @@
     "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Date and time fields use 20px whereas text field appears to use padding value",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -8818,7 +8818,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead.",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -8833,7 +8833,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead.",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -8848,7 +8848,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -8863,7 +8863,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -8878,7 +8878,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -8893,7 +8893,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -8908,7 +8908,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -8923,7 +8923,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -14166,7 +14166,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -14181,7 +14181,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "26cedd5b-5c67-4da7-974f-806b20064a5b"
+    "replaced_by": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "name": {
@@ -14196,7 +14196,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -14211,7 +14211,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -14226,7 +14226,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -14241,7 +14241,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -14267,7 +14267,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -14282,7 +14282,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Not present in design; obscure and difficult to find in implementations",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -17810,7 +17810,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -17825,7 +17825,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -17840,7 +17840,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -17855,7 +17855,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -17870,7 +17870,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -17885,7 +17885,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -17996,7 +17996,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -18011,7 +18011,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead.",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -18026,7 +18026,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -18041,7 +18041,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -18056,7 +18056,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -18071,7 +18071,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -18267,7 +18267,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -18282,7 +18282,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "ef179042-3ad8-4db5-8e23-983134f5906c"
+    "replaced_by": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "name": {
@@ -18297,7 +18297,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -18312,7 +18312,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -18327,7 +18327,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -18342,7 +18342,7 @@
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
-    "replaced_by": "0732ae91-c85b-45ab-8a57-e21622768db3"
+    "replaced_by": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "name": {
@@ -18745,7 +18745,7 @@
     "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8",
     "deprecated": "unknown",
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "replaced_by": "4043f679-9ec2-4eef-b934-19f60d7e74f5"
+    "replaced_by": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "name": {
@@ -20215,5 +20215,41 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "212px",
     "uuid": "3373c4d2-d81b-4649-bc24-5251879778c1"
+  },
+  {
+    "name": {
+      "component": "form-item",
+      "property": "form-item-gap-extra-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd",
+    "uuid": "a70d4855-0c3f-4b59-9f63-16334cd06134"
+  },
+  {
+    "name": {
+      "component": "form-item",
+      "property": "form-item-gap-large"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b",
+    "uuid": "61cc3354-d256-482f-91d7-e4361cc4da9d"
+  },
+  {
+    "name": {
+      "component": "form-item",
+      "property": "form-item-gap-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c",
+    "uuid": "56c23cee-9c0b-4851-ae72-a7287151b2fb"
+  },
+  {
+    "name": {
+      "component": "form-item",
+      "property": "form-item-gap-small"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698",
+    "uuid": "33bbbb47-23c6-4390-9577-42be709ceb98"
   }
 ]
