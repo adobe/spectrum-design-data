@@ -22,9 +22,13 @@ const GUIDELINE_SCHEMA =
  *
  * @param {object} parsedDoc - result from parseDoc()
  * @param {string} slug - kebab-case file slug (e.g. "colors")
+ * @param {object} [options]
+ * @param {Set<string>} [options.componentNames] - known component name slugs for kind resolution
+ * @param {Set<string>} [options.guidelineSlugs] - known guideline slugs for kind resolution
  * @returns {{ doc: object|null, blocks: Array, flags: string[], isStub: boolean }}
  */
-export function buildGuideline(parsedDoc, slug) {
+export function buildGuideline(parsedDoc, slug, options = {}) {
+  const { componentNames = new Set(), guidelineSlugs = new Set() } = options;
   const { frontmatter, isStub } = parsedDoc;
 
   const { blocks, flags } = buildBlocks(parsedDoc, {
@@ -63,16 +67,26 @@ export function buildGuideline(parsedDoc, slug) {
     doc.tags = frontmatter.tags;
   }
 
-  // Map related_components → related[].ref without validating targets.
-  // Some entries point at other guideline slugs, not just components —
-  // SPEC-046 emits a warning for unresolvable refs at validation time.
+  // Map related_components → related[].ref, resolving kind when possible.
+  // The frontmatter key mixes component and guideline refs — set kind when the
+  // ref resolves against the provided name sets; leave it absent otherwise so
+  // SPEC-046 falls back to checking both catalogs at validation time.
   if (
     Array.isArray(frontmatter.related_components) &&
     frontmatter.related_components.length > 0
   ) {
     doc.related = frontmatter.related_components
       .filter((r) => typeof r === "string" && r.trim())
-      .map((r) => ({ ref: r.trim() }));
+      .map((r) => {
+        const ref = r.trim();
+        const entry = { ref };
+        if (componentNames.has(ref)) {
+          entry.kind = "component";
+        } else if (guidelineSlugs.has(ref)) {
+          entry.kind = "guideline";
+        }
+        return entry;
+      });
   }
 
   return { doc, blocks, flags, isStub: false };

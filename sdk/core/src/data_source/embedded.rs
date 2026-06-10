@@ -92,7 +92,6 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
 /// The `@adobe/spectrum-design-data` (cascade) version baked into this binary.
 ///
 /// Kept in sync with `packages/design-data/package.json` via a drift test.
-/// When bumping the cascade data package, update this constant too.
 pub const EMBEDDED_DATA_VERSION: &str = "0.5.0";
 
 // ---------------------------------------------------------------------------

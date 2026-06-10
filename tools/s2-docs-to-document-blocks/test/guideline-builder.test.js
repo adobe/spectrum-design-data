@@ -133,7 +133,7 @@ test("buildGuideline omits optional fields when absent", (t) => {
 
 // ── related passthrough ───────────────────────────────────────────────────────
 
-test("buildGuideline maps related_components → related[].ref without validation", (t) => {
+test("buildGuideline maps related_components → related[].ref without kind when no options", (t) => {
   const parsedDoc = makeDoc(
     {
       title: "Colors",
@@ -150,8 +150,66 @@ test("buildGuideline maps related_components → related[].ref without validatio
     doc.related.map((r) => r.ref),
     ["grays", "background-layers", "button"],
   );
-  // No 'kind' field added by buildGuideline
+  // No resolution sets provided → no kind on any entry
   t.false("kind" in doc.related[0]);
+});
+
+test("buildGuideline sets kind=guideline when ref matches guidelineSlugs", (t) => {
+  const parsedDoc = makeDoc(
+    {
+      title: "Colors",
+      category: "designing",
+      related_components: ["grays", "background-layers"],
+    },
+    "# Colors\n\n## Overview\n\nThe color system.",
+  );
+  const guidelineSlugs = new Set(["grays", "background-layers"]);
+  const { doc } = buildGuideline(parsedDoc, "colors", { guidelineSlugs });
+  t.truthy(doc);
+  t.is(doc.related[0].ref, "grays");
+  t.is(doc.related[0].kind, "guideline");
+  t.is(doc.related[1].ref, "background-layers");
+  t.is(doc.related[1].kind, "guideline");
+});
+
+test("buildGuideline sets kind=component when ref matches componentNames", (t) => {
+  const parsedDoc = makeDoc(
+    {
+      title: "Colors",
+      category: "designing",
+      related_components: ["button", "picker"],
+    },
+    "# Colors\n\n## Overview\n\nThe color system.",
+  );
+  const componentNames = new Set(["button", "picker"]);
+  const { doc } = buildGuideline(parsedDoc, "colors", { componentNames });
+  t.truthy(doc);
+  t.is(doc.related[0].ref, "button");
+  t.is(doc.related[0].kind, "component");
+  t.is(doc.related[1].ref, "picker");
+  t.is(doc.related[1].kind, "component");
+});
+
+test("buildGuideline omits kind for refs that match neither set", (t) => {
+  const parsedDoc = makeDoc(
+    {
+      title: "Colors",
+      category: "designing",
+      related_components: ["unresolvable-ref", "grays"],
+    },
+    "# Colors\n\n## Overview\n\nThe color system.",
+  );
+  const guidelineSlugs = new Set(["grays"]);
+  const componentNames = new Set(["button"]);
+  const { doc } = buildGuideline(parsedDoc, "colors", {
+    componentNames,
+    guidelineSlugs,
+  });
+  t.truthy(doc);
+  t.is(doc.related[0].ref, "unresolvable-ref");
+  t.false("kind" in doc.related[0], "unresolvable ref should have no kind");
+  t.is(doc.related[1].ref, "grays");
+  t.is(doc.related[1].kind, "guideline");
 });
 
 test("buildGuideline omits related when related_components is empty", (t) => {

@@ -343,6 +343,11 @@ async function runTransform(args) {
 
 async function runGuideline(args) {
   const guidelineIndex = buildGuidelineIndex();
+  const componentIndex = buildComponentIndex();
+
+  // Build resolution sets for kind inference in buildGuideline.
+  const componentNames = new Set(componentIndex.keys());
+  const guidelineSlugs = new Set(guidelineIndex.keys());
 
   let slugs;
   if (args.page) {
@@ -376,7 +381,10 @@ async function runGuideline(args) {
     const markdown = readFileSync(mdPath, "utf8");
     const parsedDoc = parseDoc(markdown);
 
-    const { doc, blocks, flags, isStub } = buildGuideline(parsedDoc, slug);
+    const { doc, blocks, flags, isStub } = buildGuideline(parsedDoc, slug, {
+      componentNames,
+      guidelineSlugs,
+    });
 
     const result = {
       slug,
