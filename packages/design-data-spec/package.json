@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-spec",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for the design data format",
   "type": "module",
   "repository": {

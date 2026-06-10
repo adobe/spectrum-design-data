@@ -1,6 +1,6 @@
 {
   "name": "@adobe/token-corpus-migrate",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "private": true,
   "description": "Migration tool that adds structured name objects to tokens in packages/tokens/src/",
   "type": "module",
