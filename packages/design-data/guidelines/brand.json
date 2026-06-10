@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/brand.json",
+  "name": "brand",
+  "title": "Brand",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Brand" },
+    {
+      "type": "guideline",
+      "content": "Product logos, app icons, and lockups.\n\nA product logo or tile color does not change, even if the background is dark. One-color product logos are for usage as workflow icons. You can find app icons within the [App Icons library](https://www.figma.com/file/8or0zCnGc5fiTnQ1NeIRnh/Product-App-icons?type=design\\&node-id=501%3A685\\&mode=design\\&t=BCgDXidUN5VZiBwu-1)."
+    },
+    {
+      "type": "guideline",
+      "content": "Loading screens include desktop splash screens, mobile loading screens, and web loaders.\n\nDesktop splash screens celebrate artwork from the Adobe community and are updated at least once a year. All desktop products that have a loading time of longer than 2 seconds, or don't open instantaneously, are required to have a splash screen. This is so a user can understand that there's a loading process happening.\n\nFollow OS-specific conventions for mobile loading screens. View more information about using [Android loading screens](https://wiki.corp.adobe.com/display/AdobeDesign/Android+Launch+Screens)."
+    },
+    {
+      "type": "guideline",
+      "content": "File type and folder illustrations.\n\nOn desktop, product folder icons are branded to help users find any product-related settings. For web and mobile, folders use Spectrum colors to fit better in the experience.\n\nPrimary file types always utilize brand colors, since they're often file formats proprietary to the product (for example, PSD to Photoshop, or AEP to AE). Secondary filetypes are shared across many products, so they take a neutral palette using Spectrum 1 colors.\n\nThe Brand team creates desktop versions of these icons in ICNS (for Mac) and ICO (for Windows) files, while web versions are delivered most often as SVGs. Desktop folders and file types can be found on the [Brand wiki](https://wiki.corp.adobe.com/pages/viewpage.action?spaceKey=AdobeDesign\\&title=Adobe+Design+Brand) under individual product delivery pages. View [web folders and file types](https://wiki.corp.adobe.com/pages/viewpage.action?pageId=1994851879)."
+    },
+    {
+      "type": "guideline",
+      "content": "Creative Cloud uses Adobe red and six product-specific colors, each with corresponding light and dark values."
+    },
+    {
+      "type": "guideline",
+      "content": "Document Cloud's colors align to Spectrum. There's three primary product colors plus Adobe red, as well as six secondary colors."
+    },
+    {
+      "type": "guideline",
+      "content": "Experience Cloud's colors align to Spectrum. The foundational apps use cool colors, while the functional apps use warm colors."
+    },
+    {
+      "type": "guideline",
+      "content": "Adobe Express uses three colors. Indigo is used for a fill accent color and for highlighting main metaphors. Spectrum gray is the main stroke color."
+    },
+    {
+      "type": "guideline",
+      "content": "Premium and Generative AI gradients.\n\n\\[See embedded content on website]"
+    },
+    {
+      "type": "guideline",
+      "content": "Request assets from the Brand team.\n\nBrand considerations are highly strategic, and coherence is a priority. Don't make your own illustrations, colors, gradients, logos, or other assets. The Brand team will work with you to create assets that align to your product's strategy and timing.\n\nAny new Spectrum 2 assets must be requested directly from the Brand team. It's very important that you do not create your own.\n\nTo view existing S2 Illustrations, visit the [S2 / Illustrations library](https://www.figma.com/design/xGhSI7y1ewp2fEiX5eNOKv/S2-%2F-Illustrations?node-id=1508-8563\\&t=T5G2KGbuUHuqGUnA-0) in Figma. If you need a new illustration, [make a request using Workfront](https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/requests/new?activeTab=tab-new-helpRequest\\&projectID=6780593b001a3fa9fe20195fcec6c39a\\&path=)."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/brand/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["designing"]
+}

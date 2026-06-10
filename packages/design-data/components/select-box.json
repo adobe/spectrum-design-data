@@ -4,45 +4,97 @@
   "specVersion": "1.0.0-draft",
   "name": "select-box",
   "displayName": "Select box",
+  "description": "Select boxes allow users to choose options in a workflow.",
   "meta": {
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Select boxes allow users to choose options in a workflow."
     },
+    {
+      "type": "guideline",
+      "content": "Select boxes allow users to choose options in a workflow. Both single-select and multi-select versions use checkboxes to show selection. Multi-select boxes display unchecked checkboxes by default to signal that multiple choices are allowed. Single-select boxes only show an unchecked checkbox on hover. If showCheckbox is false, selection is only shown using the dark border."
+    },
+    {
+      "type": "guideline",
+      "content": "A select box in a disabled state shows that the items within the group exist, but are not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an option may become available later. Individual boxes may be disabled or the entire group may be disabled."
+    },
+    {
+      "type": "guideline",
+      "content": "Illustrations are optional but recommended and included by default."
+    },
+    {
+      "type": "guideline",
+      "content": "A label is required in select boxes. It acts as the title of the select box and explains its action or purpose.. Ideally, the label should be kept concise, even in the horizontal orientation."
+    },
+    {
+      "type": "guideline",
+      "content": "Body is optional in select boxes. If no value is entered for the body, then it will not appear in the component. Body is usually reserved for the horizontal version of select boxes."
+    },
+    {
+      "type": "guideline",
+      "content": "A select box is vertical by default, which works best when metadata is limited to a short title, with or without an illustration. The horizontal orientation is recommended when the select box includes longer-form metadata."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum and maximum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."
+    },
+    {
+      "type": "guideline",
+      "content": "All select boxes should be the same size as one another. Keep metadata concise, and make the size of the box large enough to accommodate longer text when translated to other languages."
+    },
+    {
+      "type": "guideline",
+      "content": "When the title of the select box is too long for the available horizontal space, it wraps to another line. Wrapped text should not affect the size of an individual select box. Each box in a group should have enough space to allow for longer, localized text to fit as necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "Clicking a select box does not immediately move to the next step in the sequence. After making a selection, the user must initiate the next step by choosing a button or similar component outside the select box group."
+    },
+    {
+      "type": "guideline",
+      "content": "A select box group can be navigated using a keyboard. The keyboard focus state takes the button’s visual hover state and adds a blue ring to the button in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Illustrations should be used when they help clarify the content. If the items are too complex to represent visually, it may be better to omit them. For consistency, if one select box includes an illustration, all select boxes in the group should include one."
+    },
+    {
+      "type": "guideline",
+      "content": "Select box groups work best with 3 to 9 items. If your experience needs more than 9 items, consider using a dropdown, checkboxes, or radio button group instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Select boxes are used to choose an item from a group. If clicking an item is meant to immediately trigger an action, use an action group instead."
+    },
+    {
+      "type": "guideline",
+      "content": "All select boxes in a group should be the same size to maintain visual consistency and usability."
+    },
+    {
+      "type": "guideline",
+      "content": "Select boxes use a checkbox to indicate both single- and multi-selection. Don’t use radio buttons for single-selection."
+    },
+    {
+      "type": "guideline",
+      "content": "Some cases may make more sense for the user to select one or a few options in a group of select boxes, but if the use case doesn’t make sense to be checking a selection, showCheckbox can be false and the highlight style can be used instead. There is no visual differentiation between single- and multi-select behaviors when checkboxes are not present."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
-    "body": {
-      "type": "string"
-    },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "hideIllustration": {
-      "type": "boolean",
-      "default": false
-    },
-    "showCheckbox": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
+    "body": { "type": "string" },
+    "isSelected": { "type": "boolean", "default": false },
+    "hideIllustration": { "type": "boolean", "default": false },
+    "showCheckbox": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
     "multiple": {
       "type": "boolean",
       "default": false,
@@ -50,22 +102,11 @@
     }
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "select-box-vertical-height",
@@ -111,162 +152,61 @@
       "token": "select-box-horizontal-illustration-to-label",
       "context": "Spacing (illustration to label, horizontal)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border (Selected)"
-    },
-    {
-      "token": "component-size-difference-down",
-      "context": "Down state"
-    },
-    {
-      "token": "component-size-width-ratio-down",
-      "context": "Down state"
-    },
+    { "token": "border-width-200", "context": "Border (Selected)" },
+    { "token": "component-size-difference-down", "context": "Down state" },
+    { "token": "component-size-width-ratio-down", "context": "Down state" },
     {
       "token": "component-size-minimum-perspective-down",
       "context": "Down state"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Border (Selected)"
-    },
-    {
-      "token": "corner-radius-700",
-      "context": "Border radius"
-    },
+    { "token": "focus-indicator-thickness", "context": "Border (Selected)" },
+    { "token": "corner-radius-700", "context": "Border radius" },
     {
       "token": "select-box-edge-to-checkbox",
       "context": "Spacing (top/side edge to checkbox)"
     },
-    {
-      "token": "default-font-family",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text (vertical)"
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Text (horizontal)"
-    },
-    {
-      "token": "background-layer-2-color",
-      "context": "Background"
-    },
+    { "token": "default-font-family", "context": "Text (vertical)" },
+    { "token": "regular-font-weight", "context": "Text (vertical)" },
+    { "token": "default-font-style", "context": "Text (vertical)" },
+    { "token": "font-size-100", "context": "Text (vertical)" },
+    { "token": "line-height-100", "context": "Text (vertical)" },
+    { "token": "cjk-line-height-100", "context": "Text (vertical)" },
+    { "token": "bold-font-weight", "context": "Text (horizontal)" },
+    { "token": "background-layer-2-color", "context": "Background" },
     {
       "token": "neutral-content-color-default",
       "context": "Illustration color"
     },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Illustration color"
-    },
-    {
-      "token": "netural-content-color-focus",
-      "context": "Illustration color"
-    },
+    { "token": "neutral-content-color-hover", "context": "Illustration color" },
+    { "token": "netural-content-color-focus", "context": "Illustration color" },
     {
       "token": "select-box-selected-border-color",
       "context": "Border (selected)"
     },
-    {
-      "token": "gray-900",
-      "context": "Border (selected)"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Border (focus)"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "drop-shadow-emphasized-default-x",
-      "context": "Default"
-    },
-    {
-      "token": "drop-shadow-emphasized-default-y",
-      "context": "Default"
-    },
-    {
-      "token": "drop-shadow-emphasized-default-blur",
-      "context": "Default"
-    },
-    {
-      "token": "drop-shadow-emphasized-default-color",
-      "context": "Default"
-    },
-    {
-      "token": "drop-shadow-emphasized-hover-x",
-      "context": "Hover"
-    },
-    {
-      "token": "drop-shadow-emphasized-hover-y",
-      "context": "Hover"
-    },
-    {
-      "token": "drop-shadow-emphasized-hover-blur",
-      "context": "Hover"
-    },
-    {
-      "token": "drop-shadow-emphasized-hover-color",
-      "context": "Hover"
-    },
-    {
-      "token": "drop-shadow-elevated-x",
-      "context": "Focus"
-    },
-    {
-      "token": "drop-shadow-elevated-y",
-      "context": "Focus"
-    },
-    {
-      "token": "drop-shadow-elevated-blur",
-      "context": "Focus"
-    },
-    {
-      "token": "drop-shadow-elevated-color",
-      "context": "Focus"
-    }
+    { "token": "gray-900", "context": "Border (selected)" },
+    { "token": "focus-indicator-color", "context": "Border (focus)" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "disabled-background-color", "context": "Disabled" },
+    { "token": "drop-shadow-emphasized-default-x", "context": "Default" },
+    { "token": "drop-shadow-emphasized-default-y", "context": "Default" },
+    { "token": "drop-shadow-emphasized-default-blur", "context": "Default" },
+    { "token": "drop-shadow-emphasized-default-color", "context": "Default" },
+    { "token": "drop-shadow-emphasized-hover-x", "context": "Hover" },
+    { "token": "drop-shadow-emphasized-hover-y", "context": "Hover" },
+    { "token": "drop-shadow-emphasized-hover-blur", "context": "Hover" },
+    { "token": "drop-shadow-emphasized-hover-color", "context": "Hover" },
+    { "token": "drop-shadow-elevated-x", "context": "Focus" },
+    { "token": "drop-shadow-elevated-y", "context": "Focus" },
+    { "token": "drop-shadow-elevated-blur", "context": "Focus" },
+    { "token": "drop-shadow-elevated-color", "context": "Focus" }
   ],
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

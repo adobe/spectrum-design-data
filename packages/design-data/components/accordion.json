@@ -9,46 +9,84 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "An accordion is a vertically stacked set of interactive headings that each contain a title and a content area."
+    },
+    {
+      "type": "guideline",
+      "content": "An accordion displays a list of items that can be expanded or collapsed to show additional content. It can support zero, one, or multiple expanded items at a time."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, only one accordion item can be expanded at a time. Use the isMultiple option to allow multiple items to be expanded simultaneously."
+    },
+    {
+      "type": "guideline",
+      "content": "Accordions can contain any number of items. Each item can be expanded or collapsed by interacting with any part of the item."
+    },
+    {
+      "type": "guideline",
+      "content": "Accordions come in three densities: compact, regular, and spacious. Each of the different densities have the same font size, but have tighter or looser vertical spacing between the rows."
+    },
+    {
+      "type": "guideline",
+      "content": "Individual accordion items can be disabled using the isDisabled option. Disabled items cannot be expanded or collapsed."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, accordions have dividers between sections. This style works best when lots of content is inside each section."
+    },
+    {
+      "type": "guideline",
+      "content": "Alternatively, you can have no dividers between sections. This style works best when a clear layout (vertical stack, table, grid) makes it easy see and understand. Too many quiet components in a small space can be hard to differentiate."
+    },
+    {
+      "type": "guideline",
+      "content": "Accordions come in four different sizes: small, medium, large, and extra-large. The medium size is the default and recommended option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page. Each of the different sizes have varying font sizes, and tighter or looser vertical spacing between the rows."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, only one accordion item may be expanded at a time. However, the component can be configured to allow multiple items to remain open simultaneously."
+    },
+    {
+      "type": "guideline",
+      "content": "Accordion titles wrap automatically if they exceed the available width."
+    },
+    {
+      "type": "guideline",
+      "content": "An optional action button or switch can be placed on the trailing edge of an accordion item to support contextual interactions."
+    },
+    {
+      "type": "guideline",
+      "content": "Accordions are effective for organizing large amounts of related content within a limited space. They help users stay focused by revealing information only when it's needed, making them ideal for scenarios where not all content needs to be visible at once."
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid using accordions when users are likely to read all the content in one go, as they can introduce unnecessary clicks and hinder the user experience. For complex or deeply nested information structures, consider alternative components such as tree views or tabs to maintain clarity and ease of navigation."
+    }
+  ],
   "options": {
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
+    "isQuiet": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        {
-          "value": "compact"
-        },
-        {
-          "value": "regular"
-        },
-        {
-          "value": "spacious"
-        }
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" }
       ]
     },
     "items": {
@@ -91,51 +129,22 @@
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "accordion-minimum-width",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-medium",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-large",
-      "context": "Width (default)"
-    },
+    { "token": "accordion-minimum-width", "context": "Width (default)" },
+    { "token": "field-default-width-medium", "context": "Width (default)" },
+    { "token": "field-default-width-large", "context": "Width (default)" },
     {
       "token": "field-default-width-extra-large",
       "context": "Width (default)"
     },
-    {
-      "token": "accordion-edge-to-content-area-small",
-      "context": "Paddings"
-    },
-    {
-      "token": "accordion-edge-to-content-area-medium",
-      "context": "Paddings"
-    },
-    {
-      "token": "accordion-edge-to-content-area-large",
-      "context": "Paddings"
-    },
+    { "token": "accordion-edge-to-content-area-small", "context": "Paddings" },
+    { "token": "accordion-edge-to-content-area-medium", "context": "Paddings" },
+    { "token": "accordion-edge-to-content-area-large", "context": "Paddings" },
     {
       "token": "accordion-edge-to-content-area-extra-large",
       "context": "Paddings"
@@ -260,30 +269,12 @@
       "token": "accordion-bottom-to-text-spacious-extra-large",
       "context": "Spacing (bottom edge to text)"
     },
-    {
-      "token": "accordion-focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
+    { "token": "accordion-focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
     {
       "token": "field-top-to-disclosure-icon-compact-small",
       "context": "Spacing (top/bottom to disclosure icon)"
@@ -392,22 +383,10 @@
       "token": "accordion-content-area-edge-to-content-extra-large",
       "context": "Expanded (content area start/end edges)"
     },
-    {
-      "token": "background-opacity-default",
-      "context": "Background"
-    },
-    {
-      "token": "background-opacity-hover",
-      "context": "Background"
-    },
-    {
-      "token": "background-opacity-down",
-      "context": "Background"
-    },
-    {
-      "token": "background-opacity-key-focus",
-      "context": "Background"
-    },
+    { "token": "background-opacity-default", "context": "Background" },
+    { "token": "background-opacity-hover", "context": "Background" },
+    { "token": "background-opacity-down", "context": "Background" },
+    { "token": "background-opacity-key-focus", "context": "Background" },
     {
       "token": "neutral-content-color-default",
       "context": "Section title and chevron"
@@ -420,82 +399,25 @@
       "token": "neutral-content-color-key-focus",
       "context": "Section title and chevron"
     },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Value"
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Value"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Value"
-    },
-    {
-      "token": "font-size-400",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "accordion-top-to-text-regular-small",
-      "context": "S"
-    },
-    {
-      "token": "accordion-bottom-to-text-regular-small",
-      "context": "S"
-    },
-    {
-      "token": "accordion-top-to-text-regular-medium",
-      "context": "S"
-    },
-    {
-      "token": "accordion-bottom-to-text-regular-medium",
-      "context": "S"
-    },
-    {
-      "token": "accordion-top-to-text-regular-large",
-      "context": "S"
-    },
-    {
-      "token": "accordion-bottom-to-text-regular-large",
-      "context": "S"
-    },
-    {
-      "token": "accordion-top-to-text-regular-extra-large",
-      "context": "S"
-    },
-    {
-      "token": "accordion-bottom-to-text-regular-extra-large",
-      "context": "S"
-    },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "default-font-family", "context": "Value" },
+    { "token": "bold-font-weight", "context": "Value" },
+    { "token": "default-font-style", "context": "Value" },
+    { "token": "font-size-100", "context": "Value" },
+    { "token": "font-size-200", "context": "Value" },
+    { "token": "font-size-300", "context": "Value" },
+    { "token": "font-size-400", "context": "Value" },
+    { "token": "line-height-100", "context": "Value" },
+    { "token": "cjk-line-height-100", "context": "Value" },
+    { "token": "accordion-top-to-text-regular-small", "context": "S" },
+    { "token": "accordion-bottom-to-text-regular-small", "context": "S" },
+    { "token": "accordion-top-to-text-regular-medium", "context": "S" },
+    { "token": "accordion-bottom-to-text-regular-medium", "context": "S" },
+    { "token": "accordion-top-to-text-regular-large", "context": "S" },
+    { "token": "accordion-bottom-to-text-regular-large", "context": "S" },
+    { "token": "accordion-top-to-text-regular-extra-large", "context": "S" },
+    { "token": "accordion-bottom-to-text-regular-extra-large", "context": "S" },
     {
       "token": "field-top-to-disclosure-icon-75-compact",
       "context": "Spacing (top/bottom to disclosure icon)"
@@ -542,16 +464,8 @@
     "focusable": true,
     "keyboardIntents": ["activate", "expand", "collapse"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

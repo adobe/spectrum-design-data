@@ -9,79 +9,66 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "The close button is used inside of other components, like a toast or an action bar, for closing or dismissing its parent component."
+    },
+    {
+      "type": "guideline",
+      "content": "A close button in a disabled state shows that an action exists, but is not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an action may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Use this option when a close button needs to be placed on top of a color background or visual. Static color close buttons are available in black or white, regardless of color theme."
+    },
+    {
+      "type": "guideline",
+      "content": "Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the close button color meet the minimum color contrast ratio."
+    },
+    {
+      "type": "guideline",
+      "content": "The icon inside of the close button comes in two options: regular and large. These scale up and down for each close button size. This is a cross UI icon, not a workflow icon or the letter “x.”"
+    },
+    {
+      "type": "guideline",
+      "content": "Close buttons come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "A close button can be navigated using a keyboard. The keyboard focus state takes the close button’s visual hover state and adds a ring to the button in focus."
+    }
+  ],
   "options": {
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "iconSize": {
-      "type": "string"
-    },
+    "iconSize": { "type": "string" },
     "staticColor": {
       "type": "string",
       "description": "Static color must not be set for the default version of this component.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Button size"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Button size"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Button size"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Button size"
-    },
+    { "token": "component-height-75", "context": "Button size" },
+    { "token": "component-height-100", "context": "Button size" },
+    { "token": "component-height-200", "context": "Button size" },
+    { "token": "component-height-300", "context": "Button size" },
     {
       "token": "component-size-difference-down",
       "context": "Button size (down)"
@@ -94,58 +81,19 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Button size (down)"
     },
-    {
-      "token": "cross-icon-size-200",
-      "context": "Cross icon size"
-    },
-    {
-      "token": "cross-icon-size-300",
-      "context": "Cross icon size"
-    },
-    {
-      "token": "cross-icon-size-400",
-      "context": "Cross icon size"
-    },
-    {
-      "token": "cross-icon-size-500",
-      "context": "Cross icon size"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus ring "
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus ring "
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Cross icon"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Cross icon"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Cross icon"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Cross icon"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Cross icon"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "gray-100",
-      "context": "Background "
-    },
+    { "token": "cross-icon-size-200", "context": "Cross icon size" },
+    { "token": "cross-icon-size-300", "context": "Cross icon size" },
+    { "token": "cross-icon-size-400", "context": "Cross icon size" },
+    { "token": "cross-icon-size-500", "context": "Cross icon size" },
+    { "token": "focus-indicator-thickness", "context": "Focus ring " },
+    { "token": "focus-indicator-gap", "context": "Focus ring " },
+    { "token": "neutral-content-color-default", "context": "Cross icon" },
+    { "token": "neutral-content-color-hover", "context": "Cross icon" },
+    { "token": "neutral-content-color-down", "context": "Cross icon" },
+    { "token": "neutral-content-color-key-focus", "context": "Cross icon" },
+    { "token": "disabled-content-color", "context": "Cross icon" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "gray-100", "context": "Background " },
     {
       "token": "transparent-white-800",
       "context": "Cross icon (static white)"
@@ -182,10 +130,7 @@
       "token": "static-black-focus-indicator-color",
       "context": "Focus ring (static black) "
     },
-    {
-      "token": "transparent-black-100",
-      "context": "Background (static black)"
-    }
+    { "token": "transparent-black-100", "context": "Background (static black)" }
   ],
   "accessibility": {
     "role": "button",
@@ -193,16 +138,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

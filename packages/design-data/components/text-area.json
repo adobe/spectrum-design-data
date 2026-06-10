@@ -9,181 +9,202 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/text-area/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A text area lets a user input a longer amount of text than a standard text field. It can include all of the standard validation options supported by the text field component."
     },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "The value shows a user’s entered text."
+    },
+    {
+      "type": "guideline",
+      "content": "The text area’s default width is field-default-width-\\[small/medium/large/extra-large]."
+    },
+    {
+      "type": "guideline",
+      "content": "Text areas come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "Text areas can be marked as optional or required, depending on the situation. For required text areas, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include hint text to explain what the asterisk means. Optional text areas are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+    },
+    {
+      "type": "guideline",
+      "content": "Text areas can show a character count when input must stay under a set limit. This indicator can appear alongside others, such as validation icons or “optional” and “required” labels."
+    },
+    {
+      "type": "guideline",
+      "content": "Text areas can show a validation icon when input must follow a specific format, such as an email or credit card number. The icon appears as soon as the entry is valid."
+    },
+    {
+      "type": "guideline",
+      "content": "A text area can be marked as having an error to show that a value needs to be entered in order to move forward or that a value that was entered is invalid. If an error exists, the error icon always overrides the validation icon."
+    },
+    {
+      "type": "guideline",
+      "content": "A text area in a disabled state shows that the input field exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that a text area may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "If the height is defined, text areas can either be a static size or can be resizable with a drag icon in the bottom right corner. The drag icon should be hidden if the fixed variant is turned off, or if the text area should not be resizable."
+    },
+    {
+      "type": "guideline",
+      "content": "When defined as fixed (either by the development team or by the end user via the dragIcon), users can scroll inside the field."
+    },
+    {
+      "type": "guideline",
+      "content": "A text area can have help text below the field to give extra context or instruction about what a user should input in the field. The help text communicates a hint or helpful information, such as specific requirements for correctly filling out the field."
+    },
+    {
+      "type": "guideline",
+      "content": "A text area can be marked as having an error to show that a value needs to be entered in order to move forward or that a value that was entered is invalid. The error message communicates an error for when the field requirements aren’t met, prompting a user to adjust what they had originally input. If an error exists, the error icon always overrides the validation icon."
+    },
+    {
+      "type": "guideline",
+      "content": "A text area can have multiple input types, depending on the need and use case. Text areas have a text input type by default."
+    },
+    {
+      "type": "guideline",
+      "content": "Use these input types for the following use cases:"
+    },
+    {
+      "type": "guideline",
+      "content": "When typing into a text area and reaching the end of the field on a number-height text area, the cursor should remain as static in the bottom right corner (for left-to-right languages) while text above it overflows through the top of the field. When the field loses focus, text should overflow through the bottom of the text area, showing the beginning of the text."
+    },
+    {
+      "type": "guideline",
+      "content": "When a text area presents multiple values that are not identical, the field should show an en dash (–)."
+    },
+    {
+      "type": "guideline",
+      "content": "When the help text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Every text area should have a label. A text area without a label is ambiguous and not accessible."
+    },
+    {
+      "type": "guideline",
+      "content": "Text area labels and placeholder text should be written in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form. If most of the text fields are optional, only the required fields should be give an asterisk or have labels appended with “(required)”. If most of the text fields are required, only the optional fields should be appended with “(optional)”. An asterisk should never be used to note that a text area is optional."
+    },
+    {
+      "type": "guideline",
+      "content": "The description in the help text is flexible and encompasses a range of guidance. Sometimes this guidance is about what to input, and sometime it’s about how to input. This includes information such as:"
+    },
+    {
+      "type": "guideline",
+      "content": "The help text’s message should not simply restate the same information in the label in order to prompt someone to interact with it. Don’t add help text if it isn’t actually relevant or meaningful to a user in order to try to maintain layout continuity with other inputs that require help text."
+    },
+    {
+      "type": "guideline",
+      "content": "Putting instructions for how to complete an input, requirements, or any other essential information into placeholder text is not accessible. Once a value is entered, placeholder text is no longer viewable; if someone is using an automatic form filler, they will never get the information in the placeholder text."
+    },
+    {
+      "type": "guideline",
+      "content": "Instead of placeholder text, use the help text description to convey requirements or to show any formatting examples that would help user comprehension. If there's placeholder text and help text at the same time, it becomes redundant and distracting, especially if they're communicating the same thing."
+    },
+    {
+      "type": "guideline",
+      "content": "The help text area also displays an error message. When a text area already includes help text and an error is triggered, the help text is replaced with error text. Once the error is resolved, the help text description reappears below the field."
+    },
+    {
+      "type": "guideline",
+      "content": "Since one gets replaced by the other, the language of the help text and error text need to work together to convey the same messaging. Help text explains the requirement or adds supplementary context for how to successfully complete the input. Error text tells a user how to fix the error by re-stating the input requirements or describing the necessary interaction. Make sure that the help text and the error text include the same essential information so that it isn’t lost if one replaces the other like minimum requirements."
+    },
+    {
+      "type": "guideline",
+      "content": "Write error messaging in a human-centered way by guiding a user and showing them a solution — don’t simply state what’s wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user."
+    },
+    {
+      "type": "guideline",
+      "content": "Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. End sentences with a period, and never with an exclamation point. For text areas, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate. For example, if someone were to miss filling out a required field that asks for their interests, write the error text like you’re offering a hint or a tip to help guide them to understand what needs to go in the missing field: “Enter at least one interest.”"
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
-    "value": {
-      "type": "string",
-      "description": "from minValue to maxValue"
-    },
-    "width": {
-      "type": "number"
-    },
+    "hideLabel": { "type": "boolean", "default": false },
+    "value": { "type": "string", "description": "from minValue to maxValue" },
+    "width": { "type": "number" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
-    "hasCharacterCount": {
-      "type": "boolean",
-      "default": false
-    },
-    "showValidIcon": {
-      "type": "boolean",
-      "default": false
-    },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "hideDragIcon": {
-      "type": "boolean",
-      "default": false
-    },
+    "isRequired": { "type": "boolean", "default": false },
+    "hasCharacterCount": { "type": "boolean", "default": false },
+    "showValidIcon": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "hideDragIcon": { "type": "boolean", "default": false },
     "height": {
       "type": "number",
       "description": "If undefined, height is dynamic and grows with input text."
     },
-    "helpText": {
-      "type": "string"
-    },
-    "errorMessage": {
-      "type": "string"
-    },
+    "helpText": { "type": "string" },
+    "errorMessage": { "type": "string" },
     "inputType": {
       "type": "string",
       "default": "text",
       "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "url"
-        },
-        {
-          "value": "phone"
-        },
-        {
-          "value": "email"
-        },
-        {
-          "value": "password"
-        }
+        { "value": "text" },
+        { "value": "url" },
+        { "value": "phone" },
+        { "value": "email" },
+        { "value": "password" }
       ]
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "focus-+-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "focus-+-not-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "focus-+-hover", "trigger": "prop" },
+    { "name": "focus-+-not-hover", "trigger": "prop" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "field-default-width-small",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-medium",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-large",
-      "context": "Width (default)"
-    },
+    { "token": "field-default-width-small", "context": "Width (default)" },
+    { "token": "field-default-width-medium", "context": "Width (default)" },
+    { "token": "field-default-width-large", "context": "Width (default)" },
     {
       "token": "field-default-width-extra-large",
       "context": "Width (default)"
     },
-    {
-      "token": "text-area-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "text-area-minimum-height",
-      "context": "Height"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
+    { "token": "text-area-minimum-width", "context": "Width (minimum)" },
+    { "token": "text-area-minimum-height", "context": "Height" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edge to value)"
@@ -200,22 +221,10 @@
       "token": "component-edge-to-text-300",
       "context": "Spacing (start/end edge to value)"
     },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Prefix min-width"
-    },
+    { "token": "workflow-icon-size-75", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-100", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-200", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-300", "context": "Prefix min-width" },
     {
       "token": "text-to-visual-75",
       "context": "Spacing (prefix to value/placeholder)"
@@ -232,14 +241,8 @@
       "token": "text-to-visual-300",
       "context": "Spacing (prefix to value/placeholder)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
+    { "token": "border-width-200", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
     {
       "token": "field-label-to-component",
       "context": "Spacing (field label to text area)"
@@ -288,10 +291,7 @@
       "token": "field-edge-to-alert-icon-extra-large",
       "context": "Spacing (alert icon to end edge)"
     },
-    {
-      "token": "checkmark-icon-size-75",
-      "context": "Checkmark UI icon asset"
-    },
+    { "token": "checkmark-icon-size-75", "context": "Checkmark UI icon asset" },
     {
       "token": "checkmark-icon-size-100",
       "context": "Checkmark UI icon asset"
@@ -336,162 +336,51 @@
       "token": "field-edge-to-validation-icon-extra-large",
       "context": "Spacing (validation icon to end edge)"
     },
-    {
-      "token": "gray-25",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-300",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-400",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-900",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-800",
-      "context": "Background and border"
-    },
+    { "token": "gray-25", "context": "Background and border" },
+    { "token": "gray-300", "context": "Background and border" },
+    { "token": "gray-400", "context": "Background and border" },
+    { "token": "gray-900", "context": "Background and border" },
+    { "token": "gray-800", "context": "Background and border" },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Background and border"
     },
-    {
-      "token": "negative-border-color-default",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-hover",
-      "context": "Border (error)"
-    },
+    { "token": "negative-border-color-default", "context": "Border (error)" },
+    { "token": "negative-border-color-hover", "context": "Border (error)" },
     {
       "token": "negative-border-color-focus-hover",
       "context": "Border (error)"
     },
-    {
-      "token": "negative-border-color-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-key-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Value"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Alert icon"
-    },
-    {
-      "token": "positive-visual-color",
-      "context": "Positive icon"
-    },
-    {
-      "token": "disabled-border-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "gray-600",
-      "context": "Leading icon"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "component-s-regular",
-      "context": "Label"
-    },
-    {
-      "token": "component-m-regular",
-      "context": "Label"
-    },
-    {
-      "token": "component-l-regular",
-      "context": "Label"
-    },
-    {
-      "token": "component-xl-regular",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-font-size-300",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "medium-font-weight",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-s-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-m-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-l-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-xl-medium",
-      "context": "Prefix"
-    },
+    { "token": "negative-border-color-focus", "context": "Border (error)" },
+    { "token": "negative-border-color-key-focus", "context": "Border (error)" },
+    { "token": "neutral-content-color-default", "context": "Value" },
+    { "token": "neutral-content-color-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus", "context": "Value" },
+    { "token": "neutral-content-color-key-focus", "context": "Value" },
+    { "token": "negative-visual-color", "context": "Alert icon" },
+    { "token": "positive-visual-color", "context": "Positive icon" },
+    { "token": "disabled-border-color", "context": "Disabled" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "gray-600", "context": "Leading icon" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "regular-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "component-s-regular", "context": "Label" },
+    { "token": "component-m-regular", "context": "Label" },
+    { "token": "component-l-regular", "context": "Label" },
+    { "token": "component-xl-regular", "context": "Label" },
+    { "token": "line-height-font-size-75", "context": "Label" },
+    { "token": "line-height-font-size-100", "context": "Label" },
+    { "token": "line-height-font-size-200", "context": "Label" },
+    { "token": "line-height-font-size-300", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" },
+    { "token": "medium-font-weight", "context": "Prefix" },
+    { "token": "component-s-medium", "context": "Prefix" },
+    { "token": "component-m-medium", "context": "Prefix" },
+    { "token": "component-l-medium", "context": "Prefix" },
+    { "token": "component-xl-medium", "context": "Prefix" },
     {
       "token": "component-top-to-text-50",
       "context": "Spacing (top/bottom edge to text)"
@@ -530,26 +419,14 @@
     "intents": ["input"],
     "focusable": true,
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
       {
         "criterion": "1.3.5",
         "level": "AA",
         "title": "Identify Input Purpose"
       },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

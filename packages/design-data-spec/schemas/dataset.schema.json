@@ -18,7 +18,8 @@
         "components": { "const": true },
         "fields": { "const": true },
         "modeSets": { "const": true },
-        "registry": { "const": true }
+        "registry": { "const": true },
+        "guidelines": { "const": true }
       },
       "additionalProperties": false
     },
@@ -30,7 +31,8 @@
         "components": { "type": "string", "minLength": 1 },
         "fields": { "type": "string", "minLength": 1 },
         "modeSets": { "type": "string", "minLength": 1 },
-        "registry": { "type": "string", "minLength": 1 }
+        "registry": { "type": "string", "minLength": 1 },
+        "guidelines": { "type": "string", "minLength": 1 }
       },
       "additionalProperties": false
     }

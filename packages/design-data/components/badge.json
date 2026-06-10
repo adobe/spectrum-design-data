@@ -9,6 +9,68 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/badge/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Similar to status lights, badges are for showing a small amount of color-categorized metadata. They're ideal for getting a user''s attention."
+    },
+    {
+      "type": "guideline",
+      "content": "Badges come in four different sizes: small, medium, large, and extra-large. The small size is the default and most frequently used option. Use the other sizes sparingly to create a hierarchy of importance on a page."
+    },
+    {
+      "type": "guideline",
+      "content": "Badges can be placed as floating in a container, or they can be fixed to any edge of a container. They lose their default corner rounding on the fixed edge."
+    },
+    {
+      "type": "guideline",
+      "content": "A Badge’s style determines its visual emphasis. Badges come in three different styles: bold, subtle, and outline."
+    },
+    {
+      "type": "guideline",
+      "content": "When badges have a semantic meaning, they use semantic colors. Use these variants for the following statuses:"
+    },
+    {
+      "type": "guideline",
+      "content": "When badges are for color-coded categories, they use non-semantic colors. Non-semantic variants are ideally used for when there are 8 categories or less."
+    },
+    {
+      "type": "guideline",
+      "content": "A badge can have an optional icon. If no label is used, a badge becomes icon-only and it must include an icon. An icon-only badge is best for very small spaces, and it should always include a tooltip on hover to provide more context for the icon's meaning."
+    },
+    {
+      "type": "guideline",
+      "content": "Badges should always have a label for accessibility and clear comprehension. When the label is not defined, a badge becomes icon-only."
+    },
+    {
+      "type": "guideline",
+      "content": "Badges are display elements, not actions. They should not behave like buttons or links. If an action is required, use a more appropriate component (e.g., Button, Action button)."
+    },
+    {
+      "type": "guideline",
+      "content": "When a badge's label is too long for the available horizontal space, it wraps to form another line. If there is no room for a second line of text, the badge should truncate and include a tooltip to expose the full text upon hover."
+    },
+    {
+      "type": "guideline",
+      "content": "Blue badges are easily confused with Spectrum's blue accent buttons. Only use blue badges when absolutely necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "The yellow badge is reserved to communicate \"best deal\" or \"discount\" situations only. Do not use the yellow badge for other situations."
+    },
+    {
+      "type": "guideline",
+      "content": "Badges are meant to offer quick context about what category, status, or meaning an item is associated with. If your design requires multiple badges, consider using regular text metadata and reserve a single badge for only the most important status, category, or meaning instead."
+    },
+    {
+      "type": "guideline",
+      "content": "It's best to use a text label on a badge whenever possible because communicating with an icon alone may be unclear or subjective. Reserve icon-only badges for responsive cases, such as for cards in a panel that don't have space for a full badge. In related contexts, pair the icon with a label to help teach a user what the icon means. Icon-only badges should always include a tooltip on hover to show their associated label."
+    },
+    {
+      "type": "guideline",
+      "content": "Badge placement varies widely depending on the use case. In cards, place the badge on the left side of the footer, if possible. If there is no footer or if that space is filled, affix the badge to the right edge of the preview. If there is no preview, affix the badge to the top right corner of the card."
+    }
+  ],
   "options": {
     "label": {
       "type": "string",
@@ -20,210 +82,83 @@
     "variant": {
       "type": "string",
       "values": [
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "info"
-        },
-        {
-          "value": "positive"
-        },
-        {
-          "value": "negative"
-        },
-        {
-          "value": "indigo"
-        },
-        {
-          "value": "yellow"
-        },
-        {
-          "value": "magenta"
-        },
-        {
-          "value": "fuchsia"
-        },
-        {
-          "value": "purple"
-        },
-        {
-          "value": "seafoam"
-        },
-        {
-          "value": "accent"
-        },
-        {
-          "value": "notice"
-        },
-        {
-          "value": "gray"
-        },
-        {
-          "value": "red"
-        },
-        {
-          "value": "orange"
-        },
-        {
-          "value": "chartreuse"
-        },
-        {
-          "value": "celery"
-        },
-        {
-          "value": "green"
-        },
-        {
-          "value": "cyan"
-        },
-        {
-          "value": "blue"
-        },
-        {
-          "value": "pink"
-        },
-        {
-          "value": "turquoise"
-        },
-        {
-          "value": "brown"
-        },
-        {
-          "value": "cinnamon"
-        },
-        {
-          "value": "silver"
-        }
+        { "value": "neutral" },
+        { "value": "info" },
+        { "value": "positive" },
+        { "value": "negative" },
+        { "value": "indigo" },
+        { "value": "yellow" },
+        { "value": "magenta" },
+        { "value": "fuchsia" },
+        { "value": "purple" },
+        { "value": "seafoam" },
+        { "value": "accent" },
+        { "value": "notice" },
+        { "value": "gray" },
+        { "value": "red" },
+        { "value": "orange" },
+        { "value": "chartreuse" },
+        { "value": "celery" },
+        { "value": "green" },
+        { "value": "cyan" },
+        { "value": "blue" },
+        { "value": "pink" },
+        { "value": "turquoise" },
+        { "value": "brown" },
+        { "value": "cinnamon" },
+        { "value": "silver" }
       ]
     },
     "style": {
       "type": "string",
       "values": [
-        {
-          "value": "bold"
-        },
-        {
-          "value": "subtle"
-        },
-        {
-          "value": "outline"
-        }
+        { "value": "bold" },
+        { "value": "subtle" },
+        { "value": "outline" }
       ]
     },
     "fixed": {
       "type": "string",
       "default": "none",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "top"
-        },
-        {
-          "value": "right"
-        },
-        {
-          "value": "bottom"
-        },
-        {
-          "value": "left"
-        }
+        { "value": "none" },
+        { "value": "top" },
+        { "value": "right" },
+        { "value": "bottom" },
+        { "value": "left" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
+    "isDisabled": { "type": "boolean", "default": false },
     "size": {
       "type": "string",
       "pattern": "^(x?s|m|x{0,3}l)$",
       "default": "s",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum height"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon"
-    },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
+    { "token": "component-height-300", "context": "Minimum height" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
+    { "token": "workflow-icon-size-75", "context": "Icon" },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "workflow-icon-size-200", "context": "Icon" },
+    { "token": "workflow-icon-size-300", "context": "Icon" },
+    { "token": "text-to-visual-75", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-200", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-300", "context": "Spacing (icon to label)" },
     {
       "token": "component-edge-to-visual-75",
       "context": "Spacing (start/end edges)"
@@ -288,10 +223,7 @@
       "token": "component-top-to-workflow-icon-300",
       "context": "Spacing (top edge to icon)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
+    { "token": "border-width-200", "context": "Border" },
     {
       "token": "component-top-to-text-75",
       "context": "Spacing (top/bottom edge to label)"
@@ -324,14 +256,8 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to label)"
     },
-    {
-      "token": "white",
-      "context": "Text and icon (semantic)"
-    },
-    {
-      "token": "black",
-      "context": "Text and icon (semantic)"
-    },
+    { "token": "white", "context": "Text and icon (semantic)" },
+    { "token": "black", "context": "Text and icon (semantic)" },
     {
       "token": "neutral-subdued-background-color-default",
       "context": "Background (semantic)"
@@ -432,10 +358,7 @@
       "token": "silver-background-color-default",
       "context": "Background (non-semantic) "
     },
-    {
-      "token": "gray-1000",
-      "context": "Text and icon (semantic)"
-    },
+    { "token": "gray-1000", "context": "Text and icon (semantic)" },
     {
       "token": "neutral-subtle-background-color-default",
       "context": "Background (semantic)"
@@ -532,63 +455,22 @@
       "token": "silver-subtle-background-color-default",
       "context": "Background (non-semantic) "
     },
-    {
-      "token": "background-layer-2-color",
-      "context": "Background (semantic)"
-    },
-    {
-      "token": "neutral-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "accent-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "informative-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "notice-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "positive-visual-color",
-      "context": "Border (semantic)"
-    },
-    {
-      "token": "default-font-family"
-    },
-    {
-      "token": "medium-font-weight"
-    },
-    {
-      "token": "default-font-style"
-    },
-    {
-      "token": "font-size-75"
-    },
-    {
-      "token": "font-size-100"
-    },
-    {
-      "token": "font-size-200"
-    },
-    {
-      "token": "font-size-300"
-    },
-    {
-      "token": "line-height-100"
-    },
-    {
-      "token": "cjk-line-height-100"
-    }
+    { "token": "background-layer-2-color", "context": "Background (semantic)" },
+    { "token": "neutral-visual-color", "context": "Border (semantic)" },
+    { "token": "accent-visual-color", "context": "Border (semantic)" },
+    { "token": "informative-visual-color", "context": "Border (semantic)" },
+    { "token": "negative-visual-color", "context": "Border (semantic)" },
+    { "token": "notice-visual-color", "context": "Border (semantic)" },
+    { "token": "positive-visual-color", "context": "Border (semantic)" },
+    { "token": "default-font-family" },
+    { "token": "medium-font-weight" },
+    { "token": "default-font-style" },
+    { "token": "font-size-75" },
+    { "token": "font-size-100" },
+    { "token": "font-size-200" },
+    { "token": "font-size-300" },
+    { "token": "line-height-100" },
+    { "token": "cjk-line-height-100" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

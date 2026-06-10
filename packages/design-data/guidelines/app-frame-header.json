@@ -1,0 +1,75 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/app-frame-header.json",
+  "name": "app-frame-header",
+  "title": "App frame header (browsing context)",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "App frame header (browsing context)" },
+    {
+      "type": "guideline",
+      "content": "There are several parts of the header that are consistent across all Adobe products:"
+    },
+    {
+      "type": "guideline",
+      "content": "Shows a hamburger button on the far left of the header. This controls whether the minimized style of the side navigation (partial/full)."
+    },
+    { "type": "guideline", "content": "Shows navigation items in the header." },
+    { "type": "guideline", "content": "Shows a search option in the header." },
+    {
+      "type": "guideline",
+      "content": "Defines the style of the search option that's shown."
+    },
+    {
+      "type": "guideline",
+      "content": "The “skip to main content” button helps improve keyboard navigation by creating a shortcut to the main content of the page. This button is an accessibility feature to allow skipping to the first navigable HTML item."
+    },
+    {
+      "type": "guideline",
+      "content": "Shows an icon to represent the header navigation item."
+    },
+    {
+      "type": "guideline",
+      "content": "The text that is displayed as the label of the header navigation item."
+    },
+    {
+      "type": "guideline",
+      "content": "Presents the header side navigation as selected or not selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Changes the header navigation item to the disabled state."
+    },
+    {
+      "type": "guideline",
+      "content": "Shows a chevron next to the label that indicates an additional menu."
+    },
+    {
+      "type": "guideline",
+      "content": "The text that is displayed as the label of the tooltip."
+    },
+    {
+      "type": "guideline",
+      "content": "As a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy."
+    },
+    {
+      "type": "guideline",
+      "content": "If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs."
+    },
+    {
+      "type": "guideline",
+      "content": "Diagram with notes about the app frame header in the editing context. If there’s a menu represented by a hamburger icon, such as the application menu in Creative Cloud, it should be shown to the left of the product logo for continuity with the browsing context. The product name can be hidden in the editing context in order to provide more room for other actions. The height of the header should be the same as in the browsing context (56 px)."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-header/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["designing"],
+  "related": [
+    { "ref": "s2-app-frame", "kind": "guideline" },
+    {
+      "ref": "s2-app-frame-side-navigation-browsing-context",
+      "kind": "guideline"
+    }
+  ]
+}

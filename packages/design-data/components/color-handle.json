@@ -9,103 +9,63 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Color handles select or adjust a color value along a track or wheel. The outer border is not included in the handle's size."
+    },
+    {
+      "type": "guideline",
+      "content": "Handle behavior.\n\nIn the color area and color slider, the handle can slide all the way to the edge of the component. It always displays the selected color inside the handle and never gets cut off by the border or any container."
+    },
+    {
+      "type": "guideline",
+      "content": "Transparent colors.\n\nWhen using transparent colors, the handle displays an opacity checkerboard background to clearly show the level of transparency."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large."
+    }
+  ],
   "options": {
     "channel": {
       "type": "string",
       "default": "hue",
       "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
       "values": [
-        {
-          "value": "hue"
-        },
-        {
-          "value": "saturation"
-        },
-        {
-          "value": "lightness"
-        },
-        {
-          "value": "red"
-        },
-        {
-          "value": "green"
-        },
-        {
-          "value": "blue"
-        },
-        {
-          "value": "alpha"
-        }
+        { "value": "hue" },
+        { "value": "saturation" },
+        { "value": "lightness" },
+        { "value": "red" },
+        { "value": "green" },
+        { "value": "blue" },
+        { "value": "alpha" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDisabled": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "color-handle-size",
-      "context": "Size (keyboard focus)"
-    },
+    { "token": "color-handle-size", "context": "Size (keyboard focus)" },
     {
       "token": "color-handle-size-key-focus",
       "context": "Size (keyboard focus)"
     },
-    {
-      "token": "color-handle-border-width",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-inner-border-width",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-outer-border-width",
-      "context": "Border"
-    },
-    {
-      "token": "white",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-inner-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-inner-border-opacity",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-outer-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "color-handle-outer-border-opacity",
-      "context": "Border"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Border (disabled)"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Border (disabled)"
-    }
+    { "token": "color-handle-border-width", "context": "Border" },
+    { "token": "color-handle-inner-border-width", "context": "Border" },
+    { "token": "color-handle-outer-border-width", "context": "Border" },
+    { "token": "white", "context": "Border" },
+    { "token": "color-handle-inner-border-color", "context": "Border" },
+    { "token": "color-handle-inner-border-opacity", "context": "Border" },
+    { "token": "color-handle-outer-border-color", "context": "Border" },
+    { "token": "color-handle-outer-border-opacity", "context": "Border" },
+    { "token": "disabled-content-color", "context": "Border (disabled)" },
+    { "token": "disabled-background-color", "context": "Border (disabled)" }
   ],
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
-    "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      }
-    ]
+    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
   }
 }

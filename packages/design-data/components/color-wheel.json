@@ -9,6 +9,60 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A color wheel lets users visually change an individual channel of a color on a circular track."
+    },
+    {
+      "type": "guideline",
+      "content": "Color wheels adjust a single color channel using a circular track. They offer a visual, radial interface often paired with other color selection tools for more precise control."
+    },
+    {
+      "type": "guideline",
+      "content": "A color wheel in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that the wheel may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "A color wheel’s size can be customized appropriately for its context."
+    },
+    {
+      "type": "guideline",
+      "content": "The step refers to the increment by which these values increase or decrease. A step value of 1 (default) allows a user to only select whole numbers within the min and max range."
+    },
+    {
+      "type": "guideline",
+      "content": "The min and max values can also be customized appropriately for what the color wheel is being used for. By default, the min value starts at 0 and max value is set to 360."
+    },
+    {
+      "type": "guideline",
+      "content": "The value is the number selected within the color wheel’s range, from the minimum value to the maximum value."
+    },
+    {
+      "type": "guideline",
+      "content": "The background of the color wheel is a visual representation of the range of values that a user can select from. It can represent color properties such as hues or color channel values (such as RGB or CMYK levels). The exact format this background property takes will depend on what implementation you are working with. Some examples of the format include image, canvas, and gradient."
+    },
+    {
+      "type": "guideline",
+      "content": "A color wheel can be navigated using a keyboard. The keyboard focus state enlarges the handle to become twice as large."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."
+    },
+    {
+      "type": "guideline",
+      "content": "The color wheel is often used together with the color area component for color selection. When placing the color area inside the color wheel, make sure to leave enough of a margin between the two components to ensure there’s enough space for the both the handles."
+    },
+    {
+      "type": "guideline",
+      "content": "When using color areas, it’s important to clearly display the color selection in real time. It can be in a color swatch, directly on the canvas, or both."
+    },
+    {
+      "type": "guideline",
+      "content": "The color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."
+    }
+  ],
   "options": {
     "background": {
       "type": "string",
@@ -18,78 +72,30 @@
       "type": "number",
       "description": "Number (from minValue to maxValue)"
     },
-    "minValue": {
-      "type": "number",
-      "default": 0
-    },
-    "maxValue": {
-      "type": "number",
-      "default": 360
-    },
-    "step": {
-      "type": "number",
-      "default": 1
-    },
-    "size": {
-      "type": "number",
-      "default": 192,
-      "description": "units: px"
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "minValue": { "type": "number", "default": 0 },
+    "maxValue": { "type": "number", "default": 360 },
+    "step": { "type": "number", "default": 1 },
+    "size": { "type": "number", "default": 192, "description": "units: px" },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "border-width-100",
-      "context": "Border"
-    },
-    {
-      "token": "color-wheel-width",
-      "context": "Width"
-    },
-    {
-      "token": "color-wheel-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "color-control-track-width",
-      "context": "Track width"
-    },
+    { "token": "border-width-100", "context": "Border" },
+    { "token": "color-wheel-width", "context": "Width" },
+    { "token": "color-wheel-minimum-width", "context": "Width (minimum)" },
+    { "token": "color-control-track-width", "context": "Track width" },
     {
       "token": "color-wheel-color-area-margin",
       "context": "Margin to color area"
     },
-    {
-      "token": "color-wheel-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "color-wheel-border-opacity",
-      "context": "Border"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    }
+    { "token": "color-wheel-border-color", "context": "Border" },
+    { "token": "color-wheel-border-opacity", "context": "Border" },
+    { "token": "disabled-background-color", "context": "Disabled" }
   ],
   "accessibility": {
     "role": "slider",
@@ -97,21 +103,9 @@
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

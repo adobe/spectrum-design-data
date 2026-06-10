@@ -9,6 +9,96 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "An illustrated message displays an illustration with a short title and description, often used for empty states or error states."
+    },
+    {
+      "type": "guideline",
+      "content": "Illustrated messages pair text with imagery to communicate a message with visual emphasis. They’re commonly used in empty states, feedback states, and error messaging."
+    },
+    {
+      "type": "guideline",
+      "content": "The secondary button provides a less prominent action that supports the overall message but is not the primary goal. It offers users an alternative path that’s relevant but lower priority."
+    },
+    {
+      "type": "guideline",
+      "content": "The primary button serves as the main call to action. It’s the clearest, most direct path forward for the user, and it should align with the purpose of the message. In an illustrated message—where visuals and copy work together to guide attention—the primary button anchors the experience."
+    },
+    {
+      "type": "guideline",
+      "content": "The description supports the illustration and buttons by delivering the core message in plain language. It helps users quickly grasp the purpose of the message and decide what to do next."
+    },
+    {
+      "type": "guideline",
+      "content": "A clear title for the description section in an illustrated message"
+    },
+    {
+      "type": "guideline",
+      "content": "Orientation affects how users perceive and interact with content. Illustrated message layout can be horizontal or vertical."
+    },
+    {
+      "type": "guideline",
+      "content": "Illustrated messages come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option."
+    },
+    {
+      "type": "guideline",
+      "content": "The illustration sets the tone and draws attention. It visually reinforces the message’s purpose and helps users quickly understand the context before reading any text or taking action."
+    },
+    {
+      "type": "guideline",
+      "content": "Motion is an optional feature of illustrations, but it is not a requirement. When used, they should feel natural, intentional, and aligned with the emotional and functional goals of the message."
+    },
+    {
+      "type": "guideline",
+      "content": "Buttons in an illustrated message are designed to guide users toward a clear next step by translating the message’s intent into direct, actionable choices. They help users understand what will happen next and support decision-making within the context of the message."
+    },
+    {
+      "type": "guideline",
+      "content": "Horizontal orientation works best when there’s ample screen space, such as on desktop or wide containers, and when the message needs to sit alongside related content. It allows for a balanced layout where the illustration and text can appear side by side, supporting quick scanning and visual clarity."
+    },
+    {
+      "type": "guideline",
+      "content": "Vertical orientation is suited for constrained spaces like mobile screens or narrow containers. It supports a linear, top-to-bottom flow that guides the user through the illustration, description, and action in sequence."
+    },
+    {
+      "type": "guideline",
+      "content": "The linear illustration style works well for layouts that feature a number of illustrations together (such as a collection of cards). Linear illustrations draw a lower level of attention and blend in well with the UI, so it’s appropriate to use them in a collection of elements. Gradient illustrations draw a lot of attention in multiples, so they need to be used sparingly and sparsely."
+    },
+    {
+      "type": "guideline",
+      "content": "Gradient illustrations draw more attention because they’re very colorful. Using more then one in a given view will make the UI too busy and too loud. Use gradient illustrations sparingly to guide a user’s attention to engaging, high-value actions such as uploads, starting projects, or commenting."
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t scale or resize linear illustrations. The stroke weight and the corner radii are already set to work best in the given canvas sizes."
+    },
+    {
+      "type": "guideline",
+      "content": "Motion in illustrated messages can be used optionally to enhance engagement and reinforce meaning without overwhelming the user. When applied thoughtfully, they add subtle motion to the illustration—such as a gentle bounce, fade, or loop—that draws attention and supports the tone of the message."
+    },
+    {
+      "type": "guideline",
+      "content": "These animations should be purposeful: they can signal success, soften interruptions, or guide the eye toward the primary action. However, they should never distract from the content or slow down the experience. Use them sparingly, especially in system messages or time-sensitive flows, and ensure they perform well across devices."
+    },
+    {
+      "type": "guideline",
+      "content": "Errors or critical messages should only use linear illustrations. Gradient illustrations use colors that can be misunderstood as semantic colors (e.g., green for positive, red for negative). They also have an upbeat and inspirational tone, which isn’t appropriate in situations where a user may be frustrated by something that’s an inconvenience or is disruptive to them in accomplishing their work."
+    },
+    {
+      "type": "guideline",
+      "content": "Use drag and drop when the user needs to complete a hands-on task—like uploading files, rearranging items, or customizing content. It’s an interaction pattern that supports direct manipulation, giving users a sense of control and immediacy. Drag and drop is ideal when the goal is action-oriented and the interface benefits from tactile engagement."
+    },
+    {
+      "type": "guideline",
+      "content": "Use an illustrated message when the goal is to communicate a state, guide a decision, or prompt an action. Illustrated messages are best for moments of transition—empty states, confirmations, errors, or onboarding—where visual context and clear messaging help orient the user. They’re not interactive themselves, but they support interaction by setting expectations and offering clear next steps."
+    },
+    {
+      "type": "guideline",
+      "content": "An illustrated message can be interruptive, so make it readily apparent that it’s adding value to a user’s experience or is putting the user on the right path to accomplish their goals. Don’t use an illustrated message for purely promotional purposes or for upsells of unrelated actions."
+    }
+  ],
   "options": {
     "illustration": {
       "type": "string",
@@ -18,30 +108,13 @@
       "type": "string",
       "default": "m",
       "description": "Size of the illustration.",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "orientation": {
       "type": "string",
       "default": "vertical",
       "description": "Orientation of the illustrated message.",
-      "values": [
-        {
-          "value": "vertical"
-        },
-        {
-          "value": "horizontal"
-        }
-      ]
+      "values": [{ "value": "vertical" }, { "value": "horizontal" }]
     },
     "title": {
       "type": "string",
@@ -60,9 +133,7 @@
       "description": "Label for the secondary action button. If undefined, no secondary action is shown."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "illustrated-message-vertical-maximum-width",
@@ -72,14 +143,8 @@
       "token": "illustrated-message-horizontal-maximum-width",
       "context": "Maximum width (Horizontal variant)"
     },
-    {
-      "token": "spacing-200",
-      "context": "Spacing (Illustration to heading)"
-    },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (Illustration to heading)"
-    },
+    { "token": "spacing-200", "context": "Spacing (Illustration to heading)" },
+    { "token": "spacing-100", "context": "Spacing (Illustration to heading)" },
     {
       "token": "spacing-75",
       "context": "Spacing (Heading to description - vertical)"
@@ -88,22 +153,10 @@
       "token": "spacing-300",
       "context": "Spacing (Description to action - vertical)"
     },
-    {
-      "token": "title-sans-serif-font-family",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-weight",
-      "context": "Title"
-    },
-    {
-      "token": "title-sans-serif-font-style",
-      "context": "Title"
-    },
-    {
-      "token": "title-line-height",
-      "context": "Title"
-    },
+    { "token": "title-sans-serif-font-family", "context": "Title" },
+    { "token": "title-sans-serif-font-weight", "context": "Title" },
+    { "token": "title-sans-serif-font-style", "context": "Title" },
+    { "token": "title-line-height", "context": "Title" },
     {
       "token": "illustrated-message-small-title-font-size",
       "context": "Title"
@@ -128,22 +181,10 @@
       "token": "illustrated-message-large-cjk-title-font-size",
       "context": "Title"
     },
-    {
-      "token": "body-sans-serif-font-family",
-      "context": "Description"
-    },
-    {
-      "token": "body-sans-serif-font-weight",
-      "context": "Description"
-    },
-    {
-      "token": "body-sans-serif-font-style",
-      "context": "Description"
-    },
-    {
-      "token": "line-height-200",
-      "context": "Description"
-    },
+    { "token": "body-sans-serif-font-family", "context": "Description" },
+    { "token": "body-sans-serif-font-weight", "context": "Description" },
+    { "token": "body-sans-serif-font-style", "context": "Description" },
+    { "token": "line-height-200", "context": "Description" },
     {
       "token": "illustrated-message-small-body-font-size",
       "context": "Description"
@@ -160,16 +201,8 @@
       "token": "neutral-content-color-default",
       "context": "Illustration color"
     },
-    {
-      "token": "heading-color",
-      "context": "Heading color"
-    },
-    {
-      "token": "body-color",
-      "context": "Description color"
-    }
+    { "token": "heading-color", "context": "Heading color" },
+    { "token": "body-color", "context": "Description color" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

@@ -9,55 +9,69 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A tag group is a collection of tags that represent a set of related items."
+    },
+    {
+      "type": "guideline",
+      "content": "Tag groups organize multiple tags into a single visual group. They’re used to categorize content like keywords or names that describe an item or search query. Tags within the group can be added, removed, or styled to reflect different types of content."
+    },
+    {
+      "type": "guideline",
+      "content": "Tag groups come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side of a group of tags. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "The label of the tag group can be hidden if the context for the tags is sufficient without the title — for example, when the page title or section title applies to the group of tags."
+    },
+    {
+      "type": "guideline",
+      "content": "Define an action label to include a link-style button to perform an action on the entire group of tags. This button always appears at the end of the tag group."
+    },
+    {
+      "type": "guideline",
+      "content": "When horizontal space is limited in a tag group, the individual tags wrap to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "If the order of tags within the group matters, the user must be able to click or use keyboard focus between tags to add more."
+    },
+    {
+      "type": "guideline",
+      "content": "In some instances, it's possible to add an action next to a group of tags to provide a way to easily act on the entire group at once. Reveal the action only when more than one tag is displayed."
+    },
+    {
+      "type": "guideline",
+      "content": "In cases where users cannot interact with a large group of tags, consider hiding the group and its broader construct rather than disabling all the individual tags."
+    }
+  ],
   "options": {
     "size": {
       "type": "string",
       "default": "m",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
+    "hideLabel": { "type": "boolean", "default": false },
     "actionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "spacing-100",
-      "context": "Spacing (vertical)"
-    },
-    {
-      "token": "spacing-200",
-      "context": "Spacing (vertical)"
-    },
+    { "token": "spacing-100", "context": "Spacing (vertical)" },
+    { "token": "spacing-200", "context": "Spacing (vertical)" },
     {
       "token": "field-label-to-component",
       "context": "Spacing (Field label to Tags)"
@@ -72,16 +86,8 @@
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

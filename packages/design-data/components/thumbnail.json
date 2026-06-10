@@ -9,127 +9,90 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Thumbnails are small representations of images or content used for previews and navigation in galleries, lists, and media collections."
+    },
+    {
+      "type": "guideline",
+      "content": "Thumbnails display a preview of an image, layer, or effect, and appear in a variety of locations as a visual reference."
+    },
+    {
+      "type": "guideline",
+      "content": "Thumbnail sizes scale exponentially. The opacity checkerboard responsively resizes to appropriately fit within each thumbnail size."
+    },
+    {
+      "type": "guideline",
+      "content": "Thumbnails can be navigated using a keyboard in certain scenarios, such as layers or layer masks. When a thumbnail is used as pure representation of an item, focus should be set on the component the thumbnail is used within."
+    },
+    {
+      "type": "guideline",
+      "content": "Thumbnails feature rounded corners and may include images with transparency. A subtle inset border helps distinguish images that might otherwise blend into the product’s theme colors."
+    },
+    {
+      "type": "guideline",
+      "content": "When thumbnails are used in layer management (such as Treeview, Compact or Detail Layers panels), the thumbnail is given a thick gray border."
+    },
+    {
+      "type": "guideline",
+      "content": "When a user selects a thumbnail in layer management, such as in Treeview, Compact or Detail Layers panels, it is highlighted with a thick blue border."
+    },
+    {
+      "type": "guideline",
+      "content": "Tree view items can show thumbnails as an alternative to icons. Thumbnails are best used when a user needs to have a preview of the content represented by the tree view item. Icons can be used as a fallback for when an image is unavailable, but should be appropriately sized to match the thumbnail."
+    },
+    {
+      "type": "guideline",
+      "content": "Tree views with thumbnails should use a thumbnail size that is appropriate to the size of the tree view itself. For example, an extra-large tree view would not work well with small thumbnails; those proportions may be better suited for using icons instead."
+    },
+    {
+      "type": "guideline",
+      "content": "In some cases, multiple thumbnails need to be displayed in-line with the tree view item (e.g., layer masks). These thumbnails should be individually selectable and inherit all other behaviors of a standard tree view item, such as drag-and-drop behavior. Don't use more than 3 thumbnails per tree view item."
+    }
+  ],
   "options": {
     "size": {
       "type": "number",
       "values": [
-        {
-          "value": 50
-        },
-        {
-          "value": 75
-        },
-        {
-          "value": 100
-        },
-        {
-          "value": 200
-        },
-        {
-          "value": 300
-        },
-        {
-          "value": 400
-        },
-        {
-          "value": 500
-        },
-        {
-          "value": 600
-        },
-        {
-          "value": 700
-        },
-        {
-          "value": 800
-        },
-        {
-          "value": 900
-        },
-        {
-          "value": 1000
-        }
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 },
+        { "value": 600 },
+        { "value": 700 },
+        { "value": 800 },
+        { "value": 900 },
+        { "value": 1000 }
       ]
     }
   },
-  "states": [
-    {
-      "name": "disabled",
-      "trigger": "prop"
-    }
-  ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "states": [{ "name": "disabled", "trigger": "prop" }],
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "thumbnail-size-50",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-75",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-100",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-200",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-300",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-400",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-500",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-600",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-700",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-800",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-900",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-size-1000",
-      "context": "Size"
-    },
-    {
-      "token": "thumbnail-corner-radius",
-      "context": "Rounding"
-    },
+    { "token": "thumbnail-size-50", "context": "Size" },
+    { "token": "thumbnail-size-75", "context": "Size" },
+    { "token": "thumbnail-size-100", "context": "Size" },
+    { "token": "thumbnail-size-200", "context": "Size" },
+    { "token": "thumbnail-size-300", "context": "Size" },
+    { "token": "thumbnail-size-400", "context": "Size" },
+    { "token": "thumbnail-size-500", "context": "Size" },
+    { "token": "thumbnail-size-600", "context": "Size" },
+    { "token": "thumbnail-size-700", "context": "Size" },
+    { "token": "thumbnail-size-800", "context": "Size" },
+    { "token": "thumbnail-size-900", "context": "Size" },
+    { "token": "thumbnail-size-1000", "context": "Size" },
+    { "token": "thumbnail-corner-radius", "context": "Rounding" },
     {
       "token": "thumbnail-opacity-checkerboard-square-size",
       "context": "Opacity Checkerboard"
     },
-    {
-      "token": "border-width-100",
-      "context": "Border"
-    },
-    {
-      "token": "thumbnail-border-color",
-      "context": "Border "
-    },
-    {
-      "token": "thumbnail-border-opacity",
-      "context": "Border "
-    },
+    { "token": "border-width-100", "context": "Border" },
+    { "token": "thumbnail-border-color", "context": "Border " },
+    { "token": "thumbnail-border-opacity", "context": "Border " },
     {
       "token": "opacity-checkerboard-square-light",
       "context": "Checkerboard Colors "
@@ -138,12 +101,7 @@
       "token": "opacity-checkerboard-square-dark",
       "context": "Checkerboard Colors "
     },
-    {
-      "token": "thumbnail-opacity-disabled",
-      "context": "Disabled"
-    }
+    { "token": "thumbnail-opacity-disabled", "context": "Disabled" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

@@ -9,94 +9,89 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/link/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Links allow users to navigate to a different location. They can be presented inside a paragraph or as standalone text."
+    },
+    {
+      "type": "guideline",
+      "content": "Links provide navigation to a different location. They can appear within a paragraph or as standalone text."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the static color option when a link needs to be placed on top of a color background or visual. Static color links are available in black or white, regardless of color theme. They can also be placed on top of a custom background that isn’t part of a Spectrum color theme."
+    },
+    {
+      "type": "guideline",
+      "content": "Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the link color meet the minimum color contrast ratio."
+    },
+    {
+      "type": "guideline",
+      "content": "All links can have a quiet style, without an underline. This style should only be used when the placement and context of the link is explicit enough that a visible underline isn’t necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "The variant property defines the visual style of a link and includes two options: primary and secondary."
+    },
+    {
+      "type": "guideline",
+      "content": "The primary variant is the default style and displays the link in Spectrum blue. It is intended to draw attention to the link and is suitable when the blue color complements the surrounding content without being overwhelming."
+    },
+    {
+      "type": "guideline",
+      "content": "The secondary variant uses the same gray color as the surrounding paragraph text. Its subdued appearance is ideal for scenarios where multiple links are present in a block of text and the primary variant would be too visually dominant."
+    },
+    {
+      "type": "guideline",
+      "content": "Links are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button."
+    },
+    {
+      "type": "guideline",
+      "content": "Be mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page."
+    },
+    {
+      "type": "guideline",
+      "content": "People using screen readers may tab between links without getting the text in between, so very generic link wording like “learn more” or “click here” doesn’t communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go."
+    },
+    {
+      "type": "guideline",
+      "content": "Quiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "primary",
-      "values": [
-        {
-          "value": "primary"
-        },
-        {
-          "value": "secondary"
-        }
-      ]
+      "values": [{ "value": "primary" }, { "value": "secondary" }]
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
+    "isQuiet": { "type": "boolean", "default": false },
     "staticColor": {
       "type": "string",
       "description": "Static color must not be set for the default version of this component.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "accent-content-color-default",
-      "context": "Text (primary)"
-    },
-    {
-      "token": "accent-content-color-hover",
-      "context": "Text (primary)"
-    },
-    {
-      "token": "accent-content-color-down",
-      "context": "Text (primary)"
-    },
-    {
-      "token": "accent-content-color-key-focus",
-      "context": "Text (primary)"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Text (secondary)"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Text (secondary)"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Text (secondary)"
-    },
+    { "token": "accent-content-color-default", "context": "Text (primary)" },
+    { "token": "accent-content-color-hover", "context": "Text (primary)" },
+    { "token": "accent-content-color-down", "context": "Text (primary)" },
+    { "token": "accent-content-color-key-focus", "context": "Text (primary)" },
+    { "token": "neutral-content-color-default", "context": "Text (secondary)" },
+    { "token": "neutral-content-color-hover", "context": "Text (secondary)" },
+    { "token": "neutral-content-color-down", "context": "Text (secondary)" },
     {
       "token": "neutral-content-color-key-focus",
       "context": "Text (secondary)"
     },
-    {
-      "token": "white",
-      "context": "Text (white)"
-    },
-    {
-      "token": "black",
-      "context": "Text (black)"
-    },
+    { "token": "white", "context": "Text (white)" },
+    { "token": "black", "context": "Text (black)" },
     {
       "token": "default-font-family",
       "context": "Standalone variant, Default style"
@@ -133,18 +128,9 @@
       "token": "regular-font-weight",
       "context": "Inline variant, Default style"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus ring"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus ring"
-    }
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "focus-indicator-thickness", "context": "Focus ring" },
+    { "token": "focus-indicator-gap", "context": "Focus ring" }
   ],
   "accessibility": {
     "role": "link",
@@ -152,16 +138,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

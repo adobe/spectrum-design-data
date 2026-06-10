@@ -9,128 +9,217 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Combo boxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query."
     },
+    {
+      "type": "guideline",
+      "content": "Combo boxes combine a text field with a picker menu. They support filtering longer lists by narrowing options based on typed input. Use when both freeform entry and guided selection are needed."
+    },
+    {
+      "type": "guideline",
+      "content": "A combo box can be marked as having an error to show that a value needs to be entered or that a value is invalid, prompting the user to correct their input before moving forward."
+    },
+    {
+      "type": "guideline",
+      "content": "A combo box can have help text below the field to give extra context or instruction about what a user should input in the field. The help text communicates a hint or helpful information, such as specific requirements for correctly filling out the field."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo boxes have a read-only option for when content in the disabled state still needs to be shown. This allows for content to be copied, but not interacted with or changed. A combo box does not have a read-only option if no selection has been made."
+    },
+    {
+      "type": "guideline",
+      "content": "A combo box in a disabled state shows that an input field exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that it may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "A combo box can be marked as having an error to show that a value needs to be entered in order to move forward, or that a value that was entered is invalid."
+    },
+    {
+      "type": "guideline",
+      "content": "There are 3 options for how a combo box’s menu can be triggered: when a user starts typing (“input”), when focus is placed on the input field (“focus”), and manually when the user clicks or taps the field button (“manual”). These are used for different degrees of the information complexity and/or user familiarity of menu options."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, the menu is triggered when a user starts typing. This should be used when the content is readily familiar or commonplace enough to a user that they can begin populating values without seeing a list of all available options."
+    },
+    {
+      "type": "guideline",
+      "content": "If the content of the combo box is unfamiliar or complex, the menu should be triggered when focus is placed on the input field because a user would benefit from seeing example content before selecting a value."
+    },
+    {
+      "type": "guideline",
+      "content": "If the content of the combo box is highly familiar and autocomplete is sufficient to surface options, the menu can be set to trigger manually."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo boxes can automatically complete suggested results within the input field."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo boxes can be marked as optional or required, depending on the situation. For required combo boxes, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include hint text to explain what the asterisk means. Optional combo boxes are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo boxes come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "The value shows a user’s entered text or the option they’ve selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Combo boxes should always have an accessible name, typically provided by a visible text label. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the visible label may be hidden. When no visible label is present, the input must still expose an accessible name (for example, in HTML via “aria-label” or “aria-labelledby,” and on other platforms via the platform’s accessible-name mechanism)."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "When the field label and menu text are too long for the available horizontal space, they wrap to form another line. The field text itself truncates at the end, but the text can be shown in full in the menu."
+    },
+    {
+      "type": "guideline",
+      "content": "When the help text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "The combo box menu can be as tall as necessary to show as many options as possible in the available space. There is no maximum height."
+    },
+    {
+      "type": "guideline",
+      "content": "The text input functionality of the combo box is meant to make large lists easier to search. If you have fewer than 6 items, use radio buttons. If you have more than 6 items, consider whether your list of selections is complex enough to merit searching and filtering. If it's not complex enough for a combo box, you can use a picker."
+    },
+    {
+      "type": "guideline",
+      "content": "It’s okay to suppress the popover when the combo box contains entries the user is familiar with, and when autocomplete is enabled. A suppressed popover can still be opened when the field button containing the chevron is clicked."
+    },
+    {
+      "type": "guideline",
+      "content": "Launch the popover immediately if your user is highly unfamiliar with the content in the combo box, or if the data is especially complex."
+    },
+    {
+      "type": "guideline",
+      "content": "Launch the popover on text change if your user can get started typing without seeing a long list of options."
+    },
+    {
+      "type": "guideline",
+      "content": "When a suggestion is appended to the end of typed text, it remains the selected value when focus leaves the field. This guards against the scenario when a user sees a word completed in a field, continues to another form component, and the failure to commit changes erases the suggestion."
+    },
+    {
+      "type": "guideline",
+      "content": "When autocomplete is disabled, best matches get a hover style in the popover, but don’t get saved as a value unless they’re clicked on or \"Enter\" is pressed."
+    },
+    {
+      "type": "guideline",
+      "content": "Every combo box should have a label. A combo box without a label is ambiguous and not accessible. In rare cases where a label could be absent, make sure to have the design reviewed and approved by an accessibility expert."
+    },
+    {
+      "type": "guideline",
+      "content": "Keep menu items short and concise. Long menu items that cause text to wrap to multiple lines are discouraged. If text wrapping becomes a frequent concern, consider revising the text or use alternative UI patterns that will give your content more space."
+    },
+    {
+      "type": "guideline",
+      "content": "Choose a width for your combo boxes that is likely to accommodate the majority of selections available within it. When a combo box is in focus and the typed input exceeds the width of the field, push the leftmost text out of sight while allowing text to continue to be entered towards the chevron. When a combo box is deselected, truncate the selected entry with ellipsis before it collides with the chevron button."
+    },
+    {
+      "type": "guideline",
+      "content": "Field labels, placeholder text, and menu items should be in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "When labeling combo boxes in a form, only mark the minority type—either required or optional—to reduce visual clutter:"
+    },
+    {
+      "type": "guideline",
+      "content": "Important: Never use an asterisk to indicate an optional combo box."
+    },
+    {
+      "type": "guideline",
+      "content": "The help text’s message should not simply restate the same information in the label in order to prompt someone to interact with it. Don’t add help text if it isn’t actually relevant or meaningful to a user in order to try to maintain layout continuity with other inputs that require help text."
+    },
+    {
+      "type": "guideline",
+      "content": "Putting instructions for how to complete an input, requirements, or any other essential information into placeholder text is not accessible. Once a value is entered, placeholder text is no longer viewable; if someone is using an automatic form filler, they will never get the information in the placeholder text."
+    },
+    {
+      "type": "guideline",
+      "content": "Instead of placeholder text, use the help text description to convey requirements or to show any formatting examples that would help user comprehension. If there's placeholder text and help text at the same time, it becomes redundant and distracting, especially if they're communicating the same thing."
+    },
+    {
+      "type": "guideline",
+      "content": "The help text area also displays an error message. When a combo box already includes help text and an error is triggered, the help text is replaced with error text. Once the error is resolved, the help text description reappears below the field."
+    },
+    {
+      "type": "guideline",
+      "content": "Since one gets replaced by the other, the language of the help text and error text need to work together to convey the same messaging. Help text explains the requirement or adds supplementary context for how to successfully complete the input. Error text tells a user how to fix the error by re-stating the input requirements or describing the necessary interaction. Make sure that the help text and the error text include the same essential information so that it isn’t lost if one replaces the other like minimum requirements."
+    },
+    {
+      "type": "guideline",
+      "content": "Write error messaging in a human-centered way by guiding a user and showing them a solution — don’t simply state what’s wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user."
+    },
+    {
+      "type": "guideline",
+      "content": "Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. End sentences with a period, and never with an exclamation point. For combo boxes, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate. For example, if someone were to miss filling out a combo box that asks for them to choose a topic, write the error text like you’re offering a hint or a tip to help guide them to understand what needs to go in the missing field: “Choose at least one topic.”"
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "labelPosition": {
       "type": "string",
       "default": "top",
       "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        },
-        {
-          "value": "in line"
-        }
+        { "value": "top" },
+        { "value": "side" },
+        { "value": "in line" }
       ]
     },
-    "value": {
-      "type": "string"
-    },
-    "width": {
-      "type": "number"
-    },
+    "value": { "type": "string" },
+    "width": { "type": "number" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
+    "isRequired": { "type": "boolean", "default": false },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
-    "hasAutocomplete": {
-      "type": "boolean",
-      "default": false
-    },
+    "hasAutocomplete": { "type": "boolean", "default": false },
     "menuTrigger": {
       "type": "string",
       "default": "input",
       "values": [
-        {
-          "value": "input"
-        },
-        {
-          "value": "focus"
-        },
-        {
-          "value": "manual"
-        }
+        { "value": "input" },
+        { "value": "focus" },
+        { "value": "manual" }
       ]
     },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    },
-    "description": {
-      "type": "string"
-    },
-    "errorMessage": {
-      "type": "string"
-    }
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isReadOnly": { "type": "boolean", "default": false },
+    "description": { "type": "string" },
+    "errorMessage": { "type": "string" }
   },
   "states": [
-    {
-      "name": "hover-(text-area)",
-      "trigger": "prop"
-    },
-    {
-      "name": "hover-(button-area)",
-      "trigger": "prop"
-    },
-    {
-      "name": "focus-+-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "focus-+-not-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover-(text-area)", "trigger": "prop" },
+    { "name": "hover-(button-area)", "trigger": "prop" },
+    { "name": "focus-+-hover", "trigger": "prop" },
+    { "name": "focus-+-not-hover", "trigger": "prop" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "combo-box-visual-to-field-button-quiet",
@@ -160,18 +249,9 @@
       "token": "component-top-to-text-100",
       "context": "S2 Spacing (top/bottom edge to text: inline)"
     },
-    {
-      "token": "field-default-width-small",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-medium",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-large",
-      "context": "Width (default)"
-    },
+    { "token": "field-default-width-small", "context": "Width (default)" },
+    { "token": "field-default-width-medium", "context": "Width (default)" },
+    { "token": "field-default-width-large", "context": "Width (default)" },
     {
       "token": "field-default-width-extra-large",
       "context": "Width (default)"
@@ -180,38 +260,14 @@
       "token": "combo-box-minimum-width-multiplier",
       "context": "Width (minimum)"
     },
-    {
-      "token": "component-height-75",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Height"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
+    { "token": "component-height-75", "context": "Height" },
+    { "token": "component-height-100", "context": "Height" },
+    { "token": "component-height-200", "context": "Height" },
+    { "token": "component-height-300", "context": "Height" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edge to value)"
@@ -228,22 +284,10 @@
       "token": "component-edge-to-text-300",
       "context": "Spacing (start/end edge to value)"
     },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Prefix min-width"
-    },
+    { "token": "workflow-icon-size-75", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-100", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-200", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-300", "context": "Prefix min-width" },
     {
       "token": "text-to-visual-75",
       "context": "Spacing (prefix to value/placeholder)"
@@ -260,18 +304,9 @@
       "token": "text-to-visual-300",
       "context": "Spacing (prefix to value/placeholder)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
+    { "token": "border-width-200", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
     {
       "token": "combo-box-visual-to-field-button",
       "context": "Spacing (alert icon/in-field progress circle to field button)"
@@ -352,158 +387,50 @@
       "token": "field-top-to-progress-circle-extra-large",
       "context": "Spacing (top/bottom edge to in-field progress circle icon)"
     },
-    {
-      "token": "gray-25",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-300",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-400",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-900",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-800",
-      "context": "Background and border"
-    },
+    { "token": "gray-25", "context": "Background and border" },
+    { "token": "gray-300", "context": "Background and border" },
+    { "token": "gray-400", "context": "Background and border" },
+    { "token": "gray-900", "context": "Background and border" },
+    { "token": "gray-800", "context": "Background and border" },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Background and border"
     },
-    {
-      "token": "negative-border-color-default",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-hover",
-      "context": "Border (error)"
-    },
+    { "token": "negative-border-color-default", "context": "Border (error)" },
+    { "token": "negative-border-color-hover", "context": "Border (error)" },
     {
       "token": "negative-border-color-focus-hover",
       "context": "Border (error)"
     },
-    {
-      "token": "negative-border-color-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-key-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Value"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Alert icon"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-border-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Value"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Value"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Value"
-    },
-    {
-      "token": "component-s-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-m-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-l-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-xl-regular",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-75",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-100",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-200",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-300",
-      "context": "Value"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "medium-font-weight",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-s-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-m-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-l-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-xl-medium",
-      "context": "Prefix"
-    },
+    { "token": "negative-border-color-focus", "context": "Border (error)" },
+    { "token": "negative-border-color-key-focus", "context": "Border (error)" },
+    { "token": "neutral-content-color-default", "context": "Value" },
+    { "token": "neutral-content-color-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus", "context": "Value" },
+    { "token": "neutral-content-color-key-focus", "context": "Value" },
+    { "token": "negative-visual-color", "context": "Alert icon" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "disabled-border-color", "context": "Disabled" },
+    { "token": "disabled-background-color", "context": "Disabled" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "default-font-family", "context": "Value" },
+    { "token": "regular-font-weight", "context": "Value" },
+    { "token": "default-font-style", "context": "Value" },
+    { "token": "component-s-regular", "context": "Value" },
+    { "token": "component-m-regular", "context": "Value" },
+    { "token": "component-l-regular", "context": "Value" },
+    { "token": "component-xl-regular", "context": "Value" },
+    { "token": "line-height-font-size-75", "context": "Value" },
+    { "token": "line-height-font-size-100", "context": "Value" },
+    { "token": "line-height-font-size-200", "context": "Value" },
+    { "token": "line-height-font-size-300", "context": "Value" },
+    { "token": "cjk-line-height-100", "context": "Value" },
+    { "token": "medium-font-weight", "context": "Prefix" },
+    { "token": "component-s-medium", "context": "Prefix" },
+    { "token": "component-m-medium", "context": "Prefix" },
+    { "token": "component-l-medium", "context": "Prefix" },
+    { "token": "component-xl-medium", "context": "Prefix" },
     {
       "token": "field-label-top-to-asterisk-large",
       "context": "Spacing (top/bottom edge to required)"
@@ -512,10 +439,7 @@
       "token": "field-label-top-to-asterisk-extra-large",
       "context": "Spacing (top/bottom edge to required)"
     },
-    {
-      "token": "gray-600",
-      "context": "Label (populated true/false)"
-    }
+    { "token": "gray-600", "context": "Label (populated true/false)" }
   ],
   "accessibility": {
     "role": "combobox",
@@ -523,21 +447,9 @@
     "focusable": true,
     "keyboardIntents": ["expand", "collapse", "navigate-options"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

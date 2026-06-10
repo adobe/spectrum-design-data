@@ -9,75 +9,77 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/coach-indicator/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Coach indicators help guide users through interfaces by highlighting important areas or features during onboarding and feature discovery."
+    },
+    {
+      "type": "guideline",
+      "content": "If not set to white, the coach indicator uses the default color."
+    },
+    {
+      "type": "guideline",
+      "content": "The rounding of the indicator is determined by the shape of the object that it is highlighting. There are three types of rounding for coach indicators: no rounding, default rounding, and full rounding."
+    },
+    {
+      "type": "guideline",
+      "content": "No rounding means that there is no rounding on the object being indicated. In this case, a 6 px border radius rounding is applied to the coach indicator."
+    },
+    {
+      "type": "guideline",
+      "content": "Default rounding happens when an object has its own rounding, but isn’t fully rounded. In this case, the coach indicator should have the same rounding of that object with a 2 px gap."
+    },
+    {
+      "type": "guideline",
+      "content": "Full rounding occurs when an object already has a rounded style that gives it a pill shape (e.g., a button). In this case, the coach indicator is also rounded."
+    },
+    {
+      "type": "guideline",
+      "content": "The animation is always on the coach indicator. When an implementation is unable to animate the coach indicator, it can use a non-animated version to provide a similar experience."
+    },
+    {
+      "type": "guideline",
+      "content": "Coach indicators adopt the shape of the object they highlight. A 2 px space separates the indicator from the object’s placement area, creating padding on all sides."
+    },
+    {
+      "type": "guideline",
+      "content": "When an indicator needs to be placed on top of a visual, use the static white option. Static white does not change values depending upon the color theme."
+    },
+    {
+      "type": "guideline",
+      "content": "Coach indicators are typically paired with coach marks to create accessible user onboarding experiences. When using coach indicators:"
+    }
+  ],
   "options": {
     "cornerRounding": {
       "type": "string",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "corner-radius-75"
-        },
-        {
-          "value": "corner-radius-100"
-        },
-        {
-          "value": "corner-radius-200"
-        },
-        {
-          "value": "corner-radius-300"
-        },
-        {
-          "value": "corner-radius-400"
-        },
-        {
-          "value": "corner-radius-500"
-        },
-        {
-          "value": "corner-radius-600"
-        },
-        {
-          "value": "corner-radius-700"
-        },
-        {
-          "value": "corner-radius-800"
-        },
-        {
-          "value": "full"
-        }
+        { "value": "none" },
+        { "value": "corner-radius-75" },
+        { "value": "corner-radius-100" },
+        { "value": "corner-radius-200" },
+        { "value": "corner-radius-300" },
+        { "value": "corner-radius-400" },
+        { "value": "corner-radius-500" },
+        { "value": "corner-radius-600" },
+        { "value": "corner-radius-700" },
+        { "value": "corner-radius-800" },
+        { "value": "full" }
       ]
     },
     "staticColor": {
       "type": "string",
       "description": "If not set to white, the coach indicator uses the default color.",
-      "values": [
-        {
-          "value": "white"
-        }
-      ]
+      "values": [{ "value": "white" }]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "coach-indicator-collapsed-ring-thickness",
-      "context": "Ring"
-    },
-    {
-      "token": "coach-indicator-expanded-ring-thickness",
-      "context": "Ring"
-    },
-    {
-      "token": "coach-indicator-collapsed-gap",
-      "context": "Ring"
-    },
-    {
-      "token": "coach-indicator-expanded-gap",
-      "context": "Ring"
-    },
+    { "token": "coach-indicator-collapsed-ring-thickness", "context": "Ring" },
+    { "token": "coach-indicator-expanded-ring-thickness", "context": "Ring" },
+    { "token": "coach-indicator-collapsed-gap", "context": "Ring" },
+    { "token": "coach-indicator-expanded-gap", "context": "Ring" },
     {
       "token": "coach-indicator-collapsed-ring-rounding-increment",
       "context": "Rounding"
@@ -86,20 +88,9 @@
       "token": "coach-indicator-expanded-ring-rounding-increment",
       "context": "Rounding"
     },
-    {
-      "token": "coach-indicator-color",
-      "context": "Indicator (Default)"
-    },
-    {
-      "token": "coach-indicator-opacity",
-      "context": "Indicator (Default)"
-    },
-    {
-      "token": "white",
-      "context": "Indicator (Static white)"
-    }
+    { "token": "coach-indicator-color", "context": "Indicator (Default)" },
+    { "token": "coach-indicator-opacity", "context": "Indicator (Default)" },
+    { "token": "white", "context": "Indicator (Static white)" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

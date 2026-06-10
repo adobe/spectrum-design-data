@@ -9,6 +9,84 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Side navigation lets users navigate the entire content of a product or a section. These can be used for a single level or a multi-level navigation."
+    },
+    {
+      "type": "guideline",
+      "content": "Side navigation provides access to the main content areas of a product or section. It can support single-level or multi-level navigation."
+    },
+    {
+      "type": "guideline",
+      "content": "The type of selection allowed in side navigation can be none, single or multiple."
+    },
+    {
+      "type": "guideline",
+      "content": "The list of navigation items displayed in a side navigation. Each item includes a label by default and can optionally include an icon. Items that contain nested navigation levels can also include a trailing accessory area, which supports a chevron and an optional counter."
+    },
+    {
+      "type": "guideline",
+      "content": "At a glance, the app frame side navigation may look similar to the standard side navigation. However, its interaction model introduces key differences."
+    },
+    {
+      "type": "guideline",
+      "content": "The app frame side navigation includes a collapsible menu that lets users hide or reveal labels."
+    },
+    {
+      "type": "guideline",
+      "content": "The standard side navigation, on the other hand, is best suited for fixed layouts that support multiple visual styles, such as icon-only, text-only, or mixed. Note that the standard side navigation cannot collapse."
+    },
+    {
+      "type": "guideline",
+      "content": "The width of the side navigation is flexible, so choose a width that works with the navigation items in your experience. Make the width generous enough so that it doesn’t feel too condensed. Doing this will ensure that users won't confuse the side navigation with buttons or other controls."
+    },
+    {
+      "type": "guideline",
+      "content": "When the navigation item text is too long for the horizontal space available, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Make sure the width is generous enough so that it doesn’t feel too condensed. This ensures it doesn’t get confused with buttons or other controls."
+    },
+    {
+      "type": "guideline",
+      "content": "Navigation should be helpful. Choose titles for navigation items that clearly communicate the places where they'll go. Arbitrary or non-useful titles cause usability issues."
+    },
+    {
+      "type": "guideline",
+      "content": "Along with being descriptive, the labels of navigation items should be succinct. Keep navigation strings to 1 or 2 and no more than 3 concise words (in U.S. English, which is the source locale). Reduce any unnecessary words in order to ensure simplicity."
+    },
+    {
+      "type": "guideline",
+      "content": "Navigation items should never be so long that they require truncation, except in instances where navigation is user-generated, such as folder and filenames."
+    },
+    {
+      "type": "guideline",
+      "content": "When possible, the default width should automatically adjust to the longest string in the navigation to accommodate all translations. As a last resort for long strings, specific line breaks can be built into the implementation. These breaks depend on the content and require manual handling by globalization engineers."
+    },
+    {
+      "type": "guideline",
+      "content": "In multi-level side navigation, icon and text-only styles can be used together. Users may include supporting icons on the first level and omit them on the second and third levels, or choose to use no icons at all."
+    },
+    {
+      "type": "guideline",
+      "content": "Do not mix icon and no-icon options within the same navigation level."
+    },
+    {
+      "type": "guideline",
+      "content": "The multi-level side navigation goes to three levels deep. Adding more than three levels will make the indentation indiscernible, which becomes a major usability issue."
+    },
+    {
+      "type": "guideline",
+      "content": "If top-level navigation items have a location associated with them, send the user to that location and open the sub-level navigation items. If a top-level navigation item does not have any associated location, only open the sub-level navigation items."
+    },
+    {
+      "type": "guideline",
+      "content": "Side navigation can use either of these behaviors, but should never mix behaviors in the same experience."
+    }
+  ],
   "options": {
     "items": {
       "type": "array",
@@ -49,52 +127,23 @@
       "default": "single",
       "description": "How selection is handled for items.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
+        { "value": "none" },
+        { "value": "single" },
+        { "value": "multiple" }
       ]
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "side-navigation-width",
-      "context": "Width (default)"
-    },
-    {
-      "token": "side-navigation-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "side-navigation-maximum-width",
-      "context": "Width (maximum)"
-    },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "side-navigation-width", "context": "Width (default)" },
+    { "token": "side-navigation-minimum-width", "context": "Width (minimum)" },
+    { "token": "side-navigation-maximum-width", "context": "Width (maximum)" },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -119,14 +168,8 @@
       "token": "side-navigation-indicator-to-content",
       "context": "Spacing (indicator to content)"
     },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
     {
       "token": "component-edge-to-text-100",
       "context": "Spacing (single-level, start/end to content)"
@@ -191,10 +234,7 @@
       "token": "side-navigation-header-to-item",
       "context": "Spacing (vertically between side-nav item and side-nav title)"
     },
-    {
-      "token": "component-top-to-workflow-icon-100",
-      "context": "Layout"
-    },
+    { "token": "component-top-to-workflow-icon-100", "context": "Layout" },
     {
       "token": "component-padding-vertical-100",
       "context": "Spacing (top edge to label)"
@@ -203,22 +243,10 @@
       "token": "side-navigation-bottom-to-text",
       "context": "Spacing (label wrapping)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "gray-400",
-      "context": "Side navigation indicator "
-    },
-    {
-      "token": "gray-800",
-      "context": "Side navigation indicator "
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "gray-400", "context": "Side navigation indicator " },
+    { "token": "gray-800", "context": "Side navigation indicator " },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Navigation item label and icon"
@@ -251,70 +279,32 @@
       "token": "neutral-content-color-key-focus",
       "context": "Navigation item label and icon (selected)"
     },
-    {
-      "token": "gray-600",
-      "context": "Side navigation title"
-    },
+    { "token": "gray-600", "context": "Side navigation title" },
     {
       "token": "disabled-content-color",
       "context": "Label and icon (disabled)"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Text  "
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text  "
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text  "
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text  "
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text  "
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text  "
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Text (selected)"
-    },
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "default-font-family", "context": "Text  " },
+    { "token": "regular-font-weight", "context": "Text  " },
+    { "token": "default-font-style", "context": "Text  " },
+    { "token": "font-size-100", "context": "Text  " },
+    { "token": "line-height-100", "context": "Text  " },
+    { "token": "cjk-line-height-100", "context": "Text  " },
+    { "token": "bold-font-weight", "context": "Text (selected)" },
     {
       "token": "medium-font-weight",
       "context": "Text (Side navigation title)"
     },
-    {
-      "token": "font-size-75",
-      "context": "Text (Side navigation title)"
-    }
+    { "token": "font-size-75", "context": "Text (Side navigation title)" }
   ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

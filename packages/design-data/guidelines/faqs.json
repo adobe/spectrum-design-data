@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/faqs.json",
+  "name": "faqs",
+  "title": "FAQs",
+  "category": "support",
+  "documentBlocks": [
+    { "type": "purpose", "content": "FAQs" },
+    {
+      "type": "guideline",
+      "content": "As we progress, we're committed to extending Spectrum 2 to include desktop and mobile platforms with ongoing workshops and to ensure a comprehensive update to our design system."
+    },
+    {
+      "type": "guideline",
+      "content": "Though Spectrum has always made cross-platform design a priority, the majority of emerging products at Adobe have been web-first in recent years."
+    },
+    {
+      "type": "guideline",
+      "content": "That said, Adobe Design has been collectively working on the future of desktop and mobile. One of the central goals of Spectrum 2 is to make sure that it feels “at home.” Both professional desktop and mobile tools have a unique set of requirements and each will get the attention they require."
+    },
+    {
+      "type": "guideline",
+      "content": "In the meantime, we’ve been partnering with both desktop and mobile teams and preparing their implementations for Spectrum 2 by using Spectrum’s design data. We continue to expand the scope of our partnership as we build out Spectrum 2 and the toolchain to support it."
+    },
+    {
+      "type": "guideline",
+      "content": "Carve out time to plan for the update and create a migration plan. We recommend breaking down the update process into planned, manageable tasks in order to avoid a need to react to massive changes all at once. Prioritize areas of the code base that directly impact the UI, as well as the code that customizes, overrides, or otherwise changes Spectrum defaults."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/faqs/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["support"],
+  "related": [{ "ref": "steplist", "kind": "component" }, { "ref": "contact" }]
+}

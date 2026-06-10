@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/app-frame-creating-bluelines.json",
+  "name": "app-frame-creating-bluelines",
+  "title": "Creating bluelines (browsing context)",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Creating bluelines (browsing context)" },
+    {
+      "type": "guideline",
+      "content": "Accessible names vary depending on the content. Accessible names must be defined for controls that don’t have visible text labels."
+    },
+    {
+      "type": "guideline",
+      "content": "Here are some guidelines to keep in mind as you define accessible names in the app frame:"
+    },
+    {
+      "type": "guideline",
+      "content": "Any non-text element in a digital interface with a text label must have a text alternative. Here’s an example of how you might name landmark regions in an app frame:"
+    },
+    {
+      "type": "guideline",
+      "content": "Here’s an example of how you might structure heading annotations for this screen:"
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus order will depend on what controls are available on the page. Here’s an example of how you might define the order in the app frame:"
+    },
+    {
+      "type": "guideline",
+      "content": "Example of correct usage, support for keyboard focus for size navigation. The side navigation width is focusable and resizable by using the left and right arrow keys."
+    },
+    {
+      "type": "guideline",
+      "content": "Example of correct usage, inclusion of a Skip to main content button within the app frame header."
+    },
+    {
+      "type": "guideline",
+      "content": "When properly supported, the F6 key allows keyboard users to navigate through different regions of an application efficiently. Without this support, keyboard-only users have no means to jump to specific areas of the application, resulting in an excessive number of keystrokes to reach their desired goal."
+    },
+    {
+      "type": "guideline",
+      "content": "Here are some key quality factors to consider:"
+    },
+    {
+      "type": "guideline",
+      "content": "For mobile breakpoints, a tray is used to open and close the app frame side navigation. In this example, the keyboard focus order starts at the “Create” button and ends at the close button. Clicking on esc should also close the tray."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-creating-bluelines/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["designing"],
+  "related": [
+    {
+      "ref": "s2-app-frame-content-area-browsing-context",
+      "kind": "guideline"
+    },
+    { "ref": "brand", "kind": "guideline" }
+  ]
+}

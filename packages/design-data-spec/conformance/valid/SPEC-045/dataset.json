@@ -1,0 +1,39 @@
+{
+  "tokens": [],
+  "guidelines": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/colors.json",
+      "name": "colors",
+      "title": "Colors",
+      "category": "designing",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/colors/",
+      "lastUpdated": "2026-02-02",
+      "status": "published",
+      "tags": ["designing", "color"],
+      "related": [{ "ref": "grays", "kind": "guideline" }],
+      "documentBlocks": [
+        {
+          "type": "purpose",
+          "content": "The Spectrum 2 color system defines a perceptually balanced, accessible palette with semantically named tokens for surfaces, text, icons, and interactive elements across light and dark schemes."
+        },
+        {
+          "type": "guideline",
+          "content": "Accent colors establish hierarchy by drawing attention to the highest-priority interactive element. Limit accent usage to one element per focal area."
+        }
+      ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/grays.json",
+      "name": "grays",
+      "title": "Grays",
+      "category": "designing",
+      "status": "published",
+      "documentBlocks": [
+        {
+          "type": "purpose",
+          "content": "Gray tokens provide neutral surface, text, and border colors that adapt to light and dark color schemes."
+        }
+      ]
+    }
+  ]
+}

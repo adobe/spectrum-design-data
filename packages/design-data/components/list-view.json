@@ -9,21 +9,85 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "List views display rows of data or options that users can browse, select, and interact with."
+    },
+    {
+      "type": "guideline",
+      "content": "List views display content in a structured, scrollable list. They support sorting, organizing, and selecting multiple items at once."
+    },
+    {
+      "type": "guideline",
+      "content": "A list view is a versatile component and can contain many items depending on the use case. These items can be icons, thumbnails, avatars, checkboxes, drag handles, action buttons, and more."
+    },
+    {
+      "type": "guideline",
+      "content": "By default a list view is not quiet. If true, the list view uses a quiet visual style meaning there is no background or borders to the component."
+    },
+    {
+      "type": "guideline",
+      "content": "The selection mode defines how many items can be selected at once. A list view can use single selection, multiple selection, or none."
+    },
+    {
+      "type": "guideline",
+      "content": "In the highlight selection style for touch interactions, tapping anywhere on the item will navigate to its contents. For mouse-based interactions, double-clicking anywhere on the item or single-clicking the navigation icon will do the same."
+    },
+    {
+      "type": "guideline",
+      "content": "In the checkbox selection style, clicking or tapping the label area or navigation icon of a list view item will navigate to its contents."
+    },
+    {
+      "type": "guideline",
+      "content": "Single-clicking or tapping anywhere on a list view item will select the item, except the label in checkbox selection style. For checkbox selection style, clicking the label will navigate to the item."
+    },
+    {
+      "type": "guideline",
+      "content": "In touch experiences, the list view default is navigation only with the highlight selection style. Users enter a selection mode by a touch and hold gesture on any list view item."
+    },
+    {
+      "type": "guideline",
+      "content": "Selection mode in touch uses the checkbox selection style and suppresses navigation. Users can exit selection mode by pressing the Escape key or deselecting all items."
+    },
+    {
+      "type": "guideline",
+      "content": "List view items can be dragged and dropped to reorder or restructure the list."
+    },
+    {
+      "type": "guideline",
+      "content": "Multiple items can be dragged at a time and shifted from one level of hierarchy to another."
+    },
+    {
+      "type": "guideline",
+      "content": "List views can also accept dropped items from outside the component, to modify the list."
+    },
+    {
+      "type": "guideline",
+      "content": "A list view item's label or description will truncate if the text is longer than the available horizontal space. Display the full label or description text in a tooltip on hover and focus states."
+    },
+    {
+      "type": "guideline",
+      "content": "When more than two actions are available for a list view item, the actions are nested within an action menu."
+    },
+    {
+      "type": "guideline",
+      "content": "List views work best for flat collections of items that share the same hierarchy level."
+    },
+    {
+      "type": "guideline",
+      "content": "Tree views are ideal for displaying nested or hierarchical relationships."
+    }
+  ],
   "options": {
     "selectionMode": {
       "type": "string",
       "default": "single",
       "description": "Defines how many items can be selected at once.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
+        { "value": "none" },
+        { "value": "single" },
+        { "value": "multiple" }
       ]
     },
     "isQuiet": {
@@ -82,10 +146,7 @@
             "default": "none",
             "description": "Defines the border radius of the list view item."
           },
-          "isEmphasized": {
-            "type": "boolean",
-            "default": false
-          },
+          "isEmphasized": { "type": "boolean", "default": false },
           "state": {
             "type": "string",
             "enum": ["default", "hover", "dragged"],
@@ -97,34 +158,14 @@
       }
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "(multi-select",
-      "context": "Variants"
-    },
-    {
-      "token": "multi-select)",
-      "context": "Variants"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon size"
-    },
-    {
-      "token": "list-view-minimum-height",
-      "context": "Component height"
-    },
-    {
-      "token": "list-view-minimum-width",
-      "context": "Component width"
-    },
-    {
-      "token": "corner-radius-medium-default",
-      "context": "Item rounding"
-    },
+    { "token": "(multi-select", "context": "Variants" },
+    { "token": "multi-select)", "context": "Variants" },
+    { "token": "workflow-icon-size-100", "context": "Icon size" },
+    { "token": "list-view-minimum-height", "context": "Component height" },
+    { "token": "list-view-minimum-width", "context": "Component width" },
+    { "token": "corner-radius-medium-default", "context": "Item rounding" },
     {
       "token": "stack-item-start-edge-to-content",
       "context": "Spacing (edge to drag handle)"
@@ -165,10 +206,7 @@
       "token": "list-view-end-edge-to-content",
       "context": "Spacing (edge to Navigation icon)"
     },
-    {
-      "token": "vertical-align-items",
-      "context": "Spacing (vertical)"
-    },
+    { "token": "vertical-align-items", "context": "Spacing (vertical)" },
     {
       "token": "stack-item-minimum-padding-vertical",
       "context": "Spacing (vertical)"
@@ -181,50 +219,20 @@
       "token": "border-width-100",
       "context": "Border width (selected - highlight)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus (drag handle)"
-    },
-    {
-      "token": "drop-shadow-dragged-x",
-      "context": "Dragged shadow"
-    },
-    {
-      "token": "drop-shadow-dragged-y",
-      "context": "Dragged shadow"
-    },
-    {
-      "token": "drop-shadow-dragged-blur",
-      "context": "Dragged shadow"
-    },
-    {
-      "token": "drop-shadow-dragged-color",
-      "context": "Dragged shadow"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height"
-    },
-    {
-      "token": "stack-item-header-minimum-width",
-      "context": "Width"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus" },
+    { "token": "focus-indicator-gap", "context": "Focus (drag handle)" },
+    { "token": "drop-shadow-dragged-x", "context": "Dragged shadow" },
+    { "token": "drop-shadow-dragged-y", "context": "Dragged shadow" },
+    { "token": "drop-shadow-dragged-blur", "context": "Dragged shadow" },
+    { "token": "drop-shadow-dragged-color", "context": "Dragged shadow" },
+    { "token": "component-height-100", "context": "Height" },
+    { "token": "stack-item-header-minimum-width", "context": "Width" },
     {
       "token": "component-edge-to-text-100",
       "context": "Spacing (horizontal)"
     },
-    {
-      "token": "top-to-text-100",
-      "context": "Spacing (vertical)"
-    },
-    {
-      "token": "bottom-to-text-100",
-      "context": "Spacing (vertical)"
-    },
+    { "token": "top-to-text-100", "context": "Spacing (vertical)" },
+    { "token": "bottom-to-text-100", "context": "Spacing (vertical)" },
     {
       "token": "component-top-to-workflow-icon-100",
       "context": "Spacing (vertical)"
@@ -237,14 +245,8 @@
       "token": "stack-item-item-to-item",
       "context": "Spacing (vertically, between list view header to list view items)"
     },
-    {
-      "token": "stack-item-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "stack-item-background-color-down",
-      "context": "Background"
-    },
+    { "token": "stack-item-background-color-hover", "context": "Background" },
+    { "token": "stack-item-background-color-down", "context": "Background" },
     {
       "token": "stack-item-background-color-key-focus",
       "context": "Background"
@@ -277,10 +279,7 @@
       "token": "accent-content-color-selected",
       "context": "Border (selected, highlight)"
     },
-    {
-      "token": "gray-300",
-      "context": "Border"
-    },
+    { "token": "gray-300", "context": "Border" },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Label and icon (non-selected)"
@@ -321,62 +320,24 @@
       "token": "disabled-content-color",
       "context": "Label and icon (disabled)"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "title-color",
-      "context": "Title label and icon"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Text (List view description)"
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Text (List view title)"
-    }
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "title-color", "context": "Title label and icon" },
+    { "token": "default-font-family", "context": "Text (List view item)" },
+    { "token": "regular-font-weight", "context": "Text (List view item)" },
+    { "token": "default-font-style", "context": "Text (List view item)" },
+    { "token": "font-size-100", "context": "Text (List view item)" },
+    { "token": "line-height-100", "context": "Text (List view item)" },
+    { "token": "cjk-line-height-100", "context": "Text (List view item)" },
+    { "token": "font-size-75", "context": "Text (List view description)" },
+    { "token": "bold-font-weight", "context": "Text (List view title)" }
   ],
   "accessibility": {
     "intents": ["select", "navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate", "select-all"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

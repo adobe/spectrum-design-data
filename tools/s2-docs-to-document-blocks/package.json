@@ -1,0 +1,33 @@
+{
+  "name": "@adobe/s2-docs-to-document-blocks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Transform s2-docs Markdown component pages into documentBlocks for packages/design-data",
+  "type": "module",
+  "bin": {
+    "s2-docs-to-document-blocks": "./src/cli.js"
+  },
+  "scripts": {
+    "transform": "node src/cli.js transform",
+    "test": "ava"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1",
+    "prettier": "^3.5.3"
+  },
+  "devDependencies": {
+    "ava": "^6.0.0"
+  },
+  "keywords": [
+    "spectrum",
+    "s2",
+    "documentation",
+    "design-data",
+    "document-blocks"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0"
+  }
+}

@@ -9,68 +9,96 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/button/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Buttons enable actions or navigation between views. They come in multiple styles to support different levels of emphasis, and are commonly used to guide progression through a flow."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nA button can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltip when the label is hidden.\n\nWhen the button label is hidden, a tooltip is shown on hover that displays the label text and, if appropriate, a keyboard shortcut."
+    },
+    {
+      "type": "guideline",
+      "content": "Flexible width.\n\nThe width of a button automatically adjusts to fit the label text. The padding on each side of the button is equal to half its height."
+    },
+    {
+      "type": "guideline",
+      "content": "Minimum width.\n\nButtons have a minimum width of 2.25× the height of the button. This ensures that small buttons retain an identifiable shape."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the button text is too long for the horizontal space available, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor style.\n\nButtons use the default arrow cursor for all states, including hover and down. The only exception occurs on the web; if the button is using the href property it will display the pointer cursor instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Delay before pending state.\n\nSome progress can be very quick. In order to avoid showing a progress circle for a fraction of a second, which results in an unpleasant flickering, there is a delay of 1 second before the pending state appears. During this delay, the button continues to visually respond to interactive events (e.g., hover), but additional clicks do not result in repeated submissions."
+    },
+    {
+      "type": "guideline",
+      "content": "Use icons only when necessary.\n\nIcons can be used in buttons when additional clarity is required and the icon is highly relevant to the action. Icons should not be used for decoration."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't override color",
+      "dont": "Do not use custom colors for buttons. The colors of different button variations have been designed to be consistent and accessible."
+    },
+    {
+      "type": "guideline",
+      "content": "When to use static black and static white.\n\nTo ensure maximum contrast with the background, use static black for light backgrounds and images, and use static white for dark backgrounds and images. Avoid placing static components on top of busy images with a lot of variance in contrast."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use the pending state for long progress",
+      "dont": "The pending state should be reserved for indeterminate actions that are expected to take 5 seconds or less. For determinate or longer actions, use a [progress bar](https://spectrum.adobe.com/page/progress-bar/) or [progress circle](https://spectrum.adobe.com/page/progress-circle/) outside of the button."
+    },
+    {
+      "type": "guideline",
+      "content": "Use a button group to show additional actions.\n\nInstead of a single split button (now a deprecated component), use a [button group](https://spectrum.adobe.com/page/button-group/) to show any additional actions related to the most critical action."
+    },
+    {
+      "type": "guideline",
+      "content": "Display a popover when featuring subsequent options.\n\nIn some instances, it's possible to have a call to action button display a popover (or tray) to feature subsequent options. These options should extend and parallel the action of the button. Do not include arbitrary or unrelated options."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "accent",
       "description": "Visual emphasis level.",
       "values": [
-        {
-          "value": "accent"
-        },
-        {
-          "value": "negative"
-        },
-        {
-          "value": "primary"
-        },
-        {
-          "value": "secondary"
-        }
+        { "value": "accent" },
+        { "value": "negative" },
+        { "value": "primary" },
+        { "value": "secondary" }
       ]
     },
     "style": {
       "type": "string",
       "default": "fill",
-      "values": [
-        {
-          "value": "fill"
-        },
-        {
-          "value": "outline"
-        }
-      ]
+      "values": [{ "value": "fill" }, { "value": "outline" }]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isPending": {
-      "type": "boolean",
-      "default": false
-    },
-    "isLabelHidden": {
-      "type": "boolean",
-      "default": false
-    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isPending": { "type": "boolean", "default": false },
+    "isLabelHidden": { "type": "boolean", "default": false },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
@@ -78,14 +106,7 @@
     "staticColor": {
       "type": "string",
       "description": "Static color for use on colored backgrounds.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
   "slots": [
@@ -94,64 +115,29 @@
       "description": "Text label of the button.",
       "required": false
     },
-    {
-      "name": "icon",
-      "description": "Icon placed at the start of the button."
-    }
+    { "name": "icon", "description": "Icon placed at the start of the button." }
   ],
   "anatomy": [
-    {
-      "name": "icon",
-      "description": "Leading icon."
-    },
-    {
-      "name": "label",
-      "description": "Button text.",
-      "required": true
-    }
+    { "name": "icon", "description": "Leading icon." },
+    { "name": "label", "description": "Button text.", "required": true }
   ],
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction",
-      "precedence": 50
-    },
+    { "name": "hover", "trigger": "interaction", "precedence": 50 },
     {
       "name": "focus",
       "trigger": "interaction",
       "precedence": 60,
       "layered": true
     },
-    {
-      "name": "disabled",
-      "trigger": "prop",
-      "precedence": 100
-    }
+    { "name": "disabled", "trigger": "prop", "precedence": 100 }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Minimum height"
-    },
-    {
-      "token": "corner-radius-full",
-      "context": "Rounding"
-    },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
+    { "token": "component-height-300", "context": "Minimum height" },
+    { "token": "corner-radius-full", "context": "Rounding" },
     {
       "token": "corner-radius-button-small",
       "context": "Rounding (with wrapping)"
@@ -184,22 +170,10 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon"
-    },
+    { "token": "workflow-icon-size-75", "context": "Icon" },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "workflow-icon-size-200", "context": "Icon" },
+    { "token": "workflow-icon-size-300", "context": "Icon" },
     {
       "token": "component-pill-edge-to-visual-75",
       "context": "Spacing (start/end edges)"
@@ -248,22 +222,10 @@
       "token": "component-pill-edge-to-visual-only-300",
       "context": "Spacing (start/end edges, icon only)"
     },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "text-to-visual-75", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-200", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-300", "context": "Spacing (icon to label)" },
     {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top edge to icon)"
@@ -312,198 +274,54 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to label)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "accent-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-down",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-key-focus",
-      "context": "Background"
-    },
-    {
-      "token": "white",
-      "context": "Icon"
-    },
-    {
-      "token": "negative-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "negative-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "negative-background-color-down",
-      "context": "Background"
-    },
-    {
-      "token": "negative-background-color-key-focus",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-down",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-key-focus",
-      "context": "Background"
-    },
-    {
-      "token": "gray-25",
-      "context": "Icon"
-    },
-    {
-      "token": "gray-100",
-      "context": "Background"
-    },
-    {
-      "token": "gray-800",
-      "context": "Border"
-    },
-    {
-      "token": "gray-900",
-      "context": "Border"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Icon"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Icon"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Icon"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Icon"
-    },
-    {
-      "token": "gray-200",
-      "context": "Background"
-    },
-    {
-      "token": "gray-300",
-      "context": "Border"
-    },
-    {
-      "token": "gray-400",
-      "context": "Border"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Fill"
-    },
-    {
-      "token": "disabled-border-color",
-      "context": "Outline"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Icon"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "transparent-white-900",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-white-1000",
-      "context": "Background"
-    },
-    {
-      "token": "black",
-      "context": "Icon"
-    },
-    {
-      "token": "transparent-white-25",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-white-100",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-white-200",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-white-300",
-      "context": "Border"
-    },
-    {
-      "token": "transparent-white-400",
-      "context": "Border"
-    },
+    { "token": "border-width-200", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "bold-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "font-size-100", "context": "Label" },
+    { "token": "font-size-200", "context": "Label" },
+    { "token": "font-size-300", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" },
+    { "token": "accent-background-color-default", "context": "Background" },
+    { "token": "accent-background-color-hover", "context": "Background" },
+    { "token": "accent-background-color-down", "context": "Background" },
+    { "token": "accent-background-color-key-focus", "context": "Background" },
+    { "token": "white", "context": "Icon" },
+    { "token": "negative-background-color-default", "context": "Background" },
+    { "token": "negative-background-color-hover", "context": "Background" },
+    { "token": "negative-background-color-down", "context": "Background" },
+    { "token": "negative-background-color-key-focus", "context": "Background" },
+    { "token": "neutral-background-color-default", "context": "Background" },
+    { "token": "neutral-background-color-hover", "context": "Background" },
+    { "token": "neutral-background-color-down", "context": "Background" },
+    { "token": "neutral-background-color-key-focus", "context": "Background" },
+    { "token": "gray-25", "context": "Icon" },
+    { "token": "gray-100", "context": "Background" },
+    { "token": "gray-800", "context": "Border" },
+    { "token": "gray-900", "context": "Border" },
+    { "token": "neutral-content-color-default", "context": "Icon" },
+    { "token": "neutral-content-color-hover", "context": "Icon" },
+    { "token": "neutral-content-color-down", "context": "Icon" },
+    { "token": "neutral-content-color-key-focus", "context": "Icon" },
+    { "token": "gray-200", "context": "Background" },
+    { "token": "gray-300", "context": "Border" },
+    { "token": "gray-400", "context": "Border" },
+    { "token": "disabled-background-color", "context": "Fill" },
+    { "token": "disabled-border-color", "context": "Outline" },
+    { "token": "disabled-content-color", "context": "Icon" },
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "transparent-white-900", "context": "Background" },
+    { "token": "transparent-white-1000", "context": "Background" },
+    { "token": "black", "context": "Icon" },
+    { "token": "transparent-white-25", "context": "Background" },
+    { "token": "transparent-white-100", "context": "Background" },
+    { "token": "transparent-white-200", "context": "Background" },
+    { "token": "transparent-white-300", "context": "Border" },
+    { "token": "transparent-white-400", "context": "Border" },
     {
       "token": "disabled-static-white-background-color",
       "context": "Background"
@@ -512,42 +330,18 @@
       "token": "disabled-static-white-content-color",
       "context": "Icon and label"
     },
-    {
-      "token": "disabled-static-white-border-color",
-      "context": "Border"
-    },
+    { "token": "disabled-static-white-border-color", "context": "Border" },
     {
       "token": "static-white-focus-indicator-color",
       "context": "Static white – Focus indicator"
     },
-    {
-      "token": "transparent-black-900",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-black-1000",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-black-25",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-black-100",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-black-200",
-      "context": "Background"
-    },
-    {
-      "token": "transparent-black-300",
-      "context": "Border"
-    },
-    {
-      "token": "transparent-black-400",
-      "context": "Border"
-    },
+    { "token": "transparent-black-900", "context": "Background" },
+    { "token": "transparent-black-1000", "context": "Background" },
+    { "token": "transparent-black-25", "context": "Background" },
+    { "token": "transparent-black-100", "context": "Background" },
+    { "token": "transparent-black-200", "context": "Background" },
+    { "token": "transparent-black-300", "context": "Border" },
+    { "token": "transparent-black-400", "context": "Border" },
     {
       "token": "disabled-static-black-background-color",
       "context": "Background"
@@ -556,10 +350,7 @@
       "token": "disabled-static-black-content-color",
       "context": "Icon and label"
     },
-    {
-      "token": "disabled-static-black-border-color",
-      "context": "Border"
-    },
+    { "token": "disabled-static-black-border-color", "context": "Border" },
     {
       "token": "static-black-focus-indicator-color",
       "context": "Static black – Focus indicator"
@@ -571,16 +362,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

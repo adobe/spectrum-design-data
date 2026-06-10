@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-spec",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for the design data format",
   "type": "module",
   "repository": {
@@ -32,7 +32,8 @@
     "./rules/rules.yaml": "./rules/rules.yaml",
     "./schemas/registry-value.json": "./schemas/registry-value.json",
     "./schemas/platform-extension.json": "./schemas/platform-extension.json",
-    "./schemas/dataset.schema.json": "./schemas/dataset.schema.json"
+    "./schemas/dataset.schema.json": "./schemas/dataset.schema.json",
+    "./schemas/guideline.schema.json": "./schemas/guideline.schema.json"
   },
   "files": [
     "conformance",

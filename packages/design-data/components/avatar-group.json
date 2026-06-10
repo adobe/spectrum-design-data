@@ -9,6 +9,36 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Avatar groups display a collection of avatars representing people or entities."
+    },
+    {
+      "type": "guideline",
+      "content": "An avatar group displays a set of related avatars together. It’s typically used to represent a collection of people or entities."
+    },
+    {
+      "type": "guideline",
+      "content": "Avatar sizes scale exponentially, based on the Spectrum type scale. Avatar has preset sizes to flex across all surfaces and can also be customized to fit appropriately for your context."
+    },
+    {
+      "type": "guideline",
+      "content": "An Avatar group can have an optional text label that clearly describes the group or number of users that it represents."
+    },
+    {
+      "type": "guideline",
+      "content": "Individual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."
+    },
+    {
+      "type": "guideline",
+      "content": "Each individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."
+    },
+    {
+      "type": "guideline",
+      "content": "When using a colored background the avatar stroke color should remain set as default for both light and dark themes."
+    }
+  ],
   "options": {
     "label": {
       "type": "string",
@@ -18,74 +48,28 @@
       "type": "number",
       "default": 100,
       "values": [
-        {
-          "value": 50
-        },
-        {
-          "value": 75
-        },
-        {
-          "value": 100
-        },
-        {
-          "value": 200
-        },
-        {
-          "value": 300
-        },
-        {
-          "value": 400
-        },
-        {
-          "value": 500
-        }
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "avatar-group-size-50",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-75",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-100",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-200",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-300",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-400",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-group-size-500",
-      "context": "Size"
-    },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (avatar group to label)"
-    },
-    {
-      "token": "avatar-to-avatar-50",
-      "context": "Spacing (avatar to avatar)"
-    },
-    {
-      "token": "avatar-to-avatar-75",
-      "context": "Spacing (avatar to avatar)"
-    },
+    { "token": "avatar-group-size-50", "context": "Size" },
+    { "token": "avatar-group-size-75", "context": "Size" },
+    { "token": "avatar-group-size-100", "context": "Size" },
+    { "token": "avatar-group-size-200", "context": "Size" },
+    { "token": "avatar-group-size-300", "context": "Size" },
+    { "token": "avatar-group-size-400", "context": "Size" },
+    { "token": "avatar-group-size-500", "context": "Size" },
+    { "token": "spacing-100", "context": "Spacing (avatar group to label)" },
+    { "token": "avatar-to-avatar-50", "context": "Spacing (avatar to avatar)" },
+    { "token": "avatar-to-avatar-75", "context": "Spacing (avatar to avatar)" },
     {
       "token": "avatar-to-avatar-100",
       "context": "Spacing (avatar to avatar)"
@@ -106,61 +90,19 @@
       "token": "avatar-to-avatar-500",
       "context": "Spacing (avatar to avatar)"
     },
-    {
-      "token": "default-font-family",
-      "context": "Layout"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Layout"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-50",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-400",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-500",
-      "context": "Layout"
-    },
-    {
-      "token": "font-size-600",
-      "context": "Layout"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Layout"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Layout"
-    }
+    { "token": "default-font-family", "context": "Layout" },
+    { "token": "regular-font-weight", "context": "Layout" },
+    { "token": "default-font-style", "context": "Layout" },
+    { "token": "font-size-50", "context": "Layout" },
+    { "token": "font-size-75", "context": "Layout" },
+    { "token": "font-size-100", "context": "Layout" },
+    { "token": "font-size-200", "context": "Layout" },
+    { "token": "font-size-300", "context": "Layout" },
+    { "token": "font-size-400", "context": "Layout" },
+    { "token": "font-size-500", "context": "Layout" },
+    { "token": "font-size-600", "context": "Layout" },
+    { "token": "line-height-100", "context": "Layout" },
+    { "token": "cjk-line-height-100", "context": "Layout" }
   ],
-  "accessibility": {
-    "role": "group",
-    "focusable": false
-  }
+  "accessibility": { "role": "group", "focusable": false }
 }

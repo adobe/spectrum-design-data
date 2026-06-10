@@ -9,67 +9,169 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
   },
-  "options": {
-    "label": {
-      "type": "string"
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Number fields allow users to enter a numeric value, with optional increment and decrement buttons."
     },
+    {
+      "type": "guideline",
+      "content": "Number fields accept numeric inputs and allow values to be incremented or decremented. They are commonly used when a defined range or step value is required."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields can have optional stepper buttons to the side of the field. Regardless of if a number field has these buttons or not, is should always accommodate arrow key shortcuts to increase or decrease the number."
+    },
+    {
+      "type": "guideline",
+      "content": "If true, hides in-field increment and decrement buttons (stepper)."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields can be marked as optional or required, depending on the situation. For required number fields, there are two styling options: a “(required)” label or an asterisk. If you use an asterisk, be sure to include hint text to explain what the asterisk means. Optional number fields are either denoted with text added to the end of the label — “(optional)” — or have no indication at all."
+    },
+    {
+      "type": "guideline",
+      "content": "The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself."
+    },
+    {
+      "type": "guideline",
+      "content": "A number field can be marked as having an error to show that a value needs to be entered in order to move forward or that a value that was entered is invalid. For this component, an incorrect value should typically revert back to either the previously entered number or to the default value, rather than showing an error."
+    },
+    {
+      "type": "guideline",
+      "content": "A number field in a disabled state shows that an input exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that the field may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields should always have an accessible name, typically provided by a visible text label. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the visible label may be hidden or omitted. When no visible label is present, the input must still expose an accessible name (for example, in HTML via “aria-label” or “aria-labelledby,” and on other platforms via the platform’s accessible-name mechanism)."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields can show or hide the visible label."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels can be placed either on top or on the side,. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "The value shows a user’s entered text or a default value, plus the units of measurement, if applicable."
+    },
+    {
+      "type": "guideline",
+      "content": "A number field can be marked as having an error to show that a value needs to be entered in order to move forward or that a value that was entered is invalid. The error message communicates an error for when the field requirements aren’t met, prompting a user to adjust what they had originally input. If an error exists, the error icon always overrides the validation icon."
+    },
+    {
+      "type": "guideline",
+      "content": "When an error message is displayed, it replaces the help text. If an error exists, the error icon always overrides the validation icon."
+    },
+    {
+      "type": "guideline",
+      "content": "A number field can have help text below the field to give extra context or instruction about what a user should input in the field. The help text communicates a hint or helpful information, such as specific requirements for correctly filling out the field."
+    },
+    {
+      "type": "guideline",
+      "content": "Help text is replaced by error messages when validation fails."
+    },
+    {
+      "type": "guideline",
+      "content": "When the field label is too long for the available horizontal space, it wraps to form another line. The text inside the field truncates."
+    },
+    {
+      "type": "guideline",
+      "content": "When a number field presents multiple values that are not identical, the field should show an en dash (–)."
+    },
+    {
+      "type": "guideline",
+      "content": "When the help text is too long for the available horizontal space, it wraps to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields should always allow users to add, subtract, multiply, and divide, with the field automatically calculating the result."
+    },
+    {
+      "type": "guideline",
+      "content": "Number fields can include units of measurement in the value. When focused or entering text, the units disappear. When scrolling, the units stay. If a user enters a unit that does not match the unit that the field requires, the field should automatically calculate a conversion and display the input value in the correct unit."
+    },
+    {
+      "type": "guideline",
+      "content": "Choose a default value for a field to revert back to if an invalid entry is input. If a user enters a valid number and then enters an invalid number, revert to the most recent valid entry."
+    },
+    {
+      "type": "guideline",
+      "content": "Most number fields should have a label. A field without a label is ambiguous and not accessible. In rare cases where context is sufficient and a label could be absent, make sure to have the design reviewed and approved by an accessibility expert. These should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+    },
+    {
+      "type": "guideline",
+      "content": "Labels for number fields should be in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "When labeling number fields in a form, only mark the minority type—either required or optional—to reduce visual clutter:"
+    },
+    {
+      "type": "guideline",
+      "content": "Important: Never use an asterisk to indicate an optional number field."
+    },
+    {
+      "type": "guideline",
+      "content": "Putting instructions for how to complete an input, requirements, or any other essential information into placeholder text is not accessible, and should be avoided. Once a value is entered, placeholder text is no longer viewable; if someone is using an automatic form filler, they will never get the information in the placeholder text."
+    },
+    {
+      "type": "guideline",
+      "content": "Instead of placeholder text, choose a default value to include in the field in default state. Use the help text description to convey requirements or to show any formatting examples that would help user comprehension."
+    },
+    {
+      "type": "guideline",
+      "content": "The help text’s message should not simply restate the same information in the label in order to prompt someone to interact with it. Don’t add help text if it isn’t actually relevant or meaningful to a user in order to try to maintain layout continuity with other inputs that require help text."
+    },
+    {
+      "type": "guideline",
+      "content": "The help text area also displays an error message. When a number field already includes help text and an error is triggered, the help text is replaced with error text. Once the error is resolved, the help text description reappears below the field."
+    },
+    {
+      "type": "guideline",
+      "content": "Since one gets replaced by the other, the language of the help text and error text need to work together to convey the same messaging. Help text explains the requirement or adds supplementary context for how to successfully complete the input. Error text tells a user how to fix the error by re-stating the input requirements or describing the necessary interaction. Make sure that the help text and the error text include the same essential information so that it isn’t lost if one replaces the other like formatting requirements."
+    },
+    {
+      "type": "guideline",
+      "content": "Write error messaging in a human-centered way by guiding a user and showing them a solution — don’t simply state what’s wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user."
+    },
+    {
+      "type": "guideline",
+      "content": "Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. Never end with an exclamation point. For number fields, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate."
+    }
+  ],
+  "options": {
+    "label": { "type": "string" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [
-        {
-          "value": "top"
-        },
-        {
-          "value": "side"
-        }
-      ]
+      "values": [{ "value": "top" }, { "value": "side" }]
     },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isRequired": {
-      "type": "boolean",
-      "default": false
-    },
+    "hideLabel": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "isRequired": { "type": "boolean", "default": false },
     "necessityIndicator": {
       "type": "string",
       "default": "icon",
-      "values": [
-        {
-          "value": "text"
-        },
-        {
-          "value": "icon"
-        }
-      ]
+      "values": [{ "value": "text" }, { "value": "icon" }]
     },
     "hideStepper": {
       "type": "boolean",
@@ -78,27 +180,13 @@
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "focus-+-hover",
-      "trigger": "prop"
-    },
-    {
-      "name": "focus-+-not-hover",
-      "trigger": "prop"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "focus-+-hover", "trigger": "prop" },
+    { "name": "focus-+-not-hover", "trigger": "prop" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "in-field",
-      "context": "Components"
-    },
+    { "token": "in-field", "context": "Components" },
     {
       "token": "field-label-to-component",
       "context": "Spacing (field label to number field)"
@@ -123,18 +211,9 @@
       "token": "help-text-to-component",
       "context": "Spacing (number field to help text)"
     },
-    {
-      "token": "field-default-width-small",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-medium",
-      "context": "Width (default)"
-    },
-    {
-      "token": "field-default-width-large",
-      "context": "Width (default)"
-    },
+    { "token": "field-default-width-small", "context": "Width (default)" },
+    { "token": "field-default-width-medium", "context": "Width (default)" },
+    { "token": "field-default-width-large", "context": "Width (default)" },
     {
       "token": "field-default-width-extra-large",
       "context": "Width (default)"
@@ -159,38 +238,14 @@
       "token": "number-field-with-stepper-minimum-width-extra-large",
       "context": "Width (minimum)"
     },
-    {
-      "token": "component-height-75",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Height"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
+    { "token": "component-height-75", "context": "Height" },
+    { "token": "component-height-100", "context": "Height" },
+    { "token": "component-height-200", "context": "Height" },
+    { "token": "component-height-300", "context": "Height" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edge to value)"
@@ -239,38 +294,17 @@
       "token": "text-to-visual-300",
       "context": "Spacing (minimum, text to stepper)"
     },
-    {
-      "token": "border-width-200",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
+    { "token": "border-width-200", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
     {
       "token": "spacing-200",
       "context": "Spacing (minimum, field label to field)"
     },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Prefix min-width"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Prefix min-width"
-    },
+    { "token": "workflow-icon-size-75", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-100", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-200", "context": "Prefix min-width" },
+    { "token": "workflow-icon-size-300", "context": "Prefix min-width" },
     {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top/bottom edge to alert icon)"
@@ -319,158 +353,47 @@
       "token": "field-edge-to-alert-icon-extra-large",
       "context": "Spacing (alert icon to end edge)"
     },
-    {
-      "token": "gray-25",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-300",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-400",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-900",
-      "context": "Background and border"
-    },
-    {
-      "token": "gray-800",
-      "context": "Background and border"
-    },
-    {
-      "token": "negative-border-color-default",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-hover",
-      "context": "Border (error)"
-    },
+    { "token": "gray-25", "context": "Background and border" },
+    { "token": "gray-300", "context": "Background and border" },
+    { "token": "gray-400", "context": "Background and border" },
+    { "token": "gray-900", "context": "Background and border" },
+    { "token": "gray-800", "context": "Background and border" },
+    { "token": "negative-border-color-default", "context": "Border (error)" },
+    { "token": "negative-border-color-hover", "context": "Border (error)" },
     {
       "token": "negative-border-color-focus-hover",
       "context": "Border (error)"
     },
-    {
-      "token": "negative-border-color-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "negative-border-color-key-focus",
-      "context": "Border (error)"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus-hover",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-focus",
-      "context": "Value"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Value"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Alert icon"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-border-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "disabled-background-color",
-      "context": "Disabled"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "gray-600",
-      "context": "Leading icon"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Value"
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Value"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Value"
-    },
-    {
-      "token": "component-s-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-m-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-l-regular",
-      "context": "Value"
-    },
-    {
-      "token": "component-xl-regular",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-75",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-100",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-200",
-      "context": "Value"
-    },
-    {
-      "token": "line-height-font-size-300",
-      "context": "Value"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Value"
-    },
-    {
-      "token": "medium-font-weight",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-s-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-m-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-l-medium",
-      "context": "Prefix"
-    },
-    {
-      "token": "component-xl-medium",
-      "context": "Prefix"
-    },
+    { "token": "negative-border-color-focus", "context": "Border (error)" },
+    { "token": "negative-border-color-key-focus", "context": "Border (error)" },
+    { "token": "neutral-content-color-default", "context": "Value" },
+    { "token": "neutral-content-color-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus-hover", "context": "Value" },
+    { "token": "neutral-content-color-focus", "context": "Value" },
+    { "token": "neutral-content-color-key-focus", "context": "Value" },
+    { "token": "negative-visual-color", "context": "Alert icon" },
+    { "token": "disabled-content-color", "context": "Disabled" },
+    { "token": "disabled-border-color", "context": "Disabled" },
+    { "token": "disabled-background-color", "context": "Disabled" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "gray-600", "context": "Leading icon" },
+    { "token": "default-font-family", "context": "Value" },
+    { "token": "regular-font-weight", "context": "Value" },
+    { "token": "default-font-style", "context": "Value" },
+    { "token": "component-s-regular", "context": "Value" },
+    { "token": "component-m-regular", "context": "Value" },
+    { "token": "component-l-regular", "context": "Value" },
+    { "token": "component-xl-regular", "context": "Value" },
+    { "token": "line-height-font-size-75", "context": "Value" },
+    { "token": "line-height-font-size-100", "context": "Value" },
+    { "token": "line-height-font-size-200", "context": "Value" },
+    { "token": "line-height-font-size-300", "context": "Value" },
+    { "token": "cjk-line-height-100", "context": "Value" },
+    { "token": "medium-font-weight", "context": "Prefix" },
+    { "token": "component-s-medium", "context": "Prefix" },
+    { "token": "component-m-medium", "context": "Prefix" },
+    { "token": "component-l-medium", "context": "Prefix" },
+    { "token": "component-xl-medium", "context": "Prefix" },
     {
       "token": "component-padding-vertical-200",
       "context": "Spacing (top/bottom edge to text)"
@@ -487,10 +410,7 @@
       "token": "component-top-to-workflow-icon-400",
       "context": "Leading icon (top/bottom edge to leading icon)"
     },
-    {
-      "token": "positive-visual-color",
-      "context": "Positive icon"
-    }
+    { "token": "positive-visual-color", "context": "Positive icon" }
   ],
   "accessibility": {
     "role": "spinbutton",
@@ -498,21 +418,9 @@
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      {
-        "criterion": "1.3.1",
-        "level": "A",
-        "title": "Info and Relationships"
-      },
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

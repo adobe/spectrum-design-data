@@ -9,37 +9,71 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Alert dialogs display important information that users need to acknowledge. They appear over the interface and block further interactions until an action is selected."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs present critical information that must be acknowledged. They appear over the interface and block further interaction until an action is selected."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, an alert dialog that includes a button to cancel or go back will be labeled “Cancel.”"
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice."
+    },
+    {
+      "type": "guideline",
+      "content": "An alert dialog must include at least one button. The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means moving forward or dismissing the dialog."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the appropriate variant based on the context of the message:"
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs should include a description when available. The description briefly communicates any additional information or context a user needs to make a decision based on the options presented."
+    },
+    {
+      "type": "guideline",
+      "content": "All alert dialogs must have a title. The title appears at the top of the dialog and uses a few words to convey the outcome of what will happen if a user continues with the primary action."
+    },
+    {
+      "type": "guideline",
+      "content": "When the title and description text are too long for the available horizontal space, they wrap to form another line."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs are interruptive, so they should be reserved for important information that users must acknowledge before continuing a task or workflow. Use them only when absolutely necessary—not for low-priority notifications or excessive confirmations."
+    },
+    {
+      "type": "guideline",
+      "content": "Alert dialogs are designed to pause the experience until a decision is made, so only one should appear at a time. Avoid opening an alert dialog from within another. If a situation seems to require a sequence of decisions, consider using a different design pattern."
+    }
+  ],
   "options": {
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "confirmation",
       "values": [
-        {
-          "value": "confirmation"
-        },
-        {
-          "value": "information"
-        },
-        {
-          "value": "warning"
-        },
-        {
-          "value": "destructive"
-        },
-        {
-          "value": "error"
-        }
+        { "value": "confirmation" },
+        { "value": "information" },
+        { "value": "warning" },
+        { "value": "destructive" },
+        { "value": "error" }
       ]
     },
-    "primaryActionLabel": {
-      "type": "string"
-    },
+    "primaryActionLabel": { "type": "string" },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -50,114 +84,40 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "heading-sans-serif-font-family",
-      "context": "Title"
-    },
-    {
-      "token": "heading-sans-serif-font-weight",
-      "context": "Title"
-    },
-    {
-      "token": "heading-sans-serif-font-style",
-      "context": "Title"
-    },
-    {
-      "token": "alert-dialog-title-font-size",
-      "context": "Title"
-    },
-    {
-      "token": "heading-line-height",
-      "context": "Title"
-    },
-    {
-      "token": "heading-color",
-      "context": "Title"
-    },
-    {
-      "token": "body-sans-serif-font-family",
-      "context": "Description"
-    },
-    {
-      "token": "body-sans-serif-font-weight",
-      "context": "Description"
-    },
-    {
-      "token": "body-sans-serif-font-style",
-      "context": "Description"
-    },
-    {
-      "token": "alert-dialog-body-font-size",
-      "context": "Description"
-    },
-    {
-      "token": "line-height-200",
-      "context": "Description"
-    },
-    {
-      "token": "body-color",
-      "context": "Description"
-    },
-    {
-      "token": "alert-dialog-maximum-width",
-      "context": "Maximum width"
-    },
-    {
-      "token": "alert-dialog-minimum-width",
-      "context": "Minimum width"
-    },
-    {
-      "token": "corner-radius-extra-large-default",
-      "context": "Rounding"
-    },
-    {
-      "token": "spacing-500",
-      "context": "Spacing (edge to content)"
-    },
-    {
-      "token": "spacing-400",
-      "context": "Spacing (edge to content)"
-    },
+    { "token": "heading-sans-serif-font-family", "context": "Title" },
+    { "token": "heading-sans-serif-font-weight", "context": "Title" },
+    { "token": "heading-sans-serif-font-style", "context": "Title" },
+    { "token": "alert-dialog-title-font-size", "context": "Title" },
+    { "token": "heading-line-height", "context": "Title" },
+    { "token": "heading-color", "context": "Title" },
+    { "token": "body-sans-serif-font-family", "context": "Description" },
+    { "token": "body-sans-serif-font-weight", "context": "Description" },
+    { "token": "body-sans-serif-font-style", "context": "Description" },
+    { "token": "alert-dialog-body-font-size", "context": "Description" },
+    { "token": "line-height-200", "context": "Description" },
+    { "token": "body-color", "context": "Description" },
+    { "token": "alert-dialog-maximum-width", "context": "Maximum width" },
+    { "token": "alert-dialog-minimum-width", "context": "Minimum width" },
+    { "token": "corner-radius-extra-large-default", "context": "Rounding" },
+    { "token": "spacing-500", "context": "Spacing (edge to content)" },
+    { "token": "spacing-400", "context": "Spacing (edge to content)" },
     {
       "token": "alert-dialog-top-to-alert-icon",
       "context": "Icon asset (error and warning variants)"
     },
-    {
-      "token": "spacing-300",
-      "context": "Spacing (title to description)"
-    },
+    { "token": "spacing-300", "context": "Spacing (title to description)" },
     {
       "token": "workflow-icon-size-100",
       "context": "Icon (error and warning variants)"
     },
-    {
-      "token": "spacing-100",
-      "context": "Minimum spacing (title to icon)"
-    },
-    {
-      "token": "background-color-layer2",
-      "context": "Background"
-    },
-    {
-      "token": "overlay-color",
-      "context": "Overlay"
-    },
-    {
-      "token": "overlay-opacity",
-      "context": "Overlay"
-    },
-    {
-      "token": "notice-visual-color",
-      "context": "Icon (warning variant)"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Icon (error variant)"
-    }
+    { "token": "spacing-100", "context": "Minimum spacing (title to icon)" },
+    { "token": "background-color-layer2", "context": "Background" },
+    { "token": "overlay-color", "context": "Overlay" },
+    { "token": "overlay-opacity", "context": "Overlay" },
+    { "token": "notice-visual-color", "context": "Icon (warning variant)" },
+    { "token": "negative-visual-color", "context": "Icon (error variant)" }
   ],
   "accessibility": {
     "role": "dialog",
@@ -165,16 +125,8 @@
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      {
-        "criterion": "2.4.3",
-        "level": "A",
-        "title": "Focus Order"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

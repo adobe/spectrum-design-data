@@ -1098,7 +1098,6 @@ mod tests {
 
     #[test]
     fn fields_and_manifest_survive_blob_roundtrip() {
-        use crate::graph::FieldRecord;
         use std::io::Write;
         use tempfile::TempDir;
 

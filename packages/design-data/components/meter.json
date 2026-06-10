@@ -9,101 +9,86 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/meter/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Meters are visual representations of a quantity or an achievement. Their progress is determined by user actions, rather than system actions."
+    },
+    {
+      "type": "guideline",
+      "content": "A meter can include help text below it to explain what the value means and how to reach the target. This text may include units, value ranges, thresholds like targets or warnings, and actions that affect the meter."
+    },
+    {
+      "type": "guideline",
+      "content": "The value represents a user-driven quantity or achievement, such as tutorials completed or storage used. Unlike a progress bar, it reflects user actions, not system activity."
+    },
+    {
+      "type": "guideline",
+      "content": "Meters come in four different sizes: small, medium, large, and extra-large. By default, meters use medium size. Use the small size when there are multiple meters shown at the same time in a more confined space, such as in tables or cards."
+    },
+    {
+      "type": "guideline",
+      "content": "Meters can include a value label to show details like “60%” or “2 of 8.” It should only appear if the main label is shown and is always placed above the track."
+    },
+    {
+      "type": "guideline",
+      "content": "Meters should always have a label placed above the track. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These meters without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+    },
+    {
+      "type": "guideline",
+      "content": "Meter has four variants: informative, positive, notice, and negative."
+    },
+    {
+      "type": "guideline",
+      "content": "When the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the built-in style for showing a label associated with the meter. By default, the label is start-aligned and an optional value is end-aligned above the track. (In left-to-right languages, this means the label appears on the left and the value on the right; in right-to-left languages, this flips.) The label should be written in sentence case."
+    },
+    {
+      "type": "guideline",
+      "content": "Meter variants can be used to represent semantic values by switching variants as the value changes, from positive, to notice, and then to negative. This kind of variant switching should be handled appropriately within the context of your product so that you’re setting accurate expectations for your users about the semantic meaning."
+    }
+  ],
   "options": {
     "variant": {
       "type": "string",
       "default": "informative",
       "values": [
-        {
-          "value": "informative"
-        },
-        {
-          "value": "positive"
-        },
-        {
-          "value": "notice"
-        },
-        {
-          "value": "negative"
-        }
+        { "value": "informative" },
+        { "value": "positive" },
+        { "value": "notice" },
+        { "value": "negative" }
       ]
     },
-    "label": {
-      "type": "string"
-    },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
-    "valueLabel": {
-      "type": "string"
-    },
-    "width": {
-      "type": "number"
-    },
+    "label": { "type": "string" },
+    "hideLabel": { "type": "boolean", "default": false },
+    "valueLabel": { "type": "string" },
+    "width": { "type": "number" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "value": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1
-    },
-    "helpText": {
-      "type": "string"
-    }
+    "value": { "type": "number", "minimum": 0, "maximum": 1 },
+    "helpText": { "type": "string" }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "meter-minimum-width",
-      "context": "Minimum width"
-    },
-    {
-      "token": "meter-maximum-width",
-      "context": "Maximum width"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Text"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Text"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text"
-    },
+    { "token": "meter-minimum-width", "context": "Minimum width" },
+    { "token": "meter-maximum-width", "context": "Maximum width" },
+    { "token": "font-size-75", "context": "Text" },
+    { "token": "font-size-100", "context": "Text" },
+    { "token": "font-size-200", "context": "Text" },
+    { "token": "font-size-300", "context": "Text" },
+    { "token": "line-height-100", "context": "Text" },
+    { "token": "cjk-line-height-100", "context": "Text" },
     {
       "token": "spacing-75",
       "context": "Spacing (field label to progress bar)"
@@ -128,42 +113,18 @@
       "token": "spacing-200",
       "context": "Minimum spacing (field label to text)"
     },
-    {
-      "token": "meter-thickness-small",
-      "context": "Meter (thickness)"
-    },
-    {
-      "token": "meter-thickness-medium",
-      "context": "Meter (thickness)"
-    },
-    {
-      "token": "meter-thickness-large",
-      "context": "Meter (thickness)"
-    },
-    {
-      "token": "meter-thickness-extra-large",
-      "context": "Meter (thickness)"
-    },
-    {
-      "token": "corner-radius-full",
-      "context": "Meter (rounding)"
-    },
-    {
-      "token": "neutral-subdued-content-color-default",
-      "context": "Text"
-    },
-    {
-      "token": "track-color",
-      "context": "Track and indicator"
-    },
+    { "token": "meter-thickness-small", "context": "Meter (thickness)" },
+    { "token": "meter-thickness-medium", "context": "Meter (thickness)" },
+    { "token": "meter-thickness-large", "context": "Meter (thickness)" },
+    { "token": "meter-thickness-extra-large", "context": "Meter (thickness)" },
+    { "token": "corner-radius-full", "context": "Meter (rounding)" },
+    { "token": "neutral-subdued-content-color-default", "context": "Text" },
+    { "token": "track-color", "context": "Track and indicator" },
     {
       "token": "accent-content-color-default",
       "context": "Track and indicator"
     },
-    {
-      "token": "static-black-text-color",
-      "context": "Text (black)"
-    },
+    { "token": "static-black-text-color", "context": "Text (black)" },
     {
       "token": "static-black-track-color",
       "context": "Track and indicator (black)"
@@ -172,10 +133,7 @@
       "token": "static-black-track-indicator-color",
       "context": "Track and indicator (black)"
     },
-    {
-      "token": "static-white-text-color",
-      "context": "Text (white)"
-    },
+    { "token": "static-white-text-color", "context": "Text (white)" },
     {
       "token": "static-white-track-color",
       "context": "Track and indicator (white)"
@@ -189,11 +147,7 @@
     "role": "meter",
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

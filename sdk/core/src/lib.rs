@@ -460,7 +460,7 @@ mod validation_conformance {
     use regex::Regex;
     use serde_json::Value;
 
-    use crate::graph::{ComponentRecord, ModeSetRecord, TokenGraph};
+    use crate::graph::{ComponentRecord, GuidelineRecord, ModeSetRecord, TokenGraph};
     use crate::naming::NamingExceptionsFile;
     use crate::report::Severity;
     use crate::validate::rules::{default_rules, run_rules};
@@ -560,6 +560,21 @@ mod validation_conformance {
                 })
                 .collect();
             graph = graph.with_mode_sets(ms_records);
+        }
+
+        if let Some(guidelines) = dataset.get("guidelines").and_then(|v| v.as_array()) {
+            let guideline_records: Vec<GuidelineRecord> = guidelines
+                .iter()
+                .filter_map(|v| {
+                    let name = v.get("name")?.as_str()?.to_string();
+                    Some(GuidelineRecord {
+                        name,
+                        file: std::path::PathBuf::from("dataset.json"),
+                        raw: v.clone(),
+                    })
+                })
+                .collect();
+            graph = graph.with_guidelines(guideline_records);
         }
 
         graph

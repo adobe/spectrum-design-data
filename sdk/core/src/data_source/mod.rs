@@ -174,6 +174,8 @@ pub struct ResolvedData {
     pub components: Option<PathBuf>,
     /// Directory containing taxonomy field JSONs.
     pub fields: Option<PathBuf>,
+    /// Directory containing guideline document JSONs.
+    pub guidelines: Option<PathBuf>,
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
     /// Build `manifest.json` path (the token-source file list, not the platform manifest).
@@ -401,6 +403,11 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         c.is_dir().then_some(c)
     });
 
+    let guidelines = {
+        let c = root.join("packages/design-data/guidelines");
+        c.is_dir().then_some(c)
+    };
+
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let c = root.join("packages/tokens/naming-exceptions.json");
         c.is_file().then_some(c)
@@ -417,6 +424,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         mode_sets,
         components,
         fields,
+        guidelines,
         exceptions,
         manifest,
         platform_manifest: None,
@@ -495,6 +503,15 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         candidates.into_iter().find(|c| c.is_dir())
     });
 
+    // guidelines
+    let guidelines = {
+        let candidates = [
+            cwd.join("packages/design-data/guidelines"),
+            cwd.join("../packages/design-data/guidelines"),
+        ];
+        candidates.into_iter().find(|c| c.is_dir())
+    };
+
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let candidates = [
@@ -519,6 +536,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         mode_sets,
         components,
         fields,
+        guidelines,
         exceptions,
         manifest,
         platform_manifest: None,

@@ -25,14 +25,14 @@
 //!   packages/
 //!     design-data/
 //!       tokens/         ← cascade-format token JSON files (*.tokens.json)
+//!       components/
+//!       fields/
+//!       guidelines/     ← structured guideline documents (*.json + manifest.json)
+//!       mode-sets/
 //!     tokens/
 //!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
 //!       manifest.json
-//!     design-data/
-//!       components/
-//!       fields/
-//!       mode-sets/
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!
@@ -68,6 +68,10 @@ static COMPONENTS: Dir<'_> =
 /// Taxonomy field JSONs (`packages/design-data/fields/`, 24 files, ~96 KB).
 static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/fields");
 
+/// Guideline documents (`packages/design-data/guidelines/`, 25 files + manifest.json).
+static GUIDELINES: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
+
 /// Naming exceptions list (`packages/tokens/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -88,8 +92,7 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
 /// The `@adobe/spectrum-design-data` (cascade) version baked into this binary.
 ///
 /// Kept in sync with `packages/design-data/package.json` via a drift test.
-/// When bumping the cascade data package, update this constant too.
-pub const EMBEDDED_DATA_VERSION: &str = "0.3.0";
+pub const EMBEDDED_DATA_VERSION: &str = "0.5.0";
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -174,6 +177,7 @@ fn evict_stale_versions(current: &Path) {
 /// - `<root>/packages/design-data/mode-sets/`
 /// - `<root>/packages/design-data/components/`
 /// - `<root>/packages/design-data/fields/`
+/// - `<root>/packages/design-data/guidelines/`
 /// - `<root>/.complete`
 ///
 /// # Errors
@@ -207,6 +211,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         &tmp.join("packages/design-data/components"),
     )?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
+    extract(&GUIDELINES, &tmp.join("packages/design-data/guidelines"))?;
 
     write_file(
         &tmp.join("packages/tokens/naming-exceptions.json"),
@@ -293,6 +298,10 @@ mod tests {
             "fields missing"
         );
         assert!(
+            root.join("packages/design-data/guidelines").is_dir(),
+            "guidelines missing"
+        );
+        assert!(
             root.join("packages/tokens/naming-exceptions.json")
                 .is_file(),
             "naming-exceptions.json missing"
@@ -357,6 +366,29 @@ mod tests {
         assert!(
             !schemas.is_empty(),
             "token-types/ should contain at least one JSON schema"
+        );
+    }
+
+    #[test]
+    fn materialize_guidelines_count() {
+        // Regression guard: if a guideline is added to or removed from
+        // packages/design-data/guidelines/, this test fails deliberately.
+        // Update the expected count when you've intentionally changed the set.
+        // manifest.json is excluded — it is not a guideline document.
+        let (_tmp, root) = temp_root();
+        let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))
+            .unwrap()
+            .flatten()
+            .filter(|e| {
+                e.path().extension().is_some_and(|x| x == "json")
+                    && e.file_name() != "manifest.json"
+            })
+            .collect();
+        assert_eq!(
+            guidelines.len(),
+            25,
+            "expected 25 guideline documents — update this count if you've added/removed \
+             files from packages/design-data/guidelines/"
         );
     }
 

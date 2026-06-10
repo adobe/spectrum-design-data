@@ -78,6 +78,14 @@ pub struct ComponentRecord {
     pub raw: Value,
 }
 
+/// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct GuidelineRecord {
+    pub name: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
@@ -109,6 +117,8 @@ pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub mode_sets: Vec<ModeSetRecord>,
     pub components: Vec<ComponentRecord>,
+    /// Guideline documents from the spec `guidelines/` catalog.
+    pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
     pub fields: Vec<FieldRecord>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
@@ -519,6 +529,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            guidelines: Vec::new(),
             fields: Vec::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
@@ -565,6 +576,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            guidelines: Vec::new(),
             fields: Vec::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
@@ -972,6 +984,34 @@ impl TokenGraph {
     /// Attach component records loaded from a components directory.
     pub fn with_components(mut self, components: Vec<ComponentRecord>) -> Self {
         self.components = components;
+        self
+    }
+
+    /// Load spec-format guideline documents from a catalog directory.
+    ///
+    /// Each file must be a JSON object with a `name` field (guideline slug).
+    /// Silently skips files that do not match this shape (e.g. `manifest.json`).
+    pub fn load_spec_guidelines(dir: &Path) -> Result<Vec<GuidelineRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(obj) = value.as_object() {
+                if let Some(name) = obj.get("name").and_then(|v| v.as_str()) {
+                    out.push(GuidelineRecord {
+                        name: name.to_string(),
+                        file: path,
+                        raw: value,
+                    });
+                }
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach guideline records loaded from a guidelines directory.
+    pub fn with_guidelines(mut self, guidelines: Vec<GuidelineRecord>) -> Self {
+        self.guidelines = guidelines;
         self
     }
 

@@ -9,14 +9,47 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-button/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Action buttons perform tasks or mark selections. They're suited for task-based workflows where buttons don't need to draw attention."
+    },
+    {
+      "type": "guideline",
+      "content": "Text overflow.\n\nWhen the action button text is too long for the available horizontal space, it truncates at the end. The full text should be revealed with a tooltip on hover."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nAn action button can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Use tooltips.\n\nIcon-only action buttons can be hard to identify. They should always show a tooltip upon hovering for a short period of time, displaying the name and possibly a keyboard shortcut."
+    },
+    {
+      "type": "guideline",
+      "content": "Isolated action buttons.\n\nIf you have an icon-only or text-only isolated action button, use the standard style to make sure it's more easily identifiable as a button."
+    },
+    {
+      "type": "guideline",
+      "content": "Only group related actions with a hold icon.\n\nWhen using a hold icon to switch actions, only group the actions that are part of the same family. Don't group unrelated actions just for the sake of saving space."
+    },
+    {
+      "type": "guideline",
+      "content": "Respect hold icon placement.\n\nIn left-to-right interfaces, the hold icon is always in the bottom right corner of the action button. It's a symbolic indicator that shows that a popover menu will appear on hold. Don't change the placement of the hold icon based on the design of the interface."
+    },
+    {
+      "type": "guideline",
+      "content": "When to use static black and static white.\n\nTo ensure maximum contrast with the background, use static black for light backgrounds and images, and use static white for dark backgrounds and images. Avoid placing static components on top of busy images with a lot of variance in contrast."
+    },
+    {
+      "type": "guideline",
+      "content": "Selected state text color.\n\nThe text color on the selected state of the over-background variant can be customized to match the background it's on. Use the background color for selected text when the action button is on a solid color, and is dark enough to meet a 4.5:1 contrast ratio with a white background (or black background, for the static black variant).\n\nUse black text when the button is on top of an image, or if the background is too low-contrast to meet the 4.5:1 contrast ratio."
+    }
+  ],
   "options": {
-    "label": {
-      "type": "string"
-    },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
+    "label": { "type": "string" },
+    "hideLabel": { "type": "boolean", "default": false },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
@@ -25,97 +58,39 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
+    "isQuiet": { "type": "boolean", "default": false },
+    "isSelected": { "type": "boolean", "default": false },
+    "isEmphasized": { "type": "boolean", "default": false },
     "staticColor": {
       "type": "string",
       "description": "Static color must not be set for the default version of this component.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     },
     "selectedTextColor": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     },
-    "hasHoldIcon": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "hasHoldIcon": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-50",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-75",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Height"
-    },
-    {
-      "token": "component-height-300",
-      "context": "Height"
-    },
+    { "token": "component-height-50", "context": "Height" },
+    { "token": "component-height-75", "context": "Height" },
+    { "token": "component-height-100", "context": "Height" },
+    { "token": "component-height-200", "context": "Height" },
+    { "token": "component-height-300", "context": "Height" },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -128,66 +103,21 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    {
-      "token": "corner-radius-medium-size-extra-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-extra-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "workflow-icon-size-50",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-300",
-      "context": "Icon"
-    },
-    {
-      "token": "text-to-visual-50",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (icon to label)"
-    },
-    {
-      "token": "text-to-visual-300",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "corner-radius-medium-size-extra-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
+    { "token": "workflow-icon-size-50", "context": "Icon" },
+    { "token": "workflow-icon-size-75", "context": "Icon" },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "workflow-icon-size-200", "context": "Icon" },
+    { "token": "workflow-icon-size-300", "context": "Icon" },
+    { "token": "text-to-visual-50", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-75", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-200", "context": "Spacing (icon to label)" },
+    { "token": "text-to-visual-300", "context": "Spacing (icon to label)" },
     {
       "token": "component-edge-to-visual-50",
       "context": "Spacing (start/end edges)"
@@ -288,14 +218,8 @@
       "token": "component-top-to-text-300",
       "context": "Spacing (top edge to label)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus ring"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus ring"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus ring" },
+    { "token": "focus-indicator-gap", "context": "Focus ring" },
     {
       "token": "action-button-edge-to-hold-icon-extra-small",
       "context": "Spacing (edge to hold icon)"
@@ -316,54 +240,18 @@
       "token": "action-button-edge-to-hold-icon-extra-large",
       "context": "Spacing (edge to hold icon)"
     },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "medium-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-50",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-300",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "gray-100",
-      "context": "Background "
-    },
-    {
-      "token": "gray-200",
-      "context": "Background "
-    },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "medium-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-50", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "font-size-100", "context": "Label" },
+    { "token": "font-size-200", "context": "Label" },
+    { "token": "font-size-300", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" },
+    { "token": "gray-100", "context": "Background " },
+    { "token": "gray-200", "context": "Background " },
     {
       "token": "neutral-content-color-default",
       "context": "Label, icon, and hold icon"
@@ -428,18 +316,9 @@
       "token": "disabled-content-color",
       "context": "Label, icon, and hold icon (disabled)"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "transparent-white-100",
-      "context": "Background "
-    },
-    {
-      "token": "transparent-white-200",
-      "context": "Background "
-    },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "transparent-white-100", "context": "Background " },
+    { "token": "transparent-white-200", "context": "Background " },
     {
       "token": "transparent-white-800",
       "context": "Label, icon, and hold icon"
@@ -468,14 +347,8 @@
       "token": "static-white-focus-indicator-color",
       "context": "Focus ring (white)"
     },
-    {
-      "token": "transparent-black-100",
-      "context": "Background "
-    },
-    {
-      "token": "transparent-black-200",
-      "context": "Background "
-    },
+    { "token": "transparent-black-100", "context": "Background " },
+    { "token": "transparent-black-200", "context": "Background " },
     {
       "token": "transparent-black-800",
       "context": "Label, icon, and hold icon"
@@ -507,16 +380,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

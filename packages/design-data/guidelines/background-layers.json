@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/background-layers.json",
+  "name": "background-layers",
+  "title": "Background layers",
+  "category": "designing",
+  "documentBlocks": [
+    {
+      "type": "guideline",
+      "content": "Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content."
+    },
+    {
+      "type": "guideline",
+      "content": "Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation."
+    },
+    {
+      "type": "guideline",
+      "content": "The pasteboard has a dedicated background layer. This is because no components are placed directly on top of it, with the exception of an artboard (which uses a white background color). Other components should be placed on a layer 1, layer 2, or elevated background."
+    },
+    {
+      "type": "guideline",
+      "content": "This example shows an editing application using background layer 2 for both the artboard and the app frame. An elevated background is used for a floating toolbar, which appears on top of the canvas."
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum 2 uses gray-25 as the base background color to draw attention to the primary content of a page. Using gray-25 allows for higher contrast between the background and content, and it provides a blank canvas for more vibrant colors."
+    },
+    {
+      "type": "guideline",
+      "content": "In dark theme, the primary background (using the background base layer) is the darkest color. This allows for more flexibility for the grays that are layered on top of it, and provides contrast for more vibrant user-created content."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/background-layers/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["designing"],
+  "related": [
+    { "ref": "colors", "kind": "guideline" },
+    { "ref": "typography-fundamentals", "kind": "guideline" }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/app-frame-side-navigation.json",
+  "name": "app-frame-side-navigation",
+  "title": "App frame side navigation (browsing context)",
+  "category": "designing",
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "App frame side navigation (browsing context)"
+    },
+    {
+      "type": "guideline",
+      "content": "The side navigation is always used in partnership with the header, and never instead of it. When used, the side navigation holds the main categories of product functionality, such as workflow-related navigational items (e.g., Home, Files, Learn, Dashboards). Don’t use this for categorizing marketing pages."
+    },
+    {
+      "type": "guideline",
+      "content": "Side navigation consists of a few parts:"
+    },
+    {
+      "type": "guideline",
+      "content": "Additionally, this button should not be used outside of the app frame context. It has unique animations between expanding and collapsing that are optimized for the app frame side navigation panel."
+    },
+    {
+      "type": "guideline",
+      "content": "Allows the side navigation to be minimized by the user."
+    },
+    {
+      "type": "guideline",
+      "content": "The partial style displays icon-only side navigation items when minimized. The full style hides the side navigation when minimized."
+    },
+    {
+      "type": "guideline",
+      "content": "Shows a create button at the top of the panel."
+    },
+    { "type": "guideline", "content": "Enables drag on the side navigation." },
+    {
+      "type": "guideline",
+      "content": "If the side navigation panel can be minimized (Can be minimized: true), dragging to the min width (expanded) will collapse the side navigation into the minimized state."
+    },
+    {
+      "type": "guideline",
+      "content": "The minimum width that the side navigation panel can be adjusted to."
+    },
+    {
+      "type": "guideline",
+      "content": "The default width that the side navigation panel appears in."
+    },
+    {
+      "type": "guideline",
+      "content": "The text that is displayed as the label of the app frame side navigation item, to supplement the icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Hides the label, making the app frame side navigation item icon-only."
+    },
+    {
+      "type": "guideline",
+      "content": "The number of lines that is shown before the label is truncated."
+    },
+    {
+      "type": "guideline",
+      "content": "After the user clicks on an app frame side navigation item, the left visual bar will turn gray-800, text will bold, and color will change to content-neutral."
+    },
+    {
+      "type": "guideline",
+      "content": "Changes the side navigation item to the disabled state."
+    },
+    {
+      "type": "guideline",
+      "content": "The text that is displayed as the label of the tooltip."
+    },
+    {
+      "type": "guideline",
+      "content": "Use the overlay variant of the app frame: side navigation (browsing) component for smaller breakpoints. The overlay is triggered via the hamburger menu in the header (rather than a touchpoint at the bottom)."
+    },
+    {
+      "type": "guideline",
+      "content": "Although 768 px is the recommended breakpoint to begin displaying the overlay designs, each product team should determine which breakpoint best suits their needs."
+    },
+    {
+      "type": "guideline",
+      "content": "The divider at the bottom of the side navigation is an intentional visual element that separates overflow side navigation items and end section items from the state control icon."
+    },
+    {
+      "type": "guideline",
+      "content": "The end section is optional and used to contain navigation items in a separate category that is secondary to the main navigation items. Categories, when defined, should readily communicate a clear purpose and be meaningful to users. Items placed here sit on a separate area. When resized to a smaller height, the items should append onto the start section and scroll together."
+    },
+    {
+      "type": "guideline",
+      "content": "The minimum width is customizable, depending on the number of levels:"
+    },
+    {
+      "type": "guideline",
+      "content": "If the side navigation contains user-generated content (like shortcuts to folders and files), enabling resizing can be a good way to improve usability by respecting user content, without needing to predict the length of labels that users might input."
+    },
+    {
+      "type": "guideline",
+      "content": "Along with being descriptive, the labels of navigation items should be succinct. Keep navigation strings to 1 or 2 and no more than 3 concise words (in U.S. English, which is the source locale). Reduce any unnecessary words in order to ensure simplicity."
+    },
+    {
+      "type": "guideline",
+      "content": "Navigation items should never be so long that they require truncation, except in instances where navigation is user-generated (e.g., folder and file names)."
+    },
+    {
+      "type": "guideline",
+      "content": "If possible, the default width should auto-adjust to the longest string in the navigation in order to accommodate all translations. As a last resort for long strings, specific line breaks can be built into the implementation. These line breaks depend on the content, and requires manual handling by Globalization engineers."
+    },
+    {
+      "type": "guideline",
+      "content": "When navigation items are shown in both the side navigation and header at the same time, the hierarchy and relationships between them become unclear. If the side navigation is used, don’t put any navigation items in the header."
+    },
+    {
+      "type": "guideline",
+      "content": "Supporting multiple states (default, and partial or fully minimized style) provides users with the option to choose their preferred layout based on their own preferences. In user studies, individual preference is the biggest factor when it comes to whether or not people want to view labels by default."
+    },
+    {
+      "type": "guideline",
+      "content": "If supporting multiple states, consider showing the side navigation in the expanded state by default, and preserve user preferences across pages and sessions. If minimizing the side navigation is not supported, show the side navigation in the expanded state. Showing labels by default increases recognition and familiarity."
+    },
+    {
+      "type": "guideline",
+      "content": "There are some app frame-specific constraints for the side navigation. Icons are required at the parent level. Nested items can have no icon, but the parent level must have an icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Diagram describing notes about the side navigation for the app frame, in the editing context. While toolbars share the same location as the app frame side navigation in a browsing context, toolbars in an editing context serve a different purpose: to readily select commonly used tools, rather than to navigate between pages. The behavior and interaction of toolbars doesn’t need to mirror the side navigation and should instead best serve user needs in an editing context. For example, the option to show and hide tool labels can be an additional customization option and doesn’t need to be controlled by the hamburger menu, which is used to display the application menu in Creative Cloud."
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-side-navigation/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["designing"],
+  "related": [
+    { "ref": "s2-app-frame-header-browsing-context", "kind": "guideline" },
+    { "ref": "s2-app-frame-content-area-browsing-context", "kind": "guideline" }
+  ]
+}

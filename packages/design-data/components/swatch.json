@@ -9,6 +9,40 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
   },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A swatch shows a small sample of a fill — such as a color, gradient, texture, or material — that is intended to be applied to an object."
+    },
+    {
+      "type": "guideline",
+      "content": "The preview shows the sample of the fill that the swatch represents. This property can be a color, gradient, texture, or material. The exact format this property takes will depend on implementation. Some examples of the format include color values, image, canvas, and gradient."
+    },
+    {
+      "type": "guideline",
+      "content": "Swatches come in four different sizes: extra-small, small, medium, and large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+    },
+    {
+      "type": "guideline",
+      "content": "By default, swatches have partial rounding. There are 3 options for a swatch’s rounding: none, partial rounding, and full rounding."
+    },
+    {
+      "type": "guideline",
+      "content": "A swatch can have a selected state to allow for selection. This is often used in a swatch group."
+    },
+    {
+      "type": "guideline",
+      "content": "A swatch in a disabled state shows that the swatch exists, but is not available in that circumstance. This state can be used to maintain layout continuity and to communicate that a swatch may become available later. Disabled swatches should be used with caution."
+    },
+    {
+      "type": "guideline",
+      "content": "A swatch can be navigated using a keyboard. The keyboard focus state adds a blue ring to the swatch in focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Even though swatches can have a disabled state, hiding unavailable swatches reduces visual clutter and eases cognitive load. Only show disabled swatches if hiding them would cause confusion to your users."
+    }
+  ],
   "options": {
     "preview": {
       "type": "string",
@@ -18,123 +52,55 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" }
       ]
     },
     "shape": {
       "type": "string",
       "default": "square",
-      "values": [
-        {
-          "value": "square"
-        },
-        {
-          "value": "rectangle"
-        }
-      ]
+      "values": [{ "value": "square" }, { "value": "rectangle" }]
     },
     "cornerRounding": {
       "type": "string",
       "default": "none",
       "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "partial"
-        },
-        {
-          "value": "full"
-        }
+        { "value": "none" },
+        { "value": "partial" },
+        { "value": "full" }
       ]
     },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isSelected": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "swatch-size-extra-small",
-      "context": "Size (square)"
-    },
-    {
-      "token": "swatch-size-small",
-      "context": "Size (square)"
-    },
-    {
-      "token": "swatch-size-medium",
-      "context": "Size (square)"
-    },
-    {
-      "token": "swatch-size-large",
-      "context": "Size (square)"
-    },
+    { "token": "swatch-size-extra-small", "context": "Size (square)" },
+    { "token": "swatch-size-small", "context": "Size (square)" },
+    { "token": "swatch-size-medium", "context": "Size (square)" },
+    { "token": "swatch-size-large", "context": "Size (square)" },
     {
       "token": "swatch-rectangle-width-multiplier",
       "context": "Width (rectangle)"
     },
-    {
-      "token": "corner-radius-75",
-      "context": "Rounding"
-    },
-    {
-      "token": "border-width-100",
-      "context": "Border"
-    },
+    { "token": "corner-radius-75", "context": "Rounding" },
+    { "token": "border-width-100", "context": "Border" },
     {
       "token": "border-width-200",
       "context": "Border and inner border (selected)"
     },
-    {
-      "token": "workflow-icon-size-50",
-      "context": "Disabled icon asset"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Disabled icon asset"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Disabled icon asset"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Disabled icon asset"
-    },
+    { "token": "workflow-icon-size-50", "context": "Disabled icon asset" },
+    { "token": "workflow-icon-size-75", "context": "Disabled icon asset" },
+    { "token": "workflow-icon-size-100", "context": "Disabled icon asset" },
+    { "token": "workflow-icon-size-200", "context": "Disabled icon asset" },
     {
       "token": "swatch-slash-thickness-extra-small",
       "context": "Slash thickness (empty)"
@@ -151,34 +117,13 @@
       "token": "swatch-slash-thickness-large",
       "context": "Slash thickness (empty)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus ring"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus ring"
-    },
-    {
-      "token": "spacing-75",
-      "context": "Spacing (Tooltip to Swatch)"
-    },
-    {
-      "token": "swatch-border-color",
-      "context": "Border"
-    },
-    {
-      "token": "swatch-border-opacity",
-      "context": "Border"
-    },
-    {
-      "token": "gray-1000",
-      "context": "Border and inner border (selected)"
-    },
-    {
-      "token": "gray-25",
-      "context": "Border and inner border (selected)"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus ring" },
+    { "token": "focus-indicator-gap", "context": "Focus ring" },
+    { "token": "spacing-75", "context": "Spacing (Tooltip to Swatch)" },
+    { "token": "swatch-border-color", "context": "Border" },
+    { "token": "swatch-border-opacity", "context": "Border" },
+    { "token": "gray-1000", "context": "Border and inner border (selected)" },
+    { "token": "gray-25", "context": "Border and inner border (selected)" },
     {
       "token": "swatch-disabled-icon-border-color",
       "context": "Disabled icon"
@@ -187,54 +132,22 @@
       "token": "swatch-disabled-icon-border-opacity",
       "context": "Disabled icon"
     },
-    {
-      "token": "white",
-      "context": "Disabled icon"
-    },
-    {
-      "token": "negative-visual-color",
-      "context": "Slash"
-    },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Dash UI icon"
-    },
-    {
-      "token": "gray-100",
-      "context": "Add “button” background"
-    },
-    {
-      "token": "gray-200",
-      "context": "Add “button” background"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus ring"
-    },
-    {
-      "token": "spacing-50",
-      "context": "Spacing (compact)"
-    },
-    {
-      "token": "spacing-100",
-      "context": "Spacing (spacious)"
-    }
+    { "token": "white", "context": "Disabled icon" },
+    { "token": "negative-visual-color", "context": "Slash" },
+    { "token": "neutral-content-color-default", "context": "Dash UI icon" },
+    { "token": "gray-100", "context": "Add “button” background" },
+    { "token": "gray-200", "context": "Add “button” background" },
+    { "token": "focus-indicator-color", "context": "Focus ring" },
+    { "token": "spacing-50", "context": "Spacing (compact)" },
+    { "token": "spacing-100", "context": "Spacing (spacious)" }
   ],
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

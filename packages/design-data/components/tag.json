@@ -9,81 +9,71 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/tag/"
   },
-  "options": {
-    "label": {
-      "type": "string"
-    },
-    "hasAvatar": {
-      "type": "boolean",
-      "default": false
-    },
-    "isRemovable": {
-      "type": "boolean",
-      "default": false
-    },
-    "isError": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isReadOnly": {
-      "type": "boolean",
-      "default": false
-    }
-  },
-  "states": [
+  "documentBlocks": [
     {
-      "name": "hover",
-      "trigger": "interaction"
+      "type": "purpose",
+      "content": "Tags allow users to categorize content. They can represent keywords or people, and are grouped to describe an item or a search request."
     },
     {
-      "name": "down",
-      "trigger": "interaction"
+      "type": "guideline",
+      "content": "Tags categorize content such as keywords or names. They’re often grouped to represent a search query or describe an item."
     },
     {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
+      "type": "guideline",
+      "content": "Tags should always include a label. These can represent search terms, filters, or keywords."
+    },
+    {
+      "type": "guideline",
+      "content": "Tags have the option to include an avatar in addition to the label. These should be used to represent entities."
+    },
+    {
+      "type": "guideline",
+      "content": "Tags have the option to be removable or not. Removable tags have a small close (“x”) button."
+    },
+    {
+      "type": "guideline",
+      "content": "A tag can be marked as having an error to show that it has become invalid."
+    },
+    {
+      "type": "guideline",
+      "content": "A tag in a disabled state shows that a tag exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that a tag may become available later."
+    },
+    {
+      "type": "guideline",
+      "content": "Tags have a read-only option for when content in the disabled state still needs to be shown. This allows for content to be copied, but not interacted with or changed."
+    },
+    {
+      "type": "guideline",
+      "content": "When the tag text is too long for the available horizontal space or when a tag reaches its maximum width, it truncates. Hovering over the tag shows a tooltip with the full text."
+    },
+    {
+      "type": "guideline",
+      "content": "A tag can either trigger navigation or filtering, or act as a dismissible chip. Combining both interactions disrupts focus order and accessibility states. Choose one behavior — navigation or dismissal — and apply it consistently."
     }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
+  "options": {
+    "label": { "type": "string" },
+    "hasAvatar": { "type": "boolean", "default": false },
+    "isRemovable": { "type": "boolean", "default": false },
+    "isError": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isReadOnly": { "type": "boolean", "default": false }
   },
+  "states": [
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "avatar-size-50",
-      "context": "Components"
-    },
-    {
-      "token": "avatar-size-100",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-50",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-75",
-      "context": "Components"
-    },
-    {
-      "token": "thumbnail-size-100",
-      "context": "Components"
-    },
-    {
-      "token": "component-height-75",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "component-height-200",
-      "context": "Minimum height"
-    },
+    { "token": "avatar-size-50", "context": "Components" },
+    { "token": "avatar-size-100", "context": "Components" },
+    { "token": "thumbnail-size-50", "context": "Components" },
+    { "token": "thumbnail-size-75", "context": "Components" },
+    { "token": "thumbnail-size-100", "context": "Components" },
+    { "token": "component-height-75", "context": "Minimum height" },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "component-height-200", "context": "Minimum height" },
     {
       "token": "tag-minimum-width-small",
       "context": "Minimum width (with label)"
@@ -112,42 +102,15 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    {
-      "token": "corner-radius-medium-size-small",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-medium",
-      "context": "Rounding"
-    },
-    {
-      "token": "corner-radius-medium-size-large",
-      "context": "Rounding"
-    },
-    {
-      "token": "workflow-icon-size-75",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "workflow-icon-size-200",
-      "context": "Icon"
-    },
-    {
-      "token": "cross-icon-size-75",
-      "context": "Cross icon"
-    },
-    {
-      "token": "cross-icon-size-100",
-      "context": "Cross icon"
-    },
-    {
-      "token": "cross-icon-size-200",
-      "context": "Cross icon"
-    },
+    { "token": "corner-radius-medium-size-small", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
+    { "token": "corner-radius-medium-size-large", "context": "Rounding" },
+    { "token": "workflow-icon-size-75", "context": "Icon" },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "workflow-icon-size-200", "context": "Icon" },
+    { "token": "cross-icon-size-75", "context": "Cross icon" },
+    { "token": "cross-icon-size-100", "context": "Cross icon" },
+    { "token": "cross-icon-size-200", "context": "Cross icon" },
     {
       "token": "component-edge-to-visual-75",
       "context": "Spacing (start/end edges)"
@@ -172,18 +135,9 @@
       "token": "component-edge-to-text-200",
       "context": "Spacing (start/end edges)"
     },
-    {
-      "token": "text-to-visual-75",
-      "context": "Spacing (visual to label)"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (visual to label)"
-    },
-    {
-      "token": "text-to-visual-200",
-      "context": "Spacing (visual to label)"
-    },
+    { "token": "text-to-visual-75", "context": "Spacing (visual to label)" },
+    { "token": "text-to-visual-100", "context": "Spacing (visual to label)" },
+    { "token": "text-to-visual-200", "context": "Spacing (visual to label)" },
     {
       "token": "tag-label-to-clear-icon-small",
       "context": "Spacing (label to cross icon)"
@@ -256,66 +210,21 @@
       "token": "tag-top-to-cross-icon-large",
       "context": "Spacing (top/bottom edge to cross icon)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Label"
-    },
-    {
-      "token": "medium-font-weight",
-      "context": "Label"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-75",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Label"
-    },
-    {
-      "token": "font-size-200",
-      "context": "Label"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Label"
-    },
-    {
-      "token": "accent-background-color-default",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-hover",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-down",
-      "context": "Background"
-    },
-    {
-      "token": "accent-background-color-key-focus",
-      "context": "Background"
-    },
-    {
-      "token": "white",
-      "context": "Icon and Clear icon"
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "default-font-family", "context": "Label" },
+    { "token": "medium-font-weight", "context": "Label" },
+    { "token": "default-font-style", "context": "Label" },
+    { "token": "font-size-75", "context": "Label" },
+    { "token": "font-size-100", "context": "Label" },
+    { "token": "font-size-200", "context": "Label" },
+    { "token": "line-height-100", "context": "Label" },
+    { "token": "cjk-line-height-100", "context": "Label" },
+    { "token": "accent-background-color-default", "context": "Background" },
+    { "token": "accent-background-color-hover", "context": "Background" },
+    { "token": "accent-background-color-down", "context": "Background" },
+    { "token": "accent-background-color-key-focus", "context": "Background" },
+    { "token": "white", "context": "Icon and Clear icon" },
     {
       "token": "neutral-selected-background-color-default",
       "context": "Background"
@@ -332,18 +241,9 @@
       "token": "neutral-selected-background-color-key-focus",
       "context": "Background"
     },
-    {
-      "token": "gray-25",
-      "context": "Icon and Clear icon"
-    },
-    {
-      "token": "gray-100",
-      "context": "Background"
-    },
-    {
-      "token": "gray-200",
-      "context": "Background"
-    },
+    { "token": "gray-25", "context": "Icon and Clear icon" },
+    { "token": "gray-100", "context": "Background" },
+    { "token": "gray-200", "context": "Background" },
     {
       "token": "neutral-content-color-default",
       "context": "Icon and Clear icon and Label"
@@ -360,34 +260,17 @@
       "token": "neutral-content-color-key-focus",
       "context": "Icon and Clear icon and Label"
     },
-    {
-      "token": "disabled-background-color",
-      "context": "Fill"
-    },
-    {
-      "token": "disabled-content-color",
-      "context": "Icon and Clear icon"
-    },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    }
+    { "token": "disabled-background-color", "context": "Fill" },
+    { "token": "disabled-content-color", "context": "Icon and Clear icon" },
+    { "token": "focus-indicator-color", "context": "Focus indicator" }
   ],
   "accessibility": {
     "intents": ["dismiss"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }
