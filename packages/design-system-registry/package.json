@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-system-registry",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "DEPRECATED — registry data and API have moved to @adobe/spectrum-design-data. This package is a thin compatibility shim.",
   "type": "module",
   "main": "index.js",
