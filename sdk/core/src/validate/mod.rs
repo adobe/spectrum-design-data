@@ -216,6 +216,7 @@ pub fn validate_catalog_dir(
         .filter_map(|e| e.ok())
         .map(|e| e.path())
         .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("json"))
+        .filter(|p| p.file_name().and_then(|n| n.to_str()) != Some("manifest.json"))
         .collect();
     entries.sort();
 
