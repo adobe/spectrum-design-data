@@ -161,7 +161,7 @@
   "status": "published",
   "tags": ["designing"],
   "related": [
-    { "ref": "containers" },
-    { "ref": "s2-app-frame-header-browsing-context" }
+    { "ref": "containers", "kind": "guideline" },
+    { "ref": "s2-app-frame-header-browsing-context", "kind": "guideline" }
   ]
 }

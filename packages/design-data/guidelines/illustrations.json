@@ -107,5 +107,8 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [{ "ref": "using-icons" }, { "ref": "motion" }]
+  "related": [
+    { "ref": "using-icons", "kind": "guideline" },
+    { "ref": "motion", "kind": "guideline" }
+  ]
 }

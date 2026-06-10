@@ -363,5 +363,10 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
     );
   }
 
-  return { blocks: dedupedBlocks, flags };
+  // Ensure purpose blocks always lead, regardless of where ## Overview appeared
+  // in the source document.  Preserves relative order within each group.
+  const purposeBlocks = dedupedBlocks.filter((b) => b.type === "purpose");
+  const restBlocks = dedupedBlocks.filter((b) => b.type !== "purpose");
+
+  return { blocks: [...purposeBlocks, ...restBlocks], flags };
 }

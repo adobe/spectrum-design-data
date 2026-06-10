@@ -41,6 +41,15 @@ export function buildGuideline(parsedDoc, slug, options = {}) {
     return { doc: null, blocks, flags, isStub: true };
   }
 
+  // Warn when category is absent in frontmatter so the review report surfaces it
+  // rather than silently emitting a potentially wrong "designing" default.
+  if (!frontmatter.category) {
+    flags.push(
+      `REVIEW: no "category" in frontmatter — defaulting to "designing". ` +
+        `Set category to one of: designing, fundamentals, developing, support.`,
+    );
+  }
+
   const doc = {
     $schema: GUIDELINE_SCHEMA,
     $id: `${GUIDELINE_ID_BASE}${slug}.json`,

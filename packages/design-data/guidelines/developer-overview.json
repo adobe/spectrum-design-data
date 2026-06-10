@@ -31,5 +31,8 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["developing"],
-  "related": [{ "ref": "motion" }, { "ref": "action-bar" }]
+  "related": [
+    { "ref": "motion", "kind": "guideline" },
+    { "ref": "action-bar", "kind": "component" }
+  ]
 }

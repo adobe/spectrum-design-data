@@ -34,5 +34,8 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [{ "ref": "colors" }, { "ref": "typography-fundamentals" }]
+  "related": [
+    { "ref": "colors", "kind": "guideline" },
+    { "ref": "typography-fundamentals", "kind": "guideline" }
+  ]
 }

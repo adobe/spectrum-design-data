@@ -6,6 +6,10 @@
   "category": "designing",
   "documentBlocks": [
     {
+      "type": "purpose",
+      "content": "Adding an extra shade in the low range allowed for us to make more incremental steps between background grays.\n\nThis update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.\n\nField borders are currently the only objects that stay gray-300 in the default state."
+    },
+    {
       "type": "guideline",
       "content": "Gray-100 was previously the default background color. With Spectrum 2, gray-25 is the new default background color, which makes the UI brighter and have higher contrast than before."
     },
@@ -52,15 +56,14 @@
     {
       "type": "guideline",
       "content": "Field borders are currently the only objects that stay gray-300 in the default state."
-    },
-    {
-      "type": "purpose",
-      "content": "Adding an extra shade in the low range allowed for us to make more incremental steps between background grays.\n\nThis update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.\n\nField borders are currently the only objects that stay gray-300 in the default state."
     }
   ],
   "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/grays/",
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [{ "ref": "attention-hierarchy" }, { "ref": "colors" }]
+  "related": [
+    { "ref": "attention-hierarchy", "kind": "guideline" },
+    { "ref": "colors", "kind": "guideline" }
+  ]
 }

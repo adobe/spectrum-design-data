@@ -6,6 +6,10 @@
   "category": "designing",
   "documentBlocks": [
     {
+      "type": "purpose",
+      "content": "The variable font (VF) is the default typeface for Spectrum 2 web, iOS, and future desktop explorations.\n\n\"There are two major updates, compared with Adobe Clean:\"\n\n\"In general:\"\n\nUpdated (\\*) means that these sizes didn't follow the Major Second type scale in Spectrum 1 and have now been updated to reflect the accurate values\n\nSpectrum 2 uses type styles to help maintain a consistent semantic meaning and create accessible, legible, and on-brand experiences across platforms.\n\nComponent is the type style that is applied to text within UI components.\n\nCode is a typography component used for text that represents code. The default font for showing code is Source Code Pro.\n\nIn this file browsing example, Heading, Title, Component, and Detail style text are used to create hierarchy throughout the page.\n\nIn this commenting example, Title, Body, Component, and Detail style text are used to create hierarchy within the comments panel."
+    },
+    {
       "type": "guideline",
       "content": "The variable font (VF) is the default typeface for Spectrum 2 web, iOS, and future desktop explorations."
     },
@@ -128,15 +132,14 @@
     {
       "type": "guideline",
       "content": "In instances where Spectrum’s typefaces might fail to load properly, there are defined fallback fonts that have been selected based on operating system consistency and similar anatomical relationships."
-    },
-    {
-      "type": "purpose",
-      "content": "The variable font (VF) is the default typeface for Spectrum 2 web, iOS, and future desktop explorations.\n\n\"There are two major updates, compared with Adobe Clean:\"\n\n\"In general:\"\n\nUpdated (\\*) means that these sizes didn't follow the Major Second type scale in Spectrum 1 and have now been updated to reflect the accurate values\n\nSpectrum 2 uses type styles to help maintain a consistent semantic meaning and create accessible, legible, and on-brand experiences across platforms.\n\nComponent is the type style that is applied to text within UI components.\n\nCode is a typography component used for text that represents code. The default font for showing code is Source Code Pro.\n\nIn this file browsing example, Heading, Title, Component, and Detail style text are used to create hierarchy throughout the page.\n\nIn this commenting example, Title, Body, Component, and Detail style text are used to create hierarchy within the comments panel."
     }
   ],
   "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/typography-fundamentals/",
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [{ "ref": "background-layers" }, { "ref": "fonts" }]
+  "related": [
+    { "ref": "background-layers", "kind": "guideline" },
+    { "ref": "fonts", "kind": "guideline" }
+  ]
 }

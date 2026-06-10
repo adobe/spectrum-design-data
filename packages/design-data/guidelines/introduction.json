@@ -27,5 +27,8 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["fundamentals"],
-  "related": [{ "ref": "home" }, { "ref": "principles" }]
+  "related": [
+    { "ref": "home", "kind": "guideline" },
+    { "ref": "principles", "kind": "guideline" }
+  ]
 }

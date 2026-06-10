@@ -233,3 +233,28 @@ test("buildGuideline defaults category to designing when frontmatter category ab
   t.truthy(doc);
   t.is(doc.category, "designing");
 });
+
+test("buildGuideline emits a REVIEW flag when frontmatter category is absent", (t) => {
+  const parsedDoc = makeDoc(
+    { title: "Unnamed" },
+    "# Unnamed\n\n## Overview\n\nGeneric content about something.",
+  );
+  const { flags } = buildGuideline(parsedDoc, "unnamed");
+  const categoryFlag = flags.find(
+    (f) => f.startsWith("REVIEW") && f.includes("category"),
+  );
+  t.truthy(
+    categoryFlag,
+    "should emit a REVIEW flag about the missing category",
+  );
+});
+
+test("buildGuideline does NOT emit a category flag when frontmatter category is set", (t) => {
+  const parsedDoc = makeDoc(
+    { title: "Colors", category: "designing" },
+    "# Colors\n\n## Overview\n\nThe color system.",
+  );
+  const { flags } = buildGuideline(parsedDoc, "colors");
+  const categoryFlag = flags.find((f) => f.includes("category"));
+  t.falsy(categoryFlag, "should not flag when category is explicitly set");
+});

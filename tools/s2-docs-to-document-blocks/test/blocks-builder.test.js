@@ -405,3 +405,58 @@ Badges are display elements, not actions. They should not behave like buttons or
   const { blocks } = buildBlocks(parseDoc(md));
   t.is(blocks.length, 2, "two distinct blocks should both be kept");
 });
+
+// ── buildBlocks — purpose-first ordering ─────────────────────────────────────
+
+test("buildBlocks moves purpose block first even when ## Overview appears mid-document", (t) => {
+  // Overview appears after ## Behaviors in the source — historically it was pushed
+  // in-place, so the purpose block ended up last.  The stable partition at the end
+  // of buildBlocks must hoist it to index 0.
+  const md = `---
+title: "Colors"
+---
+
+# Colors
+
+## Behaviors
+
+Use semantic color tokens rather than hard-coded hex values.
+
+## Overview
+
+The Spectrum 2 color system defines a perceptually balanced palette.
+`;
+  const { blocks } = buildBlocks(parseDoc(md));
+  t.true(blocks.length >= 2, "should have at least two blocks");
+  t.is(blocks[0].type, "purpose", "first block must be purpose");
+});
+
+test("buildBlocks keeps all purpose blocks before non-purpose blocks when multiple exist", (t) => {
+  // This is an edge case — in practice there is only one ## Overview per doc,
+  // but the invariant should hold regardless.
+  const md = `---
+title: "Multi"
+---
+
+# Multi
+
+## Behaviors
+
+First guideline content here.
+
+## Overview
+
+The overview text comes after behaviors in this source.
+`;
+  const { blocks } = buildBlocks(parseDoc(md));
+  const purposeIdx = blocks.map((b) => b.type).lastIndexOf("purpose");
+  const guidelineIdx = blocks.map((b) => b.type).indexOf("guideline");
+  if (purposeIdx !== -1 && guidelineIdx !== -1) {
+    t.true(
+      purposeIdx < guidelineIdx,
+      "all purpose blocks precede all guideline blocks",
+    );
+  } else {
+    t.pass("no mixed ordering to check");
+  }
+});

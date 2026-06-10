@@ -6,6 +6,10 @@
   "category": "designing",
   "documentBlocks": [
     {
+      "type": "purpose",
+      "content": "Once the color scale is determined, lightness stops are input for each color in order to get aliased colors.\n\nWe also needed a couple of darker shades to work for our data visualization palettes (available soon)."
+    },
+    {
       "type": "guideline",
       "content": "This update to the color palette improves how colors appear on the solid white primary background, includes brand colors in the palette, and makes our data visualization colors more color vision deficiency-safe."
     },
@@ -48,15 +52,14 @@
     {
       "type": "guideline",
       "content": "The color update for Spectrum 2 also aimed to fix some general issues with the previous color palette. Colors have become brighter and more saturated, contrast has been lightened where possible, and some shades like orange, yellow, and chartreuse have been fixed to appear less muddy."
-    },
-    {
-      "type": "purpose",
-      "content": "Once the color scale is determined, lightness stops are input for each color in order to get aliased colors.\n\nWe also needed a couple of darker shades to work for our data visualization palettes (available soon)."
     }
   ],
   "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/colors/",
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing", "design-tokens", "color"],
-  "related": [{ "ref": "grays" }, { "ref": "background-layers" }]
+  "related": [
+    { "ref": "grays", "kind": "guideline" },
+    { "ref": "background-layers", "kind": "guideline" }
+  ]
 }
