@@ -21,6 +21,8 @@ const EXPECTED_TOOLS = [
   "design-data-suggest",
   "design-data-component",
   "design-data-resolve",
+  "design-data-guideline-list",
+  "design-data-guideline",
 ];
 
 // ── design-data-suggest (wasm-backed) ────────────────────────────────────────
@@ -78,8 +80,6 @@ test("design-data-component throws for unknown component id", async (t) => {
     createDesignDataTools().map((tool) => [tool.name, tool]),
   );
   const tool = tools["design-data-component"];
-  // This test relies on the package being unavailable in the test env for a
-  // fake component ID, or the component JSON not existing.
   const err = await t.throwsAsync(() =>
     tool.handler({ id: "zzz-nonexistent-component-xyz" }),
   );
@@ -91,11 +91,89 @@ test("design-data-component throws for unknown component id", async (t) => {
   );
 });
 
+// ── design-data-guideline-list ────────────────────────────────────────────────
+
+test("design-data-guideline-list returns catalog with guidelines array", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-guideline-list"].handler({});
+  t.true(
+    Array.isArray(result.guidelines),
+    "result.guidelines should be an array",
+  );
+  t.is(typeof result.total, "number");
+  t.true(result.total > 0, "should have at least one guideline");
+  // Each entry has the expected catalog shape
+  for (const entry of result.guidelines) {
+    t.true(typeof entry.slug === "string", "entry.slug should be a string");
+    t.true(typeof entry.title === "string", "entry.title should be a string");
+    t.true(
+      typeof entry.category === "string",
+      "entry.category should be a string",
+    );
+  }
+});
+
+test("design-data-guideline-list filters by category", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-guideline-list"].handler({
+    category: "designing",
+  });
+  t.true(result.guidelines.every((g) => g.category === "designing"));
+});
+
+test("design-data-guideline-list total matches guidelines length", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-guideline-list"].handler({});
+  t.is(result.total, result.guidelines.length);
+});
+
+// ── design-data-guideline ─────────────────────────────────────────────────────
+
+test("design-data-guideline returns a guideline document with documentBlocks", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-guideline"].handler({ id: "colors" });
+  t.is(result.name, "colors");
+  t.truthy(result.title);
+  t.truthy(result.category);
+  t.true(Array.isArray(result.documentBlocks));
+  t.true(
+    result.documentBlocks.length > 0,
+    "colors should have at least one block",
+  );
+  for (const block of result.documentBlocks) {
+    t.truthy(block.type, "each block has a type");
+    t.truthy(block.content, "each block has content");
+  }
+});
+
+test("design-data-guideline throws for unknown guideline id", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const err = await t.throwsAsync(() =>
+    tools["design-data-guideline"].handler({ id: "zzz-nonexistent-guideline" }),
+  );
+  t.truthy(err);
+  t.true(
+    err.message.includes("zzz-nonexistent-guideline") ||
+      err.message.includes("not installed"),
+    `Expected error about missing guideline, got: ${err.message}`,
+  );
+});
+
 // ── structural tests ──────────────────────────────────────────────────────────
 
-test("createDesignDataTools exposes five wasm-backed tools", (t) => {
+test("createDesignDataTools exposes seven tools", (t) => {
   const tools = createDesignDataTools();
-  t.is(tools.length, 5);
+  t.is(tools.length, 7);
   t.deepEqual(
     tools.map(({ name }) => name),
     EXPECTED_TOOLS,
@@ -119,4 +197,21 @@ test("query and resolve require their primary argument", (t) => {
 
   t.deepEqual(tools["design-data-query"].inputSchema.required, ["filter"]);
   t.deepEqual(tools["design-data-resolve"].inputSchema.required, ["property"]);
+});
+
+test("design-data-component and design-data-guideline require id", (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+
+  t.deepEqual(tools["design-data-component"].inputSchema.required, ["id"]);
+  t.deepEqual(tools["design-data-guideline"].inputSchema.required, ["id"]);
+});
+
+test("design-data-guideline-list category is not required", (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const schema = tools["design-data-guideline-list"].inputSchema;
+  t.falsy(schema.required, "category should not be required");
 });

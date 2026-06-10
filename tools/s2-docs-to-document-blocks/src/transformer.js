@@ -10,10 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { format, resolveConfig } from "prettier";
+import { readFileSync } from "node:fs";
 import { parseDoc } from "./md-parser.js";
 import { buildBlocks } from "./blocks-builder.js";
+import { writeJson } from "./write-json.js";
 
 /**
  * Insert (or replace) a `documentBlocks` key after `meta` in a component object,
@@ -71,15 +71,7 @@ export async function transformComponent(
   const updated = insertDocumentBlocks(componentJson, blocks);
 
   if (!options.dryRun) {
-    // Use Prettier to format output, matching the repo's existing JSON style
-    // (short arrays stay inline, 2-space indent, trailing newline).
-    const prettierCfg = (await resolveConfig(componentJsonPath)) ?? {};
-    const out = await format(JSON.stringify(updated), {
-      ...prettierCfg,
-      parser: "json",
-      filepath: componentJsonPath,
-    });
-    writeFileSync(componentJsonPath, out, "utf8");
+    await writeJson(componentJsonPath, updated);
   }
 
   return { slug, changed: true, blocks, flags };

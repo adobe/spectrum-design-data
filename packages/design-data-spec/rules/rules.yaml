@@ -496,3 +496,34 @@ rules:
     message: "Dataset structure incomplete: {detail}"
     spec_ref: spec/dataset-layout.md#structural-validation
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-045
+    name: guideline-missing-purpose
+    severity: warning
+    layer: 2
+    category: completeness
+    assert: >
+      A guideline document SHOULD include at least one `documentBlocks` block with
+      type `purpose`. A purpose block explains the design intent of the topic and
+      is the primary entry point for agents and designers querying the guidance
+      corpus. This mirrors SPEC-029 (document-block-missing-purpose) but is scoped
+      specifically to the guideline entity.
+    message: "Guideline '{name}' has documentBlocks but no purpose block — add a block with type 'purpose'"
+    spec_ref: spec/guideline-format.md#spec-rules
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-046
+    name: guideline-related-resolves
+    severity: warning
+    layer: 2
+    category: completeness
+    assert: >
+      Every entry in a guideline document's `related` array SHOULD resolve to a known
+      entity: when `kind` is `"component"`, the `ref` MUST match a component `name` in
+      the dataset; when `kind` is `"guideline"`, the `ref` MUST match a guideline `name`
+      in the dataset; when `kind` is absent, the `ref` SHOULD match either a component
+      or a guideline `name`. Dangling references are advisory (warning) to allow
+      incremental migration where some targets may not yet be present.
+    message: "Guideline '{name}' references '{ref}' which is not a known component or guideline"
+    spec_ref: spec/guideline-format.md#related-references
+    introduced_in: "1.0.0-draft"

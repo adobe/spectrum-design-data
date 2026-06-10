@@ -52,6 +52,45 @@ function resolveSpectrumDataPackage() {
   }
 }
 
+/**
+ * Load a JSON file from a subdirectory of the design-data package.
+ * Throws descriptive errors when the package or file is absent.
+ *
+ * @param {string} subdir - e.g. "components" or "guidelines"
+ * @param {string} id - kebab-case slug, e.g. "button" or "colors"
+ */
+function loadDataFile(subdir, id) {
+  const pkgRoot = resolveSpectrumDataPackage();
+  if (!pkgRoot) {
+    throw new Error(
+      `@adobe/spectrum-design-data is not installed — cannot load ${subdir}/${id}. ` +
+        `Install it with: pnpm add @adobe/spectrum-design-data`,
+    );
+  }
+  const filePath = join(pkgRoot, subdir, `${id}.json`);
+  if (!existsSync(filePath)) {
+    throw new Error(
+      `Not found: "${id}" in ${subdir}/. ` +
+        (subdir === "components"
+          ? `Call design-data-primer to see available component IDs.`
+          : `Call design-data-guideline-list to see available guideline IDs.`),
+    );
+  }
+  return JSON.parse(readFileSync(filePath, "utf-8"));
+}
+
+/**
+ * Load the guidelines/manifest.json catalog.
+ * Returns null when the file does not exist (guidelines not yet generated).
+ */
+function loadGuidelineManifest() {
+  const pkgRoot = resolveSpectrumDataPackage();
+  if (!pkgRoot) return null;
+  const manifestPath = join(pkgRoot, "guidelines", "manifest.json");
+  if (!existsSync(manifestPath)) return null;
+  return JSON.parse(readFileSync(manifestPath, "utf-8"));
+}
+
 export function createDesignDataTools() {
   return [
     // ── primer ─────────────────────────────────────────────────────────────
@@ -60,8 +99,8 @@ export function createDesignDataTools() {
       description:
         "Get a structural overview of the Spectrum design dataset: token count, " +
         "available mode-sets (color-scheme, scale, contrast), component list, " +
-        "taxonomy fields, and data provenance. Call this at the start of a " +
-        "design-token session to understand what data is available.",
+        "taxonomy fields, guideline categories, and data provenance. Call this at the " +
+        "start of a design-token session to understand what data is available.",
       inputSchema: {
         type: "object",
         properties: {},
@@ -69,6 +108,16 @@ export function createDesignDataTools() {
       },
       async handler() {
         const [wasm, ds] = await Promise.all([getWasm(), getDataset()]);
+
+        const manifest = loadGuidelineManifest();
+        const guidelinesSummary = manifest
+          ? {
+              count: manifest.guidelines.length,
+              categories: [
+                ...new Set(manifest.guidelines.map((g) => g.category)),
+              ].sort(),
+            }
+          : null;
 
         return {
           source: "embedded",
@@ -84,6 +133,7 @@ export function createDesignDataTools() {
           },
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
+          guidelines: guidelinesSummary,
         };
       },
     },
@@ -166,21 +216,7 @@ export function createDesignDataTools() {
         additionalProperties: false,
       },
       async handler({ id }) {
-        const pkgRoot = resolveSpectrumDataPackage();
-        if (!pkgRoot) {
-          throw new Error(
-            `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
-              `Install it with: pnpm add @adobe/spectrum-design-data`,
-          );
-        }
-        const componentFile = join(pkgRoot, "components", `${id}.json`);
-        if (!existsSync(componentFile)) {
-          throw new Error(
-            `Component not found: "${id}". ` +
-              `Call design-data-primer to see available component IDs.`,
-          );
-        }
-        return JSON.parse(readFileSync(componentFile, "utf-8"));
+        return loadDataFile("components", id);
       },
     },
 
@@ -228,6 +264,67 @@ export function createDesignDataTools() {
           );
         }
         return result;
+      },
+    },
+
+    // ── guideline-list ──────────────────────────────────────────────────────
+    {
+      name: "design-data-guideline-list",
+      description:
+        "List available Spectrum design guideline pages. " +
+        "Returns catalog entries with slug, title, category, status, and sourceUrl. " +
+        "Use this to discover guideline IDs before calling design-data-guideline. " +
+        "Optionally filter by category: designing, fundamentals, developing, or support.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            enum: ["designing", "fundamentals", "developing", "support"],
+            description:
+              "Filter results to a specific category (optional). " +
+              "Omit to return all guidelines.",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ category } = {}) {
+        const manifest = loadGuidelineManifest();
+        if (!manifest) {
+          throw new Error(
+            `guidelines/manifest.json not found in @adobe/spectrum-design-data. ` +
+              `Run: node tools/s2-docs-to-document-blocks/src/cli.js guideline`,
+          );
+        }
+        const entries = category
+          ? manifest.guidelines.filter((g) => g.category === category)
+          : manifest.guidelines;
+        return { guidelines: entries, total: entries.length };
+      },
+    },
+
+    // ── guideline ───────────────────────────────────────────────────────────
+    {
+      name: "design-data-guideline",
+      description:
+        "Get the full guideline document for a Spectrum design page by ID. " +
+        "Returns the guideline's title, category, metadata, and documentBlocks body " +
+        "(purpose, guideline, accessibility, do-dont, and examples blocks). " +
+        "Call design-data-guideline-list first to discover available guideline IDs.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+            description:
+              "Guideline ID in kebab-case, e.g. colors, motion, typography-fundamentals",
+          },
+        },
+        required: ["id"],
+        additionalProperties: false,
+      },
+      async handler({ id }) {
+        return loadDataFile("guidelines", id);
       },
     },
   ];

@@ -38,6 +38,11 @@ const requiredPaths = [
   "conformance/invalid/SPEC-006",
   "conformance/invalid/SPEC-044",
   "conformance/valid/SPEC-044",
+  "schemas/guideline.schema.json",
+  "spec/guideline-format.md",
+  "conformance/invalid/SPEC-045",
+  "conformance/valid/SPEC-045",
+  "conformance/invalid/SPEC-046",
 ];
 
 for (const rel of requiredPaths) {

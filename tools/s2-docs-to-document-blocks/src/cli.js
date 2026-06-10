@@ -11,10 +11,14 @@
  * governing permissions and limitations under the License.
  */
 
-import { existsSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transformComponent } from "./transformer.js";
+import { buildGuideline } from "./guideline-builder.js";
+import { writeJson } from "./write-json.js";
+import { readFileSync } from "node:fs";
+import { parseDoc } from "./md-parser.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,6 +27,14 @@ const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, "../../..");
 const DOCS_DIR = join(ROOT, "docs/s2-docs/components");
 const COMPONENTS_DIR = join(ROOT, "packages/design-data/components");
+
+const GUIDELINE_SUBTREES = [
+  "designing",
+  "fundamentals",
+  "developing",
+  "support",
+];
+const GUIDELINES_OUT_DIR = join(ROOT, "packages/design-data/guidelines");
 
 /** Map component slug → absolute path to s2-docs Markdown file */
 function buildDocIndex() {
@@ -49,31 +61,69 @@ function buildComponentIndex() {
   return index;
 }
 
+/** Map guideline slug → absolute path to s2-docs Markdown file (across all subtrees) */
+function buildGuidelineIndex() {
+  const index = new Map();
+  const s2DocsBase = join(ROOT, "docs/s2-docs");
+  for (const subtree of GUIDELINE_SUBTREES) {
+    const subtreeDir = join(s2DocsBase, subtree);
+    if (!existsSync(subtreeDir)) continue;
+    for (const file of readdirSync(subtreeDir)) {
+      if (!file.endsWith(".md")) continue;
+      const slug = file.replace(".md", "");
+      index.set(slug, join(subtreeDir, file));
+    }
+  }
+  return index;
+}
+
 function printUsage() {
   console.log(`
-s2-docs-to-document-blocks — inject documentBlocks into design-data component JSON files
+s2-docs-to-document-blocks — inject documentBlocks into design-data JSON files
 
 Usage:
   node src/cli.js transform [options]
+  node src/cli.js guideline [options]
 
-Options:
+Commands:
+  transform   Inject documentBlocks into component JSON files
+  guideline   Generate guidelines/*.json from s2-docs foundation pages
+
+transform options:
   --component <slug>    Transform a single component (e.g. --component button)
   --dry-run             Parse and build blocks but do not write JSON; always writes review report
-  --report <path>       Write review report to this file (default: review-report.md in cwd)
+  --report <path>       Write review report to this file (default: document-blocks-review.md in cwd)
+  --help                Show this help
+
+guideline options:
+  --page <slug>         Generate a single guideline page (e.g. --page colors)
+  --dry-run             Parse and build but do not write JSON; always writes review report
+  --report <path>       Write review report to this file (default: guideline-review.md in cwd)
   --help                Show this help
 
 Examples:
   node src/cli.js transform --component button --dry-run
-  node src/cli.js transform --component button
   node src/cli.js transform
+  node src/cli.js guideline --page colors --dry-run
+  node src/cli.js guideline
 `);
 }
 
 function parseArgs(argv) {
-  const args = { command: null, component: null, dryRun: false, report: null };
+  const args = {
+    command: null,
+    component: null,
+    page: null,
+    dryRun: false,
+    report: null,
+  };
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === "transform") {
       args.command = "transform";
+      continue;
+    }
+    if (argv[i] === "guideline") {
+      args.command = "guideline";
       continue;
     }
     if (argv[i] === "--help" || argv[i] === "-h") {
@@ -86,6 +136,10 @@ function parseArgs(argv) {
     }
     if (argv[i] === "--component" && argv[i + 1]) {
       args.component = argv[++i];
+      continue;
+    }
+    if (argv[i] === "--page" && argv[i + 1]) {
+      args.page = argv[++i];
       continue;
     }
     if (argv[i] === "--report" && argv[i + 1]) {
@@ -154,18 +208,68 @@ function buildReviewReport(results) {
   return lines.join("\n");
 }
 
-async function main() {
-  const args = parseArgs(process.argv);
+function buildGuidelineReport(results) {
+  const lines = [
+    "# s2-docs → guidelines review report",
+    "",
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    "## Summary",
+    "",
+    `| Stat | Count |`,
+    `| --- | --- |`,
+    `| Pages processed | ${results.length} |`,
+    `| Written | ${results.filter((r) => r.written).length} |`,
+    `| Stubs / skipped | ${results.filter((r) => !r.written).length} |`,
+    `| Pages with flags | ${results.filter((r) => r.flags.length > 0).length} |`,
+    "",
+    "## Flags by page",
+    "",
+  ];
 
-  if (!args.command) {
-    printUsage();
-    process.exit(1);
+  const flagged = results.filter((r) => r.flags.length > 0);
+  if (flagged.length === 0) {
+    lines.push("_No flags — all pages processed cleanly._");
+  } else {
+    for (const r of flagged) {
+      lines.push(`### ${r.slug}`);
+      lines.push("");
+      for (const flag of r.flags) {
+        lines.push(`- ${flag}`);
+      }
+      lines.push("");
+    }
   }
 
+  lines.push("## Stubs / skipped pages", "");
+  const stubs = results.filter((r) => !r.written);
+  if (stubs.length === 0) {
+    lines.push("_All pages produced at least one block._");
+  } else {
+    for (const r of stubs) {
+      lines.push(`- \`${r.slug}\`${r.flags.length ? ": " + r.flags[0] : ""}`);
+    }
+    lines.push("");
+  }
+
+  lines.push("## Block counts", "");
+  const sorted = [...results]
+    .filter((r) => r.written)
+    .sort((a, b) => b.blocks.length - a.blocks.length);
+  lines.push("| Page | Category | Blocks |");
+  lines.push("| --- | --- | --- |");
+  for (const r of sorted) {
+    lines.push(`| ${r.slug} | ${r.category ?? ""} | ${r.blocks.length} |`);
+  }
+  lines.push("");
+
+  return lines.join("\n");
+}
+
+async function runTransform(args) {
   const docIndex = buildDocIndex();
   const componentIndex = buildComponentIndex();
 
-  // Build the list of slugs to process
   let slugs;
   if (args.component) {
     if (!docIndex.has(args.component)) {
@@ -179,7 +283,6 @@ async function main() {
     }
     slugs = [args.component];
   } else {
-    // All slugs that have both a doc AND a component JSON
     slugs = [...docIndex.keys()]
       .filter((slug) => componentIndex.has(slug))
       .sort();
@@ -226,7 +329,6 @@ async function main() {
     }
   }
 
-  // Write review report
   const reportPath =
     args.report ?? join(process.cwd(), "document-blocks-review.md");
   const report = buildReviewReport(results);
@@ -236,6 +338,118 @@ async function main() {
   console.log(`Review report written to: ${reportPath}`);
   if (args.dryRun) {
     console.log("(dry-run mode: no JSON files were modified)");
+  }
+}
+
+async function runGuideline(args) {
+  const guidelineIndex = buildGuidelineIndex();
+
+  let slugs;
+  if (args.page) {
+    if (!guidelineIndex.has(args.page)) {
+      console.error(`Error: no s2-docs file found for page "${args.page}"`);
+      console.error(
+        `Available slugs: ${[...guidelineIndex.keys()].sort().join(", ")}`,
+      );
+      process.exit(1);
+    }
+    slugs = [args.page];
+  } else {
+    slugs = [...guidelineIndex.keys()].sort();
+  }
+
+  console.log(
+    `Processing ${slugs.length} guideline page(s)${args.dryRun ? " [DRY RUN]" : ""}...`,
+  );
+
+  if (!args.dryRun) {
+    mkdirSync(GUIDELINES_OUT_DIR, { recursive: true });
+  }
+
+  const results = [];
+  const manifestEntries = [];
+  let written = 0;
+  let skipped = 0;
+
+  for (const slug of slugs) {
+    const mdPath = guidelineIndex.get(slug);
+    const markdown = readFileSync(mdPath, "utf8");
+    const parsedDoc = parseDoc(markdown);
+
+    const { doc, blocks, flags, isStub } = buildGuideline(parsedDoc, slug);
+
+    const result = {
+      slug,
+      written: false,
+      blocks,
+      flags,
+      category: parsedDoc.frontmatter?.category,
+    };
+    results.push(result);
+
+    if (isStub || !doc) {
+      skipped++;
+      console.log(`  ○ ${slug} — stub/empty (${flags[0] ?? "no blocks"})`);
+      continue;
+    }
+
+    result.written = true;
+    written++;
+    const flagNote = flags.length ? ` (${flags.length} flag(s))` : "";
+    console.log(`  ✓ ${slug} — ${blocks.length} block(s)${flagNote}`);
+
+    const outPath = join(GUIDELINES_OUT_DIR, `${slug}.json`);
+    if (!args.dryRun) {
+      await writeJson(outPath, doc);
+    }
+
+    manifestEntries.push({
+      slug,
+      title: doc.title,
+      category: doc.category,
+      status: doc.status ?? null,
+      sourceUrl: doc.sourceUrl ?? null,
+      file: `guidelines/${slug}.json`,
+    });
+  }
+
+  // Write manifest (catalog for MCP discovery)
+  if (!args.dryRun && manifestEntries.length > 0) {
+    const manifest = {
+      generated: new Date().toISOString(),
+      guidelines: manifestEntries,
+    };
+    const manifestPath = join(GUIDELINES_OUT_DIR, "manifest.json");
+    await writeJson(manifestPath, manifest);
+    console.log(`\nManifest written: ${manifestPath}`);
+  }
+
+  const reportPath = args.report ?? join(process.cwd(), "guideline-review.md");
+  const report = buildGuidelineReport(results);
+  writeFileSync(reportPath, report, "utf8");
+
+  console.log(`Done. ${written} file(s) written, ${skipped} skipped.`);
+  console.log(`Review report written to: ${reportPath}`);
+  if (args.dryRun) {
+    console.log("(dry-run mode: no JSON files were written)");
+  }
+}
+
+async function main() {
+  const args = parseArgs(process.argv);
+
+  if (!args.command) {
+    printUsage();
+    process.exit(1);
+  }
+
+  if (args.command === "transform") {
+    await runTransform(args);
+  } else if (args.command === "guideline") {
+    await runGuideline(args);
+  } else {
+    printUsage();
+    process.exit(1);
   }
 }
 

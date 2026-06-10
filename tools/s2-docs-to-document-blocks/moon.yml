@@ -28,3 +28,12 @@ tasks:
     platform: node
     options:
       runInCI: false
+
+  guideline:
+    command:
+      - node
+      - src/cli.js
+      - guideline
+    platform: node
+    options:
+      runInCI: false

@@ -1,0 +1,205 @@
+{
+  "generated": "2026-06-10T17:07:00.974Z",
+  "guidelines": [
+    {
+      "slug": "app-frame-content-area",
+      "title": "App frame content area (browsing context)",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-content-area/",
+      "file": "guidelines/app-frame-content-area.json"
+    },
+    {
+      "slug": "app-frame-creating-bluelines",
+      "title": "Creating bluelines (browsing context)",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-creating-bluelines/",
+      "file": "guidelines/app-frame-creating-bluelines.json"
+    },
+    {
+      "slug": "app-frame-header",
+      "title": "App frame header (browsing context)",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-header/",
+      "file": "guidelines/app-frame-header.json"
+    },
+    {
+      "slug": "app-frame-overview",
+      "title": "App frame",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-overview/",
+      "file": "guidelines/app-frame-overview.json"
+    },
+    {
+      "slug": "app-frame-side-navigation",
+      "title": "App frame side navigation (browsing context)",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-side-navigation/",
+      "file": "guidelines/app-frame-side-navigation.json"
+    },
+    {
+      "slug": "attention-hierarchy",
+      "title": "Attention hierarchy",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/attention-hierarchy/",
+      "file": "guidelines/attention-hierarchy.json"
+    },
+    {
+      "slug": "background-layers",
+      "title": "Background layers",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/background-layers/",
+      "file": "guidelines/background-layers.json"
+    },
+    {
+      "slug": "brand",
+      "title": "Brand",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/brand/",
+      "file": "guidelines/brand.json"
+    },
+    {
+      "slug": "colors",
+      "title": "Colors",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/colors/",
+      "file": "guidelines/colors.json"
+    },
+    {
+      "slug": "containers",
+      "title": "Containers",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/containers/",
+      "file": "guidelines/containers.json"
+    },
+    {
+      "slug": "developer-overview",
+      "title": "Developer overview",
+      "category": "developing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/developer-overview/",
+      "file": "guidelines/developer-overview.json"
+    },
+    {
+      "slug": "faqs",
+      "title": "FAQs",
+      "category": "support",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/faqs/",
+      "file": "guidelines/faqs.json"
+    },
+    {
+      "slug": "fonts",
+      "title": "Fonts",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/fonts/",
+      "file": "guidelines/fonts.json"
+    },
+    {
+      "slug": "grays",
+      "title": "Grays",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/grays/",
+      "file": "guidelines/grays.json"
+    },
+    {
+      "slug": "icon-fundamentals",
+      "title": "Icon fundamentals",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/icon-fundamentals/",
+      "file": "guidelines/icon-fundamentals.json"
+    },
+    {
+      "slug": "illustrations",
+      "title": "Illustrations",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/illustrations/",
+      "file": "guidelines/illustrations.json"
+    },
+    {
+      "slug": "introduction",
+      "title": "Introduction",
+      "category": "fundamentals",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/introduction/",
+      "file": "guidelines/introduction.json"
+    },
+    {
+      "slug": "motion",
+      "title": "Motion",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/motion/",
+      "file": "guidelines/motion.json"
+    },
+    {
+      "slug": "object-styles",
+      "title": "Object styles",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/object-styles/",
+      "file": "guidelines/object-styles.json"
+    },
+    {
+      "slug": "principles",
+      "title": "Principles",
+      "category": "fundamentals",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/principles/",
+      "file": "guidelines/principles.json"
+    },
+    {
+      "slug": "resources",
+      "title": "Resources",
+      "category": "support",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/resources/",
+      "file": "guidelines/resources.json"
+    },
+    {
+      "slug": "spacing",
+      "title": "Spacing",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/spacing/",
+      "file": "guidelines/spacing.json"
+    },
+    {
+      "slug": "states",
+      "title": "States",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/states/",
+      "file": "guidelines/states.json"
+    },
+    {
+      "slug": "typography-fundamentals",
+      "title": "Typography fundamentals",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/typography-fundamentals/",
+      "file": "guidelines/typography-fundamentals.json"
+    },
+    {
+      "slug": "using-icons",
+      "title": "Using icons",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/using-icons/",
+      "file": "guidelines/using-icons.json"
+    }
+  ]
+}

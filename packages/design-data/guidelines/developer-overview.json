@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/developer-overview.json",
+  "name": "developer-overview",
+  "title": "Developer overview",
+  "category": "developing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Developer overview" },
+    {
+      "type": "guideline",
+      "content": "Spectrum 2 offers a new look and feel that your team will want to adopt for your product. You’ll probably have questions, like “How do we get started?” “How do we migrate?” or “How do we roll this out?”"
+    },
+    {
+      "type": "guideline",
+      "content": "On this page, we’ve addressed some common questions from product developers as Spectrum 2 has rolled out. For more specific, detailed, and up-to-date information about working with a particular implementation, visit its documentation site."
+    },
+    {
+      "type": "guideline",
+      "content": "As of May 2025, Spectrum is in the process of staffing a team to design and build an implementation of Spectrum for Android. Once onboarding wraps up and development begins, the team will begin communication about the status of the new library."
+    },
+    {
+      "type": "guideline",
+      "content": "If your team uses design data (like design tokens or CSS custom properties from Spectrum CSS) in any customizations or overrides in your project, you’ll want to keep track of updates to the implementation or design data resource you’re using and plan for time to verify any breaking changes."
+    },
+    {
+      "type": "guideline",
+      "content": "The most important thing you can do — as noted above — is to limit your usage of hard-coded values, direct usage of global tokens, or overriding global tokens via CSS properties/override APIs. Using the correct aliases ensures that components will continue to point to sensible values. In some cases, you may not even notice the change!"
+    }
+  ],
+  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/developer-overview/",
+  "lastUpdated": "2026-02-02",
+  "status": "published",
+  "tags": ["developing"],
+  "related": [{ "ref": "motion" }, { "ref": "action-bar" }]
+}

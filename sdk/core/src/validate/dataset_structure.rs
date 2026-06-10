@@ -25,7 +25,8 @@ use crate::report::{Diagnostic, Severity};
 pub const RULE_ID: &str = "SPEC-044";
 
 /// Registered optional directories, each validated against its own schema when present.
-const REGISTERED_OPTIONAL_DIRS: &[&str] = &["components", "fields", "mode-sets", "registry"];
+const REGISTERED_OPTIONAL_DIRS: &[&str] =
+    &["components", "fields", "mode-sets", "registry", "guidelines"];
 
 /// Resolve the dataset root from a path that may be the dataset root itself or
 /// its `tokens/` directory.

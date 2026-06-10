@@ -1,0 +1,19 @@
+{
+  "tokens": [],
+  "guidelines": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/motion.json",
+      "name": "motion",
+      "title": "Motion",
+      "category": "designing",
+      "status": "published",
+      "related": [{ "ref": "nonexistent-guideline", "kind": "guideline" }],
+      "documentBlocks": [
+        {
+          "type": "purpose",
+          "content": "Motion in Spectrum 2 communicates state changes, spatial relationships, and system feedback through purposeful animation."
+        }
+      ]
+    }
+  ]
+}

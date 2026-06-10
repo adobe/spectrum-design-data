@@ -18,6 +18,8 @@ fileGroups:
     - "components/**/*.json"
     - "fields/**/*.json"
     - "mode-sets/**/*.json"
+  guidelines:
+    - "guidelines/**/*.json"
 
 tasks:
   # Validate registry JSON files against registry-value.json schema (AJV).
@@ -36,6 +38,18 @@ tasks:
       - "@globs(registry)"
       - "scripts/validate-registry.js"
       - "/packages/design-data-spec/schemas/registry-value.json"
+
+  # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
+  validate-guidelines:
+    command: node
+    args:
+      - scripts/validate-guidelines.js
+    platform: node
+    inputs:
+      - "@globs(guidelines)"
+      - "scripts/validate-guidelines.js"
+      - "/packages/design-data-spec/schemas/guideline.schema.json"
+      - "/packages/design-data-spec/schemas/document-block.schema.json"
 
   # Validate the whole dataset: SPEC-044 directory-structure pre-check, token
   # rules, and Layer 1 schema-shape validation of the registered catalog

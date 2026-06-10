@@ -17,6 +17,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `fields/`     | Optional (registered) | Name-object field declarations, one or more `*.json` files.          | [`field.schema.json`](../schemas/field.schema.json)               |
 | `mode-sets/`  | Optional (registered) | Mode set declarations, one per `*.json` file.                        | [`mode-set.schema.json`](../schemas/mode-set.schema.json)         |
 | `registry/`   | Optional (registered) | Registry value collections (vocabulary), one or more `*.json` files. | [`registry-value.json`](../schemas/registry-value.json)           |
+| `guidelines/` | Optional (registered) | One guideline document per `*.json` file.                            | [`guideline.schema.json`](../schemas/guideline.schema.json)       |
 
 **NORMATIVE:** A conformant dataset **MUST** contain a `tokens/` directory holding at least one `*.tokens.json` file. A dataset with no `tokens/` directory, or a `tokens/` directory containing no `*.tokens.json` file, is **not** conformant.
 
@@ -35,6 +36,7 @@ A dataset is rooted at a single **dataset root** directory. The following table 
 | `fields/`     | `*.json`           | The catalog MAY be split across multiple files.                                |
 | `mode-sets/`  | `*.json`           | One declaration per file.                                                      |
 | `registry/`   | `*.json`           | One value collection per file.                                                 |
+| `guidelines/` | `*.json`           | One declaration per file.                                                      |
 
 ## Dataset discovery
 
@@ -45,7 +47,7 @@ Tooling that operates on "the current dataset" (rather than an explicit path) **
 3. **In-repo probing** — when running inside a monorepo checkout, probe for the standard layout relative to the working directory (`packages/design-data/tokens` and one level up). This preserves the in-repo workflow with zero configuration.
 4. **Embedded snapshot** — when no dataset is found on disk, tooling MAY fall back to a snapshot of the foundation dataset embedded in the binary, materialized to a local cache directory.
 
-**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, and `registry/` directly under that root.
+**NORMATIVE:** The required directory (`tokens/`) and registered optional directories are resolved **relative to the dataset root** determined above. A discovery tier that resolves a dataset root **MUST** look for `tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, and `guidelines/` directly under that root.
 
 The reference implementation of this algorithm lives in the SDK at `sdk/core/src/data_source/mod.rs` (`resolve`, `from_root`, and `probe_cwd`).
 

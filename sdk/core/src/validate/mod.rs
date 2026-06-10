@@ -90,13 +90,42 @@ pub fn validate_all_with_options_and_names(
     components_path: Option<&Path>,
     names_dir: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
+    validate_all_with_full_options(
+        data_path,
+        schema_registry,
+        naming_exceptions,
+        mode_sets_path,
+        components_path,
+        names_dir,
+        None,
+    )
+}
+
+/// Full validation with all options including a guidelines catalog directory.
+///
+/// `guidelines_path` — optional directory of spec-format guideline JSON files;
+/// when provided, SPEC-045 and SPEC-046 also check guidelines.
+pub fn validate_all_with_full_options(
+    data_path: &Path,
+    schema_registry: &SchemaRegistry,
+    naming_exceptions: &HashSet<String>,
+    mode_sets_path: Option<&Path>,
+    components_path: Option<&Path>,
+    names_dir: Option<&Path>,
+    guidelines_path: Option<&Path>,
+) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
-    let graph = TokenGraph::from_json_dir_with_names_and_catalogs(
+    let mut graph = TokenGraph::from_json_dir_with_names_and_catalogs(
         data_path,
         names_dir,
         mode_sets_path,
         components_path,
     )?;
+    if let Some(dir) = guidelines_path {
+        if dir.is_dir() {
+            graph.guidelines = TokenGraph::load_spec_guidelines(dir)?;
+        }
+    }
     // Load manifest.json from the data directory when present.
     let manifest: Option<serde_json::Value> = if data_path.is_dir() {
         let mp = data_path.join("manifest.json");
@@ -153,13 +182,15 @@ pub fn validate_dataset(
     }
 
     let tokens_dir = root.join("tokens");
-    let rest = validate_all_with_options_and_names(
+    let guidelines_dir = root.join("guidelines");
+    let rest = validate_all_with_full_options(
         &tokens_dir,
         schema_registry,
         naming_exceptions,
         mode_sets_path,
         components_path,
         names_dir,
+        Some(&guidelines_dir),
     )?;
     report.merge(rest);
     Ok(report)
@@ -237,6 +268,7 @@ pub fn validate_catalog_schemas(
         ("components", "component.schema.json"),
         ("mode-sets", "mode-set.schema.json"),
         ("registry", "registry-value.json"),
+        ("guidelines", "guideline.schema.json"),
     ] {
         let schema_path = spec_schemas_dir.join(schema_file);
         if schema_path.is_file() {

@@ -1,0 +1,22 @@
+{
+  "tokens": [],
+  "guidelines": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/spacing.json",
+      "name": "spacing",
+      "title": "Spacing",
+      "category": "designing",
+      "status": "published",
+      "documentBlocks": [
+        {
+          "type": "guideline",
+          "content": "Use the spacing scale tokens to maintain consistent rhythm across layouts. Avoid hard-coded pixel values."
+        },
+        {
+          "type": "guideline",
+          "content": "Compact density reduces spacing values proportionally to fit more content in constrained viewports."
+        }
+      ]
+    }
+  ]
+}

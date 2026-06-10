@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "title": "Design data guideline document",
+  "description": "Layer 1 structural schema for a standalone foundation/guideline document — a non-component Spectrum guidance page such as color, typography, motion, spacing, principles, or app-frame. Body prose is modeled as document blocks. See spec/guideline-format.md.",
+  "type": "object",
+  "required": ["$id", "name", "title", "category", "documentBlocks"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "specVersion": {
+      "type": "string",
+      "description": "Spec version this document targets (e.g. '1.0.0-draft')."
+    },
+    "$id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical identifier for this guideline document."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "description": "Machine identifier (kebab-case slug). Matches the filename (e.g. 'colors', 'app-frame-overview')."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable page title (e.g. 'Colors')."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["designing", "fundamentals", "developing", "support"],
+      "description": "High-level category classifying the guideline within the guidance corpus."
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL of the upstream source page (e.g. 'https://s2.spectrum.corp.adobe.com/page/colors/')."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of the most recent source-page update (e.g. '2026-02-02')."
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Publication status of this guideline (e.g. 'published'). Left as an open string — not an enum — to accommodate future status values without a schema change."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "description": "Free-form tags for discovery and filtering."
+    },
+    "related": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relatedReference" },
+      "uniqueItems": true,
+      "description": "Related entities. A reference MAY target a component (by name) or another guideline document (by name). Targets are not required to resolve at Layer 1; SPEC-046 advisorily warns on dangling references."
+    },
+    "documentBlocks": {
+      "type": "array",
+      "items": { "$ref": "document-block.schema.json" },
+      "minItems": 1,
+      "description": "Typed prose blocks that form the body of this guideline. See spec/document-blocks.md (Phase 9)."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "relatedReference": {
+      "type": "object",
+      "required": ["ref"],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "minLength": 1,
+          "description": "kebab-case name of the related component or guideline."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["component", "guideline"],
+          "description": "Optional hint for what 'ref' targets. When omitted, tooling resolves against both catalogs."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
