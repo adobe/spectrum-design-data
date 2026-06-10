@@ -27,10 +27,10 @@ import { dirname } from 'node:path';
 const cwd = dirname(fileURLToPath(import.meta.url + '/..'));
 
 function build(target, outDir) {
-  console.log(`\n→ wasm-pack build --target ${target} --out-dir ${outDir} --features embedded`);
+  console.log(`\n→ wasm-pack build --target ${target} --out-dir ${outDir} -- --features embedded`);
   execFileSync(
     'wasm-pack',
-    ['build', '--target', target, '--out-dir', outDir, '--features', 'embedded'],
+    ['build', '--target', target, '--out-dir', outDir, '--', '--features', 'embedded'],
     { cwd, stdio: 'inherit' },
   );
 }
