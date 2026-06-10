@@ -20,6 +20,13 @@ Packages in this monorepo:
 * [Spectrum Tokens](packages/tokens/) design tokens for Spectrum, Adobe's design system.
 * [Spectrum Component Schemas](packages/component-schemas/) JSON schemas for validating Spectrum component APIs and properties.
 
+## Design Data
+
+* [Spectrum Design Data](packages/design-data/) the canonical Spectrum dataset — tokens, components, fields, mode-sets, guidelines, and registry data. This is the primary data package consumed by the SDK and tooling.
+* [Design Data Specification](packages/design-data-spec/) normative spec artifacts: human-readable spec (`spec/`), JSON Schemas, validation rule catalog (`rules/rules.yaml`), and conformance fixtures.
+* [Token Names](packages/token-names/) sidecar taxonomy `name` objects for `@adobe/spectrum-tokens`, decoupled so taxonomy changes don't bump the token package. Private; delivery format TBD.
+* [Design System Registry](packages/design-system-registry/) (**deprecated** — registry data has moved to `packages/design-data/registry/`. Use `@adobe/spectrum-design-data` instead.)
+
 ## Documentation & Visualization
 
 * [Spectrum Token Visualizer Tool](docs/visualizer/) a visualizer for inspecting S1 tokens. Published as a [static site](https://opensource.adobe.com/spectrum-design-data/visualizer/).
@@ -39,6 +46,8 @@ Packages in this monorepo:
 * [Transform Tokens JSON](tools/transform-tokens-json/) utilities for merging and transforming token data between formats.
 * [Token Manifest Builder](tools/token-manifest-builder/) generates manifest files for token distribution.
 * [Spectrum Design Data MCP](tools/spectrum-design-data-mcp/) Model Context Protocol server providing AI assistants with structured access to Spectrum design system data.
+* [Design Data Agent MCP](tools/design-data-agent-mcp/) agent-facing MCP server (distinct from the general MCP above) for AI agent authoring sessions.
+* [Design Data Skill](tools/design-data-skill/) packaged Claude Code agent skill for consuming Spectrum design data from agent sessions.
 * [S2 Docs MCP](tools/s2-docs-mcp/) MCP server providing AI assistants with access to Spectrum 2 component documentation and design guidelines.
 
 ## SDK & TUI
