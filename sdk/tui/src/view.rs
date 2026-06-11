@@ -19,6 +19,7 @@ use ratatui::{
 use crate::app::{
     ActiveView, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
 };
+use crate::app_views::truncate_cell;
 use crate::command::Command;
 use crate::help::HELP_TEXT;
 use crate::logo::LOGO;
@@ -247,6 +248,7 @@ fn render_home(
 }
 
 fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme) {
+    let name_max = (area.width.saturating_sub(5) as usize) * 40 / 100;
     let header = Row::new(vec![
         Cell::from("Name").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Value").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -258,7 +260,7 @@ fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme
         .iter()
         .map(|r| {
             Row::new(vec![
-                Cell::from(r.name.as_str()),
+                Cell::from(truncate_cell(&r.name, name_max)),
                 Cell::from(r.value.as_str()),
                 Cell::from(r.file.as_str()),
                 Cell::from(r.layer.as_str()),
@@ -284,6 +286,7 @@ fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme
 }
 
 fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect, theme: &Theme) {
+    let name_max = (area.width.saturating_sub(9) as usize) * 35 / 100;
     let header = Row::new(vec![
         Cell::from("★").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Name").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -298,7 +301,7 @@ fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect, theme: &T
         .map(|r| {
             Row::new(vec![
                 Cell::from(if r.is_winner { "★" } else { "" }),
-                Cell::from(r.name.as_str()),
+                Cell::from(truncate_cell(&r.name, name_max)),
                 Cell::from(r.value.as_str()),
                 Cell::from(r.file.as_str()),
                 Cell::from(r.layer.as_str()),
@@ -337,6 +340,7 @@ fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect) {
 }
 
 fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Rect, theme: &Theme) {
+    let token_max = (area.width.saturating_sub(12) as usize) * 28 / 100;
     let header = Row::new(vec![
         Cell::from("Sev").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Rule").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -350,7 +354,7 @@ fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Rect, theme: 
             Row::new(vec![
                 Cell::from(r.severity.as_str()),
                 Cell::from(r.rule_id.as_str()),
-                Cell::from(r.token.as_str()),
+                Cell::from(truncate_cell(&r.token, token_max)),
                 Cell::from(r.message.as_str()),
             ])
         })

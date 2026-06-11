@@ -401,6 +401,14 @@ pub(crate) fn layer_str(layer: Layer) -> &'static str {
     }
 }
 
+/// Truncate `s` to `max` display columns, appending `…` when truncation occurs.
+pub(crate) fn truncate_cell(s: &str, max: usize) -> String {
+    if max == 0 || s.chars().count() <= max {
+        return s.to_owned();
+    }
+    format!("{}…", s.chars().take(max.saturating_sub(1)).collect::<String>())
+}
+
 /// Apply a signed scroll delta to a `u16` scroll position using saturating arithmetic.
 fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
     if delta > 0 {
