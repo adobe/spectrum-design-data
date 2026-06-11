@@ -1,5 +1,6 @@
 ---
 source: tui/tests/snapshots.rs
+assertion_line: 117
 expression: rendered
 ---
 ▶ test · 0 tokens
@@ -9,7 +10,7 @@ expression: rendered
   >    │  These tokens already exist for similar intents.               │
     que│  Reusing one keeps the cascade healthy.  Tab to alias · Enter t│
     res│                                                                │
-    des│▶  accent-background-color-de test.json                    50%  │
+    des│▶  accent-background-color-defaul test.json                50%  │
     val│                                                                │
     new│                                                                │
     nam│                                                                │

@@ -509,6 +509,7 @@ fn render_intent_content(
                     .file_name()
                     .and_then(|n| n.to_str())
                     .unwrap_or("")
+                    .trim_end_matches(".tokens.json")
                     .to_string();
                 Row::new(vec![
                     Cell::from(marker),
@@ -524,7 +525,7 @@ fn render_intent_content(
         let widths = [
             Constraint::Length(2),
             Constraint::Min(0),
-            Constraint::Length(28),
+            Constraint::Max(24),
             Constraint::Length(5),
         ];
         let table =
