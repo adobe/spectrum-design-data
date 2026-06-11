@@ -1,5 +1,27 @@
 # @adobe/spectrum-design-data
 
+## 0.7.0
+
+### Minor Changes
+
+- [#1157](https://github.com/adobe/spectrum-design-data/pull/1157) [`a23dafb`](https://github.com/adobe/spectrum-design-data/commit/a23dafb1805dac8203baba669c61085133160454) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `guidelines/` — structured guideline documents for non-component S2 pages.
+  - **guidelines/\*.json**: generated from `docs/s2-docs/{designing,fundamentals,developing,support}/`;
+    each file validates against `guideline.schema.json` with `documentBlocks` body.
+  - **guidelines/manifest.json**: catalog for MCP discovery (`slug`, `title`, `category`,
+    `status`, `sourceUrl`, `file` per entry).
+  - **package.json**: adds `"./guidelines/*"` export subpath and `"guidelines/"` to `files`.
+
+- [#1157](https://github.com/adobe/spectrum-design-data/pull/1157) [`a23dafb`](https://github.com/adobe/spectrum-design-data/commit/a23dafb1805dac8203baba669c61085133160454) Thanks [@GarthDB](https://github.com/GarthDB)! - Populate documentBlocks on all 69 component JSON files from s2-docs source.
+  - **packages/design-data/components/\*.json**: Add `documentBlocks` to all 69
+    components — typed blocks (purpose, guideline, do-dont) from docs/s2-docs/. All
+    69 have a leading `purpose` block seeded from Overview or the component description.
+  - **docs/s2-docs/components/inputs/color-handle.md**: Replace stub with full
+    scraped content (Overview, Behaviors, Usage guidelines, Component options).
+  - **tools/s2-docs-to-document-blocks**: Generator — near-duplicate dedup via
+    `normalizeForDedup()` collapses scrape artefacts differing by smart quotes or
+    punctuation; seeds `purpose` blocks from component `description` when no Overview
+    section is scraped; formats output with Prettier for clean diffs.
+
 ## 0.6.0
 
 ### Minor Changes
