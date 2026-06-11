@@ -58,8 +58,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing", "design-tokens", "color"],
-  "related": [
-    { "ref": "grays", "kind": "guideline" },
-    { "ref": "background-layers", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "grays" }, { "ref": "background-layers" }]
 }

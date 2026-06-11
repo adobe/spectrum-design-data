@@ -1,19 +1,18 @@
 ---
 source: tui/tests/snapshots.rs
+assertion_line: 54
 expression: rendered
 ---
 ▶ test · 0 tokens
   Spectrum Design Data  v0.2.0
-  : commands · / search · ? help · q quit
-
+  ↑↓ history/list · Tab complete · Enter run · Esc back · Ctrl+C quit
+  ──────────────────────────────────────────────────────────────────────────────
   >
-
-  :query <expr>             Filter tokens  e.g. background-color/*
-  :resolve property=<name>  Resolve a property through the cascade
-  :describe <component>     Inspect a component schema
-  :validate                 Validate all tokens against schemas
-  :new [<intent>]           Open the token authoring wizard
-  :name [<intent>]          Open the token naming wizard
-  :find                     Open fuzzy find
-  ?                         Toggle help
-  q                         Quit
+    query     Filter tokens  e.g. background-color/*
+    resolve   Resolve a property through the cascade
+    describe  Inspect a component schema
+    validate  Validate all tokens against schemas
+    new       Open the token authoring wizard
+    name      Open the token naming wizard
+    find      Open the fuzzy-find token explorer
+    quit      Quit the TUI

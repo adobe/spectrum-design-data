@@ -6,12 +6,12 @@
   "category": "designing",
   "documentBlocks": [
     {
-      "type": "guideline",
-      "content": "Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content."
+      "type": "purpose",
+      "content": "Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation."
     },
     {
       "type": "guideline",
-      "content": "Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation."
+      "content": "Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content."
     },
     {
       "type": "guideline",
@@ -34,8 +34,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "colors", "kind": "guideline" },
-    { "ref": "typography-fundamentals", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "colors" }, { "ref": "typography-fundamentals" }]
 }

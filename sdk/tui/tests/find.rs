@@ -261,11 +261,8 @@ fn property_suggestions_filter_by_typed_prefix() {
     for c in "background".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
-    assert!(!fs.property_suggestions.is_empty());
-    assert!(fs
-        .property_suggestions
-        .iter()
-        .all(|s| s.contains("background")));
+    assert!(!fs.suggestions.is_empty());
+    assert!(fs.suggestions.iter().all(|s| s.contains("background")));
 }
 
 #[test]
@@ -277,15 +274,15 @@ fn up_down_navigate_property_suggestions() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
     assert!(
-        fs.property_suggestions.len() > 1,
+        fs.suggestions.len() > 1,
         "expected >1 'color' suggestions from registry, got {}",
-        fs.property_suggestions.len()
+        fs.suggestions.len()
     );
-    let initial = fs.selected_property_suggestion;
+    let initial = fs.selected_suggestion;
     fs.handle_key(key(KeyCode::Down), &graph, &index);
-    assert_eq!(fs.selected_property_suggestion, initial + 1);
+    assert_eq!(fs.selected_suggestion, initial + 1);
     fs.handle_key(key(KeyCode::Up), &graph, &index);
-    assert_eq!(fs.selected_property_suggestion, initial);
+    assert_eq!(fs.selected_suggestion, initial);
 }
 
 #[test]
@@ -397,7 +394,7 @@ fn tab_autocompletes_find_command() {
     let graph = make_find_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    // Palette is already open — just type the prefix.
     for c in "fi".chars() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }

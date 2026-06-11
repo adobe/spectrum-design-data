@@ -11,7 +11,7 @@
 //! M5 polish milestone tests: mouse, help overlay, palette history, theming.
 
 mod common;
-use common::{empty_graph, key, update_ctx};
+use common::{empty_graph, key, make_graph_with_tokens, update_ctx};
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
 use design_data_tui::app::{
@@ -116,7 +116,7 @@ fn up_arrow_in_palette_recalls_last_command() {
     let mut model = Model::new();
     model.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
 
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx); // open palette
+    // Palette is always open on the home screen — no key needed to open it.
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
     assert_eq!(model.palette_input_value(), "query foo");
 
@@ -185,7 +185,7 @@ fn typing_resets_history_cursor() {
     let mut model = Model::new();
     model.palette_history = vec!["query foo".to_string(), "query bar".to_string()];
 
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    // Palette is always open on the home screen — no key needed to open it.
     update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
     assert_eq!(model.palette_history_cursor(), Some(0));
 
@@ -298,24 +298,39 @@ fn click_on_hit_region_selects_row() {
 }
 
 // ── Mouse: selection mode ─────────────────────────────────────────────────────
+//
+// 'v' is a global selection-mode toggle in Browsing mode (results visible).
+// While the home palette is active, 'v' goes into the input buffer instead,
+// so these tests first navigate to a results view to enter Browsing mode.
+
+fn enter_browsing_with_results(model: &mut Model, ctx: &design_data_tui::UpdateCtx<'_>) {
+    // Submit a query that produces results, which transitions the model to Browsing.
+    update(model, Message::PaletteSubmit("query property=accent-color".into()), ctx);
+    assert!(
+        !model.is_palette_open(),
+        "should be in Browsing mode after query — expected palette closed with results"
+    );
+}
 
 #[test]
 fn v_key_enters_selection_mode() {
-    let graph = empty_graph();
+    let graph = make_graph_with_tokens(&["accent-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
+    enter_browsing_with_results(&mut model, &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     assert!(
         model.is_selection_mode_enabled(),
-        "v should enable selection mode"
+        "v should enable selection mode when in Browsing mode"
     );
 }
 
 #[test]
 fn v_key_toggles_selection_mode_off() {
-    let graph = empty_graph();
+    let graph = make_graph_with_tokens(&["accent-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
+    enter_browsing_with_results(&mut model, &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     assert!(
@@ -326,9 +341,10 @@ fn v_key_toggles_selection_mode_off() {
 
 #[test]
 fn drag_records_selection_endpoints() {
-    let graph = empty_graph();
+    let graph = make_graph_with_tokens(&["accent-color"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
+    enter_browsing_with_results(&mut model, &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('v'))), &ctx);
     update(
         &mut model,

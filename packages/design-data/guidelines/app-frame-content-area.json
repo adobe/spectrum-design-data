@@ -75,13 +75,7 @@
   "status": "published",
   "tags": ["designing"],
   "related": [
-    {
-      "ref": "s2-app-frame-side-navigation-browsing-context",
-      "kind": "guideline"
-    },
-    {
-      "ref": "s2-app-frame-creating-bluelines-browsing-context",
-      "kind": "guideline"
-    }
+    { "ref": "s2-app-frame-side-navigation-browsing-context" },
+    { "ref": "s2-app-frame-creating-bluelines-browsing-context" }
   ]
 }

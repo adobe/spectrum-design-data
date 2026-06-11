@@ -17,7 +17,7 @@
 
 use tui_input::Input;
 
-use crate::app::{ActiveView, Modal, PaletteMode};
+use crate::app::{Modal, PaletteMode};
 
 // ── Top-level mode ────────────────────────────────────────────────────────────
 
@@ -63,45 +63,39 @@ pub struct ModalState {
 
 /// State carried while the command palette is open.
 ///
-/// `saved_view` holds the `ActiveView` that was on screen when a fuzzy-find
-/// palette opened, so cancelling with `Esc` can restore it. It stays `None`
-/// for command mode and is cleared on commit (`Enter`). `ActiveView` carries
-/// ratatui `TableState`s that are not `Debug`, so this struct cannot derive it.
+/// On the home screen the palette is always open in command mode — it is the
+/// home screen, not a transient overlay. `ActiveView` carries ratatui
+/// `TableState`s that are not `Debug`, so this struct cannot derive it.
 pub struct PaletteState {
     pub mode: PaletteMode,
     pub input: Input,
     /// Index into `Model::palette_history`; `None` = fresh input.
     pub history_cursor: Option<usize>,
-    /// View to restore if a fuzzy-find session is cancelled; `None` otherwise.
-    pub saved_view: Option<ActiveView>,
+    /// When `Some(i)`, arrow focus is in the command list at row `i`.
+    /// `None` means focus is on the input line (the history zone).
+    ///
+    /// Transitions:
+    /// - Down on empty prompt (no history recall active) → `Some(0)`.
+    /// - ↑↓ while `Some` → move index, Up at 0 → `None`.
+    /// - Esc while `Some` → `None` (exit list, stay in palette).
+    /// - Any character typed → reset to `None` (filtered list changes).
+    /// - `return_home()` → `None` (palette re-armed).
+    pub list_selected: Option<usize>,
 }
 
 impl PaletteState {
-    /// Open the palette in command (`:`) mode.
+    /// Open / initialise the palette in command mode.
     pub fn command() -> Self {
         Self {
             mode: PaletteMode::Command,
             input: Input::default(),
             history_cursor: None,
-            saved_view: None,
+            list_selected: None,
         }
     }
 
-    /// Open the palette in fuzzy-find (`/`) mode.
-    pub fn fuzzy() -> Self {
-        Self {
-            mode: PaletteMode::FuzzyFind,
-            input: Input::default(),
-            history_cursor: None,
-            saved_view: None,
-        }
-    }
-
-    /// The prompt prefix character for this palette mode.
+    /// The prompt prefix string shown before the cursor.
     pub fn prefix(&self) -> &'static str {
-        match self.mode {
-            PaletteMode::Command => ":",
-            PaletteMode::FuzzyFind => "/",
-        }
+        "> "
     }
 }

@@ -11,18 +11,13 @@
  * governing permissions and limitations under the License.
  */
 
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transformComponent } from "./transformer.js";
 import { buildGuideline } from "./guideline-builder.js";
 import { writeJson } from "./write-json.js";
+import { readFileSync } from "node:fs";
 import { parseDoc } from "./md-parser.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -155,43 +150,9 @@ function parseArgs(argv) {
   return args;
 }
 
-/**
- * Build a Markdown review report for either the component-transform or the
- * guideline-generate run.
- *
- * @param {object} opts
- * @param {string}   opts.title        - Report heading (after "# s2-docs → ")
- * @param {string}   opts.noun         - Singular noun for one item ("component" | "page")
- * @param {string}   opts.nounPlural   - Plural noun ("components" | "pages")
- * @param {string}   opts.processedLabel - Stat row label, e.g. "Components processed"
- * @param {string}   opts.writtenLabel  - Stat row label, e.g. "Changed (blocks written)"
- * @param {string}   opts.notWrittenLabel - Stat row label, e.g. "Unchanged / stub"
- * @param {(r: object) => boolean} opts.isWritten - Predicate: was the item written?
- * @param {string}   opts.stubHeading  - Section heading for not-written items
- * @param {string}   opts.stubEmpty    - Message when all items were written
- * @param {string[]} opts.blockTableHeader - Column labels, e.g. ["Component", "Blocks"]
- * @param {(r: object) => string} opts.blockTableRow - Row formatter for the block-count table
- * @param {Array}    results           - Per-item result objects (must have .slug, .flags, .blocks)
- */
-function buildReport(
-  {
-    title,
-    noun,
-    nounPlural,
-    processedLabel,
-    writtenLabel,
-    notWrittenLabel,
-    isWritten,
-    stubHeading,
-    stubEmpty,
-    blockTableHeader,
-    blockTableRow,
-  },
-  results,
-) {
-  const flagNoun = noun.charAt(0).toUpperCase() + noun.slice(1) + "s";
+function buildReviewReport(results) {
   const lines = [
-    `# s2-docs → ${title}`,
+    "# s2-docs → documentBlocks review report",
     "",
     `Generated: ${new Date().toISOString()}`,
     "",
@@ -199,18 +160,18 @@ function buildReport(
     "",
     `| Stat | Count |`,
     `| --- | --- |`,
-    `| ${processedLabel} | ${results.length} |`,
-    `| ${writtenLabel} | ${results.filter(isWritten).length} |`,
-    `| ${notWrittenLabel} | ${results.filter((r) => !isWritten(r)).length} |`,
-    `| ${flagNoun} with flags | ${results.filter((r) => r.flags.length > 0).length} |`,
+    `| Components processed | ${results.length} |`,
+    `| Changed (blocks written) | ${results.filter((r) => r.changed).length} |`,
+    `| Unchanged / stub | ${results.filter((r) => !r.changed).length} |`,
+    `| Components with flags | ${results.filter((r) => r.flags.length > 0).length} |`,
     "",
-    `## Flags by ${noun}`,
+    "## Flags by component",
     "",
   ];
 
   const flagged = results.filter((r) => r.flags.length > 0);
   if (flagged.length === 0) {
-    lines.push(`_No flags — all ${nounPlural} processed cleanly._`);
+    lines.push("_No flags — all components processed cleanly._");
   } else {
     for (const r of flagged) {
       lines.push(`### ${r.slug}`);
@@ -222,12 +183,12 @@ function buildReport(
     }
   }
 
-  lines.push(`## ${stubHeading}`, "");
-  const notWritten = results.filter((r) => !isWritten(r));
-  if (notWritten.length === 0) {
-    lines.push(`_${stubEmpty}_`);
+  lines.push("## Unchanged / stub components", "");
+  const unchanged = results.filter((r) => !r.changed);
+  if (unchanged.length === 0) {
+    lines.push("_All components received at least one block._");
   } else {
-    for (const r of notWritten) {
+    for (const r of unchanged) {
       lines.push(`- \`${r.slug}\`${r.flags.length ? ": " + r.flags[0] : ""}`);
     }
     lines.push("");
@@ -235,55 +196,74 @@ function buildReport(
 
   lines.push("## Block counts", "");
   const sorted = [...results]
-    .filter(isWritten)
+    .filter((r) => r.changed)
     .sort((a, b) => b.blocks.length - a.blocks.length);
-  lines.push(`| ${blockTableHeader.join(" | ")} |`);
-  lines.push(`| ${blockTableHeader.map(() => "---").join(" | ")} |`);
+  lines.push("| Component | Blocks |");
+  lines.push("| --- | --- |");
   for (const r of sorted) {
-    lines.push(`| ${blockTableRow(r)} |`);
+    lines.push(`| ${r.slug} | ${r.blocks.length} |`);
   }
   lines.push("");
 
   return lines.join("\n");
 }
 
-function buildReviewReport(results) {
-  return buildReport(
-    {
-      title: "documentBlocks review report",
-      noun: "component",
-      nounPlural: "components",
-      processedLabel: "Components processed",
-      writtenLabel: "Changed (blocks written)",
-      notWrittenLabel: "Unchanged / stub",
-      isWritten: (r) => r.changed,
-      stubHeading: "Unchanged / stub components",
-      stubEmpty: "All components received at least one block.",
-      blockTableHeader: ["Component", "Blocks"],
-      blockTableRow: (r) => `${r.slug} | ${r.blocks.length}`,
-    },
-    results,
-  );
-}
-
 function buildGuidelineReport(results) {
-  return buildReport(
-    {
-      title: "guidelines review report",
-      noun: "page",
-      nounPlural: "pages",
-      processedLabel: "Pages processed",
-      writtenLabel: "Written",
-      notWrittenLabel: "Stubs / skipped",
-      isWritten: (r) => r.written,
-      stubHeading: "Stubs / skipped pages",
-      stubEmpty: "All pages produced at least one block.",
-      blockTableHeader: ["Page", "Category", "Blocks"],
-      blockTableRow: (r) =>
-        `${r.slug} | ${r.category ?? ""} | ${r.blocks.length}`,
-    },
-    results,
-  );
+  const lines = [
+    "# s2-docs → guidelines review report",
+    "",
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    "## Summary",
+    "",
+    `| Stat | Count |`,
+    `| --- | --- |`,
+    `| Pages processed | ${results.length} |`,
+    `| Written | ${results.filter((r) => r.written).length} |`,
+    `| Stubs / skipped | ${results.filter((r) => !r.written).length} |`,
+    `| Pages with flags | ${results.filter((r) => r.flags.length > 0).length} |`,
+    "",
+    "## Flags by page",
+    "",
+  ];
+
+  const flagged = results.filter((r) => r.flags.length > 0);
+  if (flagged.length === 0) {
+    lines.push("_No flags — all pages processed cleanly._");
+  } else {
+    for (const r of flagged) {
+      lines.push(`### ${r.slug}`);
+      lines.push("");
+      for (const flag of r.flags) {
+        lines.push(`- ${flag}`);
+      }
+      lines.push("");
+    }
+  }
+
+  lines.push("## Stubs / skipped pages", "");
+  const stubs = results.filter((r) => !r.written);
+  if (stubs.length === 0) {
+    lines.push("_All pages produced at least one block._");
+  } else {
+    for (const r of stubs) {
+      lines.push(`- \`${r.slug}\`${r.flags.length ? ": " + r.flags[0] : ""}`);
+    }
+    lines.push("");
+  }
+
+  lines.push("## Block counts", "");
+  const sorted = [...results]
+    .filter((r) => r.written)
+    .sort((a, b) => b.blocks.length - a.blocks.length);
+  lines.push("| Page | Category | Blocks |");
+  lines.push("| --- | --- | --- |");
+  for (const r of sorted) {
+    lines.push(`| ${r.slug} | ${r.category ?? ""} | ${r.blocks.length} |`);
+  }
+  lines.push("");
+
+  return lines.join("\n");
 }
 
 async function runTransform(args) {
@@ -363,11 +343,6 @@ async function runTransform(args) {
 
 async function runGuideline(args) {
   const guidelineIndex = buildGuidelineIndex();
-  const componentIndex = buildComponentIndex();
-
-  // Build resolution sets for kind inference in buildGuideline.
-  const componentNames = new Set(componentIndex.keys());
-  const guidelineSlugs = new Set(guidelineIndex.keys());
 
   let slugs;
   if (args.page) {
@@ -401,10 +376,7 @@ async function runGuideline(args) {
     const markdown = readFileSync(mdPath, "utf8");
     const parsedDoc = parseDoc(markdown);
 
-    const { doc, blocks, flags, isStub } = buildGuideline(parsedDoc, slug, {
-      componentNames,
-      guidelineSlugs,
-    });
+    const { doc, blocks, flags, isStub } = buildGuideline(parsedDoc, slug);
 
     const result = {
       slug,

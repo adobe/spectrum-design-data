@@ -32,30 +32,25 @@ pub const LOGO: &str = r"                ████
                ███████
                  ▀▀▀                ";
 
-/// Command reference shown on the home screen.
+/// Command reference used by tests in this module and `command.rs` to guard
+/// against silent drift between logo.rs, help.rs, and the command dispatcher.
 ///
-/// Each entry is `(name, description)`. The command names **must be ASCII-only**;
-/// the render code uses `.len()` (byte count) as the display-column width. Add
-/// unicode-width if that ever changes.
-///
-/// These entries should stay in sync with the `COMMANDS` section of `help.rs`
-/// and with the command dispatch in `update_command.rs`. Two tests guard against
-/// silent drift: `commands_present_in_help_text` (COMMANDS subset of HELP_TEXT)
-/// and the bidirectional COMMANDS <-> `Command` enum check in `command.rs`
-/// (every `:` entry maps to a dispatchable variant and vice versa, GH #1096).
-pub const COMMANDS: &[(&str, &str)] = &[
-    (":query <expr>", "Filter tokens  e.g. background-color/*"),
+/// Each entry is `(name, description)`. Names **must be ASCII-only**; see
+/// `command_names_are_ascii` in the test module below.
+#[cfg(test)]
+pub(crate) const COMMANDS: &[(&str, &str)] = &[
+    ("query <expr>", "Filter tokens  e.g. background-color/*"),
     (
-        ":resolve property=<name>",
+        "resolve property=<name>",
         "Resolve a property through the cascade",
     ),
-    (":describe <component>", "Inspect a component schema"),
-    (":validate", "Validate all tokens against schemas"),
-    (":new [<intent>]", "Open the token authoring wizard"),
-    (":name [<intent>]", "Open the token naming wizard"),
-    (":find", "Open fuzzy find"),
+    ("describe <component>", "Inspect a component schema"),
+    ("validate", "Validate all tokens against schemas"),
+    ("new [<intent>]", "Open the token authoring wizard"),
+    ("name [<intent>]", "Open the token naming wizard"),
+    ("find", "Open the fuzzy-find token explorer"),
+    ("quit", "Quit the TUI"),
     ("?", "Toggle help"),
-    ("q", "Quit"),
 ];
 
 #[cfg(test)]
@@ -89,12 +84,15 @@ mod tests {
     #[test]
     fn commands_present_in_help_text() {
         for (name, _) in COMMANDS {
-            if !name.starts_with(':') {
+            // Skip global-key rows (e.g. `?`) that are not dispatchable commands.
+            if *name == "?" {
                 continue;
             }
+            // Match on just the command name (first token) in HELP_TEXT.
+            let tok = name.split_whitespace().next().unwrap_or(name);
             assert!(
-                HELP_TEXT.contains(name),
-                "COMMANDS entry {name:?} is not present in HELP_TEXT; \
+                HELP_TEXT.contains(tok),
+                "COMMANDS entry {name:?} (token {tok:?}) is not present in HELP_TEXT; \
                  update help.rs or logo.rs to keep them in sync"
             );
         }

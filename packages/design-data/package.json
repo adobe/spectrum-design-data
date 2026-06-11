@@ -22,7 +22,6 @@
     "./components/*": "./components/*.json",
     "./fields/*": "./fields/*.json",
     "./mode-sets/*": "./mode-sets/*.json",
-    "./guidelines/manifest.json": "./guidelines/manifest.json",
     "./guidelines/*": "./guidelines/*.json",
     "./registry/sizes.json": "./registry/sizes.json",
     "./registry/states.json": "./registry/states.json",

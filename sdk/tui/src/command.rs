@@ -18,23 +18,23 @@
 //! is the one place a new command is declared; everything else derives from it.
 
 /// Declare the `Command` enum together with its `ALL` list, `canonical()` name,
-/// and `aliases()` from a single table.
+/// `aliases()`, and `description()` from a single table.
 ///
 /// Generating all four from one source makes drift impossible: a variant can't
 /// exist without an entry here, and that entry necessarily populates `ALL`,
-/// `canonical()`, and `aliases()`. This is the zero-dependency stand-in for what
-/// a `strum`-style derive would provide.
+/// `canonical()`, `aliases()`, and `description()`. This is the zero-dependency
+/// stand-in for what a `strum`-style derive would provide.
 macro_rules! define_commands {
     ($(
-        $variant:ident => $canonical:literal $(| $alias:literal)*
+        $variant:ident => $canonical:literal $(| $alias:literal)* , $desc:literal
     ),+ $(,)?) => {
         /// A dispatchable palette command.
         ///
-        /// Each variant maps to exactly one canonical name (the string typed
-        /// after `:`) and zero or more aliases. `parse` accepts either form; the
-        /// rest of the code only reasons about variants.
+        /// Each variant maps to exactly one canonical name and zero or more
+        /// aliases. `parse` accepts either form; the rest of the code only
+        /// reasons about variants.
         #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-        pub(crate) enum Command {
+        pub enum Command {
             $($variant),+
         }
 
@@ -42,19 +42,26 @@ macro_rules! define_commands {
             /// Every command variant, for exhaustive iteration in tests and
             /// autocomplete. Generated from the table, so it can never omit a
             /// variant.
-            pub(crate) const ALL: &'static [Command] = &[$(Command::$variant),+];
+            pub const ALL: &'static [Command] = &[$(Command::$variant),+];
 
-            /// The primary name typed after `:` (e.g. `Describe => "describe"`).
-            pub(crate) fn canonical(self) -> &'static str {
+            /// The primary name typed at the prompt (e.g. `Describe => "describe"`).
+            pub fn canonical(self) -> &'static str {
                 match self {
                     $(Command::$variant => $canonical),+
                 }
             }
 
             /// Accepted alternate names that dispatch to the same variant.
-            pub(crate) fn aliases(self) -> &'static [&'static str] {
+            pub fn aliases(self) -> &'static [&'static str] {
                 match self {
                     $(Command::$variant => &[$($alias),*]),+
+                }
+            }
+
+            /// One-line description shown in the live command list on the home screen.
+            pub fn description(self) -> &'static str {
+                match self {
+                    $(Command::$variant => $desc),+
                 }
             }
         }
@@ -62,13 +69,14 @@ macro_rules! define_commands {
 }
 
 define_commands! {
-    Query => "query",
-    Resolve => "resolve",
-    Describe => "describe" | "component",
-    Validate => "validate",
-    New => "new" | "create",
-    Find => "find",
-    Name => "name",
+    Query   => "query",                    "Filter tokens  e.g. background-color/*",
+    Resolve => "resolve",                  "Resolve a property through the cascade",
+    Describe => "describe" | "component",  "Inspect a component schema",
+    Validate => "validate",               "Validate all tokens against schemas",
+    New     => "new" | "create",          "Open the token authoring wizard",
+    Name    => "name",                    "Open the token naming wizard",
+    Find    => "find",                    "Open the fuzzy-find token explorer",
+    Quit    => "quit",                    "Quit the TUI",
 }
 
 impl Command {
@@ -77,11 +85,29 @@ impl Command {
     /// Matching is case-insensitive on the canonical name or any alias, mirroring
     /// the lowercase normalization done by `handle_palette_submit`. All command
     /// names are ASCII, so `eq_ignore_ascii_case` lets this stay allocation-free.
-    pub(crate) fn parse(cmd: &str) -> Option<Command> {
+    pub fn parse(cmd: &str) -> Option<Command> {
         Command::ALL.iter().copied().find(|c| {
             c.canonical().eq_ignore_ascii_case(cmd)
                 || c.aliases().iter().any(|&a| a.eq_ignore_ascii_case(cmd))
         })
+    }
+
+    /// Return all commands whose canonical name or any alias starts with the
+    /// first whitespace-delimited token of `input` (lowercased). An empty input
+    /// returns all commands. Used by the live command list and Tab autocomplete.
+    pub fn filter(input: &str) -> Vec<Command> {
+        let tok = input.split_whitespace().next().unwrap_or("").to_lowercase();
+        if tok.is_empty() {
+            return Command::ALL.to_vec();
+        }
+        Command::ALL
+            .iter()
+            .copied()
+            .filter(|c| {
+                c.canonical().starts_with(tok.as_str())
+                    || c.aliases().iter().any(|&a| a.starts_with(tok.as_str()))
+            })
+            .collect()
     }
 }
 
@@ -91,15 +117,18 @@ mod tests {
     use crate::logo::COMMANDS;
 
     /// Extract the command token from a `COMMANDS` entry name, e.g.
-    /// `":describe <component>" -> "describe"`. Returns `None` for non-palette
-    /// entries (global keys like `?` / `q` that don't start with `:`).
+    /// `"describe <component>" -> "describe"`. Returns `None` for non-palette
+    /// entries (global keys like `?` that are not dispatchable commands).
     ///
-    /// This relies on the convention that every palette command in `COMMANDS`
-    /// is written `:<name> [<args>]` and global keys are not. A future global key
-    /// with `:`-prefixed syntax would need this filter revisited.
+    /// Commands are identified by checking whether the first token parses to a
+    /// `Command` variant; the `?` help row and any future global-key rows are
+    /// skipped because they don't parse.
     fn command_token(name: &str) -> Option<&str> {
-        let rest = name.strip_prefix(':')?;
-        Some(rest.split_whitespace().next().unwrap_or(rest))
+        let tok = name.split_whitespace().next()?;
+        // Only return this token if it actually parses as a command — that way
+        // the `?` row and similar global-key rows are silently ignored.
+        Command::parse(tok)?;
+        Some(tok)
     }
 
     /// Every `Command` variant must have exactly one matching `COMMANDS` entry.

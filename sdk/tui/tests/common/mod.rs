@@ -204,8 +204,9 @@ fn settle_helper_settles_pure_transition() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     // A pure message — settle should work just like update for these.
-    settle(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    assert!(model.is_palette_open(), "palette should open after ':'");
+    // The model starts in palette mode; typing 'q' adds it to the input buffer.
+    settle(&mut model, Message::Key(key(KeyCode::Char('q'))), &ctx);
+    assert!(model.is_palette_open(), "palette should still be open after typing");
 }
 
 #[test]
@@ -213,7 +214,6 @@ fn type_str_helper_feeds_chars() {
     let graph = make_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "qs");
     // Typing characters in palette mode should be reflected in the input.
     assert!(
@@ -227,10 +227,15 @@ fn feed_keys_helper_feeds_sequence() {
     let graph = make_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    feed_keys(&mut model, &ctx, &[KeyCode::Char(':'), KeyCode::Esc]);
+    // Type some text then Esc to clear the input (palette stays open on home).
+    feed_keys(&mut model, &ctx, &[KeyCode::Char('q'), KeyCode::Esc]);
     assert!(
-        !model.is_palette_open(),
-        "Esc after ':' should close palette"
+        model.is_palette_open(),
+        "palette should stay open after Esc on home screen"
+    );
+    assert!(
+        model.palette_input_value().is_empty(),
+        "Esc should clear the input"
     );
 }
 

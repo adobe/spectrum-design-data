@@ -58,8 +58,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "states", "kind": "guideline" },
-    { "ref": "s2-app-frame", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "states" }, { "ref": "s2-app-frame" }]
 }

@@ -132,7 +132,7 @@
   "status": "published",
   "tags": ["designing"],
   "related": [
-    { "ref": "s2-app-frame-header-browsing-context", "kind": "guideline" },
-    { "ref": "s2-app-frame-content-area-browsing-context", "kind": "guideline" }
+    { "ref": "s2-app-frame-header-browsing-context" },
+    { "ref": "s2-app-frame-content-area-browsing-context" }
   ]
 }

@@ -69,8 +69,8 @@ fn spectrum_target_120x36_shows_logo_and_all_sections() {
         "120×36: product name should be visible"
     );
     assert!(
-        any_row_contains(&buf, ":validate", W, H),
-        "120×36: command table should be visible"
+        any_row_contains(&buf, "validate", W, H),
+        "120×36: command list should be visible"
     );
     // Primer arrow on the first row.
     assert_eq!(
@@ -78,10 +78,11 @@ fn spectrum_target_120x36_shows_logo_and_all_sections() {
         "▶",
         "120×36: primer arrow at (0,0)"
     );
-    // Palette prompt row should be blank (palette closed).
+    // Bottom row (chunk[3], Length(0)) should be empty — the palette prompt is
+    // embedded in the home view area, not the bottom strip.
     assert!(
         row_str(&buf, H - 1, W).trim().is_empty(),
-        "120×36: palette row should be blank when closed"
+        "120×36: bottom strip should be empty"
     );
 }
 

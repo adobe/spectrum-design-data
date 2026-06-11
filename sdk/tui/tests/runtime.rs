@@ -20,32 +20,41 @@ use crossterm::event::KeyCode;
 use design_data_tui::{update, Message, Model};
 
 #[test]
-fn smoke_colon_opens_palette_and_renders_prompt() {
+fn smoke_home_palette_renders_arrow_prompt() {
+    // The home screen is always InPalette(Command) — no key needed to open it.
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
 
+    // Typing ':' appends it to the palette input (no special meaning).
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    assert!(model.is_palette_open(), "':' should open palette");
+    assert!(model.is_palette_open(), "palette should stay open after typing");
+    assert_eq!(model.palette_input_value(), ":");
 
-    // Drive through draw — must not panic and must render ':' on last row.
+    // Drive through draw — must not panic; bottom strip is always empty.
     let buf = render_to_buffer(&mut model, 80, 24);
-    assert_eq!(
-        buf.cell((0, 23)).unwrap().symbol(),
-        ":",
-        "palette prompt should be ':' on last row"
+    let last = (0..80u16)
+        .map(|x| buf.cell((x, 23)).unwrap().symbol().to_string())
+        .collect::<String>();
+    assert!(
+        last.trim().is_empty(),
+        "bottom strip should be empty (palette renders in the home view), got: '{last}'"
     );
 }
 
 #[test]
-fn smoke_esc_closes_palette_and_clears_prompt() {
+fn smoke_esc_clears_input_but_keeps_palette_open() {
+    // Esc on the home palette clears the input but does NOT close the palette
+    // (the palette IS the home screen — there is no other state to return to).
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
 
+    // Type something, then Esc.
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(!model.is_palette_open(), "Esc should close palette");
+    assert!(model.is_palette_open(), "palette should stay open after Esc on home");
+    assert!(model.palette_input_value().is_empty(), "Esc should clear the input");
 
     let buf = render_to_buffer(&mut model, 80, 24);
     let last = (0..80u16)
@@ -53,17 +62,20 @@ fn smoke_esc_closes_palette_and_clears_prompt() {
         .collect::<String>();
     assert!(
         last.trim().is_empty(),
-        "palette row should be empty after close, got: '{last}'"
+        "bottom strip should remain empty, got: '{last}'"
     );
 }
 
 #[test]
-fn smoke_quit_key_sets_quit_flag() {
+fn smoke_q_types_into_buffer_not_quit() {
+    // 'q' is no longer a quit keybinding — it goes into the palette input.
+    // Use the `quit` command to exit instead.
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('q'))), &ctx);
-    assert!(model.quit, "'q' should set model.quit");
+    assert!(!model.quit, "'q' should NOT set model.quit — use 'quit' command instead");
+    assert_eq!(model.palette_input_value(), "q");
 }
 
 #[test]

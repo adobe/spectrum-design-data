@@ -98,8 +98,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "fonts", "kind": "guideline" },
-    { "ref": "spacing", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "fonts" }, { "ref": "spacing" }]
 }

@@ -62,8 +62,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "attention-hierarchy", "kind": "guideline" },
-    { "ref": "colors", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "attention-hierarchy" }, { "ref": "colors" }]
 }

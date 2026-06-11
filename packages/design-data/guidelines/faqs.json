@@ -31,5 +31,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["support"],
-  "related": [{ "ref": "steplist", "kind": "component" }, { "ref": "contact" }]
+  "related": [{ "ref": "steplist" }, { "ref": "contact" }]
 }

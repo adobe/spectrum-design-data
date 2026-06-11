@@ -61,87 +61,78 @@ pub(crate) fn render_find(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, t
 
 fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
     let foc = fs.focused_field;
-    let suggest_count = fs.property_suggestions.len() as u16;
-    let dropdown_h = suggest_count.min(MAX_PROPERTY_SUGGESTIONS as u16);
-    let field_rows = 4u16;
+    let dropdown_h = (fs.suggestions.len() as u16).min(MAX_PROPERTY_SUGGESTIONS as u16);
+
+    // Build a dynamic constraint list: each of the 5 fields gets 1 row, plus an
+    // optional dropdown row block inserted after whichever field is focused (0–3).
+    let field_defs: &[(usize, &str)] = &[
+        (0, "Property "),
+        (1, "Component"),
+        (2, "Variant  "),
+        (3, "State    "),
+        (4, "Intent   "),
+    ];
+
+    let mut constraints: Vec<Constraint> = Vec::new();
+    for (field_idx, _) in field_defs {
+        constraints.push(Constraint::Length(1));
+        if *field_idx == foc && dropdown_h > 0 {
+            constraints.push(Constraint::Length(dropdown_h));
+        }
+    }
+    constraints.push(Constraint::Length(1)); // match count
+    constraints.push(Constraint::Min(0));    // padding
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([
-            Constraint::Length(1),          // property label
-            Constraint::Length(dropdown_h), // suggestion dropdown (0 when empty)
-            Constraint::Length(field_rows), // component / variant / state / intent
-            Constraint::Length(1),          // match count
-            Constraint::Min(0),             // padding
-        ])
+        .constraints(constraints)
         .split(area);
 
-    // Property field.
-    let prop_marker = if foc == 0 { "▶" } else { " " };
-    let prop_line = format!("{prop_marker} Property: {}", fs.property.value());
-    f.render_widget(
-        Paragraph::new(prop_line).style(if foc == 0 {
-            Style::default().fg(theme.accent)
-        } else {
-            Style::default()
-        }),
-        chunks[0],
-    );
-
-    // Suggestion dropdown.
-    if dropdown_h > 0 {
-        let rows: Vec<Row> = fs
-            .property_suggestions
-            .iter()
-            .enumerate()
-            .map(|(i, term)| {
-                let marker = if i == fs.selected_property_suggestion {
-                    "  ▸"
+    // Walk through fields, rendering each row and its optional dropdown.
+    let mut ci = 0usize; // chunk index
+    for (field_idx, label) in field_defs {
+        let val = match field_idx {
+            0 => fs.property.value(),
+            1 => fs.component.value(),
+            2 => fs.variant.value(),
+            3 => fs.state.value(),
+            _ => fs.intent.value(),
+        };
+        let marker = if foc == *field_idx { "▶" } else { " " };
+        f.render_widget(
+            Paragraph::new(format!("{marker} {label}: {val}")).style(
+                if foc == *field_idx {
+                    Style::default().fg(theme.accent)
                 } else {
-                    "   "
-                };
-                Row::new(vec![Cell::from(format!("{marker} {term}"))]).style(
-                    if i == fs.selected_property_suggestion {
+                    Style::default()
+                },
+            ),
+            chunks[ci],
+        );
+        ci += 1;
+
+        // Dropdown inline after the focused field.
+        if *field_idx == foc && dropdown_h > 0 {
+            let rows: Vec<Row> = fs
+                .suggestions
+                .iter()
+                .enumerate()
+                .map(|(i, term)| {
+                    let sel = i == fs.selected_suggestion;
+                    let marker = if sel { "  ▸" } else { "   " };
+                    Row::new(vec![Cell::from(format!("{marker} {term}"))]).style(if sel {
                         Style::default().bg(theme.selection_bg)
                     } else {
                         Style::default().fg(theme.muted)
-                    },
-                )
-            })
-            .collect();
-        let widths = [Constraint::Min(0)];
-        f.render_widget(Table::new(rows, widths), chunks[1]);
-    }
-
-    // Component, variant, state, intent fields.
-    let field_area = chunks[2];
-    let sub = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([
-            Constraint::Length(1),
-            Constraint::Length(1),
-            Constraint::Length(1),
-            Constraint::Length(1),
-        ])
-        .split(field_area);
-
-    let labels = [
-        (1usize, "Component", fs.component.value()),
-        (2, "Variant  ", fs.variant.value()),
-        (3, "State    ", fs.state.value()),
-        (4, "Intent   ", fs.intent.value()),
-    ];
-    for (idx, (field_idx, label, val)) in labels.iter().enumerate() {
-        let marker = if foc == *field_idx { "▶" } else { " " };
-        let text = format!("{marker} {label}: {val}");
-        f.render_widget(
-            Paragraph::new(text).style(if foc == *field_idx {
-                Style::default().fg(theme.accent)
-            } else {
-                Style::default()
-            }),
-            sub[idx],
-        );
+                    })
+                })
+                .collect();
+            f.render_widget(
+                Table::new(rows, [Constraint::Min(0)]),
+                chunks[ci],
+            );
+            ci += 1;
+        }
     }
 
     // Match count.
@@ -154,7 +145,7 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
     };
     f.render_widget(
         Paragraph::new(count_text).style(Style::default().fg(theme.muted)),
-        chunks[3],
+        chunks[ci],
     );
 }
 

@@ -101,7 +101,9 @@ fn replay_query_command_shows_token_in_buffer() {
 }
 
 #[test]
-fn replay_palette_open_shows_colon_prompt() {
+fn replay_home_palette_shows_arrow_prompt() {
+    // The home screen is always in palette mode; typing ':' appends it to the
+    // input buffer and the prompt is visible in the home view area (not the bottom strip).
     let graph = make_graph_with_tokens(&[]);
     let buf = replay_messages(
         vec![Message::Key(common::key(crossterm::event::KeyCode::Char(
@@ -109,10 +111,11 @@ fn replay_palette_open_shows_colon_prompt() {
         )))],
         &graph,
     );
+    // Bottom strip (chunk[3], y=23 in 24-row terminal) should remain empty.
     assert_eq!(
-        buf.cell((0, 23)).unwrap().symbol(),
-        ":",
-        "last row should show ':' after opening palette"
+        buf.cell((0, 23)).unwrap().symbol().trim(),
+        "",
+        "bottom strip should be empty — palette prompt renders in the home view area"
     );
 }
 

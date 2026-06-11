@@ -138,8 +138,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "background-layers", "kind": "guideline" },
-    { "ref": "fonts", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "background-layers" }, { "ref": "fonts" }]
 }

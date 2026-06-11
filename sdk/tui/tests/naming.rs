@@ -179,7 +179,7 @@ fn tab_autocompletes_name_command() {
     let graph = make_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
+    // Palette is always open — no ':' opener needed.
     for c in "na".chars() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }

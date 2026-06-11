@@ -1,22 +1,23 @@
 ---
 source: tui/tests/snapshots.rs
+assertion_line: 117
 expression: rendered
 ---
 ▶ test · 0 tokens
   Spectrum Design Data  v0.2.0
-  : com┌ Wizard · 1/4 · Intent ─────────────────────────────────────────┐
-       │Intent: background-color                                        │
+  ↑↓ hi┌ Wizard · 1/4 · Intent ─────────────────────────────────────────┐
+  ─────│Intent: background-color                                        │───────
   >    │  These tokens already exist for similar intents.               │
-       │  Reusing one keeps the cascade healthy.  Tab to alias · Enter t│
-  :quer│                                                                │
-  :reso│▶  accent-background-color-default                         50%  │
-  :desc│                                                                │
-  :vali│                                                                │
-  :new │                                                                │
-  :name│                                                                │
-  :find│                                                                │
-  ?    │                                                                │
-  q    │                                                                │
+    que│  Reusing one keeps the cascade healthy.  Tab to alias · Enter t│
+    res│                                                                │
+    des│▶  accent-background-color-default                         50%  │
+    val│                                                                │
+    new│                                                                │
+    nam│                                                                │
+    fin│                                                                │
+    qui│                                                                │
+       │                                                                │
+       │                                                                │
        │                                                                │
        │                                                                │
        │                                                                │

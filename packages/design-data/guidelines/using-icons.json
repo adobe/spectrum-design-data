@@ -103,8 +103,5 @@
   "lastUpdated": "2026-02-02",
   "status": "published",
   "tags": ["designing"],
-  "related": [
-    { "ref": "icon-fundamentals", "kind": "guideline" },
-    { "ref": "illustrations", "kind": "guideline" }
-  ]
+  "related": [{ "ref": "icon-fundamentals" }, { "ref": "illustrations" }]
 }

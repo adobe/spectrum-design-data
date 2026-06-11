@@ -12,25 +12,30 @@
 
 pub const HELP_TEXT: &str = "\
 GLOBAL
-  q                       Quit (when palette is closed)
   Ctrl-C                  Always quit
   ?                       Toggle this help overlay
   v                       Toggle text-selection mode (drag to copy)
 
-PALETTE  (: opens command mode, / opens fuzzy-find)
-  Esc                     Cancel / close palette
-  Enter                   Dispatch command
-  Tab                     Autocomplete command name
-  Up / Down               Recall palette history (Up = older)
+PALETTE  (always open on the home screen)
+  Type                    Filter the command list live
+  Tab                     Autocomplete to the highlighted / top command
+  Enter                   Run the highlighted or typed command
+  Up                      Recall previous command (older history)
+  Down (empty prompt)     Move focus into the command list below
+  Up / Down (in list)     Move the highlighted row; Up at top exits list
+  Esc (in list)           Exit the command list, return focus to input
+  Esc (input non-empty)   Clear input
+  Esc (input empty)       No-op
 
 COMMANDS
-  :query <expr>           Filter tokens  e.g. background-color/*
-  :resolve property=<name>[,<mode-set>=<mode>...]
-  :describe <component>   Inspect a component schema
-  :validate               Validate all tokens against schemas
-  :new [<intent>]         Open the token authoring wizard
-  :name [<intent>]        Open the token naming wizard
-  :find                   Open the fuzzy-find token explorer
+  query <expr>            Filter tokens  e.g. background-color/*
+  resolve property=<name>[,<mode-set>=<mode>...]
+  describe <component>    Inspect a component schema
+  validate                Validate all tokens against schemas
+  new [<intent>]          Open the token authoring wizard
+  name [<intent>]         Open the token naming wizard
+  find                    Open the fuzzy-find token explorer
+  quit                    Quit the TUI
 
 QUERY / RESOLVE / VALIDATE VIEW
   Up / k                  Move selection up
@@ -38,7 +43,7 @@ QUERY / RESOLVE / VALIDATE VIEW
   Scroll wheel            Move selection
   Click row               Select that row
   y                       Yank selected name / message to clipboard
-  Esc                     Return to empty view
+  Esc                     Return to home
 
 DESCRIBE VIEW
   Up / k                  Scroll up one line
@@ -46,7 +51,7 @@ DESCRIBE VIEW
   PgUp                    Scroll up 10 lines
   PgDn                    Scroll down 10 lines
   Scroll wheel            Scroll the body
-  Esc                     Return to empty view
+  Esc                     Return to home
 
 WIZARD — Screen 1 (Intent)
   Type                    Search existing tokens

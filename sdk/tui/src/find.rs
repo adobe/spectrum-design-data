@@ -73,9 +73,9 @@ pub struct FindWizardState {
     pub intent: Input,
     /// Which field has keyboard focus (0=property, 1=component, 2=variant, 3=state, 4=intent).
     pub focused_field: usize,
-    /// Registry-sourced autocomplete suggestions for the property field.
-    pub property_suggestions: Vec<String>,
-    pub selected_property_suggestion: usize,
+    /// Autocomplete suggestions for the currently focused field (fields 0–3).
+    pub suggestions: Vec<String>,
+    pub selected_suggestion: usize,
     /// All rows from the most recent preview refresh.
     pub preview_rows: Vec<QueryRow>,
     /// Total match count (== `preview_rows.len()`).
@@ -88,7 +88,7 @@ impl FindWizardState {
     pub const FIELD_COUNT: usize = 5;
 
     pub fn new() -> Self {
-        Self {
+        let mut s = Self {
             screen: FindScreen::Filters,
             property: Input::default(),
             component: Input::default(),
@@ -96,12 +96,14 @@ impl FindWizardState {
             state: Input::default(),
             intent: Input::default(),
             focused_field: 0,
-            property_suggestions: Vec::new(),
-            selected_property_suggestion: 0,
+            suggestions: Vec::new(),
+            selected_suggestion: 0,
             preview_rows: Vec::new(),
             preview_count: 0,
             preview_error: None,
-        }
+        };
+        s.refresh_suggestions();
+        s
     }
 
     /// Create a state pre-seeded with an intent string.
@@ -113,6 +115,7 @@ impl FindWizardState {
         if !intent.is_empty() {
             s.intent = Input::from(intent.to_string());
             s.focused_field = 4;
+            s.refresh_suggestions(); // field 4 (intent) has no registry → clears list
         }
         s
     }
@@ -187,28 +190,34 @@ impl FindWizardState {
         );
     }
 
-    /// Recompute property autocomplete suggestions from the registry.
-    pub fn refresh_property_suggestions(&mut self) {
-        let typed = self.property.value().trim().to_lowercase();
-        if typed.is_empty() {
-            self.property_suggestions.clear();
-            self.selected_property_suggestion = 0;
-            return;
-        }
-        if let Some(terms) = RegistryData::embedded().for_field("property") {
+    /// Recompute autocomplete suggestions for the currently focused field (0–3).
+    /// Field 4 (intent) has no registry backing and is left empty.
+    pub fn refresh_suggestions(&mut self) {
+        let (typed, registry_field) = match self.focused_field {
+            0 => (self.property.value().trim().to_lowercase(), "property"),
+            1 => (self.component.value().trim().to_lowercase(), "component"),
+            2 => (self.variant.value().trim().to_lowercase(), "variant"),
+            3 => (self.state.value().trim().to_lowercase(), "state"),
+            _ => {
+                self.suggestions.clear();
+                self.selected_suggestion = 0;
+                return;
+            }
+        };
+        if let Some(terms) = RegistryData::embedded().for_field(registry_field) {
             let mut matching: Vec<String> = terms
                 .iter()
-                .filter(|t| t.to_lowercase().contains(&typed))
+                .filter(|t| typed.is_empty() || t.to_lowercase().contains(&typed))
                 .cloned()
                 .collect();
             matching.sort();
             matching.truncate(MAX_PROPERTY_SUGGESTIONS);
-            self.property_suggestions = matching;
+            self.suggestions = matching;
         } else {
-            self.property_suggestions.clear();
+            self.suggestions.clear();
         }
-        if self.selected_property_suggestion >= self.property_suggestions.len() {
-            self.selected_property_suggestion = 0;
+        if self.selected_suggestion >= self.suggestions.len() {
+            self.selected_suggestion = 0;
         }
     }
 
@@ -239,40 +248,89 @@ impl FindWizardState {
     ) -> FindEvent {
         match key.code {
             KeyCode::Enter => {
+                // When a suggestion is highlighted that differs from the current input,
+                // Enter accepts it into the focused field and stays on Filters.
+                // If the typed value already matches the suggestion, fall through.
+                if !self.suggestions.is_empty() {
+                    let current = self.current_field_value().trim().to_string();
+                    // Accept the highlighted suggestion only when the user has
+                    // done something intentional: typed something (non-empty input)
+                    // OR explicitly navigated the list with Up/Down (index > 0).
+                    let user_acted = !current.is_empty() || self.selected_suggestion > 0;
+                    if user_acted {
+                        if let Some(suggestion) = self.suggestions.get(self.selected_suggestion) {
+                            if suggestion.as_str() != current.as_str() {
+                                let accepted = suggestion.clone();
+                                self.set_current_field_value(accepted);
+                                self.suggestions.clear();
+                                self.selected_suggestion = 0;
+                                return FindEvent::Continue;
+                            }
+                        }
+                    }
+                }
+                // No pending suggestion to accept — advance to the Preview screen.
                 self.refresh_preview(graph, index);
                 self.screen = FindScreen::Preview;
                 FindEvent::Continue
             }
             KeyCode::Tab => {
+                self.suggestions.clear();
+                self.selected_suggestion = 0;
                 self.focused_field = (self.focused_field + 1) % Self::FIELD_COUNT;
+                self.refresh_suggestions();
                 FindEvent::Continue
             }
             KeyCode::BackTab => {
+                self.suggestions.clear();
+                self.selected_suggestion = 0;
                 let f = self.focused_field;
                 self.focused_field = if f == 0 { Self::FIELD_COUNT - 1 } else { f - 1 };
+                self.refresh_suggestions();
                 FindEvent::Continue
             }
-            KeyCode::Up if self.focused_field == 0 => {
-                if self.selected_property_suggestion > 0 {
-                    self.selected_property_suggestion -= 1;
+            KeyCode::Up => {
+                if self.selected_suggestion > 0 {
+                    self.selected_suggestion -= 1;
                 }
                 FindEvent::Continue
             }
-            KeyCode::Down if self.focused_field == 0 => {
-                if !self.property_suggestions.is_empty()
-                    && self.selected_property_suggestion < self.property_suggestions.len() - 1
+            KeyCode::Down => {
+                if !self.suggestions.is_empty()
+                    && self.selected_suggestion < self.suggestions.len() - 1
                 {
-                    self.selected_property_suggestion += 1;
+                    self.selected_suggestion += 1;
                 }
                 FindEvent::Continue
             }
             _ => {
                 self.dispatch_to_focused_field(key);
-                if self.focused_field == 0 {
-                    self.refresh_property_suggestions();
-                }
+                self.refresh_suggestions();
                 FindEvent::Continue
             }
+        }
+    }
+
+    /// Return the current value of the focused field as a string slice.
+    fn current_field_value(&self) -> &str {
+        match self.focused_field {
+            0 => self.property.value(),
+            1 => self.component.value(),
+            2 => self.variant.value(),
+            3 => self.state.value(),
+            _ => self.intent.value(),
+        }
+    }
+
+    /// Set the value of the focused field.
+    fn set_current_field_value(&mut self, value: String) {
+        let input = Input::from(value);
+        match self.focused_field {
+            0 => self.property = input,
+            1 => self.component = input,
+            2 => self.variant = input,
+            3 => self.state = input,
+            _ => self.intent = input,
         }
     }
 
