@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 use ratatui::{
-    layout::{Alignment, Constraint, Direction, Layout, Rect},
+    layout::{Alignment, Constraint, Direction, Layout, Position, Rect},
     style::{Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Cell, Clear, Paragraph, Row, Table},
@@ -19,8 +19,9 @@ use ratatui::{
 use crate::app::{
     ActiveView, DescribeView, Modal, QueryView, ResolveView, StatusKind, ValidateView,
 };
+use crate::command::Command;
 use crate::help::HELP_TEXT;
-use crate::logo::{COMMANDS, LOGO};
+use crate::logo::LOGO;
 use crate::model::Model;
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::theme::Theme;
@@ -72,9 +73,27 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
     ]);
     frame.render_widget(Paragraph::new(primer_text), chunks[0]);
 
+    // Pre-extract palette fields before the active_view borrow.
+    let palette_input: String = model.palette_input_value().to_string();
+    let (palette_visual_cursor, palette_list_selected) =
+        if let crate::mode::Mode::InPalette(ref ps) = model.mode {
+            (ps.input.visual_cursor(), ps.list_selected)
+        } else {
+            (0, None)
+        };
+
     // Active view.
     match &mut model.active_view {
-        ActiveView::Empty => render_home(frame, chunks[1], theme),
+        ActiveView::Empty => {
+            render_home(
+                frame,
+                chunks[1],
+                theme,
+                &palette_input,
+                palette_visual_cursor,
+                palette_list_selected,
+            );
+        }
         ActiveView::Query(ref mut qv) => render_query(frame, qv, chunks[1], theme),
         ActiveView::Resolve(ref mut rv) => render_resolve(frame, rv, chunks[1], theme),
         ActiveView::Describe(ref dv) => render_describe(frame, dv, chunks[1]),
@@ -93,13 +112,8 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
         );
     }
 
-    // Palette prompt (only visible in InPalette mode).
-    let palette_text = if model.is_palette_open() {
-        format!("{}{}", model.palette_prefix(), model.palette_input_value())
-    } else {
-        String::new()
-    };
-    frame.render_widget(Paragraph::new(palette_text), chunks[3]);
+    // chunk[3] is kept as a 1-row reserve to stay in sync with compute_hit_regions.
+    // The palette prompt lives inside render_home (always-on home palette).
 
     // Overlay modal (rendered last so it appears on top).
     if let Some(modal) = model.modal_mut() {
@@ -128,98 +142,111 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
 
 // ── Per-view render fns (extracted from the inline match arms) ────────────────
 
-/// Render the home / start screen shown at launch and after `Esc`.
-///
-/// Displays the Spectrum ASCII-art logo, the TUI name + version, a decorative
-/// prompt cue, and a compact command reference — styled after Obsidian's TUI
-/// landing screen.
-fn render_home(frame: &mut Frame<'_>, area: Rect, theme: &Theme) {
-    // Left-margin spaces prepended to every rendered line.
+/// Render the home screen: always-on command palette, Obsidian-style.
+/// Layout: logo? · name+version · hint · separator · "> {input}" · filtered list.
+fn render_home(
+    frame: &mut Frame<'_>,
+    area: Rect,
+    theme: &Theme,
+    palette_input: &str,
+    palette_visual_cursor: usize,
+    list_selected: Option<usize>,
+) {
     const MARGIN: &str = "  ";
+    const PROMPT_PREFIX: &str = "> ";
 
-    // Derive the command-name column width from the actual content so the table
-    // stays aligned automatically if COMMANDS gains a longer entry.
-    // NOTE: uses .len() (byte count). All command name strings in COMMANDS are
-    // ASCII-only, so byte count == display column count. Non-ASCII glyphs would
-    // need unicode-width for correct alignment (guarded by command_names_are_ascii).
-    //
-    // Computed per call rather than cached (LazyLock/OnceLock). COMMANDS has
-    // 8 entries and render_home only runs when the screen is idle, so the
-    // overhead is negligible and the simplicity is worth it.
-    let cmd_col = COMMANDS
-        .iter()
-        .map(|(n, _)| n.len())
-        .max()
-        .unwrap_or(0);
+    let filtered = Command::filter(palette_input);
+    // cmd_col: widest canonical name in the filtered set, for alignment.
+    let cmd_col = filtered.iter().map(|c| c.canonical().len()).max().unwrap_or(0);
 
     let version = env!("CARGO_PKG_VERSION");
-
-    // Only show the logo when there is enough vertical space for it. The logo
-    // is 17 lines; the rest of the home screen (name + hint + prompt + 8
-    // commands + spacers) needs 13 more, so the full layout is 31 lines.
-    // Below that threshold the logo is silently omitted so the name, hint,
-    // prompt, and command table still render cleanly on shorter terminals.
     let logo_lines: Vec<&str> = LOGO.lines().collect();
-    let non_logo_height: u16 = 13; // spacer + name + hint + spacer + prompt + spacer + 8 commands
+    // non_logo_height: name + hint + separator + prompt + up-to-8 commands + spacers
+    let non_logo_height: u16 = 13;
     let show_logo = area.height >= logo_lines.len() as u16 + 1 + non_logo_height;
 
     let mut lines: Vec<Line> = Vec::new();
 
     if show_logo {
-        for logo_line in &logo_lines {
-            lines.push(Line::from(format!("{MARGIN}{logo_line}")));
+        for l in &logo_lines {
+            lines.push(Line::from(format!("{MARGIN}{l}")));
         }
-        // Spacer between logo and name.
         lines.push(Line::from(""));
     }
 
-    // Name + version.
     lines.push(Line::from(vec![
         Span::raw(MARGIN),
-        Span::styled(
-            "Spectrum Design Data",
-            Style::default().add_modifier(Modifier::BOLD),
-        ),
+        Span::styled("Spectrum Design Data", Style::default().add_modifier(Modifier::BOLD)),
         Span::styled(format!("  v{version}"), Style::default().fg(theme.muted)),
     ]));
-
-    // Hint line.
     lines.push(Line::from(vec![
         Span::raw(MARGIN),
         Span::styled(
-            ": commands · / search · ? help · q quit",
+            "↑↓ history/list · Tab complete · Enter run · Esc back · Ctrl+C quit",
             Style::default().fg(theme.muted),
         ),
     ]));
-
-    lines.push(Line::from(""));
-
-    // Decorative prompt + block cursor.
     lines.push(Line::from(vec![
         Span::raw(MARGIN),
-        Span::raw("> "),
-        Span::styled(" ", Style::default().add_modifier(Modifier::REVERSED)),
+        Span::styled(
+            "─".repeat(area.width.saturating_sub(MARGIN.len() as u16) as usize),
+            Style::default().fg(theme.muted),
+        ),
+    ]));
+    lines.push(Line::from(vec![
+        Span::raw(MARGIN),
+        Span::raw(PROMPT_PREFIX),
+        Span::raw(palette_input),
     ]));
 
-    lines.push(Line::from(""));
-
-    // Command reference table — names left-padded to cmd_col width.
-    for (name, desc) in COMMANDS {
-        let padding = cmd_col.saturating_sub(name.len());
-        lines.push(Line::from(vec![
-            Span::raw(MARGIN),
-            Span::styled(
-                name.to_string(),
+    for (i, cmd) in filtered.iter().enumerate() {
+        let name = cmd.canonical();
+        // Selection style: when list is focused (list_selected is Some), the
+        // highlighted row gets selection_bg. When input is focused, the top
+        // match is bolded as a subtle "this is what Enter will run" hint.
+        let (row_style, name_style) = if list_selected == Some(i) {
+            (
+                Style::default().bg(theme.selection_bg),
                 Style::default()
                     .fg(theme.accent)
+                    .bg(theme.selection_bg)
                     .add_modifier(Modifier::BOLD),
+            )
+        } else if list_selected.is_none() && i == 0 {
+            (
+                Style::default(),
+                Style::default().fg(theme.accent).add_modifier(Modifier::BOLD),
+            )
+        } else {
+            (Style::default(), Style::default().fg(theme.accent))
+        };
+        let padding = " ".repeat(cmd_col.saturating_sub(name.len()) + 2);
+        let desc_style = if list_selected == Some(i) {
+            Style::default().fg(theme.muted).bg(theme.selection_bg)
+        } else {
+            Style::default().fg(theme.muted)
+        };
+        lines.push(Line::styled(
+            format!(
+                "{MARGIN}  {name}{padding}{}",
+                cmd.description()
             ),
-            Span::raw(" ".repeat(padding + 2)),
-            Span::styled(desc.to_string(), Style::default().fg(theme.muted)),
+            row_style,
+        ).spans(vec![
+            Span::styled(format!("{MARGIN}  {name}"), name_style),
+            Span::styled(padding, row_style),
+            Span::styled(cmd.description(), desc_style),
         ]));
     }
 
+    // Prompt row offset: logo+spacer (if shown) + name + hint + separator = N.
+    let prompt_offset: u16 = if show_logo { logo_lines.len() as u16 + 4 } else { 3 };
     frame.render_widget(Paragraph::new(lines).alignment(Alignment::Left), area);
+    // Cursor always stays on the prompt line, even while browsing the list.
+    frame.set_cursor_position(Position {
+        x: area.x + MARGIN.len() as u16 + PROMPT_PREFIX.len() as u16 + palette_visual_cursor as u16,
+        y: area.y + prompt_offset,
+    });
 }
 
 fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme) {

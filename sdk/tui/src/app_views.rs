@@ -38,13 +38,12 @@ pub(crate) const HISTORY_CAP: usize = 200;
 
 // ── Palette / status types ────────────────────────────────────────────────────
 
-/// Which prefix the palette was opened with.
+/// The palette mode. Currently only command mode exists; the enum is kept for
+/// future extensibility (e.g. a dedicated argument-completion mode).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PaletteMode {
-    /// `:` — explicit command mode.
+    /// Command mode — the always-on palette on the home screen.
     Command,
-    /// `/` — fuzzy-find mode.
-    FuzzyFind,
 }
 
 /// Severity of a status bar message; controls render colour.

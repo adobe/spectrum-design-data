@@ -25,8 +25,7 @@ use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
-    move_table_selection, rect_contains, ActiveView, HitAction, Modal, PaletteMode, StatusMessage,
-    ValidateView,
+    move_table_selection, rect_contains, ActiveView, HitAction, Modal, StatusMessage, ValidateView,
 };
 use crate::clipboard::write_clipboard;
 use crate::command::Command;
@@ -59,7 +58,8 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         Message::Mouse(me) => handle_mouse(model, me),
         Message::PaletteSubmit(raw) => handle_palette_submit(model, raw, ctx),
         Message::PaletteCancel => {
-            model.close_palette();
+            // Palette cancel returns home (the palette is always open there).
+            model.return_home();
             Task::none()
         }
         Message::PaletteHistoryNav { older } => {
@@ -111,9 +111,13 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
                 Ok(view) => {
                     model.active_view = ActiveView::Describe(view);
                     model.status_message = None;
+                    // Transition to Browsing so the results view has keyboard focus.
+                    model.close_palette();
                 }
                 Err(e) => {
                     model.status_message = Some(StatusMessage::error(e));
+                    // Command failed — return to the home palette with the error visible.
+                    model.return_home_keep_status();
                 }
             }
             Task::none()
@@ -124,9 +128,13 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
                     let count = rows.len();
                     model.active_view = ActiveView::Validate(ValidateView::new(rows));
                     model.status_message = Some(StatusMessage::info(format!("{count} finding(s)")));
+                    // Transition to Browsing so the results view has keyboard focus.
+                    model.close_palette();
                 }
                 Err(e) => {
                     model.status_message = Some(StatusMessage::error(e));
+                    // Command failed — return to the home palette with the error visible.
+                    model.return_home_keep_status();
                 }
             }
             Task::none()
@@ -176,22 +184,6 @@ fn handle_key(
                 "selection mode {label}  (drag to select, release to copy)"
             )));
         }
-        KeyCode::Char(':') => {
-            model.open_command_palette();
-        }
-        KeyCode::Char('/') => {
-            // Stash the current view so Esc can restore it, then seed the
-            // results table with all tokens (empty query matches everything).
-            let saved = std::mem::replace(&mut model.active_view, ActiveView::Empty);
-            model.open_fuzzy_palette();
-            if let Some(ps) = model.palette_state_mut() {
-                ps.saved_view = Some(saved);
-            }
-            apply_fuzzy_filter(model, "", ctx);
-        }
-        KeyCode::Char('q') => {
-            model.quit = true;
-        }
         _ => {}
     }
     Task::none()
@@ -202,85 +194,154 @@ fn handle_palette_key(
     key: crossterm::event::KeyEvent,
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
-    let palette_cmd_mode = model.palette_mode() == Some(PaletteMode::Command);
-    let palette_fuzzy_mode = model.palette_mode() == Some(PaletteMode::FuzzyFind);
-
     match key.code {
+        // ── Esc ──────────────────────────────────────────────────────────────
         KeyCode::Esc => {
-            // Cancel: restore the view that was on screen before fuzzy-find opened.
-            let saved = model
-                .palette_state_mut()
-                .and_then(|ps| ps.saved_view.take());
-            model.close_palette();
-            if let Some(view) = saved {
-                model.active_view = view;
-            }
-        }
-        KeyCode::Enter => {
-            // Commit: keep the live fuzzy results, discard the saved view. The
-            // runtime sends a separate Message::PaletteSubmit after detecting this
-            // transition; for fuzzy mode it is gated off so no command dispatches.
-            if let Some(ps) = model.palette_state_mut() {
-                ps.saved_view = None;
-            }
-            model.close_palette();
-        }
-        KeyCode::Tab if palette_cmd_mode => {
-            let current = model.palette_input_value().to_string();
-            if !current.contains(' ') {
-                // Canonical names only — aliases (e.g. `component`, `create`) are
-                // a dispatch-only convenience and are intentionally not offered by
-                // Tab completion, so `:comp<Tab>` does not expand to `component`.
-                let matches: Vec<&str> = Command::ALL
-                    .iter()
-                    .map(|c| c.canonical())
-                    .filter(|c| c.starts_with(current.as_str()))
-                    .collect();
-                match matches.len() {
-                    0 => {}
-                    1 => {
-                        let new_input = tui_input::Input::from(format!("{} ", matches[0]));
-                        if let Some(ps) = model.palette_state_mut() {
-                            ps.input = new_input;
-                        }
-                    }
-                    _ => {
-                        model.status_message = Some(StatusMessage::info(format!(
-                            "matches: {}",
-                            matches.join(" | ")
-                        )));
+            if model.palette_list_selected().is_some() {
+                // Exit the list zone; focus returns to the input line.
+                if let Some(ps) = model.palette_state_mut() {
+                    ps.list_selected = None;
+                }
+            } else {
+                // Clear the input if non-empty; otherwise no-op. Palette stays open.
+                let is_empty = model.palette_input_value().is_empty();
+                if !is_empty {
+                    if let Some(ps) = model.palette_state_mut() {
+                        ps.history_cursor = None;
+                        ps.input = tui_input::Input::default();
                     }
                 }
             }
         }
-        KeyCode::Up if palette_cmd_mode => {
-            handle_history_nav(model, true);
+
+        // ── Enter ─────────────────────────────────────────────────────────────
+        //
+        // We call handle_palette_submit directly rather than closing the palette
+        // and relying on the runtime loop, because the runtime captures the input
+        // value BEFORE processing the key event. Calling submit here gives us
+        // full control over which command string is executed.
+        KeyCode::Enter => {
+            let current = model.palette_input_value().to_string();
+            let list_sel = model.palette_list_selected();
+            let filtered = Command::filter(&current);
+
+            let submit_str: Option<String> = if let Some(i) = list_sel {
+                // List zone: run the highlighted command by canonical name.
+                filtered.get(i).map(|cmd| cmd.canonical().to_string())
+            } else if current.is_empty() {
+                // Empty input — no-op.
+                None
+            } else if current.contains(' ') {
+                // Typed args win: submit verbatim.
+                Some(current)
+            } else {
+                // Single token: complete to the top filtered match.
+                filtered.first().map(|cmd| cmd.canonical().to_string())
+            };
+
+            if let Some(raw) = submit_str {
+                // Reset list zone before submitting.
+                if let Some(ps) = model.palette_state_mut() {
+                    ps.list_selected = None;
+                }
+                return handle_palette_submit(model, raw, ctx);
+            }
         }
-        KeyCode::Down if palette_cmd_mode => {
-            handle_history_nav(model, false);
+
+        // ── Tab ───────────────────────────────────────────────────────────────
+        KeyCode::Tab => {
+            let current = model.palette_input_value().to_string();
+            if !current.contains(' ') {
+                let list_sel = model.palette_list_selected();
+                let filtered = Command::filter(&current);
+                // In list zone: complete to the selected row; else the top match.
+                let target = if let Some(i) = list_sel {
+                    filtered.get(i).copied()
+                } else {
+                    filtered.first().copied()
+                };
+                if let Some(cmd) = target {
+                    let new_input =
+                        tui_input::Input::from(format!("{} ", cmd.canonical()));
+                    if let Some(ps) = model.palette_state_mut() {
+                        ps.input = new_input;
+                        ps.history_cursor = None;
+                        ps.list_selected = None;
+                    }
+                }
+            }
         }
+
+        // ── Up ────────────────────────────────────────────────────────────────
+        KeyCode::Up => {
+            let list_sel = model.palette_list_selected();
+            match list_sel {
+                Some(0) => {
+                    // At the top of the list — exit the list zone.
+                    if let Some(ps) = model.palette_state_mut() {
+                        ps.list_selected = None;
+                    }
+                }
+                Some(i) => {
+                    // Move selection up within the list.
+                    if let Some(ps) = model.palette_state_mut() {
+                        ps.list_selected = Some(i - 1);
+                    }
+                }
+                None => {
+                    // Not in list zone — recall history.
+                    handle_history_nav(model, true);
+                }
+            }
+        }
+
+        // ── Down ──────────────────────────────────────────────────────────────
+        KeyCode::Down => {
+            let list_sel = model.palette_list_selected();
+            let input_empty = model.palette_input_value().is_empty();
+            let history_cur = model.palette_history_cursor();
+
+            match list_sel {
+                Some(i) => {
+                    // Already in the list — move down, clamping at the last entry.
+                    let len = Command::filter(model.palette_input_value()).len();
+                    if let Some(ps) = model.palette_state_mut() {
+                        ps.list_selected = Some((i + 1).min(len.saturating_sub(1)));
+                    }
+                }
+                None if input_empty && history_cur.is_none() => {
+                    // Empty prompt, not in history recall — drop into the list.
+                    let len = Command::filter("").len();
+                    if len > 0 {
+                        if let Some(ps) = model.palette_state_mut() {
+                            ps.list_selected = Some(0);
+                        }
+                    }
+                }
+                None => {
+                    // In history recall — navigate to a newer entry.
+                    handle_history_nav(model, false);
+                }
+            }
+        }
+
+        // ── '?' opens help even from the home palette ─────────────────────────
+        KeyCode::Char('?') => {
+            model.open_modal(Modal::Help(crate::app::HelpModal { scroll: 0 }));
+        }
+
+        // ── Default: feed character into the input buffer ─────────────────────
         _ => {
             if let Some(ps) = model.palette_state_mut() {
                 ps.history_cursor = None;
+                ps.list_selected = None; // typing resets list selection
                 ps.input.handle_event(&crossterm::event::Event::Key(key));
-            }
-            // Re-run the live name filter on every edit (typing, Backspace, …).
-            if palette_fuzzy_mode {
-                let query = model.palette_input_value().to_string();
-                apply_fuzzy_filter(model, &query, ctx);
             }
         }
     }
     Task::none()
 }
 
-/// Rebuild the results table from a fuzzy-find `query`, ranking token names with
-/// `fuzzy::rank_token_rows`. Sets `active_view` to a `Query` view so the table,
-/// navigation, yank, and mouse hit-regions all work for the filtered results.
-fn apply_fuzzy_filter(model: &mut Model, query: &str, ctx: &UpdateCtx<'_>) {
-    let rows = crate::fuzzy::rank_token_rows(ctx.graph, query);
-    model.active_view = ActiveView::Query(crate::app::QueryView::fuzzy(query.to_string(), rows));
-}
 
 fn handle_history_nav(model: &mut Model, older: bool) {
     // Called only when palette is open (from handle_palette_key).
@@ -316,8 +377,8 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
             if matches!(model.active_view, ActiveView::Empty) {
                 return false;
             }
-            model.active_view = ActiveView::Empty;
-            model.status_message = None;
+            // Return to the home screen — re-arms the palette (invariant: Empty → InPalette).
+            model.return_home();
             true
         }
         KeyCode::Up | KeyCode::Char('k') => match &mut model.active_view {

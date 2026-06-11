@@ -56,7 +56,8 @@ fn submit_invalid_query_sets_status_message() {
         Message::PaletteSubmit("query ===bad===".into()),
         &ctx,
     );
-    assert!(!model.is_palette_open());
+    // After a failed command the home palette stays open (return_home_keep_status).
+    assert!(model.is_palette_open());
     assert!(matches!(model.active_view, ActiveView::Empty));
     let msg = model
         .status_message

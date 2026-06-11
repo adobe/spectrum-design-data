@@ -20,13 +20,15 @@ fn type_str(model: &mut Model, ctx: &design_data_tui::UpdateCtx<'_>, s: &str) {
     }
 }
 
+// The palette is always open on a fresh Model — no `:` opener needed.
+
 #[test]
 fn tab_completes_query() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    type_str(&mut model, &ctx, "q");
+    type_str(&mut model, &ctx, "qu");
+    // "qu" matches query and quit; first (query) wins.
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "query ");
 }
@@ -36,7 +38,6 @@ fn tab_completes_resolve() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "re");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "resolve ");
@@ -47,7 +48,6 @@ fn tab_completes_describe() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "d");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "describe ");
@@ -58,30 +58,19 @@ fn tab_completes_validate() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "v");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "validate ");
 }
 
 #[test]
-fn ambiguous_prefix_sets_status_and_leaves_buffer_unchanged() {
+fn tab_on_empty_input_completes_to_first_command() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    // Empty prefix matches all commands → ambiguous.
+    // Empty input → all commands match; Tab completes to the first (query).
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input_value(), "");
-    let msg = model
-        .status_message
-        .as_ref()
-        .map(|m| m.text.as_str())
-        .unwrap_or("");
-    assert!(
-        msg.contains("matches:"),
-        "expected 'matches:' in status: {msg}"
-    );
+    assert_eq!(model.palette_input_value(), "query ");
 }
 
 #[test]
@@ -89,7 +78,6 @@ fn tab_after_space_is_noop() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "query ");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "query ");
@@ -100,19 +88,16 @@ fn tab_on_no_match_is_noop() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     type_str(&mut model, &ctx, "zzz");
     update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
     assert_eq!(model.palette_input_value(), "zzz");
 }
 
 #[test]
-fn tab_in_fuzzy_mode_is_noop() {
+fn common_feed_keys_helper_feeds_sequence() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
-    type_str(&mut model, &ctx, "q");
-    update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx);
-    assert_eq!(model.palette_input_value(), "q");
+    type_str(&mut model, &ctx, "fin");
+    assert_eq!(model.palette_input_value(), "fin");
 }

@@ -80,7 +80,7 @@ fn empty_app_renders_home_screen_tall() {
 
     assert!(rows("▀"), "logo (▀▀▀ row) should appear in a tall terminal");
     assert!(rows("Spectrum Design Data"), "name line should appear");
-    assert!(rows(":validate"), "command table should appear");
+    assert!(rows("validate"), "command list should appear");
     assert!(rows(">"), "prompt cue should appear");
 }
 
@@ -99,13 +99,14 @@ fn empty_app_renders_home_screen_short() {
 }
 
 #[test]
-fn empty_app_palette_prompt_row_is_last() {
+fn bottom_strip_is_empty_on_home() {
+    // chunk[3] is Length(0) — the palette renders in the home view area, not here.
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
     let last_row = row_str(&buf, H - 1, W);
     assert!(
         last_row.trim().is_empty(),
-        "palette row should be empty when closed, got: '{last_row}'"
+        "bottom strip should be empty on home screen, got: '{last_row}'"
     );
 }
 
@@ -152,31 +153,30 @@ fn help_modal_renders_title() {
 // ── Palette prompt ─────────────────────────────────────────────────────────────
 
 #[test]
-fn open_palette_renders_colon_on_last_row() {
-    let graph = make_graph_with_tokens(&[]);
-    let ctx = update_ctx(&graph);
+fn home_palette_renders_arrow_prompt() {
+    // The home screen is always in palette mode; the prompt shows "> ".
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     let buf = render_to_buffer(&mut model, W, H);
-    assert_eq!(
-        buf.cell((0, H - 1)).unwrap().symbol(),
-        ":",
-        "palette prompt should start with ':' in command mode"
-    );
+    // '>' should appear somewhere in the content area (not the last strip row).
+    let any_gt = (1..H - 1).any(|y| {
+        (0..W).any(|x| buf.cell((x, y)).unwrap().symbol() == ">")
+    });
+    assert!(any_gt, "home screen should render '>' prompt prefix");
 }
 
 #[test]
-fn fuzzy_palette_renders_slash_on_last_row() {
+fn typing_in_palette_updates_home_prompt() {
+    // Typing '/' (no longer a special key) just goes into the palette buffer.
     let graph = make_graph_with_tokens(&[]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('/'))), &ctx);
+    // The model input should contain '/'.
+    assert_eq!(model.palette_input_value(), "/");
+    // The last strip row (chunk[3]) should remain empty.
     let buf = render_to_buffer(&mut model, W, H);
-    assert_eq!(
-        buf.cell((0, H - 1)).unwrap().symbol(),
-        "/",
-        "palette prompt should start with '/' in fuzzy mode"
-    );
+    let last_row = row_str(&buf, H - 1, W);
+    assert!(last_row.trim().is_empty(), "bottom strip should be empty");
 }
 
 // ── Determinism ───────────────────────────────────────────────────────────────

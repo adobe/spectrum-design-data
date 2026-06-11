@@ -52,7 +52,9 @@ pub(crate) fn handle_palette_submit(
     // `apply_fuzzy_filter` in `update.rs`) and the runtime only dispatches
     // `PaletteSubmit` for Command-mode Enter. This path is command dispatch only.
     let raw = raw.trim().to_string();
-    model.close_palette();
+    // NOTE: we do NOT close the palette here unconditionally. Post-dispatch
+    // reconciliation below decides whether to go Browsing (results) or return
+    // home (error / empty result), keeping the palette armed in the latter case.
 
     // Append to history (dedupe head, cap at HISTORY_CAP).
     let history_task = if !raw.is_empty()
@@ -75,6 +77,29 @@ pub(crate) fn handle_palette_submit(
     };
 
     let cmd_task = dispatch_command(model, &cmd, &rest, ctx);
+
+    // Post-dispatch reconciliation: decide the resulting mode.
+    //
+    // - Modal opened (Find / New / Name)       → leave InModal (already set).
+    // - Results view set synchronously         → transition to Browsing.
+    // - Async results pending (Describe /      → transition to Browsing now; the
+    //   Validate returned a Task::Cmd)           *Done handler will arrive and
+    //                                            set the view, or call
+    //                                            return_home_keep_status on error.
+    // - Still Empty (error / unknown / quit)   → return_home_keep_status so the
+    //                                            palette stays armed with any
+    //                                            error message visible.
+    if model.is_modal_open() {
+        // Modal was opened — mode is already InModal, nothing to do.
+    } else if model.quit {
+        // quit command — no view transition needed.
+    } else if !matches!(model.active_view, crate::app::ActiveView::Empty) {
+        // A results view was set synchronously — go Browsing.
+        model.close_palette();
+    } else {
+        // Still Empty (error or async dispatch) — return home and keep status.
+        model.return_home_keep_status();
+    }
 
     // Combine history save with command task.
     match (history_task, cmd_task) {
@@ -272,6 +297,10 @@ fn dispatch_command(
             ws.refresh_suggestions(ctx.graph);
             model.open_modal(Modal::Wizard(Box::new(ws)));
             model.status_message = None;
+            Task::none()
+        }
+        Some(Command::Quit) => {
+            model.quit = true;
             Task::none()
         }
         None => {

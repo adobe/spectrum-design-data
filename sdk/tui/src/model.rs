@@ -47,9 +47,9 @@ impl Model {
                         modal: Modal::Wizard(Box::new(from_draft(d))),
                     })
                 })
-                .unwrap_or_else(|| Mode::Browsing(BrowsingState::default()))
+                .unwrap_or_else(|| Mode::InPalette(PaletteState::command()))
         } else {
-            Mode::Browsing(BrowsingState::default())
+            Mode::InPalette(PaletteState::command())
         };
         Self {
             palette_history: crate::app::load_palette_history(),
@@ -60,7 +60,7 @@ impl Model {
 
     pub fn new() -> Self {
         Self {
-            mode: Mode::Browsing(BrowsingState::default()),
+            mode: Mode::InPalette(PaletteState::command()),
             quit: false,
             active_view: ActiveView::Empty,
             status_message: None,
@@ -80,10 +80,6 @@ impl Model {
         self.mode = Mode::InPalette(PaletteState::command());
     }
 
-    pub fn open_fuzzy_palette(&mut self) {
-        self.mode = Mode::InPalette(PaletteState::fuzzy());
-    }
-
     /// Close the palette and return to Browsing. No-op if not in palette mode.
     pub fn close_palette(&mut self) {
         if matches!(self.mode, Mode::InPalette(_)) {
@@ -91,7 +87,22 @@ impl Model {
         }
     }
 
-    /// Return the palette prompt prefix (`:` or `/`), or `""` if closed.
+    /// Return to the home screen: `Empty` active view, palette open, status cleared.
+    /// This upholds the invariant that the palette is always open on the home screen.
+    pub fn return_home(&mut self) {
+        self.active_view = ActiveView::Empty;
+        self.status_message = None;
+        self.mode = Mode::InPalette(PaletteState::command());
+    }
+
+    /// Like `return_home` but preserves the current status message (used when a
+    /// command failed and we want to keep the error visible).
+    pub fn return_home_keep_status(&mut self) {
+        self.active_view = ActiveView::Empty;
+        self.mode = Mode::InPalette(PaletteState::command());
+    }
+
+    /// Return the palette prompt prefix (`"> "`), or `""` if palette is closed.
     pub fn palette_prefix(&self) -> &'static str {
         if let Mode::InPalette(ref ps) = self.mode {
             ps.prefix()
@@ -120,10 +131,16 @@ impl Model {
         self.mode = Mode::InModal(ModalState { modal });
     }
 
-    /// Close the modal and return to Browsing. No-op if not in modal mode.
+    /// Close the modal. Returns to Browsing if a results view is active, or to
+    /// the home palette (InPalette) when active_view is Empty — prevents a dead
+    /// state where no keys are handled after cancelling a wizard from the palette.
     pub fn close_modal(&mut self) {
         if matches!(self.mode, Mode::InModal(_)) {
-            self.mode = Mode::Browsing(BrowsingState::default());
+            self.mode = if matches!(self.active_view, ActiveView::Empty) {
+                Mode::InPalette(PaletteState::command())
+            } else {
+                Mode::Browsing(BrowsingState::default())
+            };
         }
     }
 
@@ -152,6 +169,15 @@ impl Model {
     pub fn palette_history_cursor(&self) -> Option<usize> {
         if let Mode::InPalette(ref ps) = self.mode {
             ps.history_cursor
+        } else {
+            None
+        }
+    }
+
+    /// Return the command-list selection index (`None` = focus on the input line).
+    pub fn palette_list_selected(&self) -> Option<usize> {
+        if let Mode::InPalette(ref ps) = self.mode {
+            ps.list_selected
         } else {
             None
         }

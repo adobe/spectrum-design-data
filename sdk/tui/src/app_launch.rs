@@ -22,6 +22,7 @@ use std::sync::Arc;
 
 use clap::ValueEnum;
 use crossterm::{
+    cursor::SetCursorStyle,
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
@@ -210,13 +211,24 @@ pub fn launch(opts: LaunchOptions) -> miette::Result<()> {
     let original_hook = std::panic::take_hook();
     std::panic::set_hook(Box::new(move |info| {
         let _ = disable_raw_mode();
-        let _ = execute!(stderr(), LeaveAlternateScreen, DisableMouseCapture);
+        let _ = execute!(
+            stderr(),
+            LeaveAlternateScreen,
+            DisableMouseCapture,
+            SetCursorStyle::DefaultUserShape
+        );
         original_hook(info);
     }));
 
     enable_raw_mode().into_diagnostic()?;
     let mut stdout = std::io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture).into_diagnostic()?;
+    execute!(
+        stdout,
+        EnterAlternateScreen,
+        EnableMouseCapture,
+        SetCursorStyle::BlinkingBar
+    )
+    .into_diagnostic()?;
 
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).into_diagnostic()?;
@@ -234,7 +246,8 @@ pub fn launch(opts: LaunchOptions) -> miette::Result<()> {
     let _ = execute!(
         terminal.backend_mut(),
         LeaveAlternateScreen,
-        DisableMouseCapture
+        DisableMouseCapture,
+        SetCursorStyle::DefaultUserShape
     );
     let _ = terminal.show_cursor();
 
@@ -381,9 +394,8 @@ fn launch_headless(
     print!("{ansi}");
 
     // Append a CUP escape (1-based row;col) so tuiwright's ANSI decoder can
-    // capture cursor position.  Until views call set_cursor_position() this
-    // will report (0, 0), which is documented and expected; it will become
-    // meaningful once the palette/find caret wires up a real cursor.
+    // capture cursor position.  draw() calls frame.set_cursor_position() for the
+    // home palette prompt, so the reported position now reflects the real caret.
     let cursor_pos = terminal
         .backend_mut()
         .get_cursor_position()
