@@ -504,9 +504,19 @@ fn render_intent_content(
             .map(|(i, s)| {
                 let marker = if i == selected_suggestion { "▶" } else { " " };
                 let conf = format!("{:.0}%", s.confidence * 100.0);
+                let source = s
+                    .file
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .unwrap_or("")
+                    .to_string();
                 Row::new(vec![
                     Cell::from(marker),
-                    Cell::from(s.token_name.as_str()),
+                    Cell::from(s.display_name()),
+                    Cell::from(Span::styled(
+                        source,
+                        Style::default().fg(theme.muted),
+                    )),
                     Cell::from(conf),
                 ])
             })
@@ -514,6 +524,7 @@ fn render_intent_content(
         let widths = [
             Constraint::Length(2),
             Constraint::Min(0),
+            Constraint::Length(28),
             Constraint::Length(5),
         ];
         let table =

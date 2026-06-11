@@ -20,6 +20,7 @@ use std::path::PathBuf;
 use serde_json::Value;
 
 use crate::graph::{Layer, TokenGraph, TokenRecord};
+use crate::naming::extract_legacy_key;
 
 /// A ranked suggestion result.
 #[derive(Debug, Clone)]
@@ -38,6 +39,22 @@ pub struct SuggestionResult {
     pub name_object: Option<Value>,
     /// The token's raw value, if any.
     pub value: Option<Value>,
+}
+
+impl SuggestionResult {
+    /// Human-readable label for display in the wizard suggestion list.
+    ///
+    /// Derives the legacy name from the token's `name` object when present —
+    /// the same derivation used by the graph loader to populate
+    /// `legacy_name_index`. Falls back to the raw graph key (`token_name`)
+    /// when no name object is available (e.g. object-format tokens whose graph
+    /// key is already a readable name like `accent-background-color-default`).
+    pub fn display_name(&self) -> String {
+        self.name_object
+            .as_ref()
+            .and_then(extract_legacy_key)
+            .unwrap_or_else(|| self.token_name.clone())
+    }
 }
 
 /// Suggest existing tokens that match the given `intent` string.
@@ -291,6 +308,66 @@ mod tests {
             results[0].value.as_ref().and_then(|v| v.as_str()),
             Some("rgb(0, 0, 0)")
         );
+    }
+
+    // ── display_name() ────────────────────────────────────────────────────────
+
+    fn make_suggestion(token_name: &str, name_object: Option<serde_json::Value>) -> SuggestionResult {
+        SuggestionResult {
+            token_uuid: None,
+            token_name: token_name.to_string(),
+            file: PathBuf::from("tokens/color-aliases.tokens.json"),
+            layer: crate::graph::Layer::Foundation,
+            confidence: 0.18,
+            name_object,
+            value: None,
+        }
+    }
+
+    #[test]
+    fn display_name_derives_readable_name_from_color_domain_name_object() {
+        // Cascade token: graph key is file:index, but name_object is a color-domain object.
+        let s = make_suggestion(
+            "tokens/color-aliases.tokens.json:0",
+            Some(json!({
+                "variant": "accent",
+                "colorFamily": "background-color",
+                "scaleIndex": 100
+            })),
+        );
+        assert_eq!(s.display_name(), "accent-background-color-100");
+    }
+
+    #[test]
+    fn display_name_derives_readable_name_from_component_name_object() {
+        // Cascade token with property/component/state name object.
+        let s = make_suggestion(
+            "tokens/layout.tokens.json:7",
+            Some(json!({
+                "property": "background-color",
+                "component": "button",
+                "state": "hover"
+            })),
+        );
+        assert_eq!(s.display_name(), "button-background-color-hover");
+    }
+
+    #[test]
+    fn display_name_falls_back_to_token_name_when_no_name_object() {
+        // Object-format token: graph key is already readable; name_object is None.
+        let s = make_suggestion("accent-background-color-default", None);
+        assert_eq!(s.display_name(), "accent-background-color-default");
+    }
+
+    #[test]
+    fn display_name_falls_back_to_token_name_when_name_object_is_not_object() {
+        // Defensive: name_object present but not a valid name structure.
+        let s = make_suggestion(
+            "tokens/misc.tokens.json:2",
+            Some(json!("some-legacy-string-key")),
+        );
+        // extract_legacy_key handles string escape hatch: returns the string itself.
+        assert_eq!(s.display_name(), "some-legacy-string-key");
     }
 
     #[test]

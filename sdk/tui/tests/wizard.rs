@@ -9,10 +9,10 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::{key, make_graph, update_ctx};
+use common::{key, make_graph, render_to_buffer, update_ctx};
 
 use crossterm::event::KeyCode;
-use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
+use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
 use design_data_tui::app::Modal;
 use design_data_tui::wizard::{ValueKind, WizardPath, WizardScreen};
 use design_data_tui::{update, Message, Model, Task, UpdateCtx};
@@ -494,4 +494,63 @@ fn assembled_name_joins_property_and_fields() {
             value: Input::from("hover".to_string()),
         });
     assert_eq!(ws.assembled_name(), "background-color-hover");
+}
+
+// ── Suggestion display-name render tests ─────────────────────────────────────
+
+/// Build a graph that contains a cascade-format token: graph key is
+/// `"tokens/color-aliases.tokens.json:0"` (a file:index string), but the
+/// token's raw JSON carries a readable `name` object so `display_name()`
+/// can derive `accent-background-color`.
+fn make_cascade_graph() -> TokenGraph {
+    let record = TokenRecord {
+        name: "tokens/color-aliases.tokens.json:0".to_string(),
+        file: PathBuf::from("tokens/color-aliases.tokens.json"),
+        index: 0,
+        schema_url: None,
+        uuid: None,
+        alias_target: None,
+        raw: serde_json::json!({
+            "value": "red",
+            "name": {
+                "variant": "accent",
+                "colorFamily": "background-color"
+            }
+        }),
+        layer: Layer::Foundation,
+    };
+    TokenGraph::from_records(vec![record])
+}
+
+#[test]
+fn wizard_s1_renders_readable_name_not_file_index_key() {
+    // Regression guard for spectrum-design-data-xxh:
+    // Cascade-format tokens must appear with their derived legacy name in the
+    // wizard suggestion list, not as the raw `file:index` graph key.
+    let graph = make_cascade_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // Open wizard with an intent that matches the cascade token ("accent background").
+    open_wizard(&mut model, &ctx, "accent background");
+
+    // Render at a comfortable size so the suggestion list is visible.
+    let buf = render_to_buffer(&mut model, 120, 36);
+    let rendered: String = buf
+        .content()
+        .iter()
+        .map(|c| c.symbol().to_string())
+        .collect();
+
+    // The readable derived name should appear in the buffer.
+    assert!(
+        rendered.contains("accent-background-color"),
+        "expected readable suggestion label 'accent-background-color' in wizard render; \
+         got (excerpt): {:?}",
+        &rendered[..rendered.len().min(400)]
+    );
+    // The raw file:index key must NOT appear as a label.
+    assert!(
+        !rendered.contains("color-aliases.tokens.json:0"),
+        "file:index key must not appear as a suggestion label; regression in display_name()"
+    );
 }
