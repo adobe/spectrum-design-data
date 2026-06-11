@@ -91,9 +91,8 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
 
 /// The `@adobe/spectrum-design-data` (cascade) version baked into this binary.
 ///
-/// Kept in sync with `packages/design-data/package.json` via a drift test.
-/// When bumping the cascade data package, update this constant too.
-pub const EMBEDDED_DATA_VERSION: &str = "0.7.0";
+/// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
+pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -412,28 +411,4 @@ mod tests {
         );
     }
 
-    /// Drift test: the EMBEDDED_DATA_VERSION constant must match the version in
-    /// packages/design-data/package.json.  Fails CI when the cascade data package is bumped
-    /// without updating the constant.
-    #[test]
-    fn embedded_version_matches_design_data_package_json() {
-        let pkg_json_path = concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../packages/design-data/package.json"
-        );
-        let raw = std::fs::read_to_string(pkg_json_path).expect(
-            "packages/design-data/package.json should be readable from the test environment",
-        );
-        let pkg: serde_json::Value = serde_json::from_str(&raw)
-            .expect("packages/design-data/package.json should be valid JSON");
-        let pkg_version = pkg["version"]
-            .as_str()
-            .expect("packages/design-data/package.json should have a string 'version' field");
-
-        assert_eq!(
-            EMBEDDED_DATA_VERSION, pkg_version,
-            "EMBEDDED_DATA_VERSION is '{EMBEDDED_DATA_VERSION}' but packages/design-data/package.json says '{pkg_version}'. \
-             Update the constant in sdk/core/src/data_source/embedded.rs."
-        );
-    }
 }
