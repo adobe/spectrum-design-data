@@ -32,19 +32,13 @@ pub const LOGO: &str = r"                ████
                ███████
                  ▀▀▀                ";
 
-/// Command reference shown on the home screen.
+/// Command reference used by tests in this module and `command.rs` to guard
+/// against silent drift between logo.rs, help.rs, and the command dispatcher.
 ///
-/// Each entry is `(name, description)`. The command names **must be ASCII-only**;
-/// the render code uses `.len()` (byte count) as the display-column width. Add
-/// unicode-width if that ever changes.
-///
-/// These entries should stay in sync with the `COMMANDS` section of `help.rs`
-/// and with the command dispatch in `update_command.rs`. Two tests guard against
-/// silent drift: `commands_present_in_help_text` (COMMANDS subset of HELP_TEXT)
-/// and the bidirectional COMMANDS <-> `Command` enum check in `command.rs`
-/// (every `:` entry maps to a dispatchable variant and vice versa, GH #1096).
-#[allow(dead_code)] // Referenced by tests (commands_present_in_help_text); unused in production code.
-pub const COMMANDS: &[(&str, &str)] = &[
+/// Each entry is `(name, description)`. Names **must be ASCII-only**; see
+/// `command_names_are_ascii` in the test module below.
+#[cfg(test)]
+pub(crate) const COMMANDS: &[(&str, &str)] = &[
     ("query <expr>", "Filter tokens  e.g. background-color/*"),
     (
         "resolve property=<name>",

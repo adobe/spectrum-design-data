@@ -18,14 +18,14 @@
 use std::io::Write;
 use std::time::Instant;
 
-use crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use crossterm::event::{self, Event, KeyEventKind};
 use miette::{IntoDiagnostic, Result};
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
     Terminal,
 };
 
-use crate::app::{ActiveView, HitAction, HitRegion, PaletteMode};
+use crate::app::{ActiveView, HitAction, HitRegion};
 use crate::message::Message;
 use crate::model::Model;
 use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
@@ -75,39 +75,7 @@ pub fn run<B: ratatui::backend::Backend>(
         if event::poll(timeout).into_diagnostic()? {
             match event::read().into_diagnostic()? {
                 Event::Key(key) if key.kind == KeyEventKind::Press => {
-                    // Capture palette input text BEFORE sending Key(Enter) to update(),
-                    // because update() clears palette_input as part of closing the palette.
-                    // If Enter does close the palette (model.palette_open flips false),
-                    // we then dispatch PaletteSubmit with the captured text. If update()
-                    // ever defers closing (e.g., for validation), palette_text is Some but
-                    // the guard `!model.palette_open` will be false, so PaletteSubmit is
-                    // correctly suppressed.
-                    //
-                    // Only Command mode submits a command. FuzzyFind filters live on every
-                    // keystroke and commits its results on Enter inside update(), so its
-                    // input text must never reach the command dispatcher.
-                    let palette_text = if model.is_palette_open()
-                        && key.code == KeyCode::Enter
-                        && model.palette_mode() == Some(PaletteMode::Command)
-                    {
-                        Some(model.palette_input_value().to_string())
-                    } else {
-                        None
-                    };
-
                     dispatch_and_record(&mut model, Message::Key(key), ctx, &mut record);
-
-                    // Dispatch the command only if Enter actually closed the palette.
-                    if let Some(text) = palette_text {
-                        if !model.is_palette_open() {
-                            dispatch_and_record(
-                                &mut model,
-                                Message::PaletteSubmit(text),
-                                ctx,
-                                &mut record,
-                            );
-                        }
-                    }
                 }
                 Event::Key(_) => {}
                 Event::Mouse(me) => {
