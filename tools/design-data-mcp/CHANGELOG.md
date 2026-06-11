@@ -1,5 +1,21 @@
 # @adobe/design-data-mcp
 
+## 1.6.0
+
+### Minor Changes
+
+- [#1157](https://github.com/adobe/spectrum-design-data/pull/1157) [`a23dafb`](https://github.com/adobe/spectrum-design-data/commit/a23dafb1805dac8203baba669c61085133160454) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `design-data-guideline` and `design-data-guideline-list` MCP tools.
+  - **design-data-guideline-list**: lists available guideline pages from `manifest.json`;
+    supports optional `category` filter (designing, fundamentals, developing, support).
+  - **design-data-guideline**: fetches a full guideline document by kebab-case ID.
+  - **design-data-primer**: now includes a `guidelines` summary (count + categories).
+  - **loadDataFile**: extracted shared helper used by both component and guideline loaders.
+
+### Patch Changes
+
+- Updated dependencies [[`a23dafb`](https://github.com/adobe/spectrum-design-data/commit/a23dafb1805dac8203baba669c61085133160454), [`a23dafb`](https://github.com/adobe/spectrum-design-data/commit/a23dafb1805dac8203baba669c61085133160454)]:
+  - @adobe/spectrum-design-data@0.7.0
+
 ## 1.5.0
 
 ### Minor Changes
