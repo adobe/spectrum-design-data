@@ -195,7 +195,7 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
     if (headingKey === "overview") {
       const text = normalize(rewriteLinks(section.content));
       if (text) {
-        blocks.push({ type: "purpose", content: text });
+        blocks.unshift({ type: "purpose", content: text });
         hasOverview = true;
       } else {
         flags.push(`EMPTY: "## Overview" section has no content`);

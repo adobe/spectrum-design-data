@@ -8,48 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! fzf-style subsequence matching for the `/` fuzzy-find palette (GH #1079).
+//! fzf-style subsequence matching for token names (GH #1079).
 //!
 //! [`subsequence_score`] scores a needle against a haystack, returning `None`
-//! when the needle is not a subsequence of the haystack. [`rank_token_rows`]
-//! applies that scorer across every token's display name and returns the
-//! matching [`QueryRow`]s ranked best-first, ready to drop into a `QueryView`.
-
-use design_data_core::diff::display_name;
-use design_data_core::graph::TokenGraph;
-pub use design_data_core::query::subsequence_score;
-
-use crate::app_views::QueryRow;
-
-/// Rank every token in `graph` against `query`, returning matching rows best-first.
-///
-/// An empty (or whitespace-only) query returns all tokens sorted by name. A
-/// non-empty query keeps only tokens whose display name contains `query` as a
-/// subsequence, sorted by descending score and then name for stable ordering.
-#[allow(dead_code)] // Retained as a utility; not called since the `/` fuzzy palette was removed.
-pub fn rank_token_rows(graph: &TokenGraph, query: &str) -> Vec<QueryRow> {
-    let q = query.trim();
-    if q.is_empty() {
-        let mut rows: Vec<QueryRow> = graph.tokens.values().map(QueryRow::from_record).collect();
-        rows.sort_by(|a, b| a.name.cmp(&b.name));
-        return rows;
-    }
-
-    let mut scored: Vec<(i32, QueryRow)> = graph
-        .tokens
-        .values()
-        .filter_map(|t| {
-            let name = display_name(t);
-            subsequence_score(&name, q).map(|s| (s, QueryRow::from_record(t)))
-        })
-        .collect();
-    scored.sort_by(|a, b| b.0.cmp(&a.0).then_with(|| a.1.name.cmp(&b.1.name)));
-    scored.into_iter().map(|(_, row)| row).collect()
-}
+//! when the needle is not a subsequence of the haystack.
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use design_data_core::query::subsequence_score;
 
     #[test]
     fn empty_needle_matches_with_zero_score() {

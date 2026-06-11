@@ -331,6 +331,30 @@ fn down_on_nonempty_prompt_does_not_enter_list() {
 }
 
 #[test]
+fn down_with_typed_input_is_noop() {
+    // Bug guard: when the user has typed something (no history recall active),
+    // Down should not enter the list AND should not clear the input.
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    for c in "val".chars() {
+        update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
+    }
+    assert_eq!(model.palette_input_value(), "val");
+    update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
+    assert_eq!(
+        model.palette_input_value(),
+        "val",
+        "Down with typed input should not erase the buffer"
+    );
+    assert_eq!(
+        model.palette_list_selected(),
+        None,
+        "Down with typed input should not enter the command list"
+    );
+}
+
+#[test]
 fn tab_in_list_completes_to_selected_command() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);

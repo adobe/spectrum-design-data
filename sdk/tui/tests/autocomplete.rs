@@ -94,7 +94,7 @@ fn tab_on_no_match_is_noop() {
 }
 
 #[test]
-fn common_feed_keys_helper_feeds_sequence() {
+fn typing_accumulates_characters_in_input() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();

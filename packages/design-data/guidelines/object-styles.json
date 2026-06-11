@@ -6,6 +6,10 @@
   "category": "designing",
   "documentBlocks": [
     {
+      "type": "purpose",
+      "content": "Example of how object styles are combined to communicate different interactions.\n\nIn general, Spectrum 2’s system for rounding is more pronounced and flexible than in Spectrum 1.\n\nIn general, this system of rounding creates a visually balanced gap when nesting smaller objects within larger objects.\n\n\"There are two border widths used within in-product UI contexts:\"\n\n\"The third option is not used within in-product UI contexts:\"\n\nA medium divider separates two action button groups. Note that when dividers are used with visible gaps on both ends, the end caps are fully rounded.\n\nWhile the detailed values are still in progress, the foundational concepts for drop shadows still apply.\n\n\"In Spectrum 2, shadows are composed of three layers: a key shadow, an ambient shadow, and a transition shadow that’s between them.\"\n\nContainers that appear on top of content, such as menus and tooltips, have drop shadows to show elevation."
+    },
+    {
       "type": "guideline",
       "content": "Object styles are specific visual shapes or effects that are used to communicate intent or to give cues about an interaction."
     },
@@ -88,10 +92,6 @@
     {
       "type": "guideline",
       "content": "An overlay represents elevation in a different way: it focuses attention on the content above the overlay only. When using an overlay (for example, behind a dialog), no additional drop shadow is applied to the background."
-    },
-    {
-      "type": "purpose",
-      "content": "Example of how object styles are combined to communicate different interactions.\n\nIn general, Spectrum 2’s system for rounding is more pronounced and flexible than in Spectrum 1.\n\nIn general, this system of rounding creates a visually balanced gap when nesting smaller objects within larger objects.\n\n\"There are two border widths used within in-product UI contexts:\"\n\n\"The third option is not used within in-product UI contexts:\"\n\nA medium divider separates two action button groups. Note that when dividers are used with visible gaps on both ends, the end caps are fully rounded.\n\nWhile the detailed values are still in progress, the foundational concepts for drop shadows still apply.\n\n\"In Spectrum 2, shadows are composed of three layers: a key shadow, an ambient shadow, and a transition shadow that’s between them.\"\n\nContainers that appear on top of content, such as menus and tooltips, have drop shadows to show elevation."
     }
   ],
   "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/object-styles/",

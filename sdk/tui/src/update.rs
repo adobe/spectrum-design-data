@@ -318,9 +318,12 @@ fn handle_palette_key(
                         }
                     }
                 }
-                None => {
+                None if history_cur.is_some() => {
                     // In history recall — navigate to a newer entry.
                     handle_history_nav(model, false);
+                }
+                None => {
+                    // No-op: user is typing, not in history recall or list zone.
                 }
             }
         }

@@ -6,6 +6,10 @@
   "category": "designing",
   "documentBlocks": [
     {
+      "type": "purpose",
+      "content": "Examples of containers: two cards with different sizes and layout options, and a select box.\"\n\nAll containers share a set of defined styles.\n\nInternal padding is dependent on component size, density, and platform scale, all of which vary for specific components and patterns.\n\nThis medium card uses spacing-300 for internal padding.\n\nNote that specific components might have different options and states.\n\nExample of an app frame with a side navigation."
+    },
+    {
       "type": "guideline",
       "content": "Containers separate concepts with distinct purposes."
     },
@@ -48,10 +52,6 @@
     {
       "type": "guideline",
       "content": "Example of an app frame with a side navigation."
-    },
-    {
-      "type": "purpose",
-      "content": "Examples of containers: two cards with different sizes and layout options, and a select box.\"\n\nAll containers share a set of defined styles.\n\nInternal padding is dependent on component size, density, and platform scale, all of which vary for specific components and patterns.\n\nThis medium card uses spacing-300 for internal padding.\n\nNote that specific components might have different options and states.\n\nExample of an app frame with a side navigation."
     }
   ],
   "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/containers/",
