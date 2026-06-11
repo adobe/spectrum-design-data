@@ -416,7 +416,6 @@ async function runGuideline(args) {
   // Write manifest (catalog for MCP discovery)
   if (!args.dryRun && manifestEntries.length > 0) {
     const manifest = {
-      generated: new Date().toISOString(),
       guidelines: manifestEntries,
     };
     const manifestPath = join(GUIDELINES_OUT_DIR, "manifest.json");

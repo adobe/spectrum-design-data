@@ -26,7 +26,7 @@ use crate::app_views::QueryRow;
 /// An empty (or whitespace-only) query returns all tokens sorted by name. A
 /// non-empty query keeps only tokens whose display name contains `query` as a
 /// subsequence, sorted by descending score and then name for stable ordering.
-#[allow(dead_code)] // Used by the find modal; retained for future callers.
+#[allow(dead_code)] // Retained as a utility; not called since the `/` fuzzy palette was removed.
 pub fn rank_token_rows(graph: &TokenGraph, query: &str) -> Vec<QueryRow> {
     let q = query.trim();
     if q.is_empty() {

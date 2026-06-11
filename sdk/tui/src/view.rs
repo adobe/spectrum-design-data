@@ -226,17 +226,14 @@ fn render_home(
         } else {
             Style::default().fg(theme.muted)
         };
-        lines.push(Line::styled(
-            format!(
-                "{MARGIN}  {name}{padding}{}",
-                cmd.description()
-            ),
-            row_style,
-        ).spans(vec![
-            Span::styled(format!("{MARGIN}  {name}"), name_style),
-            Span::styled(padding, row_style),
-            Span::styled(cmd.description(), desc_style),
-        ]));
+        lines.push(
+            Line::from(vec![
+                Span::styled(format!("{MARGIN}  {name}"), name_style),
+                Span::styled(padding, row_style),
+                Span::styled(cmd.description(), desc_style),
+            ])
+            .style(row_style),
+        );
     }
 
     // Prompt row offset: logo+spacer (if shown) + name + hint + separator = N.

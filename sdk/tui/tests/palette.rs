@@ -23,8 +23,6 @@ fn ctrl(c: char) -> KeyEvent {
 
 #[test]
 fn palette_is_open_on_new_model() {
-    let graph = empty_graph();
-    let ctx = update_ctx(&graph);
     let model = Model::new();
     // The home screen is always InPalette(Command) — no key needed.
     assert!(model.is_palette_open());
@@ -230,25 +228,17 @@ fn enter_in_list_runs_selected_command() {
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    // The command list (with empty filter) is Command::ALL in order.
-    // Navigate to 'quit' by clamping at the last entry (index 7 in an 8-item list).
-    // Using 20 Down presses guarantees we clamp at the end regardless of list length.
-    for _ in 0..20 {
+    // Find where 'quit' sits in the unfiltered list — avoids hardcoding an index.
+    let cmds = design_data_tui::command::Command::filter("");
+    let quit_idx = cmds
+        .iter()
+        .position(|c| c.canonical() == "quit")
+        .expect("quit must be a registered command");
+    // Navigate Down to the quit row.
+    for _ in 0..=quit_idx {
         update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
     }
-    let cmds = design_data_tui::command::Command::filter("");
-    let last_idx = cmds.len().saturating_sub(1);
-    assert_eq!(
-        model.palette_list_selected(),
-        Some(last_idx),
-        "should be clamped at last command"
-    );
-    // The last command must be 'quit' (Command::ALL order).
-    assert_eq!(
-        cmds[last_idx].canonical(),
-        "quit",
-        "last command should be 'quit'"
-    );
+    assert_eq!(model.palette_list_selected(), Some(quit_idx));
     // Press Enter to run the highlighted 'quit' command.
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
     // 'quit' sets model.quit = true (no view transition — reconciliation leaves
@@ -316,17 +306,27 @@ fn enter_with_single_token_completes_to_top_match() {
 
 #[test]
 fn down_on_nonempty_prompt_does_not_enter_list() {
-    // When the user has typed something (filtered list), Down goes to history
-    // navigation (newer), not the list. This matches the Obsidian model.
+    // When the user is in history recall (non-empty prompt), Down navigates to
+    // a newer history entry rather than dropping into the command list.
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::Key(key(KeyCode::Char('q'))), &ctx);
+    model.palette_history = vec!["query foo".to_string()];
+    // Up recalls the history entry (puts history_cursor at Some(0)).
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    assert_eq!(model.palette_history_cursor(), Some(0));
+    // Down on a non-empty prompt navigates toward newer history, not the list.
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
     assert_eq!(
         model.palette_list_selected(),
         None,
         "Down on non-empty prompt should not enter the list zone"
+    );
+    // History cursor moves past the newest entry and is cleared.
+    assert_eq!(
+        model.palette_history_cursor(),
+        None,
+        "Down should advance history cursor toward newer entry"
     );
 }
 
