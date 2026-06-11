@@ -1,5 +1,14 @@
 # Design System Registry
 
+> **Deprecated.** This package is deprecated. Registry data and the helper API have moved to `@adobe/spectrum-design-data`. Update your imports:
+>
+> ```js
+> import { sizes, getValues } from "@adobe/spectrum-design-data";
+> import sizesJson from "@adobe/spectrum-design-data/registry/sizes.json" with { type: "json" };
+> ```
+>
+> This shim will be removed in a future major version.
+
 A single source of truth for design system terminology used across Spectrum tokens, component schemas, and anatomy.
 
 ## Overview

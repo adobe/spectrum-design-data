@@ -310,14 +310,16 @@ export function createDesignDataTools() {
         "Get the full guideline document for a Spectrum design page by ID. " +
         "Returns the guideline's title, category, metadata, and documentBlocks body " +
         "(purpose, guideline, accessibility, do-dont, and examples blocks). " +
-        "Call design-data-guideline-list first to discover available guideline IDs.",
+        "Call design-data-guideline-list first to discover available guideline IDs. " +
+        "The `id` is the `slug` value returned by design-data-guideline-list.",
       inputSchema: {
         type: "object",
         properties: {
           id: {
             type: "string",
             description:
-              "Guideline ID in kebab-case, e.g. colors, motion, typography-fundamentals",
+              "Guideline ID (kebab-case slug) as returned by design-data-guideline-list, " +
+              "e.g. colors, motion, typography-fundamentals",
           },
         },
         required: ["id"],

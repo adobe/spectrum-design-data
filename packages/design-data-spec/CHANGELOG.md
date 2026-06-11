@@ -1,5 +1,20 @@
 # @adobe/design-data-spec
 
+## 2.4.0
+
+### Minor Changes
+
+- [`e7fbcb0`](https://github.com/adobe/spectrum-design-data/commit/e7fbcb00b6afe1c1a272ed72b7ed22c08fe8e978) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `guideline` entity — standalone design guidance document type.
+  - **schemas/guideline.schema.json**: new Layer 1 schema for non-component guidance
+    pages; requires `$id`, `name`, `title`, `category`, `documentBlocks`; reuses
+    `document-block.schema.json` for the body.
+  - **rules/rules.yaml**: SPEC-045 (`guideline-missing-purpose`, warning) and
+    SPEC-046 (`guideline-related-resolves`, warning).
+  - **spec/guideline-format.md**: normative spec prose for the guideline entity.
+  - **spec/index.md**, **spec/dataset-layout.md**: register `guidelines/` as an
+    optional dataset directory.
+  - **schemas/dataset.schema.json**: add `guidelines` to declared directories/paths.
+
 ## 2.2.0
 
 ### Minor Changes
