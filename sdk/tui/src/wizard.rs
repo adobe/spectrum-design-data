@@ -443,7 +443,7 @@ impl WizardState {
             WizardScreen::Classification => WizardScreen::Intent,
             WizardScreen::Values => WizardScreen::Classification,
             WizardScreen::Confirm => WizardScreen::Values,
-            WizardScreen::Intent => WizardScreen::Intent,
+            WizardScreen::Intent => unreachable!("go_back never called on S1; Esc on S1 cancels"),
         };
     }
 
