@@ -566,6 +566,7 @@ fn esc_on_screen_2_goes_back_to_screen_1() {
     assert!(model.is_modal_open(), "modal should stay open on Esc from S2");
     if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Intent, "Esc on S2 should return to S1");
+        assert_eq!(ws.intent.value(), "background", "intent field must be preserved after back-navigation");
     } else {
         panic!("expected wizard modal");
     }

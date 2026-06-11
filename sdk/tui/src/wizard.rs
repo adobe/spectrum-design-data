@@ -435,8 +435,6 @@ impl WizardState {
         }
     }
 
-    // ── Public helpers ───────────────────────────────────────────────────────
-
     /// Navigate to the previous screen, preserving all already-filled fields.
     fn go_back(&mut self) {
         self.screen = match self.screen {
@@ -446,6 +444,8 @@ impl WizardState {
             WizardScreen::Intent => unreachable!("go_back never called on S1; Esc on S1 cancels"),
         };
     }
+
+    // ── Public helpers ───────────────────────────────────────────────────────
 
     /// Recompute `suggestions` and `can_alias` from the current intent string.
     /// Cheap; safe to call on every key event.
