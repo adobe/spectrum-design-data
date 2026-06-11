@@ -554,3 +554,50 @@ fn wizard_s1_renders_readable_name_not_file_index_key() {
         "file:index key must not appear as a suggestion label; regression in display_name()"
     );
 }
+
+#[test]
+fn esc_on_screen_2_goes_back_to_screen_1() {
+    let graph = make_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S1 → S2
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx); // S2 → S1
+    assert!(model.is_modal_open(), "modal should stay open on Esc from S2");
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert_eq!(ws.screen, WizardScreen::Intent, "Esc on S2 should return to S1");
+    } else {
+        panic!("expected wizard modal");
+    }
+}
+
+#[test]
+fn esc_on_screen_3_goes_back_to_screen_2() {
+    let graph = make_graph_with_modes();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S1 → S2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S2 → S3
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx); // S3 → S2
+    assert!(model.is_modal_open(), "modal should stay open on Esc from S3");
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert_eq!(
+            ws.screen,
+            WizardScreen::Classification,
+            "Esc on S3 should return to S2"
+        );
+    } else {
+        panic!("expected wizard modal");
+    }
+}
+
+#[test]
+fn esc_on_screen_1_still_cancels_wizard() {
+    let graph = make_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+    assert!(!model.is_modal_open(), "Esc on S1 should cancel the wizard");
+}

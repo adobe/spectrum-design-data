@@ -176,7 +176,18 @@ impl WizardState {
             return WizardEvent::Continue;
         }
         if key.code == KeyCode::Esc {
-            return WizardEvent::Cancel;
+            // Sub-editor open on S4: close only the sub-editor.
+            if self.editing_schema_url {
+                self.editing_schema_url = false;
+                return WizardEvent::Continue;
+            }
+            // S1: cancel the whole wizard.
+            if self.screen == WizardScreen::Intent {
+                return WizardEvent::Cancel;
+            }
+            // S2–S4: go back one screen without losing prior input.
+            self.go_back();
+            return WizardEvent::Continue;
         }
         let event = match self.screen {
             WizardScreen::Intent => self.handle_intent_key(key, ctx),
@@ -388,9 +399,6 @@ impl WizardState {
                     self.editing_schema_url = false;
                     self.build_diff(ctx.dataset_path);
                 }
-                KeyCode::Esc => {
-                    self.editing_schema_url = false;
-                }
                 _ => {
                     self.schema_url_input
                         .handle_event(&crossterm::event::Event::Key(key));
@@ -428,6 +436,16 @@ impl WizardState {
     }
 
     // ── Public helpers ───────────────────────────────────────────────────────
+
+    /// Navigate to the previous screen, preserving all already-filled fields.
+    fn go_back(&mut self) {
+        self.screen = match self.screen {
+            WizardScreen::Classification => WizardScreen::Intent,
+            WizardScreen::Values => WizardScreen::Classification,
+            WizardScreen::Confirm => WizardScreen::Values,
+            WizardScreen::Intent => WizardScreen::Intent,
+        };
+    }
 
     /// Recompute `suggestions` and `can_alias` from the current intent string.
     /// Cheap; safe to call on every key event.
