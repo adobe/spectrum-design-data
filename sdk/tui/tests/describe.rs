@@ -9,11 +9,11 @@
 // governing permissions and limitations under the License.
 
 mod common;
-use common::{key, settle, update_ctx_builder};
+use common::{key, settle, update_ctx, update_ctx_builder};
 
 use crossterm::event::KeyCode;
 use design_data_core::graph::{ComponentRecord, TokenGraph};
-use design_data_tui::app::ActiveView;
+use design_data_tui::app::{ActiveView, DescribeView};
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
 use std::path::PathBuf;
@@ -173,4 +173,50 @@ fn esc_from_describe_view_returns_to_empty() {
     assert!(matches!(model.active_view, ActiveView::Describe(_)));
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
     assert!(matches!(model.active_view, ActiveView::Empty));
+}
+
+// ── g/G scroll ────────────────────────────────────────────────────────────────
+
+/// Build a DescribeView with enough lines to make G scrolling observable.
+fn multi_line_describe() -> DescribeView {
+    let json = (0..30).map(|i| format!("  \"line{i}\": {i}")).collect::<Vec<_>>().join(",\n");
+    DescribeView {
+        component: "test".to_string(),
+        pretty_json: format!("{{\n{json}\n}}"),
+        scroll: 0,
+    }
+}
+
+#[test]
+fn g_key_scrolls_describe_to_top() {
+    use design_data_core::graph::TokenGraph;
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(multi_line_describe());
+    model.close_palette(); // palette must be closed for view-key routing
+    // Advance scroll, then jump back to top.
+    update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.scroll, 0, "g should scroll describe to top");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn shift_g_key_scrolls_describe_to_bottom() {
+    use design_data_core::graph::TokenGraph;
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(multi_line_describe());
+    model.close_palette(); // palette must be closed for view-key routing
+    update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert!(dv.scroll > 0, "G should scroll describe toward bottom (got scroll={})", dv.scroll);
+    } else {
+        panic!("expected Describe view");
+    }
 }

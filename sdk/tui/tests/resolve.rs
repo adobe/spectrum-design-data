@@ -212,3 +212,42 @@ fn esc_from_resolve_view_returns_to_empty() {
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
     assert!(matches!(model.active_view, ActiveView::Empty));
 }
+
+// ── g/G jump ─────────────────────────────────────────────────────────────────
+
+#[test]
+fn g_key_jumps_to_first_row_in_resolve() {
+    let graph = make_resolve_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // background-color has 3 candidates (base + light + dark mode).
+    submit(&mut model, &ctx, "resolve property=background-color");
+    // Move down, then jump back to first.
+    update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
+    if let ActiveView::Resolve(ref rv) = model.active_view {
+        assert_eq!(rv.table_state.selected(), Some(0), "g should jump to first row");
+    } else {
+        panic!("expected Resolve view");
+    }
+}
+
+#[test]
+fn shift_g_key_jumps_to_last_row_in_resolve() {
+    let graph = make_resolve_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit(&mut model, &ctx, "resolve property=background-color");
+    update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
+    if let ActiveView::Resolve(ref rv) = model.active_view {
+        let last = rv.rows.len() - 1;
+        assert_eq!(
+            rv.table_state.selected(),
+            Some(last),
+            "G should jump to last row (index {last})"
+        );
+    } else {
+        panic!("expected Resolve view");
+    }
+}

@@ -27,6 +27,11 @@ use crate::model::views::{
 };
 use crate::theme::Theme;
 
+/// Footer hint shown on list result views (query, resolve, validate).
+const LIST_HINT: &str = "j/k navigate · g/G top/bottom · y yank · Esc back";
+/// Footer hint shown on the scrollable describe view.
+const DESCRIBE_HINT: &str = "j/k scroll · g/G top/bottom · PgUp/PgDn ×10 · Esc back";
+
 /// Split `area` into [body, hint] — body gets all but the bottom 1-row hint line.
 fn split_body_hint(area: Rect) -> [Rect; 2] {
     Layout::vertical([Constraint::Min(0), Constraint::Length(1)]).areas(area)
@@ -79,7 +84,7 @@ pub(crate) fn render_query(
             body,
             theme,
         );
-        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        render_hint(f, LIST_HINT, hint_area, theme);
         return;
     }
 
@@ -113,7 +118,7 @@ pub(crate) fn render_query(
         .block(Block::default().borders(Borders::ALL).title(title))
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut qv.table_state);
-    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+    render_hint(f, LIST_HINT, hint_area, theme);
 }
 
 pub(crate) fn render_resolve(
@@ -132,7 +137,7 @@ pub(crate) fn render_resolve(
             body,
             theme,
         );
-        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        render_hint(f, LIST_HINT, hint_area, theme);
         return;
     }
 
@@ -176,7 +181,7 @@ pub(crate) fn render_resolve(
         )
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut rv.table_state);
-    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+    render_hint(f, LIST_HINT, hint_area, theme);
 }
 
 pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, theme: &Theme) {
@@ -189,7 +194,7 @@ pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, 
         )
         .scroll((dv.scroll, 0));
     f.render_widget(para, body);
-    render_hint(f, "j/k scroll · PgUp/PgDn ×10 · Esc back", hint_area, theme);
+    render_hint(f, DESCRIBE_HINT, hint_area, theme);
 }
 
 pub(crate) fn render_validate(
@@ -202,7 +207,7 @@ pub(crate) fn render_validate(
 
     if vv.rows.is_empty() {
         render_empty_state(f, " Validate ", "All tokens valid ✓", body, theme);
-        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        render_hint(f, LIST_HINT, hint_area, theme);
         return;
     }
 
@@ -236,5 +241,5 @@ pub(crate) fn render_validate(
         .block(Block::default().borders(Borders::ALL).title(" Validate "))
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut vv.table_state);
-    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+    render_hint(f, LIST_HINT, hint_area, theme);
 }

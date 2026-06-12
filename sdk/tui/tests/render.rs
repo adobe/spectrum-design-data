@@ -17,8 +17,13 @@ mod common;
 use common::{key, make_graph_with_tokens, render_to_buffer, update_ctx, TEST_PRIMER};
 
 use crossterm::event::KeyCode;
+use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
+use design_data_tui::app::{ActiveView, DescribeView, ValidateView};
+use ratatui::widgets::TableState;
 use design_data_tui::{update, Message, Model};
 use ratatui::buffer::Buffer;
+use serde_json::json;
+use std::path::PathBuf;
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -225,6 +230,87 @@ fn query_view_empty_state_still_shows_footer_hint() {
     submit_query(&mut model, &ctx, "query property=zzznomatch");
     let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "j/k navigate", W, H);
+}
+
+// ── Resolve empty state ───────────────────────────────────────────────────────
+
+/// Build a minimal resolve-capable graph (same shape as tests/resolve.rs).
+fn make_resolve_graph() -> TokenGraph {
+    let ms = ModeSetRecord {
+        file: PathBuf::from("mode-sets/color-scheme.json"),
+        name: "colorScheme".into(),
+        modes: vec!["light".into(), "dark".into()],
+        default_mode: "light".into(),
+    };
+    let records = vec![TokenRecord {
+        name: "bg-base".into(),
+        file: PathBuf::from("tokens.json"),
+        index: 0,
+        schema_url: None,
+        uuid: None,
+        alias_target: None,
+        raw: json!({"name": {"property": "background-color"}, "value": "#fff"}),
+        layer: Layer::Foundation,
+    }];
+    TokenGraph::from_records(records).with_mode_sets(vec![ms])
+}
+
+#[test]
+fn resolve_empty_state_shows_no_match_copy() {
+    let graph = make_resolve_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::PaletteSubmit("resolve property=nonexistent-property".into()), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "No match for that property", W, H);
+}
+
+#[test]
+fn resolve_empty_state_shows_footer_hint() {
+    let graph = make_resolve_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::PaletteSubmit("resolve property=nonexistent-property".into()), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "j/k navigate", W, H);
+}
+
+// ── Validate empty state ──────────────────────────────────────────────────────
+
+#[test]
+fn validate_empty_state_shows_all_valid_copy() {
+    // Drive the validate view into the zero-errors state by injecting it directly,
+    // mirroring the m5 pattern for views that require complex IO setup.
+    let mut model = Model::new();
+    model.active_view = ActiveView::Validate(ValidateView { rows: vec![], table_state: TableState::default() });
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "All tokens valid", W, H);
+}
+
+#[test]
+fn validate_empty_state_shows_footer_hint() {
+    let mut model = Model::new();
+    model.active_view = ActiveView::Validate(ValidateView { rows: vec![], table_state: TableState::default() });
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "j/k navigate", W, H);
+}
+
+// ── Describe footer hint ──────────────────────────────────────────────────────
+
+#[test]
+fn describe_view_footer_hint_includes_g_g() {
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(DescribeView {
+        component: "button".to_string(),
+        pretty_json: "{\n  \"name\": \"button\"\n}".to_string(),
+        scroll: 0,
+    });
+    let buf = render_to_buffer(&mut model, W, H);
+    let hint_row = find_row_containing(&buf, "j/k scroll", W, H);
+    assert!(
+        hint_row.contains("g/G"),
+        "describe footer hint should advertise g/G: {hint_row}"
+    );
 }
 
 // ── Determinism ───────────────────────────────────────────────────────────────
