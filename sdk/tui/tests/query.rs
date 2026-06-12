@@ -208,3 +208,47 @@ fn re_query_replaces_results_and_resets_selection() {
         panic!("expected Query view");
     }
 }
+
+#[test]
+fn g_key_jumps_to_first_row() {
+    let graph = make_graph_with_tokens(&["a", "b", "c"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
+    // Move to row 2, then jump back to first.
+    update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
+    update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
+    if let ActiveView::Query(ref qv) = model.active_view {
+        assert_eq!(qv.table_state.selected(), Some(0), "g should jump to first row");
+    } else {
+        panic!("expected Query view");
+    }
+}
+
+#[test]
+fn shift_g_key_jumps_to_last_row() {
+    let graph = make_graph_with_tokens(&["a", "b", "c"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=*".into()),
+        &ctx,
+    );
+    update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
+    if let ActiveView::Query(ref qv) = model.active_view {
+        let last = qv.rows.len() - 1;
+        assert_eq!(
+            qv.table_state.selected(),
+            Some(last),
+            "G should jump to last row (index {last})"
+        );
+    } else {
+        panic!("expected Query view");
+    }
+}

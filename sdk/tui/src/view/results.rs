@@ -14,8 +14,9 @@
 //! (GH #1018).
 
 use ratatui::{
-    layout::{Constraint, Rect},
+    layout::{Alignment, Constraint, Layout, Rect},
     style::{Modifier, Style},
+    text::{Line, Span},
     widgets::{Block, Borders, Cell, Paragraph, Row, Table},
     Frame,
 };
@@ -26,13 +27,63 @@ use crate::model::views::{
 };
 use crate::theme::Theme;
 
+/// Split `area` into [body, hint] — body gets all but the bottom 1-row hint line.
+fn split_body_hint(area: Rect) -> [Rect; 2] {
+    Layout::vertical([Constraint::Min(0), Constraint::Length(1)]).areas(area)
+}
+
+/// Render a muted 1-row hint line into `area`.
+fn render_hint(f: &mut Frame<'_>, text: &str, area: Rect, theme: &Theme) {
+    let hint = Line::from(Span::styled(text, Style::default().fg(theme.muted)));
+    f.render_widget(Paragraph::new(hint), area);
+}
+
+/// Render a centered empty-state message inside a bordered block with `title`.
+fn render_empty_state(f: &mut Frame<'_>, title: &str, msg: &str, area: Rect, theme: &Theme) {
+    let block = Block::default().borders(Borders::ALL).title(title.to_string());
+    let inner = block.inner(area);
+    f.render_widget(block, area);
+    // Vertically center the message in the inner area.
+    let [_, msg_area, _] = Layout::vertical([
+        Constraint::Percentage(35),
+        Constraint::Min(1),
+        Constraint::Percentage(35),
+    ])
+    .areas(inner);
+    f.render_widget(
+        Paragraph::new(msg)
+            .style(Style::default().fg(theme.muted))
+            .alignment(Alignment::Center),
+        msg_area,
+    );
+}
+
 pub(crate) fn render_query(
     f: &mut Frame<'_>,
     qv: &mut QueryView,
     area: Rect,
     theme: &Theme,
 ) {
-    let name_max = column_budget(area.width, 5, QUERY_NAME_PCT);
+    let [body, hint_area] = split_body_hint(area);
+    let title = if qv.is_fuzzy {
+        format!(" Fuzzy: /{} ", qv.expr_text)
+    } else {
+        format!(" Query: {} ", qv.expr_text)
+    };
+
+    if qv.rows.is_empty() {
+        render_empty_state(
+            f,
+            &title,
+            "No tokens matched. Try: query property=background-color or query background-color/*",
+            body,
+            theme,
+        );
+        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        return;
+    }
+
+    let name_max = column_budget(body.width, 5, QUERY_NAME_PCT);
     let header = Row::new(vec![
         Cell::from("Name").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Value").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -57,16 +108,12 @@ pub(crate) fn render_query(
         Constraint::Percentage(20),
         Constraint::Percentage(10),
     ];
-    let title = if qv.is_fuzzy {
-        format!(" Fuzzy: /{} ", qv.expr_text)
-    } else {
-        format!(" Query: {} ", qv.expr_text)
-    };
     let table = Table::new(rows, widths)
         .header(header)
         .block(Block::default().borders(Borders::ALL).title(title))
         .row_highlight_style(Style::default().bg(theme.selection_bg));
-    f.render_stateful_widget(table, area, &mut qv.table_state);
+    f.render_stateful_widget(table, body, &mut qv.table_state);
+    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
 }
 
 pub(crate) fn render_resolve(
@@ -75,7 +122,21 @@ pub(crate) fn render_resolve(
     area: Rect,
     theme: &Theme,
 ) {
-    let name_max = column_budget(area.width, 9, RESOLVE_NAME_PCT);
+    let [body, hint_area] = split_body_hint(area);
+
+    if rv.rows.is_empty() {
+        render_empty_state(
+            f,
+            &format!(" Resolve: {} ", rv.property),
+            "No match for that property/mode combination. Try without mode filters.",
+            body,
+            theme,
+        );
+        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        return;
+    }
+
+    let name_max = column_budget(body.width, 9, RESOLVE_NAME_PCT);
     let header = Row::new(vec![
         Cell::from("★").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Name").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -114,10 +175,12 @@ pub(crate) fn render_resolve(
                 .title(format!(" Resolve: {} ", rv.property)),
         )
         .row_highlight_style(Style::default().bg(theme.selection_bg));
-    f.render_stateful_widget(table, area, &mut rv.table_state);
+    f.render_stateful_widget(table, body, &mut rv.table_state);
+    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
 }
 
-pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect) {
+pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, theme: &Theme) {
+    let [body, hint_area] = split_body_hint(area);
     let para = Paragraph::new(dv.pretty_json.as_str())
         .block(
             Block::default()
@@ -125,7 +188,8 @@ pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect) 
                 .title(format!(" Describe: {} ", dv.component)),
         )
         .scroll((dv.scroll, 0));
-    f.render_widget(para, area);
+    f.render_widget(para, body);
+    render_hint(f, "j/k scroll · PgUp/PgDn ×10 · Esc back", hint_area, theme);
 }
 
 pub(crate) fn render_validate(
@@ -134,7 +198,15 @@ pub(crate) fn render_validate(
     area: Rect,
     theme: &Theme,
 ) {
-    let token_max = column_budget(area.width, 12, VALIDATE_TOKEN_PCT);
+    let [body, hint_area] = split_body_hint(area);
+
+    if vv.rows.is_empty() {
+        render_empty_state(f, " Validate ", "All tokens valid ✓", body, theme);
+        render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
+        return;
+    }
+
+    let token_max = column_budget(body.width, 12, VALIDATE_TOKEN_PCT);
     let header = Row::new(vec![
         Cell::from("Sev").style(Style::default().add_modifier(Modifier::BOLD)),
         Cell::from("Rule").style(Style::default().add_modifier(Modifier::BOLD)),
@@ -163,5 +235,6 @@ pub(crate) fn render_validate(
         .header(header)
         .block(Block::default().borders(Borders::ALL).title(" Validate "))
         .row_highlight_style(Style::default().bg(theme.selection_bg));
-    f.render_stateful_widget(table, area, &mut vv.table_state);
+    f.render_stateful_widget(table, body, &mut vv.table_state);
+    render_hint(f, "j/k navigate · g/G top/bottom · y yank · Esc back", hint_area, theme);
 }

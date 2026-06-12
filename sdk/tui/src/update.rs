@@ -28,7 +28,8 @@ use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
-    move_table_selection, rect_contains, ActiveView, HitAction, Modal, StatusMessage, ValidateView,
+    move_table_selection, select_edge, rect_contains, ActiveView, HitAction, Modal, StatusMessage,
+    ValidateView,
 };
 use crate::clipboard::write_clipboard;
 use crate::command::Command;
@@ -441,6 +442,46 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 false
             }
         }
+        // g/G: jump to first/last row (vim convention, tui-conventions.md §1).
+        KeyCode::Char('g') => match &mut model.active_view {
+            ActiveView::Query(qv) => {
+                select_edge(&mut qv.table_state, qv.rows.len(), false);
+                true
+            }
+            ActiveView::Resolve(rv) => {
+                select_edge(&mut rv.table_state, rv.rows.len(), false);
+                true
+            }
+            ActiveView::Validate(vv) => {
+                select_edge(&mut vv.table_state, vv.rows.len(), false);
+                true
+            }
+            ActiveView::Describe(dv) => {
+                dv.scroll = 0;
+                true
+            }
+            ActiveView::Empty => false,
+        },
+        KeyCode::Char('G') => match &mut model.active_view {
+            ActiveView::Query(qv) => {
+                select_edge(&mut qv.table_state, qv.rows.len(), true);
+                true
+            }
+            ActiveView::Resolve(rv) => {
+                select_edge(&mut rv.table_state, rv.rows.len(), true);
+                true
+            }
+            ActiveView::Validate(vv) => {
+                select_edge(&mut vv.table_state, vv.rows.len(), true);
+                true
+            }
+            ActiveView::Describe(dv) => {
+                let max_scroll = dv.pretty_json.lines().count().saturating_sub(1) as u16;
+                dv.scroll = max_scroll;
+                true
+            }
+            ActiveView::Empty => false,
+        },
         KeyCode::Char('y') => {
             let yank = match &model.active_view {
                 ActiveView::Query(qv) => qv.selected_row().map(|r| r.name.clone()),

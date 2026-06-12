@@ -1,5 +1,6 @@
 ---
 source: tui/tests/snapshots.rs
+assertion_line: 76
 expression: rendered
 ---
 ▶ test · 0 tokens
@@ -22,6 +23,6 @@ expression: rendered
 │                                                                              │
 │                                                                              │
 │                                                                              │
-│                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
+j/k navigate · g/G top/bottom · y yank · Esc back
 3 token(s) matched

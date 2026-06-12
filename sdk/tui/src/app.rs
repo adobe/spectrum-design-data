@@ -80,6 +80,14 @@ pub fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {
     state.select(Some(next));
 }
 
+/// Jump a `TableState` selection to the first (`last = false`) or last (`last = true`) row.
+pub fn select_edge(state: &mut TableState, len: usize, last: bool) {
+    if len == 0 {
+        return;
+    }
+    state.select(Some(if last { len - 1 } else { 0 }));
+}
+
 /// Test whether `(row, col)` is inside `rect`.
 pub(crate) fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
     col >= rect.x && col < rect.x + rect.width && row >= rect.y && row < rect.y + rect.height

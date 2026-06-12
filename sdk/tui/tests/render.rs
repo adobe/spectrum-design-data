@@ -179,6 +179,54 @@ fn typing_in_palette_updates_home_prompt() {
     assert!(last_row.trim().is_empty(), "bottom strip should be empty");
 }
 
+// ── Footer hints ─────────────────────────────────────────────────────────────
+
+#[test]
+fn query_view_renders_footer_hint_line() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=accent-color");
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "j/k navigate", W, H);
+}
+
+#[test]
+fn query_view_hint_includes_g_g_shortcut() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=accent-color");
+    let buf = render_to_buffer(&mut model, W, H);
+    let hint_row = find_row_containing(&buf, "j/k navigate", W, H);
+    assert!(
+        hint_row.contains("g/G"),
+        "footer hint should advertise g/G: {hint_row}"
+    );
+}
+
+// ── Empty-state copy ──────────────────────────────────────────────────────────
+
+#[test]
+fn query_view_empty_state_shows_hint() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=zzznomatch");
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "No tokens matched", W, H);
+}
+
+#[test]
+fn query_view_empty_state_still_shows_footer_hint() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    submit_query(&mut model, &ctx, "query property=zzznomatch");
+    let buf = render_to_buffer(&mut model, W, H);
+    find_row_containing(&buf, "j/k navigate", W, H);
+}
+
 // ── Determinism ───────────────────────────────────────────────────────────────
 
 #[test]
