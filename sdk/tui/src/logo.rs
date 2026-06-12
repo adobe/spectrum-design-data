@@ -77,8 +77,8 @@ mod tests {
     /// **Coverage:** this test proves COMMANDS ⊆ HELP_TEXT (one direction).
     /// It does *not* prove the reverse (a command added to HELP_TEXT but not
     /// COMMANDS won't be caught), and it does not verify that
-    /// `update_command.rs` actually dispatches each command. The dispatcher in
-    /// `update_command.rs` is a flat `match` on string literals — if you add a
+    /// `update/command.rs` actually dispatches each command. The dispatcher in
+    /// `update/command.rs` is a flat `match` on string literals — if you add a
     /// command there, also add it here and to HELP_TEXT, and this test will
     /// catch any subsequent removal from either list.
     #[test]
