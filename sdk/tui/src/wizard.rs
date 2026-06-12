@@ -435,15 +435,13 @@ impl WizardState {
         }
     }
 
-    // ── Public helpers ───────────────────────────────────────────────────────
-
     /// Navigate to the previous screen, preserving all already-filled fields.
     fn go_back(&mut self) {
         self.screen = match self.screen {
             WizardScreen::Classification => WizardScreen::Intent,
             WizardScreen::Values => WizardScreen::Classification,
             WizardScreen::Confirm => WizardScreen::Values,
-            WizardScreen::Intent => WizardScreen::Intent,
+            WizardScreen::Intent => unreachable!("go_back never called on S1; Esc on S1 cancels"),
         };
     }
 

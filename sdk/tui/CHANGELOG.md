@@ -1,5 +1,17 @@
 # @adobe/design-data-tui
 
+## 0.2.1
+
+### Patch Changes
+
+- [#1158](https://github.com/adobe/spectrum-design-data/pull/1158) [`143abaf`](https://github.com/adobe/spectrum-design-data/commit/143abaf0b5f5af66de88ad5c8a5bad31597fca69) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix wizard S1 suggestion list to show readable token names, not file-path IDs.
+  - **sdk/tui/src/view.rs** (`render_intent_content`): use `display_name()` as
+    the primary label; show source file basename as a dimmed secondary column.
+  - **sdk/core/src/suggest.rs** (`SuggestionResult::display_name`): new method
+    deriving the legacy name from the token's `name` object via
+    `extract_legacy_key`; falls back to the raw graph key when no name object
+    is present.
+
 ## 0.2.0
 
 ### Minor Changes
