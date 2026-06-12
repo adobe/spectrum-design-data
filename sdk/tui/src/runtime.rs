@@ -242,11 +242,39 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
             }
         }
         ActiveView::Validate(vv) => {
-            for (i, row) in vv.rows.iter().enumerate() {
+            use crate::app::VisibleRow;
+            for (i, vr) in vv.visible.iter().enumerate() {
                 let y = data_y + i as u16;
                 if i as u16 >= data_height {
                     break;
                 }
+                let text = match vr {
+                    VisibleRow::Group(g) => {
+                        let group = &vv.groups[*g];
+                        if group.members.len() > 1 {
+                            let toggle = if group.expanded { "▼" } else { "▶" };
+                            format!(
+                                "{}\t{}\t×{} {}\t{}",
+                                group.severity,
+                                group.rule_id,
+                                group.members.len(),
+                                toggle,
+                                group.message
+                            )
+                        } else {
+                            let row = &vv.rows[group.members[0]];
+                            format!(
+                                "{}\t{}\t{}\t{}",
+                                row.severity, row.rule_id, row.token, row.message
+                            )
+                        }
+                    }
+                    VisibleRow::Child(g, c) => {
+                        let row_idx = vv.groups[*g].members[*c];
+                        let row = &vv.rows[row_idx];
+                        format!("  {}", row.token)
+                    }
+                };
                 regions.push(HitRegion {
                     rect: Rect {
                         x: view_area.x,
@@ -255,10 +283,7 @@ fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> V
                         height: 1,
                     },
                     action: HitAction::SelectListRow(i),
-                    text: format!(
-                        "{}\t{}\t{}\t{}",
-                        row.severity, row.rule_id, row.token, row.message
-                    ),
+                    text,
                 });
             }
         }

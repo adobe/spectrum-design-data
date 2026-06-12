@@ -238,24 +238,132 @@ pub struct DiagnosticRow {
     pub message: String,
 }
 
+/// A group of diagnostics that share the same (rule_id, message) key.
+pub struct ValidateGroup {
+    pub rule_id: String,
+    pub message: String,
+    pub severity: String,
+    /// Indices into `ValidateView::rows`.
+    pub members: Vec<usize>,
+    pub expanded: bool,
+}
+
+/// A projected visible row in the validate table — either a group header or an
+/// expanded child showing an individual token.
+pub enum VisibleRow {
+    /// A group header; index into `ValidateView::groups`.
+    Group(usize),
+    /// An expanded child row; `(group_index, position_within_group.members)`.
+    Child(usize, usize),
+}
+
 /// State for a validate findings view.
 pub struct ValidateView {
     pub rows: Vec<DiagnosticRow>,
+    pub groups: Vec<ValidateGroup>,
+    pub visible: Vec<VisibleRow>,
     pub table_state: TableState,
 }
 
 impl ValidateView {
-    pub(crate) fn new(rows: Vec<DiagnosticRow>) -> Self {
+    pub fn new(rows: Vec<DiagnosticRow>) -> Self {
+        let groups = Self::build_groups(&rows);
+        let visible = Self::project_visible(&groups);
         let mut table_state = TableState::default();
-        if !rows.is_empty() {
+        if !visible.is_empty() {
             table_state.select(Some(0));
         }
-        Self { rows, table_state }
+        Self {
+            rows,
+            groups,
+            visible,
+            table_state,
+        }
     }
 
-    pub(crate) fn selected_row(&self) -> Option<&DiagnosticRow> {
-        self.table_state.selected().and_then(|i| self.rows.get(i))
+    fn build_groups(rows: &[DiagnosticRow]) -> Vec<ValidateGroup> {
+        let mut map: HashMap<(String, String), usize> = HashMap::new();
+        let mut groups: Vec<ValidateGroup> = Vec::new();
+        for (i, row) in rows.iter().enumerate() {
+            let key = (row.rule_id.clone(), row.message.clone());
+            if let Some(&g) = map.get(&key) {
+                groups[g].members.push(i);
+            } else {
+                let g = groups.len();
+                map.insert(key, g);
+                groups.push(ValidateGroup {
+                    rule_id: row.rule_id.clone(),
+                    message: row.message.clone(),
+                    severity: row.severity.clone(),
+                    members: vec![i],
+                    expanded: false,
+                });
+            }
+        }
+        groups
     }
+
+    fn project_visible(groups: &[ValidateGroup]) -> Vec<VisibleRow> {
+        let mut visible = Vec::new();
+        for (g, group) in groups.iter().enumerate() {
+            visible.push(VisibleRow::Group(g));
+            if group.expanded {
+                for c in 0..group.members.len() {
+                    visible.push(VisibleRow::Child(g, c));
+                }
+            }
+        }
+        visible
+    }
+
+    fn rebuild_visible(&mut self) {
+        self.visible = Self::project_visible(&self.groups);
+    }
+
+    /// Number of currently visible rows (groups + any expanded children).
+    pub fn visible_len(&self) -> usize {
+        self.visible.len()
+    }
+
+    /// Toggle expand/collapse for the group at the currently selected visible row.
+    /// Singletons (only one member) are a no-op. After rebuild, re-selects the
+    /// group header so the cursor stays on the same group.
+    pub(crate) fn toggle_selected(&mut self) {
+        let sel = match self.table_state.selected() {
+            Some(i) => i,
+            None => return,
+        };
+        let group_idx = match self.visible.get(sel) {
+            Some(VisibleRow::Group(g)) => *g,
+            Some(VisibleRow::Child(g, _)) => *g,
+            None => return,
+        };
+        if self.groups[group_idx].members.len() <= 1 {
+            return;
+        }
+        self.groups[group_idx].expanded = !self.groups[group_idx].expanded;
+        self.rebuild_visible();
+        // Re-select the group header at its new position in the visible list.
+        let new_sel = self
+            .visible
+            .iter()
+            .position(|v| matches!(v, VisibleRow::Group(g) if *g == group_idx));
+        self.table_state.select(new_sel);
+    }
+
+    /// Text to yank for the currently selected visible row.
+    /// A group header yanks the message; a child row yanks the token.
+    pub(crate) fn selected_text(&self) -> Option<String> {
+        let sel = self.table_state.selected()?;
+        match self.visible.get(sel)? {
+            VisibleRow::Group(g) => Some(self.groups[*g].message.clone()),
+            VisibleRow::Child(g, c) => {
+                let row_idx = self.groups[*g].members[*c];
+                Some(self.rows[row_idx].token.clone())
+            }
+        }
+    }
+
 }
 
 /// Which view the active area is showing.
@@ -520,5 +628,116 @@ mod tests {
     fn column_budget_reserved_exceeds_width_saturates_to_zero() {
         // saturating_sub prevents underflow; result is 0 → truncate_cell passes through.
         assert_eq!(column_budget(4, 10, 40), 0);
+    }
+
+    // ── ValidateView grouping ─────────────────────────────────────────────────
+
+    use super::{DiagnosticRow, ValidateView, VisibleRow};
+
+    fn row(rule: &str, token: &str, msg: &str) -> DiagnosticRow {
+        DiagnosticRow {
+            severity: "error".into(),
+            rule_id: rule.into(),
+            token: token.into(),
+            message: msg.into(),
+        }
+    }
+
+    #[test]
+    fn unique_rows_produce_one_group_per_row() {
+        let vv = ValidateView::new(vec![
+            row("R1", "t1", "msg1"),
+            row("R2", "t2", "msg2"),
+            row("R3", "t3", "msg3"),
+        ]);
+        assert_eq!(vv.groups.len(), 3);
+        assert_eq!(vv.visible_len(), 3);
+    }
+
+    #[test]
+    fn duplicate_rule_message_collapses_to_one_group() {
+        let vv = ValidateView::new(vec![
+            row("SPEC-018", "token-a", "same msg"),
+            row("SPEC-018", "token-b", "same msg"),
+            row("SPEC-018", "token-c", "same msg"),
+        ]);
+        assert_eq!(vv.groups.len(), 1);
+        assert_eq!(vv.groups[0].members.len(), 3);
+        // Collapsed: only the header is visible.
+        assert_eq!(vv.visible_len(), 1);
+    }
+
+    #[test]
+    fn groups_preserve_first_seen_order() {
+        let vv = ValidateView::new(vec![
+            row("R2", "ta", "msg-r2"),
+            row("R1", "tb", "msg-r1"),
+            row("R2", "tc", "msg-r2"),
+        ]);
+        assert_eq!(vv.groups.len(), 2);
+        assert_eq!(vv.groups[0].rule_id, "R2");
+        assert_eq!(vv.groups[1].rule_id, "R1");
+    }
+
+    #[test]
+    fn toggle_selected_expands_multi_member_group() {
+        let mut vv = ValidateView::new(vec![
+            row("SPEC-018", "t1", "msg"),
+            row("SPEC-018", "t2", "msg"),
+        ]);
+        assert_eq!(vv.visible_len(), 1, "collapsed: 1 header");
+        vv.toggle_selected();
+        assert!(vv.groups[0].expanded);
+        // header + 2 children
+        assert_eq!(vv.visible_len(), 3);
+    }
+
+    #[test]
+    fn toggle_selected_collapses_back() {
+        let mut vv = ValidateView::new(vec![
+            row("SPEC-018", "t1", "msg"),
+            row("SPEC-018", "t2", "msg"),
+        ]);
+        vv.toggle_selected(); // expand
+        vv.toggle_selected(); // collapse
+        assert!(!vv.groups[0].expanded);
+        assert_eq!(vv.visible_len(), 1);
+    }
+
+    #[test]
+    fn toggle_selected_is_noop_for_singleton() {
+        let mut vv = ValidateView::new(vec![row("R1", "t1", "msg")]);
+        vv.toggle_selected();
+        assert_eq!(vv.visible_len(), 1);
+    }
+
+    #[test]
+    fn toggle_selected_reselects_group_header_after_expand() {
+        let mut vv = ValidateView::new(vec![
+            row("SPEC-018", "t1", "msg"),
+            row("SPEC-018", "t2", "msg"),
+        ]);
+        vv.toggle_selected(); // expand
+        // Selection should be on the Group header (index 0)
+        assert_eq!(vv.table_state.selected(), Some(0));
+        assert!(matches!(vv.visible[0], VisibleRow::Group(_)));
+    }
+
+    #[test]
+    fn selected_text_group_returns_message() {
+        let vv = ValidateView::new(vec![row("R1", "tok", "the-message")]);
+        assert_eq!(vv.selected_text(), Some("the-message".into()));
+    }
+
+    #[test]
+    fn selected_text_child_returns_token() {
+        let mut vv = ValidateView::new(vec![
+            row("SPEC-018", "tok-a", "msg"),
+            row("SPEC-018", "tok-b", "msg"),
+        ]);
+        vv.toggle_selected(); // expand: visible = [Group(0), Child(0,0), Child(0,1)]
+        // Select child at position 1 (Child(0,0), token = "tok-a")
+        vv.table_state.select(Some(1));
+        assert_eq!(vv.selected_text(), Some("tok-a".into()));
     }
 }

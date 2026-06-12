@@ -19,7 +19,6 @@ use common::{key, make_graph_with_tokens, render_to_buffer, update_ctx, TEST_PRI
 use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
 use design_data_tui::app::{ActiveView, DescribeView, ValidateView};
-use ratatui::widgets::TableState;
 use design_data_tui::{update, Message, Model};
 use ratatui::buffer::Buffer;
 use serde_json::json;
@@ -282,7 +281,7 @@ fn validate_empty_state_shows_all_valid_copy() {
     // Drive the validate view into the zero-errors state by injecting it directly,
     // mirroring the m5 pattern for views that require complex IO setup.
     let mut model = Model::new();
-    model.active_view = ActiveView::Validate(ValidateView { rows: vec![], table_state: TableState::default() });
+    model.active_view = ActiveView::Validate(ValidateView::new(vec![]));
     let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "All tokens valid", W, H);
 }
@@ -290,7 +289,7 @@ fn validate_empty_state_shows_all_valid_copy() {
 #[test]
 fn validate_empty_state_shows_footer_hint() {
     let mut model = Model::new();
-    model.active_view = ActiveView::Validate(ValidateView { rows: vec![], table_state: TableState::default() });
+    model.active_view = ActiveView::Validate(ValidateView::new(vec![]));
     let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "j/k navigate", W, H);
 }

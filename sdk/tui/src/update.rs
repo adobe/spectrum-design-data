@@ -397,10 +397,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 move_table_selection(&mut rv.table_state, rv.rows.len(), -1);
                 true
             }
-            ActiveView::Validate(vv) => {
-                move_table_selection(&mut vv.table_state, vv.rows.len(), -1);
-                true
-            }
+            ActiveView::Validate(vv) => { let l = vv.visible_len(); move_table_selection(&mut vv.table_state, l, -1); true }
             ActiveView::Describe(dv) => {
                 dv.scroll = dv.scroll.saturating_sub(1);
                 true
@@ -416,10 +413,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 move_table_selection(&mut rv.table_state, rv.rows.len(), 1);
                 true
             }
-            ActiveView::Validate(vv) => {
-                move_table_selection(&mut vv.table_state, vv.rows.len(), 1);
-                true
-            }
+            ActiveView::Validate(vv) => { let l = vv.visible_len(); move_table_selection(&mut vv.table_state, l, 1); true }
             ActiveView::Describe(dv) => {
                 dv.scroll = dv.scroll.saturating_add(1);
                 true
@@ -442,6 +436,11 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 false
             }
         }
+        // Enter: expand/collapse the selected group in the validate view.
+        KeyCode::Enter => match &mut model.active_view {
+            ActiveView::Validate(vv) => { vv.toggle_selected(); true }
+            _ => false,
+        },
         // g/G: jump to first/last row (vim convention, tui-conventions.md §1).
         KeyCode::Char('g') => match &mut model.active_view {
             ActiveView::Query(qv) => {
@@ -452,10 +451,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 select_edge(&mut rv.table_state, rv.rows.len(), false);
                 true
             }
-            ActiveView::Validate(vv) => {
-                select_edge(&mut vv.table_state, vv.rows.len(), false);
-                true
-            }
+            ActiveView::Validate(vv) => { let l = vv.visible_len(); select_edge(&mut vv.table_state, l, false); true }
             ActiveView::Describe(dv) => {
                 dv.scroll = 0;
                 true
@@ -471,10 +467,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 select_edge(&mut rv.table_state, rv.rows.len(), true);
                 true
             }
-            ActiveView::Validate(vv) => {
-                select_edge(&mut vv.table_state, vv.rows.len(), true);
-                true
-            }
+            ActiveView::Validate(vv) => { let l = vv.visible_len(); select_edge(&mut vv.table_state, l, true); true }
             ActiveView::Describe(dv) => {
                 let max_scroll = dv.pretty_json.lines().count().saturating_sub(1) as u16;
                 dv.scroll = max_scroll;
@@ -486,7 +479,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
             let yank = match &model.active_view {
                 ActiveView::Query(qv) => qv.selected_row().map(|r| r.name.clone()),
                 ActiveView::Resolve(rv) => rv.selected_row().map(|r| r.name.clone()),
-                ActiveView::Validate(vv) => vv.selected_row().map(|r| r.message.clone()),
+                ActiveView::Validate(vv) => vv.selected_text(),
                 ActiveView::Describe(_) | ActiveView::Empty => None,
             };
             if let Some(text) = yank {

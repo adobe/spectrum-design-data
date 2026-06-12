@@ -151,7 +151,7 @@ fn validate_j_k_navigate() {
     }
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
-        if vv.rows.len() > 1 {
+        if vv.visible_len() > 1 {
             assert_eq!(vv.table_state.selected(), Some(1));
         }
     }
