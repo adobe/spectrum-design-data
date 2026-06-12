@@ -33,12 +33,12 @@ export default {
         `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
-  "sdk/**/*.rs": (files) => {
-    // Run rustfmt directly (not via `cargo fmt`) so lint-staged can pass the exact
-    // staged file paths. --edition 2021 matches the workspace Cargo.toml setting.
-    return [
-      `rustfmt --edition 2021 ${files.map((f) => JSON.stringify(f)).join(" ")}`,
-    ];
+  "sdk/**/*.rs": () => {
+    // Use `cargo fmt --all` (not `rustfmt <file>` directly) so formatting is
+    // consistent with the sdk:fmt-check CI gate. Calling rustfmt on individual
+    // files produces subtly different output (e.g. different line-break decisions)
+    // because it lacks the crate-context that cargo provides.
+    return ["cargo fmt --manifest-path sdk/Cargo.toml --all"];
   },
   ".changeset/*.md": (files) => {
     // Only run changeset linter on actual changeset files, not README.md
