@@ -644,6 +644,7 @@ dependencies = [
  "tempfile",
  "thiserror 2.0.18",
  "tui-input",
+ "unicode-width 0.2.2",
  "uuid",
 ]
 
