@@ -39,7 +39,11 @@ pub(crate) fn render_home(
 
     let filtered = Command::filter(palette_input);
     // cmd_col: widest canonical name in the filtered set, for alignment.
-    let cmd_col = filtered.iter().map(|c| c.canonical().len()).max().unwrap_or(0);
+    let cmd_col = filtered
+        .iter()
+        .map(|c| c.canonical().len())
+        .max()
+        .unwrap_or(0);
 
     let version = env!("CARGO_PKG_VERSION");
     let logo_lines: Vec<&str> = LOGO.lines().collect();
@@ -58,7 +62,10 @@ pub(crate) fn render_home(
 
     lines.push(Line::from(vec![
         Span::raw(MARGIN),
-        Span::styled("Spectrum Design Data", Style::default().add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "Spectrum Design Data",
+            Style::default().add_modifier(Modifier::BOLD),
+        ),
         Span::styled(format!("  v{version}"), Style::default().fg(theme.muted)),
     ]));
     lines.push(Line::from(vec![
@@ -97,7 +104,9 @@ pub(crate) fn render_home(
         } else if list_selected.is_none() && i == 0 {
             (
                 Style::default(),
-                Style::default().fg(theme.accent).add_modifier(Modifier::BOLD),
+                Style::default()
+                    .fg(theme.accent)
+                    .add_modifier(Modifier::BOLD),
             )
         } else {
             (Style::default(), Style::default().fg(theme.accent))
@@ -119,7 +128,11 @@ pub(crate) fn render_home(
     }
 
     // Prompt row offset: logo+spacer (if shown) + name + hint + separator = N.
-    let prompt_offset: u16 = if show_logo { logo_lines.len() as u16 + 4 } else { 3 };
+    let prompt_offset: u16 = if show_logo {
+        logo_lines.len() as u16 + 4
+    } else {
+        3
+    };
     frame.render_widget(Paragraph::new(lines).alignment(Alignment::Left), area);
     // Cursor always stays on the prompt line, even while browsing the list.
     frame.set_cursor_position(Position {

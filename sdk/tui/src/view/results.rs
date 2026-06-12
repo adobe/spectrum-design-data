@@ -47,7 +47,9 @@ fn render_hint(f: &mut Frame<'_>, text: &str, area: Rect, theme: &Theme) {
 
 /// Render a centered empty-state message inside a bordered block with `title`.
 fn render_empty_state(f: &mut Frame<'_>, title: &str, msg: &str, area: Rect, theme: &Theme) {
-    let block = Block::default().borders(Borders::ALL).title(title.to_string());
+    let block = Block::default()
+        .borders(Borders::ALL)
+        .title(title.to_string());
     let inner = block.inner(area);
     f.render_widget(block, area);
     // Vertically center the message in the inner area.
@@ -65,12 +67,7 @@ fn render_empty_state(f: &mut Frame<'_>, title: &str, msg: &str, area: Rect, the
     );
 }
 
-pub(crate) fn render_query(
-    f: &mut Frame<'_>,
-    qv: &mut QueryView,
-    area: Rect,
-    theme: &Theme,
-) {
+pub(crate) fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme) {
     let [body, hint_area] = split_body_hint(area);
     let title = if qv.is_fuzzy {
         format!(" Fuzzy: /{} ", qv.expr_text)
@@ -123,12 +120,7 @@ pub(crate) fn render_query(
     render_hint(f, LIST_HINT, hint_area, theme);
 }
 
-pub(crate) fn render_resolve(
-    f: &mut Frame<'_>,
-    rv: &mut ResolveView,
-    area: Rect,
-    theme: &Theme,
-) {
+pub(crate) fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect, theme: &Theme) {
     let [body, hint_area] = split_body_hint(area);
 
     if rv.rows.is_empty() {
@@ -199,12 +191,7 @@ pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, 
     render_hint(f, DESCRIBE_HINT, hint_area, theme);
 }
 
-pub(crate) fn render_validate(
-    f: &mut Frame<'_>,
-    vv: &mut ValidateView,
-    area: Rect,
-    theme: &Theme,
-) {
+pub(crate) fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Rect, theme: &Theme) {
     let [body, hint_area] = split_body_hint(area);
 
     if vv.rows.is_empty() {

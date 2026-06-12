@@ -14,8 +14,8 @@ pub mod authoring;
 #[cfg(feature = "cache")]
 pub mod cache;
 pub mod cascade;
-pub mod component;
 pub mod compat;
+pub mod component;
 pub mod data_source;
 pub mod diff;
 pub mod discovery;
@@ -1192,9 +1192,16 @@ mod reference_conformance {
         // Optional: assert that value is present or absent.
         if let Some(has_value) = expected.get("expected_has_value").and_then(|v| v.as_bool()) {
             if has_value {
-                assert!(r.value.is_some(), "{case}: expected a terminal value but got None");
+                assert!(
+                    r.value.is_some(),
+                    "{case}: expected a terminal value but got None"
+                );
             } else {
-                assert!(r.value.is_none(), "{case}: expected no terminal value but got {:?}", r.value);
+                assert!(
+                    r.value.is_none(),
+                    "{case}: expected no terminal value but got {:?}",
+                    r.value
+                );
             }
         }
 
@@ -1207,7 +1214,10 @@ mod reference_conformance {
         }
 
         // Optional: chain length checks.
-        if let Some(len) = expected.get("expected_chain_length").and_then(|v| v.as_u64()) {
+        if let Some(len) = expected
+            .get("expected_chain_length")
+            .and_then(|v| v.as_u64())
+        {
             assert_eq!(
                 r.chain.len(),
                 len as usize,
@@ -1216,7 +1226,10 @@ mod reference_conformance {
                 r.chain
             );
         }
-        if let Some(min) = expected.get("expected_chain_min_length").and_then(|v| v.as_u64()) {
+        if let Some(min) = expected
+            .get("expected_chain_min_length")
+            .and_then(|v| v.as_u64())
+        {
             assert!(
                 r.chain.len() >= min as usize,
                 "{case}: expected chain.len() >= {min}, got {} ({:?})",

@@ -344,7 +344,13 @@ fn convert_token_with_context(
             &mut throwaway,
         )
     } else {
-        vec![build_flat(name, token_obj, name_to_uuid, None, &mut throwaway)]
+        vec![build_flat(
+            name,
+            token_obj,
+            name_to_uuid,
+            None,
+            &mut throwaway,
+        )]
     }
 }
 
@@ -511,15 +517,28 @@ fn convert_object_with_context(
             .and_then(|v| v.as_str())
             .unwrap_or("");
         if schema.ends_with("color-set.json") {
-            let tokens =
-                convert_set(name, tok_obj, "colorScheme", COLOR_SET_MODE_ORDER, name_to_uuid, name_ctx, summary);
+            let tokens = convert_set(
+                name,
+                tok_obj,
+                "colorScheme",
+                COLOR_SET_MODE_ORDER,
+                name_to_uuid,
+                name_ctx,
+                summary,
+            );
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
             out.extend(tokens);
-        } else if schema.ends_with("scale-set.json") || schema.ends_with("typography-scale.json")
-        {
-            let tokens =
-                convert_set(name, tok_obj, "scale", SCALE_SET_MODE_ORDER, name_to_uuid, name_ctx, summary);
+        } else if schema.ends_with("scale-set.json") || schema.ends_with("typography-scale.json") {
+            let tokens = convert_set(
+                name,
+                tok_obj,
+                "scale",
+                SCALE_SET_MODE_ORDER,
+                name_to_uuid,
+                name_ctx,
+                summary,
+            );
             summary.set_entries_unwrapped += tokens.len();
             summary.tokens_produced += tokens.len();
             out.extend(tokens);
@@ -718,7 +737,12 @@ fn build_flat(
     }
 
     // Value or alias (UUID-keyed $ref for aliases).
-    insert_value_or_ref(&mut out, token_obj, name_to_uuid, &mut summary.dangling_alias_refs);
+    insert_value_or_ref(
+        &mut out,
+        token_obj,
+        name_to_uuid,
+        &mut summary.dangling_alias_refs,
+    );
 
     // UUID.
     if let Some(uuid) = token_obj.get("uuid").and_then(|v| v.as_str()) {
@@ -1162,7 +1186,10 @@ mod tests {
         sidecar: &'a HashMap<String, Value>,
         forced_thin: &'a HashSet<String>,
     ) -> NameContext<'a> {
-        NameContext { sidecar, forced_thin }
+        NameContext {
+            sidecar,
+            forced_thin,
+        }
     }
 
     #[test]

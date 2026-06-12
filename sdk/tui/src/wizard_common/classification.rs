@@ -63,7 +63,10 @@ impl Default for ClassificationDraft {
 pub fn assemble_name_from_classification(classification: &ClassificationDraft) -> String {
     derive_token_key_from_parts(
         classification.property.value().trim(),
-        classification.name_fields.iter().map(|f| f.value.value().trim()),
+        classification
+            .name_fields
+            .iter()
+            .map(|f| f.value.value().trim()),
     )
     .unwrap_or_default()
 }

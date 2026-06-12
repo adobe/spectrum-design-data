@@ -439,8 +439,15 @@ mod tests {
     fn indexed_fields_contains_expected_keys() {
         let fields = super::indexed_fields();
         let expected = [
-            "property", "component", "variant", "state",
-            "colorScheme", "scale", "contrast", "uuid", "$schema",
+            "property",
+            "component",
+            "variant",
+            "state",
+            "colorScheme",
+            "scale",
+            "contrast",
+            "uuid",
+            "$schema",
         ];
         assert_eq!(fields.len(), expected.len());
         for key in &expected {

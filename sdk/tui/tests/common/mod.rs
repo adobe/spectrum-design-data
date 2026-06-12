@@ -206,7 +206,10 @@ fn settle_helper_settles_pure_transition() {
     // A pure message — settle should work just like update for these.
     // The model starts in palette mode; typing 'q' adds it to the input buffer.
     settle(&mut model, Message::Key(key(KeyCode::Char('q'))), &ctx);
-    assert!(model.is_palette_open(), "palette should still be open after typing");
+    assert!(
+        model.is_palette_open(),
+        "palette should still be open after typing"
+    );
 }
 
 #[test]
@@ -260,5 +263,8 @@ fn assert_emits_cmd_passes_on_batch_containing_cmd() {
 #[test]
 fn empty_graph_has_no_tokens() {
     let graph = empty_graph();
-    assert!(graph.tokens.is_empty(), "empty_graph() should contain zero tokens");
+    assert!(
+        graph.tokens.is_empty(),
+        "empty_graph() should contain zero tokens"
+    );
 }

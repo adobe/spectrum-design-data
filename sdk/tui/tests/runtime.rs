@@ -28,7 +28,10 @@ fn smoke_home_palette_renders_arrow_prompt() {
 
     // Typing ':' appends it to the palette input (no special meaning).
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
-    assert!(model.is_palette_open(), "palette should stay open after typing");
+    assert!(
+        model.is_palette_open(),
+        "palette should stay open after typing"
+    );
     assert_eq!(model.palette_input_value(), ":");
 
     // Drive through draw — must not panic; bottom strip is always empty.
@@ -53,8 +56,14 @@ fn smoke_esc_clears_input_but_keeps_palette_open() {
     // Type something, then Esc.
     update(&mut model, Message::Key(key(KeyCode::Char(':'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
-    assert!(model.is_palette_open(), "palette should stay open after Esc on home");
-    assert!(model.palette_input_value().is_empty(), "Esc should clear the input");
+    assert!(
+        model.is_palette_open(),
+        "palette should stay open after Esc on home"
+    );
+    assert!(
+        model.palette_input_value().is_empty(),
+        "Esc should clear the input"
+    );
 
     let buf = render_to_buffer(&mut model, 80, 24);
     let last = (0..80u16)
@@ -74,7 +83,10 @@ fn smoke_q_types_into_buffer_not_quit() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Char('q'))), &ctx);
-    assert!(!model.quit, "'q' should NOT set model.quit — use 'quit' command instead");
+    assert!(
+        !model.quit,
+        "'q' should NOT set model.quit — use 'quit' command instead"
+    );
     assert_eq!(model.palette_input_value(), "q");
 }
 

@@ -81,7 +81,7 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
         }
     }
     constraints.push(Constraint::Length(1)); // match count
-    constraints.push(Constraint::Min(0));    // padding
+    constraints.push(Constraint::Min(0)); // padding
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
@@ -100,13 +100,11 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
         };
         let marker = if foc == *field_idx { "▶" } else { " " };
         f.render_widget(
-            Paragraph::new(format!("{marker} {label}: {val}")).style(
-                if foc == *field_idx {
-                    Style::default().fg(theme.accent)
-                } else {
-                    Style::default()
-                },
-            ),
+            Paragraph::new(format!("{marker} {label}: {val}")).style(if foc == *field_idx {
+                Style::default().fg(theme.accent)
+            } else {
+                Style::default()
+            }),
             chunks[ci],
         );
         ci += 1;
@@ -127,10 +125,7 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
                     })
                 })
                 .collect();
-            f.render_widget(
-                Table::new(rows, [Constraint::Min(0)]),
-                chunks[ci],
-            );
+            f.render_widget(Table::new(rows, [Constraint::Min(0)]), chunks[ci]);
             ci += 1;
         }
     }

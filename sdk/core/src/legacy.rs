@@ -321,9 +321,7 @@ fn compare_token_entries(name: &str, reference: &Value, output: &Value) -> Vec<S
 
     let (Some(ref_obj), Some(out_obj)) = (reference.as_object(), output.as_object()) else {
         if reference != output {
-            diffs.push(format!(
-                "value mismatch: {reference:?} vs {output:?}"
-            ));
+            diffs.push(format!("value mismatch: {reference:?} vs {output:?}"));
         }
         return diffs;
     };
@@ -1112,7 +1110,11 @@ mod tests {
         assert_eq!(old["deprecated"], true);
         let sets = old["sets"].as_object().unwrap();
         assert!(
-            sets["desktop"].as_object().unwrap().get("renamed").is_none(),
+            sets["desktop"]
+                .as_object()
+                .unwrap()
+                .get("renamed")
+                .is_none(),
             "renamed should be absent from sets.desktop after hoisting"
         );
         assert!(

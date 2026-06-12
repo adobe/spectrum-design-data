@@ -224,7 +224,11 @@ fn g_key_jumps_to_first_row() {
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
     if let ActiveView::Query(ref qv) = model.active_view {
-        assert_eq!(qv.table_state.selected(), Some(0), "g should jump to first row");
+        assert_eq!(
+            qv.table_state.selected(),
+            Some(0),
+            "g should jump to first row"
+        );
     } else {
         panic!("expected Query view");
     }

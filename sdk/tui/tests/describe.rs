@@ -32,7 +32,9 @@ fn make_graph_with_components() -> TokenGraph {
 }
 
 fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
-    update_ctx_builder(graph).components_dir(dir.as_path()).build()
+    update_ctx_builder(graph)
+        .components_dir(dir.as_path())
+        .build()
 }
 
 fn submit_describe(model: &mut Model, ctx: &UpdateCtx<'_>, id: &str) {
@@ -179,7 +181,10 @@ fn esc_from_describe_view_returns_to_empty() {
 
 /// Build a DescribeView with enough lines to make G scrolling observable.
 fn multi_line_describe() -> DescribeView {
-    let json = (0..30).map(|i| format!("  \"line{i}\": {i}")).collect::<Vec<_>>().join(",\n");
+    let json = (0..30)
+        .map(|i| format!("  \"line{i}\": {i}"))
+        .collect::<Vec<_>>()
+        .join(",\n");
     DescribeView {
         component: "test".to_string(),
         pretty_json: format!("{{\n{json}\n}}"),
@@ -195,7 +200,7 @@ fn g_key_scrolls_describe_to_top() {
     let mut model = Model::new();
     model.active_view = ActiveView::Describe(multi_line_describe());
     model.close_palette(); // palette must be closed for view-key routing
-    // Advance scroll, then jump back to top.
+                           // Advance scroll, then jump back to top.
     update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
@@ -215,7 +220,11 @@ fn shift_g_key_scrolls_describe_to_bottom() {
     model.close_palette(); // palette must be closed for view-key routing
     update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
-        assert!(dv.scroll > 0, "G should scroll describe toward bottom (got scroll={})", dv.scroll);
+        assert!(
+            dv.scroll > 0,
+            "G should scroll describe toward bottom (got scroll={})",
+            dv.scroll
+        );
     } else {
         panic!("expected Describe view");
     }

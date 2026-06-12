@@ -258,7 +258,10 @@ fn update_product_context(
     } else {
         // New document — build in spec field order.
         let mut m = Map::new();
-        m.insert("specVersion".into(), Value::String(primer::SPEC_VERSION.into()));
+        m.insert(
+            "specVersion".into(),
+            Value::String(primer::SPEC_VERSION.into()),
+        );
         m.insert("layer".into(), Value::String("product".into()));
         m.insert(
             "createdBy".into(),

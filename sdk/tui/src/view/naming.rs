@@ -20,16 +20,11 @@ use ratatui::{
     Frame,
 };
 
+use super::shared::{render_classification_content, render_intent_content};
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::theme::Theme;
-use super::shared::{render_classification_content, render_intent_content};
 
-pub(crate) fn render_naming(
-    f: &mut Frame<'_>,
-    ns: &NamingWizardState,
-    area: Rect,
-    theme: &Theme,
-) {
+pub(crate) fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &Theme) {
     let screen_num = ns.screen.number();
     let screen_name = ns.screen.name();
 
@@ -77,12 +72,7 @@ pub(crate) fn render_naming(
     }
 }
 
-fn render_naming_result(
-    f: &mut Frame<'_>,
-    ns: &NamingWizardState,
-    area: Rect,
-    theme: &Theme,
-) {
+fn render_naming_result(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &Theme) {
     let name = ns.assembled_name();
     let display = if name.is_empty() {
         "(no name assembled — go back and fill in Property)".to_string()

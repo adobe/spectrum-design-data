@@ -44,11 +44,7 @@ fn find_command_opens_modal() {
     let graph = make_graph_with_tokens(&["accent-background"]);
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(
-        &mut model,
-        Message::PaletteSubmit("find".into()),
-        &ctx,
-    );
+    update(&mut model, Message::PaletteSubmit("find".into()), &ctx);
     assert!(model.is_modal_open(), "find should open the fuzzy modal");
     assert!(
         matches!(model.modal(), Some(Modal::Find(_))),

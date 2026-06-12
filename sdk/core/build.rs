@@ -11,24 +11,21 @@
 use std::path::Path;
 
 fn main() {
-    let pkg_json = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../packages/design-data/package.json");
+    let pkg_json =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/package.json");
 
-    println!(
-        "cargo:rerun-if-changed={}",
-        pkg_json.display()
-    );
+    println!("cargo:rerun-if-changed={}", pkg_json.display());
 
-    let raw = std::fs::read_to_string(&pkg_json).unwrap_or_else(|e| {
-        panic!("build.rs: cannot read {}: {e}", pkg_json.display())
-    });
+    let raw = std::fs::read_to_string(&pkg_json)
+        .unwrap_or_else(|e| panic!("build.rs: cannot read {}: {e}", pkg_json.display()));
 
     // Minimal extraction — avoids pulling serde_json into build deps.
     let version = raw
         .lines()
         .find_map(|line| {
             let trimmed = line.trim();
-            trimmed.strip_prefix("\"version\":")
+            trimmed
+                .strip_prefix("\"version\":")
                 .map(|rest| rest.trim().trim_matches(['"', ',']).to_owned())
         })
         .unwrap_or_else(|| panic!("build.rs: no \"version\" field in {}", pkg_json.display()));

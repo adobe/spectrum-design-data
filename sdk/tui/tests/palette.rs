@@ -174,7 +174,7 @@ fn up_in_list_moves_selection_up() {
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx); // → Some(0)
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx); // → Some(1)
-    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);   // → Some(0)
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx); // → Some(0)
     assert_eq!(model.palette_list_selected(), Some(0));
 }
 
@@ -184,7 +184,7 @@ fn up_at_row_0_exits_list() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     update(&mut model, Message::Key(key(KeyCode::Down)), &ctx); // → Some(0)
-    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);   // exit list
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx); // exit list
     assert_eq!(
         model.palette_list_selected(),
         None,
@@ -205,7 +205,10 @@ fn esc_in_list_exits_to_input() {
         None,
         "Esc in list zone should exit to input"
     );
-    assert!(model.is_palette_open(), "palette should stay open after Esc from list");
+    assert!(
+        model.is_palette_open(),
+        "palette should stay open after Esc from list"
+    );
 }
 
 #[test]
@@ -243,7 +246,10 @@ fn enter_in_list_runs_selected_command() {
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
     // 'quit' sets model.quit = true (no view transition — reconciliation leaves
     // the palette open, but the quit flag is what matters).
-    assert!(model.quit, "Enter on 'quit' in the list should set model.quit");
+    assert!(
+        model.quit,
+        "Enter on 'quit' in the list should set model.quit"
+    );
 }
 
 #[test]
@@ -253,7 +259,10 @@ fn enter_on_empty_input_is_noop() {
     let mut model = Model::new();
     // Empty input, not in list zone — Enter should be a no-op.
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
-    assert!(model.is_palette_open(), "Enter on empty input should not close the palette");
+    assert!(
+        model.is_palette_open(),
+        "Enter on empty input should not close the palette"
+    );
 }
 
 #[test]

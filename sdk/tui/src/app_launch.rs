@@ -361,7 +361,9 @@ fn launch_headless(
         let mut messages: Vec<Message> = Vec::new();
         let mut skipped = 0usize;
         for line_result in BufReader::new(file).lines() {
-            let line = line_result.into_diagnostic().wrap_err("replay: read error")?;
+            let line = line_result
+                .into_diagnostic()
+                .wrap_err("replay: read error")?;
             if line.trim().is_empty() {
                 continue;
             }

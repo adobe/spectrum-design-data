@@ -143,7 +143,8 @@ mod tests {
                 .filter(|(name, _)| command_token(name) == Some(cmd.canonical()))
                 .count();
             assert_eq!(
-                matches, 1,
+                matches,
+                1,
                 "Command::{cmd:?} (`{}`) must map to exactly one COMMANDS entry, found {matches}; \
                  update logo.rs",
                 cmd.canonical()

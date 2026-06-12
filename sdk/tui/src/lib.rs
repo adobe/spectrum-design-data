@@ -37,6 +37,6 @@ pub use runtime::{dispatch, replay, run};
 pub use subscription::{subscriptions, Subscription, SubscriptionId, Subscriptions};
 pub use task::Task;
 pub use theme::Theme;
-pub use update::update;
 pub use update::ctx::{UpdateCtx, UpdateCtxBuilder};
+pub use update::update;
 pub use view::draw;

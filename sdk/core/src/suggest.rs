@@ -312,7 +312,10 @@ mod tests {
 
     // ── display_name() ────────────────────────────────────────────────────────
 
-    fn make_suggestion(token_name: &str, name_object: Option<serde_json::Value>) -> SuggestionResult {
+    fn make_suggestion(
+        token_name: &str,
+        name_object: Option<serde_json::Value>,
+    ) -> SuggestionResult {
         SuggestionResult {
             token_uuid: None,
             token_name: token_name.to_string(),

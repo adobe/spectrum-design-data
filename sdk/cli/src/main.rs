@@ -33,9 +33,9 @@ use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
 use design_data_core::naming::NamingExceptionsFile;
+use design_data_core::primer;
 use design_data_core::query;
 use design_data_core::schema::SchemaRegistry;
-use design_data_core::primer;
 use design_data_core::suggest;
 use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
@@ -620,7 +620,6 @@ struct ValidateDatasetOpts {
     strict: bool,
 }
 
-
 /// Locate the design-data-spec schemas directory: explicit flag, then probe
 /// common in-repo locations relative to the dataset root and the cwd.
 fn resolve_spec_schemas(
@@ -865,12 +864,26 @@ fn run_migrate_convert(
         || summary.thin_names > 0
     {
         println!("\nName resolution:");
-        println!("  {:>5}  inline   (from existing name field)", summary.inline_names);
-        println!("  {:>5}  sidecar  (from token-names sidecar)", summary.sidecar_names);
-        println!("  {:>5}  decomposed (component + property + state)", summary.decomposed_names);
-        println!("  {:>5}  thin     (full key as property — tech debt)", summary.thin_names);
-        let total =
-            summary.inline_names + summary.sidecar_names + summary.decomposed_names + summary.thin_names;
+        println!(
+            "  {:>5}  inline   (from existing name field)",
+            summary.inline_names
+        );
+        println!(
+            "  {:>5}  sidecar  (from token-names sidecar)",
+            summary.sidecar_names
+        );
+        println!(
+            "  {:>5}  decomposed (component + property + state)",
+            summary.decomposed_names
+        );
+        println!(
+            "  {:>5}  thin     (full key as property — tech debt)",
+            summary.thin_names
+        );
+        let total = summary.inline_names
+            + summary.sidecar_names
+            + summary.decomposed_names
+            + summary.thin_names;
         if total > 0 {
             let rich = summary.inline_names + summary.sidecar_names + summary.decomposed_names;
             println!(
@@ -986,8 +999,8 @@ fn run_query(
         resolved.mode_sets.as_deref(),
         resolved.components.as_deref(),
     )
-        .into_diagnostic()
-        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (filters/overrides/extensions) before querying.
     manifest::apply_configured(&mut graph, &resolved)

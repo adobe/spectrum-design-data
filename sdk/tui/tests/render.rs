@@ -98,7 +98,10 @@ fn empty_app_renders_home_screen_short() {
     let rows = |needle: &str| (1..H - 1).any(|y| row_str(&buf, y, W).contains(needle));
 
     assert!(!rows("▀"), "logo should be hidden on a short terminal");
-    assert!(rows("Spectrum Design Data"), "name line should appear even without logo");
+    assert!(
+        rows("Spectrum Design Data"),
+        "name line should appear even without logo"
+    );
     assert!(rows(">"), "prompt cue should appear even without logo");
 }
 
@@ -162,9 +165,7 @@ fn home_palette_renders_arrow_prompt() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, W, H);
     // '>' should appear somewhere in the content area (not the last strip row).
-    let any_gt = (1..H - 1).any(|y| {
-        (0..W).any(|x| buf.cell((x, y)).unwrap().symbol() == ">")
-    });
+    let any_gt = (1..H - 1).any(|y| (0..W).any(|x| buf.cell((x, y)).unwrap().symbol() == ">"));
     assert!(any_gt, "home screen should render '>' prompt prefix");
 }
 
@@ -259,7 +260,11 @@ fn resolve_empty_state_shows_no_match_copy() {
     let graph = make_resolve_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("resolve property=nonexistent-property".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("resolve property=nonexistent-property".into()),
+        &ctx,
+    );
     let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "No match for that property", W, H);
 }
@@ -269,7 +274,11 @@ fn resolve_empty_state_shows_footer_hint() {
     let graph = make_resolve_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    update(&mut model, Message::PaletteSubmit("resolve property=nonexistent-property".into()), &ctx);
+    update(
+        &mut model,
+        Message::PaletteSubmit("resolve property=nonexistent-property".into()),
+        &ctx,
+    );
     let buf = render_to_buffer(&mut model, W, H);
     find_row_containing(&buf, "j/k navigate", W, H);
 }

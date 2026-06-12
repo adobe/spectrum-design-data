@@ -332,7 +332,11 @@ pub fn commit_session(
 fn derive_token_key(wizard: &WizardDraft) -> String {
     super::draft::derive_token_key_from_parts(
         &wizard.classification.property,
-        wizard.classification.name_fields.iter().map(|f| f.value.as_str()),
+        wizard
+            .classification
+            .name_fields
+            .iter()
+            .map(|f| f.value.as_str()),
     )
     .unwrap_or_else(|| "unnamed-token".to_string())
 }

@@ -64,9 +64,7 @@ fn submit_validate(model: &mut Model, ctx: &UpdateCtx<'_>) {
 fn validate_without_registry_sets_error_status() {
     let graph = TokenGraph::default();
     let tokens_dir = tokens_good_dir();
-    let ctx = update_ctx_builder(&graph)
-        .dataset_path(&tokens_dir)
-        .build();
+    let ctx = update_ctx_builder(&graph).dataset_path(&tokens_dir).build();
     let mut model = Model::new();
     update(&mut model, Message::PaletteSubmit("validate".into()), &ctx);
     assert!(matches!(model.active_view, ActiveView::Empty));

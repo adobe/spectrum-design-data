@@ -34,7 +34,10 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
 
         for guideline in &ctx.graph.guidelines {
-            let Some(blocks) = guideline.raw.get("documentBlocks").and_then(|v| v.as_array())
+            let Some(blocks) = guideline
+                .raw
+                .get("documentBlocks")
+                .and_then(|v| v.as_array())
             else {
                 continue;
             };

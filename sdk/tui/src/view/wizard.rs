@@ -20,9 +20,9 @@ use ratatui::{
     Frame,
 };
 
+use super::shared::{render_classification_content, render_intent_content};
 use crate::theme::Theme;
 use crate::wizard::{ValueKind, WizardScreen, WizardState};
-use super::shared::{render_classification_content, render_intent_content};
 
 pub(crate) fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect, theme: &Theme) {
     let screen_num = ws.screen.number();

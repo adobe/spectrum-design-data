@@ -227,7 +227,11 @@ fn g_key_jumps_to_first_row_in_resolve() {
     update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
     if let ActiveView::Resolve(ref rv) = model.active_view {
-        assert_eq!(rv.table_state.selected(), Some(0), "g should jump to first row");
+        assert_eq!(
+            rv.table_state.selected(),
+            Some(0),
+            "g should jump to first row"
+        );
     } else {
         panic!("expected Resolve view");
     }

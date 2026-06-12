@@ -30,10 +30,7 @@ pub fn validate_id(id: &str) -> Result<(), String> {
         ));
     }
     let mut chars = id.chars();
-    if !chars
-        .next()
-        .is_some_and(|c| c.is_ascii_lowercase())
-    {
+    if !chars.next().is_some_and(|c| c.is_ascii_lowercase()) {
         return Err(format!(
             "invalid component ID {id:?}: must start with a lowercase letter"
         ));
@@ -161,7 +158,11 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         fs::write(dir.path().join("notes.txt"), "not a component").unwrap();
         fs::write(dir.path().join("broken.json"), "{ bad json }").unwrap();
-        fs::write(dir.path().join("noname.json"), r#"{"title":"no name field"}"#).unwrap();
+        fs::write(
+            dir.path().join("noname.json"),
+            r#"{"title":"no name field"}"#,
+        )
+        .unwrap();
         fs::write(dir.path().join("button.json"), r#"{"name":"button"}"#).unwrap();
         let names = list(dir.path());
         assert_eq!(names, vec!["button"]);

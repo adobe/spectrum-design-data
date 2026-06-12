@@ -93,8 +93,7 @@ pub fn get_indexed_fields() -> Vec<String> {
 /// Equivalent to `@adobe/design-system-registry`'s `getValues(registry)`.
 #[wasm_bindgen(js_name = "getValues")]
 pub fn get_values(registry: JsValue) -> Result<Vec<String>, JsValue> {
-    let obj: RegistryObject =
-        serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
+    let obj: RegistryObject = serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
     Ok(obj.values.into_iter().map(|v| v.id).collect())
 }
 
@@ -104,8 +103,7 @@ pub fn get_values(registry: JsValue) -> Result<Vec<String>, JsValue> {
 /// Equivalent to `@adobe/design-system-registry`'s `findValue(registry, searchTerm)`.
 #[wasm_bindgen(js_name = "findValue")]
 pub fn find_value(registry: JsValue, search_term: &str) -> Result<JsValue, JsValue> {
-    let obj: RegistryObject =
-        serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
+    let obj: RegistryObject = serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
     let found = obj.values.into_iter().find(|v| {
         v.id == search_term
             || v.aliases
@@ -124,8 +122,7 @@ pub fn find_value(registry: JsValue, search_term: &str) -> Result<JsValue, JsVal
 /// Equivalent to `@adobe/design-system-registry`'s `hasValue(registry, searchTerm)`.
 #[wasm_bindgen(js_name = "hasValue")]
 pub fn has_value(registry: JsValue, search_term: &str) -> Result<bool, JsValue> {
-    let obj: RegistryObject =
-        serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
+    let obj: RegistryObject = serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
     let found = obj.values.iter().any(|v| {
         v.id == search_term
             || v.aliases
@@ -141,8 +138,7 @@ pub fn has_value(registry: JsValue, search_term: &str) -> Result<bool, JsValue> 
 /// Equivalent to `@adobe/design-system-registry`'s `getDefault(registry)`.
 #[wasm_bindgen(js_name = "getDefault")]
 pub fn get_default(registry: JsValue) -> Result<JsValue, JsValue> {
-    let obj: RegistryObject =
-        serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
+    let obj: RegistryObject = serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
     let found = obj.values.into_iter().find(|v| v.default == Some(true));
     match found {
         Some(entry) => serde_wasm_bindgen::to_value(&entry).map_err(js_err),
@@ -155,8 +151,7 @@ pub fn get_default(registry: JsValue) -> Result<JsValue, JsValue> {
 /// Equivalent to `@adobe/design-system-registry`'s `getActiveValues(registry)`.
 #[wasm_bindgen(js_name = "getActiveValues")]
 pub fn get_active_values(registry: JsValue) -> Result<JsValue, JsValue> {
-    let obj: RegistryObject =
-        serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
+    let obj: RegistryObject = serde_wasm_bindgen::from_value(registry).map_err(js_err)?;
     let active: Vec<RegistryEntry> = obj
         .values
         .into_iter()

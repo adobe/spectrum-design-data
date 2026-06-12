@@ -98,7 +98,11 @@ fn poll_exactly_at_interval_boundary_fires_exactly_once() {
     // Exactly one interval later.
     let at_boundary = start + TICK_INTERVAL;
     let fired = subs.poll(at_boundary);
-    assert_eq!(fired.len(), 1, "poll at the exact boundary should fire once");
+    assert_eq!(
+        fired.len(),
+        1,
+        "poll at the exact boundary should fire once"
+    );
 
     // Polling again immediately must not re-fire (no double-fire).
     let immediate_repeat = subs.poll(at_boundary);

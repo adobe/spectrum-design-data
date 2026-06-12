@@ -87,12 +87,7 @@ pub(crate) fn render_intent_content(
                     .to_string()
             })
             .collect();
-        let source_col_width = sources
-            .iter()
-            .map(|s| s.len())
-            .max()
-            .unwrap_or(0)
-            .min(24) as u16;
+        let source_col_width = sources.iter().map(|s| s.len()).max().unwrap_or(0).min(24) as u16;
         let rows: Vec<Row> = suggestions
             .iter()
             .enumerate()

@@ -90,7 +90,10 @@ pub fn summarize_variables(meta: &VariablesMeta) -> Vec<CollectionSummary> {
                 .cloned()
                 .collect();
             variables.sort_by(|a, b| a.name.cmp(&b.name));
-            CollectionSummary { collection: col.clone(), variables }
+            CollectionSummary {
+                collection: col.clone(),
+                variables,
+            }
         })
         .collect()
 }

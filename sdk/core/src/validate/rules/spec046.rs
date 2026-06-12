@@ -38,10 +38,18 @@ impl ValidationRule for Rule {
         let mut out = Vec::new();
 
         // Build fast name sets for lookup.
-        let component_names: std::collections::HashSet<&str> =
-            ctx.graph.components.iter().map(|c| c.name.as_str()).collect();
-        let guideline_names: std::collections::HashSet<&str> =
-            ctx.graph.guidelines.iter().map(|g| g.name.as_str()).collect();
+        let component_names: std::collections::HashSet<&str> = ctx
+            .graph
+            .components
+            .iter()
+            .map(|c| c.name.as_str())
+            .collect();
+        let guideline_names: std::collections::HashSet<&str> = ctx
+            .graph
+            .guidelines
+            .iter()
+            .map(|g| g.name.as_str())
+            .collect();
 
         for guideline in &ctx.graph.guidelines {
             let Some(related) = guideline.raw.get("related").and_then(|v| v.as_array()) else {
@@ -208,7 +216,9 @@ mod tests {
         assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-046"));
         assert!(diags[0].message.contains("'motion'"));
         assert!(diags[0].message.contains("'nonexistent-guideline'"));
-        assert!(diags[0].message.contains("not a known component or guideline"));
+        assert!(diags[0]
+            .message
+            .contains("not a known component or guideline"));
     }
 
     #[test]
@@ -228,7 +238,11 @@ mod tests {
             ],
             vec![],
         );
-        assert_eq!(diags.len(), 1, "should warn when kind=component but ref only exists as guideline");
+        assert_eq!(
+            diags.len(),
+            1,
+            "should warn when kind=component but ref only exists as guideline"
+        );
         assert!(diags[0].message.contains("'grays'"));
     }
 
@@ -236,17 +250,22 @@ mod tests {
     fn no_kind_resolves_against_both_catalogs() {
         // No kind hint — should find in either catalog.
         let diags = run(
-            vec![json!({
-                "name": "colors",
-                "related": [{"ref": "button"}, {"ref": "grays"}],
-                "documentBlocks": [{"type": "purpose", "content": "Color."}]
-            }),
-            json!({
-                "name": "grays",
-                "documentBlocks": [{"type": "purpose", "content": "Grays."}]
-            })],
+            vec![
+                json!({
+                    "name": "colors",
+                    "related": [{"ref": "button"}, {"ref": "grays"}],
+                    "documentBlocks": [{"type": "purpose", "content": "Color."}]
+                }),
+                json!({
+                    "name": "grays",
+                    "documentBlocks": [{"type": "purpose", "content": "Grays."}]
+                }),
+            ],
             vec![json!({"name": "button", "displayName": "Button"})],
         );
-        assert!(diags.is_empty(), "button and grays both exist — no warnings expected");
+        assert!(
+            diags.is_empty(),
+            "button and grays both exist — no warnings expected"
+        );
     }
 }

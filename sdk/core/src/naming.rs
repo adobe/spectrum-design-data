@@ -181,9 +181,8 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // the prefix, so we return `property` directly.
     // `property[c.len()..].starts_with('-')` is idiomatic and avoids the byte-boundary
     // concern of a range index when `c` contains a multibyte character.
-    let is_thin = component.is_some_and(|c| {
-        property.starts_with(c) && property[c.len()..].starts_with('-')
-    });
+    let is_thin =
+        component.is_some_and(|c| property.starts_with(c) && property[c.len()..].starts_with('-'));
 
     if is_thin {
         return Some(property.to_string());
@@ -351,7 +350,10 @@ mod tests {
     fn extract_key_string_escape_hatch() {
         // String names (SPEC-017 escape hatch) are returned verbatim.
         let name = json!("drop-shadow-emphasized-default-color");
-        assert_eq!(extract_legacy_key(&name).as_deref(), Some("drop-shadow-emphasized-default-color"));
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("drop-shadow-emphasized-default-color")
+        );
     }
 
     #[test]
@@ -370,21 +372,30 @@ mod tests {
     #[test]
     fn extract_key_color_family_with_variant() {
         let name = json!({"property": "color", "colorFamily": "cinnamon", "variant": "primary"});
-        assert_eq!(extract_legacy_key(&name).as_deref(), Some("primary-cinnamon"));
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("primary-cinnamon")
+        );
     }
 
     #[test]
     fn extract_key_decomposed_component_property_state() {
         // General / decomposed format: generate_legacy_name path.
         let name = json!({"component": "button", "property": "background-color", "state": "hover"});
-        assert_eq!(extract_legacy_key(&name).as_deref(), Some("button-background-color-hover"));
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("button-background-color-hover")
+        );
     }
 
     #[test]
     fn extract_key_thin_format_property_is_full_key() {
         // Thin format: property starts with component prefix → return property directly.
         let name = json!({"property": "swatch-disabled-icon-border-color", "component": "swatch"});
-        assert_eq!(extract_legacy_key(&name).as_deref(), Some("swatch-disabled-icon-border-color"));
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("swatch-disabled-icon-border-color")
+        );
     }
 
     #[test]

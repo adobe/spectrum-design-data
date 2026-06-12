@@ -35,7 +35,7 @@ use wasm_bindgen::prelude::*;
 use crate::error::{js_err, to_js_error};
 use crate::types::{
     AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolveResult, ResolutionContext as WasmContext, RevertedToken, SuggestResult,
+    ResolutionContext as WasmContext, ResolveResult, RevertedToken, SuggestResult,
     SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken, ValidationResult,
 };
 
@@ -62,8 +62,7 @@ static EMBEDDED_GRAPH: OnceLock<Result<TokenGraph, String>> = OnceLock::new();
 // --components-path packages/design-data/components
 // --fields-path packages/design-data/fields`)
 #[cfg(feature = "embedded")]
-static EMBEDDED_CACHE_BYTES: &[u8] =
-    include_bytes!("embedded_cache.redb");
+static EMBEDDED_CACHE_BYTES: &[u8] = include_bytes!("embedded_cache.redb");
 
 // ---------------------------------------------------------------------------
 // Dataset class
@@ -115,8 +114,7 @@ impl Dataset {
         {
             let graph = EMBEDDED_GRAPH
                 .get_or_init(|| {
-                    cache::load_from_bytes(EMBEDDED_CACHE_BYTES)
-                        .map_err(|e| e.to_string())
+                    cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())
                 })
                 .as_ref()
                 .map_err(|e| js_err(e))?
@@ -290,7 +288,11 @@ impl Dataset {
     /// if (result) console.log(result.token.raw.value);
     /// ```
     #[wasm_bindgen]
-    pub fn resolve(&self, property: &str, context: WasmContext) -> Result<Option<ResolveResult>, JsValue> {
+    pub fn resolve(
+        &self,
+        property: &str,
+        context: WasmContext,
+    ) -> Result<Option<ResolveResult>, JsValue> {
         let ctx_map = context.into_inner();
 
         let mut ctx = ResolutionContext::new();
@@ -351,8 +353,7 @@ impl Dataset {
         context: WasmContext,
     ) -> Result<Option<crate::types::ReferenceChainResult>, JsValue> {
         let ctx_map = context.into_inner();
-        let result =
-            design_data_core::cascade::resolve_reference(&self.graph, token_ref, &ctx_map);
+        let result = design_data_core::cascade::resolve_reference(&self.graph, token_ref, &ctx_map);
         Ok(result.map(|r| crate::types::ReferenceChainResult {
             value: r.value,
             chain: r.chain,
@@ -379,13 +380,12 @@ impl Dataset {
         use design_data_core::diff as core_diff;
         let report = semantic_diff(&self.graph, &other.graph);
 
-        let map_property_change =
-            |c: &core_diff::PropertyChange| PropertyChange {
-                path: c.path.clone(),
-                change_type: format!("{:?}", c.change_type).to_lowercase(),
-                new_value: c.new_value.clone(),
-                original_value: c.original_value.clone(),
-            };
+        let map_property_change = |c: &core_diff::PropertyChange| PropertyChange {
+            path: c.path.clone(),
+            change_type: format!("{:?}", c.change_type).to_lowercase(),
+            new_value: c.new_value.clone(),
+            original_value: c.original_value.clone(),
+        };
 
         let renamed = report
             .renamed
@@ -394,32 +394,48 @@ impl Dataset {
                 old_name: r.old_name.clone(),
                 new_name: r.new_name.clone(),
                 uuid: r.uuid.clone(),
-                property_changes: r.property_changes.iter().map(&map_property_change).collect(),
+                property_changes: r
+                    .property_changes
+                    .iter()
+                    .map(&map_property_change)
+                    .collect(),
             })
             .collect();
 
         let deprecated = report
             .deprecated
             .iter()
-            .map(|r| DeprecatedToken { name: r.name.clone(), uuid: r.uuid.clone() })
+            .map(|r| DeprecatedToken {
+                name: r.name.clone(),
+                uuid: r.uuid.clone(),
+            })
             .collect();
 
         let reverted = report
             .reverted
             .iter()
-            .map(|r| RevertedToken { name: r.name.clone(), uuid: r.uuid.clone() })
+            .map(|r| RevertedToken {
+                name: r.name.clone(),
+                uuid: r.uuid.clone(),
+            })
             .collect();
 
         let added = report
             .added
             .iter()
-            .map(|r| AddedToken { name: r.name.clone(), uuid: r.uuid.clone() })
+            .map(|r| AddedToken {
+                name: r.name.clone(),
+                uuid: r.uuid.clone(),
+            })
             .collect();
 
         let deleted = report
             .deleted
             .iter()
-            .map(|r| DeletedToken { name: r.name.clone(), uuid: r.uuid.clone() })
+            .map(|r| DeletedToken {
+                name: r.name.clone(),
+                uuid: r.uuid.clone(),
+            })
             .collect();
 
         let updated = report
@@ -428,11 +444,22 @@ impl Dataset {
             .map(|r| UpdatedToken {
                 name: r.name.clone(),
                 uuid: r.uuid.clone(),
-                property_changes: r.property_changes.iter().map(&map_property_change).collect(),
+                property_changes: r
+                    .property_changes
+                    .iter()
+                    .map(&map_property_change)
+                    .collect(),
             })
             .collect();
 
-        Ok(DiffResult { renamed, deprecated, reverted, added, deleted, updated })
+        Ok(DiffResult {
+            renamed,
+            deprecated,
+            reverted,
+            added,
+            deleted,
+            updated,
+        })
     }
 
     // -----------------------------------------------------------------------
@@ -445,4 +472,3 @@ impl Dataset {
         self.graph.tokens.len()
     }
 }
-

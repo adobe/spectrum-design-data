@@ -363,7 +363,6 @@ impl ValidateView {
             }
         }
     }
-
 }
 
 /// Which view the active area is showing.
@@ -718,7 +717,7 @@ mod tests {
             row("SPEC-018", "t2", "msg"),
         ]);
         vv.toggle_selected(); // expand
-        // Selection should be on the Group header (index 0)
+                              // Selection should be on the Group header (index 0)
         assert_eq!(vv.table_state.selected(), Some(0));
         assert!(matches!(vv.visible[0], VisibleRow::Group(_)));
     }
@@ -736,7 +735,7 @@ mod tests {
             row("SPEC-018", "tok-b", "msg"),
         ]);
         vv.toggle_selected(); // expand: visible = [Group(0), Child(0,0), Child(0,1)]
-        // Select child at position 1 (Child(0,0), token = "tok-a")
+                              // Select child at position 1 (Child(0,0), token = "tok-a")
         vv.table_state.select(Some(1));
         assert_eq!(vv.selected_text(), Some("tok-a".into()));
     }

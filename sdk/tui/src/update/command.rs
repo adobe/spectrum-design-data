@@ -22,6 +22,7 @@ use std::collections::HashSet;
 
 use design_data_core::cascade::resolve_property;
 
+use super::ctx::UpdateCtx;
 use crate::app::{
     parse_resolve_args, resolve_context_with_restrictions, save_palette_history, ActiveView,
     DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolveView, ResolvedRow,
@@ -34,7 +35,6 @@ use crate::model::Model;
 use crate::naming::NamingWizardState;
 use crate::task::Task;
 use crate::wizard::WizardState;
-use super::ctx::UpdateCtx;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -58,7 +58,10 @@ fn compact_json_refs(s: &str) -> String {
     let kv = map
         .iter()
         .map(|(k, v)| {
-            let val = v.as_str().map(str::to_owned).unwrap_or_else(|| v.to_string());
+            let val = v
+                .as_str()
+                .map(str::to_owned)
+                .unwrap_or_else(|| v.to_string());
             format!("{k}={val}")
         })
         .collect::<Vec<_>>()
@@ -292,17 +295,13 @@ fn dispatch_command(
                             .map(|d| DiagnosticRow {
                                 severity: "error".to_string(),
                                 rule_id: d.rule_id.clone().unwrap_or_default(),
-                                token: compact_json_refs(
-                                    &d.token.clone().unwrap_or_default(),
-                                ),
+                                token: compact_json_refs(&d.token.clone().unwrap_or_default()),
                                 message: compact_json_refs(&d.message),
                             })
                             .chain(report.warnings.iter().map(|d| DiagnosticRow {
                                 severity: "warning".to_string(),
                                 rule_id: d.rule_id.clone().unwrap_or_default(),
-                                token: compact_json_refs(
-                                    &d.token.clone().unwrap_or_default(),
-                                ),
+                                token: compact_json_refs(&d.token.clone().unwrap_or_default()),
                                 message: compact_json_refs(&d.message),
                             }))
                             .collect();
@@ -379,13 +378,17 @@ mod tests {
 
     #[test]
     fn compact_json_refs_replaces_embedded_object() {
-        let msg = r#"Token '{"component":"chevron-icon","property":"size-75"}' references unknown scale"#;
+        let msg =
+            r#"Token '{"component":"chevron-icon","property":"size-75"}' references unknown scale"#;
         let out = compact_json_refs(msg);
         assert!(out.contains("component=chevron-icon"), "got: {out}");
         assert!(out.contains("property=size-75"), "got: {out}");
         assert!(!out.contains('{'), "braces should be gone: {out}");
         assert!(out.starts_with("Token '"), "prefix lost: {out}");
-        assert!(out.ends_with("' references unknown scale"), "suffix lost: {out}");
+        assert!(
+            out.ends_with("' references unknown scale"),
+            "suffix lost: {out}"
+        );
     }
 
     #[test]

@@ -31,8 +31,8 @@ use crate::model::Model;
 use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
 use crate::task::Task;
 use crate::theme::Theme;
-use crate::update::update;
 use crate::update::ctx::UpdateCtx;
+use crate::update::update;
 use crate::view::draw;
 
 /// Run the TUI event loop until the user quits.
@@ -297,8 +297,8 @@ mod tests {
     use super::*;
     use crate::message::Message;
     use crate::theme::Theme;
-    use crate::update::update;
     use crate::update::ctx::UpdateCtx;
+    use crate::update::update;
     use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
     use ratatui::backend::TestBackend;
     use ratatui::Terminal;
@@ -388,11 +388,8 @@ mod tests {
         for (i, region) in regions.iter().enumerate() {
             let y = region.rect.y;
             // Scan a few columns looking for a non-space character — the token name.
-            let has_content = (1..20u16).any(|x| {
-                buf.cell((x, y))
-                    .map(|c| c.symbol() != " ")
-                    .unwrap_or(false)
-            });
+            let has_content =
+                (1..20u16).any(|x| buf.cell((x, y)).map(|c| c.symbol() != " ").unwrap_or(false));
             assert!(
                 has_content,
                 "hit region {i} at y={y} has no rendered content in the buffer — \

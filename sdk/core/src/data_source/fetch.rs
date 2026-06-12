@@ -429,9 +429,7 @@ mod tests {
             "packages/design-data/tokens/layout.tokens.json"
         )));
         // Other design-data paths are NOT extracted.
-        assert!(!should_extract(Path::new(
-            "packages/design-data/README.md"
-        )));
+        assert!(!should_extract(Path::new("packages/design-data/README.md")));
         assert!(!should_extract(Path::new(
             "packages/design-data/package.json"
         )));

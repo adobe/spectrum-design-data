@@ -249,11 +249,8 @@ pub fn open_cached_with_index_with_catalogs(
         Err(e) => debug_log(format_args!("read failed ({e}); rebuilding from json")),
     }
 
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
+    let graph =
+        TokenGraph::from_json_dir_with_catalogs(tokens_root, mode_sets_dir, components_dir)?;
     let index = TokenIndex::build(&graph);
     if let Err(e) = write_to_disk(tokens_root, mode_sets_dir, components_dir, &graph) {
         debug_log(format_args!("write failed ({e}); cache not updated"));
@@ -274,11 +271,8 @@ pub fn build_bytes_with_catalogs(
     mode_sets_dir: Option<&Path>,
     components_dir: Option<&Path>,
 ) -> Result<Vec<u8>, CoreError> {
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
+    let graph =
+        TokenGraph::from_json_dir_with_catalogs(tokens_root, mode_sets_dir, components_dir)?;
     let hash =
         content_hash(tokens_root, mode_sets_dir, components_dir, None).map_err(CoreError::Io)?;
     build_bytes_from_graph(&graph, hash).map_err(into_core)
@@ -300,11 +294,8 @@ pub fn build_file_with_catalogs(
     components_dir: Option<&Path>,
     out_path: &Path,
 ) -> Result<(), CoreError> {
-    let graph = TokenGraph::from_json_dir_with_catalogs(
-        tokens_root,
-        mode_sets_dir,
-        components_dir,
-    )?;
+    let graph =
+        TokenGraph::from_json_dir_with_catalogs(tokens_root, mode_sets_dir, components_dir)?;
     let hash =
         content_hash(tokens_root, mode_sets_dir, components_dir, None).map_err(CoreError::Io)?;
     write_db_file(out_path, &graph, hash).map_err(into_core)
@@ -327,8 +318,8 @@ pub fn build_bytes_with_all_catalogs(
         components_dir,
         fields_dir,
     )?;
-    let hash =
-        content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir).map_err(CoreError::Io)?;
+    let hash = content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir)
+        .map_err(CoreError::Io)?;
     build_bytes_from_graph(&graph, hash).map_err(into_core)
 }
 
@@ -350,8 +341,8 @@ pub fn build_file_with_all_catalogs(
         components_dir,
         fields_dir,
     )?;
-    let hash =
-        content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir).map_err(CoreError::Io)?;
+    let hash = content_hash(tokens_root, mode_sets_dir, components_dir, fields_dir)
+        .map_err(CoreError::Io)?;
     write_db_file(out_path, &graph, hash).map_err(into_core)
 }
 
@@ -591,8 +582,8 @@ fn write_to_disk(
     components_dir: Option<&Path>,
     graph: &TokenGraph,
 ) -> Result<(), CacheError> {
-    let path = cache_db_path(tokens_root, mode_sets_dir, components_dir)
-        .ok_or(CacheError::NoCacheDir)?;
+    let path =
+        cache_db_path(tokens_root, mode_sets_dir, components_dir).ok_or(CacheError::NoCacheDir)?;
     let hash = content_hash(tokens_root, mode_sets_dir, components_dir, None)?;
     write_db_file(&path, graph, hash)?;
     evict_stale_versions(&path);
@@ -992,18 +983,11 @@ mod tests {
         let root = data.path().to_path_buf();
         std::env::set_var("DESIGN_DATA_CACHE_DIR", cache.path());
 
-        let _ = open_cached_with_catalogs(
-            &root,
-            Some(mode_sets.path()),
-            Some(components.path()),
-        )
-        .unwrap();
-        let cached = open_cached_with_catalogs(
-            &root,
-            Some(mode_sets.path()),
-            Some(components.path()),
-        )
-        .unwrap();
+        let _ = open_cached_with_catalogs(&root, Some(mode_sets.path()), Some(components.path()))
+            .unwrap();
+        let cached =
+            open_cached_with_catalogs(&root, Some(mode_sets.path()), Some(components.path()))
+                .unwrap();
         assert_eq!(cached.mode_sets.len(), 1);
         assert_eq!(cached.mode_sets[0].name, "colorScheme");
         assert_eq!(cached.components.len(), 1);
@@ -1127,8 +1111,7 @@ mod tests {
 
         // Write two field JSON files.
         {
-            let mut f =
-                std::fs::File::create(fields_dir.path().join("alignment.json")).unwrap();
+            let mut f = std::fs::File::create(fields_dir.path().join("alignment.json")).unwrap();
             write!(
                 f,
                 r#"{{"name":"alignment","required":false,"description":"Alignment axis"}}"#
@@ -1136,22 +1119,12 @@ mod tests {
             .unwrap();
         }
         {
-            let mut f =
-                std::fs::File::create(fields_dir.path().join("component.json")).unwrap();
-            write!(
-                f,
-                r#"{{"name":"component","required":true}}"#
-            )
-            .unwrap();
+            let mut f = std::fs::File::create(fields_dir.path().join("component.json")).unwrap();
+            write!(f, r#"{{"name":"component","required":true}}"#).unwrap();
         }
 
-        let bytes = build_bytes_with_all_catalogs(
-            data.path(),
-            None,
-            None,
-            Some(fields_dir.path()),
-        )
-        .unwrap();
+        let bytes = build_bytes_with_all_catalogs(data.path(), None, None, Some(fields_dir.path()))
+            .unwrap();
         assert!(!bytes.is_empty());
 
         let graph = load_from_bytes(&bytes).unwrap();
@@ -1168,7 +1141,11 @@ mod tests {
         );
 
         // Fields must survive, sorted by name.
-        assert_eq!(graph.fields.len(), 2, "both fields should survive round-trip");
+        assert_eq!(
+            graph.fields.len(),
+            2,
+            "both fields should survive round-trip"
+        );
         assert_eq!(graph.fields[0].name, "alignment");
         assert_eq!(graph.fields[0].required, false);
         assert_eq!(

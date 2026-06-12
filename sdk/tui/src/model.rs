@@ -17,8 +17,8 @@
 pub(crate) mod mode;
 pub(crate) mod views;
 
-use crate::app::{ActiveView, HitRegion, Modal, StatusMessage};
 use self::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
+use crate::app::{ActiveView, HitRegion, Modal, StatusMessage};
 
 /// Top-level application state for the TEA runtime.
 pub struct Model {

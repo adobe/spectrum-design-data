@@ -348,12 +348,7 @@ impl From<design_data_core::report::ValidationReport> for ValidationResult {
         let errors = r
             .errors
             .iter()
-            .filter(|d| {
-                matches!(
-                    d.severity,
-                    design_data_core::report::Severity::Error
-                )
-            })
+            .filter(|d| matches!(d.severity, design_data_core::report::Severity::Error))
             .map(Diagnostic::from)
             .collect();
         let warnings = r

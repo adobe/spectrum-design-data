@@ -50,8 +50,7 @@ use include_dir::{include_dir, Dir};
 // ---------------------------------------------------------------------------
 
 /// Cascade-format token source files (`packages/design-data/tokens/*.tokens.json`, 8 files).
-static TOKENS_SRC: Dir<'_> =
-    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/tokens");
+static TOKENS_SRC: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/tokens");
 
 /// JSON Schema files for token validation (`packages/tokens/schemas/`, ~88 KB).
 /// Includes the `token-types/` subdirectory.
@@ -206,10 +205,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     extract(&TOKENS_SRC, &tmp.join("packages/design-data/tokens"))?;
     extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
     extract(&MODE_SETS, &tmp.join("packages/design-data/mode-sets"))?;
-    extract(
-        &COMPONENTS,
-        &tmp.join("packages/design-data/components"),
-    )?;
+    extract(&COMPONENTS, &tmp.join("packages/design-data/components"))?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
     extract(&GUIDELINES, &tmp.join("packages/design-data/guidelines"))?;
 
@@ -410,5 +406,4 @@ mod tests {
              schemas from packages/design-data/components/"
         );
     }
-
 }

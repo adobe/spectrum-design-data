@@ -373,7 +373,9 @@ impl TokenGraph {
                     // as a context-free fallback in uuid_index; set_uuid_index
                     // accumulates ALL children for context-aware selection.
                     if let Some(su) = tok_obj.get("set_uuid").and_then(|v| v.as_str()) {
-                        g.uuid_index.entry(su.to_string()).or_insert_with(|| key.clone());
+                        g.uuid_index
+                            .entry(su.to_string())
+                            .or_insert_with(|| key.clone());
                         g.set_uuid_index
                             .entry(su.to_string())
                             .or_default()
@@ -508,8 +510,13 @@ impl TokenGraph {
                 .and_then(|o| o.get("set_uuid"))
                 .and_then(|v| v.as_str())
             {
-                uuid_index.entry(su.to_string()).or_insert_with(|| name.clone());
-                set_uuid_index.entry(su.to_string()).or_default().push(name.clone());
+                uuid_index
+                    .entry(su.to_string())
+                    .or_insert_with(|| name.clone());
+                set_uuid_index
+                    .entry(su.to_string())
+                    .or_default()
+                    .push(name.clone());
             }
             tokens.insert(
                 name.clone(),
@@ -553,13 +560,14 @@ impl TokenGraph {
                     .entry(u.clone())
                     .or_insert_with(|| record.name.clone());
             }
-            if let Some(su) = record
-                .raw
-                .get("set_uuid")
-                .and_then(|v| v.as_str())
-            {
-                uuid_index.entry(su.to_string()).or_insert_with(|| record.name.clone());
-                set_uuid_index.entry(su.to_string()).or_default().push(record.name.clone());
+            if let Some(su) = record.raw.get("set_uuid").and_then(|v| v.as_str()) {
+                uuid_index
+                    .entry(su.to_string())
+                    .or_insert_with(|| record.name.clone());
+                set_uuid_index
+                    .entry(su.to_string())
+                    .or_default()
+                    .push(record.name.clone());
             }
             // Index by legacy name derived from the name object so that inline
             // composite refs can resolve if this was a cascade-format token.
@@ -1070,7 +1078,11 @@ impl TokenGraph {
                 .and_then(|n| n.get("property"))
                 .and_then(|v| v.as_str())
                 == Some(property);
-            if prop_matches { t.schema_url.clone() } else { None }
+            if prop_matches {
+                t.schema_url.clone()
+            } else {
+                None
+            }
         })
     }
 }
@@ -1232,8 +1244,7 @@ impl TokenGraph {
             let is_better = match best {
                 None => true,
                 Some(_) => {
-                    score > best_score
-                        || (score == best_score && Some(cand_uuid) < best_uuid)
+                    score > best_score || (score == best_score && Some(cand_uuid) < best_uuid)
                 }
             };
             if is_better {
@@ -1780,7 +1791,10 @@ mod tests {
         let rec = g.tokens.get(&alias_key).unwrap();
         // Must return self, not panic.
         let resolved = rec.resolve_leaf(&g);
-        assert_eq!(resolved.name, rec.name, "dangling UUID ref must return self");
+        assert_eq!(
+            resolved.name, rec.name,
+            "dangling UUID ref must return self"
+        );
     }
 
     #[test]
@@ -1829,8 +1843,7 @@ mod tests {
         let result_a = rec_a.resolve_leaf(&g);
         // Result is one of the two tokens; the important thing is it terminates.
         assert!(
-            result_a.uuid.as_deref() == Some(uuid_a)
-                || result_a.uuid.as_deref() == Some(uuid_b),
+            result_a.uuid.as_deref() == Some(uuid_a) || result_a.uuid.as_deref() == Some(uuid_b),
             "cycle must terminate, got {:?}",
             result_a.uuid
         );

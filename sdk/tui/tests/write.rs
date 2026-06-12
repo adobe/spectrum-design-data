@@ -93,7 +93,7 @@ fn submit_without_allow_write_does_not_create_file() {
     );
 
     feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 2
-    feed_keys(&mut model, &ctx, &[KeyCode::Tab]);   // focus property
+    feed_keys(&mut model, &ctx, &[KeyCode::Tab]); // focus property
     type_str(&mut model, &ctx, "background-color");
     feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 3
     feed_keys(&mut model, &ctx, &[KeyCode::Enter]); // → Screen 4

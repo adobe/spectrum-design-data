@@ -305,7 +305,11 @@ fn click_on_hit_region_selects_row() {
 
 fn enter_browsing_with_results(model: &mut Model, ctx: &design_data_tui::UpdateCtx<'_>) {
     // Submit a query that produces results, which transitions the model to Browsing.
-    update(model, Message::PaletteSubmit("query property=accent-color".into()), ctx);
+    update(
+        model,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        ctx,
+    );
     assert!(
         !model.is_palette_open(),
         "should be in Browsing mode after query — expected palette closed with results"

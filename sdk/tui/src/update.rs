@@ -28,7 +28,7 @@ use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
-    move_table_selection, select_edge, rect_contains, ActiveView, HitAction, Modal, StatusMessage,
+    move_table_selection, rect_contains, select_edge, ActiveView, HitAction, Modal, StatusMessage,
     ValidateView,
 };
 use crate::clipboard::write_clipboard;
@@ -38,10 +38,10 @@ use crate::message::Message;
 use crate::model::Model;
 use crate::naming::NamingEvent;
 use crate::task::Task;
+use crate::wizard::draft::{clear_wizard_draft, save_wizard_draft, to_draft};
+use crate::wizard::WizardEvent;
 use command::handle_palette_submit;
 use ctx::UpdateCtx;
-use crate::wizard::WizardEvent;
-use crate::wizard::draft::{clear_wizard_draft, save_wizard_draft, to_draft};
 
 // ── Entry point ───────────────────────────────────────────────────────────────
 
@@ -265,8 +265,7 @@ fn handle_palette_key(
                     filtered.first().copied()
                 };
                 if let Some(cmd) = target {
-                    let new_input =
-                        tui_input::Input::from(format!("{} ", cmd.canonical()));
+                    let new_input = tui_input::Input::from(format!("{} ", cmd.canonical()));
                     if let Some(ps) = model.palette_state_mut() {
                         ps.input = new_input;
                         ps.history_cursor = None;
@@ -349,7 +348,6 @@ fn handle_palette_key(
     Task::none()
 }
 
-
 fn handle_history_nav(model: &mut Model, older: bool) {
     // Called only when palette is open (from handle_palette_key).
     // Two-pass: read first (no borrow conflict), then write.
@@ -397,7 +395,11 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 move_table_selection(&mut rv.table_state, rv.rows.len(), -1);
                 true
             }
-            ActiveView::Validate(vv) => { let l = vv.visible_len(); move_table_selection(&mut vv.table_state, l, -1); true }
+            ActiveView::Validate(vv) => {
+                let l = vv.visible_len();
+                move_table_selection(&mut vv.table_state, l, -1);
+                true
+            }
             ActiveView::Describe(dv) => {
                 dv.scroll = dv.scroll.saturating_sub(1);
                 true
@@ -413,7 +415,11 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 move_table_selection(&mut rv.table_state, rv.rows.len(), 1);
                 true
             }
-            ActiveView::Validate(vv) => { let l = vv.visible_len(); move_table_selection(&mut vv.table_state, l, 1); true }
+            ActiveView::Validate(vv) => {
+                let l = vv.visible_len();
+                move_table_selection(&mut vv.table_state, l, 1);
+                true
+            }
             ActiveView::Describe(dv) => {
                 dv.scroll = dv.scroll.saturating_add(1);
                 true
@@ -438,7 +444,10 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
         }
         // Enter: expand/collapse the selected group in the validate view.
         KeyCode::Enter => match &mut model.active_view {
-            ActiveView::Validate(vv) => { vv.toggle_selected(); true }
+            ActiveView::Validate(vv) => {
+                vv.toggle_selected();
+                true
+            }
             _ => false,
         },
         // g/G: jump to first/last row (vim convention, tui-conventions.md §1).
@@ -451,7 +460,11 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 select_edge(&mut rv.table_state, rv.rows.len(), false);
                 true
             }
-            ActiveView::Validate(vv) => { let l = vv.visible_len(); select_edge(&mut vv.table_state, l, false); true }
+            ActiveView::Validate(vv) => {
+                let l = vv.visible_len();
+                select_edge(&mut vv.table_state, l, false);
+                true
+            }
             ActiveView::Describe(dv) => {
                 dv.scroll = 0;
                 true
@@ -467,7 +480,11 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 select_edge(&mut rv.table_state, rv.rows.len(), true);
                 true
             }
-            ActiveView::Validate(vv) => { let l = vv.visible_len(); select_edge(&mut vv.table_state, l, true); true }
+            ActiveView::Validate(vv) => {
+                let l = vv.visible_len();
+                select_edge(&mut vv.table_state, l, true);
+                true
+            }
             ActiveView::Describe(dv) => {
                 let max_scroll = dv.pretty_json.lines().count().saturating_sub(1) as u16;
                 dv.scroll = max_scroll;

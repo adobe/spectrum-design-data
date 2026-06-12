@@ -316,11 +316,9 @@ pub fn apply_restrictions(
     ctx: ResolutionContext,
     restrictions: &HashMap<String, Vec<String>>,
 ) -> ResolutionContext {
-    restrictions
-        .iter()
-        .fold(ctx, |acc, (mode_set, allowed)| {
-            acc.with_restriction(mode_set.clone(), allowed.clone())
-        })
+    restrictions.iter().fold(ctx, |acc, (mode_set, allowed)| {
+        acc.with_restriction(mode_set.clone(), allowed.clone())
+    })
 }
 
 // ── Legacy-slug reference resolution ─────────────────────────────────────────
@@ -363,10 +361,7 @@ pub fn resolve_reference(
     use crate::naming::extract_legacy_key;
 
     // Strip optional `{…}` wrapper.
-    let name = slug
-        .trim()
-        .trim_start_matches('{')
-        .trim_end_matches('}');
+    let name = slug.trim().trim_start_matches('{').trim_end_matches('}');
 
     // Collect all cascade tokens whose computed legacy key equals `name`,
     // or whose direct graph key equals `name` (object-format legacy tokens).
@@ -428,9 +423,7 @@ pub fn resolve_reference(
             .get("name")
             .and_then(extract_legacy_key)
             .map(|k| format!("{{{k}}}"))
-            .unwrap_or_else(|| {
-                format!("(uuid:{})", next.uuid.as_deref().unwrap_or("?"))
-            });
+            .unwrap_or_else(|| format!("(uuid:{})", next.uuid.as_deref().unwrap_or("?")));
         chain.push(hop_label);
         current = next;
     }
@@ -847,10 +840,7 @@ mod tests {
         // t-dark: colorScheme=dark (non-default) → specificity 1.
         // t-light: colorScheme=light (IS default) → specificity 0.
         // t-dark wins even though both files are the same.
-        assert_eq!(
-            winner.raw["name"]["colorScheme"].as_str(),
-            Some("dark")
-        );
+        assert_eq!(winner.raw["name"]["colorScheme"].as_str(), Some("dark"));
     }
 
     #[test]
