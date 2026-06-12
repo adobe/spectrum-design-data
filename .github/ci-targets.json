@@ -19,6 +19,7 @@
     "design-data:validate-guidelines"
   ],
   "rust": [
+    "sdk:fmt-check",
     "sdk:lint",
     "sdk:test",
     "sdk-wasm:ci",

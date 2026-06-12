@@ -33,6 +33,13 @@ export default {
         `remark ${file} --use remark-frontmatter --use remark-gfm --use remark-github -o`,
     );
   },
+  "sdk/**/*.rs": (files) => {
+    // Run rustfmt directly (not via `cargo fmt`) so lint-staged can pass the exact
+    // staged file paths. --edition 2021 matches the workspace Cargo.toml setting.
+    return [
+      `rustfmt --edition 2021 ${files.map((f) => JSON.stringify(f)).join(" ")}`,
+    ];
+  },
   ".changeset/*.md": (files) => {
     // Only run changeset linter on actual changeset files, not README.md
     const changesetFiles = files.filter((file) => !file.endsWith("README.md"));

@@ -75,6 +75,23 @@ tasks:
       - "/packages/design-data/fields/*.json"
     deps:
       - codegen-check
+  fmt:
+    command: cargo
+    args:
+      - fmt
+      - --all
+    inputs:
+      - "@globs(sources)"
+    local: true
+  fmt-check:
+    command: cargo
+    args:
+      - fmt
+      - --all
+      - "--"
+      - --check
+    inputs:
+      - "@globs(sources)"
   lint:
     command: cargo
     args:

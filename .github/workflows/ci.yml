@@ -59,13 +59,13 @@ jobs:
         with:
           fetch-depth: 0
           filter: blob:none
-      # Install Rust 1.88.0 + wasm32 target + clippy before moon/proto runs,
+      # Install Rust 1.88.0 + wasm32 target + clippy + rustfmt before moon/proto runs,
       # so proto uses the system-installed toolchain rather than re-downloading.
       # Aligned with sdk/rust-toolchain.toml and .moon/toolchain.yml.
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
-          components: clippy
+          components: clippy, rustfmt
       # Persist the Cargo build cache (sdk/target/) across PR runs.
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
