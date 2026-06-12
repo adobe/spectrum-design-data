@@ -36,6 +36,36 @@ use crate::task::Task;
 use crate::wizard::WizardState;
 use super::ctx::UpdateCtx;
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+/// Replace any embedded JSON object in `s` with a compact `key=value` summary.
+///
+/// Finds the first `{…}` substring, attempts to parse it as a JSON object, and
+/// formats each entry as `key=value`, joined by spaces.  Falls back to the
+/// original string on any parse failure.
+fn compact_json_refs(s: &str) -> String {
+    let Some(start) = s.find('{') else {
+        return s.to_owned();
+    };
+    let Some(end_rel) = s[start..].rfind('}') else {
+        return s.to_owned();
+    };
+    let end = start + end_rel;
+    let json_str = &s[start..=end];
+    let Ok(serde_json::Value::Object(map)) = serde_json::from_str(json_str) else {
+        return s.to_owned();
+    };
+    let kv = map
+        .iter()
+        .map(|(k, v)| {
+            let val = v.as_str().map(str::to_owned).unwrap_or_else(|| v.to_string());
+            format!("{k}={val}")
+        })
+        .collect::<Vec<_>>()
+        .join(" ");
+    format!("{}{}{}", &s[..start], kv, &s[end + 1..])
+}
+
 // ── Palette submit ─────────────────────────────────────────────────────────────
 
 /// Handle a committed palette command.
@@ -262,14 +292,18 @@ fn dispatch_command(
                             .map(|d| DiagnosticRow {
                                 severity: "error".to_string(),
                                 rule_id: d.rule_id.clone().unwrap_or_default(),
-                                token: d.token.clone().unwrap_or_default(),
-                                message: d.message.clone(),
+                                token: compact_json_refs(
+                                    &d.token.clone().unwrap_or_default(),
+                                ),
+                                message: compact_json_refs(&d.message),
                             })
                             .chain(report.warnings.iter().map(|d| DiagnosticRow {
                                 severity: "warning".to_string(),
                                 rule_id: d.rule_id.clone().unwrap_or_default(),
-                                token: d.token.clone().unwrap_or_default(),
-                                message: d.message.clone(),
+                                token: compact_json_refs(
+                                    &d.token.clone().unwrap_or_default(),
+                                ),
+                                message: compact_json_refs(&d.message),
                             }))
                             .collect();
                         Ok(rows)
@@ -336,5 +370,52 @@ fn build_did_you_mean(id: &str, available: &[&str]) -> String {
         format!(" — available: {}", available.join(", "))
     } else {
         format!(" — did you mean: {}", matches.join(", "))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::compact_json_refs;
+
+    #[test]
+    fn compact_json_refs_replaces_embedded_object() {
+        let msg = r#"Token '{"component":"chevron-icon","property":"size-75"}' references unknown scale"#;
+        let out = compact_json_refs(msg);
+        assert!(out.contains("component=chevron-icon"), "got: {out}");
+        assert!(out.contains("property=size-75"), "got: {out}");
+        assert!(!out.contains('{'), "braces should be gone: {out}");
+        assert!(out.starts_with("Token '"), "prefix lost: {out}");
+        assert!(out.ends_with("' references unknown scale"), "suffix lost: {out}");
+    }
+
+    #[test]
+    fn compact_json_refs_full_spec_message() {
+        // Exact shape emitted by SPEC-018/019/020/022/040: flat string→string name object.
+        // Key order matches insertion order under the workspace's preserve_order build.
+        let msg = r#"Token '{"component":"chevron-icon","property":"size-75","scale":"medium"}' references unknown scale"#;
+        let out = compact_json_refs(msg);
+        assert_eq!(
+            out,
+            "Token 'component=chevron-icon property=size-75 scale=medium' references unknown scale"
+        );
+    }
+
+    #[test]
+    fn compact_json_refs_passes_through_plain_string() {
+        let msg = "no JSON here";
+        assert_eq!(compact_json_refs(msg), msg);
+    }
+
+    #[test]
+    fn compact_json_refs_passes_through_invalid_json() {
+        let msg = "Token '{not json}' is broken";
+        assert_eq!(compact_json_refs(msg), msg);
+    }
+
+    #[test]
+    fn compact_json_refs_multi_object_falls_back() {
+        // rfind spans both brace pairs → invalid JSON → original returned unchanged
+        let msg = r#"Token '{"a":"x"}' see also '{"b":"y"}'"#;
+        assert_eq!(compact_json_refs(msg), msg);
     }
 }
