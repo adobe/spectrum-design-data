@@ -145,7 +145,6 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
     }
 }
 
-
 fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect) {
     let popup_area = centered_rect(80, 90, area);
     f.render_widget(Clear, popup_area);

@@ -450,7 +450,6 @@ pub(crate) const RESOLVE_NAME_PCT: u16 = 35;
 /// Also passed to [`column_budget`] (reserved = 12: 2 borders + 3 gaps + 7-wide Sev column).
 pub(crate) const VALIDATE_TOKEN_PCT: u16 = 28;
 
-
 /// Apply a signed scroll delta to a `u16` scroll position using saturating arithmetic.
 fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
     if delta > 0 {

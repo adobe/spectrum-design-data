@@ -397,4 +397,11 @@ mod tests {
         let msg = "Token '{not json}' is broken";
         assert_eq!(compact_json_refs(msg), msg);
     }
+
+    #[test]
+    fn compact_json_refs_multi_object_falls_back() {
+        // rfind spans both brace pairs → invalid JSON → original returned unchanged
+        let msg = r#"Token '{"a":"x"}' see also '{"b":"y"}'"#;
+        assert_eq!(compact_json_refs(msg), msg);
+    }
 }
