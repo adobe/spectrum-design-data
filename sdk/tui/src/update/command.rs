@@ -384,6 +384,20 @@ mod tests {
         assert!(out.contains("component=chevron-icon"), "got: {out}");
         assert!(out.contains("property=size-75"), "got: {out}");
         assert!(!out.contains('{'), "braces should be gone: {out}");
+        assert!(out.starts_with("Token '"), "prefix lost: {out}");
+        assert!(out.ends_with("' references unknown scale"), "suffix lost: {out}");
+    }
+
+    #[test]
+    fn compact_json_refs_full_spec_message() {
+        // Exact shape emitted by SPEC-018/019/020/022/040: flat string→string name object.
+        // Key order matches insertion order under the workspace's preserve_order build.
+        let msg = r#"Token '{"component":"chevron-icon","property":"size-75","scale":"medium"}' references unknown scale"#;
+        let out = compact_json_refs(msg);
+        assert_eq!(
+            out,
+            "Token 'component=chevron-icon property=size-75 scale=medium' references unknown scale"
+        );
     }
 
     #[test]
