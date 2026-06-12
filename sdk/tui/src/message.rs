@@ -19,7 +19,7 @@
 use crossterm::event::{KeyEvent, MouseEvent};
 use serde::{Deserialize, Serialize};
 
-use crate::app_views::{DescribeView, DiagnosticRow};
+use crate::model::views::{DescribeView, DiagnosticRow};
 
 /// Every event that can flow through the TUI runtime's `update` function.
 ///

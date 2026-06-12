@@ -26,6 +26,8 @@ use tui_input::backend::crossterm::EventHandler;
 use tui_input::Input;
 use uuid::Uuid;
 
+pub mod draft;
+
 /// Minimal graph context passed to wizard key handlers.
 pub struct WizardCtx<'a> {
     pub graph: &'a TokenGraph,
@@ -444,8 +446,6 @@ impl WizardState {
             WizardScreen::Intent => unreachable!("go_back never called on S1; Esc on S1 cancels"),
         };
     }
-
-    // ── Public helpers ───────────────────────────────────────────────────────
 
     /// Recompute `suggestions` and `can_alias` from the current intent string.
     /// Cheap; safe to call on every key event.

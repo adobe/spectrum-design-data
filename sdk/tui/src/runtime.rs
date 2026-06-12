@@ -32,7 +32,7 @@ use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
 use crate::task::Task;
 use crate::theme::Theme;
 use crate::update::update;
-use crate::update_ctx::UpdateCtx;
+use crate::update::ctx::UpdateCtx;
 use crate::view::draw;
 
 /// Run the TUI event loop until the user quits.
@@ -273,7 +273,7 @@ mod tests {
     use crate::message::Message;
     use crate::theme::Theme;
     use crate::update::update;
-    use crate::update_ctx::UpdateCtx;
+    use crate::update::ctx::UpdateCtx;
     use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
     use ratatui::backend::TestBackend;
     use ratatui::Terminal;

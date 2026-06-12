@@ -11,7 +11,7 @@
 //! The enumerable set of `:cmd` palette commands (GH #1096).
 //!
 //! `Command` is the single source of truth for which palette commands exist. The
-//! dispatcher in `update_command.rs` matches on `Command::parse`, the Tab
+//! dispatcher in `update/command.rs` matches on `Command::parse`, the Tab
 //! autocomplete in `update.rs` iterates `Command::ALL` canonical names, and the
 //! home-screen `COMMANDS` table in `logo.rs` is kept in lock-step by a
 //! bidirectional sync test (see the `tests` module below). Adding a variant here

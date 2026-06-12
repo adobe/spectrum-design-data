@@ -20,6 +20,9 @@
 //! (`DescribeDone`), and the `validate` FS scan (`ValidateDone`). The completion
 //! messages feed back through `update` to settle the resulting view.
 
+pub(crate) mod command;
+pub mod ctx;
+
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEventKind};
 use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
@@ -34,10 +37,10 @@ use crate::message::Message;
 use crate::model::Model;
 use crate::naming::NamingEvent;
 use crate::task::Task;
-use crate::update_command::handle_palette_submit;
-use crate::update_ctx::UpdateCtx;
+use command::handle_palette_submit;
+use ctx::UpdateCtx;
 use crate::wizard::WizardEvent;
-use crate::wizard_draft::{clear_wizard_draft, save_wizard_draft, to_draft};
+use crate::wizard::draft::{clear_wizard_draft, save_wizard_draft, to_draft};
 
 // ── Entry point ───────────────────────────────────────────────────────────────
 
