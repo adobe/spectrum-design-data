@@ -12,8 +12,8 @@
 //!
 //! The legacy `App` state machine was retired once the TEA runtime (`Model` +
 //! `update`) became the single source of truth (GH #1014). This module now only
-//! re-exports the view types from [`crate::app_views`] and hosts the free helper
-//! functions still used by `update`, `update_command`, and the runtime
+//! re-exports the view types from [`crate::model::views`] and hosts the free helper
+//! functions still used by `update`, `update::command`, and the runtime
 //! (history persistence, table-selection math, hit-testing, resolve parsing).
 
 use std::path::PathBuf;
@@ -22,7 +22,7 @@ use design_data_core::cascade::{apply_restrictions, parse_resolve_context, Resol
 use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
 
-pub use crate::app_views::*;
+pub use crate::model::views::*;
 
 // ── History persistence ───────────────────────────────────────────────────────
 
@@ -67,8 +67,8 @@ pub(crate) fn save_palette_history(history: &[String]) {
 }
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
-// `layer_str` lives in app_views.rs (re-exported here via `pub use crate::app_views::*`).
-// `apply_scroll_delta` lives in app_views.rs (used by Modal::on_scroll).
+// `layer_str` lives in model/views.rs (re-exported here via `pub use crate::model::views::*`).
+// `apply_scroll_delta` lives in model/views.rs (used by Modal::on_scroll).
 
 /// Advance a `TableState` selection by `delta` rows, clamping at the bounds.
 pub fn move_table_selection(state: &mut TableState, len: usize, delta: i64) {

@@ -33,8 +33,8 @@ use crate::message::Message;
 use crate::model::Model;
 use crate::naming::NamingWizardState;
 use crate::task::Task;
-use crate::update_ctx::UpdateCtx;
 use crate::wizard::WizardState;
+use super::ctx::UpdateCtx;
 
 // ── Palette submit ─────────────────────────────────────────────────────────────
 

@@ -13,7 +13,7 @@
 //!
 //! Also exports `layer_str` (moved here because `QueryRow::from_record` depends on
 //! it) and the private `apply_scroll_delta` helper used by `Modal::on_scroll`.
-//! `app.rs` re-exports everything here via `pub use crate::app_views::*;`.
+//! `app.rs` re-exports everything here via `pub use crate::model::views::*;`.
 
 use std::collections::HashMap;
 use std::path::Path;
@@ -304,7 +304,7 @@ impl Modal {
 
     /// Persist any in-progress state to disk (no-op for modals without persistence).
     pub fn persist(&self) {
-        use crate::wizard_draft::{save_wizard_draft, to_draft};
+        use crate::wizard::draft::{save_wizard_draft, to_draft};
         if let Modal::Wizard(ws) = self {
             save_wizard_draft(&to_draft(ws));
         }
@@ -401,13 +401,54 @@ pub(crate) fn layer_str(layer: Layer) -> &'static str {
     }
 }
 
-/// Truncate `s` to `max` display columns, appending `…` when truncation occurs.
+/// Truncate `s` to `max` terminal display columns, appending `…` when truncation
+/// occurs. Width is measured with `unicode-width` so wide glyphs (CJK, emoji)
+/// that occupy two terminal columns are accounted for correctly.
 pub(crate) fn truncate_cell(s: &str, max: usize) -> String {
-    if max == 0 || s.chars().count() <= max {
+    use unicode_width::UnicodeWidthStr;
+    if max == 0 || s.width() <= max {
         return s.to_owned();
     }
-    format!("{}…", s.chars().take(max.saturating_sub(1)).collect::<String>())
+    let budget = max.saturating_sub(1); // reserve one column for `…`
+    let mut out = String::new();
+    let mut used = 0usize;
+    for ch in s.chars() {
+        let w = unicode_width::UnicodeWidthChar::width(ch).unwrap_or(0);
+        if used + w > budget {
+            break;
+        }
+        out.push(ch);
+        used += w;
+    }
+    out.push('…');
+    out
 }
+
+/// Compute a per-cell display-column budget for a table column.
+///
+/// `reserved` is the total number of terminal columns consumed by table borders,
+/// inter-column gaps, and any fixed-width sibling columns (e.g. a `Length(2)`
+/// star column) that are not covered by the `Percentage` constraints.
+/// `pct` is the column's `Constraint::Percentage` value.
+///
+/// The result mirrors how ratatui distributes the remaining width so the ellipsis
+/// in [`truncate_cell`] fires at roughly the real clip point.
+pub(crate) fn column_budget(width: u16, reserved: u16, pct: u16) -> usize {
+    (width.saturating_sub(reserved) as usize) * pct as usize / 100
+}
+
+/// `Constraint::Percentage` for the Name column in the query result table.
+/// Also passed to [`column_budget`] (reserved = 5: 2 borders + 3 inter-column gaps)
+/// so the budget call stays in sync with the actual layout if either is retuned.
+pub(crate) const QUERY_NAME_PCT: u16 = 40;
+
+/// `Constraint::Percentage` for the Name column in the resolve result table.
+/// Also passed to [`column_budget`] (reserved = 9: 2 borders + 5 gaps + 2-wide star column).
+pub(crate) const RESOLVE_NAME_PCT: u16 = 35;
+
+/// `Constraint::Percentage` for the Token column in the validate result table.
+/// Also passed to [`column_budget`] (reserved = 12: 2 borders + 3 gaps + 7-wide Sev column).
+pub(crate) const VALIDATE_TOKEN_PCT: u16 = 28;
 
 /// Apply a signed scroll delta to a `u16` scroll position using saturating arithmetic.
 fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
@@ -415,5 +456,69 @@ fn apply_scroll_delta(scroll: &mut u16, delta: i32) {
         *scroll = scroll.saturating_add(delta as u16);
     } else {
         *scroll = scroll.saturating_sub((-delta) as u16);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{column_budget, truncate_cell};
+
+    // ── truncate_cell ─────────────────────────────────────────────────────────
+
+    #[test]
+    fn truncate_cell_max_zero_passthrough() {
+        assert_eq!(truncate_cell("hello", 0), "hello");
+    }
+
+    #[test]
+    fn truncate_cell_short_string_unchanged() {
+        assert_eq!(truncate_cell("hi", 10), "hi");
+    }
+
+    #[test]
+    fn truncate_cell_exact_fit_no_ellipsis() {
+        // 5 ASCII chars, max 5 — should pass through unchanged.
+        assert_eq!(truncate_cell("abcde", 5), "abcde");
+    }
+
+    #[test]
+    fn truncate_cell_overflow_appends_ellipsis() {
+        // 6 chars, max 5 → truncate to 4 + `…`
+        let result = truncate_cell("abcdef", 5);
+        assert_eq!(result, "abcd…");
+    }
+
+    #[test]
+    fn truncate_cell_multibyte_latin_unchanged() {
+        // "café" is 4 display columns; max 5 → no truncation.
+        assert_eq!(truncate_cell("café", 5), "café");
+    }
+
+    #[test]
+    fn truncate_cell_wide_chars_by_columns_not_chars() {
+        // Each CJK char is 2 columns wide.
+        // "日本語テスト" = 6 chars = 12 columns. max 5 → budget 4 cols → 2 CJK chars + `…`
+        let result = truncate_cell("日本語テスト", 5);
+        assert_eq!(result, "日本…");
+    }
+
+    #[test]
+    fn truncate_cell_wide_char_exactly_fits() {
+        // 2 CJK chars = 4 display cols, max 4 → no truncation.
+        assert_eq!(truncate_cell("日本", 4), "日本");
+    }
+
+    // ── column_budget ─────────────────────────────────────────────────────────
+
+    #[test]
+    fn column_budget_typical_query_name_col() {
+        // render_query: width 120, reserved 5, pct 40 → 46
+        assert_eq!(column_budget(120, 5, 40), 46);
+    }
+
+    #[test]
+    fn column_budget_reserved_exceeds_width_saturates_to_zero() {
+        // saturating_sub prevents underflow; result is 0 → truncate_cell passes through.
+        assert_eq!(column_budget(4, 10, 40), 0);
     }
 }

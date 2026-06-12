@@ -26,6 +26,8 @@ use tui_input::backend::crossterm::EventHandler;
 use tui_input::Input;
 use uuid::Uuid;
 
+pub mod draft;
+
 /// Minimal graph context passed to wizard key handlers.
 pub struct WizardCtx<'a> {
     pub graph: &'a TokenGraph,

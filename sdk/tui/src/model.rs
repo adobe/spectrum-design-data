@@ -14,8 +14,11 @@
 //! `selection_mode`, `sel_start`, `sel_end`) with a sum type so impossible
 //! combinations become compile-time errors.
 
+pub(crate) mod mode;
+pub(crate) mod views;
+
 use crate::app::{ActiveView, HitRegion, Modal, StatusMessage};
-use crate::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
+use self::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
 
 /// Top-level application state for the TEA runtime.
 pub struct Model {
@@ -39,7 +42,7 @@ impl Model {
     /// Create the model for a real session, loading palette history from disk and
     /// optionally restoring an in-progress wizard draft.
     pub fn new_with_options(resume_wizard: bool) -> Self {
-        use crate::wizard_draft::{from_draft, load_wizard_draft};
+        use crate::wizard::draft::{from_draft, load_wizard_draft};
         let mode = if resume_wizard {
             load_wizard_draft()
                 .map(|d| {

@@ -77,30 +77,30 @@ fn no_source_file_exceeds_loc_cap() {
     );
 }
 
-/// Render-path modules (`view*.rs`) must not contain `async fn` or `tokio::`.
+/// Render-path modules (`view.rs` and `src/view/**/*.rs`) must not contain
+/// `async fn` or `tokio::`.
 ///
 /// Async code in the render path would block the draw loop and cause frame stutter.
-/// This test scans all `src/view*.rs` files automatically, so new render modules
-/// (e.g. `view_wizard.rs`) are covered without updating any list.
+/// This test scans `src/view.rs` and all files under `src/view/` recursively, so
+/// new render modules are covered without updating any list.
 #[test]
 fn no_async_in_render_path() {
     let src_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src");
 
-    let render_files: Vec<PathBuf> = fs::read_dir(&src_dir)
-        .expect("src dir readable")
-        .flatten()
-        .map(|e| e.path())
-        .filter(|p| {
-            p.file_name()
-                .and_then(|n| n.to_str())
-                .map(|n| n.starts_with("view") && n.ends_with(".rs"))
-                .unwrap_or(false)
-        })
-        .collect();
+    // Collect src/view.rs (the dispatcher) plus everything under src/view/.
+    let mut render_files: Vec<PathBuf> = Vec::new();
+    let view_rs = src_dir.join("view.rs");
+    if view_rs.exists() {
+        render_files.push(view_rs);
+    }
+    let view_dir = src_dir.join("view");
+    if view_dir.is_dir() {
+        collect_rs(&view_dir, &mut render_files);
+    }
 
     assert!(
         !render_files.is_empty(),
-        "no view*.rs files found in src/ — check CARGO_MANIFEST_DIR"
+        "no view render files found in src/ — check CARGO_MANIFEST_DIR"
     );
 
     for path in &render_files {
