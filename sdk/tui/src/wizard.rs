@@ -14,19 +14,24 @@
 //! M4 adds `--allow-write` gating: when enabled, Screen 4 Submit calls
 //! `core::write::write_token` and records the token to disk.
 
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
+use design_data_core::graph::TokenGraph;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
-use design_data_core::write::{layer_target_filename, write_token, WriteTokenInput};
+use design_data_core::write::{write_token, WriteTokenInput};
 use tui_input::backend::crossterm::EventHandler;
 use tui_input::Input;
 use uuid::Uuid;
 
+mod build;
 pub mod draft;
+use build::{
+    build_value_rows, classification_to_name_dtos, infer_schema_url, resolve_target_file,
+    value_rows_to_dtos,
+};
 
 /// Minimal graph context passed to wizard key handlers.
 pub struct WizardCtx<'a> {
@@ -659,114 +664,4 @@ impl Default for WizardState {
     fn default() -> Self {
         Self::new()
     }
-}
-
-// ── Internal helpers ─────────────────────────────────────────────────────────
-
-/// Derive the target file path from `layer` and `property`.
-///
-/// Return the target file path for `layer` inside `dataset_path`.
-///
-/// Delegates to [`design_data_core::write::layer_target_filename`] so the
-/// layer → filename convention stays in one place.
-/// `_property` is reserved for future sub-property routing.
-fn resolve_target_file(layer: Layer, _property: &str, dataset_path: &Path) -> PathBuf {
-    dataset_path.join(layer_target_filename(layer))
-}
-
-/// Scan the graph for a token whose `name.property` matches `property` and
-/// return its `$schema` URL.
-///
-/// Delegates to [`design_data_core::graph::TokenGraph::infer_schema_url`].
-fn infer_schema_url(graph: &TokenGraph, property: &str) -> Option<String> {
-    graph.infer_schema_url(property)
-}
-
-/// Convert TUI classification name fields into the serializable DTO shape consumed by
-/// [`design_data_core::authoring::draft::build_name_object`].
-fn classification_to_name_dtos(
-    classification: &ClassificationDraft,
-) -> Vec<design_data_core::authoring::draft::NameFieldDto> {
-    classification
-        .name_fields
-        .iter()
-        .map(|f| design_data_core::authoring::draft::NameFieldDto {
-            key: f.key.clone(),
-            value: f.value.value().trim().to_string(),
-        })
-        .collect()
-}
-
-/// Convert TUI value rows into the serializable DTO shape consumed by
-/// [`design_data_core::authoring::draft::build_value_fields`].
-///
-/// `tui_input::Input` collapses to `String` on the boundary, mirroring the
-/// `WizardState` → `WizardDraft` conversion in `wizard_draft::to_draft`.
-fn value_rows_to_dtos(rows: &[ValueRow]) -> Vec<design_data_core::authoring::draft::ValueRowDto> {
-    rows.iter()
-        .map(|r| design_data_core::authoring::draft::ValueRowDto {
-            mode_combo: r.mode_combo.clone(),
-            kind: r.kind,
-            alias_target: r.alias_target.value().to_string(),
-            literal: r.literal.value().to_string(),
-        })
-        .collect()
-}
-
-/// Build Screen 3 value rows from a graph's mode sets.
-///
-/// Produces the Cartesian product of all mode values.  If the graph has no
-/// mode sets, a single "default" row is returned.
-fn build_value_rows(
-    mode_sets: &[ModeSetRecord],
-    graph: &TokenGraph,
-    intent: &str,
-) -> Vec<ValueRow> {
-    let combos = cartesian_product(mode_sets);
-    if combos.is_empty() {
-        return vec![ValueRow {
-            mode_combo: vec![],
-            kind: ValueKind::Alias,
-            alias_target: seed_alias(graph, intent, None),
-            literal: Input::default(),
-        }];
-    }
-    combos
-        .into_iter()
-        .map(|combo| {
-            let property_hint: Option<String> = None; // refined in M4 with primer
-            ValueRow {
-                mode_combo: combo,
-                kind: ValueKind::Alias,
-                alias_target: seed_alias(graph, intent, property_hint.as_deref()),
-                literal: Input::default(),
-            }
-        })
-        .collect()
-}
-
-fn seed_alias(graph: &TokenGraph, intent: &str, property_hint: Option<&str>) -> Input {
-    let suggestions = suggest::suggest(graph, intent, property_hint, 1);
-    if let Some(top) = suggestions.into_iter().next() {
-        Input::from(top.token_name)
-    } else {
-        Input::default()
-    }
-}
-
-/// Cartesian product of mode sets → list of mode-combo vectors.
-fn cartesian_product(mode_sets: &[ModeSetRecord]) -> Vec<Vec<(String, String)>> {
-    let mut result: Vec<Vec<(String, String)>> = vec![vec![]];
-    for ms in mode_sets {
-        let mut next = Vec::new();
-        for combo in &result {
-            for mode in &ms.modes {
-                let mut new_combo = combo.clone();
-                new_combo.push((ms.name.clone(), mode.clone()));
-                next.push(new_combo);
-            }
-        }
-        result = next;
-    }
-    result
 }
