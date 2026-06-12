@@ -11,7 +11,7 @@
 mod common;
 use common::{key, make_graph, render_to_buffer, update_ctx};
 
-use crossterm::event::KeyCode;
+use crossterm::event::{KeyCode, KeyEvent, KeyEventKind, KeyEventState, KeyModifiers};
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph, TokenRecord};
 use design_data_tui::app::Modal;
 use design_data_tui::wizard::{ValueKind, WizardPath, WizardScreen};
@@ -566,6 +566,7 @@ fn esc_on_screen_2_goes_back_to_screen_1() {
     assert!(model.is_modal_open(), "modal should stay open on Esc from S2");
     if let Some(Modal::Wizard(ref ws)) = model.modal() {
         assert_eq!(ws.screen, WizardScreen::Intent, "Esc on S2 should return to S1");
+        assert_eq!(ws.intent.value(), "background", "intent field must be preserved after back-navigation");
     } else {
         panic!("expected wizard modal");
     }
@@ -600,4 +601,55 @@ fn esc_on_screen_1_still_cancels_wizard() {
     open_wizard(&mut model, &ctx, "background");
     update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
     assert!(!model.is_modal_open(), "Esc on S1 should cancel the wizard");
+}
+
+#[test]
+fn esc_on_screen_4_goes_back_to_screen_3() {
+    let graph = make_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S1 → S2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S2 → S3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S3 → S4
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx); // S4 → S3
+    assert!(model.is_modal_open(), "modal should stay open on Esc from S4");
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert_eq!(ws.screen, WizardScreen::Values, "Esc on S4 should return to S3");
+    } else {
+        panic!("expected wizard modal");
+    }
+}
+
+#[test]
+fn esc_in_sub_editor_closes_sub_editor_not_wizard() {
+    let graph = make_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    open_wizard(&mut model, &ctx, "background");
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S1 → S2
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S2 → S3
+    update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // S3 → S4
+    // Open the schema-URL sub-editor with Ctrl-S.
+    let ctrl_s = KeyEvent {
+        code: KeyCode::Char('s'),
+        modifiers: KeyModifiers::CONTROL,
+        kind: KeyEventKind::Press,
+        state: KeyEventState::NONE,
+    };
+    update(&mut model, Message::Key(ctrl_s), &ctx);
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert!(ws.editing_schema_url, "Ctrl-S should open the schema URL sub-editor");
+    } else {
+        panic!("expected wizard modal after Ctrl-S");
+    }
+    // Esc should close only the sub-editor, not the wizard.
+    update(&mut model, Message::Key(key(KeyCode::Esc)), &ctx);
+    assert!(model.is_modal_open(), "wizard should stay open after sub-editor Esc");
+    if let Some(Modal::Wizard(ref ws)) = model.modal() {
+        assert_eq!(ws.screen, WizardScreen::Confirm, "screen should still be S4");
+        assert!(!ws.editing_schema_url, "sub-editor should be closed after Esc");
+    } else {
+        panic!("expected wizard modal after sub-editor Esc");
+    }
 }
