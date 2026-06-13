@@ -177,33 +177,37 @@ fn fuzzy_no_match_returns_empty() {
 
 #[test]
 fn fuzzy_render_shows_expected_command_first() {
-    // Type "vld" (fuzzy match for "validate"), then render at 120×36 and
-    // confirm the validate row appears in the buffer ahead of other rows.
+    // Type "d": "describe" gets a boundary bonus (d=index 0) → score 6;
+    // "validate" matches mid-word (d=index 4, no boundary) → score 1.
+    // Both must appear in the buffer and describe must come first.
     let graph = empty_graph();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
-    type_str(&mut model, &ctx, "vld");
+    type_str(&mut model, &ctx, "d");
     let buf = render_to_buffer(&mut model, 120, 36);
-    // scan rows to find "validate" and "query" — validate must appear first.
+    let mut describe_row: Option<u16> = None;
     let mut validate_row: Option<u16> = None;
-    let mut query_row: Option<u16> = None;
     for y in 0..36 {
         let row: String = (0..120u16)
             .map(|x| buf.cell((x, y)).map(|c| c.symbol()).unwrap_or(" "))
             .collect();
+        if row.contains("describe") && describe_row.is_none() {
+            describe_row = Some(y);
+        }
         if row.contains("validate") && validate_row.is_none() {
             validate_row = Some(y);
         }
-        if row.contains("query") && query_row.is_none() {
-            query_row = Some(y);
-        }
     }
     assert!(
-        validate_row.is_some(),
-        "validate must appear in the buffer for input 'vld'"
+        describe_row.is_some(),
+        "describe must appear in the buffer for input 'd'"
     );
     assert!(
-        validate_row < query_row || query_row.is_none(),
-        "validate (row {validate_row:?}) should appear before or instead of query (row {query_row:?})"
+        validate_row.is_some(),
+        "validate must also appear in the buffer for input 'd'"
+    );
+    assert!(
+        describe_row < validate_row,
+        "describe (row {describe_row:?}) should rank above validate (row {validate_row:?}) for input 'd'"
     );
 }

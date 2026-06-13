@@ -120,11 +120,11 @@ pub(crate) fn render_home(
                     .add_modifier(Modifier::BOLD),
                 // Row selected + non-matched: normal accent on selection bg.
                 (true, _, false) => Style::default().fg(theme.accent).bg(theme.selection_bg),
-                // Top-hint (Enter will run) + matched char: bright bold.
+                // Top-hint row (Enter will run): bold for all chars; matched
+                // chars also get underline so fuzzy hits are still visible.
                 (false, true, true) => Style::default()
                     .fg(theme.accent)
-                    .add_modifier(Modifier::BOLD),
-                // Top-hint + non-matched: bold accent without extra emphasis.
+                    .add_modifier(Modifier::BOLD | Modifier::UNDERLINED),
                 (false, true, false) => Style::default()
                     .fg(theme.accent)
                     .add_modifier(Modifier::BOLD),

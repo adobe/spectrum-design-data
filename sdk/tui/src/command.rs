@@ -87,6 +87,7 @@ define_commands! {
 /// A command candidate returned by [`Command::matches`], carrying the command
 /// variant and the matched character positions in its canonical name for
 /// highlight rendering.
+#[derive(Debug, Clone)]
 pub struct CommandMatch {
     /// The matched command variant.
     pub command: Command,
@@ -124,6 +125,8 @@ impl Command {
         use design_data_core::query::subsequence_match;
         use std::cmp::Reverse;
 
+        // No .to_lowercase() needed here: subsequence_match handles
+        // case-insensitivity internally via flat_map(char::to_lowercase).
         let tok = input.split_whitespace().next().unwrap_or("");
         if tok.is_empty() {
             return Command::ALL
