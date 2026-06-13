@@ -212,6 +212,7 @@ fn wheel_scroll_down_increments_describe_scroll() {
         component: "button".to_string(),
         pretty_json: "{}".to_string(),
         scroll: 0,
+        h_scroll: 0,
     });
     update(
         &mut model,

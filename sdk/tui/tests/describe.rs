@@ -16,7 +16,7 @@ use design_data_core::graph::{ComponentRecord, TokenGraph};
 use design_data_tui::app::{ActiveView, DescribeView};
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn fixtures_components_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/components")
@@ -31,10 +31,8 @@ fn make_graph_with_components() -> TokenGraph {
     TokenGraph::default().with_components(comps)
 }
 
-fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a PathBuf) -> UpdateCtx<'a> {
-    update_ctx_builder(graph)
-        .components_dir(dir.as_path())
-        .build()
+fn describe_ctx<'a>(graph: &'a TokenGraph, dir: &'a Path) -> UpdateCtx<'a> {
+    update_ctx_builder(graph).components_dir(dir).build()
 }
 
 fn submit_describe(model: &mut Model, ctx: &UpdateCtx<'_>, id: &str) {
@@ -180,6 +178,17 @@ fn esc_from_describe_view_returns_to_empty() {
 // ── g/G scroll ────────────────────────────────────────────────────────────────
 
 /// Build a DescribeView with enough lines to make G scrolling observable.
+fn wide_describe() -> DescribeView {
+    // A single long line (200 chars) to exercise horizontal scroll.
+    let long_value = "x".repeat(200);
+    DescribeView {
+        component: "wide".to_string(),
+        pretty_json: format!("{{ \"content\": \"{long_value}\" }}"),
+        scroll: 0,
+        h_scroll: 0,
+    }
+}
+
 fn multi_line_describe() -> DescribeView {
     let json = (0..30)
         .map(|i| format!("  \"line{i}\": {i}"))
@@ -189,6 +198,7 @@ fn multi_line_describe() -> DescribeView {
         component: "test".to_string(),
         pretty_json: format!("{{\n{json}\n}}"),
         scroll: 0,
+        h_scroll: 0,
     }
 }
 
@@ -224,6 +234,197 @@ fn shift_g_key_scrolls_describe_to_bottom() {
             dv.scroll > 0,
             "G should scroll describe toward bottom (got scroll={})",
             dv.scroll
+        );
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn l_key_advances_h_scroll_by_4() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(wide_describe());
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "l should advance h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn h_key_decrements_h_scroll() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.h_scroll = 8;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('h'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "h should decrement h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn g_key_resets_both_scroll_and_h_scroll() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.scroll = 5;
+    dv.h_scroll = 12;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.scroll, 0, "g should reset vertical scroll to 0");
+        assert_eq!(dv.h_scroll, 0, "g should reset horizontal scroll to 0");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+// ── Arrow-key aliases ─────────────────────────────────────────────────────────
+
+#[test]
+fn right_arrow_advances_h_scroll_like_l() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(wide_describe());
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Right)), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "Right arrow should advance h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn left_arrow_decrements_h_scroll_like_h() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.h_scroll = 8;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Left)), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "Left arrow should decrement h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+// ── Saturation boundaries ─────────────────────────────────────────────────────
+
+#[test]
+fn h_key_at_zero_stays_zero() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(wide_describe()); // h_scroll starts at 0
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('h'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 0, "h at 0 should stay at 0 (saturating_sub)");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn l_key_clamps_at_max_line_width() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    // Seed h_scroll at u16::MAX - 1, one step below the overflow boundary.
+    // With plain `+` this would overflow on the +4 add before `.min()` runs.
+    // With saturating_add it must clamp at max_line_width - 1 instead.
+    // wide_describe() produces one line: `{ "content": "<200 x's>" }` = 217 display
+    // columns, so max_line_width() == 217 and the cap is 216.
+    dv.h_scroll = u16::MAX - 1;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(
+            dv.h_scroll, 216,
+            "l should clamp h_scroll at max_line_width - 1 (got {})",
+            dv.h_scroll
+        );
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+// ── Shift-G resets h_scroll ───────────────────────────────────────────────────
+
+#[test]
+fn shift_g_resets_h_scroll_to_zero() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.scroll = 0;
+    dv.h_scroll = 16;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 0, "G should reset h_scroll to 0");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+// ── Unicode display-column width ──────────────────────────────────────────────
+
+/// Build a DescribeView whose longest line consists of wide (CJK) glyphs.
+/// "宽" is 1 char but 2 terminal display columns.  Ten of them == 20 display cols.
+/// Wrapped in minimal JSON that keeps the line as the widest one: `{"v":"宽宽…"}`.
+/// The full line is ~28 display columns wide (14 ASCII + 20 CJK = 34 cols).
+fn cjk_describe() -> DescribeView {
+    let wide_chars = "宽".repeat(10); // 10 chars, 20 display columns
+    DescribeView {
+        component: "cjk".to_string(),
+        pretty_json: format!("{{ \"v\": \"{wide_chars}\" }}"),
+        scroll: 0,
+        h_scroll: 0,
+    }
+}
+
+#[test]
+fn l_scroll_cap_respects_display_columns_not_char_count() {
+    // If the cap used chars().count() it would stop at 13 (the ASCII wrapper chars).
+    // With unicode-width it stops at ~33 (14 ASCII + 20 CJK display cols - 1).
+    // Seed h_scroll at a value that chars().count() would clamp to but
+    // display-column width would not, then press 'l' and confirm we advance.
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = cjk_describe();
+    // chars().count() of the whole line is ~14; set h_scroll just above that.
+    // A display-column-aware cap (~33) should still allow advancement.
+    dv.h_scroll = 14;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert!(
+            dv.h_scroll > 14,
+            "l should advance past the char-count ceiling ({}); display-col cap is higher",
+            dv.h_scroll
         );
     } else {
         panic!("expected Describe view");

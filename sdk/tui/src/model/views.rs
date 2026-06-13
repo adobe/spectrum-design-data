@@ -255,6 +255,22 @@ pub struct DescribeView {
     pub component: String,
     pub pretty_json: String,
     pub scroll: u16,
+    pub h_scroll: u16,
+}
+
+impl DescribeView {
+    /// Widest line in `pretty_json`, measured in terminal display columns
+    /// (via `unicode-width`, consistent with [`truncate_cell`]). Used to bound
+    /// horizontal scroll so it matches how ratatui counts column offsets.
+    pub(crate) fn max_line_width(&self) -> u16 {
+        use unicode_width::UnicodeWidthStr;
+        self.pretty_json
+            .lines()
+            .map(|l| l.width())
+            .max()
+            .unwrap_or(0)
+            .min(u16::MAX as usize) as u16
+    }
 }
 
 /// One row in the validate diagnostics table.
