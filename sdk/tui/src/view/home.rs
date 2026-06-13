@@ -20,7 +20,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::command::Command;
+use crate::command::{Command, CommandMatch};
 use crate::logo::LOGO;
 use crate::theme::Theme;
 
@@ -37,11 +37,11 @@ pub(crate) fn render_home(
     const MARGIN: &str = "  ";
     const PROMPT_PREFIX: &str = "> ";
 
-    let filtered = Command::filter(palette_input);
-    // cmd_col: widest canonical name in the filtered set, for alignment.
-    let cmd_col = filtered
+    let candidates: Vec<CommandMatch> = Command::matches(palette_input);
+    // cmd_col: widest canonical name in the candidate set, for alignment.
+    let cmd_col = candidates
         .iter()
-        .map(|c| c.canonical().len())
+        .map(|m| m.command.canonical().len())
         .max()
         .unwrap_or(0);
 
@@ -88,43 +88,60 @@ pub(crate) fn render_home(
         Span::raw(palette_input),
     ]));
 
-    for (i, cmd) in filtered.iter().enumerate() {
-        let name = cmd.canonical();
+    for (i, m) in candidates.iter().enumerate() {
+        let name = m.command.canonical();
         // Selection style: when list is focused (list_selected is Some), the
         // highlighted row gets selection_bg. When input is focused, the top
         // match is bolded as a subtle "this is what Enter will run" hint.
-        let (row_style, name_style) = if list_selected == Some(i) {
-            (
-                Style::default().bg(theme.selection_bg),
-                Style::default()
-                    .fg(theme.accent)
-                    .bg(theme.selection_bg)
-                    .add_modifier(Modifier::BOLD),
-            )
-        } else if list_selected.is_none() && i == 0 {
-            (
-                Style::default(),
-                Style::default()
-                    .fg(theme.accent)
-                    .add_modifier(Modifier::BOLD),
-            )
+        let selected = list_selected == Some(i);
+        let top_hint = list_selected.is_none() && i == 0;
+        let row_style = if selected {
+            Style::default().bg(theme.selection_bg)
         } else {
-            (Style::default(), Style::default().fg(theme.accent))
+            Style::default()
         };
-        let padding = " ".repeat(cmd_col.saturating_sub(name.len()) + 2);
-        let desc_style = if list_selected == Some(i) {
+        let desc_style = if selected {
             Style::default().fg(theme.muted).bg(theme.selection_bg)
         } else {
             Style::default().fg(theme.muted)
         };
-        lines.push(
-            Line::from(vec![
-                Span::styled(format!("{MARGIN}  {name}"), name_style),
-                Span::styled(padding, row_style),
-                Span::styled(cmd.description(), desc_style),
-            ])
-            .style(row_style),
-        );
+
+        // Build per-character name spans so matched positions can be highlighted.
+        // Non-matched chars use the base name style; matched chars get a distinct
+        // accent + bold treatment on top of the row state (selection/hint).
+        let mut name_spans: Vec<Span> = vec![Span::raw(format!("{MARGIN}  "))];
+        for (ci, ch) in name.chars().enumerate() {
+            let is_match = m.indices.contains(&ci);
+            let char_style = match (selected, top_hint, is_match) {
+                // Row selected + matched char: accent + bold on selection bg.
+                (true, _, true) => Style::default()
+                    .fg(theme.accent)
+                    .bg(theme.selection_bg)
+                    .add_modifier(Modifier::BOLD),
+                // Row selected + non-matched: normal accent on selection bg.
+                (true, _, false) => Style::default().fg(theme.accent).bg(theme.selection_bg),
+                // Top-hint (Enter will run) + matched char: bright bold.
+                (false, true, true) => Style::default()
+                    .fg(theme.accent)
+                    .add_modifier(Modifier::BOLD),
+                // Top-hint + non-matched: bold accent without extra emphasis.
+                (false, true, false) => Style::default()
+                    .fg(theme.accent)
+                    .add_modifier(Modifier::BOLD),
+                // Unselected + matched char: accent + underline to show the hit.
+                (false, false, true) => Style::default()
+                    .fg(theme.accent)
+                    .add_modifier(Modifier::UNDERLINED),
+                // Unselected + non-matched: plain accent.
+                (false, false, false) => Style::default().fg(theme.accent),
+            };
+            name_spans.push(Span::styled(ch.to_string(), char_style));
+        }
+
+        let padding = " ".repeat(cmd_col.saturating_sub(name.len()) + 2);
+        name_spans.push(Span::styled(padding, row_style));
+        name_spans.push(Span::styled(m.command.description(), desc_style));
+        lines.push(Line::from(name_spans).style(row_style));
     }
 
     // Prompt row offset: logo+spacer (if shown) + name + hint + separator = N.

@@ -369,16 +369,21 @@ pub fn filter_with_index<'a>(
 /// after one of these (or at the start of the string) earns a boundary bonus.
 const BOUNDARY_CHARS: &[char] = &['-', '_', '.', '[', ']', ' ', ',', '='];
 
-/// Score `needle` as a subsequence of `haystack` (both matched case-insensitively).
+/// Score `needle` as a subsequence of `haystack` (both matched case-insensitively),
+/// and return the matched char indices into `haystack`'s character sequence.
 ///
 /// Returns `None` when `needle` is not a subsequence of `haystack`.  An empty
-/// needle matches everything with a score of `0`.  Higher scores indicate
-/// tighter matches: each matched character scores `1`, with a `+3` bonus for
-/// runs of consecutive matches and a `+5` bonus for matches landing on a word
-/// boundary (so `btnbg` ranks `button-background` above incidental hits).
-pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
+/// needle matches everything with score `0` and an empty index list.  Higher
+/// scores indicate tighter matches: each matched character scores `1`, with a
+/// `+3` bonus for runs of consecutive matches and a `+5` bonus for matches
+/// landing on a word boundary (so `btnbg` ranks `button-background` above
+/// incidental hits).
+///
+/// The returned indices are positions in the **lowercased** char sequence of
+/// `haystack`, which is 1:1 with the original positions for ASCII input.
+pub fn subsequence_match(haystack: &str, needle: &str) -> Option<(i32, Vec<usize>)> {
     if needle.is_empty() {
-        return Some(0);
+        return Some((0, vec![]));
     }
     let hay: Vec<char> = haystack.chars().flat_map(char::to_lowercase).collect();
     let pat: Vec<char> = needle.chars().flat_map(char::to_lowercase).collect();
@@ -386,6 +391,7 @@ pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
     let mut score: i32 = 0;
     let mut hi: usize = 0;
     let mut last_match: Option<usize> = None;
+    let mut indices: Vec<usize> = Vec::with_capacity(pat.len());
 
     for &pc in &pat {
         let mut found = false;
@@ -403,6 +409,7 @@ pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
                     score += 3;
                 }
                 last_match = Some(idx);
+                indices.push(idx);
                 found = true;
                 break;
             }
@@ -412,7 +419,21 @@ pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
         }
     }
 
-    Some(score)
+    Some((score, indices))
+}
+
+/// Score `needle` as a subsequence of `haystack` (both matched case-insensitively).
+///
+/// Returns `None` when `needle` is not a subsequence of `haystack`.  An empty
+/// needle matches everything with a score of `0`.  Higher scores indicate
+/// tighter matches: each matched character scores `1`, with a `+3` bonus for
+/// runs of consecutive matches and a `+5` bonus for matches landing on a word
+/// boundary (so `btnbg` ranks `button-background` above incidental hits).
+///
+/// Use [`subsequence_match`] instead when matched-character positions are needed
+/// (e.g. for highlight rendering).
+pub fn subsequence_score(haystack: &str, needle: &str) -> Option<i32> {
+    subsequence_match(haystack, needle).map(|(score, _)| score)
 }
 
 // ── Tests ───────────────────────────────────────────────────────────────────
@@ -797,5 +818,59 @@ mod tests {
         let idx = build_index(&g, "component");
         assert_eq!(idx.get("button").map(|v| v.len()), Some(2));
         assert_eq!(idx.get("checkbox").map(|v| v.len()), Some(1));
+    }
+
+    // ── subsequence_match / subsequence_score ───────────────────────────
+
+    #[test]
+    fn subsequence_match_empty_needle() {
+        let result = super::subsequence_match("anything", "");
+        assert_eq!(result, Some((0, vec![])));
+    }
+
+    #[test]
+    fn subsequence_match_no_match_returns_none() {
+        assert!(super::subsequence_match("query", "xyz").is_none());
+        // Out-of-order subsequence must also fail.
+        assert!(super::subsequence_match("abc", "cba").is_none());
+    }
+
+    #[test]
+    fn subsequence_match_returns_correct_indices() {
+        // "query" chars: q=0, u=1, e=2, r=3, y=4.
+        // "qry" matches: q→0, r→3, y→4.
+        let (score, indices) = super::subsequence_match("query", "qry").unwrap();
+        assert_eq!(indices, vec![0, 3, 4]);
+        assert!(score > 0);
+    }
+
+    #[test]
+    fn subsequence_match_all_chars_consecutive_bonus() {
+        let (tight, _) = super::subsequence_match("validate", "val").unwrap();
+        let (loose, _) = super::subsequence_match("variable", "val").unwrap();
+        // "val" is a prefix of "validate" → consecutive bonus; "variable" spreads.
+        assert!(tight > loose, "tight={tight} loose={loose}");
+    }
+
+    #[test]
+    fn subsequence_match_score_agrees_with_subsequence_score() {
+        let pairs = &[("query", "qry"), ("validate", "vld"), ("resolve", "rsv")];
+        for (hay, needle) in pairs {
+            let via_match = super::subsequence_match(hay, needle).map(|(s, _)| s);
+            let direct = super::subsequence_score(hay, needle);
+            assert_eq!(
+                via_match, direct,
+                "score mismatch for haystack={hay} needle={needle}"
+            );
+        }
+    }
+
+    #[test]
+    fn subsequence_match_boundary_bonus_applies() {
+        // 'd' at the start of "describe" earns the boundary bonus.
+        let (boundary, _) = super::subsequence_match("describe", "d").unwrap();
+        // 'd' in "validate" is mid-word (no boundary before 'd' in "validate").
+        let (mid, _) = super::subsequence_match("validate", "d").unwrap();
+        assert!(boundary > mid, "boundary={boundary} mid={mid}");
     }
 }
