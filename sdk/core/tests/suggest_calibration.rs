@@ -151,9 +151,7 @@ fn negative_intents_score_below_threshold() {
     for intent in negative_intents {
         let results = suggest::suggest(&graph, intent, None, 5);
         let top_score = results.first().map(|r| r.confidence).unwrap_or(0.0);
-        eprintln!(
-            "[negative] {intent:?} → top score={top_score:.3} (threshold={threshold:.2})"
-        );
+        eprintln!("[negative] {intent:?} → top score={top_score:.3} (threshold={threshold:.2})");
         assert!(
             top_score < threshold,
             "negative intent {intent:?} should score below {threshold:.2}, got {top_score:.3}"
@@ -170,9 +168,7 @@ fn threshold_sits_in_calibrated_gap() {
     // Note: single-word queries matching a 2-segment token name can score ~0.5 and
     // DO legitimately trigger the banner — correct behavior, not a false positive.
     let threshold = alias_threshold();
-    eprintln!(
-        "[gap-check] alias_threshold()={threshold:.2} should be in (0.0, 0.60)"
-    );
+    eprintln!("[gap-check] alias_threshold()={threshold:.2} should be in (0.0, 0.60)");
     assert!(
         threshold > 0.0,
         "threshold must be above pure noise (0.0), got {threshold}"
