@@ -43,6 +43,9 @@ use crate::wizard::WizardEvent;
 use command::handle_palette_submit;
 use ctx::UpdateCtx;
 
+/// Columns moved per h/l horizontal-scroll step in the describe view.
+const H_SCROLL_STEP: u16 = 4;
+
 // ── Entry point ───────────────────────────────────────────────────────────────
 
 /// The single state-transition function for the TUI runtime.
@@ -442,10 +445,10 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 false
             }
         }
-        // h/Left · l/Right: horizontal scroll in describe view (4 columns per step).
+        // h/Left · l/Right: horizontal scroll in describe view (H_SCROLL_STEP columns per step).
         KeyCode::Left | KeyCode::Char('h') => {
             if let ActiveView::Describe(ref mut dv) = model.active_view {
-                dv.h_scroll = dv.h_scroll.saturating_sub(4);
+                dv.h_scroll = dv.h_scroll.saturating_sub(H_SCROLL_STEP);
                 true
             } else {
                 false
@@ -453,13 +456,8 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
         }
         KeyCode::Right | KeyCode::Char('l') => {
             if let ActiveView::Describe(ref mut dv) = model.active_view {
-                let max_h = dv
-                    .pretty_json
-                    .lines()
-                    .map(|l| l.chars().count())
-                    .max()
-                    .unwrap_or(0) as u16;
-                dv.h_scroll = (dv.h_scroll + 4).min(max_h.saturating_sub(1));
+                let max_h = dv.max_line_width();
+                dv.h_scroll = (dv.h_scroll + H_SCROLL_STEP).min(max_h.saturating_sub(1));
                 true
             } else {
                 false
@@ -512,6 +510,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
             ActiveView::Describe(dv) => {
                 let max_scroll = dv.pretty_json.lines().count().saturating_sub(1) as u16;
                 dv.scroll = max_scroll;
+                dv.h_scroll = 0;
                 true
             }
             ActiveView::Empty => false,
