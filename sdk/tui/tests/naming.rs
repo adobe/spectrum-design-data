@@ -213,12 +213,12 @@ fn copy_event_sets_pending_yank_and_status() {
         model.pending_yank.is_none(),
         "pending_yank should not be set — clipboard is via Task::Cmd"
     );
-    let msg = model
-        .status_message
-        .as_ref()
-        .map(|m| m.text.as_str())
-        .unwrap_or("");
-    assert!(msg.contains("copied"), "expected 'copied' in status: {msg}");
+    // The "copied" confirmation is now a toast (set when ClipboardDone(None) arrives),
+    // not a persistent status_message.  The status message should be clear here.
+    assert!(
+        model.status_message.is_none(),
+        "status_message should be clear after copy (confirmation is a toast)"
+    );
     assert!(
         model.is_modal_open(),
         "Copy should not close the Naming modal"

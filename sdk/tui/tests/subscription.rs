@@ -15,7 +15,8 @@
 
 use std::time::Instant;
 
-use design_data_tui::subscription::TICK_INTERVAL;
+use design_data_tui::app::StatusKind;
+use design_data_tui::subscription::{TICK_INTERVAL, TOAST_DURATION};
 use design_data_tui::{subscriptions, Message, Model, SubscriptionId, Subscriptions};
 
 #[test]
@@ -162,4 +163,87 @@ fn subscription_poll_does_not_emit_before_interval_elapses() {
             "tick must not fire before interval at step {i}"
         );
     }
+}
+
+// ── Toast subscription tests ──────────────────────────────────────────────────
+
+#[test]
+fn toast_subscription_absent_without_toast() {
+    // With no toast, `subscriptions` should return only the Tick stream.
+    let model = Model::new();
+    let ids: Vec<SubscriptionId> = subscriptions(&model)
+        .into_iter()
+        .map(|s| s.id().clone())
+        .collect();
+    assert!(!ids.contains(&SubscriptionId::Named("toast")));
+    assert!(ids.contains(&SubscriptionId::Tick));
+}
+
+#[test]
+fn toast_subscription_present_with_toast() {
+    let mut model = Model::new();
+    model.set_toast("✓ copied", StatusKind::Info);
+    let ids: Vec<SubscriptionId> = subscriptions(&model)
+        .into_iter()
+        .map(|s| s.id().clone())
+        .collect();
+    assert!(
+        ids.contains(&SubscriptionId::Named("toast")),
+        "Named('toast') should appear when model has an active toast"
+    );
+}
+
+#[test]
+fn toast_subscription_fires_toast_expired_after_duration() {
+    let mut model = Model::new();
+    model.set_toast("hello", StatusKind::Info);
+
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
+    let start = Instant::now();
+    subs.diff(subscriptions(&model), start);
+
+    // Before TOAST_DURATION elapses: no fire.
+    assert!(
+        subs.poll(start).is_empty(),
+        "toast must not fire immediately"
+    );
+
+    // Exactly at TOAST_DURATION: at least one ToastExpired fires.
+    // (Tick also fires because TOAST_DURATION >> TICK_INTERVAL; filter for the
+    // specific variant we care about.)
+    let at_expiry = start + TOAST_DURATION;
+    let fired = subs.poll(at_expiry);
+    let expired_count = fired
+        .iter()
+        .filter(|m| matches!(m, Message::ToastExpired))
+        .count();
+    assert_eq!(
+        expired_count, 1,
+        "exactly one ToastExpired should fire at expiry (got {:?})",
+        fired
+    );
+}
+
+#[test]
+fn toast_subscription_disappears_after_model_clears_toast() {
+    let mut model = Model::new();
+    model.set_toast("gone soon", StatusKind::Info);
+
+    let mut subs: Subscriptions<Message> = Subscriptions::new();
+    let now = Instant::now();
+    subs.diff(subscriptions(&model), now);
+    assert!(
+        subs.active_ids().contains(&SubscriptionId::Named("toast")),
+        "Named('toast') should be active while toast is set"
+    );
+
+    // Simulate ToastExpired handler clearing the toast.
+    model.clear_toast();
+
+    // Next diff with toast-free model removes the Named("toast") stream.
+    subs.diff(subscriptions(&model), now);
+    assert!(
+        !subs.active_ids().contains(&SubscriptionId::Named("toast")),
+        "Named('toast') should be gone after toast is cleared"
+    );
 }

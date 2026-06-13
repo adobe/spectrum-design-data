@@ -29,7 +29,7 @@ use design_data_core::write::write_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
-    move_table_selection, select_edge, ActiveView, Modal, StatusMessage, ValidateView,
+    move_table_selection, select_edge, ActiveView, Modal, StatusKind, StatusMessage, ValidateView,
 };
 use crate::clipboard::write_clipboard;
 use crate::command::Command;
@@ -92,6 +92,11 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
                 }
             }
         }
+        // Auto-dismiss the toast overlay when its timer fires.
+        Message::ToastExpired => {
+            model.clear_toast();
+            Task::none()
+        }
         // Synthetic modal messages exist in Message for replay/injection use.
         // The Key path handles them via modal delegation above; no-op here.
         Message::WizardAdvance
@@ -102,8 +107,12 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         | Message::NamingCancel
         | Message::FindOpenResults
         | Message::FindCancel
-        | Message::Tick
-        | Message::ClipboardDone(None) => Task::none(),
+        | Message::Tick => Task::none(),
+        Message::ClipboardDone(None) => {
+            // Clipboard write succeeded — show a transient "copied" toast.
+            model.set_toast("✓ copied", StatusKind::Info);
+            Task::none()
+        }
         Message::ClipboardDone(Some(err)) => {
             model.status_message = Some(StatusMessage::error(format!(
                 "clipboard unavailable: {err}"
@@ -571,7 +580,8 @@ fn route_modal_key(
                 model.status_message = Some(StatusMessage::info("naming wizard cancelled"));
             }
             NamingEvent::Copy(name) => {
-                model.status_message = Some(StatusMessage::info(format!("copied: {name}")));
+                // Toast shown on ClipboardDone(None); clear any stale status message.
+                model.status_message = None;
                 let text = name.clone();
                 return Task::cmd(move || {
                     let err = write_clipboard(&text).err().map(|e| e.to_string());

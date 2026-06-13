@@ -67,6 +67,13 @@ pub enum Message {
     /// The find wizard was dismissed.
     FindCancel,
 
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    /// The toast auto-dismiss timer fired; clear the active toast from the model.
+    ///
+    /// Emitted by the [`SubscriptionId::Named("toast")`] interval. Once the toast
+    /// is cleared the subscription disappears on the next frame.
+    ToastExpired,
+
     // ── Side-effect completions ───────────────────────────────────────────────
     /// A write-token operation completed. `Ok` carries the assembled token name
     /// and the written path (so the confirmation can name the token);

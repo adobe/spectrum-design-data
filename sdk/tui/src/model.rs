@@ -18,7 +18,7 @@ pub(crate) mod mode;
 pub(crate) mod views;
 
 use self::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
-use crate::app::{ActiveView, HitRegion, Modal, StatusMessage};
+use crate::app::{ActiveView, HitRegion, Modal, StatusKind, StatusMessage, Toast};
 
 /// Top-level application state for the TEA runtime.
 pub struct Model {
@@ -30,6 +30,8 @@ pub struct Model {
     pub active_view: ActiveView,
     /// One-line status message; `None` when hidden.
     pub status_message: Option<StatusMessage>,
+    /// Transient overlay toast; auto-dismissed by the toast subscription timer.
+    pub toast: Option<Toast>,
     /// Text queued for clipboard write via `Task::Cmd`.
     pub pending_yank: Option<String>,
     /// Previously submitted palette commands, newest first.
@@ -67,6 +69,7 @@ impl Model {
             quit: false,
             active_view: ActiveView::Empty,
             status_message: None,
+            toast: None,
             pending_yank: None,
             palette_history: Vec::new(),
             hit_regions: Vec::new(),
@@ -163,6 +166,31 @@ impl Model {
         } else {
             None
         }
+    }
+
+    // ── Toast helpers ─────────────────────────────────────────────────────────
+
+    /// Display a transient overlay message. Replaces any currently-showing toast.
+    ///
+    /// The toast is auto-dismissed by the [`SubscriptionId::Named("toast")`]
+    /// interval in [`subscriptions`]; callers need not clear it manually.
+    ///
+    /// [`subscriptions`]: crate::subscription::subscriptions
+    pub fn set_toast(&mut self, text: impl Into<String>, kind: StatusKind) {
+        self.toast = Some(Toast {
+            text: text.into(),
+            kind,
+        });
+    }
+
+    /// Clear the active toast. Called by the `ToastExpired` message handler.
+    pub fn clear_toast(&mut self) {
+        self.toast = None;
+    }
+
+    /// Immutable reference to the active toast, if any.
+    pub fn toast(&self) -> Option<&Toast> {
+        self.toast.as_ref()
     }
 
     // ── Palette accessors ─────────────────────────────────────────────────────

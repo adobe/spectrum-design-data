@@ -11,10 +11,12 @@
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
     style::Style,
+    symbols::border,
     text::{Line, Span},
     widgets::{Block, Borders, Clear, Paragraph},
     Frame,
 };
+use tui_popup::Popup;
 
 mod find;
 mod home;
@@ -51,6 +53,17 @@ fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
             Constraint::Percentage((100 - percent_x) / 2),
         ])
         .split(vert[1])[1]
+}
+
+/// Prepare a centered modal overlay: compute the popup rect, punch a `Clear`
+/// hole in the background, and return the rect for the caller to render into.
+///
+/// All modals that use percentage-based sizing route through here so the
+/// `centered_rect` + `Clear` boilerplate lives in exactly one place.
+fn modal_frame(f: &mut Frame, area: Rect, percent_x: u16, percent_y: u16) -> Rect {
+    let popup_area = centered_rect(percent_x, percent_y, area);
+    f.render_widget(Clear, popup_area);
+    popup_area
 }
 
 /// Render a complete frame: primer header, active view, status bar, palette prompt, and any
@@ -120,22 +133,40 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
     // chunk[3] is kept as a 1-row reserve to stay in sync with compute_hit_regions.
     // The palette prompt lives inside render_home (always-on home palette).
 
-    // Overlay modal (rendered last so it appears on top).
+    // Toast overlay — floats over the active view, below any open modal.
+    // Rendered before the modal block so an open modal visually wins.
+    if let Some(ref toast) = model.toast {
+        let color = match toast.kind {
+            StatusKind::Info => theme.ok,
+            StatusKind::Error => theme.error,
+        };
+        // Position the toast in the right half of the active view area so it
+        // doesn't obscure table headers or the left-aligned content.
+        let right_half = Rect::new(
+            chunks[1].x + chunks[1].width / 2,
+            chunks[1].y,
+            chunks[1].width - chunks[1].width / 2,
+            chunks[1].height,
+        );
+        let popup = Popup::new(format!(" {} ", toast.text))
+            .border_set(border::ROUNDED)
+            .border_style(Style::default().fg(color));
+        frame.render_widget(popup, right_half);
+    }
+
+    // Overlay modal (rendered last so it appears on top of everything).
     if let Some(modal) = model.modal_mut() {
         match modal {
             Modal::Find(ref mut fs) => {
-                let popup_area = centered_rect(82, 85, area);
-                frame.render_widget(Clear, popup_area);
+                let popup_area = modal_frame(frame, area, 82, 85);
                 render_find(frame, fs, popup_area, theme);
             }
             Modal::Wizard(ref mut ws) => {
-                let popup_area = centered_rect(82, 85, area);
-                frame.render_widget(Clear, popup_area);
+                let popup_area = modal_frame(frame, area, 82, 85);
                 render_wizard(frame, ws, popup_area, theme);
             }
             Modal::Naming(ref mut ns) => {
-                let popup_area = centered_rect(82, 85, area);
-                frame.render_widget(Clear, popup_area);
+                let popup_area = modal_frame(frame, area, 82, 85);
                 render_naming(frame, ns, popup_area, theme);
             }
             Modal::Help(ref hm) => {
@@ -145,13 +176,16 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
     }
 }
 
+/// Render the Help overlay. Uses a scroll-supporting `Paragraph` because the
+/// help text (~80 lines) exceeds a typical terminal height and needs scrolling.
+/// The modal background is cleared via [`modal_frame`].
 fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect) {
-    let popup_area = centered_rect(80, 90, area);
-    f.render_widget(Clear, popup_area);
+    let popup_area = modal_frame(f, area, 80, 90);
     let para = Paragraph::new(HELP_TEXT)
         .block(
             Block::default()
                 .borders(Borders::ALL)
+                .border_set(border::ROUNDED)
                 .title(" Help  ?/Esc to close "),
         )
         .scroll((scroll, 0));

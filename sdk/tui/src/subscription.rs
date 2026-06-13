@@ -32,6 +32,9 @@ use crate::model::Model;
 /// The runtime tick cadence (~60 fps), used by the default [`subscriptions`].
 pub const TICK_INTERVAL: Duration = Duration::from_millis(16);
 
+/// How long a toast overlay stays visible before auto-dismissal.
+pub const TOAST_DURATION: Duration = Duration::from_millis(3_000);
+
 /// Stable identity for a subscription. Two subscriptions with the same id are
 /// the "same" stream across frames; the runtime starts a stream when its id
 /// first appears and stops it when the id disappears.
@@ -169,13 +172,25 @@ impl<M> Subscriptions<M> {
 
 /// The subscriptions the runtime should keep active for `model`.
 ///
-/// Currently a single periodic [`SubscriptionId::Tick`]; future external event
-/// sources (file watches, async streams) slot in here and are started/stopped
-/// automatically by [`Subscriptions::diff`].
-pub fn subscriptions(_model: &Model) -> Vec<Subscription<Message>> {
-    vec![Subscription::interval(
+/// Returns at minimum a periodic [`SubscriptionId::Tick`]. When a toast is
+/// active, a [`SubscriptionId::Named("toast")`] interval is added; it emits
+/// [`Message::ToastExpired`] once after [`TOAST_DURATION`] and then disappears
+/// automatically on the next [`Subscriptions::diff`] (because [`model.toast`]
+/// is cleared by the `ToastExpired` handler before the next frame).
+///
+/// [`model.toast`]: crate::model::Model::toast
+pub fn subscriptions(model: &Model) -> Vec<Subscription<Message>> {
+    let mut subs = vec![Subscription::interval(
         SubscriptionId::Tick,
         TICK_INTERVAL,
         || Message::Tick,
-    )]
+    )];
+    if model.toast().is_some() {
+        subs.push(Subscription::interval(
+            SubscriptionId::Named("toast"),
+            TOAST_DURATION,
+            || Message::ToastExpired,
+        ));
+    }
+    subs
 }
