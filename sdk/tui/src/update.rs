@@ -442,6 +442,29 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 false
             }
         }
+        // h/Left · l/Right: horizontal scroll in describe view (4 columns per step).
+        KeyCode::Left | KeyCode::Char('h') => {
+            if let ActiveView::Describe(ref mut dv) = model.active_view {
+                dv.h_scroll = dv.h_scroll.saturating_sub(4);
+                true
+            } else {
+                false
+            }
+        }
+        KeyCode::Right | KeyCode::Char('l') => {
+            if let ActiveView::Describe(ref mut dv) = model.active_view {
+                let max_h = dv
+                    .pretty_json
+                    .lines()
+                    .map(|l| l.chars().count())
+                    .max()
+                    .unwrap_or(0) as u16;
+                dv.h_scroll = (dv.h_scroll + 4).min(max_h.saturating_sub(1));
+                true
+            } else {
+                false
+            }
+        }
         // Enter: expand/collapse the selected group in the validate view.
         KeyCode::Enter => match &mut model.active_view {
             ActiveView::Validate(vv) => {
@@ -467,6 +490,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
             }
             ActiveView::Describe(dv) => {
                 dv.scroll = 0;
+                dv.h_scroll = 0;
                 true
             }
             ActiveView::Empty => false,

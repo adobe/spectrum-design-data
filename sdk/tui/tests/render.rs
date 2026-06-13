@@ -312,6 +312,7 @@ fn describe_view_footer_hint_includes_g_g() {
         component: "button".to_string(),
         pretty_json: "{\n  \"name\": \"button\"\n}".to_string(),
         scroll: 0,
+        h_scroll: 0,
     });
     let buf = render_to_buffer(&mut model, W, H);
     let hint_row = find_row_containing(&buf, "j/k scroll", W, H);

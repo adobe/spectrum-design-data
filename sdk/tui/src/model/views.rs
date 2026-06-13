@@ -227,6 +227,7 @@ pub struct DescribeView {
     pub component: String,
     pub pretty_json: String,
     pub scroll: u16,
+    pub h_scroll: u16,
 }
 
 /// One row in the validate diagnostics table.

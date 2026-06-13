@@ -180,6 +180,17 @@ fn esc_from_describe_view_returns_to_empty() {
 // ── g/G scroll ────────────────────────────────────────────────────────────────
 
 /// Build a DescribeView with enough lines to make G scrolling observable.
+fn wide_describe() -> DescribeView {
+    // A single long line (200 chars) to exercise horizontal scroll.
+    let long_value = "x".repeat(200);
+    DescribeView {
+        component: "wide".to_string(),
+        pretty_json: format!("{{ \"content\": \"{long_value}\" }}"),
+        scroll: 0,
+        h_scroll: 0,
+    }
+}
+
 fn multi_line_describe() -> DescribeView {
     let json = (0..30)
         .map(|i| format!("  \"line{i}\": {i}"))
@@ -189,6 +200,7 @@ fn multi_line_describe() -> DescribeView {
         component: "test".to_string(),
         pretty_json: format!("{{\n{json}\n}}"),
         scroll: 0,
+        h_scroll: 0,
     }
 }
 
@@ -225,6 +237,57 @@ fn shift_g_key_scrolls_describe_to_bottom() {
             "G should scroll describe toward bottom (got scroll={})",
             dv.scroll
         );
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn l_key_advances_h_scroll_by_4() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(wide_describe());
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "l should advance h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn h_key_decrements_h_scroll() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.h_scroll = 8;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('h'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.h_scroll, 4, "h should decrement h_scroll by 4");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn g_key_resets_both_scroll_and_h_scroll() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = wide_describe();
+    dv.scroll = 5;
+    dv.h_scroll = 12;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.scroll, 0, "g should reset vertical scroll to 0");
+        assert_eq!(dv.h_scroll, 0, "g should reset horizontal scroll to 0");
     } else {
         panic!("expected Describe view");
     }

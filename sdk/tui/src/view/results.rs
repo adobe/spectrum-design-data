@@ -32,7 +32,7 @@ const LIST_HINT: &str = "j/k navigate · g/G top/bottom · y yank · Esc back";
 /// Footer hint shown on the validate view (includes Enter to expand/collapse groups).
 const VALIDATE_HINT: &str = "j/k navigate · Enter expand · g/G top/bottom · y yank · Esc back";
 /// Footer hint shown on the scrollable describe view.
-const DESCRIBE_HINT: &str = "j/k scroll · g/G top/bottom · PgUp/PgDn ×10 · Esc back";
+const DESCRIBE_HINT: &str = "j/k scroll · h/l ←→ · g/G top/bottom · PgUp/PgDn ×10 · Esc back";
 
 /// Split `area` into [body, hint] — body gets all but the bottom 1-row hint line.
 fn split_body_hint(area: Rect) -> [Rect; 2] {
@@ -186,7 +186,7 @@ pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, 
                 .borders(Borders::ALL)
                 .title(format!(" Describe: {} ", dv.component)),
         )
-        .scroll((dv.scroll, 0));
+        .scroll((dv.scroll, dv.h_scroll));
     f.render_widget(para, body);
     render_hint(f, DESCRIBE_HINT, hint_area, theme);
 }

@@ -250,6 +250,7 @@ fn dispatch_command(
                                         component: id,
                                         pretty_json: pretty,
                                         scroll: 0,
+                                        h_scroll: 0,
                                     }),
                                     Err(e) => Err(format!("describe: render error: {e}")),
                                 },
