@@ -88,21 +88,6 @@ pub struct Toast {
     pub kind: StatusKind,
 }
 
-impl Toast {
-    pub fn info(text: impl Into<String>) -> Self {
-        Self {
-            text: text.into(),
-            kind: StatusKind::Info,
-        }
-    }
-    pub fn error(text: impl Into<String>) -> Self {
-        Self {
-            text: text.into(),
-            kind: StatusKind::Error,
-        }
-    }
-}
-
 // ── View state types ──────────────────────────────────────────────────────────
 
 /// One row in the query results table.

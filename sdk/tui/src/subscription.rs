@@ -173,10 +173,12 @@ impl<M> Subscriptions<M> {
 /// The subscriptions the runtime should keep active for `model`.
 ///
 /// Returns at minimum a periodic [`SubscriptionId::Tick`]. When a toast is
-/// active, a [`SubscriptionId::Named("toast")`] interval is added; it emits
-/// [`Message::ToastExpired`] once after [`TOAST_DURATION`] and then disappears
-/// automatically on the next [`Subscriptions::diff`] (because [`model.toast`]
-/// is cleared by the `ToastExpired` handler before the next frame).
+/// active, a [`SubscriptionId::Named("toast")`] interval is added; it fires
+/// at [`TOAST_DURATION`] cadence. In practice it behaves as a one-shot: the
+/// first fire dispatches [`Message::ToastExpired`], which clears the toast,
+/// so the next [`Subscriptions::diff`] removes the subscription before it
+/// can fire a second time. The one-shot property is emergent — it relies on
+/// `diff` being called after every message, which the runtime guarantees.
 ///
 /// [`model.toast`]: crate::model::Model::toast
 pub fn subscriptions(model: &Model) -> Vec<Subscription<Message>> {
