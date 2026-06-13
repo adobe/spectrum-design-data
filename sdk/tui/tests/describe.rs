@@ -348,16 +348,18 @@ fn l_key_clamps_at_max_line_width() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     let mut dv = wide_describe();
-    // Seed h_scroll well past the actual max so a single 'l' must clamp.
-    dv.h_scroll = u16::MAX - 4;
+    // Seed h_scroll at u16::MAX - 1, one step below the overflow boundary.
+    // With plain `+` this would overflow on the +4 add before `.min()` runs.
+    // With saturating_add it must clamp at max_line_width - 1 instead.
+    // wide_describe() produces one line: `{ "content": "<200 x's>" }` = 217 display
+    // columns, so max_line_width() == 217 and the cap is 216.
+    dv.h_scroll = u16::MAX - 1;
     model.active_view = ActiveView::Describe(dv);
     model.close_palette();
     update(&mut model, Message::Key(key(KeyCode::Char('l'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
-        // wide_describe() produces one line: `{ "content": "<200 x's>" }` = 217 display
-        // columns, so max_line_width() == 217 and the cap is 216.
-        assert!(
-            dv.h_scroll <= 216,
+        assert_eq!(
+            dv.h_scroll, 216,
             "l should clamp h_scroll at max_line_width - 1 (got {})",
             dv.h_scroll
         );

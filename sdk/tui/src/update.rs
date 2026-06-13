@@ -457,7 +457,10 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
         KeyCode::Right | KeyCode::Char('l') => {
             if let ActiveView::Describe(ref mut dv) = model.active_view {
                 let max_h = dv.max_line_width();
-                dv.h_scroll = (dv.h_scroll + H_SCROLL_STEP).min(max_h.saturating_sub(1));
+                dv.h_scroll = dv
+                    .h_scroll
+                    .saturating_add(H_SCROLL_STEP)
+                    .min(max_h.saturating_sub(1));
                 true
             } else {
                 false
