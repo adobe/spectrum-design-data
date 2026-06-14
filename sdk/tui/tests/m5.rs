@@ -15,7 +15,7 @@ use common::{empty_graph, key, make_graph_with_tokens, update_ctx};
 
 use crossterm::event::{KeyCode, KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
 use design_data_tui::app::{
-    ActiveView, DescribeView, HitAction, HitRegion, Modal, QueryRow, QueryView,
+    ActiveView, DescribeView, HitAction, HitEntry, Modal, QueryRow, QueryView,
 };
 use design_data_tui::theme::Theme;
 use design_data_tui::{update, Message, Model};
@@ -253,38 +253,44 @@ fn click_on_hit_region_selects_row() {
         },
     ];
     model.active_view = ActiveView::Query(QueryView::new("*".to_string(), rows));
-    model.hit_regions = vec![
-        HitRegion {
-            rect: Rect {
-                x: 0,
-                y: 2,
-                width: 80,
-                height: 1,
-            },
+    // Populate the registry as view::draw would — simulating a rendered frame.
+    model.hit_registry.clear();
+    model.hit_registry.register(
+        Rect {
+            x: 0,
+            y: 2,
+            width: 80,
+            height: 1,
+        },
+        HitEntry {
             action: HitAction::SelectListRow(0),
             text: "a".into(),
         },
-        HitRegion {
-            rect: Rect {
-                x: 0,
-                y: 3,
-                width: 80,
-                height: 1,
-            },
+    );
+    model.hit_registry.register(
+        Rect {
+            x: 0,
+            y: 3,
+            width: 80,
+            height: 1,
+        },
+        HitEntry {
             action: HitAction::SelectListRow(1),
             text: "b".into(),
         },
-        HitRegion {
-            rect: Rect {
-                x: 0,
-                y: 4,
-                width: 80,
-                height: 1,
-            },
+    );
+    model.hit_registry.register(
+        Rect {
+            x: 0,
+            y: 4,
+            width: 80,
+            height: 1,
+        },
+        HitEntry {
             action: HitAction::SelectListRow(2),
             text: "c".into(),
         },
-    ];
+    );
     update(
         &mut model,
         Message::Mouse(mouse(MouseEventKind::Down(MouseButton::Left), 3, 10)),

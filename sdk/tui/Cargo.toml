@@ -24,6 +24,7 @@ similar = "2"
 uuid = { version = "1", features = ["v4"] }
 dirs = "5"
 unicode-width = "0.2"
+ratatui-interact = "0.5"
 
 [dev-dependencies]
 tempfile = "3"

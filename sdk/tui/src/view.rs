@@ -100,22 +100,29 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
             (0, None)
         };
 
-    // Active view.
-    match &mut model.active_view {
-        ActiveView::Empty => {
-            render_home(
-                frame,
-                chunks[1],
-                theme,
-                &palette_input,
-                palette_visual_cursor,
-                palette_list_selected,
-            );
+    // Clear hit registry before populating this frame's regions.
+    model.hit_registry.clear();
+
+    // Active view. Explicitly scope the split field-borrow so Rust can freely
+    // access other `model` fields (status_message, toast, modal) below.
+    {
+        let (active_view, hit_registry) = (&mut model.active_view, &mut model.hit_registry);
+        match active_view {
+            ActiveView::Empty => {
+                render_home(
+                    frame,
+                    chunks[1],
+                    theme,
+                    &palette_input,
+                    palette_visual_cursor,
+                    palette_list_selected,
+                );
+            }
+            ActiveView::Query(qv) => render_query(frame, qv, chunks[1], theme, hit_registry),
+            ActiveView::Resolve(rv) => render_resolve(frame, rv, chunks[1], theme, hit_registry),
+            ActiveView::Describe(dv) => render_describe(frame, dv, chunks[1], theme),
+            ActiveView::Validate(vv) => render_validate(frame, vv, chunks[1], theme, hit_registry),
         }
-        ActiveView::Query(ref mut qv) => render_query(frame, qv, chunks[1], theme),
-        ActiveView::Resolve(ref mut rv) => render_resolve(frame, rv, chunks[1], theme),
-        ActiveView::Describe(ref mut dv) => render_describe(frame, dv, chunks[1], theme),
-        ActiveView::Validate(ref mut vv) => render_validate(frame, vv, chunks[1], theme),
     }
 
     // Status message — ok color for info, error color for errors.

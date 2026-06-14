@@ -23,7 +23,6 @@ use design_data_core::diff::display_name;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
-use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
 use serde::{Deserialize, Serialize};
 
@@ -504,16 +503,19 @@ impl Modal {
 // ── Hit regions (mouse support) ───────────────────────────────────────────────
 
 /// What clicking a region does.
+#[derive(Clone)]
 pub enum HitAction {
     /// Selects a row in the active list or table view.
     SelectListRow(usize),
 }
 
-/// A rectangular region on screen with an associated action and text content.
-pub struct HitRegion {
-    pub rect: Rect,
+/// Data carried by each click region: the action to perform and the text used
+/// for drag-select clipboard copy. The region's bounding `Rect` is stored by
+/// [`ratatui_interact::traits::ClickRegionRegistry`] alongside this entry.
+#[derive(Clone)]
+pub struct HitEntry {
     pub action: HitAction,
-    /// Text representation of this element, used for drag-select copy.
+    /// Tab-separated text of this row, used for drag-select clipboard copy.
     pub text: String,
 }
 

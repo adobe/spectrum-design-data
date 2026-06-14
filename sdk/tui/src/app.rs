@@ -19,7 +19,6 @@
 use std::path::PathBuf;
 
 use design_data_core::cascade::{apply_restrictions, parse_resolve_context, ResolutionContext};
-use ratatui::layout::Rect;
 use ratatui::widgets::TableState;
 
 pub use crate::model::views::*;
@@ -86,11 +85,6 @@ pub fn select_edge(state: &mut TableState, len: usize, last: bool) {
         return;
     }
     state.select(Some(if last { len - 1 } else { 0 }));
-}
-
-/// Test whether `(row, col)` is inside `rect`.
-pub(crate) fn rect_contains(rect: Rect, row: u16, col: u16) -> bool {
-    col >= rect.x && col < rect.x + rect.width && row >= rect.y && row < rect.y + rect.height
 }
 
 /// Parse a `property=<name>,<modeSet>=<mode>,...` expression.
