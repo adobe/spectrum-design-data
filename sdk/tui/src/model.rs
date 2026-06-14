@@ -18,7 +18,9 @@ pub(crate) mod mode;
 pub(crate) mod views;
 
 use self::mode::{BrowsingState, ModalState, Mode, MouseMode, PaletteState};
-use crate::app::{ActiveView, HitRegion, Modal, StatusKind, StatusMessage, Toast};
+use ratatui_interact::traits::ClickRegionRegistry;
+
+use crate::app::{ActiveView, HitEntry, Modal, StatusKind, StatusMessage, Toast};
 
 /// Top-level application state for the TEA runtime.
 pub struct Model {
@@ -36,8 +38,9 @@ pub struct Model {
     pub pending_yank: Option<String>,
     /// Previously submitted palette commands, newest first.
     pub palette_history: Vec<String>,
-    /// Mouse hit regions rebuilt each frame.
-    pub hit_regions: Vec<HitRegion>,
+    /// Click-region registry — cleared and repopulated each frame by `view::draw`.
+    /// Use `handle_click(col, row)` for click hit-testing, `regions()` for drag-select.
+    pub hit_registry: ClickRegionRegistry<HitEntry>,
 }
 
 impl Model {
@@ -72,7 +75,7 @@ impl Model {
             toast: None,
             pending_yank: None,
             palette_history: Vec::new(),
-            hit_regions: Vec::new(),
+            hit_registry: ClickRegionRegistry::new(),
         }
     }
 

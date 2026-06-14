@@ -13,7 +13,9 @@
 
 use crossterm::event::{MouseButton, MouseEventKind};
 
-use crate::app::{move_table_selection, rect_contains, ActiveView, HitAction};
+use ratatui_interact::traits::ClickRegion;
+
+use crate::app::{move_table_selection, ActiveView, HitAction, HitEntry};
 use crate::clipboard::write_clipboard;
 use crate::message::Message;
 use crate::model::Model;
@@ -40,7 +42,7 @@ pub(super) fn handle_mouse(model: &mut Model, me: crossterm::event::MouseEvent) 
         MouseEventKind::Up(MouseButton::Left) if model.is_selecting() => {
             if let Some((start, end)) = model.end_selection() {
                 // Extract text from hit regions within the selection bounds.
-                let text = extract_selection_from_regions(&model.hit_regions, start, end);
+                let text = extract_selection_from_regions(model.hit_registry.regions(), start, end);
                 if let Some(t) = text {
                     if !t.is_empty() {
                         return Task::cmd(move || {
@@ -86,13 +88,8 @@ fn scroll_active(model: &mut Model, delta: i32) {
 }
 
 fn click_at(model: &mut Model, row: u16, col: u16) {
-    let action = model.hit_regions.iter().find_map(|r| {
-        if rect_contains(r.rect, row, col) {
-            Some(&r.action)
-        } else {
-            None
-        }
-    });
+    // `handle_click` takes (col, row) = (x, y) coordinates.
+    let action = model.hit_registry.handle_click(col, row).map(|e| &e.action);
     match action {
         Some(HitAction::SelectListRow(i)) => {
             let i = *i;
@@ -113,9 +110,9 @@ fn click_at(model: &mut Model, row: u16, col: u16) {
     }
 }
 
-/// Extract text from hit regions within a rectangular selection.
+/// Extract text from click regions within a rectangular drag-selection.
 fn extract_selection_from_regions(
-    regions: &[crate::app::HitRegion],
+    regions: &[ClickRegion<HitEntry>],
     start: (u16, u16),
     end: (u16, u16),
 ) -> Option<String> {
@@ -127,11 +124,11 @@ fn extract_selection_from_regions(
     let max_col = c1.max(c2);
     let mut lines: Vec<&str> = Vec::new();
     for region in regions {
-        let ry = region.rect.y;
-        let rx = region.rect.x;
-        let rx_end = rx + region.rect.width;
+        let ry = region.area.y;
+        let rx = region.area.x;
+        let rx_end = rx + region.area.width;
         if ry >= min_row && ry <= max_row && rx_end > min_col && rx <= max_col {
-            lines.push(&region.text);
+            lines.push(&region.data.text);
         }
     }
     if lines.is_empty() {

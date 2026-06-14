@@ -11,21 +11,14 @@
 //! Crossterm event loop — the runtime adapter (GH #1021) and record/replay (GH #1025).
 //!
 //! `run` pumps crossterm events through `update`, executes returned `Task::Cmd`
-//! closures synchronously, calls `draw` each frame, and rebuilds hit regions.
+//! closures synchronously, and calls `draw` each frame. Hit regions are populated
+//! by `view::draw` directly into `model.hit_registry` (GH #1171).
 //! Pass `record = Some(&mut writer)` to serialize every `Message` to NDJSON.
 //! `replay` feeds a pre-recorded message stream through `update` deterministically.
 
 use std::io::Write;
 use std::time::Instant;
 
-use crossterm::event::{self, Event, KeyEventKind};
-use miette::{IntoDiagnostic, Result};
-use ratatui::{
-    layout::{Constraint, Direction, Layout, Rect},
-    Terminal,
-};
-
-use crate::app::{ActiveView, HitAction, HitRegion};
 use crate::message::Message;
 use crate::model::Model;
 use crate::subscription::{subscriptions, Subscriptions, TICK_INTERVAL};
@@ -34,6 +27,9 @@ use crate::theme::Theme;
 use crate::update::ctx::UpdateCtx;
 use crate::update::update;
 use crate::view::draw;
+use crossterm::event::{self, Event, KeyEventKind};
+use miette::{IntoDiagnostic, Result};
+use ratatui::Terminal;
 
 /// Run the TUI event loop until the user quits.
 ///
@@ -51,21 +47,14 @@ pub fn run<B: ratatui::backend::Backend>(
     // a hard-coded poll-timeout is now just another subscription the loop polls.
     let mut subs: Subscriptions<Message> = Subscriptions::new();
     loop {
-        let mut frame_area = Rect::default();
-        let status_height = u16::from(model.status_message.is_some());
-
-        // Draw.
+        // Draw — also clears and repopulates model.hit_registry for this frame.
         terminal
             .draw(|f| {
-                frame_area = f.area();
                 draw(&mut model, f, theme, primer_line);
             })
             // ratatui 0.30: Backend::Error no longer implies Send+Sync, so we
             // cannot use into_diagnostic(); convert via Display instead.
             .map_err(|e| miette::miette!("{e}"))?;
-
-        // Rebuild mouse hit regions from the frame geometry set during draw.
-        model.hit_regions = compute_hit_regions(&model, status_height, frame_area);
 
         // Reconcile the active subscription set, then poll for input only until
         // the soonest subscription is due (so ticks fire on cadence).
@@ -182,116 +171,6 @@ fn execute_task(initial: Task<Message>, model: &mut Model, ctx: &UpdateCtx<'_>) 
     }
 }
 
-/// Rebuild hit regions after a draw, mirroring the layout computed inside `view::draw`.
-///
-/// SYNC WITH view::draw layout: the constraint array below must stay identical to the
-/// one in `view::draw`. If a chunk is added or reordered there, update this function to
-/// match or click targets will silently drift.
-fn compute_hit_regions(model: &Model, status_height: u16, frame_area: Rect) -> Vec<HitRegion> {
-    let chunks = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([
-            Constraint::Length(1),             // primer header  ← SYNC WITH view::draw
-            Constraint::Min(0),                // active view    ← SYNC WITH view::draw
-            Constraint::Length(status_height), // status message ← SYNC WITH view::draw
-            Constraint::Length(1),             // palette prompt ← SYNC WITH view::draw
-        ])
-        .split(frame_area);
-
-    let view_area = chunks[1];
-    // Tables have a top border (1) + header row (1) before data rows start.
-    let data_y = view_area.y + 2;
-    let data_height = view_area.height.saturating_sub(2);
-
-    let mut regions = Vec::new();
-    match &model.active_view {
-        ActiveView::Query(qv) => {
-            for (i, row) in qv.rows.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                regions.push(HitRegion {
-                    rect: Rect {
-                        x: view_area.x,
-                        y,
-                        width: view_area.width,
-                        height: 1,
-                    },
-                    action: HitAction::SelectListRow(i),
-                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
-                });
-            }
-        }
-        ActiveView::Resolve(rv) => {
-            for (i, row) in rv.rows.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                regions.push(HitRegion {
-                    rect: Rect {
-                        x: view_area.x,
-                        y,
-                        width: view_area.width,
-                        height: 1,
-                    },
-                    action: HitAction::SelectListRow(i),
-                    text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
-                });
-            }
-        }
-        ActiveView::Validate(vv) => {
-            use crate::app::VisibleRow;
-            for (i, vr) in vv.visible.iter().enumerate() {
-                let y = data_y + i as u16;
-                if i as u16 >= data_height {
-                    break;
-                }
-                let text = match vr {
-                    VisibleRow::Group(g) => {
-                        let group = &vv.groups[*g];
-                        if group.members.len() > 1 {
-                            let toggle = if group.expanded { "▼" } else { "▶" };
-                            format!(
-                                "{}\t{}\t×{} {}\t{}",
-                                group.severity,
-                                group.rule_id,
-                                group.members.len(),
-                                toggle,
-                                group.message
-                            )
-                        } else {
-                            let row = &vv.rows[group.members[0]];
-                            format!(
-                                "{}\t{}\t{}\t{}",
-                                row.severity, row.rule_id, row.token, row.message
-                            )
-                        }
-                    }
-                    VisibleRow::Child(g, c) => {
-                        let row_idx = vv.groups[*g].members[*c];
-                        let row = &vv.rows[row_idx];
-                        format!("  {}", row.token)
-                    }
-                };
-                regions.push(HitRegion {
-                    rect: Rect {
-                        x: view_area.x,
-                        y,
-                        width: view_area.width,
-                        height: 1,
-                    },
-                    action: HitAction::SelectListRow(i),
-                    text,
-                });
-            }
-        }
-        ActiveView::Empty | ActiveView::Describe(_) => {}
-    }
-    regions
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -337,14 +216,14 @@ mod tests {
         execute_task(deep, &mut model, &ctx);
     }
 
-    /// Guard: `compute_hit_regions` layout must stay synchronized with `view::draw`.
+    /// Guard: hit-region geometry registered by `view::draw` must align with the
+    /// actual rendered buffer rows.
     ///
-    /// SYNC WITH view::draw — if the layout constraints in `view::draw` change, this
-    /// test will fail because the rendered row positions will shift relative to what
-    /// `compute_hit_regions` expects. Fix both together (see "SYNC WITH view::draw"
-    /// comment in `compute_hit_regions`).
+    /// Unlike the old `compute_hit_regions` test that had to replicate the layout,
+    /// this test drives the registry through the real render path — so any layout
+    /// change that would have caused silent click-target drift now fails here first.
     #[test]
-    fn hit_regions_align_with_rendered_buffer_rows() {
+    fn hit_registry_aligns_with_rendered_buffer_rows() {
         const W: u16 = 80;
         const H: u16 = 24;
 
@@ -366,7 +245,7 @@ mod tests {
             "expected Query view after 'query property=*'"
         );
 
-        // Render to a TestBackend.
+        // Render to a TestBackend — this populates model.hit_registry.
         let backend = TestBackend::new(W, H);
         let mut terminal = Terminal::new(backend).unwrap();
         terminal
@@ -374,36 +253,109 @@ mod tests {
             .unwrap();
         let buf = terminal.backend().buffer().clone();
 
-        // Compute hit regions with the same geometry.
-        let frame_area = Rect::new(0, 0, W, H);
-        let status_height = u16::from(model.status_message.is_some()); // 0
-        let regions = compute_hit_regions(&model, status_height, frame_area);
-
         // We should get exactly 3 rows (one per token).
-        assert_eq!(regions.len(), 3, "expected 3 hit regions for 3 tokens");
+        let regions = model.hit_registry.regions();
+        assert_eq!(
+            regions.len(),
+            3,
+            "expected 3 registered regions for 3 tokens"
+        );
 
-        // Cross-check: the buffer row at each region's y must have non-space content.
-        // This fails if compute_hit_regions returns a y that is outside the table data
-        // area because view::draw changed its layout without updating compute_hit_regions.
+        // Cross-check: the buffer row at each registered area must have non-space
+        // content (the token name). Drift between registration and rendered position
+        // would produce a row of spaces here.
         for (i, region) in regions.iter().enumerate() {
-            let y = region.rect.y;
-            // Scan a few columns looking for a non-space character — the token name.
+            let y = region.area.y;
             let has_content =
                 (1..20u16).any(|x| buf.cell((x, y)).map(|c| c.symbol() != " ").unwrap_or(false));
             assert!(
                 has_content,
-                "hit region {i} at y={y} has no rendered content in the buffer — \
-                 compute_hit_regions is out of sync with view::draw"
+                "registered region {i} at y={y} has no rendered content in the buffer — \
+                 hit-region registration is out of sync with view::draw"
             );
 
-            // Also check rows are sequential.
+            // Rows must be sequential.
             if i > 0 {
                 assert_eq!(
-                    region.rect.y,
-                    regions[i - 1].rect.y + 1,
-                    "hit region rows should be consecutive"
+                    region.area.y,
+                    regions[i - 1].area.y + 1,
+                    "registered region rows should be consecutive"
                 );
             }
         }
+    }
+
+    /// Regression: hit regions must reflect the current scroll offset.
+    ///
+    /// When the table is scrolled (offset > 0), the first registered region must
+    /// map to the first *visible* row (logical index = offset), not row 0. A click
+    /// at data_y should select the row at `offset`, not row 0.
+    ///
+    /// Uses H=8 so chunks[1]=6, body=5, data_height=5-3=2 — only 2 of the 3 rows
+    /// fit. Selecting the last row forces ratatui to scroll (offset=1).
+    #[test]
+    fn hit_registry_respects_scroll_offset() {
+        use crate::app::{ActiveView, HitAction, QueryRow, QueryView};
+
+        const W: u16 = 80;
+        // H=8: chunks[1]=6, body=5, data_height=5-3=2. 3 rows > 2 visible → scroll needed.
+        const H: u16 = 8;
+
+        let graph = TokenGraph::default();
+        let _ctx = UpdateCtx::minimal(&graph);
+        let mut model = Model::new();
+
+        let rows = vec![
+            QueryRow {
+                name: "row0".into(),
+                value: "0".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+            QueryRow {
+                name: "row1".into(),
+                value: "1".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+            QueryRow {
+                name: "row2".into(),
+                value: "2".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+        ];
+        let mut qv = QueryView::new("*".to_string(), rows);
+        // Select last row — ratatui will set offset=1 during render_stateful_widget
+        // so that row 2 is visible (rows 1, 2 occupy the 2 data slots).
+        qv.table_state.select(Some(2));
+        model.active_view = ActiveView::Query(qv);
+
+        let backend = TestBackend::new(W, H);
+        let mut terminal = Terminal::new(backend).unwrap();
+        terminal
+            .draw(|f| draw(&mut model, f, &Theme::terminal(), "scroll · 3 tokens"))
+            .unwrap();
+
+        let regions = model.hit_registry.regions();
+        // Only 2 data rows fit at data_height=2 — row0 is scrolled off.
+        assert_eq!(
+            regions.len(),
+            2,
+            "only visible rows (1 and 2) should be registered"
+        );
+
+        // First visible position must map to logical row 1 (not row 0).
+        assert!(
+            matches!(regions[0].data.action, HitAction::SelectListRow(1)),
+            "first region should map to logical row 1 (scrolled-to), got SelectListRow({})",
+            match &regions[0].data.action {
+                HitAction::SelectListRow(i) => i,
+            }
+        );
+        assert!(
+            matches!(regions[1].data.action, HitAction::SelectListRow(2)),
+            "second region should map to logical row 2"
+        );
     }
 }

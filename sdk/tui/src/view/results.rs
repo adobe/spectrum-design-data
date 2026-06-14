@@ -20,10 +20,12 @@ use ratatui::{
     widgets::{Block, Borders, Cell, Paragraph, Row, Table},
     Frame,
 };
+use ratatui_interact::traits::ClickRegionRegistry;
 
 use crate::app::{DescribeView, QueryView, ResolveView, ValidateView, VisibleRow};
 use crate::model::views::{
-    column_budget, truncate_cell, QUERY_NAME_PCT, RESOLVE_NAME_PCT, VALIDATE_TOKEN_PCT,
+    column_budget, truncate_cell, HitAction, HitEntry, QUERY_NAME_PCT, RESOLVE_NAME_PCT,
+    VALIDATE_TOKEN_PCT,
 };
 use crate::theme::Theme;
 
@@ -68,7 +70,13 @@ fn render_empty_state(f: &mut Frame<'_>, title: &str, msg: &str, area: Rect, the
     );
 }
 
-pub(crate) fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, theme: &Theme) {
+pub(crate) fn render_query(
+    f: &mut Frame<'_>,
+    qv: &mut QueryView,
+    area: Rect,
+    theme: &Theme,
+    registry: &mut ClickRegionRegistry<HitEntry>,
+) {
     let [body, hint_area] = split_body_hint(area);
     let title = if qv.is_fuzzy {
         format!(" Fuzzy: /{} ", qv.expr_text)
@@ -119,9 +127,42 @@ pub(crate) fn render_query(f: &mut Frame<'_>, qv: &mut QueryView, area: Rect, th
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut qv.table_state);
     render_hint(f, LIST_HINT, hint_area, theme);
+
+    // Register per-row click regions. The table has Borders::ALL so data starts
+    // at body.y + 2 (top border + header row) and ends at body.y + height - 2
+    // (before the bottom border). Co-located with the render call so any layout
+    // change here automatically updates the registration geometry.
+    // Skip scrolled-off rows so the visual position matches the logical index.
+    let data_y = body.y + 2;
+    let data_height = body.height.saturating_sub(3);
+    let offset = qv.table_state.offset();
+    for (i, row) in qv.rows.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
+            break;
+        }
+        registry.register(
+            Rect {
+                x: body.x,
+                y: data_y + visual as u16,
+                width: body.width,
+                height: 1,
+            },
+            HitEntry {
+                action: HitAction::SelectListRow(i),
+                text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
+            },
+        );
+    }
 }
 
-pub(crate) fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect, theme: &Theme) {
+pub(crate) fn render_resolve(
+    f: &mut Frame<'_>,
+    rv: &mut ResolveView,
+    area: Rect,
+    theme: &Theme,
+    registry: &mut ClickRegionRegistry<HitEntry>,
+) {
     let [body, hint_area] = split_body_hint(area);
 
     if rv.rows.is_empty() {
@@ -177,6 +218,31 @@ pub(crate) fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut rv.table_state);
     render_hint(f, LIST_HINT, hint_area, theme);
+
+    // Register per-row click regions co-located with the render call.
+    // Borders::ALL means top_border(1) + header(1) + data + bottom_border(1).
+    // Skip scrolled-off rows so the visual position matches the logical index.
+    let data_y = body.y + 2;
+    let data_height = body.height.saturating_sub(3);
+    let offset = rv.table_state.offset();
+    for (i, row) in rv.rows.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
+            break;
+        }
+        registry.register(
+            Rect {
+                x: body.x,
+                y: data_y + visual as u16,
+                width: body.width,
+                height: 1,
+            },
+            HitEntry {
+                action: HitAction::SelectListRow(i),
+                text: format!("{}\t{}\t{}\t{}", row.name, row.value, row.file, row.layer),
+            },
+        );
+    }
 }
 
 pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &mut DescribeView, area: Rect, theme: &Theme) {
@@ -224,7 +290,13 @@ pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &mut DescribeView, area: Re
     render_hint(f, DESCRIBE_HINT, hint_area, theme);
 }
 
-pub(crate) fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Rect, theme: &Theme) {
+pub(crate) fn render_validate(
+    f: &mut Frame<'_>,
+    vv: &mut ValidateView,
+    area: Rect,
+    theme: &Theme,
+    registry: &mut ClickRegionRegistry<HitEntry>,
+) {
     let [body, hint_area] = split_body_hint(area);
 
     if vv.rows.is_empty() {
@@ -298,4 +370,56 @@ pub(crate) fn render_validate(f: &mut Frame<'_>, vv: &mut ValidateView, area: Re
         .row_highlight_style(Style::default().bg(theme.selection_bg));
     f.render_stateful_widget(table, body, &mut vv.table_state);
     render_hint(f, VALIDATE_HINT, hint_area, theme);
+
+    // Register per-row click regions co-located with the render call.
+    // Borders::ALL means top_border(1) + header(1) + data + bottom_border(1).
+    // Skip scrolled-off rows so the visual position matches the logical index.
+    let data_y = body.y + 2;
+    let data_height = body.height.saturating_sub(3);
+    let offset = vv.table_state.offset();
+    for (i, vr) in visible.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
+            break;
+        }
+        let text = match vr {
+            VisibleRow::Group(g) => {
+                let group = &groups[*g];
+                if group.members.len() > 1 {
+                    let toggle = if group.expanded { "▼" } else { "▶" };
+                    format!(
+                        "{}\t{}\t×{} {}\t{}",
+                        group.severity,
+                        group.rule_id,
+                        group.members.len(),
+                        toggle,
+                        group.message
+                    )
+                } else {
+                    let row = &rows_data[group.members[0]];
+                    format!(
+                        "{}\t{}\t{}\t{}",
+                        row.severity, row.rule_id, row.token, row.message
+                    )
+                }
+            }
+            VisibleRow::Child(g, c) => {
+                let row_idx = groups[*g].members[*c];
+                let row = &rows_data[row_idx];
+                format!("  {}", row.token)
+            }
+        };
+        registry.register(
+            Rect {
+                x: body.x,
+                y: data_y + visual as u16,
+                width: body.width,
+                height: 1,
+            },
+            HitEntry {
+                action: HitAction::SelectListRow(i),
+                text,
+            },
+        );
+    }
 }
