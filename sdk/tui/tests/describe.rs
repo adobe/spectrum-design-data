@@ -550,7 +550,7 @@ fn shift_y_yanks_full_document() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     let dv = multi_line_describe();
-    let full = dv.full_text();
+    let full = dv.pretty_json.clone();
     model.active_view = ActiveView::Describe(dv);
     model.close_palette();
     let task = update(&mut model, Message::Key(key(KeyCode::Char('Y'))), &ctx);
@@ -562,9 +562,8 @@ fn shift_y_yanks_full_document() {
         model.pending_yank.is_none(),
         "pending_yank should be drained"
     );
-    // Verify full_text() returned the complete JSON before the yank.
     if let ActiveView::Describe(ref dv) = model.active_view {
-        assert_eq!(dv.full_text(), full, "full_text() should equal pretty_json");
+        assert_eq!(dv.pretty_json, full, "Y should yank pretty_json");
     }
 }
 

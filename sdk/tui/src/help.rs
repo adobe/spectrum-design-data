@@ -59,11 +59,13 @@ QUERY / RESOLVE / VALIDATE VIEW
 
 const SEC_DESCRIBE: &str = "\
 DESCRIBE VIEW
-  Up / k                  Scroll up one line
-  Down / j                Scroll down one line
-  PgUp                    Scroll up 10 lines
-  PgDn                    Scroll down 10 lines
+  Up / k                  Move selection up
+  Down / j                Move selection down
+  PgUp                    Move selection up 10 lines
+  PgDn                    Move selection down 10 lines
   Scroll wheel            Scroll the body
+  y                       Yank selected line to clipboard
+  Y                       Yank full JSON document to clipboard
   Esc                     Return to home";
 
 const SEC_WIZARD: &str = "\

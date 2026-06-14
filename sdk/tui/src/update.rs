@@ -414,7 +414,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
             }
             ActiveView::Describe(dv) => {
                 let len = dv.line_count();
-                dv.selected = dv.selected.saturating_sub(1).min(len.saturating_sub(1));
+                dv.selected = dv.selected.saturating_sub(1);
                 true
             }
             ActiveView::Empty => false,
@@ -562,7 +562,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
         // Y (shift-y): yank the entire JSON document for the Describe view.
         KeyCode::Char('Y') => {
             if let ActiveView::Describe(ref dv) = model.active_view {
-                model.pending_yank = Some(dv.full_text());
+                model.pending_yank = Some(dv.pretty_json.clone());
                 true
             } else {
                 false
