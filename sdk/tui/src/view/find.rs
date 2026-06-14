@@ -24,14 +24,16 @@ use crate::theme::Theme;
 
 // ── Find wizard entry ─────────────────────────────────────────────────────────
 
-pub(crate) fn render_find(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
-    let screen_num = fs.screen.number();
-    let screen_name = fs.screen.name();
-
-    let outer = Block::default().borders(Borders::ALL).title(format!(
-        " Find · {screen_num}/{} · {screen_name} ",
-        FindScreen::SCREEN_COUNT
-    ));
+pub(crate) fn render_find(
+    f: &mut Frame<'_>,
+    fs: &FindWizardState,
+    area: Rect,
+    theme: &Theme,
+    label: &str,
+) {
+    let outer = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" {label} "));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 

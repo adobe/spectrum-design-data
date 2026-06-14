@@ -56,7 +56,7 @@ pub(crate) const COMMANDS: &[(&str, &str)] = &[
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::help::HELP_TEXT;
+    use crate::help::{help_text_for, HelpContext};
 
     /// All command names in COMMANDS must be ASCII-only. The render code uses
     /// `name.len()` (byte count) as the display-column width, which is only
@@ -72,27 +72,29 @@ mod tests {
         }
     }
 
-    /// Every palette command in COMMANDS must appear in HELP_TEXT.
+    /// Every palette command in COMMANDS must appear in the help text.
     ///
-    /// **Coverage:** this test proves COMMANDS ⊆ HELP_TEXT (one direction).
-    /// It does *not* prove the reverse (a command added to HELP_TEXT but not
+    /// **Coverage:** this test proves COMMANDS ⊆ help text (one direction).
+    /// It does *not* prove the reverse (a command added to help.rs but not
     /// COMMANDS won't be caught), and it does not verify that
     /// `update/command.rs` actually dispatches each command. The dispatcher in
     /// `update/command.rs` is a flat `match` on string literals — if you add a
-    /// command there, also add it here and to HELP_TEXT, and this test will
+    /// command there, also add it here and to `help.rs`, and this test will
     /// catch any subsequent removal from either list.
     #[test]
     fn commands_present_in_help_text() {
+        // Generate the full help text (all sections are present in every context).
+        let full = help_text_for(HelpContext::Empty);
         for (name, _) in COMMANDS {
             // Skip global-key rows (e.g. `?`) that are not dispatchable commands.
             if *name == "?" {
                 continue;
             }
-            // Match on just the command name (first token) in HELP_TEXT.
+            // Match on just the command name (first token) in the help text.
             let tok = name.split_whitespace().next().unwrap_or(name);
             assert!(
-                HELP_TEXT.contains(tok),
-                "COMMANDS entry {name:?} (token {tok:?}) is not present in HELP_TEXT; \
+                full.contains(tok),
+                "COMMANDS entry {name:?} (token {tok:?}) is not present in help.rs; \
                  update help.rs or logo.rs to keep them in sync"
             );
         }

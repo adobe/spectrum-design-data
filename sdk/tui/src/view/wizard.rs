@@ -24,13 +24,16 @@ use super::shared::{render_classification_content, render_intent_content};
 use crate::theme::Theme;
 use crate::wizard::{ValueKind, WizardScreen, WizardState};
 
-pub(crate) fn render_wizard(f: &mut Frame<'_>, ws: &mut WizardState, area: Rect, theme: &Theme) {
-    let screen_num = ws.screen.number();
-    let screen_name = ws.screen.name();
-
+pub(crate) fn render_wizard(
+    f: &mut Frame<'_>,
+    ws: &mut WizardState,
+    area: Rect,
+    theme: &Theme,
+    label: &str,
+) {
     let outer = Block::default()
         .borders(Borders::ALL)
-        .title(format!(" Wizard · {screen_num}/4 · {screen_name} "));
+        .title(format!(" {label} "));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 

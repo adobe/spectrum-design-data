@@ -8,14 +8,25 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Static help overlay content (press `?` to open, `Esc`/`?` to close).
+//! Context-sensitive help overlay content (press `?` to open, `Esc`/`?` to close).
+//!
+//! [`help_text_for`] builds the help text with the section most relevant to the
+//! current view appearing first (and marked `(active)`), so users immediately see
+//! the bindings they need.  All other sections follow in a stable order so nothing
+//! is hidden — only re-ordered.
 
-pub const HELP_TEXT: &str = "\
+use crate::app::ActiveView;
+
+// ── Per-section text ───────────────────────────────────────────────────────────
+
+const SEC_GLOBAL: &str = "\
 GLOBAL
   Ctrl-C                  Always quit
   ?                       Toggle this help overlay
-  v                       Toggle text-selection mode (drag to copy)
+  v                       Toggle text-selection mode (drag to copy)";
 
+/// Palette + Commands are shown together — they describe the same surface.
+const SEC_PALETTE: &str = "\
 PALETTE  (always open on the home screen)
   Type                    Filter the command list live
   Tab                     Autocomplete to the highlighted / top command
@@ -35,24 +46,27 @@ COMMANDS
   new [<intent>]          Open the token authoring wizard
   name [<intent>]         Open the token naming wizard
   find                    Open the fuzzy-find token explorer
-  quit                    Quit the TUI
+  quit                    Quit the TUI";
 
+const SEC_QUERY: &str = "\
 QUERY / RESOLVE / VALIDATE VIEW
   Up / k                  Move selection up
   Down / j                Move selection down
   Scroll wheel            Move selection
   Click row               Select that row
   y                       Yank selected name / message to clipboard
-  Esc                     Return to home
+  Esc                     Return to home";
 
+const SEC_DESCRIBE: &str = "\
 DESCRIBE VIEW
   Up / k                  Scroll up one line
   Down / j                Scroll down one line
   PgUp                    Scroll up 10 lines
   PgDn                    Scroll down 10 lines
   Scroll wheel            Scroll the body
-  Esc                     Return to home
+  Esc                     Return to home";
 
+const SEC_WIZARD: &str = "\
 WIZARD — Screen 1 (Intent)
   Type                    Search existing tokens
   Up / Down               Navigate suggestions
@@ -81,12 +95,145 @@ WIZARD — Screen 4 (Confirm)
   Scroll wheel            Scroll diff preview
   Ctrl+S                  Edit $schema URL
   Enter                   Submit (writes token when --allow-write is set)
-  Esc                     Cancel wizard
+  Esc                     Cancel wizard";
 
+const SEC_MOUSE: &str = "\
 MOUSE
   Scroll wheel            Scroll the active view or wizard diff preview
   Click row               Select that row in a list or table view
   v                       Enter text-selection mode
   Drag (in select mode)   Select text from rows; release copies to clipboard
-  Shift-drag              Native terminal text selection (bypasses capture)
-";
+  Shift-drag              Native terminal text selection (bypasses capture)";
+
+// ── Context enum ───────────────────────────────────────────────────────────────
+
+/// Which view is active when the help overlay is opened.
+///
+/// Used to promote the most-relevant section to the top of the help text.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum HelpContext {
+    /// Home screen — command palette is primary.
+    Empty,
+    /// Token query results.
+    Query,
+    /// Token resolve results.
+    Resolve,
+    /// Component describe view.
+    Describe,
+    /// Token validation results.
+    Validate,
+}
+
+/// Derive the help context from the current active view.
+pub fn current_help_context(active_view: &ActiveView) -> HelpContext {
+    match active_view {
+        ActiveView::Empty => HelpContext::Empty,
+        ActiveView::Query(_) => HelpContext::Query,
+        ActiveView::Resolve(_) => HelpContext::Resolve,
+        ActiveView::Describe(_) => HelpContext::Describe,
+        ActiveView::Validate(_) => HelpContext::Validate,
+    }
+}
+
+// ── Text builder ───────────────────────────────────────────────────────────────
+
+/// Build the full help text for the given `ctx`.
+///
+/// The section relevant to `ctx` is emitted first with `  (active)` appended to
+/// its header line, then `GLOBAL`, then the remaining sections in a stable order.
+/// All content is preserved — only the ordering changes.
+pub fn help_text_for(ctx: HelpContext) -> String {
+    let active = match ctx {
+        HelpContext::Empty => SEC_PALETTE,
+        HelpContext::Query | HelpContext::Resolve | HelpContext::Validate => SEC_QUERY,
+        HelpContext::Describe => SEC_DESCRIBE,
+    };
+
+    let mut out = String::new();
+
+    // Active section first, header line marked with "(active)".
+    out.push_str(&mark_active(active));
+    out.push_str("\n\n");
+    out.push_str(SEC_GLOBAL);
+
+    // Remaining sections in stable order; skip the active one already shown above.
+    for &sec in &[SEC_PALETTE, SEC_QUERY, SEC_DESCRIBE, SEC_WIZARD, SEC_MOUSE] {
+        if core::ptr::eq(sec as *const str, active as *const str) {
+            continue;
+        }
+        out.push_str("\n\n");
+        out.push_str(sec);
+    }
+
+    out.push('\n');
+    out
+}
+
+/// Append `  (active)` to the first line of `section`.
+fn mark_active(section: &str) -> String {
+    match section.find('\n') {
+        Some(idx) => format!("{}  (active){}", &section[..idx], &section[idx..]),
+        None => format!("{section}  (active)"),
+    }
+}
+
+// ── Tests ──────────────────────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn active_section_appears_first_for_query() {
+        let text = help_text_for(HelpContext::Query);
+        let query_pos = text.find("QUERY / RESOLVE / VALIDATE VIEW").unwrap();
+        let global_pos = text.find("GLOBAL").unwrap();
+        assert!(
+            query_pos < global_pos,
+            "QUERY section should precede GLOBAL in query context"
+        );
+    }
+
+    #[test]
+    fn active_section_appears_first_for_describe() {
+        let text = help_text_for(HelpContext::Describe);
+        let describe_pos = text.find("DESCRIBE VIEW").unwrap();
+        let global_pos = text.find("GLOBAL").unwrap();
+        assert!(
+            describe_pos < global_pos,
+            "DESCRIBE VIEW section should precede GLOBAL in describe context"
+        );
+    }
+
+    #[test]
+    fn active_section_is_marked() {
+        let text = help_text_for(HelpContext::Query);
+        assert!(
+            text.contains("QUERY / RESOLVE / VALIDATE VIEW  (active)"),
+            "active section header should carry '(active)' marker"
+        );
+    }
+
+    #[test]
+    fn all_sections_present_regardless_of_context() {
+        let text = help_text_for(HelpContext::Describe);
+        assert!(text.contains("PALETTE"), "PALETTE section missing");
+        assert!(text.contains("QUERY / RESOLVE"), "QUERY section missing");
+        assert!(
+            text.contains("DESCRIBE VIEW"),
+            "DESCRIBE VIEW section missing"
+        );
+        assert!(text.contains("WIZARD"), "WIZARD section missing");
+        assert!(text.contains("MOUSE"), "MOUSE section missing");
+        assert!(text.contains("GLOBAL"), "GLOBAL section missing");
+    }
+
+    #[test]
+    fn palette_is_active_on_home_screen() {
+        let text = help_text_for(HelpContext::Empty);
+        assert!(
+            text.contains("PALETTE  (always open on the home screen)  (active)"),
+            "PALETTE should be marked active on home screen"
+        );
+    }
+}

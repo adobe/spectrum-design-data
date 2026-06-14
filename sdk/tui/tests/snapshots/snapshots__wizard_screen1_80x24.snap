@@ -1,10 +1,11 @@
 ---
 source: tui/tests/snapshots.rs
+assertion_line: 117
 expression: rendered
 ---
 ▶ test · 0 tokens
   Spectrum Design Data  v0.2.1
-  ↑↓ hi┌ Wizard · 1/4 · Intent ─────────────────────────────────────────┐
+  ↑↓ hi┌ Step 1 of 4 — Intent ──────────────────────────────────────────┐
   ─────│Intent: background-color                                        │───────
   >    │  These tokens already exist for similar intents.               │
     que│  Reusing one keeps the cascade healthy.  Tab to alias · Enter t│

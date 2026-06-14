@@ -348,3 +348,138 @@ fn draw_does_not_panic_on_narrow_terminal() {
     let mut model = Model::new();
     render_to_buffer(&mut model, 10, 5);
 }
+
+// ── Wizard step indicator ─────────────────────────────────────────────────────
+
+#[test]
+fn authoring_wizard_shows_step_indicator() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("new background-color".into()),
+        &ctx,
+    );
+    let buf = render_to_buffer(&mut model, W, H);
+    // screen_label() for Wizard screen 1 → "Step 1 of 4 — Intent"
+    find_row_containing(&buf, "Step 1 of 4", W, H);
+}
+
+#[test]
+fn naming_wizard_shows_step_indicator() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("name background-color".into()),
+        &ctx,
+    );
+    let buf = render_to_buffer(&mut model, W, H);
+    // screen_label() for Naming screen 1 → "Step 1 of 3 — Intent"
+    find_row_containing(&buf, "Step 1 of 3", W, H);
+}
+
+#[test]
+fn find_wizard_shows_step_indicator() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::PaletteSubmit("find".into()), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    // screen_label() for Find screen 1 → "Step 1 of 2 — Filters"
+    find_row_containing(&buf, "Step 1 of 2", W, H);
+}
+
+// ── Context-sensitive help ────────────────────────────────────────────────────
+
+#[test]
+fn help_marks_palette_section_active_on_home_screen() {
+    // Model::new() starts at home screen (Empty view + InPalette mode).
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    let row = find_row_containing(&buf, "(active)", W, H);
+    assert!(
+        row.contains("PALETTE"),
+        "active marker should be on the PALETTE section when at home: {row}"
+    );
+}
+
+#[test]
+fn help_marks_query_section_active_in_query_view() {
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    update(
+        &mut model,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        &ctx,
+    );
+    // From query results, '?' opens help (Browsing mode).
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    let row = find_row_containing(&buf, "(active)", W, H);
+    assert!(
+        row.contains("QUERY"),
+        "active marker should be on the QUERY section when in query results: {row}"
+    );
+    // GLOBAL section must also be present in the modal.
+    find_row_containing(&buf, "GLOBAL", W, H);
+}
+
+#[test]
+fn help_marks_describe_section_active_in_describe_view() {
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(DescribeView {
+        component: "button".to_string(),
+        pretty_json: "{\"name\": \"button\"}".to_string(),
+        scroll: 0,
+        h_scroll: 0,
+    });
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    let row = find_row_containing(&buf, "(active)", W, H);
+    assert!(
+        row.contains("DESCRIBE"),
+        "active marker should be on the DESCRIBE VIEW section when in describe: {row}"
+    );
+}
+
+#[test]
+fn help_active_section_differs_between_contexts() {
+    // Query context → QUERY first; Describe context → DESCRIBE first.
+    let graph = make_graph_with_tokens(&["accent-color"]);
+    let ctx = update_ctx(&graph);
+
+    let mut model_q = Model::new();
+    update(
+        &mut model_q,
+        Message::PaletteSubmit("query property=accent-color".into()),
+        &ctx,
+    );
+    update(&mut model_q, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf_q = render_to_buffer(&mut model_q, W, H);
+    let active_row_q = find_row_containing(&buf_q, "(active)", W, H);
+
+    let mut model_d = Model::new();
+    model_d.active_view = ActiveView::Describe(DescribeView {
+        component: "chip".to_string(),
+        pretty_json: "{\"name\":\"chip\"}".to_string(),
+        scroll: 0,
+        h_scroll: 0,
+    });
+    update(&mut model_d, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf_d = render_to_buffer(&mut model_d, W, H);
+    let active_row_d = find_row_containing(&buf_d, "(active)", W, H);
+
+    assert_ne!(
+        active_row_q, active_row_d,
+        "active section header should differ between query and describe contexts"
+    );
+}

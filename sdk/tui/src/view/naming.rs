@@ -24,14 +24,16 @@ use super::shared::{render_classification_content, render_intent_content};
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::theme::Theme;
 
-pub(crate) fn render_naming(f: &mut Frame<'_>, ns: &NamingWizardState, area: Rect, theme: &Theme) {
-    let screen_num = ns.screen.number();
-    let screen_name = ns.screen.name();
-
-    let outer = Block::default().borders(Borders::ALL).title(format!(
-        " Name · {screen_num}/{} · {screen_name} ",
-        NamingScreen::SCREEN_COUNT
-    ));
+pub(crate) fn render_naming(
+    f: &mut Frame<'_>,
+    ns: &NamingWizardState,
+    area: Rect,
+    theme: &Theme,
+    label: &str,
+) {
+    let outer = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" {label} "));
     let inner_area = outer.inner(area);
     f.render_widget(outer, area);
 

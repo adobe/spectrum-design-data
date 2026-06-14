@@ -26,7 +26,7 @@ pub(crate) mod shared;
 mod wizard;
 
 use crate::app::{ActiveView, Modal, StatusKind};
-use crate::help::HELP_TEXT;
+use crate::help::{current_help_context, help_text_for, HelpContext};
 use crate::model::Model;
 use crate::theme::Theme;
 use find::render_find;
@@ -154,23 +154,28 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
         frame.render_widget(popup, right_half);
     }
 
+    // Resolve help context from the active view before taking the modal borrow.
+    let help_ctx = current_help_context(&model.active_view);
+
     // Overlay modal (rendered last so it appears on top of everything).
     if let Some(modal) = model.modal_mut() {
+        // Compute step-indicator label once; each wizard renderer uses it for its title.
+        let label = modal.screen_label();
         match modal {
             Modal::Find(ref mut fs) => {
                 let popup_area = modal_frame(frame, area, 82, 85);
-                render_find(frame, fs, popup_area, theme);
+                render_find(frame, fs, popup_area, theme, &label);
             }
             Modal::Wizard(ref mut ws) => {
                 let popup_area = modal_frame(frame, area, 82, 85);
-                render_wizard(frame, ws, popup_area, theme);
+                render_wizard(frame, ws, popup_area, theme, &label);
             }
             Modal::Naming(ref mut ns) => {
                 let popup_area = modal_frame(frame, area, 82, 85);
-                render_naming(frame, ns, popup_area, theme);
+                render_naming(frame, ns, popup_area, theme, &label);
             }
             Modal::Help(ref hm) => {
-                render_help_modal(frame, hm.scroll, area);
+                render_help_modal(frame, hm.scroll, area, help_ctx);
             }
         }
     }
@@ -178,10 +183,12 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
 
 /// Render the Help overlay. Uses a scroll-supporting `Paragraph` because the
 /// help text (~80 lines) exceeds a typical terminal height and needs scrolling.
+/// The active section for `ctx` is promoted to the top with an `(active)` marker.
 /// The modal background is cleared via [`modal_frame`].
-fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect) {
+fn render_help_modal(f: &mut Frame<'_>, scroll: u16, area: Rect, ctx: HelpContext) {
     let popup_area = modal_frame(f, area, 80, 90);
-    let para = Paragraph::new(HELP_TEXT)
+    let text = help_text_for(ctx);
+    let para = Paragraph::new(text.as_str())
         .block(
             Block::default()
                 .borders(Borders::ALL)
