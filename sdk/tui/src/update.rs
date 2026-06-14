@@ -413,7 +413,6 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 true
             }
             ActiveView::Describe(dv) => {
-                let len = dv.line_count();
                 dv.selected = dv.selected.saturating_sub(1);
                 true
             }
