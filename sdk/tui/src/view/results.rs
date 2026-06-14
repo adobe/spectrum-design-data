@@ -129,18 +129,22 @@ pub(crate) fn render_query(
     render_hint(f, LIST_HINT, hint_area, theme);
 
     // Register per-row click regions. The table has Borders::ALL so data starts
-    // at body.y + 2 (top border + header row). Co-located with the render call so
-    // any layout change here automatically updates the registration geometry.
+    // at body.y + 2 (top border + header row) and ends at body.y + height - 2
+    // (before the bottom border). Co-located with the render call so any layout
+    // change here automatically updates the registration geometry.
+    // Skip scrolled-off rows so the visual position matches the logical index.
     let data_y = body.y + 2;
-    let data_height = body.height.saturating_sub(2);
-    for (i, row) in qv.rows.iter().enumerate() {
-        if i as u16 >= data_height {
+    let data_height = body.height.saturating_sub(3);
+    let offset = qv.table_state.offset();
+    for (i, row) in qv.rows.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
             break;
         }
         registry.register(
             Rect {
                 x: body.x,
-                y: data_y + i as u16,
+                y: data_y + visual as u16,
                 width: body.width,
                 height: 1,
             },
@@ -216,16 +220,20 @@ pub(crate) fn render_resolve(
     render_hint(f, LIST_HINT, hint_area, theme);
 
     // Register per-row click regions co-located with the render call.
+    // Borders::ALL means top_border(1) + header(1) + data + bottom_border(1).
+    // Skip scrolled-off rows so the visual position matches the logical index.
     let data_y = body.y + 2;
-    let data_height = body.height.saturating_sub(2);
-    for (i, row) in rv.rows.iter().enumerate() {
-        if i as u16 >= data_height {
+    let data_height = body.height.saturating_sub(3);
+    let offset = rv.table_state.offset();
+    for (i, row) in rv.rows.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
             break;
         }
         registry.register(
             Rect {
                 x: body.x,
-                y: data_y + i as u16,
+                y: data_y + visual as u16,
                 width: body.width,
                 height: 1,
             },
@@ -364,10 +372,14 @@ pub(crate) fn render_validate(
     render_hint(f, VALIDATE_HINT, hint_area, theme);
 
     // Register per-row click regions co-located with the render call.
+    // Borders::ALL means top_border(1) + header(1) + data + bottom_border(1).
+    // Skip scrolled-off rows so the visual position matches the logical index.
     let data_y = body.y + 2;
-    let data_height = body.height.saturating_sub(2);
-    for (i, vr) in visible.iter().enumerate() {
-        if i as u16 >= data_height {
+    let data_height = body.height.saturating_sub(3);
+    let offset = vv.table_state.offset();
+    for (i, vr) in visible.iter().enumerate().skip(offset) {
+        let visual = i - offset;
+        if visual as u16 >= data_height {
             break;
         }
         let text = match vr {
@@ -400,7 +412,7 @@ pub(crate) fn render_validate(
         registry.register(
             Rect {
                 x: body.x,
-                y: data_y + i as u16,
+                y: data_y + visual as u16,
                 width: body.width,
                 height: 1,
             },

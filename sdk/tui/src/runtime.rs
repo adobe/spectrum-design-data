@@ -284,4 +284,78 @@ mod tests {
             }
         }
     }
+
+    /// Regression: hit regions must reflect the current scroll offset.
+    ///
+    /// When the table is scrolled (offset > 0), the first registered region must
+    /// map to the first *visible* row (logical index = offset), not row 0. A click
+    /// at data_y should select the row at `offset`, not row 0.
+    ///
+    /// Uses H=8 so chunks[1]=6, body=5, data_height=5-3=2 — only 2 of the 3 rows
+    /// fit. Selecting the last row forces ratatui to scroll (offset=1).
+    #[test]
+    fn hit_registry_respects_scroll_offset() {
+        use crate::app::{ActiveView, HitAction, QueryRow, QueryView};
+
+        const W: u16 = 80;
+        // H=8: chunks[1]=6, body=5, data_height=5-3=2. 3 rows > 2 visible → scroll needed.
+        const H: u16 = 8;
+
+        let graph = TokenGraph::default();
+        let _ctx = UpdateCtx::minimal(&graph);
+        let mut model = Model::new();
+
+        let rows = vec![
+            QueryRow {
+                name: "row0".into(),
+                value: "0".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+            QueryRow {
+                name: "row1".into(),
+                value: "1".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+            QueryRow {
+                name: "row2".into(),
+                value: "2".into(),
+                file: "f".into(),
+                layer: "foundation".into(),
+            },
+        ];
+        let mut qv = QueryView::new("*".to_string(), rows);
+        // Select last row — ratatui will set offset=1 during render_stateful_widget
+        // so that row 2 is visible (rows 1, 2 occupy the 2 data slots).
+        qv.table_state.select(Some(2));
+        model.active_view = ActiveView::Query(qv);
+
+        let backend = TestBackend::new(W, H);
+        let mut terminal = Terminal::new(backend).unwrap();
+        terminal
+            .draw(|f| draw(&mut model, f, &Theme::terminal(), "scroll · 3 tokens"))
+            .unwrap();
+
+        let regions = model.hit_registry.regions();
+        // Only 2 data rows fit at data_height=2 — row0 is scrolled off.
+        assert_eq!(
+            regions.len(),
+            2,
+            "only visible rows (1 and 2) should be registered"
+        );
+
+        // First visible position must map to logical row 1 (not row 0).
+        assert!(
+            matches!(regions[0].data.action, HitAction::SelectListRow(1)),
+            "first region should map to logical row 1 (scrolled-to), got SelectListRow({})",
+            match &regions[0].data.action {
+                HitAction::SelectListRow(i) => i,
+            }
+        );
+        assert!(
+            matches!(regions[1].data.action, HitAction::SelectListRow(2)),
+            "second region should map to logical row 2"
+        );
+    }
 }
