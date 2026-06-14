@@ -114,7 +114,7 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
         }
         ActiveView::Query(ref mut qv) => render_query(frame, qv, chunks[1], theme),
         ActiveView::Resolve(ref mut rv) => render_resolve(frame, rv, chunks[1], theme),
-        ActiveView::Describe(ref dv) => render_describe(frame, dv, chunks[1], theme),
+        ActiveView::Describe(ref mut dv) => render_describe(frame, dv, chunks[1], theme),
         ActiveView::Validate(ref mut vv) => render_validate(frame, vv, chunks[1], theme),
     }
 

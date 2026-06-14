@@ -143,7 +143,7 @@ fn describe_no_components_dir_sets_error_status() {
 }
 
 #[test]
-fn describe_scroll_changes_with_pgdn_pgup() {
+fn describe_selection_changes_with_pgdn_pgup() {
     let graph = make_graph_with_components();
     let dir = fixtures_components_dir();
     let ctx = describe_ctx(&graph, &dir);
@@ -151,13 +151,13 @@ fn describe_scroll_changes_with_pgdn_pgup() {
     submit_describe(&mut model, &ctx, "button");
     update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
-        assert!(dv.scroll > 0, "scroll should advance with PgDn");
+        assert!(dv.selected > 0, "selected should advance with PgDn");
     } else {
         panic!("expected Describe view");
     }
     update(&mut model, Message::Key(key(KeyCode::PageUp)), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
-        assert_eq!(dv.scroll, 0, "scroll should return to 0 after PgUp");
+        assert_eq!(dv.selected, 0, "selected should return to 0 after PgUp");
     } else {
         panic!("expected Describe view");
     }
@@ -186,6 +186,7 @@ fn wide_describe() -> DescribeView {
         pretty_json: format!("{{ \"content\": \"{long_value}\" }}"),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     }
 }
 
@@ -199,29 +200,31 @@ fn multi_line_describe() -> DescribeView {
         pretty_json: format!("{{\n{json}\n}}"),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     }
 }
 
 #[test]
-fn g_key_scrolls_describe_to_top() {
+fn g_key_moves_selection_to_top() {
     use design_data_core::graph::TokenGraph;
     let graph = TokenGraph::default();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     model.active_view = ActiveView::Describe(multi_line_describe());
     model.close_palette(); // palette must be closed for view-key routing
-                           // Advance scroll, then jump back to top.
+                           // Advance selection, then jump back to top.
     update(&mut model, Message::Key(key(KeyCode::PageDown)), &ctx);
     update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
-        assert_eq!(dv.scroll, 0, "g should scroll describe to top");
+        assert_eq!(dv.selected, 0, "g should move selection to top");
+        assert_eq!(dv.scroll, 0, "g should also reset scroll to 0");
     } else {
         panic!("expected Describe view");
     }
 }
 
 #[test]
-fn shift_g_key_scrolls_describe_to_bottom() {
+fn shift_g_key_moves_selection_to_bottom() {
     use design_data_core::graph::TokenGraph;
     let graph = TokenGraph::default();
     let ctx = update_ctx(&graph);
@@ -230,10 +233,11 @@ fn shift_g_key_scrolls_describe_to_bottom() {
     model.close_palette(); // palette must be closed for view-key routing
     update(&mut model, Message::Key(key(KeyCode::Char('G'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
+        // multi_line_describe() has 32 lines ({, 30 content lines, })
         assert!(
-            dv.scroll > 0,
-            "G should scroll describe toward bottom (got scroll={})",
-            dv.scroll
+            dv.selected > 0,
+            "G should move selection toward bottom (got selected={})",
+            dv.selected
         );
     } else {
         panic!("expected Describe view");
@@ -273,17 +277,19 @@ fn h_key_decrements_h_scroll() {
 }
 
 #[test]
-fn g_key_resets_both_scroll_and_h_scroll() {
+fn g_key_resets_selection_scroll_and_h_scroll() {
     let graph = TokenGraph::default();
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     let mut dv = wide_describe();
+    dv.selected = 3;
     dv.scroll = 5;
     dv.h_scroll = 12;
     model.active_view = ActiveView::Describe(dv);
     model.close_palette();
     update(&mut model, Message::Key(key(KeyCode::Char('g'))), &ctx);
     if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.selected, 0, "g should reset selection to 0");
         assert_eq!(dv.scroll, 0, "g should reset vertical scroll to 0");
         assert_eq!(dv.h_scroll, 0, "g should reset horizontal scroll to 0");
     } else {
@@ -376,6 +382,7 @@ fn shift_g_resets_h_scroll_to_zero() {
     let ctx = update_ctx(&graph);
     let mut model = Model::new();
     let mut dv = wide_describe();
+    dv.selected = 0;
     dv.scroll = 0;
     dv.h_scroll = 16;
     model.active_view = ActiveView::Describe(dv);
@@ -401,6 +408,7 @@ fn cjk_describe() -> DescribeView {
         pretty_json: format!("{{ \"v\": \"{wide_chars}\" }}"),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     }
 }
 
@@ -429,4 +437,146 @@ fn l_scroll_cap_respects_display_columns_not_char_count() {
     } else {
         panic!("expected Describe view");
     }
+}
+
+// ── Row selection movement ────────────────────────────────────────────────────
+
+#[test]
+fn j_key_advances_selection_by_one() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(multi_line_describe());
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('j'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.selected, 1, "j should advance selection by 1");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn k_key_decrements_selection_by_one() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let mut dv = multi_line_describe();
+    dv.selected = 5;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Char('k'))), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.selected, 4, "k should decrement selection by 1");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn selection_clamps_at_top() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    model.active_view = ActiveView::Describe(multi_line_describe()); // selected=0
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Up)), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.selected, 0, "Up at top should stay at 0 (saturating)");
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+#[test]
+fn selection_clamps_at_bottom() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // multi_line_describe() produces 32 lines: '{', 30 content, '}'
+    let mut dv = multi_line_describe();
+    let last = dv.line_count() - 1;
+    dv.selected = last;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    update(&mut model, Message::Key(key(KeyCode::Down)), &ctx);
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(
+            dv.selected, last,
+            "Down at bottom should clamp at last line"
+        );
+    } else {
+        panic!("expected Describe view");
+    }
+}
+
+// ── y / Y yank ────────────────────────────────────────────────────────────────
+
+#[test]
+fn y_yanks_selected_line() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let dv = multi_line_describe();
+    // Move to line 1 to avoid a trivially empty selection on line 0 ('{').
+    let expected_text = dv.pretty_json.lines().nth(1).unwrap().to_string();
+    let mut dv = dv;
+    dv.selected = 1;
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('y'))), &ctx);
+    assert!(
+        task.is_cmd(),
+        "'y' should return Task::Cmd for clipboard write"
+    );
+    assert!(
+        model.pending_yank.is_none(),
+        "pending_yank should be drained"
+    );
+    // Verify the helper returns the expected text before the yank.
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        // After yank the selected line is unchanged — check the helper directly.
+        assert_eq!(
+            dv.selected_text(),
+            expected_text,
+            "selected_text() should return the highlighted line"
+        );
+    }
+}
+
+#[test]
+fn shift_y_yanks_full_document() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    let dv = multi_line_describe();
+    let full = dv.full_text();
+    model.active_view = ActiveView::Describe(dv);
+    model.close_palette();
+    let task = update(&mut model, Message::Key(key(KeyCode::Char('Y'))), &ctx);
+    assert!(
+        task.is_cmd(),
+        "'Y' should return Task::Cmd for clipboard write"
+    );
+    assert!(
+        model.pending_yank.is_none(),
+        "pending_yank should be drained"
+    );
+    // Verify full_text() returned the complete JSON before the yank.
+    if let ActiveView::Describe(ref dv) = model.active_view {
+        assert_eq!(dv.full_text(), full, "full_text() should equal pretty_json");
+    }
+}
+
+#[test]
+fn shift_y_does_nothing_outside_describe() {
+    let graph = TokenGraph::default();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // ActiveView::Empty — Y should return Task::none().
+    update(&mut model, Message::Key(key(KeyCode::Char('Y'))), &ctx);
+    assert!(
+        model.pending_yank.is_none(),
+        "Y outside Describe should not set pending_yank"
+    );
 }

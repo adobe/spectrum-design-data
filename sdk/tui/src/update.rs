@@ -413,7 +413,8 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 true
             }
             ActiveView::Describe(dv) => {
-                dv.scroll = dv.scroll.saturating_sub(1);
+                let len = dv.line_count();
+                dv.selected = dv.selected.saturating_sub(1).min(len.saturating_sub(1));
                 true
             }
             ActiveView::Empty => false,
@@ -433,14 +434,17 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 true
             }
             ActiveView::Describe(dv) => {
-                dv.scroll = dv.scroll.saturating_add(1);
+                let len = dv.line_count();
+                if len > 0 {
+                    dv.selected = (dv.selected + 1).min(len - 1);
+                }
                 true
             }
             ActiveView::Empty => false,
         },
         KeyCode::PageUp => {
             if let ActiveView::Describe(ref mut dv) = model.active_view {
-                dv.scroll = dv.scroll.saturating_sub(10);
+                dv.selected = dv.selected.saturating_sub(10);
                 true
             } else {
                 false
@@ -448,7 +452,10 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
         }
         KeyCode::PageDown => {
             if let ActiveView::Describe(ref mut dv) = model.active_view {
-                dv.scroll = dv.scroll.saturating_add(10);
+                let len = dv.line_count();
+                if len > 0 {
+                    dv.selected = (dv.selected + 10).min(len - 1);
+                }
                 true
             } else {
                 false
@@ -499,6 +506,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 true
             }
             ActiveView::Describe(dv) => {
+                dv.selected = 0;
                 dv.scroll = 0;
                 dv.h_scroll = 0;
                 true
@@ -520,8 +528,7 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 true
             }
             ActiveView::Describe(dv) => {
-                let max_scroll = dv.pretty_json.lines().count().saturating_sub(1) as u16;
-                dv.scroll = max_scroll;
+                dv.selected = dv.line_count().saturating_sub(1);
                 dv.h_scroll = 0;
                 true
             }
@@ -532,12 +539,30 @@ fn handle_view_key(model: &mut Model, code: KeyCode) -> bool {
                 ActiveView::Query(qv) => qv.selected_row().map(|r| r.name.clone()),
                 ActiveView::Resolve(rv) => rv.selected_row().map(|r| r.name.clone()),
                 ActiveView::Validate(vv) => vv.selected_text(),
-                ActiveView::Describe(_) | ActiveView::Empty => None,
+                // y copies the currently selected line (parity with other list views).
+                ActiveView::Describe(dv) => {
+                    let text = dv.selected_text();
+                    if text.is_empty() {
+                        None
+                    } else {
+                        Some(text)
+                    }
+                }
+                ActiveView::Empty => None,
             };
             if let Some(text) = yank {
                 // Stash in pending_yank; handle_key drains it after this returns and
                 // builds a Task::Cmd(write_clipboard) so the clipboard I/O is a side effect.
                 model.pending_yank = Some(text);
+                true
+            } else {
+                false
+            }
+        }
+        // Y (shift-y): yank the entire JSON document for the Describe view.
+        KeyCode::Char('Y') => {
+            if let ActiveView::Describe(ref dv) = model.active_view {
+                model.pending_yank = Some(dv.full_text());
                 true
             } else {
                 false

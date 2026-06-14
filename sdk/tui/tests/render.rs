@@ -313,9 +313,10 @@ fn describe_view_footer_hint_includes_g_g() {
         pretty_json: "{\n  \"name\": \"button\"\n}".to_string(),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     });
     let buf = render_to_buffer(&mut model, W, H);
-    let hint_row = find_row_containing(&buf, "j/k scroll", W, H);
+    let hint_row = find_row_containing(&buf, "j/k navigate", W, H);
     assert!(
         hint_row.contains("g/G"),
         "describe footer hint should advertise g/G: {hint_row}"
@@ -441,6 +442,7 @@ fn help_marks_describe_section_active_in_describe_view() {
         pretty_json: "{\"name\": \"button\"}".to_string(),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     });
     update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
     let buf = render_to_buffer(&mut model, W, H);
@@ -473,6 +475,7 @@ fn help_active_section_differs_between_contexts() {
         pretty_json: "{\"name\":\"chip\"}".to_string(),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     });
     update(&mut model_d, Message::Key(key(KeyCode::Char('?'))), &ctx);
     let buf_d = render_to_buffer(&mut model_d, W, H);

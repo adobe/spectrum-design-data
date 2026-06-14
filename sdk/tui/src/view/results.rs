@@ -32,7 +32,8 @@ const LIST_HINT: &str = "j/k navigate · g/G top/bottom · y yank · Esc back";
 /// Footer hint shown on the validate view (includes Enter to expand/collapse groups).
 const VALIDATE_HINT: &str = "j/k navigate · Enter expand · g/G top/bottom · y yank · Esc back";
 /// Footer hint shown on the scrollable describe view.
-const DESCRIBE_HINT: &str = "j/k scroll · h/l ←→ · g/G top/bottom · PgUp/PgDn ×10 · Esc back";
+const DESCRIBE_HINT: &str =
+    "j/k navigate · h/l ←→ · g/G top/bottom · PgUp/PgDn ×10 · y yank · Y all · Esc back";
 
 /// Split `area` into [body, hint] — body gets all but the bottom 1-row hint line.
 fn split_body_hint(area: Rect) -> [Rect; 2] {
@@ -178,9 +179,41 @@ pub(crate) fn render_resolve(f: &mut Frame<'_>, rv: &mut ResolveView, area: Rect
     render_hint(f, LIST_HINT, hint_area, theme);
 }
 
-pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &DescribeView, area: Rect, theme: &Theme) {
+pub(crate) fn render_describe(f: &mut Frame<'_>, dv: &mut DescribeView, area: Rect, theme: &Theme) {
     let [body, hint_area] = split_body_hint(area);
-    let para = Paragraph::new(dv.pretty_json.as_str())
+
+    // Inner height (content area inside the border = body - 2 rows for top/bottom border).
+    let inner_h = body.height.saturating_sub(2) as usize;
+
+    // Clamp scroll so `selected` is always visible.
+    let scroll = dv.scroll as usize;
+    let scroll = if dv.selected < scroll {
+        dv.selected
+    } else if inner_h > 0 && dv.selected >= scroll + inner_h {
+        dv.selected - inner_h + 1
+    } else {
+        scroll
+    };
+    dv.scroll = scroll.min(u16::MAX as usize) as u16;
+
+    // Build styled lines, highlighting the selected one.
+    let lines: Vec<Line<'_>> = dv
+        .pretty_json
+        .lines()
+        .enumerate()
+        .map(|(i, text)| {
+            if i == dv.selected {
+                Line::from(Span::styled(
+                    text.to_string(),
+                    Style::default().bg(theme.selection_bg),
+                ))
+            } else {
+                Line::from(text.to_string())
+            }
+        })
+        .collect();
+
+    let para = Paragraph::new(lines)
         .block(
             Block::default()
                 .borders(Borders::ALL)

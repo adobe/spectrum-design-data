@@ -251,6 +251,7 @@ fn dispatch_command(
                                         pretty_json: pretty,
                                         scroll: 0,
                                         h_scroll: 0,
+                                        selected: 0,
                                     }),
                                     Err(e) => Err(format!("describe: render error: {e}")),
                                 },

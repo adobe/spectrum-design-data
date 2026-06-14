@@ -213,6 +213,7 @@ fn wheel_scroll_down_increments_describe_scroll() {
         pretty_json: "{}".to_string(),
         scroll: 0,
         h_scroll: 0,
+        selected: 0,
     });
     update(
         &mut model,

@@ -239,11 +239,36 @@ impl ResolveView {
 pub struct DescribeView {
     pub component: String,
     pub pretty_json: String,
+    /// Derived viewport offset (rows). Updated by `render_describe` to follow
+    /// `selected` — do not drive this directly from key handlers.
     pub scroll: u16,
     pub h_scroll: u16,
+    /// Index of the currently highlighted line (0-based). This is the source of
+    /// truth for vertical position; `scroll` is clamped to keep it in view.
+    #[serde(default)]
+    pub selected: usize,
 }
 
 impl DescribeView {
+    /// Number of lines in `pretty_json`.
+    pub fn line_count(&self) -> usize {
+        self.pretty_json.lines().count()
+    }
+
+    /// Text of the currently selected line (empty string if out of range).
+    pub fn selected_text(&self) -> String {
+        self.pretty_json
+            .lines()
+            .nth(self.selected)
+            .unwrap_or("")
+            .to_string()
+    }
+
+    /// Full pretty-printed JSON document (for `Y` whole-doc yank).
+    pub fn full_text(&self) -> String {
+        self.pretty_json.clone()
+    }
+
     /// Widest line in `pretty_json`, measured in terminal display columns
     /// (via `unicode-width`, consistent with [`truncate_cell`]). Used to bound
     /// horizontal scroll so it matches how ratatui counts column offsets.
