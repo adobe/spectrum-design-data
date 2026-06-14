@@ -483,3 +483,19 @@ fn help_active_section_differs_between_contexts() {
         "active section header should differ between query and describe contexts"
     );
 }
+
+#[test]
+fn help_marks_query_section_active_in_validate_view() {
+    // Validate collapses into the same QUERY/RESOLVE/VALIDATE section as query results.
+    let mut model = Model::new();
+    model.active_view = ActiveView::Validate(ValidateView::new(vec![]));
+    let graph = make_graph_with_tokens(&[]);
+    let ctx = update_ctx(&graph);
+    update(&mut model, Message::Key(key(KeyCode::Char('?'))), &ctx);
+    let buf = render_to_buffer(&mut model, W, H);
+    let row = find_row_containing(&buf, "(active)", W, H);
+    assert!(
+        row.contains("QUERY"),
+        "active marker should be on the QUERY/RESOLVE/VALIDATE section in validate view: {row}"
+    );
+}

@@ -125,6 +125,12 @@ pub enum HelpContext {
 }
 
 /// Derive the help context from the current active view.
+///
+/// Note: wizard modals (`Modal::Wizard`, `Modal::Find`, `Modal::Naming`) have no
+/// separate `HelpContext` variant.  When a wizard is open, `active_view` reflects
+/// the screen *behind* the wizard (typically `Empty`).  The wizard already
+/// communicates its step context via the title breadcrumb; help opens via `?` only
+/// from browsing/palette mode, not from within a wizard.
 pub fn current_help_context(active_view: &ActiveView) -> HelpContext {
     match active_view {
         ActiveView::Empty => HelpContext::Empty,
@@ -143,10 +149,19 @@ pub fn current_help_context(active_view: &ActiveView) -> HelpContext {
 /// its header line, then `GLOBAL`, then the remaining sections in a stable order.
 /// All content is preserved — only the ordering changes.
 pub fn help_text_for(ctx: HelpContext) -> String {
-    let active = match ctx {
-        HelpContext::Empty => SEC_PALETTE,
-        HelpContext::Query | HelpContext::Resolve | HelpContext::Validate => SEC_QUERY,
-        HelpContext::Describe => SEC_DESCRIBE,
+    let (active, remaining): (&str, &[&str]) = match ctx {
+        HelpContext::Empty => (
+            SEC_PALETTE,
+            &[SEC_QUERY, SEC_DESCRIBE, SEC_WIZARD, SEC_MOUSE],
+        ),
+        HelpContext::Query | HelpContext::Resolve | HelpContext::Validate => (
+            SEC_QUERY,
+            &[SEC_PALETTE, SEC_DESCRIBE, SEC_WIZARD, SEC_MOUSE],
+        ),
+        HelpContext::Describe => (
+            SEC_DESCRIBE,
+            &[SEC_PALETTE, SEC_QUERY, SEC_WIZARD, SEC_MOUSE],
+        ),
     };
 
     let mut out = String::new();
@@ -156,11 +171,7 @@ pub fn help_text_for(ctx: HelpContext) -> String {
     out.push_str("\n\n");
     out.push_str(SEC_GLOBAL);
 
-    // Remaining sections in stable order; skip the active one already shown above.
-    for &sec in &[SEC_PALETTE, SEC_QUERY, SEC_DESCRIBE, SEC_WIZARD, SEC_MOUSE] {
-        if core::ptr::eq(sec as *const str, active as *const str) {
-            continue;
-        }
+    for &sec in remaining {
         out.push_str("\n\n");
         out.push_str(sec);
     }
