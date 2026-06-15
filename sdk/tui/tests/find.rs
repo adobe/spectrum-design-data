@@ -65,6 +65,18 @@ fn make_find_graph() -> TokenGraph {
     TokenGraph::from_records(records)
 }
 
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+/// Tab to the Preview button (PREVIEW_FOCUS) and press Enter to advance to the
+/// Preview screen.  Used by tests that need to exercise Preview-screen behavior
+/// without caring about the Filters→Preview navigation mechanics.
+fn advance_to_preview(fs: &mut FindWizardState, graph: &TokenGraph, index: &TokenIndex) {
+    while fs.focused_field != FindWizardState::PREVIEW_FOCUS {
+        fs.handle_key(key(KeyCode::Tab), graph, index);
+    }
+    fs.handle_key(key(KeyCode::Enter), graph, index);
+}
+
 // ── FindWizardState unit tests (test find module directly, no App/update) ────
 
 #[test]
@@ -145,13 +157,34 @@ fn refresh_preview_is_empty_when_nothing_filled() {
 }
 
 #[test]
-fn enter_on_filters_advances_to_preview() {
+fn enter_on_preview_button_advances_to_preview() {
+    // Tab to the Preview button (PREVIEW_FOCUS) then Enter → Preview screen.
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
+    // Tab through all 5 fields to reach PREVIEW_FOCUS.
+    for _ in 0..FindWizardState::FIELD_COUNT {
+        fs.handle_key(key(KeyCode::Tab), &graph, &index);
+    }
+    assert_eq!(fs.focused_field, FindWizardState::PREVIEW_FOCUS);
     let event = fs.handle_key(key(KeyCode::Enter), &graph, &index);
     assert!(matches!(event, FindEvent::Continue));
     assert_eq!(fs.screen, FindScreen::Preview);
+}
+
+#[test]
+fn enter_on_field_without_suggestion_advances_focus_not_screen() {
+    // Enter on a field with nothing to accept should advance focus (Tab-like),
+    // NOT jump straight to Preview.
+    let graph = make_find_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+    assert_eq!(fs.focused_field, 0);
+    // No text typed, no suggestions — Enter should move focus to field 1.
+    let event = fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    assert!(matches!(event, FindEvent::Continue));
+    assert_eq!(fs.screen, FindScreen::Filters, "screen must not change");
+    assert_eq!(fs.focused_field, 1, "focus should advance to next field");
 }
 
 #[test]
@@ -162,7 +195,7 @@ fn enter_on_preview_emits_open_results() {
     for c in "background-color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
-    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    advance_to_preview(&mut fs, &graph, &index);
     assert_eq!(fs.screen, FindScreen::Preview);
     let event = fs.handle_key(key(KeyCode::Enter), &graph, &index);
     assert!(matches!(event, FindEvent::OpenResults(_)));
@@ -176,7 +209,7 @@ fn open_results_view_has_correct_row_count() {
     for c in "background-color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
-    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    advance_to_preview(&mut fs, &graph, &index);
     let event = fs.handle_key(key(KeyCode::Enter), &graph, &index);
     if let FindEvent::OpenResults(view) = event {
         assert!(view.rows.len() >= 1);
@@ -191,7 +224,7 @@ fn e_on_preview_goes_back_to_filters() {
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
-    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    advance_to_preview(&mut fs, &graph, &index);
     let event = fs.handle_key(key(KeyCode::Char('e')), &graph, &index);
     assert!(matches!(event, FindEvent::Continue));
     assert_eq!(fs.screen, FindScreen::Filters);
@@ -212,7 +245,7 @@ fn esc_goes_back_on_preview_screen() {
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
-    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    advance_to_preview(&mut fs, &graph, &index);
     assert_eq!(fs.screen, FindScreen::Preview);
     let event = fs.handle_key(key(KeyCode::Esc), &graph, &index);
     assert!(
@@ -231,7 +264,7 @@ fn q_cancels_on_preview_screen() {
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
-    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    advance_to_preview(&mut fs, &graph, &index);
     let event = fs.handle_key(key(KeyCode::Char('q')), &graph, &index);
     assert!(matches!(event, FindEvent::Cancel));
 }
@@ -251,16 +284,26 @@ fn tab_cycles_through_fields() {
 }
 
 #[test]
-fn tab_wraps_around_from_last_to_first_field() {
+fn tab_cycles_through_all_focusables_including_preview_button() {
+    // Tab should cycle through all 5 fields AND the Preview button (FOCUS_COUNT = 6).
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
-    for _ in 0..4 {
+    for _ in 0..FindWizardState::FIELD_COUNT {
         fs.handle_key(key(KeyCode::Tab), &graph, &index);
     }
-    assert_eq!(fs.focused_field, 4);
+    assert_eq!(
+        fs.focused_field,
+        FindWizardState::PREVIEW_FOCUS,
+        "Tab×{} should land on PREVIEW_FOCUS",
+        FindWizardState::FIELD_COUNT
+    );
+    // One more Tab wraps back to field 0.
     fs.handle_key(key(KeyCode::Tab), &graph, &index);
-    assert_eq!(fs.focused_field, 0);
+    assert_eq!(
+        fs.focused_field, 0,
+        "Tab from PREVIEW_FOCUS should wrap to field 0"
+    );
 }
 
 #[test]
@@ -337,13 +380,14 @@ fn assemble_expr_round_trips_through_query_parse_and_finds_rows() {
 }
 
 #[test]
-fn backtab_wraps_from_first_to_last_field() {
+fn backtab_wraps_from_first_field_to_preview_button() {
+    // BackTab from field 0 should wrap to PREVIEW_FOCUS (the last stop in the ring).
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
     assert_eq!(fs.focused_field, 0);
     fs.handle_key(key(KeyCode::BackTab), &graph, &index);
-    assert_eq!(fs.focused_field, FindWizardState::FIELD_COUNT - 1);
+    assert_eq!(fs.focused_field, FindWizardState::PREVIEW_FOCUS);
 }
 
 #[test]
@@ -351,6 +395,19 @@ fn intent_only_flow_emits_open_results_with_intent_as_expr_text() {
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new_with_intent("accent background");
+    // focused_field = 4 (intent).  Enter on intent (no suggestions) advances focus
+    // to PREVIEW_FOCUS (5).  A second Enter on the Preview button → Preview screen.
+    fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    assert_eq!(
+        fs.focused_field,
+        FindWizardState::PREVIEW_FOCUS,
+        "Enter on intent should advance focus to Preview button"
+    );
+    assert_eq!(
+        fs.screen,
+        FindScreen::Filters,
+        "screen should still be Filters"
+    );
     fs.handle_key(key(KeyCode::Enter), &graph, &index);
     assert_eq!(fs.screen, FindScreen::Preview);
     assert!(fs.preview_count > 0);
@@ -361,6 +418,43 @@ fn intent_only_flow_emits_open_results_with_intent_as_expr_text() {
     } else {
         panic!("expected OpenResults");
     }
+}
+
+// ── Preview button tests ──────────────────────────────────────────────────────
+
+#[test]
+fn typing_while_on_preview_button_does_not_mutate_fields() {
+    let graph = make_find_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+    // Navigate to Preview button.
+    while fs.focused_field != FindWizardState::PREVIEW_FOCUS {
+        fs.handle_key(key(KeyCode::Tab), &graph, &index);
+    }
+    // Type some characters — dispatch_to_focused_field is a no-op for PREVIEW_FOCUS.
+    for c in "hello".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
+    }
+    assert_eq!(fs.property.value(), "", "property must not change");
+    assert_eq!(fs.component.value(), "", "component must not change");
+    assert_eq!(fs.intent.value(), "", "intent must not change");
+}
+
+#[test]
+fn preview_count_is_live_on_filters_screen() {
+    // preview_count should update as fields change — before the user ever visits Preview.
+    let graph = make_find_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+    assert_eq!(fs.preview_count, 0, "no count before any input");
+    for c in "background-color".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
+    }
+    assert!(
+        fs.preview_count > 0,
+        "count should update live as property is typed; got {}",
+        fs.preview_count
+    );
 }
 
 // ── App-level integration tests (migrated to Model + update) ─────────────────
@@ -436,13 +530,16 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
     let mut model = Model::new();
     submit(&mut model, &ctx, "find");
 
-    // Type property field, then Enter → Preview.
+    // Type property field, then Tab×5 to the Preview button, then Enter → Preview.
     for c in "background-color".chars() {
         update(&mut model, Message::Key(key(KeyCode::Char(c))), &ctx);
     }
+    for _ in 0..FindWizardState::FIELD_COUNT {
+        update(&mut model, Message::Key(key(KeyCode::Tab)), &ctx); // move to PREVIEW_FOCUS
+    }
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx); // → Preview
 
-    // Enter → OpenResults.
+    // Enter on Preview → OpenResults.
     update(&mut model, Message::Key(key(KeyCode::Enter)), &ctx);
 
     assert!(!model.is_modal_open());

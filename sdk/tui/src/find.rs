@@ -100,6 +100,10 @@ pub struct FindWizardState {
 
 impl FindWizardState {
     pub const FIELD_COUNT: usize = 5;
+    /// Focus index of the Preview button — the element after all 5 filter fields.
+    pub const PREVIEW_FOCUS: usize = 5;
+    /// Total focusable elements on the Filters screen (5 fields + Preview button).
+    pub const FOCUS_COUNT: usize = 6;
     /// How many zero-count (incompatible) options to show below the reachable list.
     /// Kept small so the dropdown doesn't grow unwieldy; large enough to surface
     /// the most common incompatibilities.
@@ -365,45 +369,51 @@ impl FindWizardState {
     ) -> FindEvent {
         match key.code {
             KeyCode::Enter => {
-                // When a suggestion is highlighted that differs from the current input,
-                // Enter accepts it into the focused field and stays on Filters.
-                // If the typed value already matches the suggestion, fall through.
-                if !self.suggestions.is_empty() {
-                    let current = self.current_field_value().trim().to_string();
-                    // Accept the highlighted suggestion only when the user has
-                    // done something intentional: typed something (non-empty input)
-                    // OR explicitly navigated the list with Up/Down (index > 0).
-                    let user_acted = !current.is_empty() || self.selected_suggestion > 0;
-                    if user_acted {
-                        if let Some(suggestion) = self.suggestions.get(self.selected_suggestion) {
-                            if suggestion.value.as_str() != current.as_str() {
-                                let accepted = suggestion.value.clone();
-                                self.set_current_field_value(accepted);
-                                self.suggestions.clear();
-                                self.selected_suggestion = 0;
-                                return FindEvent::Continue;
-                            }
+                if self.focused_field == Self::PREVIEW_FOCUS {
+                    // Preview button is active — run the query and advance to Preview.
+                    self.refresh_preview(graph, index);
+                    self.screen = FindScreen::Preview;
+                    return FindEvent::Continue;
+                }
+                // Field 0–3: accept the highlighted suggestion when it differs from input.
+                if self.focused_field < Self::FIELD_COUNT - 1 && !self.suggestions.is_empty() {
+                    if let Some(suggestion) = self.suggestions.get(self.selected_suggestion) {
+                        let current = self.current_field_value().trim().to_string();
+                        if suggestion.value.as_str() != current.as_str() {
+                            let accepted = suggestion.value.clone();
+                            self.set_current_field_value(accepted);
+                            self.suggestions.clear();
+                            self.selected_suggestion = 0;
+                            self.refresh_preview(graph, index);
+                            return FindEvent::Continue;
                         }
                     }
                 }
-                // No pending suggestion to accept — advance to the Preview screen.
+                // Nothing to accept (intent field, empty list, or input == suggestion) —
+                // advance focus one step, exactly like Tab.  Repeated Enter will walk
+                // all the way down to the Preview button without jumping to Preview early.
+                self.suggestions.clear();
+                self.selected_suggestion = 0;
+                self.focused_field = (self.focused_field + 1) % Self::FOCUS_COUNT;
+                self.refresh_suggestions(graph, index);
                 self.refresh_preview(graph, index);
-                self.screen = FindScreen::Preview;
                 FindEvent::Continue
             }
             KeyCode::Tab => {
                 self.suggestions.clear();
                 self.selected_suggestion = 0;
-                self.focused_field = (self.focused_field + 1) % Self::FIELD_COUNT;
+                self.focused_field = (self.focused_field + 1) % Self::FOCUS_COUNT;
                 self.refresh_suggestions(graph, index);
+                self.refresh_preview(graph, index);
                 FindEvent::Continue
             }
             KeyCode::BackTab => {
                 self.suggestions.clear();
                 self.selected_suggestion = 0;
                 let f = self.focused_field;
-                self.focused_field = if f == 0 { Self::FIELD_COUNT - 1 } else { f - 1 };
+                self.focused_field = if f == 0 { Self::FOCUS_COUNT - 1 } else { f - 1 };
                 self.refresh_suggestions(graph, index);
+                self.refresh_preview(graph, index);
                 FindEvent::Continue
             }
             KeyCode::Up => {
@@ -421,25 +431,30 @@ impl FindWizardState {
                 FindEvent::Continue
             }
             _ => {
+                // dispatch_to_focused_field is a no-op when focused on the Preview button.
                 self.dispatch_to_focused_field(key);
                 self.refresh_suggestions(graph, index);
+                self.refresh_preview(graph, index);
                 FindEvent::Continue
             }
         }
     }
 
     /// Return the current value of the focused field as a string slice.
+    /// Returns `""` when the Preview button is focused (not a text field).
     fn current_field_value(&self) -> &str {
         match self.focused_field {
             0 => self.property.value(),
             1 => self.component.value(),
             2 => self.variant.value(),
             3 => self.state.value(),
-            _ => self.intent.value(),
+            4 => self.intent.value(),
+            _ => "",
         }
     }
 
     /// Set the value of the focused field.
+    /// No-op when the Preview button is focused (not a text field).
     fn set_current_field_value(&mut self, value: String) {
         let input = Input::from(value);
         match self.focused_field {
@@ -447,7 +462,8 @@ impl FindWizardState {
             1 => self.component = input,
             2 => self.variant = input,
             3 => self.state = input,
-            _ => self.intent = input,
+            4 => self.intent = input,
+            _ => {}
         }
     }
 
