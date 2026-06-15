@@ -15,6 +15,8 @@
 //! `ActiveView::Query` takes over without a third wizard screen.
 //! Entry point: `:find [<intent>]` in the TUI palette.
 
+use std::collections::HashMap;
+
 use crossterm::event::{KeyCode, KeyEvent};
 use design_data_core::graph::{Layer, TokenGraph};
 use design_data_core::registry::RegistryData;
@@ -60,6 +62,17 @@ pub enum FindEvent {
     OpenResults(QueryView),
 }
 
+/// A single autocomplete candidate for a structured filter field.
+///
+/// `count` is the number of tokens that match the full filter when this value
+/// is applied to the focused field given the other fields already set.
+/// `count == 0` signals an incompatible value — the view renders it dimmed.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct FacetOption {
+    pub value: String,
+    pub count: usize,
+}
+
 /// All state for the two-screen find wizard.
 pub struct FindWizardState {
     pub screen: FindScreen,
@@ -73,8 +86,9 @@ pub struct FindWizardState {
     pub intent: Input,
     /// Which field has keyboard focus (0=property, 1=component, 2=variant, 3=state, 4=intent).
     pub focused_field: usize,
-    /// Autocomplete suggestions for the currently focused field (fields 0–3).
-    pub suggestions: Vec<String>,
+    /// Autocomplete suggestions for the currently focused field (fields 0–3),
+    /// each paired with a cross-field match count.
+    pub suggestions: Vec<FacetOption>,
     pub selected_suggestion: usize,
     /// All rows from the most recent preview refresh.
     pub preview_rows: Vec<QueryRow>,
@@ -88,7 +102,7 @@ impl FindWizardState {
     pub const FIELD_COUNT: usize = 5;
 
     pub fn new() -> Self {
-        let mut s = Self {
+        Self {
             screen: FindScreen::Filters,
             property: Input::default(),
             component: Input::default(),
@@ -101,9 +115,7 @@ impl FindWizardState {
             preview_rows: Vec::new(),
             preview_count: 0,
             preview_error: None,
-        };
-        s.refresh_suggestions();
-        s
+        }
     }
 
     /// Create a state pre-seeded with an intent string.
@@ -115,8 +127,18 @@ impl FindWizardState {
         if !intent.is_empty() {
             s.intent = Input::from(intent.to_string());
             s.focused_field = 4;
-            s.refresh_suggestions(); // field 4 (intent) has no registry → clears list
+            // Field 4 (intent) has no suggestions — leave empty.
         }
+        s
+    }
+
+    /// Create a state with suggestions pre-populated from the live corpus.
+    ///
+    /// Use this when opening the wizard from the palette without an intent string
+    /// so the property dropdown is populated immediately on open.
+    pub fn new_with_graph(graph: &TokenGraph, index: &query::TokenIndex) -> Self {
+        let mut s = Self::new();
+        s.refresh_suggestions(graph, index);
         s
     }
 
@@ -141,6 +163,38 @@ impl FindWizardState {
             parts.push(format!("variant={var}"));
         }
         if !st.is_empty() {
+            parts.push(format!("state={st}"));
+        }
+
+        if parts.is_empty() {
+            None
+        } else {
+            Some(parts.join(","))
+        }
+    }
+
+    /// Build a query expression from all structured filter fields *except* `skip_field`.
+    ///
+    /// Returns `None` when no other non-empty field provides a constraint.
+    /// Used by `refresh_suggestions` to cross-filter the dropdown of the focused field
+    /// by the values already set in the other fields.
+    pub fn assemble_expr_excluding(&self, skip_field: usize) -> Option<String> {
+        let mut parts = Vec::new();
+        let prop = self.property.value().trim().to_string();
+        let comp = self.component.value().trim().to_string();
+        let var = self.variant.value().trim().to_string();
+        let st = self.state.value().trim().to_string();
+
+        if skip_field != 0 && !prop.is_empty() {
+            parts.push(format!("property={prop}"));
+        }
+        if skip_field != 1 && !comp.is_empty() {
+            parts.push(format!("component={comp}"));
+        }
+        if skip_field != 2 && !var.is_empty() {
+            parts.push(format!("variant={var}"));
+        }
+        if skip_field != 3 && !st.is_empty() {
             parts.push(format!("state={st}"));
         }
 
@@ -191,9 +245,20 @@ impl FindWizardState {
     }
 
     /// Recompute autocomplete suggestions for the currently focused field (0–3).
+    ///
+    /// Draws the universe of candidate values from the live `TokenIndex`.  If other
+    /// filter fields are already filled, cross-field faceting narrows each option's
+    /// count to tokens that also match those constraints.  Zero-count options (incompatible
+    /// with the current selection) are kept in the list but sorted last so the view can
+    /// render them dimmed.
+    ///
+    /// Falls back to the static `RegistryData` vocabulary when the corpus has no index
+    /// entries for the field (e.g. the graph is empty), preserving behavior during tests
+    /// that build a minimal graph.
+    ///
     /// Field 4 (intent) has no registry backing and is left empty.
-    pub fn refresh_suggestions(&mut self) {
-        let (typed, registry_field) = match self.focused_field {
+    pub fn refresh_suggestions(&mut self, graph: &TokenGraph, index: &query::TokenIndex) {
+        let (typed, field_key) = match self.focused_field {
             0 => (self.property.value().trim().to_lowercase(), "property"),
             1 => (self.component.value().trim().to_lowercase(), "component"),
             2 => (self.variant.value().trim().to_lowercase(), "variant"),
@@ -204,18 +269,58 @@ impl FindWizardState {
                 return;
             }
         };
-        if let Some(terms) = RegistryData::embedded().for_field(registry_field) {
-            let mut matching: Vec<String> = terms
-                .iter()
-                .filter(|t| typed.is_empty() || t.to_lowercase().contains(&typed))
-                .cloned()
-                .collect();
-            matching.sort();
-            matching.truncate(MAX_PROPERTY_SUGGESTIONS);
-            self.suggestions = matching;
-        } else {
-            self.suggestions.clear();
-        }
+
+        // Universe: distinct values of this field from the corpus, each with their
+        // whole-corpus count.  Fall back to the static registry vocabulary when the
+        // corpus index has no entries for this field.
+        let universe: Vec<(String, usize)> = {
+            let from_index = index.field_value_counts(field_key);
+            if from_index.is_empty() {
+                if let Some(terms) = RegistryData::embedded().for_field(field_key) {
+                    terms.iter().map(|t| (t.clone(), 0usize)).collect()
+                } else {
+                    Vec::new()
+                }
+            } else {
+                from_index
+            }
+        };
+
+        // Constrained counts: if other fields are already set, run the cross-field
+        // filter to find which values of the focused field are still reachable.
+        let constrained: Option<HashMap<String, usize>> = self
+            .assemble_expr_excluding(self.focused_field)
+            .and_then(|expr_str| query::parse(&expr_str).ok())
+            .map(|filter| {
+                query::facet_counts(graph, index, &filter, field_key)
+                    .into_iter()
+                    .collect()
+            });
+
+        // Build FacetOption list, applying the text-prefix filter.
+        let mut options: Vec<FacetOption> = universe
+            .into_iter()
+            .filter(|(v, _)| typed.is_empty() || v.to_lowercase().contains(&typed))
+            .map(|(value, baseline_count)| {
+                let count = constrained
+                    .as_ref()
+                    .map(|c| c.get(&value).copied().unwrap_or(0))
+                    .unwrap_or(baseline_count);
+                FacetOption { value, count }
+            })
+            .collect();
+
+        // Sort: reachable (count > 0) first by count desc, then value asc;
+        // incompatible (count == 0) last, sorted alphabetically.
+        options.sort_by(|a, b| match (a.count, b.count) {
+            (0, 0) => a.value.cmp(&b.value),
+            (0, _) => std::cmp::Ordering::Greater,
+            (_, 0) => std::cmp::Ordering::Less,
+            (ac, bc) => bc.cmp(&ac).then_with(|| a.value.cmp(&b.value)),
+        });
+        options.truncate(MAX_PROPERTY_SUGGESTIONS);
+
+        self.suggestions = options;
         if self.selected_suggestion >= self.suggestions.len() {
             self.selected_suggestion = 0;
         }
@@ -266,8 +371,8 @@ impl FindWizardState {
                     let user_acted = !current.is_empty() || self.selected_suggestion > 0;
                     if user_acted {
                         if let Some(suggestion) = self.suggestions.get(self.selected_suggestion) {
-                            if suggestion.as_str() != current.as_str() {
-                                let accepted = suggestion.clone();
+                            if suggestion.value.as_str() != current.as_str() {
+                                let accepted = suggestion.value.clone();
                                 self.set_current_field_value(accepted);
                                 self.suggestions.clear();
                                 self.selected_suggestion = 0;
@@ -285,7 +390,7 @@ impl FindWizardState {
                 self.suggestions.clear();
                 self.selected_suggestion = 0;
                 self.focused_field = (self.focused_field + 1) % Self::FIELD_COUNT;
-                self.refresh_suggestions();
+                self.refresh_suggestions(graph, index);
                 FindEvent::Continue
             }
             KeyCode::BackTab => {
@@ -293,7 +398,7 @@ impl FindWizardState {
                 self.selected_suggestion = 0;
                 let f = self.focused_field;
                 self.focused_field = if f == 0 { Self::FIELD_COUNT - 1 } else { f - 1 };
-                self.refresh_suggestions();
+                self.refresh_suggestions(graph, index);
                 FindEvent::Continue
             }
             KeyCode::Up => {
@@ -312,7 +417,7 @@ impl FindWizardState {
             }
             _ => {
                 self.dispatch_to_focused_field(key);
-                self.refresh_suggestions();
+                self.refresh_suggestions(graph, index);
                 FindEvent::Continue
             }
         }

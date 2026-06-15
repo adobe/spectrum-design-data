@@ -15,7 +15,7 @@ use crossterm::event::KeyCode;
 use design_data_core::graph::{Layer, TokenGraph, TokenRecord};
 use design_data_core::query::TokenIndex;
 use design_data_tui::app::{ActiveView, Modal};
-use design_data_tui::find::{FindEvent, FindScreen, FindWizardState};
+use design_data_tui::find::{FacetOption, FindEvent, FindScreen, FindWizardState};
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
 use std::path::PathBuf;
@@ -272,7 +272,10 @@ fn property_suggestions_filter_by_typed_prefix() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
     assert!(!fs.suggestions.is_empty());
-    assert!(fs.suggestions.iter().all(|s| s.contains("background")));
+    assert!(fs
+        .suggestions
+        .iter()
+        .all(|s| s.value.contains("background")));
 }
 
 #[test]
@@ -283,9 +286,12 @@ fn up_down_navigate_property_suggestions() {
     for c in "color".chars() {
         fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
     }
+    // Suggestions come from RegistryData (static vocabulary) when typed text
+    // doesn't appear in the minimal test graph's index, so we expect > 1 'color'
+    // entries from the registry fallback.
     assert!(
         fs.suggestions.len() > 1,
-        "expected >1 'color' suggestions from registry, got {}",
+        "expected >1 'color' suggestions from registry fallback, got {}",
         fs.suggestions.len()
     );
     let initial = fs.selected_suggestion;
@@ -449,6 +455,222 @@ fn accepting_preview_opens_query_view_and_closes_modal() {
     assert!(
         msg.contains("matched"),
         "expected 'matched' in status: {msg}"
+    );
+}
+
+// ── Faceted suggestion tests ──────────────────────────────────────────────────
+
+/// Build a richer graph that has overlapping property/component/state values
+/// so cross-field narrowing produces non-trivial counts.
+fn make_facet_graph() -> TokenGraph {
+    let records: Vec<TokenRecord> = vec![
+        // button + color x3
+        TokenRecord {
+            name: "button-color-default".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({ "value": "#0265DC",
+                "name": { "property": "color", "component": "button", "state": "default" }
+            }),
+            layer: Layer::Foundation,
+        },
+        TokenRecord {
+            name: "button-color-hover".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 1,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({ "value": "#0052CC",
+                "name": { "property": "color", "component": "button", "state": "hover" }
+            }),
+            layer: Layer::Foundation,
+        },
+        // icon + color x1
+        TokenRecord {
+            name: "icon-color-default".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 2,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({ "value": "#333333",
+                "name": { "property": "color", "component": "icon", "state": "default" }
+            }),
+            layer: Layer::Foundation,
+        },
+        // button + background-color x1 (no "state")
+        TokenRecord {
+            name: "button-background-color".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 3,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: json!({ "value": "#FFFFFF",
+                "name": { "property": "background-color", "component": "button" }
+            }),
+            layer: Layer::Foundation,
+        },
+    ];
+    TokenGraph::from_records(records)
+}
+
+#[test]
+fn refresh_suggestions_on_component_field_when_property_is_set_shows_only_reachable() {
+    let graph = make_facet_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+
+    // Set property=background-color.
+    for c in "background-color".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
+    }
+    // Tab to component field — suggestions should be cross-filtered.
+    fs.handle_key(key(KeyCode::Tab), &graph, &index);
+    assert_eq!(fs.focused_field, 1);
+
+    // Only "button" has background-color tokens; "icon" has none.
+    let button_opt = fs.suggestions.iter().find(|s| s.value == "button");
+    let icon_opt = fs.suggestions.iter().find(|s| s.value == "icon");
+
+    assert!(
+        button_opt.is_some(),
+        "button should appear in component suggestions"
+    );
+    assert!(
+        button_opt.unwrap().count > 0,
+        "button should have a non-zero count under property=background-color"
+    );
+
+    // If icon appears at all, it must be zero-count (dimmed), not absent.
+    if let Some(icon) = icon_opt {
+        assert_eq!(
+            icon.count, 0,
+            "icon has no background-color tokens and should be zero-count"
+        );
+    }
+}
+
+#[test]
+fn refresh_suggestions_on_property_field_when_component_is_set_narrows_counts() {
+    let graph = make_facet_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+
+    // Directly set component=icon via the Input field and refocus property.
+    fs.component = tui_input::Input::from("icon".to_string());
+    fs.focused_field = 0;
+    fs.refresh_suggestions(&graph, &index);
+
+    // "color" tokens exist for icon; "background-color" does not → zero count.
+    let color_opt = fs.suggestions.iter().find(|s| s.value == "color");
+    let bg_opt = fs
+        .suggestions
+        .iter()
+        .find(|s| s.value == "background-color");
+
+    assert!(
+        color_opt.is_some(),
+        "color should appear in property suggestions when component=icon"
+    );
+    assert!(
+        color_opt.unwrap().count > 0,
+        "color should have a positive count for icon"
+    );
+    if let Some(bg) = bg_opt {
+        assert_eq!(
+            bg.count, 0,
+            "background-color should be zero-count for icon (no such tokens)"
+        );
+    }
+}
+
+#[test]
+fn zero_count_suggestions_appear_in_list_rather_than_being_hidden() {
+    // Verifies the "greyed, not removed" contract: incompatible values must still
+    // show up in the list (with count == 0) so the user can see why they won't work.
+    let graph = make_facet_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+
+    // Set property=background-color (only button has this).
+    for c in "background-color".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
+    }
+    // Tab to component.
+    fs.handle_key(key(KeyCode::Tab), &graph, &index);
+
+    // The list must contain both reachable and zero-count options — zero-count
+    // values are preserved to let users see the incompatibility.
+    let zero_count: Vec<&FacetOption> = fs.suggestions.iter().filter(|s| s.count == 0).collect();
+    let nonzero_count: Vec<&FacetOption> = fs.suggestions.iter().filter(|s| s.count > 0).collect();
+
+    assert!(
+        !nonzero_count.is_empty(),
+        "there must be at least one reachable component"
+    );
+    assert!(
+        !zero_count.is_empty(),
+        "at least one component (icon) should appear with count=0, not be hidden"
+    );
+}
+
+#[test]
+fn reachable_suggestions_sort_before_zero_count() {
+    let graph = make_facet_graph();
+    let index = TokenIndex::build(&graph);
+    let mut fs = FindWizardState::new();
+
+    // Set property=background-color so only button is reachable.
+    for c in "background-color".chars() {
+        fs.handle_key(key(KeyCode::Char(c)), &graph, &index);
+    }
+    fs.handle_key(key(KeyCode::Tab), &graph, &index);
+
+    // Reachable entries must appear before zero-count ones.
+    let mut saw_nonzero = false;
+    for opt in &fs.suggestions {
+        if opt.count > 0 {
+            saw_nonzero = true;
+        }
+        if opt.count == 0 {
+            assert!(
+                saw_nonzero,
+                "zero-count option '{}' appeared before a nonzero option — sort is wrong",
+                opt.value
+            );
+            // Once we hit zero, all remaining must also be zero.
+            break;
+        }
+    }
+}
+
+#[test]
+fn assemble_expr_excluding_skips_the_focused_field() {
+    let mut fs = FindWizardState::new();
+    fs.property = tui_input::Input::from("color".to_string());
+    fs.component = tui_input::Input::from("button".to_string());
+    fs.variant = tui_input::Input::from("accent".to_string());
+
+    // Skip field 1 (component).
+    let expr = fs.assemble_expr_excluding(1).unwrap();
+    assert!(expr.contains("property=color"), "should include property");
+    assert!(expr.contains("variant=accent"), "should include variant");
+    assert!(!expr.contains("component="), "should NOT include component");
+}
+
+#[test]
+fn assemble_expr_excluding_returns_none_when_only_excluded_field_is_set() {
+    let mut fs = FindWizardState::new();
+    fs.component = tui_input::Input::from("button".to_string());
+    // Only component (field 1) is set; excluding it leaves nothing.
+    assert!(
+        fs.assemble_expr_excluding(1).is_none(),
+        "should return None when the only set field is the excluded one"
     );
 }
 

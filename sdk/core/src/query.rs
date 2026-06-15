@@ -320,6 +320,23 @@ impl TokenIndex {
             .and_then(|m| m.get(value))
             .map(Vec::as_slice)
     }
+
+    /// Distinct values of `field` present in the corpus, each paired with the
+    /// number of tokens that carry that value.  Sorted alphabetically by value.
+    ///
+    /// Returns an empty vec when the field has no indexed entries (e.g. the graph
+    /// is empty or the field is not present on any token).
+    pub fn field_value_counts(&self, field: &str) -> Vec<(String, usize)> {
+        match self.by_field.get(field) {
+            None => Vec::new(),
+            Some(m) => {
+                let mut counts: Vec<(String, usize)> =
+                    m.iter().map(|(v, keys)| (v.clone(), keys.len())).collect();
+                counts.sort_by(|a, b| a.0.cmp(&b.0));
+                counts
+            }
+        }
+    }
 }
 
 /// Build a secondary index mapping a single field's values to token graph keys.
@@ -334,6 +351,34 @@ pub fn build_index(graph: &TokenGraph, key: &str) -> HashMap<String, Vec<String>
         }
     }
     index
+}
+
+/// Compute the distinct values of `field` among tokens matching `expr`, paired
+/// with their per-value counts.
+///
+/// Runs `filter_with_index(graph, index, expr)` to obtain the candidate record set,
+/// then groups the results by the value of `field` in each record.  Only values
+/// that appear in at least one matching token are returned (count ≥ 1 by
+/// construction).  Sorted alphabetically by value.
+///
+/// This is the "constrained facet" primitive used by the TUI find wizard to show
+/// how many tokens each option leads to given the other filter fields already set.
+pub fn facet_counts(
+    graph: &TokenGraph,
+    index: &TokenIndex,
+    expr: &TokenFilter,
+    field: &str,
+) -> Vec<(String, usize)> {
+    let records = filter_with_index(graph, index, expr);
+    let mut counts: HashMap<String, usize> = HashMap::new();
+    for rec in records {
+        if let Some(value) = resolve_key(&rec.raw, field) {
+            *counts.entry(value).or_insert(0) += 1;
+        }
+    }
+    let mut result: Vec<(String, usize)> = counts.into_iter().collect();
+    result.sort_by(|a, b| a.0.cmp(&b.0));
+    result
 }
 
 /// Filter tokens using a prebuilt [`TokenIndex`] for the common single-field
@@ -818,6 +863,111 @@ mod tests {
         let idx = build_index(&g, "component");
         assert_eq!(idx.get("button").map(|v| v.len()), Some(2));
         assert_eq!(idx.get("checkbox").map(|v| v.len()), Some(1));
+    }
+
+    // ── field_value_counts / facet_counts ───────────────────────────────
+
+    #[test]
+    fn field_value_counts_returns_all_distinct_values_with_counts() {
+        let g = make_graph(vec![
+            (
+                "a",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "b",
+                json!({"name": {"property": "fg", "component": "button"}, "value": "2"}),
+            ),
+            (
+                "c",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "3"}),
+            ),
+        ]);
+        let idx = TokenIndex::build(&g);
+        let counts = idx.field_value_counts("component");
+        // Sorted alphabetically: button=2, checkbox=1.
+        let map: std::collections::HashMap<_, _> = counts.into_iter().collect();
+        assert_eq!(map.get("button"), Some(&2));
+        assert_eq!(map.get("checkbox"), Some(&1));
+    }
+
+    #[test]
+    fn field_value_counts_returns_empty_for_unknown_field() {
+        let g = make_graph(vec![(
+            "a",
+            json!({"name": {"property": "bg"}, "value": "1"}),
+        )]);
+        let idx = TokenIndex::build(&g);
+        assert!(idx.field_value_counts("nonexistent").is_empty());
+    }
+
+    #[test]
+    fn facet_counts_narrows_by_constraint() {
+        let g = make_graph(vec![
+            (
+                "a",
+                json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+            ),
+            (
+                "b",
+                json!({"name": {"property": "fg", "component": "button"}, "value": "2"}),
+            ),
+            (
+                "c",
+                json!({"name": {"property": "bg", "component": "checkbox"}, "value": "3"}),
+            ),
+        ]);
+        let idx = TokenIndex::build(&g);
+        // Constrain to component=button; property should show bg(1) and fg(1).
+        let filter = parse("component=button").unwrap();
+        let counts = facet_counts(&g, &idx, &filter, "property");
+        let map: std::collections::HashMap<_, _> = counts.into_iter().collect();
+        assert_eq!(map.get("bg"), Some(&1));
+        assert_eq!(map.get("fg"), Some(&1));
+        // "bg" is also on checkbox, but that token doesn't pass the filter.
+        assert_eq!(
+            map.len(),
+            2,
+            "only values reachable under the filter appear"
+        );
+    }
+
+    #[test]
+    fn facet_counts_returns_empty_when_constraint_matches_nothing() {
+        let g = make_graph(vec![(
+            "a",
+            json!({"name": {"property": "bg", "component": "button"}, "value": "1"}),
+        )]);
+        let idx = TokenIndex::build(&g);
+        let filter = parse("component=missing").unwrap();
+        let counts = facet_counts(&g, &idx, &filter, "property");
+        assert!(counts.is_empty());
+    }
+
+    #[test]
+    fn facet_counts_full_constraint_gives_per_value_counts() {
+        let g = make_graph(vec![
+            (
+                "a",
+                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+            ),
+            (
+                "b",
+                json!({"name": {"property": "bg", "component": "button", "state": "default"}, "value": "2"}),
+            ),
+            (
+                "c",
+                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "3"}),
+            ),
+        ]);
+        let idx = TokenIndex::build(&g);
+        // Constrain to property=bg,state=hover; only "button" and "checkbox" should appear.
+        let filter = parse("property=bg,state=hover").unwrap();
+        let counts = facet_counts(&g, &idx, &filter, "component");
+        let map: std::collections::HashMap<_, _> = counts.into_iter().collect();
+        assert_eq!(map.get("button"), Some(&1));
+        assert_eq!(map.get("checkbox"), Some(&1));
+        assert_eq!(map.len(), 2);
     }
 
     // ── subsequence_match / subsequence_score ───────────────────────────

@@ -315,7 +315,9 @@ fn dispatch_command(
             })
         }
         Some(Command::Find) => {
-            let fs = FindWizardState::new_with_intent(rest.trim());
+            let intent = rest.trim();
+            let mut fs = FindWizardState::new_with_intent(intent);
+            fs.refresh_suggestions(ctx.graph, &ctx.token_index);
             model.open_modal(Modal::Find(Box::new(fs)));
             model.status_message = None;
             Task::none()

@@ -14,7 +14,7 @@
 
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
-    style::Style,
+    style::{Modifier, Style},
     widgets::{Block, Borders, Cell, Paragraph, Row, Table},
     Frame,
 };
@@ -117,14 +117,22 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
                 .suggestions
                 .iter()
                 .enumerate()
-                .map(|(i, term)| {
+                .map(|(i, opt)| {
                     let sel = i == fs.selected_suggestion;
                     let marker = if sel { "  ▸" } else { "   " };
-                    Row::new(vec![Cell::from(format!("{marker} {term}"))]).style(if sel {
+                    let label = if opt.count > 0 {
+                        format!("{marker} {} ({})", opt.value, opt.count)
+                    } else {
+                        format!("{marker} {} (0)", opt.value)
+                    };
+                    let style = if sel {
                         Style::default().bg(theme.selection_bg)
+                    } else if opt.count == 0 {
+                        Style::default().fg(theme.muted).add_modifier(Modifier::DIM)
                     } else {
                         Style::default().fg(theme.muted)
-                    })
+                    };
+                    Row::new(vec![Cell::from(label)]).style(style)
                 })
                 .collect();
             f.render_widget(Table::new(rows, [Constraint::Min(0)]), chunks[ci]);
