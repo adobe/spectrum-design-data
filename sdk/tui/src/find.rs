@@ -100,6 +100,10 @@ pub struct FindWizardState {
 
 impl FindWizardState {
     pub const FIELD_COUNT: usize = 5;
+    /// How many zero-count (incompatible) options to show below the reachable list.
+    /// Kept small so the dropdown doesn't grow unwieldy; large enough to surface
+    /// the most common incompatibilities.
+    const ZERO_COUNT_TAIL: usize = 4;
 
     pub fn new() -> Self {
         Self {
@@ -129,16 +133,6 @@ impl FindWizardState {
             s.focused_field = 4;
             // Field 4 (intent) has no suggestions — leave empty.
         }
-        s
-    }
-
-    /// Create a state with suggestions pre-populated from the live corpus.
-    ///
-    /// Use this when opening the wizard from the palette without an intent string
-    /// so the property dropdown is populated immediately on open.
-    pub fn new_with_graph(graph: &TokenGraph, index: &query::TokenIndex) -> Self {
-        let mut s = Self::new();
-        s.refresh_suggestions(graph, index);
         s
     }
 
@@ -318,7 +312,18 @@ impl FindWizardState {
             (_, 0) => std::cmp::Ordering::Less,
             (ac, bc) => bc.cmp(&ac).then_with(|| a.value.cmp(&b.value)),
         });
-        options.truncate(MAX_PROPERTY_SUGGESTIONS);
+
+        // Cap each tier separately so zero-count entries are never silently dropped
+        // when the reachable list is full — upholding the "greyed, not hidden" contract.
+        let split = options.partition_point(|o| o.count > 0);
+        let (reachable, dimmed) = options.split_at(split);
+        let mut capped: Vec<FacetOption> = reachable
+            .iter()
+            .take(MAX_PROPERTY_SUGGESTIONS)
+            .cloned()
+            .collect();
+        capped.extend(dimmed.iter().take(Self::ZERO_COUNT_TAIL).cloned());
+        options = capped;
 
         self.suggestions = options;
         if self.selected_suggestion >= self.suggestions.len() {

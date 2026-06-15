@@ -19,7 +19,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::find::{FindScreen, FindWizardState, MAX_PROPERTY_SUGGESTIONS, MAX_SUGGEST_RESULTS};
+use crate::find::{FindScreen, FindWizardState, MAX_SUGGEST_RESULTS};
 use crate::theme::Theme;
 
 // ── Find wizard entry ─────────────────────────────────────────────────────────
@@ -63,7 +63,7 @@ pub(crate) fn render_find(
 
 fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, theme: &Theme) {
     let foc = fs.focused_field;
-    let dropdown_h = (fs.suggestions.len() as u16).min(MAX_PROPERTY_SUGGESTIONS as u16);
+    let dropdown_h = fs.suggestions.len() as u16;
 
     // Build a dynamic constraint list: each of the 5 fields gets 1 row, plus an
     // optional dropdown row block inserted after whichever field is focused (0–3).
@@ -120,11 +120,7 @@ fn render_filters_screen(f: &mut Frame<'_>, fs: &FindWizardState, area: Rect, th
                 .map(|(i, opt)| {
                     let sel = i == fs.selected_suggestion;
                     let marker = if sel { "  ▸" } else { "   " };
-                    let label = if opt.count > 0 {
-                        format!("{marker} {} ({})", opt.value, opt.count)
-                    } else {
-                        format!("{marker} {} (0)", opt.value)
-                    };
+                    let label = format!("{marker} {} ({})", opt.value, opt.count);
                     let style = if sel {
                         Style::default().bg(theme.selection_bg)
                     } else if opt.count == 0 {
