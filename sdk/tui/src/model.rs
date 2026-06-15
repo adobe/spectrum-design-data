@@ -154,6 +154,10 @@ impl Model {
             } else {
                 Mode::Browsing(BrowsingState::default())
             };
+            // Always clear the wizard-help overlay when the modal is dismissed so a
+            // stale Some(scroll) can't flash on the next frame after a mouse click
+            // closes the underlying wizard before the overlay is dismissed by keyboard.
+            self.wizard_help_scroll = None;
         }
     }
 
