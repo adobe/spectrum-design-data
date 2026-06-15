@@ -124,6 +124,8 @@ pub enum HelpContext {
     Describe,
     /// Token validation results.
     Validate,
+    /// Help opened from within any wizard/modal (authoring, find, or naming).
+    Wizard,
 }
 
 /// Derive the help context from the current active view.
@@ -163,6 +165,10 @@ pub fn help_text_for(ctx: HelpContext) -> String {
         HelpContext::Describe => (
             SEC_DESCRIBE,
             &[SEC_PALETTE, SEC_QUERY, SEC_WIZARD, SEC_MOUSE],
+        ),
+        HelpContext::Wizard => (
+            SEC_WIZARD,
+            &[SEC_PALETTE, SEC_QUERY, SEC_DESCRIBE, SEC_MOUSE],
         ),
     };
 

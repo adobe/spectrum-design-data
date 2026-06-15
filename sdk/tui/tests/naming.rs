@@ -88,18 +88,49 @@ fn e_on_result_screen_goes_back_to_classification() {
 }
 
 #[test]
-fn esc_on_any_screen_cancels() {
+fn esc_cancels_on_intent_screen() {
+    // Esc on Screen 1 (Intent) cancels the wizard.
     let graph = make_graph();
-    for start_screen in [
+    let mut ns = NamingWizardState::new();
+    assert_eq!(ns.screen, NamingScreen::Intent);
+    let event = ns.handle_key(key(KeyCode::Esc), &graph);
+    assert!(matches!(event, NamingEvent::Cancel));
+}
+
+#[test]
+fn esc_goes_back_on_classification_screen() {
+    // Esc on Screen 2 (Classification) goes back to Screen 1 (Intent), not cancel.
+    let graph = make_graph();
+    let mut ns = NamingWizardState::new();
+    ns.screen = NamingScreen::Classification;
+    let event = ns.handle_key(key(KeyCode::Esc), &graph);
+    assert!(
+        matches!(event, NamingEvent::Continue),
+        "Esc on Classification should Continue"
+    );
+    assert_eq!(
+        ns.screen,
         NamingScreen::Intent,
+        "Esc on Classification should return to Intent"
+    );
+}
+
+#[test]
+fn esc_goes_back_on_result_screen() {
+    // Esc on Screen 3 (Result) goes back to Screen 2 (Classification), not cancel.
+    let graph = make_graph();
+    let mut ns = NamingWizardState::new();
+    ns.screen = NamingScreen::Result;
+    let event = ns.handle_key(key(KeyCode::Esc), &graph);
+    assert!(
+        matches!(event, NamingEvent::Continue),
+        "Esc on Result should Continue"
+    );
+    assert_eq!(
+        ns.screen,
         NamingScreen::Classification,
-        NamingScreen::Result,
-    ] {
-        let mut ns = NamingWizardState::new();
-        ns.screen = start_screen;
-        let event = ns.handle_key(key(KeyCode::Esc), &graph);
-        assert!(matches!(event, NamingEvent::Cancel));
-    }
+        "Esc on Result should return to Classification"
+    );
 }
 
 #[test]

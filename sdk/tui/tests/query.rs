@@ -88,6 +88,28 @@ fn submit_unknown_command_sets_status_message() {
 }
 
 #[test]
+fn unknown_command_suggests_closest_match() {
+    let graph = empty_graph();
+    let ctx = update_ctx(&graph);
+    let mut model = Model::new();
+    // "descrbe" is one character away from "describe" — fuzzy ranker should surface it.
+    update(&mut model, Message::PaletteSubmit("descrbe".into()), &ctx);
+    let msg = model
+        .status_message
+        .as_ref()
+        .map(|m| m.text.as_str())
+        .unwrap_or("");
+    assert!(
+        msg.contains("did you mean"),
+        "expected did-you-mean hint in: {msg}"
+    );
+    assert!(
+        msg.contains("describe"),
+        "expected 'describe' suggestion in: {msg}"
+    );
+}
+
+#[test]
 fn down_j_moves_selection() {
     let graph = make_graph_with_tokens(&["a", "b", "c"]);
     let ctx = update_ctx(&graph);

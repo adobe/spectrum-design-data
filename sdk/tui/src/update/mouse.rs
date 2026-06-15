@@ -59,6 +59,15 @@ pub(super) fn handle_mouse(model: &mut Model, me: crossterm::event::MouseEvent) 
 }
 
 fn scroll_active(model: &mut Model, delta: i32) {
+    // Wizard-help overlay captures scroll when open.
+    if let Some(ref mut scroll) = model.wizard_help_scroll {
+        if delta > 0 {
+            *scroll = scroll.saturating_add(delta as u16);
+        } else {
+            *scroll = scroll.saturating_sub((-delta) as u16);
+        }
+        return;
+    }
     if let Some(modal) = model.modal_mut() {
         if modal.wants_scroll() {
             modal.on_scroll(delta);
