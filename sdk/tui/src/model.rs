@@ -41,6 +41,9 @@ pub struct Model {
     /// Click-region registry — cleared and repopulated each frame by `view::draw`.
     /// Use `handle_click(col, row)` for click hit-testing, `regions()` for drag-select.
     pub hit_registry: ClickRegionRegistry<HitEntry>,
+    /// Scroll position of the help overlay when it is opened on top of a wizard/modal.
+    /// `None` = overlay closed; `Some(scroll)` = open at that row offset.
+    pub wizard_help_scroll: Option<u16>,
 }
 
 impl Model {
@@ -76,6 +79,7 @@ impl Model {
             pending_yank: None,
             palette_history: Vec::new(),
             hit_registry: ClickRegionRegistry::new(),
+            wizard_help_scroll: None,
         }
     }
 

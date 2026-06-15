@@ -339,7 +339,15 @@ fn dispatch_command(
             Task::none()
         }
         None => {
-            model.status_message = Some(StatusMessage::error(format!("unknown command: {cmd}")));
+            // Use the fuzzy ranker to suggest the closest known command.
+            let suggestion = Command::matches(cmd)
+                .into_iter()
+                .next()
+                .map(|m| format!(" — did you mean `{}`?", m.command.canonical()))
+                .unwrap_or_default();
+            model.status_message = Some(StatusMessage::error(format!(
+                "unknown command: {cmd}{suggestion}"
+            )));
             Task::none()
         }
     }

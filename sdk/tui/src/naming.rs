@@ -117,7 +117,18 @@ impl NamingWizardState {
 
     pub fn handle_key(&mut self, key: KeyEvent, graph: &TokenGraph) -> NamingEvent {
         if key.code == KeyCode::Esc {
-            return NamingEvent::Cancel;
+            // Back one screen; cancel only from the first screen (mirrors authoring wizard).
+            return match self.screen {
+                NamingScreen::Intent => NamingEvent::Cancel,
+                NamingScreen::Classification => {
+                    self.screen = NamingScreen::Intent;
+                    NamingEvent::Continue
+                }
+                NamingScreen::Result => {
+                    self.screen = NamingScreen::Classification;
+                    NamingEvent::Continue
+                }
+            };
         }
         // Capture intent value before dispatch so we can skip suggest refresh when text
         // didn't change (e.g. Up/Down arrow navigation).

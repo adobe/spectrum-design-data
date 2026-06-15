@@ -578,6 +578,30 @@ fn route_modal_key(
     key: crossterm::event::KeyEvent,
     ctx: &UpdateCtx<'_>,
 ) -> Task<Message> {
+    // Wizard-help overlay (? pressed while a wizard/modal is active). This layer
+    // captures all navigation input so the wizard behind it is not affected.
+    if let Some(ref mut scroll) = model.wizard_help_scroll {
+        match key.code {
+            KeyCode::Esc | KeyCode::Char('?') => {
+                model.wizard_help_scroll = None;
+            }
+            KeyCode::Up | KeyCode::Char('k') => {
+                *scroll = scroll.saturating_sub(1);
+            }
+            KeyCode::Down | KeyCode::Char('j') => {
+                *scroll = scroll.saturating_add(1);
+            }
+            KeyCode::PageUp => {
+                *scroll = scroll.saturating_sub(10);
+            }
+            KeyCode::PageDown => {
+                *scroll = scroll.saturating_add(10);
+            }
+            _ => {}
+        }
+        return Task::none();
+    }
+
     // Help modal.
     if let Some(Modal::Help(ref mut hm)) = model.modal_mut() {
         match key.code {
@@ -598,6 +622,13 @@ fn route_modal_key(
             }
             _ => {}
         }
+        return Task::none();
+    }
+
+    // Open wizard-help overlay when ? is pressed inside any wizard/modal other
+    // than the Help modal (which is already handled above).
+    if key.code == KeyCode::Char('?') {
+        model.wizard_help_scroll = Some(0);
         return Task::none();
     }
 

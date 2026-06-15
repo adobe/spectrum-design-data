@@ -207,13 +207,23 @@ fn esc_cancels_on_filters_screen() {
 }
 
 #[test]
-fn esc_cancels_on_preview_screen() {
+fn esc_goes_back_on_preview_screen() {
+    // Esc on Screen 2 (Preview) should go back to Screen 1 (Filters), not cancel.
     let graph = make_find_graph();
     let index = TokenIndex::build(&graph);
     let mut fs = FindWizardState::new();
     fs.handle_key(key(KeyCode::Enter), &graph, &index);
+    assert_eq!(fs.screen, FindScreen::Preview);
     let event = fs.handle_key(key(KeyCode::Esc), &graph, &index);
-    assert!(matches!(event, FindEvent::Cancel));
+    assert!(
+        matches!(event, FindEvent::Continue),
+        "Esc on Preview should Continue, not Cancel"
+    );
+    assert_eq!(
+        fs.screen,
+        FindScreen::Filters,
+        "Esc on Preview should return to Filters screen"
+    );
 }
 
 #[test]

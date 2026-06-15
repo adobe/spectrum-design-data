@@ -230,7 +230,14 @@ impl FindWizardState {
         index: &query::TokenIndex,
     ) -> FindEvent {
         if key.code == KeyCode::Esc {
-            return FindEvent::Cancel;
+            // Back one screen; cancel only from the first screen (mirrors authoring wizard).
+            return match self.screen {
+                FindScreen::Filters => FindEvent::Cancel,
+                FindScreen::Preview => {
+                    self.screen = FindScreen::Filters;
+                    FindEvent::Continue
+                }
+            };
         }
         match self.screen {
             FindScreen::Filters => self.handle_filters_key(key, graph, index),

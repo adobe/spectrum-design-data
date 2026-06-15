@@ -10,7 +10,7 @@
 
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
-    style::Style,
+    style::{Modifier, Style},
     symbols::border,
     text::{Line, Span},
     widgets::{Block, Borders, Clear, Paragraph},
@@ -70,7 +70,8 @@ fn modal_frame(f: &mut Frame, area: Rect, percent_x: u16, percent_y: u16) -> Rec
 /// overlay modal. This is the single entry point for all rendering; call it from
 /// `terminal.draw(|f| draw(app, f, theme, primer_line))`.
 pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &str) {
-    let status_height = u16::from(model.status_message.is_some());
+    let sel_active = model.is_selection_mode_enabled();
+    let status_height = u16::from(model.status_message.is_some() || sel_active);
     let area = frame.area();
 
     // Three-region layout (RFC #973 §3.1): primer header / active view / status+palette.
@@ -125,16 +126,26 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
         }
     }
 
-    // Status message — ok color for info, error color for errors.
-    if let Some(ref msg) = model.status_message {
-        let color = match msg.kind {
-            StatusKind::Info => theme.ok,
-            StatusKind::Error => theme.error,
-        };
-        frame.render_widget(
-            Paragraph::new(msg.text.as_str()).style(Style::default().fg(color)),
-            chunks[2],
-        );
+    // Status line — status message and/or [SEL] badge when selection mode is on.
+    if model.status_message.is_some() || sel_active {
+        let mut spans: Vec<Span> = Vec::new();
+        if let Some(ref msg) = model.status_message {
+            let color = match msg.kind {
+                StatusKind::Info => theme.ok,
+                StatusKind::Error => theme.error,
+            };
+            spans.push(Span::styled(msg.text.clone(), Style::default().fg(color)));
+        }
+        if sel_active {
+            if !spans.is_empty() {
+                spans.push(Span::raw("  "));
+            }
+            spans.push(Span::styled(
+                "[SEL]",
+                Style::default().fg(theme.warn).add_modifier(Modifier::BOLD),
+            ));
+        }
+        frame.render_widget(Paragraph::new(Line::from(spans)), chunks[2]);
     }
 
     // chunk[3] is kept as a 1-row reserve to stay in sync with compute_hit_regions.
@@ -185,6 +196,12 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
                 render_help_modal(frame, hm.scroll, area, help_ctx);
             }
         }
+    }
+
+    // Wizard-help overlay: rendered on top of any active wizard/modal when the
+    // user presses ? while a wizard is open (see route_modal_key in update.rs).
+    if let Some(scroll) = model.wizard_help_scroll {
+        render_help_modal(frame, scroll, area, HelpContext::Wizard);
     }
 }
 
