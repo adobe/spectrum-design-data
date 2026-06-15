@@ -1,5 +1,69 @@
 # @adobe/design-data-tui
 
+## 0.3.0
+
+### Wizard improvements
+
+Wizards (authoring, find, naming) are more consistent and easier to navigate.
+
+- **Esc goes back, not cancel**: Esc on any screen past the first goes back one step; Esc on
+  screen 1 still cancels. Applies to all three wizard types.
+  ([#1160](https://github.com/adobe/spectrum-design-data/pull/1160),
+  [#1172](https://github.com/adobe/spectrum-design-data/pull/1172))
+- **Step indicator**: Title bar now shows `Step N of M — Name` uniformly across all wizards.
+  ([#1169](https://github.com/adobe/spectrum-design-data/pull/1169))
+- **Context-sensitive help**: `?` opens a help overlay from inside any wizard, with the WIZARD
+  section promoted to the top; scroll with j/k, dismiss with `?` or Esc.
+  ([#1172](https://github.com/adobe/spectrum-design-data/pull/1172))
+- **Find wizard Preview button**: Tab now cycles to an explicit `▶ Preview N token(s) →` button;
+  Enter only advances to the preview screen when that button is focused, ending the Enter-key
+  overload on filter fields.
+  ([#1173](https://github.com/adobe/spectrum-design-data/pull/1173))
+- **Readline editing in text fields**: Ctrl-A/E/W/U now work in authoring wizard text fields.
+  ([#1172](https://github.com/adobe/spectrum-design-data/pull/1172))
+
+### Command palette
+
+- **Fuzzy matching with highlights**: Candidates are ranked by subsequence score; matched
+  characters are underlined in the list and bolded on the selected row.
+  ([#1168](https://github.com/adobe/spectrum-design-data/pull/1168))
+- **Did-you-mean suggestions**: Invalid commands show a hint when a close match exists
+  (e.g. `unknown command: descrbe — did you mean \`describe\`?`).
+  ([#1172](https://github.com/adobe/spectrum-design-data/pull/1172))
+
+### Result views
+
+Improvements across query, resolve, validate, and describe result views.
+
+- **Cell truncation**: Long names and tokens are clipped with `…` using unicode-aware widths so
+  CJK/emoji glyphs count as two columns.
+  ([#1161](https://github.com/adobe/spectrum-design-data/pull/1161))
+- **Validate grouping**: Findings are grouped by `(rule, message)` with a `×N ▶/▼` badge;
+  Enter expands or collapses a group.
+  ([#1165](https://github.com/adobe/spectrum-design-data/pull/1165))
+- **Validate message cleanup**: Embedded JSON refs in error messages are rewritten as readable
+  `key=value` pairs (e.g. `component=chevron-icon property=size-75`).
+  ([#1162](https://github.com/adobe/spectrum-design-data/pull/1162))
+- **Describe row selection and yank**: j/k/g/G/PgUp/PgDn navigate a highlighted line cursor;
+  `y` yanks the selected line, `Y` yanks the full JSON document.
+  ([#1170](https://github.com/adobe/spectrum-design-data/pull/1170))
+- **Navigation and empty states**: g/G jump to first/last row in all list views; zero-result
+  and zero-issue states show a centered message instead of a blank list.
+  ([#1164](https://github.com/adobe/spectrum-design-data/pull/1164))
+- **Persistent selection-mode indicator**: A bold `[SEL]` badge appears in the status line
+  whenever mouse text-selection mode is active.
+  ([#1172](https://github.com/adobe/spectrum-design-data/pull/1172))
+
+### Infrastructure
+
+- **Auto-dismissing toast**: Clipboard copy confirmations and momentary notices now show as a
+  3 s toast overlay in the right half of the view, leaving the status line for persistent state.
+  ([#1167](https://github.com/adobe/spectrum-design-data/pull/1167))
+- **Click-region registry**: Replaced `compute_hit_regions` with `ratatui-interact`
+  `ClickRegionRegistry`; click regions are registered co-located with rendering, eliminating
+  ~110 lines of duplicated layout math.
+  ([#1171](https://github.com/adobe/spectrum-design-data/pull/1171))
+
 ## 0.2.1
 
 ### Patch Changes
