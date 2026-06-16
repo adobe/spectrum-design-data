@@ -1,0 +1,84 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+$schema: "https://moonrepo.dev/schemas/project.json"
+type: library
+language: rust
+fileGroups:
+  sources:
+    - "src/**/*.rs"
+    - "Cargo.toml"
+tasks:
+  # Build the .redb embedded cache blob from the canonical token source.
+  # Re-uses the same CLI tooling as sdk-wasm:cache-build (pointing --output here).
+  # Optionally share the blob by pointing include_bytes! at ../wasm/src/embedded_cache.redb
+  # once sdk-wasm:cache-build runs first; until then this task keeps the two caches independent.
+  cache-build:
+    command: bash
+    args:
+      - -c
+      - >-
+        cargo run -p design-data-cli --
+        cache-build "$MOON_WORKSPACE_ROOT/packages/design-data/tokens"
+        --output "$MOON_WORKSPACE_ROOT/sdk/swift/src/embedded_cache.redb"
+        --mode-sets-path "$MOON_WORKSPACE_ROOT/packages/design-data/mode-sets"
+        --components-path "$MOON_WORKSPACE_ROOT/packages/design-data/components"
+        --fields-path "$MOON_WORKSPACE_ROOT/packages/design-data/fields"
+    inputs:
+      - "/packages/design-data/tokens/*.tokens.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/components/*.json"
+      - "/packages/design-data/fields/*.json"
+    outputs:
+      - "src/embedded_cache.redb"
+    deps:
+      - sdk:codegen-check
+    platform: system
+
+  # Build the universal XCFramework + Swift Package for distribution.
+  #
+  # Steps (see scripts/build-swift.mjs):
+  #   1. cargo build --release for aarch64-apple-darwin and x86_64-apple-darwin
+  #   2. lipo -create → universal libdesign_data_swift.a
+  #   3. cargo run --bin uniffi-bindgen generate --language swift → Swift glue + headers
+  #   4. xcodebuild -create-xcframework → DesignData.xcframework
+  #   5. emit Package.swift
+  #
+  # Requires: Xcode Command Line Tools, rustup targets aarch64-apple-darwin and
+  # x86_64-apple-darwin, and the `embedded` feature (cache-build must run first).
+  build:
+    command: bash
+    args:
+      - -c
+      - 'export PATH="$HOME/.cargo/bin:$PATH" && node scripts/build-swift.mjs'
+    inputs:
+      - "@globs(sources)"
+      - "/sdk/core/src/**/*.rs"
+      - "/sdk/core/Cargo.toml"
+      - "src/embedded_cache.redb"
+    outputs:
+      - "dist/DesignData.xcframework"
+      - "dist/Package.swift"
+    deps:
+      - sdk:codegen-check
+      - cache-build
+    platform: system
+
+  # Run the Rust unit tests (lib target, no embedded blob needed for non-embedded tests).
+  test:
+    command: [cargo, test, --package, design-data-swift]
+    inputs:
+      - "@globs(sources)"
+      - "/sdk/core/src/**/*.rs"
+    platform: system
+
+  ci:
+    deps:
+      - build
+      - test
