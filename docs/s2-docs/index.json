@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-12T18:47:20.452Z",
+  "generated": "2026-06-17T21:47:42.229Z",
   "categories": {
     "actions": [
       {
@@ -223,6 +223,13 @@
         "name": "Color Handle",
         "url": "https://s2.spectrum.corp.adobe.com/page/color-handle/",
         "file": "components/inputs/color-handle.md",
+        "exists": true
+      },
+      {
+        "slug": "color-loupe",
+        "name": "Color Loupe",
+        "url": "https://s2.spectrum.corp.adobe.com/page/color-loupe/",
+        "file": "components/inputs/color-loupe.md",
         "exists": true
       },
       {

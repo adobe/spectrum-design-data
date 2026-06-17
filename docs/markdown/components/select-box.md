@@ -1,6 +1,6 @@
 ---
 title: Select box
-description: ""
+description: "Select boxes allow users to choose options in a workflow."
 category: inputs
 documentationUrl: https://spectrum.adobe.com/page/select-box/
 source_url: https://opensource.adobe.com/spectrum-design-data/components/select-box/
@@ -9,6 +9,8 @@ tags:
   - schema
   - inputs
 ---
+
+Select boxes allow users to choose options in a workflow.
 
 | Property | Type | Values | Default | Required | Description |
 | --- | --- | --- | --- | --- | --- |

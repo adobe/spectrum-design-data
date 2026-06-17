@@ -22,13 +22,15 @@ Interactive tools deployed with this site:
 Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 docs, design tokens, and schemas), see [Using with AI](/ai/) for setup and usage.
 
 * **[@adobe/changeset-linter](https://www.npmjs.com/package/%40adobe%2Fchangeset-linter)** — Linting tool to enforce concise changeset files
-* **[@adobe/design-data-agent-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-agent-mcp)** — MCP server and Claude Code skill for the design-data agent surface — shells out to the design-data CLI
+* **[@adobe/design-data](https://www.npmjs.com/package/%40adobe%2Fdesign-data)** — Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management
+* **[@adobe/design-data-agent-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-agent-mcp)** — MCP server and Claude Code skill for the design-data agent surface — read tools run in-process via wasm
 * **[@adobe/design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-mcp)** — MCP server for Spectrum design tokens and component schemas via the design-data CLI
 * **[@adobe/design-data-skill](https://www.npmjs.com/package/%40adobe%2Fdesign-data-skill)** — Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI
 * **[@adobe/optimized-diff](https://www.npmjs.com/package/%40adobe%2Foptimized-diff)** — High-performance deep object diff algorithm with significant performance improvements over generic libraries
 * **[@adobe/s2-docs-mcp](https://www.npmjs.com/package/%40adobe%2Fs2-docs-mcp)** — MCP server for Spectrum 2 documentation
+* **[@adobe/s2-docs-to-document-blocks](https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-to-document-blocks)** — Transform s2-docs Markdown component pages into documentBlocks for packages/design-data
 * **[@adobe/spectrum-component-diff-generator](https://www.npmjs.com/package/%40adobe%2Fspectrum-component-diff-generator)** — Generates diff reports for Spectrum component schema changes with breaking change analysis
-* **[@adobe/spectrum-design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fspectrum-design-data-mcp)** — Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy
+* **[@adobe/spectrum-design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fspectrum-design-data-mcp)** — DEPRECATED — use @adobe/design-data-mcp (in-process wasm) instead. Model Context Protocol server for Spectrum design data including tokens, schemas, and component anatomy
 * **[@adobe/spectrum-diff-core](https://www.npmjs.com/package/%40adobe%2Fspectrum-diff-core)** — Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.)
 * **[@adobe/token-corpus-migrate](https://github.com/adobe/spectrum-design-data/tree/main/tools/token-corpus-migrate)** — Migration tool that adds structured name objects to tokens in packages/tokens/src/
 * **[@adobe/token-diff-generator](https://www.npmjs.com/package/%40adobe%2Ftoken-diff-generator)** — Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.

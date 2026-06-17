@@ -133,7 +133,11 @@ Adjust paths to match your dataset layout.
 
 Design tokens and component API schemas. Enables AI to look up token values, find tokens by use case, validate component props, and get schema definitions.
 
-**Prefer [`@adobe/design-data-mcp`](#adobedesign-data-mcp)** for new projects — it wraps the current `@adobe/design-data` CLI with an embedded Spectrum snapshot. This package is kept for existing integrations.
+> **⚠️ Deprecated** — This package receives no new features. New projects should use
+> [`@adobe/design-data-mcp`](#adobedesign-data-mcp), the actively maintained successor that
+> runs in-process via wasm. Note it is not a drop-in replacement: it has different tool names
+> and does not include `query-tokens-by-value`, `validate-component-props`, or component-schema
+> tools. This package remains available for existing integrations only.
 
 **npm:** `@adobe/spectrum-design-data-mcp`
 

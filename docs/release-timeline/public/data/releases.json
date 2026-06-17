@@ -1,16 +1,16 @@
 {
   "stats": {
-    "total": 222,
+    "total": 243,
     "byType": {
       "legacy": 84,
-      "stable": 53,
+      "stable": 72,
       "beta": 61,
-      "snapshot": 24
+      "snapshot": 26
     },
-    "snapshotFeatures": 10,
+    "snapshotFeatures": 11,
     "dateRange": {
       "earliest": "2022-03-11",
-      "latest": "2025-08-27"
+      "latest": "2026-06-09"
     }
   },
   "timeline": [
@@ -3308,6 +3308,353 @@
         "deleted": 0,
         "score": 5
       }
+    },
+    {
+      "date": "2025-08-29",
+      "type": "stable",
+      "version": "13.15.1",
+      "tag": "@adobe/spectrum-tokens@13.15.1",
+      "feature": null,
+      "major": 13,
+      "minor": 15,
+      "patch": 1,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2025-09-26",
+      "type": "stable",
+      "version": "13.16.0",
+      "tag": "@adobe/spectrum-tokens@13.16.0",
+      "feature": null,
+      "major": 13,
+      "minor": 16,
+      "patch": 0,
+      "changeScope": {
+        "total": 20,
+        "added": 12,
+        "updated": 0,
+        "deleted": 0,
+        "score": 4
+      }
+    },
+    {
+      "date": "2025-11-20",
+      "type": "stable",
+      "version": "14.0.0",
+      "tag": "@adobe/spectrum-tokens@14.0.0",
+      "feature": null,
+      "major": 14,
+      "minor": 0,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-01-23",
+      "type": "stable",
+      "version": "14.1.0",
+      "tag": "@adobe/spectrum-tokens@14.1.0",
+      "feature": null,
+      "major": 14,
+      "minor": 1,
+      "patch": 0,
+      "changeScope": {
+        "total": 67,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 5
+      }
+    },
+    {
+      "date": "2026-02-09",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-layout-20260209174611",
+      "feature": "layout",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null,
+      "changeScope": null
+    },
+    {
+      "date": "2026-02-11",
+      "type": "snapshot",
+      "version": "0.0.0",
+      "tag": "@adobe/spectrum-tokens@0.0.0-layout-20260211224825",
+      "feature": "layout",
+      "major": 0,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": null,
+      "changeScope": null
+    },
+    {
+      "date": "2026-02-26",
+      "type": "stable",
+      "version": "14.2.0",
+      "tag": "@adobe/spectrum-tokens@14.2.0",
+      "feature": null,
+      "major": 14,
+      "minor": 2,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-02-26",
+      "type": "stable",
+      "version": "14.2.1",
+      "tag": "@adobe/spectrum-tokens@14.2.1",
+      "feature": null,
+      "major": 14,
+      "minor": 2,
+      "patch": 1,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-03-23",
+      "type": "stable",
+      "version": "14.2.2",
+      "tag": "@adobe/spectrum-tokens@14.2.2",
+      "feature": null,
+      "major": 14,
+      "minor": 2,
+      "patch": 2,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-03-24",
+      "type": "stable",
+      "version": "14.2.3",
+      "tag": "@adobe/spectrum-tokens@14.2.3",
+      "feature": null,
+      "major": 14,
+      "minor": 2,
+      "patch": 3,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-03-25",
+      "type": "stable",
+      "version": "14.3.0",
+      "tag": "@adobe/spectrum-tokens@14.3.0",
+      "feature": null,
+      "major": 14,
+      "minor": 3,
+      "patch": 0,
+      "changeScope": {
+        "total": 671,
+        "added": 117,
+        "updated": 0,
+        "deleted": 0,
+        "score": 5
+      }
+    },
+    {
+      "date": "2026-04-02",
+      "type": "stable",
+      "version": "14.4.0",
+      "tag": "@adobe/spectrum-tokens@14.4.0",
+      "feature": null,
+      "major": 14,
+      "minor": 4,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-04-02",
+      "type": "stable",
+      "version": "14.5.0",
+      "tag": "@adobe/spectrum-tokens@14.5.0",
+      "feature": null,
+      "major": 14,
+      "minor": 5,
+      "patch": 0,
+      "changeScope": {
+        "total": 66,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 5
+      }
+    },
+    {
+      "date": "2026-05-04",
+      "type": "stable",
+      "version": "14.6.0",
+      "tag": "@adobe/spectrum-tokens@14.6.0",
+      "feature": null,
+      "major": 14,
+      "minor": 6,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-05-11",
+      "type": "stable",
+      "version": "14.7.0",
+      "tag": "@adobe/spectrum-tokens@14.7.0",
+      "feature": null,
+      "major": 14,
+      "minor": 7,
+      "patch": 0,
+      "changeScope": {
+        "total": 8,
+        "added": 5,
+        "updated": 0,
+        "deleted": 0,
+        "score": 3
+      }
+    },
+    {
+      "date": "2026-05-18",
+      "type": "stable",
+      "version": "14.8.0",
+      "tag": "@adobe/spectrum-tokens@14.8.0",
+      "feature": null,
+      "major": 14,
+      "minor": 8,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-05-19",
+      "type": "stable",
+      "version": "14.10.0",
+      "tag": "@adobe/spectrum-tokens@14.10.0",
+      "feature": null,
+      "major": 14,
+      "minor": 10,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-05-19",
+      "type": "stable",
+      "version": "14.11.0",
+      "tag": "@adobe/spectrum-tokens@14.11.0",
+      "feature": null,
+      "major": 14,
+      "minor": 11,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-05-19",
+      "type": "stable",
+      "version": "14.9.0",
+      "tag": "@adobe/spectrum-tokens@14.9.0",
+      "feature": null,
+      "major": 14,
+      "minor": 9,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-06-09",
+      "type": "stable",
+      "version": "14.12.0",
+      "tag": "@adobe/spectrum-tokens@14.12.0",
+      "feature": null,
+      "major": 14,
+      "minor": 12,
+      "patch": 0,
+      "changeScope": {
+        "total": 0,
+        "added": 0,
+        "updated": 0,
+        "deleted": 0,
+        "score": 1
+      }
+    },
+    {
+      "date": "2026-06-09",
+      "type": "stable",
+      "version": "14.13.0",
+      "tag": "@adobe/spectrum-tokens@14.13.0",
+      "feature": null,
+      "major": 14,
+      "minor": 13,
+      "patch": 0,
+      "changeScope": {
+        "total": 24,
+        "added": 9,
+        "updated": 0,
+        "deleted": 0,
+        "score": 4
+      }
     }
   ],
   "snapshotFeatures": [
@@ -3488,6 +3835,22 @@
           "tag": "@adobe/spectrum-tokens@0.0.0-adobe-clean-vf-20250522161900",
           "date": "2025-05-22",
           "timestamp": "20250522161900"
+        }
+      ]
+    },
+    {
+      "feature": "layout",
+      "count": 2,
+      "releases": [
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-layout-20260209174611",
+          "date": "2026-02-09",
+          "timestamp": "20260209174611"
+        },
+        {
+          "tag": "@adobe/spectrum-tokens@0.0.0-layout-20260211224825",
+          "date": "2026-02-11",
+          "timestamp": "20260211224825"
         }
       ]
     }

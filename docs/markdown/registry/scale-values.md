@@ -10,6 +10,7 @@ tags:
 
 | ID | Label | Description | Aliases |
 | --- | --- | --- | --- |
+| 25 | Scale 25 | - | - |
 | 50 | Scale 50 | - | - |
 | 75 | Scale 75 | - | - |
 | 100 | Scale 100 | - | - |
