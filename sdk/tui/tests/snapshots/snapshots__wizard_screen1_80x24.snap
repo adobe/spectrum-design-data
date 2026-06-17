@@ -4,7 +4,7 @@ assertion_line: 117
 expression: rendered
 ---
 ▶ test · 0 tokens
-  Spectrum Design Data  v0.2.1
+  Spectrum Design Data  v0.3.0
   ↑↓ hi┌ Step 1 of 4 — Intent ──────────────────────────────────────────┐
   ─────│Intent: background-color                                        │───────
   >    │  These tokens already exist for similar intents.               │
