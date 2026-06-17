@@ -9,7 +9,7 @@ description: >
   decisions during prototyping.
 metadata:
   author: adobe
-  version: "1.1.2"
+  version: "1.2.0"
 when_to_use: >
   Trigger on: "which Spectrum component", "React Spectrum", "Spectrum Web
   Components", "@adobe/react-spectrum", "@spectrum-web-components", component
