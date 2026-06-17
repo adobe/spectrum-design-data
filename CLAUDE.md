@@ -1,334 +1,85 @@
-# Spectrum Tokens - Claude Code Rules
+# Spectrum Tokens — Claude Code Rules
 
-## Project Overview
+<!-- Maintainer note: keep this file under 200 lines. Code samples and per-filetype
+     conventions live in .claude/rules/. Per-package details live in each package's own
+     CLAUDE.md (load on demand — not a per-turn cost). -->
 
-This is the Spectrum Tokens project, a monorepo containing design tokens, component schemas, and related tooling for Adobe's Spectrum Design System.
+## Tooling Invariants
 
-## Required Tools & Standards
+* **pnpm\@10.17.1** — never use npm or yarn; use `pnpm` for installs and scripts
+* **moon** — `moon run <task>` for all defined tasks; `moon query projects` to survey the graph
+* **AVA** — all JS/TS tests (`test/**/*.test.js`); each package has its own `ava.config.js`
+* **changesets** — `pnpm changeset` for every user-facing version bump; never edit versions manually
+* **commitlint** — conventional commits enforced; format: `type(scope): description`
+  * Types: `feat` `fix` `docs` `style` `refactor` `test` `chore`
+  * Breaking: append `!` or add `BREAKING CHANGE:` footer
+* **Node.js** \~20.12 · **ESM** throughout (`"type": "module"`)
 
-* **Testing**: AVA (required for all JavaScript/TypeScript testing)
-* **Package Management**: pnpm\@10.17.1 (never use npm or yarn)
-* **Monorepo Management**: moon (for task management and CI/CD)
-* **Release Management**: changesets (for version bumps and releases)
-* **Commit Messages**: commitlint with conventional commits (required for all git commits)
-* **Node.js Version**: \~20.12
+## Monorepo Layout
 
-## Architecture
+```
+packages/   — core libraries (tokens, design-data, design-data-spec, component-schemas, …)
+tools/      — internal dev tooling (~20 packages)
+docs/       — documentation sites and explorers
+sdk/        — Rust workspace (crates: core, cli, tui, wasm)
+```
 
-* **Monorepo Structure**: Uses pnpm workspaces with packages/, docs/, and tools/
-* **Task Management**: All tasks defined in moon.yml files
-* **Testing**: AVA with specific configuration requirements
-* **ESM**: Project uses ES modules (type: "module")
+Per-package build commands, test commands, and layout details live in each package's own
+`CLAUDE.md` — they load on demand, not at session start.
 
-## Coding Standards
+## Changeset Rules *(CI-enforced)*
 
-### JavaScript/TypeScript
-
-* Use ES modules (import/export syntax)
-* Prefer const over let, never use var
-* Use async/await over Promise chains
-* Use template literals for string interpolation
-* Follow ESLint configuration where present
-
-### Testing Guidelines
-
-* All tests must use AVA framework
-* Test files must follow pattern: `test/**/*.test.js`
-* Each package must have `ava.config.js` configuration
-* Use descriptive test names
-* Set up proper test environment variables
-
-### Commit Message Guidelines
-
-* All commits must follow conventional commit format
-* Use format: `type(scope): description`
-* Available types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-* Scope is optional but recommended for clarity
-* Description should be present tense and lowercase
-* Breaking changes must include `!` after type/scope or `BREAKING CHANGE:` in footer
-* Examples: `feat(tokens): add new color palette`, `fix(diff): handle edge case`
-
-### Package Management
-
-* Always use pnpm commands (never npm or yarn)
-* Use exact versions for critical dependencies
-* Keep pnpm-lock.yaml in version control
-* Add new packages to pnpm-workspace.yaml when needed
-
-### File Structure
-
-* Follow existing patterns in packages/, docs/, tools/
-* Include moon.yml for task definitions
-* Include proper package.json with correct fields
-* Include commitlint.config.cjs for commit message validation
-* Use conventional file naming
-
-## Development Workflow
-
-### Adding New Packages
-
-1. Create package directory under packages/, docs/, or tools/
-2. Add package.json with proper configuration
-3. Add moon.yml with task definitions
-4. Add ava.config.js for testing
-5. Update pnpm-workspace.yaml if needed
-
-### Testing
-
-* Use `moon run test` to run tests
-* Tests should be thorough and descriptive
-* Mock external dependencies appropriately
-* Use AVA's built-in assertions
-
-### Version Management
-
-* Use changesets for all version bumps
-* Create changesets with `pnpm changeset`
-* Never manually edit version numbers
-* Follow semantic versioning
-
-### Changeset Writing Guidelines
-
-* **Bump level**: `patch` for bug fixes, `minor` for additive/conformance-affecting changes,
-  `major` for breaking changes. When in doubt on minor vs patch, prefer `minor` for anything
-  that changes validation behavior or adds new spec normative content.
-* **Line limit**: keep the body to **20 lines or fewer** — the CI linter enforces this with
-  `--fail-on-warnings`. Use `node tools/changeset-linter/src/cli.js check --fail-on-warnings`
-  to verify locally before committing.
-* **Line length**: no hard character limit, but keep lines readable (≤100 chars preferred).
-* **Content**: one short intro sentence, then a tight bullet per changed artifact. Each bullet
-  should name the file/package and the key change in one line (two at most). Detailed
-  rationale belongs in the PR description, not the changeset.
-* **Format example**:
+* **Bump level**: `patch` = bug fix; `minor` = additive or validation-behavior change; `major` = breaking
+* **Body ≤ 20 lines** (CI linter enforces). Verify before committing:
   ```
-  Short summary of what changed (closes #NNN).
+  node tools/changeset-linter/src/cli.js check --fail-on-warnings
+  ```
+* One intro sentence + one bullet per changed artifact. Rationale → PR description, not changeset.
+* Format:
+  ```
+  Short summary (closes #NNN).
 
   - **path/to/file**: what changed and why it matters.
-  - **SPEC-NNN** (`rule-name`, severity): one-line description.
   ```
-* Always run `node tools/changeset-linter/src/cli.js check --fail-on-warnings` after writing
-  to catch issues before the pre-commit hook or CI.
 
-### Commit Message Management
+## Copyright & License
 
-* Use conventional commit format for all commits
-* Commit messages are validated by commitlint
-* Use appropriate commit types and scopes
-* Include breaking change indicators when needed
-* Follow the format: `type(scope): description`
+Every new file gets: `Copyright YYYY Adobe. All rights reserved.` with the **current year**.
+Comment style matches language: `//` (Rust/JS/TS), `#` (YAML/moon.yml), block comment (C-style).
+License: Apache-2.0.
 
-### Task Execution
+## Testing
 
-* Use moon for all defined tasks
-* Define tasks in moon.yml files
-* Use pnpm commands within moon tasks
-* Set appropriate platform (node) for Node.js tasks
+* Run all tests: `moon run test`
+* Single package: `pnpm --filter <package-name> test`
+* Rust: `moon run sdk:test` (uses `cargo test --workspace`)
 
-## Code Suggestions
+## GitHub & PRs
 
-### Preferred Patterns
-
-```javascript
-// Preferred: ES modules
-import { readFileSync } from 'fs';
-export default function myFunction() {}
-
-// Preferred: Async/await
-async function fetchData() {
-  try {
-    const response = await fetch(url);
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
-
-// Preferred: Template literals
-const message = `Hello, ${name}!`;
-
-// Preferred: Destructuring
-const { name, version } = packageJson;
-```
-
-### AVA Test Patterns
-
-```javascript
-// Preferred test structure
-import test from 'ava';
-import { myFunction } from '../src/index.js';
-
-test('myFunction should return expected result', t => {
-  const result = myFunction(input);
-  t.is(result, expected);
-});
-
-test('myFunction should handle errors gracefully', async t => {
-  const error = await t.throwsAsync(async () => {
-    await myFunction(invalidInput);
-  });
-  t.is(error.message, 'Expected error message');
-});
-```
-
-### Moon Task Definitions
-
-```yaml
-# Preferred task structure
-tasks:
-  test:
-    command: [pnpm, ava, test]
-    platform: node
-  build:
-    command: [pnpm, build]
-    platform: node
-    deps: [test]
-```
-
-### Commitlint Configuration
-
-```javascript
-// commitlint.config.cjs
-module.exports = {
-  extends: ["@commitlint/config-conventional"],
-  ignores: [
-    (message) => message.includes("[create-pull-request] automated change"),
-  ],
-};
-```
-
-## File-Specific Guidelines
-
-### package.json
-
-* Include "type": "module" for ESM
-* Specify Node.js version in engines
-* Use pnpm in packageManager field
-* Include proper repository, author, license fields
-
-### ava.config.js
-
-* Use export default syntax
-* Include standard configuration options
-* Set NODE\_ENV to "test"
-* Use verbose output for debugging
-
-### moon.yml
-
-* Define clear task names
-* Use pnpm commands
-* Set platform: node for Node.js tasks
-* Include proper dependencies between tasks
-
-## Anti-Patterns to Avoid
-
-### Prohibited Commands
-
-* `npm install` or `yarn install` (use `pnpm install`)
-* `npm run` or `yarn run` (use `pnpm run` or `moon run`)
-* Manual version bumps (use changesets)
-* Non-conventional commit messages (use proper format)
-
-### Prohibited Patterns
-
-```javascript
-// Avoid: CommonJS in new code
-const fs = require('fs');
-module.exports = function() {};
-
-// Avoid: var declarations
-var message = 'Hello';
-
-// Avoid: Promise chains when async/await is cleaner
-fetch(url)
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
-```
-
-## Dependencies
-
-* Manage all tool dependencies at root level
-* Use specific versions for critical tools
-* Keep dependencies up to date
-* Prefer established, well-maintained packages
-
-## Documentation
-
-* Include README.md for each package
-* Document complex functions and modules
-* Keep CHANGELOG.md updated via changesets
-* Reference TOOLING\_STANDARDS.md for tool usage
-
-## JSON Schema
-
-* Use proper JSON schema validation
-* Include $schema references where applicable
-* Follow established schema patterns in the project
-* Validate schemas in tests
-
-## License & Copyright
-
-* All files must include proper Adobe copyright
-* Use Apache-2.0 license
-* Include copyright headers in source files
-* Follow existing copyright patterns
-* **New files** must use the **current calendar year** (the year the file is created) in the copyright line, e.g. `Copyright YYYY Adobe. All rights reserved.` Use the same comment style as neighboring files (`//` in Rust, `#` in YAML/moon.yml, block or line comments in JS/TS, etc.)
-
-## Performance Considerations
-
-* Use efficient algorithms for token processing
-* Cache expensive operations when possible
-* Minimize file I/O operations
-* Use streaming for large datasets
-
-## Security
-
-* Validate all inputs
-* Use secure defaults
-* Avoid eval() and similar dangerous functions
-* Keep dependencies updated for security fixes
-
-## Error Handling
-
-* Use descriptive error messages
-* Handle edge cases gracefully
-* Log errors appropriately
-* Use try/catch blocks for async operations
-
-## Code Style
-
-* Use 2-space indentation
-* Use single quotes for strings (follow existing patterns)
-* Include trailing commas in multiline objects/arrays
-* Use meaningful variable and function names
-* Keep functions focused and small
-
-## GitHub CLI
-
-* **Always use `gh` CLI** for GitHub operations (issues, PRs, checks, releases)
-* View PR/issue details: `gh pr view`, `gh issue view`
-* Check CI status: `gh pr checks`
-
-## Pull Requests
-
-* When creating PRs, **use the repo's PR template** at `.github/PULL_REQUEST_TEMPLATE.md` as the body structure
-* Read the template with `cat .github/PULL_REQUEST_TEMPLATE.md`, fill in each section, and pass it via `gh pr create --body-file`
-* Fill in the checklist — check boxes that apply, leave others unchecked
-* Link related issues in the "Related Issue" section
-* Always include a motivation/context explanation
-* Describe how changes were tested
+* Use `gh` CLI for all GitHub operations (`gh pr view`, `gh issue view`, `gh pr checks`)
+* PRs: read `.github/PULL_REQUEST_TEMPLATE.md`, fill every section, `gh pr create --body-file <file>`
+* Link related issues; describe how changes were tested
 
 ## When Making Changes
 
-1. Run tests with `moon run test`
-2. Use conventional commit message format (e.g., `feat(tokens): add new color system`)
-3. Create changesets for version bumps
-4. Update documentation as needed
-5. Follow the established patterns in the codebase
+1. `moon run test` before committing
+2. `pnpm changeset` for any user-facing change
+3. `node tools/changeset-linter/src/cli.js check --fail-on-warnings` after writing changeset
+4. Conventional commit message (`feat(tokens): …`, `fix(diff): …`, etc.)
+5. PRs use the repo template — never a blank body
 
-## IDE Integration
+## Adding New Packages
 
-* Use the project's ESLint configuration
-* Enable Prettier for consistent formatting
-* Use the project's TypeScript configuration where applicable
-* Respect the project's .gitignore patterns
+1. Create directory under `packages/`, `docs/`, or `tools/`
+2. `package.json` with `"type": "module"`, correct `engines.node`, `packageManager` field
+3. `moon.yml` with task definitions (platform: node)
+4. `ava.config.js` for testing
+5. Add to `pnpm-workspace.yaml` if a new glob is needed
+
+## Code Style
+
+* 2-space indentation · single quotes · trailing commas in multiline objects/arrays
+* Prefer `const` over `let`; never `var`
+* `async/await` over `.then()` chains
+* Template literals for interpolation
+* Full patterns and anti-patterns → `.claude/rules/javascript.md` (loads when JS/TS files are open)
