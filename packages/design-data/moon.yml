@@ -61,7 +61,7 @@ tasks:
       - ../design-data-spec/schemas
       - --exceptions-path
       - ../tokens/naming-exceptions.json
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -84,7 +84,7 @@ tasks:
       - ./tokens
       - --exceptions-path
       - ../tokens/naming-exceptions.json
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
       - ~:validate-dataset
@@ -104,7 +104,7 @@ tasks:
       - ./tokens
       - --output
       - ../tokens/src
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -120,7 +120,7 @@ tasks:
       - migrate
       - roundtrip-verify
       - ../tokens/src
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -147,7 +147,7 @@ tasks:
       - ../token-names/names
       - --exceptions
       - ../tokens/naming-exceptions.json
-    toolchains: "system"
+    toolchain: "system"
     options:
       # Operator-only escape hatch: this task OVERWRITES the cascade source of
       # truth (./tokens). `moon ci` runs every affected task regardless of the

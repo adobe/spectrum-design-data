@@ -19,7 +19,7 @@ tasks:
       - sh
       - -c
       - "mkdir -p ../../site && rm -rf ../../site/s2-tokens-viewer && mkdir -p ../../site/s2-tokens-viewer"
-    toolchains: "system"
+    toolchain: "system"
   prepare:
     command:
       - node
@@ -51,6 +51,6 @@ tasks:
       - "mkdir -p ../../site/s2-tokens-viewer && cp -r ./index.html ../../site/s2-tokens-viewer/ && cp -r ./css ../../site/s2-tokens-viewer/ && cp -r ./data ../../site/s2-tokens-viewer/ && cp -r ./tokens ../../site/s2-tokens-viewer/"
     deps:
       - ~:resolve
-    toolchains: "system"
+    toolchain: "system"
     outputs:
       - /site/s2-tokens-viewer/

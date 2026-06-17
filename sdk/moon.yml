@@ -112,7 +112,7 @@ tasks:
       - --theme
       - spectrum
       - --no-resume-wizard
-    toolchains: "system"
+    toolchain: "system"
     preset: "server"
   version:
     command: node

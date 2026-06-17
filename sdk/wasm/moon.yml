@@ -39,7 +39,7 @@ tasks:
       - "src/embedded_cache.redb"
     deps:
       - sdk:codegen-check
-    toolchains: "system"
+    toolchain: "system"
 
   # Build the wasm package for both nodejs and web targets with the `embedded` feature.
   # Outputs:
@@ -70,7 +70,7 @@ tasks:
     deps:
       - sdk:codegen-check
       - cache-build
-    toolchains: "system"
+    toolchain: "system"
 
   # Run AVA parity tests against the compiled nodejs wasm package.
   test:

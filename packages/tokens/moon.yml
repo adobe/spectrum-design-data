@@ -24,7 +24,7 @@ tasks:
       - ./schemas
       - --exceptions-path
       - ./naming-exceptions.json
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -44,7 +44,7 @@ tasks:
       - ./schemas
       - --exceptions-path
       - ./naming-exceptions.json
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -80,14 +80,14 @@ tasks:
       - -rf
       - dist
     preset: "server"
-    toolchains: "system"
+    toolchain: "system"
   verifyLegacyRoundtrip:
     command: ../../sdk/target/debug/design-data
     args:
       - migrate
       - roundtrip-verify
       - ./src
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:
@@ -100,7 +100,7 @@ tasks:
       - ../design-data/tokens
       - --reference
       - ./src
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - sdk:build
     inputs:

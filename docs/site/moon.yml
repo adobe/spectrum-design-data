@@ -28,7 +28,7 @@ tasks:
     command:
       - node
       - scripts/copy-content.js
-    toolchains: "system"
+    toolchain: "system"
     deps:
       - "markdown-generator:generate"
       - "~:generateToolsPage"
@@ -36,7 +36,7 @@ tasks:
     command:
       - node
       - scripts/copy-spec.js
-    toolchains: "system"
+    toolchain: "system"
   build:
     command:
       - pnpm

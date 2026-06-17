@@ -48,6 +48,6 @@ tasks:
 
   clean:
     command: [rm, -rf, "/site/release-timeline"]
-    toolchains: "system"
+    toolchain: "system"
     inputs:
       - "@globs(target)"
