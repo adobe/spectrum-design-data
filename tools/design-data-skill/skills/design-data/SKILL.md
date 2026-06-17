@@ -8,7 +8,7 @@ description: >
   config is involved or the user mentions the design-data CLI.
 metadata:
   author: adobe
-  version: "1.3.0"
+  version: "1.3.1"
   designDataVersion: "0.7.0"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",

@@ -1,5 +1,19 @@
 # @adobe/s2-docs-mcp
 
+## 1.2.1
+
+### Patch Changes
+
+- [#1176](https://github.com/adobe/spectrum-design-data/pull/1176) [`559710e`](https://github.com/adobe/spectrum-design-data/commit/559710ebc3cb9867a2e608d55067bb8326e3b471) Thanks [@GarthDB](https://github.com/GarthDB)! - Automate SKILL.md metadata.version sync on release so CI passes without manual edits.
+  - **scripts/sync-skill-version.mjs**: new shared script that rewrites `metadata.version`
+    (and `metadata.designDataVersion` where present) in a SKILL.md frontmatter from the
+    package's `package.json` version after `changeset version` runs.
+  - **tools/design-data-skill/moon.yml**, **tools/design-data-agent-mcp/moon.yml**,
+    **tools/s2-docs-mcp/moon.yml**: add a `version` moon task that calls the script so
+    `moon run :version` (invoked by the `pnpm run version` release script) keeps SKILL.md
+    in sync automatically.
+  - **.github/ci-targets.json**: add the three new `version` tasks to `excludedFromCI`.
+
 ## 1.2.0
 
 ### Minor Changes
