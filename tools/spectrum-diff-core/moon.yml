@@ -10,13 +10,12 @@
 
 $schema: "https://moonrepo.dev/schemas/project.json"
 id: "spectrum-diff-core"
-type: library
+layer: library
 
 tasks:
   # Testing
   test:
     command: [pnpm, test]
-    platform: node
     inputs:
       - "src/**/*"
       - "test/**/*"
@@ -25,14 +24,12 @@ tasks:
 
   test-watch:
     command: [pnpm, ava, --watch]
-    platform: node
-    local: true
+    preset: "server"
 
   # Code quality
   format:
     command: [pnpm, prettier, --write, "./src", "./test"]
-    platform: node
-    local: true
+    preset: "server"
 
   # Quality pipeline
   ci:

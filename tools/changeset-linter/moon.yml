@@ -1,6 +1,5 @@
-type: tool
+layer: tool
 language: javascript
-platform: node
 
 tasks:
   test:

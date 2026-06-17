@@ -22,14 +22,13 @@ tasks:
       - pnpm
       - run
       - generate:tools
-    platform: node
     outputs:
       - "src/tools.md"
   copyContent:
     command:
       - node
       - scripts/copy-content.js
-    platform: system
+    toolchains: "system"
     deps:
       - "markdown-generator:generate"
       - "~:generateToolsPage"
@@ -37,13 +36,12 @@ tasks:
     command:
       - node
       - scripts/copy-spec.js
-    platform: system
+    toolchains: "system"
   build:
     command:
       - pnpm
       - run
       - build
-    platform: node
     deps:
       - "~:copyContent"
       - "~:copySpec"
@@ -52,8 +50,7 @@ tasks:
       - pnpm
       - run
       - clean
-    platform: node
-    local: true
+    preset: "server"
   export:
     deps:
       - "~:build"

@@ -17,10 +17,8 @@ tasks:
     command:
       - pnpm
       - ava
-    platform: node
 
   generate:
     command:
       - node
       - src/cli.js
-    platform: node

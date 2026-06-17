@@ -32,7 +32,6 @@ tasks:
       - "scripts/*.mjs"
     outputs:
       - "dist/"
-    platform: node
   test:
     command:
       - pnpm
@@ -44,7 +43,6 @@ tasks:
       - "tsconfig.test.json"
     outputs:
       - "build/"
-    platform: node
   lint:
     command:
       - pnpm
@@ -53,7 +51,6 @@ tasks:
     inputs:
       - "@globs(sources)"
       - "eslint.config.mjs"
-    platform: node
   type-check:
     command:
       - pnpm
@@ -62,7 +59,6 @@ tasks:
     inputs:
       - "@globs(sources)"
       - "tsconfig.json"
-    platform: node
   validate:
     command:
       - pnpm
@@ -71,4 +67,3 @@ tasks:
     deps:
       - type-check
       - lint
-    platform: node

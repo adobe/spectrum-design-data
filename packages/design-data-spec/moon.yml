@@ -23,7 +23,6 @@ tasks:
     command:
       - node
       - scripts/check-layout.mjs
-    platform: node
     inputs:
       - "@globs(spec)"
       - "@globs(schemas)"

@@ -27,7 +27,6 @@ tasks:
       - build
     deps:
       - ~:typescript
-    platform: node
     inputs:
       - "config"
       - "@globs(sources)"
@@ -35,11 +34,9 @@ tasks:
       - "/site/s2-visualizer"
   typescript:
     command: tsc
-    platform: node
   dev:
     command: vite
-    local: true
-    platform: node
+    preset: "server"
     inputs:
       - "config"
       - "@globs(sources)"

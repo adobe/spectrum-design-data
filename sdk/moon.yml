@@ -29,7 +29,6 @@ tasks:
       - "/packages/design-data/registry/*.json"
     outputs:
       - "core/src/registry_data.rs"
-    platform: node
   codegen-check:
     command: node
     args:
@@ -38,7 +37,6 @@ tasks:
     inputs:
       - "/packages/design-data/registry/*.json"
       - "core/src/registry_data.rs"
-    platform: node
   build:
     command: cargo
     args:
@@ -82,7 +80,7 @@ tasks:
       - --all
     inputs:
       - "@globs(sources)"
-    local: true
+    preset: "server"
   fmt-check:
     command: cargo
     args:
@@ -114,8 +112,8 @@ tasks:
       - --theme
       - spectrum
       - --no-resume-wizard
-    platform: system
-    local: true
+    toolchains: "system"
+    preset: "server"
   version:
     command: node
     args:
@@ -124,4 +122,3 @@ tasks:
       - "tui/package.json"
     outputs:
       - "tui/Cargo.toml"
-    platform: node

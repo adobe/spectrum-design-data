@@ -17,7 +17,6 @@ tasks:
     command:
       - node
       - src/index.js
-    platform: node
     deps:
       - "tokens:build"
       - "component-schemas:test"

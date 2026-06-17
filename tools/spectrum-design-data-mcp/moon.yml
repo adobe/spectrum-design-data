@@ -15,17 +15,14 @@ tasks:
       - node
       - src/cli.js
       - start
-    platform: node
   test:
     command:
       - pnpm
       - ava
-    platform: node
   test-watch:
     command:
       - ava
       - --watch
       - c8
       - ava
-    local: true
-    platform: node
+    preset: "server"

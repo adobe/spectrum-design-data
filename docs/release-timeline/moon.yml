@@ -24,7 +24,6 @@ fileGroups:
 tasks:
   updateData:
     command: [node, scripts/update-data.js]
-    platform: node
     inputs:
       - "scripts/update-data.js"
     outputs:
@@ -32,7 +31,6 @@ tasks:
 
   build:
     command: [pnpm, build]
-    platform: node
     deps:
       - ~:updateData
     inputs:
@@ -44,13 +42,12 @@ tasks:
 
   dev:
     command: [pnpm, dev]
-    platform: node
-    local: true
+    preset: "server"
     deps:
       - ~:updateData
 
   clean:
     command: [rm, -rf, "/site/release-timeline"]
-    platform: system
+    toolchains: "system"
     inputs:
       - "@globs(target)"

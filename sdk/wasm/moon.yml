@@ -8,7 +8,7 @@
 # OF ANY KIND, either express or implied. See the License for the specific language
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
-type: library
+layer: library
 language: rust
 fileGroups:
   sources:
@@ -39,7 +39,7 @@ tasks:
       - "src/embedded_cache.redb"
     deps:
       - sdk:codegen-check
-    platform: system
+    toolchains: "system"
 
   # Build the wasm package for both nodejs and web targets with the `embedded` feature.
   # Outputs:
@@ -70,7 +70,7 @@ tasks:
     deps:
       - sdk:codegen-check
       - cache-build
-    platform: system
+    toolchains: "system"
 
   # Run AVA parity tests against the compiled nodejs wasm package.
   test:
@@ -84,7 +84,6 @@ tasks:
       - "/packages/design-data-spec/conformance/**/*"
     deps:
       - build
-    platform: node
 
   ci:
     deps:

@@ -18,19 +18,17 @@ tasks:
     command:
       - node
       - src/merge-spectrum-express.js
-    platform: node
     inputs:
       - "@globs(sources)"
       - "@globs(lib)"
       - "src/merge-spectrum-express.js"
-    local: true
+    preset: "server"
   merge-dark-darkest:
     command:
       - node
       - src/merge-dark-darkest.js
-    platform: node
     inputs:
       - "@globs(sources)"
       - "@globs(lib)"
       - "src/merge-dark-darkest.js"
-    local: true
+    preset: "server"

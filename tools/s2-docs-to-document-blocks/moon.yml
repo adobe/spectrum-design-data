@@ -18,14 +18,12 @@ tasks:
     command:
       - pnpm
       - ava
-    platform: node
 
   transform:
     command:
       - node
       - src/cli.js
       - transform
-    platform: node
     options:
       runInCI: false
 
@@ -34,6 +32,5 @@ tasks:
       - node
       - src/cli.js
       - guideline
-    platform: node
     options:
       runInCI: false

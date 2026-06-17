@@ -7,7 +7,6 @@ project:
 tasks:
   test:
     command: [pnpm, ava]
-    platform: node
     inputs:
       - "skills/**/*"
       - "test/**/*.js"
@@ -23,7 +22,6 @@ tasks:
       - "package.json"
     outputs:
       - "skills/s2-docs/SKILL.md"
-    platform: node
 
   build:
     command: 'echo "No build required for MCP server"'
@@ -32,7 +30,6 @@ tasks:
     command:
       - node
       - tasks/bundleDocs.js
-    platform: node
     outputs:
       - "data/"
 

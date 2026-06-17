@@ -17,10 +17,8 @@ dependsOn:
 tasks:
   start:
     command: [node, src/index.js]
-    platform: node
   test:
     command: [pnpm, ava]
-    platform: node
     deps:
       - sdk-wasm:build
     inputs:
@@ -37,4 +35,3 @@ tasks:
       - "package.json"
     outputs:
       - "skills/design-data/SKILL.md"
-    platform: node

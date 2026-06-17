@@ -14,9 +14,7 @@ tasks:
     command:
       - node
       - src/index.js
-    platform: node
   test:
     command:
       - pnpm
       - ava
-    platform: node

@@ -30,5 +30,5 @@ projects:
   design-data-skill: "tools/design-data-skill"
   s2-docs-to-document-blocks: "tools/s2-docs-to-document-blocks"
 vcs:
-  manager: "git"
+  client: "git"
   defaultBranch: "main"

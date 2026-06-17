@@ -33,7 +33,6 @@ tasks:
     command: node
     args:
       - scripts/validate-registry.js
-    platform: node
     inputs:
       - "@globs(registry)"
       - "scripts/validate-registry.js"
@@ -44,7 +43,6 @@ tasks:
     command: node
     args:
       - scripts/validate-guidelines.js
-    platform: node
     inputs:
       - "@globs(guidelines)"
       - "scripts/validate-guidelines.js"
@@ -63,7 +61,7 @@ tasks:
       - ../design-data-spec/schemas
       - --exceptions-path
       - ../tokens/naming-exceptions.json
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -86,7 +84,7 @@ tasks:
       - ./tokens
       - --exceptions-path
       - ../tokens/naming-exceptions.json
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
       - ~:validate-dataset
@@ -106,7 +104,7 @@ tasks:
       - ./tokens
       - --output
       - ../tokens/src
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -122,7 +120,7 @@ tasks:
       - migrate
       - roundtrip-verify
       - ../tokens/src
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -149,7 +147,7 @@ tasks:
       - ../token-names/names
       - --exceptions
       - ../tokens/naming-exceptions.json
-    platform: system
+    toolchains: "system"
     options:
       # Operator-only escape hatch: this task OVERWRITES the cascade source of
       # truth (./tokens). `moon ci` runs every affected task regardless of the

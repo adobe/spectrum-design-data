@@ -24,7 +24,7 @@ tasks:
       - ./schemas
       - --exceptions-path
       - ./naming-exceptions.json
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -44,7 +44,7 @@ tasks:
       - ./schemas
       - --exceptions-path
       - ./naming-exceptions.json
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -60,7 +60,6 @@ tasks:
     command:
       - node
       - tasks/buildSpectrumTokens.js
-    platform: node
     inputs:
       - "tasks/buildSpectrumTokens.js"
       - "@globs(sources)"
@@ -70,7 +69,6 @@ tasks:
     command:
       - node
       - tasks/buildManifest.js
-    platform: node
     inputs:
       - "tasks/buildManifest.js"
       - "@globs(sources)"
@@ -81,15 +79,15 @@ tasks:
       - rm
       - -rf
       - dist
-    local: true
-    platform: system
+    preset: "server"
+    toolchains: "system"
   verifyLegacyRoundtrip:
     command: ../../sdk/target/debug/design-data
     args:
       - migrate
       - roundtrip-verify
       - ./src
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -102,7 +100,7 @@ tasks:
       - ../design-data/tokens
       - --reference
       - ./src
-    platform: system
+    toolchains: "system"
     deps:
       - sdk:build
     inputs:
@@ -122,10 +120,8 @@ tasks:
       - ~:verifyDesignDataSnapshot
       - ~:verifyLegacyRoundtrip
       - ~:verifyLegacyOutput
-    platform: node
   test-watch:
     command:
       - ava
       - --watch
-    local: true
-    platform: node
+    preset: "server"

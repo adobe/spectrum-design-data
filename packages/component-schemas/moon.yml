@@ -21,34 +21,28 @@ tasks:
       - "@globs(tests)"
       - "index.js"
       - "ava.config.js"
-    platform: node
   test-watch:
     command:
       - ava
       - --watch
-    local: true
-    platform: node
+    preset: "server"
   test-coverage:
     command:
       - c8
       - ava
-    local: true
-    platform: node
+    preset: "server"
   test-schema-validation:
     command:
       - ava
       - test/schema-validation.test.js
-    local: true
-    platform: node
+    preset: "server"
   test-integration:
     command:
       - ava
       - test/integration.test.js
-    local: true
-    platform: node
+    preset: "server"
   test-performance:
     command:
       - ava
       - test/performance.test.js
-    local: true
-    platform: node
+    preset: "server"

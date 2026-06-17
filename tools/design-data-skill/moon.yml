@@ -12,7 +12,6 @@ layer: tool
 tasks:
   test:
     command: [pnpm, ava]
-    platform: node
     inputs:
       - "skills/**/*"
       - "test/**/*.js"
@@ -28,4 +27,3 @@ tasks:
       - "package.json"
     outputs:
       - "skills/design-data/SKILL.md"
-    platform: node

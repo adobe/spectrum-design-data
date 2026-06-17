@@ -19,7 +19,6 @@ fileGroups:
 tasks:
   test:
     command: [pnpm, ava, "test/**/*.test.js"]
-    platform: node
     inputs:
       - "@globs(names)"
       - "@globs(tests)"
@@ -30,7 +29,6 @@ tasks:
     command:
       - node
       - scripts/check-coverage.mjs
-    platform: node
     inputs:
       - "@globs(names)"
       - "@globs(scripts)"

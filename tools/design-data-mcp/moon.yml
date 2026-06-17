@@ -14,10 +14,8 @@ tasks:
     command:
       - node
       - src/cli.js
-    platform: node
-    local: true
+    preset: "server"
   test:
     command:
       - pnpm
       - ava
-    platform: node

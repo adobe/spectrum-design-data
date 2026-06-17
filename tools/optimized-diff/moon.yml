@@ -8,17 +8,15 @@
 # OF ANY KIND, either express or implied. See the License for the specific language
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
-type: library
+layer: library
 tasks:
   test:
     command:
       - pnpm
       - ava
-    platform: node
   benchmark:
     command:
       - node
       - src/benchmark.js
-    platform: node
     deps:
       - test

@@ -9,7 +9,6 @@ project:
 tasks:
   test:
     command: "pnpm ava test"
-    platform: node
     inputs:
       - "test/**/*.test.js"
       - "../../docs/s2-docs/**/*.md"

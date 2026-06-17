@@ -16,13 +16,11 @@ tasks:
   # Core functionality
   diff:
     command: [node, src/lib/index.js]
-    platform: node
     deps: [test]
 
   # Testing
   test:
     command: [pnpm, ava]
-    platform: node
     inputs:
       - "src/**/*"
       - "test/**/*"
@@ -31,14 +29,12 @@ tasks:
 
   test-watch:
     command: [pnpm, ava, --watch]
-    platform: node
-    local: true
+    preset: "server"
 
   # Code quality
   format:
     command: [pnpm, prettier, --write, "./src", "./test"]
-    platform: node
-    local: true
+    preset: "server"
 
   # Quality pipeline
   ci:
