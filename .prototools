@@ -1,2 +1,6 @@
 moon = "2.3.3"
 npm = "11.6.2"
+wasm-pack = "0.15.0"
+
+[plugins]
+wasm-pack = "file://.moon/wasm-pack.toml"

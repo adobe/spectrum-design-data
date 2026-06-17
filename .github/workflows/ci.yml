@@ -61,7 +61,7 @@ jobs:
           filter: blob:none
       # Install Rust 1.88.0 + wasm32 target + clippy + rustfmt before moon/proto runs,
       # so proto uses the system-installed toolchain rather than re-downloading.
-      # Aligned with sdk/rust-toolchain.toml and .moon/toolchain.yml.
+      # Aligned with sdk/rust-toolchain.toml and .moon/toolchains.yml.
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
@@ -73,8 +73,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "sdk -> sdk/target"
-      # Install wasm-pack so `moon run sdk-wasm:build` can invoke it.
-      - uses: jetli/wasm-pack-action@v0.4.0
+      # wasm-pack is pinned in .prototools and installed by setup-toolchain below.
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
