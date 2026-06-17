@@ -114,7 +114,8 @@ tasks:
       - spectrum
       - --no-resume-wizard
     toolchain: "system"
-    preset: "utility"
+    options:
+      runInCI: false
   version:
     command: node
     args:
