@@ -27,3 +27,14 @@ tasks:
       - "src/**/*.js"
       - "test/**/*.js"
       - "ava.config.js"
+
+  version:
+    command: node
+    args:
+      - "$workspaceRoot/scripts/sync-skill-version.mjs"
+      - "skills/design-data/SKILL.md"
+    inputs:
+      - "package.json"
+    outputs:
+      - "skills/design-data/SKILL.md"
+    platform: node

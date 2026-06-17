@@ -14,6 +14,17 @@ tasks:
       - "ava.config.js"
       - "package.json"
 
+  version:
+    command: node
+    args:
+      - "$workspaceRoot/scripts/sync-skill-version.mjs"
+      - "skills/s2-docs/SKILL.md"
+    inputs:
+      - "package.json"
+    outputs:
+      - "skills/s2-docs/SKILL.md"
+    platform: node
+
   build:
     command: 'echo "No build required for MCP server"'
 
