@@ -7,6 +7,9 @@ description: >
   Components, or SWC, or names a Spectrum component (Button, Picker, ComboBox,
   TextField, ActionButton, etc.). Helps prevent drift from documented S2 design
   decisions during prototyping.
+metadata:
+  author: adobe
+  version: "1.1.2"
 when_to_use: >
   Trigger on: "which Spectrum component", "React Spectrum", "Spectrum Web
   Components", "@adobe/react-spectrum", "@spectrum-web-components", component

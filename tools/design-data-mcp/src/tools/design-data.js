@@ -119,6 +119,10 @@ export function createDesignDataTools() {
             }
           : null;
 
+        // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
+        // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
+        const { provenance } = ds.primer();
+
         return {
           source: "embedded",
           tokenCount: ds.tokenCount(),
@@ -134,6 +138,7 @@ export function createDesignDataTools() {
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
+          provenance,
         };
       },
     },

@@ -6,6 +6,10 @@ description: >
   token values, component options, naming conventions, or wants to
   validate/explore design-token data. Also triggers when a .design-data.toml
   config is involved or the user mentions the design-data CLI.
+metadata:
+  author: adobe
+  version: "1.2.0"
+  designDataVersion: "0.7.0"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
   "Spectrum component options", validate tokens, design-data primer, query tokens,

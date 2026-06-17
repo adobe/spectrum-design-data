@@ -509,9 +509,9 @@ test("Dataset.embedded().primer() returns expected payload shape", (t) => {
     "provenance.source should be 'embedded'",
   );
   t.is(
-    typeof p.provenance.tokensVersion,
+    typeof p.provenance.designDataVersion,
     "string",
-    "provenance.tokensVersion should be a string",
+    "provenance.designDataVersion should be a string",
   );
 });
 

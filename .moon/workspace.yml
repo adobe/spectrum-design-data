@@ -27,6 +27,7 @@ projects:
   token-naming-audit: "tools/token-naming-audit"
   demo: "tools/demo"
   design-data-glue: "tools/design-data"
+  design-data-skill: "tools/design-data-skill"
   s2-docs-to-document-blocks: "tools/s2-docs-to-document-blocks"
 vcs:
   manager: "git"

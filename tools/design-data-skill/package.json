@@ -31,6 +31,15 @@
     "design-tokens",
     "design-data"
   ],
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
   "author": "Adobe",
   "license": "Apache-2.0"
 }

@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "start": "node src/cli.js",
+    "test": "ava",
     "scrape": "node src/batch-scraper.js",
     "bundle": "node tasks/bundleDocs.js",
     "prepublishOnly": "node tasks/bundleDocs.js"
@@ -40,6 +41,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1"
+  },
+  "devDependencies": {
+    "ava": "^6.0.1"
   },
   "engines": {
     "node": ">=20.12.0"

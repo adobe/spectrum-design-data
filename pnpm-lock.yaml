@@ -609,7 +609,11 @@ importers:
         specifier: ^6.0.1
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
-  tools/design-data-skill: {}
+  tools/design-data-skill:
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
   tools/diff-generator:
     dependencies:
@@ -681,6 +685,10 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
   tools/s2-docs-to-document-blocks:
     dependencies:

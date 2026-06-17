@@ -1229,7 +1229,7 @@ fn run_primer(
         }),
         data_source::Provenance::Embedded { version } => serde_json::json!({
             "source": "embedded",
-            "tokensVersion": version,
+            "designDataVersion": version,
         }),
     };
 
