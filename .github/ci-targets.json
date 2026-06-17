@@ -30,6 +30,8 @@
     "design-data:legacy-output",
     "design-data-glue:ci",
     "design-data-agent-mcp:test",
+    "design-data-skill:test",
+    "s2-docs-mcp:test",
     "token-naming-audit:ci"
   ],
   "excludedFromCI": [
