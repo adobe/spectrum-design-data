@@ -20,30 +20,36 @@ import { join, dirname } from "path";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** Parse a metadata field value from a SKILL.md file's YAML frontmatter. */
-function parseSkillVersion(skillPath) {
+/**
+ * Parse a metadata field value from a SKILL.md YAML frontmatter block.
+ * Matches the first `fieldName: "value"` line under the metadata: key.
+ * Assumes fieldName does not collide with a top-level YAML key of the same name.
+ */
+function parseMetadataField(skillPath, fieldName) {
   const content = readFileSync(skillPath, "utf-8");
   // Extract content between the first two --- delimiters
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) throw new Error(`No YAML frontmatter found in ${skillPath}`);
   const frontmatter = match[1];
-  // Extract metadata.version — expects the form: `  version: "x.y.z"`
-  const versionMatch = frontmatter.match(
-    /^\s*version:\s*["']?([^"'\r\n]+)["']?\s*$/m,
+  // Extract metadata.<fieldName> — expects: `  fieldName: "x.y.z"`
+  const re = new RegExp(
+    `^\\s*${fieldName}:\\s*["']?([^"'\\r\\n]+)["']?\\s*$`,
+    "m",
   );
-  if (!versionMatch) {
+  const valueMatch = frontmatter.match(re);
+  if (!valueMatch) {
     throw new Error(
-      `metadata.version not found in frontmatter of ${skillPath}`,
+      `metadata.${fieldName} not found in frontmatter of ${skillPath}`,
     );
   }
-  return versionMatch[1].trim();
+  return valueMatch[1].trim();
 }
 
 test("SKILL.md metadata.version matches package.json version", (t) => {
   const skillPath = join(root, "skills", "design-data", "SKILL.md");
   const pkgPath = join(root, "package.json");
 
-  const skillVersion = parseSkillVersion(skillPath);
+  const skillVersion = parseMetadataField(skillPath, "version");
   const { version: pkgVersion } = JSON.parse(readFileSync(pkgPath, "utf-8"));
 
   t.is(

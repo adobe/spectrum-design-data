@@ -84,6 +84,9 @@ export function createReadTools() {
         const ds = await getDataset();
         const { provenance } = ds.primer();
         return {
+          // top-level source is the legacy skill-contract field; provenance.source
+          // duplicates it intentionally — provenance is the richer metrics object
+          // and consumers should prefer it going forward.
           source: "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
