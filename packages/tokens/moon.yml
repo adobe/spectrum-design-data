@@ -79,8 +79,9 @@ tasks:
       - rm
       - -rf
       - dist
-    preset: "server"
     toolchain: "system"
+    options:
+      runInCI: false
   verifyLegacyRoundtrip:
     command: ../../sdk/target/debug/design-data
     args:

@@ -29,7 +29,8 @@ tasks:
   # Code quality
   format:
     command: [pnpm, prettier, --write, "./src", "./test"]
-    preset: "server"
+    options:
+      runInCI: false
 
   # Quality pipeline
   ci:

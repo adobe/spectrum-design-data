@@ -22,7 +22,8 @@ tasks:
       - "@globs(sources)"
       - "@globs(lib)"
       - "src/merge-spectrum-express.js"
-    preset: "server"
+    options:
+      runInCI: false
   merge-dark-darkest:
     command:
       - node
@@ -31,4 +32,5 @@ tasks:
       - "@globs(sources)"
       - "@globs(lib)"
       - "src/merge-dark-darkest.js"
-    preset: "server"
+    options:
+      runInCI: false

@@ -39,13 +39,7 @@ const excluded = new Set(excludedFromCI);
 
 let moonOutput;
 try {
-  // moon 2.x always emits JSON; moon 1.x requires --json flag
-  const raw = execSync('moon query tasks', { cwd: root, encoding: 'utf8' });
-  if (raw.trimStart().startsWith('{') || raw.trimStart().startsWith('[')) {
-    moonOutput = raw;
-  } else {
-    moonOutput = execSync('moon query tasks --json', { cwd: root, encoding: 'utf8' });
-  }
+  moonOutput = execSync('moon query tasks', { cwd: root, encoding: 'utf8' });
 } catch (err) {
   console.error('Failed to run `moon query tasks`:', err.message);
   process.exit(1);

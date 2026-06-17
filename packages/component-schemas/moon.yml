@@ -30,19 +30,23 @@ tasks:
     command:
       - c8
       - ava
-    preset: "server"
+    options:
+      runInCI: false
   test-schema-validation:
     command:
       - ava
       - test/schema-validation.test.js
-    preset: "server"
+    options:
+      runInCI: false
   test-integration:
     command:
       - ava
       - test/integration.test.js
-    preset: "server"
+    options:
+      runInCI: false
   test-performance:
     command:
       - ava
       - test/performance.test.js
-    preset: "server"
+    options:
+      runInCI: false

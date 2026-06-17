@@ -19,14 +19,17 @@ tasks:
     command:
       - pnpm
       - lint-staged
-    preset: "server"
+    options:
+      runInCI: false
   prepare:
     command:
       - pnpm
       - "husky || true"
-    preset: "server"
+    options:
+      runInCI: false
   release:
     command:
       - pnpm
       - changeset publish
-    preset: "server"
+    options:
+      runInCI: false
