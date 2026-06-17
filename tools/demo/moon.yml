@@ -1,4 +1,4 @@
-type: tool
+layer: tool
 language: bash
 
 tasks:
@@ -27,7 +27,7 @@ tasks:
     command: [node, tools/demo/videos/record.mjs]
     options:
       runFromWorkspaceRoot: true
-    local: true
+    preset: "server"
 
   # Sync recorded audio to the rendered beats and assemble the narrated MP4 + captions.
   videos-build:
@@ -51,7 +51,7 @@ tasks:
     command: [pnpm, --dir, tools/demo/presentation, run, dev]
     options:
       runFromWorkspaceRoot: true
-    local: true
+    preset: "server"
 
   # Static export of the deck (shareable site under presentation/dist/).
   present-build:
@@ -98,7 +98,7 @@ tasks:
     command: [bash, tools/demo/auto/auto-demo.sh, D, --verify]
     options:
       runFromWorkspaceRoot: true
-    local: true
+    preset: "server"
 
   # Record all four casts to presentation/public/casts/ (operator-only).
   auto-record:
@@ -113,7 +113,7 @@ tasks:
     options:
       runFromWorkspaceRoot: true
       runInCI: false
-    local: true
+    preset: "server"
 
   # Ad-hoc TUI verification runner (Tier 2 of the tui-verify skill).
   # Drives the real binary in an rmux pane and asserts expected output.
@@ -125,7 +125,7 @@ tasks:
       runFromWorkspaceRoot: true
       # Needs rmux on PATH and a real PTY — not suitable for headless CI runners.
       runInCI: false
-    local: true
+    preset: "server"
     inputs:
       - "auto/verify-tui.sh"
       - "auto/lib/rmux-drive.sh"
