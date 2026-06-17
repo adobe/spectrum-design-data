@@ -182,14 +182,14 @@ impl Dataset {
     /// For in-memory datasets (`Dataset.fromTokens()`), both are empty / null.
     ///
     /// `provenance.source` is:
-    /// - `"embedded"` when created via `Dataset.embedded()` (includes `tokensVersion`)
+    /// - `"embedded"` when created via `Dataset.embedded()` (includes `designDataVersion`)
     /// - `"in-memory"` when created via `Dataset.fromTokens()`
     pub fn primer(&self) -> Result<JsValue, JsValue> {
         let provenance = match self.source {
             DatasetSource::Embedded => {
                 serde_json::json!({
                     "source": "embedded",
-                    "tokensVersion": primer::EMBEDDED_DATA_VERSION,
+                    "designDataVersion": primer::EMBEDDED_DATA_VERSION,
                 })
             }
             DatasetSource::InMemory => serde_json::json!({ "source": "in-memory" }),

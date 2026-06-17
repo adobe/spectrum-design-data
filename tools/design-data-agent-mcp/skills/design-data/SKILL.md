@@ -4,6 +4,9 @@ description: >
   Validate, query, resolve, diff, and author spec-conformant design tokens and components using the
   design-data MCP tools against a local dataset. Use when the user asks about design tokens, a design
   system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
+metadata:
+  author: adobe
+  version: "1.6.6"
 when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,

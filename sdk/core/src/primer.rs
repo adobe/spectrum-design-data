@@ -67,7 +67,7 @@ pub struct PrimerData {
 ///
 /// `provenance` is surface-specific:
 /// - CLI derives it from `data_source::Provenance` (in-repo, config, cache, embedded).
-/// - WASM uses `{ "source": "embedded", "tokensVersion": EMBEDDED_DATA_VERSION }`
+/// - WASM uses `{ "source": "embedded", "designDataVersion": EMBEDDED_DATA_VERSION }`
 ///   for the embedded dataset, or `{ "source": "in-memory" }` for `fromTokens`.
 pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
     let mode_sets: Vec<PrimerModeSet> = graph

@@ -5,6 +5,15 @@ project:
   description: "MCP server for S2 documentation"
 
 tasks:
+  test:
+    command: [pnpm, ava]
+    platform: node
+    inputs:
+      - "skills/**/*"
+      - "test/**/*.js"
+      - "ava.config.js"
+      - "package.json"
+
   build:
     command: 'echo "No build required for MCP server"'
 

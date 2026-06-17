@@ -43,6 +43,24 @@ test("primer returns expected top-level keys", async (t) => {
   t.true(result.components.length > 0, "components should be non-empty");
   t.true(Array.isArray(result.properties), "properties is an array");
   t.is(result.source, "embedded");
+  // provenance carries designDataVersion for metrics (the @adobe/spectrum-design-data
+  // version baked into the wasm at build time)
+  t.truthy(result.provenance, "provenance should be present");
+  t.is(
+    result.provenance.source,
+    "embedded",
+    "provenance.source should be 'embedded'",
+  );
+  t.is(
+    typeof result.provenance.designDataVersion,
+    "string",
+    "provenance.designDataVersion should be a string",
+  );
+  t.regex(
+    result.provenance.designDataVersion,
+    /^\d+\.\d+\.\d+/,
+    "provenance.designDataVersion should look like a semver",
+  );
 });
 
 test("primer does not require a CLI binary (no runCli import)", async (t) => {

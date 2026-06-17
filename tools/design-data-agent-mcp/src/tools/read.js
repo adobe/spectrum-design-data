@@ -77,11 +77,16 @@ export function createReadTools() {
         // shape uses keyed objects (matching the sibling design-data-mcp), which agents
         // and the SKILL.md skill prompt consume by key name. Skill contract:
         // tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
-        // taxonomyFields.{indexed,advisory}. CLI-only fields (specVersion, manifest,
-        // provenance) are not present — no SKILL.md reference or consumer relies on them.
+        // taxonomyFields.{indexed,advisory}. provenance is included for metrics:
+        // for the embedded dataset it carries designDataVersion (@adobe/spectrum-design-data
+        // version baked in at wasm build time); for custom datasets the source differs.
         const wasm = await getWasm();
         const ds = await getDataset();
+        const { provenance } = ds.primer();
         return {
+          // top-level source is the legacy skill-contract field; provenance.source
+          // duplicates it intentionally — provenance is the richer metrics object
+          // and consumers should prefer it going forward.
           source: "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
@@ -95,6 +100,7 @@ export function createReadTools() {
           },
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
+          provenance,
         };
       },
     },

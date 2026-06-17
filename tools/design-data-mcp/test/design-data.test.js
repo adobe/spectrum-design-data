@@ -215,3 +215,28 @@ test("design-data-guideline-list category is not required", (t) => {
   const schema = tools["design-data-guideline-list"].inputSchema;
   t.falsy(schema.required, "category should not be required");
 });
+
+// ── design-data-primer provenance ────────────────────────────────────────────
+
+test("design-data-primer returns provenance with designDataVersion", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const result = await tools["design-data-primer"].handler({});
+  t.truthy(result.provenance, "provenance should be present");
+  t.is(
+    result.provenance.source,
+    "embedded",
+    "provenance.source should be 'embedded'",
+  );
+  t.is(
+    typeof result.provenance.designDataVersion,
+    "string",
+    "provenance.designDataVersion should be a string",
+  );
+  t.regex(
+    result.provenance.designDataVersion,
+    /^\d+\.\d+\.\d+/,
+    "provenance.designDataVersion should look like a semver",
+  );
+});

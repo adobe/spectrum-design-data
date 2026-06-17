@@ -119,7 +119,14 @@ export function createDesignDataTools() {
             }
           : null;
 
+        // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
+        // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
+        const { provenance } = ds.primer();
+
         return {
+          // top-level source is the legacy skill-contract field; provenance.source
+          // duplicates it intentionally — provenance is the richer metrics object
+          // and consumers should prefer it going forward.
           source: "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
@@ -134,6 +141,7 @@ export function createDesignDataTools() {
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
+          provenance,
         };
       },
     },
