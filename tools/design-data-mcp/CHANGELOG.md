@@ -1,5 +1,37 @@
 # @adobe/design-data-mcp
 
+## 1.7.0
+
+### Minor Changes
+
+- [`6efe209`](https://github.com/adobe/spectrum-design-data/commit/6efe209fe93f09d76b379226fa4d17a2eab3751a) Thanks [@GarthDB](https://github.com/GarthDB)! - Package as a Claude Desktop Extension for one-click install from the Anthropic Software Directory.
+  - **src/tools/design-data.js**: Add `annotations` (`title`, `readOnlyHint`, `openWorldHint`)
+    to all 7 tools per Anthropic Software Directory policy.
+  - **src/index.js**: Forward `annotations` in `ListToolsRequestSchema`; fix stale docstring.
+  - **scripts/generate-mcpb.mjs**: New script that stages the bundle — vendors deps via
+    recursive `copyDependencyTree` (dereferenced, so pnpm workspace packages copy cleanly),
+    generates `icon.png` from `site/adobe_logo.svg` via `sharp` (512×512, transparent bg),
+    and writes a `manifest.json` (manifest_version 0.3) auto-versioned from `package.json`.
+  - **moon.yml**: Add `bundle` task (`node scripts/generate-mcpb.mjs` → `mcpb validate`
+    → `mcpb pack` → `dist/design-data.mcpb`).
+  - **package.json**: Add `sharp` devDependency for the generator script.
+  - **README.md**: Document all 7 tools (was 5); add Extension install section.
+
+### Patch Changes
+
+- [#1180](https://github.com/adobe/spectrum-design-data/pull/1180) [`1a4d4f7`](https://github.com/adobe/spectrum-design-data/commit/1a4d4f7bbac7d8f6c1d7f9949613d90f66116656) Thanks [@GarthDB](https://github.com/GarthDB)! - Post-review cleanup for the Claude Desktop Extension packaging.
+  - **scripts/generate-mcpb.mjs**: Remove unused `pathToFileURL` import;
+    replace `npx @anthropic-ai/mcpb` console hints with `pnpm exec mcpb`;
+    add comment on flat-dedup assumption in `copyDependencyTree`.
+  - **moon.yml**: Replace `npx --yes @anthropic-ai/mcpb` with `pnpm exec mcpb`
+    for deterministic builds without a per-run network fetch.
+  - **package.json**: Pin `@anthropic-ai/mcpb@^2.1.2` as a devDependency;
+    update `description` and `keywords` to remove stale CLI references.
+  - **test/design-data.test.js**: Assert all 7 tools carry correct MCP
+    annotations (`readOnlyHint`, `openWorldHint`, `title`).
+  - **test/generate-mcpb.test.js**: Smoke test that runs the bundle generator
+    and asserts staging structure and manifest correctness.
+
 ## 1.6.0
 
 ### Minor Changes
