@@ -25,7 +25,7 @@
  * Run via `moon run tools/design-data-mcp:bundle` (which also validates and packs).
  */
 
-import { fileURLToPath, pathToFileURL } from 'url';
+import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import fs from 'fs';
 import path from 'path';
@@ -159,8 +159,8 @@ fs.copyFileSync(path.join(repoRoot, 'LICENSE'), path.join(stagingDir, 'LICENSE')
 
 console.log(`\nBundle staged at: ${stagingDir}`);
 console.log('To validate and pack, run:');
-console.log(`  npx @anthropic-ai/mcpb validate ${stagingDir}`);
-console.log(`  npx @anthropic-ai/mcpb pack ${stagingDir} ${path.join(packageDir, 'dist', 'design-data.mcpb')}`);
+console.log(`  pnpm exec mcpb validate ${stagingDir}`);
+console.log(`  pnpm exec mcpb pack ${stagingDir} ${path.join(packageDir, 'dist', 'design-data.mcpb')}`);
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -175,6 +175,11 @@ function copyDependencyTree(
   bundledPackages,
   fromDir = repoRoot,
 ) {
+  // Dedup by bare package name (not name@version). This is correct for this repo's
+  // pnpm workspace where packages are hoisted to a single resolved version per name.
+  // If a future transitive dep requires a conflicting nested version, this guard will
+  // copy only the first-resolved copy — revisit if bundling starts seeing version
+  // mismatch errors at runtime.
   if (bundledPackages.has(packageName)) return;
 
   const pkgDir = resolvePackageDir(packageName, fromDir);

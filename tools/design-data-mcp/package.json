@@ -1,7 +1,7 @@
 {
   "name": "@adobe/design-data-mcp",
   "version": "1.6.0",
-  "description": "MCP server for Spectrum design tokens and component schemas via the design-data CLI",
+  "description": "MCP server for Spectrum design tokens, component schemas, and design guidelines (embedded, offline)",
   "type": "module",
   "main": "./src/index.js",
   "bin": {
@@ -36,6 +36,7 @@
     "@modelcontextprotocol/sdk": "^1.27.1"
   },
   "devDependencies": {
+    "@anthropic-ai/mcpb": "^2.1.2",
     "ava": "^6.0.1",
     "sharp": "^0.35.1"
   },
@@ -45,9 +46,10 @@
   "keywords": [
     "mcp",
     "spectrum",
+    "adobe",
     "design-system",
     "design-tokens",
-    "cli"
+    "design-data"
   ],
   "author": "Adobe",
   "license": "Apache-2.0"
