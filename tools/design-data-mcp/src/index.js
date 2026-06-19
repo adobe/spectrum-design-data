@@ -11,12 +11,10 @@
 /**
  * @adobe/design-data-mcp — MCP server for Spectrum design tokens and components.
  *
- * Wraps the @adobe/design-data CLI as five MCP tools, making Spectrum design
- * data available to any MCP-compatible agent (Cursor, Claude Desktop, etc.)
- * without requiring a Rust toolchain or monorepo checkout.
- *
- * The CLI resolves data automatically: it uses the embedded Spectrum snapshot
- * for zero-config offline use, or a `.design-data.toml` config for custom sources.
+ * Exposes seven read-only MCP tools backed by @adobe/design-data-wasm running
+ * in-process (no CLI binary or npx required). The embedded Spectrum snapshot
+ * powers zero-config offline use across Claude Desktop, Cursor, and any
+ * MCP-compatible agent.
  */
 
 import { readFileSync } from "fs";
@@ -45,10 +43,11 @@ export function createMCPServer() {
   const tools = createDesignDataTools();
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: tools.map(({ name, description, inputSchema }) => ({
+    tools: tools.map(({ name, description, inputSchema, annotations }) => ({
       name,
       description,
       inputSchema,
+      annotations,
     })),
   }));
 

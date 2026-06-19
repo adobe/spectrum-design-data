@@ -96,6 +96,11 @@ export function createDesignDataTools() {
     // ── primer ─────────────────────────────────────────────────────────────
     {
       name: "design-data-primer",
+      annotations: {
+        title: "Design Data: Primer",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Get a structural overview of the Spectrum design dataset: token count, " +
         "available mode-sets (color-scheme, scale, contrast), component list, " +
@@ -149,6 +154,11 @@ export function createDesignDataTools() {
     // ── query ───────────────────────────────────────────────────────────────
     {
       name: "design-data-query",
+      annotations: {
+        title: "Design Data: Query Tokens",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Filter Spectrum tokens by a query expression. " +
         "Expression syntax: `component=button`, `component=button,state=hover`, " +
@@ -175,6 +185,11 @@ export function createDesignDataTools() {
     // ── suggest ─────────────────────────────────────────────────────────────
     {
       name: "design-data-suggest",
+      annotations: {
+        title: "Design Data: Suggest Tokens",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
         "scoring over token name segments, name-object fields, and description text. " +
@@ -206,6 +221,11 @@ export function createDesignDataTools() {
     // ── component ───────────────────────────────────────────────────────────
     {
       name: "design-data-component",
+      annotations: {
+        title: "Design Data: Get Component",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Get the full component declaration for a Spectrum component by ID. " +
         "Returns the component's displayName, description, and all available options " +
@@ -231,6 +251,11 @@ export function createDesignDataTools() {
     // ── resolve ─────────────────────────────────────────────────────────────
     {
       name: "design-data-resolve",
+      annotations: {
+        title: "Design Data: Resolve Token",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Resolve the concrete value of a Spectrum token property for a given " +
         "mode-set context (color-scheme, scale, contrast). " +
@@ -278,6 +303,11 @@ export function createDesignDataTools() {
     // ── guideline-list ──────────────────────────────────────────────────────
     {
       name: "design-data-guideline-list",
+      annotations: {
+        title: "Design Data: List Guidelines",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "List available Spectrum design guideline pages. " +
         "Returns catalog entries with slug, title, category, status, and sourceUrl. " +
@@ -314,6 +344,11 @@ export function createDesignDataTools() {
     // ── guideline ───────────────────────────────────────────────────────────
     {
       name: "design-data-guideline",
+      annotations: {
+        title: "Design Data: Get Guideline",
+        readOnlyHint: true,
+        openWorldHint: false,
+      },
       description:
         "Get the full guideline document for a Spectrum design page by ID. " +
         "Returns the guideline's title, category, metadata, and documentBlocks body " +
