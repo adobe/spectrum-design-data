@@ -34,8 +34,8 @@ tasks:
       - -c
       - >-
         node scripts/generate-mcpb.mjs &&
-        npx --yes @anthropic-ai/mcpb validate dist/design-data-mcp-bundle &&
-        npx --yes @anthropic-ai/mcpb pack dist/design-data-mcp-bundle dist/design-data.mcpb
+        pnpm exec mcpb validate dist/design-data-mcp-bundle &&
+        pnpm exec mcpb pack dist/design-data-mcp-bundle dist/design-data.mcpb
     inputs:
       - src/**/*
       - scripts/generate-mcpb.mjs

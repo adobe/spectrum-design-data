@@ -169,6 +169,33 @@ test("design-data-guideline throws for unknown guideline id", async (t) => {
   );
 });
 
+// ── MCP tool annotations ──────────────────────────────────────────────────────
+
+test("each tool has required MCP annotations", (t) => {
+  for (const tool of createDesignDataTools()) {
+    t.truthy(tool.annotations, `${tool.name} should have annotations`);
+    t.is(
+      typeof tool.annotations.title,
+      "string",
+      `${tool.name} annotations.title should be a string`,
+    );
+    t.true(
+      tool.annotations.title.length > 0,
+      `${tool.name} annotations.title should be non-empty`,
+    );
+    t.is(
+      tool.annotations.readOnlyHint,
+      true,
+      `${tool.name} readOnlyHint should be true`,
+    );
+    t.is(
+      tool.annotations.openWorldHint,
+      false,
+      `${tool.name} openWorldHint should be false`,
+    );
+  }
+});
+
 // ── structural tests ──────────────────────────────────────────────────────────
 
 test("createDesignDataTools exposes seven tools", (t) => {
