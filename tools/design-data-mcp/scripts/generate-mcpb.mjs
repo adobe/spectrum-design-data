@@ -41,6 +41,17 @@ const packageJson = JSON.parse(
 
 const stagingDir = path.join(packageDir, 'dist', 'design-data-mcp-bundle');
 
+/**
+ * Per-package subpaths to omit from the published file set.
+ * These are valid `files` entries that this Node stdio server never loads at runtime.
+ * Each value is a list of relative paths (from the package root) to skip.
+ */
+const PER_PACKAGE_EXCLUDES = {
+  // @adobe/design-data-wasm ships two wasm targets: pkg/node (loaded by the Node
+  // exports condition) and pkg/web (browser target, never loaded by a Node stdio server).
+  '@adobe/design-data-wasm': ['pkg/web'],
+};
+
 // ── 1. Staging dir setup ───────────────────────────────────────────────────
 
 fs.rmSync(stagingDir, { recursive: true, force: true });
@@ -186,7 +197,8 @@ function copyDependencyTree(
   const pkgJson = JSON.parse(fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8'));
   bundledPackages.add(packageName);
 
-  copyDirectory(pkgDir, path.join(outputNodeModulesDir, packageName));
+  const destDir = path.join(outputNodeModulesDir, packageName);
+  copyPackageFiles(pkgDir, destDir, packageName, pkgJson);
 
   for (const dep of Object.keys(pkgJson.dependencies || {})) {
     copyDependencyTree(dep, outputNodeModulesDir, bundledPackages, pkgDir);
@@ -194,6 +206,84 @@ function copyDependencyTree(
   for (const dep of Object.keys(pkgJson.optionalDependencies || {})) {
     copyDependencyTree(dep, outputNodeModulesDir, bundledPackages, pkgDir);
   }
+}
+
+/**
+ * Copy the runtime-only files for a package into destDir.
+ *
+ * For workspace-source packages (resolved to a source tree, not a published store
+ * entry), we honour the package's `files` allowlist (the same set npm would publish),
+ * plus always-included files (package.json, README*, LICENSE*). This avoids copying
+ * Rust sources, test fixtures, build configs, and nested devDep node_modules.
+ *
+ * For registry packages (already pruned published form), we copy the whole directory
+ * but always exclude any nested `node_modules` subtrees — the recursion in
+ * copyDependencyTree already flattens all declared runtime deps to the staging root.
+ */
+function copyPackageFiles(pkgDir, destDir, packageName, pkgJson) {
+  fs.mkdirSync(destDir, { recursive: true });
+
+  // Detect a workspace-source package: its resolved directory is NOT inside a
+  // node_modules/.pnpm store path (i.e. it's a live monorepo source tree).
+  const nodeModulesSep = `${path.sep}node_modules${path.sep}`;
+  const isWorkspaceSource = !pkgDir.includes(nodeModulesSep);
+
+  const excludedSubpaths = (PER_PACKAGE_EXCLUDES[packageName] || []).map(
+    (p) => path.join(pkgDir, p),
+  );
+
+  if (isWorkspaceSource && Array.isArray(pkgJson.files) && pkgJson.files.length > 0) {
+    // Always include package.json and top-level README / LICENSE files.
+    const alwaysInclude = ['package.json'];
+    for (const entry of fs.readdirSync(pkgDir)) {
+      if (/^(readme|license|licence)/i.test(entry)) alwaysInclude.push(entry);
+    }
+
+    const toCopy = [...new Set([...pkgJson.files, ...alwaysInclude])];
+    for (const entry of toCopy) {
+      const src = path.join(pkgDir, entry);
+      const dst = path.join(destDir, entry);
+      if (!fs.existsSync(src)) continue;
+
+      // Skip any per-package excluded subpath.
+      if (excludedSubpaths.some((ex) => src === ex || src.startsWith(ex + path.sep))) {
+        continue;
+      }
+
+      const stat = fs.statSync(src, { throwIfNoEntry: false });
+      if (!stat) continue;
+      if (stat.isDirectory()) {
+        // Copy directory, dereferencing symlinks, but never include nested node_modules.
+        fs.cpSync(src, dst, {
+          recursive: true,
+          dereference: true,
+          filter: (srcPath) => !isInsideNodeModules(srcPath, src),
+        });
+      } else {
+        fs.mkdirSync(path.dirname(dst), { recursive: true });
+        fs.copyFileSync(src, dst);
+      }
+    }
+  } else {
+    // Registry package (already published/pruned) — copy whole dir, skip node_modules.
+    fs.cpSync(pkgDir, destDir, {
+      recursive: true,
+      dereference: true,
+      filter: (srcPath) => !isInsideNodeModules(srcPath, pkgDir),
+    });
+  }
+}
+
+/**
+ * Returns true if `filePath` is inside a `node_modules` subdirectory of `pkgRoot`.
+ * Used as an fs.cpSync filter to prevent nested devDep node_modules from being copied.
+ */
+function isInsideNodeModules(filePath, pkgRoot) {
+  // Allow the root itself and paths that don't contain node_modules beneath pkgRoot.
+  const rel = path.relative(pkgRoot, filePath);
+  if (!rel) return false; // the root itself
+  const parts = rel.split(path.sep);
+  return parts.includes('node_modules');
 }
 
 /**
@@ -244,5 +334,9 @@ function resolvePackageDir(packageName, fromDir) {
 /** Copy a directory tree, dereferencing symlinks (flattens pnpm workspace symlinks). */
 function copyDirectory(from, to) {
   fs.mkdirSync(path.dirname(to), { recursive: true });
-  fs.cpSync(from, to, { recursive: true, dereference: true });
+  fs.cpSync(from, to, {
+    recursive: true,
+    dereference: true,
+    filter: (srcPath) => !isInsideNodeModules(srcPath, from),
+  });
 }
