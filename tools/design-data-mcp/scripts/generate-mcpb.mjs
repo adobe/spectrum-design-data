@@ -76,7 +76,7 @@ for (const dep of Object.keys(packageJson.dependencies || {})) {
 
 // ── 4. Generate icon.png from Adobe logo SVG ──────────────────────────────
 
-const adobeLogoSvg = path.join(repoRoot, 'site', 'adobe_logo.svg');
+const adobeLogoSvg = path.join(repoRoot, 'docs', 'site', 'public', 'adobe_logo.svg');
 if (!fs.existsSync(adobeLogoSvg)) {
   throw new Error(`Adobe logo SVG not found at ${adobeLogoSvg}`);
 }

@@ -30,7 +30,7 @@ tasks:
       - scripts/generate-mcpb.mjs
       - README.md
       - package.json
-      - $workspaceRoot/site/adobe_logo.svg
+      - $workspaceRoot/docs/site/public/adobe_logo.svg
       - $workspaceRoot/LICENSE
     outputs:
       - dist/design-data-mcp-bundle
