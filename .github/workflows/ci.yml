@@ -31,11 +31,20 @@ jobs:
           # historical file blobs (fetched on demand). Keeps moon's affected
           # detection intact while reducing checkout time on large histories.
           filter: blob:none
+      # Pre-install Rust before moon/proto runs. .moon/toolchains.yml configures
+      # rust@1.88.0 globally, so proto installs it at task-graph setup time even
+      # for Node-only CI runs. Without this step, proto uses rustup to install
+      # the toolchain but then fails to locate cargo at the expected path — a
+      # proto/rustup interaction bug. Pre-installing via dtolnay/rust-toolchain
+      # ensures proto finds cargo already present and skips its own install.
+      - uses: dtolnay/rust-toolchain@1.88.0
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
       - name: Cache pnpm store
         uses: ./.github/actions/cache-pnpm-store
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Run Node CI tasks
         run: moon ci $(jq -r '.node[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
@@ -79,6 +88,8 @@ jobs:
           auto-install: true
       - name: Cache pnpm store
         uses: ./.github/actions/cache-pnpm-store
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Run Rust CI tasks
         run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1

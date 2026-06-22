@@ -18,7 +18,7 @@
 
 import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
+import { join, dirname, resolve, sep } from "path";
 
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
@@ -56,6 +56,10 @@ function resolveSpectrumDataPackage() {
  * Load a JSON file from a subdirectory of the design-data package.
  * Throws descriptive errors when the package or file is absent.
  *
+ * Path safety: the resolved absolute path is asserted to stay within
+ * `<pkgRoot>/<subdir>/` so that a crafted `id` value (e.g. `../../etc/passwd`)
+ * cannot read files outside the intended data directory.
+ *
  * @param {string} subdir - e.g. "components" or "guidelines"
  * @param {string} id - kebab-case slug, e.g. "button" or "colors"
  */
@@ -67,7 +71,12 @@ function loadDataFile(subdir, id) {
         `Install it with: pnpm add @adobe/spectrum-design-data`,
     );
   }
-  const filePath = join(pkgRoot, subdir, `${id}.json`);
+  const baseDir = resolve(pkgRoot, subdir);
+  const filePath = resolve(baseDir, `${id}.json`);
+  // Containment check: reject any path that escapes the intended subdirectory.
+  if (!filePath.startsWith(baseDir + sep)) {
+    throw new Error(`Invalid ${subdir} id: "${id}"`);
+  }
   if (!existsSync(filePath)) {
     throw new Error(
       `Not found: "${id}" in ${subdir}/. ` +

@@ -9,7 +9,6 @@
     "spectrum-diff-core:ci",
     "optimized-diff:test",
     "release-analyzer:test",
-    "demo:ci",
     "spectrum-design-data-mcp:test",
     "component-options-editor:test",
     "component-options-editor:build",
@@ -29,12 +28,15 @@
     "design-data:roundtrip-verify",
     "design-data:legacy-output",
     "design-data-glue:ci",
+    "demo:ci",
+    "design-data-mcp:test",
     "design-data-agent-mcp:test",
     "design-data-skill:test",
     "s2-docs-mcp:test",
     "token-naming-audit:ci"
   ],
   "excludedFromCI": [
+    "design-data-mcp:bundle",
     "component-diff-generator:diff",
     "markdown-generator:generate",
     "optimized-diff:benchmark",
