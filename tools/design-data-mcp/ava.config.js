@@ -11,6 +11,11 @@
 export default {
   files: ["test/**/*.test.js"],
   verbose: true,
+  // Run test files one at a time. Several test files (bundle-smoke, bundle-contents,
+  // generate-mcpb) all invoke or depend on generate-mcpb.mjs, which writes to the
+  // shared dist/design-data-mcp-bundle staging dir. Running them concurrently causes
+  // EEXIST races; serial execution avoids this without needing a lockfile.
+  concurrency: 1,
   environmentVariables: {
     NODE_ENV: "test",
   },

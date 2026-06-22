@@ -15,27 +15,12 @@ tasks:
       - node
       - src/cli.js
     preset: "server"
-  test:
+  stage:
+    # Generate the MCPB staging directory (without validating or packing).
+    # Used by both `test` and `bundle` as a dep so the staged tree always exists.
     command:
-      - pnpm
-      - ava
-  bundle:
-    # Produce design-data.mcpb — a self-contained Claude Desktop Extension archive.
-    #
-    # Steps:
-    #   1. scripts/generate-mcpb.mjs stages src/, vendors all runtime deps (including
-    #      workspace:* packages via recursive copyDependencyTree with dereference:true),
-    #      generates icon.png from site/adobe_logo.svg via sharp, and writes manifest.json
-    #      (manifest_version 0.3) auto-versioned from package.json.
-    #   2. npx @anthropic-ai/mcpb validate checks the staged bundle.
-    #   3. npx @anthropic-ai/mcpb pack produces dist/design-data.mcpb.
-    command:
-      - bash
-      - -c
-      - >-
-        node scripts/generate-mcpb.mjs &&
-        pnpm exec mcpb validate dist/design-data-mcp-bundle &&
-        pnpm exec mcpb pack dist/design-data-mcp-bundle dist/design-data.mcpb
+      - node
+      - scripts/generate-mcpb.mjs
     inputs:
       - src/**/*
       - scripts/generate-mcpb.mjs
@@ -43,5 +28,28 @@ tasks:
       - package.json
       - $workspaceRoot/site/adobe_logo.svg
       - $workspaceRoot/LICENSE
+    outputs:
+      - dist/design-data-mcp-bundle
+  test:
+    command:
+      - pnpm
+      - ava
+    deps:
+      - "~:stage"
+  bundle:
+    # Produce design-data.mcpb — a self-contained Claude Desktop Extension archive.
+    #
+    # Steps:
+    #   1. ~:stage generates the staging dir (dep below — cached when inputs unchanged).
+    #   2. npx @anthropic-ai/mcpb validate checks the staged bundle.
+    #   3. npx @anthropic-ai/mcpb pack produces dist/design-data.mcpb.
+    command:
+      - bash
+      - -c
+      - >-
+        pnpm exec mcpb validate dist/design-data-mcp-bundle &&
+        pnpm exec mcpb pack dist/design-data-mcp-bundle dist/design-data.mcpb
+    deps:
+      - "~:stage"
     outputs:
       - dist/design-data.mcpb

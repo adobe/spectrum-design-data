@@ -19,20 +19,18 @@
  *   - initialize succeeds (serverInfo present).
  *   - tools/list returns exactly 7 tools.
  *
- * This test is automatically skipped when the staging bundle does not exist
- * (i.e. when `moon run tools/design-data-mcp:bundle` has not been run yet),
- * so it never breaks a plain `pnpm --filter @adobe/design-data-mcp test` run.
+ * The staging bundle is auto-generated in test.before when absent, so these
+ * tests never silently skip — locally or in CI.
  */
 
 import test from "ava";
 import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
-import { join, resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { stagingDir, ensureBundle } from "./helpers/ensure-bundle.js";
 
-const packageDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const stagingDir = join(packageDir, "dist", "design-data-mcp-bundle");
-const entryPoint = join(stagingDir, "src", "cli.js");
+// Ensure the staging bundle exists before any test runs.
+// `ensureBundle` runs generate-mcpb.mjs when the staging dir is absent so
+// these tests never silently skip — the old skip-if-absent pattern is removed.
+test.before(ensureBundle);
 
 const EXPECTED_TOOLS = [
   "design-data-primer",
@@ -136,67 +134,37 @@ function runBundleSmoke() {
   });
 }
 
-// Skip the entire test suite when the bundle has not been generated.
-const bundleExists = existsSync(entryPoint);
-
 test.serial(
   "bundle starts offline and returns correct serverInfo",
-  bundleExists
-    ? async (t) => {
-        const { initResult } = await runBundleSmoke();
-        t.truthy(initResult.result, "initialize result should be present");
-        t.is(initResult.result.serverInfo?.name, "design-data");
-        t.truthy(
-          initResult.result.serverInfo?.version,
-          "serverInfo.version should be set",
-        );
-      }
-    : (t) => {
-        t.log(
-          "SKIPPED — run `moon run tools/design-data-mcp:bundle` first to generate the staging bundle.",
-        );
-        t.pass();
-      },
+  async (t) => {
+    const { initResult } = await runBundleSmoke();
+    t.truthy(initResult.result, "initialize result should be present");
+    t.is(initResult.result.serverInfo?.name, "design-data");
+    t.truthy(
+      initResult.result.serverInfo?.version,
+      "serverInfo.version should be set",
+    );
+  },
 );
 
-test.serial(
-  "bundle tools/list returns all 7 expected tools",
-  bundleExists
-    ? async (t) => {
-        const { toolsResult } = await runBundleSmoke();
-        const tools = toolsResult.result?.tools ?? [];
-        const names = tools.map((tool) => tool.name);
-        t.is(
-          names.length,
-          7,
-          `Expected 7 tools, got ${names.length}: ${names.join(", ")}`,
-        );
-        for (const expected of EXPECTED_TOOLS) {
-          t.true(names.includes(expected), `Missing tool: ${expected}`);
-        }
-      }
-    : (t) => {
-        t.log(
-          "SKIPPED — run `moon run tools/design-data-mcp:bundle` first to generate the staging bundle.",
-        );
-        t.pass();
-      },
-);
+test.serial("bundle tools/list returns all 7 expected tools", async (t) => {
+  const { toolsResult } = await runBundleSmoke();
+  const tools = toolsResult.result?.tools ?? [];
+  const names = tools.map((tool) => tool.name);
+  t.is(
+    names.length,
+    7,
+    `Expected 7 tools, got ${names.length}: ${names.join(", ")}`,
+  );
+  for (const expected of EXPECTED_TOOLS) {
+    t.true(names.includes(expected), `Missing tool: ${expected}`);
+  }
+});
 
-test.serial(
-  "bundle starts with no Cannot-find-module errors",
-  bundleExists
-    ? async (t) => {
-        const { stderr } = await runBundleSmoke();
-        t.false(
-          stderr.includes("Cannot find module"),
-          `Unexpected 'Cannot find module' in stderr:\n${stderr}`,
-        );
-      }
-    : (t) => {
-        t.log(
-          "SKIPPED — run `moon run tools/design-data-mcp:bundle` first to generate the staging bundle.",
-        );
-        t.pass();
-      },
-);
+test.serial("bundle starts with no Cannot-find-module errors", async (t) => {
+  const { stderr } = await runBundleSmoke();
+  t.false(
+    stderr.includes("Cannot find module"),
+    `Unexpected 'Cannot find module' in stderr:\n${stderr}`,
+  );
+});

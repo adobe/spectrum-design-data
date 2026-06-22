@@ -10,6 +10,7 @@
     "optimized-diff:test",
     "release-analyzer:test",
     "demo:ci",
+    "design-data-mcp:test",
     "spectrum-design-data-mcp:test",
     "component-options-editor:test",
     "component-options-editor:build",
@@ -35,6 +36,7 @@
     "token-naming-audit:ci"
   ],
   "excludedFromCI": [
+    "design-data-mcp:bundle",
     "component-diff-generator:diff",
     "markdown-generator:generate",
     "optimized-diff:benchmark",
