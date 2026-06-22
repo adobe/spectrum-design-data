@@ -21,6 +21,10 @@ tasks:
     command:
       - node
       - scripts/generate-mcpb.mjs
+    deps:
+      # generate-mcpb.mjs resolves @adobe/design-data-wasm via its main entry
+      # (pkg/node/design_data_wasm.js), which only exists after sdk-wasm:build.
+      - sdk-wasm:build
     inputs:
       - src/**/*
       - scripts/generate-mcpb.mjs
