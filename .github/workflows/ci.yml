@@ -43,6 +43,8 @@ jobs:
           auto-install: true
       - name: Cache pnpm store
         uses: ./.github/actions/cache-pnpm-store
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Run Node CI tasks
         run: moon ci $(jq -r '.node[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
@@ -86,6 +88,8 @@ jobs:
           auto-install: true
       - name: Cache pnpm store
         uses: ./.github/actions/cache-pnpm-store
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Run Rust CI tasks
         run: moon ci $(jq -r '.rust[]' .github/ci-targets.json | tr '\n' ' ')
       - uses: moonrepo/run-report-action@v1
