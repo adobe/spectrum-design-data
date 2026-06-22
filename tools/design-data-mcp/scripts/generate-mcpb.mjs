@@ -331,7 +331,11 @@ function resolvePackageDir(packageName, fromDir) {
   throw new Error(`Could not find package root for: ${packageName} (from ${fromDir})`);
 }
 
-/** Copy a directory tree, dereferencing symlinks (flattens pnpm workspace symlinks). */
+/**
+ * Copy a directory tree, dereferencing symlinks (flattens pnpm workspace symlinks).
+ * Used to copy `src/` into the staging root. Not used by copyDependencyTree — that
+ * calls copyPackageFiles instead, which honours the package's `files` allowlist.
+ */
 function copyDirectory(from, to) {
   fs.mkdirSync(path.dirname(to), { recursive: true });
   fs.cpSync(from, to, {

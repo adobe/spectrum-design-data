@@ -249,6 +249,14 @@ test("design-data-guideline-list category is not required", (t) => {
 // that is joined into a file path. Verify that crafted ids cannot escape the
 // intended subdirectory. The containment check in loadDataFile should throw
 // "Invalid <subdir> id" before any filesystem read.
+//
+// The assertions allow two error messages:
+//   "Invalid …"       — the containment check fired (expected path in CI where the
+//                        @adobe/spectrum-design-data package is installed).
+//   "not installed"   — loadDataFile couldn't locate pkgRoot (the package is absent
+//                        from the test env), so the containment check was never reached.
+//                        Still a safe outcome: no file was read. The "Not found:" guard
+//                        below ensures we never silently pass a plain missing-file error.
 
 test("design-data-component rejects path-traversal id with ..", async (t) => {
   const tools = Object.fromEntries(
