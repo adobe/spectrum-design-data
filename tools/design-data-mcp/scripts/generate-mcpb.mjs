@@ -198,30 +198,42 @@ function copyDependencyTree(
  *
  * We use createRequire() bound to fromDir so that resolution follows the same
  * node_modules lookup chain that the package at fromDir would use at runtime.
+ *
+ * IMPORTANT: Some packages (e.g. @modelcontextprotocol/sdk) have nested
+ * `dist/cjs/package.json` stubs that satisfy `<pkg>/package.json` resolution but
+ * carry empty `dependencies`. We always walk UP from any resolved path to find the
+ * ancestor whose `package.json` has `name === packageName` — that is the true root
+ * with the real dep tree.
  */
 function resolvePackageDir(packageName, fromDir) {
   // createRequire needs a file URL or path to a *file* (not a directory) to anchor from.
   const anchorFile = path.join(fromDir, '__anchor__.js');
   const req = createRequire(anchorFile);
+
+  // Get any resolvable path inside the package, then walk up to find the true root.
+  let startPath;
   try {
-    const pkgJsonPath = req.resolve(`${packageName}/package.json`);
-    return path.dirname(pkgJsonPath);
+    startPath = req.resolve(`${packageName}/package.json`);
   } catch {
-    // Some packages don't expose package.json in their exports map — fall back to
-    // resolving the main entry and walking up to find the package root.
     try {
-      const mainPath = req.resolve(packageName);
-      let dir = path.dirname(mainPath);
-      while (dir !== path.parse(dir).root) {
-        if (fs.existsSync(path.join(dir, 'package.json'))) {
-          const json = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'));
-          if (json.name === packageName) return dir;
-        }
-        dir = path.dirname(dir);
-      }
-    } catch { /* ignore */ }
-    throw new Error(`Could not resolve package directory for: ${packageName} (from ${fromDir})`);
+      startPath = req.resolve(packageName);
+    } catch {
+      throw new Error(`Could not resolve package directory for: ${packageName} (from ${fromDir})`);
+    }
   }
+
+  // Walk up from the resolved path until we find a package.json with name === packageName.
+  let dir = path.dirname(startPath);
+  while (dir !== path.parse(dir).root) {
+    const candidate = path.join(dir, 'package.json');
+    if (fs.existsSync(candidate)) {
+      const json = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+      if (json.name === packageName) return dir;
+    }
+    dir = path.dirname(dir);
+  }
+
+  throw new Error(`Could not find package root for: ${packageName} (from ${fromDir})`);
 }
 
 /** Copy a directory tree, dereferencing symlinks (flattens pnpm workspace symlinks). */

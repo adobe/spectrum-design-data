@@ -216,6 +216,68 @@ test("design-data-guideline-list category is not required", (t) => {
   t.falsy(schema.required, "category should not be required");
 });
 
+// ── path-traversal containment (security) ────────────────────────────────────
+//
+// Both design-data-component and design-data-guideline take a user-supplied `id`
+// that is joined into a file path. Verify that crafted ids cannot escape the
+// intended subdirectory. The containment check in loadDataFile should throw
+// "Invalid <subdir> id" before any filesystem read.
+
+test("design-data-component rejects path-traversal id with ..", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const err = await t.throwsAsync(() =>
+    tools["design-data-component"].handler({ id: "../../package" }),
+  );
+  t.truthy(err);
+  t.true(
+    err.message.includes("Invalid") || err.message.includes("not installed"),
+    `Expected containment or not-installed error, got: ${err.message}`,
+  );
+  // Must NOT expose "not found" (which would mean the containment check was skipped)
+  t.false(
+    err.message.startsWith("Not found:"),
+    "Should reject before reaching the filesystem not-found check",
+  );
+});
+
+test("design-data-guideline rejects path-traversal id with ..", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const err = await t.throwsAsync(() =>
+    tools["design-data-guideline"].handler({ id: "../../package" }),
+  );
+  t.truthy(err);
+  t.true(
+    err.message.includes("Invalid") || err.message.includes("not installed"),
+    `Expected containment or not-installed error, got: ${err.message}`,
+  );
+  t.false(
+    err.message.startsWith("Not found:"),
+    "Should reject before reaching the filesystem not-found check",
+  );
+});
+
+test("design-data-component rejects absolute path as id", async (t) => {
+  const tools = Object.fromEntries(
+    createDesignDataTools().map((tool) => [tool.name, tool]),
+  );
+  const err = await t.throwsAsync(() =>
+    tools["design-data-component"].handler({ id: "/etc/passwd" }),
+  );
+  t.truthy(err);
+  t.true(
+    err.message.includes("Invalid") || err.message.includes("not installed"),
+    `Expected containment or not-installed error, got: ${err.message}`,
+  );
+  t.false(
+    err.message.startsWith("Not found:"),
+    "Should reject before reaching the filesystem not-found check",
+  );
+});
+
 // ── design-data-primer provenance ────────────────────────────────────────────
 
 test("design-data-primer returns provenance with designDataVersion", async (t) => {
