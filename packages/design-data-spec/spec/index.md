@@ -27,6 +27,7 @@ The specification defines:
 13. **Evolution** — deprecation lifecycle, migration windows, change classification, and legacy format contract ([Evolution](evolution.md)).
 14. **Dataset layout** — normative directory structure of a dataset (`tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, `guidelines/`), discovery algorithm, and optional root descriptor ([Dataset layout](dataset-layout.md)).
 15. **Guideline documents** — standalone JSON files representing non-component design guidance pages (color, typography, motion, spacing, principles, etc.); each wraps page metadata and a `documentBlocks` body ([Guideline format](guideline-format.md)).
+16. **Authoring workflow** — normative contract for authoring design data via tooling: authoritative source location, lifecycle operations (create / edit / deprecate / rename / alias-rewire / mode-set management), taxonomy-aware decomposition requirement, and output-generation obligations ([Authoring workflow](authoring-workflow.md)).
 
 ## Conformance
 
@@ -81,6 +82,7 @@ Full governance (compatibility tiers, migration, CLI `--spec-version`) is discus
 | [Evolution](evolution.md)                           | Deprecation lifecycle, migration windows, change classification.                                                                                      |
 | [Dataset layout](dataset-layout.md)                 | Normative dataset directory structure, discovery algorithm, optional root descriptor, and SPEC-044 structural pre-check.                              |
 | [Guideline format](guideline-format.md)             | Standalone guideline document shape: metadata fields, `category` enum, `related` cross-references, and required `documentBlocks` body (SPEC-045/046). |
+| [Authoring workflow](authoring-workflow.md)         | Normative authoring contract: authoritative source location, lifecycle operations, taxonomy-aware decomposition, and output-generation obligations.   |
 
 ## JSON Schema `$id` and versioning
 
