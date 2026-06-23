@@ -25,11 +25,11 @@ The source-of-truth direction is already normative in [Evolution](evolution.md#l
 
 ## Authoritative source
 
-**NORMATIVE:** `packages/design-data/` (or the dataset root declared in the active `.design-data.toml`) is the **authoritative source** for all design data. It MUST be the only location where design artifacts are authored. Output directories — including `packages/tokens/src/` and any platform-SDK directories — are **derived artifacts** and MUST NOT be independently edited.
+Per [Evolution — Legacy format contract](evolution.md#legacy-format-contract), `packages/design-data/` (or the dataset root declared in the active `.design-data.toml`) is the **authoritative source** for all design data; output directories are derived artifacts. This document extends that contract with the following authoring-specific obligations:
+
+**NORMATIVE:** The dataset root MUST be the only location where design artifacts are authored. Output directories — including `packages/tokens/src/` and any platform-SDK directories — MUST NOT be independently edited.
 
 **NORMATIVE:** An authoring tool that writes design data MUST write to the dataset root's registered directories (`tokens/`, `components/`, `fields/`, `mode-sets/`, `registry/`, `guidelines/`) as defined in [Dataset layout](dataset-layout.md). Writing to legacy output directories (`foundation.json`, `platform.json`, `product.json`) constitutes a non-conforming write operation for Spectrum foundation corpus authoring.
-
-**RATIONALE:** The cascade format carries richer metadata (structured name objects, UUID identities, rationale strings, full lifecycle fields) than any generated output format. Authoring in the cascade source preserves that metadata losslessly; authoring in a generated output and re-migrating is lossy and error-prone. This restates the normative direction already in [Evolution](evolution.md#legacy-format-contract) as an actionable authoring constraint.
 
 ## Authoring tools
 
@@ -48,11 +48,11 @@ The following tools constitute the normative authoring surface:
 
 The shipped CLI/TUI/MCP write path currently targets product-layer files (`foundation.json`, `platform.json`, `product.json`) — the distributed design system model introduced for product teams. Redirecting those tools to write to the foundation Spectrum corpus (`packages/design-data/tokens/*.tokens.json`) is Phase B work.
 
-**NORMATIVE:** Once the Phase B authoring engine ships, all authoring tools described above MUST write to the dataset root, not to legacy layer files. The `write_token` and `write_component` operations in [Agent-readable surface](agent-surface.md) are currently RECOMMENDED; they are **scheduled to become required** (MUST) at the spec version that ships the Phase B foundation-corpus write target, no earlier than two minor versions after this authoring-workflow section is first released. This mirrors the SPEC-017 escalation precedent in [Token format](token-format.md#name-object-field-names).
+**NORMATIVE:** Once the Phase B authoring engine ships, all authoring tools described above MUST write to the dataset root, not to legacy layer files. The `write_token` and `write_component` operations in [Agent-readable surface](agent-surface.md) are currently RECOMMENDED; they are **scheduled to become required** (MUST) when the Phase B foundation-corpus write target ships. The exact promotion version is tracked in RFC [#625](https://github.com/adobe/spectrum-design-data/discussions/625). This mirrors the SPEC-017 escalation precedent in [Token format](token-format.md#string-name-escape-hatch--spec-017-severity-schedule).
 
 ## Lifecycle operations
 
-An authoring tool that claims conformance with this section MUST support the following lifecycle operations across the token category. Operations for non-token categories are specified in the per-category authoring contracts (see [Per-category authoring contracts](#per-category-authoring-contracts)).
+The following table defines the **target token-authoring contract**: the complete set of lifecycle operations a fully conforming authoring tool MUST support. Current shipped conformance covers **create only**; edit and remaining lifecycle operations are Phase B work (see [Per-category authoring contracts](#per-category-authoring-contracts) and [Scheduled promotion](#scheduled-promotion)). Operations for non-token categories are specified in the per-category authoring contracts.
 
 ### Token lifecycle operations
 
@@ -112,7 +112,7 @@ The following per-category contracts specify what the authoring surface authors 
 1. Write all authored artifacts to the dataset root's registered directories (not to legacy output files).
 2. Assign UUIDs at creation time and preserve them across all subsequent operations.
 3. Write a valid `introduced` version on all created artifacts.
-4. Validate written artifacts against Layer 1 (JSON Schema) before persisting.
+4. Validate written artifacts against Layer 1 (JSON Schema) and Layer 2 (semantic rules) before persisting.
 5. Support structured name-object field decomposition using the `fields/` catalog for token creation.
 
 ## References
