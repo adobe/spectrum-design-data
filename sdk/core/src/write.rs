@@ -136,11 +136,10 @@ pub fn write_token(
         is_override,
     } = input;
 
-    // Inject rationale into the token object if supplied.
+    // Inject rationale into the token object if supplied, overwriting any prior value.
     if let Some(ref r) = rationale {
         if let Some(obj) = token.as_object_mut() {
-            obj.entry("rationale")
-                .or_insert_with(|| Value::String(r.clone()));
+            obj.insert("rationale".into(), Value::String(r.clone()));
         }
     }
 
@@ -220,6 +219,10 @@ fn read_legacy_file(path: &Path) -> Result<Map<String, Value>, CoreError> {
 
 /// Serialize `value` as pretty-printed JSON with a trailing newline and write to `path`.
 /// Creates parent directories if needed.
+///
+/// Uses a write-to-temp-then-rename sequence so a crash between truncation and completion
+/// cannot leave the file in an invalid state.  The temp file sits next to the target
+/// (same directory) so that `rename` is an atomic same-filesystem move on POSIX.
 fn write_json_file(path: &Path, value: &Value) -> Result<(), CoreError> {
     if let Some(parent) = path.parent() {
         if !parent.as_os_str().is_empty() {
@@ -227,7 +230,9 @@ fn write_json_file(path: &Path, value: &Value) -> Result<(), CoreError> {
         }
     }
     let json = serde_json::to_string_pretty(value)?;
-    std::fs::write(path, json + "\n")?;
+    let tmp = path.with_extension("tmp");
+    std::fs::write(&tmp, json + "\n")?;
+    std::fs::rename(&tmp, path)?;
     Ok(())
 }
 
@@ -261,8 +266,8 @@ fn read_cascade_file(path: &Path) -> Result<Vec<Value>, CoreError> {
 ///
 /// Matching priority:
 /// 1. `uuid` string equality — both sides must expose a `"uuid"` string field.
-/// 2. `name` object equality — both sides must expose a `"name"` object; compared as
-///    JSON value equality (all key/value pairs must match exactly).
+/// 2. `name` equality — covers both structured name objects (normal case) and plain
+///    string names (SPEC-017 escape hatch); compared as JSON value equality.
 ///
 /// Array order is preserved (cascade tie-breaking depends on it, see token-format.md §ordering).
 fn upsert_in_cascade_array(arr: &mut Vec<Value>, token: Value) -> bool {
@@ -280,9 +285,10 @@ fn upsert_in_cascade_array(arr: &mut Vec<Value>, token: Value) -> bool {
         }
     }
 
-    // 2. Name-object equality fallback (for tokens that lack a uuid yet).
+    // 2. Name equality fallback (for tokens that lack a uuid yet).
+    //    Handles both structured name objects and SPEC-017 plain-string names.
     if let Some(n) = name {
-        if n.is_object() {
+        if n.is_object() || n.is_string() {
             if let Some(pos) = arr
                 .iter()
                 .position(|e| e.get("name").map(|en| en == n).unwrap_or(false))
@@ -331,11 +337,10 @@ pub fn write_cascade_token(
         rationale,
     } = input;
 
-    // Inject rationale into the token object if supplied.
+    // Inject rationale into the token object if supplied, overwriting any prior value.
     if let Some(ref r) = rationale {
         if let Some(obj) = token.as_object_mut() {
-            obj.entry("rationale")
-                .or_insert_with(|| Value::String(r.clone()));
+            obj.insert("rationale".into(), Value::String(r.clone()));
         }
     }
 
@@ -1096,6 +1101,76 @@ mod cascade_tests {
         assert!(replaced, "name-object fallback should find the match");
         assert_eq!(arr.len(), 1, "should update in place, not append");
         assert_eq!(arr[0]["value"].as_str(), Some("rgb(240, 240, 0)"));
+    }
+
+    #[test]
+    fn write_cascade_token_overwrites_existing_rationale() {
+        // Write a token that already carries a rationale field, then re-write it
+        // with a different rationale.  The caller-supplied value must win.
+        let dir = TempDir::new().unwrap();
+        let target = dir.path().join("test.tokens.json");
+        let registry = cascade_registry();
+
+        let uuid = "11111111-aaaa-4aaa-8aaa-000000000001";
+        // First write — token already embeds "rationale": "old".
+        write_cascade_token(
+            WriteCascadeTokenInput {
+                token: json!({
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+                    "name": { "property": "color", "colorFamily": "cyan" },
+                    "value": "rgb(0, 255, 255)",
+                    "uuid": uuid,
+                    "rationale": "old"
+                }),
+                target: target.clone(),
+                rationale: None,
+            },
+            &registry,
+        )
+        .unwrap();
+
+        // Second write — caller passes rationale: Some("corrected").
+        write_cascade_token(
+            WriteCascadeTokenInput {
+                token: json!({
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+                    "name": { "property": "color", "colorFamily": "cyan" },
+                    "value": "rgb(0, 255, 255)",
+                    "uuid": uuid,
+                    "rationale": "old"
+                }),
+                target: target.clone(),
+                rationale: Some("corrected".into()),
+            },
+            &registry,
+        )
+        .unwrap();
+
+        let text = std::fs::read_to_string(&target).unwrap();
+        let doc: Value = serde_json::from_str(&text).unwrap();
+        assert_eq!(
+            doc[0]["rationale"].as_str(),
+            Some("corrected"),
+            "caller-supplied rationale must overwrite existing value"
+        );
+    }
+
+    #[test]
+    fn upsert_in_cascade_array_string_name_no_duplicate() {
+        // SPEC-017 string-named token with no uuid must be updated in place, not appended.
+        let mut arr = vec![json!({
+            "name": "checkout-bg",
+            "value": "rgb(255, 255, 255)"
+            // no uuid
+        })];
+        let updated = json!({
+            "name": "checkout-bg",
+            "value": "rgb(240, 240, 240)"
+        });
+        let replaced = upsert_in_cascade_array(&mut arr, updated);
+        assert!(replaced, "string-name fallback should find the match");
+        assert_eq!(arr.len(), 1, "must update in place, not append");
+        assert_eq!(arr[0]["value"].as_str(), Some("rgb(240, 240, 240)"));
     }
 
     #[test]
