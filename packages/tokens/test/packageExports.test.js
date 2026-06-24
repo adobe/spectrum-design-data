@@ -48,6 +48,19 @@ test("package.json exports preserve backward-compatible entry points", async (t)
     "./dist/*",
     "dist wildcard export required for @adobe/spectrum-tokens/dist/json/variables.json",
   );
+  t.is(
+    exports["./src/*"],
+    "./src/*",
+    "src wildcard export required for @adobe/spectrum-tokens/src/*.json",
+  );
+});
+
+test("src/color-palette.json maps through ./src/* export and exists", async (t) => {
+  const absolutePath = path.join(pkgDir, "src/color-palette.json");
+  await t.notThrowsAsync(
+    async () => access(absolutePath),
+    "src/color-palette.json must exist in the package",
+  );
 });
 
 test("dist/json/variables.json maps through ./dist/* export and exists after build", async (t) => {

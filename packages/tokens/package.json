@@ -25,6 +25,7 @@
   "exports": {
     ".": "./index.js",
     "./schemas/token-file.json": "./schemas/token-file.json",
+    "./src/*": "./src/*",
     "./dist/*": "./dist/*"
   },
   "devDependencies": {
