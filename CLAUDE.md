@@ -83,3 +83,16 @@ License: Apache-2.0.
 * `async/await` over `.then()` chains
 * Template literals for interpolation
 * Full patterns and anti-patterns → `.claude/rules/javascript.md` (loads when JS/TS files are open)
+
+## Code Intelligence Tools (MCP)
+
+Five MCP servers are configured in `.mcp.json` (committed, portable — uses `${PWD}` for
+repo-relative paths):
+
+* **Scout** — fuzzy front door for the whole repo. Use for: semantic search over tokens/schemas/docs, cross-package references ("what uses this token?"), doc knowledge graph, "find code about X" across TS/JS/JSON/Rust.
+* **Ferrograph** — precise back end for `sdk/` Rust crates only. Use for: exact call graph, blast radius ("what breaks if I change this?"), dead code, ownership/`&`/`&mut`/`unsafe` edges, raw Datalog queries. Deterministic — no LLM tokens, no approximations.
+* **tuiwright** — TUI snapshot/headless testing for the product TUI. Requires a one-time install: `cargo install --path <path-to-tuiwright-source>/crates/tuiwright-mcp` (source at <https://github.com/GarthDB/tuiwright>).
+* **design-data** — query token/component data from the local SDK build via `@adobe/design-data-agent-mcp`.
+* **figma** — Figma desktop plugin bridge (must have the Figma desktop app running).
+
+**Routing rule:** when asking a Rust structural question (impact, callers, dead code), prefer ferrograph's answer over Scout's — it's exact. For everything else (tokens, docs, TS, "what is X"), use Scout. The two cover different ground and complement each other.

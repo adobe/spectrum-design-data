@@ -1,0 +1,19 @@
+# Scout per-repo config template.
+#
+# Seeded into `<repo>/.scout/scout.config.yaml` by `scout attach` when the
+# repo has no config yet.  Templates here only carry the repo-specific
+# ignore / dampen / boost / tune overrides; defaults for
+# repository/markdown/ranking/index/projects are filled in at load time.
+ignore:
+  - "**/CHANGELOG.md"
+  - "**/CHANGELOG*"
+  - "**/CHANGES.md"
+  - "**/HISTORY.md"
+  - "sdk/target/**" # build artifacts (379k+ .o/.rmeta/.d files)
+  - "**/*.timestamp" # cargo incremental timestamp files
+  - "pnpm-lock.yaml" # 400 KB lockfile, low retrieval value
+
+dampen:
+  - factor: 0.3
+    patterns:
+      - "**/package.json"

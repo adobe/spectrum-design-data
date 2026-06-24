@@ -1,0 +1,10 @@
+# {} is substituted with the NDJSON replay file path at runtime
+headless_snapshot = "sdk/target/release/design-data packages/design-data/tokens --components packages/design-data/components --replay {} --snapshot-ansi"
+
+[launch]
+command = "sdk/target/release/design-data"
+args = ["packages/design-data/tokens", "--components", "packages/design-data/components"]
+
+[size]
+cols = 120
+rows = 36
