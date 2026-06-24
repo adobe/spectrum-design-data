@@ -1,5 +1,45 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.13.2
+
+### Patch Changes
+
+- [#1186](https://github.com/adobe/spectrum-design-data/pull/1186) [`dcf0832`](https://github.com/adobe/spectrum-design-data/commit/dcf083214d56989817db192801638e3ec20e2306) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Token sync from Spectrum Tokens Studio
+
+  **Original implementer:** @NateBaldwinDesign
+
+  ### Design motivation
+
+  Web Design / Figma Arch teams agree to revert recent updates to component heights for small and extra small sizes back to their original height values in S2 (prior to layout token refactor)
+
+  | Size        | Current | Update (this PR) |
+  | ----------- | ------- | ---------------- |
+  | Small       | 26px    | 24px             |
+  | Extra small | 22px    | 20px             |
+
+  ### Token changes
+
+  ## Tokens Changed (4)
+
+  **Original Branch:** `main`
+  **New Branch:** `tokens-sync/patch-spectrum2-from-main`
+
+  ### Updated (4)
+
+  <details open><summary><strong>Updated Properties (4)</strong></summary>
+  - `accessory-gap-extra-small`
+    - `value`: `4px` -> `3px`
+  - `accessory-gap-small`
+    - `value`: `5px` -> `4px`
+  - `base-padding-vertical-extra-small`
+    - `value`: `4px` -> `3px`
+  - `base-padding-vertical-small` - `value`: `5px` -> `4px`
+  </details>
+
+  ### References
+  - Tokens Studio PR: https://github.com/adobe/spectrum-tokens-studio-data/pull/312
+  - Spectrum Tokens PR: https://github.com/adobe/spectrum-design-data/pull/1186
+
 ## 14.13.1
 
 ### Patch Changes
@@ -74,7 +114,6 @@
   - `base-padding-horizontal-small` - `desktop.schema`: `dimension.json` - `desktop.value`: `10px` - `desktop.uuid`: `ba072414-2cdd-4773-86a5-11ca47c08e23` - `mobile.schema`: `dimension.json` - `mobile.value`: `8px` - `mobile.uuid`: `6b43633d-8f29-4c24-b26e-687d6f161bce`
   </details>
   <details open><summary><strong>Deleted Properties (5)</strong></summary>
-
   - `base-padding-horizontal-2x-large`
     - `value`: -> `14px`
   - `base-padding-horizontal-extra-large`
