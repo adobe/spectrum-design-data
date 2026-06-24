@@ -27,6 +27,8 @@
   ### Updated (4)
 
   <details open><summary><strong>Updated Properties (4)</strong></summary>
+
+  <!-- -->
   - `accessory-gap-extra-small`
     - `value`: `4px` -> `3px`
   - `accessory-gap-small`
@@ -69,6 +71,8 @@
   **New Branch:** `f84bce21`
 
   <details open><summary><strong>Added (9)</strong></summary>
+
+  <!-- -->
   - `group-gap-extra-large-spacious`
   - `group-gap-extra-small-spacious`
   - `group-gap-large-spacious`
@@ -83,6 +87,8 @@
   ### Updated (15)
 
   <details open><summary><strong>Added Properties (5)</strong></summary>
+
+  <!-- -->
   - `base-padding-horizontal-2x-large`
     - `desktop.schema`: `dimension.json`
     - `desktop.value`: `18px`
@@ -114,6 +120,8 @@
   - `base-padding-horizontal-small` - `desktop.schema`: `dimension.json` - `desktop.value`: `10px` - `desktop.uuid`: `ba072414-2cdd-4773-86a5-11ca47c08e23` - `mobile.schema`: `dimension.json` - `mobile.value`: `8px` - `mobile.uuid`: `6b43633d-8f29-4c24-b26e-687d6f161bce`
   </details>
   <details open><summary><strong>Deleted Properties (5)</strong></summary>
+
+  <!-- -->
   - `base-padding-horizontal-2x-large`
     - `value`: -> `14px`
   - `base-padding-horizontal-extra-large`
@@ -244,9 +252,13 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details open><summary><strong>Newly "Un-deprecated" (1)</strong></summary>
+
+  <!-- -->
   - `stack-item-item-to-item`
   </details>
   <details open><summary><strong>Added (5)</strong></summary>
+
+  <!-- -->
   - `stack-item-selected-background-opacity-highlight`
   - `stack-item-selected-background-opacity-highlight-hover`
   - `vertical-align-items`
@@ -257,6 +269,8 @@
   ### Updated (2)
 
   <details open><summary><strong>Updated Properties (2)</strong></summary>
+
+  <!-- -->
   - `stack-item-item-to-item`
     - `value`: `-1px` -> `0px`
   - `stack-item-selected-background-color-down` - `value`: `{gray-200}` -> `{gray-300}`
@@ -295,6 +309,8 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details><summary><strong>Newly Deprecated (66)</strong></summary>
+
+  <!-- -->
   - `corner-triangle-icon-size-100`
   - `corner-triangle-icon-size-200`
   - `corner-triangle-icon-size-300`
@@ -411,6 +427,8 @@
   ## Tokens Changed (671)
 
   <details><summary><strong>Newly Deprecated (540)</strong></summary>
+
+  <!-- -->
   - `text-to-visual-50`
   - `text-to-visual-75`
   - `text-to-visual-100`
@@ -953,6 +971,8 @@
   - `side-navigation-trailing-accessory-area-to-edge`
   </details>
   <details><summary><strong>Added (117)</strong></summary>
+
+  <!-- -->
   - `spacing-25`
   - `spacing-85`
   - `spacing-350`
@@ -1075,6 +1095,8 @@
   ### Updated (14)
 
   <details><summary><strong>Added Properties (6)</strong></summary>
+
+  <!-- -->
   - `help-text-top-to-workflow-icon-small`
     - `value`: `{component-top-to-workflow-icon-75}`
     - `deprecated_comment`: `Replaced with component-top-to-workflow-icon-75`
@@ -1104,6 +1126,8 @@
 
   </details>
   <details><summary><strong>Deleted Properties (4)</strong></summary>
+
+  <!-- -->
   - `help-text-top-to-workflow-icon-small`
     - `desktop.schema`: -> `alias.json`
     - `desktop.value`: -> `{component-top-to-workflow-icon-75}`
@@ -1151,6 +1175,8 @@
 
   </details>
   <details><summary><strong>Updated Properties (4)</strong></summary>
+
+  <!-- -->
   - `help-text-top-to-workflow-icon-small`
     - `schema`: `scale-set.json` -> `alias.json`
   - `help-text-top-to-workflow-icon-medium`
@@ -1326,12 +1352,16 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details><summary><strong>Newly Deprecated (3)</strong></summary>
+
+  <!-- -->
   - `side-navigation-maximum-width`
   - `side-navigation-with-icon-second-level-edge-to-text`
   - `side-navigation-with-icon-third-level-edge-to-text`
 
   </details>
   <details><summary><strong>Added (12)</strong></summary>
+
+  <!-- -->
   - `side-navigation-counter-to-disclosure`
   - `side-navigation-edge-to-indicator`
   - `side-navigation-indicator-to-content`
@@ -1350,6 +1380,8 @@
   ### Updated (5)
 
   <details><summary><strong>Updated Properties (5)</strong></summary>
+
+  <!-- -->
   - `side-navigation-minimum-width`
     - `desktop.value`: `160px` -> `144px`
     - `mobile.value`: `200px` -> `180px`
@@ -1402,6 +1434,8 @@
   **New Branch:** tokens-sync/patch-spectrum2-from-main
 
   <details><summary><strong>Added (43)</strong></summary>
+
+  <!-- -->
   - `gradient-stop-1-avatar`
   - `gradient-stop-2-avatar`
   - `gradient-stop-3-avatar`
@@ -1463,6 +1497,8 @@
   **Tokens Changed (33)**
 
   <details><summary><strong>Added (33)</strong></summary>
+
+  <!-- -->
   - `gradient-stop-1-avatar`
   - `gradient-stop-2-avatar`
   - `gradient-stop-3-avatar`
@@ -1525,6 +1561,8 @@
   **New Branch:** `tokens-sync/patch-spectrum2-from-main`
 
   <details><summary><strong>Added (1)</strong></summary>
+
+  <!-- -->
   - `select-box-horizontal-minimum-width`
 
   </details>
@@ -1532,14 +1570,20 @@
   ### Updated (3)
 
   <details><summary><strong>Added Properties (1)</strong></summary>
+
+  <!-- -->
   - `select-box-edge-to-checkbox` - `value`: `8px` - `uuid`: `70a20970-ebd9-48a7-8324-44d352f79978`
 
   </details>
   <details><summary><strong>Deleted Properties (1)</strong></summary>
+
+  <!-- -->
   - `select-box-edge-to-checkbox` - `desktop.schema`: -> `dimension.json` - `desktop.value`: -> `12px` - `desktop.uuid`: -> `70a20970-ebd9-48a7-8324-44d352f79978` - `mobile.schema`: -> `dimension.json` - `mobile.value`: -> `15px` - `mobile.uuid`: -> `f028974a-20d1-4e03-af77-921b1dfc2469`
 
   </details>
   <details><summary><strong>Updated Properties (1)</strong></summary>
+
+  <!-- -->
   - `select-box-edge-to-checkbox` - `schema`: `scale-set.json` -> `dimension.json`
 
   </details>
@@ -1559,12 +1603,16 @@
   Updated (4)
 
   <details><summary>Added Properties (1)</summary>
+
+  <!-- -->
   - `accordion-top-to-text-compact-medium`
     value: 5px
     uuid: [`484c960`](https://github.com/adobe/spectrum-design-data/commit/484c9603)-07f1-4ba6-b1bf-7cfaec5d1594
 
   </details>
   <details><summary>Deleted Properties (1)</summary>
+
+  <!-- -->
   - `accordion-top-to-text-compact-medium`
     desktop.schema: dimension.json
     desktop.value: 8px
@@ -1575,6 +1623,8 @@
 
   </details>
   <details><summary>Updated Properties (2)</summary>
+
+  <!-- -->
   - `accordion-top-to-text-compact-medium`
     schema: scale-set.json -> dimension.json
   - `accordion-top-to-text-spacious-medium`
@@ -1590,11 +1640,15 @@
 - [#525](https://github.com/adobe/spectrum-design-data/pull/525) [`db6d0ed`](https://github.com/adobe/spectrum-design-data/commit/db6d0ed669e013e6f3ff52aea89fc7a5e798149a) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - composite tokens
 
   <details><summary>Newly Deprecated (2)</summary>
+
+  <!-- -->
   - `card-minimum-width`: This token has been deprecated, use card-minimum-width-default instead.
   - `tree-view-item-to-item`: This token has been deprecated, use tree-view-item-to-item-default instead.
 
   </details>
   <details><summary>Added (22)</summary>
+
+  <!-- -->
   - `component-xs-regular`
   - `component-xs-medium`
   - `component-xs-bold`
@@ -1621,6 +1675,8 @@
   </details>
 
   <details><summary>Updated Properties (3)</summary>
+
+  <!-- -->
   - `sans-serif-font-family`
     value: Adobe Clean -> Adobe Clean Spectrum VF
   - `card-minimum-width`
@@ -1648,6 +1704,8 @@
   Updated (2)
 
   <details><summary>Updated Properties (2)</summary>
+
+  <!-- -->
   - `accordion-focus-indicator-gap`
     - value: `0px` -> `2px`
   - `accordion-top-to-text-medium`
@@ -1669,6 +1727,8 @@
   ## Token Diff
 
   <details><summary>Newly Deprecated (8)</summary>
+
+  <!-- -->
   - `accordion-top-to-text-regular-small`
   - `accordion-top-to-text-regular-medium`
   - `accordion-top-to-text-regular-large`
@@ -1681,6 +1741,8 @@
   </details>
 
   <details><summary>Added (20)</summary>
+
+  <!-- -->
   - `field-top-to-disclosure-icon-compact-small`
   - `field-top-to-disclosure-icon-small`
   - `field-top-to-disclosure-icon-spacious-small`
@@ -1705,6 +1767,8 @@
   </details>
 
   <details><summary>Added Properties (3)</summary>
+
+  <!-- -->
   - `accordion-top-to-text-compact-small`
   - `desktop.schema`: dimension.json
   - `desktop.value`: 3px
@@ -1737,6 +1801,8 @@
   ## Token Diff
 
   <details><summary>Added (28)</summary>
+
+  <!-- -->
   - `visual-to-control-100`
   - `label-to-description-0`
   - `list-view-minimum-height`
@@ -1783,6 +1849,8 @@
   ## Token Diff
 
   <details><summary>Added (22)</summary>
+
+  <!-- -->
   - `link-out-icon-size-300`
   - `link-out-icon-size-400`
   - `add-icon-size-50`
@@ -1821,6 +1889,8 @@
   ## Token Diff
 
   <details><summary>Added (19)<br /></summary>
+
+  <!-- -->
   - `accordion-edge-to-content-area-small`
   - `accordion-edge-to-content-area-medium`
   - `accordion-edge-to-content-area-large`
@@ -1856,6 +1926,8 @@
   ## Token Diff
 
   <details><summary>Added (3)</summary>
+
+  <!-- -->
   - `card-horizontal-edge-to-content-compact`
   - `card-horizontal-edge-to-content-default`
   - `card-horizontal-edge-to-content-spacious`
@@ -1876,11 +1948,15 @@
 
   <details>
   <summary>Newly Deprecated (1)</summary>
+
+  <!-- -->
   - `drop-zone-content-maximum-width`
 
   </details>
   <details>
   <summary>Added (18)</summary>
+
+  <!-- -->
   - `line-height-font-size-25`
   - `line-height-font-size-50`
   - `line-height-font-size-75`
@@ -1915,6 +1991,8 @@
   ## Token Diff
 
   <details><summary>Added (18)</summary>
+
+  <!-- -->
   - `steplist-step-default-width-small`
   - `steplist-step-default-width-medium`
   - `steplist-step-default-width-large`
@@ -1945,6 +2023,8 @@
   ## Token Diff
 
   <details><summary>Added (1)</summary>
+
+  <!-- -->
   - `segmented-control-item-maximum-width`
 
   </details>
@@ -1968,6 +2048,8 @@
   Updated (174)
 
   <details><summary>Added Properties (82)</summary>
+
+  <!-- -->
   - `informative-subtle-background-color-default`
     - `wireframe.schema`: `alias.json`
     - `wireframe.value`: `informative-color-200`
@@ -2299,6 +2381,8 @@
 
   </details>
   <details><summary>Updated Properties (92)</summary>
+
+  <!-- -->
   - `icon-color-blue-primary-default`
     - `wireframe.uuid`: `20880dfd-57dc-486d-b0dd-c44002f340e3` -> `a306b28e-f698-427d-a576-439b2ab378fc`
   - `icon-color-red-primary-default`
@@ -2545,6 +2629,8 @@
   ***
 
   <details><summary>Added (61)</summary>
+
+  <!-- -->
   - `card-edge-to-content-compact-extra-small`
   - `card-edge-to-content-default-extra-small`
   - `card-edge-to-content-spacious-extra-small`
@@ -2612,6 +2698,8 @@
   #### Updated (3)
 
   <details><summary>Added Properties (1)</summary>
+
+  <!-- -->
   - `card-selection-background-color`
     - `light.schema`: `alias.json`
     - `light.value`: `transparent-white-600`
@@ -2622,12 +2710,16 @@
 
   </details>
   <details><summary>Deleted Properties (1)</summary>
+
+  <!-- -->
   - `card-selection-background-color`
     - `value`: `gray-100`
     - `uuid`: `622c6e86-dea6-416d-9f13-bb6ef112d3cb`
 
   </details>
   <details><summary>Updated Properties (1)</summary>
+
+  <!-- -->
   - `card-selection-background-color`
     - `schema`: `alias.json` -> `color-set.json`
 
@@ -10084,6 +10176,8 @@ Updated (1592)
   Updated S2 Table tokens
 
   <details><summary>Tokens added (42):</summary>
+
+  <!-- -->
   - `illustrated-message-maximum-width`
   - `side-focus-indicator`
   - `table-row-bottom-to-text-extra-large`
@@ -10130,6 +10224,8 @@ Updated (1592)
   </details>
 
   <details><summary>Tokens updated (101):</summary>
+
+  <!-- -->
   - `informative-subtle-background-color-default`
     - light: `blue-200` -> `informative-color-200`
     - dark: `blue-200` -> `informative-color-300`
@@ -12204,6 +12300,8 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Token values updated (246):</strong></summary>
+
+  <!-- -->
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -12464,6 +12562,8 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Tokens added (64):</strong></summary>
+
+  <!-- -->
   - `brown-100`
   - `brown-1000`
   - `brown-1100`
@@ -12624,6 +12724,8 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Tokens added (46):</strong></summary>
+
+  <!-- -->
   - `accent-color-1500`
   - `accent-color-1600`
   - `blue-1500`
@@ -12674,6 +12776,8 @@ Updated (1592)
   </details>
 
   <details><summary><strong>Token values updated (408):</strong></summary>
+
+  <!-- -->
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -13098,6 +13202,8 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Token values updated (358):</strong></summary>
+
+  <!-- -->
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`
@@ -13470,6 +13576,8 @@ Updated (1592)
   ## Token Diff
 
   <details><summary><strong>Tokens values updated (102):</strong></summary>
+
+  <!-- -->
   - `accent-background-color-default`
   - `accent-background-color-down`
   - `accent-background-color-hover`

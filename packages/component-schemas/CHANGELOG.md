@@ -285,6 +285,8 @@
   This PR introduces **7 breaking change(s)** to component schemas. Please review carefully and ensure proper versioning.
 
   <details open><summary><strong>📦 Added Components (10)</strong></summary>
+
+  <!-- -->
   - `accordion` - New component schema
   - `avatar-group` - New component schema
   - `color-handle` - New component schema

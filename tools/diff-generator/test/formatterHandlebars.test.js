@@ -771,13 +771,20 @@ test("HandlebarsFormatter with markdown template", (t) => {
 
   t.true(success);
   t.true(output.includes("Added"));
+  // GFM requires a blank line after </summary> for markdown bullets to render correctly.
+  // prettier (run by @changesets/apply-release-plan) collapses blank lines when the diff is
+  // nested inside a changelog list item. The `<!-- -->` comment separator makes the blank
+  // line prettier-resistant. Assert the structure is present in every <details> section.
+  t.true(
+    output.includes("</summary>\n\n<!-- -->"),
+    "Each <details> section must have a blank line + <!-- --> after </summary> to survive prettier nesting",
+  );
 });
 
 // Test the default export singleton formatter
 test("Default exported formatter instance", async (t) => {
-  const { default: defaultFormatter } = await import(
-    "../src/lib/formatterHandlebars.js"
-  );
+  const { default: defaultFormatter } =
+    await import("../src/lib/formatterHandlebars.js");
 
   t.truthy(defaultFormatter);
   t.is(typeof defaultFormatter.printReport, "function");
