@@ -407,10 +407,7 @@ pub fn resolve_reference(
     let mut seen = std::collections::HashSet::new();
     seen.insert(current.name.clone());
 
-    loop {
-        let Some(alias_target) = current.alias_target.as_deref() else {
-            break;
-        };
+    while let Some(alias_target) = current.alias_target.as_deref() {
         let Some(next) = graph.resolve_alias_in_context(alias_target, ctx) else {
             break; // dangling ref — degrade gracefully
         };
