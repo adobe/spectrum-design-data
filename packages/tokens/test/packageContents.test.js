@@ -11,15 +11,19 @@ governing permissions and limitations under the License.
 */
 
 /**
- * Asserts that the npm-published tarball for @adobe/spectrum-tokens contains every
- * file that consumers depend on. Uses `npm pack --dry-run --json` rather than plain
+ * Asserts that the pnpm-published tarball for @adobe/spectrum-tokens contains every
+ * file that consumers depend on. Uses `pnpm pack --json` rather than plain
  * filesystem checks so the test honours `files`, `.npmignore`, and npm defaults —
  * the same rules that govern what actually gets published.
+ *
+ * pnpm is used (not npm) per the project's pnpm-only mandate. pnpm 10 supports
+ * --json on pack and produces the same file-list structure. Note: pnpm has no
+ * --dry-run flag but does write a tarball to disk; the tarball is cleaned up after.
  */
 
 import test from "ava";
 import { execFileSync } from "child_process";
-import { readFile } from "fs/promises";
+import { readFile, rm } from "fs/promises";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -28,17 +32,22 @@ const pkgDir = path.dirname(
 );
 
 /**
- * Run `npm pack --dry-run --json` and return the Set of packed file paths.
- * Result is shared across all tests in this module via a module-level Promise.
+ * Run `pnpm pack --json` and return the Set of packed file paths.
+ * Cleans up the written tarball afterward. Result is shared across all tests
+ * in this module via a module-level Promise.
  */
 const packedFilesPromise = (async () => {
-  const raw = execFileSync("npm", ["pack", "--dry-run", "--json"], {
+  const raw = execFileSync("pnpm", ["pack", "--json"], {
     cwd: pkgDir,
     encoding: "utf8",
-    // npm pack writes the package name to stderr on dry-run; suppress it.
     stdio: ["ignore", "pipe", "ignore"],
   });
-  const files = JSON.parse(raw)[0].files.map((f) => f.path);
+  const result = JSON.parse(raw);
+  // Clean up the tarball pnpm wrote to disk.
+  if (result.filename) {
+    await rm(path.join(pkgDir, result.filename), { force: true });
+  }
+  const files = result.files.map((f) => f.path);
   return new Set(files);
 })();
 
