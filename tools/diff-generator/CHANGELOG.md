@@ -1,5 +1,14 @@
 # @adobe/token-diff-generator
 
+## 2.5.5
+
+### Patch Changes
+
+- [#1188](https://github.com/adobe/spectrum-design-data/pull/1188) [`9ea9db3`](https://github.com/adobe/spectrum-design-data/commit/9ea9db32f62e7fea590b2f00361e50e7b7fdcb94) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix token-diff `<details>` rendering in GitHub Flavored Markdown.
+  - **tools/diff-generator/src/templates/markdown.hbs**: add `<!-- -->` separator after each
+    `</summary>` so prettier does not collapse the required blank line when the diff is nested
+    inside a changelog list item.
+
 ## 2.5.4
 
 ### Patch Changes
