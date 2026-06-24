@@ -135,7 +135,7 @@ cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term reg
 SPEC-038–040 (lifecycle, display name, schema).
 
 **Authoring status:** Not yet shipped — `write_component` is Phase B scheduled (see
-[Agent surface — Scheduled promotion](agent-surface.md#scheduled-promotion)).
+[Scheduled promotion](#scheduled-promotion)).
 
 ***
 
@@ -227,7 +227,7 @@ value entry carries:
 | `label` | REQUIRED    | Human-readable display name                                          |
 
 **Recommended per entry:** `description`, `usedIn` (declarative metadata — see
-[anatomy-terms usedIn semantics](#)).
+[Registry spec](registry.md) for the field definition).
 
 **Validation gate:** SPEC-009 (name-field-enum-sync, advisory), SPEC-033 (cross-registry ID
 overlap is permitted), SPEC-034 (component-categories registry sync), SPEC-035

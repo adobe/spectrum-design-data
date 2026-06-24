@@ -85,6 +85,9 @@ The Rust SDK drives these fixtures via `design-data migrate legacy-output` (see 
 Consumer implementations MUST regenerate each `input/` and diff against `expected/` to claim conformance
 with the output-generator determinism contract.
 
+See [`generation/README.md`](generation/README.md) for the fixture format, the run command, and
+documentation of the `set_uuid`/`set_schema` cascade grouping fields used in `mode-set-token`.
+
 ***
 
 ## Query conformance fixtures
