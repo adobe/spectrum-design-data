@@ -751,33 +751,27 @@ test("HandlebarsFormatter with markdown template", (t) => {
     template: "markdown",
   });
 
-  // Test with real diff data
-  const result = {
-    renamed: {},
-    deprecated: {},
-    reverted: {},
-    added: { "new-token": {} },
-    deleted: {},
-    updated: { added: {}, deleted: {}, updated: {}, renamed: {} },
-  };
-
-  const options = { format: "markdown" };
   let output = "";
-  const mockOutput = (text) => {
-    output += text;
-  };
-
-  const success = formatter.printReport(result, mockOutput, options);
+  const success = formatter.printReport(
+    mockTokenDiffResult,
+    (text) => {
+      output += text;
+    },
+    { format: "markdown" },
+  );
 
   t.true(success);
   t.true(output.includes("Added"));
   // GFM requires a blank line after </summary> for markdown bullets to render correctly.
   // prettier (run by @changesets/apply-release-plan) collapses blank lines when the diff is
   // nested inside a changelog list item. The `<!-- -->` comment separator makes the blank
-  // line prettier-resistant. Assert the structure is present in every <details> section.
-  t.true(
-    output.includes("</summary>\n\n<!-- -->"),
-    "Each <details> section must have a blank line + <!-- --> after </summary> to survive prettier nesting",
+  // line prettier-resistant. Assert all 9 <details> sections have the separator.
+  const separatorMatches = (output.match(/<\/summary>\n\n<!-- -->/g) || [])
+    .length;
+  t.is(
+    separatorMatches,
+    9,
+    `Expected 9 <details> sections with blank line + <!-- --> after </summary>, found ${separatorMatches}`,
   );
 });
 
