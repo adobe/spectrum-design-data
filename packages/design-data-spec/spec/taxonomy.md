@@ -145,6 +145,27 @@ Motion tokens describe timing, easing, and animation role for UI animation. Thei
 
 Example: `motionRole=enter` + `easing=ease-out` → `enter-ease-out`. `motionRole=transition` + `scaleIndex=100` → `transition-100`.
 
+### SPEC-043 severity schedule {#spec-043-severity-schedule}
+
+Domain-specific tokens (color, typography, motion) that are missing required domain-identifying
+fields trigger SPEC-043 (`domain-required-fields`) at **`warning`** severity (see the individual
+domain sections above). Authors **SHOULD** treat SPEC-043 warnings as actionable decomposition
+debt — tracking which tokens are missing structured field annotations and working toward
+eliminating the gap incrementally.
+
+**NORMATIVE:** SPEC-043 **MUST** graduate from `warning` to `error` at spec version `2.0.0`,
+no earlier than two minor versions after Phase B (catalog-aware authoring — see [Authoring
+workflow — Taxonomy-aware authoring](authoring-workflow.md#taxonomy-aware-authoring)) ships.
+This conforms to the [evolution policy](evolution.md) — rule severity tightening is a major
+change. Tightening is conditional on Phase B shipping because authors need catalog-aware
+tooling before they can systematically resolve SPEC-043 warnings without hand-editing
+cascade JSON.
+
+Until Phase B ships and the foundation corpus reaches ≥ 90% SPEC-043 compliance per domain,
+SPEC-043 stays advisory. No SPEC-043 warning blocks a conforming dataset today. Adoption
+progress is tracked in RFC [#806](https://github.com/adobe/spectrum-design-data/discussions/806)
+and RFC [#625](https://github.com/adobe/spectrum-design-data/discussions/625).
+
 ### Alias / semantic token name objects
 
 Alias tokens (`$schema: …/alias.json`) MAY carry name objects using the same field vocabulary

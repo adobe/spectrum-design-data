@@ -43,6 +43,10 @@ const requiredPaths = [
   "conformance/invalid/SPEC-045",
   "conformance/valid/SPEC-045",
   "conformance/invalid/SPEC-046",
+  "conformance/generation/flat-token/input",
+  "conformance/generation/flat-token/expected",
+  "conformance/generation/mode-set-token/input",
+  "conformance/generation/mode-set-token/expected",
 ];
 
 for (const rel of requiredPaths) {

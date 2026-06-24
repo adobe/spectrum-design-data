@@ -67,6 +67,26 @@ The Rust SDK drives these fixtures in `sdk/core/src/lib.rs` (`diff_conformance` 
 
 ***
 
+## Generation conformance fixtures
+
+Each **generation** case lives under `generation/<name>/` with:
+
+* `input/` — cascade-format `.tokens.json` files (array-of-objects format)
+* `expected/` — expected deterministic legacy set-format output (keyed-object format, one file per input file)
+
+These fixtures verify the field-mapping contract in [Evolution — Legacy format contract](../spec/evolution.md#legacy-format-contract): given the same cascade input, the output generator MUST produce byte-identical output on successive runs.
+
+| Folder                      | Intent                                                                                             |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `generation/flat-token`     | A single cascade token with no mode sets maps to a single keyed entry `{ slug: { value, uuid } }`. |
+| `generation/mode-set-token` | Multiple cascade tokens sharing a `set_uuid` merge into a single `sets`-keyed entry.               |
+
+The Rust SDK drives these fixtures via `design-data migrate legacy-output` (see `sdk/core/src/legacy.rs`).
+Consumer implementations MUST regenerate each `input/` and diff against `expected/` to claim conformance
+with the output-generator determinism contract.
+
+***
+
 ## Query conformance fixtures
 
 Each **query** case lives under `query/<name>/` with:

@@ -1,7 +1,7 @@
 # Agent-readable surface
 
 **Spec version:** `1.0.0-draft` (see [Overview](index.md))\
-**Status:** Implemented — RFC-C / Phase 8 (epic [#830](https://github.com/adobe/spectrum-design-data/issues/830)). Core read/validate/write surface shipped. `write_component` and `explain` deferred (no CLI subcommand or MCP tool yet).
+**Status:** Implemented — RFC-C / Phase 8 (epic [#830](https://github.com/adobe/spectrum-design-data/issues/830)). Core read/validate/write surface shipped. `write_component` is Phase B scheduled (see [Authoring workflow — Scheduled promotion](authoring-workflow.md#scheduled-promotion)); `explain` is pending `get_guidance` wire-up.
 
 This document defines the **agent-readable surface**: the contract an external AI agent uses to consume design data conformant with this specification. It standardizes a small set of operations exposed through three transports — a CLI, a Model Context Protocol (MCP) server, and a Claude Code Agent Skill — all backed by the same resolver, validator, and query implementations that power the rest of the SDK.
 
@@ -35,9 +35,9 @@ The surface targets three consumer shapes:
 | `get_guidance`       | token UUID, component identifier, or anatomy reference | attached document blocks (Phase 9 / RFC-D); falls back to empty list pre-RFC-D                                                                                                            | document blocks                                                                                    |
 | `diff_datasets`      | two dataset roots                                      | `DiffReport` per [Diff](diff.md)                                                                                                                                                          | `diff::semantic_diff`                                                                              |
 | `write_token`        | token object + optional rationale string               | updated product-layer token file + `product-context.json` (RECOMMENDED, not NORMATIVE in v1)                                                                                              | `write::write_token` — shipped: `design-data write-token` (CLI) / `authoring_session_commit` (MCP) |
-| `write_component`    | component object + optional rationale string           | updated product-layer component file + `product-context.json` (RECOMMENDED, not NORMATIVE in v1)                                                                                          | `write::write_component` — deferred; no CLI subcommand or MCP tool yet                             |
+| `write_component`    | component object + optional rationale string           | updated dataset-root component file (RECOMMENDED, not NORMATIVE in v1; scheduled to become MUST — see [Scheduled promotion](authoring-workflow.md#scheduled-promotion))                   | `write::write_component` — Phase B scheduled; not yet implemented                                  |
 
-**NORMATIVE:** `validate_usage`, `resolve_token`, `query_tokens`, `diff_datasets`, and `describe_component` MUST be implemented in a conforming agent surface. `suggest_token`, `get_guidance`, `write_token`, and `write_component` are RECOMMENDED.
+**NORMATIVE:** `validate_usage`, `resolve_token`, `query_tokens`, `diff_datasets`, and `describe_component` MUST be implemented in a conforming agent surface. `suggest_token`, `get_guidance`, `write_token`, and `write_component` are RECOMMENDED. `write_token` and `write_component` are scheduled to become MUST when the Phase B foundation-corpus write target ships — see [Authoring workflow — Scheduled promotion](authoring-workflow.md#scheduled-promotion).
 
 **RECOMMENDED:** When `write_token` or `write_component` is invoked, the implementation SHOULD capture a `rationale` argument from the agent session context and record it in both the token's inline `rationale` field and the product context document's `overrides[].rationale` or `extensions.tokens[].rationale`. See [Product context — Agent capture behavior](product-context.md#agent-capture-behavior).
 
