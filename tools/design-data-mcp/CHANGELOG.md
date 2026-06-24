@@ -1,5 +1,28 @@
 # @adobe/design-data-mcp
 
+## 1.7.1
+
+### Patch Changes
+
+- [#1181](https://github.com/adobe/spectrum-design-data/pull/1181) [`97e8afb`](https://github.com/adobe/spectrum-design-data/commit/97e8afbd01700a5ce7d5476bee1053a19d8ba554) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix MCPB bundle startup, harden path validation, slim bundle, add regression tests.
+  - **scripts/generate-mcpb.mjs**: Fix `resolvePackageDir` to walk up to the true
+    package root (ancestor `package.json` with matching `name`), avoiding nested
+    `dist/cjs/package.json` stubs. Fixes missing zod, hono, jose, and all MCP SDK
+    transitives. Workspace packages now copied using their `files` allowlist — drops
+    Rust sources, devDep `node_modules`, and `pkg/web`; bundle shrinks 9.8 MB → 5.7 MB.
+  - **src/tools/design-data.js**: Resolve final path and assert containment within the
+    intended subdirectory before reading; rejects `..` traversal and absolute-path escapes.
+  - **test/bundle-contents.test.js**: Assert bundle contains only what it needs — zod
+    with `./v4` export, wasm + data JSON present; `ava`, nested `node_modules`, `pkg/web`,
+    Rust `src/` absent.
+  - **test/bundle-smoke.test.js** + **test/helpers/ensure-bundle.js**: Self-generating
+    offline smoke test (initialize + tools/list); never silently skips.
+  - **moon.yml** + **.moon/workspace.yml** + **.github/ci-targets.json**: Register as
+    moon project; add `stage` task; wire `design-data-mcp:test` into CI.
+
+- Updated dependencies []:
+  - @adobe/spectrum-design-data@0.7.0
+
 ## 1.7.0
 
 ### Minor Changes

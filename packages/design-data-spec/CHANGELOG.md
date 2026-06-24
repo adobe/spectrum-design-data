@@ -1,5 +1,56 @@
 # @adobe/design-data-spec
 
+## 2.6.0
+
+### Minor Changes
+
+- [#1184](https://github.com/adobe/spectrum-design-data/pull/1184) [`a6506b7`](https://github.com/adobe/spectrum-design-data/commit/a6506b7083587a22a62b42974a5922d053208e5f) Thanks [@GarthDB](https://github.com/GarthDB)! - Align agent-surface spec with the scheduled-promotion contract (Phase A5, RFC #625).
+  - **packages/design-data-spec/spec/agent-surface.md**: reframe `write_component` from
+    "deferred; no CLI subcommand" to Phase B scheduled; add `authoring-workflow.md#scheduled-
+promotion` cross-references in the tool-catalog table, the NORMATIVE note, and the status
+    line; note that `write_token` and `write_component` are scheduled to become MUST when
+    Phase B ships.
+
+- [#1184](https://github.com/adobe/spectrum-design-data/pull/1184) [`a6506b7`](https://github.com/adobe/spectrum-design-data/commit/a6506b7083587a22a62b42974a5922d053208e5f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add per-category authoring contracts to authoring-workflow.md (Phase A2, RFC #625).
+  - **packages/design-data-spec/spec/authoring-workflow.md**: expand the per-category
+    authoring contracts section from a status table into six normative subsections (tokens,
+    components, fields, mode sets, guidelines, registry), each specifying required-at-creation
+    fields, validation gate rules, file-naming conventions, and current authoring status.
+
+- [#1183](https://github.com/adobe/spectrum-design-data/pull/1183) [`ae94df9`](https://github.com/adobe/spectrum-design-data/commit/ae94df9f53fc4bc7d50f0b6205cb6b337f2fff6d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add normative authoring-workflow spec backbone (Phase A1, RFC #625).
+  - **packages/design-data-spec/spec/authoring-workflow.md**: New spec document defining the
+    authoritative source contract, lifecycle operations (create / edit / deprecate / rename /
+    alias-rewire / mode-set management), taxonomy-aware authoring requirement, output-generation
+    obligations, and scheduled promotion of write ops from RECOMMENDED to MUST when Phase B
+    foundation-corpus write tooling ships.
+  - **packages/design-data-spec/spec/index.md**: Register `authoring-workflow.md` in the Scope
+    list (item 16) and Normative references table.
+  - **docs/rfc-coordination.md**: Update RFC #625 row — authoritative spec now linked; Phase 4
+    status updated to reflect Phase A progress.
+
+- [#1184](https://github.com/adobe/spectrum-design-data/pull/1184) [`a6506b7`](https://github.com/adobe/spectrum-design-data/commit/a6506b7083587a22a62b42974a5922d053208e5f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add output-generator conformance fixtures and normative determinism contract (Phase A4, RFC #625).
+  - **packages/design-data-spec/conformance/generation/flat-token/**: fixture pairing a single
+    cascade flat-token input with its expected byte-identical legacy output; tests 1:1 slug
+    mapping from name-object serialization.
+  - **packages/design-data-spec/conformance/generation/mode-set-token/**: fixture pairing two
+    cascade tokens sharing a `set_uuid` with their merged legacy `sets`-keyed expected output.
+  - **packages/design-data-spec/conformance/README.md**: document the generation fixtures
+    section, format, and SDK driver command.
+  - **packages/design-data-spec/spec/evolution.md**: add normative output-generator determinism
+    contract (byte-identical on successive runs, sorted keys, no ephemeral fields) with link to
+    the generation conformance fixtures.
+  - **packages/design-data-spec/scripts/check-layout.mjs**: require both generation fixture
+    directories in the layout guard.
+
+- [#1184](https://github.com/adobe/spectrum-design-data/pull/1184) [`a6506b7`](https://github.com/adobe/spectrum-design-data/commit/a6506b7083587a22a62b42974a5922d053208e5f) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-043 severity schedule to taxonomy.md and fix dangling xref (Phase A3, RFC #625).
+  - **packages/design-data-spec/spec/taxonomy.md**: add `### SPEC-043 severity schedule`
+    subsection — documents current warning severity, the 2.0.0 graduation condition (no
+    earlier than two minor versions after Phase B catalog-aware authoring ships), and the
+    ≥ 90% per-domain compliance prerequisite; mirrors the SPEC-017 precedent.
+  - **packages/design-data-spec/spec/authoring-workflow.md**: fix dangling cross-reference
+    at line 98 — `[Taxonomy](taxonomy.md)` now resolves to the new anchor
+    `taxonomy.md#spec-043-severity-schedule`.
+
 ## 2.5.0
 
 ### Minor Changes
