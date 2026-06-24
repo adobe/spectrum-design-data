@@ -143,7 +143,6 @@ sdk/wasm/pkg/
 .claude/settings.local.json
 .claude/worktrees/
 **/.claude/
-.mcp.json
 
 # test temporary directories
 temp-*

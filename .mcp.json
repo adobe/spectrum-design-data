@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "tuiwright": {
+      "command": "tuiwright",
+      "args": ["--config", "${PWD}/tuiwright.toml"]
+    },
+    "figma": {
+      "type": "http",
+      "url": "http://127.0.0.1:3845/mcp"
+    },
+    "design-data": {
+      "command": "npx",
+      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "env": {
+        "DESIGN_DATA_BIN": "${PWD}/sdk/target/release/design-data",
+        "DESIGN_DATA_PATH": "packages/design-data/tokens",
+        "DESIGN_DATA_COMPONENTS": "packages/design-data/components",
+        "DESIGN_DATA_FIELDS": "packages/design-data/fields"
+      }
+    },
+    "scout": {
+      "command": "scout",
+      "args": ["mcp"]
+    },
+    "ferrograph": {
+      "command": "ferrograph",
+      "args": ["mcp"],
+      "cwd": "${PWD}/sdk"
+    }
+  }
+}
