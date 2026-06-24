@@ -26,9 +26,10 @@ use super::draft::{
     ValuesDraftDto, WizardDraft, WizardScreen,
 };
 use crate::graph::{Layer, TokenGraph};
+use crate::primer::SPEC_VERSION;
 use crate::schema::SchemaRegistry;
 use crate::suggest;
-use crate::write::{write_token, WriteTokenInput};
+use crate::write::{write_cascade_token, WriteCascadeTokenInput};
 
 // ── On-disk session format ────────────────────────────────────────────────────
 
@@ -80,6 +81,12 @@ pub struct CommitInput {
     pub schema_path: Option<PathBuf>,
     pub product_context: Option<PathBuf>,
     pub is_override: bool,
+    /// Dataset `specVersion` string to stamp as `introduced` on the new token.
+    ///
+    /// When `None`, the crate's `SPEC_VERSION` constant is used as a safe
+    /// fallback.  CLI and MCP surfaces (B5/B6) should supply the value
+    /// they read from the active dataset config.
+    pub spec_version: Option<String>,
 }
 
 /// Result of a successful `commit_session`.
@@ -282,7 +289,13 @@ pub fn step_values(session_id: &str, rows: Vec<ValueRowInput>) -> Result<Session
     Ok(session)
 }
 
-/// Build and write the token, then delete the session on success.
+/// Build and write the token to the cascade target, then delete the session on success.
+///
+/// Writes to the cascade `*.tokens.json` array format introduced in Phase B / B1.
+/// The legacy `write_token` path (object-map files + `product-context.json`) is no
+/// longer used by this commit path; `CommitInput.product_context` and
+/// `CommitInput.is_override` are accepted for API compatibility but have no effect
+/// until the CLI/TUI surfaces are updated in B5.
 pub fn commit_session(
     input: CommitInput,
     registry: &SchemaRegistry,
@@ -290,9 +303,14 @@ pub fn commit_session(
     let session = get_session(&input.session_id)
         .ok_or_else(|| format!("session not found: {}", input.session_id))?;
 
+    let spec_version = input
+        .spec_version
+        .as_deref()
+        .unwrap_or(SPEC_VERSION)
+        .to_string();
+
     let wizard = &session.wizard;
-    let key = derive_token_key(wizard);
-    let token = build_token_value(wizard, &input.schema_url, &input.rationale);
+    let token = build_token_value(wizard, &input.schema_url, &input.rationale, &spec_version);
 
     let rationale_opt = if input.rationale.is_empty() {
         None
@@ -300,18 +318,14 @@ pub fn commit_session(
         Some(input.rationale.clone())
     };
 
-    let write_input = WriteTokenInput {
-        key,
+    let write_input = WriteCascadeTokenInput {
         token,
         target: input.target.clone(),
-        product_context: input.product_context.clone(),
         rationale: rationale_opt,
-        created_at: None,
-        is_override: input.is_override,
     };
 
-    let result =
-        write_token(write_input, registry).map_err(|e| format!("write_token failed: {e}"))?;
+    let result = write_cascade_token(write_input, registry)
+        .map_err(|e| format!("write_cascade_token failed: {e}"))?;
 
     cancel_session(&input.session_id);
 
@@ -322,31 +336,17 @@ pub fn commit_session(
     })
 }
 
-// ── Private helpers ───────────────────────────────────────────────────────────
-
-/// Derive a token key from the wizard's classification state.
-///
-/// Joins the property and name-field values with `-`.  Layer is intentionally
-/// excluded: property names are unique within a layer's schema, so
-/// `property-variant-state` is the canonical key regardless of layer.
-fn derive_token_key(wizard: &WizardDraft) -> String {
-    super::draft::derive_token_key_from_parts(
-        &wizard.classification.property,
-        wizard
-            .classification
-            .name_fields
-            .iter()
-            .map(|f| f.value.as_str()),
-    )
-    .unwrap_or_else(|| "unnamed-token".to_string())
-}
-
 /// Construct the token JSON value from wizard state.
 ///
 /// A single row with an empty `mode_combo` produces a flat `value`/`$ref` field.
 /// Multiple rows, or rows with mode conditions, produce a nested `sets` structure
 /// keyed by each row's first-dimension mode value (recursively for deeper combos).
-fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) -> serde_json::Value {
+fn build_token_value(
+    wizard: &WizardDraft,
+    schema_url: &str,
+    rationale: &str,
+    spec_version: &str,
+) -> serde_json::Value {
     let mut obj = serde_json::Map::new();
 
     obj.insert(
@@ -376,6 +376,13 @@ fn build_token_value(wizard: &WizardDraft, schema_url: &str, rationale: &str) ->
     obj.insert(
         "uuid".into(),
         serde_json::Value::String(Uuid::new_v4().to_string()),
+    );
+
+    // authoring-workflow.md L71: MUST stamp `introduced` with the active dataset
+    // specVersion at creation time.
+    obj.insert(
+        "introduced".into(),
+        serde_json::Value::String(spec_version.to_string()),
     );
 
     serde_json::Value::Object(obj)
@@ -525,7 +532,12 @@ mod tests {
             schema_url: None,
             schema_url_input: String::new(),
         };
-        let token = build_token_value(&wizard, "https://example.com/schema.json", "because");
+        let token = build_token_value(
+            &wizard,
+            "https://example.com/schema.json",
+            "because",
+            "1.0.0-draft",
+        );
         let sets = token["sets"].as_object().unwrap();
         assert_eq!(sets["light"]["value"], "white");
         assert_eq!(sets["dark"]["value"], "black");
@@ -553,6 +565,7 @@ mod tests {
                     schema_path: None,
                     product_context: None,
                     is_override: false,
+                    spec_version: None,
                 },
                 &registry,
             );

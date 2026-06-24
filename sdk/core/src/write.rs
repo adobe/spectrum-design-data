@@ -175,7 +175,7 @@ pub fn write_token(
 
 /// Validate a single token object against its `$schema` using the registry.
 /// Returns `Err(CoreError::ParseError)` on the first validation failure.
-fn validate_token_object(
+pub(crate) fn validate_token_object(
     key: &str,
     token: &Value,
     registry: &SchemaRegistry,
@@ -223,7 +223,7 @@ fn read_legacy_file(path: &Path) -> Result<Map<String, Value>, CoreError> {
 /// Uses a write-to-temp-then-rename sequence so a crash between truncation and completion
 /// cannot leave the file in an invalid state.  The temp file sits next to the target
 /// (same directory) so that `rename` is an atomic same-filesystem move on POSIX.
-fn write_json_file(path: &Path, value: &Value) -> Result<(), CoreError> {
+pub(crate) fn write_json_file(path: &Path, value: &Value) -> Result<(), CoreError> {
     if let Some(parent) = path.parent() {
         if !parent.as_os_str().is_empty() {
             std::fs::create_dir_all(parent)?;
@@ -246,7 +246,7 @@ fn write_json_file(path: &Path, value: &Value) -> Result<(), CoreError> {
 /// Returns `Err` when:
 /// - The file exists but cannot be read or parsed as JSON.
 /// - The JSON root is not an array (cascade format requires a top-level array).
-fn read_cascade_file(path: &Path) -> Result<Vec<Value>, CoreError> {
+pub(crate) fn read_cascade_file(path: &Path) -> Result<Vec<Value>, CoreError> {
     if !path.exists() {
         return Ok(Vec::new());
     }
