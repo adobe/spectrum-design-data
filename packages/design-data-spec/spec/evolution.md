@@ -87,6 +87,23 @@ The `@adobe/spectrum-tokens` package continues to publish tokens in the **legacy
 | `plannedRemoval`                       | Not emitted                           |
 | `deprecated_comment`                   | `deprecated_comment` (passed through) |
 
+### Output-generator determinism
+
+**NORMATIVE:** The output generator MUST be deterministic: given the same cascade input files, it
+MUST produce byte-identical output on successive runs. Key rules:
+
+* Object keys in the generated legacy file MUST be sorted by token slug (lexicographic order).
+* The `sets` object within a set token MUST preserve the order modes appear in the source cascade
+  file (first occurrence of each mode name, in file order).
+* No ephemeral fields (timestamps, run IDs, etc.) MUST be written to the output.
+
+**Conformance fixtures:** The `conformance/generation/` corpus provides annotated input/expected
+pairs that an implementation MUST produce byte-identically to claim conformance with this
+determinism contract. See [Conformance fixtures](../conformance/README.md#generation-conformance-fixtures).
+
+The Rust SDK drives these fixtures via `design-data migrate legacy-output`
+(see [`sdk/core/src/legacy.rs`](../../../sdk/core/src/legacy.rs)).
+
 ### Coexistence during migration
 
 Both formats are published simultaneously. The cascade format is the source of truth; the legacy format is generated from it. This dual-format period continues until platform consumers have migrated to the cascade format or to platform SDKs that consume it.

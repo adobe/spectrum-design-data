@@ -87,7 +87,157 @@ The following per-category contracts specify what the authoring surface authors 
 | Guidelines | `guidelines/` | Not yet shipped                                                                  | SPEC-045, SPEC-046                         |
 | Registry   | `registry/`   | Not yet shipped (vocabulary is hand-maintained)                                  | SPEC-033, SPEC-034, SPEC-035               |
 
-**RATIONALE:** Per-category authoring contracts will be expanded in subsequent Phase A PRs as each category's authoring surface is specified. The table above establishes which validation rules each category already carries; the forthcoming contracts describe the authoring *workflow* (what fields are required at creation time, how edits are staged, etc.).
+### Token authoring contract
+
+Tokens are authored in `tokens/**/*.tokens.json`. Files may be nested arbitrarily within
+`tokens/`; the convention is one thematic `.tokens.json` file per token group (e.g.
+`color-palette.tokens.json`, `typography.tokens.json`).
+
+**Required at creation:** A conforming authoring tool MUST write:
+
+| Field             | Requirement            | Notes                                                                                                                                          |
+| ----------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | REQUIRED               | Name object with at least `property`; MUST be decomposed via the `fields/` catalog — see [Taxonomy-aware authoring](#taxonomy-aware-authoring) |
+| `uuid`            | REQUIRED               | Fresh UUID v4 assigned by the tool; MUST NOT change for the lifetime of the token                                                              |
+| `value` or `$ref` | REQUIRED (exactly one) | Literal value or alias reference to another token's UUID                                                                                       |
+| `$schema`         | RECOMMENDED            | Token-type schema URI (e.g. `color.json`, `typography.json`) from `packages/design-data-spec/schemas/`                                         |
+| `introduced`      | RECOMMENDED            | Spec version string of the active dataset at creation time                                                                                     |
+
+**Validation gate:** SPEC-001–017 (name, value, lifecycle, tech-debt), SPEC-041 (mode-set
+conformance), SPEC-042 (field-scope), SPEC-043 (domain-required-fields).
+
+**Edit and lifecycle operations (Phase B):** Edit, deprecate, rename, alias-rewire, mode-set
+management, and remove are specified in [Lifecycle operations](#lifecycle-operations) and are
+implemented in Phase B.
+
+***
+
+### Component authoring contract
+
+Components are authored in `components/{name}.json`. Each file declares one component and MUST
+be named with the component's `name` field value (e.g. `button.json` for `name: "button"`).
+
+**Required at creation:**
+
+| Field                   | Requirement | Notes                                                                                                             |
+| ----------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
+| `$id`                   | REQUIRED    | URI: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/{name}.json`                        |
+| `name`                  | REQUIRED    | Kebab-case slug, unique within the dataset                                                                        |
+| `displayName`           | REQUIRED    | Human-readable name (e.g. `"Button"`)                                                                             |
+| `meta.category`         | REQUIRED    | One of: `actions`, `containers`, `data visualization`, `feedback`, `inputs`, `navigation`, `status`, `typography` |
+| `meta.documentationUrl` | REQUIRED    | URI to component documentation page                                                                               |
+
+**Recommended at creation:** `options` (component API), `anatomy` (anatomy parts array),
+`states` (state declarations array).
+
+**Validation gate:** SPEC-018–022 (anatomy/state/slot structure), SPEC-024–027 (tokenBindings,
+cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
+SPEC-038–040 (lifecycle, display name, schema).
+
+**Authoring status:** Not yet shipped — `write_component` is Phase B scheduled (see
+[Scheduled promotion](#scheduled-promotion)).
+
+***
+
+### Field authoring contract
+
+Name-object field declarations are authored in `fields/{fieldName}.json`. Each file declares
+one field. Field declarations extend the `fields/` catalog that the SDK and authoring tools
+load for classification decomposition.
+
+**Required at creation:**
+
+| Field                    | Requirement | Notes                                                              |
+| ------------------------ | ----------- | ------------------------------------------------------------------ |
+| `name`                   | REQUIRED    | Field key on the token name object (e.g. `colorFamily`, `variant`) |
+| `kind`                   | REQUIRED    | One of: `semantic`, `mode-set`, `numeric`                          |
+| `validation`             | REQUIRED    | One of: `strict` (error), `advisory` (warning), `none`             |
+| `serialization.position` | REQUIRED    | Integer; order in default serialized name string                   |
+
+**Recommended at creation:** `description`, `registry` (path to vocabulary file, or `null`),
+`scope` (domain restriction string, or `null` for universal fields).
+
+**Validation gate:** SPEC-042 (field-scope-violation), SPEC-043 (domain-required-fields).
+
+**Authoring status:** Not yet shipped — field declarations are currently hand-authored JSON.
+Phase C will add tooling for field creation.
+
+***
+
+### Mode-set authoring contract
+
+Mode sets are authored in `mode-sets/{name}.json`. Each file declares one mode set. Mode-set
+names MUST be stable identifiers — they are referenced by tokens' mode-keyed `sets` objects
+and by manifests; renaming a mode set is a breaking operation.
+
+**Required at creation:**
+
+| Field     | Requirement | Notes                                                                   |
+| --------- | ----------- | ----------------------------------------------------------------------- |
+| `name`    | REQUIRED    | Stable mode-set identifier (e.g. `colorScheme`, `scale`)                |
+| `modes`   | REQUIRED    | Non-empty array of unique mode-value strings (e.g. `["light", "dark"]`) |
+| `default` | REQUIRED    | A member of `modes`; MUST satisfy SPEC-005                              |
+
+**Recommended at creation:** `description`.
+
+**Validation gate:** SPEC-005 (default-mode-not-in-modes), SPEC-008 (base-variant-absence),
+SPEC-041 (platform mode-set conformance).
+
+**Authoring status:** Not yet shipped — mode sets are hand-authored JSON. Phase C will add
+tooling for mode-set management.
+
+***
+
+### Guideline authoring contract
+
+Guideline documents are authored in `guidelines/{name}.json`. Each file declares one guideline
+document. The filename MUST match the document's `name` field.
+
+**Required at creation:**
+
+| Field            | Requirement | Notes                                                                                 |
+| ---------------- | ----------- | ------------------------------------------------------------------------------------- |
+| `$id`            | REQUIRED    | URI: `https://opensource.adobe.com/spectrum-design-data/guidelines/{name}.json`       |
+| `name`           | REQUIRED    | Kebab-case slug matching filename                                                     |
+| `title`          | REQUIRED    | Human-readable page title                                                             |
+| `category`       | REQUIRED    | One of: `designing`, `fundamentals`, `developing`, `support`                          |
+| `documentBlocks` | REQUIRED    | Array with at least one block (SPEC-045 requires a `purpose` block SHOULD be present) |
+
+**Recommended at creation:** `sourceUrl`, `lastUpdated`, `tags`.
+
+**Validation gate:** SPEC-045 (guideline-purpose-block), SPEC-046 (guideline-related-references-resolve).
+
+**Authoring status:** Not yet shipped — guidelines are hand-authored JSON. Phase C will add
+tooling for guideline creation.
+
+***
+
+### Registry authoring contract
+
+Registry files in `registry/` declare vocabulary collections — the canonical term lists for
+anatomy, component categories, states, variants, and other classified fields. Registry files
+are currently **hand-maintained**: they are not yet authored via tooling.
+
+Each registry file is a JSON object with `type`, `description`, and a `values` array. Each
+value entry carries:
+
+| Field   | Requirement | Notes                                                                |
+| ------- | ----------- | -------------------------------------------------------------------- |
+| `id`    | REQUIRED    | Canonical value string (kebab-case); unique within the registry file |
+| `label` | REQUIRED    | Human-readable display name                                          |
+
+**Recommended per entry:** `description`, `usedIn` (declarative metadata — see
+[Registry spec](registry.md) for the field definition).
+
+**Validation gate:** SPEC-009 (name-field-enum-sync, advisory), SPEC-033 (cross-registry ID
+overlap is permitted), SPEC-034 (component-categories registry sync), SPEC-035
+(anatomy-part-names registry sync).
+
+**Authoring status:** Hand-maintained vocabulary — the `registry/` directory has an
+`AUTHORING.md` guide in `packages/design-data/AUTHORING.md`. Tooling-assisted registry
+authoring is Phase C scope; vocabulary additions today follow the manual process in that guide.
+
+***
 
 ## Taxonomy-aware authoring
 
@@ -95,7 +245,7 @@ The following per-category contracts specify what the authoring surface authors 
 
 **RECOMMENDED:** Authoring tools SHOULD validate candidate field values against the corresponding registry (where a `registry` path is declared on the field descriptor) and SHOULD warn the author when a value does not match any registered term.
 
-**RATIONALE:** Baking taxonomy concepts (size, variant, density, etc.) into the `property` slug reproduces technical debt that the structured name-object format was designed to eliminate. SPEC-043 (`domain-required-fields`) tracks this decomposition debt at advisory severity; it is scheduled to tighten — see [Taxonomy](taxonomy.md) for the escalation schedule.
+**RATIONALE:** Baking taxonomy concepts (size, variant, density, etc.) into the `property` slug reproduces technical debt that the structured name-object format was designed to eliminate. SPEC-043 (`domain-required-fields`) tracks this decomposition debt at advisory severity; it is scheduled to tighten — see [Taxonomy — SPEC-043 severity schedule](taxonomy.md#spec-043-severity-schedule) for the escalation schedule and promotion conditions.
 
 ## Output generation
 

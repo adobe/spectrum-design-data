@@ -1,0 +1,30 @@
+[
+  {
+    "name": {
+      "property": "color",
+      "colorFamily": "blue",
+      "scaleIndex": 100,
+      "colorScheme": "light"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(245, 249, 255)",
+    "uuid": "bbbbbbbb-0001-4000-8000-000000000001",
+    "set_uuid": "cccccccc-0001-4000-8000-000000000001",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "private": true
+  },
+  {
+    "name": {
+      "property": "color",
+      "colorFamily": "blue",
+      "scaleIndex": 100,
+      "colorScheme": "dark"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(14, 23, 63)",
+    "uuid": "bbbbbbbb-0002-4000-8000-000000000002",
+    "set_uuid": "cccccccc-0001-4000-8000-000000000001",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "private": true
+  }
+]
