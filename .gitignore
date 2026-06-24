@@ -157,6 +157,11 @@ graphify-out/
 **/graphify-out/
 .ferrograph
 **/.ferrograph
+
+# Scout: commit scout.config.yaml only; ignore per-machine runtime/index state
+.scout/installation-id
+.scout/models/
+.scout/search/
 tools/token-mapping-analyzer/output/
 
 # demo video pipeline rendered artifacts (re-buildable from manifests).
