@@ -1,5 +1,14 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.13.1
+
+### Patch Changes
+
+- [#1185](https://github.com/adobe/spectrum-design-data/pull/1185) [`eac1cb3`](https://github.com/adobe/spectrum-design-data/commit/eac1cb3121eda40c929e333f1375c75895244882) Thanks [@GarthDB](https://github.com/GarthDB)! - Restore the `./src/*` subpath export for @adobe/spectrum-tokens.
+  - **packages/tokens/package.json**: re-add `./src/*` to `exports`; dropped when the
+    strict allowlist landed in #740, only `./dist/*` was restored in #747, breaking
+    `@adobe/spectrum-tokens/src/*.json` imports for raw-source-JSON consumers.
+
 ## 14.13.0
 
 ### Minor Changes
@@ -20,7 +29,6 @@
   **New Branch:** `f84bce21`
 
   <details open><summary><strong>Added (9)</strong></summary>
-
   - `group-gap-extra-large-spacious`
   - `group-gap-extra-small-spacious`
   - `group-gap-large-spacious`
@@ -35,7 +43,6 @@
   ### Updated (15)
 
   <details open><summary><strong>Added Properties (5)</strong></summary>
-
   - `base-padding-horizontal-2x-large`
     - `desktop.schema`: `dimension.json`
     - `desktop.value`: `18px`
