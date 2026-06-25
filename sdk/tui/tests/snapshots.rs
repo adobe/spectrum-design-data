@@ -51,7 +51,12 @@ fn snapshot_home_view() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, 80, 24);
     let rendered = buffer_to_string(&buf);
-    insta::assert_snapshot!("home_view_80x24", rendered);
+    insta::with_settings!({
+        // Normalize the compiled-in crate version so version bumps don't break this snapshot.
+        filters => vec![(r"v\d+\.\d+\.\d+", "v[VERSION]")],
+    }, {
+        insta::assert_snapshot!("home_view_80x24", rendered);
+    });
 }
 
 // ── Query results view ────────────────────────────────────────────────────────

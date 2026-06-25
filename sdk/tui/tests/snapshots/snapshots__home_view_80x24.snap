@@ -3,7 +3,7 @@ source: tui/tests/snapshots.rs
 expression: rendered
 ---
 ▶ test · 0 tokens
-  Spectrum Design Data  v0.4.0
+  Spectrum Design Data  v[VERSION]
   ↑↓ history/list · Tab complete · Enter run · Esc back · Ctrl+C quit
   ──────────────────────────────────────────────────────────────────────────────
   >
