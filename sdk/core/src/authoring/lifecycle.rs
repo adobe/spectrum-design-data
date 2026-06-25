@@ -60,17 +60,31 @@ pub struct EditTokenInput {
     /// enforce UUID stability (`authoring-workflow.md` L69).
     pub updates: Map<String, Value>,
     pub rationale: Option<String>,
+    /// Root of the tokens directory.  Required when `updates` contains `"$ref"`;
+    /// the new target is verified to resolve in the cascade (same contract as
+    /// [`rewire_alias`], `authoring-workflow.md` L65).
+    pub tokens_root: Option<PathBuf>,
 }
 
 /// Update a token's value, alias target, rationale, or name-object fields.
 ///
 /// **Contract:** UUID is always preserved (`authoring-workflow.md` L69).
 /// Layer-1 schema validation is re-run on the merged result before persisting
-/// (`authoring-workflow.md` L73).
+/// (`authoring-workflow.md` L73).  When `updates` contains `"$ref"`, the new
+/// target is verified to resolve in the cascade; `tokens_root` must be `Some`
+/// in that case.
 pub fn edit_token(
     input: EditTokenInput,
     registry: &SchemaRegistry,
 ) -> Result<WriteTokenResult, String> {
+    // Validate any $ref change before touching the file.
+    if let Some(new_ref) = input.updates.get("$ref").and_then(Value::as_str) {
+        let root = input.tokens_root.as_deref().ok_or(
+            "tokens_root is required when updates contains \"$ref\" (authoring-workflow.md L65)",
+        )?;
+        verify_ref_resolves(root, new_ref)?;
+    }
+
     let mut arr = read_cascade_file(&input.target).map_err(|e| e.to_string())?;
     let idx = find_by_uuid(&arr, &input.uuid)?;
 
@@ -140,10 +154,15 @@ pub fn deprecate_token(
 ) -> Result<WriteTokenResult, String> {
     // Pre-validate cross-field rules before touching the file.
 
-    // L149: replaced_by array requires deprecated_comment.
-    if matches!(&input.replaced_by, Some(Value::Array(_))) && input.deprecated_comment.is_none() {
+    // L149: replaced_by array requires a non-empty deprecated_comment.
+    let comment_present = input
+        .deprecated_comment
+        .as_deref()
+        .map(|s| !s.is_empty())
+        .unwrap_or(false);
+    if matches!(&input.replaced_by, Some(Value::Array(_))) && !comment_present {
         return Err(
-            "deprecated_comment is required when replaced_by is an array \
+            "deprecated_comment is required (and must be non-empty) when replaced_by is an array \
              (token-format.md L149: must explain which replacement applies in which context)"
                 .to_string(),
         );
@@ -256,12 +275,11 @@ pub fn rename_token(
     let token_val = arr[idx].clone();
     validate_token_object(&input.uuid, &token_val, registry).map_err(|e| e.to_string())?;
 
-    // Optionally retire the old-name token with a replaced_by pointer.
+    // Retire the old-name token with a replaced_by pointer.
     if let Some(old_uuid) = &input.replaced_by_target {
-        if let Ok(old_idx) = find_by_uuid(&arr, old_uuid) {
-            if let Some(old_token) = arr[old_idx].as_object_mut() {
-                old_token.insert("replaced_by".into(), Value::String(input.uuid.clone()));
-            }
+        let old_idx = find_by_uuid(&arr, old_uuid)?;
+        if let Some(old_token) = arr[old_idx].as_object_mut() {
+            old_token.insert("replaced_by".into(), Value::String(input.uuid.clone()));
         }
     }
 
@@ -479,6 +497,7 @@ mod tests {
                     m
                 },
                 rationale: None,
+                tokens_root: None,
             },
             &test_registry(),
         );
@@ -509,12 +528,75 @@ mod tests {
                 target: path,
                 updates: Map::new(),
                 rationale: None,
+                tokens_root: None,
             },
             &test_registry(),
         );
 
         assert!(result.is_err());
         assert!(result.unwrap_err().contains("no token with uuid"));
+    }
+
+    #[test]
+    fn edit_dangling_ref_in_updates_is_rejected() {
+        let schema =
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+        let uuid = "aaaaaaaa-0000-0000-0000-000000000002";
+        let (_dir, path) = make_tokens_dir(vec![minimal_token(uuid, schema)]);
+        let tokens_root = path.parent().unwrap().to_path_buf();
+
+        let result = edit_token(
+            EditTokenInput {
+                uuid: uuid.to_string(),
+                target: path,
+                updates: {
+                    let mut m = Map::new();
+                    m.insert("$ref".into(), json!("does-not-exist-uuid"));
+                    m
+                },
+                rationale: None,
+                tokens_root: Some(tokens_root),
+            },
+            &test_registry(),
+        );
+
+        assert!(result.is_err(), "should reject dangling $ref");
+        assert!(
+            result.unwrap_err().contains("does not resolve"),
+            "error must mention resolution failure"
+        );
+    }
+
+    #[test]
+    fn edit_ref_requires_tokens_root() {
+        let schema =
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+        let uuid = "aaaaaaaa-0000-0000-0000-000000000003";
+        let (_dir, path) = make_tokens_dir(vec![minimal_token(uuid, schema)]);
+
+        let result = edit_token(
+            EditTokenInput {
+                uuid: uuid.to_string(),
+                target: path,
+                updates: {
+                    let mut m = Map::new();
+                    m.insert("$ref".into(), json!("some-uuid"));
+                    m
+                },
+                rationale: None,
+                tokens_root: None, // missing — must be rejected
+            },
+            &test_registry(),
+        );
+
+        assert!(
+            result.is_err(),
+            "should reject $ref update without tokens_root"
+        );
+        assert!(
+            result.unwrap_err().contains("tokens_root is required"),
+            "error must mention tokens_root"
+        );
     }
 
     // ── deprecate ─────────────────────────────────────────────────────────────
@@ -608,6 +690,38 @@ mod tests {
         );
     }
 
+    #[test]
+    fn deprecate_empty_string_comment_rejected_for_array_replaced_by() {
+        let schema =
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+        let uuid = "bbbbbbbb-0000-0000-0000-000000000004";
+        let (_dir, path) = make_tokens_dir(vec![minimal_token(uuid, schema)]);
+
+        let result = deprecate_token(
+            DeprecateTokenInput {
+                uuid: uuid.to_string(),
+                target: path,
+                spec_version: "1.1.0".to_string(),
+                deprecated_comment: Some(String::new()), // Some("") must be treated as absent
+                replaced_by: Some(json!(["uuid-a", "uuid-b"])),
+                planned_removal: None,
+                rationale: None,
+            },
+            &test_registry(),
+        );
+
+        assert!(
+            result.is_err(),
+            "Some(\"\") must not satisfy the deprecated_comment requirement"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .contains("deprecated_comment is required"),
+            "error must mention deprecated_comment"
+        );
+    }
+
     // ── rename ────────────────────────────────────────────────────────────────
 
     #[test]
@@ -664,6 +778,34 @@ mod tests {
             serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
         let old = arr.iter().find(|t| t["uuid"] == json!(old_uuid)).unwrap();
         assert_eq!(old["replaced_by"], json!(new_uuid));
+    }
+
+    #[test]
+    fn rename_stale_replaced_by_target_returns_error() {
+        let schema =
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+        let uuid = "cccccccc-0000-0000-0000-000000000004";
+        let (_dir, path) = make_tokens_dir(vec![minimal_token(uuid, schema)]);
+
+        let result = rename_token(
+            RenameTokenInput {
+                uuid: uuid.to_string(),
+                target: path,
+                new_name: json!({ "property": "color", "colorFamily": "blue" }),
+                replaced_by_target: Some("does-not-exist".to_string()),
+                rationale: None,
+            },
+            &test_registry(),
+        );
+
+        assert!(
+            result.is_err(),
+            "stale replaced_by_target UUID must return an error"
+        );
+        assert!(
+            result.unwrap_err().contains("no token with uuid"),
+            "error must identify the missing uuid"
+        );
     }
 
     // ── alias-rewire ──────────────────────────────────────────────────────────
