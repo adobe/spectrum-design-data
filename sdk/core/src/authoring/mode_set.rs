@@ -287,6 +287,11 @@ pub fn rename_mode(input: RenameModeInput) -> Result<ModeSetWriteResult, String>
     let mut tokens_updated = 0usize;
     for (file, mut arr, indices) in files {
         for idx in &indices {
+            // Defense-in-depth: files_with_mode_value only returns indices where
+            // name[mode_set_name] resolved to a string, which requires name to be
+            // an object — so as_object_mut() returning None is structurally
+            // unreachable under the current filter.  The guard catches it explicitly
+            // if that invariant ever breaks.
             let name_obj = arr[*idx]
                 .get_mut("name")
                 .and_then(|n| n.as_object_mut())
@@ -778,7 +783,7 @@ mod tests {
     }
 
     #[test]
-    fn rename_mode_non_object_name_field_returns_error() {
+    fn rename_mode_non_object_name_field_is_skipped() {
         let dir = TempDir::new().unwrap();
         let ms_path = make_mode_set_file(
             &dir,
