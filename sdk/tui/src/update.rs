@@ -683,7 +683,7 @@ fn route_modal_key(
 
     // Authoring action-picker modal.
     if let Some(Modal::Authoring(ref mut am)) = model.modal_mut() {
-        let event = am.handle_key(key, ctx.graph, ctx.dataset_path);
+        let event = am.handle_key(key, ctx.graph, ctx.dataset_path, ctx.mode_sets_dir);
         match event {
             AuthoringEvent::Cancel => {
                 model.close_modal();

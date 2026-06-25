@@ -82,6 +82,41 @@ fn run_op(
             let name = name_hint(&input.uuid);
             remove_token(input).map(|()| (format!("removed {name}"), target))
         }
+        LifecycleExecute::ModeSet(ms_op) => {
+            use crate::authoring::mode_set::ModeSetExecute;
+            use design_data_core::authoring::mode_set::*;
+            match ms_op {
+                ModeSetExecute::AddMode(input) => {
+                    let mode = input.mode.clone();
+                    add_mode(input).map(|r| (format!("added mode {mode}"), r.written_to))
+                }
+                ModeSetExecute::RenameMode(input) => {
+                    let old = input.old.clone();
+                    rename_mode(input).map(|r| (format!("renamed mode {old}"), r.written_to))
+                }
+                ModeSetExecute::RemoveMode(input) => {
+                    let mode = input.mode.clone();
+                    remove_mode(input).map(|r| (format!("removed mode {mode}"), r.written_to))
+                }
+                ModeSetExecute::CreateModeSet(input) => {
+                    let name = input.name.clone();
+                    create_mode_set(input)
+                        .map(|r| (format!("created mode-set {name}"), r.written_to))
+                }
+                ModeSetExecute::RemoveModeSet(input) => {
+                    let path = input.mode_set_file.clone();
+                    remove_mode_set(input).map(|r| {
+                        (
+                            format!(
+                                "removed mode-set {}",
+                                path.file_name().and_then(|n| n.to_str()).unwrap_or("?")
+                            ),
+                            r.written_to,
+                        )
+                    })
+                }
+            }
+        }
     }
 }
 
