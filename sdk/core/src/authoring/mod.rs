@@ -12,4 +12,5 @@
 
 pub mod draft;
 pub mod lifecycle;
+pub mod mode_set;
 pub mod session;
