@@ -24,3 +24,7 @@ Releases use GitHub Actions with **OIDC** and **provenance**. npm trusted publis
 3. **Add a changeset** for the real first version (e.g. `1.0.0`), merge the release PR, and let the [Release workflow](.github/workflows/release.yml) run `pnpm release`. That publish will use OIDC and provenance.
 
 Do not skip the placeholder publish and go straight to a 1.0.0 changeset in CI if the package has never been published—CI may fail with permission or package-not-found errors.
+
+## Rust / sdk/core changes
+
+`sdk/core` is a private Rust crate (not published to npm).  Changes to it are surfaced through `@adobe/design-data-tui` — the npm package that ships the compiled Rust binary.  Convention: **any additive change to `sdk/core` authoring logic bumps `@adobe/design-data-tui` as `minor`**, even if no TypeScript or TUI code changed.  This matches the pattern established in PRs #1190–#1194.
