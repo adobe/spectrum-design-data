@@ -105,6 +105,32 @@ for (const decl of registryFields) {
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
 generated += `    map\n}\n`;
 
+// Generate build_field_catalog() — full catalog metadata for authoring validation.
+// All 24 catalog fields, sorted by serialization.position, emitted as FieldCatalogEntry
+// literals.  build_name_object() uses positions for ordered output; validate_classification()
+// uses validation + scope for registry checking and SPEC-042 scope enforcement.
+generated += `
+pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
+    vec![
+`;
+const allFieldsSorted = [...fieldDeclarations].sort(
+  (a, b) =>
+    (a.serialization?.position ?? 9999) - (b.serialization?.position ?? 9999),
+);
+for (const d of allFieldsSorted) {
+  const validation =
+    d.validation === "strict"
+      ? "FieldValidation::Strict"
+      : d.validation === "advisory"
+        ? "FieldValidation::Advisory"
+        : "FieldValidation::None";
+  const scope = d.scope ? `Some("${d.scope}")` : "None";
+  const valueType = d.valueType || "string";
+  const pos = d.serialization?.position ?? 9999;
+  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry !== null}, value_type: "${valueType}" },\n`;
+}
+generated += `    ]\n}\n`;
+
 // ── Write or check ─────────────────────────────────────────────────────────
 
 const checkMode = process.argv.includes("--check");

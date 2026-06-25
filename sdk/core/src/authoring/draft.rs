@@ -100,6 +100,7 @@ impl WizardDraft {
                 layer: Layer::Foundation,
                 property: String::new(),
                 name_fields: Vec::new(),
+                diagnostics: Vec::new(),
                 focused_field: 0,
             },
             values: ValuesDraftDto {
@@ -119,11 +120,34 @@ impl Default for WizardDraft {
     }
 }
 
+/// Severity level on a classification diagnostic.
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+pub enum DiagnosticSeverity {
+    Warning,
+}
+
+/// Advisory or informational finding produced by `validate_classification`.
+///
+/// Strict violations are returned as `Err`; warnings are collected here and
+/// attached to the `ClassificationDraftDto` so MCP/CLI callers can surface
+/// them without blocking the session.
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct FieldDiagnostic {
+    /// The name-object field key that triggered the diagnostic.
+    pub field: String,
+    pub severity: DiagnosticSeverity,
+    pub message: String,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ClassificationDraftDto {
     pub layer: Layer,
     pub property: String,
     pub name_fields: Vec<NameFieldDto>,
+    /// Advisory diagnostics from catalog/registry validation.  Strict violations
+    /// are returned as `Err` from `step_classification` and never stored here.
+    #[serde(default)]
+    pub diagnostics: Vec<FieldDiagnostic>,
     /// TUI-only cursor position; not meaningful for MCP sessions.
     #[serde(skip)]
     pub focused_field: usize,
@@ -192,20 +216,52 @@ pub fn build_value_fields(rows: &[ValueRowDto]) -> serde_json::Map<String, serde
     fields
 }
 
-/// Build the structured `name` object: `{ "property": ..., <name_fields>... }`.
+/// Build the structured `name` object: `{ <name_fields in position order> }`.
 ///
 /// Single source of truth shared by the MCP authoring session and TUI wizard.
+///
+/// Fields are ordered by `serialization.position` from the fields/ catalog so
+/// the output matches the canonical serialization order (e.g. `variant` at 0,
+/// `component` at 1, `property` at 6).  Fields absent from the catalog
+/// (unexpected) are appended after all catalog-positioned fields.
+/// Numeric fields (`value_type == "integer"`, e.g. `scaleIndex`) are emitted
+/// as JSON numbers rather than strings.
 pub fn build_name_object(property: &str, name_fields: &[NameFieldDto]) -> serde_json::Value {
-    let mut name_obj = serde_json::Map::new();
-    name_obj.insert(
-        "property".into(),
+    let catalog = crate::registry::FieldCatalog::embedded();
+
+    // Collect (position, key, json_value) tuples; property is merged in-line so
+    // it lands at its catalog position (6) rather than always first.
+    let prop_pos = catalog.get("property").map(|e| e.position).unwrap_or(6);
+
+    let mut entries: Vec<(u32, String, serde_json::Value)> =
+        Vec::with_capacity(name_fields.len() + 1);
+    entries.push((
+        prop_pos,
+        "property".to_string(),
         serde_json::Value::String(property.to_string()),
-    );
+    ));
+
     for field in name_fields {
-        name_obj.insert(
-            field.key.clone(),
-            serde_json::Value::String(field.value.clone()),
-        );
+        let entry = catalog.get(&field.key);
+        let pos = entry.map(|e| e.position).unwrap_or(u32::MAX);
+        let value_type = entry.map(|e| e.value_type).unwrap_or("string");
+        let json_value = if value_type == "integer" {
+            if let Ok(n) = field.value.parse::<i64>() {
+                serde_json::Value::Number(n.into())
+            } else {
+                serde_json::Value::String(field.value.clone())
+            }
+        } else {
+            serde_json::Value::String(field.value.clone())
+        };
+        entries.push((pos, field.key.clone(), json_value));
+    }
+
+    entries.sort_by_key(|(pos, _, _)| *pos);
+
+    let mut name_obj = serde_json::Map::new();
+    for (_, key, value) in entries {
+        name_obj.insert(key, value);
     }
     serde_json::Value::Object(name_obj)
 }
@@ -376,6 +432,54 @@ mod tests {
         let obj = name.as_object().unwrap();
         assert_eq!(obj["property"], "background-color");
         assert_eq!(obj["variant"], "accent");
+    }
+
+    #[test]
+    fn build_name_object_orders_fields_by_catalog_position() {
+        // variant (pos 0) and size (pos 9) should both come before property (pos 6)…
+        // wait: size=9 > property=6, so order is: variant(0), property(6), size(9).
+        let name = build_name_object(
+            "background-color",
+            &[
+                NameFieldDto {
+                    key: "size".into(),
+                    value: "m".into(),
+                },
+                NameFieldDto {
+                    key: "variant".into(),
+                    value: "accent".into(),
+                },
+            ],
+        );
+        let obj = name.as_object().unwrap();
+        let keys: Vec<&str> = obj.keys().map(|k| k.as_str()).collect();
+        // variant(0) < property(6) < size(9)
+        let vi = keys.iter().position(|k| *k == "variant").unwrap();
+        let pi = keys.iter().position(|k| *k == "property").unwrap();
+        let si = keys.iter().position(|k| *k == "size").unwrap();
+        assert!(
+            vi < pi && pi < si,
+            "expected variant < property < size; got order: {keys:?}"
+        );
+    }
+
+    #[test]
+    fn build_name_object_emits_numeric_field_as_json_number() {
+        // scaleIndex (valueType "integer") should be a JSON number, not a string.
+        let name = build_name_object(
+            "background-color",
+            &[NameFieldDto {
+                key: "scaleIndex".into(),
+                value: "100".into(),
+            }],
+        );
+        let obj = name.as_object().unwrap();
+        assert!(
+            obj["scaleIndex"].is_number(),
+            "scaleIndex must be a JSON number; got: {:?}",
+            obj["scaleIndex"]
+        );
+        assert_eq!(obj["scaleIndex"], 100i64);
     }
 
     #[test]

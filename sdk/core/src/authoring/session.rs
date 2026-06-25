@@ -22,13 +22,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::draft::{
-    build_value_fields, ClassificationDraftDto, NameFieldDto, ValueKind, ValueRowDto,
-    ValuesDraftDto, WizardDraft, WizardScreen,
+    build_value_fields, ClassificationDraftDto, DiagnosticSeverity, FieldDiagnostic, NameFieldDto,
+    ValueKind, ValueRowDto, ValuesDraftDto, WizardDraft, WizardScreen,
 };
 use crate::graph::{Layer, TokenGraph};
 use crate::primer::SPEC_VERSION;
+use crate::registry::{FieldCatalog, FieldValidation, RegistryData};
 use crate::schema::SchemaRegistry;
 use crate::suggest;
+use crate::validate::rules::schema_domain;
 use crate::write::{write_cascade_token, WriteCascadeTokenInput};
 
 // ── On-disk session format ────────────────────────────────────────────────────
@@ -241,7 +243,113 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
     })
 }
 
+/// Validate a prospective classification against the fields/ catalog and their registries.
+///
+/// Returns `Ok(diagnostics)` where `diagnostics` holds advisory warnings, or `Err(msg)`
+/// if a hard violation is found (unknown field key or out-of-vocab value on a
+/// `strict`-validation field).
+///
+/// Rules applied:
+/// - A field key absent from the catalog is always an error (authoring-workflow.md L244).
+/// - For registry-backed `advisory` fields, an unknown value produces a warning.
+/// - For registry-backed `strict` fields, an unknown value produces an error.
+/// - Domain-scoped fields on an incompatible token schema produce a SPEC-042 warning.
+///   The scope check is skipped when `schema_url` is `None` (schema not yet chosen).
+pub(crate) fn validate_classification(
+    property: &str,
+    name_fields: &[(String, String)],
+    schema_url: Option<&str>,
+    catalog: &FieldCatalog,
+    registry: &RegistryData,
+) -> Result<Vec<FieldDiagnostic>, String> {
+    let mut diagnostics: Vec<FieldDiagnostic> = Vec::new();
+
+    // --- validate property ------------------------------------------------
+    // `property` is advisory + registry-backed; an unknown value is a warning.
+    if !property.is_empty() {
+        if let Some(entry) = catalog.get("property") {
+            if entry.has_registry {
+                if let Some(vocab) = registry.for_field("property") {
+                    if !vocab.contains(property) {
+                        let msg = format!(
+                            "\"{}\" is not a known property term; use a value from the \
+                             property-terms registry",
+                            property
+                        );
+                        match entry.validation {
+                            FieldValidation::Strict => return Err(msg),
+                            FieldValidation::Advisory => diagnostics.push(FieldDiagnostic {
+                                field: "property".into(),
+                                severity: DiagnosticSeverity::Warning,
+                                message: msg,
+                            }),
+                            FieldValidation::None => {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // --- validate each name field -----------------------------------------
+    for (key, value) in name_fields {
+        let entry = catalog.get(key).ok_or_else(|| {
+            format!(
+                "\"{}\" is not a recognized name-object field (not in the fields/ catalog; \
+                 authoring-workflow.md L244)",
+                key
+            )
+        })?;
+
+        if !value.is_empty() && entry.has_registry {
+            if let Some(vocab) = registry.for_field(key) {
+                if !vocab.contains(value.as_str()) {
+                    let msg = format!(
+                        "\"{}\" is not a known value for the \"{}\" field",
+                        value, key
+                    );
+                    match entry.validation {
+                        FieldValidation::Strict => return Err(msg),
+                        FieldValidation::Advisory => diagnostics.push(FieldDiagnostic {
+                            field: key.clone(),
+                            severity: DiagnosticSeverity::Warning,
+                            message: msg,
+                        }),
+                        FieldValidation::None => {}
+                    }
+                }
+            }
+        }
+
+        // SPEC-042: domain-scoped field on an incompatible token schema.
+        // Skipped if no schema has been chosen yet.
+        if let (Some(field_scope), Some(schema)) = (entry.scope, schema_url) {
+            if let Some(token_domain) = schema_domain(schema) {
+                if token_domain != field_scope {
+                    diagnostics.push(FieldDiagnostic {
+                        field: key.clone(),
+                        severity: DiagnosticSeverity::Warning,
+                        message: format!(
+                            "field \"{}\" is scoped to \"{}\" tokens but the selected schema is \
+                             for \"{}\" tokens (SPEC-042)",
+                            key, field_scope, token_domain
+                        ),
+                    });
+                }
+            }
+        }
+    }
+
+    Ok(diagnostics)
+}
+
 /// Update classification fields (layer, property, name-object fields).
+///
+/// Validates the field set against the fields/ catalog:
+/// - Unknown field keys are rejected (authoring-workflow.md L244).
+/// - Out-of-vocab values on `strict` fields are rejected.
+/// - Out-of-vocab values on `advisory` fields and SPEC-042 scope mismatches
+///   produce advisory diagnostics attached to the returned draft.
 pub fn step_classification(
     session_id: &str,
     layer: Layer,
@@ -251,6 +359,13 @@ pub fn step_classification(
     let mut session =
         get_session(session_id).ok_or_else(|| format!("session not found: {session_id}"))?;
 
+    let catalog = FieldCatalog::embedded();
+    let registry = RegistryData::embedded();
+    let schema_url = session.wizard.schema_url.as_deref();
+
+    let diagnostics =
+        validate_classification(property, &name_fields, schema_url, &catalog, &registry)?;
+
     session.wizard.classification = ClassificationDraftDto {
         layer,
         property: property.to_string(),
@@ -258,6 +373,7 @@ pub fn step_classification(
             .into_iter()
             .map(|(key, value)| NameFieldDto { key, value })
             .collect(),
+        diagnostics,
         focused_field: 0,
     };
     session.wizard.screen = WizardScreen::Classification;
@@ -391,7 +507,9 @@ fn build_token_value(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::authoring::draft::DiagnosticSeverity;
     use crate::graph::Layer;
+    use crate::registry::{FieldCatalog, RegistryData};
     use std::sync::Mutex;
 
     static SESSION_DIR_LOCK: Mutex<()> = Mutex::new(());
@@ -496,6 +614,138 @@ mod tests {
         });
     }
 
+    // ── B4: catalog-aware validation ──────────────────────────────────────
+
+    #[test]
+    fn validate_classification_rejects_unknown_field_key() {
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let result = validate_classification(
+            "background-color",
+            &[("unknownFoo".into(), "bar".into())],
+            None,
+            &catalog,
+            &registry,
+        );
+        assert!(result.is_err(), "unknown field key must be rejected");
+        let msg = result.unwrap_err();
+        assert!(
+            msg.contains("unknownFoo"),
+            "error message should name the unknown field; got: {msg}"
+        );
+        assert!(
+            msg.contains("fields/ catalog"),
+            "error message should mention the fields/ catalog; got: {msg}"
+        );
+    }
+
+    #[test]
+    fn validate_classification_advisory_out_of_vocab_is_warning_not_error() {
+        // colorFamily is advisory + registry-backed.  An unknown value should
+        // succeed and produce exactly one warning, not an Err.
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let result = validate_classification(
+            "background-color",
+            &[("colorFamily".into(), "not-a-real-family".into())],
+            None,
+            &catalog,
+            &registry,
+        );
+        assert!(result.is_ok(), "advisory out-of-vocab must not return Err");
+        let diags = result.unwrap();
+        assert_eq!(diags.len(), 1, "expected exactly one advisory diagnostic");
+        assert_eq!(
+            diags[0].field, "colorFamily",
+            "diagnostic should name the offending field"
+        );
+        assert_eq!(diags[0].severity, DiagnosticSeverity::Warning);
+    }
+
+    #[test]
+    fn validate_classification_known_value_produces_no_diagnostic() {
+        // A valid catalog field with a known registry value → no diagnostics.
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let result = validate_classification(
+            "background-color",
+            &[("variant".into(), "accent".into())],
+            None,
+            &catalog,
+            &registry,
+        );
+        assert!(result.is_ok());
+        assert!(
+            result.unwrap().is_empty(),
+            "known value must not produce diagnostics"
+        );
+    }
+
+    #[test]
+    fn validate_classification_scope_mismatch_is_warning() {
+        // colorFamily is scoped to "color".  A typography schema URL should
+        // produce a SPEC-042 warning, not an error.
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let typography_schema =
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-family.json";
+        let result = validate_classification(
+            "background-color",
+            &[("colorFamily".into(), "blue".into())],
+            Some(typography_schema),
+            &catalog,
+            &registry,
+        );
+        assert!(result.is_ok(), "SPEC-042 violation must not return Err");
+        let diags = result.unwrap();
+        // Exactly one warning for the scope mismatch.
+        let scope_warnings: Vec<_> = diags
+            .iter()
+            .filter(|d| d.message.contains("SPEC-042"))
+            .collect();
+        assert_eq!(
+            scope_warnings.len(),
+            1,
+            "expected one SPEC-042 scope warning; got: {diags:?}"
+        );
+    }
+
+    #[test]
+    fn validate_classification_compatible_scope_no_warning() {
+        // colorFamily on a color token schema → no scope warning.
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let color_schema =
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json";
+        let result = validate_classification(
+            "background-color",
+            &[("colorFamily".into(), "blue".into())],
+            Some(color_schema),
+            &catalog,
+            &registry,
+        );
+        assert!(result.is_ok());
+        let diags = result.unwrap();
+        let scope_warnings: Vec<_> = diags
+            .iter()
+            .filter(|d| d.message.contains("SPEC-042"))
+            .collect();
+        assert!(
+            scope_warnings.is_empty(),
+            "compatible scope must not produce a SPEC-042 warning; got: {scope_warnings:?}"
+        );
+    }
+
+    #[test]
+    fn validate_classification_empty_name_fields_with_known_property_is_clean() {
+        // An empty name_fields list with a valid property → clean.
+        let catalog = FieldCatalog::embedded();
+        let registry = RegistryData::embedded();
+        let result = validate_classification("background-color", &[], None, &catalog, &registry);
+        assert!(result.is_ok());
+        assert!(result.unwrap().is_empty());
+    }
+
     #[test]
     fn build_token_value_multi_mode_persists_every_row() {
         // Regression guard: the committed token must carry all mode-combo rows
@@ -509,6 +759,7 @@ mod tests {
                 layer: Layer::Foundation,
                 property: "background-color".into(),
                 name_fields: vec![],
+                diagnostics: vec![],
                 focused_field: 0,
             },
             values: ValuesDraftDto {
