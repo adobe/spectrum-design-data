@@ -464,8 +464,7 @@ pub fn remove_mode_set(input: RemoveModeSetInput) -> Result<ModeSetWriteResult, 
     let count = count_tokens_using_mode_set(&input.tokens_root, &name)?;
     if count > 0 {
         return Err(format!(
-            "mode-set '{}' still referenced by {} token(s) — update or remove those tokens first",
-            name, count
+            "mode-set '{name}' still referenced by {count} token(s) — update or remove those tokens first"
         ));
     }
 
