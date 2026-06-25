@@ -12,9 +12,9 @@ Add catalog-aware token classification (Phase B / B4, closes #122.4).
 - **sdk/core/src/authoring/session.rs**: new `validate_classification` validates
   every name-object field against the catalog — unknown keys are errors, advisory
   out-of-vocab values are warnings, and SPEC-042 scope mismatches are warnings.
-- **sdk/core/src/authoring/draft.rs**: `build_name_object` now orders fields by
-  `serialization.position` and emits integer-typed fields as JSON numbers.
-- **sdk/core/src/authoring/draft.rs**: add `FieldDiagnostic` / `DiagnosticSeverity`
-  to carry advisory warnings in `ClassificationDraftDto` without blocking commits.
+- **sdk/core/src/authoring/draft.rs**: add `FieldDiagnostic` (uses `report::Severity`)
+  to carry advisory warnings in `ClassificationDraftDto`; `build_name_object` now
+  orders fields by `serialization.position` and emits integer-typed fields as JSON
+  numbers.
 - **sdk/core/src/validate/rules/mod.rs**: widen `schema_domain` / `DOMAIN_SCHEMAS`
   to `pub(crate)` for reuse by the authoring validator.

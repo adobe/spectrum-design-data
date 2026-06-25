@@ -41,7 +41,7 @@ const fieldDeclarations = readdirSync(fieldsDir)
 // All fields with a registry — these get embedded so for_field() works for any
 // registry-backed field (advisory or strict). Sorted by position for deterministic output.
 const registryFields = fieldDeclarations
-  .filter((d) => d.registry !== null)
+  .filter((d) => d.registry != null)
   .sort((a, b) => a.serialization.position - b.serialization.position);
 
 // Advisory subset — SPEC-009 only warns for these (strict fields are validated
@@ -117,6 +117,14 @@ const allFieldsSorted = [...fieldDeclarations].sort(
   (a, b) =>
     (a.serialization?.position ?? 9999) - (b.serialization?.position ?? 9999),
 );
+// Guard: duplicate positions cause wrong key order in build_name_object with no runtime error.
+const positions = allFieldsSorted.map((d) => d.serialization?.position ?? 9999);
+const uniquePositions = new Set(positions);
+if (uniquePositions.size !== positions.length) {
+  throw new Error(
+    `Duplicate serialization.position values in field catalog: ${positions.join(", ")}`,
+  );
+}
 for (const d of allFieldsSorted) {
   const validation =
     d.validation === "strict"
@@ -127,7 +135,7 @@ for (const d of allFieldsSorted) {
   const scope = d.scope ? `Some("${d.scope}")` : "None";
   const valueType = d.valueType || "string";
   const pos = d.serialization?.position ?? 9999;
-  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry !== null}, value_type: "${valueType}" },\n`;
+  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}" },\n`;
 }
 generated += `    ]\n}\n`;
 

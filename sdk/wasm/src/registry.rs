@@ -17,8 +17,6 @@
 //!    in `@adobe/spectrum-design-data/registry/*.json`) and return rich value objects.
 //!    These mirror the deprecated `@adobe/design-system-registry` helper API.
 
-use std::sync::OnceLock;
-
 use design_data_core::registry::RegistryData;
 use wasm_bindgen::prelude::*;
 
@@ -29,10 +27,8 @@ use crate::types::{RegistryEntry, RegistryObject};
 // Embedded registry (compile-time)
 // ---------------------------------------------------------------------------
 
-static REGISTRY: OnceLock<RegistryData> = OnceLock::new();
-
 fn registry() -> &'static RegistryData {
-    REGISTRY.get_or_init(RegistryData::embedded)
+    RegistryData::embedded()
 }
 
 /// Return all IDs (and aliases) registered for a given field name.

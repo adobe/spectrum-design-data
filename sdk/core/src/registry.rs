@@ -16,6 +16,7 @@
 //! `packages/design-data/fields/` — no Rust changes needed when adding a field.
 
 use std::collections::{HashMap, HashSet};
+use std::sync::OnceLock;
 
 use serde_json::Value;
 
@@ -64,11 +65,15 @@ pub struct FieldCatalog {
 }
 
 impl FieldCatalog {
-    /// Load the catalog embedded at compile time (generated from `packages/design-data/fields/`).
-    pub fn embedded() -> Self {
-        Self {
+    /// Return the catalog embedded at compile time (generated from `packages/design-data/fields/`).
+    ///
+    /// Initialised once via `OnceLock`; subsequent calls return the same allocation
+    /// with no extra parsing or heap work.
+    pub fn embedded() -> &'static Self {
+        static INSTANCE: OnceLock<FieldCatalog> = OnceLock::new();
+        INSTANCE.get_or_init(|| Self {
             entries: build_field_catalog(),
-        }
+        })
     }
 
     /// Look up a catalog entry by field name.  Returns `None` if the key is not
@@ -120,16 +125,20 @@ fn parse_registry(json_str: &str) -> HashSet<String> {
 include!("registry_data.rs");
 
 impl RegistryData {
-    /// Build registry data from the embedded JSON constants in `registry_data.rs`.
+    /// Return registry data from the embedded JSON constants in `registry_data.rs`.
     ///
     /// `registry_data.rs` is generated from `packages/design-data/fields/`
     /// (field catalog) and `packages/design-data/registry/` (vocabulary)
     /// by running `moon run sdk:codegen`. Adding a new field declaration and
     /// re-running codegen is all that's needed to extend SPEC-009.
-    pub fn embedded() -> Self {
-        Self {
+    ///
+    /// Initialised once via `OnceLock` — the 21 `serde_json::from_str` calls in
+    /// `build_registry_map` run only on the first call per process.
+    pub fn embedded() -> &'static Self {
+        static INSTANCE: OnceLock<RegistryData> = OnceLock::new();
+        INSTANCE.get_or_init(|| Self {
             registries: build_registry_map(),
-        }
+        })
     }
 
     /// Look up the vocabulary set for a name-object field.

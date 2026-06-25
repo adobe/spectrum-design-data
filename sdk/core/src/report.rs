@@ -15,7 +15,7 @@ use std::path::PathBuf;
 use serde::Serialize;
 
 /// Severity for a diagnostic.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Severity {
     Error,

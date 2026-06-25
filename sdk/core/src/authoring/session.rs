@@ -22,12 +22,13 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::draft::{
-    build_value_fields, ClassificationDraftDto, DiagnosticSeverity, FieldDiagnostic, NameFieldDto,
-    ValueKind, ValueRowDto, ValuesDraftDto, WizardDraft, WizardScreen,
+    build_value_fields, ClassificationDraftDto, FieldDiagnostic, NameFieldDto, ValueKind,
+    ValueRowDto, ValuesDraftDto, WizardDraft, WizardScreen,
 };
 use crate::graph::{Layer, TokenGraph};
 use crate::primer::SPEC_VERSION;
 use crate::registry::{FieldCatalog, FieldValidation, RegistryData};
+use crate::report::Severity;
 use crate::schema::SchemaRegistry;
 use crate::suggest;
 use crate::validate::rules::schema_domain;
@@ -279,7 +280,7 @@ pub(crate) fn validate_classification(
                             FieldValidation::Strict => return Err(msg),
                             FieldValidation::Advisory => diagnostics.push(FieldDiagnostic {
                                 field: "property".into(),
-                                severity: DiagnosticSeverity::Warning,
+                                severity: Severity::Warning,
                                 message: msg,
                             }),
                             FieldValidation::None => {}
@@ -299,6 +300,11 @@ pub(crate) fn validate_classification(
             )
         })?;
 
+        // Registry-vocab check is only attempted for fields that have a registry.
+        // Currently no strict field has has_registry=true (colorScheme/scale/contrast
+        // are strict but registry-less mode-set fields).  The Strict arm below is
+        // correct for any future strict+registry field; mode-set value validation for
+        // the current strict no-registry fields is deferred to B3 (122.3).
         if !value.is_empty() && entry.has_registry {
             if let Some(vocab) = registry.for_field(key) {
                 if !vocab.contains(value.as_str()) {
@@ -307,7 +313,7 @@ pub(crate) fn validate_classification(
                         FieldValidation::Strict => return Err(msg),
                         FieldValidation::Advisory => diagnostics.push(FieldDiagnostic {
                             field: key.clone(),
-                            severity: DiagnosticSeverity::Warning,
+                            severity: Severity::Warning,
                             message: msg,
                         }),
                         FieldValidation::None => {}
@@ -323,7 +329,7 @@ pub(crate) fn validate_classification(
                 if token_domain != field_scope {
                     diagnostics.push(FieldDiagnostic {
                         field: key.clone(),
-                        severity: DiagnosticSeverity::Warning,
+                        severity: Severity::Warning,
                         message: format!(
                             "field \"{key}\" is scoped to \"{field_scope}\" tokens but the \
                              selected schema is for \"{token_domain}\" tokens (SPEC-042)"
@@ -358,7 +364,7 @@ pub fn step_classification(
     let schema_url = session.wizard.schema_url.as_deref();
 
     let diagnostics =
-        validate_classification(property, &name_fields, schema_url, &catalog, &registry)?;
+        validate_classification(property, &name_fields, schema_url, catalog, registry)?;
 
     session.wizard.classification = ClassificationDraftDto {
         layer,
@@ -501,9 +507,9 @@ fn build_token_value(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::authoring::draft::DiagnosticSeverity;
     use crate::graph::Layer;
     use crate::registry::{FieldCatalog, RegistryData};
+    use crate::report::Severity;
     use std::sync::Mutex;
 
     static SESSION_DIR_LOCK: Mutex<()> = Mutex::new(());
@@ -653,7 +659,7 @@ mod tests {
             diags[0].field, "colorFamily",
             "diagnostic should name the offending field"
         );
-        assert_eq!(diags[0].severity, DiagnosticSeverity::Warning);
+        assert_eq!(diags[0].severity, Severity::Warning);
     }
 
     #[test]

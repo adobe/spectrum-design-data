@@ -18,6 +18,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::graph::Layer;
+use crate::report::Severity;
 
 // ── Screen and path enums ─────────────────────────────────────────────────────
 
@@ -120,22 +121,19 @@ impl Default for WizardDraft {
     }
 }
 
-/// Severity level on a classification diagnostic.
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
-pub enum DiagnosticSeverity {
-    Warning,
-}
-
 /// Advisory or informational finding produced by `validate_classification`.
 ///
 /// Strict violations are returned as `Err`; warnings are collected here and
 /// attached to the `ClassificationDraftDto` so MCP/CLI callers can surface
 /// them without blocking the session.
+///
+/// Uses `crate::report::Severity` so authoring diagnostics and validation-rule
+/// findings share a common severity vocabulary.
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct FieldDiagnostic {
     /// The name-object field key that triggered the diagnostic.
     pub field: String,
-    pub severity: DiagnosticSeverity,
+    pub severity: Severity,
     pub message: String,
 }
 
