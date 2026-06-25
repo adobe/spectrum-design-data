@@ -272,9 +272,8 @@ pub(crate) fn validate_classification(
                 if let Some(vocab) = registry.for_field("property") {
                     if !vocab.contains(property) {
                         let msg = format!(
-                            "\"{}\" is not a known property term; use a value from the \
-                             property-terms registry",
-                            property
+                            "\"{property}\" is not a known property term; use a value from the \
+                             property-terms registry"
                         );
                         match entry.validation {
                             FieldValidation::Strict => return Err(msg),
@@ -295,19 +294,15 @@ pub(crate) fn validate_classification(
     for (key, value) in name_fields {
         let entry = catalog.get(key).ok_or_else(|| {
             format!(
-                "\"{}\" is not a recognized name-object field (not in the fields/ catalog; \
-                 authoring-workflow.md L244)",
-                key
+                "\"{key}\" is not a recognized name-object field (not in the fields/ catalog; \
+                 authoring-workflow.md L244)"
             )
         })?;
 
         if !value.is_empty() && entry.has_registry {
             if let Some(vocab) = registry.for_field(key) {
                 if !vocab.contains(value.as_str()) {
-                    let msg = format!(
-                        "\"{}\" is not a known value for the \"{}\" field",
-                        value, key
-                    );
+                    let msg = format!("\"{value}\" is not a known value for the \"{key}\" field");
                     match entry.validation {
                         FieldValidation::Strict => return Err(msg),
                         FieldValidation::Advisory => diagnostics.push(FieldDiagnostic {
@@ -330,9 +325,8 @@ pub(crate) fn validate_classification(
                         field: key.clone(),
                         severity: DiagnosticSeverity::Warning,
                         message: format!(
-                            "field \"{}\" is scoped to \"{}\" tokens but the selected schema is \
-                             for \"{}\" tokens (SPEC-042)",
-                            key, field_scope, token_domain
+                            "field \"{key}\" is scoped to \"{field_scope}\" tokens but the \
+                             selected schema is for \"{token_domain}\" tokens (SPEC-042)"
                         ),
                     });
                 }
