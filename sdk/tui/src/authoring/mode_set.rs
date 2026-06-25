@@ -31,6 +31,7 @@ pub enum ModeSetOp {
 
 // ── Mode-set file info ─────────────────────────────────────────────────────────
 
+#[derive(Clone)]
 pub struct ModeSetFileInfo {
     pub path: PathBuf,
     pub name: String,
@@ -213,14 +214,29 @@ pub enum ModeSetExecute {
 // ── kebab helper ──────────────────────────────────────────────────────────────
 
 pub fn kebab_from_name(name: &str) -> String {
-    let mut result = String::new();
+    let mut raw = String::new();
     for (i, ch) in name.chars().enumerate() {
         if ch.is_uppercase() && i > 0 {
-            result.push('-');
+            raw.push('-');
         }
-        result.push(ch.to_lowercase().next().unwrap_or(ch));
+        raw.push(ch.to_lowercase().next().unwrap_or(ch));
     }
-    result.replace(' ', "-")
+    // Spaces → hyphens, then collapse consecutive hyphens and trim trailing.
+    let mut out = String::new();
+    let mut prev_hyphen = false;
+    for ch in raw.chars() {
+        let is_sep = ch == '-' || ch == ' ';
+        if is_sep {
+            if !prev_hyphen && !out.is_empty() {
+                out.push('-');
+            }
+            prev_hyphen = true;
+        } else {
+            out.push(ch);
+            prev_hyphen = false;
+        }
+    }
+    out.trim_end_matches('-').to_string()
 }
 
 // ── Handlers on AuthoringMenuState ────────────────────────────────────────────
@@ -269,7 +285,6 @@ impl AuthoringMenuState {
                     2 => ModeSetOp::RemoveMode,
                     3 => {
                         // CreateModeSet doesn't need a file picker — go to form directly.
-                        let tokens_root = dataset_path.map(|p| p.join("tokens"));
                         let state = CreateModeSetFormState {
                             name: Input::default(),
                             modes: vec![CreateModeRow {
@@ -281,7 +296,6 @@ impl AuthoringMenuState {
                             selected_mode_idx: 0,
                             mode_sets_dir: Some(msd.to_path_buf()),
                         };
-                        let _ = tokens_root; // stored in form if needed
                         return (
                             AuthoringScreen::CreateModeSetForm(state),
                             AuthoringEvent::Continue,
@@ -340,7 +354,7 @@ impl AuthoringMenuState {
                     let tokens_root = dataset_path.map(|p| p.join("tokens"));
                     match op {
                         ModeSetOp::AddMode => {
-                            let file = build_file_info(file_info);
+                            let file = file_info.clone();
                             return (
                                 AuthoringScreen::AddModeForm(AddModeFormState {
                                     file,
@@ -353,7 +367,7 @@ impl AuthoringMenuState {
                         }
                         ModeSetOp::RenameMode | ModeSetOp::RemoveMode => {
                             let modes = file_info.modes.clone();
-                            let file = build_file_info(file_info);
+                            let file = file_info.clone();
                             return (
                                 AuthoringScreen::ModeSetPickMode {
                                     modes,
@@ -365,16 +379,13 @@ impl AuthoringMenuState {
                             );
                         }
                         ModeSetOp::RemoveModeSet => {
-                            let tokens_root = match tokens_root {
-                                Some(r) => r,
-                                None => {
-                                    self.error =
-                                        Some("tokens_root required — pass --dataset".to_string());
-                                    return (
-                                        AuthoringScreen::ModeSetPickFile { picker, op },
-                                        AuthoringEvent::Continue,
-                                    );
-                                }
+                            let Some(tokens_root) = tokens_root else {
+                                self.error =
+                                    Some("tokens_root required — pass --dataset".to_string());
+                                return (
+                                    AuthoringScreen::ModeSetPickFile { picker, op },
+                                    AuthoringEvent::Continue,
+                                );
                             };
                             let exec =
                                 Box::new(LifecycleExecute::ModeSet(ModeSetExecute::RemoveModeSet(
@@ -448,33 +459,29 @@ impl AuthoringMenuState {
                 if let Some(mode) = modes.get(selected) {
                     match op {
                         ModeSetOp::RenameMode => {
-                            let tokens_root = dataset_path.map(|p| p.join("tokens"));
                             return (
                                 AuthoringScreen::RenameModeForm(RenameModeFormState {
                                     old_mode: mode.clone(),
                                     new_mode: Input::default(),
-                                    tokens_root,
+                                    tokens_root: dataset_path.map(|p| p.join("tokens")),
                                     file,
                                 }),
                                 AuthoringEvent::Continue,
                             );
                         }
                         ModeSetOp::RemoveMode => {
-                            let tokens_root = match dataset_path.map(|p| p.join("tokens")) {
-                                Some(r) => r,
-                                None => {
-                                    self.error =
-                                        Some("tokens_root required — pass --dataset".to_string());
-                                    return (
-                                        AuthoringScreen::ModeSetPickMode {
-                                            modes,
-                                            selected,
-                                            op,
-                                            file,
-                                        },
-                                        AuthoringEvent::Continue,
-                                    );
-                                }
+                            let Some(tokens_root) = dataset_path.map(|p| p.join("tokens")) else {
+                                self.error =
+                                    Some("tokens_root required — pass --dataset".to_string());
+                                return (
+                                    AuthoringScreen::ModeSetPickMode {
+                                        modes,
+                                        selected,
+                                        op,
+                                        file,
+                                    },
+                                    AuthoringEvent::Continue,
+                                );
                             };
                             let exec =
                                 Box::new(LifecycleExecute::ModeSet(ModeSetExecute::RemoveMode(
@@ -540,8 +547,12 @@ impl AuthoringMenuState {
             KeyCode::Enter
                 if f.focus == AddModeFocus::MakeDefault || f.focus == AddModeFocus::Mode =>
             {
-                if f.focus == AddModeFocus::Mode && !f.mode.value().trim().is_empty() {
-                    // Move to make_default field on first Enter from Mode.
+                if f.mode.value().trim().is_empty() {
+                    // Redirect to Mode so the user sees which field to fix.
+                    self.error = Some("mode name is required".to_string());
+                    f.focus = AddModeFocus::Mode;
+                } else if f.focus == AddModeFocus::Mode {
+                    // Advance to make_default toggle on first Enter from Mode.
                     f.focus = AddModeFocus::MakeDefault;
                 } else {
                     match Self::build_add_mode_execute(
@@ -784,16 +795,5 @@ impl AuthoringMenuState {
                 },
             ),
         )))
-    }
-}
-
-/// Clone a ModeSetFileInfo (used when the picker consumes it).
-fn build_file_info(info: &ModeSetFileInfo) -> ModeSetFileInfo {
-    ModeSetFileInfo {
-        path: info.path.clone(),
-        name: info.name.clone(),
-        modes: info.modes.clone(),
-        default: info.default.clone(),
-        description: info.description.clone(),
     }
 }

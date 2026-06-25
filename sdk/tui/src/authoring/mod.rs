@@ -467,9 +467,14 @@ impl AuthoringMenuState {
                             }
                         }
                         None => {
-                            let screen =
-                                self.build_form_for_action(action.unwrap(), picked, dataset_path);
-                            return (screen, AuthoringEvent::Continue);
+                            if let Some(a) = action {
+                                let screen = self.build_form_for_action(a, picked, dataset_path);
+                                return (screen, AuthoringEvent::Continue);
+                            }
+                            // Ghost state: sub_kind=None but action=None — shouldn't happen
+                            // in normal flow, but guard instead of panicking.
+                            self.error =
+                                Some("internal state error — press Esc to restart".to_string());
                         }
                     }
                 }
