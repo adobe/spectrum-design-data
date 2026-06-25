@@ -150,7 +150,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         let out_name = format!("{out_stem}.json");
         let out_path = output_dir.join(out_name);
         let out_text = serde_json::to_string_pretty(&Value::Object(legacy))?;
-        std::fs::write(&out_path, out_text)?;
+        std::fs::write(&out_path, out_text + "\n")?;
 
         summary.files_processed += 1;
         summary.files_written += 1;
