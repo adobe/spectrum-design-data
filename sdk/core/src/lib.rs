@@ -1510,6 +1510,20 @@ mod generation_conformance {
 
     use crate::legacy;
 
+    fn sorted_filenames(dir: &std::path::Path, case: &str) -> Vec<String> {
+        let mut names: Vec<String> = std::fs::read_dir(dir)
+            .unwrap_or_else(|e| panic!("{case}: failed to read {}: {e}", dir.display()))
+            .map(|e| {
+                e.unwrap_or_else(|e| panic!("{case}: dir entry error: {e}"))
+                    .file_name()
+                    .to_string_lossy()
+                    .into_owned()
+            })
+            .collect();
+        names.sort();
+        names
+    }
+
     fn run_fixture(case: &str) {
         let base = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../packages/design-data-spec/conformance/generation")
@@ -1524,16 +1538,18 @@ mod generation_conformance {
         legacy::convert_dir(&input, tmp_a.path())
             .unwrap_or_else(|e| panic!("{case}: convert_dir failed: {e}"));
 
-        for entry in std::fs::read_dir(&expected_dir)
-            .unwrap_or_else(|e| panic!("{case}: failed to read expected/: {e}"))
-        {
-            let entry = entry.unwrap_or_else(|e| panic!("{case}: dir entry error: {e}"));
-            let file_name = entry.file_name();
-            let name = file_name.to_string_lossy();
+        // Assert the output file set equals expected/ exactly (catches spurious extra files).
+        let actual_names = sorted_filenames(tmp_a.path(), case);
+        let expected_names = sorted_filenames(&expected_dir, case);
+        assert_eq!(
+            actual_names, expected_names,
+            "{case}: output file set differs from expected/\nactual:   {actual_names:?}\nexpected: {expected_names:?}"
+        );
 
-            let expected = std::fs::read_to_string(entry.path())
+        for name in &expected_names {
+            let expected = std::fs::read_to_string(expected_dir.join(name))
                 .unwrap_or_else(|e| panic!("{case}/{name}: failed to read expected/{name}: {e}"));
-            let actual = std::fs::read_to_string(tmp_a.path().join(name.as_ref()))
+            let actual = std::fs::read_to_string(tmp_a.path().join(name))
                 .unwrap_or_else(|e| panic!("{case}/{name}: output file missing: {e}"));
 
             assert_eq!(
