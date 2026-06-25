@@ -2410,3 +2410,32 @@ pub(crate) fn build_registry_map(
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }
+
+pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
+    vec![
+        FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "component", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "property", position: 6, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "orientation", position: 7, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "position", position: 8, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "size", position: 9, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "density", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "shape", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "state", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "colorScheme", position: 13, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string" },
+        FieldCatalogEntry { name: "scale", position: 14, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string" },
+        FieldCatalogEntry { name: "contrast", position: 15, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string" },
+        FieldCatalogEntry { name: "colorFamily", position: 17, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "family", position: 18, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "weight", position: 19, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "style", position: 20, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "motionRole", position: 21, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "easing", position: 22, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "alignment", position: 25, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string" },
+        FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer" },
+    ]
+}

@@ -40,6 +40,9 @@ pub fn to_draft(ws: &WizardState) -> WizardDraft {
         chosen_path: ws.chosen_path.clone(),
         classification: ClassificationDraftDto {
             layer: ws.classification.layer,
+            // TUI writes to disk via this DTO but validation runs in step_classification
+            // (the MCP/CLI path).  No diagnostics are generated on the TUI path.
+            diagnostics: vec![],
             property: ws.classification.property.value().to_string(),
             name_fields: ws
                 .classification

@@ -60,10 +60,11 @@ mod spec046;
 
 use std::collections::HashSet;
 
-/// Domain → `$schema` URL suffix mapping shared by SPEC-042 and SPEC-043.
-/// Update this list when new token-type schemas are introduced; both rules
+/// Domain → `$schema` URL suffix mapping shared by SPEC-042, SPEC-043, and the
+/// authoring classification validator.
+/// Update this list when new token-type schemas are introduced; all consumers
 /// pick up the change automatically.
-pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
+pub(crate) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
     (
         "color",
         &["color.json", "color-set.json", "gradient-stop.json"],
@@ -91,14 +92,12 @@ pub(super) const DOMAIN_SCHEMAS: &[(&str, &[&str])] = &[
 ];
 
 /// Returns the domain name for a token's `$schema` URL, or `None` if not a known domain type.
-pub(super) fn schema_domain(schema_url: &str) -> Option<&'static str> {
+pub(crate) fn schema_domain(schema_url: &str) -> Option<&'static str> {
     DOMAIN_SCHEMAS
         .iter()
         .find(|(_, suffixes)| suffixes.iter().any(|s| schema_url.ends_with(s)))
         .map(|(domain, _)| *domain)
 }
-use std::sync::OnceLock;
-
 use crate::graph::TokenGraph;
 use crate::registry::RegistryData;
 use crate::report::Diagnostic;
@@ -106,8 +105,7 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 
 /// Lazily initialized embedded registry data (parsed once, reused).
 fn embedded_registry() -> &'static RegistryData {
-    static REGISTRY: OnceLock<RegistryData> = OnceLock::new();
-    REGISTRY.get_or_init(RegistryData::embedded)
+    RegistryData::embedded()
 }
 
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
