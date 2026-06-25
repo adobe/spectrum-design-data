@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 import { join } from "path";
-import { writeProductContext } from "@adobe/design-data/write";
+import { runCli } from "../cli.js";
 import { config } from "../config.js";
 
 export function createWriteTools() {
@@ -36,7 +36,12 @@ export function createWriteTools() {
       async handler({ output, rationale } = {}) {
         const resolvedOutput =
           output ?? join(config.dataPath, "product-context.json");
-        return writeProductContext({ output: resolvedOutput, rationale });
+        const args = ["write", "--output", resolvedOutput];
+        if (rationale) args.push("--rationale", rationale);
+        const { exitCode, stdout, stderr } = await runCli(args);
+        if (exitCode !== 0)
+          throw new Error(stderr || `design-data write exited ${exitCode}`);
+        return stdout;
       },
     },
   ];

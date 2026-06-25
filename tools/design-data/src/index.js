@@ -15,28 +15,9 @@
  *
  * - `loadDataset(dir)` — walk *.tokens.json from a directory → Dataset
  * - `loadDatasetSync(dir, wasm)` — synchronous variant for pre-loaded wasm modules
- * - `writeProductContext(opts)` — write/update product-context.json
- * - `writeToken(key, token, opts)` — write a token into a target JSON file
- * - `buildTokenFromWizard(opts)` — build a token object from authoring-session state
- * - `startSession / stepClassification / stepValues / commitSession / cancelSession / getSession / listSessions`
- *   — on-disk authoring-session state machine (JS port of sdk/core/src/authoring/session.rs)
  */
 
 export { loadDataset, loadDatasetSync } from "./load.js";
-export {
-  writeProductContext,
-  writeToken,
-  buildTokenFromWizard,
-} from "./write.js";
-export {
-  startSession,
-  getSession,
-  listSessions,
-  stepClassification,
-  stepValues,
-  commitSession,
-  cancelSession,
-} from "./session.js";
 export {
   validateDataset,
   validateTokenAgainstSchema,
