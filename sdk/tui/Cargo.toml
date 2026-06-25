@@ -28,4 +28,4 @@ ratatui-interact = "0.5"
 
 [dev-dependencies]
 tempfile = "3"
-insta = "1"
+insta = { version = "1", features = ["filters"] }

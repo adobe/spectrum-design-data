@@ -12,18 +12,41 @@ generation/<case>/
   expected/ — expected legacy output (keyed-object format, one file per input file)
 ```
 
-## Running
+## Automated driver
+
+These fixtures are exercised automatically by the `generation_conformance` module in
+`sdk/core/src/lib.rs`. Each test case runs `legacy::convert_dir` twice and asserts:
+
+1. **Byte-identical output** — the generated files match `expected/` exactly.
+2. **Determinism** — pass 1 and pass 2 output are identical.
 
 ```bash
-design-data migrate legacy-output --output <out-dir> <input-dir>/
-diff <out-dir>/tokens.json expected/tokens.json
+# Run all generation conformance tests:
+moon run sdk:test
+# or directly:
+cd sdk && cargo test generation_conformance
 ```
 
-Byte-identical output with no diff = conformance. Run twice to verify determinism.
+To regenerate `expected/` after changing conversion logic, run the CLI and commit the result:
+
+```bash
+design-data migrate legacy-output <case>/input --output <case>/expected
+```
+
+## Cases
+
+| Case               | What it exercises                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `flat-token`       | Basic flat token conversion (property key derivation, field passthrough)                                    |
+| `mode-set-token`   | Color-set reconstruction from per-mode cascade records (`set_uuid`/`set_schema`)                            |
+| `deprecated-token` | `deprecated: "version"` string → `true` boolean; `deprecated_comment` passthrough; `plannedRemoval` dropped |
+| `renamed-token`    | `replaced_by: "<uuid>"` → `renamed: "<property-name>"` via global UUID→name map                             |
+| `alias-rewire`     | `$ref: "<uuid>"` → `value: "{<property-name>}"` (alias denormalization with UUID resolution)                |
+| `mode-set-edit`    | `deprecated`/`renamed` hoisted to outer set level when consistent across all mode entries                   |
 
 ## Cascade grouping fields (`set_uuid` / `set_schema`)
 
-The `mode-set-token` fixture input uses two cascade-internal grouping fields:
+The `mode-set-token` and `mode-set-edit` fixtures use two cascade-internal grouping fields:
 
 | Field        | Type   | Role                                                                                                                                                                                                                                                                             |
 | ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

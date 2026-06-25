@@ -1492,3 +1492,128 @@ mod query_conformance {
         run_fixture("and-or-precedence");
     }
 }
+
+/// Generation conformance tests — fixture-driven.
+///
+/// Each test case lives under `packages/design-data-spec/conformance/generation/<name>/`
+/// with `input/` (cascade `.tokens.json` files) and `expected/` (byte-identical legacy
+/// output produced by `design-data migrate legacy-output`).
+///
+/// Two guarantees are verified per fixture:
+///   1. **Byte-identical output** — `convert_dir(input, out)` matches `expected/` exactly,
+///      covering conversion logic and key-ordering contract.
+///   2. **Determinism** — a second `convert_dir` run on the same input produces identical
+///      output, verifying no run-to-run variance in the generator.
+#[cfg(test)]
+mod generation_conformance {
+    use std::path::Path;
+
+    use crate::legacy;
+
+    fn sorted_filenames(dir: &std::path::Path, case: &str) -> Vec<String> {
+        let mut names: Vec<String> = std::fs::read_dir(dir)
+            .unwrap_or_else(|e| panic!("{case}: failed to read {}: {e}", dir.display()))
+            .map(|e| {
+                e.unwrap_or_else(|e| panic!("{case}: dir entry error: {e}"))
+                    .file_name()
+                    .to_string_lossy()
+                    .into_owned()
+            })
+            .collect();
+        names.sort();
+        names
+    }
+
+    fn run_fixture(case: &str) {
+        let base = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/generation")
+            .join(case);
+
+        let input = base.join("input");
+        let expected_dir = base.join("expected");
+
+        // Pass 1: generate and compare byte-for-byte against committed expected/.
+        let tmp_a =
+            tempfile::tempdir().unwrap_or_else(|e| panic!("{case}: failed to create tempdir: {e}"));
+        legacy::convert_dir(&input, tmp_a.path())
+            .unwrap_or_else(|e| panic!("{case}: convert_dir failed: {e}"));
+
+        // Assert the output file set equals expected/ exactly (catches spurious extra files).
+        let actual_names = sorted_filenames(tmp_a.path(), case);
+        let expected_names = sorted_filenames(&expected_dir, case);
+        assert_eq!(
+            actual_names, expected_names,
+            "{case}: output file set differs from expected/\nactual:   {actual_names:?}\nexpected: {expected_names:?}"
+        );
+
+        for name in &expected_names {
+            let expected = std::fs::read_to_string(expected_dir.join(name))
+                .unwrap_or_else(|e| panic!("{case}/{name}: failed to read expected/{name}: {e}"));
+            let actual = std::fs::read_to_string(tmp_a.path().join(name))
+                .unwrap_or_else(|e| panic!("{case}/{name}: output file missing: {e}"));
+
+            assert_eq!(
+                actual, expected,
+                "{case}/{name}: output differs from expected (byte-level)\n\
+                 === actual ===\n{actual}\n\
+                 === expected ===\n{expected}"
+            );
+        }
+
+        // Pass 2: re-run and compare against pass-1 output (determinism gate).
+        let tmp_b = tempfile::tempdir()
+            .unwrap_or_else(|e| panic!("{case}: failed to create tempdir (pass 2): {e}"));
+        legacy::convert_dir(&input, tmp_b.path())
+            .unwrap_or_else(|e| panic!("{case}: convert_dir pass 2 failed: {e}"));
+
+        for entry in std::fs::read_dir(tmp_a.path())
+            .unwrap_or_else(|e| panic!("{case}: failed to read pass-1 output: {e}"))
+        {
+            let entry = entry.unwrap_or_else(|e| panic!("{case}: dir entry error: {e}"));
+            let file_name = entry.file_name();
+            let name = file_name.to_string_lossy();
+
+            let pass1 = std::fs::read_to_string(entry.path())
+                .unwrap_or_else(|e| panic!("{case}/{name}: failed to read pass-1 output: {e}"));
+            let pass2 = std::fs::read_to_string(tmp_b.path().join(name.as_ref()))
+                .unwrap_or_else(|e| panic!("{case}/{name}: pass-2 output missing: {e}"));
+
+            assert_eq!(
+                pass1, pass2,
+                "{case}/{name}: generator is not deterministic (pass 1 ≠ pass 2)\n\
+                 === pass 1 ===\n{pass1}\n\
+                 === pass 2 ===\n{pass2}"
+            );
+        }
+    }
+
+    #[test]
+    fn flat_token() {
+        run_fixture("flat-token");
+    }
+
+    #[test]
+    fn mode_set_token() {
+        run_fixture("mode-set-token");
+    }
+
+    #[test]
+    fn deprecated_token() {
+        run_fixture("deprecated-token");
+    }
+
+    #[test]
+    fn renamed_token() {
+        run_fixture("renamed-token");
+    }
+
+    #[test]
+    fn alias_rewire() {
+        run_fixture("alias-rewire");
+    }
+
+    #[test]
+    fn mode_set_edit() {
+        run_fixture("mode-set-edit");
+    }
+}
