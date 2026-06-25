@@ -342,9 +342,7 @@ impl AuthoringMenuState {
                 )
             }
             KeyCode::Up | KeyCode::Char('k') => {
-                if sel > 0 {
-                    sel -= 1;
-                }
+                sel = sel.saturating_sub(1);
             }
             KeyCode::Down | KeyCode::Char('j') => {
                 if sel + 1 < enabled_len {

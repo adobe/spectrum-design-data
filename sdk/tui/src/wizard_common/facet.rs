@@ -51,11 +51,11 @@ const ZERO_COUNT_TAIL: usize = 4;
 /// # Arguments
 /// * `field_key`   — e.g. `"property"`, `"component"`, `"variant"`, `"state"`.
 /// * `typed`       — the current input value (trimmed, lowercased) used as a
-///                   substring filter.
+///   substring filter.
 /// * `index`       — live `TokenIndex` from the current `UpdateCtx`; supplies
-///                   real corpus counts for each field value.
+///   real corpus counts for each field value.
 /// * `constrained` — cross-field match counts (from `query::facet_counts`); when
-///                   `None` the baseline index counts are used directly.
+///   `None` the baseline index counts are used directly.
 ///
 /// Returns a `Vec<FacetOption>` capped at `MAX_PROPERTY_SUGGESTIONS` reachable
 /// entries plus `ZERO_COUNT_TAIL` dimmed entries.

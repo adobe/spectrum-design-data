@@ -45,9 +45,7 @@ impl AuthoringMenuState {
                 )
             }
             KeyCode::Up | KeyCode::Char('k') => {
-                if selected > 0 {
-                    selected -= 1;
-                }
+                selected = selected.saturating_sub(1);
             }
             KeyCode::Down | KeyCode::Char('j') => {
                 if selected + 1 < len {
@@ -232,9 +230,7 @@ impl AuthoringMenuState {
                 )
             }
             KeyCode::Up | KeyCode::Char('k') => {
-                if selected > 0 {
-                    selected -= 1;
-                }
+                selected = selected.saturating_sub(1);
             }
             KeyCode::Down | KeyCode::Char('j') => {
                 if selected + 1 < modes.len() {
