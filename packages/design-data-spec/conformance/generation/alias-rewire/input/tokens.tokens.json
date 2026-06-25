@@ -1,0 +1,14 @@
+[
+  {
+    "name": { "property": "color", "colorFamily": "background" },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "$ref": "ffffffff-0002-4000-8000-000000000002",
+    "uuid": "ffffffff-0001-4000-8000-000000000001"
+  },
+  {
+    "name": { "property": "color", "colorFamily": "gray-100" },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(255, 255, 255)",
+    "uuid": "ffffffff-0002-4000-8000-000000000002"
+  }
+]
