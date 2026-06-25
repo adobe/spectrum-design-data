@@ -94,9 +94,8 @@ export function createAuthoringTools() {
         additionalProperties: false,
       },
       async handler({ session_id, intent }) {
-        // step_intent requires NLP suggest ranking — still uses the CLI.
-        // Will be migrated when suggest is added to the wasm surface.
-        const { exitCode, stdout, stderr } = await runCli(
+        // step_intent uses CLI for NLP suggest ranking (not yet on wasm surface).
+        return runJson(
           [
             "authoring-session",
             "step",
@@ -108,11 +107,6 @@ export function createAuthoringTools() {
           ],
           { timeout: 30_000 },
         );
-        if (exitCode !== 0)
-          throw new Error(
-            stderr || `authoring-session step intent exited ${exitCode}`,
-          );
-        return JSON.parse(stdout);
       },
     },
 
@@ -164,6 +158,7 @@ export function createAuthoringTools() {
           property,
         ];
         for (const { key, value } of name_fields) {
+          // ponytail: CLI parse_name_fields uses split_once('=') — values with '=' are safe.
           args.push("--name-field", `${key}=${value}`);
         }
         return runJson(args);
@@ -526,10 +521,18 @@ export function createAuthoringTools() {
         rationale = "",
         schema_path,
       }) {
+        if (
+          new_name === null ||
+          new_name === undefined ||
+          (typeof new_name !== "string" && typeof new_name !== "object")
+        ) {
+          throw new Error(
+            "new_name must be a string or object, got: " +
+              JSON.stringify(new_name),
+          );
+        }
         const newNameArg =
-          typeof new_name === "object"
-            ? JSON.stringify(new_name)
-            : String(new_name);
+          typeof new_name === "object" ? JSON.stringify(new_name) : new_name;
         const args = [
           "lifecycle",
           "rename",
