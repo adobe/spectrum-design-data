@@ -12,8 +12,50 @@ ignore:
   - "sdk/target/**" # build artifacts (379k+ .o/.rmeta/.d files)
   - "**/*.timestamp" # cargo incremental timestamp files
   - "pnpm-lock.yaml" # 400 KB lockfile, low retrieval value
+  - "Cargo.lock" # Rust lockfile
+  - "node_modules/**" # dependency code
+  - "sdk/wasm/pkg/**" # generated wasm-bindgen outputs
+  - "sdk/wasm/node/**" # generated wasm-bindgen outputs (node flavour)
+  - "sdk/wasm/web/**" # generated wasm-bindgen outputs (web flavour)
+  - ".changeset/**" # release note stubs, not code
+  - "**/*.snap" # test snapshots
+  - "site/s2-visualizer/assets/**" # minified bundled JS
 
 dampen:
   - factor: 0.3
     patterns:
       - "**/package.json"
+  - factor: 0.5
+    patterns:
+      - "**/test/**"
+      - "**/tests/**"
+      - "**/*.test.js"
+      - "**/*.test.ts"
+      - "sdk/*/tests/**"
+  - factor: 0.4
+    patterns:
+      - ".github/**"
+      - "**/moon.yml"
+      - "**/*.config.js"
+      - "**/*.config.cjs"
+  - factor: 0.6
+    patterns:
+      - "docs/**"
+      - "proposals/**"
+  - factor: 0.4
+    patterns:
+      - "tools/demo/**"
+      - "site/**"
+
+boost:
+  - factor: 1.4
+    patterns:
+      - "sdk/core/src/"
+  - factor: 1.3
+    patterns:
+      - "sdk/tui/src/"
+      - "sdk/cli/src/"
+  - factor: 1.2
+    patterns:
+      - "packages/design-data-spec/"
+      - "tools/diff-generator/src/"
