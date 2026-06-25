@@ -12,6 +12,7 @@
 
 use std::path::{Path, PathBuf};
 
+use serde::Serialize;
 use serde_json::{Map, Value};
 
 use crate::graph::Layer;
@@ -60,7 +61,7 @@ pub struct WriteTokenInput {
 }
 
 /// Result of a successful `write_token` call.
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct WriteTokenResult {
     /// Path of the token file that was written.
     pub written_to: PathBuf,

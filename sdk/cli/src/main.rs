@@ -15,6 +15,7 @@ use chrono::Utc;
 
 mod authoring;
 mod format;
+mod lifecycle;
 
 use std::collections::HashSet;
 
@@ -323,6 +324,17 @@ enum Commands {
     AuthoringSession {
         #[command(subcommand)]
         cmd: authoring::AuthoringSessionCommand,
+    },
+    /// Mutate already-committed cascade tokens by UUID (edit/deprecate/rename/rewire-alias/remove)
+    Lifecycle {
+        #[command(subcommand)]
+        cmd: lifecycle::LifecycleCommand,
+    },
+    /// Manage cascade dimension files (add-mode/rename-mode/remove-mode/create-mode-set/remove-mode-set)
+    #[command(name = "mode-set")]
+    ModeSet {
+        #[command(subcommand)]
+        cmd: lifecycle::ModeSetCommand,
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
@@ -1767,6 +1779,12 @@ fn main() -> ExitCode {
         ),
         Commands::AuthoringSession { cmd } => {
             return authoring::run(cmd);
+        }
+        Commands::Lifecycle { cmd } => {
+            return lifecycle::run_lifecycle(cmd);
+        }
+        Commands::ModeSet { cmd } => {
+            return lifecycle::run_mode_set(cmd);
         }
         Commands::Tui(_) => unreachable!("handled above"),
     };

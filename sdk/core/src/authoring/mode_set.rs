@@ -39,6 +39,7 @@
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+use serde::Serialize;
 use serde_json::{json, Value};
 
 use crate::discovery::discover_json_files;
@@ -57,7 +58,7 @@ type FilesWithModeResult = (usize, Vec<(PathBuf, Vec<Value>, Vec<usize>)>);
 // ── Result type ───────────────────────────────────────────────────────────────
 
 /// Return value for mode-set mutating operations.
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct ModeSetWriteResult {
     /// Path of the mode-set file that was written (or deleted for [`remove_mode_set`]).
     pub written_to: PathBuf,
