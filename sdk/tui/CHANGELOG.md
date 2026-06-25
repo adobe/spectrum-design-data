@@ -1,5 +1,80 @@
 # @adobe/design-data-tui
 
+## 0.4.0
+
+### Minor Changes
+
+- [#1192](https://github.com/adobe/spectrum-design-data/pull/1192) [`c10d8cb`](https://github.com/adobe/spectrum-design-data/commit/c10d8cbe1a2d87edc258b5510778e6d5042ab33c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add cascade lifecycle ops and wire token creation to cascade format
+  (Phase B / B2, closes #1192).
+  - **sdk/core/src/authoring/lifecycle.rs**: new module with five lifecycle
+    mutation ops against `*.tokens.json` cascade arrays — `edit_token`,
+    `deprecate_token`, `rename_token`, `rewire_alias`, and `remove_token` —
+    enforcing UUID stability, cross-field deprecation rules, and
+    ref-resolution guards on alias-rewire and remove.
+  - **sdk/core/src/authoring/session.rs**: `commit_session` now writes via
+    `write_cascade_token`; new tokens are stamped with `introduced` at the
+    active dataset spec version (`authoring-workflow.md` L71).
+
+- [#1195](https://github.com/adobe/spectrum-design-data/pull/1195) [`836e4d4`](https://github.com/adobe/spectrum-design-data/commit/836e4d4249a8e3463bfcac917f0a77e703b1fd84) Thanks [@GarthDB](https://github.com/GarthDB)! - Add core mode-set lifecycle operations (Phase B / B3, closes #spectrum-design-data-122.3).
+  - **sdk/core/src/authoring/mode_set.rs**: new module with five mode-set mutation
+    ops — `add_mode`, `rename_mode` (with full cascade propagation to token `name`
+    fields), `remove_mode` (guarded against referenced tokens and the active default),
+    `create_mode_set` (authors a new mode-set file with canonical `$schema` /
+    `specVersion`), and `remove_mode_set` (guarded against any token referencing the
+    dimension).
+
+- [#1194](https://github.com/adobe/spectrum-design-data/pull/1194) [`57045de`](https://github.com/adobe/spectrum-design-data/commit/57045def583992511624c5a077bdb4a7193a1aa9) Thanks [@GarthDB](https://github.com/GarthDB)! - Add catalog-aware token classification (Phase B / B4, closes #122.4).
+  - **sdk/scripts/generate-registry-data.js**: emit `build_field_catalog()` alongside
+    `build_registry_map()` — 24 field entries with position, validation severity,
+    scope, required, has_registry, and value_type embedded at compile time.
+  - **sdk/core/src/registry.rs**: add `FieldValidation`, `FieldCatalogEntry`, and
+    `FieldCatalog::embedded()` / `get()` types backed by the generated catalog.
+  - **sdk/core/src/authoring/session.rs**: new `validate_classification` validates
+    every name-object field against the catalog — unknown keys are errors, advisory
+    out-of-vocab values are warnings, and SPEC-042 scope mismatches are warnings.
+  - **sdk/core/src/authoring/draft.rs**: add `FieldDiagnostic` (uses `report::Severity`)
+    to carry advisory warnings in `ClassificationDraftDto`; `build_name_object` now
+    orders fields by `serialization.position` and emits integer-typed fields as JSON
+    numbers.
+  - **sdk/core/src/validate/rules/mod.rs**: widen `schema_domain` / `DOMAIN_SCHEMAS`
+    to `pub(crate)` for reuse by the authoring validator.
+
+- [#1196](https://github.com/adobe/spectrum-design-data/pull/1196) [`3723271`](https://github.com/adobe/spectrum-design-data/commit/37232711dc69fca79c4baa37ff301412f8ccc7bd) Thanks [@GarthDB](https://github.com/GarthDB)! - add lifecycle action-picker modal to the TUI (closes spectrum-design-data-si6.2).
+  - **sdk/tui/src/authoring.rs**: new `AuthoringMenuState` state machine with
+    PickAction → PickToken → Form → Confirm flow for five lifecycle ops.
+  - **sdk/tui/src/view/authoring.rs**: renderer for all five op forms
+    (edit, deprecate, rename, rewire alias, remove).
+  - **sdk/tui/src/update/lifecycle.rs**: deferred `Task::cmd` calling core
+    lifecycle ops; `handle_lifecycle_done` for the new `LifecycleDone` message.
+  - **sdk/tui/src/model/views.rs**: add `uuid` + `source_path` to `QueryRow`;
+    add `Modal::Authoring` variant with all required `impl Modal` arms.
+  - **sdk/tui/src/message.rs**: add `Message::LifecycleDone` variant.
+  - **sdk/tui/src/wizard_common/classification.rs**: add `handle_key_event`
+    method for reuse in the rename form.
+
+- [#1196](https://github.com/adobe/spectrum-design-data/pull/1196) [`3723271`](https://github.com/adobe/spectrum-design-data/commit/37232711dc69fca79c4baa37ff301412f8ccc7bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Add TUI mode-set op forms and split authoring module (Phase B / si6.3).
+  - **sdk/tui/src/authoring/**: split monolithic `authoring.rs` into `mod.rs`,
+    `forms.rs`, and `mode_set.rs` to stay under the 800-LOC budget; public API
+    unchanged.
+  - **sdk/tui/src/authoring/mode_set.rs**: five mode-set op forms behind
+    "Mode-sets…" in the authoring action-picker (add mode, rename mode, remove
+    mode, create mode-set, remove mode-set).
+  - **sdk/tui/src/update/lifecycle.rs**: add `LifecycleExecute::ModeSet` arm
+    dispatching all five core mode-set ops.
+  - **sdk/tui/src/view/authoring.rs**: renderers for mode-set menu, file picker,
+    mode picker, and all three op forms.
+
+### Patch Changes
+
+- [#1196](https://github.com/adobe/spectrum-design-data/pull/1196) [`3723271`](https://github.com/adobe/spectrum-design-data/commit/37232711dc69fca79c4baa37ff301412f8ccc7bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Split at-cap mode-set modules to restore LOC headroom.
+  - **sdk/tui/src/authoring/mode_set_handlers.rs**: new file — handler/builder methods
+    extracted from `mode_set.rs` which was at the 800-LOC cap; now 238 LOC.
+  - **sdk/tui/src/authoring/mode_set.rs**: retains data types only (238 LOC, was 799).
+  - **sdk/tui/src/view/authoring_mode_set.rs**: new file — six mode-set renderers
+    extracted from `view/authoring.rs` which was at the 798-LOC cap.
+  - **sdk/tui/src/view/authoring.rs**: retains dispatcher and lifecycle renderers
+    (581 LOC, was 798).
+
 ## 0.3.0
 
 ### Wizard improvements
