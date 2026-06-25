@@ -22,6 +22,7 @@
 
 pub mod forms;
 pub mod mode_set;
+mod mode_set_handlers;
 
 use std::path::{Path, PathBuf};
 

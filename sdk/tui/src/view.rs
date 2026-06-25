@@ -19,6 +19,7 @@ use ratatui::{
 use tui_popup::Popup;
 
 mod authoring;
+mod authoring_mode_set;
 mod find;
 mod home;
 mod naming;
