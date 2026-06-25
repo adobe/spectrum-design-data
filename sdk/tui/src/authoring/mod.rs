@@ -453,18 +453,27 @@ impl AuthoringMenuState {
                                     AuthoringScreen::DeprecateForm(f),
                                     AuthoringEvent::Continue,
                                 );
+                            } else {
+                                self.error =
+                                    Some("internal state error — press Esc to restart".to_string());
                             }
                         }
                         Some(SubPickKind::RewireNewRef) => {
                             if let Some(SavedForm::Rewire(mut f)) = self.saved_form.take() {
                                 f.new_ref = Some(picked);
                                 return (AuthoringScreen::RewireForm(f), AuthoringEvent::Continue);
+                            } else {
+                                self.error =
+                                    Some("internal state error — press Esc to restart".to_string());
                             }
                         }
                         Some(SubPickKind::RenameReplacedByTarget) => {
                             if let Some(SavedForm::Rename(mut f)) = self.saved_form.take() {
                                 f.replaced_by_target = Some(picked);
                                 return (AuthoringScreen::RenameForm(f), AuthoringEvent::Continue);
+                            } else {
+                                self.error =
+                                    Some("internal state error — press Esc to restart".to_string());
                             }
                         }
                         None => {

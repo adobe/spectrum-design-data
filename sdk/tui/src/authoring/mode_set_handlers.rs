@@ -310,10 +310,26 @@ impl AuthoringMenuState {
     ) -> (AuthoringScreen, AuthoringEvent) {
         match key.code {
             KeyCode::Esc => {
+                // Go back one step to the file picker, reconstructing it from
+                // the file's parent dir.  Fall back to the menu if that fails.
+                if let Some(dir) = f.file.path.parent() {
+                    match ModeSetPickerState::new(dir) {
+                        Ok(picker) => {
+                            return (
+                                AuthoringScreen::ModeSetPickFile {
+                                    picker,
+                                    op: ModeSetOp::AddMode,
+                                },
+                                AuthoringEvent::Continue,
+                            )
+                        }
+                        Err(e) => self.error = Some(e),
+                    }
+                }
                 return (
                     AuthoringScreen::ModeSetMenu { selected: 0 },
                     AuthoringEvent::Continue,
-                )
+                );
             }
             KeyCode::Tab => {
                 f.focus = match f.focus {
@@ -379,10 +395,22 @@ impl AuthoringMenuState {
     ) -> (AuthoringScreen, AuthoringEvent) {
         match key.code {
             KeyCode::Esc => {
+                // Go back one step to the mode picker.
+                let selected = f
+                    .file
+                    .modes
+                    .iter()
+                    .position(|m| m == &f.old_mode)
+                    .unwrap_or(0);
                 return (
-                    AuthoringScreen::ModeSetMenu { selected: 0 },
+                    AuthoringScreen::ModeSetPickMode {
+                        modes: f.file.modes.clone(),
+                        selected,
+                        op: ModeSetOp::RenameMode,
+                        file: f.file,
+                    },
                     AuthoringEvent::Continue,
-                )
+                );
             }
             KeyCode::Enter => match Self::build_rename_mode_execute(&f) {
                 Ok(exec) => {
