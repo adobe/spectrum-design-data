@@ -256,7 +256,7 @@ pub fn step_intent(session_id: &str, intent: &str) -> Result<IntentStepResult, S
 /// - For registry-backed `strict` fields, an unknown value produces an error.
 /// - Domain-scoped fields on an incompatible token schema produce a SPEC-042 warning.
 ///   The scope check is skipped when `schema_url` is `None` (schema not yet chosen).
-pub(crate) fn validate_classification(
+pub fn validate_classification(
     property: &str,
     name_fields: &[(String, String)],
     schema_url: Option<&str>,

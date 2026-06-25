@@ -12,7 +12,7 @@
 //!
 //! Screens: Intent → Classification → Values → Confirm (diff preview + write).
 //! M4 adds `--allow-write` gating: when enabled, Screen 4 Submit calls
-//! `core::write::write_token` and records the token to disk.
+//! `core::write::write_cascade_token` and records the token to disk.
 
 use std::path::Path;
 
@@ -21,7 +21,7 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::query::TokenIndex;
 use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest::{self, SuggestionResult};
-use design_data_core::write::{write_token, WriteTokenInput};
+use design_data_core::write::{write_cascade_token, WriteCascadeTokenInput};
 use tui_input::backend::crossterm::EventHandler;
 use tui_input::Input;
 use uuid::Uuid;
@@ -39,7 +39,7 @@ pub struct WizardCtx<'a> {
     pub token_index: TokenIndex,
     pub dataset_path: Option<&'a Path>,
     pub schema_registry: Option<&'a SchemaRegistry>,
-    /// When true, Screen 4 Submit writes to disk via `write_token`.
+    /// When true, Screen 4 Submit writes to disk via `write_cascade_token`.
     pub allow_write: bool,
 }
 
@@ -116,7 +116,7 @@ pub struct WizardState {
     pub rationale: Input,
     pub diff_preview: Option<String>,
     pub diff_scroll: u16,
-    /// `$schema` URL inferred or entered by the user; required for `write_token`.
+    /// `$schema` URL inferred or entered by the user; recommended for `write_cascade_token`.
     pub schema_url: Option<String>,
     /// True while the user is editing the schema URL inline on Screen 4.
     pub editing_schema_url: bool,
@@ -208,6 +208,11 @@ impl WizardState {
         if matches!(self.screen, WizardScreen::Intent) {
             self.refresh_suggestions(ctx.graph);
         }
+        // Refresh registry-driven suggestions and catalog diagnostics on Screen 2.
+        if matches!(self.screen, WizardScreen::Classification) {
+            self.classification
+                .refresh(&ctx.token_index, self.schema_url.as_deref());
+        }
         event
     }
 
@@ -262,6 +267,10 @@ impl WizardState {
     }
 
     fn advance_to_classification(&mut self, graph: &TokenGraph) {
+        // Pre-populate registry suggestions for the focused field (property, focused_field==1).
+        let index = design_data_core::query::TokenIndex::build(graph);
+        self.classification
+            .refresh(&index, self.schema_url.as_deref());
         // Pre-populate property from the intent hint.
         let intent = self.intent.value().to_string();
         if !intent.is_empty() && self.classification.property.value().is_empty() {
@@ -314,6 +323,7 @@ impl WizardState {
                 self.classification.name_fields.push(NameField {
                     key: "key".to_string(),
                     value: Input::default(),
+                    suggestions: Vec::new(),
                 });
                 WizardEvent::Continue
             }
@@ -483,7 +493,7 @@ impl WizardState {
         self.screen = WizardScreen::Confirm;
     }
 
-    /// Assemble the owned [`WriteTokenInput`] for this wizard without touching the
+    /// Assemble the owned [`WriteCascadeTokenInput`] for this wizard without touching the
     /// schema registry or performing any disk write.
     ///
     /// Split out from [`perform_write`](Self::perform_write) so the `update`
@@ -492,23 +502,20 @@ impl WizardState {
     pub fn build_write_input(
         &self,
         dataset_path: Option<&Path>,
-        graph: &TokenGraph,
-    ) -> Result<WriteTokenInput, String> {
+        _graph: &TokenGraph,
+    ) -> Result<WriteCascadeTokenInput, String> {
         let dataset_path = dataset_path.ok_or_else(|| "no dataset path available".to_string())?;
 
-        let key = self.assembled_name();
-        if key.is_empty() {
+        if self.assembled_name().is_empty() {
             return Err("assembled token name is empty — fill in Property on Screen 2".to_string());
         }
 
         let property = self.classification.property.value().trim().to_string();
         let target = resolve_target_file(self.classification.layer, &property, dataset_path);
 
-        // The exact token JSON the diff preview shows (`$schema` + value fields
-        // from every mode-combo row + rationale), plus a fresh UUID for the new
-        // token. Rationale is pre-injected so schema validation can see it;
-        // write_token also receives it via WriteTokenInput::rationale and merges
-        // with or_insert_with, so the field is never written twice.
+        // Build the full token object: $schema + name + value fields + uuid + rationale.
+        // The uuid is injected here so the cascade writer can resolve identity by uuid
+        // (UUID-stability contract, authoring-workflow.md L69).
         let mut token_obj = self.assembled_token();
         if let Some(obj) = token_obj.as_object_mut() {
             obj.insert(
@@ -517,28 +524,20 @@ impl WizardState {
             );
         }
         let rationale_text = self.rationale.value().trim().to_string();
-
-        let is_override = graph.tokens.contains_key(&key);
-
-        let pc_path = dataset_path.join("product-context.json");
-        let product_context = if pc_path.exists() {
-            Some(pc_path)
-        } else {
+        let rationale = if rationale_text.is_empty() {
             None
+        } else {
+            Some(rationale_text)
         };
 
-        Ok(WriteTokenInput {
-            key,
+        Ok(WriteCascadeTokenInput {
             token: token_obj,
             target,
-            product_context,
-            rationale: Some(rationale_text),
-            created_at: None,
-            is_override,
+            rationale,
         })
     }
 
-    /// Attempt to write the token to disk using `write_token`.
+    /// Attempt to write the token to disk using the cascade writer.
     ///
     /// Returns `Ok(written_path)` on success, `Err(message)` on failure.
     /// Failures are non-fatal: the caller surfaces them on Screen 4 and keeps
@@ -549,7 +548,7 @@ impl WizardState {
                 .to_string()
         })?;
         let input = self.build_write_input(ctx.dataset_path, ctx.graph)?;
-        write_token(input, registry)
+        write_cascade_token(input, registry)
             .map(|out| out.written_to.display().to_string())
             .map_err(|e| e.to_string())
     }
@@ -613,11 +612,11 @@ impl WizardState {
             .map(|f| f.to_string_lossy().into_owned())
             .unwrap_or_else(|| "tokens.json".to_string());
 
-        // "before" — existing file content, or empty object.
+        // "before" — existing file content as a cascade array, or empty array.
         let before_raw = if target.exists() {
-            std::fs::read_to_string(&target).unwrap_or_else(|_| "{}".to_string())
+            std::fs::read_to_string(&target).unwrap_or_else(|_| "[]".to_string())
         } else {
-            "{}".to_string()
+            "[]".to_string()
         };
         let before = if before_raw.ends_with('\n') {
             before_raw.clone()
@@ -625,25 +624,16 @@ impl WizardState {
             format!("{before_raw}\n")
         };
 
-        // Build the new token object.
-        let key = self.assembled_name();
-        let key = if key.is_empty() {
-            "new-token".to_string()
-        } else {
-            key
-        };
-
         // Mirror the write path exactly (minus the UUID, which is irrelevant to
         // the preview) so the diff matches what gets written: flat `$ref`/`value`
         // for a single default row, nested `sets` for multi-mode rows.
         let token_obj = self.assembled_token();
 
-        // Merge into the existing file map.
-        let mut map: serde_json::Map<String, serde_json::Value> =
-            serde_json::from_str(&before_raw).unwrap_or_default();
-        map.insert(key, token_obj);
-        let after_body = serde_json::to_string_pretty(&serde_json::Value::Object(map))
-            .unwrap_or_else(|_| "{}".to_string());
+        // Append to the existing cascade array.
+        let mut arr: Vec<serde_json::Value> = serde_json::from_str(&before_raw).unwrap_or_default();
+        arr.push(token_obj);
+        let after_body = serde_json::to_string_pretty(&serde_json::Value::Array(arr))
+            .unwrap_or_else(|_| "[]".to_string());
         let after = format!("{after_body}\n");
 
         // Build unified diff.

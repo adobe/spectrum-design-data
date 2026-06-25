@@ -25,7 +25,7 @@ pub mod ctx;
 mod mouse;
 
 use crossterm::event::{KeyCode, KeyModifiers};
-use design_data_core::write::write_token;
+use design_data_core::write::write_cascade_token;
 use tui_input::backend::crossterm::EventHandler;
 
 use crate::app::{
@@ -716,7 +716,7 @@ fn route_modal_key(
                 let registry = ctx.schema_registry.clone();
                 match (input, registry) {
                     (Ok(input), Some(registry)) => Task::cmd(move || {
-                        let result = write_token(input, &registry)
+                        let result = write_cascade_token(input, &registry)
                             .map(|out| (name, out.written_to))
                             .map_err(|e| e.to_string());
                         Message::WriteDone(result)

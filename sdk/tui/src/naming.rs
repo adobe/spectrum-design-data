@@ -228,6 +228,7 @@ impl NamingWizardState {
                 self.classification.name_fields.push(NameField {
                     key: "key".to_string(),
                     value: Input::default(),
+                    suggestions: Vec::new(),
                 });
                 NamingEvent::Continue
             }

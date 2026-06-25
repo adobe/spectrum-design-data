@@ -40,6 +40,25 @@ pub fn layer_target_filename(layer: Layer) -> &'static str {
     }
 }
 
+/// Return the conventional cascade token-file name for a given `property`.
+///
+/// Convention: one thematic `.tokens.json` file per token group.  Callers
+/// combine this with the `tokens/` subdirectory inside the dataset root.
+///
+/// ```rust
+/// use design_data_core::write::cascade_target_filename;
+/// assert_eq!(cascade_target_filename("color"), "color.tokens.json");
+/// assert_eq!(cascade_target_filename("typography"), "typography.tokens.json");
+/// assert_eq!(cascade_target_filename(""), "tokens.json");
+/// ```
+pub fn cascade_target_filename(property: &str) -> String {
+    if property.is_empty() {
+        "tokens.json".to_string()
+    } else {
+        format!("{property}.tokens.json")
+    }
+}
+
 /// Input for the `write_token` operation.
 pub struct WriteTokenInput {
     /// Key used to identify the token in the target legacy JSON file.

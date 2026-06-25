@@ -15,20 +15,26 @@ use std::path::{Path, PathBuf};
 
 use design_data_core::graph::{Layer, ModeSetRecord, TokenGraph};
 use design_data_core::suggest;
-use design_data_core::write::layer_target_filename;
+use design_data_core::write::cascade_target_filename;
 use tui_input::Input;
 
 use super::{ClassificationDraft, ValueKind, ValueRow};
 
-/// Derive the target file path from `layer` and `property`.
+/// Derive the cascade target file path from `property` inside `dataset_path`.
 ///
-/// Return the target file path for `layer` inside `dataset_path`.
+/// Routes to `{dataset_path}/tokens/{property}.tokens.json` — the cascade
+/// convention used by Phase B.  The legacy flat-file routing
+/// (`foundation.json` / `platform.json` / `product.json`) is no longer used
+/// for new tokens authored through the cascade write path.
 ///
-/// Delegates to [`design_data_core::write::layer_target_filename`] so the
-/// layer → filename convention stays in one place.
-/// `_property` is reserved for future sub-property routing.
-pub(super) fn resolve_target_file(layer: Layer, _property: &str, dataset_path: &Path) -> PathBuf {
-    dataset_path.join(layer_target_filename(layer))
+/// The `layer` parameter is retained for the call-site signature so the
+/// classification screen's layer selector can remain in the UI while the
+/// layer-routing → cascade-routing migration is completed; it is otherwise
+/// unused here.
+pub(super) fn resolve_target_file(_layer: Layer, property: &str, dataset_path: &Path) -> PathBuf {
+    dataset_path
+        .join("tokens")
+        .join(cascade_target_filename(property))
 }
 
 /// Scan the graph for a token whose `name.property` matches `property` and

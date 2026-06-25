@@ -11,14 +11,31 @@
 //! Screen 2 (Classification) data types and helpers shared between the
 //! authoring wizard (`wizard.rs`) and the naming wizard (`naming.rs`).
 
-use design_data_core::authoring::draft::derive_token_key_from_parts;
+use design_data_core::authoring::draft::{derive_token_key_from_parts, FieldDiagnostic};
+use design_data_core::authoring::session::validate_classification;
 use design_data_core::graph::Layer;
+use design_data_core::query::TokenIndex;
+use design_data_core::registry::{FieldCatalog, RegistryData};
 use tui_input::Input;
+
+use super::facet::{field_suggestions, FacetOption};
 
 /// An additional name-object field (key + editable value).
 pub struct NameField {
     pub key: String,
     pub value: Input,
+    /// Registry-driven autocomplete options for this field's value.
+    pub suggestions: Vec<FacetOption>,
+}
+
+impl NameField {
+    pub fn new(key: &str) -> Self {
+        Self {
+            key: key.to_string(),
+            value: Input::default(),
+            suggestions: Vec::new(),
+        }
+    }
 }
 
 /// State for Screen 2 (Classification).
@@ -27,8 +44,13 @@ pub struct NameField {
 pub struct ClassificationDraft {
     pub layer: Layer,
     pub property: Input,
+    /// Autocomplete options for the `property` field.
+    pub property_suggestions: Vec<FacetOption>,
     pub name_fields: Vec<NameField>,
     pub focused_field: usize,
+    /// Advisory and strict diagnostics from catalog/registry validation.
+    /// Advisory = warning (non-blocking); strict / unknown key = error.
+    pub diagnostics: Vec<FieldDiagnostic>,
 }
 
 impl ClassificationDraft {
@@ -36,13 +58,85 @@ impl ClassificationDraft {
         Self {
             layer: Layer::Foundation,
             property: Input::default(),
+            property_suggestions: Vec::new(),
             name_fields: Vec::new(),
             focused_field: 0,
+            diagnostics: Vec::new(),
         }
     }
 
     pub fn field_count(&self) -> usize {
         2 + self.name_fields.len() // layer + property + name_fields
+    }
+
+    /// Refresh autocomplete suggestions for the currently focused field and
+    /// run catalog/registry validation over the current classification state.
+    ///
+    /// `schema_url` is forwarded to `validate_classification` for SPEC-042
+    /// domain-scope checks; pass `None` if not yet set.
+    pub fn refresh(&mut self, index: &TokenIndex, schema_url: Option<&str>) {
+        // — Suggestions for the focused field —
+        match self.focused_field {
+            0 => {} // layer selector — no text completion
+            1 => {
+                let typed = self.property.value().trim().to_lowercase();
+                self.property_suggestions = field_suggestions("property", &typed, index, None);
+            }
+            n => {
+                let i = n - 2;
+                if let Some(nf) = self.name_fields.get_mut(i) {
+                    let typed = nf.value.value().trim().to_lowercase();
+                    let key = nf.key.clone();
+                    nf.suggestions = field_suggestions(&key, &typed, index, None);
+                }
+            }
+        }
+
+        // — Validation diagnostics —
+        let property = self.property.value().trim();
+        let name_fields: Vec<(String, String)> = self
+            .name_fields
+            .iter()
+            .map(|f| (f.key.clone(), f.value.value().trim().to_string()))
+            .collect();
+
+        self.diagnostics = match validate_classification(
+            property,
+            &name_fields,
+            schema_url,
+            FieldCatalog::embedded(),
+            RegistryData::embedded(),
+        ) {
+            Ok(diags) => diags,
+            // Strict violations come back as Err — surface as a single error diagnostic.
+            Err(msg) => vec![design_data_core::authoring::draft::FieldDiagnostic {
+                field: property.to_string(),
+                severity: design_data_core::report::Severity::Error,
+                message: msg,
+            }],
+        };
+    }
+
+    /// Whether any diagnostic has Error severity (blocks advancing to Screen 3).
+    pub fn has_errors(&self) -> bool {
+        self.diagnostics
+            .iter()
+            .any(|d| matches!(d.severity, design_data_core::report::Severity::Error))
+    }
+
+    /// Suggestions for the focused field (property or the active name_field).
+    pub fn focused_suggestions(&self) -> &[FacetOption] {
+        match self.focused_field {
+            1 => &self.property_suggestions,
+            n if n >= 2 => {
+                let i = n - 2;
+                self.name_fields
+                    .get(i)
+                    .map(|f| f.suggestions.as_slice())
+                    .unwrap_or(&[])
+            }
+            _ => &[],
+        }
     }
 }
 

@@ -13,6 +13,9 @@
 //! - `classification`: Screen 2 (Classification) draft types and helpers, shared
 //!   between the authoring wizard (`wizard`) and naming wizard (`naming`).
 //! - `caps`: Display-cap constants for suggestion/autocomplete lists.
+//! - `facet`: Shared `FacetOption` type and `field_suggestions` helper used by
+//!   the find wizard and the classification screen.
 
 pub mod caps;
 pub mod classification;
+pub mod facet;

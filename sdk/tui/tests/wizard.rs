@@ -492,6 +492,7 @@ fn assembled_name_joins_property_and_fields() {
         .push(design_data_tui::wizard::NameField {
             key: "variant".into(),
             value: Input::from("hover".to_string()),
+            suggestions: Vec::new(),
         });
     assert_eq!(ws.assembled_name(), "background-color-hover");
 }

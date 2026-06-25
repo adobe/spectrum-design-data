@@ -87,6 +87,9 @@ pub fn from_draft(d: WizardDraft) -> WizardState {
         classification: ClassificationDraft {
             layer: d.classification.layer,
             property: Input::from(d.classification.property),
+            // Suggestions and diagnostics are transient — they are rebuilt on next
+            // refresh() call (e.g. when the classification screen is re-entered).
+            property_suggestions: Vec::new(),
             name_fields: d
                 .classification
                 .name_fields
@@ -94,9 +97,11 @@ pub fn from_draft(d: WizardDraft) -> WizardState {
                 .map(|f| NameField {
                     key: f.key,
                     value: Input::from(f.value),
+                    suggestions: Vec::new(),
                 })
                 .collect(),
             focused_field: d.classification.focused_field,
+            diagnostics: Vec::new(),
         },
         values: ValuesDraft {
             rows: d

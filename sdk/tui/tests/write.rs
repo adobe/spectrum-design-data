@@ -206,28 +206,37 @@ fn submit_with_allow_write_creates_token_file() {
     // Build wizard state directly: property=background-color, literal value.
     let ws = wizard_at_confirm_literal("background-color", "rgb(2, 100, 220)", COLOR_SCHEMA);
     let written_path = ws.perform_write(&ctx).expect("write should succeed");
+    // Cascade writer routes to tokens/{property}.tokens.json (Phase B / B5b).
     assert!(
-        written_path.ends_with("foundation.json"),
-        "should write to foundation.json: {written_path}"
+        written_path.ends_with("background-color.tokens.json"),
+        "should write to tokens/background-color.tokens.json: {written_path}"
     );
 
-    // foundation.json must now exist and contain the new key.
-    let foundation = tmpdir.path().join("foundation.json");
+    // tokens/background-color.tokens.json must now exist as a JSON array.
+    let cascade_file = tmpdir
+        .path()
+        .join("tokens")
+        .join("background-color.tokens.json");
     assert!(
-        foundation.exists(),
-        "foundation.json should be created by write_token"
+        cascade_file.exists(),
+        "tokens/background-color.tokens.json should be created by write_cascade_token"
     );
 
-    let content = std::fs::read_to_string(&foundation).expect("read foundation.json");
-    let doc: serde_json::Value = serde_json::from_str(&content).expect("parse foundation.json");
-    assert!(
-        doc.get("background-color").is_some(),
-        "foundation.json should contain the new token key: {content}"
-    );
-    assert_eq!(
-        doc["background-color"]["name"]["property"],
-        "background-color"
-    );
+    let content =
+        std::fs::read_to_string(&cascade_file).expect("read background-color.tokens.json");
+    let arr: serde_json::Value =
+        serde_json::from_str(&content).expect("parse background-color.tokens.json");
+    let tokens = arr.as_array().expect("cascade file should be a JSON array");
+    let tok = tokens
+        .iter()
+        .find(|t| {
+            t.get("name")
+                .and_then(|n| n.get("property"))
+                .and_then(|p| p.as_str())
+                == Some("background-color")
+        })
+        .expect("cascade array should contain the new token");
+    assert_eq!(tok["name"]["property"], "background-color");
 }
 
 #[test]
@@ -247,35 +256,50 @@ fn submit_with_allow_write_includes_name_object() {
     ws.classification.name_fields = vec![NameField {
         key: "variant".into(),
         value: Input::from("accent".to_string()),
+        suggestions: Vec::new(),
     }];
 
     let written_path = ws.perform_write(&ctx).expect("write should succeed");
+    // Cascade writer routes to tokens/{property}.tokens.json (Phase B / B5b).
     assert!(
-        written_path.ends_with("foundation.json"),
-        "should write to foundation.json: {written_path}"
+        written_path.ends_with("background-color.tokens.json"),
+        "should write to tokens/background-color.tokens.json: {written_path}"
     );
 
-    let foundation = tmpdir.path().join("foundation.json");
-    let content = std::fs::read_to_string(&foundation).expect("read foundation.json");
-    let doc: serde_json::Value = serde_json::from_str(&content).expect("parse foundation.json");
-    let tok = &doc["background-color-accent"];
+    let cascade_file = tmpdir
+        .path()
+        .join("tokens")
+        .join("background-color.tokens.json");
+    let content =
+        std::fs::read_to_string(&cascade_file).expect("read background-color.tokens.json");
+    let arr: serde_json::Value =
+        serde_json::from_str(&content).expect("parse background-color.tokens.json");
+    let tokens = arr.as_array().expect("cascade file should be a JSON array");
+    let tok = tokens
+        .iter()
+        .find(|t| {
+            t.get("name")
+                .and_then(|n| n.get("variant"))
+                .and_then(|v| v.as_str())
+                == Some("accent")
+        })
+        .expect("cascade array should contain the accent token");
     assert_eq!(tok["name"]["property"], "background-color");
     assert_eq!(tok["name"]["variant"], "accent");
 }
 
 #[test]
-fn submit_with_allow_write_updates_product_context() {
+fn submit_with_allow_write_does_not_write_product_context() {
+    // The cascade write path (Phase B) does not modify product-context.json —
+    // that was a legacy-only concept.  Confirm the file is untouched.
     let registry = load_registry();
     let graph = make_graph_with_schema();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
 
-    // Seed an empty product-context.json so write_token will update it.
+    let pc_initial =
+        r#"{"specVersion":"1.0.0-draft","layer":"product","extensions":{"tokens":[]}}"#;
     let pc_path = tmpdir.path().join("product-context.json");
-    std::fs::write(
-        &pc_path,
-        r#"{"specVersion":"1.0.0-draft","layer":"product","extensions":{"tokens":[]}}"#,
-    )
-    .expect("write product-context.json");
+    std::fs::write(&pc_path, pc_initial).expect("write product-context.json");
 
     let ctx = WizardCtx {
         graph: &graph,
@@ -288,16 +312,11 @@ fn submit_with_allow_write_updates_product_context() {
     let ws = wizard_at_confirm_literal("background-color", "rgb(10, 20, 30)", COLOR_SCHEMA);
     ws.perform_write(&ctx).expect("write should succeed");
 
+    // product-context.json must be byte-identical to what we seeded.
     let pc_text = std::fs::read_to_string(&pc_path).expect("read product-context.json");
-    let pc: serde_json::Value = serde_json::from_str(&pc_text).expect("parse product-context.json");
-    let tokens = pc
-        .get("extensions")
-        .and_then(|e| e.get("tokens"))
-        .and_then(|t| t.as_array())
-        .expect("extensions.tokens array");
-    assert!(
-        !tokens.is_empty(),
-        "product-context.json should have an entry after write"
+    assert_eq!(
+        pc_text, pc_initial,
+        "cascade writer must not modify product-context.json"
     );
 }
 
@@ -384,20 +403,29 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     let result = ws.perform_write(&ctx);
     assert!(result.is_ok(), "write should succeed: {:?}", result);
 
-    // The token should have been written (is_override=true writes to the same file).
-    let foundation = tmpdir.path().join("foundation.json");
-    assert!(foundation.exists(), "foundation.json should be created");
-    let doc: serde_json::Value =
-        serde_json::from_str(&std::fs::read_to_string(&foundation).unwrap()).unwrap();
+    // Cascade writer upserts by UUID — a token whose name already exists in the
+    // graph is written as a new entry (the cascade writer resolves identity by uuid,
+    // not name key).  The cascade file should exist and contain the new token.
+    let cascade_file = tmpdir
+        .path()
+        .join("tokens")
+        .join("background-color.tokens.json");
     assert!(
-        doc.get("background-color").is_some(),
-        "token key should be present"
+        cascade_file.exists(),
+        "tokens/background-color.tokens.json should be created"
+    );
+    let arr: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&cascade_file).unwrap()).unwrap();
+    assert!(
+        arr.as_array().map_or(false, |a| !a.is_empty()),
+        "cascade array should contain the new token"
     );
 }
 
 #[test]
-fn resolve_target_file_foundation_maps_to_foundation_json() {
-    // Verify target-file resolution by inspecting where perform_write lands the output.
+fn resolve_target_file_routes_to_cascade_tokens_dir() {
+    // Verify cascade target-file resolution: property-based routing to
+    // tokens/{property}.tokens.json (Phase B / B5b migration).
     let registry = load_registry();
     let graph = make_graph_with_schema();
     let tmpdir = tempfile::TempDir::new().expect("tempdir");
@@ -422,8 +450,19 @@ fn resolve_target_file_foundation_maps_to_foundation_json() {
     };
 
     let written_path = ws.perform_write(&ctx).expect("write should succeed");
+    // Phase B: tokens route to tokens/{property}.tokens.json, not the legacy flat files.
     assert!(
-        written_path.ends_with("foundation.json"),
-        "Foundation layer tokens should land in foundation.json, got: {written_path}"
+        written_path.ends_with("background-color.tokens.json"),
+        "tokens should land in tokens/background-color.tokens.json, got: {written_path}"
     );
+    // File is a JSON array (cascade format).
+    let content = std::fs::read_to_string(
+        &tmpdir
+            .path()
+            .join("tokens")
+            .join("background-color.tokens.json"),
+    )
+    .expect("read cascade file");
+    let arr: serde_json::Value = serde_json::from_str(&content).expect("parse cascade file");
+    assert!(arr.is_array(), "cascade file must be a JSON array");
 }
