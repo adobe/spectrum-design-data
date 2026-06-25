@@ -1292,10 +1292,7 @@ impl TokenRecord {
         let mut current = self;
         // Seed with the starting token's graph key.
         let mut seen: Vec<&str> = vec![&self.name];
-        loop {
-            let Some(target_name) = current.alias_target.as_deref() else {
-                break;
-            };
+        while let Some(target_name) = current.alias_target.as_deref() {
             let Some(next) = graph.resolve_alias_key(target_name) else {
                 break;
             };

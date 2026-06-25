@@ -196,6 +196,8 @@ fn run_inner(cmd: AuthoringSessionCommand) -> Result<(), String> {
                     schema_path: Some(schema_dir),
                     product_context,
                     is_override,
+                    // TODO(B5): resolve dataset specVersion from active config
+                    spec_version: None,
                 },
                 &registry,
             )?;

@@ -11,4 +11,5 @@
 //! Token authoring — wizard DTOs and MCP session state machine (RFC #973 Q4).
 
 pub mod draft;
+pub mod lifecycle;
 pub mod session;
