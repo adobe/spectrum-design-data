@@ -28,6 +28,7 @@ use crate::app::{
     DescribeView, DiagnosticRow, Modal, QueryRow, QueryView, ResolveView, ResolvedRow,
     StatusMessage, HISTORY_CAP,
 };
+use crate::authoring::AuthoringMenuState;
 use crate::command::Command;
 use crate::find::FindWizardState;
 use crate::message::Message;
@@ -333,6 +334,12 @@ fn dispatch_command(
             let mut ws = WizardState::new_with_intent(rest.trim());
             ws.refresh_suggestions(ctx.graph);
             model.open_modal(Modal::Wizard(Box::new(ws)));
+            model.status_message = None;
+            Task::none()
+        }
+        Some(Command::Authoring) => {
+            let am = AuthoringMenuState::new();
+            model.open_modal(Modal::Authoring(Box::new(am)));
             model.status_message = None;
             Task::none()
         }

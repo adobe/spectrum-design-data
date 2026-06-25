@@ -238,18 +238,24 @@ fn click_on_hit_region_selects_row() {
             value: "1".into(),
             file: "f".into(),
             layer: "foundation".into(),
+            uuid: None,
+            source_path: std::path::PathBuf::new(),
         },
         QueryRow {
             name: "b".into(),
             value: "2".into(),
             file: "f".into(),
             layer: "foundation".into(),
+            uuid: None,
+            source_path: std::path::PathBuf::new(),
         },
         QueryRow {
             name: "c".into(),
             value: "3".into(),
             file: "f".into(),
             layer: "foundation".into(),
+            uuid: None,
+            source_path: std::path::PathBuf::new(),
         },
     ];
     model.active_view = ActiveView::Query(QueryView::new("*".to_string(), rows));

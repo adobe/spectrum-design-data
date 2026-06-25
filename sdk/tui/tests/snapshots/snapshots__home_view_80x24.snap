@@ -7,11 +7,12 @@ expression: rendered
   ↑↓ history/list · Tab complete · Enter run · Esc back · Ctrl+C quit
   ──────────────────────────────────────────────────────────────────────────────
   >
-    query     Filter tokens  e.g. background-color/*
-    resolve   Resolve a property through the cascade
-    describe  Inspect a component schema
-    validate  Validate all tokens against schemas
-    new       Open the token authoring wizard
-    name      Open the token naming wizard
-    find      Open the fuzzy-find token explorer
-    quit      Quit the TUI
+    query      Filter tokens  e.g. background-color/*
+    resolve    Resolve a property through the cascade
+    describe   Inspect a component schema
+    validate   Validate all tokens against schemas
+    new        Open the token authoring wizard
+    name       Open the token naming wizard
+    find       Open the fuzzy-find token explorer
+    authoring  Open the token lifecycle action-picker
+    quit       Quit the TUI

@@ -22,6 +22,7 @@
 
 pub(crate) mod command;
 pub mod ctx;
+mod lifecycle;
 mod mouse;
 
 use crossterm::event::{KeyCode, KeyModifiers};
@@ -31,6 +32,7 @@ use tui_input::backend::crossterm::EventHandler;
 use crate::app::{
     move_table_selection, select_edge, ActiveView, Modal, StatusKind, StatusMessage, ValidateView,
 };
+use crate::authoring::AuthoringEvent;
 use crate::clipboard::write_clipboard;
 use crate::command::Command;
 use crate::find::FindEvent;
@@ -42,6 +44,7 @@ use crate::wizard::draft::{clear_wizard_draft, save_wizard_draft, to_draft};
 use crate::wizard::WizardEvent;
 use command::handle_palette_submit;
 use ctx::UpdateCtx;
+use lifecycle::build_lifecycle_task;
 
 /// Columns moved per h/l horizontal-scroll step in the describe view.
 const H_SCROLL_STEP: u16 = 4;
@@ -98,6 +101,10 @@ pub fn update(model: &mut Model, msg: Message, ctx: &UpdateCtx<'_>) -> Task<Mess
         // Auto-dismiss the toast overlay when its timer fires.
         Message::ToastExpired => {
             model.clear_toast();
+            Task::none()
+        }
+        Message::LifecycleDone(result) => {
+            lifecycle::handle_lifecycle_done(model, result);
             Task::none()
         }
         // Synthetic modal messages exist in Message for replay/injection use.
@@ -670,6 +677,37 @@ fn route_modal_key(
                 });
             }
             NamingEvent::Continue => {}
+        }
+        return Task::none();
+    }
+
+    // Authoring action-picker modal.
+    if let Some(Modal::Authoring(ref mut am)) = model.modal_mut() {
+        let event = am.handle_key(key, ctx.graph, ctx.dataset_path);
+        match event {
+            AuthoringEvent::Cancel => {
+                model.close_modal();
+                return Task::none();
+            }
+            AuthoringEvent::OpenWizard => {
+                // Replace the authoring modal with the create wizard.
+                let mut ws = crate::wizard::WizardState::new_with_intent("");
+                ws.refresh_suggestions(ctx.graph);
+                model.open_modal(Modal::Wizard(Box::new(ws)));
+                return Task::none();
+            }
+            AuthoringEvent::Execute(op) => {
+                if !ctx.allow_write {
+                    if let Some(Modal::Authoring(ref mut am2)) = model.modal_mut() {
+                        am2.error = Some("pass --allow-write to enable mutations".to_string());
+                    }
+                    return Task::none();
+                }
+                let registry = ctx.schema_registry.clone();
+                let dataset_path = ctx.dataset_path.map(|p| p.to_path_buf());
+                return build_lifecycle_task(*op, registry, dataset_path);
+            }
+            AuthoringEvent::Continue => {}
         }
         return Task::none();
     }

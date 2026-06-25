@@ -46,6 +46,7 @@ COMMANDS
   new [<intent>]          Open the token authoring wizard
   name [<intent>]         Open the token naming wizard
   find                    Open the fuzzy-find token explorer
+  authoring               Open the token lifecycle action-picker
   quit                    Quit the TUI";
 
 const SEC_QUERY: &str = "\

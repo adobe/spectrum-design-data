@@ -26,6 +26,7 @@ use design_data_core::schema::SchemaRegistry;
 use ratatui::widgets::TableState;
 use serde::{Deserialize, Serialize};
 
+use crate::authoring::AuthoringMenuState;
 use crate::find::{FindScreen, FindWizardState};
 use crate::naming::{NamingScreen, NamingWizardState};
 use crate::wizard::{WizardScreen, WizardState};
@@ -96,6 +97,12 @@ pub struct QueryRow {
     pub value: String,
     pub file: String,
     pub layer: String,
+    /// UUID of the token, if present.  Used by lifecycle ops to locate the token
+    /// by stable identity (`authoring-workflow.md` §UUID-stability, L69).
+    pub uuid: Option<String>,
+    /// Full path to the source `*.tokens.json` file.  Used as the `target` field
+    /// for lifecycle op inputs.
+    pub source_path: std::path::PathBuf,
 }
 
 impl QueryRow {
@@ -122,6 +129,8 @@ impl QueryRow {
             value,
             file,
             layer: layer_str(t.layer).to_string(),
+            uuid: t.uuid.clone(),
+            source_path: t.file.clone(),
         }
     }
 }
@@ -435,6 +444,8 @@ pub enum Modal {
     Wizard(Box<WizardState>),
     Naming(Box<NamingWizardState>),
     Help(HelpModal),
+    /// Token lifecycle action-picker (si6.2).
+    Authoring(Box<AuthoringMenuState>),
 }
 
 impl Modal {
@@ -453,7 +464,7 @@ impl Modal {
         match self {
             Modal::Wizard(ws) => apply_scroll_delta(&mut ws.diff_scroll, delta),
             Modal::Help(hm) => apply_scroll_delta(&mut hm.scroll, delta),
-            Modal::Find(_) | Modal::Naming(_) => {}
+            Modal::Find(_) | Modal::Naming(_) | Modal::Authoring(_) => {}
         }
     }
 
@@ -463,6 +474,7 @@ impl Modal {
         if let Modal::Wizard(ws) = self {
             save_wizard_draft(&to_draft(ws));
         }
+        // Authoring modal: no persistence — forms are lightweight and ephemeral.
     }
 
     /// One-line breadcrumb for the current screen, e.g. `"Step 1 of 2 — Filters"`.
@@ -496,6 +508,7 @@ impl Modal {
                 format!("Step {n} of {total} — {name}")
             }
             Modal::Help(_) => "Help".to_string(),
+            Modal::Authoring(am) => am.screen_label(),
         }
     }
 }

@@ -80,8 +80,9 @@ define_commands! {
     Validate => "validate",               "Validate all tokens against schemas",
     New     => "new" | "create",          "Open the token authoring wizard",
     Name    => "name",                    "Open the token naming wizard",
-    Find    => "find",                    "Open the fuzzy-find token explorer",
-    Quit    => "quit",                    "Quit the TUI",
+    Find      => "find",                   "Open the fuzzy-find token explorer",
+    Authoring => "authoring" | "author",  "Open the token lifecycle action-picker",
+    Quit      => "quit",                   "Quit the TUI",
 }
 
 /// A command candidate returned by [`Command::matches`], carrying the command

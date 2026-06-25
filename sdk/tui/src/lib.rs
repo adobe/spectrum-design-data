@@ -10,6 +10,7 @@
 
 pub mod app;
 pub mod app_launch;
+pub mod authoring;
 pub(crate) mod clipboard;
 pub mod command;
 pub mod find;

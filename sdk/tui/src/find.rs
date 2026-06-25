@@ -536,5 +536,7 @@ fn suggestion_to_row(s: &suggest::SuggestionResult) -> QueryRow {
         value,
         file,
         layer: layer.to_string(),
+        uuid: s.token_uuid.clone(),
+        source_path: s.file.clone(),
     }
 }

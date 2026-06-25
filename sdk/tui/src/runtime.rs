@@ -311,18 +311,24 @@ mod tests {
                 value: "0".into(),
                 file: "f".into(),
                 layer: "foundation".into(),
+                uuid: None,
+                source_path: std::path::PathBuf::new(),
             },
             QueryRow {
                 name: "row1".into(),
                 value: "1".into(),
                 file: "f".into(),
                 layer: "foundation".into(),
+                uuid: None,
+                source_path: std::path::PathBuf::new(),
             },
             QueryRow {
                 name: "row2".into(),
                 value: "2".into(),
                 file: "f".into(),
                 layer: "foundation".into(),
+                uuid: None,
+                source_path: std::path::PathBuf::new(),
             },
         ];
         let mut qv = QueryView::new("*".to_string(), rows);

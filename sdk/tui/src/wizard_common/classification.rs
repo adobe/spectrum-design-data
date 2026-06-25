@@ -146,6 +146,57 @@ impl Default for ClassificationDraft {
     }
 }
 
+impl ClassificationDraft {
+    /// Handle a raw keypress on the classification screen, mirroring the logic in
+    /// `wizard.rs::handle_classification_key`.  Does **not** call `refresh`; the
+    /// caller is responsible for refreshing suggestions/diagnostics after the key
+    /// is processed.
+    ///
+    /// Returns `true` if the key was consumed (caller should not advance the
+    /// screen); `false` if the key was `Enter` (caller should advance).
+    pub fn handle_key_event(&mut self, key: crossterm::event::KeyEvent) -> bool {
+        use crossterm::event::KeyCode;
+        use tui_input::backend::crossterm::EventHandler as _;
+        match key.code {
+            KeyCode::Enter => return false,
+            KeyCode::Tab => {
+                let count = self.field_count();
+                self.focused_field = (self.focused_field + 1) % count;
+            }
+            KeyCode::BackTab => {
+                let count = self.field_count();
+                self.focused_field = if self.focused_field == 0 {
+                    count - 1
+                } else {
+                    self.focused_field - 1
+                };
+            }
+            KeyCode::Left | KeyCode::Char('h') if self.focused_field == 0 => {
+                self.layer = crate::wizard_common::classification::cycle_layer_backward(self.layer);
+            }
+            KeyCode::Right | KeyCode::Char('l') if self.focused_field == 0 => {
+                self.layer = crate::wizard_common::classification::cycle_layer_forward(self.layer);
+            }
+            KeyCode::Char('+') => {
+                self.name_fields.push(NameField::new("key"));
+            }
+            _ => {
+                let focused = self.focused_field;
+                if focused == 1 {
+                    self.property
+                        .handle_event(&crossterm::event::Event::Key(key));
+                } else if focused >= 2 {
+                    let idx = focused - 2;
+                    if let Some(field) = self.name_fields.get_mut(idx) {
+                        field.value.handle_event(&crossterm::event::Event::Key(key));
+                    }
+                }
+            }
+        }
+        true
+    }
+}
+
 /// Assemble a token name from classification fields (property + name fields).
 /// Shared by the authoring and naming wizards.
 ///

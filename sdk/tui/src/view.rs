@@ -18,6 +18,7 @@ use ratatui::{
 };
 use tui_popup::Popup;
 
+mod authoring;
 mod find;
 mod home;
 mod naming;
@@ -29,6 +30,7 @@ use crate::app::{ActiveView, Modal, StatusKind};
 use crate::help::{current_help_context, help_text_for, HelpContext};
 use crate::model::Model;
 use crate::theme::Theme;
+use authoring::render_authoring;
 use find::render_find;
 use home::render_home;
 use naming::render_naming;
@@ -194,6 +196,10 @@ pub fn draw(model: &mut Model, frame: &mut Frame, theme: &Theme, primer_line: &s
             }
             Modal::Help(ref hm) => {
                 render_help_modal(frame, hm.scroll, area, help_ctx);
+            }
+            Modal::Authoring(ref mut am) => {
+                let popup_area = modal_frame(frame, area, 82, 85);
+                render_authoring(frame, am, popup_area, theme, &label);
             }
         }
     }

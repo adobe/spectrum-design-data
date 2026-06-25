@@ -1,6 +1,5 @@
 ---
 source: tui/tests/snapshots.rs
-assertion_line: 117
 expression: rendered
 ---
 ▶ test · 0 tokens
@@ -15,8 +14,8 @@ expression: rendered
     new│                                                                │
     nam│                                                                │
     fin│                                                                │
+    aut│                                                                │
     qui│                                                                │
-       │                                                                │
        │                                                                │
        │                                                                │
        │                                                                │

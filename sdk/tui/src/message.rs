@@ -87,6 +87,10 @@ pub enum Message {
     /// A `validate` FS scan completed. `Ok` carries the diagnostic rows;
     /// `Err` carries the error string. Boxed to keep the enum within budget.
     ValidateDone(Box<Result<Vec<DiagnosticRow>, String>>),
+    /// A lifecycle mutation op (edit/deprecate/rename/rewire/remove) completed.
+    /// `Ok` carries a human-readable summary and the affected file path;
+    /// `Err` carries the error string.
+    LifecycleDone(Result<(String, std::path::PathBuf), String>),
 }
 
 #[cfg(test)]
