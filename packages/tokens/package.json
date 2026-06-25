@@ -31,7 +31,6 @@
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "deep-object-diff": "^1.1.9",
     "find-duplicated-property-keys": "^1.2.9",
     "style-dictionary": "^3.9.2",
     "style-dictionary-sets": "^2.3.0",

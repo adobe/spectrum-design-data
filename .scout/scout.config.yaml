@@ -1,26 +1,19 @@
-# Scout per-repo config template.
-#
-# Seeded into `<repo>/.scout/scout.config.yaml` by `scout attach` when the
-# repo has no config yet.  Templates here only carry the repo-specific
-# ignore / dampen / boost / tune overrides; defaults for
-# repository/markdown/ranking/index/projects are filled in at load time.
 ignore:
   - "**/CHANGELOG.md"
   - "**/CHANGELOG*"
   - "**/CHANGES.md"
   - "**/HISTORY.md"
-  - "sdk/target/**" # build artifacts (379k+ .o/.rmeta/.d files)
-  - "**/*.timestamp" # cargo incremental timestamp files
-  - "pnpm-lock.yaml" # 400 KB lockfile, low retrieval value
-  - "Cargo.lock" # Rust lockfile
-  - "node_modules/**" # dependency code
-  - "sdk/wasm/pkg/**" # generated wasm-bindgen outputs
-  - "sdk/wasm/node/**" # generated wasm-bindgen outputs (node flavour)
-  - "sdk/wasm/web/**" # generated wasm-bindgen outputs (web flavour)
-  - ".changeset/**" # release note stubs, not code
-  - "**/*.snap" # test snapshots
-  - "site/s2-visualizer/assets/**" # minified bundled JS
-
+  - sdk/target/**
+  - "**/*.timestamp"
+  - pnpm-lock.yaml
+  - Cargo.lock
+  - node_modules/**
+  - sdk/wasm/pkg/**
+  - sdk/wasm/node/**
+  - sdk/wasm/web/**
+  - .changeset/**
+  - "**/*.snap"
+  - site/s2-visualizer/assets/**
 dampen:
   - factor: 0.3
     patterns:
@@ -31,31 +24,65 @@ dampen:
       - "**/tests/**"
       - "**/*.test.js"
       - "**/*.test.ts"
-      - "sdk/*/tests/**"
+      - sdk/*/tests/**
   - factor: 0.4
     patterns:
-      - ".github/**"
+      - .github/**
       - "**/moon.yml"
       - "**/*.config.js"
       - "**/*.config.cjs"
   - factor: 0.6
     patterns:
-      - "docs/**"
-      - "proposals/**"
+      - docs/**
+      - proposals/**
   - factor: 0.4
     patterns:
-      - "tools/demo/**"
-      - "site/**"
-
+      - tools/demo/**
+      - site/**
 boost:
   - factor: 1.4
     patterns:
-      - "sdk/core/src/"
+      - sdk/core/src/
   - factor: 1.3
     patterns:
-      - "sdk/tui/src/"
-      - "sdk/cli/src/"
+      - sdk/tui/src/
+      - sdk/cli/src/
   - factor: 1.2
     patterns:
-      - "packages/design-data-spec/"
-      - "tools/diff-generator/src/"
+      - packages/design-data-spec/
+      - tools/diff-generator/src/
+tune:
+  rerank_scale: 0.0
+  rerank_weight_nl: 0.55
+  rerank_weight_ident: 0.5
+  rerank_weight_filtered: 0.4
+  rerank_candidates_nl: 30
+  rerank_candidates_ident: 15
+  rerank_confidence_threshold: 0.4
+  rerank_floor: 0.45
+  rerank_evidence_budget_nl: 500
+  rerank_evidence_budget_ident: 250
+  rrf_semantic_weight_nl: 0.8
+  rrf_bm25_weight_nl: 0.8
+  rrf_semantic_weight_ident: 0.7
+  rrf_bm25_weight_ident: 1.3
+  prf_top_k: 10
+  prf_confidence_threshold: 0.75
+  bm25_legacy_mode: false
+  recency_weight_nl: 0.1
+  recency_weight_ident: 0.05
+  recency_midpoint_days: 30.0
+  coderank_weight_nl: 0.2
+  coderank_weight_ident: 0.1
+  coderank_midpoint: 0.3
+  symbol_popularity_weight_nl: 0.15
+  symbol_popularity_weight_ident: 0.15
+  symbol_popularity_midpoint: 0.3
+  learned_ranker_model_path: bundled:v16
+  learned_ranker_blend: 1.0
+  learned_ranker_calibrated_blend: false
+  learned_ranker_entry_blend: 0.0
+  capsule_lane_weight: 1.0
+  capsule_identifier_dampen: 0.85
+  search_plan_router: true
+  search_plan_router_mode: deterministic_prf_only
