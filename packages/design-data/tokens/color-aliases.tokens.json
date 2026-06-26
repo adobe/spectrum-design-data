@@ -1,9 +1,10 @@
 [
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -13,9 +14,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
@@ -25,9 +27,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -37,9 +40,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -49,9 +53,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
@@ -61,9 +66,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -73,9 +79,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -85,9 +92,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
@@ -97,9 +105,10 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "accent"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -1970,9 +1979,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "41b73196-0bc1-493e-9b5d-49f608914f5a",
@@ -1982,9 +1992,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b4efe4b2-3787-47df-a7a0-5d89c3641f9f",
@@ -1994,9 +2005,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "41b73196-0bc1-493e-9b5d-49f608914f5a",
@@ -2006,9 +2018,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2018,9 +2031,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "04a018bd-229c-47da-99e9-d338d05f0fb6",
@@ -2030,9 +2044,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2042,9 +2057,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2054,9 +2070,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "04a018bd-229c-47da-99e9-d338d05f0fb6",
@@ -2066,9 +2083,10 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2252,9 +2270,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538",
@@ -2264,9 +2283,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d858b481-8970-4547-aed1-b6388c36aba4",
@@ -2276,9 +2296,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538",
@@ -2288,9 +2309,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2300,9 +2322,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b7d5d2db-0282-436b-8cb0-873e891b22a6",
@@ -2312,9 +2335,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2324,9 +2348,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2336,9 +2361,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b7d5d2db-0282-436b-8cb0-873e891b22a6",
@@ -2348,9 +2374,10 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2396,8 +2423,9 @@
   },
   {
     "name": {
-      "property": "negative-border-color",
-      "state": "default"
+      "property": "border-color",
+      "state": "default",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538",
@@ -2405,8 +2433,9 @@
   },
   {
     "name": {
-      "property": "negative-border-color",
-      "state": "down"
+      "property": "border-color",
+      "state": "down",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a3dacc3-93f7-4e22-8bd7-c338da1a2489",
@@ -2414,8 +2443,9 @@
   },
   {
     "name": {
-      "property": "negative-border-color",
-      "state": "focus"
+      "property": "border-color",
+      "state": "focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2432,8 +2462,9 @@
   },
   {
     "name": {
-      "property": "negative-border-color",
-      "state": "hover"
+      "property": "border-color",
+      "state": "hover",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2519,8 +2550,9 @@
   },
   {
     "name": {
-      "property": "neutral-background-color",
-      "state": "default"
+      "property": "background-color",
+      "state": "default",
+      "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2528,8 +2560,9 @@
   },
   {
     "name": {
-      "property": "neutral-background-color",
-      "state": "down"
+      "property": "background-color",
+      "state": "down",
+      "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -2537,8 +2570,9 @@
   },
   {
     "name": {
-      "property": "neutral-background-color",
-      "state": "hover"
+      "property": "background-color",
+      "state": "hover",
+      "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -2903,9 +2937,10 @@
   },
   {
     "name": {
-      "property": "notice-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "notice"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "716af828-c64d-465d-8476-d142892ca59c",
@@ -2915,9 +2950,10 @@
   },
   {
     "name": {
-      "property": "notice-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "notice"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "df87ca09-ff38-485e-90f7-6d9cbfbb6714",
@@ -2927,9 +2963,10 @@
   },
   {
     "name": {
-      "property": "notice-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "notice"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "716af828-c64d-465d-8476-d142892ca59c",
@@ -3232,9 +3269,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1cd86108-ff79-4ccf-911e-8de9986c9053",
@@ -3244,9 +3282,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee02d9d5-b840-44af-be8a-0f10086e8f7e",
@@ -3256,9 +3295,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1cd86108-ff79-4ccf-911e-8de9986c9053",
@@ -3268,9 +3308,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3280,9 +3321,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ffdde321-5c1d-489e-8a0f-afc582248594",
@@ -3292,9 +3334,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3304,9 +3347,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3316,9 +3360,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ffdde321-5c1d-489e-8a0f-afc582248594",
@@ -3328,9 +3373,10 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
