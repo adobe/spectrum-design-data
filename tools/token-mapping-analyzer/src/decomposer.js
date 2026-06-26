@@ -237,6 +237,53 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     }
   }
 
+  // Phase 4.5: Color-domain promotion
+  // colorFamily/colorRole have Infinity priority so they don't steal segments
+  // from object, size, etc. in non-color tokens. But when context confirms a
+  // color domain, matched variant/object fields are promoted to the color taxonomy.
+  //
+  //   Palette ramp (scaleIndex + no component):
+  //     variant:"blue" → colorFamily:"blue"
+  //   Component color (property:"color" + component):
+  //     variant:<hue>  → colorFamily:<hue>, then object:<role> → colorRole:<role>
+  //     variant:<role> → colorRole:<role>  (no-hue tokens, e.g. color-primary)
+  {
+    const hueSet = registry.byField["colorFamily"] || new Set();
+    const roleSet = registry.byField["colorRole"] || new Set();
+
+    // Palette ramp: scaleIndex assigned, no component
+    if (
+      nameObject.scaleIndex !== undefined &&
+      nameObject.component === undefined
+    ) {
+      if (nameObject.variant !== undefined && hueSet.has(nameObject.variant)) {
+        nameObject.colorFamily = nameObject.variant;
+        delete nameObject.variant;
+      }
+    }
+
+    // Component color: property === "color" + component present
+    if (nameObject.property === "color" && nameObject.component !== undefined) {
+      if (nameObject.variant !== undefined && hueSet.has(nameObject.variant)) {
+        // Hue in variant → promote to colorFamily; also promote object → colorRole alongside it
+        nameObject.colorFamily = nameObject.variant;
+        delete nameObject.variant;
+        if (nameObject.object !== undefined && roleSet.has(nameObject.object)) {
+          nameObject.colorRole = nameObject.object;
+          delete nameObject.object;
+        }
+      } else if (
+        nameObject.variant !== undefined &&
+        roleSet.has(nameObject.variant) &&
+        !hueSet.has(nameObject.variant)
+      ) {
+        // Role in variant (no hue) → promote to colorRole (e.g. icon-color-primary-default)
+        nameObject.colorRole = nameObject.variant;
+        delete nameObject.variant;
+      }
+    }
+  }
+
   // Phase 5: Check for -to- spacing pattern
   const toIndex = segments.indexOf("to");
   if (toIndex > 0 && !matched[toIndex]) {

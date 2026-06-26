@@ -136,3 +136,64 @@ test("processes all tokens without errors", (t) => {
   t.truthy(result.confidence);
   t.truthy(result.nameObject);
 });
+
+// ── colorFamily / colorRole promotion regression tests ───────────────────────
+
+test("promotes variant hue → colorFamily for palette ramp tokens (scaleIndex + no component)", (t) => {
+  // "blue" would match variant (priority) before colorFamily (Infinity).
+  // Phase 4.5 promotes it because scaleIndex is present and there is no component.
+  const result = decompose("blue-700", {}, registry, "test");
+  t.is(result.nameObject.colorFamily, "blue");
+  t.is(result.nameObject.variant, undefined);
+  t.is(result.nameObject.scaleIndex, "700");
+  t.true(result.roundtrips);
+});
+
+test("promotes variant hue + retains colorRole for component color tokens", (t) => {
+  // "blue" wins variant priority over colorFamily; "primary" goes to colorRole
+  // since variant is already taken. Phase 4.5 promotes blue → colorFamily.
+  const result = decompose(
+    "icon-color-blue-primary-default",
+    { component: "icon" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.colorFamily, "blue");
+  t.is(result.nameObject.colorRole, "primary");
+  t.is(result.nameObject.variant, undefined);
+  t.is(result.nameObject.property, "color");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("promotes variant hue + object role for component color tokens (background role)", (t) => {
+  // "blue" → variant → promoted to colorFamily. "background" → object (priority)
+  // → promoted to colorRole alongside the hue promotion.
+  const result = decompose(
+    "icon-color-blue-background",
+    { component: "icon" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.colorFamily, "blue");
+  t.is(result.nameObject.colorRole, "background");
+  t.is(result.nameObject.variant, undefined);
+  t.is(result.nameObject.object, undefined);
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("does not promote non-color tokens: variant/object unaffected when property is not color", (t) => {
+  // "accent" is not in colorFamily registry; "content" is not in colorRole registry.
+  // No promotion should occur even though property === "color".
+  const result = decompose(
+    "accent-content-color-default",
+    {},
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.variant, "accent");
+  t.is(result.nameObject.object, "content");
+  t.is(result.nameObject.colorFamily, undefined);
+  t.is(result.nameObject.colorRole, undefined);
+});
