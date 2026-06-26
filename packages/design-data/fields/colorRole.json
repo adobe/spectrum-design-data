@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "colorRole",
+  "description": "Semantic role of a color token within a component (e.g. primary, background). Used alongside colorFamily for component-scoped color tokens. Excluded from the legacy key; the serializer emits it via the explicit component-color branch.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/color-roles.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 16
+  },
+  "scope": "color",
+  "required": false,
+  "valueType": "string",
+  "excludeFromLegacyKey": true
+}

@@ -1979,6 +1979,24 @@ const STATES_JSON: &str = r##"{
   ]
 }
 "##;
+const COLOR_ROLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "color-role",
+  "description": "Semantic roles for component-scoped color tokens. Assigned via the `colorRole` name-object field alongside `colorFamily` (e.g. colorFamily=blue + colorRole=primary → the primary blue color for a component).",
+  "values": [
+    {
+      "id": "primary",
+      "label": "Primary",
+      "description": "Primary color role — the main foreground color for an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background color role — fill or surface color behind an element"
+    }
+  ]
+}
+"##;
 const COLOR_FAMILIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "color-family",
@@ -2402,7 +2420,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2420,6 +2438,7 @@ pub(crate) fn build_registry_map(
     map.insert("density".to_string(), parse_registry(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_registry(SHAPES_JSON));
     map.insert("state".to_string(), parse_registry(STATES_JSON));
+    map.insert("colorRole".to_string(), parse_registry(COLOR_ROLES_JSON));
     map.insert("colorFamily".to_string(), parse_registry(COLOR_FAMILIES_JSON));
     map.insert("family".to_string(), parse_registry(TYPOGRAPHY_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_registry(TYPOGRAPHY_WEIGHTS_JSON));
@@ -2447,6 +2466,7 @@ pub(crate) fn build_token_name_map(
     map.insert("density".to_string(), parse_token_name_map(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_token_name_map(SHAPES_JSON));
     map.insert("state".to_string(), parse_token_name_map(STATES_JSON));
+    map.insert("colorRole".to_string(), parse_token_name_map(COLOR_ROLES_JSON));
     map.insert("colorFamily".to_string(), parse_token_name_map(COLOR_FAMILIES_JSON));
     map.insert("family".to_string(), parse_token_name_map(TYPOGRAPHY_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_token_name_map(TYPOGRAPHY_WEIGHTS_JSON));
@@ -2475,6 +2495,7 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "colorScheme", position: 13, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "scale", position: 14, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "contrast", position: 15, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "colorRole", position: 16, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "colorFamily", position: 17, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "family", position: 18, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "weight", position: 19, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },

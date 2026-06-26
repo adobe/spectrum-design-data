@@ -165,22 +165,56 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
 
     let name: &Map<String, Value> = name_val.as_object()?;
 
-    // Color-domain serialization: {variant?}-{colorFamily}-{scaleIndex?}
-    // `property` ("color") is implicit for palette tokens and omitted from the key.
-    if let Some(color_family) = name.get("colorFamily").and_then(|v| v.as_str()) {
-        let mut parts: Vec<String> = Vec::new();
-        if let Some(v) = name.get("variant").and_then(|v| v.as_str()) {
-            parts.push(v.to_string());
+    // Color-domain serialization — two sub-cases distinguished by component presence.
+    //
+    //   Palette ramp (no component): {variant?}-{colorFamily}-{scaleIndex?}
+    //   `property` ("color") is implicit and omitted from the key.
+    //   e.g. {colorFamily:"blue", scaleIndex:100} → "blue-100"
+    //
+    //   Component color (component + colorFamily and/or colorRole):
+    //   {component}-{property}-{colorFamily?}-{colorRole?}-{state?}
+    //   `property` is always "color". Explicit ordering avoids the position-walk trap
+    //   where state@12 < colorFamily@17 would produce the wrong segment order.
+    //   e.g. {component:"icon", property:"color", colorFamily:"blue", colorRole:"primary",
+    //         state:"default"} → "icon-color-blue-primary-default"
+    let color_family = name.get("colorFamily").and_then(|v| v.as_str());
+    let color_role = name.get("colorRole").and_then(|v| v.as_str());
+    let component = name.get("component").and_then(|v| v.as_str());
+
+    if let Some(cf) = color_family {
+        if component.is_none() {
+            // Palette ramp: no component, property implicit.
+            let mut parts: Vec<String> = Vec::new();
+            if let Some(v) = name.get("variant").and_then(|v| v.as_str()) {
+                parts.push(v.to_string());
+            }
+            parts.push(cf.to_string());
+            if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+                parts.push(i.to_string());
+            }
+            return Some(parts.join("-"));
         }
-        parts.push(color_family.to_string());
-        if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
-            parts.push(i.to_string());
+    }
+
+    // Component color: component present AND at least one of colorFamily/colorRole.
+    if component.is_some() && (color_family.is_some() || color_role.is_some()) {
+        let property = name.get("property").and_then(|v| v.as_str())?;
+        let mut parts: Vec<String> = Vec::new();
+        parts.push(component.unwrap().to_string());
+        parts.push(property.to_string());
+        if let Some(cf) = color_family {
+            parts.push(cf.to_string());
+        }
+        if let Some(cr) = color_role {
+            parts.push(cr.to_string());
+        }
+        if let Some(st) = name.get("state").and_then(|v| v.as_str()) {
+            parts.push(st.to_string());
         }
         return Some(parts.join("-"));
     }
 
     let property = name.get("property").and_then(|v| v.as_str())?;
-    let component = name.get("component").and_then(|v| v.as_str());
 
     // Thin-format detection: `property` already begins with `{component}-`.
     // In the thin cascade format the full legacy key is stored in `property`; component is
@@ -206,7 +240,7 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //
     // Currently excluded fields, grouped by reason (see each field's JSON for per-field notes):
     //   Mode-set selectors (not part of the legacy name): colorScheme, scale, contrast
-    //   Color-domain (handled by colorFamily branch above): colorFamily
+    //   Color-domain (handled by color-domain branch above): colorFamily, colorRole
     //   Integer scale (already embedded in `property`; would double-emit): scaleIndex
     //   Legacy metadata annotations (value already embedded in `property` for all current
     //     tokens): weight, family, style, structure — if any joins Phase D decomposition,
@@ -541,5 +575,59 @@ mod tests {
             !key.contains("italic"),
             "style must not appear in legacy key"
         );
+    }
+
+    // ── Component color branch (colorRole) ───────────────────────────────────
+
+    #[test]
+    fn extract_key_component_color_with_family_and_role() {
+        // Component + colorFamily + colorRole → explicit {component}-{property}-{colorFamily}-{colorRole}-{state?}
+        let name = json!({
+            "component": "icon",
+            "property": "color",
+            "colorFamily": "blue",
+            "colorRole": "primary",
+            "state": "default"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("icon-color-blue-primary-default")
+        );
+    }
+
+    #[test]
+    fn extract_key_component_color_background_no_state() {
+        let name = json!({
+            "component": "icon",
+            "property": "color",
+            "colorFamily": "red",
+            "colorRole": "background"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("icon-color-red-background")
+        );
+    }
+
+    #[test]
+    fn extract_key_component_color_role_only_no_family() {
+        // colorRole present, no colorFamily (e.g. "color-primary" → no hue)
+        let name = json!({
+            "component": "icon",
+            "property": "color",
+            "colorRole": "primary",
+            "state": "default"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("icon-color-primary-default")
+        );
+    }
+
+    #[test]
+    fn extract_key_palette_ramp_unaffected_by_component_color_branch() {
+        // Palette ramp (no component) still uses the short form.
+        let name = json!({"property": "color", "colorFamily": "blue", "scaleIndex": 700});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue-700"));
     }
 }

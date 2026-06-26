@@ -348,6 +348,13 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
  * Uses tokenNameMap to output long-form aliases (e.g., xl → extra-large)
  * for legacy compatibility.
  *
+ * Color-domain tokens use explicit ordering that mirrors the Rust naming.rs
+ * color-domain branch, bypassing the position-ordered general walk (which
+ * would mis-order state@12 before colorFamily@17):
+ *   palette ramp (no component): {variant?}-{colorFamily}-{scaleIndex?}
+ *   component color (component + colorFamily/colorRole):
+ *     {component}-{property}-{colorFamily?}-{colorRole?}-{state?}
+ *
  * @param {object} nameObject
  * @param {object} tokenNameMap - id → tokenName for legacy alias expansion
  * @param {string[]} [serializationOrder] - ordered field names from field catalog
@@ -357,6 +364,31 @@ export function serialize(
   tokenNameMap = {},
   serializationOrder = FALLBACK_SERIALIZATION_ORDER,
 ) {
+  const { colorFamily, colorRole, component } = nameObject;
+
+  // Palette ramp: colorFamily present, no component → {variant?}-{colorFamily}-{scaleIndex?}
+  if (colorFamily && !component) {
+    const parts = [];
+    if (nameObject.variant)
+      parts.push(tokenNameMap[nameObject.variant] || nameObject.variant);
+    parts.push(tokenNameMap[colorFamily] || colorFamily);
+    if (nameObject.scaleIndex != null)
+      parts.push(String(nameObject.scaleIndex));
+    return parts.join("-");
+  }
+
+  // Component color: component + (colorFamily and/or colorRole)
+  // → {component}-{property}-{colorFamily?}-{colorRole?}-{state?}
+  if (component && (colorFamily || colorRole)) {
+    const parts = [component, nameObject.property];
+    if (colorFamily) parts.push(tokenNameMap[colorFamily] || colorFamily);
+    if (colorRole) parts.push(tokenNameMap[colorRole] || colorRole);
+    if (nameObject.state)
+      parts.push(tokenNameMap[nameObject.state] || nameObject.state);
+    return parts.join("-");
+  }
+
+  // General path (non-color tokens)
   const parts = [];
   for (const field of serializationOrder) {
     if (nameObject[field]) {

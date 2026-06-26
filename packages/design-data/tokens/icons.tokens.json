@@ -2,8 +2,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce69a96f-663b-4922-89a3-4ece7acb6d55",
@@ -14,8 +16,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d434be86-0614-481b-bf30-6f7494f562d5",
@@ -26,8 +30,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce69a96f-663b-4922-89a3-4ece7acb6d55",
@@ -38,9 +44,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "81bffb1e-f9d6-49c8-be17-8c298bcfc0e0",
@@ -51,9 +59,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "85be576c-6810-4971-9748-e558384b903d",
@@ -64,9 +74,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "81bffb1e-f9d6-49c8-be17-8c298bcfc0e0",
@@ -77,9 +89,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fa9c46cb-f4a5-4022-aa01-dc3ffdb83bae",
@@ -90,9 +104,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "de6d785f-3534-4648-950c-e0e22fa9e2e9",
@@ -103,9 +119,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fa9c46cb-f4a5-4022-aa01-dc3ffdb83bae",
@@ -116,9 +134,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "de6d785f-3534-4648-950c-e0e22fa9e2e9",
@@ -129,9 +149,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "81bffb1e-f9d6-49c8-be17-8c298bcfc0e0",
@@ -142,9 +164,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-blue-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "blue"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "de6d785f-3534-4648-950c-e0e22fa9e2e9",
@@ -155,8 +179,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce145d13-f1b1-46a7-9c17-0b7fab97022e",
@@ -167,8 +193,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bd1ec088-5fc2-44c1-ba00-949b6bcfee0c",
@@ -179,8 +207,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce145d13-f1b1-46a7-9c17-0b7fab97022e",
@@ -191,9 +221,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bfbde25d-e087-444a-b26f-6568325a7d2e",
@@ -204,9 +236,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6f87ea74-5734-40c1-ab34-b284e0f75b1b",
@@ -217,9 +251,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bfbde25d-e087-444a-b26f-6568325a7d2e",
@@ -230,9 +266,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3a775c3b-5910-40eb-ad7e-a6c6badd05a9",
@@ -243,9 +281,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6c05dc34-9a1b-4bf7-a476-f093c45275f5",
@@ -256,9 +296,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3a775c3b-5910-40eb-ad7e-a6c6badd05a9",
@@ -269,9 +311,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6c05dc34-9a1b-4bf7-a476-f093c45275f5",
@@ -282,9 +326,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bfbde25d-e087-444a-b26f-6568325a7d2e",
@@ -295,9 +341,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-brown-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "brown"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6c05dc34-9a1b-4bf7-a476-f093c45275f5",
@@ -308,8 +356,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cfa877de-79f8-493f-898d-ceb70a12f64e",
@@ -320,8 +370,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e8b68c0f-5e9f-47c0-b844-35032c46aeee",
@@ -332,8 +384,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cfa877de-79f8-493f-898d-ceb70a12f64e",
@@ -344,9 +398,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "95228111-9945-410f-bd26-ea2bb1f5ddf8",
@@ -357,9 +413,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "363508bf-9c3a-4e8e-9865-2b4915d2f097",
@@ -370,9 +428,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "95228111-9945-410f-bd26-ea2bb1f5ddf8",
@@ -383,9 +443,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "363508bf-9c3a-4e8e-9865-2b4915d2f097",
@@ -396,9 +458,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bd5d2127-7c7e-428c-bded-4638ab7094a5",
@@ -409,9 +473,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "363508bf-9c3a-4e8e-9865-2b4915d2f097",
@@ -422,9 +488,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b6a6ad0f-71ed-40b9-bacf-8c945cb5d338",
@@ -435,9 +503,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2184d450-2711-4e31-bb52-ee71e4fee3a5",
@@ -448,9 +518,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-celery-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "celery"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b6a6ad0f-71ed-40b9-bacf-8c945cb5d338",
@@ -461,8 +533,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "af7dfd23-39e4-4e6e-a4b2-992eca33812d",
@@ -473,8 +547,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dba5cb03-a980-48bd-8b35-99dd063763e0",
@@ -485,8 +561,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "af7dfd23-39e4-4e6e-a4b2-992eca33812d",
@@ -497,9 +575,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1bd902ac-d5b1-4edb-9afc-b122d9f3c3fb",
@@ -510,9 +590,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e26e1c23-490a-41f6-ba57-dd10bc58e504",
@@ -523,9 +605,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1bd902ac-d5b1-4edb-9afc-b122d9f3c3fb",
@@ -536,9 +620,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9131b099-6865-4e54-b364-acb3891737f1",
@@ -549,9 +635,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e6cff881-8cb4-4b7b-883d-0aa00dc3efdb",
@@ -562,9 +650,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9131b099-6865-4e54-b364-acb3891737f1",
@@ -575,9 +665,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f50abb60-7047-4e92-a48c-627d98eb85d3",
@@ -588,9 +680,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "20c271df-6e71-4082-b953-d8bf938ff286",
@@ -601,9 +695,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-chartreuse-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "chartreuse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f50abb60-7047-4e92-a48c-627d98eb85d3",
@@ -614,8 +710,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "322b71ea-2187-4fce-90e7-2db63d037368",
@@ -626,8 +724,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3527fc94-a410-4933-bbb7-bedecd37e477",
@@ -638,8 +738,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "322b71ea-2187-4fce-90e7-2db63d037368",
@@ -650,8 +752,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-primary",
-      "state": "default"
+      "property": "color",
+      "state": "default",
+      "colorRole": "primary",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8ea9b668-f9df-460f-8af5-c7fbcc3de67f",
@@ -660,8 +764,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-primary",
-      "state": "down"
+      "property": "color",
+      "state": "down",
+      "colorRole": "primary",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee0dc73e-8a68-4b2a-80f2-a0262016ec38",
@@ -670,8 +776,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cinnamon-primary",
-      "state": "hover"
+      "property": "color",
+      "state": "hover",
+      "colorRole": "primary",
+      "colorFamily": "cinnamon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0ac8a0b0-793c-47dd-a508-520e4a3da4b9",
@@ -680,8 +788,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba6486c3-b48d-4d4e-952e-c179db5671df",
@@ -692,8 +802,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "61be07be-d428-4fe9-8e79-96df63980556",
@@ -704,8 +816,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba6486c3-b48d-4d4e-952e-c179db5671df",
@@ -716,8 +830,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-primary",
-      "state": "default"
+      "property": "color",
+      "state": "default",
+      "colorRole": "primary",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "96e75cf8-2f23-47ee-b79b-618a28d2cceb",
@@ -726,8 +842,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-primary",
-      "state": "down"
+      "property": "color",
+      "state": "down",
+      "colorRole": "primary",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2dd3bb3-e7c6-42fe-b7d6-6e25ee1b5b0f",
@@ -736,8 +854,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-cyan-primary",
-      "state": "hover"
+      "property": "color",
+      "state": "hover",
+      "colorRole": "primary",
+      "colorFamily": "cyan"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee2ce3c0-207d-4c24-b939-189b9b9e2972",
@@ -764,7 +884,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-background"
+      "property": "color",
+      "colorRole": "background",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "078936af-2556-4ee2-a849-e7f19088b0ee",
@@ -773,9 +895,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ad5957c2-2829-450e-973c-bf0075e1fa67",
@@ -786,9 +910,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1149f4f6-5cd0-4792-9dad-189c2a75a542",
@@ -799,9 +925,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ad5957c2-2829-450e-973c-bf0075e1fa67",
@@ -812,9 +940,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3ffd0b97-3692-400d-b6d6-9147b6028fbe",
@@ -825,9 +955,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ad5957c2-2829-450e-973c-bf0075e1fa67",
@@ -838,9 +970,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3ffd0b97-3692-400d-b6d6-9147b6028fbe",
@@ -851,9 +985,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0f412425-de6f-48f1-9d0f-0310d933d244",
@@ -864,9 +1000,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1bcf666f-165b-4ec9-b360-c891109a2f5c",
@@ -877,9 +1015,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-fuchsia-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "fuchsia"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0f412425-de6f-48f1-9d0f-0310d933d244",
@@ -890,8 +1030,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7c7c0136-2623-468d-a12f-678d21973613",
@@ -902,8 +1044,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6673709d-2154-4189-ad4f-e6867ecfe744",
@@ -914,8 +1058,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7c7c0136-2623-468d-a12f-678d21973613",
@@ -926,8 +1072,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-primary",
-      "state": "default"
+      "property": "color",
+      "state": "default",
+      "colorRole": "primary",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6d8cdeaa-c122-4bba-9867-8634e78e767a",
@@ -936,8 +1084,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-primary",
-      "state": "down"
+      "property": "color",
+      "state": "down",
+      "colorRole": "primary",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "23d8a797-8f40-4072-868d-6213c3cd6c0a",
@@ -946,8 +1096,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-green-primary",
-      "state": "hover"
+      "property": "color",
+      "state": "hover",
+      "colorRole": "primary",
+      "colorFamily": "green"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c0f6d150-e59f-4ee9-bf85-087c67258767",
@@ -956,8 +1108,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03acbe76-ab2c-493b-8dbf-624802f4ff1d",
@@ -968,8 +1122,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0ed49ef2-25c7-44a5-86e2-8f57a2b5b07e",
@@ -980,8 +1136,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03acbe76-ab2c-493b-8dbf-624802f4ff1d",
@@ -992,9 +1150,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f482731c-c07e-4323-bf79-6e45cdce4052",
@@ -1005,9 +1165,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e011bc2f-8a2a-46cb-a758-e53f0ce3a2ac",
@@ -1018,9 +1180,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f482731c-c07e-4323-bf79-6e45cdce4052",
@@ -1031,9 +1195,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c1e41827-eb48-415a-bd6f-f4cb3d4ef5bb",
@@ -1044,9 +1210,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f482731c-c07e-4323-bf79-6e45cdce4052",
@@ -1057,9 +1225,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c1e41827-eb48-415a-bd6f-f4cb3d4ef5bb",
@@ -1070,9 +1240,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7e4d3279-2b61-46f6-8eb3-7636f564f591",
@@ -1083,9 +1255,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "54c17da1-02fe-4b9c-9d07-0d5a3e839310",
@@ -1096,9 +1270,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-indigo-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "indigo"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7e4d3279-2b61-46f6-8eb3-7636f564f591",
@@ -1128,7 +1304,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-background"
+      "property": "color",
+      "colorRole": "background",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f7909075-b049-43d4-bae5-bd74c7827174",
@@ -1137,9 +1315,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d8eb420e-b2d5-4bbe-baad-955009069eff",
@@ -1150,9 +1330,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8f76d9bd-a0b8-4756-a08d-4db3c787c4c9",
@@ -1163,9 +1345,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d8eb420e-b2d5-4bbe-baad-955009069eff",
@@ -1176,9 +1360,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03d47c47-99f0-4ed3-a275-7659dee3ca8e",
@@ -1189,9 +1375,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d8eb420e-b2d5-4bbe-baad-955009069eff",
@@ -1202,9 +1390,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03d47c47-99f0-4ed3-a275-7659dee3ca8e",
@@ -1215,9 +1405,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "66f59c7d-f12b-4b8b-a472-c196deec527c",
@@ -1228,9 +1420,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff51c954-677f-4053-8426-b7fbc3d2d155",
@@ -1241,9 +1435,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-magenta-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "magenta"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "66f59c7d-f12b-4b8b-a472-c196deec527c",
@@ -1254,8 +1450,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a4287e01-3b0a-45e2-9118-d2ec157805c3",
@@ -1266,8 +1464,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec281039-7256-4db9-8261-d0af048d3e6d",
@@ -1278,8 +1478,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a4287e01-3b0a-45e2-9118-d2ec157805c3",
@@ -1290,9 +1492,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a43502bd-ffae-4544-a3d0-08288cff141d",
@@ -1303,9 +1507,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b2e24ca2-6bfb-43c6-ab37-f6107563a371",
@@ -1316,9 +1522,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a43502bd-ffae-4544-a3d0-08288cff141d",
@@ -1329,9 +1537,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b2e24ca2-6bfb-43c6-ab37-f6107563a371",
@@ -1342,9 +1552,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a0f0fc25-7be4-4ff7-b756-47b018352a7a",
@@ -1355,9 +1567,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b2e24ca2-6bfb-43c6-ab37-f6107563a371",
@@ -1368,9 +1582,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bed559d1-c097-40ad-8d3a-2866198832c2",
@@ -1381,9 +1597,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff4c4d68-d10a-48f3-a7ab-2306cb18dfe2",
@@ -1394,9 +1612,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-orange-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "orange"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bed559d1-c097-40ad-8d3a-2866198832c2",
@@ -1407,7 +1627,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-background"
+      "property": "color",
+      "colorRole": "background",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "500888e2-48c7-4962-8323-f160cc7a07d6",
@@ -1416,9 +1638,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a93e5c04-3ae7-4eda-8c06-9ba2e4e44987",
@@ -1429,9 +1653,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dc6e56ee-3f71-48fd-9ffc-bbe65fa27ab9",
@@ -1442,9 +1668,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a93e5c04-3ae7-4eda-8c06-9ba2e4e44987",
@@ -1455,9 +1683,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c937f1fd-146d-4558-a42d-c8aafc5f4589",
@@ -1468,9 +1698,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "242b7614-2f02-4227-a94c-7b7d419e1b4e",
@@ -1481,9 +1713,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c937f1fd-146d-4558-a42d-c8aafc5f4589",
@@ -1494,9 +1728,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "242b7614-2f02-4227-a94c-7b7d419e1b4e",
@@ -1507,9 +1743,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a93e5c04-3ae7-4eda-8c06-9ba2e4e44987",
@@ -1520,9 +1758,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-pink-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "pink"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "242b7614-2f02-4227-a94c-7b7d419e1b4e",
@@ -1533,8 +1773,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-primary",
-      "state": "default"
+      "property": "color",
+      "state": "default",
+      "colorRole": "primary"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
@@ -1543,8 +1784,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-primary",
-      "state": "down"
+      "property": "color",
+      "state": "down",
+      "colorRole": "primary"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
@@ -1553,8 +1795,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-primary",
-      "state": "hover"
+      "property": "color",
+      "state": "hover",
+      "colorRole": "primary"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
@@ -1563,7 +1806,9 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-background"
+      "property": "color",
+      "colorRole": "background",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "745626e1-7c10-4e35-a99f-03c252bd441d",
@@ -1572,9 +1817,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "630e0415-8751-4a1c-8f1f-96800ff93802",
@@ -1585,9 +1832,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3d17ea49-0cf8-4df4-80e0-0b8dd5ec7e3e",
@@ -1598,9 +1847,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "630e0415-8751-4a1c-8f1f-96800ff93802",
@@ -1611,9 +1862,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bd31f22a-d6c5-4ec6-a40b-cec88d085734",
@@ -1624,9 +1877,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "630e0415-8751-4a1c-8f1f-96800ff93802",
@@ -1637,9 +1892,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bd31f22a-d6c5-4ec6-a40b-cec88d085734",
@@ -1650,9 +1907,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6f0335da-6c21-4946-9a67-e6e908cc2aaa",
@@ -1663,9 +1922,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "55055ac5-ca49-40c5-8d6b-c3c752f5c00f",
@@ -1676,9 +1937,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-purple-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "purple"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6f0335da-6c21-4946-9a67-e6e908cc2aaa",
@@ -1689,8 +1952,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ebf4003d-ce93-4026-8e3b-13e128e014e7",
@@ -1701,8 +1966,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6329f7cb-bb13-4231-ab91-4ed9dc8e7242",
@@ -1713,8 +1980,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ebf4003d-ce93-4026-8e3b-13e128e014e7",
@@ -1725,9 +1994,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "80450bb0-85ac-4dd5-b6e8-56d2c628c0d8",
@@ -1738,9 +2009,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e96c54da-a4e2-4735-91b4-784d0ce275d0",
@@ -1751,9 +2024,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "80450bb0-85ac-4dd5-b6e8-56d2c628c0d8",
@@ -1764,9 +2039,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5485c698-0ea9-47d7-b81d-43f0647c4078",
@@ -1777,9 +2054,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "80450bb0-85ac-4dd5-b6e8-56d2c628c0d8",
@@ -1790,9 +2069,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5485c698-0ea9-47d7-b81d-43f0647c4078",
@@ -1803,9 +2084,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "07ad3c80-0ca4-4e23-9daa-42c97c558678",
@@ -1816,9 +2099,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cee84ce0-439b-444c-bb7e-a77777da716d",
@@ -1829,9 +2114,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-red-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "red"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "07ad3c80-0ca4-4e23-9daa-42c97c558678",
@@ -1842,8 +2129,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "92b7d64b-e8ae-4261-adf3-55b7435fce69",
@@ -1854,8 +2143,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "63882463-c739-495b-b164-317ebcf97e35",
@@ -1866,8 +2157,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "92b7d64b-e8ae-4261-adf3-55b7435fce69",
@@ -1878,8 +2171,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-primary",
-      "state": "default"
+      "property": "color",
+      "state": "default",
+      "colorRole": "primary",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "472d8ac6-f0ae-4a37-9990-28773c10c959",
@@ -1888,8 +2183,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-primary",
-      "state": "down"
+      "property": "color",
+      "state": "down",
+      "colorRole": "primary",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "487ae86b-24c7-4587-87b0-008fca574e84",
@@ -1898,8 +2195,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-seafoam-primary",
-      "state": "hover"
+      "property": "color",
+      "state": "hover",
+      "colorRole": "primary",
+      "colorFamily": "seafoam"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "de37323c-69e7-476b-a62e-467e104c5d36",
@@ -1908,8 +2207,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f2c7f530-ba13-4459-bc3c-2b26e4e7e4c1",
@@ -1920,8 +2221,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ac14b55-357e-43a0-85f3-c41a8f3697c8",
@@ -1932,8 +2235,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f2c7f530-ba13-4459-bc3c-2b26e4e7e4c1",
@@ -1944,9 +2249,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5d1179ae-dde0-4133-b97e-5d1c3001e2d3",
@@ -1957,9 +2264,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2fe35623-7905-48c1-84f7-b0ad2b362ba1",
@@ -1970,9 +2279,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5d1179ae-dde0-4133-b97e-5d1c3001e2d3",
@@ -1983,9 +2294,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d522fe05-cad5-4484-89e0-65c524f92e89",
@@ -1996,9 +2309,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e8bb1260-f417-4fae-823e-7a1b3e8f4f86",
@@ -2009,9 +2324,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d522fe05-cad5-4484-89e0-65c524f92e89",
@@ -2022,9 +2339,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2fe35623-7905-48c1-84f7-b0ad2b362ba1",
@@ -2035,9 +2354,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d522fe05-cad5-4484-89e0-65c524f92e89",
@@ -2048,9 +2369,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-silver-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "silver"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2fe35623-7905-48c1-84f7-b0ad2b362ba1",
@@ -2061,8 +2384,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7720aa32-deea-454b-a593-f1234e638565",
@@ -2073,8 +2398,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1327ec82-3f65-4706-a664-11e46294ffd2",
@@ -2085,8 +2412,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7720aa32-deea-454b-a593-f1234e638565",
@@ -2097,9 +2426,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3cf57594-3174-4192-ab62-b854b1562748",
@@ -2110,9 +2441,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf7c3e33-031a-46c2-84a1-b13a6b83b8b2",
@@ -2123,9 +2456,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3cf57594-3174-4192-ab62-b854b1562748",
@@ -2136,9 +2471,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "084c9ba0-6ac6-40c9-afa8-4a06eefa3f9c",
@@ -2149,9 +2486,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "eba4bafc-0f66-4dd1-8007-d25121e79a4b",
@@ -2162,9 +2501,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "084c9ba0-6ac6-40c9-afa8-4a06eefa3f9c",
@@ -2175,9 +2516,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf7c3e33-031a-46c2-84a1-b13a6b83b8b2",
@@ -2188,9 +2531,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "084c9ba0-6ac6-40c9-afa8-4a06eefa3f9c",
@@ -2201,9 +2546,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-turquoise-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "turquoise"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf7c3e33-031a-46c2-84a1-b13a6b83b8b2",
@@ -2214,8 +2561,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-background",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "colorRole": "background",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "34318bf7-de9b-46a0-8bc1-29b154d89cb8",
@@ -2226,8 +2575,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-background",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "colorRole": "background",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0bc3e99e-6f92-47c9-90ae-593363bef6aa",
@@ -2238,8 +2589,10 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-background",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "colorRole": "background",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "34318bf7-de9b-46a0-8bc1-29b154d89cb8",
@@ -2250,9 +2603,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0bc3e99e-6f92-47c9-90ae-593363bef6aa",
@@ -2263,9 +2618,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "af877bd7-9943-454e-b83e-5597e381190a",
@@ -2276,9 +2633,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0bc3e99e-6f92-47c9-90ae-593363bef6aa",
@@ -2289,9 +2648,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "51dbf5af-ca84-4c05-9d1f-e516c859d4cc",
@@ -2302,9 +2663,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0fcda0a7-23be-4467-9f9d-1fc9eab938ce",
@@ -2315,9 +2678,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "51dbf5af-ca84-4c05-9d1f-e516c859d4cc",
@@ -2328,9 +2693,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8f90e008-a466-4477-ab93-1a55a644f52e",
@@ -2341,9 +2708,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b2558f6d-b45c-4662-a4a9-e34acd060c1d",
@@ -2354,9 +2723,11 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-yellow-primary",
+      "property": "color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "colorRole": "primary",
+      "colorFamily": "yellow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8f90e008-a466-4477-ab93-1a55a644f52e",

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "color-role",
+  "description": "Semantic roles for component-scoped color tokens. Assigned via the `colorRole` name-object field alongside `colorFamily` (e.g. colorFamily=blue + colorRole=primary → the primary blue color for a component).",
+  "values": [
+    {
+      "id": "primary",
+      "label": "Primary",
+      "description": "Primary color role — the main foreground color for an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background color role — fill or surface color behind an element"
+    }
+  ]
+}
