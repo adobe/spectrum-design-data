@@ -148,7 +148,7 @@ for (const d of allFieldsSorted) {
   const scope = d.scope ? `Some("${d.scope}")` : "None";
   const valueType = d.valueType || "string";
   const pos = d.serialization?.position ?? 9999;
-  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}" },\n`;
+  generated += `        FieldCatalogEntry { name: "${d.name}", position: ${pos}, validation: ${validation}, scope: ${scope}, required: ${d.required}, has_registry: ${d.registry != null}, value_type: "${valueType}", exclude_from_legacy_key: ${d.excludeFromLegacyKey === true} },\n`;
 }
 generated += `    ]\n}\n`;
 

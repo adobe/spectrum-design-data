@@ -79,6 +79,11 @@
       "enum": ["string", "integer"],
       "description": "Type of the field value. Default: 'string'.",
       "default": "string"
+    },
+    "excludeFromLegacyKey": {
+      "type": "boolean",
+      "description": "When true, this field is omitted from legacy key generation in naming.rs. Opt-in: absence means false. Use for mode-set selectors, color-domain fields, and legacy-annotation fields that must not appear in the serialized token name.",
+      "default": false
     }
   },
   "additionalProperties": false

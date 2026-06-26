@@ -11,5 +11,6 @@
   },
   "scope": null,
   "required": false,
-  "valueType": "string"
+  "valueType": "string",
+  "excludeFromLegacyKey": true
 }

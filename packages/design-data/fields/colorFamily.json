@@ -2,7 +2,7 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
   "specVersion": "1.0.0-draft",
   "name": "colorFamily",
-  "description": "Hue family of a color token (e.g. blue, gray, celery, accent). Used on color palette and semantic color tokens. Paired with scaleIndex for ramp tokens (e.g. colorFamily=blue + scaleIndex=100 → blue-100).",
+  "description": "Hue family of a color token (e.g. blue, gray, celery, accent). Used on color palette and semantic color tokens. Paired with scaleIndex for ramp tokens (e.g. colorFamily=blue + scaleIndex=100 \u2192 blue-100).",
   "kind": "semantic",
   "registry": "packages/design-data/registry/color-families.json",
   "validation": "advisory",
@@ -11,5 +11,6 @@
   },
   "scope": "color",
   "required": false,
-  "valueType": "string"
+  "valueType": "string",
+  "excludeFromLegacyKey": true
 }

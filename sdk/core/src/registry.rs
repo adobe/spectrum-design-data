@@ -54,6 +54,11 @@ pub struct FieldCatalogEntry {
     pub has_registry: bool,
     /// JSON value type: `"string"` or `"integer"`.
     pub value_type: &'static str,
+    /// Whether this field is omitted from legacy key generation (opt-in; ye1.9).
+    ///
+    /// Set in each field's `packages/design-data/fields/*.json` (`excludeFromLegacyKey: true`).
+    /// Replaces the opt-out `SKIP` const in `naming.rs`. Absence in the field JSON means `false`.
+    pub exclude_from_legacy_key: bool,
 }
 
 /// The full fields/ catalog embedded at compile time.
