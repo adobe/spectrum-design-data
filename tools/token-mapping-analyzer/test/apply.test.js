@@ -13,55 +13,125 @@ import { readFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
-import { serialize, decompose } from "../src/decomposer.js";
+import { serialize } from "../src/decomposer.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
 
-// Verify the core decomposition invariant: every token whose name has a `size`
-// field (i.e. was migrated by apply.js --write) must serialize back to the same
-// legacy key that the original compound `property` implied.
-test("migrated size tokens roundtrip to their original legacy key", (t) => {
+/** Recursively collect every token object that has a name.size field. */
+function collectMigrated(obj, acc = []) {
+  if (Array.isArray(obj)) {
+    obj.forEach((v) => collectMigrated(v, acc));
+    return acc;
+  }
+  if (obj && typeof obj === "object") {
+    if (
+      obj.name &&
+      typeof obj.name === "object" &&
+      obj.name.size !== undefined
+    ) {
+      acc.push(obj);
+    }
+    for (const v of Object.values(obj)) collectMigrated(v, acc);
+  }
+  return acc;
+}
+
+// Verifies that size decomposition preserved the legacy key for every migrated token.
+//
+// The check is independent of decompose() by reconstructing the pre-migration name
+// object from scratch: since size was the only field extracted from property, the
+// pre-migration property = postMigration.property + "-" + sizeTokenName. Serializing
+// that name must produce the same legacy key as serializing the post-migration name.
+//
+// This is the JS-layer consistency check. The Rust-backed golden-reference check is
+// tokens:verifyLegacyOutput (compares generated legacy output against committed src/).
+test("size decomposition preserves the legacy key — layout-component.tokens.json", (t) => {
   const registry = loadRegistries();
-  const tokens = JSON.parse(
+  const data = JSON.parse(
     readFileSync(resolve(CASCADE_DIR, "layout-component.tokens.json"), "utf-8"),
   );
-
-  const migrated = tokens.filter(
-    (tok) => typeof tok.name === "object" && tok.name.size !== undefined,
-  );
+  const migrated = collectMigrated(data);
 
   t.true(
     migrated.length > 0,
-    "Expected at least one token with size field applied",
+    "Expected at least one token with size field in layout-component.tokens.json",
   );
 
   for (const tok of migrated) {
-    const legacyKey = serialize(
+    // Post-migration serialization.
+    const postKey = serialize(
       tok.name,
       registry.tokenNameMap,
       registry.serializationOrder,
     );
-    // Reconstruct what the key would have been before decomposition by re-joining
-    // the size tokenName back into property and checking the round-trip.
-    const decomposeResult = decompose(
-      legacyKey,
-      { component: tok.name?.component },
-      registry,
-      "layout-component.tokens.json",
+
+    // Reconstruct the pre-migration name: re-embed the size tokenName back into
+    // property. Only size was extracted, so appending its long form gives the original
+    // compound property value. Note: this reconstruction is only valid when a single
+    // field was decomposed; multi-field migrations need a different approach.
+    const sizeLong = registry.tokenNameMap[tok.name.size] ?? tok.name.size;
+    const preMigName = {
+      ...tok.name,
+      property: `${tok.name.property}-${sizeLong}`,
+    };
+    delete preMigName.size;
+    const preKey = serialize(
+      preMigName,
+      registry.tokenNameMap,
+      registry.serializationOrder,
     );
+
     t.is(
-      decomposeResult.confidence,
-      "HIGH",
-      `Token ${tok.uuid?.slice(0, 8)} (${legacyKey}) should decompose at HIGH confidence`,
-    );
-    t.true(
-      decomposeResult.roundtrips,
-      `Token ${tok.uuid?.slice(0, 8)} (${legacyKey}) must roundtrip after size decomposition`,
+      postKey,
+      preKey,
+      `Token ${tok.uuid?.slice(0, 8)}: size decomposition must preserve the legacy key (pre: ${preKey})`,
     );
     t.truthy(
       tok.name.property,
-      `Token ${tok.uuid?.slice(0, 8)} must still have non-empty property`,
+      `Token ${tok.uuid?.slice(0, 8)}: must have non-empty property after decomposition`,
+    );
+  }
+});
+
+test("size decomposition preserves the legacy key — layout.tokens.json", (t) => {
+  const registry = loadRegistries();
+  const data = JSON.parse(
+    readFileSync(resolve(CASCADE_DIR, "layout.tokens.json"), "utf-8"),
+  );
+  const migrated = collectMigrated(data);
+
+  t.true(
+    migrated.length > 0,
+    "Expected at least one token with size field in layout.tokens.json",
+  );
+
+  for (const tok of migrated) {
+    const postKey = serialize(
+      tok.name,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    );
+    const sizeLong = registry.tokenNameMap[tok.name.size] ?? tok.name.size;
+    const preMigName = {
+      ...tok.name,
+      property: `${tok.name.property}-${sizeLong}`,
+    };
+    delete preMigName.size;
+    const preKey = serialize(
+      preMigName,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    );
+
+    t.is(
+      postKey,
+      preKey,
+      `Token ${tok.uuid?.slice(0, 8)}: size decomposition must preserve the legacy key (pre: ${preKey})`,
+    );
+    t.truthy(
+      tok.name.property,
+      `Token ${tok.uuid?.slice(0, 8)}: must have non-empty property after decomposition`,
     );
   }
 });

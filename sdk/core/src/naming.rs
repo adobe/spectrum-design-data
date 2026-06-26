@@ -199,14 +199,31 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // expanding registry ids to their tokenName long-forms (e.g. size:"xl" → "extra-large").
     // Mirrors the JS serialize() in tools/token-mapping-analyzer/src/decomposer.js.
     //
-    // Fields excluded from the general key:
-    //   - colorScheme, scale, contrast: mode-set dimension selectors, not part of the legacy key
-    //   - colorFamily: handled by the color-domain branch above
-    //   - scaleIndex: already embedded in `property` for scale tokens; color tokens use the
-    //     colorFamily branch. Skip to avoid double-emitting (e.g. "font-size-100-100").
-    //   - weight, family, style, structure: legacy metadata annotations on typography/body
-    //     tokens; their values are already embedded in `property` (e.g. {property:
-    //     "bold-font-weight", weight: "bold"}). These are not Phase D decomposition fields.
+    // Fields excluded from the general key, grouped by reason:
+    //
+    // Mode-set dimension selectors (not part of the legacy name):
+    //   colorScheme, scale, contrast
+    //
+    // Color-domain field (handled by the colorFamily branch above):
+    //   colorFamily
+    //
+    // Integer scale field (already embedded in `property` for scale tokens; color tokens
+    // reach this path only without colorFamily, so scaleIndex is double-emitted otherwise):
+    //   scaleIndex
+    //
+    // Legacy metadata annotations (value already embedded in `property` for all current
+    // tokens, e.g. {property:"bold-font-weight", weight:"bold"}). These are not in Phase D
+    // scope. If any of them ever joins Phase D decomposition, its SKIP entry must be removed
+    // and naming.rs re-verified against the three legacy gates:
+    //   weight, family, style
+    //
+    // `structure` is also a legacy annotation (e.g. {component:"body", structure:"body"
+    // already in property). It has a taxonomy registry (structures.json) but is NOT one
+    // of the 13 Phase D fields — remove from SKIP if that changes:
+    //   structure
+    //
+    // ponytail: this SKIP list is opt-out by default; a catalog flag on FieldCatalogEntry
+    // would be safer (see follow-up beads issue ye1.9).
     const SKIP: &[&str] = &[
         "colorScheme",
         "scale",
