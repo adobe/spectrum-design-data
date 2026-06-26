@@ -89,7 +89,7 @@ class HandlebarsFormatter extends SharedHandlebarsFormatter {
    * @param {string} templateName - Name of the template file (without .hbs extension)
    * @returns {Function} Compiled Handlebars template
    */
-  loadTemplate(templateName) {
+  loadTemplate(templateName = this.template) {
     const templatePath = path.join(this.templateDir, `${templateName}.hbs`);
 
     if (!fs.existsSync(templatePath)) {
