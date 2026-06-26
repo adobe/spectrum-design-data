@@ -48,10 +48,16 @@ function parseArgs() {
 
 export function applyField(tokens, field, registry, filename) {
   let applied = 0;
+  let skippedSpec025 = 0;
 
   for (const token of tokens) {
     if (!token.name || typeof token.name !== "object") continue;
     if (token.name[field] !== undefined) continue; // already migrated
+    // SPEC-025: anatomy requires component
+    if (field === "anatomy" && !token.name.component) {
+      skippedSpec025++;
+      continue;
+    }
 
     // Reconstruct the legacy key from the inline name object.
     // mode-set fields (scale, colorScheme, contrast) are excluded by serializationOrder.
@@ -78,6 +84,13 @@ export function applyField(tokens, field, registry, filename) {
     )
       continue;
 
+    // Guard: remaining property must be a registered property term
+    if (
+      registry.byField.property &&
+      !registry.byField.property.has(result.nameObject.property)
+    )
+      continue;
+
     // Safety re-serialize: patched name must still produce the same legacy key
     const patched = {
       ...token.name,
@@ -95,7 +108,7 @@ export function applyField(tokens, field, registry, filename) {
     applied++;
   }
 
-  return applied;
+  return { applied, skippedSpec025 };
 }
 
 async function main() {
@@ -111,7 +124,8 @@ async function main() {
 
   let totalTokens = 0,
     alreadyHas = 0,
-    totalApplied = 0;
+    totalApplied = 0,
+    totalSkippedSpec025 = 0;
 
   for (const filename of CASCADE_FILES) {
     const filePath = resolve(CASCADE_DIR, filename);
@@ -124,8 +138,14 @@ async function main() {
     totalTokens += tokens.filter((t) => typeof t.name === "object").length;
     alreadyHas += hadField;
 
-    const applied = applyField(tokens, field, registry, filename);
+    const { applied, skippedSpec025 } = applyField(
+      tokens,
+      field,
+      registry,
+      filename,
+    );
     totalApplied += applied;
+    totalSkippedSpec025 += skippedSpec025;
 
     if (write && applied > 0) {
       writeFileSync(filePath, JSON.stringify(tokens, null, 2) + "\n");
@@ -147,7 +167,14 @@ async function main() {
   console.log(`  Total name-object tokens: ${totalTokens}`);
   console.log(`  Already has "${field}":   ${alreadyHas}`);
   console.log(`  Applied:                  ${totalApplied}`);
-  console.log(`  Skipped (low confidence): ${eligible - totalApplied}`);
+  if (totalSkippedSpec025 > 0) {
+    console.log(
+      `  Skipped (SPEC-025 ${field}-requires-component): ${totalSkippedSpec025}`,
+    );
+  }
+  console.log(
+    `  Skipped (low confidence): ${eligible - totalApplied - totalSkippedSpec025}`,
+  );
   console.log(`  Adoption (of eligible):   ${pct}%`);
   if (!write && totalApplied > 0) {
     console.log("\nRun with --write to persist.");
