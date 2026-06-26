@@ -132,6 +132,20 @@ pub fn write_data_object(
         })?
         .to_string();
 
+    // Reject names that would traverse out of the category directory.
+    {
+        use std::path::Component;
+        let p = std::path::Path::new(&name);
+        let safe = p.components().count() == 1
+            && p.components().all(|c| matches!(c, Component::Normal(_)));
+        if !safe {
+            return Err(CoreError::ParseError(format!(
+                "invalid {}: {:?} — must be a plain filename with no path separators",
+                m.name_field, name
+            )));
+        }
+    }
+
     let target_dir = dataset_root.join(m.subdir);
     let target = target_dir.join(format!("{name}.json"));
 
@@ -227,7 +241,7 @@ mod tests {
     #[test]
     fn create_fails_on_schema_violation() {
         // mode-set missing required "default" field
-        let (_dir, result) = run(
+        let (dir, result) = run(
             DataCategory::ModeSets,
             DataWriteMode::Create,
             json!({
@@ -238,8 +252,7 @@ mod tests {
             }),
         );
         assert!(matches!(result, Err(CoreError::ParseError(_))));
-        // ponytail: also assert nothing was written
-        // (dir still around, but the file should not exist)
+        assert!(!dir.path().join("mode-sets/bad-mode-set.json").exists());
     }
 
     #[test]
@@ -323,6 +336,23 @@ mod tests {
         )
         .expect("edit should succeed");
         assert_eq!(r.name, "editable");
+    }
+
+    #[test]
+    fn create_rejects_path_traversal_in_name() {
+        // A name like "../evil" must not traverse out of the category dir.
+        let (_dir, result) = run(
+            DataCategory::ModeSets,
+            DataWriteMode::Create,
+            json!({
+                "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/mode-set.schema.json",
+                "specVersion": "1.0.0-draft",
+                "name": "../evil",
+                "modes": ["a"],
+                "default": "a"
+            }),
+        );
+        assert!(matches!(result, Err(CoreError::ParseError(_))));
     }
 
     #[test]

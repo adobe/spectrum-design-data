@@ -45,10 +45,14 @@ async function runJson(args, stdin, { timeout = 30_000 } = {}) {
  * spec schemas dir from config / env.
  */
 function baseArgs(subcommand, category, datasetOverride, specSchemasOverride) {
+  // Only use config.dataPath when it ends in /tokens — the bare-cwd fallback
+  // (anchorPath(".")) does not end in tokens and must not be stripped.
+  const dataPathTokens = config.dataPath?.match(/^(.*?)\/tokens\/?$/)
+    ? config.dataPath.replace(/\/tokens\/?$/, "")
+    : null;
   const dataset =
     datasetOverride ??
-    // Strip trailing /tokens from DESIGN_DATA_PATH to get the dataset root.
-    config.dataPath?.replace(/\/tokens\/?$/, "") ??
+    dataPathTokens ??
     resolve(config.dataRoot, "packages/design-data");
 
   const args = [
