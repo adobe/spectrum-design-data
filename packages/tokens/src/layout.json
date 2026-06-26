@@ -50,8 +50,8 @@
   "accessory-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "c4071c28-33df-4461-a05c-2a1b1c295d5e",
-    "description": "Spacing between child elements for accessory elements at extra-small size"
+    "description": "Spacing between child elements for accessory elements at extra-small size",
+    "uuid": "c4071c28-33df-4461-a05c-2a1b1c295d5e"
   },
   "accessory-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -68,8 +68,8 @@
   "accessory-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "uuid": "843d1518-7aa6-4d60-968e-b71ebbfcd88e",
-    "description": "Spacing between child elements for accessory elements at small size"
+    "description": "Spacing between child elements for accessory elements at small size",
+    "uuid": "843d1518-7aa6-4d60-968e-b71ebbfcd88e"
   },
   "accessory-item-padding-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -350,8 +350,8 @@
   "base-padding-vertical-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "uuid": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
-    "description": "Vertical internal spacing for base UI elements at extra-small size"
+    "description": "Vertical internal spacing for base UI elements at extra-small size",
+    "uuid": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   "base-padding-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -368,8 +368,8 @@
   "base-padding-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "uuid": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
-    "description": "Vertical internal spacing for base UI elements at small size"
+    "description": "Vertical internal spacing for base UI elements at small size",
+    "uuid": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   "border-width-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1716,7 +1716,7 @@
     "value": "16px",
     "uuid": "8fc023ca-8aec-40fe-9130-087aa035bac7"
   },
-  "corner-radius-default": {
+  "corner-radius-extra-large-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{corner-radius-800}",
     "uuid": "d639a0b5-16b4-4d75-ab37-d87815c7b500"
@@ -1725,6 +1725,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{corner-radius-1000}",
     "uuid": "4853520b-bda3-45d1-bd20-8508cac08847"
+  },
+  "corner-radius-large-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{corner-radius-700}",
+    "uuid": "29981aef-aea6-4cde-849f-4bc67e320ea7"
   },
   "corner-radius-medium-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1760,6 +1765,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{corner-radius-0}",
     "uuid": "7a11b308-bed2-4b6f-bb4a-c9ae4ef8e03d"
+  },
+  "corner-radius-small-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{corner-radius-100}",
+    "uuid": "b4971f86-aeea-42c9-9ba7-a74cf4d1a545"
   },
   "corner-radius-small-size-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
