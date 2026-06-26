@@ -1,5 +1,26 @@
 # token-mapping-analyzer
 
+## 0.0.12
+
+### Patch Changes
+
+- [#1213](https://github.com/adobe/spectrum-design-data/pull/1213) [`035a1f9`](https://github.com/adobe/spectrum-design-data/commit/035a1f95d909f8e443a5e51baee6e30d11eedde5) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose component color properties into colorFamily + colorRole fields (closes beads #72c).
+  - **packages/design-data/fields/colorRole.json**: new `colorRole` field
+    (position 16, scope color, excludeFromLegacyKey).
+  - **packages/design-data/registry/color-roles.json**: new registry —
+    `primary` and `background` role values.
+  - **packages/design-data/tokens/icons.tokens.json**: 187 tokens atomized
+    (`color-blue-primary` → `property:color` + `colorFamily:blue` + `colorRole:primary`).
+  - **sdk/core/src/naming.rs**: color-domain branch extended for component color
+    tokens (`{component}-{property}-{colorFamily?}-{colorRole?}-{state?}`).
+  - **tools/token-mapping-analyzer/src/migrate-color-role.js**: new migration
+    script for multi-field color property decomposition.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: `serialize()` gains
+    JS-parity color-domain branches matching the Rust serializer.
+
+- Updated dependencies [[`0297e7e`](https://github.com/adobe/spectrum-design-data/commit/0297e7ee77e102a3756302f83ab9236cd142ee58), [`b57ae32`](https://github.com/adobe/spectrum-design-data/commit/b57ae328a91c68f25bbf51fffecb6c5f3bed3e8f)]:
+  - @adobe/spectrum-tokens@14.14.0
+
 ## 0.0.11
 
 ### Patch Changes

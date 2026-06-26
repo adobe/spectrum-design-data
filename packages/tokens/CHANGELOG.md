@@ -1,5 +1,30 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.14.0
+
+### Minor Changes
+
+- [#1203](https://github.com/adobe/spectrum-design-data/pull/1203) [`0297e7e`](https://github.com/adobe/spectrum-design-data/commit/0297e7ee77e102a3756302f83ab9236cd142ee58) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: taxonomy field serializer + size decomposition pilot.
+  - **sdk/core/src/naming.rs**: Generalize `extract_legacy_key` to walk the
+    field catalog in `serialization.position` order, expanding registry ids to
+    their `tokenName` long-forms (e.g. `size:"xl"` → `"extra-large"`). Excludes
+    mode-set, color-domain, and legacy metadata annotation fields. Output is
+    byte-identical for all current tokens (all gates pass).
+  - **sdk/core/src/registry.rs**: Add `token_name(field, id) -> Option<&str>`
+    to `RegistryData`, backed by the embedded registry JSON.
+  - **sdk/scripts/generate-registry-data.js** + **registry_data.rs**: Generate
+    `build_token_name_map()` alongside the existing `build_registry_map()`.
+  - **packages/design-data/tokens/layout-component.tokens.json**,
+    **layout.tokens.json**: 68 layout tokens decomposed — `size` extracted from
+    `property` into the structured field (HIGH-confidence, all roundtrip-verified).
+  - **tools/token-mapping-analyzer/test/apply.test.js**: Verify roundtrip
+    invariant on already-migrated tokens.
+
+- [#1205](https://github.com/adobe/spectrum-design-data/pull/1205) [`b57ae32`](https://github.com/adobe/spectrum-design-data/commit/b57ae328a91c68f25bbf51fffecb6c5f3bed3e8f) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: decompose density field in 2 layout-component tokens (ye1.2).
+  - **packages/design-data/tokens/layout-component.tokens.json**: decomposed 2 tokens —
+    `height-compact` → `height` + `density: compact` and `spacing-spacious` → `spacing` +
+    `density: spacious`; Rust roundtrip verified clean.
+
 ## 14.13.2
 
 ### Patch Changes

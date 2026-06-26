@@ -1,5 +1,32 @@
 # @adobe/design-data-agent-mcp
 
+## 1.8.0
+
+### Minor Changes
+
+- [#1198](https://github.com/adobe/spectrum-design-data/pull/1198) [`70c1685`](https://github.com/adobe/spectrum-design-data/commit/70c1685ec68f483b23ca0f971de159b3679df992) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): B6 — MCP authoring parity via CLI shell-out (closes #122.6).
+  - **tools/design-data-agent-mcp/src/tools/authoring.js**: rewritten as CLI adapters; adds
+    10 new tools (edit_token, deprecate_token, rename_token, rewire_alias, remove_token,
+    add_mode, rename_mode, remove_mode, create_mode_set, remove_mode_set); all session tools
+    now shell out to `design-data authoring-session` so commit writes a cascade element;
+    classification is catalog-aware via the CLI's validate_classification.
+  - **tools/design-data-agent-mcp/src/tools/write.js**: repointed to `design-data write` CLI.
+  - **tools/design-data/src/write.js** (removed): legacy flat-file helpers superseded by cascade.
+  - **tools/design-data/src/session.js** (removed): in-process session superseded by CLI;
+    exported API removed from @adobe/design-data (breaking).
+
+- [#1201](https://github.com/adobe/spectrum-design-data/pull/1201) [`11c4d5a`](https://github.com/adobe/spectrum-design-data/commit/11c4d5a937064ba24f69437c59ab5ad1bfbe5f8c) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): Phase C — create/edit authoring for non-token data categories.
+  - **tools/design-data-agent-mcp**: adds `data_create` and `data_edit` MCP tools for
+    components, fields, registry, mode-sets, and guidelines; delegate to the CLI.
+  - **packages/design-data/AUTHORING.md**: documents the new `design-data data create|edit`
+    CLI commands and the `data_create`/`data_edit` MCP tools.
+
+### Patch Changes
+
+- Updated dependencies [[`70c1685`](https://github.com/adobe/spectrum-design-data/commit/70c1685ec68f483b23ca0f971de159b3679df992), [`11c4d5a`](https://github.com/adobe/spectrum-design-data/commit/11c4d5a937064ba24f69437c59ab5ad1bfbe5f8c), [`0297e7e`](https://github.com/adobe/spectrum-design-data/commit/0297e7ee77e102a3756302f83ab9236cd142ee58), [`73e5bbf`](https://github.com/adobe/spectrum-design-data/commit/73e5bbfcb90bf9b0672bf6d32e2aee1cad9deca4), [`4218d6a`](https://github.com/adobe/spectrum-design-data/commit/4218d6a1694db70cb37f656cd0250e306e48912d), [`035a1f9`](https://github.com/adobe/spectrum-design-data/commit/035a1f95d909f8e443a5e51baee6e30d11eedde5), [`bb9421a`](https://github.com/adobe/spectrum-design-data/commit/bb9421a0d96067c2cd3a335d982a94b845c98570)]:
+  - @adobe/design-data@3.0.0
+  - @adobe/spectrum-design-data@0.8.0
+
 ## 1.7.2
 
 ### Patch Changes
