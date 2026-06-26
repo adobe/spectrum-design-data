@@ -2960,7 +2960,8 @@
   {
     "name": {
       "component": "breadcrumbs",
-      "property": "height-compact"
+      "property": "height",
+      "density": "compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
@@ -13109,7 +13110,8 @@
   {
     "name": {
       "component": "swatch-group",
-      "property": "spacing-spacious"
+      "property": "spacing",
+      "density": "spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
