@@ -32,8 +32,8 @@ moon run design-data:test    # AVA tests for the Node utilities in this package
 
 ## Key Relationships
 
-* `sdk/core` embeds data from `packages/tokens/src/*.json` and
-  `packages/design-data/{mode-sets,components,fields}/*.json` at compile time.
+* `sdk/core` embeds data from `packages/design-data/tokens/*.tokens.json` and
+  `packages/design-data/{mode-sets,components,fields,guidelines}/*.json` at compile time.
   After editing JSON here, run `moon run sdk:codegen-check` to verify the Rust side is in sync.
 * `packages/design-data-spec` validates schemas against the token JSON in this package.
 * The `design-data` MCP (`tools/design-data-agent-mcp/`) reads from `tokens/` at runtime.

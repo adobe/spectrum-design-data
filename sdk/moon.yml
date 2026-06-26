@@ -46,13 +46,14 @@ tasks:
       - "@globs(sources)"
       - "core/src/registry_data.rs"
       # Embedded snapshot sources — invalidate the build when token data changes.
-      - "/packages/tokens/src/*.json"
+      - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
       - "/packages/design-data/mode-sets/*.json"
       - "/packages/design-data/components/*.json"
       - "/packages/design-data/fields/*.json"
+      - "/packages/design-data/guidelines/*.json"
     deps:
       - codegen-check
   test:
@@ -64,13 +65,14 @@ tasks:
       - "@globs(sources)"
       - "core/src/registry_data.rs"
       # Embedded snapshot sources — re-run tests when token data changes.
-      - "/packages/tokens/src/*.json"
+      - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
       - "/packages/design-data/mode-sets/*.json"
       - "/packages/design-data/components/*.json"
       - "/packages/design-data/fields/*.json"
+      - "/packages/design-data/guidelines/*.json"
     deps:
       - codegen-check
   fmt:
