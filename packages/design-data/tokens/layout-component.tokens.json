@@ -4010,8 +4010,7 @@
   {
     "name": {
       "component": "card",
-      "property": "minimum-height",
-      "anatomy": "preview"
+      "property": "preview-minimum-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "130px",
@@ -4888,9 +4887,8 @@
   {
     "name": {
       "component": "coach-mark",
-      "property": "minimum-height",
-      "scale": "desktop",
-      "anatomy": "media"
+      "property": "media-minimum-height",
+      "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "166px",
@@ -4901,9 +4899,8 @@
   {
     "name": {
       "component": "coach-mark",
-      "property": "minimum-height",
-      "scale": "mobile",
-      "anatomy": "media"
+      "property": "media-minimum-height",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "121px",
@@ -5212,8 +5209,7 @@
   {
     "name": {
       "component": "color-area",
-      "property": "rounding",
-      "object": "border"
+      "property": "border-rounding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
@@ -5476,8 +5472,7 @@
   {
     "name": {
       "component": "color-slider",
-      "property": "rounding",
-      "object": "border"
+      "property": "border-rounding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
@@ -6262,8 +6257,7 @@
   {
     "name": {
       "component": "double-calendar",
-      "property": "minimum-height",
-      "anatomy": "popover"
+      "property": "popover-minimum-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "320px",
@@ -6272,8 +6266,7 @@
   {
     "name": {
       "component": "double-calendar",
-      "property": "minimum-width",
-      "anatomy": "popover"
+      "property": "popover-minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "616px",
@@ -6421,8 +6414,7 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "dash-length",
-      "object": "border"
+      "property": "border-dash-length"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -6455,8 +6447,7 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "maximum-width",
-      "object": "content"
+      "property": "content-maximum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
@@ -9737,8 +9728,7 @@
   {
     "name": {
       "component": "radio-button",
-      "property": "indicator",
-      "anatomy": "selection"
+      "property": "selection-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -10050,8 +10040,7 @@
   {
     "name": {
       "component": "segmented-control",
-      "property": "maximum-width",
-      "anatomy": "item"
+      "property": "item-maximum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "265px",
@@ -10584,8 +10573,7 @@
   {
     "name": {
       "component": "side-navigation",
-      "property": "thickness",
-      "anatomy": "indicator"
+      "property": "indicator-thickness"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -11088,8 +11076,7 @@
   {
     "name": {
       "component": "single-calendar",
-      "property": "minimum-height",
-      "anatomy": "popover"
+      "property": "popover-minimum-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "320px",
@@ -11098,8 +11085,7 @@
   {
     "name": {
       "component": "single-calendar",
-      "property": "minimum-width",
-      "anatomy": "popover"
+      "property": "popover-minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "320px",
@@ -12218,8 +12204,7 @@
   {
     "name": {
       "component": "slider",
-      "property": "thickness",
-      "anatomy": "track"
+      "property": "track-thickness"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -12349,9 +12334,8 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "minimum-width",
-      "scale": "desktop",
-      "anatomy": "header"
+      "property": "header-minimum-width",
+      "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",
@@ -12362,9 +12346,8 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "minimum-width",
-      "scale": "mobile",
-      "anatomy": "header"
+      "property": "header-minimum-width",
+      "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "240px",
@@ -19440,8 +19423,7 @@
   {
     "name": {
       "component": "tooltip",
-      "property": "corner-radius",
-      "anatomy": "tip"
+      "property": "tip-corner-radius"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -20113,8 +20095,7 @@
   {
     "name": {
       "component": "triple-calendar",
-      "property": "minimum-height",
-      "anatomy": "popover"
+      "property": "popover-minimum-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "320px",
@@ -20123,8 +20104,7 @@
   {
     "name": {
       "component": "triple-calendar",
-      "property": "minimum-width",
-      "anatomy": "popover"
+      "property": "popover-minimum-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "912px",
