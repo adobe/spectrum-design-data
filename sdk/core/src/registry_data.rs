@@ -1616,6 +1616,26 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "line-height-multiplier",
       "label": "Line Height Multiplier",
       "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
+    },
+    {
+      "id": "minimum-width",
+      "label": "Minimum Width",
+      "description": "CSS min-width constraint (design-system abstraction)"
+    },
+    {
+      "id": "minimum-height",
+      "label": "Minimum Height",
+      "description": "CSS min-height constraint (design-system abstraction)"
+    },
+    {
+      "id": "maximum-width",
+      "label": "Maximum Width",
+      "description": "CSS max-width constraint (design-system abstraction)"
+    },
+    {
+      "id": "thickness",
+      "label": "Thickness",
+      "description": "Stroke or line thickness (design-system abstraction; not a standard CSS property)"
     }
   ]
 }
