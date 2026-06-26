@@ -52,6 +52,8 @@ export function applyField(tokens, field, registry, filename) {
   for (const token of tokens) {
     if (!token.name || typeof token.name !== "object") continue;
     if (token.name[field] !== undefined) continue; // already migrated
+    // SPEC-025: anatomy requires component
+    if (field === "anatomy" && !token.name.component) continue;
 
     // Reconstruct the legacy key from the inline name object.
     // mode-set fields (scale, colorScheme, contrast) are excluded by serializationOrder.
