@@ -52,12 +52,12 @@ All subcommands accept `--help` for full flag documentation.
 Validate a token file or directory against JSON Schemas (Layer 1) and relational catalog rules (Layer 2).
 
 ```bash
-design-data validate packages/tokens/src
-design-data validate packages/tokens/src --strict
-design-data validate packages/tokens/src --format json
+design-data validate packages/design-data/tokens
+design-data validate packages/design-data/tokens --strict
+design-data validate packages/design-data/tokens --format json
 
 # Optional overrides
-design-data validate packages/tokens/src \
+design-data validate packages/design-data/tokens \
   --schema-path packages/design-data-spec \
   --exceptions-path naming-exceptions.json \
   --mode-sets-path packages/design-data/mode-sets \
@@ -69,7 +69,7 @@ design-data validate packages/tokens/src \
 Resolve a single token property to its final value for a given mode context.
 
 ```bash
-design-data resolve background-color-default packages/tokens/src \
+design-data resolve background-color-default packages/design-data/tokens \
   --color-scheme light \
   --scale desktop \
   --contrast regular
@@ -80,7 +80,7 @@ design-data resolve background-color-default packages/tokens/src \
 Compare two token datasets and report additions, removals, and changes.
 
 ```bash
-design-data diff packages/tokens/src packages/tokens-next/src
+design-data diff packages/design-data/tokens packages/tokens-next/src
 design-data diff old/ new/ --filter "component=button"
 design-data diff old/ new/ --format json
 ```
@@ -90,9 +90,9 @@ design-data diff old/ new/ --format json
 List tokens matching a filter expression.
 
 ```bash
-design-data query packages/tokens/src --filter "component=button,state=hover"
-design-data query packages/tokens/src --filter "component=button" --count
-design-data query packages/tokens/src --filter "component=button" --format json
+design-data query packages/design-data/tokens --filter "component=button,state=hover"
+design-data query packages/design-data/tokens --filter "component=button" --count
+design-data query packages/design-data/tokens --filter "component=button" --format json
 ```
 
 ### migrate
@@ -100,8 +100,8 @@ design-data query packages/tokens/src --filter "component=button" --format json
 Snapshot and backward-compatibility helpers.
 
 ```bash
-design-data migrate snapshot packages/tokens/src --output golden.json
-design-data migrate verify  packages/tokens/src --snapshot golden.json
+design-data migrate snapshot packages/design-data/tokens --output golden.json
+design-data migrate verify  packages/design-data/tokens --snapshot golden.json
 design-data migrate convert input/ --output output/
 design-data migrate legacy-output input/ --output output/
 design-data migrate add-uuids input/ --output output/
@@ -113,8 +113,8 @@ design-data migrate roundtrip-verify packages/tokens/src
 Build a portable `.redb` cache asset from a token dataset (for WASM web tools or offline distribution).
 
 ```bash
-design-data cache-build packages/tokens/src -o index.redb
-design-data cache-build packages/tokens/src \
+design-data cache-build packages/design-data/tokens -o index.redb
+design-data cache-build packages/design-data/tokens \
   --mode-sets-path packages/design-data/mode-sets \
   --components-path packages/design-data/components \
   -o index.redb
@@ -163,8 +163,8 @@ design-data figma export --file-key <KEY> --output figma-vars.json
 Emit a structural overview of the dataset — useful as context at the start of an agent session.
 
 ```bash
-design-data primer packages/tokens/src
-design-data primer packages/tokens/src --format json
+design-data primer packages/design-data/tokens
+design-data primer packages/design-data/tokens --format json
 ```
 
 ### component

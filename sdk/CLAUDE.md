@@ -33,7 +33,7 @@ run `moon run sdk:codegen` first or the check will fail.
 * **Rust toolchain**: pinned in `sdk/rust-toolchain.toml` — don't override it
 * **Crates are internal-only** for now — not published to crates.io
 * **Embedded data**: `core` embeds token snapshots at compile time; changes to
-  `packages/tokens/src/*.json`, `packages/design-data/**/*.json`, etc. invalidate the build
+  `packages/design-data/tokens/*.tokens.json`, `packages/design-data/{mode-sets,components,fields,guidelines}/*.json`, etc. invalidate the build
 * **WASM**: `sdk/wasm/` has a separate `Cargo.toml` and is also in the pnpm workspace
   via `sdk/tui/` (the TUI's npm package wraps the Rust binary)
 * **`sdk/target/` is \~29 GB** — never read into it; it's gitignored
