@@ -19,6 +19,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { createAuthoringTools } from "./tools/authoring.js";
+import { createDataTools } from "./tools/data.js";
 import { createReadTools } from "./tools/read.js";
 import { createValidateTools } from "./tools/validate.js";
 import { createDiffTools } from "./tools/diff.js";
@@ -31,6 +32,7 @@ export function createAllTools() {
     ...createDiffTools(),
     ...createWriteTools(),
     ...createAuthoringTools(),
+    ...createDataTools(),
   ];
 }
 

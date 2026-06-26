@@ -11,7 +11,7 @@
 import { spawn } from "child_process";
 import { config } from "./config.js";
 
-export function runCli(args, { timeout = 10_000 } = {}) {
+export function runCli(args, { timeout = 10_000, stdin } = {}) {
   return new Promise((resolve, reject) => {
     const proc = spawn(config.bin, args, {
       // Anchor the CLI's working directory to the resolved data root so its own
@@ -19,8 +19,12 @@ export function runCli(args, { timeout = 10_000 } = {}) {
       // even when Claude Code launched the server from a monorepo subdirectory.
       cwd: config.dataRoot,
       // isolates CLI stdout from the MCP JSON-RPC stream on the parent's stdout
-      stdio: ["ignore", "pipe", "pipe"],
+      stdio: [stdin != null ? "pipe" : "ignore", "pipe", "pipe"],
     });
+    if (stdin != null) {
+      proc.stdin.write(stdin);
+      proc.stdin.end();
+    }
     let stdout = "";
     let stderr = "";
     proc.stdout.on("data", (d) => {
