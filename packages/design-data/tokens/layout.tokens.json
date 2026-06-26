@@ -2535,8 +2535,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-extra-large",
-      "state": "default"
+      "property": "corner-radius",
+      "state": "default",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
@@ -2552,8 +2553,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-large",
-      "state": "default"
+      "property": "corner-radius",
+      "state": "default",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
@@ -2618,8 +2620,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-small",
-      "state": "default"
+      "property": "corner-radius",
+      "state": "default",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
