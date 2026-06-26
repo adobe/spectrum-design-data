@@ -1,5 +1,35 @@
 # @adobe/design-data-spec
 
+## 2.7.0
+
+### Minor Changes
+
+- [#1200](https://github.com/adobe/spectrum-design-data/pull/1200) [`45f2ef2`](https://github.com/adobe/spectrum-design-data/commit/45f2ef23b57b3116dce9d664bb97bf05d132d087) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): B7 — generation conformance fixtures and determinism gate
+  (closes #122.7).
+  - **packages/design-data-spec/conformance/generation/**: Four new lifecycle
+    fixtures — `deprecated-token` (string→bool normalization + `plannedRemoval`
+    drop), `renamed-token` (UUID→name `renamed` resolution), `alias-rewire`
+    (`$ref`→`{name}` denormalization), `mode-set-edit` (lifecycle field hoisting
+    to outer set level).
+  - **sdk/core/src/lib.rs**: `generation_conformance` test module drives all six
+    fixtures with byte-identical comparison and a determinism re-run gate.
+
+### Patch Changes
+
+- [#1204](https://github.com/adobe/spectrum-design-data/pull/1204) [`4218d6a`](https://github.com/adobe/spectrum-design-data/commit/4218d6a1694db70cb37f656cd0250e306e48912d) Thanks [@GarthDB](https://github.com/GarthDB)! - Replace opt-out SKIP const in naming.rs with opt-in `excludeFromLegacyKey`
+  catalog flag (ye1.9).
+  - **sdk/core/src/registry.rs**: Added `exclude_from_legacy_key: bool`
+    to `FieldCatalogEntry`; absent in field JSON defaults to false (opt-in).
+  - **sdk/scripts/generate-registry-data.js**: Emits the new field from
+    `d.excludeFromLegacyKey` in each generated literal.
+  - **sdk/core/src/naming.rs**: Deleted hardcoded `SKIP` const; walk now
+    skips entries where `exclude_from_legacy_key` is true.
+  - **packages/design-data/fields/**: Added `"excludeFromLegacyKey": true`
+    to the 9 formerly-SKIPped fields (colorScheme, scale, contrast,
+    colorFamily, scaleIndex, weight, family, style, structure).
+  - **packages/design-data-spec/schemas/field.schema.json**: Added
+    `excludeFromLegacyKey` boolean to allow the flag in field declarations.
+
 ## 2.6.0
 
 ### Minor Changes

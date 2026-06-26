@@ -1,5 +1,61 @@
 # @adobe/spectrum-design-data
 
+## 0.8.0
+
+### Minor Changes
+
+- [#1203](https://github.com/adobe/spectrum-design-data/pull/1203) [`0297e7e`](https://github.com/adobe/spectrum-design-data/commit/0297e7ee77e102a3756302f83ab9236cd142ee58) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: taxonomy field serializer + size decomposition pilot.
+  - **sdk/core/src/naming.rs**: Generalize `extract_legacy_key` to walk the
+    field catalog in `serialization.position` order, expanding registry ids to
+    their `tokenName` long-forms (e.g. `size:"xl"` → `"extra-large"`). Excludes
+    mode-set, color-domain, and legacy metadata annotation fields. Output is
+    byte-identical for all current tokens (all gates pass).
+  - **sdk/core/src/registry.rs**: Add `token_name(field, id) -> Option<&str>`
+    to `RegistryData`, backed by the embedded registry JSON.
+  - **sdk/scripts/generate-registry-data.js** + **registry_data.rs**: Generate
+    `build_token_name_map()` alongside the existing `build_registry_map()`.
+  - **packages/design-data/tokens/layout-component.tokens.json**,
+    **layout.tokens.json**: 68 layout tokens decomposed — `size` extracted from
+    `property` into the structured field (HIGH-confidence, all roundtrip-verified).
+  - **tools/token-mapping-analyzer/test/apply.test.js**: Verify roundtrip
+    invariant on already-migrated tokens.
+
+- [#1213](https://github.com/adobe/spectrum-design-data/pull/1213) [`035a1f9`](https://github.com/adobe/spectrum-design-data/commit/035a1f95d909f8e443a5e51baee6e30d11eedde5) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose component color properties into colorFamily + colorRole fields (closes beads #72c).
+  - **packages/design-data/fields/colorRole.json**: new `colorRole` field
+    (position 16, scope color, excludeFromLegacyKey).
+  - **packages/design-data/registry/color-roles.json**: new registry —
+    `primary` and `background` role values.
+  - **packages/design-data/tokens/icons.tokens.json**: 187 tokens atomized
+    (`color-blue-primary` → `property:color` + `colorFamily:blue` + `colorRole:primary`).
+  - **sdk/core/src/naming.rs**: color-domain branch extended for component color
+    tokens (`{component}-{property}-{colorFamily?}-{colorRole?}-{state?}`).
+  - **tools/token-mapping-analyzer/src/migrate-color-role.js**: new migration
+    script for multi-field color property decomposition.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: `serialize()` gains
+    JS-parity color-domain branches matching the Rust serializer.
+
+### Patch Changes
+
+- [#1201](https://github.com/adobe/spectrum-design-data/pull/1201) [`11c4d5a`](https://github.com/adobe/spectrum-design-data/commit/11c4d5a937064ba24f69437c59ab5ad1bfbe5f8c) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): Phase C — create/edit authoring for non-token data categories.
+  - **tools/design-data-agent-mcp**: adds `data_create` and `data_edit` MCP tools for
+    components, fields, registry, mode-sets, and guidelines; delegate to the CLI.
+  - **packages/design-data/AUTHORING.md**: documents the new `design-data data create|edit`
+    CLI commands and the `data_create`/`data_edit` MCP tools.
+
+- [#1204](https://github.com/adobe/spectrum-design-data/pull/1204) [`4218d6a`](https://github.com/adobe/spectrum-design-data/commit/4218d6a1694db70cb37f656cd0250e306e48912d) Thanks [@GarthDB](https://github.com/GarthDB)! - Replace opt-out SKIP const in naming.rs with opt-in `excludeFromLegacyKey`
+  catalog flag (ye1.9).
+  - **sdk/core/src/registry.rs**: Added `exclude_from_legacy_key: bool`
+    to `FieldCatalogEntry`; absent in field JSON defaults to false (opt-in).
+  - **sdk/scripts/generate-registry-data.js**: Emits the new field from
+    `d.excludeFromLegacyKey` in each generated literal.
+  - **sdk/core/src/naming.rs**: Deleted hardcoded `SKIP` const; walk now
+    skips entries where `exclude_from_legacy_key` is true.
+  - **packages/design-data/fields/**: Added `"excludeFromLegacyKey": true`
+    to the 9 formerly-SKIPped fields (colorScheme, scale, contrast,
+    colorFamily, scaleIndex, weight, family, style, structure).
+  - **packages/design-data-spec/schemas/field.schema.json**: Added
+    `excludeFromLegacyKey` boolean to allow the flag in field declarations.
+
 ## 0.7.1
 
 ### Patch Changes

@@ -1,5 +1,37 @@
 # @adobe/design-data
 
+## 3.0.0
+
+### Major Changes
+
+- [#1198](https://github.com/adobe/spectrum-design-data/pull/1198) [`70c1685`](https://github.com/adobe/spectrum-design-data/commit/70c1685ec68f483b23ca0f971de159b3679df992) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): B6 — MCP authoring parity via CLI shell-out (closes #122.6).
+  - **tools/design-data-agent-mcp/src/tools/authoring.js**: rewritten as CLI adapters; adds
+    10 new tools (edit_token, deprecate_token, rename_token, rewire_alias, remove_token,
+    add_mode, rename_mode, remove_mode, create_mode_set, remove_mode_set); all session tools
+    now shell out to `design-data authoring-session` so commit writes a cascade element;
+    classification is catalog-aware via the CLI's validate_classification.
+  - **tools/design-data-agent-mcp/src/tools/write.js**: repointed to `design-data write` CLI.
+  - **tools/design-data/src/write.js** (removed): legacy flat-file helpers superseded by cascade.
+  - **tools/design-data/src/session.js** (removed): in-process session superseded by CLI;
+    exported API removed from @adobe/design-data (breaking).
+
+### Minor Changes
+
+- [#1212](https://github.com/adobe/spectrum-design-data/pull/1212) [`73e5bbf`](https://github.com/adobe/spectrum-design-data/commit/73e5bbfcb90bf9b0672bf6d32e2aee1cad9deca4) Thanks [@GarthDB](https://github.com/GarthDB)! - Register four atomic property terms in property-terms.json.
+  - **packages/design-data/registry/property-terms.json**: add `minimum-width`,
+    `minimum-height`, `maximum-width`, `thickness` — atomic CSS/design-system abstractions
+    present in 103 layout-component tokens; apply.js registry guards now accept them.
+
+- [#1210](https://github.com/adobe/spectrum-design-data/pull/1210) [`bb9421a`](https://github.com/adobe/spectrum-design-data/commit/bb9421a0d96067c2cd3a335d982a94b845c98570) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose variant, alignment, anatomy, and object from property into structured fields.
+  - **packages/design-data/tokens/color-aliases.tokens.json**: extract `variant` (46 tokens:
+    accent, negative, primary, etc.) and `object` (3 tokens) from property slugs.
+  - **packages/design-data/tokens/typography.tokens.json**: extract `alignment` from baked
+    property slugs (3 tokens: text-align-center/end/start).
+  - **packages/design-data/tokens/layout-component.tokens.json**: extract `anatomy` (45 tokens:
+    counter, description, label, etc.) and `object` (1 token) from property slugs.
+  - **packages/design-data/tokens/color-component.tokens.json**: extract `anatomy` from
+    baked property slugs (5 tokens).
+
 ## 2.0.3
 
 ### Patch Changes
