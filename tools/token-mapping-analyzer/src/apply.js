@@ -20,7 +20,7 @@
  * ponytail: one writer for all fields, parameterized by --field; no per-field modules.
  */
 
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "./registry-index.js";
@@ -30,16 +30,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "../../..");
 const CASCADE_DIR = resolve(REPO_ROOT, "packages/design-data/tokens");
 
-const CASCADE_FILES = [
-  "color-aliases.tokens.json",
-  "color-component.tokens.json",
-  "color-palette.tokens.json",
-  "icons.tokens.json",
-  "layout-component.tokens.json",
-  "layout.tokens.json",
-  "semantic-color-palette.tokens.json",
-  "typography.tokens.json",
-];
+const CASCADE_FILES = readdirSync(CASCADE_DIR)
+  .filter((f) => f.endsWith(".tokens.json"))
+  .sort();
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -71,7 +64,7 @@ export function applyField(tokens, field, registry, filename) {
 
     const result = decompose(
       legacyKey,
-      { deprecated: !!token.deprecated },
+      { deprecated: !!token.deprecated, component: token.name?.component },
       registry,
       filename,
     );
