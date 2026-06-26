@@ -202,67 +202,32 @@ export class HandlebarsFormatter {
    * @returns {object} Processed data for templates
    */
   processResultForTemplate(result) {
-    // Convert objects to arrays for easier iteration in templates
-    const processedResult = {
+    // ponytail: one helper collapses 9 identical Object.entries map arms
+    const toArr = (obj, extra = (_d) => ({})) =>
+      Object.entries(obj || {}).map(([name, data]) => ({
+        name,
+        ...extra(data),
+        ...data,
+      }));
+    const withChanges = (d) => ({ changes: d.changes || [] });
+
+    return {
       ...result,
       timestamp: new Date(),
-      renamed: Object.entries(result.renamed || {}).map(([name, data]) => ({
-        name,
-        oldName: data["old-name"],
-        ...data,
+      renamed: toArr(result.renamed, (d) => ({ oldName: d["old-name"] })),
+      deprecated: toArr(result.deprecated, (d) => ({
+        comment: d.deprecated_comment,
       })),
-      deprecated: Object.entries(result.deprecated || {}).map(
-        ([name, data]) => ({
-          name,
-          comment: data.deprecated_comment,
-          ...data,
-        }),
-      ),
-      reverted: Object.entries(result.reverted || {}).map(([name, data]) => ({
-        name,
-        ...data,
-      })),
-      added: Object.entries(result.added || {}).map(([name, data]) => ({
-        name,
-        ...data,
-      })),
-      deleted: Object.entries(result.deleted || {}).map(([name, data]) => ({
-        name,
-        ...data,
-      })),
+      reverted: toArr(result.reverted),
+      added: toArr(result.added),
+      deleted: toArr(result.deleted),
       updated: {
-        added: Object.entries(result.updated?.added || {}).map(
-          ([name, data]) => ({
-            name,
-            changes: data.changes || [],
-            ...data,
-          }),
-        ),
-        deleted: Object.entries(result.updated?.deleted || {}).map(
-          ([name, data]) => ({
-            name,
-            changes: data.changes || [],
-            ...data,
-          }),
-        ),
-        renamed: Object.entries(result.updated?.renamed || {}).map(
-          ([name, data]) => ({
-            name,
-            changes: data.changes || [],
-            ...data,
-          }),
-        ),
-        updated: Object.entries(result.updated?.updated || {}).map(
-          ([name, data]) => ({
-            name,
-            changes: data.changes || [],
-            ...data,
-          }),
-        ),
+        added: toArr(result.updated?.added, withChanges),
+        deleted: toArr(result.updated?.deleted, withChanges),
+        renamed: toArr(result.updated?.renamed, withChanges),
+        updated: toArr(result.updated?.updated, withChanges),
       },
     };
-
-    return processedResult;
   }
 
   /**
