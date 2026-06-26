@@ -18,14 +18,17 @@ test.before(() => {
 });
 
 test("decomposes simple variant-object-property-state token", (t) => {
+  // "background-color" is a registered 2-seg compound property term, so
+  // "accent-background-color-default" would collapse to property:background-color.
+  // Use "content" (object registry, no compound overlap) to test the full split.
   const result = decompose(
-    "accent-background-color-default",
+    "accent-content-color-default",
     {},
     registry,
     "test",
   );
   t.is(result.nameObject.variant, "accent");
-  t.is(result.nameObject.object, "background");
+  t.is(result.nameObject.object, "content");
   t.is(result.nameObject.property, "color");
   t.is(result.nameObject.state, "default");
   t.is(result.confidence, "HIGH");
@@ -86,10 +89,11 @@ test("classifies typography weight terms as gaps", (t) => {
     registry,
     "test",
   );
+  // "emphasized" is unregistered → typography-weight gap
   const weightGap = result.gaps.find((g) => g.type === "typography-weight");
   t.truthy(weightGap);
-  const scriptGap = result.gaps.find((g) => g.type === "typography-script");
-  t.truthy(scriptGap);
+  // "cjk" is registered in the family registry → matched as family, not a gap
+  t.is(result.nameObject.family, "cjk");
 });
 
 test("matches key-focus as keyboard-focus state", (t) => {

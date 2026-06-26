@@ -182,10 +182,16 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     }
   }
 
-  // Sort by: longer matches first, then by field priority
+  // Sort by: longer matches first, then by field priority.
+  // Fields not in fieldPriority (e.g. colorFamily, colorRole, weight) get Infinity
+  // so they sort AFTER all listed fields, not before them (indexOf returns -1 otherwise).
+  const priority = (f) => {
+    const i = fieldPriority.indexOf(f);
+    return i === -1 ? Infinity : i;
+  };
   positionMatches.sort((a, b) => {
     if (b.length !== a.length) return b.length - a.length;
-    return fieldPriority.indexOf(a.field) - fieldPriority.indexOf(b.field);
+    return priority(a.field) - priority(b.field);
   });
 
   // Greedily assign matches, skipping conflicts
@@ -377,9 +383,15 @@ export function serialize(
     return parts.join("-");
   }
 
-  // Component color: component + (colorFamily and/or colorRole)
+  // Component color: component + (colorFamily and/or colorRole) AND property === "color".
+  // The property guard prevents this branch from firing when colorRole terms (e.g. "background",
+  // "primary") match a non-color token via the decomposer, which would drop other fields.
   // → {component}-{property}-{colorFamily?}-{colorRole?}-{state?}
-  if (component && (colorFamily || colorRole)) {
+  if (
+    component &&
+    (colorFamily || colorRole) &&
+    nameObject.property === "color"
+  ) {
     const parts = [component, nameObject.property];
     if (colorFamily) parts.push(tokenNameMap[colorFamily] || colorFamily);
     if (colorRole) parts.push(tokenNameMap[colorRole] || colorRole);

@@ -35,7 +35,7 @@ pub struct Rule;
 /// Authoritative source: `packages/design-data/fields/*.json` `scope` property.
 fn field_domain(field: &str) -> Option<&'static str> {
     match field {
-        "colorFamily" => Some("color"),
+        "colorFamily" | "colorRole" => Some("color"),
         "family" | "weight" | "style" => Some("typography"),
         "motionRole" | "easing" => Some("motion"),
         _ => None,
