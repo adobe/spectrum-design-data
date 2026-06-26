@@ -517,4 +517,29 @@ mod tests {
             Some("button-background-color")
         );
     }
+
+    #[test]
+    fn extract_key_legacy_annotation_fields_excluded_from_key() {
+        // structure, family, weight, style are legacy-metadata annotations whose values
+        // are already embedded in `property` for all current tokens. They carry
+        // exclude_from_legacy_key: true so a catalog-walk refactor can't silently re-include them.
+        let name = json!({
+            "component": "body",
+            "property": "bold-font-weight",
+            "structure": "body",
+            "family": "adobe-clean",
+            "weight": "bold",
+            "style": "italic"
+        });
+        let key = extract_legacy_key(&name).unwrap();
+        assert_eq!(key, "body-bold-font-weight");
+        assert!(
+            !key.contains("adobe-clean"),
+            "family must not appear in legacy key"
+        );
+        assert!(
+            !key.contains("italic"),
+            "style must not appear in legacy key"
+        );
+    }
 }

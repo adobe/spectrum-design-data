@@ -4,8 +4,7 @@
 ---
 
 Replace opt-out SKIP const in naming.rs with opt-in `excludeFromLegacyKey`
-catalog flag (ye1.9). Behavior is byte-identical; new Phase D fields are now
-safe by default.
+catalog flag (ye1.9).
 
 - **sdk/core/src/registry.rs**: Added `exclude_from_legacy_key: bool`
   to `FieldCatalogEntry`; absent in field JSON defaults to false (opt-in).
