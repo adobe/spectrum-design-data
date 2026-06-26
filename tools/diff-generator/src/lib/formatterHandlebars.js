@@ -15,167 +15,69 @@ import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-// Import shared formatter for future migrations
+// ponytail: subclass of SharedHandlebarsFormatter — inherits ~22 shared helpers,
+// overrides only CLI-specific colors + adds 4 local-only helpers.
 import { HandlebarsFormatter as SharedHandlebarsFormatter } from "@adobe/spectrum-diff-core";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class HandlebarsFormatter {
+class HandlebarsFormatter extends SharedHandlebarsFormatter {
   constructor(options = {}) {
+    super(options); // registers shared helpers, sets template/compiledTemplate/_log
+    // Override core's templateDir with this package's flat template directory
     this.templateDir =
       options.templateDir || path.join(__dirname, "../templates");
-    this.template = options.template || "markdown";
-    this.compiledTemplate = null;
-    this._log = null;
-    this.registerHelpers();
   }
 
   /**
-   * Register Handlebars helpers for common formatting tasks
+   * Register Handlebars helpers for formatting tasks.
+   * Inherits ~22 shared helpers from super; overrides 3 with CLI colors
+   * and adds 4 CLI-only helpers not present in core.
    */
   registerHelpers() {
-    // Helper to repeat a string
-    Handlebars.registerHelper("repeat", (str, count) => {
-      return new Handlebars.SafeString(str.repeat(count));
-    });
+    super.registerHelpers();
 
-    // Helper to check if object has keys
-    Handlebars.registerHelper("hasKeys", (obj) => {
-      return Object.keys(obj).length > 0;
-    });
+    // Re-register with CLI-specific chalk colors (override core's defaults)
+    Handlebars.registerHelper(
+      "hilite",
+      (text) => new Handlebars.SafeString(chalk.yellow(text)),
+    );
+    Handlebars.registerHelper(
+      "neutral",
+      (text) => new Handlebars.SafeString(chalk.white(text)),
+    );
+    Handlebars.registerHelper(
+      "emphasis",
+      (text) => new Handlebars.SafeString(chalk.bold.yellow(text)),
+    );
 
-    // Helper to get object keys
-    Handlebars.registerHelper("objectKeys", (obj) => {
-      return Object.keys(obj);
-    });
+    // CLI-only helpers (not in core; templates reference these names)
+    Handlebars.registerHelper(
+      "totalTokens",
+      (result) =>
+        Object.keys(result.renamed || {}).length +
+        Object.keys(result.deprecated || {}).length +
+        Object.keys(result.reverted || {}).length +
+        Object.keys(result.added || {}).length +
+        Object.keys(result.deleted || {}).length +
+        Object.keys(result.updated?.added || {}).length +
+        Object.keys(result.updated?.deleted || {}).length +
+        Object.keys(result.updated?.updated || {}).length +
+        Object.keys(result.updated?.renamed || {}).length,
+    );
 
-    // Helper to get object values
-    Handlebars.registerHelper("objectValues", (obj) => {
-      return Object.values(obj);
-    });
+    Handlebars.registerHelper(
+      "totalUpdatedTokens",
+      (updated) =>
+        Object.keys(updated?.added || {}).length +
+        Object.keys(updated?.deleted || {}).length +
+        Object.keys(updated?.updated || {}).length +
+        Object.keys(updated?.renamed || {}).length,
+    );
 
-    // Helper to get object entries
-    Handlebars.registerHelper("objectEntries", (obj) => {
-      return Object.entries(obj).map(([key, value]) => ({ key, value }));
-    });
+    Handlebars.registerHelper("arrow", (from, to) => `${from} -> ${to}`);
 
-    // Helper for conditional logic
-    Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => {
-      // Check if used as a subexpression (no options.fn available)
-      if (!options || typeof options.fn !== "function") {
-        return arg1 == arg2;
-      }
-      // Used as block helper
-      return arg1 == arg2
-        ? options.fn(this)
-        : options.inverse
-          ? options.inverse(this)
-          : "";
-    });
-
-    // Helper to clean up schema URLs
-    Handlebars.registerHelper("cleanSchemaUrl", (url) => {
-      return url.replace(
-        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/",
-        "",
-      );
-    });
-
-    // Helper to clean up property paths
-    Handlebars.registerHelper("cleanPath", (path) => {
-      return path.replace("sets.", "").replace("$", "");
-    });
-
-    // Helper to get the last part of a path
-    Handlebars.registerHelper("lastPathPart", (path) => {
-      return path.split("/").pop();
-    });
-
-    // Helper to format date
-    Handlebars.registerHelper("formatDate", (date) => {
-      return new Date(date).toLocaleString();
-    });
-
-    // Helper to calculate total tokens
-    Handlebars.registerHelper("totalTokens", (result) => {
-      return (
-        Object.keys(result.renamed).length +
-        Object.keys(result.deprecated).length +
-        Object.keys(result.reverted).length +
-        Object.keys(result.added).length +
-        Object.keys(result.deleted).length +
-        Object.keys(result.updated.added).length +
-        Object.keys(result.updated.deleted).length +
-        Object.keys(result.updated.updated).length +
-        Object.keys(result.updated.renamed).length
-      );
-    });
-
-    // Helper to calculate total updated tokens
-    Handlebars.registerHelper("totalUpdatedTokens", (updated) => {
-      return (
-        Object.keys(updated.added).length +
-        Object.keys(updated.deleted).length +
-        Object.keys(updated.updated).length +
-        Object.keys(updated.renamed).length
-      );
-    });
-
-    // Color helpers for CLI output using chalk
-    Handlebars.registerHelper("hilite", (text) => {
-      return new Handlebars.SafeString(chalk.yellow(text));
-    });
-
-    Handlebars.registerHelper("error", (text) => {
-      return new Handlebars.SafeString(chalk.red(text));
-    });
-
-    Handlebars.registerHelper("passing", (text) => {
-      return new Handlebars.SafeString(chalk.green(text));
-    });
-
-    Handlebars.registerHelper("neutral", (text) => {
-      return new Handlebars.SafeString(chalk.white(text));
-    });
-
-    // Additional chalk-powered formatting helpers
-    Handlebars.registerHelper("bold", (text) => {
-      return new Handlebars.SafeString(chalk.bold(text));
-    });
-
-    Handlebars.registerHelper("dim", (text) => {
-      return new Handlebars.SafeString(chalk.dim(text));
-    });
-
-    Handlebars.registerHelper("emphasis", (text) => {
-      return new Handlebars.SafeString(chalk.bold.yellow(text));
-    });
-
-    // Helper for proper indentation (3 spaces per level)
-    Handlebars.registerHelper("indent", (level) => {
-      return new Handlebars.SafeString("   ".repeat(level));
-    });
-
-    // Helper to concatenate strings
-    Handlebars.registerHelper("concat", (...args) => {
-      // Remove the options object from the end
-      args.pop();
-      return args.join("");
-    });
-
-    // Helper to wrap text in quotes
-    Handlebars.registerHelper("quote", (text) => {
-      return `"${text}"`;
-    });
-
-    // Helper for arrow formatting
-    Handlebars.registerHelper("arrow", (from, to) => {
-      return `${from} -> ${to}`;
-    });
-
-    // Helper to conditionally add 'open' attribute to details elements
-    // Returns ' open' (with leading space) if count <= threshold, empty string otherwise
     Handlebars.registerHelper("detailsOpen", (count, options) => {
       const threshold = options?.hash?.threshold || 20;
       return count <= threshold ? " open" : "";
@@ -187,7 +89,7 @@ class HandlebarsFormatter {
    * @param {string} templateName - Name of the template file (without .hbs extension)
    * @returns {Function} Compiled Handlebars template
    */
-  loadTemplate(templateName) {
+  loadTemplate(templateName = this.template) {
     const templatePath = path.join(this.templateDir, `${templateName}.hbs`);
 
     if (!fs.existsSync(templatePath)) {
@@ -410,7 +312,4 @@ class HandlebarsFormatter {
 }
 
 export { HandlebarsFormatter };
-
-// Create a default instance for compatibility with shared core patterns
-const defaultFormatter = new HandlebarsFormatter();
-export default defaultFormatter;
+export default new HandlebarsFormatter();
