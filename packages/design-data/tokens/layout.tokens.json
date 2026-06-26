@@ -4577,8 +4577,9 @@
   },
   {
     "name": {
-      "property": "field-width",
-      "scale": "desktop"
+      "property": "width",
+      "scale": "desktop",
+      "anatomy": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d316d676-b4cf-4d16-b89c-63ef1d969861",
@@ -4591,8 +4592,9 @@
   },
   {
     "name": {
-      "property": "field-width",
-      "scale": "mobile"
+      "property": "width",
+      "scale": "mobile",
+      "anatomy": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d316d676-b4cf-4d16-b89c-63ef1d969861",
@@ -4661,7 +4663,8 @@
   },
   {
     "name": {
-      "property": "focus-indicator-gap"
+      "property": "gap",
+      "anatomy": "focus-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -4672,7 +4675,8 @@
   },
   {
     "name": {
-      "property": "focus-indicator-thickness"
+      "property": "thickness",
+      "anatomy": "focus-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -4680,7 +4684,8 @@
   },
   {
     "name": {
-      "property": "focus-ring-gap"
+      "property": "gap",
+      "anatomy": "focus-ring"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
@@ -4904,7 +4909,8 @@
   },
   {
     "name": {
-      "property": "list-item-padding-horizontal"
+      "property": "padding-horizontal",
+      "anatomy": "list-item"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -5673,7 +5679,8 @@
   },
   {
     "name": {
-      "property": "text-underline-gap"
+      "property": "underline-gap",
+      "anatomy": "text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -5684,7 +5691,8 @@
   },
   {
     "name": {
-      "property": "text-underline-thickness"
+      "property": "underline-thickness",
+      "anatomy": "text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",

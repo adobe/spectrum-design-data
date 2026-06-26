@@ -57,7 +57,8 @@
   {
     "name": {
       "component": "bar-panel",
-      "property": "gripper-color"
+      "property": "color",
+      "anatomy": "gripper"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -93,8 +94,9 @@
   {
     "name": {
       "component": "card",
-      "property": "selection-background-color",
-      "colorScheme": "light"
+      "property": "background-color",
+      "colorScheme": "light",
+      "anatomy": "selection"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b24431ee-5c72-4a73-8733-746c6f5d77c0",
@@ -105,8 +107,9 @@
   {
     "name": {
       "component": "card",
-      "property": "selection-background-color",
-      "colorScheme": "dark"
+      "property": "background-color",
+      "colorScheme": "dark",
+      "anatomy": "selection"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
@@ -117,8 +120,9 @@
   {
     "name": {
       "component": "card",
-      "property": "selection-background-color",
-      "colorScheme": "wireframe"
+      "property": "background-color",
+      "colorScheme": "wireframe",
+      "anatomy": "selection"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
@@ -752,7 +756,8 @@
   {
     "name": {
       "component": "standard-panel",
-      "property": "gripper-color"
+      "property": "color",
+      "anatomy": "gripper"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "60077744-c665-4c80-8f88-dff31a10219e",

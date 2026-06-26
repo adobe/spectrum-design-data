@@ -305,8 +305,9 @@
   },
   {
     "name": {
-      "property": "background-opacity",
-      "state": "default"
+      "property": "opacity",
+      "state": "default",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0",
@@ -314,8 +315,9 @@
   },
   {
     "name": {
-      "property": "background-opacity",
-      "state": "down"
+      "property": "opacity",
+      "state": "down",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -323,8 +325,9 @@
   },
   {
     "name": {
-      "property": "background-opacity",
-      "state": "hover"
+      "property": "opacity",
+      "state": "hover",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -1542,7 +1545,8 @@
   },
   {
     "name": {
-      "property": "focus-indicator-color"
+      "property": "color",
+      "anatomy": "focus-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "85be576c-6810-4971-9748-e558384b903d",
@@ -3893,7 +3897,8 @@
   },
   {
     "name": {
-      "property": "title-color"
+      "property": "color",
+      "anatomy": "title"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -3901,7 +3906,8 @@
   },
   {
     "name": {
-      "property": "track-color"
+      "property": "color",
+      "anatomy": "track"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
