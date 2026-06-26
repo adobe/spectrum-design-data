@@ -3418,7 +3418,8 @@
   },
   {
     "name": {
-      "property": "text-align-center"
+      "property": "text-align",
+      "alignment": "center"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "value": "center",
@@ -3426,7 +3427,8 @@
   },
   {
     "name": {
-      "property": "text-align-end"
+      "property": "text-align",
+      "alignment": "end"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "value": "end",
@@ -3434,7 +3436,8 @@
   },
   {
     "name": {
-      "property": "text-align-start"
+      "property": "text-align",
+      "alignment": "start"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "value": "start",
