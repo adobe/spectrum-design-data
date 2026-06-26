@@ -2411,6 +2411,32 @@ pub(crate) fn build_registry_map(
     map
 }
 
+pub(crate) fn build_token_name_map(
+) -> std::collections::HashMap<String, std::collections::HashMap<String, String>> {
+    let mut map = std::collections::HashMap::new();
+    map.insert("variant".to_string(), parse_token_name_map(VARIANTS_JSON));
+    map.insert("component".to_string(), parse_token_name_map(COMPONENTS_JSON));
+    map.insert("structure".to_string(), parse_token_name_map(STRUCTURES_JSON));
+    map.insert("substructure".to_string(), parse_token_name_map(SUBSTRUCTURES_JSON));
+    map.insert("anatomy".to_string(), parse_token_name_map(ANATOMY_TERMS_JSON));
+    map.insert("object".to_string(), parse_token_name_map(TOKEN_OBJECTS_JSON));
+    map.insert("property".to_string(), parse_token_name_map(PROPERTY_TERMS_JSON));
+    map.insert("orientation".to_string(), parse_token_name_map(ORIENTATIONS_JSON));
+    map.insert("position".to_string(), parse_token_name_map(POSITIONS_JSON));
+    map.insert("size".to_string(), parse_token_name_map(SIZES_JSON));
+    map.insert("density".to_string(), parse_token_name_map(DENSITIES_JSON));
+    map.insert("shape".to_string(), parse_token_name_map(SHAPES_JSON));
+    map.insert("state".to_string(), parse_token_name_map(STATES_JSON));
+    map.insert("colorFamily".to_string(), parse_token_name_map(COLOR_FAMILIES_JSON));
+    map.insert("family".to_string(), parse_token_name_map(TYPOGRAPHY_FAMILIES_JSON));
+    map.insert("weight".to_string(), parse_token_name_map(TYPOGRAPHY_WEIGHTS_JSON));
+    map.insert("style".to_string(), parse_token_name_map(TYPOGRAPHY_STYLES_JSON));
+    map.insert("motionRole".to_string(), parse_token_name_map(MOTION_ROLES_JSON));
+    map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
+    map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
+    map
+}
+
 pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
     vec![
         FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string" },

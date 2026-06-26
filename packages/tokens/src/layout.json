@@ -50,8 +50,8 @@
   "accessory-gap-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "description": "Spacing between child elements for accessory elements at extra-small size",
-    "uuid": "c4071c28-33df-4461-a05c-2a1b1c295d5e"
+    "uuid": "c4071c28-33df-4461-a05c-2a1b1c295d5e",
+    "description": "Spacing between child elements for accessory elements at extra-small size"
   },
   "accessory-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -68,8 +68,8 @@
   "accessory-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "description": "Spacing between child elements for accessory elements at small size",
-    "uuid": "843d1518-7aa6-4d60-968e-b71ebbfcd88e"
+    "uuid": "843d1518-7aa6-4d60-968e-b71ebbfcd88e",
+    "description": "Spacing between child elements for accessory elements at small size"
   },
   "accessory-item-padding-2x-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -350,8 +350,8 @@
   "base-padding-vertical-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
-    "description": "Vertical internal spacing for base UI elements at extra-small size",
-    "uuid": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
+    "uuid": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
+    "description": "Vertical internal spacing for base UI elements at extra-small size"
   },
   "base-padding-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -368,8 +368,8 @@
   "base-padding-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
-    "description": "Vertical internal spacing for base UI elements at small size",
-    "uuid": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    "uuid": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
+    "description": "Vertical internal spacing for base UI elements at small size"
   },
   "border-width-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

@@ -10,14 +10,22 @@
 
 //! Legacy name generation and parsing for the name-object ↔ kebab-case roundtrip.
 //!
-//! The **canonical generation order** for a legacy token name is:
+//! The **canonical generation order** for a legacy token name is driven by the field
+//! catalog (`packages/design-data/fields/*.json`, `serialization.position` order).
+//! For tokens with decomposed taxonomy fields the effective order is:
 //!
 //! ```text
-//! {component}-{property}-{state}
+//! {variant?}-{component?}-{structure?}-{substructure?}-{anatomy?}-{object?}
+//! -{property}-{orientation?}-{position?}-{size?}-{density?}-{shape?}-{state?}
 //! ```
 //!
-//! Where `component` and `state` are optional. Foundation tokens (no component)
-//! produce just `{property}` or `{property}-{state}`.
+//! Registry ids are expanded to their `tokenName` long-forms before joining
+//! (e.g. `size: "xl"` → `"extra-large"`), mirroring the JS `serialize()` in
+//! `tools/token-mapping-analyzer/src/decomposer.js`.
+//!
+//! Mode-set fields (`colorScheme`, `scale`, `contrast`), the color-domain field
+//! (`colorFamily`), and `scaleIndex` are excluded from the general key. Color-palette
+//! tokens have their own path: `{variant?}-{colorFamily}-{scaleIndex?}`.
 
 use std::collections::HashSet;
 use std::path::Path;
@@ -173,7 +181,6 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
 
     let property = name.get("property").and_then(|v| v.as_str())?;
     let component = name.get("component").and_then(|v| v.as_str());
-    let state = name.get("state").and_then(|v| v.as_str());
 
     // Thin-format detection: `property` already begins with `{component}-`.
     // In the thin cascade format the full legacy key is stored in `property`; component is
@@ -188,12 +195,57 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         return Some(property.to_string());
     }
 
-    // Decomposed/general format: reconstruct via generate_legacy_name.
-    Some(generate_legacy_name(&NameObject {
-        property: property.to_string(),
-        component: component.map(str::to_string),
-        state: state.map(str::to_string),
-    }))
+    // Decomposed/general format: walk the field catalog in serialization-position order,
+    // expanding registry ids to their tokenName long-forms (e.g. size:"xl" → "extra-large").
+    // Mirrors the JS serialize() in tools/token-mapping-analyzer/src/decomposer.js.
+    //
+    // Fields excluded from the general key:
+    //   - colorScheme, scale, contrast: mode-set dimension selectors, not part of the legacy key
+    //   - colorFamily: handled by the color-domain branch above
+    //   - scaleIndex: already embedded in `property` for scale tokens; color tokens use the
+    //     colorFamily branch. Skip to avoid double-emitting (e.g. "font-size-100-100").
+    //   - weight, family, style, structure: legacy metadata annotations on typography/body
+    //     tokens; their values are already embedded in `property` (e.g. {property:
+    //     "bold-font-weight", weight: "bold"}). These are not Phase D decomposition fields.
+    const SKIP: &[&str] = &[
+        "colorScheme",
+        "scale",
+        "contrast",
+        "colorFamily",
+        "scaleIndex",
+        "weight",
+        "family",
+        "style",
+        "structure",
+    ];
+
+    let registry = crate::registry::RegistryData::embedded();
+    let catalog = crate::registry::FieldCatalog::embedded();
+    let mut parts: Vec<String> = Vec::new();
+
+    for entry in catalog.entries_by_position() {
+        if SKIP.contains(&entry.name) {
+            continue;
+        }
+        if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
+            // Expand short id to long-form tokenName (e.g. "xl" → "extra-large");
+            // fall back to the raw value when no expansion is defined.
+            let expanded = registry.token_name(entry.name, v).unwrap_or(v);
+            parts.push(expanded.to_string());
+        }
+    }
+
+    // ponytail: scaleIndex is not appended here because:
+    //   - Color tokens (blue-100, etc.) reach this path only without colorFamily, which
+    //     is extremely rare; their scaleIndex is handled by the colorFamily branch above.
+    //   - Typography scale tokens pack scaleIndex into `property` already ("font-size-100").
+    // If a future decomposition strips scaleIndex from property for a general-domain token,
+    // revisit this path and add the conditional append.
+
+    if parts.is_empty() {
+        return None;
+    }
+    Some(parts.join("-"))
 }
 
 /// An entry in the naming-exceptions.json allowlist.
@@ -417,5 +469,59 @@ mod tests {
     fn extract_key_non_string_non_object_returns_none() {
         assert_eq!(extract_legacy_key(&json!(null)), None);
         assert_eq!(extract_legacy_key(&json!(42)), None);
+    }
+
+    // ── Decomposed taxonomy fields ────────────────────────────────────────────
+
+    #[test]
+    fn extract_key_with_size_field_expands_token_name() {
+        // size "xl" → tokenName "extra-large"; field catalog puts size (pos 9)
+        // after property (pos 6), so order is: component-property-size.
+        let name = json!({"component": "button", "property": "background-color", "size": "xl"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("button-background-color-extra-large")
+        );
+    }
+
+    #[test]
+    fn extract_key_taxonomy_ordering_matches_catalog() {
+        // size (pos 9) after property (pos 6), state (pos 12) last.
+        let name = json!({
+            "component": "accordion",
+            "property": "bottom-to-handle",
+            "size": "xl",
+            "state": "hover"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("accordion-bottom-to-handle-extra-large-hover")
+        );
+    }
+
+    #[test]
+    fn extract_key_anatomy_before_property() {
+        // anatomy (pos 4) before property (pos 6).
+        let name = json!({"component": "button", "anatomy": "icon", "property": "color"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("button-icon-color")
+        );
+    }
+
+    #[test]
+    fn extract_key_mode_set_fields_excluded_from_key() {
+        // colorScheme, scale, contrast are dimension selectors — not part of the legacy key.
+        let name = json!({
+            "component": "button",
+            "property": "background-color",
+            "colorScheme": "light",
+            "scale": "desktop",
+            "contrast": "high"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("button-background-color")
+        );
     }
 }

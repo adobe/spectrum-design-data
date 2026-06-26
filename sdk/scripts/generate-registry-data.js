@@ -105,6 +105,19 @@ for (const decl of registryFields) {
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
 generated += `    map\n}\n`;
 
+// Generate build_token_name_map() — id → tokenName per field, for legacy key expansion.
+// Used by extract_legacy_key to expand short ids to long-form aliases (e.g. size:"xl" → "extra-large").
+generated += `
+pub(crate) fn build_token_name_map(
+) -> std::collections::HashMap<String, std::collections::HashMap<String, String>> {
+    let mut map = std::collections::HashMap::new();
+`;
+for (const decl of registryFields) {
+  const constName = registryPathToConstName(decl.registry);
+  generated += `    map.insert("${decl.name}".to_string(), parse_token_name_map(${constName}));\n`;
+}
+generated += `    map\n}\n`;
+
 // Generate build_field_catalog() — full catalog metadata for authoring validation.
 // All 24 catalog fields, sorted by serialization.position, emitted as FieldCatalogEntry
 // literals.  build_name_object() uses positions for ordered output; validate_classification()
