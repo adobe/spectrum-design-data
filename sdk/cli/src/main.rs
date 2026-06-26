@@ -14,6 +14,7 @@ use std::process::ExitCode;
 use chrono::Utc;
 
 mod authoring;
+mod data;
 mod format;
 mod lifecycle;
 
@@ -335,6 +336,11 @@ enum Commands {
     ModeSet {
         #[command(subcommand)]
         cmd: lifecycle::ModeSetCommand,
+    },
+    /// Create or edit non-token data objects (components, fields, registry, mode-sets, guidelines)
+    Data {
+        #[command(subcommand)]
+        cmd: data::DataCommand,
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
@@ -1785,6 +1791,9 @@ fn main() -> ExitCode {
         }
         Commands::ModeSet { cmd } => {
             return lifecycle::run_mode_set(cmd);
+        }
+        Commands::Data { cmd } => {
+            return data::run(cmd);
         }
         Commands::Tui(_) => unreachable!("handled above"),
     };

@@ -9,7 +9,9 @@
 // governing permissions and limitations under the License.
 
 //! Token authoring — wizard DTOs and MCP session state machine (RFC #973 Q4).
+//! Also contains [`data_object`] for non-token category authoring (Phase C).
 
+pub mod data_object;
 pub mod draft;
 pub mod lifecycle;
 pub mod mode_set;

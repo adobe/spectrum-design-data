@@ -282,6 +282,40 @@ For questions or feedback:
 * Content Strategists: Jess Sattell, Kari Brookmyer
 * GitHub: [Spectrum Design Data Discussions](https://github.com/adobe/spectrum-design-data/discussions)
 
+## CLI Authoring Commands (Phase C)
+
+All five non-token data categories can be created or edited using the `design-data data`
+command. The command validates the JSON document against the category schema before writing.
+
+```bash
+# Create a new file (fails if <name>.json already exists)
+design-data data create --category <category> --file path/to/doc.json
+
+# Edit an existing file (fails if <name>.json does not exist)
+design-data data edit --category <category> --file path/to/doc.json
+
+# Read from stdin
+cat doc.json | design-data data create --category mode-sets --file -
+```
+
+**`--category`** is one of: `components`, `fields`, `registry`, `mode-sets`, `guidelines`.
+
+The document must include the required fields for its category (e.g. `name`, `$schema`,
+`specVersion`). The output filename is derived from the `name` field (or `type` for registry).
+
+**After editing `fields/` or `registry/`**, run:
+
+```bash
+moon run sdk:codegen && moon run sdk:codegen-check
+```
+
+to keep the embedded Rust registry in sync.
+
+### MCP tools
+
+When using `design-data-agent-mcp`, the equivalent tools are `data_create` and `data_edit`.
+Both accept a `document` object and `category` string, and delegate to the CLI above.
+
 ## Related Resources
 
 * [Spectrum Naming and Definition Writing Guide](https://wiki.corp.adobe.com/display/AdobeDesign/Spectrum+Design+System%3A+Naming+and+definition+writing+guide)
