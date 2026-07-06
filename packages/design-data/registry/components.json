@@ -94,6 +94,16 @@
       "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
     },
     {
+      "id": "color-handle",
+      "label": "Color Handle",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
+    },
+    {
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+    },
+    {
       "id": "color-wheel",
       "label": "Color Wheel",
       "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"

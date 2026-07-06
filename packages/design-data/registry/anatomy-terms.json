@@ -484,6 +484,12 @@
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "color-area",
+      "label": "Color Area",
+      "description": "The color-area component when used as an embedded anatomy part within another component (e.g. the color gradient area inside a color-wheel)",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "color-handle",
       "label": "Color Handle",
       "description": "Draggable handle element in color picker components (color-area, color-slider, color-wheel)",
