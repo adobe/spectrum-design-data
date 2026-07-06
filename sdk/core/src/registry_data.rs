@@ -376,11 +376,6 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
     },
     {
-      "id": "color-slider",
-      "label": "Color Slider",
-      "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
-    },
-    {
       "id": "color-handle",
       "label": "Color Handle",
       "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
@@ -389,6 +384,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "color-loupe",
       "label": "Color Loupe",
       "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+    },
+    {
+      "id": "color-slider",
+      "label": "Color Slider",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
     },
     {
       "id": "color-wheel",
