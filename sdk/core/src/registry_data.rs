@@ -376,6 +376,16 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
     },
     {
+      "id": "color-handle",
+      "label": "Color Handle",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
+    },
+    {
+      "id": "color-loupe",
+      "label": "Color Loupe",
+      "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
+    },
+    {
       "id": "color-slider",
       "label": "Color Slider",
       "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
@@ -1118,6 +1128,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Segmented Control Item",
       "description": "Individual selectable item within a segmented-control component",
       "usedIn": ["s2-docs"]
+    },
+    {
+      "id": "color-area",
+      "label": "Color Area",
+      "description": "The color-area component when used as an embedded anatomy part within another component (e.g. the color gradient area inside a color-wheel)",
+      "usedIn": ["tokens"]
     },
     {
       "id": "color-handle",
