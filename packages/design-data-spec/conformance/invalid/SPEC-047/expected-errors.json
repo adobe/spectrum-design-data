@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-047",
+      "severity": "error",
+      "message_pattern": ".*space-between endpoint.*banana.*"
+    }
+  ]
+}

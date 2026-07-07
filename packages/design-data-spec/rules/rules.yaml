@@ -534,13 +534,13 @@ rules:
     layer: 2
     category: reference-integrity
     assert: >
-      When a token name-object has `property` "space-between", each of its `from`/`to`
-      values MUST be one of: an edge position (`positions.json`), a generic anatomy term
-      (`anatomy-terms.json`), or — when `component` is present and declares an `anatomy`
-      array — the `name` of a declared anatomy part on that component. Mirrors SPEC-020's
-      component→anatomy resolution, unioned with the position and generic-anatomy
-      vocabularies. Severity is advisory (warning) when the component declares no anatomy
-      array, since the position/generic-anatomy union still applies.
+      A token name-object with `property` "space-between" MUST carry both `from` and
+      `to` fields, and `from`/`to` MUST NOT appear unless `property` is "space-between".
+      Each of `from`/`to` MUST be one of: an edge position (`positions.json`), a generic
+      anatomy term (`anatomy-terms.json`), or — when `component` is present and declares
+      an `anatomy` array — the `name` of a declared anatomy part on that component.
+      Mirrors SPEC-020's component→anatomy resolution, unioned with the position and
+      generic-anatomy vocabularies.
     message: "Token '{token}' has space-between endpoint '{endpoint}' that is not a known position, anatomy term, or declared anatomy part on component '{component}'"
-    spec_ref: spec/token-format.md#space-between
+    spec_ref: spec/token-format.md#space-between-endpoints
     introduced_in: "1.0.0-draft"

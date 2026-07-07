@@ -71,6 +71,25 @@ The table below lists all semantic fields. Fields marked with a scope are domain
 | `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
 | `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
 | `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.        |
+| `from`         | OPTIONAL | —                 | Starting endpoint of a `space-between` measurement (e.g. `top`, `edge`, `text`). See [Space-between endpoints](#space-between-endpoints).                                |
+| `to`           | OPTIONAL | —                 | Ending endpoint of a `space-between` measurement (e.g. `text`, `visual`, `control`). See [Space-between endpoints](#space-between-endpoints).                            |
+
+#### Space-between endpoints
+
+A token whose `property` is **`space-between`** represents the spacing between two named endpoints (e.g. an edge and an anatomy part, or two anatomy parts) and **MUST** carry both the `from` and `to` fields; conversely, `from`/`to` **MUST NOT** appear unless `property` is `space-between` (rule `SPEC-047`).
+
+Each of `from`/`to` **MUST** be one of:
+
+* an edge position from `registry/positions.json` (e.g. `top`, `bottom`, `start`, `end`, `affixed`);
+* a generic anatomy term from `registry/anatomy-terms.json` (e.g. `text`, `icon`, `label`);
+* when `component` is present and declares an `anatomy` array, the `name` of a declared anatomy part on that component (e.g. `handle` on `accordion`).
+
+```json
+{ "name": { "component": "accordion", "property": "space-between", "from": "bottom", "to": "handle" },
+  "value": "8px" }
+```
+
+The `space-between` property term does not itself appear in the serialized legacy key; the key is reconstructed from the endpoints as `{component}-{from}-to-{to}` (e.g. `accordion-bottom-to-handle`).
 
 **Domain-scoped semantic fields** (only valid on the indicated token type):
 

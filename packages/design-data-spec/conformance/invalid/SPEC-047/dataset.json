@@ -1,0 +1,25 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "accordion",
+        "property": "space-between",
+        "from": "top",
+        "to": "banana"
+      },
+      "value": "8px"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": {
+        "category": "containers",
+        "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
+      },
+      "anatomy": [{ "name": "handle", "description": "Drag handle." }]
+    }
+  ]
+}
