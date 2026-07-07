@@ -527,3 +527,20 @@ rules:
     message: "Guideline '{name}' references '{ref}' which is not a known component or guideline"
     spec_ref: spec/guideline-format.md#related-references
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-047
+    name: space-between-endpoint-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A token name-object with `property` "space-between" MUST carry both `from` and
+      `to` fields, and `from`/`to` MUST NOT appear unless `property` is "space-between".
+      Each of `from`/`to` MUST be one of: an edge position (`positions.json`), a generic
+      anatomy term (`anatomy-terms.json`), or — when `component` is present and declares
+      an `anatomy` array — the `name` of a declared anatomy part on that component.
+      Mirrors SPEC-020's component→anatomy resolution, unioned with the position and
+      generic-anatomy vocabularies.
+    message: "Token '{token}' has space-between endpoint '{endpoint}' that is not a known position, anatomy term, or declared anatomy part on component '{component}'"
+    spec_ref: spec/token-format.md#space-between-endpoints
+    introduced_in: "1.0.0-draft"

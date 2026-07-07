@@ -1652,6 +1652,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "thickness",
       "label": "Thickness",
       "description": "Stroke or line thickness (design-system abstraction; not a standard CSS property)"
+    },
+    {
+      "id": "space-between",
+      "label": "Space Between",
+      "description": "Spacing between two named endpoints (e.g. an edge and an anatomy part, or two anatomy parts). The endpoints are carried by the paired `from`/`to` name-object fields, not by this term; the legacy key is reconstructed as {from}-to-{to} and omits this property term."
     }
   ]
 }
@@ -2518,6 +2523,8 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "style", position: 20, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "motionRole", position: 21, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "easing", position: 22, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "from", position: 23, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "to", position: 24, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "alignment", position: 25, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
     ]

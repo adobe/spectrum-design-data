@@ -71,6 +71,14 @@
           "type": "string",
           "description": "Semantic: overall component shape (e.g. uniform)."
         },
+        "from": {
+          "type": "string",
+          "description": "Semantic: starting endpoint of a space-between measurement (e.g. top, edge, text). Paired with `to`; used with property `space-between`."
+        },
+        "to": {
+          "type": "string",
+          "description": "Semantic: ending endpoint of a space-between measurement (e.g. text, visual, control). Paired with `from`; used with property `space-between`."
+        },
         "colorScheme": {
           "type": "string",
           "description": "Mode set: color scheme mode (e.g. light, dark, wireframe)."
