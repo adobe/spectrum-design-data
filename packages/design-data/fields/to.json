@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "to",
+  "description": "Semantic: the ending endpoint of a space-between measurement (e.g. text, visual, control). Paired with `from`. Value MUST be an edge position, a generic anatomy term, or (when `component` is present) an anatomy part declared on that component — see SPEC-047.",
+  "kind": "semantic",
+  "registry": null,
+  "validation": "advisory",
+  "serialization": {
+    "position": 24
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string",
+  "excludeFromLegacyKey": true
+}
