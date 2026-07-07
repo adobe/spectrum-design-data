@@ -229,6 +229,44 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         return Some(property.to_string());
     }
 
+    // Space-between (gap) domain: property is the literal term "space-between" and the
+    // real endpoints live in the paired `from`/`to` fields (both excludeFromLegacyKey).
+    // The legacy key reconstructs the connective form `{from}-to-{to}` in property's slot
+    // (position 6) — an explicit branch, like the color branches above, because the
+    // generic position-walk below can't express a joining `-to-` between two field values.
+    // e.g. {component:"accordion", property:"space-between", from:"bottom", to:"handle",
+    //       size:"xl", state:"hover"} → "accordion-bottom-to-handle-extra-large-hover"
+    if property == "space-between" {
+        let from = name.get("from").and_then(|v| v.as_str());
+        let to = name.get("to").and_then(|v| v.as_str());
+        if let (Some(f), Some(t)) = (from, to) {
+            let registry = crate::registry::RegistryData::embedded();
+            let catalog = crate::registry::FieldCatalog::embedded();
+            let mut parts: Vec<String> = Vec::new();
+
+            for entry in catalog.entries_by_position() {
+                if entry.exclude_from_legacy_key {
+                    continue;
+                }
+                if entry.name == "property" {
+                    let f_expanded = registry.token_name("from", f).unwrap_or(f);
+                    let t_expanded = registry.token_name("to", t).unwrap_or(t);
+                    parts.push(format!("{f_expanded}-to-{t_expanded}"));
+                    continue;
+                }
+                if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
+                    let expanded = registry.token_name(entry.name, v).unwrap_or(v);
+                    parts.push(expanded.to_string());
+                }
+            }
+
+            if parts.is_empty() {
+                return None;
+            }
+            return Some(parts.join("-"));
+        }
+    }
+
     // Decomposed/general format: walk the field catalog in serialization-position order,
     // expanding registry ids to their tokenName long-forms (e.g. size:"xl" → "extra-large").
     // Mirrors the JS serialize() in tools/token-mapping-analyzer/src/decomposer.js.
@@ -523,6 +561,36 @@ mod tests {
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("accordion-bottom-to-handle-extra-large-hover")
+        );
+    }
+
+    #[test]
+    fn extract_key_space_between_from_to_reconstructs_connective() {
+        // Decomposed space-between: from/to (excludeFromLegacyKey) reconstruct the
+        // legacy `{from}-to-{to}` connective in property's slot (pos 6). Same target
+        // key as extract_key_taxonomy_ordering_matches_catalog, but from decomposed fields.
+        let name = json!({
+            "component": "accordion",
+            "property": "space-between",
+            "from": "bottom",
+            "to": "handle",
+            "size": "xl",
+            "state": "hover"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("accordion-bottom-to-handle-extra-large-hover")
+        );
+    }
+
+    #[test]
+    fn extract_key_space_between_missing_endpoint_falls_through() {
+        // property "space-between" but only `from` present (no `to`) → falls through
+        // to the generic walk, which pushes the literal "space-between" property value.
+        let name = json!({"component": "accordion", "property": "space-between", "from": "bottom"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("accordion-space-between")
         );
     }
 
