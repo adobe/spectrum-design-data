@@ -251,7 +251,7 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
                 if entry.name == "property" {
                     let f_expanded = registry.token_name("from", f).unwrap_or(f);
                     let t_expanded = registry.token_name("to", t).unwrap_or(t);
-                    parts.push(format!("{}-to-{}", f_expanded, t_expanded));
+                    parts.push(format!("{f_expanded}-to-{t_expanded}"));
                     continue;
                 }
                 if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
