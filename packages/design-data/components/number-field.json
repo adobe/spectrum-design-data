@@ -179,6 +179,12 @@
       "description": "If true, hides in-field increment and decrement buttons (stepper)."
     }
   },
+  "anatomy": [
+    {
+      "name": "in-field-stepper",
+      "description": "Increment/decrement stepper embedded in the field."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "focus-+-hover", "trigger": "prop" },

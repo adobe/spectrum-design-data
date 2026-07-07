@@ -17,9 +17,51 @@
 //! is present and declares an `anatomy` array — the `name` of a declared
 //! anatomy part on that component. Mirrors SPEC-020's component→anatomy
 //! resolution, unioned with the position and generic-anatomy vocabularies.
+//!
+//! A compound endpoint (e.g. `content-area-bottom`, `top-text`) that doesn't
+//! match the flat union directly is retried once by stripping a registered
+//! position as a hyphen-bounded prefix or suffix and validating the remainder
+//! against the anatomy union. This covers gap endpoints that fuse an anatomy
+//! part with a row/edge scope without requiring a third name-object field —
+//! `from`/`to` still store the full compound string for legacy-key round-trip.
+
+use std::collections::HashSet;
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
+
+/// True if `endpoint` matches a position, a generic anatomy term, a declared
+/// anatomy part, or — failing that — is a registered position glued to one of
+/// those via a single hyphen-bounded prefix/suffix strip.
+fn endpoint_resolves(
+    endpoint: &str,
+    position_vocab: Option<&HashSet<String>>,
+    anatomy_vocab: Option<&HashSet<String>>,
+    declared_parts: &HashSet<&str>,
+) -> bool {
+    let is_anatomy =
+        |s: &str| anatomy_vocab.is_some_and(|v| v.contains(s)) || declared_parts.contains(s);
+    let is_position = |s: &str| position_vocab.is_some_and(|v| v.contains(s));
+
+    if is_position(endpoint) || is_anatomy(endpoint) {
+        return true;
+    }
+
+    let positions = match position_vocab {
+        Some(v) => v,
+        None => return false,
+    };
+    positions.iter().any(|pos| {
+        endpoint
+            .strip_prefix(pos.as_str())
+            .and_then(|rest| rest.strip_prefix('-'))
+            .is_some_and(is_anatomy)
+            || endpoint
+                .strip_suffix(pos.as_str())
+                .and_then(|rest| rest.strip_suffix('-'))
+                .is_some_and(is_anatomy)
+    })
+}
 
 pub struct Rule;
 
@@ -101,9 +143,8 @@ impl ValidationRule for Rule {
                 .unwrap_or_default();
 
             for (field, endpoint) in [("from", from.unwrap()), ("to", to.unwrap())] {
-                let valid = position_vocab.is_some_and(|v| v.contains(endpoint))
-                    || anatomy_vocab.is_some_and(|v| v.contains(endpoint))
-                    || declared_parts.contains(endpoint);
+                let valid =
+                    endpoint_resolves(endpoint, position_vocab, anatomy_vocab, &declared_parts);
 
                 if !valid {
                     out.push(Diagnostic {
@@ -159,6 +200,100 @@ mod tests {
             file: PathBuf::from("accordion.json"),
             raw: json!({"name": "accordion", "anatomy": [{"name": "handle"}]}),
         });
+        assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
+    }
+
+    #[test]
+    fn triage_04c3_registry_additions_resolve() {
+        // Regression check for the 04c.3 registry work (docs/proposals/012-
+        // space-between-decompose.md): a representative endpoint from each
+        // escalation bucket, using the real component-declared anatomy[]
+        // shape, must resolve with zero SPEC-047 diagnostics once the
+        // matching from/to fields are populated (04c.6). Catches accidental
+        // reverts of the anatomy-terms.json / positions.json additions or
+        // the position-affix split logic.
+        // (from, to, component, declared-anatomy-owner-and-parts)
+        type Case<'a> = (&'a str, &'a str, &'a str, Option<(&'a str, &'a [&'a str])>);
+        let cases: &[Case] = &[
+            // Bucket 1: generic anatomy/position vocabulary.
+            ("action", "navigation", "stack-item", None),
+            ("edge", "content", "card", None),
+            ("counter", "disclosure", "side-navigation", None),
+            // Bucket 2: component-declared multi-word parts.
+            (
+                "label",
+                "action-group-area",
+                "action-bar",
+                Some(("action-bar", &["action-group-area"])),
+            ),
+            (
+                "edge",
+                "clear-icon",
+                "tag",
+                Some(("tag", &["clear-icon", "cross-icon"])),
+            ),
+            // Bucket 3: compound anatomy+position, resolved via split.
+            ("content-area-bottom", "content", "accordion", None),
+            (
+                "column-header-row-bottom",
+                "text",
+                "table",
+                Some(("table", &["column-header-row", "row"])),
+            ),
+            ("item-top", "disclosure-icon", "menu", None),
+            ("top-text", "bottom-text", "breadcrumbs", None),
+        ];
+
+        for (from, to, component, declared) in cases {
+            let mut g = TokenGraph::from_pairs(vec![(
+                format!("{component}-{from}-to-{to}"),
+                PathBuf::from("a.tokens.json"),
+                json!({"name": {"property": "space-between", "component": component, "from": from, "to": to}, "value": "8px"}),
+            )]);
+            if let Some((owner, parts)) = declared {
+                g.components.push(crate::graph::ComponentRecord {
+                    name: (*owner).into(),
+                    file: PathBuf::from(format!("{owner}.json")),
+                    raw: json!({"name": owner, "anatomy": parts.iter().map(|p| json!({"name": p})).collect::<Vec<_>>()}),
+                });
+            }
+            let diags = diagnostics_for_rule(&g, "SPEC-047");
+            assert!(
+                diags.is_empty(),
+                "expected '{from}'-to-'{to}' on {component} to resolve, got: {diags:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn compound_position_suffix_resolves_via_declared_anatomy() {
+        // "content-area-bottom" isn't itself registered, but strips the
+        // registered position suffix "bottom" down to the declared anatomy
+        // part "content-area" — mirrors real tokens like
+        // `content-area-bottom-to-content` (accordion).
+        let mut g = TokenGraph::from_pairs(vec![(
+            "accordion-content-area-bottom-to-text".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "space-between", "component": "accordion", "from": "content-area-bottom", "to": "text"}, "value": "8px"}),
+        )]);
+        g.components.push(crate::graph::ComponentRecord {
+            name: "accordion".into(),
+            file: PathBuf::from("accordion.json"),
+            raw: json!({"name": "accordion", "anatomy": [{"name": "content-area"}]}),
+        });
+        assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
+    }
+
+    #[test]
+    fn compound_position_prefix_resolves_via_generic_anatomy() {
+        // "top-text" strips the registered position prefix "top" down to the
+        // generic anatomy term "text" — mirrors real tokens like
+        // `top-text-to-bottom-text` (breadcrumbs).
+        let g = TokenGraph::from_pairs(vec![(
+            "breadcrumbs-top-text-to-text".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "space-between", "from": "top-text", "to": "text"}, "value": "8px"}),
+        )]);
         assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
     }
 

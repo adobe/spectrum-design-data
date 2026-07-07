@@ -135,6 +135,12 @@
     "isEditable": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "text-field",
+      "description": "Editable numeric value field."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

@@ -59,6 +59,16 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isReadOnly": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "clear-icon",
+      "description": "Icon affordance that removes the tag."
+    },
+    {
+      "name": "cross-icon",
+      "description": "Cross/X icon shown on the tag."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

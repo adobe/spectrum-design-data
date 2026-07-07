@@ -1386,6 +1386,66 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Progress Bar",
       "description": "Visual progress fill track indicating completion level",
       "usedIn": ["tokens", "component-schemas"]
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "description": "The main content area of a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "visual",
+      "label": "Visual",
+      "description": "A leading visual element such as an icon or thumbnail",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "action",
+      "label": "Action",
+      "description": "An interactive action affordance",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "description": "A navigation control or affordance",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "disclosure",
+      "label": "Disclosure",
+      "description": "An expand/collapse affordance",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "content-area",
+      "label": "Content area",
+      "description": "The container region that wraps a component's main content",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "disclosure-indicator",
+      "label": "Disclosure indicator",
+      "description": "A visual affordance showing expand/collapse state",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "disclosure-icon",
+      "label": "Disclosure icon",
+      "description": "An icon affordance showing expand/collapse state",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag handle",
+      "description": "A grip affordance for reordering an item via drag",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "field-button",
+      "label": "Field button",
+      "description": "A trigger button embedded within a text field or picker",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -1708,6 +1768,26 @@ const POSITIONS_JSON: &str = r##"{
       "id": "end",
       "label": "End",
       "description": "End position (right in LTR, left in RTL)"
+    },
+    {
+      "id": "edge",
+      "label": "Edge",
+      "description": "Outer boundary of an element"
+    },
+    {
+      "id": "start-edge",
+      "label": "Start edge",
+      "description": "Outer boundary at the start (left in LTR, right in RTL)"
+    },
+    {
+      "id": "end-edge",
+      "label": "End edge",
+      "description": "Outer boundary at the end (right in LTR, left in RTL)"
+    },
+    {
+      "id": "bottom-edge",
+      "label": "Bottom edge",
+      "description": "Outer boundary at the bottom"
     }
   ]
 }

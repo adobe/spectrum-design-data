@@ -89,6 +89,24 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "visual-75",
+      "description": "Severity dot, 75 size variant."
+    },
+    {
+      "name": "visual-100",
+      "description": "Severity dot, 100 size variant."
+    },
+    {
+      "name": "visual-200",
+      "description": "Severity dot, 200 size variant."
+    },
+    {
+      "name": "visual-300",
+      "description": "Severity dot, 300 size variant."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "component-height-75", "context": "Height" },

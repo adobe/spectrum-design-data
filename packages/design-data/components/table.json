@@ -193,6 +193,24 @@
       }
     }
   },
+  "anatomy": [
+    {
+      "name": "column-header-row",
+      "description": "The header row containing column titles."
+    },
+    {
+      "name": "row",
+      "description": "A single data row."
+    },
+    {
+      "name": "row-checkbox",
+      "description": "Selection checkbox within a row."
+    },
+    {
+      "name": "header-row-checkbox",
+      "description": "Select-all checkbox within the column header row."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "chevron-100", "context": "Header icons" },

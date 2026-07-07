@@ -88,6 +88,12 @@
       "description": "The identifier or label of the currently active step."
     }
   },
+  "anatomy": [
+    {
+      "name": "track-size",
+      "description": "The connecting track between steps."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {

@@ -113,6 +113,12 @@
     },
     "isDismissible": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "alert-icon",
+      "description": "Icon indicating the alert's severity."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "workflow-icon-size-100", "context": "Icon asset" },

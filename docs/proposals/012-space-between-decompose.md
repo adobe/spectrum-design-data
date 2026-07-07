@@ -1,6 +1,9 @@
 # Proposal 012: Space-Between (Gap) Endpoint Decomposition — Triage
 
-**Status:** Triage complete (04c.4); registry/qualifier work follows in 04c.3/04c.5\
+**Status:** Triage complete (04c.4); 04c.5 closed as a no-op (no qualifiers found in gap
+tokens); 04c.3 registry/component-anatomy additions landed, including a SPEC-047 enhancement
+to resolve compound anatomy+position endpoints (bucket 3) by splitting on a registered
+position affix. 04c.6 (apply migration) remains.\
 **Affects:** 432 distinct `(component, property)` tuples / 725 `-to-` token occurrences across `packages/design-data/tokens/layout-component.tokens.json`\
 **Spec reference:** SPEC-047 (`space-between-endpoint-valid`), `fields/from.json`, `fields/to.json`
 
@@ -148,12 +151,39 @@ Every `UNKNOWN` above falls into one of four buckets — none silently resolved 
 
 3. **Compound anatomy+position endpoints** — a single term fuses an anatomy part with a position/row-scope and won't validate as one `from`/`to` value under SPEC-047's flat union: `card-edge`, `content-area-bottom/edge/top`, `column-header-row-bottom/top`, `row-bottom/top`, `row-checkbox`, `header-row-checkbox`, `menu-item-edge/top`, `item-top`, `item-label`, `top-text`/`bottom-text` (breadcrumbs), `pagination-text`. These need an explicit decision in 04c.3/04c.6: split into `{component-context}` + a plain position/anatomy pair, or accept as an atomic declared anatomy part on the owning component. Recommend the latter (smallest change) unless a term needs to compose with unrelated positions elsewhere.
 
-4. **Data-quality fix** — `end-edge-to-disclousure-icon` (picker) is a typo duplicate of the correctly-spelled `end-edge-to-disclosure-icon`; normalize to `disclosure-icon` during 04c.6's apply pass rather than registering the misspelling.
+4. **Data-quality fix** — `end-edge-to-disclousure-icon` (picker) is a typo duplicate of the correctly-spelled `end-edge-to-disclosure-icon`; normalize to `disclosure-icon` during 04c.6's apply pass rather than registering the misspelling. `card-edge-to-content` (card) is a second case in the same family: `card` already uses bare `edge` elsewhere (`edge-to-content`), so `card-edge` is a redundant self-referential prefix rather than new vocabulary — normalize to `edge` during 04c.6 instead of registering `card-edge`.
 
 No terms were flagged as padding-vs-gap semantic mismatches on inspection — the `edge-to-content`-shaped tokens are consistently used as true endpoint gaps (component edge → inner content), so `space-between` applies uniformly; no `property` exceptions to carve out.
 
+## 04c.3 resolution (registry additions)
+
+Bucket 1 landed in full as proposed. Bucket 2 shrank considerably: five terms used across
+multiple components — `content-area`, `disclosure-indicator`, `disclosure-icon`, `drag-handle`,
+`field-button` — were promoted to generic `anatomy-terms.json` rather than duplicated per
+component (this also sidesteps `stack-item` and `in-field-button`, which are referenced as
+`component` values in gap tokens but have no component definition file to hold a component-
+scoped `anatomy[]`). The remaining component-specific parts landed on their owning components:
+`action-group-area`/`item-counter` (action-bar), `action-area` (tree-view), `clear-icon`/
+`cross-icon` (tag), `alert-icon` (alert-banner), `in-field-stepper` (number-field), `text-field`
+(slider), `track-size` (steplist), `trailing-accessory-area` (side-navigation), `separator-icon`
+(breadcrumbs), `asterisk` (field-label), `item-label`/`menu-item` (menu), `visual-75/100/200/300`
+(status-light, registered as four distinct ids rather than a `variant`-qualified part — smallest
+change, no schema impact), `column-header-row`/`row`/`row-checkbox`/`header-row-checkbox`
+(table), `pagination-text` (coach-mark).
+
+Bucket 3 resolved via **split**, not atomic registration: SPEC-047 now retries an unresolved
+endpoint by stripping a registered position as a hyphen-bounded prefix or suffix and validating
+the remainder against the anatomy union (see `endpoint_resolves` in `spec047.rs`). This means
+`item-top` and `top-text`/`bottom-text` resolve with **no new registry entries at all** — `item`
+and `text` were already generic anatomy, `top`/`bottom` already positions. `content-area-bottom/
+edge/top`, `column-header-row-bottom/top`, and `row-bottom/top` resolve the same way once their
+base parts (`content-area`, `column-header-row`, `row`) are registered above. `row-checkbox` and
+`header-row-checkbox` don't fuse with a position (`checkbox` isn't one), so they're registered as
+atomic parts on `table` instead, per the doc's original recommendation for that sub-case.
+
 ## Next steps
 
-* **04c.3** — add the generic vocabulary (bucket 1) to `positions.json`/`anatomy-terms.json`; add component-specific parts (bucket 2) to each owning component's `anatomy[]`; decide the compound-endpoint pattern (bucket 3) and apply it consistently.
-* **04c.5** — qualifier handling (size/density/state suffixes) is already stripped cleanly by this pass; no new qualifier types surfaced beyond the ones already scoped in that bead.
-* **04c.6** — apply migration, including the `disclousure` → `disclosure` typo fix.
+* ~~**04c.3**~~ — done; see resolution above.
+* ~~**04c.5**~~ — closed as a no-op; no qualifiers found in the gap tokens.
+* **04c.6** — apply migration, including the `disclousure` → `disclosure` and `card-edge` → `edge`
+  data fixes.

@@ -54,6 +54,16 @@
     }
   ],
   "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "anatomy": [
+    {
+      "name": "action-group-area",
+      "description": "Group of secondary action controls."
+    },
+    {
+      "name": "item-counter",
+      "description": "Badge showing a count of items or actions."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "action-bar-height", "context": "Height" },

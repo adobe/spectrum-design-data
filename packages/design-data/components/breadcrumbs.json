@@ -141,6 +141,12 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "separator-icon",
+      "description": "Icon separating breadcrumb items."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

@@ -80,6 +80,12 @@
     "isRequired": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "asterisk",
+      "description": "Required-field indicator."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "component-height-75", "context": "Minimum height" },

@@ -165,6 +165,12 @@
       "values": [{ "value": "toggle" }, { "value": "replace" }]
     }
   },
+  "anatomy": [
+    {
+      "name": "action-area",
+      "description": "Trailing area containing item actions."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

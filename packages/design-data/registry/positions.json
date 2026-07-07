@@ -27,6 +27,26 @@
       "id": "end",
       "label": "End",
       "description": "End position (right in LTR, left in RTL)"
+    },
+    {
+      "id": "edge",
+      "label": "Edge",
+      "description": "Outer boundary of an element"
+    },
+    {
+      "id": "start-edge",
+      "label": "Start edge",
+      "description": "Outer boundary at the start (left in LTR, right in RTL)"
+    },
+    {
+      "id": "end-edge",
+      "label": "End edge",
+      "description": "Outer boundary at the end (right in LTR, left in RTL)"
+    },
+    {
+      "id": "bottom-edge",
+      "label": "Bottom edge",
+      "description": "Outer boundary at the bottom"
     }
   ]
 }

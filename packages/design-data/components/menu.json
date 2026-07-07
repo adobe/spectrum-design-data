@@ -162,6 +162,16 @@
     "isUnavailable": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "item-label",
+      "description": "Label text of a menu item."
+    },
+    {
+      "name": "menu-item",
+      "description": "A single row within the menu."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

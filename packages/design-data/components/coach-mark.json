@@ -111,6 +111,12 @@
       }
     }
   },
+  "anatomy": [
+    {
+      "name": "pagination-text",
+      "description": "Text indicating step position (e.g. '2 of 5')."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "coach-mark-width", "context": "Width" },
