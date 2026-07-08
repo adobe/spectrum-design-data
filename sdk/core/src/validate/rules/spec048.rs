@@ -54,7 +54,7 @@ impl ValidationRule for Rule {
                     let Some(child_name) = child.as_str() else {
                         continue;
                     };
-                    if !declared_parts.contains(child_name) {
+                    if child_name == part_name || !declared_parts.contains(child_name) {
                         out.push(Diagnostic {
                             file: comp.file.clone(),
                             token: None,
@@ -136,6 +136,20 @@ mod tests {
         assert_eq!(diags[0].severity, Severity::Warning);
         assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-048"));
         assert!(diags[0].message.contains("checkbox"));
+    }
+
+    #[test]
+    fn self_reference_warns() {
+        let diags = run(json!({
+            "name": "menu",
+            "anatomy": [
+                { "name": "menu-item", "description": "A row.", "contains": ["menu-item"] }
+            ]
+        }));
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].severity, Severity::Warning);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-048"));
+        assert!(diags[0].message.contains("menu-item"));
     }
 
     #[test]
