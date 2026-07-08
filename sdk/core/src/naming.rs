@@ -58,6 +58,17 @@ static STATE_WORDS: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
     .collect()
 });
 
+/// Context variant words (`category: "context"` in `variants.json`) that may appear
+/// as the leading segment of a legacy key, ahead of `component` — e.g.
+/// `inverse-icon-color`. These are the only variants naming-aware since they're the
+/// only ones observed to precede `component` in a flat legacy key; other variant
+/// categories (emphasis, semantic, color) don't currently appear in this position.
+static VARIANT_WORDS: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
+    ["inverse", "static", "over-background"]
+        .into_iter()
+        .collect()
+});
+
 /// Structured identity extracted from (or mapped to) a legacy kebab-case key.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct NameObject {
@@ -65,16 +76,24 @@ pub struct NameObject {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub component: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub variant: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub state: Option<String>,
 }
 
 /// Generate the canonical legacy name from a [`NameObject`].
 ///
 /// Rules:
-/// 1. If `component` is present, emit `{component}-{property}`.
-/// 2. If `state` is present, append `-{state}`.
+/// 1. If `variant` is present, emit `{variant}-` first (leads `component`, mirroring
+///    the field-catalog serialization order in `extract_legacy_key`).
+/// 2. If `component` is present, emit `{component}-`.
+/// 3. Always emit `{property}`.
+/// 4. If `state` is present, append `-{state}`.
 pub fn generate_legacy_name(obj: &NameObject) -> String {
     let mut parts: Vec<&str> = Vec::new();
+    if let Some(v) = &obj.variant {
+        parts.push(v);
+    }
     if let Some(c) = &obj.component {
         parts.push(c);
     }
@@ -90,15 +109,18 @@ pub fn generate_legacy_name(obj: &NameObject) -> String {
 /// `component_hint` comes from the legacy JSON body's `"component"` field when
 /// present and is trusted for stripping the prefix.
 ///
-/// After stripping the component prefix the remainder is split: if the **last**
-/// hyphen-segment is a known state word it becomes `state`; everything else
-/// becomes `property`.
+/// A known context-variant word (see [`VARIANT_WORDS`]) leading the key is stripped
+/// first, since it's ordered before `component` in the legacy key. The component
+/// prefix is then stripped from what remains. Finally the trailing segment is
+/// checked for a known state word; everything else becomes `property`.
 pub fn parse_legacy_name(key: &str, component_hint: Option<&str>) -> NameObject {
+    let (variant, rest) = strip_leading_variant(key);
+
     let remainder = match component_hint {
-        Some(c) if key.starts_with(c) && key.get(c.len()..c.len() + 1) == Some("-") => {
-            &key[c.len() + 1..]
+        Some(c) if rest.starts_with(c) && rest.get(c.len()..c.len() + 1) == Some("-") => {
+            &rest[c.len() + 1..]
         }
-        _ => key,
+        _ => rest,
     };
 
     let (property, state) = split_trailing_state(remainder);
@@ -106,8 +128,23 @@ pub fn parse_legacy_name(key: &str, component_hint: Option<&str>) -> NameObject 
     NameObject {
         property: property.to_string(),
         component: component_hint.map(str::to_string),
+        variant: variant.map(str::to_string),
         state: state.map(str::to_string),
     }
+}
+
+/// Strip a known leading context-variant segment (e.g. `"inverse-"`) from `key`.
+///
+/// Returns `(Some(variant), remainder)` when found, else `(None, key)` unchanged.
+fn strip_leading_variant(key: &str) -> (Option<&str>, &str) {
+    for &v in VARIANT_WORDS.iter() {
+        if let Some(rest) = key.strip_prefix(v) {
+            if let Some(rest) = rest.strip_prefix('-') {
+                return (Some(v), rest);
+            }
+        }
+    }
+    (None, key)
 }
 
 /// Split a remainder string into `(property, Option<state>)` by checking

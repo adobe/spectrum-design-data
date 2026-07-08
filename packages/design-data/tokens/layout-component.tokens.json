@@ -5628,7 +5628,8 @@
   {
     "name": {
       "component": "color-wheel",
-      "property": "color-area-margin"
+      "property": "margin",
+      "anatomy": "color-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",

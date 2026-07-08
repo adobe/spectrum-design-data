@@ -1285,7 +1285,8 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-inverse"
+      "property": "color",
+      "variant": "inverse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",
@@ -1295,7 +1296,8 @@
   {
     "name": {
       "component": "icon",
-      "property": "color-inverse-background"
+      "property": "background-color",
+      "variant": "inverse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",

@@ -126,6 +126,7 @@ proptest! {
             property: property.clone(),
             component: component.clone(),
             state: state.clone(),
+            variant: None,
         };
         let key = generate_legacy_name(&obj);
         let parsed = parse_legacy_name(&key, component.as_deref());
@@ -156,14 +157,14 @@ proptest! {
         component in optional_component(),
         state in optional_state(),
     ) {
-        let obj = NameObject { property, component, state };
+        let obj = NameObject { property, component, state, variant: None };
         prop_assert!(!generate_legacy_name(&obj).is_empty());
     }
 
     /// `generate_legacy_name` output contains the property as a substring.
     #[test]
     fn generated_key_contains_property(property in safe_property()) {
-        let obj = NameObject { property: property.clone(), component: None, state: None };
+        let obj = NameObject { property: property.clone(), component: None, state: None, variant: None };
         let key = generate_legacy_name(&obj);
         prop_assert!(
             key.contains(&property),
@@ -174,7 +175,7 @@ proptest! {
     /// `generate_legacy_name` with no component or state equals the property.
     #[test]
     fn generate_bare_property_is_identity(property in safe_property()) {
-        let obj = NameObject { property: property.clone(), component: None, state: None };
+        let obj = NameObject { property: property.clone(), component: None, state: None, variant: None };
         prop_assert_eq!(generate_legacy_name(&obj), property);
     }
 }

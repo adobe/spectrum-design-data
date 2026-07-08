@@ -226,25 +226,29 @@ fn resolve_name(
         // Decompose via parse_legacy_name and check roundtrip.
         if naming::roundtrips(key, component_hint) {
             let parsed = naming::parse_legacy_name(key, component_hint);
-            let mut name = Map::new();
-            if let Some(c) = &parsed.component {
-                name.insert("component".into(), Value::String(c.clone()));
-            }
-            name.insert("property".into(), Value::String(parsed.property));
-            if let Some(s) = &parsed.state {
-                name.insert("state".into(), Value::String(s.clone()));
-            }
-            return (Value::Object(name), NameKind::Decomposed);
+            return (decomposed_name_val(&parsed), NameKind::Decomposed);
         }
     }
 
-    // 4. Thin fallback — property = full legacy key (always roundtrip-safe).
+    (thin_name_val(key, token_obj), NameKind::Thin)
+}
+
+/// Build the cascade `name` value for a successfully-decomposed [`naming::NameObject`]
+/// (variant/component/property/state, in that order — mirrors the field-catalog
+/// serialization order used by `naming::extract_legacy_key`'s general path).
+fn decomposed_name_val(parsed: &naming::NameObject) -> Value {
     let mut name = Map::new();
-    name.insert("property".into(), Value::String(key.to_string()));
-    if let Some(c) = component_hint {
-        name.insert("component".into(), Value::String(c.to_string()));
+    if let Some(v) = &parsed.variant {
+        name.insert("variant".into(), Value::String(v.clone()));
     }
-    (Value::Object(name), NameKind::Thin)
+    if let Some(c) = &parsed.component {
+        name.insert("component".into(), Value::String(c.clone()));
+    }
+    name.insert("property".into(), Value::String(parsed.property.clone()));
+    if let Some(s) = &parsed.state {
+        name.insert("state".into(), Value::String(s.clone()));
+    }
+    Value::Object(name)
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -721,8 +725,15 @@ fn build_flat(
         record_name_kind(kind, 1, summary);
         resolved
     } else {
-        // Thin path: property + optional component (no name resolution context).
-        thin_name_val(property, token_obj)
+        // No sidecar/exceptions context — still attempt decomposition, since
+        // parse_legacy_name/roundtrips only need the key and the token's own
+        // `component` metadata. Falls back to thin if it doesn't roundtrip.
+        let component_hint = token_obj.get("component").and_then(|v| v.as_str());
+        if naming::roundtrips(property, component_hint) {
+            decomposed_name_val(&naming::parse_legacy_name(property, component_hint))
+        } else {
+            thin_name_val(property, token_obj)
+        }
     };
     out.insert("name".into(), name_val);
 
@@ -853,7 +864,10 @@ mod tests {
         );
         assert_eq!(tokens.len(), 1);
         let t = &tokens[0];
-        assert_eq!(t["name"]["property"], "swatch-border-color");
+        // "swatch-border-color" decomposes cleanly (component prefix + property),
+        // so build_flat's no-context path now resolves it via parse_legacy_name
+        // rather than falling back to a thin property.
+        assert_eq!(t["name"]["property"], "border-color");
         assert_eq!(t["name"]["component"], "swatch");
         assert_eq!(t["$ref"], "gray-1000");
         assert!(t.get("value").is_none());
