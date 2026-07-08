@@ -169,7 +169,42 @@
     },
     {
       "name": "menu-item",
-      "description": "A single row within the menu."
+      "description": "A single row within the menu.",
+      "contains": [
+        "icon",
+        "label",
+        "description",
+        "value",
+        "switch",
+        "checkbox",
+        "thumbnail",
+        "drill-in-chevron",
+        "link-out-icon"
+      ]
+    },
+    { "name": "icon", "description": "Leading icon of a menu item." },
+    { "name": "label", "description": "Primary label text of a menu item." },
+    {
+      "name": "description",
+      "description": "Secondary descriptive text of a menu item."
+    },
+    { "name": "value", "description": "Current value display of a menu item." },
+    {
+      "name": "switch",
+      "description": "Switch control for a menu item with switch selection style."
+    },
+    {
+      "name": "checkbox",
+      "description": "Checkbox control for a menu item with checkbox selection style."
+    },
+    { "name": "thumbnail", "description": "Thumbnail image of a menu item." },
+    {
+      "name": "drill-in-chevron",
+      "description": "Chevron indicating a menu item opens a sub-menu."
+    },
+    {
+      "name": "link-out-icon",
+      "description": "Icon indicating a menu item navigates to a new context."
     }
   ],
   "states": [

@@ -1,0 +1,21 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/menu.json",
+      "name": "menu",
+      "displayName": "Menu",
+      "meta": {
+        "category": "collections",
+        "documentationUrl": "https://spectrum.adobe.com/page/menu/"
+      },
+      "anatomy": [
+        {
+          "name": "menu-item",
+          "description": "A single row within the menu.",
+          "contains": ["item-checkbox"]
+        }
+      ]
+    }
+  ]
+}

@@ -158,6 +158,46 @@
       }
     }
   },
+  "anatomy": [
+    {
+      "name": "list-item",
+      "description": "A single row within the list view.",
+      "contains": [
+        "checkbox",
+        "icon",
+        "thumbnail",
+        "label",
+        "description",
+        "actions",
+        "trailing-icon"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "description": "Checkbox control for a list view item in checkbox selection style."
+    },
+    { "name": "icon", "description": "Leading icon of a list view item." },
+    {
+      "name": "thumbnail",
+      "description": "Thumbnail image of a list view item."
+    },
+    {
+      "name": "label",
+      "description": "Primary label text of a list view item."
+    },
+    {
+      "name": "description",
+      "description": "Secondary descriptive text of a list view item."
+    },
+    {
+      "name": "actions",
+      "description": "Action buttons or action menu available for a list view item."
+    },
+    {
+      "name": "trailing-icon",
+      "description": "Icon indicating a list view item navigates to a new context."
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     { "token": "(multi-select", "context": "Variants" },
