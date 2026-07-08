@@ -90,6 +90,11 @@
         "contrast": {
           "type": "string",
           "description": "Mode set: contrast level (e.g. regular, high)."
+        },
+        "legacyKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Escape hatch: pins the exact flat key written to legacy output (packages/tokens/src), overriding reconstruction from the rest of this name object. Use when correcting or extending a token's decomposition would otherwise change its published legacy key."
         }
       },
       "additionalProperties": {

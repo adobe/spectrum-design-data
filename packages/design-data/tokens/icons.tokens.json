@@ -1286,7 +1286,8 @@
     "name": {
       "component": "icon",
       "property": "color",
-      "variant": "inverse"
+      "variant": "inverse",
+      "legacyKey": "icon-color-inverse"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",
@@ -1297,7 +1298,8 @@
     "name": {
       "component": "icon",
       "property": "background-color",
-      "variant": "inverse"
+      "variant": "inverse",
+      "legacyKey": "icon-color-inverse-background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",

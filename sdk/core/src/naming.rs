@@ -202,6 +202,14 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
 
     let name: &Map<String, Value> = name_val.as_object()?;
 
+    // `legacyKey` escape hatch: pins the exact flat key written to legacy output,
+    // independent of the rest of the (fully decomposed) `name` object. Use this when
+    // correcting/extending a token's cascade decomposition (e.g. adding `variant`) would
+    // otherwise change the key in the published legacy package.
+    if let Some(lk) = name.get("legacyKey").and_then(|v| v.as_str()) {
+        return Some(lk.to_string());
+    }
+
     // Color-domain serialization — two sub-cases distinguished by component presence.
     //
     //   Palette ramp (no component): {variant?}-{colorFamily}-{scaleIndex?}
