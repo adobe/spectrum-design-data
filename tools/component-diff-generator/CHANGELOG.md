@@ -1,5 +1,12 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`53e3349`](https://github.com/adobe/spectrum-design-data/commit/53e334991b660de98f36640871378b6ebc1d0f82)]:
+  - @adobe/spectrum-diff-core@1.1.2
+
 ## 1.4.1
 
 ### Patch Changes

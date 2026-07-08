@@ -1,5 +1,18 @@
 # @adobe/token-diff-generator
 
+## 2.5.6
+
+### Patch Changes
+
+- [#1211](https://github.com/adobe/spectrum-design-data/pull/1211) [`25fa7ed`](https://github.com/adobe/spectrum-design-data/commit/25fa7ed91c89c3c71a0de1564131d2c3d709104e) Thanks [@GarthDB](https://github.com/GarthDB)! - Refactor HandlebarsFormatter to extend @adobe/spectrum-diff-core (closes #fa6).
+  - **tools/diff-generator/src/lib/formatterHandlebars.js**: convert standalone 416-line class to a
+    thin subclass of core's HandlebarsFormatter; shared helpers now have one definition in core.
+    CLI-specific behavior (chalk colors, $-stripping, sync printReport, processNestedChanges)
+    kept local.
+
+- Updated dependencies [[`53e3349`](https://github.com/adobe/spectrum-design-data/commit/53e334991b660de98f36640871378b6ebc1d0f82)]:
+  - @adobe/spectrum-diff-core@1.1.2
+
 ## 2.5.5
 
 ### Patch Changes
