@@ -206,3 +206,14 @@ proptest! {
         );
     }
 }
+
+/// `inverse-icon-color` is the motivating case for `variant` support: a context-variant
+/// word (`inverse`) leads the key, ahead of `component`.
+#[test]
+fn variant_leading_key_roundtrips() {
+    let parsed = parse_legacy_name("inverse-icon-color", Some("icon"));
+    assert_eq!(parsed.variant, Some("inverse".to_string()));
+    assert_eq!(parsed.component, Some("icon".to_string()));
+    assert_eq!(parsed.property, "color");
+    assert_eq!(generate_legacy_name(&parsed), "inverse-icon-color");
+}
