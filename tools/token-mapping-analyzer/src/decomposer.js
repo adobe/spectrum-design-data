@@ -214,56 +214,73 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     }
 
     if (connectorIdx > componentEndIdx) {
-      const fromSegs = segments.slice(componentEndIdx, connectorIdx);
-      const fromClean = fromSegs.every((_, k) => !matched[componentEndIdx + k]);
+      const beforeConnector = segments.slice(componentEndIdx, connectorIdx);
 
-      if (fromClean) {
-        const positionVocab = registry.byField.position;
-        const anatomyVocab = registry.byField.anatomy;
-        const declaredParts =
-          registry.componentAnatomy?.get(nameObject.component) || new Set();
+      const positionVocab = registry.byField.position;
+      const anatomyVocab = registry.byField.anatomy;
+      const declaredParts =
+        registry.componentAnatomy?.get(nameObject.component) || new Set();
 
-        const fromCandidate = fromSegs.join("-");
+      // Shrink the "from" window from the left: a leading variant/structure/
+      // etc. segment may precede the gap connective (see naming.rs's
+      // `{variant?}-{component?}-{structure?}-...-{property}` shape), so try
+      // the longest unmatched *suffix* of beforeConnector first.
+      let fromStart = -1;
+      let fromCandidate = null;
+      for (let k = beforeConnector.length; k >= 1; k--) {
+        const startOffset = beforeConnector.length - k;
+        const absoluteStart = componentEndIdx + startOffset;
+        const clean = beforeConnector
+          .slice(startOffset)
+          .every((_, j) => !matched[absoluteStart + j]);
+        if (!clean) continue;
+        const candidate = beforeConnector.slice(startOffset).join("-");
         if (
           endpointResolves(
-            fromCandidate,
+            candidate,
             positionVocab,
             anatomyVocab,
             declaredParts,
           )
         ) {
-          const rest = segments.slice(connectorIdx + 1);
-          let toSegs = null;
-          for (let k = rest.length; k >= 1; k--) {
-            if (matched[connectorIdx + 1 + k - 1]) continue;
-            const candidate = rest.slice(0, k).join("-");
-            if (
-              endpointResolves(
-                candidate,
-                positionVocab,
-                anatomyVocab,
-                declaredParts,
-              )
-            ) {
-              toSegs = rest.slice(0, k);
-              break;
-            }
-          }
+          fromStart = absoluteStart;
+          fromCandidate = candidate;
+          break;
+        }
+      }
 
-          if (toSegs) {
-            nameObject.property = "space-between";
-            nameObject.from = fromCandidate;
-            nameObject.to = toSegs.join("-");
-            for (let i = componentEndIdx; i < connectorIdx; i++) {
-              matched[i] = true;
-              matchDetails[i] = "from";
-            }
-            matched[connectorIdx] = true;
-            matchDetails[connectorIdx] = "spacing-between-connector";
-            for (let i = 0; i < toSegs.length; i++) {
-              matched[connectorIdx + 1 + i] = true;
-              matchDetails[connectorIdx + 1 + i] = "to";
-            }
+      if (fromCandidate) {
+        const rest = segments.slice(connectorIdx + 1);
+        let toSegs = null;
+        for (let k = rest.length; k >= 1; k--) {
+          if (matched[connectorIdx + 1 + k - 1]) continue;
+          const candidate = rest.slice(0, k).join("-");
+          if (
+            endpointResolves(
+              candidate,
+              positionVocab,
+              anatomyVocab,
+              declaredParts,
+            )
+          ) {
+            toSegs = rest.slice(0, k);
+            break;
+          }
+        }
+
+        if (toSegs) {
+          nameObject.property = "space-between";
+          nameObject.from = fromCandidate;
+          nameObject.to = toSegs.join("-");
+          for (let i = fromStart; i < connectorIdx; i++) {
+            matched[i] = true;
+            matchDetails[i] = "from";
+          }
+          matched[connectorIdx] = true;
+          matchDetails[connectorIdx] = "spacing-between-connector";
+          for (let i = 0; i < toSegs.length; i++) {
+            matched[connectorIdx + 1 + i] = true;
+            matchDetails[connectorIdx + 1 + i] = "to";
           }
         }
       }

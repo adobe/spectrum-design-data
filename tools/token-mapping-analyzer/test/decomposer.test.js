@@ -264,6 +264,22 @@ test("flags low confidence when a space-between endpoint can't fully resolve", (
   t.false(result.confidence === "HIGH" && result.roundtrips);
 });
 
+test("decomposes space-between gap preceded by a non-component field (variant)", (t) => {
+  // naming.rs's general shape is {variant?}-{component?}-...-{property}, so a
+  // field like variant can precede the gap connective even with no component.
+  // Phase 2.5 must shrink the "from" window from the left (not just skip a
+  // leading component) or "accent" gets folded into "from" and fails to
+  // resolve, silently losing the gap split (regression: it previously fell
+  // through with confidence !== HIGH instead of splitting variant/from/to).
+  const result = decompose("accent-top-to-bottom", {}, registry, "test");
+  t.is(result.nameObject.variant, "accent");
+  t.is(result.nameObject.property, "space-between");
+  t.is(result.nameObject.from, "top");
+  t.is(result.nameObject.to, "bottom");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
 test("serialize() reconstructs the -to- connective for a space-between name", (t) => {
   const legacyKey = serialize(
     {
