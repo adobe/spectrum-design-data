@@ -1315,7 +1315,9 @@
   {
     "name": {
       "component": "action-bar",
-      "property": "label-to-action-group-area"
+      "property": "space-between",
+      "from": "label",
+      "to": "action-group-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -1350,7 +1352,9 @@
   {
     "name": {
       "component": "action-bar",
-      "property": "top-to-item-counter"
+      "property": "space-between",
+      "from": "top",
+      "to": "item-counter"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8108a8e0-0883-4490-a23f-f96fb9cd8ca4",
@@ -1709,8 +1713,10 @@
   {
     "name": {
       "component": "alert-banner",
-      "property": "top-to-alert-icon",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "top",
+      "to": "alert-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "37px",
@@ -1724,8 +1730,10 @@
   {
     "name": {
       "component": "alert-banner",
-      "property": "top-to-alert-icon",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "top",
+      "to": "alert-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "29px",
@@ -3326,7 +3334,9 @@
   {
     "name": {
       "component": "breadcrumbs",
-      "property": "top-to-separator-icon"
+      "property": "space-between",
+      "from": "top",
+      "to": "separator-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2e8091e4-f60b-438c-bcbb-111eb243900d",
@@ -3594,7 +3604,9 @@
   {
     "name": {
       "component": "breadcrumbs",
-      "property": "truncated-menu-to-separator-icon"
+      "property": "space-between",
+      "from": "truncated-menu",
+      "to": "separator-icon"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "963bd7ed-cfc9-4a93-a8a6-a2340ec6479f",
@@ -5045,8 +5057,10 @@
   {
     "name": {
       "component": "coach-mark",
-      "property": "pagination-text-to-bottom-edge",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "pagination-text",
+      "to": "bottom-edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "33px",
@@ -5060,8 +5074,10 @@
   {
     "name": {
       "component": "coach-mark",
-      "property": "pagination-text-to-bottom-edge",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "pagination-text",
+      "to": "bottom-edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -8311,7 +8327,9 @@
   {
     "name": {
       "component": "menu",
-      "property": "item-label-to-description"
+      "property": "space-between",
+      "from": "item-label",
+      "to": "description"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "608fd592-fff8-435e-88e2-846bd34cc235",
@@ -11107,8 +11125,10 @@
   {
     "name": {
       "component": "side-navigation",
-      "property": "trailing-accessory-area-to-edge",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "trailing-accessory-area",
+      "to": "edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -11122,8 +11142,10 @@
   {
     "name": {
       "component": "side-navigation",
-      "property": "trailing-accessory-area-to-edge",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "trailing-accessory-area",
+      "to": "edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -12985,7 +13007,9 @@
   {
     "name": {
       "component": "status-light",
-      "property": "text-to-visual-100"
+      "property": "space-between",
+      "from": "text",
+      "to": "visual-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "53e1a050-67e8-4c0d-a7f5-48abae476f3e",
@@ -12997,7 +13021,9 @@
   {
     "name": {
       "component": "status-light",
-      "property": "text-to-visual-200"
+      "property": "space-between",
+      "from": "text",
+      "to": "visual-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bd7da2ac-6c3f-4f98-8dc3-7af1a9beb366",
@@ -13009,7 +13035,9 @@
   {
     "name": {
       "component": "status-light",
-      "property": "text-to-visual-300"
+      "property": "space-between",
+      "from": "text",
+      "to": "visual-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "91fa8786-6f7d-4107-9696-3f7da07f9b1a",
@@ -13021,7 +13049,9 @@
   {
     "name": {
       "component": "status-light",
-      "property": "text-to-visual-75"
+      "property": "space-between",
+      "from": "text",
+      "to": "visual-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d0a8c780-3a64-4b74-94f8-2de15e632f4f",
@@ -19905,8 +19935,10 @@
   {
     "name": {
       "component": "tree-view",
-      "property": "end-edge-to-action-area",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "end-edge",
+      "to": "action-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -19920,8 +19952,10 @@
   {
     "name": {
       "component": "tree-view",
-      "property": "end-edge-to-action-area",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "end-edge",
+      "to": "action-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -20022,8 +20056,10 @@
   {
     "name": {
       "component": "tree-view",
-      "property": "label-to-action-area",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "label",
+      "to": "action-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -20037,8 +20073,10 @@
   {
     "name": {
       "component": "tree-view",
-      "property": "label-to-action-area",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "label",
+      "to": "action-area"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
