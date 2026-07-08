@@ -93,6 +93,51 @@ const EXTRA_TERMS = [
 const NUMERIC_SCALE_PATTERN = /^\d+$/;
 
 /**
+ * True if `endpoint` is a valid space-between gap endpoint: a registered
+ * position, a generic anatomy term, a component-declared anatomy part, or one
+ * of those glued to a registered position via a single hyphen-bounded
+ * prefix/suffix (e.g. "content-area-bottom" = anatomy "content-area" +
+ * position "bottom"). Direct port of SPEC-047's `endpoint_resolves`
+ * (sdk/core/src/validate/rules/spec047.rs) — keep the two in sync.
+ *
+ * @param {string} endpoint
+ * @param {Set<string>|undefined} positionVocab
+ * @param {Set<string>|undefined} anatomyVocab
+ * @param {Set<string>} declaredParts - component-declared anatomy part names
+ * @returns {boolean}
+ */
+function endpointResolves(
+  endpoint,
+  positionVocab,
+  anatomyVocab,
+  declaredParts,
+) {
+  const isAnatomy = (s) =>
+    Boolean(anatomyVocab?.has(s)) || declaredParts.has(s);
+  const isPosition = (s) => Boolean(positionVocab?.has(s));
+
+  if (isPosition(endpoint) || isAnatomy(endpoint)) return true;
+  if (!positionVocab) return false;
+
+  for (const pos of positionVocab) {
+    if (
+      endpoint.startsWith(`${pos}-`) &&
+      isAnatomy(endpoint.slice(pos.length + 1))
+    ) {
+      return true;
+    }
+    const suffix = `-${pos}`;
+    if (
+      endpoint.endsWith(suffix) &&
+      isAnatomy(endpoint.slice(0, -suffix.length))
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Decompose a token name into a 13-field name object.
  *
  * @param {string} tokenName - kebab-case token name
@@ -143,6 +188,84 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       for (let i = idx; i < idx + compSegs.length; i++) {
         matched[i] = true;
         matchDetails[i] = "property";
+      }
+    }
+  }
+
+  // Phase 2.5: Detect space-between (-to-) gap endpoints.
+  //
+  // Mirrors sdk/core/src/naming.rs's space-between branch and validates each
+  // endpoint the same way SPEC-047 does (spec047.rs `endpoint_resolves`): a
+  // position, a generic anatomy term, a component-declared anatomy part, or one
+  // of those glued to a registered position via a hyphen-bounded prefix/suffix.
+  // Endpoints are stored as their full compound string — not split further.
+  {
+    let componentEndIdx = 0;
+    for (let i = 0; i < segments.length; i++) {
+      if (matchDetails[i] === "component") componentEndIdx = i + 1;
+    }
+
+    let connectorIdx = -1;
+    for (let i = componentEndIdx; i < segments.length; i++) {
+      if (segments[i] === "to" && !matched[i]) {
+        connectorIdx = i;
+        break;
+      }
+    }
+
+    if (connectorIdx > componentEndIdx) {
+      const fromSegs = segments.slice(componentEndIdx, connectorIdx);
+      const fromClean = fromSegs.every((_, k) => !matched[componentEndIdx + k]);
+
+      if (fromClean) {
+        const positionVocab = registry.byField.position;
+        const anatomyVocab = registry.byField.anatomy;
+        const declaredParts =
+          registry.componentAnatomy?.get(nameObject.component) || new Set();
+
+        const fromCandidate = fromSegs.join("-");
+        if (
+          endpointResolves(
+            fromCandidate,
+            positionVocab,
+            anatomyVocab,
+            declaredParts,
+          )
+        ) {
+          const rest = segments.slice(connectorIdx + 1);
+          let toSegs = null;
+          for (let k = rest.length; k >= 1; k--) {
+            if (matched[connectorIdx + 1 + k - 1]) continue;
+            const candidate = rest.slice(0, k).join("-");
+            if (
+              endpointResolves(
+                candidate,
+                positionVocab,
+                anatomyVocab,
+                declaredParts,
+              )
+            ) {
+              toSegs = rest.slice(0, k);
+              break;
+            }
+          }
+
+          if (toSegs) {
+            nameObject.property = "space-between";
+            nameObject.from = fromCandidate;
+            nameObject.to = toSegs.join("-");
+            for (let i = componentEndIdx; i < connectorIdx; i++) {
+              matched[i] = true;
+              matchDetails[i] = "from";
+            }
+            matched[connectorIdx] = true;
+            matchDetails[connectorIdx] = "spacing-between-connector";
+            for (let i = 0; i < toSegs.length; i++) {
+              matched[connectorIdx + 1 + i] = true;
+              matchDetails[connectorIdx + 1 + i] = "to";
+            }
+          }
+        }
       }
     }
   }
@@ -444,6 +567,33 @@ export function serialize(
     if (colorRole) parts.push(tokenNameMap[colorRole] || colorRole);
     if (nameObject.state)
       parts.push(tokenNameMap[nameObject.state] || nameObject.state);
+    return parts.join("-");
+  }
+
+  // Space-between (gap) domain: property literal term "space-between", real
+  // endpoints live in paired `from`/`to` fields (both excludeFromLegacyKey, so
+  // they're skipped below rather than serialized literally). Reconstruct the
+  // legacy connective form `{from}-to-{to}` in property's slot. Mirrors
+  // sdk/core/src/naming.rs's `property == "space-between"` branch — keep in sync.
+  if (
+    nameObject.property === "space-between" &&
+    nameObject.from &&
+    nameObject.to
+  ) {
+    const parts = [];
+    for (const field of serializationOrder) {
+      if (field === "from" || field === "to") continue;
+      if (field === "property") {
+        const fromExpanded = tokenNameMap[nameObject.from] || nameObject.from;
+        const toExpanded = tokenNameMap[nameObject.to] || nameObject.to;
+        parts.push(`${fromExpanded}-to-${toExpanded}`);
+        continue;
+      }
+      if (nameObject[field]) {
+        parts.push(tokenNameMap[nameObject[field]] || nameObject[field]);
+      }
+    }
+    if (nameObject.scaleIndex) parts.push(nameObject.scaleIndex);
     return parts.join("-");
   }
 

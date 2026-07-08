@@ -14,6 +14,7 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
 import { serialize } from "../src/decomposer.js";
+import { applySpaceBetween } from "../src/apply.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
@@ -134,4 +135,86 @@ test("size decomposition preserves the legacy key — layout.tokens.json", (t) =
       `Token ${tok.uuid?.slice(0, 8)}: must have non-empty property after decomposition`,
     );
   }
+});
+
+// ── applySpaceBetween ─────────────────────────────────────────────────────
+
+test("applySpaceBetween writes from/to/property for a clean gap token and preserves the legacy key", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    {
+      name: { component: "accordion", property: "bottom-to-handle" },
+      value: "8px",
+    },
+  ];
+  const legacyKeyBefore = serialize(
+    tokens[0].name,
+    registry.tokenNameMap,
+    registry.serializationOrder,
+  );
+
+  const { applied } = applySpaceBetween(
+    tokens,
+    registry,
+    "fixture.tokens.json",
+  );
+
+  t.is(applied, 1);
+  t.is(tokens[0].name.property, "space-between");
+  t.is(tokens[0].name.from, "bottom");
+  t.is(tokens[0].name.to, "handle");
+  t.is(
+    serialize(
+      tokens[0].name,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    ),
+    legacyKeyBefore,
+  );
+});
+
+test("applySpaceBetween skips a token whose endpoint can't fully resolve", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    {
+      name: {
+        component: "slider",
+        property: "control-to-field-label-side-medium",
+      },
+      value: "8px",
+    },
+  ];
+
+  const { applied } = applySpaceBetween(
+    tokens,
+    registry,
+    "fixture.tokens.json",
+  );
+
+  t.is(applied, 0);
+  t.is(tokens[0].name.from, undefined);
+  t.is(tokens[0].name.property, "control-to-field-label-side-medium");
+});
+
+test("applySpaceBetween skips tokens already migrated", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    {
+      name: {
+        component: "accordion",
+        property: "space-between",
+        from: "bottom",
+        to: "handle",
+      },
+      value: "8px",
+    },
+  ];
+
+  const { applied } = applySpaceBetween(
+    tokens,
+    registry,
+    "fixture.tokens.json",
+  );
+
+  t.is(applied, 0);
 });

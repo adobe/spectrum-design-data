@@ -111,11 +111,77 @@ export function applyField(tokens, field, registry, filename) {
   return { applied, skippedSpec025 };
 }
 
+/**
+ * Apply the space-between (gap) decomposition: unlike a single taxonomy field,
+ * `from`/`to`/`property` change together (property becomes the literal
+ * "space-between", from/to carry the two endpoints) and must be written as one
+ * unit for the legacy key to still roundtrip. `from`/`to` have no single
+ * registry (endpoints resolve against positions ∪ anatomy ∪ component-declared
+ * anatomy — see decomposer.js `endpointResolves`), so they can't go through the
+ * single-registry `applyField` path above.
+ */
+export function applySpaceBetween(tokens, registry, filename) {
+  let applied = 0;
+
+  for (const token of tokens) {
+    if (!token.name || typeof token.name !== "object") continue;
+    if (token.name.from !== undefined) continue; // already migrated
+    if (
+      typeof token.name.property !== "string" ||
+      !token.name.property.includes("-to-")
+    )
+      continue;
+
+    const legacyKey = serialize(
+      token.name,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    );
+    if (!legacyKey) continue;
+
+    const result = decompose(
+      legacyKey,
+      { deprecated: !!token.deprecated, component: token.name?.component },
+      registry,
+      filename,
+    );
+
+    if (
+      result.confidence !== "HIGH" ||
+      !result.roundtrips ||
+      result.nameObject.property !== "space-between" ||
+      result.nameObject.from === undefined ||
+      result.nameObject.to === undefined
+    )
+      continue;
+
+    const patched = {
+      ...token.name,
+      from: result.nameObject.from,
+      to: result.nameObject.to,
+      property: result.nameObject.property,
+    };
+    if (
+      serialize(patched, registry.tokenNameMap, registry.serializationOrder) !==
+      legacyKey
+    )
+      continue;
+
+    token.name.from = result.nameObject.from;
+    token.name.to = result.nameObject.to;
+    token.name.property = result.nameObject.property;
+    applied++;
+  }
+
+  return { applied, skippedSpec025: 0 };
+}
+
 async function main() {
   const { field, write } = parseArgs();
   const registry = loadRegistries();
+  const isSpaceBetween = field === "space-between";
 
-  if (!registry.byField[field]) {
+  if (!isSpaceBetween && !registry.byField[field]) {
     console.error(
       `Unknown field: "${field}". Known fields: ${Object.keys(registry.byField).join(", ")}`,
     );
@@ -131,19 +197,20 @@ async function main() {
     const filePath = resolve(CASCADE_DIR, filename);
     const tokens = JSON.parse(readFileSync(filePath, "utf-8"));
 
-    // Count pre-existing field values
+    // Count pre-existing field values. space-between is a virtual field name
+    // (property literal "space-between" + paired from/to); use "from" as the
+    // already-migrated marker since space-between itself is never a key on name.
+    const presenceField = isSpaceBetween ? "from" : field;
     const hadField = tokens.filter(
-      (t) => typeof t.name === "object" && t.name?.[field] !== undefined,
+      (t) =>
+        typeof t.name === "object" && t.name?.[presenceField] !== undefined,
     ).length;
     totalTokens += tokens.filter((t) => typeof t.name === "object").length;
     alreadyHas += hadField;
 
-    const { applied, skippedSpec025 } = applyField(
-      tokens,
-      field,
-      registry,
-      filename,
-    );
+    const { applied, skippedSpec025 } = isSpaceBetween
+      ? applySpaceBetween(tokens, registry, filename)
+      : applyField(tokens, field, registry, filename);
     totalApplied += applied;
     totalSkippedSpec025 += skippedSpec025;
 

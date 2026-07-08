@@ -8,28 +8,56 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadFieldCatalog } from "./field-catalog.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = resolve(__dirname, "../../..");
+const COMPONENTS_DIR = resolve(REPO_ROOT, "packages/design-data/components");
+
+/**
+ * Load each component's declared anatomy parts (component.json `anatomy[].name`).
+ * Used by the space-between endpoint resolver (mirrors SPEC-047's `declared_parts`,
+ * sdk/core/src/validate/rules/spec047.rs) — a component-declared anatomy part is a
+ * valid gap endpoint even when it isn't in the generic anatomy-terms registry.
+ *
+ * @returns {Map<string, Set<string>>} component name -> set of declared part names
+ */
+function loadComponentAnatomy(componentsDir = COMPONENTS_DIR) {
+  const componentAnatomy = new Map();
+  for (const filename of readdirSync(componentsDir)) {
+    if (!filename.endsWith(".json")) continue;
+    const data = JSON.parse(
+      readFileSync(resolve(componentsDir, filename), "utf-8"),
+    );
+    if (!data.name || !Array.isArray(data.anatomy)) continue;
+    componentAnatomy.set(
+      data.name,
+      new Set(data.anatomy.map((part) => part.name).filter(Boolean)),
+    );
+  }
+  return componentAnatomy;
+}
 
 /**
  * Load all registries into a unified index.
  * Registry files are resolved from the field catalog declarations rather than
  * a hardcoded mapping.
  *
- * Returns { byField, terms, tokenNameMap, serializationOrder, allFields } where:
+ * Returns { byField, terms, tokenNameMap, serializationOrder, allFields, componentAnatomy } where:
  * - byField[fieldName] = Set of known ids
  * - terms = sorted list of { segments: string[], field: string, id: string }
  *   for greedy longest-match parsing
  * - tokenNameMap = id -> tokenName for serialization
  * - serializationOrder = field names ordered by serialization.position
  * - allFields = Map of all field declarations from the catalog
+ * - componentAnatomy = Map of component name -> Set of declared anatomy part names
  */
 export function loadRegistries() {
   const { registryFiles, serializationOrder, allFields } = loadFieldCatalog();
+  const componentAnatomy = loadComponentAnatomy();
 
   const byField = {};
   const allTerms = [];
@@ -71,6 +99,7 @@ export function loadRegistries() {
     tokenNameMap,
     serializationOrder,
     allFields,
+    componentAnatomy,
   };
 }
 

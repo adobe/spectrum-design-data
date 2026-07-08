@@ -197,3 +197,85 @@ test("does not promote non-color tokens: variant/object unaffected when property
   t.is(result.nameObject.colorFamily, undefined);
   t.is(result.nameObject.colorRole, undefined);
 });
+
+// ── space-between (gap) endpoint decomposition ───────────────────────────────
+
+test("decomposes space-between gap with two position endpoints", (t) => {
+  // Mirrors the naming.rs doc example (naming.rs:237-238).
+  const result = decompose(
+    "accordion-bottom-to-handle",
+    { component: "accordion" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.property, "space-between");
+  t.is(result.nameObject.from, "bottom");
+  t.is(result.nameObject.to, "handle");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("decomposes space-between gap with a position + generic-anatomy endpoint", (t) => {
+  const result = decompose(
+    "accordion-top-to-content-area",
+    { component: "accordion" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.property, "space-between");
+  t.is(result.nameObject.from, "top");
+  t.is(result.nameObject.to, "content-area");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("decomposes space-between gap with a compound anatomy+position endpoint", (t) => {
+  // "column-header-row-bottom" = declared anatomy part "column-header-row" (table)
+  // + registered position "bottom" suffix — mirrors SPEC-047's split-and-retry rule
+  // (spec047.rs `endpoint_resolves`) and real tokens like
+  // table-column-header-row-bottom-to-text-large.
+  const result = decompose(
+    "table-column-header-row-bottom-to-text-large",
+    { component: "table" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.property, "space-between");
+  t.is(result.nameObject.from, "column-header-row-bottom");
+  t.is(result.nameObject.to, "text");
+  t.is(result.nameObject.size, "l");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("flags low confidence when a space-between endpoint can't fully resolve", (t) => {
+  // "field-label-side" is neither a position, a generic anatomy term, nor a
+  // slider-declared anatomy part — an escalated triage term (see
+  // docs/proposals/012-space-between-decompose.md). The resolver falls back to
+  // the largest resolvable prefix ("field-label"), leaving "side" unmatched;
+  // that mismatch must surface as non-HIGH confidence / non-roundtripping so
+  // apply.js's guards (apply.js:79-104) skip the token instead of mis-migrating it.
+  const result = decompose(
+    "slider-control-to-field-label-side-medium",
+    { component: "slider" },
+    registry,
+    "test",
+  );
+  t.false(result.confidence === "HIGH" && result.roundtrips);
+});
+
+test("serialize() reconstructs the -to- connective for a space-between name", (t) => {
+  const legacyKey = serialize(
+    {
+      component: "accordion",
+      property: "space-between",
+      from: "bottom",
+      to: "handle",
+      size: "xl",
+      state: "hover",
+    },
+    registry.tokenNameMap,
+    registry.serializationOrder,
+  );
+  t.is(legacyKey, "accordion-bottom-to-handle-extra-large-hover");
+});
