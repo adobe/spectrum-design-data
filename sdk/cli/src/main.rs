@@ -699,6 +699,12 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
     // checked structurally below via Layer 1 schema validation. This keeps
     // dataset validation additive and avoids surfacing unrelated relational
     // drift (e.g. SPEC-018 component association) that is out of scope here.
+    //
+    // One consequence: SPEC-047's declared-anatomy-part arm can't be
+    // evaluated without a component catalog, so it defers rather than
+    // flagging component-scoped gap endpoints (see spec047.rs). Only the
+    // full `validate` subcommand — which does load components — enforces
+    // that arm.
     let mut report =
         validate::validate_dataset(&dataset_root, &registry, &exceptions, None, None, None)
             .into_diagnostic()

@@ -1,9 +1,9 @@
 # Proposal 012: Space-Between (Gap) Endpoint Decomposition — Triage
 
-**Status:** Triage complete (04c.4); 04c.5 closed as a no-op (no qualifiers found in gap
+**Status:** Complete. Triage (04c.4); 04c.5 closed as a no-op (no qualifiers found in gap
 tokens); 04c.3 registry/component-anatomy additions landed, including a SPEC-047 enhancement
 to resolve compound anatomy+position endpoints (bucket 3) by splitting on a registered
-position affix. 04c.6 (apply migration) remains.\
+position affix; 04c.6 applied the migration; 04c.8 resolved the final 19 tokens (see below).\
 **Affects:** 432 distinct `(component, property)` tuples / 725 `-to-` token occurrences across `packages/design-data/tokens/layout-component.tokens.json`\
 **Spec reference:** SPEC-047 (`space-between-endpoint-valid`), `fields/from.json`, `fields/to.json`
 
@@ -185,5 +185,17 @@ atomic parts on `table` instead, per the doc's original recommendation for that 
 
 * ~~**04c.3**~~ — done; see resolution above.
 * ~~**04c.5**~~ — closed as a no-op; no qualifiers found in the gap tokens.
-* **04c.6** — apply migration, including the `disclousure` → `disclosure` and `card-edge` → `edge`
-  data fixes.
+* ~~**04c.6**~~ — applied the migration, including the `disclousure` → `disclosure` and
+  `card-edge` → `edge` data fixes. 19 endpoints that resolve only via declared component
+  anatomy (e.g. menu/`item-label`, tree-view/`action-area`, status-light/`visual-75..300`)
+  tripped SPEC-047 under `moon run design-data:validate` and were reverted pending 04c.8.
+* ~~**04c.8**~~ — root cause: `validate-dataset` (a dep of `moon run design-data:validate`)
+  passes `components_path=None`, so SPEC-047's declared-anatomy-part arm can never evaluate —
+  not an over-eager migration. The 19 endpoints' anatomy parts are genuinely declared on their
+  components; the earlier `UNKNOWN` triage flag was a false negative from checking only the
+  generic registry, not per-component anatomy. Fixed by deferring (not erroring) SPEC-047's
+  declared-anatomy check when no component catalog is loaded — mirrors SPEC-018's existing
+  empty-catalog guard — rather than loading components into `validate-dataset`, which would
+  also activate SPEC-018 and risk surfacing unrelated relational drift. See
+  `sdk/core/src/validate/rules/spec047.rs` and the comment in `run_validate_dataset`
+  (`sdk/cli/src/main.rs`). All 19 tokens now migrated; 134/134 eligible tokens complete.

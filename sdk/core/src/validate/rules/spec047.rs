@@ -24,6 +24,15 @@
 //! against the anatomy union. This covers gap endpoints that fuse an anatomy
 //! part with a row/edge scope without requiring a third name-object field —
 //! `from`/`to` still store the full compound string for legacy-key round-trip.
+//!
+//! When no component catalog is loaded (e.g. `validate-dataset`, which
+//! deliberately passes `components_path=None` — see `run_validate_dataset` in
+//! `sdk/cli/src/main.rs`), a component-scoped endpoint that fails the
+//! registry-only checks is deferred rather than flagged: it may still resolve
+//! via a declared anatomy part this pass can't see. The component-aware
+//! `validate` command (which does load components) is what enforces those
+//! endpoints. Endpoints on tokens with no `component` are unaffected and
+//! still error unconditionally.
 
 use std::collections::HashSet;
 
@@ -147,6 +156,16 @@ impl ValidationRule for Rule {
                     endpoint_resolves(endpoint, position_vocab, anatomy_vocab, &declared_parts);
 
                 if !valid {
+                    // No component catalog loaded (e.g. `validate-dataset`, which
+                    // passes components_path=None): the declared-anatomy-part arm
+                    // above can never match, so a component-scoped endpoint may
+                    // still be valid via a part that just isn't visible here. Defer
+                    // to the component-aware `validate` pass instead of flagging a
+                    // false positive. Endpoints on tokens with no `component` can
+                    // never resolve via a declared part, so they still error below.
+                    if ctx.graph.components.is_empty() && component.is_some() {
+                        continue;
+                    }
                     out.push(Diagnostic {
                         file: t.file.clone(),
                         token: Some(t.name.clone()),
@@ -200,6 +219,21 @@ mod tests {
             file: PathBuf::from("accordion.json"),
             raw: json!({"name": "accordion", "anatomy": [{"name": "handle"}]}),
         });
+        assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
+    }
+
+    #[test]
+    fn component_endpoint_deferred_when_no_catalog_loaded() {
+        // `validate-dataset` deliberately passes components_path=None, so
+        // ctx.graph.components is empty here (no ComponentRecord pushed).
+        // "item-label" only resolves via menu's declared anatomy — with no
+        // catalog loaded that arm can't be evaluated, so the endpoint must be
+        // deferred (no diagnostic), not flagged as unknown.
+        let g = TokenGraph::from_pairs(vec![(
+            "menu-item-label-to-description".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "space-between", "component": "menu", "from": "item-label", "to": "description"}, "value": "8px"}),
+        )]);
         assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
     }
 

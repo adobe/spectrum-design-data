@@ -100,6 +100,11 @@ const NUMERIC_SCALE_PATTERN = /^\d+$/;
  * position "bottom"). Direct port of SPEC-047's `endpoint_resolves`
  * (sdk/core/src/validate/rules/spec047.rs) — keep the two in sync.
  *
+ * Note: `apply.js` always has `declaredParts` populated (it loads components
+ * from the registry directly), unlike Rust's `validate-dataset`, which may run
+ * with an empty component catalog and defers rather than errors in that case.
+ * Do not port that deferral here — this function's callers never hit it.
+ *
  * @param {string} endpoint
  * @param {Set<string>|undefined} positionVocab
  * @param {Set<string>|undefined} anatomyVocab
