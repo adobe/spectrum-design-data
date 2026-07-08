@@ -46,11 +46,13 @@ When `required` is `true`, the anatomy part is unconditionally rendered (e.g. a 
 
 ### `contains`
 
-**OPTIONAL.** An informative list of child anatomy part `name` values that are visually or structurally nested within this part. This field is for documentation and tooling assistance; it does not carry enforcement semantics.
+**OPTIONAL.** A list of child anatomy part `name` values that are visually or structurally nested within this part.
 
-**RECOMMENDED:** When a part logically encloses other declared anatomy parts, authors **SHOULD** use `contains` to make the nesting explicit.
+**RECOMMENDED:** When a part logically encloses other declared anatomy parts, authors **SHOULD** use `contains` to make the nesting explicit, rather than declaring the children only as flat, unrelated parts.
 
-Each string in `contains` **MUST** match the pattern `^[a-z][a-z0-9-]*$`. References to anatomy part names not declared on the same component are permitted (they may refer to sub-component anatomy in layered designs) but validators **MAY** surface a warning for unresolved references.
+Each string in `contains` **MUST** match the pattern `^[a-z][a-z0-9-]*$`. References to anatomy part names not declared on the same component are permitted (they may refer to sub-component anatomy in layered designs), but a reference that cannot be resolved against the same component's declared parts triggers an advisory warning (rule SPEC-048, `anatomy-contains-resolves`) — it is not an error.
+
+**Authoring convention — flat vs. nested:** declare a part as a flat leaf when it has no meaningful internal sub-structure of its own (e.g. `label`, `icon`). Declare a part with `contains` when it is a composite that visually groups other declared parts (e.g. a `menu-item` row containing an `icon` and a `label`, or a `list-item` row containing a `checkbox`, `thumbnail`, and `label`). Prefer the canonical vocabulary (below) for children where the semantics match, falling back to a documented custom name (SPEC-023) otherwise.
 
 ### `lifecycle`
 
@@ -135,6 +137,7 @@ The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to an
 | SPEC-025 | `anatomy-requires-component`      | error    | A token name object **MUST NOT** include an `anatomy` field unless a `component` field is also present.                                                   |
 | SPEC-035 | `anatomy-part-name-registry-sync` | warning  | A component anatomy part's `name` **SHOULD** appear in the canonical anatomy-terms registry (`anatomy-terms.json`).                                       |
 | SPEC-037 | `sub-entity-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part via `name.anatomy`. Advisory warning prompts migration.                         |
+| SPEC-048 | `anatomy-contains-resolves`       | warning  | An anatomy part's `contains` entries **SHOULD** match the `name` of another part declared on the same component. Advisory warning for unresolved entries. |
 
 ## Full example
 

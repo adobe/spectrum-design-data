@@ -200,7 +200,8 @@
     },
     {
       "name": "row",
-      "description": "A single data row."
+      "description": "A single data row.",
+      "contains": ["row-checkbox"]
     },
     {
       "name": "row-checkbox",

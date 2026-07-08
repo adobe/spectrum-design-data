@@ -544,3 +544,19 @@ rules:
     message: "Token '{token}' has space-between endpoint '{endpoint}' that is not a known position, anatomy term, or declared anatomy part on component '{component}'"
     spec_ref: spec/token-format.md#space-between-endpoints
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-048
+    name: anatomy-contains-resolves
+    severity: warning
+    layer: 2
+    category: completeness
+    assert: >
+      Each string in an anatomy part's `contains` array SHOULD match the `name` of
+      another anatomy part declared on the same component. Unresolved references are
+      advisory rather than an error: `contains` may legitimately point at sub-component
+      anatomy in layered designs (anatomy-format.md#contains), so this rule only warns
+      when a `contains` entry cannot be resolved against the same component's declared
+      parts.
+    message: "Anatomy part '{part}' on component '{component}' contains '{child}', which is not a declared anatomy part on this component"
+    spec_ref: spec/anatomy-format.md#contains
+    introduced_in: "1.0.0-draft"

@@ -225,7 +225,7 @@
         "contains": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Informative: anatomy part names nested within this part."
+          "description": "Anatomy part names nested within this part. SHOULD reference a `name` declared elsewhere in this component's anatomy array (see anatomy-contains-resolves)."
         },
         "documentBlocks": {
           "type": "array",
