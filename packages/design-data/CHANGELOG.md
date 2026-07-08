@@ -1,5 +1,121 @@
 # @adobe/spectrum-design-data
 
+## 0.8.0
+
+### Minor Changes
+
+- [#1216](https://github.com/adobe/spectrum-design-data/pull/1216) [`c923bd2`](https://github.com/adobe/spectrum-design-data/commit/c923bd27bba0ee484ba251d9baf6a63c5cfc68d0) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: register `space-between` property term and paired `from`/`to` endpoint fields.
+  - **packages/design-data/registry/property-terms.json**: added `space-between` term for
+    {a}-to-{b} spacing tokens.
+  - **packages/design-data/fields/from.json, to.json**: new paired semantic fields modeling a
+    space-between token's two endpoints; excluded from legacy-key catalog serialization pending
+    a dedicated `naming.rs` branch (04c.2).
+  - **packages/design-data-spec/schemas/token.schema.json**: declared `from`/`to` on the
+    nameObject definition.
+  - **packages/design-data-spec/rules/rules.yaml**: added SPEC-047 validating `from`/`to` values
+    against positions, generic anatomy terms, or the referenced component's declared anatomy.
+
+- [#1219](https://github.com/adobe/spectrum-design-data/pull/1219) [`f9585da`](https://github.com/adobe/spectrum-design-data/commit/f9585daf01d5dab651793ce6f1d816f320623204) Thanks [@GarthDB](https://github.com/GarthDB)! - Register gap-endpoint vocabulary for space-between decomposition (closes 04c.3).
+  - **packages/design-data/registry/positions.json**: Add edge-family positions
+    `edge`, `start-edge`, `end-edge`, `bottom-edge`.
+  - **packages/design-data/registry/anatomy-terms.json**: Add generic anatomy
+    terms `content`, `visual`, `action`, `navigation`, `disclosure`,
+    `content-area`, `disclosure-indicator`, `disclosure-icon`, `drag-handle`,
+    `field-button`.
+  - **packages/design-data/components/\*.json**: Add component-scoped `anatomy[]`
+    parts for 14 components (action-bar, tree-view, tag, alert-banner,
+    number-field, slider, steplist, side-navigation, breadcrumbs, field-label,
+    menu, status-light, table, coach-mark).
+  - **sdk/core/src/validate/rules/spec047.rs**: Retry unresolved endpoints by
+    stripping a registered position affix and validating the remainder as
+    anatomy, covering fused endpoints like `content-area-bottom`/`item-top`.
+  - **sdk/core/src/registry_data.rs**: Regenerated via `sdk:codegen`.
+
+- [#1221](https://github.com/adobe/spectrum-design-data/pull/1221) [`09b3970`](https://github.com/adobe/spectrum-design-data/commit/09b39705547954ba44dabe41c70c5b76a6f8b43e) Thanks [@GarthDB](https://github.com/GarthDB)! - Apply space-between gap-endpoint decomposition to layout-component tokens (closes 04c.6).
+  - **packages/design-data/tokens/layout-component.tokens.json**: Decompose 115
+    `{a}-to-{b}` compound property values into structured `property: "space-between"`
+    plus `from`/`to` endpoint fields; legacy keys unchanged (verified by roundtrip).
+
+- [#1222](https://github.com/adobe/spectrum-design-data/pull/1222) [`82bb4c4`](https://github.com/adobe/spectrum-design-data/commit/82bb4c46f67a0b4a1a74fb18514d53925f85a3ca) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate the final 19 space-between gap endpoints; defer SPEC-047's declared-anatomy
+  check when no component catalog is loaded (closes 04c.8).
+  - **sdk/core/src/validate/rules/spec047.rs**: defer (don't error) on a component-scoped
+    gap endpoint when `validate-dataset` runs with no component catalog loaded, since its
+    declared-anatomy-part arm can't be evaluated; mirrors SPEC-018's empty-catalog guard.
+  - **packages/design-data/tokens/layout-component.tokens.json**: decompose the last 19
+    `{a}-to-{b}` tokens (menu, tree-view, status-light, alert-banner, etc.) into structured
+    `from`/`to` fields — all 134 eligible gap tokens are now migrated.
+
+- [#1215](https://github.com/adobe/spectrum-design-data/pull/1215) [`212ec82`](https://github.com/adobe/spectrum-design-data/commit/212ec825e25c5ce7ae7342072522423b3ce07483) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: decompose compound size-\* property values into structured size field for 24 tokens.
+  - **packages/design-data/tokens/layout-component.tokens.json**: extracted size field from
+    compound properties (e.g. `handle-size-large` → `property: size` + `size: l`);
+    legacy keys unchanged.
+
+- [#1203](https://github.com/adobe/spectrum-design-data/pull/1203) [`0297e7e`](https://github.com/adobe/spectrum-design-data/commit/0297e7ee77e102a3756302f83ab9236cd142ee58) Thanks [@GarthDB](https://github.com/GarthDB)! - Phase D: taxonomy field serializer + size decomposition pilot.
+  - **sdk/core/src/naming.rs**: Generalize `extract_legacy_key` to walk the
+    field catalog in `serialization.position` order, expanding registry ids to
+    their `tokenName` long-forms (e.g. `size:"xl"` → `"extra-large"`). Excludes
+    mode-set, color-domain, and legacy metadata annotation fields. Output is
+    byte-identical for all current tokens (all gates pass).
+  - **sdk/core/src/registry.rs**: Add `token_name(field, id) -> Option<&str>`
+    to `RegistryData`, backed by the embedded registry JSON.
+  - **sdk/scripts/generate-registry-data.js** + **registry_data.rs**: Generate
+    `build_token_name_map()` alongside the existing `build_registry_map()`.
+  - **packages/design-data/tokens/layout-component.tokens.json**,
+    **layout.tokens.json**: 68 layout tokens decomposed — `size` extracted from
+    `property` into the structured field (HIGH-confidence, all roundtrip-verified).
+  - **tools/token-mapping-analyzer/test/apply.test.js**: Verify roundtrip
+    invariant on already-migrated tokens.
+
+- [#1214](https://github.com/adobe/spectrum-design-data/pull/1214) [`5e7db36`](https://github.com/adobe/spectrum-design-data/commit/5e7db3605547e680f777fc345f0005d7e3637a7e) Thanks [@GarthDB](https://github.com/GarthDB)! - Register color-handle, color-loupe components and color-area anatomy term.
+  - **packages/design-data/registry/components.json**: Add `color-handle` and
+    `color-loupe` entries backing existing refs in `color-component.tokens.json`.
+  - **packages/design-data/registry/anatomy-terms.json**: Add `color-area`
+    anatomy term for the embedded gradient surface in color-wheel and relatives.
+  - **sdk/core/src/registry_data.rs**: Regenerated via `sdk:codegen` to include
+    all three new entries.
+
+- [#1213](https://github.com/adobe/spectrum-design-data/pull/1213) [`035a1f9`](https://github.com/adobe/spectrum-design-data/commit/035a1f95d909f8e443a5e51baee6e30d11eedde5) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose component color properties into colorFamily + colorRole fields (closes beads #72c).
+  - **packages/design-data/fields/colorRole.json**: new `colorRole` field
+    (position 16, scope color, excludeFromLegacyKey).
+  - **packages/design-data/registry/color-roles.json**: new registry —
+    `primary` and `background` role values.
+  - **packages/design-data/tokens/icons.tokens.json**: 187 tokens atomized
+    (`color-blue-primary` → `property:color` + `colorFamily:blue` + `colorRole:primary`).
+  - **sdk/core/src/naming.rs**: color-domain branch extended for component color
+    tokens (`{component}-{property}-{colorFamily?}-{colorRole?}-{state?}`).
+  - **tools/token-mapping-analyzer/src/migrate-color-role.js**: new migration
+    script for multi-field color property decomposition.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: `serialize()` gains
+    JS-parity color-domain branches matching the Rust serializer.
+
+### Patch Changes
+
+- [#1218](https://github.com/adobe/spectrum-design-data/pull/1218) [`e38c4e1`](https://github.com/adobe/spectrum-design-data/commit/e38c4e19f97aa590991b0c1ac40c2e1b24620cde) Thanks [@GarthDB](https://github.com/GarthDB)! - naming.rs: serialize `space-between` endpoint fields in `extract_legacy_key` (04c.2).
+  - **sdk/core/src/naming.rs**: added an explicit branch for `property: "space-between"`
+    tokens that reconstructs the legacy `{from}-to-{to}` connective from the paired `from`/`to`
+    fields, mirroring the existing color-domain branches. Falls through to the generic walk
+    when either endpoint is missing.
+
+- [#1201](https://github.com/adobe/spectrum-design-data/pull/1201) [`11c4d5a`](https://github.com/adobe/spectrum-design-data/commit/11c4d5a937064ba24f69437c59ab5ad1bfbe5f8c) Thanks [@GarthDB](https://github.com/GarthDB)! - feat(authoring): Phase C — create/edit authoring for non-token data categories.
+  - **tools/design-data-agent-mcp**: adds `data_create` and `data_edit` MCP tools for
+    components, fields, registry, mode-sets, and guidelines; delegate to the CLI.
+  - **packages/design-data/AUTHORING.md**: documents the new `design-data data create|edit`
+    CLI commands and the `data_create`/`data_edit` MCP tools.
+
+- [#1204](https://github.com/adobe/spectrum-design-data/pull/1204) [`4218d6a`](https://github.com/adobe/spectrum-design-data/commit/4218d6a1694db70cb37f656cd0250e306e48912d) Thanks [@GarthDB](https://github.com/GarthDB)! - Replace opt-out SKIP const in naming.rs with opt-in `excludeFromLegacyKey`
+  catalog flag (ye1.9).
+  - **sdk/core/src/registry.rs**: Added `exclude_from_legacy_key: bool`
+    to `FieldCatalogEntry`; absent in field JSON defaults to false (opt-in).
+  - **sdk/scripts/generate-registry-data.js**: Emits the new field from
+    `d.excludeFromLegacyKey` in each generated literal.
+  - **sdk/core/src/naming.rs**: Deleted hardcoded `SKIP` const; walk now
+    skips entries where `exclude_from_legacy_key` is true.
+  - **packages/design-data/fields/**: Added `"excludeFromLegacyKey": true`
+    to the 9 formerly-SKIPped fields (colorScheme, scale, contrast,
+    colorFamily, scaleIndex, weight, family, style, structure).
+  - **packages/design-data-spec/schemas/field.schema.json**: Added
+    `excludeFromLegacyKey` boolean to allow the flag in field declarations.
+
 ## 0.7.1
 
 ### Patch Changes

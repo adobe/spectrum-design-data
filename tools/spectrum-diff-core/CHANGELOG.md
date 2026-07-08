@@ -1,5 +1,13 @@
 # @adobe/spectrum-diff-core
 
+## 1.1.2
+
+### Patch Changes
+
+- [#1209](https://github.com/adobe/spectrum-design-data/pull/1209) [`53e3349`](https://github.com/adobe/spectrum-design-data/commit/53e334991b660de98f36640871378b6ebc1d0f82) Thanks [@GarthDB](https://github.com/GarthDB)! - Collapse 9-arm Object.entries mapping in processResultForTemplate to a single helper.
+  - **tools/spectrum-diff-core/src/formatters/handlebars-formatter.js**: replace repeated
+    Object.entries map arms with a two-line local helper; output is byte-identical.
+
 ## 1.1.1
 
 ### Patch Changes
