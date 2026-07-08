@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/typography-weights.json",
   "validation": "advisory",
   "serialization": {
-    "position": 19
+    "position": 20
   },
   "scope": "typography",
   "required": false,

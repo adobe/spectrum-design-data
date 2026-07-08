@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/property-terms.json",
   "validation": "advisory",
   "serialization": {
-    "position": 6
+    "position": 8
   },
   "scope": null,
   "required": true,

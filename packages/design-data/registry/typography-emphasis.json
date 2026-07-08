@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-emphasis",
+  "description": "Typographic emphasis identifiers for typography tokens. Assigned via the `emphasis` name-object field. Distinct from the CSS font-weight axis (see `weight`): emphasis is a relative modifier layered on a family/component (e.g. `cjk-strong-font-weight`), and values may compound (e.g. `heavy-strong-emphasized`) by hyphen-joining multiple modifiers.",
+  "values": [
+    {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Standard emphasis"
+    },
+    {
+      "id": "strong",
+      "label": "Strong",
+      "description": "Strong emphasis (heavier than emphasized)"
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy",
+      "description": "Heaviest emphasis"
+    },
+    {
+      "id": "light",
+      "label": "Light",
+      "description": "Lighter than default emphasis"
+    },
+    {
+      "id": "non-emphasized",
+      "label": "Non-Emphasized",
+      "description": "Explicitly not emphasized (maps to isEmphasized: false)"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "emphasis",
+  "description": "Typographic emphasis level of a typography token (e.g. emphasized, strong, heavy, light). Distinct from the CSS font-weight axis (see `weight`) — emphasis is a relative modifier layered on a family/component, and values may compound (e.g. heavy-strong-emphasized).",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/typography-emphasis.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 7
+  },
+  "scope": "typography",
+  "required": false,
+  "valueType": "string",
+  "excludeFromLegacyKey": false
+}

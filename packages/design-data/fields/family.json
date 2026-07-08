@@ -7,10 +7,10 @@
   "registry": "packages/design-data/registry/typography-families.json",
   "validation": "advisory",
   "serialization": {
-    "position": 18
+    "position": 6
   },
   "scope": "typography",
   "required": false,
   "valueType": "string",
-  "excludeFromLegacyKey": true
+  "excludeFromLegacyKey": false
 }

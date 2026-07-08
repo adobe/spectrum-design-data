@@ -19077,8 +19077,10 @@
   },
   {
     "name": {
-      "property": "title-cjk-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19086,8 +19088,10 @@
   },
   {
     "name": {
-      "property": "title-cjk-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -19096,7 +19100,8 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-font-family"
+      "property": "font-family",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "034892ba-eff6-4193-b4c5-61d20c8f22eb",
@@ -19105,7 +19110,8 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-font-style"
+      "property": "font-style",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19114,7 +19120,8 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-font-weight"
+      "property": "font-weight",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -19123,7 +19130,8 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-line-height"
+      "property": "line-height",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4",
@@ -19194,8 +19202,10 @@
   },
   {
     "name": {
-      "property": "title-cjk-strong-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19203,8 +19213,10 @@
   },
   {
     "name": {
-      "property": "title-cjk-strong-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -19213,7 +19225,9 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-strong-font-style"
+      "property": "font-style",
+      "emphasis": "strong",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19222,7 +19236,9 @@
   {
     "name": {
       "component": "title",
-      "property": "cjk-strong-font-weight"
+      "property": "font-weight",
+      "emphasis": "strong",
+      "family": "cjk"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -19257,8 +19273,10 @@
   },
   {
     "name": {
-      "property": "title-sans-serif-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -19266,8 +19284,10 @@
   },
   {
     "name": {
-      "property": "title-sans-serif-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -19276,7 +19296,8 @@
   {
     "name": {
       "component": "title",
-      "property": "sans-serif-font-family"
+      "property": "font-family",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b",
@@ -19285,7 +19306,8 @@
   {
     "name": {
       "component": "title",
-      "property": "sans-serif-font-style"
+      "property": "font-style",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19294,7 +19316,8 @@
   {
     "name": {
       "component": "title",
-      "property": "sans-serif-font-weight"
+      "property": "font-weight",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -19302,8 +19325,10 @@
   },
   {
     "name": {
-      "property": "title-sans-serif-strong-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -19311,8 +19336,10 @@
   },
   {
     "name": {
-      "property": "title-sans-serif-strong-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -19321,7 +19348,9 @@
   {
     "name": {
       "component": "title",
-      "property": "sans-serif-strong-font-style"
+      "property": "font-style",
+      "emphasis": "strong",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19330,7 +19359,9 @@
   {
     "name": {
       "component": "title",
-      "property": "sans-serif-strong-font-weight"
+      "property": "font-weight",
+      "emphasis": "strong",
+      "family": "sans-serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -19338,8 +19369,10 @@
   },
   {
     "name": {
-      "property": "title-serif-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -19347,8 +19380,10 @@
   },
   {
     "name": {
-      "property": "title-serif-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "emphasized",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -19357,7 +19392,8 @@
   {
     "name": {
       "component": "title",
-      "property": "serif-font-family"
+      "property": "font-family",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7f83198f-26ec-4156-9573-826dd7feb718",
@@ -19366,7 +19402,8 @@
   {
     "name": {
       "component": "title",
-      "property": "serif-font-style"
+      "property": "font-style",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19375,7 +19412,8 @@
   {
     "name": {
       "component": "title",
-      "property": "serif-font-weight"
+      "property": "font-weight",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
@@ -19383,8 +19421,10 @@
   },
   {
     "name": {
-      "property": "title-serif-strong-emphasized-font-style",
-      "component": "title"
+      "property": "font-style",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
@@ -19392,8 +19432,10 @@
   },
   {
     "name": {
-      "property": "title-serif-strong-emphasized-font-weight",
-      "component": "title"
+      "property": "font-weight",
+      "component": "title",
+      "emphasis": "strong-emphasized",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",
@@ -19402,7 +19444,9 @@
   {
     "name": {
       "component": "title",
-      "property": "serif-strong-font-style"
+      "property": "font-style",
+      "emphasis": "strong",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
@@ -19411,7 +19455,9 @@
   {
     "name": {
       "component": "title",
-      "property": "serif-strong-font-weight"
+      "property": "font-weight",
+      "emphasis": "strong",
+      "family": "serif"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e2f23ca1-802b-40a2-a211-33090f9a043e",

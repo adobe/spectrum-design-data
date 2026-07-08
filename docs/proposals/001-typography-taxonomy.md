@@ -1,6 +1,6 @@
 # Proposal 001: Typography Taxonomy
 
-**Status:** Draft\
+**Status:** Partially adopted (2026-07-08) — see [Decision](#decision-2026-07-08) below\
 **Affects:** 221 active tokens in `typography.json`\
 **Spec reference:** taxonomy.md line 76 — "Additional categories do and will exist for other token types (e.g. color, typography)."
 
@@ -78,3 +78,20 @@ Note: `heavy-emphasized` is a compound emphasis value (heavy + emphasized). This
 * 221 active tokens move from MEDIUM to HIGH confidence
 * Three new registry files created
 * Taxonomy spec updated with typography scope section
+
+## Decision (2026-07-08)
+
+Adopted with one change: **`script` is dropped in favor of the already-shipped `family` field**
+(`packages/design-data/fields/family.json`), whose registry (`typography-families.json`) already
+enumerates `cjk` alongside `sans-serif`/`serif`/`code`. A separate `script` field would duplicate
+that axis for no gain — `cjk` is a family value here, not an independent dimension.
+
+`emphasis` is adopted as proposed: new field `packages/design-data/fields/emphasis.json` +
+registry `packages/design-data/registry/typography-emphasis.json`, scoped to typography, holding
+the atomic modifiers (`emphasized`, `strong`, `heavy`, `light`, `non-emphasized`). Compound values
+(e.g. `heavy-strong-emphasized`) are not separately enumerated in the registry — they're built by
+hyphen-joining atomic modifiers, per the compound-state pattern.
+
+This keeps `family` and `emphasis` distinct from the CSS-axis `weight`/`style` fields, which model
+actual `font-weight`/`font-style` values (e.g. `weight: "bold"`) rather than a relative emphasis
+modifier layered on a family/component.

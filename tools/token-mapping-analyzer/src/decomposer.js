@@ -57,11 +57,6 @@ const COMPOUND_PROPERTIES = [
  * These are classified as gap categories for the report rather than matched to fields.
  */
 const KNOWN_GAP_TERMS = {
-  // Typography script/family — need a new field or vocabulary expansion
-  "typography-script": ["cjk"],
-  "typography-family": ["sans", "serif"],
-  // Typography weight/emphasis — overlap with states/variants
-  "typography-weight": ["emphasized", "strong", "heavy", "light"],
   // Variant qualifiers — subtle, subdued, and static are now in the variant registry.
   // Only "non" remains unregistered (used as a negation prefix, not a standalone variant).
   "variant-qualifier": ["non"],
@@ -288,6 +283,54 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
             matchDetails[connectorIdx + 1 + i] = "to";
           }
         }
+      }
+    }
+  }
+
+  // Phase 2.6: Compound emphasis — hyphen-join a run of adjacent unmatched
+  // segments that each independently match an `emphasis` registry term (e.g.
+  // "heavy"+"strong" -> "heavy-strong"), mirroring the compound-state pattern
+  // (Proposal 001 / 005). Without this, only the first term in the run would
+  // be captured and any adjacent ones lost as unmatched segments. Only the
+  // leftmost run is combined — real typography tokens carry at most one.
+  {
+    const emphasisTerms = [...registry.terms]
+      .filter((t) => t.field === "emphasis")
+      .sort((a, b) => b.segments.length - a.segments.length);
+
+    const matchEmphasisAt = (idx) => {
+      for (const term of emphasisTerms) {
+        if (matched[idx] || term.segments.length > segments.length - idx)
+          continue;
+        let ok = true;
+        for (let j = 0; j < term.segments.length; j++) {
+          if (matched[idx + j] || segments[idx + j] !== term.segments[j]) {
+            ok = false;
+            break;
+          }
+        }
+        if (ok) return term;
+      }
+      return null;
+    };
+
+    for (let i = 0; i < segments.length && !nameObject.emphasis; i++) {
+      const first = matchEmphasisAt(i);
+      if (!first) continue;
+      const ids = [first.id];
+      let cursor = i + first.segments.length;
+      for (
+        let next = matchEmphasisAt(cursor);
+        next;
+        next = matchEmphasisAt(cursor)
+      ) {
+        ids.push(next.id);
+        cursor += next.segments.length;
+      }
+      nameObject.emphasis = ids.join("-");
+      for (let k = i; k < cursor; k++) {
+        matched[k] = true;
+        matchDetails[k] = "emphasis";
       }
     }
   }
@@ -590,6 +633,19 @@ export function serialize(
     if (nameObject.state)
       parts.push(tokenNameMap[nameObject.state] || nameObject.state);
     return parts.join("-");
+  }
+
+  // Thin-format detection: `property` already begins `{component}-`, meaning
+  // the full legacy key is stored verbatim in `property` and `component` is
+  // duplicated metadata annotation only. Emitting component then property here
+  // would double the prefix (e.g. "heading-heading-cjk-font-style"). Mirrors
+  // sdk/core/src/naming.rs's `is_thin` branch — keep in sync.
+  if (
+    component &&
+    nameObject.property &&
+    nameObject.property.startsWith(`${component}-`)
+  ) {
+    return nameObject.property;
   }
 
   // Space-between (gap) domain: property literal term "space-between", real

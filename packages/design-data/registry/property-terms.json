@@ -209,6 +209,26 @@
       "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
     },
     {
+      "id": "margin-multiplier",
+      "label": "Margin Multiplier",
+      "description": "Unitless margin ratio (multiplier), applied to both top and bottom of a typography block"
+    },
+    {
+      "id": "margin-top-multiplier",
+      "label": "Margin Top Multiplier",
+      "description": "Unitless margin ratio (multiplier) applied above a typography block"
+    },
+    {
+      "id": "margin-bottom-multiplier",
+      "label": "Margin Bottom Multiplier",
+      "description": "Unitless margin ratio (multiplier) applied below a typography block"
+    },
+    {
+      "id": "text-transform",
+      "label": "Text Transform",
+      "description": "Case transformation applied to text content (e.g. uppercase, lowercase)"
+    },
+    {
       "id": "minimum-width",
       "label": "Minimum Width",
       "description": "CSS min-width constraint (design-system abstraction)"

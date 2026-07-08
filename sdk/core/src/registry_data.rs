@@ -1483,6 +1483,67 @@ const TOKEN_OBJECTS_JSON: &str = r##"{
   ]
 }
 "##;
+const TYPOGRAPHY_FAMILIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-family",
+  "description": "Type family identifiers for typography tokens. Assigned via the `family` name-object field. Represents the script or display context of the typeface, not a specific font name.",
+  "values": [
+    {
+      "id": "sans-serif",
+      "label": "Sans-Serif",
+      "description": "Sans-serif typeface family (e.g. Adobe Clean)"
+    },
+    {
+      "id": "serif",
+      "label": "Serif",
+      "description": "Serif typeface family (e.g. Adobe Clean Serif)"
+    },
+    {
+      "id": "cjk",
+      "label": "CJK",
+      "description": "CJK (Chinese, Japanese, Korean) script typeface family"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "description": "Monospace typeface family for code and technical content"
+    }
+  ]
+}
+"##;
+const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "typography-emphasis",
+  "description": "Typographic emphasis identifiers for typography tokens. Assigned via the `emphasis` name-object field. Distinct from the CSS font-weight axis (see `weight`): emphasis is a relative modifier layered on a family/component (e.g. `cjk-strong-font-weight`), and values may compound (e.g. `heavy-strong-emphasized`) by hyphen-joining multiple modifiers.",
+  "values": [
+    {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Standard emphasis"
+    },
+    {
+      "id": "strong",
+      "label": "Strong",
+      "description": "Strong emphasis (heavier than emphasized)"
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy",
+      "description": "Heaviest emphasis"
+    },
+    {
+      "id": "light",
+      "label": "Light",
+      "description": "Lighter than default emphasis"
+    },
+    {
+      "id": "non-emphasized",
+      "label": "Non-Emphasized",
+      "description": "Explicitly not emphasized (maps to isEmphasized: false)"
+    }
+  ]
+}
+"##;
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
@@ -1692,6 +1753,26 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "line-height-multiplier",
       "label": "Line Height Multiplier",
       "description": "Unitless line-height ratio (multiplier), distinct from the absolute px line-height paired with a specific font-size tier"
+    },
+    {
+      "id": "margin-multiplier",
+      "label": "Margin Multiplier",
+      "description": "Unitless margin ratio (multiplier), applied to both top and bottom of a typography block"
+    },
+    {
+      "id": "margin-top-multiplier",
+      "label": "Margin Top Multiplier",
+      "description": "Unitless margin ratio (multiplier) applied above a typography block"
+    },
+    {
+      "id": "margin-bottom-multiplier",
+      "label": "Margin Bottom Multiplier",
+      "description": "Unitless margin ratio (multiplier) applied below a typography block"
+    },
+    {
+      "id": "text-transform",
+      "label": "Text Transform",
+      "description": "Case transformation applied to text content (e.g. uppercase, lowercase)"
     },
     {
       "id": "minimum-width",
@@ -2276,34 +2357,6 @@ const COLOR_FAMILIES_JSON: &str = r##"{
   ]
 }
 "##;
-const TYPOGRAPHY_FAMILIES_JSON: &str = r##"{
-  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "typography-family",
-  "description": "Type family identifiers for typography tokens. Assigned via the `family` name-object field. Represents the script or display context of the typeface, not a specific font name.",
-  "values": [
-    {
-      "id": "sans-serif",
-      "label": "Sans-Serif",
-      "description": "Sans-serif typeface family (e.g. Adobe Clean)"
-    },
-    {
-      "id": "serif",
-      "label": "Serif",
-      "description": "Serif typeface family (e.g. Adobe Clean Serif)"
-    },
-    {
-      "id": "cjk",
-      "label": "CJK",
-      "description": "CJK (Chinese, Japanese, Korean) script typeface family"
-    },
-    {
-      "id": "code",
-      "label": "Code",
-      "description": "Monospace typeface family for code and technical content"
-    }
-  ]
-}
-"##;
 const TYPOGRAPHY_WEIGHTS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "typography-weight",
@@ -2521,7 +2574,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2532,6 +2585,8 @@ pub(crate) fn build_registry_map(
     map.insert("substructure".to_string(), parse_registry(SUBSTRUCTURES_JSON));
     map.insert("anatomy".to_string(), parse_registry(ANATOMY_TERMS_JSON));
     map.insert("object".to_string(), parse_registry(TOKEN_OBJECTS_JSON));
+    map.insert("family".to_string(), parse_registry(TYPOGRAPHY_FAMILIES_JSON));
+    map.insert("emphasis".to_string(), parse_registry(TYPOGRAPHY_EMPHASIS_JSON));
     map.insert("property".to_string(), parse_registry(PROPERTY_TERMS_JSON));
     map.insert("orientation".to_string(), parse_registry(ORIENTATIONS_JSON));
     map.insert("position".to_string(), parse_registry(POSITIONS_JSON));
@@ -2541,7 +2596,6 @@ pub(crate) fn build_registry_map(
     map.insert("state".to_string(), parse_registry(STATES_JSON));
     map.insert("colorRole".to_string(), parse_registry(COLOR_ROLES_JSON));
     map.insert("colorFamily".to_string(), parse_registry(COLOR_FAMILIES_JSON));
-    map.insert("family".to_string(), parse_registry(TYPOGRAPHY_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_registry(TYPOGRAPHY_WEIGHTS_JSON));
     map.insert("style".to_string(), parse_registry(TYPOGRAPHY_STYLES_JSON));
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
@@ -2560,6 +2614,8 @@ pub(crate) fn build_token_name_map(
     map.insert("substructure".to_string(), parse_token_name_map(SUBSTRUCTURES_JSON));
     map.insert("anatomy".to_string(), parse_token_name_map(ANATOMY_TERMS_JSON));
     map.insert("object".to_string(), parse_token_name_map(TOKEN_OBJECTS_JSON));
+    map.insert("family".to_string(), parse_token_name_map(TYPOGRAPHY_FAMILIES_JSON));
+    map.insert("emphasis".to_string(), parse_token_name_map(TYPOGRAPHY_EMPHASIS_JSON));
     map.insert("property".to_string(), parse_token_name_map(PROPERTY_TERMS_JSON));
     map.insert("orientation".to_string(), parse_token_name_map(ORIENTATIONS_JSON));
     map.insert("position".to_string(), parse_token_name_map(POSITIONS_JSON));
@@ -2569,7 +2625,6 @@ pub(crate) fn build_token_name_map(
     map.insert("state".to_string(), parse_token_name_map(STATES_JSON));
     map.insert("colorRole".to_string(), parse_token_name_map(COLOR_ROLES_JSON));
     map.insert("colorFamily".to_string(), parse_token_name_map(COLOR_FAMILIES_JSON));
-    map.insert("family".to_string(), parse_token_name_map(TYPOGRAPHY_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_token_name_map(TYPOGRAPHY_WEIGHTS_JSON));
     map.insert("style".to_string(), parse_token_name_map(TYPOGRAPHY_STYLES_JSON));
     map.insert("motionRole".to_string(), parse_token_name_map(MOTION_ROLES_JSON));
@@ -2586,26 +2641,27 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "property", position: 6, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "orientation", position: 7, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "position", position: 8, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "size", position: 9, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "density", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "shape", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "state", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "colorScheme", position: 13, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "scale", position: 14, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "contrast", position: 15, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorRole", position: 16, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorFamily", position: 17, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "family", position: 18, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "weight", position: 19, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "style", position: 20, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "motionRole", position: 21, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "easing", position: 22, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "from", position: 23, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "to", position: 24, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "alignment", position: 25, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "family", position: 6, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "emphasis", position: 7, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "property", position: 8, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "orientation", position: 9, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "position", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "size", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "density", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "shape", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "state", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "colorScheme", position: 15, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "scale", position: 16, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "contrast", position: 17, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "colorRole", position: 18, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "colorFamily", position: 19, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "weight", position: 20, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "style", position: 21, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "motionRole", position: 22, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "easing", position: 23, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "from", position: 24, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "to", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "alignment", position: 26, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
     ]
 }

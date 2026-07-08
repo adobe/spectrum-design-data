@@ -82,18 +82,54 @@ test("detects spacing-between pattern", (t) => {
   t.truthy(spacingGap);
 });
 
-test("classifies typography weight terms as gaps", (t) => {
+test("matches typography family and emphasis as real fields, not gaps", (t) => {
   const result = decompose(
     "body-cjk-emphasized-font-weight",
     { component: "body" },
     registry,
     "test",
   );
-  // "emphasized" is unregistered → typography-weight gap
-  const weightGap = result.gaps.find((g) => g.type === "typography-weight");
-  t.truthy(weightGap);
-  // "cjk" is registered in the family registry → matched as family, not a gap
   t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.emphasis, "emphasized");
+  t.is(result.nameObject.property, "font-weight");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+  t.deepEqual(result.gaps, []);
+});
+
+test("compounds adjacent emphasis terms into one hyphen-joined value", (t) => {
+  const result = decompose(
+    "cjk-light-strong-font-weight",
+    {},
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.emphasis, "light-strong");
+  t.is(result.nameObject.property, "font-weight");
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("compounds emphasis terms alongside anatomy and family", (t) => {
+  const result = decompose(
+    "body-cjk-strong-emphasized-font-weight",
+    { component: "body" },
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.emphasis, "strong-emphasized");
+  t.is(result.nameObject.property, "font-weight");
+  t.true(result.roundtrips);
+});
+
+test("matches a lone family term with no emphasis", (t) => {
+  const result = decompose("sans-serif-font-family", {}, registry, "test");
+  t.is(result.nameObject.family, "sans-serif");
+  t.is(result.nameObject.emphasis, undefined);
+  t.is(result.nameObject.property, "font-family");
+  t.true(result.roundtrips);
 });
 
 test("matches key-focus as keyboard-focus state", (t) => {

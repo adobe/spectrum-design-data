@@ -91,20 +91,30 @@ export function applyField(tokens, field, registry, filename) {
     )
       continue;
 
-    // Safety re-serialize: patched name must still produce the same legacy key
-    const patched = {
-      ...token.name,
-      [field]: result.nameObject[field],
-      property: result.nameObject.property,
-    };
+    // Safety re-serialize: patched name must still produce the same legacy key.
+    // Merge the *entire* resolved name object, not just [field]+property: when
+    // a token stacks multiple concepts in one property string (e.g. typography's
+    // "cjk-strong-font-weight" resolving to family+emphasis+property together),
+    // decompose() strips all of them from property at once, so writing back only
+    // the targeted field would silently drop the others and break the roundtrip.
+    const patched = { ...token.name, ...result.nameObject };
+
+    // SPEC-025: anatomy requires component. decompose() can resolve `anatomy`
+    // as a side effect of extracting an unrelated field (e.g. family/emphasis
+    // stacked with an anatomy term in the same property string), so this guard
+    // must apply to the merged result regardless of which field was targeted.
+    if (patched.anatomy && !patched.component) {
+      skippedSpec025++;
+      continue;
+    }
+
     if (
       serialize(patched, registry.tokenNameMap, registry.serializationOrder) !==
       legacyKey
     )
       continue;
 
-    token.name[field] = result.nameObject[field];
-    token.name.property = result.nameObject.property;
+    Object.assign(token.name, result.nameObject);
     applied++;
   }
 

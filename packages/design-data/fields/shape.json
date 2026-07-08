@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/shapes.json",
   "validation": "advisory",
   "serialization": {
-    "position": 11
+    "position": 13
   },
   "scope": null,
   "required": false,

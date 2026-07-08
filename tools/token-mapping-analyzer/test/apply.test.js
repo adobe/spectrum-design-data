@@ -14,7 +14,7 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
 import { serialize } from "../src/decomposer.js";
-import { applySpaceBetween } from "../src/apply.js";
+import { applyField, applySpaceBetween } from "../src/apply.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
@@ -217,4 +217,67 @@ test("applySpaceBetween skips tokens already migrated", (t) => {
   );
 
   t.is(applied, 0);
+});
+
+// A property string that stacks two concepts (family + emphasis) must have both
+// extracted together in one applyField call, even though only "family" was
+// requested: decompose() strips both from `property` at once, so writing back
+// only the targeted field (and the fully-stripped property) would silently
+// drop the other and break the roundtrip. Regression test for that bug.
+test("applyField extracts co-occurring fields together to preserve the roundtrip", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    {
+      name: { property: "cjk-strong-font-weight" },
+      value: "700",
+    },
+  ];
+
+  const { applied } = applyField(
+    tokens,
+    "family",
+    registry,
+    "fixture.tokens.json",
+  );
+
+  t.is(applied, 1);
+  t.is(tokens[0].name.family, "cjk");
+  t.is(tokens[0].name.emphasis, "strong");
+  t.is(tokens[0].name.property, "font-weight");
+  t.is(
+    serialize(
+      tokens[0].name,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    ),
+    "cjk-strong-font-weight",
+  );
+});
+
+// decompose() can resolve `anatomy` as a side effect of extracting an unrelated
+// field (e.g. "heading-serif-emphasized-font-weight" -> anatomy:"heading" +
+// family:"serif" + emphasis:"emphasized"). Without a component field, applying
+// that merge violates SPEC-025 (anatomy requires component) even though the
+// *targeted* field was "family", not "anatomy". Regression test for that bug.
+test("applyField skips a merge that would introduce a SPEC-025 violation (anatomy without component)", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    {
+      name: { property: "heading-serif-emphasized-font-weight" },
+      value: "700",
+    },
+  ];
+
+  const { applied, skippedSpec025 } = applyField(
+    tokens,
+    "family",
+    registry,
+    "fixture.tokens.json",
+  );
+
+  t.is(applied, 0);
+  t.is(skippedSpec025, 1);
+  t.is(tokens[0].name.family, undefined);
+  t.is(tokens[0].name.anatomy, undefined);
+  t.is(tokens[0].name.property, "heading-serif-emphasized-font-weight");
 });

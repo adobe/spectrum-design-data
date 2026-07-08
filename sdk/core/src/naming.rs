@@ -16,7 +16,8 @@
 //!
 //! ```text
 //! {variant?}-{component?}-{structure?}-{substructure?}-{anatomy?}-{object?}
-//! -{property}-{orientation?}-{position?}-{size?}-{density?}-{shape?}-{state?}
+//! -{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}-{density?}
+//! -{shape?}-{state?}
 //! ```
 //!
 //! Registry ids are expanded to their `tokenName` long-forms before joining
@@ -24,8 +25,10 @@
 //! `tools/token-mapping-analyzer/src/decomposer.js`.
 //!
 //! Mode-set fields (`colorScheme`, `scale`, `contrast`), the color-domain field
-//! (`colorFamily`), and `scaleIndex` are excluded from the general key. Color-palette
-//! tokens have their own path: `{variant?}-{colorFamily}-{scaleIndex?}`.
+//! (`colorFamily`, `colorRole`), and `scaleIndex` are excluded from the general key.
+//! Color-palette tokens have their own path: `{variant?}-{colorFamily}-{scaleIndex?}`.
+//! `weight`/`style` (CSS font-weight/font-style values) remain excluded pending their
+//! own decomposition pass — only `family`/`emphasis` are enabled so far.
 
 use std::collections::HashSet;
 use std::path::Path;
@@ -326,8 +329,12 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //   Color-domain (handled by color-domain branch above): colorFamily, colorRole
     //   Integer scale (already embedded in `property`; would double-emit): scaleIndex
     //   Legacy metadata annotations (value already embedded in `property` for all current
-    //     tokens): weight, family, style, structure — if any joins Phase D decomposition,
-    //     remove its excludeFromLegacyKey flag and re-verify against the three legacy gates.
+    //     tokens): weight, style, structure — if any joins Phase D decomposition, remove
+    //     its excludeFromLegacyKey flag and re-verify against the three legacy gates.
+    //
+    // `family` and `emphasis` (typography-scoped, positions 6/7 — before `property` so
+    // e.g. cjk-strong-font-weight serializes as family:"cjk" + emphasis:"strong" +
+    // property:"font-weight") were enabled for the pur/typography decomposition pass.
 
     let registry = crate::registry::RegistryData::embedded();
     let catalog = crate::registry::FieldCatalog::embedded();
@@ -641,11 +648,32 @@ mod tests {
 
     #[test]
     fn extract_key_anatomy_before_property() {
-        // anatomy (pos 4) before property (pos 6).
+        // anatomy (pos 4) before property (pos 8).
         let name = json!({"component": "button", "anatomy": "icon", "property": "color"});
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("button-icon-color")
+        );
+    }
+
+    #[test]
+    fn extract_key_family_emphasis_before_property() {
+        // family (pos 6) and emphasis (pos 7) precede property (pos 8), matching the
+        // real typography legacy name shape: {family}-{emphasis}-{property}.
+        let name = json!({"family": "cjk", "emphasis": "strong", "property": "font-weight"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("cjk-strong-font-weight")
+        );
+    }
+
+    #[test]
+    fn extract_key_family_only_before_property() {
+        // family present without emphasis: {family}-{property}.
+        let name = json!({"family": "sans-serif", "property": "font-family"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("sans-serif-font-family")
         );
     }
 
@@ -667,23 +695,20 @@ mod tests {
 
     #[test]
     fn extract_key_legacy_annotation_fields_excluded_from_key() {
-        // structure, family, weight, style are legacy-metadata annotations whose values
-        // are already embedded in `property` for all current tokens. They carry
+        // structure, weight, style are legacy-metadata annotations whose values are
+        // already embedded in `property` for all current tokens. They carry
         // exclude_from_legacy_key: true so a catalog-walk refactor can't silently re-include them.
+        // (`family` was promoted out of this group for the pur/typography pass — see
+        // extract_key_family_emphasis_before_property.)
         let name = json!({
             "component": "body",
             "property": "bold-font-weight",
             "structure": "body",
-            "family": "adobe-clean",
             "weight": "bold",
             "style": "italic"
         });
         let key = extract_legacy_key(&name).unwrap();
         assert_eq!(key, "body-bold-font-weight");
-        assert!(
-            !key.contains("adobe-clean"),
-            "family must not appear in legacy key"
-        );
         assert!(
             !key.contains("italic"),
             "style must not appear in legacy key"
