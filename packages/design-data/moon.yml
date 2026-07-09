@@ -38,6 +38,23 @@ tasks:
       - "scripts/validate-registry.js"
       - "/packages/design-data-spec/schemas/registry-value.json"
 
+  # Ad-hoc report: groups SPEC-009 (name-field-enum-sync) warnings from `validate`
+  # by name.<field> and unique value, so the registry-completeness backlog is a
+  # trackable metric instead of a wall of duplicate-shaped lines. Not part of the
+  # `validate` dependency chain — run manually. See beads epic spectrum-design-data-dm2.
+  spec009-report:
+    command: node
+    args:
+      - scripts/spec009-report.js
+    options:
+      runInCI: false
+    deps:
+      - sdk:build
+    inputs:
+      - "@globs(tokens)"
+      - "scripts/spec009-report.js"
+      - "/packages/tokens/naming-exceptions.json"
+
   # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
   validate-guidelines:
     command: node

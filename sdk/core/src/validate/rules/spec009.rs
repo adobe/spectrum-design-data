@@ -15,8 +15,9 @@
 //! field catalog (`packages/design-data/fields/`) — fields with
 //! `validation: "advisory"` and a non-null registry are checked here.
 //!
-//! This is a warning-only rule. Fields excluded from this check:
-//! - `property` — free-form, no registry
+//! This is a warning-only rule. `property` is included (advisory registry added
+//! in #941) and checked here like any other advisory field. Fields excluded from
+//! this check:
 //! - `colorScheme`, `scale`, `contrast` — mode-set fields, validated by SPEC-005/SPEC-008
 
 use crate::report::{Diagnostic, Severity};
