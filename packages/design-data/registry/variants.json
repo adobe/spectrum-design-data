@@ -208,6 +208,13 @@
       "usedIn": ["tokens"]
     },
     {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Elevated emphasis variant for prominent surfaces (e.g. drop shadows)",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",

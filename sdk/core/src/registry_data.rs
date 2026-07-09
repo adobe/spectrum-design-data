@@ -212,6 +212,13 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Elevated emphasis variant for prominent surfaces (e.g. drop shadows)",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -336,6 +343,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/badge/"
     },
     {
+      "id": "body",
+      "label": "Body",
+      "documentationUrl": "https://spectrum.adobe.com/page/body/"
+    },
+    {
       "id": "breadcrumbs",
       "label": "Breadcrumbs",
       "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
@@ -356,6 +368,16 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
     },
     {
+      "id": "card",
+      "label": "Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/card/"
+    },
+    {
+      "id": "card-horizontal",
+      "label": "Card Horizontal",
+      "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
+    },
+    {
       "id": "checkbox",
       "label": "Checkbox",
       "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
@@ -369,6 +391,26 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "close-button",
       "label": "Close Button",
       "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+    },
+    {
+      "id": "coach-indicator",
+      "label": "Coach Indicator",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-indicator/"
+    },
+    {
+      "id": "coach-mark",
+      "label": "Coach Mark",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "documentationUrl": "https://spectrum.adobe.com/page/code/"
+    },
+    {
+      "id": "collection-card",
+      "label": "Collection Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/collection-card/"
     },
     {
       "id": "color-area",
@@ -406,14 +448,29 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
     },
     {
+      "id": "date-field",
+      "label": "Date Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-field/"
+    },
+    {
       "id": "date-picker",
       "label": "Date Picker",
       "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
     },
     {
+      "id": "detail",
+      "label": "Detail",
+      "documentationUrl": "https://spectrum.adobe.com/page/detail/"
+    },
+    {
       "id": "divider",
       "label": "Divider",
       "documentationUrl": "https://spectrum.adobe.com/page/divider/"
+    },
+    {
+      "id": "double-calendar",
+      "label": "Double Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/double-calendar/"
     },
     {
       "id": "drop-zone",
@@ -426,6 +483,21 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
     },
     {
+      "id": "floating-action-button",
+      "label": "Floating Action Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/floating-action-button/"
+    },
+    {
+      "id": "form-item",
+      "label": "Form Item",
+      "documentationUrl": "https://spectrum.adobe.com/page/form-item/"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "documentationUrl": "https://spectrum.adobe.com/page/heading/"
+    },
+    {
       "id": "help-text",
       "label": "Help Text",
       "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
@@ -436,6 +508,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
     },
     {
+      "id": "in-field-progress-circle",
+      "label": "In-Field Progress Circle",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+    },
+    {
       "id": "in-line-alert",
       "label": "In-Line Alert",
       "documentationUrl": "https://spectrum.adobe.com/page/in-line-alert/"
@@ -444,6 +521,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "link",
       "label": "Link",
       "documentationUrl": "https://spectrum.adobe.com/page/link/"
+    },
+    {
+      "id": "list-view",
+      "label": "List View",
+      "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
     },
     {
       "id": "menu",
@@ -459,6 +541,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "number-field",
       "label": "Number Field",
       "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+    },
+    {
+      "id": "opacity-checkerboard",
+      "label": "Opacity Checkerboard",
+      "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
     },
     {
       "id": "picker",
@@ -501,9 +588,29 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
     },
     {
+      "id": "segmented-control",
+      "label": "Segmented Control",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+    },
+    {
+      "id": "segmented-text-field",
+      "label": "Segmented Text Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+    },
+    {
       "id": "select-box",
       "label": "Select Box",
       "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    {
+      "id": "side-navigation",
+      "label": "Side Navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+    },
+    {
+      "id": "single-calendar",
+      "label": "Single Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/single-calendar/"
     },
     {
       "id": "slider",
@@ -511,14 +618,34 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/slider/"
     },
     {
+      "id": "standard-dialog",
+      "label": "Standard Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-dialog/"
+    },
+    {
+      "id": "standard-panel",
+      "label": "Standard Panel",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
+    },
+    {
       "id": "status-light",
       "label": "Status Light",
       "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
     },
     {
+      "id": "steplist",
+      "label": "Steplist",
+      "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+    },
+    {
       "id": "swatch",
       "label": "Swatch",
       "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+    },
+    {
+      "id": "swatch-group",
+      "label": "Swatch Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
     },
     {
       "id": "switch",
@@ -541,9 +668,19 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/tag/"
     },
     {
+      "id": "tag-field",
+      "label": "Tag Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+    },
+    {
       "id": "tag-group",
       "label": "Tag Group",
       "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+    },
+    {
+      "id": "takeover-dialog",
+      "label": "Takeover Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
     },
     {
       "id": "text-area",
@@ -554,6 +691,21 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "text-field",
       "label": "Text Field",
       "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+    },
+    {
+      "id": "thumbnail",
+      "label": "Thumbnail",
+      "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
+    },
+    {
+      "id": "time-field",
+      "label": "Time Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/time-field/"
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "documentationUrl": "https://spectrum.adobe.com/page/title/"
     },
     {
       "id": "toast",
@@ -569,6 +721,21 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "tray",
       "label": "Tray",
       "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+    },
+    {
+      "id": "tree-view",
+      "label": "Tree View",
+      "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
+    },
+    {
+      "id": "triple-calendar",
+      "label": "Triple Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
+    },
+    {
+      "id": "user-card",
+      "label": "User Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/user-card/"
     }
   ]
 }

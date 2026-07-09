@@ -1378,7 +1378,7 @@
   {
     "name": {
       "property": "drop-shadow",
-      "state": "emphasized"
+      "variant": "emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
