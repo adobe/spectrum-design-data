@@ -46,7 +46,8 @@ tasks:
     command: node
     args:
       - scripts/spec009-report.js
-    local: true
+    options:
+      runInCI: false
     deps:
       - sdk:build
     inputs:
