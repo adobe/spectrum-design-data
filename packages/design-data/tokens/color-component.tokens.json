@@ -359,7 +359,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-default",
       "property": "background-color",
       "state": "default",
       "colorScheme": "light"
@@ -372,7 +374,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-default",
       "property": "background-color",
       "state": "default",
       "colorScheme": "dark"
@@ -385,7 +389,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-default",
       "property": "background-color",
       "state": "default",
       "colorScheme": "wireframe"
@@ -398,7 +404,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-disabled",
       "property": "background-color",
       "state": "disabled",
       "colorScheme": "light"
@@ -411,7 +419,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-disabled",
       "property": "background-color",
       "state": "disabled",
       "colorScheme": "dark"
@@ -424,7 +434,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-disabled",
       "property": "background-color",
       "state": "disabled",
       "colorScheme": "wireframe"
@@ -437,7 +449,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-down",
       "property": "background-color",
       "state": "down",
       "colorScheme": "light"
@@ -450,7 +464,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-down",
       "property": "background-color",
       "state": "down",
       "colorScheme": "dark"
@@ -463,7 +479,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-down",
       "property": "background-color",
       "state": "down",
       "colorScheme": "wireframe"
@@ -476,7 +494,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-hover",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "light"
@@ -489,7 +509,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-hover",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "dark"
@@ -502,7 +524,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-hover",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "wireframe"
@@ -515,7 +539,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-keyboard-focus",
       "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "light"
@@ -528,7 +554,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-keyboard-focus",
       "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "dark"
@@ -541,7 +569,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-color-keyboard-focus",
       "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "wireframe"

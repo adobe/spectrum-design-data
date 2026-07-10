@@ -10,8 +10,19 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { readFileSync } from "node:fs";
 import test from "ava";
 import { getFileTokens } from "../index.js";
+
+// Anatomy sub-part tokens (e.g. tab-item-*) keep their legacy key (the
+// sub-part name) but carry their real parent component (e.g. "tabs"), so the
+// key no longer starts with the component value. Recognize the sub-part
+// prefix via the anatomy registry rather than failing.
+const anatomyIds = JSON.parse(
+  readFileSync(
+    new URL("../../design-data/registry/anatomy-terms.json", import.meta.url),
+  ),
+).values.map((v) => v.id);
 
 test("ensure all component tokens are have component data", async (t) => {
   const tokenData = {
@@ -20,9 +31,11 @@ test("ensure all component tokens are have component data", async (t) => {
     ...(await getFileTokens("icons.json")),
   };
   const result = Object.keys(tokenData).filter((tokenName) => {
-    return (
-      !Object.hasOwn(tokenData[tokenName], "component") ||
-      tokenName.indexOf(tokenData[tokenName].component) != 0
+    const { component } = tokenData[tokenName];
+    if (!component) return true;
+    if (tokenName.indexOf(component) === 0) return false;
+    return !anatomyIds.some(
+      (id) => tokenName === id || tokenName.startsWith(`${id}-`),
     );
   });
   t.deepEqual(result, []);

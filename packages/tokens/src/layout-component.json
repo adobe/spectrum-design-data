@@ -5340,7 +5340,7 @@
   },
   "in-field-stepper-to-end-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "in-field-stepper",
+    "component": "number-field",
     "uuid": "e405ccc1-4c8d-4d2e-8bb0-7013733e82c4",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-extra-large instead. Refactoring required",
@@ -5360,7 +5360,7 @@
   },
   "in-field-stepper-to-end-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "in-field-stepper",
+    "component": "number-field",
     "value": "4px",
     "uuid": "cb3e458d-7dcd-484d-9028-220d08c9f129",
     "deprecated": true,
@@ -5369,7 +5369,7 @@
   },
   "in-field-stepper-to-end-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "in-field-stepper",
+    "component": "number-field",
     "value": "3px",
     "uuid": "fe42bdd0-de02-4814-b498-038b26a3c0e7",
     "deprecated": true,
@@ -5378,7 +5378,7 @@
   },
   "in-field-stepper-to-end-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "in-field-stepper",
+    "component": "number-field",
     "uuid": "bceb3359-ccf7-4f05-9cf5-1fba6b7b9efb",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-small instead. Refactoring required",
@@ -5560,7 +5560,7 @@
   },
   "menu-item-background-opacity": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
-    "component": "menu-item",
+    "component": "menu",
     "value": "0",
     "uuid": "6f464689-0b87-4f38-b9a4-e5015acdd0d7"
   },
@@ -5649,7 +5649,7 @@
   },
   "menu-item-label-to-description-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "menu-item",
+    "component": "menu",
     "value": "2px",
     "uuid": "5543ede1-4e55-44f5-920f-288ee96e06ca",
     "deprecated": true,
@@ -5658,7 +5658,7 @@
   },
   "menu-item-label-to-description-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "menu-item",
+    "component": "menu",
     "value": "2px",
     "uuid": "4ce8b4db-72f8-411b-baad-8b66c0496182",
     "deprecated": true,
@@ -5667,7 +5667,7 @@
   },
   "menu-item-label-to-description-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "menu-item",
+    "component": "menu",
     "value": "1px",
     "uuid": "608fd592-fff8-435e-88e2-846bd34cc235",
     "deprecated": true,
@@ -5676,7 +5676,7 @@
   },
   "menu-item-label-to-description-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "menu-item",
+    "component": "menu",
     "value": "1px",
     "uuid": "66d57402-d7db-45df-8872-fd362014bcbe",
     "deprecated": true,
@@ -5851,7 +5851,7 @@
   },
   "menu-item-top-to-thumbnail-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "ea52bf43-3e3b-4559-aec3-4f0a02734a95",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Unify with all top component paddings",
@@ -5871,7 +5871,7 @@
   },
   "menu-item-top-to-thumbnail-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "1df536f1-c853-4955-9533-8c9371fc05cc",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Unify with all top component paddings",
@@ -5891,7 +5891,7 @@
   },
   "menu-item-top-to-thumbnail-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "57fe1e26-77a9-4d8a-ab54-a6f16dc9c5fc",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Unify with all top component paddings",
@@ -5911,7 +5911,7 @@
   },
   "menu-item-top-to-thumbnail-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "f81ebf2a-300e-4bc8-89e0-baec8fc07ee4",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Unify with all top component paddings",
@@ -9459,7 +9459,7 @@
   },
   "tab-item-bottom-to-text-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "adc6e66b-3fc9-4fd7-84ec-ef4494c62774",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -9479,7 +9479,7 @@
   },
   "tab-item-bottom-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "c3498128-c005-4ee4-915e-eb287caa1041",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -9499,7 +9499,7 @@
   },
   "tab-item-bottom-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "d4758ee5-0e66-4812-90f3-618775a200e2",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -9519,7 +9519,7 @@
   },
   "tab-item-bottom-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "4a7ca31f-9087-4865-9a19-669fec8b1e6d",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -9539,7 +9539,7 @@
   },
   "tab-item-bottom-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "60b185b4-b257-47e6-9340-7e1a074a40ea",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -9559,7 +9559,7 @@
   },
   "tab-item-bottom-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "662d4ef9-344e-450f-bd48-0298f111d88a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -9579,7 +9579,7 @@
   },
   "tab-item-bottom-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "1cb59572-fa95-4bc4-b3b1-bad21a5bc28d",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -9599,7 +9599,7 @@
   },
   "tab-item-bottom-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "cfdfec23-be3a-4327-9067-60ecf3e9bed6",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -9619,31 +9619,31 @@
   },
   "tab-item-compact-height-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-300}",
     "uuid": "49130d66-edfb-48bd-8648-96c47f40a884"
   },
   "tab-item-compact-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-200}",
     "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702"
   },
   "tab-item-compact-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-100}",
     "uuid": "e8c7c826-548d-4037-b064-3cf699675d35"
   },
   "tab-item-compact-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-75}",
     "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96"
   },
   "tab-item-focus-indicator-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "efaf1230-6cee-4541-89de-e4ae0879cbdc",
     "deprecated": true,
     "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
@@ -9663,7 +9663,7 @@
   },
   "tab-item-focus-indicator-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "c3865c45-3de0-4ab2-bb81-720c5bff2b41",
     "deprecated": true,
     "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
@@ -9683,7 +9683,7 @@
   },
   "tab-item-focus-indicator-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b84c88e4-e5f2-489b-9564-185e3bd4beda",
     "deprecated": true,
     "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
@@ -9703,7 +9703,7 @@
   },
   "tab-item-focus-indicator-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "352d0f7d-f92e-4ac0-8170-9583107459bb",
     "deprecated": true,
     "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
@@ -9723,31 +9723,31 @@
   },
   "tab-item-height-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-500}",
     "uuid": "42ed814c-5044-4c70-b82f-b49f8226241e"
   },
   "tab-item-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-400}",
     "uuid": "8abd0b0e-fd6d-4064-9d0e-1ab998fcb0ce"
   },
   "tab-item-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-300}",
     "uuid": "5d2288f4-f383-47fa-baca-0168cb46750a"
   },
   "tab-item-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "{component-height-200}",
     "uuid": "7b31cf38-5bac-4f79-a4f1-172a4ea66e10"
   },
   "tab-item-start-to-edge-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b3d0f59e-2e13-4e51-9252-a91a1556de92",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Not present in design; obscure and difficult to find in implementations",
@@ -9767,7 +9767,7 @@
   },
   "tab-item-start-to-edge-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "d4258a99-f47a-495c-9f24-b63f19c55c71",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Not present in design; obscure and difficult to find in implementations",
@@ -9787,7 +9787,7 @@
   },
   "tab-item-start-to-edge-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b3abe910-99fc-4f8b-83af-057fd478c2ee",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Not present in design; obscure and difficult to find in implementations",
@@ -9807,7 +9807,7 @@
   },
   "tab-item-start-to-edge-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "component": "tab-item",
+    "component": "tabs",
     "value": "0px",
     "uuid": "f869f703-a850-4c6c-b518-ec8a1b355046",
     "deprecated": true,
@@ -9815,7 +9815,7 @@
   },
   "tab-item-start-to-edge-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "52087c63-410d-455b-8e3b-51ab1bd831c3",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Not present in design; obscure and difficult to find in implementations",
@@ -9835,7 +9835,7 @@
   },
   "tab-item-to-tab-item-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "f1708d11-7b46-45fd-8d39-5c31a65b7e0c",
     "deprecated": true,
     "deprecated_comment": "Use semantic token tab-gap-horizontal-extra-large instead.",
@@ -9855,7 +9855,7 @@
   },
   "tab-item-to-tab-item-horizontal-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "3b8da429-2985-480a-b85b-319f0c458bd1",
     "deprecated": true,
     "deprecated_comment": "Use semantic token tab-gap-horizontal-large instead.",
@@ -9875,7 +9875,7 @@
   },
   "tab-item-to-tab-item-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "ebae14c7-73ca-4f71-9caa-82fde4816b90",
     "deprecated": true,
     "deprecated_comment": "Use semantic token tab-gap-horizontal-medium instead. Requires acknowledgement of internal button structure",
@@ -9895,7 +9895,7 @@
   },
   "tab-item-to-tab-item-horizontal-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "038f3637-a968-4ccb-bf7e-6dde89677a8b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token tab-gap-horizontal-small instead.",
@@ -9915,7 +9915,7 @@
   },
   "tab-item-to-tab-item-vertical-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "5ce7dfa6-aa85-4be6-bd22-10ae28c79f71",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-gap-regular instead.",
@@ -9935,7 +9935,7 @@
   },
   "tab-item-to-tab-item-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b0613cb8-b17d-4c5c-bab9-02153144c284",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-gap-regular instead.",
@@ -9955,7 +9955,7 @@
   },
   "tab-item-to-tab-item-vertical-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "1579ace5-820f-4b4b-81ed-3b1b8dfc3ae8",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-gap-regular instead.",
@@ -9975,7 +9975,7 @@
   },
   "tab-item-to-tab-item-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "877ed7ee-8207-4eb3-8412-de9089cd8eae",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-gap-regular instead.",
@@ -9995,7 +9995,7 @@
   },
   "tab-item-top-to-text-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "e5a80358-315d-47b0-ad24-c74d9ad8ac98",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10015,7 +10015,7 @@
   },
   "tab-item-top-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "4506ad0b-71e6-4627-b8e8-d6ff00b14e58",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10035,7 +10035,7 @@
   },
   "tab-item-top-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b88d643b-05db-464a-8b71-cd6b682e17e8",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10055,7 +10055,7 @@
   },
   "tab-item-top-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "1f2a4336-4d5b-4b39-a163-0a78a39c848c",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10075,7 +10075,7 @@
   },
   "tab-item-top-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "9a697594-5717-49da-a138-f3c03306082a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
@@ -10095,7 +10095,7 @@
   },
   "tab-item-top-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "1ad119cf-c6ec-458f-b6d6-16c8432b9c28",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
@@ -10115,7 +10115,7 @@
   },
   "tab-item-top-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "b66ff2e3-edd1-4e73-9446-85f596b6252e",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure",
@@ -10135,7 +10135,7 @@
   },
   "tab-item-top-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "1a709fec-7699-4373-83ba-8e8cb6963c5b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
@@ -10155,7 +10155,7 @@
   },
   "tab-item-top-to-workflow-icon-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "863df6bc-a4c3-46f7-80c4-43b3437b37a8",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10175,7 +10175,7 @@
   },
   "tab-item-top-to-workflow-icon-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "d7b9e286-1b4e-47ef-a0fa-549f26e89848",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10195,7 +10195,7 @@
   },
   "tab-item-top-to-workflow-icon-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "ae256abb-27d9-4771-9617-e24c722279ab",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10215,7 +10215,7 @@
   },
   "tab-item-top-to-workflow-icon-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "04cfef16-7bba-4d8f-9270-6334a2473cff",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
@@ -10235,7 +10235,7 @@
   },
   "tab-item-top-to-workflow-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "f94bad20-f7c9-4998-822c-b8d20158c4bb",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -10255,7 +10255,7 @@
   },
   "tab-item-top-to-workflow-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "8f813787-f636-49e9-94bf-464b291df600",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -10275,7 +10275,7 @@
   },
   "tab-item-top-to-workflow-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "5c4ae90f-f4b7-4f50-9e86-b8711c101c9e",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
@@ -10295,7 +10295,7 @@
   },
   "tab-item-top-to-workflow-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "component": "tab-item",
+    "component": "tabs",
     "uuid": "906995a7-4f9b-4b37-a90f-7f7712aa6f70",
     "deprecated": true,
     "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",

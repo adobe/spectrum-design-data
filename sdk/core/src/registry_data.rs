@@ -1132,7 +1132,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "menu-item",
       "label": "Menu Item",
       "description": "Individual selectable item within a menu",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "section-header",
@@ -1450,7 +1450,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tab-item",
       "label": "Tab Item",
       "description": "Individual tab button within a tabs component",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "breadcrumb-item",
@@ -1612,6 +1612,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "field-button",
       "label": "Field button",
       "description": "A trigger button embedded within a text field or picker",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "in-field-stepper",
+      "label": "In-field stepper",
+      "description": "A stepper control embedded within a field element (e.g. number-field)",
       "usedIn": ["tokens"]
     }
   ]

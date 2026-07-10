@@ -236,7 +236,7 @@
   },
   "menu-item-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "0c358fa2-087d-402a-bf64-9edefa6545cd",
     "sets": {
       "light": {
@@ -258,7 +258,7 @@
   },
   "menu-item-background-color-disabled": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "54607292-7896-4ca9-8c86-9c053c95c7d3",
     "sets": {
       "light": {
@@ -280,7 +280,7 @@
   },
   "menu-item-background-color-down": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "bc7380b4-c387-4b2b-b3ba-8361ae0d11fd",
     "sets": {
       "light": {
@@ -302,7 +302,7 @@
   },
   "menu-item-background-color-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "cf29fd2d-b99b-45e0-9326-fedc1aa7fd13",
     "sets": {
       "light": {
@@ -324,7 +324,7 @@
   },
   "menu-item-background-color-keyboard-focus": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "component": "menu-item",
+    "component": "menu",
     "uuid": "47a9204b-22f4-4685-9756-dcb2a0bbde61",
     "sets": {
       "light": {

@@ -7882,7 +7882,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-extra-large",
       "property": "to-end-extra-large",
       "scale": "desktop"
     },
@@ -7897,7 +7899,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-extra-large",
       "property": "to-end-extra-large",
       "scale": "mobile"
     },
@@ -7912,7 +7916,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-large",
       "property": "to-end-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -7924,7 +7930,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-medium",
       "property": "to-end-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -7936,7 +7944,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-small",
       "property": "to-end-small",
       "scale": "desktop"
     },
@@ -7951,7 +7961,9 @@
   },
   {
     "name": {
-      "component": "in-field-stepper",
+      "component": "number-field",
+      "anatomy": "in-field-stepper",
+      "legacyKey": "in-field-stepper-to-end-small",
       "property": "to-end-small",
       "scale": "mobile"
     },
@@ -8205,7 +8217,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-background-opacity",
       "property": "opacity",
       "object": "background"
     },
@@ -8339,7 +8353,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-label-to-description-extra-large",
       "property": "label-to-description-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8351,7 +8367,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-label-to-description-large",
       "property": "label-to-description-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8363,7 +8381,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-label-to-description-medium",
       "property": "label-to-description-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8375,7 +8395,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-label-to-description-small",
       "property": "label-to-description-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8636,7 +8658,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-extra-large",
       "property": "top-to-thumbnail-extra-large",
       "scale": "desktop"
     },
@@ -8651,7 +8675,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-extra-large",
       "property": "top-to-thumbnail-extra-large",
       "scale": "mobile"
     },
@@ -8666,7 +8692,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-large",
       "property": "top-to-thumbnail-large",
       "scale": "desktop"
     },
@@ -8681,7 +8709,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-large",
       "property": "top-to-thumbnail-large",
       "scale": "mobile"
     },
@@ -8696,7 +8726,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-medium",
       "property": "top-to-thumbnail-medium",
       "scale": "desktop"
     },
@@ -8711,7 +8743,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-medium",
       "property": "top-to-thumbnail-medium",
       "scale": "mobile"
     },
@@ -8726,7 +8760,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-small",
       "property": "top-to-thumbnail-small",
       "scale": "desktop"
     },
@@ -8741,7 +8777,9 @@
   },
   {
     "name": {
-      "component": "menu-item",
+      "component": "menu",
+      "anatomy": "menu-item",
+      "legacyKey": "menu-item-top-to-thumbnail-small",
       "property": "top-to-thumbnail-small",
       "scale": "mobile"
     },
@@ -14027,7 +14065,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-extra-large",
       "property": "bottom-to-text-compact-extra-large",
       "scale": "desktop"
     },
@@ -14042,7 +14082,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-extra-large",
       "property": "bottom-to-text-compact-extra-large",
       "scale": "mobile"
     },
@@ -14057,7 +14099,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-large",
       "property": "bottom-to-text-compact-large",
       "scale": "desktop"
     },
@@ -14072,7 +14116,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-large",
       "property": "bottom-to-text-compact-large",
       "scale": "mobile"
     },
@@ -14087,7 +14133,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-medium",
       "property": "bottom-to-text-compact-medium",
       "scale": "desktop"
     },
@@ -14102,7 +14150,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-medium",
       "property": "bottom-to-text-compact-medium",
       "scale": "mobile"
     },
@@ -14117,7 +14167,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-small",
       "property": "bottom-to-text-compact-small",
       "scale": "desktop"
     },
@@ -14132,7 +14184,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-compact-small",
       "property": "bottom-to-text-compact-small",
       "scale": "mobile"
     },
@@ -14147,7 +14201,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-extra-large",
       "property": "bottom-to-text-extra-large",
       "scale": "desktop"
     },
@@ -14162,7 +14218,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-extra-large",
       "property": "bottom-to-text-extra-large",
       "scale": "mobile"
     },
@@ -14177,7 +14235,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-large",
       "property": "bottom-to-text-large",
       "scale": "desktop"
     },
@@ -14192,7 +14252,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-large",
       "property": "bottom-to-text-large",
       "scale": "mobile"
     },
@@ -14207,7 +14269,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-medium",
       "property": "bottom-to-text-medium",
       "scale": "desktop"
     },
@@ -14222,7 +14286,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-medium",
       "property": "bottom-to-text-medium",
       "scale": "mobile"
     },
@@ -14237,7 +14303,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-small",
       "property": "bottom-to-text-small",
       "scale": "desktop"
     },
@@ -14252,7 +14320,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-bottom-to-text-small",
       "property": "bottom-to-text-small",
       "scale": "mobile"
     },
@@ -14267,7 +14337,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-compact-height-extra-large",
       "property": "compact-height-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -14276,7 +14348,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-compact-height-large",
       "property": "compact-height-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -14285,7 +14359,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-compact-height-medium",
       "property": "compact-height-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -14294,7 +14370,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-compact-height-small",
       "property": "compact-height-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -14304,7 +14382,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-extra-large",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-extra-large",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14319,7 +14399,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-extra-large",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-extra-large",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14334,7 +14416,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-large",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-large",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14349,7 +14433,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-large",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-large",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14364,7 +14450,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-medium",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-medium",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14379,7 +14467,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-medium",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-medium",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14394,7 +14484,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-small",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-small",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14409,7 +14501,9 @@
   {
     "name": {
       "property": "tab-item-focus-indicator-gap-small",
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-focus-indicator-gap-small",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14423,7 +14517,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-height-extra-large",
       "property": "height",
       "size": "xl"
     },
@@ -14433,7 +14529,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-height-large",
       "property": "height",
       "size": "l"
     },
@@ -14443,7 +14541,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-height-medium",
       "property": "height",
       "size": "m"
     },
@@ -14453,7 +14553,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-height-small",
       "property": "height",
       "size": "s"
     },
@@ -14463,7 +14565,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-extra-large",
       "property": "start-to-edge-extra-large",
       "scale": "desktop"
     },
@@ -14478,7 +14582,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-extra-large",
       "property": "start-to-edge-extra-large",
       "scale": "mobile"
     },
@@ -14493,7 +14599,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-large",
       "property": "start-to-edge-large",
       "scale": "desktop"
     },
@@ -14508,7 +14616,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-large",
       "property": "start-to-edge-large",
       "scale": "mobile"
     },
@@ -14523,7 +14633,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-medium",
       "property": "start-to-edge-medium",
       "scale": "desktop"
     },
@@ -14538,7 +14650,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-medium",
       "property": "start-to-edge-medium",
       "scale": "mobile"
     },
@@ -14553,7 +14667,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-quiet",
       "property": "start-to-edge-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14564,7 +14680,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-small",
       "property": "start-to-edge-small",
       "scale": "desktop"
     },
@@ -14579,7 +14697,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-start-to-edge-small",
       "property": "start-to-edge-small",
       "scale": "mobile"
     },
@@ -14594,7 +14714,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-extra-large",
       "property": "to-tab-item-horizontal-extra-large",
       "scale": "desktop"
     },
@@ -14609,7 +14731,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-extra-large",
       "property": "to-tab-item-horizontal-extra-large",
       "scale": "mobile"
     },
@@ -14624,7 +14748,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-large",
       "property": "to-tab-item-horizontal-large",
       "scale": "desktop"
     },
@@ -14639,7 +14765,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-large",
       "property": "to-tab-item-horizontal-large",
       "scale": "mobile"
     },
@@ -14654,7 +14782,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-medium",
       "property": "to-tab-item-horizontal-medium",
       "scale": "desktop"
     },
@@ -14669,7 +14799,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-medium",
       "property": "to-tab-item-horizontal-medium",
       "scale": "mobile"
     },
@@ -14684,7 +14816,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-small",
       "property": "to-tab-item-horizontal-small",
       "scale": "desktop"
     },
@@ -14699,7 +14833,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-horizontal-small",
       "property": "to-tab-item-horizontal-small",
       "scale": "mobile"
     },
@@ -14714,7 +14850,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-extra-large",
       "property": "to-tab-item-vertical-extra-large",
       "scale": "desktop"
     },
@@ -14729,7 +14867,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-extra-large",
       "property": "to-tab-item-vertical-extra-large",
       "scale": "mobile"
     },
@@ -14744,7 +14884,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-large",
       "property": "to-tab-item-vertical-large",
       "scale": "desktop"
     },
@@ -14759,7 +14901,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-large",
       "property": "to-tab-item-vertical-large",
       "scale": "mobile"
     },
@@ -14774,7 +14918,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-medium",
       "property": "to-tab-item-vertical-medium",
       "scale": "desktop"
     },
@@ -14789,7 +14935,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-medium",
       "property": "to-tab-item-vertical-medium",
       "scale": "mobile"
     },
@@ -14804,7 +14952,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-small",
       "property": "to-tab-item-vertical-small",
       "scale": "desktop"
     },
@@ -14819,7 +14969,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-to-tab-item-vertical-small",
       "property": "to-tab-item-vertical-small",
       "scale": "mobile"
     },
@@ -14834,7 +14986,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-extra-large",
       "property": "top-to-text-compact-extra-large",
       "scale": "desktop"
     },
@@ -14849,7 +15003,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-extra-large",
       "property": "top-to-text-compact-extra-large",
       "scale": "mobile"
     },
@@ -14864,7 +15020,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-large",
       "property": "top-to-text-compact-large",
       "scale": "desktop"
     },
@@ -14879,7 +15037,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-large",
       "property": "top-to-text-compact-large",
       "scale": "mobile"
     },
@@ -14894,7 +15054,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-medium",
       "property": "top-to-text-compact-medium",
       "scale": "desktop"
     },
@@ -14909,7 +15071,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-medium",
       "property": "top-to-text-compact-medium",
       "scale": "mobile"
     },
@@ -14924,7 +15088,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-small",
       "property": "top-to-text-compact-small",
       "scale": "desktop"
     },
@@ -14939,7 +15105,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-compact-small",
       "property": "top-to-text-compact-small",
       "scale": "mobile"
     },
@@ -14954,7 +15122,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-extra-large",
       "property": "top-to-text-extra-large",
       "scale": "desktop"
     },
@@ -14969,7 +15139,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-extra-large",
       "property": "top-to-text-extra-large",
       "scale": "mobile"
     },
@@ -14984,7 +15156,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-large",
       "property": "top-to-text-large",
       "scale": "desktop"
     },
@@ -14999,7 +15173,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-large",
       "property": "top-to-text-large",
       "scale": "mobile"
     },
@@ -15014,7 +15190,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-medium",
       "property": "top-to-text-medium",
       "scale": "desktop"
     },
@@ -15029,7 +15207,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-medium",
       "property": "top-to-text-medium",
       "scale": "mobile"
     },
@@ -15044,7 +15224,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-small",
       "property": "top-to-text-small",
       "scale": "desktop"
     },
@@ -15059,7 +15241,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-text-small",
       "property": "top-to-text-small",
       "scale": "mobile"
     },
@@ -15074,7 +15258,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-extra-large",
       "property": "top-to-workflow-icon-compact-extra-large",
       "scale": "desktop"
     },
@@ -15089,7 +15275,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-extra-large",
       "property": "top-to-workflow-icon-compact-extra-large",
       "scale": "mobile"
     },
@@ -15104,7 +15292,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-large",
       "property": "top-to-workflow-icon-compact-large",
       "scale": "desktop"
     },
@@ -15119,7 +15309,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-large",
       "property": "top-to-workflow-icon-compact-large",
       "scale": "mobile"
     },
@@ -15134,7 +15326,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-medium",
       "property": "top-to-workflow-icon-compact-medium",
       "scale": "desktop"
     },
@@ -15149,7 +15343,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-medium",
       "property": "top-to-workflow-icon-compact-medium",
       "scale": "mobile"
     },
@@ -15164,7 +15360,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-small",
       "property": "top-to-workflow-icon-compact-small",
       "scale": "desktop"
     },
@@ -15179,7 +15377,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-compact-small",
       "property": "top-to-workflow-icon-compact-small",
       "scale": "mobile"
     },
@@ -15194,7 +15394,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-extra-large",
       "property": "top-to-workflow-icon-extra-large",
       "scale": "desktop"
     },
@@ -15209,7 +15411,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-extra-large",
       "property": "top-to-workflow-icon-extra-large",
       "scale": "mobile"
     },
@@ -15224,7 +15428,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-large",
       "property": "top-to-workflow-icon-large",
       "scale": "desktop"
     },
@@ -15239,7 +15445,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-large",
       "property": "top-to-workflow-icon-large",
       "scale": "mobile"
     },
@@ -15254,7 +15462,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-medium",
       "property": "top-to-workflow-icon-medium",
       "scale": "desktop"
     },
@@ -15269,7 +15479,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-medium",
       "property": "top-to-workflow-icon-medium",
       "scale": "mobile"
     },
@@ -15284,7 +15496,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-small",
       "property": "top-to-workflow-icon-small",
       "scale": "desktop"
     },
@@ -15299,7 +15513,9 @@
   },
   {
     "name": {
-      "component": "tab-item",
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "legacyKey": "tab-item-top-to-workflow-icon-small",
       "property": "top-to-workflow-icon-small",
       "scale": "mobile"
     },

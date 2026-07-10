@@ -497,6 +497,16 @@ fn thin_name_val(property: &str, source: &Map<String, Value>) -> Value {
     if let Some(c) = source.get("component").and_then(|v| v.as_str()) {
         name.insert("component".into(), Value::String(c.to_string()));
     }
+    // Including `component` alongside the full-key `property` normally still
+    // reproduces the original key (the common case: the flat `component`
+    // value is a prefix of `property`'s legacy key). But if the flat
+    // `component` was corrected independently of the key (e.g. an anatomy
+    // sub-part token whose `component` now names its real parent rather than
+    // the sub-part itself), the naive reconstruction yields a different key.
+    // Pin the original key explicitly rather than silently derive a new one.
+    if naming::extract_legacy_key(&Value::Object(name.clone())).as_deref() != Some(property) {
+        name.insert("legacyKey".into(), Value::String(property.to_string()));
+    }
     Value::Object(name)
 }
 
