@@ -26,6 +26,7 @@ projects:
   s2-docs-mcp: "tools/s2-docs-mcp"
   component-options-editor: "tools/component-options-editor"
   token-naming-audit: "tools/token-naming-audit"
+  token-mapping-analyzer: "tools/token-mapping-analyzer"
   demo: "tools/demo"
   design-data-glue: "tools/design-data"
   design-data-skill: "tools/design-data-skill"

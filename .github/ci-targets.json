@@ -15,7 +15,8 @@
     "component-options-editor:validate",
     "root:test",
     "s2-docs-to-document-blocks:test",
-    "design-data:validate-guidelines"
+    "design-data:validate-guidelines",
+    "token-mapping-analyzer:test"
   ],
   "rust": [
     "sdk:fmt-check",

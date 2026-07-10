@@ -108,6 +108,20 @@ export function applyField(tokens, field, registry, filename) {
       continue;
     }
 
+    // A decomposition pass must not invent ownership metadata as a side effect
+    // of extracting an unrelated field. A term can be registered as both an
+    // anatomy and a component alias (e.g. "heading"), so decompose() resolving
+    // it as `component` instead of `anatomy` must not fabricate a component the
+    // token never declared — reject that regardless of whether anatomy is also
+    // present in the merged result.
+    if (
+      result.nameObject.component !== undefined &&
+      token.name.component === undefined
+    ) {
+      skippedSpec025++;
+      continue;
+    }
+
     if (
       serialize(patched, registry.tokenNameMap, registry.serializationOrder) !==
       legacyKey
