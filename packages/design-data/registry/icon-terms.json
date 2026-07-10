@@ -1,0 +1,90 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "icon",
+  "description": "Icon identities used as the `icon` name-field value on icon-family tokens. `tokenName` gives the long form used in legacy keys (e.g. \"checkmark\" -> \"checkmark-icon\"); ids without a `tokenName` already match the legacy form.",
+  "values": [
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Generic icon token, not tied to a specific glyph",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ui",
+      "label": "UI Icon",
+      "description": "Generic UI icon glyph",
+      "tokenName": "ui-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "checkmark",
+      "label": "Checkmark Icon",
+      "description": "Checkmark glyph",
+      "tokenName": "checkmark-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "chevron",
+      "label": "Chevron Icon",
+      "description": "Chevron glyph",
+      "tokenName": "chevron-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash Icon",
+      "description": "Dash glyph",
+      "tokenName": "dash-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "arrow",
+      "label": "Arrow Icon",
+      "description": "Arrow glyph",
+      "tokenName": "arrow-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cross",
+      "label": "Cross Icon",
+      "description": "Cross (close) glyph",
+      "tokenName": "cross-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "add",
+      "label": "Add Icon",
+      "description": "Add (plus) glyph",
+      "tokenName": "add-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "link-out",
+      "label": "Link Out Icon",
+      "description": "External-link glyph",
+      "tokenName": "link-out-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag Handle Icon",
+      "description": "Drag handle glyph",
+      "tokenName": "drag-handle-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "asterisk",
+      "label": "Asterisk Icon",
+      "description": "Asterisk glyph",
+      "tokenName": "asterisk-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper Icon",
+      "description": "Gripper glyph",
+      "tokenName": "gripper-icon",
+      "usedIn": ["tokens"]
+    }
+  ]
+}
