@@ -1,0 +1,15 @@
+---
+# Article page - title, date/author/category meta, then content
+layout: base.liquid
+---
+<article>
+  <h1 class="spectrum-Heading spectrum-Heading--sizeXL">{{ title }}</h1>
+  <p class="spectrum-Body spectrum-Body--sizeS">
+    {% if category %}<span class="spectrum-Badge spectrum-Badge--sizeS">{{ category }}</span>{% endif %}
+    {% if date %} · {{ date | date: "%B %-d, %Y" }}{% endif %}
+    {% if author %} · {{ author }}{% endif %}
+  </p>
+  <div class="spectrum-Body">
+    {{ content }}
+  </div>
+</article>
