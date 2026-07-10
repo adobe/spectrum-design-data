@@ -670,15 +670,21 @@ fn build_set_entry(
     let mut outer = Map::new();
     outer.insert("$schema".into(), Value::String(set_schema.to_string()));
 
-    // Hoist component from name object if consistent across all tokens.
-    let component = consistent_str_field(tokens, |tok| {
+    // Hoist component from name object if consistent across all tokens. Icon-family
+    // tokens carry `icon` instead of `component` — resolve_owner_component() falls
+    // back to the icon's expanded tokenName so legacy output is unaffected.
+    let owner_of = |tok: &&Map<String, Value>| {
         tok.get("name")
             .and_then(|v| v.as_object())
-            .and_then(|n| n.get("component"))
-            .and_then(|v| v.as_str())
+            .and_then(crate::naming::resolve_owner_component)
+    };
+    let component = tokens.first().and_then(owner_of).filter(|first| {
+        tokens
+            .iter()
+            .all(|t| owner_of(t).as_deref() == Some(first.as_str()))
     });
     if let Some(c) = component {
-        outer.insert("component".into(), Value::String(c.to_string()));
+        outer.insert("component".into(), Value::String(c));
     }
 
     // Recover the outer set-level UUID from the cascade tokens (stored as set_uuid).
@@ -755,14 +761,15 @@ fn build_flat_entry(tok: &Map<String, Value>, uuid_to_name: &HashMap<String, Str
         entry.insert("$schema".into(), Value::String(schema.to_string()));
     }
 
-    // Component lives at the outer level in legacy format.
+    // Component lives at the outer level in legacy format. Icon-family tokens
+    // carry `icon` instead of `component`; resolve_owner_component() falls back
+    // to the icon's expanded tokenName so legacy output is unaffected.
     if let Some(c) = tok
         .get("name")
         .and_then(|v| v.as_object())
-        .and_then(|n| n.get("component"))
-        .and_then(|v| v.as_str())
+        .and_then(crate::naming::resolve_owner_component)
     {
-        entry.insert("component".into(), Value::String(c.to_string()));
+        entry.insert("component".into(), Value::String(c));
     }
 
     insert_value_or_ref(&mut entry, tok, uuid_to_name);

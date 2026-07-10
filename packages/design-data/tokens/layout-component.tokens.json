@@ -1479,7 +1479,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -1492,7 +1492,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -1505,7 +1505,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -1518,7 +1518,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -1531,7 +1531,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -1544,7 +1544,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -1557,7 +1557,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-50",
       "scale": "desktop"
     },
@@ -1570,7 +1570,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-50",
       "scale": "mobile"
     },
@@ -1583,7 +1583,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -1596,7 +1596,7 @@
   },
   {
     "name": {
-      "component": "add-icon",
+      "icon": "add",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -1940,7 +1940,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -1953,7 +1953,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -1966,7 +1966,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -1979,7 +1979,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -1992,7 +1992,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -2005,7 +2005,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -2018,7 +2018,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -2031,7 +2031,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -2044,7 +2044,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-500",
       "scale": "desktop"
     },
@@ -2057,7 +2057,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-500",
       "scale": "mobile"
     },
@@ -2070,7 +2070,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-600",
       "scale": "desktop"
     },
@@ -2083,7 +2083,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-600",
       "scale": "mobile"
     },
@@ -2096,7 +2096,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -2109,7 +2109,7 @@
   },
   {
     "name": {
-      "component": "arrow-icon",
+      "icon": "arrow",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -2122,7 +2122,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -2135,7 +2135,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -2148,7 +2148,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -2161,7 +2161,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -2174,7 +2174,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -2187,7 +2187,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -2200,7 +2200,7 @@
   },
   {
     "name": {
-      "component": "asterisk-icon",
+      "icon": "asterisk",
       "property": "size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -4358,7 +4358,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -4371,7 +4371,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -4384,7 +4384,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -4397,7 +4397,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -4410,7 +4410,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -4423,7 +4423,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -4436,7 +4436,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -4449,7 +4449,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -4462,7 +4462,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-50",
       "scale": "desktop"
     },
@@ -4475,7 +4475,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-50",
       "scale": "mobile"
     },
@@ -4488,7 +4488,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-500",
       "scale": "desktop"
     },
@@ -4501,7 +4501,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-500",
       "scale": "mobile"
     },
@@ -4514,7 +4514,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-600",
       "scale": "desktop"
     },
@@ -4527,7 +4527,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-600",
       "scale": "mobile"
     },
@@ -4540,7 +4540,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -4553,7 +4553,7 @@
   },
   {
     "name": {
-      "component": "checkmark-icon",
+      "icon": "checkmark",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -4566,7 +4566,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -4579,7 +4579,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -4592,7 +4592,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -4605,7 +4605,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -4618,7 +4618,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -4631,7 +4631,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -4644,7 +4644,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -4657,7 +4657,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -4670,7 +4670,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-50",
       "scale": "desktop"
     },
@@ -4683,7 +4683,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-50",
       "scale": "mobile"
     },
@@ -4696,7 +4696,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-500",
       "scale": "desktop"
     },
@@ -4709,7 +4709,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-500",
       "scale": "mobile"
     },
@@ -4722,7 +4722,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-600",
       "scale": "desktop"
     },
@@ -4735,7 +4735,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-600",
       "scale": "mobile"
     },
@@ -4748,7 +4748,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -4761,7 +4761,7 @@
   },
   {
     "name": {
-      "component": "chevron-icon",
+      "icon": "chevron",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -5860,7 +5860,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -5873,7 +5873,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -5886,7 +5886,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -5899,7 +5899,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -5912,7 +5912,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -5925,7 +5925,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -5938,7 +5938,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -5951,7 +5951,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -5964,7 +5964,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-500",
       "scale": "desktop"
     },
@@ -5977,7 +5977,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-500",
       "scale": "mobile"
     },
@@ -5990,7 +5990,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-600",
       "scale": "desktop"
     },
@@ -6003,7 +6003,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-600",
       "scale": "mobile"
     },
@@ -6016,7 +6016,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -6029,7 +6029,7 @@
   },
   {
     "name": {
-      "component": "cross-icon",
+      "icon": "cross",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -6042,7 +6042,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -6055,7 +6055,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -6068,7 +6068,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -6081,7 +6081,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -6094,7 +6094,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -6107,7 +6107,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -6120,7 +6120,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -6133,7 +6133,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -6146,7 +6146,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-50",
       "scale": "desktop"
     },
@@ -6159,7 +6159,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-50",
       "scale": "mobile"
     },
@@ -6172,7 +6172,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-500",
       "scale": "desktop"
     },
@@ -6185,7 +6185,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-500",
       "scale": "mobile"
     },
@@ -6198,7 +6198,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-600",
       "scale": "desktop"
     },
@@ -6211,7 +6211,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-600",
       "scale": "mobile"
     },
@@ -6224,7 +6224,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -6237,7 +6237,7 @@
   },
   {
     "name": {
-      "component": "dash-icon",
+      "icon": "dash",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -6374,7 +6374,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -6387,7 +6387,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -6400,7 +6400,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -6413,7 +6413,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -6426,7 +6426,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -6439,7 +6439,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -6452,7 +6452,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -6465,7 +6465,7 @@
   },
   {
     "name": {
-      "component": "drag-handle-icon",
+      "icon": "drag-handle",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -7101,7 +7101,7 @@
   },
   {
     "name": {
-      "component": "gripper-icon",
+      "icon": "gripper",
       "property": "size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -7987,7 +7987,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-100",
       "scale": "desktop"
     },
@@ -8000,7 +8000,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-100",
       "scale": "mobile"
     },
@@ -8013,7 +8013,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-200",
       "scale": "desktop"
     },
@@ -8026,7 +8026,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-200",
       "scale": "mobile"
     },
@@ -8039,7 +8039,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-300",
       "scale": "desktop"
     },
@@ -8052,7 +8052,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-300",
       "scale": "mobile"
     },
@@ -8065,7 +8065,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-400",
       "scale": "desktop"
     },
@@ -8078,7 +8078,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-400",
       "scale": "mobile"
     },
@@ -8091,7 +8091,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-75",
       "scale": "desktop"
     },
@@ -8104,7 +8104,7 @@
   },
   {
     "name": {
-      "component": "link-out-icon",
+      "icon": "link-out",
       "property": "size-75",
       "scale": "mobile"
     },
@@ -20620,7 +20620,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "2x-large",
       "scale": "desktop"
     },
@@ -20632,7 +20632,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "2x-large",
       "scale": "mobile"
     },
@@ -20644,7 +20644,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "extra-large",
       "scale": "desktop"
     },
@@ -20656,7 +20656,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "extra-large",
       "scale": "mobile"
     },
@@ -20668,7 +20668,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "extra-small",
       "scale": "desktop"
     },
@@ -20680,7 +20680,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "extra-small",
       "scale": "mobile"
     },
@@ -20692,7 +20692,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "large",
       "scale": "desktop"
     },
@@ -20704,7 +20704,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "large",
       "scale": "mobile"
     },
@@ -20716,7 +20716,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "medium",
       "scale": "desktop"
     },
@@ -20728,7 +20728,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "medium",
       "scale": "mobile"
     },
@@ -20740,7 +20740,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "small",
       "scale": "desktop"
     },
@@ -20752,7 +20752,7 @@
   },
   {
     "name": {
-      "component": "ui-icon",
+      "icon": "ui",
       "property": "small",
       "scale": "mobile"
     },

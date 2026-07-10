@@ -49,6 +49,11 @@
       "documentationUrl": "https://spectrum.adobe.com/page/badge/"
     },
     {
+      "id": "bar-panel",
+      "label": "Bar Panel",
+      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+    },
+    {
       "id": "body",
       "label": "Body",
       "documentationUrl": "https://spectrum.adobe.com/page/body/"
@@ -184,6 +189,11 @@
       "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
     },
     {
+      "id": "field",
+      "label": "Field",
+      "description": "A cross-cutting anatomy sub-part shared by multiple form-adjacent components rather than a standalone top-level component."
+    },
+    {
       "id": "field-label",
       "label": "Field Label",
       "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
@@ -212,6 +222,11 @@
       "id": "illustrated-message",
       "label": "Illustrated Message",
       "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+    },
+    {
+      "id": "in-field-button",
+      "label": "In-Field Button",
+      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
     },
     {
       "id": "in-field-progress-circle",
@@ -322,6 +337,11 @@
       "id": "slider",
       "label": "Slider",
       "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+    },
+    {
+      "id": "stack-item",
+      "label": "Stack Item",
+      "description": "A cross-cutting anatomy sub-part shared by multiple stacking-layout components rather than a standalone top-level component."
     },
     {
       "id": "standard-dialog",

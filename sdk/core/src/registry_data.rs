@@ -343,6 +343,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/badge/"
     },
     {
+      "id": "bar-panel",
+      "label": "Bar Panel",
+      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+    },
+    {
       "id": "body",
       "label": "Body",
       "documentationUrl": "https://spectrum.adobe.com/page/body/"
@@ -478,6 +483,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
     },
     {
+      "id": "field",
+      "label": "Field",
+      "description": "A cross-cutting anatomy sub-part shared by multiple form-adjacent components rather than a standalone top-level component."
+    },
+    {
       "id": "field-label",
       "label": "Field Label",
       "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
@@ -506,6 +516,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "illustrated-message",
       "label": "Illustrated Message",
       "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
+    },
+    {
+      "id": "in-field-button",
+      "label": "In-Field Button",
+      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
     },
     {
       "id": "in-field-progress-circle",
@@ -616,6 +631,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "slider",
       "label": "Slider",
       "documentationUrl": "https://spectrum.adobe.com/page/slider/"
+    },
+    {
+      "id": "stack-item",
+      "label": "Stack Item",
+      "description": "A cross-cutting anatomy sub-part shared by multiple stacking-layout components rather than a standalone top-level component."
     },
     {
       "id": "standard-dialog",
@@ -2637,6 +2657,97 @@ const ALIGNMENTS_JSON: &str = r##"{
   ]
 }
 "##;
+const ICON_TERMS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "icon",
+  "description": "Icon identities used as the `icon` name-field value on icon-family tokens. `tokenName` gives the long form used in legacy keys (e.g. \"checkmark\" -> \"checkmark-icon\"); ids without a `tokenName` already match the legacy form.",
+  "values": [
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Generic icon token, not tied to a specific glyph",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ui",
+      "label": "UI Icon",
+      "description": "Generic UI icon glyph",
+      "tokenName": "ui-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "checkmark",
+      "label": "Checkmark Icon",
+      "description": "Checkmark glyph",
+      "tokenName": "checkmark-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "chevron",
+      "label": "Chevron Icon",
+      "description": "Chevron glyph",
+      "tokenName": "chevron-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash Icon",
+      "description": "Dash glyph",
+      "tokenName": "dash-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "arrow",
+      "label": "Arrow Icon",
+      "description": "Arrow glyph",
+      "tokenName": "arrow-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cross",
+      "label": "Cross Icon",
+      "description": "Cross (close) glyph",
+      "tokenName": "cross-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "add",
+      "label": "Add Icon",
+      "description": "Add (plus) glyph",
+      "tokenName": "add-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "link-out",
+      "label": "Link Out Icon",
+      "description": "External-link glyph",
+      "tokenName": "link-out-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag Handle Icon",
+      "description": "Drag handle glyph",
+      "tokenName": "drag-handle-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "asterisk",
+      "label": "Asterisk Icon",
+      "description": "Asterisk glyph",
+      "tokenName": "asterisk-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper Icon",
+      "description": "Gripper glyph",
+      "tokenName": "gripper-icon",
+      "usedIn": ["tokens"]
+    }
+  ]
+}
+"##;
 const CATEGORIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "category",
@@ -2694,7 +2805,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "family", "weight", "style", "motionRole", "easing", "alignment", "icon"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2720,6 +2831,7 @@ pub(crate) fn build_registry_map(
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
+    map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }
@@ -2748,6 +2860,7 @@ pub(crate) fn build_token_name_map(
     map.insert("motionRole".to_string(), parse_token_name_map(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
+    map.insert("icon".to_string(), parse_token_name_map(ICON_TERMS_JSON));
     map
 }
 
@@ -2780,5 +2893,6 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "to", position: 24, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "alignment", position: 25, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
     ]
 }
