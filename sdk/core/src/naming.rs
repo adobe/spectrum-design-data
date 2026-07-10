@@ -185,6 +185,12 @@ fn split_trailing_state(s: &str) -> (&str, Option<&str>) {
 /// `icon` instead of `component`; this expands the short registry id through
 /// `tokenName` (e.g. `"add"` → `"add-icon"`) so published legacy output is
 /// unaffected by the field rename. Returns `None` when neither field is present.
+///
+/// This duplicates the "prefer `component`, else expand `icon` via `tokenName`"
+/// logic in the owner computation inside [`extract_legacy_key`]'s color-domain
+/// branch — the two aren't wired together because one produces key *segments*
+/// and the other an outer metadata *field*. Keep them in sync if either's
+/// fallback behavior changes.
 pub fn resolve_owner_component(name: &Map<String, Value>) -> Option<String> {
     if let Some(c) = name.get("component").and_then(|v| v.as_str()) {
         return Some(c.to_string());
@@ -245,7 +251,7 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //   where state@12 < colorFamily@17 would produce the wrong segment order.
     //   `icon` is expanded through its registry `tokenName` (e.g. "checkmark" →
     //   "checkmark-icon") the same way the general position-walk path expands ids.
-    //   e.g. {component:"icon", property:"color", colorFamily:"blue", colorRole:"primary",
+    //   e.g. {icon:"icon", property:"color", colorFamily:"blue", colorRole:"primary",
     //         state:"default"} → "icon-color-blue-primary-default"
     let color_family = name.get("colorFamily").and_then(|v| v.as_str());
     let color_role = name.get("colorRole").and_then(|v| v.as_str());
