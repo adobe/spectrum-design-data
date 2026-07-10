@@ -1302,4 +1302,27 @@ mod tests {
         let (_name, kind) = resolve_name("swatch-disabled-icon-border-color", &tok, &ctx);
         assert_eq!(kind, NameKind::Thin);
     }
+
+    #[test]
+    fn thin_name_val_omits_legacy_key_when_component_prefixes_property() {
+        // Common case: `component` is a literal prefix of the full legacy key, so
+        // reconstruction from {component, property} reproduces it exactly.
+        let source = obj(json!({"component": "swatch", "uuid": "0000"}));
+        let name = thin_name_val("swatch-disabled-icon-border-color", &source);
+        assert_eq!(name["property"], "swatch-disabled-icon-border-color");
+        assert_eq!(name["component"], "swatch");
+        assert!(name.get("legacyKey").is_none());
+    }
+
+    #[test]
+    fn thin_name_val_pins_legacy_key_when_component_does_not_prefix_property() {
+        // Anatomy sub-part case: `component` names the real parent (not the
+        // sub-part that literally prefixes the key), so reconstruction from
+        // {component, property} would yield a different key than the original.
+        let source = obj(json!({"component": "tabs", "uuid": "0000"}));
+        let name = thin_name_val("tab-item-height-medium", &source);
+        assert_eq!(name["property"], "tab-item-height-medium");
+        assert_eq!(name["component"], "tabs");
+        assert_eq!(name["legacyKey"], "tab-item-height-medium");
+    }
 }
