@@ -10,8 +10,29 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { readFileSync } from "node:fs";
 import test from "ava";
 import { getFileTokens } from "../index.js";
+
+// Anatomy sub-part tokens (e.g. tab-item-*) keep their legacy key (the
+// sub-part name) but carry their real parent component (e.g. "tabs"), so the
+// key no longer starts with the component value. The cascade source of
+// truth (packages/design-data/tokens/*.tokens.json) declares this explicitly
+// via a pinned `legacyKey` alongside `anatomy`; read that exact set instead
+// of loosely matching any anatomy-registry id prefix, since many ids (icon,
+// label, field, item, ...) also legitimately prefix unrelated component keys.
+const cascadeDecomposedKeys = new Set(
+  ["color-component.tokens.json", "layout-component.tokens.json"].flatMap(
+    (file) =>
+      JSON.parse(
+        readFileSync(
+          new URL(`../../design-data/tokens/${file}`, import.meta.url),
+        ),
+      )
+        .filter((t) => t.name?.anatomy && t.name?.legacyKey)
+        .map((t) => t.name.legacyKey),
+  ),
+);
 
 test("ensure all component tokens are have component data", async (t) => {
   const tokenData = {
@@ -20,10 +41,9 @@ test("ensure all component tokens are have component data", async (t) => {
     ...(await getFileTokens("icons.json")),
   };
   const result = Object.keys(tokenData).filter((tokenName) => {
-    return (
-      !Object.hasOwn(tokenData[tokenName], "component") ||
-      tokenName.indexOf(tokenData[tokenName].component) != 0
-    );
+    if (cascadeDecomposedKeys.has(tokenName)) return false;
+    const { component } = tokenData[tokenName];
+    return !component || tokenName.indexOf(component) != 0;
   });
   t.deepEqual(result, []);
 });

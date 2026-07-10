@@ -497,6 +497,16 @@ fn thin_name_val(property: &str, source: &Map<String, Value>) -> Value {
     if let Some(c) = source.get("component").and_then(|v| v.as_str()) {
         name.insert("component".into(), Value::String(c.to_string()));
     }
+    // Including `component` alongside the full-key `property` normally still
+    // reproduces the original key (the common case: the flat `component`
+    // value is a prefix of `property`'s legacy key). But if the flat
+    // `component` was corrected independently of the key (e.g. an anatomy
+    // sub-part token whose `component` now names its real parent rather than
+    // the sub-part itself), the naive reconstruction yields a different key.
+    // Pin the original key explicitly rather than silently derive a new one.
+    if naming::extract_legacy_key(&Value::Object(name.clone())).as_deref() != Some(property) {
+        name.insert("legacyKey".into(), Value::String(property.to_string()));
+    }
     Value::Object(name)
 }
 
@@ -1291,5 +1301,28 @@ mod tests {
         let tok = obj(json!({"component": "swatch", "uuid": "0000"}));
         let (_name, kind) = resolve_name("swatch-disabled-icon-border-color", &tok, &ctx);
         assert_eq!(kind, NameKind::Thin);
+    }
+
+    #[test]
+    fn thin_name_val_omits_legacy_key_when_component_prefixes_property() {
+        // Common case: `component` is a literal prefix of the full legacy key, so
+        // reconstruction from {component, property} reproduces it exactly.
+        let source = obj(json!({"component": "swatch", "uuid": "0000"}));
+        let name = thin_name_val("swatch-disabled-icon-border-color", &source);
+        assert_eq!(name["property"], "swatch-disabled-icon-border-color");
+        assert_eq!(name["component"], "swatch");
+        assert!(name.get("legacyKey").is_none());
+    }
+
+    #[test]
+    fn thin_name_val_pins_legacy_key_when_component_does_not_prefix_property() {
+        // Anatomy sub-part case: `component` names the real parent (not the
+        // sub-part that literally prefixes the key), so reconstruction from
+        // {component, property} would yield a different key than the original.
+        let source = obj(json!({"component": "tabs", "uuid": "0000"}));
+        let name = thin_name_val("tab-item-height-medium", &source);
+        assert_eq!(name["property"], "tab-item-height-medium");
+        assert_eq!(name["component"], "tabs");
+        assert_eq!(name["legacyKey"], "tab-item-height-medium");
     }
 }

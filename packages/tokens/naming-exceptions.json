@@ -1165,6 +1165,300 @@
       "file": "typography.json",
       "category": "state-position",
       "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "in-field-stepper-to-end-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "in-field-stepper-to-end-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "in-field-stepper-to-end-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "in-field-stepper-to-end-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-compact-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-compact-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-compact-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-compact-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-bottom-to-text-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-compact-height-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-compact-height-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-compact-height-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-compact-height-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-height-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-height-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-height-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-height-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-start-to-edge-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-start-to-edge-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-start-to-edge-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-start-to-edge-quiet",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-start-to-edge-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-horizontal-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-horizontal-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-horizontal-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-horizontal-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-vertical-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-vertical-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-vertical-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-to-tab-item-vertical-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-compact-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-compact-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-compact-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-compact-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-text-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-compact-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-compact-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-compact-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-compact-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-extra-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-large",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-medium",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "tab-item-top-to-workflow-icon-small",
+      "file": "layout-component.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
     }
   ]
 }

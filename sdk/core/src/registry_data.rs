@@ -212,6 +212,13 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Elevated emphasis variant for prominent surfaces (e.g. drop shadows)",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -336,6 +343,16 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/badge/"
     },
     {
+      "id": "bar-panel",
+      "label": "Bar Panel",
+      "description": "A cross-cutting anatomy sub-part shared by multiple components (e.g. color area, color wheel) rather than a standalone top-level component."
+    },
+    {
+      "id": "body",
+      "label": "Body",
+      "documentationUrl": "https://spectrum.adobe.com/page/body/"
+    },
+    {
       "id": "breadcrumbs",
       "label": "Breadcrumbs",
       "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
@@ -356,6 +373,16 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
     },
     {
+      "id": "card",
+      "label": "Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/card/"
+    },
+    {
+      "id": "card-horizontal",
+      "label": "Card Horizontal",
+      "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
+    },
+    {
       "id": "checkbox",
       "label": "Checkbox",
       "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
@@ -369,6 +396,26 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "close-button",
       "label": "Close Button",
       "documentationUrl": "https://spectrum.adobe.com/page/close-button/"
+    },
+    {
+      "id": "coach-indicator",
+      "label": "Coach Indicator",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-indicator/"
+    },
+    {
+      "id": "coach-mark",
+      "label": "Coach Mark",
+      "documentationUrl": "https://spectrum.adobe.com/page/coach-mark/"
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "documentationUrl": "https://spectrum.adobe.com/page/code/"
+    },
+    {
+      "id": "collection-card",
+      "label": "Collection Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/collection-card/"
     },
     {
       "id": "color-area",
@@ -406,9 +453,19 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
     },
     {
+      "id": "date-field",
+      "label": "Date Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/date-field/"
+    },
+    {
       "id": "date-picker",
       "label": "Date Picker",
       "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
+    },
+    {
+      "id": "detail",
+      "label": "Detail",
+      "documentationUrl": "https://spectrum.adobe.com/page/detail/"
     },
     {
       "id": "divider",
@@ -416,14 +473,39 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/divider/"
     },
     {
+      "id": "double-calendar",
+      "label": "Double Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/double-calendar/"
+    },
+    {
       "id": "drop-zone",
       "label": "Drop Zone",
       "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
     },
     {
+      "id": "field",
+      "label": "Field",
+      "description": "A cross-cutting anatomy sub-part shared by multiple form-adjacent components rather than a standalone top-level component."
+    },
+    {
       "id": "field-label",
       "label": "Field Label",
       "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
+    },
+    {
+      "id": "floating-action-button",
+      "label": "Floating Action Button",
+      "documentationUrl": "https://spectrum.adobe.com/page/floating-action-button/"
+    },
+    {
+      "id": "form-item",
+      "label": "Form Item",
+      "documentationUrl": "https://spectrum.adobe.com/page/form-item/"
+    },
+    {
+      "id": "heading",
+      "label": "Heading",
+      "documentationUrl": "https://spectrum.adobe.com/page/heading/"
     },
     {
       "id": "help-text",
@@ -436,6 +518,16 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
     },
     {
+      "id": "in-field-button",
+      "label": "In-Field Button",
+      "description": "A cross-cutting anatomy sub-part shared by multiple field-adjacent components rather than a standalone top-level component."
+    },
+    {
+      "id": "in-field-progress-circle",
+      "label": "In-Field Progress Circle",
+      "documentationUrl": "https://spectrum.adobe.com/page/in-field-progress-circle/"
+    },
+    {
       "id": "in-line-alert",
       "label": "In-Line Alert",
       "documentationUrl": "https://spectrum.adobe.com/page/in-line-alert/"
@@ -444,6 +536,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "link",
       "label": "Link",
       "documentationUrl": "https://spectrum.adobe.com/page/link/"
+    },
+    {
+      "id": "list-view",
+      "label": "List View",
+      "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
     },
     {
       "id": "menu",
@@ -459,6 +556,11 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "number-field",
       "label": "Number Field",
       "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
+    },
+    {
+      "id": "opacity-checkerboard",
+      "label": "Opacity Checkerboard",
+      "documentationUrl": "https://spectrum.adobe.com/page/opacity-checkerboard/"
     },
     {
       "id": "picker",
@@ -501,9 +603,29 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
     },
     {
+      "id": "segmented-control",
+      "label": "Segmented Control",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
+    },
+    {
+      "id": "segmented-text-field",
+      "label": "Segmented Text Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
+    },
+    {
       "id": "select-box",
       "label": "Select Box",
       "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    {
+      "id": "side-navigation",
+      "label": "Side Navigation",
+      "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"
+    },
+    {
+      "id": "single-calendar",
+      "label": "Single Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/single-calendar/"
     },
     {
       "id": "slider",
@@ -511,14 +633,39 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/slider/"
     },
     {
+      "id": "stack-item",
+      "label": "Stack Item",
+      "description": "A cross-cutting anatomy sub-part shared by multiple stacking-layout components rather than a standalone top-level component."
+    },
+    {
+      "id": "standard-dialog",
+      "label": "Standard Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-dialog/"
+    },
+    {
+      "id": "standard-panel",
+      "label": "Standard Panel",
+      "documentationUrl": "https://spectrum.adobe.com/page/standard-panel/"
+    },
+    {
       "id": "status-light",
       "label": "Status Light",
       "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
     },
     {
+      "id": "steplist",
+      "label": "Steplist",
+      "documentationUrl": "https://spectrum.adobe.com/page/steplist/"
+    },
+    {
       "id": "swatch",
       "label": "Swatch",
       "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
+    },
+    {
+      "id": "swatch-group",
+      "label": "Swatch Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/swatch-group/"
     },
     {
       "id": "switch",
@@ -541,9 +688,19 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/tag/"
     },
     {
+      "id": "tag-field",
+      "label": "Tag Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/tag-field/"
+    },
+    {
       "id": "tag-group",
       "label": "Tag Group",
       "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
+    },
+    {
+      "id": "takeover-dialog",
+      "label": "Takeover Dialog",
+      "documentationUrl": "https://spectrum.adobe.com/page/takeover-dialog/"
     },
     {
       "id": "text-area",
@@ -554,6 +711,21 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "text-field",
       "label": "Text Field",
       "documentationUrl": "https://spectrum.adobe.com/page/text-field/"
+    },
+    {
+      "id": "thumbnail",
+      "label": "Thumbnail",
+      "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
+    },
+    {
+      "id": "time-field",
+      "label": "Time Field",
+      "documentationUrl": "https://spectrum.adobe.com/page/time-field/"
+    },
+    {
+      "id": "title",
+      "label": "Title",
+      "documentationUrl": "https://spectrum.adobe.com/page/title/"
     },
     {
       "id": "toast",
@@ -569,6 +741,21 @@ const COMPONENTS_JSON: &str = r##"{
       "id": "tray",
       "label": "Tray",
       "documentationUrl": "https://spectrum.adobe.com/page/tray/"
+    },
+    {
+      "id": "tree-view",
+      "label": "Tree View",
+      "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
+    },
+    {
+      "id": "triple-calendar",
+      "label": "Triple Calendar",
+      "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
+    },
+    {
+      "id": "user-card",
+      "label": "User Card",
+      "documentationUrl": "https://spectrum.adobe.com/page/user-card/"
     }
   ]
 }
@@ -965,7 +1152,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "menu-item",
       "label": "Menu Item",
       "description": "Individual selectable item within a menu",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "section-header",
@@ -1283,7 +1470,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "tab-item",
       "label": "Tab Item",
       "description": "Individual tab button within a tabs component",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "breadcrumb-item",
@@ -1445,6 +1632,12 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "field-button",
       "label": "Field button",
       "description": "A trigger button embedded within a text field or picker",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "in-field-stepper",
+      "label": "In-field stepper",
+      "description": "A stepper control embedded within a field element (e.g. number-field)",
       "usedIn": ["tokens"]
     }
   ]
@@ -2517,6 +2710,97 @@ const ALIGNMENTS_JSON: &str = r##"{
   ]
 }
 "##;
+const ICON_TERMS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "icon",
+  "description": "Icon identities used as the `icon` name-field value on icon-family tokens. `tokenName` gives the long form used in legacy keys (e.g. \"checkmark\" -> \"checkmark-icon\"); ids without a `tokenName` already match the legacy form.",
+  "values": [
+    {
+      "id": "icon",
+      "label": "Icon",
+      "description": "Generic icon token, not tied to a specific glyph",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "ui",
+      "label": "UI Icon",
+      "description": "Generic UI icon glyph",
+      "tokenName": "ui-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "checkmark",
+      "label": "Checkmark Icon",
+      "description": "Checkmark glyph",
+      "tokenName": "checkmark-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "chevron",
+      "label": "Chevron Icon",
+      "description": "Chevron glyph",
+      "tokenName": "chevron-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dash",
+      "label": "Dash Icon",
+      "description": "Dash glyph",
+      "tokenName": "dash-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "arrow",
+      "label": "Arrow Icon",
+      "description": "Arrow glyph",
+      "tokenName": "arrow-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "cross",
+      "label": "Cross Icon",
+      "description": "Cross (close) glyph",
+      "tokenName": "cross-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "add",
+      "label": "Add Icon",
+      "description": "Add (plus) glyph",
+      "tokenName": "add-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "link-out",
+      "label": "Link Out Icon",
+      "description": "External-link glyph",
+      "tokenName": "link-out-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag Handle Icon",
+      "description": "Drag handle glyph",
+      "tokenName": "drag-handle-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "asterisk",
+      "label": "Asterisk Icon",
+      "description": "Asterisk glyph",
+      "tokenName": "asterisk-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "gripper",
+      "label": "Gripper Icon",
+      "description": "Gripper glyph",
+      "tokenName": "gripper-icon",
+      "usedIn": ["tokens"]
+    }
+  ]
+}
+"##;
 const CATEGORIES_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "category",
@@ -2574,7 +2858,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "icon"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2601,6 +2885,7 @@ pub(crate) fn build_registry_map(
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
+    map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
 }
@@ -2630,6 +2915,7 @@ pub(crate) fn build_token_name_map(
     map.insert("motionRole".to_string(), parse_token_name_map(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
+    map.insert("icon".to_string(), parse_token_name_map(ICON_TERMS_JSON));
     map
 }
 
@@ -2663,5 +2949,6 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "to", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "alignment", position: 26, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
     ]
 }

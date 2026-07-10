@@ -381,6 +381,34 @@
     },
     {
       "file": "./src/layout-component.json",
+      "token": "in-field-stepper-to-end-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'in-field-stepper-to-end-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "in-field-stepper-to-end-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'in-field-stepper-to-end-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "in-field-stepper-to-end-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'in-field-stepper-to-end-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "in-field-stepper-to-end-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'in-field-stepper-to-end-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
       "token": "menu-item-edge-to-content-not-selected-extra-large",
       "rule_id": "SPEC-007",
       "severity": "info",
@@ -598,6 +626,90 @@
     },
     {
       "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-compact-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-compact-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-compact-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-compact-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-compact-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-compact-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-compact-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-compact-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-bottom-to-text-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-bottom-to-text-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-compact-height-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-compact-height-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-compact-height-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-compact-height-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-compact-height-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-compact-height-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-compact-height-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-compact-height-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
       "token": "tab-item-focus-indicator-gap-extra-large",
       "rule_id": "SPEC-007",
       "severity": "info",
@@ -623,6 +735,237 @@
       "rule_id": "SPEC-007",
       "severity": "info",
       "message": "Known naming exception: 'tab-item-focus-indicator-gap-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-height-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-height-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-height-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-height-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-height-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-height-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-height-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-height-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-start-to-edge-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-start-to-edge-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-start-to-edge-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-start-to-edge-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-start-to-edge-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-start-to-edge-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-start-to-edge-quiet",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-start-to-edge-quiet' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-start-to-edge-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-start-to-edge-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-horizontal-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-horizontal-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-horizontal-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-horizontal-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-horizontal-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-horizontal-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-horizontal-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-horizontal-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-vertical-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-vertical-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-vertical-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-vertical-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-vertical-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-vertical-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-to-tab-item-vertical-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-vertical-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-compact-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-compact-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-compact-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-compact-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-compact-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-compact-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-compact-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-compact-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-text-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-text-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-compact-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-compact-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-compact-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-compact-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-compact-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-compact-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-compact-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-compact-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout-component.json",
+      "token": "tab-item-top-to-workflow-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-top-to-workflow-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
     },
     {
       "file": "./src/layout-component.json",

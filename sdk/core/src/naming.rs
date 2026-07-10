@@ -181,6 +181,33 @@ fn split_trailing_state(s: &str) -> (&str, Option<&str>) {
     (s, None)
 }
 
+/// Resolve the legacy `component` metadata value for a name object.
+///
+/// Legacy output hoists `name.component` to an outer `component` field (see
+/// `legacy::build_flat_entry` / `legacy::convert_set`). Icon-family tokens carry
+/// `icon` instead of `component`; this expands the short registry id through
+/// `tokenName` (e.g. `"add"` → `"add-icon"`) so published legacy output is
+/// unaffected by the field rename. Returns `None` when neither field is present.
+///
+/// This duplicates the "prefer `component`, else expand `icon` via `tokenName`"
+/// logic in the owner computation inside [`extract_legacy_key`]'s color-domain
+/// branch — the two aren't wired together because one produces key *segments*
+/// and the other an outer metadata *field*. Keep them in sync if either's
+/// fallback behavior changes.
+pub fn resolve_owner_component(name: &Map<String, Value>) -> Option<String> {
+    if let Some(c) = name.get("component").and_then(|v| v.as_str()) {
+        return Some(c.to_string());
+    }
+    let icon = name.get("icon").and_then(|v| v.as_str())?;
+    let registry = crate::registry::RegistryData::embedded();
+    Some(
+        registry
+            .token_name("icon", icon)
+            .unwrap_or(icon)
+            .to_string(),
+    )
+}
+
 /// Extract the canonical legacy kebab-case key from a cascade `name` value.
 ///
 /// Handles two name forms:
@@ -213,25 +240,40 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         return Some(lk.to_string());
     }
 
-    // Color-domain serialization — two sub-cases distinguished by component presence.
+    // Color-domain serialization — two sub-cases distinguished by owner presence.
+    // `owner` is `component`, or `icon` for icon-family tokens (the two are
+    // mutually exclusive — a name object never carries both).
     //
-    //   Palette ramp (no component): {variant?}-{colorFamily}-{scaleIndex?}
+    //   Palette ramp (no owner): {variant?}-{colorFamily}-{scaleIndex?}
     //   `property` ("color") is implicit and omitted from the key.
     //   e.g. {colorFamily:"blue", scaleIndex:100} → "blue-100"
     //
-    //   Component color (component + colorFamily and/or colorRole):
-    //   {component}-{property}-{colorFamily?}-{colorRole?}-{state?}
+    //   Owner color (owner + colorFamily and/or colorRole):
+    //   {owner}-{property}-{colorFamily?}-{colorRole?}-{state?}
     //   `property` is always "color". Explicit ordering avoids the position-walk trap
     //   where state@12 < colorFamily@17 would produce the wrong segment order.
-    //   e.g. {component:"icon", property:"color", colorFamily:"blue", colorRole:"primary",
+    //   `icon` is expanded through its registry `tokenName` (e.g. "checkmark" →
+    //   "checkmark-icon") the same way the general position-walk path expands ids.
+    //   e.g. {icon:"icon", property:"color", colorFamily:"blue", colorRole:"primary",
     //         state:"default"} → "icon-color-blue-primary-default"
     let color_family = name.get("colorFamily").and_then(|v| v.as_str());
     let color_role = name.get("colorRole").and_then(|v| v.as_str());
     let component = name.get("component").and_then(|v| v.as_str());
+    let icon = name.get("icon").and_then(|v| v.as_str());
+    let owner = component.or(icon).map(|v| {
+        if component.is_some() {
+            v.to_string()
+        } else {
+            crate::registry::RegistryData::embedded()
+                .token_name("icon", v)
+                .unwrap_or(v)
+                .to_string()
+        }
+    });
 
     if let Some(cf) = color_family {
-        if component.is_none() {
-            // Palette ramp: no component, property implicit.
+        if owner.is_none() {
+            // Palette ramp: no owner, property implicit.
             let mut parts: Vec<String> = Vec::new();
             if let Some(v) = name.get("variant").and_then(|v| v.as_str()) {
                 parts.push(v.to_string());
@@ -244,11 +286,11 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         }
     }
 
-    // Component color: component present AND at least one of colorFamily/colorRole.
-    if component.is_some() && (color_family.is_some() || color_role.is_some()) {
+    // Owner color: owner present AND at least one of colorFamily/colorRole.
+    if owner.is_some() && (color_family.is_some() || color_role.is_some()) {
         let property = name.get("property").and_then(|v| v.as_str())?;
         let mut parts: Vec<String> = Vec::new();
-        parts.push(component.unwrap().to_string());
+        parts.push(owner.unwrap());
         parts.push(property.to_string());
         if let Some(cf) = color_family {
             parts.push(cf.to_string());
@@ -263,6 +305,34 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     }
 
     let property = name.get("property").and_then(|v| v.as_str())?;
+
+    // Icon (non-color) domain: an icon-family token without colorFamily/colorRole
+    // (the owner-color branch above didn't apply). Unlike `component`, whose legacy
+    // values already match the registry id, `icon` registry ids are the short form
+    // (e.g. "add") and expand through `tokenName` to the long form used in legacy
+    // keys ("add-icon"). Explicit branch — like the color and space-between cases
+    // above — since `icon`'s position (100) sits after `property` in the catalog,
+    // so the generic position-walk below can't express the required leading order.
+    // e.g. {icon:"add", property:"size-100"} → "add-icon-size-100"
+    //
+    // Thin-format check mirrors the `component` case just below: some tokens store
+    // the full legacy key in `property` already (e.g. property:"icon-color-disabled-
+    // primary", icon:"icon"), with `icon` duplicated as a metadata annotation only.
+    // Prepending the owner there would double the prefix.
+    if let Some(ic) = icon {
+        let registry = crate::registry::RegistryData::embedded();
+        let ic_expanded = registry.token_name("icon", ic).unwrap_or(ic);
+        let is_thin =
+            property.starts_with(ic_expanded) && property[ic_expanded.len()..].starts_with('-');
+        if is_thin {
+            return Some(property.to_string());
+        }
+        let mut parts: Vec<String> = vec![ic_expanded.to_string(), property.to_string()];
+        if let Some(st) = name.get("state").and_then(|v| v.as_str()) {
+            parts.push(st.to_string());
+        }
+        return Some(parts.join("-"));
+    }
 
     // Thin-format detection: `property` already begins with `{component}-`.
     // In the thin cascade format the full legacy key is stored in `property`; component is
@@ -767,5 +837,69 @@ mod tests {
         // Palette ramp (no component) still uses the short form.
         let name = json!({"property": "color", "colorFamily": "blue", "scaleIndex": 700});
         assert_eq!(extract_legacy_key(&name).as_deref(), Some("blue-700"));
+    }
+
+    // ── Icon field (SPEC-009 icon-terms) ──────────────────────────────────────
+
+    #[test]
+    fn extract_key_icon_color_domain_uses_icon_as_owner() {
+        // `icon` stands in for `component` in the owner-color branch; the bare
+        // "icon" id has no tokenName expansion (already the legacy form).
+        let name = json!({
+            "icon": "icon",
+            "property": "color",
+            "colorScheme": "dark",
+            "colorRole": "background",
+            "colorFamily": "blue"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("icon-color-blue-background")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_non_color_expands_token_name() {
+        // General (non-color) icon domain: short registry id "add" expands to
+        // "add-icon" and leads `property`, mirroring {icon:"add-icon", property:"size-100"}.
+        let name = json!({"icon": "add", "property": "size-100"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("add-icon-size-100")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_non_color_with_state() {
+        let name = json!({"icon": "checkmark", "property": "size", "state": "hover"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("checkmark-icon-size-hover")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_unregistered_id_falls_back_to_raw_value() {
+        // No tokenName expansion available (id not in the registry) — the raw
+        // value is used verbatim rather than failing the roundtrip.
+        let name = json!({"icon": "unregistered-widget", "property": "size-100"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("unregistered-widget-size-100")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_thin_format_not_double_prefixed() {
+        // Thin cascade format: `property` already holds the full legacy key
+        // ("icon-color-disabled-primary"); `icon:"icon"` (which expands to itself,
+        // no tokenName mapping) is a metadata duplicate only. Regression test for
+        // a bug where the icon branch unconditionally prepended the owner,
+        // producing "icon-icon-color-disabled-primary".
+        let name = json!({"icon": "icon", "property": "icon-color-disabled-primary"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("icon-color-disabled-primary")
+        );
     }
 }

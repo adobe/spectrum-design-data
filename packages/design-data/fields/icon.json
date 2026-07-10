@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "icon",
+  "description": "Icon identity for icon-family tokens (e.g. checkmark, chevron, ui). Mutually exclusive with `component`. Legacy-key placement (leading, like `component`) is handled by an explicit owner-prefix branch in `extract_legacy_key` rather than the generic position-walk, so this position value only needs to be unique — it does not control key order.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/icon-terms.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 100
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}
