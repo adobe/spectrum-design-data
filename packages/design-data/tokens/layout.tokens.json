@@ -3,7 +3,8 @@
     "name": {
       "property": "gap",
       "size": "xxl",
-      "structure": "accessory"
+      "structure": "accessory",
+      "legacyKey": "accessory-gap-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -15,7 +16,8 @@
       "property": "gap",
       "size": "xxl",
       "structure": "accessory",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -27,7 +29,8 @@
       "property": "gap",
       "size": "xl",
       "structure": "accessory",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -39,7 +42,8 @@
       "property": "gap",
       "size": "xs",
       "structure": "accessory",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -51,7 +55,8 @@
       "property": "gap",
       "structure": "accessory",
       "size": "l",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -63,7 +68,8 @@
       "property": "gap",
       "structure": "accessory",
       "size": "m",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -75,7 +81,8 @@
       "property": "gap",
       "structure": "accessory",
       "size": "s",
-      "position": "affixed"
+      "position": "affixed",
+      "legacyKey": "accessory-gap-affixed-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -86,7 +93,8 @@
     "name": {
       "property": "gap",
       "size": "xl",
-      "structure": "accessory"
+      "structure": "accessory",
+      "legacyKey": "accessory-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -97,7 +105,8 @@
     "name": {
       "property": "gap",
       "size": "xs",
-      "structure": "accessory"
+      "structure": "accessory",
+      "legacyKey": "accessory-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -108,7 +117,8 @@
     "name": {
       "property": "gap",
       "structure": "accessory",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "accessory-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -119,7 +129,8 @@
     "name": {
       "property": "gap",
       "structure": "accessory",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "accessory-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -130,7 +141,8 @@
     "name": {
       "property": "gap",
       "structure": "accessory",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "accessory-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -230,7 +242,8 @@
     "name": {
       "property": "padding-horizontal",
       "structure": "banner",
-      "density": "compact"
+      "density": "compact",
+      "legacyKey": "banner-padding-horizontal-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -250,7 +263,8 @@
     "name": {
       "property": "gap",
       "size": "xxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-gap-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -261,7 +275,8 @@
     "name": {
       "property": "gap",
       "size": "xxxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-gap-3x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -281,7 +296,8 @@
     "name": {
       "property": "gap",
       "size": "xl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -292,7 +308,8 @@
     "name": {
       "property": "gap",
       "size": "xs",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -303,7 +320,8 @@
     "name": {
       "property": "gap",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -314,7 +332,8 @@
     "name": {
       "property": "gap",
       "structure": "base",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "base-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -325,7 +344,8 @@
     "name": {
       "property": "gap",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -337,7 +357,8 @@
       "property": "padding-horizontal",
       "scale": "desktop",
       "size": "xxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -351,7 +372,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "size": "xxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -365,7 +387,8 @@
       "property": "padding-horizontal",
       "scale": "desktop",
       "size": "xl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -379,7 +402,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "size": "xl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -392,7 +416,8 @@
     "name": {
       "property": "padding-horizontal",
       "size": "xs",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -404,7 +429,8 @@
       "property": "padding-horizontal",
       "scale": "desktop",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-padding-horizontal-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -418,7 +444,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-padding-horizontal-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -432,7 +459,8 @@
       "property": "padding-horizontal",
       "scale": "desktop",
       "structure": "base",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "base-padding-horizontal-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -446,7 +474,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "base-padding-horizontal-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -460,7 +489,8 @@
       "property": "padding-horizontal",
       "scale": "desktop",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-padding-horizontal-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -474,7 +504,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-padding-horizontal-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -550,7 +581,8 @@
     "name": {
       "property": "padding-vertical",
       "size": "xxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-vertical-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -561,7 +593,8 @@
     "name": {
       "property": "padding-vertical",
       "size": "xxs",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-vertical-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -572,7 +605,8 @@
     "name": {
       "property": "padding-vertical",
       "size": "xxxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-vertical-3x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -583,7 +617,8 @@
     "name": {
       "property": "padding-vertical",
       "size": "xl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-vertical-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -594,7 +629,8 @@
     "name": {
       "property": "padding-vertical",
       "size": "xs",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-vertical-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -605,7 +641,8 @@
     "name": {
       "property": "padding-vertical",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-padding-vertical-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -616,7 +653,8 @@
     "name": {
       "property": "padding-vertical",
       "structure": "base",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "base-padding-vertical-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -627,7 +665,8 @@
     "name": {
       "property": "padding-vertical",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-padding-vertical-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -4871,7 +4910,8 @@
     "name": {
       "property": "gap",
       "structure": "group",
-      "density": "compact"
+      "density": "compact",
+      "legacyKey": "group-gap-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
@@ -4882,7 +4922,8 @@
     "name": {
       "property": "gap",
       "size": "xl",
-      "structure": "group"
+      "structure": "group",
+      "legacyKey": "group-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -4894,7 +4935,8 @@
       "property": "gap",
       "size": "xl",
       "structure": "group",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "group-gap-extra-large-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -4904,7 +4946,8 @@
     "name": {
       "property": "gap",
       "size": "xs",
-      "structure": "group"
+      "structure": "group",
+      "legacyKey": "group-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
@@ -4916,7 +4959,8 @@
       "property": "gap",
       "size": "xs",
       "structure": "group",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "group-gap-extra-small-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -4926,7 +4970,8 @@
     "name": {
       "property": "gap",
       "structure": "group",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "group-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -4938,7 +4983,8 @@
       "property": "gap",
       "structure": "group",
       "size": "l",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "group-gap-large-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
@@ -4948,7 +4994,8 @@
     "name": {
       "property": "gap",
       "structure": "group",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "group-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -4960,7 +5007,8 @@
       "property": "gap",
       "structure": "group",
       "size": "m",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "group-gap-medium-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -4970,7 +5018,8 @@
     "name": {
       "property": "gap",
       "structure": "group",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "group-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -4982,7 +5031,8 @@
       "property": "gap",
       "structure": "group",
       "size": "s",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "group-gap-small-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -5002,7 +5052,8 @@
     "name": {
       "property": "gap",
       "structure": "list",
-      "density": "compact"
+      "density": "compact",
+      "legacyKey": "list-gap-compact"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
@@ -5022,7 +5073,8 @@
     "name": {
       "property": "gap",
       "structure": "list",
-      "density": "spacious"
+      "density": "spacious",
+      "legacyKey": "list-gap-spacious"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",

@@ -17,7 +17,7 @@
         "uuid": "70e6d9e7-2a8e-4f0d-96d6-aac7cde829bd"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -37,7 +37,7 @@
         "uuid": "b4f92e98-694f-46cc-91be-8e0e2d5a17a4"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-bottom-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -57,7 +57,7 @@
         "uuid": "97b9278a-11d0-4470-99c3-e2d47ca5a714"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-bottom-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -77,7 +77,7 @@
         "uuid": "af95123b-2ab5-49bb-a070-1ca48b498f58"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "accordion-bottom-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -97,7 +97,7 @@
         "uuid": "5ce86cfe-434b-42ab-b334-c574bae01e6f"
       }
     },
-    "renamed": "padding-vertical-2x-large"
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-bottom-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -117,7 +117,7 @@
         "uuid": "7db5a087-c361-4080-be50-8e4864436108"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -137,7 +137,7 @@
         "uuid": "abbcad5f-be29-4ca4-b48f-6b0eab7f9942"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-bottom-to-text-regular-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -185,7 +185,7 @@
         "uuid": "b69abbba-a98c-40f2-8a9a-972710b73149"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-bottom-to-text-spacious-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -205,7 +205,7 @@
         "uuid": "ba11dc6e-fbd8-46bc-94fd-b4d02f654d2d"
       }
     },
-    "renamed": "padding-vertical-3x-large"
+    "renamed": "base-padding-vertical-3x-large"
   },
   "accordion-bottom-to-text-spacious-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -225,7 +225,7 @@
         "uuid": "2a6fa386-4eba-44d5-b129-c832264fafd9"
       }
     },
-    "renamed": "padding-vertical-2x-large"
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-bottom-to-text-spacious-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -245,7 +245,7 @@
         "uuid": "05d8a39d-a0d5-496c-810a-f1244c31b169"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-bottom-to-text-spacious-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -265,7 +265,7 @@
         "uuid": "56a65744-b195-4faf-ab5c-69a8424593f9"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-content-area-bottom-to-content": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -411,7 +411,7 @@
         "uuid": "aafcb612-0828-48c7-af1c-39870aafd44a"
       }
     },
-    "renamed": "gap-2x-large"
+    "renamed": "base-gap-2x-large"
   },
   "accordion-disclosure-indicator-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -431,7 +431,7 @@
         "uuid": "fae0b204-0198-465a-aa98-c7b4224e4c48"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "base-gap-extra-large"
   },
   "accordion-disclosure-indicator-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -451,7 +451,7 @@
         "uuid": "f62edd6d-b833-4aea-8e03-ddd1dfccc464"
       }
     },
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "accordion-disclosure-indicator-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -471,7 +471,7 @@
         "uuid": "f009b7a8-95ca-4b39-92c3-f7656cf2e429"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "accordion-edge-to-content-area-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -596,7 +596,7 @@
         "uuid": "5ebd5aab-49b3-49d1-be25-8aff15217eda"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -616,7 +616,7 @@
         "uuid": "c09ca9bf-1b8b-4ff3-93b7-e9296472dc76"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-top-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -625,7 +625,7 @@
     "uuid": "484c9603-07f1-4ba6-b1bf-7cfaec5d1594",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-top-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -645,7 +645,7 @@
         "uuid": "cfc8d280-5ea0-47f2-bdcb-ae5e93627498"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "accordion-top-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -665,7 +665,7 @@
         "uuid": "d76aaca3-6e02-4f90-b254-debf8d10fc89"
       }
     },
-    "renamed": "padding-vertical-2x-large"
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-top-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -685,7 +685,7 @@
         "uuid": "ebc6e896-6964-4337-b146-468e43d31db3"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -705,7 +705,7 @@
         "uuid": "2d7e81ba-1390-4607-8ee2-5d322d3e0bae"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "accordion-top-to-text-regular-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -753,7 +753,7 @@
         "uuid": "0dea279c-62ca-4670-a693-03eaa7ccecb5"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "accordion-top-to-text-spacious-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -773,7 +773,7 @@
         "uuid": "bd300d17-3599-4382-8a7d-1b78700d49e9"
       }
     },
-    "renamed": "padding-vertical-3x-large"
+    "renamed": "base-padding-vertical-3x-large"
   },
   "accordion-top-to-text-spacious-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -793,7 +793,7 @@
         "uuid": "e90553f0-d71e-44c2-b70a-89110fab7c6a"
       }
     },
-    "renamed": "padding-vertical-2x-large"
+    "renamed": "base-padding-vertical-2x-large"
   },
   "accordion-top-to-text-spacious-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -813,7 +813,7 @@
         "uuid": "63602a66-5f96-4e6a-8bf0-2ac03321a577"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "accordion-top-to-text-spacious-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -833,7 +833,7 @@
         "uuid": "7bcbaaf1-f1d8-4755-acb2-5f6a45c3b9fe"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "action-bar-bottom-to-content-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -851,7 +851,7 @@
     "uuid": "bc54e89f-6740-4004-891e-c515f8f79693",
     "deprecated": true,
     "deprecated_comment": "Use semantic token group-gap-extra-small instead.",
-    "renamed": "gap-extra-small"
+    "renamed": "group-gap-extra-small"
   },
   "action-bar-counter-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -866,7 +866,7 @@
     "uuid": "a9fc8786-060e-4663-9381-211621240b2f",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-horizontal-compact instead.",
-    "renamed": "padding-horizontal-compact"
+    "renamed": "banner-padding-horizontal-compact"
   },
   "action-bar-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -925,7 +925,7 @@
         "uuid": "b4b4710b-2073-4285-8342-31ae6712671b"
       }
     },
-    "renamed": "gap-affixed-extra-large"
+    "renamed": "accessory-gap-affixed-extra-large"
   },
   "action-button-edge-to-hold-icon-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -934,7 +934,7 @@
     "uuid": "b79597cc-5294-4555-ab78-f4200e480ac3",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-affixed-extra-small instead.",
-    "renamed": "gap-affixed-extra-small"
+    "renamed": "accessory-gap-affixed-extra-small"
   },
   "action-button-edge-to-hold-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -954,7 +954,7 @@
         "uuid": "86a36757-a2d1-4263-97dc-62cf4543b3f9"
       }
     },
-    "renamed": "gap-affixed-large"
+    "renamed": "accessory-gap-affixed-large"
   },
   "action-button-edge-to-hold-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -974,7 +974,7 @@
         "uuid": "255a24ab-f70d-4698-8d2e-569c37c6c798"
       }
     },
-    "renamed": "gap-affixed-medium"
+    "renamed": "accessory-gap-affixed-medium"
   },
   "action-button-edge-to-hold-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -983,7 +983,7 @@
     "uuid": "fa106863-0e09-44d4-9465-68cd3254ed2b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-affixed-small instead.",
-    "renamed": "gap-affixed-small"
+    "renamed": "accessory-gap-affixed-small"
   },
   "add-icon-size-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1822,7 +1822,7 @@
         "uuid": "bacd5b38-1eed-49d6-9513-f363315f2a23"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "avatar-to-avatar-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1842,7 +1842,7 @@
         "uuid": "7815e63c-1d4f-4ee0-a656-a6053595ad59"
       }
     },
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "avatar-to-avatar-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1862,7 +1862,7 @@
         "uuid": "04481b80-1c05-416a-95cf-c0c85147ce2e"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "base-gap-extra-large"
   },
   "avatar-to-avatar-400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1882,7 +1882,7 @@
         "uuid": "5c733ac6-d7b9-44f0-8827-1d8232ca5332"
       }
     },
-    "renamed": "gap-2x-large"
+    "renamed": "base-gap-2x-large"
   },
   "avatar-to-avatar-50": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1902,7 +1902,7 @@
         "uuid": "b395e912-9061-44bd-ab77-840cde0f3e80"
       }
     },
-    "renamed": "gap-extra-small"
+    "renamed": "base-gap-extra-small"
   },
   "avatar-to-avatar-500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1922,7 +1922,7 @@
         "uuid": "c980c4f4-f2c5-4963-873e-de275f3353d1"
       }
     },
-    "renamed": "gap-3x-large"
+    "renamed": "base-gap-3x-large"
   },
   "avatar-to-avatar-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1942,7 +1942,7 @@
         "uuid": "889a7ebb-86b7-4615-87ee-e75aa4b48d60"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "base-gap-small"
   },
   "bar-panel-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2003,7 +2003,7 @@
         "uuid": "a51a1142-e38e-4055-bd45-ad2bd0045880"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "breadcrumbs-end-edge-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2069,7 +2069,7 @@
         "uuid": "a1c90c6d-851d-495f-99cc-bbeb0c6fdd4f"
       }
     },
-    "renamed": "gap-3x-large"
+    "renamed": "base-gap-3x-large"
   },
   "breadcrumbs-start-edge-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2098,7 +2098,7 @@
         "uuid": "1d7bd78d-4469-4385-89e7-fcd574cc6368"
       }
     },
-    "renamed": "gap-2x-large"
+    "renamed": "base-gap-2x-large"
   },
   "breadcrumbs-start-edge-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2118,7 +2118,7 @@
         "uuid": "e87a054b-dceb-4462-a8fc-733700cc0f79"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "breadcrumbs-start-edge-to-text-multiline": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2138,7 +2138,7 @@
         "uuid": "60a75c05-a9cd-4ecf-89e5-0bca9e137e9f"
       }
     },
-    "renamed": "gap-extra-small"
+    "renamed": "base-gap-extra-small"
   },
   "breadcrumbs-start-edge-to-truncated-menu": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2166,7 +2166,7 @@
         "uuid": "25d8256e-b05f-43e8-bbc3-5b60c24be29c"
       }
     },
-    "renamed": "gap-2x-large"
+    "renamed": "base-gap-2x-large"
   },
   "breadcrumbs-text-to-separator-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2186,7 +2186,7 @@
         "uuid": "bf2e3518-154e-4975-b9fb-acbf60b7e154"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "breadcrumbs-text-to-separator-multiline": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2206,7 +2206,7 @@
         "uuid": "fbf763fe-9e35-4cdc-a5ed-9f90e03d23bd"
       }
     },
-    "renamed": "gap-extra-small"
+    "renamed": "base-gap-extra-small"
   },
   "breadcrumbs-top-text-to-bottom-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2282,7 +2282,7 @@
         "uuid": "2e12202a-8099-4a4d-b06d-703deaf20862"
       }
     },
-    "renamed": "padding-vertical-2x-large"
+    "renamed": "base-padding-vertical-2x-large"
   },
   "breadcrumbs-top-to-separator-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2302,7 +2302,7 @@
         "uuid": "fcbd2bcb-7f53-4219-9d6b-89c01fd50da7"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "breadcrumbs-top-to-separator-multiline": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2322,7 +2322,7 @@
         "uuid": "4b7eab87-e6a8-40f6-a071-5aff25493f2f"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "breadcrumbs-top-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2356,7 +2356,7 @@
         "uuid": "ea82fc23-82e7-4116-a8bb-186a253675ad"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "breadcrumbs-top-to-truncated-menu": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2391,7 +2391,7 @@
         "uuid": "154bce30-bfe2-445b-bbdd-69efce5565ae"
       }
     },
-    "renamed": "padding-vertical-extra-small"
+    "renamed": "base-padding-vertical-extra-small"
   },
   "breadcrumbs-truncated-menu-to-separator": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2851,7 +2851,7 @@
         "uuid": "b3be5ac8-2415-4490-8b4a-c08661ec84d1"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "checkbox-top-to-control-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2871,7 +2871,7 @@
         "uuid": "d040d2f4-9bb4-4d27-adac-40fef079d958"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "checkbox-top-to-control-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2891,7 +2891,7 @@
         "uuid": "e3751526-2db9-421c-85f9-d60071aac49b"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "checkbox-top-to-control-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -2911,7 +2911,7 @@
         "uuid": "f254146e-f469-44b1-b0c9-1ac72e88f9e3"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "checkmark-icon-size-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -3229,7 +3229,7 @@
     "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-gap-medium instead.",
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "coach-indicator-expanded-ring-rounding-increment": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -4211,7 +4211,7 @@
     "uuid": "4725710f-67b2-4000-b4e8-e67a68cd75f5",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Date and time fields use 20px whereas text field appears to use padding value",
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "date-picker-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -4511,7 +4511,7 @@
         "uuid": "17ba788d-da38-455d-9322-16e4f05ea923"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "base-gap-extra-large"
   },
   "field-label-text-to-asterisk-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4531,7 +4531,7 @@
         "uuid": "87149afe-899b-4fb6-bd7c-d2becf8117fc"
       }
     },
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "field-label-text-to-asterisk-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4551,7 +4551,7 @@
         "uuid": "2fbc4add-e6b4-4dfa-9a7d-0de628b2f63c"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "field-label-text-to-asterisk-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4571,7 +4571,7 @@
         "uuid": "4271498d-747c-423d-87cc-761b8a181f7c"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "base-gap-small"
   },
   "field-label-to-component": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -4703,7 +4703,7 @@
         "uuid": "5227bf07-140a-49c6-88f9-cc454d8a90c1"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "field-label-top-to-asterisk-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4723,7 +4723,7 @@
         "uuid": "e410a804-2655-4bbc-9b66-53a5facc92ac"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "field-label-top-to-asterisk-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4743,7 +4743,7 @@
         "uuid": "6f65ad1a-4a65-4b83-af44-5bd893f3b40e"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "field-label-top-to-asterisk-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -4763,7 +4763,7 @@
         "uuid": "ec0c072f-50fb-4934-99fc-a2576062e7b4"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "floating-action-button-drop-shadow-blur": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -4780,25 +4780,25 @@
   "form-item-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "form-item",
-    "value": "{gap-extra-large}",
+    "value": "{base-gap-extra-large}",
     "uuid": "a70d4855-0c3f-4b59-9f63-16334cd06134"
   },
   "form-item-gap-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "form-item",
-    "value": "{gap-large}",
+    "value": "{base-gap-large}",
     "uuid": "61cc3354-d256-482f-91d7-e4361cc4da9d"
   },
   "form-item-gap-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "form-item",
-    "value": "{gap-medium}",
+    "value": "{base-gap-medium}",
     "uuid": "56c23cee-9c0b-4851-ae72-a7287151b2fb"
   },
   "form-item-gap-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "form-item",
-    "value": "{gap-small}",
+    "value": "{base-gap-small}",
     "uuid": "33bbbb47-23c6-4390-9577-42be709ceb98"
   },
   "gripper-icon-size-100": {
@@ -5101,7 +5101,7 @@
         "uuid": "61cf3878-48bd-4785-ad71-ec35c4f99656"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "accessory-gap-extra-large"
   },
   "in-field-button-edge-to-fill-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5110,7 +5110,7 @@
     "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-large instead.",
-    "renamed": "gap-large"
+    "renamed": "accessory-gap-large"
   },
   "in-field-button-edge-to-fill-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5119,7 +5119,7 @@
     "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-medium instead.",
-    "renamed": "gap-medium"
+    "renamed": "accessory-gap-medium"
   },
   "in-field-button-edge-to-fill-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5139,7 +5139,7 @@
         "uuid": "a2143caf-07e6-4d45-977c-3d79d69c335e"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "accessory-gap-small"
   },
   "in-field-button-fill-stacked-inner-border-rounding": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5356,7 +5356,7 @@
         "uuid": "fbc42d9d-2f00-42ae-92e9-727cac69404e"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "accessory-gap-extra-large"
   },
   "in-field-stepper-to-end-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5365,7 +5365,7 @@
     "uuid": "cb3e458d-7dcd-484d-9028-220d08c9f129",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-large instead. Refactoring required",
-    "renamed": "gap-large"
+    "renamed": "accessory-gap-large"
   },
   "in-field-stepper-to-end-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5374,7 +5374,7 @@
     "uuid": "fe42bdd0-de02-4814-b498-038b26a3c0e7",
     "deprecated": true,
     "deprecated_comment": "Use semantic token accessory-gap-medium instead. Refactoring required",
-    "renamed": "gap-medium"
+    "renamed": "accessory-gap-medium"
   },
   "in-field-stepper-to-end-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5394,7 +5394,7 @@
         "uuid": "90669b85-c7e8-4b68-b96d-61a51a2451b3"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "accessory-gap-small"
   },
   "in-line-alert-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5707,7 +5707,7 @@
         "uuid": "77e97b70-ef7e-4228-8d91-0ff9d9d2b063"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-top-to-disclosure-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5727,7 +5727,7 @@
         "uuid": "bda3ee60-8f9a-41b2-a8a2-894aed3b3bed"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-disclosure-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5747,7 +5747,7 @@
         "uuid": "e0468683-b2d2-4839-9ad8-46963d7402fc"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-disclosure-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5767,7 +5767,7 @@
         "uuid": "eb9cf950-cba2-4fb8-a115-8a4c0ddb00d0"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "menu-item-top-to-selected-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5787,7 +5787,7 @@
         "uuid": "3ff6cb7a-20cb-4b25-a367-7e4497d0f237"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-top-to-selected-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5807,7 +5807,7 @@
         "uuid": "f84569c5-bb63-4eb1-8193-1130e88e7e5b"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-selected-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5827,7 +5827,7 @@
         "uuid": "61e906e3-6daa-4841-b4f0-54939157a50b"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-selected-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5847,7 +5847,7 @@
         "uuid": "943a0b43-6c91-40a3-a680-318a934bf6ef"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "menu-item-top-to-thumbnail-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5867,7 +5867,7 @@
         "uuid": "dfeef197-57b9-41a1-b759-3c782a64f2f3"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "menu-item-top-to-thumbnail-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5887,7 +5887,7 @@
         "uuid": "64b2f613-35b2-46a8-be7d-c39c314840b9"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "menu-item-top-to-thumbnail-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5907,7 +5907,7 @@
         "uuid": "62815f67-4e23-43f9-93d2-f29d1688cddf"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "menu-item-top-to-thumbnail-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -5927,7 +5927,7 @@
         "uuid": "af422766-3185-47d6-adba-31b1e97b92d9"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "menu-section-header-to-description-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6095,7 +6095,7 @@
         "uuid": "777f9750-cfea-4eb3-ae08-a18c2fbde315"
       }
     },
-    "renamed": "padding-horizontal-extra-large"
+    "renamed": "base-padding-horizontal-extra-large"
   },
   "number-field-visual-to-in-field-stepper-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6115,7 +6115,7 @@
         "uuid": "136a2c42-1868-4343-903d-9e7fbf345d45"
       }
     },
-    "renamed": "padding-horizontal-large"
+    "renamed": "base-padding-horizontal-large"
   },
   "number-field-visual-to-in-field-stepper-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6135,7 +6135,7 @@
         "uuid": "83dd3160-a826-4fa2-b643-a6f11533ba45"
       }
     },
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "number-field-visual-to-in-field-stepper-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6155,7 +6155,7 @@
         "uuid": "1e55a991-6d8f-4fc1-9dc7-91f86be50e3f"
       }
     },
-    "renamed": "padding-horizontal-small"
+    "renamed": "base-padding-horizontal-small"
   },
   "number-field-with-stepper-minimum-width-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6326,7 +6326,7 @@
         "uuid": "0ac097c8-020e-4a7b-b692-59dfdf07e3f8"
       }
     },
-    "renamed": "gap-extra-large"
+    "renamed": "base-gap-extra-large"
   },
   "picker-visual-to-disclosure-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6346,7 +6346,7 @@
         "uuid": "47f5a27f-4039-4668-bb21-aafb9dcb82fb"
       }
     },
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "picker-visual-to-disclosure-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6366,7 +6366,7 @@
         "uuid": "c620ab2b-256d-409a-a80c-7d7c2295efc8"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "picker-visual-to-disclosure-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6386,7 +6386,7 @@
         "uuid": "269725c9-3462-4132-8487-95dd61814448"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "base-gap-small"
   },
   "popover-edge-to-content-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -6692,7 +6692,7 @@
         "uuid": "c478710f-1747-455b-998a-6fa837762905"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "radio-button-top-to-control-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6712,7 +6712,7 @@
         "uuid": "41d0dde7-de34-4e99-96d0-4f727ed71673"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "radio-button-top-to-control-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6732,7 +6732,7 @@
         "uuid": "2f805530-cefe-420a-89e6-a6a81c0faea0"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "radio-button-top-to-control-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -6752,7 +6752,7 @@
         "uuid": "02438c4c-161d-45eb-935d-b083ab830876"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "rating-bottom-to-content-area-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6761,7 +6761,7 @@
     "uuid": "897117a7-4e29-4fc2-85b4-1b2aa882ff7b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-bottom-to-content-area-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -6770,7 +6770,7 @@
     "uuid": "360ab235-93bf-482c-9ff1-387d69f018e1",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "rating-edge-to-content-area-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6779,7 +6779,7 @@
     "uuid": "888c8501-b709-4b72-9d19-504e3b0befb4",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-edge-to-content-area-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -6788,7 +6788,7 @@
     "uuid": "a2ad2062-a115-4abb-859b-f9d307b44744",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "rating-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -6845,7 +6845,7 @@
     "uuid": "6b99f788-336d-4159-819e-29050f8b571a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "rating-top-to-content-area-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -6854,7 +6854,7 @@
     "uuid": "8cf415d3-57f2-41c6-a175-40c75b58a79e",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "rating-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -7161,7 +7161,7 @@
         "uuid": "e3f49e5e-f9ec-485c-846e-7a8fda08caea"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "side-navigation-counter-to-disclosure": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -7221,7 +7221,7 @@
         "uuid": "ad959938-ad69-4137-91e4-fcf2465b223a"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "side-navigation-indicator-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8560,7 +8560,7 @@
         "uuid": "aaee547c-df72-420e-8d39-3028e79feac1"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "standard-dialog-body-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8627,7 +8627,7 @@
     "uuid": "6364d657-804c-4753-832d-09bfdf5ad36a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-edge-to-close-button-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8636,7 +8636,7 @@
     "uuid": "f2c9847f-2c3f-4e2e-94ed-59b6cc58f34a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-edge-to-close-button-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8645,7 +8645,7 @@
     "uuid": "b9c04337-a6f5-42db-9bf9-a761c0d9f876",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8672,7 +8672,7 @@
     "uuid": "66f385cd-b60b-42dd-bfdc-aba2db6e35a2",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-top-to-close-button-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8681,7 +8681,7 @@
     "uuid": "968a056e-4397-4a71-91f1-a0f1ebb6f751",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-top-to-close-button-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8690,7 +8690,7 @@
     "uuid": "96572147-20a9-4089-9904-0a0efa42a5af",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "standard-panel-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -8773,7 +8773,7 @@
     "uuid": "752a84f5-cbb7-4d18-85ca-fc913a061bb5",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-gap-medium instead.",
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "status-light-text-to-visual-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -8782,7 +8782,7 @@
     "uuid": "d3e53f14-b91e-4d10-8508-17360ae5620e",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-gap-large instead.",
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "status-light-text-to-visual-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -8791,7 +8791,7 @@
     "uuid": "ee780be7-b32c-4da8-a6bc-fc0897799537",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
-    "renamed": "gap-extra-large"
+    "renamed": "base-gap-extra-large"
   },
   "status-light-text-to-visual-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -8800,7 +8800,7 @@
     "uuid": "ea98b9b0-20b5-4f19-aa4f-375559b1362a",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-gap-small instead.",
-    "renamed": "gap-small"
+    "renamed": "base-gap-small"
   },
   "status-light-top-to-dot-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8820,7 +8820,7 @@
         "uuid": "b351cade-6d69-449e-908a-518793fef5b9"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "status-light-top-to-dot-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8840,7 +8840,7 @@
         "uuid": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "status-light-top-to-dot-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8860,7 +8860,7 @@
         "uuid": "321a462b-8811-4264-ac1f-4608df8f8c53"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "status-light-top-to-dot-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -8880,7 +8880,7 @@
         "uuid": "a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "steplist-bottom-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -9395,7 +9395,7 @@
         "uuid": "7e95ad9a-ca10-4f06-9c19-8dd2270cfdad"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "switch-top-to-control-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9415,7 +9415,7 @@
         "uuid": "035e786b-17f2-488e-a049-84b257a3312f"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "switch-top-to-control-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9435,7 +9435,7 @@
         "uuid": "68276028-41d8-49e1-b0d4-f70cd27ab149"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "switch-top-to-control-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9455,7 +9455,7 @@
         "uuid": "f379c453-da21-41f6-92d1-9b6bdb95fd86"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-bottom-to-text-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9475,7 +9475,7 @@
         "uuid": "3641ac9c-5610-4996-a55d-c2a94b2ff9ea"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-bottom-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9495,7 +9495,7 @@
         "uuid": "091144b7-c63b-4827-840d-741cec01432a"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-bottom-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9515,7 +9515,7 @@
         "uuid": "e69dee42-92da-4ca9-9eb8-97a7860adaba"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-bottom-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9535,7 +9535,7 @@
         "uuid": "f453e51e-3d58-430e-8f17-8b95718dbf34"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-bottom-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9763,7 +9763,7 @@
         "uuid": "4e0b2015-06c8-41ab-9e2b-3a332a7625ff"
       }
     },
-    "renamed": "padding-horizontal-extra-large"
+    "renamed": "base-padding-horizontal-extra-large"
   },
   "tab-item-start-to-edge-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9783,7 +9783,7 @@
         "uuid": "2c85fa9a-e854-46f6-bc6b-547692d08290"
       }
     },
-    "renamed": "padding-horizontal-large"
+    "renamed": "base-padding-horizontal-large"
   },
   "tab-item-start-to-edge-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9803,7 +9803,7 @@
         "uuid": "229477d5-e21a-4f4b-a24d-580f0c60eec5"
       }
     },
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "tab-item-start-to-edge-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -9831,7 +9831,7 @@
         "uuid": "8d413f56-6634-49c8-8d6a-53d0f57f1bbc"
       }
     },
-    "renamed": "padding-horizontal-small"
+    "renamed": "base-padding-horizontal-small"
   },
   "tab-item-to-tab-item-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10011,7 +10011,7 @@
         "uuid": "9694ebdc-cc88-4584-89f5-10a2c8de686f"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-top-to-text-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10031,7 +10031,7 @@
         "uuid": "fd20b444-38ac-4438-a9ef-32474222e45f"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-top-to-text-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10051,7 +10051,7 @@
         "uuid": "128757b0-d690-4886-95d5-e9df36182a0f"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-top-to-text-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10071,7 +10071,7 @@
         "uuid": "d37488c4-d489-45bd-9086-8157c5204ae4"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-top-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10091,7 +10091,7 @@
         "uuid": "174cc6c8-9c0a-44c0-b6c7-ea6d337c819b"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-top-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10111,7 +10111,7 @@
         "uuid": "7e3db5ca-cd32-464b-9a23-9d03e83faa9c"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-top-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10131,7 +10131,7 @@
         "uuid": "a8c455e9-60e5-4838-bc9c-eaf7b39a4bf7"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-top-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10151,7 +10151,7 @@
         "uuid": "3e155b8c-6cea-4b59-817c-cf71a63e00c7"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-top-to-workflow-icon-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10171,7 +10171,7 @@
         "uuid": "f310e5d7-7435-41a0-b44d-ececff4844f2"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "tab-item-top-to-workflow-icon-compact-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10191,7 +10191,7 @@
         "uuid": "fad964d8-0020-4583-97ab-7d6565d01bdc"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "tab-item-top-to-workflow-icon-compact-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10211,7 +10211,7 @@
         "uuid": "4fb0520b-8c74-4fb7-b279-a3586a06a57e"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tab-item-top-to-workflow-icon-compact-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10231,7 +10231,7 @@
         "uuid": "b79002d2-bcff-4e8d-a406-e512c7e7d0e3"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tab-item-top-to-workflow-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10357,7 +10357,7 @@
         "uuid": "c8bd103d-d952-4649-a7a0-09ae5242ea17"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-column-header-row-bottom-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10377,7 +10377,7 @@
         "uuid": "e465ee66-392f-469f-a46c-6c98df03b046"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "table-column-header-row-bottom-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10397,7 +10397,7 @@
         "uuid": "631d14a5-1d2e-4e4a-90e8-146e8a397530"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "table-column-header-row-bottom-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10417,7 +10417,7 @@
         "uuid": "9cf85eae-ec15-4bb0-ba48-00ec946306a5"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "table-column-header-row-top-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10437,7 +10437,7 @@
         "uuid": "265247a7-bbc3-42b8-910d-946e8d04aee2"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-column-header-row-top-to-text-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10457,7 +10457,7 @@
         "uuid": "a02666d8-4ae2-42d2-b48e-419d5070e7ca"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "table-column-header-row-top-to-text-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10477,7 +10477,7 @@
         "uuid": "ff3c5329-ccec-4b94-b200-29a377b34380"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "table-column-header-row-top-to-text-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10497,7 +10497,7 @@
         "uuid": "fdc8b7ae-2356-4d49-ba54-0ea471be2986"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "table-edge-to-content": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -10526,7 +10526,7 @@
         "uuid": "42a78148-e111-4124-a7a6-d9baa2ca963f"
       }
     },
-    "renamed": "padding-vertical-extra-large"
+    "renamed": "base-padding-vertical-extra-large"
   },
   "table-header-row-checkbox-to-top-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10546,7 +10546,7 @@
         "uuid": "f6648787-3cf1-4af8-aa4f-15669ea1626d"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "table-header-row-checkbox-to-top-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10566,7 +10566,7 @@
         "uuid": "2e168a2b-46aa-453f-9ca1-746485216c84"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "table-header-row-checkbox-to-top-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -10586,7 +10586,7 @@
         "uuid": "296d445c-243d-454c-9f5a-146c13d0cded"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "table-row-bottom-to-text-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12106,7 +12106,7 @@
         "uuid": "b046b12c-5c39-4018-8ccc-9a5cb08eb6e5"
       }
     },
-    "renamed": "gap-large"
+    "renamed": "base-gap-large"
   },
   "tag-edge-to-clear-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12126,7 +12126,7 @@
         "uuid": "a2f75bb4-0ce4-4993-9a43-09cd2b7376bf"
       }
     },
-    "renamed": "gap-medium"
+    "renamed": "base-gap-medium"
   },
   "tag-edge-to-clear-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12146,7 +12146,7 @@
         "uuid": "6f913e5f-debc-4b7d-897d-c2704847c2e5"
       }
     },
-    "renamed": "gap-small"
+    "renamed": "base-gap-small"
   },
   "tag-field-default-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12217,7 +12217,7 @@
         "uuid": "1fda84ab-aa68-46fb-bd0f-d8174a08a41e"
       }
     },
-    "renamed": "padding-horizontal-large"
+    "renamed": "base-padding-horizontal-large"
   },
   "tag-field-edge-to-content-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12237,7 +12237,7 @@
         "uuid": "0072dc62-b868-4c4b-afd9-9c52d876c614"
       }
     },
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-field-edge-to-content-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12257,7 +12257,7 @@
         "uuid": "5e448fc3-6c14-4169-84a0-1f70bbc478cb"
       }
     },
-    "renamed": "padding-horizontal-small"
+    "renamed": "base-padding-horizontal-small"
   },
   "tag-field-minimum-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12345,7 +12345,7 @@
         "uuid": "7c1375da-c6c7-42b3-b60e-0ef6724c6303"
       }
     },
-    "renamed": "padding-horizontal-large"
+    "renamed": "base-padding-horizontal-large"
   },
   "tag-label-to-clear-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12365,7 +12365,7 @@
         "uuid": "ff7424ba-5f65-46ff-b408-4ffb2cfc5035"
       }
     },
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-label-to-clear-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12385,7 +12385,7 @@
         "uuid": "2011748e-f950-4c6e-9eee-1c0d77b7ba36"
       }
     },
-    "renamed": "padding-horizontal-small"
+    "renamed": "base-padding-horizontal-small"
   },
   "tag-maximum-width-multiplier": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
@@ -12469,7 +12469,7 @@
         "uuid": "9881ad7c-e9df-40b1-a368-4f8185042c3f"
       }
     },
-    "renamed": "padding-vertical-large"
+    "renamed": "base-padding-vertical-large"
   },
   "tag-top-to-avatar-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12489,7 +12489,7 @@
         "uuid": "8dbabe33-52e7-4dc1-b2e3-81c1c62d98cb"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tag-top-to-avatar-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12509,7 +12509,7 @@
         "uuid": "a2c40238-1fda-4482-a419-b8092a385c9b"
       }
     },
-    "renamed": "padding-vertical-small"
+    "renamed": "base-padding-vertical-small"
   },
   "tag-top-to-cross-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12529,7 +12529,7 @@
         "uuid": "af69e3d1-92b6-4e62-93f2-c1f1f10f0a63"
       }
     },
-    "renamed": "padding-horizontal-large"
+    "renamed": "base-padding-horizontal-large"
   },
   "tag-top-to-cross-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12549,7 +12549,7 @@
         "uuid": "ac7b17a2-99ef-45b3-ab3b-4d3eeaf99fb9"
       }
     },
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "tag-top-to-cross-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -12569,7 +12569,7 @@
         "uuid": "d93e04b9-1901-4ec4-947a-62c84205e61e"
       }
     },
-    "renamed": "padding-horizontal-small"
+    "renamed": "base-padding-horizontal-small"
   },
   "takeover-dialog-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -12853,7 +12853,7 @@
     "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
-    "renamed": "padding-horizontal-medium"
+    "renamed": "base-padding-horizontal-medium"
   },
   "title-cjk-emphasized-font-style": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -13314,7 +13314,7 @@
         "uuid": "9136f55b-d28b-4802-873c-db6205b8632b"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-disclosure-indicator-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13559,7 +13559,7 @@
         "uuid": "50ce9fc5-eab5-4ab5-8dfa-a22d5b4361e9"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13668,7 +13668,7 @@
         "uuid": "bb805e5e-d65b-4daf-9116-288fa59ddbfd"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "tree-view-top-to-label": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13688,7 +13688,7 @@
         "uuid": "d2e3ca68-015b-47a4-96ea-0c380e931c09"
       }
     },
-    "renamed": "padding-vertical-medium"
+    "renamed": "base-padding-vertical-medium"
   },
   "triple-calendar-popover-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
