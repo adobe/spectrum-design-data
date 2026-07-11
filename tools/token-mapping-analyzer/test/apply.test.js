@@ -19,7 +19,35 @@ import { applyField, applySpaceBetween } from "../src/apply.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
 
-/** Recursively collect every token object that has a name.size field. */
+// Domain fields that decompose() can extract from `property` alongside (or
+// instead of) size. A token carrying any of these was a multi-field
+// decomposition, whose legacy key this test's single-field splice can't
+// reconstruct — that case is covered instead by the Rust-backed
+// roundtrip check (moon run design-data:roundtrip-verify).
+const OTHER_DECOMPOSABLE_FIELDS = [
+  "density",
+  "structure",
+  "position",
+  "from",
+  "to",
+  "anatomy",
+  "object",
+  "shape",
+  "orientation",
+  "alignment",
+  "family",
+  "weight",
+  "style",
+  "emphasis",
+  "colorFamily",
+  "colorRole",
+  "colorScheme",
+  "contrast",
+  "easing",
+  "motionRole",
+];
+
+/** Recursively collect every token object decomposed for `size` alone. */
 function collectMigrated(obj, acc = []) {
   if (Array.isArray(obj)) {
     obj.forEach((v) => collectMigrated(v, acc));
@@ -29,7 +57,8 @@ function collectMigrated(obj, acc = []) {
     if (
       obj.name &&
       typeof obj.name === "object" &&
-      obj.name.size !== undefined
+      obj.name.size !== undefined &&
+      !OTHER_DECOMPOSABLE_FIELDS.some((f) => obj.name[f] !== undefined)
     ) {
       acc.push(obj);
     }

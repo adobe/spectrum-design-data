@@ -150,39 +150,6 @@ function main() {
     newEntries.push(entry);
   }
 
-  // Update category counts in the categories section
-  for (const [cat, count] of Object.entries(categoryCounts)) {
-    if (!exceptionsData.categories[cat]) {
-      exceptionsData.categories[cat] = {
-        description: `Tokens categorized as ${cat}`,
-        count: 0,
-        status: "needs-spec-decision",
-      };
-    }
-    exceptionsData.categories[cat].count += count;
-  }
-
-  // Add proposal references to categories
-  const proposalMap = {
-    "typography-taxonomy": "001",
-    "dual-variant": "002",
-    "static-color-compound": "002",
-    "variant-qualifier": "002",
-    "ordering-mismatch": "002",
-    "numeric-scale-index": "003",
-    "drop-shadow-property": "004",
-    "context-modifier": "004",
-    "compound-state": "005",
-    "spatial-qualifier": "006",
-    "vocabulary-gap": "006",
-  };
-
-  for (const [cat, proposal] of Object.entries(proposalMap)) {
-    if (exceptionsData.categories[cat]) {
-      exceptionsData.categories[cat].proposal = proposal;
-    }
-  }
-
   // Merge new entries
   exceptionsData.exceptions.push(...newEntries);
 
