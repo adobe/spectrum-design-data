@@ -19,7 +19,7 @@
   },
   "accessory-gap-affixed-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "3px",
+    "value": "4px",
     "uuid": "b4d6b11b-240b-4daf-8c24-3661888730d1",
     "description": "Spacing between child elements for accessory elements at extra-small size"
   },
