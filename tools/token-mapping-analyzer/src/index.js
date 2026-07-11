@@ -60,7 +60,12 @@ async function main() {
           registry.tokenNameMap,
           registry.serializationOrder,
         ) || token.name.legacyKey;
-      if (!legacyKey) continue;
+      if (!legacyKey) {
+        console.warn(
+          `  WARNING: could not reconstruct legacy key for token in ${filename} (name: ${JSON.stringify(token.name)}) — dropped from report`,
+        );
+        continue;
+      }
 
       const result = decompose(
         legacyKey,
