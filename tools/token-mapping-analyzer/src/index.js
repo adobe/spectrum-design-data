@@ -8,27 +8,25 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "./registry-index.js";
-import { decompose } from "./decomposer.js";
+import { decompose, serialize } from "./decomposer.js";
 import { generateReport } from "./report.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const TOKENS_DIR = resolve(__dirname, "../../../packages/tokens/src");
+// Structured cascade tree (inline name objects) — the source of truth for
+// decomposition state. The legacy flat-key tree (packages/tokens/src) is
+// stale here: apply.js already extracts fields into this tree, so analyzing
+// the legacy tree would re-report fields as "residual" that are already
+// migrated. See spectrum-design-data-dsi.
+const TOKENS_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
 const OUTPUT_DIR = resolve(__dirname, "../output");
 
-const TOKEN_FILES = [
-  "color-palette.json",
-  "semantic-color-palette.json",
-  "color-aliases.json",
-  "color-component.json",
-  "icons.json",
-  "layout.json",
-  "layout-component.json",
-  "typography.json",
-];
+const TOKEN_FILES = readdirSync(TOKENS_DIR)
+  .filter((f) => f.endsWith(".tokens.json"))
+  .sort();
 
 async function main() {
   console.log("Loading registries...");
@@ -44,12 +42,36 @@ async function main() {
 
   for (const filename of TOKEN_FILES) {
     const filePath = resolve(TOKENS_DIR, filename);
-    const data = JSON.parse(readFileSync(filePath, "utf-8"));
-    const tokenCount = Object.keys(data).length;
-    console.log(`\n  ${filename}: ${tokenCount} tokens`);
+    const tokens = JSON.parse(readFileSync(filePath, "utf-8"));
+    // String-name tokens (the escape hatch, proposal 011) have no fields to
+    // decompose and are already tracked by token-naming-audit's
+    // scan-string-names.js — skip them here.
+    const namedTokens = tokens.filter((t) => typeof t.name === "object");
+    console.log(`\n  ${filename}: ${namedTokens.length} tokens`);
 
-    for (const [tokenName, tokenData] of Object.entries(data)) {
-      const result = decompose(tokenName, tokenData, registry, filename);
+    for (const token of namedTokens) {
+      // Reconstruct the legacy key from the inline name object (mirrors
+      // apply.js). Most tokens roundtrip through serialize(); a small set of
+      // pinned exceptions (broken by prior decomposition passes) carry an
+      // explicit name.legacyKey instead — fall back to that.
+      const legacyKey =
+        serialize(
+          token.name,
+          registry.tokenNameMap,
+          registry.serializationOrder,
+        ) || token.name.legacyKey;
+      if (!legacyKey) continue;
+
+      const result = decompose(
+        legacyKey,
+        {
+          deprecated: !!token.deprecated,
+          private: !!token.private,
+          component: token.name.component,
+        },
+        registry,
+        filename,
+      );
       allResults.push(result);
     }
 
