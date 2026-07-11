@@ -61,6 +61,7 @@
     "site:export",
     "site:generateToolsPage",
     "token-diff-generator:diff",
+    "token-mapping-analyzer:analyze",
     "token-naming-audit:lint",
     "tokens:build",
     "viewer:clean",
