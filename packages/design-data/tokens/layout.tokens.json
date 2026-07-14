@@ -516,7 +516,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-2x-large"
+      "property": "base-padding-horizontal-uniform-2x-large",
+      "legacyKey": "base-padding-horizontal-uniform-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
@@ -525,7 +526,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-2x-small"
+      "property": "base-padding-horizontal-uniform-2x-small",
+      "legacyKey": "base-padding-horizontal-uniform-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c5f12db9-a471-4678-9828-e9b3d80f550d",
@@ -534,7 +536,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-extra-large"
+      "property": "base-padding-horizontal-uniform-extra-large",
+      "legacyKey": "base-padding-horizontal-uniform-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
@@ -543,7 +546,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-extra-small"
+      "property": "base-padding-horizontal-uniform-extra-small",
+      "legacyKey": "base-padding-horizontal-uniform-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
@@ -552,7 +556,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-large"
+      "property": "base-padding-horizontal-uniform-large",
+      "legacyKey": "base-padding-horizontal-uniform-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
@@ -561,7 +566,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-medium"
+      "property": "base-padding-horizontal-uniform-medium",
+      "legacyKey": "base-padding-horizontal-uniform-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
@@ -570,7 +576,8 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-small"
+      "property": "base-padding-horizontal-uniform-small",
+      "legacyKey": "base-padding-horizontal-uniform-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
@@ -3288,7 +3295,8 @@
   },
   {
     "name": {
-      "property": "drop-target-dash-length"
+      "property": "drop-target-dash-length",
+      "legacyKey": "drop-target-dash-length"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -4935,7 +4943,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-1-genai"
+      "property": "gradient-stop-1-genai",
+      "legacyKey": "gradient-stop-1-genai"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0,
@@ -4943,7 +4952,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-1-premium"
+      "property": "gradient-stop-1-premium",
+      "legacyKey": "gradient-stop-1-premium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0,
@@ -4951,7 +4961,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-2-genai"
+      "property": "gradient-stop-2-genai",
+      "legacyKey": "gradient-stop-2-genai"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0.3333,
@@ -4959,7 +4970,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-2-premium"
+      "property": "gradient-stop-2-premium",
+      "legacyKey": "gradient-stop-2-premium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0.6666,
@@ -4967,7 +4979,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-3-genai"
+      "property": "gradient-stop-3-genai",
+      "legacyKey": "gradient-stop-3-genai"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 1,
@@ -4975,7 +4988,8 @@
   },
   {
     "name": {
-      "property": "gradient-stop-3-premium"
+      "property": "gradient-stop-3-premium",
+      "legacyKey": "gradient-stop-3-premium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 1,
@@ -6295,7 +6309,8 @@
   },
   {
     "name": {
-      "property": "vertical-align-items"
+      "property": "vertical-align-items",
+      "legacyKey": "vertical-align-items"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
     "value": "center",

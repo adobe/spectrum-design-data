@@ -58,7 +58,8 @@
     "name": {
       "component": "bar-panel",
       "property": "color",
-      "anatomy": "gripper"
+      "anatomy": "gripper",
+      "legacyKey": "bar-panel-gripper-icon-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -76,7 +77,8 @@
   {
     "name": {
       "component": "card",
-      "property": "background-loading-color"
+      "property": "background-loading-color",
+      "legacyKey": "card-background-loading-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -631,7 +633,8 @@
   {
     "name": {
       "component": "opacity-checkerboard",
-      "property": "square-light"
+      "property": "square-light",
+      "legacyKey": "opacity-checkerboard-square-light"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -742,7 +745,8 @@
     "name": {
       "component": "stack-item",
       "property": "background-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "stack-item-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -797,7 +801,8 @@
     "name": {
       "component": "standard-panel",
       "property": "color",
-      "anatomy": "gripper"
+      "anatomy": "gripper",
+      "legacyKey": "standard-panel-gripper-icon-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "60077744-c665-4c80-8f88-dff31a10219e",

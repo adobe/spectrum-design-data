@@ -165,7 +165,8 @@
   },
   {
     "name": {
-      "property": "icon-color-informative"
+      "property": "icon-color-informative",
+      "legacyKey": "icon-color-informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "60aa72d2-3b00-4eea-973d-265a55d3095a",
@@ -173,7 +174,8 @@
   },
   {
     "name": {
-      "property": "icon-color-negative"
+      "property": "icon-color-negative",
+      "legacyKey": "icon-color-negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "23cea5fe-acb5-4460-add7-3512aaceeb35",
@@ -181,7 +183,8 @@
   },
   {
     "name": {
-      "property": "icon-color-neutral"
+      "property": "icon-color-neutral",
+      "legacyKey": "icon-color-neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d2b65b1e-de10-49c7-90d4-e3621edfdfa8",
@@ -189,7 +192,8 @@
   },
   {
     "name": {
-      "property": "icon-color-notice"
+      "property": "icon-color-notice",
+      "legacyKey": "icon-color-notice"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "da827479-f058-4117-9cd3-90cbe525d05d",
@@ -197,7 +201,8 @@
   },
   {
     "name": {
-      "property": "icon-color-positive"
+      "property": "icon-color-positive",
+      "legacyKey": "icon-color-positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d439dfad-437a-4929-8d0d-9b9290dcb843",

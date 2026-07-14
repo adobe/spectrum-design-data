@@ -120,7 +120,8 @@
     "name": {
       "property": "accent-background-color",
       "state": "key-focus",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "accent-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -132,7 +133,8 @@
     "name": {
       "property": "accent-background-color",
       "state": "key-focus",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "accent-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
@@ -144,7 +146,8 @@
     "name": {
       "property": "accent-background-color",
       "state": "key-focus",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "accent-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -182,7 +185,8 @@
   {
     "name": {
       "property": "accent-content-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "accent-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -232,7 +236,8 @@
   },
   {
     "name": {
-      "property": "background-base-color"
+      "property": "background-base-color",
+      "legacyKey": "background-base-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -354,7 +359,8 @@
   {
     "name": {
       "property": "background-opacity",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "background-opacity-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -2205,7 +2211,8 @@
     "name": {
       "property": "informative-background-color",
       "state": "key-focus",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "informative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2217,7 +2224,8 @@
     "name": {
       "property": "informative-background-color",
       "state": "key-focus",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "informative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "04a018bd-229c-47da-99e9-d338d05f0fb6",
@@ -2229,7 +2237,8 @@
     "name": {
       "property": "informative-background-color",
       "state": "key-focus",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "informative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2496,7 +2505,8 @@
     "name": {
       "property": "negative-background-color",
       "state": "key-focus",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "negative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2508,7 +2518,8 @@
     "name": {
       "property": "negative-background-color",
       "state": "key-focus",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "negative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b7d5d2db-0282-436b-8cb0-873e891b22a6",
@@ -2520,7 +2531,8 @@
     "name": {
       "property": "negative-background-color",
       "state": "key-focus",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "negative-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2580,7 +2592,8 @@
   {
     "name": {
       "property": "negative-border-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "negative-border-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2616,7 +2629,8 @@
   {
     "name": {
       "property": "negative-content-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "negative-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2688,7 +2702,8 @@
   {
     "name": {
       "property": "neutral-background-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "neutral-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -2778,7 +2793,8 @@
   {
     "name": {
       "property": "neutral-content-color",
-      "state": "key-focus"
+      "state": "key-focus",
+      "legacyKey": "neutral-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -3495,7 +3511,8 @@
     "name": {
       "property": "positive-background-color",
       "state": "key-focus",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "positive-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3507,7 +3524,8 @@
     "name": {
       "property": "positive-background-color",
       "state": "key-focus",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "positive-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ffdde321-5c1d-489e-8a0f-afc582248594",
@@ -3519,7 +3537,8 @@
     "name": {
       "property": "positive-background-color",
       "state": "key-focus",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "positive-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3990,7 +4009,8 @@
   },
   {
     "name": {
-      "property": "static-black-text-color"
+      "property": "static-black-text-color",
+      "legacyKey": "static-black-text-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -3998,7 +4018,8 @@
   },
   {
     "name": {
-      "property": "static-black-track-color"
+      "property": "static-black-track-color",
+      "legacyKey": "static-black-track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",
@@ -4022,7 +4043,8 @@
   },
   {
     "name": {
-      "property": "static-white-text-color"
+      "property": "static-white-text-color",
+      "legacyKey": "static-white-text-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -4030,7 +4052,8 @@
   },
   {
     "name": {
-      "property": "static-white-track-color"
+      "property": "static-white-track-color",
+      "legacyKey": "static-white-track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
