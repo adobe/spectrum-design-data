@@ -3009,7 +3009,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "025e39f4-dfe7-4a8a-beb5-bd0577f72eac",
@@ -3018,7 +3020,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-blur-100"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-blur-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -3026,7 +3031,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-blur-200"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-blur-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -3034,7 +3042,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-blur-300"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-blur-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -3042,7 +3053,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "variant": "dragged",
+      "legacyKey": "drop-shadow-dragged-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "34812e0c-7ccf-49c2-884a-6fecd45f7c5a",
@@ -3050,7 +3064,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-x"
+      "property": "x",
+      "structure": "drop-shadow",
+      "variant": "dragged",
+      "legacyKey": "drop-shadow-dragged-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cb6d74fe-cc32-47ff-bf8b-74597643a8a6",
@@ -3058,7 +3075,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "variant": "dragged",
+      "legacyKey": "drop-shadow-dragged-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5d09089b-c0c5-4122-a3be-3e989562acda",
@@ -3066,7 +3086,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "variant": "elevated",
+      "legacyKey": "drop-shadow-elevated-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2b08d425-ecf2-4891-83cd-005a2d5e76ce",
@@ -3074,7 +3097,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-x"
+      "property": "x",
+      "structure": "drop-shadow",
+      "variant": "elevated",
+      "legacyKey": "drop-shadow-elevated-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0c76c925-4d29-49a3-b882-e946bd7fe9f1",
@@ -3082,7 +3108,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "variant": "elevated",
+      "legacyKey": "drop-shadow-elevated-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c",
@@ -3090,7 +3119,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-default-blur"
+      "property": "blur",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "default",
+      "legacyKey": "drop-shadow-emphasized-default-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "025e39f4-dfe7-4a8a-beb5-bd0577f72eac",
@@ -3098,7 +3131,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-default-x"
+      "property": "x",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "default",
+      "legacyKey": "drop-shadow-emphasized-default-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "751d636e-efb5-411e-a5b8-06b11439cc90",
@@ -3106,7 +3143,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-default-y"
+      "property": "y",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "default",
+      "legacyKey": "drop-shadow-emphasized-default-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ed1f46fd-a586-46a5-8cc1-d843a57e2cc2",
@@ -3114,7 +3155,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-blur"
+      "property": "blur",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "legacyKey": "drop-shadow-emphasized-hover-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2b08d425-ecf2-4891-83cd-005a2d5e76ce",
@@ -3122,7 +3167,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-x"
+      "property": "x",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "legacyKey": "drop-shadow-emphasized-hover-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0c76c925-4d29-49a3-b882-e946bd7fe9f1",
@@ -3130,7 +3179,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-y"
+      "property": "y",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "legacyKey": "drop-shadow-emphasized-hover-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c",
@@ -3138,7 +3191,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-x"
+      "property": "x",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "751d636e-efb5-411e-a5b8-06b11439cc90",
@@ -3147,7 +3202,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-x-100"
+      "property": "x",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-x-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3155,7 +3213,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-x-200"
+      "property": "x",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-x-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3163,7 +3224,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-x-300"
+      "property": "x",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-x-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3171,7 +3235,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ed1f46fd-a586-46a5-8cc1-d843a57e2cc2",
@@ -3180,7 +3246,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-y-100"
+      "property": "y",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-y-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -3188,7 +3257,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-y-200"
+      "property": "y",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-y-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -3196,7 +3268,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-y-300"
+      "property": "y",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-y-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",

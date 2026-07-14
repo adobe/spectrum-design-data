@@ -288,6 +288,48 @@ const VARIANTS_JSON: &str = r##"{
       "description": "Informational dialog variant (alias for informative in alert contexts)",
       "category": "semantic",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "ambient",
+      "label": "Ambient",
+      "description": "Ambient/diffuse drop-shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dragged",
+      "label": "Dragged",
+      "description": "Shadow context during drag interaction",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "elevated",
+      "label": "Elevated",
+      "description": "Elevated surface or shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "pasteboard",
+      "label": "Pasteboard",
+      "description": "Pasteboard surface context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "elevated-key",
+      "label": "Elevated Key",
+      "description": "Key-light shadow context on an elevated surface",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dragged-key",
+      "label": "Dragged Key",
+      "description": "Key-light shadow context during drag interaction",
+      "category": "context",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -814,6 +856,11 @@ const STRUCTURES_JSON: &str = r##"{
       "id": "heading",
       "label": "Heading",
       "description": "Heading text typography scale — used for section and page headings"
+    },
+    {
+      "id": "drop-shadow",
+      "label": "Drop Shadow",
+      "description": "Elevated shadow effect applied to components and containers"
     }
   ]
 }
@@ -1991,6 +2038,16 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "space-between",
       "label": "Space Between",
       "description": "Spacing between two named endpoints (e.g. an edge and an anatomy part, or two anatomy parts). The endpoints are carried by the paired `from`/`to` name-object fields, not by this term; the legacy key is reconstructed as {from}-to-{to} and omits this property term."
+    },
+    {
+      "id": "x",
+      "label": "X",
+      "description": "Horizontal offset (e.g. drop-shadow x offset)"
+    },
+    {
+      "id": "y",
+      "label": "Y",
+      "description": "Vertical offset (e.g. drop-shadow y offset)"
     }
   ]
 }

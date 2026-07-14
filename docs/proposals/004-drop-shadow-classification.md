@@ -1,7 +1,7 @@
 # Proposal 004: Drop-Shadow Classification
 
-**Status:** Draft\
-**Affects:** 31 active tokens in `color-aliases.json`, `layout.json`, `layout-component.json`\
+**Status:** Implemented (spectrum-design-data-dsi.1)\
+**Affects:** 70 tokens across `color-aliases.tokens.json`, `color-component.tokens.json`, `layout.tokens.json`, `layout-component.tokens.json`\
 **Spec reference:** taxonomy.md — structures registry
 
 ## Problem
@@ -24,7 +24,7 @@ Structures are defined as "individual objects or object categories that have sha
 
 ### Registry change
 
-Add to `packages/design-system-registry/registry/structures.json`:
+Add to `packages/design-data/registry/structures.json`:
 
 ```json
 {
@@ -66,8 +66,16 @@ The terms `ambient`, `dragged`, `elevated`, `transition`, `key` describe drop-sh
 | `drop-shadow-emphasized-hover-color` | `{ structure: "drop-shadow", emphasis: "emphasized", property: "color", state: "hover" }` |
 | `drop-shadow-elevated-key-color`     | `{ structure: "drop-shadow", variant: "elevated-key", property: "color" }`                |
 
+### Non-drop-shadow surface contexts
+
+`background-elevated-color` and `background-pasteboard-color` share the `elevated`
+context term but aren't drop-shadow tokens — they decompose independently as
+`{ object: "background", property: "color", variant: "elevated" | "pasteboard" }`,
+with `pasteboard` added to the variant registry as a plain surface-context term
+(not drop-shadow-specific).
+
 ## Impact
 
-* 31 active tokens gain a proper structural classification
+* 70 tokens gain a proper structural classification
 * Leverages existing `structure` field — no schema change needed
 * Drop-shadow sub-properties and context modifiers cleanly decompose

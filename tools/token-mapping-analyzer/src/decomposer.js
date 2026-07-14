@@ -48,7 +48,6 @@ const COMPOUND_PROPERTIES = [
   "maximum-width",
   "maximum-height",
   "underline-gap",
-  "drop-shadow",
   "typography-scale",
 ];
 
@@ -60,10 +59,6 @@ const KNOWN_GAP_TERMS = {
   // Variant qualifiers — subtle, subdued, and static are now in the variant registry.
   // Only "non" remains unregistered (used as a negation prefix, not a standalone variant).
   "variant-qualifier": ["non"],
-  // Context modifiers
-  "context-modifier": ["elevated", "dragged", "ambient", "pasteboard"],
-  // Drop-shadow sub-properties
-  "drop-shadow-property": ["blur", "x", "y"],
   // Spatial qualifiers
   "spatial-qualifier": ["inner", "outer"],
 };

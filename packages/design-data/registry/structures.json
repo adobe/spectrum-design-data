@@ -52,6 +52,11 @@
       "id": "heading",
       "label": "Heading",
       "description": "Heading text typography scale — used for section and page headings"
+    },
+    {
+      "id": "drop-shadow",
+      "label": "Drop Shadow",
+      "description": "Elevated shadow effect applied to components and containers"
     }
   ]
 }

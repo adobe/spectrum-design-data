@@ -240,8 +240,11 @@
   },
   {
     "name": {
-      "property": "background-elevated-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "variant": "elevated",
+      "object": "background",
+      "legacyKey": "background-elevated-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -251,8 +254,11 @@
   },
   {
     "name": {
-      "property": "background-elevated-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "variant": "elevated",
+      "object": "background",
+      "legacyKey": "background-elevated-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5793fc53-b676-4bc8-b5d4-2a2394c853f5",
@@ -262,8 +268,11 @@
   },
   {
     "name": {
-      "property": "background-elevated-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "variant": "elevated",
+      "object": "background",
+      "legacyKey": "background-elevated-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -353,8 +362,11 @@
   },
   {
     "name": {
-      "property": "background-pasteboard-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "variant": "pasteboard",
+      "object": "background",
+      "legacyKey": "background-pasteboard-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -364,8 +376,11 @@
   },
   {
     "name": {
-      "property": "background-pasteboard-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "variant": "pasteboard",
+      "object": "background",
+      "legacyKey": "background-pasteboard-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -375,8 +390,11 @@
   },
   {
     "name": {
-      "property": "background-pasteboard-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "variant": "pasteboard",
+      "object": "background",
+      "legacyKey": "background-pasteboard-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -1088,8 +1106,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-ambient-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "structure": "drop-shadow",
+      "variant": "ambient",
+      "legacyKey": "drop-shadow-ambient-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -1099,8 +1120,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-ambient-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "structure": "drop-shadow",
+      "variant": "ambient",
+      "legacyKey": "drop-shadow-ambient-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.24)",
@@ -1110,8 +1134,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-ambient-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "structure": "drop-shadow",
+      "variant": "ambient",
+      "legacyKey": "drop-shadow-ambient-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -1121,7 +1148,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5c0f0543-7e9b-43d6-9fea-c771b9b524c6",
@@ -1136,8 +1165,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-100",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-color-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1147,8 +1179,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-100",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-color-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.36)",
@@ -1158,8 +1193,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-100",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "structure": "drop-shadow",
+      "scaleIndex": "100",
+      "legacyKey": "drop-shadow-color-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1169,8 +1207,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-200",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-color-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.16)",
@@ -1180,8 +1221,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-200",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-color-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.48)",
@@ -1191,8 +1235,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-200",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "structure": "drop-shadow",
+      "scaleIndex": "200",
+      "legacyKey": "drop-shadow-color-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.16)",
@@ -1202,8 +1249,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-300",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-color-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.2)",
@@ -1213,8 +1263,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-300",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-color-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.6)",
@@ -1224,8 +1277,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-color-300",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "structure": "drop-shadow",
+      "scaleIndex": "300",
+      "legacyKey": "drop-shadow-color-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.2)",
@@ -1235,7 +1291,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged"
+      "property": "drop-shadow",
+      "variant": "dragged",
+      "legacyKey": "drop-shadow-dragged"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
@@ -1265,7 +1323,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "variant": "dragged",
+      "legacyKey": "drop-shadow-dragged-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ebb7effd-f156-41a9-823f-052e5733e53d",
@@ -1273,8 +1334,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-key-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "variant": "dragged-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-dragged-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.16)",
@@ -1284,8 +1348,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-key-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "variant": "dragged-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-dragged-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.48)",
@@ -1295,8 +1362,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-dragged-key-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "variant": "dragged-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-dragged-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.16)",
@@ -1306,7 +1376,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated"
+      "property": "drop-shadow",
+      "variant": "elevated",
+      "legacyKey": "drop-shadow-elevated"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
@@ -1336,7 +1408,10 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "variant": "elevated",
+      "legacyKey": "drop-shadow-elevated-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1a60435c-ff2d-409c-97de-1b4bbf77eacb",
@@ -1344,8 +1419,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-key-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "variant": "elevated-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-elevated-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1355,8 +1433,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-key-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "variant": "elevated-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-elevated-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.36)",
@@ -1366,8 +1447,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-elevated-key-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "variant": "elevated-key",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-elevated-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1379,7 +1463,9 @@
     "name": {
       "property": "drop-shadow",
       "variant": "emphasized",
-      "legacyKey": "drop-shadow-emphasized"
+      "legacyKey": "emphasized-drop-shadow",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
@@ -1409,7 +1495,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-default-color"
+      "property": "color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "default",
+      "legacyKey": "drop-shadow-emphasized-default-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "92619056-db5a-45ab-ba0b-50e67cc497f6",
@@ -1418,7 +1508,10 @@
   {
     "name": {
       "property": "drop-shadow-emphasized",
-      "state": "hover"
+      "state": "hover",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "legacyKey": "drop-shadow-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
@@ -1448,7 +1541,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-color"
+      "property": "color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "legacyKey": "drop-shadow-emphasized-hover-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1a60435c-ff2d-409c-97de-1b4bbf77eacb",
@@ -1522,8 +1619,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-transition-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "structure": "drop-shadow",
+      "motionRole": "transition",
+      "legacyKey": "drop-shadow-transition-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.04)",
@@ -1533,8 +1633,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-transition-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "structure": "drop-shadow",
+      "motionRole": "transition",
+      "legacyKey": "drop-shadow-transition-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1544,8 +1647,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-transition-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "structure": "drop-shadow",
+      "motionRole": "transition",
+      "legacyKey": "drop-shadow-transition-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.04)",

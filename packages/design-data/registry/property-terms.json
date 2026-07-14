@@ -252,6 +252,16 @@
       "id": "space-between",
       "label": "Space Between",
       "description": "Spacing between two named endpoints (e.g. an edge and an anatomy part, or two anatomy parts). The endpoints are carried by the paired `from`/`to` name-object fields, not by this term; the legacy key is reconstructed as {from}-to-{to} and omits this property term."
+    },
+    {
+      "id": "x",
+      "label": "X",
+      "description": "Horizontal offset (e.g. drop-shadow x offset)"
+    },
+    {
+      "id": "y",
+      "label": "Y",
+      "description": "Vertical offset (e.g. drop-shadow y offset)"
     }
   ]
 }

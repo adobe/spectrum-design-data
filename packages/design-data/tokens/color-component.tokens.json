@@ -178,7 +178,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "drop-shadow-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "legacyKey": "color-handle-drop-shadow-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "be45ace6-9227-41d1-80be-0c58c3f8b3cb",
@@ -226,7 +228,9 @@
   {
     "name": {
       "component": "color-loupe",
-      "property": "drop-shadow-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "legacyKey": "color-loupe-drop-shadow-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
@@ -236,7 +240,9 @@
   {
     "name": {
       "component": "color-loupe",
-      "property": "drop-shadow-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "legacyKey": "color-loupe-drop-shadow-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e475981f-97af-479c-859b-7619dd87c448",
@@ -248,7 +254,9 @@
   {
     "name": {
       "component": "color-loupe",
-      "property": "drop-shadow-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "legacyKey": "color-loupe-drop-shadow-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
@@ -339,7 +347,9 @@
   {
     "name": {
       "component": "floating-action-button",
-      "property": "drop-shadow-color"
+      "property": "color",
+      "structure": "drop-shadow",
+      "legacyKey": "floating-action-button-drop-shadow-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",

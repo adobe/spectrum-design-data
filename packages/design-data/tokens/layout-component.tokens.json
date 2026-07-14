@@ -5658,7 +5658,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "drop-shadow-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "legacyKey": "color-handle-drop-shadow-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
@@ -5667,7 +5669,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "drop-shadow-x"
+      "property": "x",
+      "structure": "drop-shadow",
+      "legacyKey": "color-handle-drop-shadow-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
@@ -5676,7 +5680,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "drop-shadow-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "legacyKey": "color-handle-drop-shadow-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0",
@@ -7334,7 +7340,9 @@
   {
     "name": {
       "component": "floating-action-button",
-      "property": "drop-shadow-blur"
+      "property": "blur",
+      "structure": "drop-shadow",
+      "legacyKey": "floating-action-button-drop-shadow-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -7343,7 +7351,9 @@
   {
     "name": {
       "component": "floating-action-button",
-      "property": "drop-shadow-y"
+      "property": "y",
+      "structure": "drop-shadow",
+      "legacyKey": "floating-action-button-drop-shadow-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",

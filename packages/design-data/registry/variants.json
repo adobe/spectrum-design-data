@@ -284,6 +284,48 @@
       "description": "Informational dialog variant (alias for informative in alert contexts)",
       "category": "semantic",
       "usedIn": ["component-schemas"]
+    },
+    {
+      "id": "ambient",
+      "label": "Ambient",
+      "description": "Ambient/diffuse drop-shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dragged",
+      "label": "Dragged",
+      "description": "Shadow context during drag interaction",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "elevated",
+      "label": "Elevated",
+      "description": "Elevated surface or shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "pasteboard",
+      "label": "Pasteboard",
+      "description": "Pasteboard surface context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "elevated-key",
+      "label": "Elevated Key",
+      "description": "Key-light shadow context on an elevated surface",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "dragged-key",
+      "label": "Dragged Key",
+      "description": "Key-light shadow context during drag interaction",
+      "category": "context",
+      "usedIn": ["tokens"]
     }
   ]
 }
