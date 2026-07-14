@@ -59,7 +59,7 @@
       "component": "bar-panel",
       "property": "color",
       "anatomy": "gripper",
-      "legacyKey": "bar-panel-gripper-icon-color"
+      "legacyKey": "bar-panel-gripper-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -802,7 +802,7 @@
       "component": "standard-panel",
       "property": "color",
       "anatomy": "gripper",
-      "legacyKey": "standard-panel-gripper-icon-color"
+      "legacyKey": "standard-panel-gripper-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "60077744-c665-4c80-8f88-dff31a10219e",

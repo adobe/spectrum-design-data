@@ -3,7 +3,7 @@
     "name": {
       "property": "black-font-weight",
       "weight": "black",
-      "legacyKey": "black-font-weight-black"
+      "legacyKey": "black-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "black",
@@ -518,7 +518,7 @@
       "property": "line-height-100",
       "scaleIndex": 100,
       "family": "cjk",
-      "legacyKey": "cjk-line-height-100-100"
+      "legacyKey": "cjk-line-height-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.5,
@@ -529,7 +529,7 @@
       "property": "line-height-200",
       "scaleIndex": 200,
       "family": "cjk",
-      "legacyKey": "cjk-line-height-200-200"
+      "legacyKey": "cjk-line-height-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.7,
@@ -792,7 +792,7 @@
     "name": {
       "property": "component-l-bold",
       "weight": "bold",
-      "legacyKey": "component-l-bold-bold"
+      "legacyKey": "component-l-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -808,7 +808,7 @@
     "name": {
       "property": "component-l-medium",
       "weight": "medium",
-      "legacyKey": "component-l-medium-medium"
+      "legacyKey": "component-l-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -824,7 +824,7 @@
     "name": {
       "property": "component-l-regular",
       "weight": "regular",
-      "legacyKey": "component-l-regular-regular"
+      "legacyKey": "component-l-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -840,7 +840,7 @@
     "name": {
       "property": "component-m-bold",
       "weight": "bold",
-      "legacyKey": "component-m-bold-bold"
+      "legacyKey": "component-m-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -856,7 +856,7 @@
     "name": {
       "property": "component-m-medium",
       "weight": "medium",
-      "legacyKey": "component-m-medium-medium"
+      "legacyKey": "component-m-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -872,7 +872,7 @@
     "name": {
       "property": "component-m-regular",
       "weight": "regular",
-      "legacyKey": "component-m-regular-regular"
+      "legacyKey": "component-m-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -888,7 +888,7 @@
     "name": {
       "property": "component-s-bold",
       "weight": "bold",
-      "legacyKey": "component-s-bold-bold"
+      "legacyKey": "component-s-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -904,7 +904,7 @@
     "name": {
       "property": "component-s-medium",
       "weight": "medium",
-      "legacyKey": "component-s-medium-medium"
+      "legacyKey": "component-s-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -920,7 +920,7 @@
     "name": {
       "property": "component-s-regular",
       "weight": "regular",
-      "legacyKey": "component-s-regular-regular"
+      "legacyKey": "component-s-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -936,7 +936,7 @@
     "name": {
       "property": "component-xl-bold",
       "weight": "bold",
-      "legacyKey": "component-xl-bold-bold"
+      "legacyKey": "component-xl-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -952,7 +952,7 @@
     "name": {
       "property": "component-xl-medium",
       "weight": "medium",
-      "legacyKey": "component-xl-medium-medium"
+      "legacyKey": "component-xl-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -968,7 +968,7 @@
     "name": {
       "property": "component-xl-regular",
       "weight": "regular",
-      "legacyKey": "component-xl-regular-regular"
+      "legacyKey": "component-xl-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -984,7 +984,7 @@
     "name": {
       "property": "component-xs-bold",
       "weight": "bold",
-      "legacyKey": "component-xs-bold-bold"
+      "legacyKey": "component-xs-bold"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -1000,7 +1000,7 @@
     "name": {
       "property": "component-xs-medium",
       "weight": "medium",
-      "legacyKey": "component-xs-medium-medium"
+      "legacyKey": "component-xs-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -1016,7 +1016,7 @@
     "name": {
       "property": "component-xs-regular",
       "weight": "regular",
-      "legacyKey": "component-xs-regular-regular"
+      "legacyKey": "component-xs-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/typography.json",
     "value": {
@@ -1040,7 +1040,7 @@
     "name": {
       "property": "default-font-style",
       "style": "normal",
-      "legacyKey": "default-font-style-normal"
+      "legacyKey": "default-font-style"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
     "value": "normal",
@@ -1816,7 +1816,7 @@
       "property": "font-size-100",
       "scale": "desktop",
       "scaleIndex": 100,
-      "legacyKey": "font-size-100-100"
+      "legacyKey": "font-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "14px",
@@ -1829,7 +1829,7 @@
       "property": "font-size-100",
       "scale": "mobile",
       "scaleIndex": 100,
-      "legacyKey": "font-size-100-100"
+      "legacyKey": "font-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "17px",
@@ -1842,7 +1842,7 @@
       "property": "font-size-1000",
       "scale": "desktop",
       "scaleIndex": 1000,
-      "legacyKey": "font-size-1000-1000"
+      "legacyKey": "font-size-1000"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "40px",
@@ -1855,7 +1855,7 @@
       "property": "font-size-1000",
       "scale": "mobile",
       "scaleIndex": 1000,
-      "legacyKey": "font-size-1000-1000"
+      "legacyKey": "font-size-1000"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "49px",
@@ -1868,7 +1868,7 @@
       "property": "font-size-1100",
       "scale": "desktop",
       "scaleIndex": 1100,
-      "legacyKey": "font-size-1100-1100"
+      "legacyKey": "font-size-1100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "45px",
@@ -1881,7 +1881,7 @@
       "property": "font-size-1100",
       "scale": "mobile",
       "scaleIndex": 1100,
-      "legacyKey": "font-size-1100-1100"
+      "legacyKey": "font-size-1100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "55px",
@@ -1894,7 +1894,7 @@
       "property": "font-size-1200",
       "scale": "desktop",
       "scaleIndex": 1200,
-      "legacyKey": "font-size-1200-1200"
+      "legacyKey": "font-size-1200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "51px",
@@ -1907,7 +1907,7 @@
       "property": "font-size-1200",
       "scale": "mobile",
       "scaleIndex": 1200,
-      "legacyKey": "font-size-1200-1200"
+      "legacyKey": "font-size-1200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "62px",
@@ -1920,7 +1920,7 @@
       "property": "font-size-1300",
       "scale": "desktop",
       "scaleIndex": 1300,
-      "legacyKey": "font-size-1300-1300"
+      "legacyKey": "font-size-1300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "58px",
@@ -1933,7 +1933,7 @@
       "property": "font-size-1300",
       "scale": "mobile",
       "scaleIndex": 1300,
-      "legacyKey": "font-size-1300-1300"
+      "legacyKey": "font-size-1300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "70px",
@@ -1946,7 +1946,7 @@
       "property": "font-size-1400",
       "scale": "desktop",
       "scaleIndex": 1400,
-      "legacyKey": "font-size-1400-1400"
+      "legacyKey": "font-size-1400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "65px",
@@ -1959,7 +1959,7 @@
       "property": "font-size-1400",
       "scale": "mobile",
       "scaleIndex": 1400,
-      "legacyKey": "font-size-1400-1400"
+      "legacyKey": "font-size-1400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "79px",
@@ -1972,7 +1972,7 @@
       "property": "font-size-1500",
       "scale": "desktop",
       "scaleIndex": 1500,
-      "legacyKey": "font-size-1500-1500"
+      "legacyKey": "font-size-1500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "73px",
@@ -1985,7 +1985,7 @@
       "property": "font-size-1500",
       "scale": "mobile",
       "scaleIndex": 1500,
-      "legacyKey": "font-size-1500-1500"
+      "legacyKey": "font-size-1500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "88px",
@@ -1998,7 +1998,7 @@
       "property": "font-size-200",
       "scale": "desktop",
       "scaleIndex": 200,
-      "legacyKey": "font-size-200-200"
+      "legacyKey": "font-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "16px",
@@ -2011,7 +2011,7 @@
       "property": "font-size-200",
       "scale": "mobile",
       "scaleIndex": 200,
-      "legacyKey": "font-size-200-200"
+      "legacyKey": "font-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "19px",
@@ -2024,7 +2024,7 @@
       "property": "font-size-25",
       "scale": "desktop",
       "scaleIndex": 25,
-      "legacyKey": "font-size-25-25"
+      "legacyKey": "font-size-25"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "10px",
@@ -2037,7 +2037,7 @@
       "property": "font-size-25",
       "scale": "mobile",
       "scaleIndex": 25,
-      "legacyKey": "font-size-25-25"
+      "legacyKey": "font-size-25"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "12px",
@@ -2050,7 +2050,7 @@
       "property": "font-size-300",
       "scale": "desktop",
       "scaleIndex": 300,
-      "legacyKey": "font-size-300-300"
+      "legacyKey": "font-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "18px",
@@ -2063,7 +2063,7 @@
       "property": "font-size-300",
       "scale": "mobile",
       "scaleIndex": 300,
-      "legacyKey": "font-size-300-300"
+      "legacyKey": "font-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "22px",
@@ -2076,7 +2076,7 @@
       "property": "font-size-400",
       "scale": "desktop",
       "scaleIndex": 400,
-      "legacyKey": "font-size-400-400"
+      "legacyKey": "font-size-400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "20px",
@@ -2089,7 +2089,7 @@
       "property": "font-size-400",
       "scale": "mobile",
       "scaleIndex": 400,
-      "legacyKey": "font-size-400-400"
+      "legacyKey": "font-size-400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "24px",
@@ -2102,7 +2102,7 @@
       "property": "font-size-50",
       "scale": "desktop",
       "scaleIndex": 50,
-      "legacyKey": "font-size-50-50"
+      "legacyKey": "font-size-50"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "11px",
@@ -2115,7 +2115,7 @@
       "property": "font-size-50",
       "scale": "mobile",
       "scaleIndex": 50,
-      "legacyKey": "font-size-50-50"
+      "legacyKey": "font-size-50"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "13px",
@@ -2128,7 +2128,7 @@
       "property": "font-size-500",
       "scale": "desktop",
       "scaleIndex": 500,
-      "legacyKey": "font-size-500-500"
+      "legacyKey": "font-size-500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "22px",
@@ -2141,7 +2141,7 @@
       "property": "font-size-500",
       "scale": "mobile",
       "scaleIndex": 500,
-      "legacyKey": "font-size-500-500"
+      "legacyKey": "font-size-500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "27px",
@@ -2154,7 +2154,7 @@
       "property": "font-size-600",
       "scale": "desktop",
       "scaleIndex": 600,
-      "legacyKey": "font-size-600-600"
+      "legacyKey": "font-size-600"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "25px",
@@ -2167,7 +2167,7 @@
       "property": "font-size-600",
       "scale": "mobile",
       "scaleIndex": 600,
-      "legacyKey": "font-size-600-600"
+      "legacyKey": "font-size-600"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "31px",
@@ -2180,7 +2180,7 @@
       "property": "font-size-700",
       "scale": "desktop",
       "scaleIndex": 700,
-      "legacyKey": "font-size-700-700"
+      "legacyKey": "font-size-700"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "28px",
@@ -2193,7 +2193,7 @@
       "property": "font-size-700",
       "scale": "mobile",
       "scaleIndex": 700,
-      "legacyKey": "font-size-700-700"
+      "legacyKey": "font-size-700"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "34px",
@@ -2206,7 +2206,7 @@
       "property": "font-size-75",
       "scale": "desktop",
       "scaleIndex": 75,
-      "legacyKey": "font-size-75-75"
+      "legacyKey": "font-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "12px",
@@ -2219,7 +2219,7 @@
       "property": "font-size-75",
       "scale": "mobile",
       "scaleIndex": 75,
-      "legacyKey": "font-size-75-75"
+      "legacyKey": "font-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "15px",
@@ -2232,7 +2232,7 @@
       "property": "font-size-800",
       "scale": "desktop",
       "scaleIndex": 800,
-      "legacyKey": "font-size-800-800"
+      "legacyKey": "font-size-800"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "32px",
@@ -2245,7 +2245,7 @@
       "property": "font-size-800",
       "scale": "mobile",
       "scaleIndex": 800,
-      "legacyKey": "font-size-800-800"
+      "legacyKey": "font-size-800"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "39px",
@@ -2258,7 +2258,7 @@
       "property": "font-size-900",
       "scale": "desktop",
       "scaleIndex": 900,
-      "legacyKey": "font-size-900-900"
+      "legacyKey": "font-size-900"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "36px",
@@ -2271,7 +2271,7 @@
       "property": "font-size-900",
       "scale": "mobile",
       "scaleIndex": 900,
-      "legacyKey": "font-size-900-900"
+      "legacyKey": "font-size-900"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
     "value": "44px",
@@ -3362,7 +3362,7 @@
     "name": {
       "property": "line-height-100",
       "scaleIndex": 100,
-      "legacyKey": "line-height-100-100"
+      "legacyKey": "line-height-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.3,
@@ -3372,7 +3372,7 @@
     "name": {
       "property": "line-height-200",
       "scaleIndex": 200,
-      "legacyKey": "line-height-200-200"
+      "legacyKey": "line-height-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 1.5,
@@ -3778,7 +3778,7 @@
     "name": {
       "property": "medium-font-weight",
       "weight": "medium",
-      "legacyKey": "medium-font-weight-medium"
+      "legacyKey": "medium-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "medium",

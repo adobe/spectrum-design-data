@@ -867,7 +867,7 @@
     "name": {
       "property": "icon-color-disabled-primary",
       "icon": "icon",
-      "legacyKey": "icon-color-disabled-primary-icon"
+      "legacyKey": "icon-color-disabled-primary"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -877,7 +877,7 @@
     "name": {
       "property": "icon-color-emphasized-background",
       "icon": "icon",
-      "legacyKey": "icon-color-emphasized-background-icon"
+      "legacyKey": "icon-color-emphasized-background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -1782,7 +1782,7 @@
       "property": "color",
       "state": "default",
       "colorRole": "primary",
-      "legacyKey": "color-default-primary-icon"
+      "legacyKey": "icon-color-primary-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
@@ -1794,7 +1794,7 @@
       "property": "color",
       "state": "down",
       "colorRole": "primary",
-      "legacyKey": "color-down-primary-icon"
+      "legacyKey": "icon-color-primary-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
@@ -1806,7 +1806,7 @@
       "property": "color",
       "state": "hover",
       "colorRole": "primary",
-      "legacyKey": "color-hover-primary-icon"
+      "legacyKey": "icon-color-primary-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
