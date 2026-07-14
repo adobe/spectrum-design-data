@@ -1463,9 +1463,7 @@
     "name": {
       "property": "drop-shadow",
       "variant": "emphasized",
-      "legacyKey": "emphasized-drop-shadow",
-      "emphasis": "emphasized",
-      "structure": "drop-shadow"
+      "legacyKey": "drop-shadow-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
     "value": [
@@ -1507,10 +1505,9 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized",
+      "property": "drop-shadow",
+      "variant": "emphasized",
       "state": "hover",
-      "emphasis": "emphasized",
-      "structure": "drop-shadow",
       "legacyKey": "drop-shadow-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",

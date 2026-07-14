@@ -55,11 +55,6 @@ function categorize(result) {
     return { category: "variant-qualifier", proposal: "002" };
   }
 
-  // Context modifiers (elevated, pasteboard, ambient)
-  if (gapTypes.includes("context-modifier")) {
-    return { category: "context-modifier", proposal: "004" };
-  }
-
   // Numeric scale index
   if (
     gapTypes.includes("numeric-scale-index") &&
@@ -67,11 +62,6 @@ function categorize(result) {
     result.unmatchedSegments.length === 0
   ) {
     return { category: "numeric-scale-index", proposal: "003" };
-  }
-
-  // Drop-shadow properties
-  if (gapTypes.includes("drop-shadow-property")) {
-    return { category: "drop-shadow-property", proposal: "004" };
   }
 
   // Spacing-between
