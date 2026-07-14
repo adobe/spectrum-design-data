@@ -3,9 +3,6 @@ name: Component Schema Diff PR Comment
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - "packages/design-data/components/**"
-      - "packages/component-schemas/package.json"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
