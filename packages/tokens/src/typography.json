@@ -1627,6 +1627,7 @@
   },
   "heading-sans-serif-emphasized-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
     "value": "{extra-bold-font-weight}",
     "uuid": "e4a183fd-53c5-4dbb-afd1-6308e2e74f80"
   },
@@ -1644,6 +1645,7 @@
   },
   "heading-sans-serif-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
     "value": "{extra-bold-font-weight}",
     "uuid": "1d4d09b4-021a-48e8-a724-bfecc13df325"
   },
@@ -1783,6 +1785,7 @@
   },
   "heading-serif-emphasized-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
     "value": "{bold-font-weight}",
     "uuid": "a0983216-b0c5-4a3f-97dc-96ee711acb1f"
   },
@@ -1800,6 +1803,7 @@
   },
   "heading-serif-font-weight": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
     "value": "{bold-font-weight}",
     "uuid": "350aa193-9996-49c8-b5e4-54d4f7bef3c2"
   },
