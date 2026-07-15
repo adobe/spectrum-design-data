@@ -12,6 +12,16 @@
       "id": "rectangle",
       "label": "Rectangle",
       "description": "Rectangular (non-uniform) proportions"
+    },
+    {
+      "id": "full",
+      "label": "Full",
+      "description": "Fully rounded corners (e.g. a pill or circle) regardless of the object's dimensions"
+    },
+    {
+      "id": "none",
+      "label": "None",
+      "description": "No corner rounding (square corners)"
     }
   ]
 }

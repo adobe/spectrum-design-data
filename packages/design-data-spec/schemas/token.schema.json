@@ -75,6 +75,10 @@
           "type": "string",
           "description": "Semantic: overall component shape (e.g. uniform)."
         },
+        "role": {
+          "type": "string",
+          "description": "Semantic: an object's role within a nesting relationship (e.g. container, control), distinct from `size`."
+        },
         "from": {
           "type": "string",
           "description": "Semantic: starting endpoint of a space-between measurement (e.g. top, edge, text). Paired with `to`; used with property `space-between`."

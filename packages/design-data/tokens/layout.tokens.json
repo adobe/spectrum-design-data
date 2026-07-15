@@ -2684,7 +2684,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-full"
+      "property": "corner-radius",
+      "shape": "full",
+      "legacyKey": "corner-radius-full"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b",
@@ -2711,7 +2713,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium-size-extra-large"
+      "property": "corner-radius",
+      "role": "container",
+      "size": "xl",
+      "legacyKey": "corner-radius-medium-size-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
@@ -2719,7 +2724,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium-size-extra-small"
+      "property": "corner-radius",
+      "role": "container",
+      "size": "xs",
+      "legacyKey": "corner-radius-medium-size-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
@@ -2727,7 +2735,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium-size-large"
+      "property": "corner-radius",
+      "role": "container",
+      "size": "l",
+      "legacyKey": "corner-radius-medium-size-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "abc0f309-3bd2-4800-af12-b27386e86617",
@@ -2735,7 +2746,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium-size-medium"
+      "property": "corner-radius",
+      "role": "container",
+      "size": "m",
+      "legacyKey": "corner-radius-medium-size-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",
@@ -2743,7 +2757,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium-size-small"
+      "property": "corner-radius",
+      "role": "container",
+      "size": "s",
+      "legacyKey": "corner-radius-medium-size-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "690db7ae-cae8-49bb-8777-b4f1829b2f0b",
@@ -2751,7 +2768,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-none"
+      "property": "corner-radius",
+      "shape": "none",
+      "legacyKey": "corner-radius-none"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bb9d8350-b1fb-4496-9c22-6ec9647ff117",
@@ -2769,7 +2788,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-small-size-extra-large"
+      "property": "corner-radius",
+      "role": "control",
+      "size": "xl",
+      "legacyKey": "corner-radius-small-size-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
@@ -2777,7 +2799,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-small-size-large"
+      "property": "corner-radius",
+      "role": "control",
+      "size": "l",
+      "legacyKey": "corner-radius-small-size-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "52ad01be-f512-4fa3-ae67-8c6cef70810c",
@@ -2785,7 +2810,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-small-size-medium"
+      "property": "corner-radius",
+      "role": "control",
+      "size": "m",
+      "legacyKey": "corner-radius-small-size-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
@@ -2793,7 +2821,10 @@
   },
   {
     "name": {
-      "property": "corner-radius-small-size-small"
+      "property": "corner-radius",
+      "role": "control",
+      "size": "s",
+      "legacyKey": "corner-radius-small-size-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",

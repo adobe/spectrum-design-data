@@ -26,6 +26,7 @@ const FALLBACK_SERIALIZATION_ORDER = [
   "density",
   "shape",
   "state",
+  "role",
 ];
 
 /**

@@ -2329,6 +2329,16 @@ const SHAPES_JSON: &str = r##"{
       "id": "rectangle",
       "label": "Rectangle",
       "description": "Rectangular (non-uniform) proportions"
+    },
+    {
+      "id": "full",
+      "label": "Full",
+      "description": "Fully rounded corners (e.g. a pill or circle) regardless of the object's dimensions"
+    },
+    {
+      "id": "none",
+      "label": "None",
+      "description": "No corner rounding (square corners)"
     }
   ]
 }
@@ -2952,6 +2962,24 @@ const QUALIFIERS_JSON: &str = r##"{
   ]
 }
 "##;
+const ROLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "role",
+  "description": "Terms describing an object's role within a nesting relationship, distinct from its size. This is a starting vocabulary — new role terms should be added here as design system patterns are identified.",
+  "values": [
+    {
+      "id": "container",
+      "label": "Container",
+      "description": "The outer, container-level object in a nesting relationship (e.g. an action button or picker)"
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "The inner, nested control object in a nesting relationship (e.g. a checkbox's control box), sized smaller than its container to create a visually balanced gap"
+    }
+  ]
+}
+"##;
 const ICON_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "icon",
@@ -3100,7 +3128,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "icon"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -3129,6 +3157,7 @@ pub(crate) fn build_registry_map(
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
     map.insert("qualifier".to_string(), parse_registry(QUALIFIERS_JSON));
+    map.insert("role".to_string(), parse_registry(ROLES_JSON));
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
@@ -3161,6 +3190,7 @@ pub(crate) fn build_token_name_map(
     map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
     map.insert("qualifier".to_string(), parse_token_name_map(QUALIFIERS_JSON));
+    map.insert("role".to_string(), parse_token_name_map(ROLES_JSON));
     map.insert("icon".to_string(), parse_token_name_map(ICON_TERMS_JSON));
     map
 }
@@ -3196,6 +3226,7 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "to", position: 26, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "alignment", position: 27, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "qualifier", position: 28, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "role", position: 29, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
     ]
