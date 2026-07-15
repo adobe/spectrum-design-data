@@ -17,7 +17,7 @@
 //! ```text
 //! {variant?}-{component?}-{structure?}-{substructure?}-{anatomy?}-{object?}
 //! -{script?}-{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}
-//! -{density?}-{shape?}-{state?}
+//! -{density?}-{shape?}-{state?}-{alignment?}-{qualifier?}-{role?}
 //! ```
 //!
 //! Registry ids are expanded to their `tokenName` long-forms before joining
