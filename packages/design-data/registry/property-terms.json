@@ -276,7 +276,22 @@
     {
       "id": "component-size-minimum-perspective",
       "label": "Component Size Minimum Perspective",
-      "description": "Lower-bound constraint on a component's 3D perspective sizing (design-system abstraction)"
+      "description": "Lower bound used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "component-size-maximum-perspective",
+      "label": "Component Size Maximum Perspective",
+      "description": "Upper bound used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "component-size-difference",
+      "label": "Component Size Difference",
+      "description": "Size delta used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "component-size-width-ratio",
+      "label": "Component Size Width Ratio",
+      "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
     }
   ]
 }

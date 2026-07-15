@@ -71,6 +71,26 @@ test("flags scaleIndex as gap when field is not declared", (t) => {
   t.truthy(scaleGap);
 });
 
+test("decomposes line-height-font-size compound with scale index", (t) => {
+  // Regression: "font-size" (2-seg) used to win Phase 2's compound match over
+  // "line-height" (2-seg, later in insertion order) before the fused
+  // "line-height-font-size" (3-seg) compound existed, leaving line/height
+  // unmatched as gaps.
+  const result = decompose("line-height-font-size-100", {}, registry, "test");
+  t.is(result.nameObject.property, "line-height-font-size");
+  t.is(result.nameObject.scaleIndex, "100");
+  t.deepEqual(result.gaps, []);
+  t.true(result.roundtrips);
+});
+
+test("decomposes component-height compound with scale index", (t) => {
+  const result = decompose("component-height-100", {}, registry, "test");
+  t.is(result.nameObject.property, "component-height");
+  t.is(result.nameObject.scaleIndex, "100");
+  t.deepEqual(result.gaps, []);
+  t.true(result.roundtrips);
+});
+
 test("detects spacing-between pattern", (t) => {
   const result = decompose(
     "field-top-to-alert-icon-small",
@@ -89,7 +109,7 @@ test("matches typography family and emphasis as real fields, not gaps", (t) => {
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "emphasized");
   t.is(result.nameObject.property, "font-weight");
   t.is(result.confidence, "HIGH");
@@ -104,21 +124,21 @@ test("compounds adjacent emphasis terms into one hyphen-joined value", (t) => {
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "light-strong");
   t.is(result.nameObject.property, "font-weight");
   t.is(result.confidence, "HIGH");
   t.true(result.roundtrips);
 });
 
-test("compounds emphasis terms alongside anatomy and family", (t) => {
+test("compounds emphasis terms alongside anatomy and script", (t) => {
   const result = decompose(
     "body-cjk-strong-emphasized-font-weight",
     { component: "body" },
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "strong-emphasized");
   t.is(result.nameObject.property, "font-weight");
   t.true(result.roundtrips);
