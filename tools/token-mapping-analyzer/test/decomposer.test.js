@@ -71,6 +71,26 @@ test("flags scaleIndex as gap when field is not declared", (t) => {
   t.truthy(scaleGap);
 });
 
+test("decomposes line-height-font-size compound with scale index", (t) => {
+  // Regression: "font-size" (2-seg) used to win Phase 2's compound match over
+  // "line-height" (2-seg, later in insertion order) before the fused
+  // "line-height-font-size" (3-seg) compound existed, leaving line/height
+  // unmatched as gaps.
+  const result = decompose("line-height-font-size-100", {}, registry, "test");
+  t.is(result.nameObject.property, "line-height-font-size");
+  t.is(result.nameObject.scaleIndex, "100");
+  t.deepEqual(result.gaps, []);
+  t.true(result.roundtrips);
+});
+
+test("decomposes component-height compound with scale index", (t) => {
+  const result = decompose("component-height-100", {}, registry, "test");
+  t.is(result.nameObject.property, "component-height");
+  t.is(result.nameObject.scaleIndex, "100");
+  t.deepEqual(result.gaps, []);
+  t.true(result.roundtrips);
+});
+
 test("detects spacing-between pattern", (t) => {
   const result = decompose(
     "field-top-to-alert-icon-small",

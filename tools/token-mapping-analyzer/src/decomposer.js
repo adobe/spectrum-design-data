@@ -51,6 +51,11 @@ const COMPOUND_PROPERTIES = [
   "maximum-height",
   "underline-gap",
   "typography-scale",
+  "line-height-font-size",
+  "component-height",
+  "component-size-difference",
+  "component-size-maximum-perspective",
+  "component-size-width-ratio",
 ];
 
 /**
