@@ -830,18 +830,6 @@
       "label": "Well",
       "description": "Recessed background area within a component (e.g. card)",
       "usedIn": ["tokens"]
-    },
-    {
-      "id": "layer",
-      "label": "Layer",
-      "description": "A stacked visual plane within a component",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "underline",
-      "label": "Underline",
-      "description": "Underline decoration element beneath text",
-      "usedIn": ["tokens"]
     }
   ]
 }

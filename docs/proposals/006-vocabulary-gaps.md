@@ -67,6 +67,23 @@ a missing vocabulary term — do not auto-register; resolve the question first.
 `multiplier` appears as a property modifier on minimum/maximum-width tokens. Treat as a
 compound property (`minimum-width-multiplier`) or a standalone property term.
 
+## Implementation notes (dsi.2.5)
+
+* `layer`/`underline` were **not** registered as anatomy terms: the tokens that motivated
+  them (`background-layer-*-color`, `text-underline-thickness`) have no `component` field,
+  and SPEC-025 forbids `anatomy` without `component`. Both stay fused in `property`
+  (`background-layer-color`, `text-underline-thickness`).
+* `heading-size-xxxxl`/`heading-cjk-size-xxxxl` keep `size-xxxxl`/`cjk-size-xxxxl` fused in
+  `property`, matching the existing unextracted `xxxl` sibling tokens. `xxxxl` in
+  `sizes.json` is exercised by `base-gap-4x-large` (`size: "xxxxl"`). Decomposing the full
+  `heading-*-size-*` family (`component`/`family`/`size`/`property:"font-size"`) is
+  out of scope here — tracked as a separate follow-up.
+* `color-control-track-width` decomposes to `component:"color-control"`,
+  `anatomy:"track"`, `property:"width"` (`color-control` newly registered in
+  `registry/components.json`). This adds a `component` key to the published legacy
+  JSON that wasn't there before (legacyKey pins the flat key string, not other
+  attributes) — `packages/tokens/src/layout.json` was regenerated accordingly.
+
 ## Taxonomy calls (resolve before implementing — not simple vocab adds)
 
 | Group                                                                                                                                                                               | Tokens | Question                                                                                                                                                                                                                                    |

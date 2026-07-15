@@ -465,6 +465,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
     },
     {
+      "id": "color-control",
+      "label": "Color Control",
+      "description": "A cross-cutting anatomy sub-part shared by color-selection components (e.g. color slider, color wheel) rather than a standalone top-level component."
+    },
+    {
       "id": "color-handle",
       "label": "Color Handle",
       "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
@@ -1714,18 +1719,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "well",
       "label": "Well",
       "description": "Recessed background area within a component (e.g. card)",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "layer",
-      "label": "Layer",
-      "description": "A stacked visual plane within a component",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "underline",
-      "label": "Underline",
-      "description": "Underline decoration element beneath text",
       "usedIn": ["tokens"]
     }
   ]

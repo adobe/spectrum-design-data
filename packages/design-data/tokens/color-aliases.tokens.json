@@ -4542,9 +4542,8 @@
   },
   {
     "name": {
-      "component": "stack-item",
       "state": "selected",
-      "property": "background-color",
+      "property": "stack-item-background-color",
       "qualifier": "highlight",
       "legacyKey": "stack-item-selected-background-color-highlight"
     },

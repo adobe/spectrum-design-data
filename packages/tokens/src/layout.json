@@ -456,6 +456,7 @@
   },
   "color-control-track-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "color-control",
     "uuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
     "sets": {
       "desktop": {

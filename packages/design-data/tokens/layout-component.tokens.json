@@ -14266,7 +14266,7 @@
       "anatomy": "slash",
       "property": "thickness",
       "size": "xs",
-      "legacyKey": "swatch-slash-thickness-xs"
+      "legacyKey": "swatch-slash-thickness-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -14278,7 +14278,7 @@
       "anatomy": "slash",
       "property": "thickness",
       "size": "l",
-      "legacyKey": "swatch-slash-thickness-l"
+      "legacyKey": "swatch-slash-thickness-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -14302,7 +14302,7 @@
       "anatomy": "slash",
       "property": "thickness",
       "size": "s",
-      "legacyKey": "swatch-slash-thickness-s"
+      "legacyKey": "swatch-slash-thickness-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
