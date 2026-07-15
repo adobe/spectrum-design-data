@@ -1,67 +1,84 @@
 # Proposal 006: Vocabulary Gaps
 
-**Status:** Draft\
-**Affects:** \~70 active tokens across multiple source files\
+**Status:** dsi.2.5 implemented 2026-07-15 (clean additive batch below); remaining
+taxonomy-call groups tracked under dsi.2.1-2.4/2.6/2.7\
+**Affects:** 161 distinct active tokens across multiple source files\
 **Spec reference:** design-system-registry vocabulary files
 
 ## Problem
 
-After Phases 1-2 registry expansions and Proposals 001-005, approximately 70 tokens still have unmatched segments that need vocabulary additions. These are small, independent additions to existing registries.
+After Phases 1-2 registry expansions and Proposals 001-005, this proposal originally
+estimated \~70 residual tokens. A fresh `moon run token-mapping-analyzer:analyze` run
+(2026-07-14, post PR [#1233](https://github.com/adobe/spectrum-design-data/issues/1233)/[#1234](https://github.com/adobe/spectrum-design-data/issues/1234)/dsi.3) shows the actual `vocabulary-gap` +
+`spatial-qualifier` residual is **161 distinct tokens** — the earlier estimate undercounted
+by more than 2x. `heading` and `popover` (originally listed here) are already resolved —
+both are registered in `components.json`/`anatomy-terms.json` from prior work.
 
-## Proposed additions
+This document re-scopes to the real inventory, grouped by the unmatched segment. Groups
+marked **taxonomy call** surfaced a naming-convention question during re-scoping, not just
+a missing vocabulary term — do not auto-register; resolve the question first.
 
-### Positions registry (`positions.json`)
+## Proposed additions (clean additive — registry term only)
 
-| Value   | Tokens | Example                                            |
-| ------- | ------ | -------------------------------------------------- |
-| `inner` | 5      | `color-handle-inner-border-color`                  |
-| `outer` | 6      | `color-handle-outer-border-color`                  |
-| `below` | 4      | `user-card-minimum-height-title-below-extra-large` |
+| Group              | Segment(s)                                                                  | Registry                                          | Count | Example                                                                    |
+| ------------------ | --------------------------------------------------------------------------- | ------------------------------------------------- | ----- | -------------------------------------------------------------------------- |
+| Spatial qualifiers | `inner`, `outer`                                                            | `positions.json`                                  | 11    | `color-handle-inner-border-color`                                          |
+| Position           | `below`                                                                     | `positions.json`                                  | 4     | `user-card-minimum-height-title-below-extra-large`                         |
+| Anatomy            | `pagination`                                                                | `anatomy-terms.json`                              | 2     | `coach-mark-pagination-color`                                              |
+| Color variant      | `subtle`                                                                    | variant/property term                             | 25    | `blue-subtle-background-color-default` (20 color-family + 5 semantic-role) |
+| Color variant      | `subdued`                                                                   | variant/property term                             | 8     | `neutral-subdued-background-color-default`                                 |
+| Layout             | `layer` (+ index)                                                           | scale/position term                               | 2     | `background-layer-1-color`                                                 |
+| Layout             | `precision`                                                                 | anatomy/qualifier term                            | 5     | `slider-handle-height-precision-large`                                     |
+| Layout             | `row`                                                                       | anatomy term                                      | 4     | `table-section-header-row-height-large`                                    |
+| Layout             | `slash`                                                                     | anatomy term                                      | 4     | `swatch-slash-thickness-large`                                             |
+| Layout             | `stacked`                                                                   | qualifier term                                    | 4     | `in-field-button-width-stacked-large`                                      |
+| Layout             | `collapsed` / `expanded`                                                    | qualifier term                                    | 2     | `coach-indicator-collapsed-ring-thickness`                                 |
+| Layout             | `square`                                                                    | anatomy term                                      | 2     | `opacity-checkerboard-square-size-medium`                                  |
+| Layout             | `multiline`                                                                 | qualifier term                                    | 1     | `breadcrumbs-height-multiline`                                             |
+| Color              | `drag`                                                                      | qualifier term                                    | 2     | `bar-panel-gripper-color-drag`                                             |
+| Color              | `well`                                                                      | anatomy term                                      | 1     | `card-background-well-color`                                               |
+| Color              | `opacity` (as property suffix)                                              | property term                                     | 3     | `card-selection-background-color-opacity`                                  |
+| Color              | `indicator`                                                                 | anatomy term                                      | 2     | `static-black-track-indicator-color`                                       |
+| Color              | `highlight`                                                                 | qualifier/state term                              | 3     | `stack-item-selected-background-color-highlight`                           |
+| Typography         | `xxxxl`                                                                     | `sizes.json` scale (currently tops out at `xxxl`) | 2     | `heading-size-xxxxl`                                                       |
+| Misc singles       | `4x`, `track`+`width`, `drop`+`target`, `underline`, `minimum`, `rectangle` | various                                           | 6     | `base-gap-4x-large`, `text-underline-thickness`                            |
 
-### Anatomy terms registry (`anatomy-terms.json`)
+## Compound properties
 
-| Value        | Tokens | Example                                               |
-| ------------ | ------ | ----------------------------------------------------- |
-| `popover`    | 6      | `double-calendar-popover-minimum-height`              |
-| `hero`       | 5      | `collection-card-minimum-height-hero-extra-large`     |
-| `pagination` | 1      | `coach-mark-pagination-body-font-size`                |
-| `stepper`    | 4      | `number-field-with-stepper-minimum-width-extra-large` |
+| Property                                | Tokens | Example                                                                                                                                                                                            |
+| --------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `line-height`                           | 18     | `line-height-font-size-100` (already listed in the decomposer's compound-property list but matching fails when split — needs a decomposer fix, not a registry add)                                 |
+| `component-height` / `component-size-*` | 8      | `component-height-100`, `component-size-difference-down` — `component` itself is unmatched; likely needs registration as a compound-property prefix like `line-height`, not a standalone component |
 
-### Compound properties
+## Size/shape special values
 
-These multi-segment property names should be added to the decomposer's compound property list:
+| Value                                                   | Field      | Tokens | Example                           |
+| ------------------------------------------------------- | ---------- | ------ | --------------------------------- |
+| `full`                                                  | shape      | 1      | `corner-radius-full`              |
+| `none`                                                  | shape      | 1      | `corner-radius-none`              |
+| `size` compound (`corner-radius-{small,medium}-size-*`) | shape/size | 9      | `corner-radius-medium-size-large` |
 
-| Property      | Tokens | Example                                                                    |
-| ------------- | ------ | -------------------------------------------------------------------------- |
-| `line-height` | 18     | `line-height-font-size-100` (already listed but matching fails when split) |
-
-### Size/shape special values
-
-For corner-radius tokens that use non-standard size qualifiers:
-
-| Value  | Field | Tokens | Example              |
-| ------ | ----- | ------ | -------------------- |
-| `full` | shape | 1      | `corner-radius-full` |
-| `none` | shape | 1      | `corner-radius-none` |
-
-### Component registry (`components.json`)
-
-| Value     | Tokens | Example                   |
-| --------- | ------ | ------------------------- |
-| `heading` | 5      | `heading-cjk-font-weight` |
-
-Note: `heading` may be better classified as a typography component (like `body`, `code`, `detail`, `title`) rather than a UI component. This aligns with Proposal 001's typography taxonomy.
-
-### Property vocabulary
+## Property vocabulary
 
 | Value        | Tokens | Example                           |
 | ------------ | ------ | --------------------------------- |
 | `multiplier` | 7      | `button-minimum-width-multiplier` |
 
-`multiplier` appears as a property modifier on minimum-width tokens. It could be treated as a compound property (`minimum-width-multiplier`) or as a standalone property.
+`multiplier` appears as a property modifier on minimum/maximum-width tokens. Treat as a
+compound property (`minimum-width-multiplier`) or a standalone property term.
+
+## Taxonomy calls (resolve before implementing — not simple vocab adds)
+
+| Group                                                                                                                                                                               | Tokens | Question                                                                                                                                                                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `number-field-with-stepper-*`                                                                                                                                                       | 4      | The unmatched segment is the connector word `with`, not `stepper` (already registered). Registering `with` as a term is a filler-word precedent with broad blast radius — may instead need a decomposer rule to skip known connector words. |
+| `tab-gap-horizontal-*`                                                                                                                                                              | 4      | `tabs` (plural) is registered as a component; `tab` (singular) is not. Decide: register `tab` as an alias/synonym of `tabs`, or treat as a distinct anatomy term.                                                                           |
+| `heading-cjk-font-weight`-style typography self-reference (`bold-font-weight-bold`, `italic-font-style-italic`, `regular-font-weight-regular`, `extra-bold-font-weight-extra-bold`) | 4      | Value repeats as its own property name — a decomposer pattern question (self-referential property/value pairs), not a missing vocabulary term.                                                                                              |
 
 ## Impact
 
-* \~70 tokens gain proper vocabulary matches
-* All additions are to existing registries — no schema changes
-* Each addition is independent and can be implemented incrementally
+* 161 distinct tokens addressed once all groups above are resolved
+* Registry-only groups (129 tokens across \~19 sub-groups) are additive, no schema changes,
+  and independently implementable in small batches
+* 3 groups (11 tokens) require a taxonomy/decomposer decision before implementation
+* Re-run `moon run token-mapping-analyzer:analyze` after each batch to confirm residual drop

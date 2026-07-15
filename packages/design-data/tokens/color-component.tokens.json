@@ -68,7 +68,10 @@
   {
     "name": {
       "component": "bar-panel",
-      "property": "gripper-color-drag"
+      "anatomy": "gripper",
+      "qualifier": "drag",
+      "property": "color",
+      "legacyKey": "bar-panel-gripper-color-drag"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -87,7 +90,9 @@
   {
     "name": {
       "component": "card",
-      "property": "background-well-color"
+      "anatomy": "well",
+      "property": "background-color",
+      "legacyKey": "card-background-well-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -135,7 +140,10 @@
   {
     "name": {
       "component": "card",
-      "property": "selection-background-color-opacity"
+      "anatomy": "selection",
+      "object": "background",
+      "property": "opacity",
+      "legacyKey": "card-selection-background-color-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.95",
@@ -153,7 +161,9 @@
   {
     "name": {
       "component": "coach-mark",
-      "property": "pagination-color"
+      "anatomy": "pagination",
+      "property": "color",
+      "legacyKey": "coach-mark-pagination-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b49953b7-ef80-4e57-b1e7-546279b36bb4",
@@ -194,7 +204,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "inner-border-color"
+      "position": "inner",
+      "property": "border-color",
+      "legacyKey": "color-handle-inner-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -203,7 +215,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "inner-border-opacity"
+      "position": "inner",
+      "property": "border-opacity",
+      "legacyKey": "color-handle-inner-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
@@ -212,7 +226,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "outer-border-color"
+      "position": "outer",
+      "property": "border-color",
+      "legacyKey": "color-handle-outer-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -221,7 +237,9 @@
   {
     "name": {
       "component": "color-handle",
-      "property": "outer-border-opacity"
+      "position": "outer",
+      "property": "border-opacity",
+      "legacyKey": "color-handle-outer-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
@@ -268,7 +286,9 @@
   {
     "name": {
       "component": "color-loupe",
-      "property": "inner-border"
+      "position": "inner",
+      "property": "border-color",
+      "legacyKey": "color-loupe-inner-border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
@@ -277,7 +297,9 @@
   {
     "name": {
       "component": "color-loupe",
-      "property": "outer-border"
+      "position": "outer",
+      "property": "border-color",
+      "legacyKey": "color-loupe-outer-border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -331,7 +353,9 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "background-color-opacity"
+      "object": "background",
+      "property": "opacity",
+      "legacyKey": "drop-zone-background-color-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -340,7 +364,10 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "background-color-opacity-filled"
+      "object": "background",
+      "property": "opacity",
+      "state": "filled",
+      "legacyKey": "drop-zone-background-color-opacity-filled"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.3",
@@ -811,7 +838,10 @@
   {
     "name": {
       "component": "standard-panel",
-      "property": "gripper-color-drag"
+      "anatomy": "gripper",
+      "qualifier": "drag",
+      "property": "color",
+      "legacyKey": "standard-panel-gripper-color-drag"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",

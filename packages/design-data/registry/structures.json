@@ -57,6 +57,11 @@
       "id": "drop-shadow",
       "label": "Drop Shadow",
       "description": "Elevated shadow effect applied to components and containers"
+    },
+    {
+      "id": "drop-target",
+      "label": "Drop Target",
+      "description": "Drag-and-drop destination structure"
     }
   ]
 }

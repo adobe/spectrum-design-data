@@ -45,6 +45,8 @@ const COMPOUND_PROPERTIES = [
   "border-width",
   "minimum-width",
   "minimum-height",
+  "minimum-padding-vertical",
+  "component-size-minimum-perspective",
   "maximum-width",
   "maximum-height",
   "underline-gap",
@@ -59,8 +61,6 @@ const KNOWN_GAP_TERMS = {
   // Variant qualifiers — subtle, subdued, and static are now in the variant registry.
   // Only "non" remains unregistered (used as a negation prefix, not a standalone variant).
   "variant-qualifier": ["non"],
-  // Spatial qualifiers
-  "spatial-qualifier": ["inner", "outer"],
 };
 
 /**

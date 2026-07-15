@@ -66,6 +66,13 @@
       "aliases": ["3x-large"],
       "tokenName": "3x-large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xxxxl",
+      "label": "4X Large",
+      "aliases": ["4x-large"],
+      "tokenName": "4x-large",
+      "usedIn": ["tokens"]
     }
   ]
 }

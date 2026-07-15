@@ -7,6 +7,11 @@
       "id": "uniform",
       "label": "Uniform",
       "description": "Equal proportions (e.g., 1:1 ratio between horizontal and vertical padding)"
+    },
+    {
+      "id": "rectangle",
+      "label": "Rectangle",
+      "description": "Rectangular (non-uniform) proportions"
     }
   ]
 }

@@ -285,7 +285,10 @@
   },
   {
     "name": {
-      "property": "base-gap-4x-large"
+      "structure": "base",
+      "property": "gap",
+      "size": "xxxxl",
+      "legacyKey": "base-gap-4x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -802,8 +805,11 @@
   },
   {
     "name": {
-      "property": "color-control-track-width",
-      "scale": "desktop"
+      "component": "color-control",
+      "anatomy": "track",
+      "property": "width",
+      "scale": "desktop",
+      "legacyKey": "color-control-track-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -813,8 +819,11 @@
   },
   {
     "name": {
-      "property": "color-control-track-width",
-      "scale": "mobile"
+      "component": "color-control",
+      "anatomy": "track",
+      "property": "width",
+      "scale": "mobile",
+      "legacyKey": "color-control-track-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "30px",
@@ -3286,7 +3295,9 @@
   },
   {
     "name": {
-      "property": "drop-target-dash-gap"
+      "structure": "drop-target",
+      "property": "dash-gap",
+      "legacyKey": "drop-target-dash-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -5988,7 +5999,8 @@
   },
   {
     "name": {
-      "property": "text-underline-thickness"
+      "property": "text-underline-thickness",
+      "legacyKey": "text-underline-thickness"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",

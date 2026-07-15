@@ -2605,7 +2605,9 @@
   },
   {
     "name": {
-      "property": "heading-cjk-size-xxxxl"
+      "component": "heading",
+      "property": "cjk-size-xxxxl",
+      "legacyKey": "heading-cjk-size-xxxxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "21c1f04f-3a63-4bf8-9f60-e9afa0e672a2",
@@ -3325,7 +3327,9 @@
   },
   {
     "name": {
-      "property": "heading-size-xxxxl"
+      "component": "heading",
+      "property": "size-xxxxl",
+      "legacyKey": "heading-size-xxxxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d59c0cd1-efb8-4f5b-9d5a-7ecbcd79f758",

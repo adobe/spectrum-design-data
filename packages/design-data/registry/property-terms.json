@@ -262,6 +262,21 @@
       "id": "y",
       "label": "Y",
       "description": "Vertical offset (e.g. drop-shadow y offset)"
+    },
+    {
+      "id": "minimum",
+      "label": "Minimum",
+      "description": "Lower-bound constraint modifier (design-system abstraction; distinct from the compound minimum-width/minimum-height terms)"
+    },
+    {
+      "id": "minimum-padding-vertical",
+      "label": "Minimum Vertical Padding",
+      "description": "Lower-bound constraint on internal vertical (top/bottom) spacing"
+    },
+    {
+      "id": "component-size-minimum-perspective",
+      "label": "Component Size Minimum Perspective",
+      "description": "Lower-bound constraint on a component's 3D perspective sizing (design-system abstraction)"
     }
   ]
 }

@@ -861,6 +861,11 @@ const STRUCTURES_JSON: &str = r##"{
       "id": "drop-shadow",
       "label": "Drop Shadow",
       "description": "Elevated shadow effect applied to components and containers"
+    },
+    {
+      "id": "drop-target",
+      "label": "Drop Target",
+      "description": "Drag-and-drop destination structure"
     }
   ]
 }
@@ -1686,6 +1691,42 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "In-field stepper",
       "description": "A stepper control embedded within a field element (e.g. number-field)",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "pagination",
+      "label": "Pagination",
+      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "slash",
+      "label": "Slash",
+      "description": "Diagonal line element indicating an unavailable or crossed-out state (e.g. swatch)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "square",
+      "label": "Square",
+      "description": "Square-shaped anatomy element (e.g. checkerboard tile)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "well",
+      "label": "Well",
+      "description": "Recessed background area within a component (e.g. card)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "layer",
+      "label": "Layer",
+      "description": "A stacked visual plane within a component",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "underline",
+      "label": "Underline",
+      "description": "Underline decoration element beneath text",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -2048,6 +2089,21 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "y",
       "label": "Y",
       "description": "Vertical offset (e.g. drop-shadow y offset)"
+    },
+    {
+      "id": "minimum",
+      "label": "Minimum",
+      "description": "Lower-bound constraint modifier (design-system abstraction; distinct from the compound minimum-width/minimum-height terms)"
+    },
+    {
+      "id": "minimum-padding-vertical",
+      "label": "Minimum Vertical Padding",
+      "description": "Lower-bound constraint on internal vertical (top/bottom) spacing"
+    },
+    {
+      "id": "component-size-minimum-perspective",
+      "label": "Component Size Minimum Perspective",
+      "description": "Lower-bound constraint on a component's 3D perspective sizing (design-system abstraction)"
     }
   ]
 }
@@ -2119,6 +2175,24 @@ const POSITIONS_JSON: &str = r##"{
       "id": "bottom-edge",
       "label": "Bottom edge",
       "description": "Outer boundary at the bottom"
+    },
+    {
+      "id": "inner",
+      "label": "Inner",
+      "description": "Interior-facing side of an element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "outer",
+      "label": "Outer",
+      "description": "Exterior-facing side of an element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "below",
+      "label": "Below",
+      "description": "Positioned underneath a reference element",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -2191,6 +2265,13 @@ const SIZES_JSON: &str = r##"{
       "aliases": ["3x-large"],
       "tokenName": "3x-large",
       "usedIn": ["tokens", "component-options", "component-schemas"]
+    },
+    {
+      "id": "xxxxl",
+      "label": "4X Large",
+      "aliases": ["4x-large"],
+      "tokenName": "4x-large",
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -2222,6 +2303,11 @@ const SHAPES_JSON: &str = r##"{
       "id": "uniform",
       "label": "Uniform",
       "description": "Equal proportions (e.g., 1:1 ratio between horizontal and vertical padding)"
+    },
+    {
+      "id": "rectangle",
+      "label": "Rectangle",
+      "description": "Rectangular (non-uniform) proportions"
     }
   ]
 }
@@ -2425,6 +2511,36 @@ const COLOR_ROLES_JSON: &str = r##"{
       "id": "background",
       "label": "Background",
       "description": "Background color role — fill or surface color behind an element"
+    },
+    {
+      "id": "neutral",
+      "label": "Neutral",
+      "description": "Neutral semantic color role, distinct from a specific hue"
+    },
+    {
+      "id": "accent",
+      "label": "Accent",
+      "description": "Accent semantic color role"
+    },
+    {
+      "id": "informative",
+      "label": "Informative",
+      "description": "Informative semantic color role"
+    },
+    {
+      "id": "negative",
+      "label": "Negative",
+      "description": "Negative/destructive semantic color role"
+    },
+    {
+      "id": "notice",
+      "label": "Notice",
+      "description": "Notice/attention semantic color role"
+    },
+    {
+      "id": "positive",
+      "label": "Positive",
+      "description": "Positive/affirmative semantic color role"
     }
   ]
 }
@@ -2767,6 +2883,49 @@ const ALIGNMENTS_JSON: &str = r##"{
   ]
 }
 "##;
+const QUALIFIERS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "qualifier",
+  "description": "Behavioral or layout modifier that narrows a property/anatomy without being a state, variant, or position.",
+  "values": [
+    {
+      "id": "stacked",
+      "label": "Stacked",
+      "description": "Layout arranged in a stacked (vertical) configuration"
+    },
+    {
+      "id": "multiline",
+      "label": "Multiline",
+      "description": "Content spanning more than one line"
+    },
+    {
+      "id": "precision",
+      "label": "Precision",
+      "description": "Fine-grained/precision interaction mode"
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Contracted/minimized display configuration"
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Extended/enlarged display configuration"
+    },
+    {
+      "id": "drag",
+      "label": "Drag",
+      "description": "Drag interaction modifier"
+    },
+    {
+      "id": "highlight",
+      "label": "Highlight",
+      "description": "Emphasized highlight treatment"
+    }
+  ]
+}
+"##;
 const ICON_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "icon",
@@ -2915,7 +3074,7 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "icon"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "icon"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
@@ -2942,6 +3101,7 @@ pub(crate) fn build_registry_map(
     map.insert("motionRole".to_string(), parse_registry(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_registry(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_registry(ALIGNMENTS_JSON));
+    map.insert("qualifier".to_string(), parse_registry(QUALIFIERS_JSON));
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
     map
@@ -2972,6 +3132,7 @@ pub(crate) fn build_token_name_map(
     map.insert("motionRole".to_string(), parse_token_name_map(MOTION_ROLES_JSON));
     map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
+    map.insert("qualifier".to_string(), parse_token_name_map(QUALIFIERS_JSON));
     map.insert("icon".to_string(), parse_token_name_map(ICON_TERMS_JSON));
     map
 }
@@ -3005,6 +3166,7 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "from", position: 24, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "to", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "alignment", position: 26, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "qualifier", position: 27, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
     ]

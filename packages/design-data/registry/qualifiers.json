@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "qualifier",
+  "description": "Behavioral or layout modifier that narrows a property/anatomy without being a state, variant, or position.",
+  "values": [
+    {
+      "id": "stacked",
+      "label": "Stacked",
+      "description": "Layout arranged in a stacked (vertical) configuration"
+    },
+    {
+      "id": "multiline",
+      "label": "Multiline",
+      "description": "Content spanning more than one line"
+    },
+    {
+      "id": "precision",
+      "label": "Precision",
+      "description": "Fine-grained/precision interaction mode"
+    },
+    {
+      "id": "collapsed",
+      "label": "Collapsed",
+      "description": "Contracted/minimized display configuration"
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded",
+      "description": "Extended/enlarged display configuration"
+    },
+    {
+      "id": "drag",
+      "label": "Drag",
+      "description": "Drag interaction modifier"
+    },
+    {
+      "id": "highlight",
+      "label": "Highlight",
+      "description": "Emphasized highlight treatment"
+    }
+  ]
+}
