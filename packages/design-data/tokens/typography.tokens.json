@@ -73,7 +73,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-l",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "l",
       "legacyKey": "body-cjk-size-l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -82,7 +85,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-m",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "m",
       "legacyKey": "body-cjk-size-m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -91,7 +97,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-s",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "s",
       "legacyKey": "body-cjk-size-s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -100,7 +109,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-xl",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xl",
       "legacyKey": "body-cjk-size-xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -109,7 +121,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-xs",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xs",
       "legacyKey": "body-cjk-size-xs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -118,7 +133,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-xxl",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xxl",
       "legacyKey": "body-cjk-size-xxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -127,7 +145,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-xxs",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xxs",
       "legacyKey": "body-cjk-size-xxs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -136,7 +157,10 @@
   },
   {
     "name": {
-      "property": "body-cjk-size-xxxl",
+      "component": "body",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xxxl",
       "legacyKey": "body-cjk-size-xxxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -475,7 +499,9 @@
   },
   {
     "name": {
-      "property": "body-size-xxs",
+      "component": "body",
+      "property": "font-size",
+      "size": "xxs",
       "legacyKey": "body-size-xxs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2358,7 +2384,10 @@
   },
   {
     "name": {
-      "property": "heading-cjk-font-weight"
+      "component": "heading",
+      "script": "cjk",
+      "property": "font-weight",
+      "legacyKey": "heading-cjk-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
@@ -2657,7 +2686,10 @@
   },
   {
     "name": {
-      "property": "heading-cjk-size-xxxxl",
+      "component": "heading",
+      "script": "cjk",
+      "property": "font-size",
+      "size": "xxxxl",
       "legacyKey": "heading-cjk-size-xxxxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3387,7 +3419,9 @@
   },
   {
     "name": {
-      "property": "heading-size-xxxxl",
+      "component": "heading",
+      "property": "font-size",
+      "size": "xxxxl",
       "legacyKey": "heading-size-xxxxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
