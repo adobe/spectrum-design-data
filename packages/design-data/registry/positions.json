@@ -47,6 +47,24 @@
       "id": "bottom-edge",
       "label": "Bottom edge",
       "description": "Outer boundary at the bottom"
+    },
+    {
+      "id": "inner",
+      "label": "Inner",
+      "description": "Interior-facing side of an element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "outer",
+      "label": "Outer",
+      "description": "Exterior-facing side of an element",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "below",
+      "label": "Below",
+      "description": "Positioned underneath a reference element",
+      "usedIn": ["tokens"]
     }
   ]
 }

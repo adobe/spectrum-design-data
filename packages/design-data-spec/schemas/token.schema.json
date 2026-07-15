@@ -51,6 +51,10 @@
           "type": "string",
           "description": "Semantic: interactive or semantic state (e.g. hover, focus, disabled)."
         },
+        "qualifier": {
+          "type": "string",
+          "description": "Semantic: behavioral or layout modifier that narrows a property/anatomy without being a state, variant, or position (e.g. stacked, multiline, precision, collapsed, expanded, drag, highlight)."
+        },
         "orientation": {
           "type": "string",
           "description": "Semantic: direction or order (e.g. vertical, horizontal)."

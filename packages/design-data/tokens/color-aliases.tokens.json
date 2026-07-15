@@ -287,7 +287,9 @@
   },
   {
     "name": {
-      "property": "background-layer-1-color"
+      "property": "background-layer-color",
+      "scaleIndex": 1,
+      "legacyKey": "background-layer-1-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",
@@ -295,8 +297,10 @@
   },
   {
     "name": {
-      "property": "background-layer-2-color",
-      "colorScheme": "light"
+      "property": "background-layer-color",
+      "scaleIndex": 2,
+      "colorScheme": "light",
+      "legacyKey": "background-layer-2-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -306,8 +310,10 @@
   },
   {
     "name": {
-      "property": "background-layer-2-color",
-      "colorScheme": "dark"
+      "property": "background-layer-color",
+      "scaleIndex": 2,
+      "colorScheme": "dark",
+      "legacyKey": "background-layer-2-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5793fc53-b676-4bc8-b5d4-2a2394c853f5",
@@ -317,8 +323,10 @@
   },
   {
     "name": {
-      "property": "background-layer-2-color",
-      "colorScheme": "wireframe"
+      "property": "background-layer-color",
+      "scaleIndex": 2,
+      "colorScheme": "wireframe",
+      "legacyKey": "background-layer-2-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -446,9 +454,12 @@
   },
   {
     "name": {
-      "property": "blue-subtle-background-color",
+      "colorFamily": "blue",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "blue-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce69a96f-663b-4922-89a3-4ece7acb6d55",
@@ -458,9 +469,12 @@
   },
   {
     "name": {
-      "property": "blue-subtle-background-color",
+      "colorFamily": "blue",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "blue-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d434be86-0614-481b-bf30-6f7494f562d5",
@@ -470,9 +484,12 @@
   },
   {
     "name": {
-      "property": "blue-subtle-background-color",
+      "colorFamily": "blue",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "blue-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce69a96f-663b-4922-89a3-4ece7acb6d55",
@@ -551,9 +568,12 @@
   },
   {
     "name": {
-      "property": "brown-subtle-background-color",
+      "colorFamily": "brown",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "brown-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce145d13-f1b1-46a7-9c17-0b7fab97022e",
@@ -563,9 +583,12 @@
   },
   {
     "name": {
-      "property": "brown-subtle-background-color",
+      "colorFamily": "brown",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "brown-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ecb0d9f6-5007-4bf9-9dd3-40fb328bea13",
@@ -575,9 +598,12 @@
   },
   {
     "name": {
-      "property": "brown-subtle-background-color",
+      "colorFamily": "brown",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "brown-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ce145d13-f1b1-46a7-9c17-0b7fab97022e",
@@ -656,9 +682,12 @@
   },
   {
     "name": {
-      "property": "celery-subtle-background-color",
+      "colorFamily": "celery",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "celery-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d22658b0-6638-45f9-8567-a2ad056f7c10",
@@ -668,9 +697,12 @@
   },
   {
     "name": {
-      "property": "celery-subtle-background-color",
+      "colorFamily": "celery",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "celery-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "577626d4-7631-4de5-bd71-350b9748a4dd",
@@ -680,9 +712,12 @@
   },
   {
     "name": {
-      "property": "celery-subtle-background-color",
+      "colorFamily": "celery",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "celery-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d22658b0-6638-45f9-8567-a2ad056f7c10",
@@ -761,9 +796,12 @@
   },
   {
     "name": {
-      "property": "chartreuse-subtle-background-color",
+      "colorFamily": "chartreuse",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "chartreuse-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "af7dfd23-39e4-4e6e-a4b2-992eca33812d",
@@ -773,9 +811,12 @@
   },
   {
     "name": {
-      "property": "chartreuse-subtle-background-color",
+      "colorFamily": "chartreuse",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "chartreuse-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5e69e639-7b35-404f-a144-3e4ab6e16ea7",
@@ -785,9 +826,12 @@
   },
   {
     "name": {
-      "property": "chartreuse-subtle-background-color",
+      "colorFamily": "chartreuse",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "chartreuse-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "af7dfd23-39e4-4e6e-a4b2-992eca33812d",
@@ -866,9 +910,12 @@
   },
   {
     "name": {
-      "property": "cinnamon-subtle-background-color",
+      "colorFamily": "cinnamon",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "cinnamon-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "322b71ea-2187-4fce-90e7-2db63d037368",
@@ -878,9 +925,12 @@
   },
   {
     "name": {
-      "property": "cinnamon-subtle-background-color",
+      "colorFamily": "cinnamon",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "cinnamon-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3527fc94-a410-4933-bbb7-bedecd37e477",
@@ -890,9 +940,12 @@
   },
   {
     "name": {
-      "property": "cinnamon-subtle-background-color",
+      "colorFamily": "cinnamon",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "cinnamon-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "322b71ea-2187-4fce-90e7-2db63d037368",
@@ -971,9 +1024,12 @@
   },
   {
     "name": {
-      "property": "cyan-subtle-background-color",
+      "colorFamily": "cyan",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "cyan-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c7fd6eda-f850-4dec-a883-e970cdfca622",
@@ -983,9 +1039,12 @@
   },
   {
     "name": {
-      "property": "cyan-subtle-background-color",
+      "colorFamily": "cyan",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "cyan-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "49bb7f35-e7b5-4e72-9e31-73b3e31df0a7",
@@ -995,9 +1054,12 @@
   },
   {
     "name": {
-      "property": "cyan-subtle-background-color",
+      "colorFamily": "cyan",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "cyan-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c7fd6eda-f850-4dec-a883-e970cdfca622",
@@ -1708,9 +1770,12 @@
   },
   {
     "name": {
-      "property": "fuchsia-subtle-background-color",
+      "colorFamily": "fuchsia",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "fuchsia-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "078936af-2556-4ee2-a849-e7f19088b0ee",
@@ -1720,9 +1785,12 @@
   },
   {
     "name": {
-      "property": "fuchsia-subtle-background-color",
+      "colorFamily": "fuchsia",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "fuchsia-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "09aef364-8827-48fa-9888-b0424ce8981c",
@@ -1732,9 +1800,12 @@
   },
   {
     "name": {
-      "property": "fuchsia-subtle-background-color",
+      "colorFamily": "fuchsia",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "fuchsia-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "078936af-2556-4ee2-a849-e7f19088b0ee",
@@ -1813,9 +1884,12 @@
   },
   {
     "name": {
-      "property": "gray-subtle-background-color",
+      "colorFamily": "gray",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "gray-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -1825,9 +1899,12 @@
   },
   {
     "name": {
-      "property": "gray-subtle-background-color",
+      "colorFamily": "gray",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "gray-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
@@ -1837,9 +1914,12 @@
   },
   {
     "name": {
-      "property": "gray-subtle-background-color",
+      "colorFamily": "gray",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "gray-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -1918,9 +1998,12 @@
   },
   {
     "name": {
-      "property": "green-subtle-background-color",
+      "colorFamily": "green",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "green-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4f7df0e3-fed5-4f7a-8783-c367c1457796",
@@ -1930,9 +2013,12 @@
   },
   {
     "name": {
-      "property": "green-subtle-background-color",
+      "colorFamily": "green",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "green-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9e090cbf-c8c4-40a1-9ba6-b7bdd01bf15c",
@@ -1942,9 +2028,12 @@
   },
   {
     "name": {
-      "property": "green-subtle-background-color",
+      "colorFamily": "green",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "green-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4f7df0e3-fed5-4f7a-8783-c367c1457796",
@@ -2023,9 +2112,12 @@
   },
   {
     "name": {
-      "property": "indigo-subtle-background-color",
+      "colorFamily": "indigo",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "indigo-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03acbe76-ab2c-493b-8dbf-624802f4ff1d",
@@ -2035,9 +2127,12 @@
   },
   {
     "name": {
-      "property": "indigo-subtle-background-color",
+      "colorFamily": "indigo",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "indigo-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "571bb191-0f29-4a11-95a2-831a454b4df1",
@@ -2047,9 +2142,12 @@
   },
   {
     "name": {
-      "property": "indigo-subtle-background-color",
+      "colorFamily": "indigo",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "indigo-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "03acbe76-ab2c-493b-8dbf-624802f4ff1d",
@@ -2317,9 +2415,12 @@
   },
   {
     "name": {
-      "property": "magenta-subtle-background-color",
+      "colorFamily": "magenta",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "magenta-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f7909075-b049-43d4-bae5-bd74c7827174",
@@ -2329,9 +2430,12 @@
   },
   {
     "name": {
-      "property": "magenta-subtle-background-color",
+      "colorFamily": "magenta",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "magenta-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9378740c-7cd3-42a1-8d2c-6dcdbc44d856",
@@ -2341,9 +2445,12 @@
   },
   {
     "name": {
-      "property": "magenta-subtle-background-color",
+      "colorFamily": "magenta",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "magenta-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f7909075-b049-43d4-bae5-bd74c7827174",
@@ -2802,9 +2909,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "neutral-subdued-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5bed317b-eaa5-4f93-bc0d-d8f51e0b4680",
@@ -2814,9 +2924,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "neutral-subdued-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "60077744-c665-4c80-8f88-dff31a10219e",
@@ -2826,9 +2939,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "neutral-subdued-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5bed317b-eaa5-4f93-bc0d-d8f51e0b4680",
@@ -2838,9 +2954,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "neutral-subdued-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2850,9 +2969,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "neutral-subdued-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -2862,9 +2984,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "down",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "neutral-subdued-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2874,9 +2999,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "neutral-subdued-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2886,9 +3014,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "neutral-subdued-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -2898,9 +3029,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "hover",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "neutral-subdued-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2910,9 +3044,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "key-focus",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "neutral-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2922,9 +3059,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "key-focus",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "neutral-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -2934,9 +3074,12 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-background-color",
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "background-color",
       "state": "key-focus",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "neutral-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2946,8 +3089,11 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-content-color",
-      "state": "default"
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "content-color",
+      "state": "default",
+      "legacyKey": "neutral-subdued-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5bed317b-eaa5-4f93-bc0d-d8f51e0b4680",
@@ -2955,8 +3101,11 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-content-color",
-      "state": "down"
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "content-color",
+      "state": "down",
+      "legacyKey": "neutral-subdued-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2964,8 +3113,11 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-content-color",
-      "state": "hover"
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "content-color",
+      "state": "hover",
+      "legacyKey": "neutral-subdued-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2973,8 +3125,11 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-content-color",
-      "state": "key-focus"
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "content-color",
+      "state": "key-focus",
+      "legacyKey": "neutral-subdued-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -2982,8 +3137,11 @@
   },
   {
     "name": {
-      "property": "neutral-subdued-content-color",
-      "state": "selected"
+      "colorRole": "neutral",
+      "variant": "subdued",
+      "property": "content-color",
+      "state": "selected",
+      "legacyKey": "neutral-subdued-content-color-selected"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6",
@@ -2991,9 +3149,12 @@
   },
   {
     "name": {
-      "property": "neutral-subtle-background-color",
+      "colorRole": "neutral",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "neutral-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -3003,9 +3164,12 @@
   },
   {
     "name": {
-      "property": "neutral-subtle-background-color",
+      "colorRole": "neutral",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "neutral-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
@@ -3015,9 +3179,12 @@
   },
   {
     "name": {
-      "property": "neutral-subtle-background-color",
+      "colorRole": "neutral",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "neutral-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -3177,9 +3344,12 @@
   },
   {
     "name": {
-      "property": "orange-subtle-background-color",
+      "colorFamily": "orange",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "orange-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a4287e01-3b0a-45e2-9118-d2ec157805c3",
@@ -3189,9 +3359,12 @@
   },
   {
     "name": {
-      "property": "orange-subtle-background-color",
+      "colorFamily": "orange",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "orange-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec281039-7256-4db9-8261-d0af048d3e6d",
@@ -3201,9 +3374,12 @@
   },
   {
     "name": {
-      "property": "orange-subtle-background-color",
+      "colorFamily": "orange",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "orange-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a4287e01-3b0a-45e2-9118-d2ec157805c3",
@@ -3323,9 +3499,12 @@
   },
   {
     "name": {
-      "property": "pink-subtle-background-color",
+      "colorFamily": "pink",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "pink-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "500888e2-48c7-4962-8323-f160cc7a07d6",
@@ -3335,9 +3514,12 @@
   },
   {
     "name": {
-      "property": "pink-subtle-background-color",
+      "colorFamily": "pink",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "pink-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7bb48388-b3bc-47eb-a7ab-b15327996714",
@@ -3347,9 +3529,12 @@
   },
   {
     "name": {
-      "property": "pink-subtle-background-color",
+      "colorFamily": "pink",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "pink-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "500888e2-48c7-4962-8323-f160cc7a07d6",
@@ -3617,9 +3802,12 @@
   },
   {
     "name": {
-      "property": "purple-subtle-background-color",
+      "colorFamily": "purple",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "purple-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "745626e1-7c10-4e35-a99f-03c252bd441d",
@@ -3629,9 +3817,12 @@
   },
   {
     "name": {
-      "property": "purple-subtle-background-color",
+      "colorFamily": "purple",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "purple-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "61b16d70-8650-4e61-9446-a5f2c4f197b9",
@@ -3641,9 +3832,12 @@
   },
   {
     "name": {
-      "property": "purple-subtle-background-color",
+      "colorFamily": "purple",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "purple-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "745626e1-7c10-4e35-a99f-03c252bd441d",
@@ -3722,9 +3916,12 @@
   },
   {
     "name": {
-      "property": "red-subtle-background-color",
+      "colorFamily": "red",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "red-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ebf4003d-ce93-4026-8e3b-13e128e014e7",
@@ -3734,9 +3931,12 @@
   },
   {
     "name": {
-      "property": "red-subtle-background-color",
+      "colorFamily": "red",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "red-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6329f7cb-bb13-4231-ab91-4ed9dc8e7242",
@@ -3746,9 +3946,12 @@
   },
   {
     "name": {
-      "property": "red-subtle-background-color",
+      "colorFamily": "red",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "red-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ebf4003d-ce93-4026-8e3b-13e128e014e7",
@@ -3827,9 +4030,12 @@
   },
   {
     "name": {
-      "property": "seafoam-subtle-background-color",
+      "colorFamily": "seafoam",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "seafoam-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "92b7d64b-e8ae-4261-adf3-55b7435fce69",
@@ -3839,9 +4045,12 @@
   },
   {
     "name": {
-      "property": "seafoam-subtle-background-color",
+      "colorFamily": "seafoam",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "seafoam-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6085bce9-27e8-43c1-b2ce-8b259e03b0d9",
@@ -3851,9 +4060,12 @@
   },
   {
     "name": {
-      "property": "seafoam-subtle-background-color",
+      "colorFamily": "seafoam",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "seafoam-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "92b7d64b-e8ae-4261-adf3-55b7435fce69",
@@ -3932,9 +4144,12 @@
   },
   {
     "name": {
-      "property": "silver-subtle-background-color",
+      "colorFamily": "silver",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "silver-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f2c7f530-ba13-4459-bc3c-2b26e4e7e4c1",
@@ -3944,9 +4159,12 @@
   },
   {
     "name": {
-      "property": "silver-subtle-background-color",
+      "colorFamily": "silver",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "silver-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bbdff4c8-a79d-4df2-bdae-7ed10058ac28",
@@ -3956,9 +4174,12 @@
   },
   {
     "name": {
-      "property": "silver-subtle-background-color",
+      "colorFamily": "silver",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "silver-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f2c7f530-ba13-4459-bc3c-2b26e4e7e4c1",
@@ -4027,7 +4248,11 @@
   },
   {
     "name": {
-      "property": "static-black-track-indicator-color"
+      "variant": "static",
+      "colorFamily": "black",
+      "object": "track",
+      "property": "indicator-color",
+      "legacyKey": "static-black-track-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
@@ -4061,7 +4286,11 @@
   },
   {
     "name": {
-      "property": "static-white-track-indicator-color"
+      "variant": "static",
+      "colorFamily": "white",
+      "object": "track",
+      "property": "indicator-color",
+      "legacyKey": "static-white-track-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
@@ -4121,9 +4350,12 @@
   },
   {
     "name": {
-      "property": "turquoise-subtle-background-color",
+      "colorFamily": "turquoise",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "turquoise-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7720aa32-deea-454b-a593-f1234e638565",
@@ -4133,9 +4365,12 @@
   },
   {
     "name": {
-      "property": "turquoise-subtle-background-color",
+      "colorFamily": "turquoise",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "turquoise-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "47de7f9a-3e02-4824-b667-ad499729c9ff",
@@ -4145,9 +4380,12 @@
   },
   {
     "name": {
-      "property": "turquoise-subtle-background-color",
+      "colorFamily": "turquoise",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "turquoise-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "7720aa32-deea-454b-a593-f1234e638565",
@@ -4226,9 +4464,12 @@
   },
   {
     "name": {
-      "property": "yellow-subtle-background-color",
+      "colorFamily": "yellow",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "yellow-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "519b2bdf-d04a-40e4-9ad6-843b0562c6e1",
@@ -4238,9 +4479,12 @@
   },
   {
     "name": {
-      "property": "yellow-subtle-background-color",
+      "colorFamily": "yellow",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "yellow-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec693e13-b1f3-40e3-9a8e-5d48f38b0c98",
@@ -4250,9 +4494,12 @@
   },
   {
     "name": {
-      "property": "yellow-subtle-background-color",
+      "colorFamily": "yellow",
+      "variant": "subtle",
+      "property": "background-color",
       "state": "default",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "yellow-subtle-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "519b2bdf-d04a-40e4-9ad6-843b0562c6e1",
@@ -4295,7 +4542,10 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-highlight"
+      "state": "selected",
+      "property": "stack-item-background-color",
+      "qualifier": "highlight",
+      "legacyKey": "stack-item-selected-background-color-highlight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",

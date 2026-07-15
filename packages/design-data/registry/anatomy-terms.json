@@ -806,6 +806,30 @@
       "label": "In-field stepper",
       "description": "A stepper control embedded within a field element (e.g. number-field)",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "pagination",
+      "label": "Pagination",
+      "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "slash",
+      "label": "Slash",
+      "description": "Diagonal line element indicating an unavailable or crossed-out state (e.g. swatch)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "square",
+      "label": "Square",
+      "description": "Square-shaped anatomy element (e.g. checkerboard tile)",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "well",
+      "label": "Well",
+      "description": "Recessed background area within a component (e.g. card)",
+      "usedIn": ["tokens"]
     }
   ]
 }
