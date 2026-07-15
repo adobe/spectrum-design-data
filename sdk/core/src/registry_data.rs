@@ -2062,6 +2062,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "CSS min-width constraint (design-system abstraction)"
     },
     {
+      "id": "default-width",
+      "label": "Default Width",
+      "description": "Default width sizing for field components (design-system abstraction)"
+    },
+    {
       "id": "minimum-height",
       "label": "Minimum Height",
       "description": "CSS min-height constraint (design-system abstraction)"
@@ -2938,6 +2943,11 @@ const QUALIFIERS_JSON: &str = r##"{
       "id": "highlight",
       "label": "Highlight",
       "description": "Emphasized highlight treatment"
+    },
+    {
+      "id": "has-stepper",
+      "label": "Has stepper",
+      "description": "Configuration where the in-field stepper buttons are shown; inverse of the hideStepper component option."
     }
   ]
 }

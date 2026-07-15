@@ -37,6 +37,11 @@
       "id": "highlight",
       "label": "Highlight",
       "description": "Emphasized highlight treatment"
+    },
+    {
+      "id": "has-stepper",
+      "label": "Has stepper",
+      "description": "Configuration where the in-field stepper buttons are shown; inverse of the hideStepper component option."
     }
   ]
 }

@@ -234,6 +234,11 @@
       "description": "CSS min-width constraint (design-system abstraction)"
     },
     {
+      "id": "default-width",
+      "label": "Default Width",
+      "description": "Default width sizing for field components (design-system abstraction)"
+    },
+    {
       "id": "minimum-height",
       "label": "Minimum Height",
       "description": "CSS min-height constraint (design-system abstraction)"

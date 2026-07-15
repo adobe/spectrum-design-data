@@ -79,6 +79,10 @@ const KNOWN_GAP_TERMS = {
 const EXTRA_TERMS = [
   // State aliases used in tokens (registry has keyboard-focus, tokens use key-focus)
   { segments: ["key", "focus"], field: "state", id: "key-focus" },
+  // "with stepper" is the published phrasing for the has-stepper qualifier
+  // (number-field's hideStepper option, inverted). "with" alone isn't a
+  // registered term; this two-segment phrase is what's recognizable.
+  { segments: ["with", "stepper"], field: "qualifier", id: "has-stepper" },
 ];
 
 /**

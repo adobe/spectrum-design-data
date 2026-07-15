@@ -6876,8 +6876,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-extra-large",
       "component": "field",
+      "property": "default-width",
+      "size": "xl",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6888,8 +6889,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-extra-large",
       "component": "field",
+      "property": "default-width",
+      "size": "xl",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6900,8 +6902,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-large",
       "component": "field",
+      "property": "default-width",
+      "size": "l",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6912,8 +6915,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-large",
       "component": "field",
+      "property": "default-width",
+      "size": "l",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6924,8 +6928,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-medium",
       "component": "field",
+      "property": "default-width",
+      "size": "m",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6936,8 +6941,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-medium",
       "component": "field",
+      "property": "default-width",
+      "size": "m",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6948,8 +6954,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-small",
       "component": "field",
+      "property": "default-width",
+      "size": "s",
       "scale": "desktop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -6960,8 +6967,9 @@
   },
   {
     "name": {
-      "property": "field-default-width-small",
       "component": "field",
+      "property": "default-width",
+      "size": "s",
       "scale": "mobile"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -9552,8 +9560,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-extra-large",
-      "scale": "desktop"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "xl",
+      "scale": "desktop",
+      "legacyKey": "number-field-with-stepper-minimum-width-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "168px",
@@ -9564,8 +9575,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-extra-large",
-      "scale": "mobile"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "xl",
+      "scale": "mobile",
+      "legacyKey": "number-field-with-stepper-minimum-width-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "198px",
@@ -9576,8 +9590,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-large",
-      "scale": "desktop"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "l",
+      "scale": "desktop",
+      "legacyKey": "number-field-with-stepper-minimum-width-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "144px",
@@ -9588,8 +9605,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-large",
-      "scale": "mobile"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "l",
+      "scale": "mobile",
+      "legacyKey": "number-field-with-stepper-minimum-width-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "174px",
@@ -9600,8 +9620,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-medium",
-      "scale": "desktop"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "m",
+      "scale": "desktop",
+      "legacyKey": "number-field-with-stepper-minimum-width-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "120px",
@@ -9612,8 +9635,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-medium",
-      "scale": "mobile"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "m",
+      "scale": "mobile",
+      "legacyKey": "number-field-with-stepper-minimum-width-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "150px",
@@ -9624,8 +9650,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-small",
-      "scale": "desktop"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "s",
+      "scale": "desktop",
+      "legacyKey": "number-field-with-stepper-minimum-width-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "104px",
@@ -9636,8 +9665,11 @@
   {
     "name": {
       "component": "number-field",
-      "property": "with-stepper-minimum-width-small",
-      "scale": "mobile"
+      "qualifier": "has-stepper",
+      "property": "minimum-width",
+      "size": "s",
+      "scale": "mobile",
+      "legacyKey": "number-field-with-stepper-minimum-width-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "126px",

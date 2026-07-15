@@ -162,6 +162,18 @@ test("matches key-focus as keyboard-focus state", (t) => {
   t.is(result.nameObject.state, "keyboard-focus");
 });
 
+test("matches with-stepper as has-stepper qualifier", (t) => {
+  const result = decompose(
+    "number-field-with-stepper-minimum-width-small",
+    {},
+    registry,
+    "test",
+  );
+  t.is(result.nameObject.qualifier, "has-stepper");
+  t.is(result.nameObject.property, "minimum-width");
+  t.is(result.nameObject.size, "s");
+});
+
 test("serializes name object in spec order", (t) => {
   const nameObj = {
     variant: "accent",
