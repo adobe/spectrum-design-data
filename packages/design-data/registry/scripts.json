@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "script",
+  "description": "Writing-system identifiers for typography tokens. Assigned via the `script` name-object field. Represents the script/writing-system a typeface variant supports, orthogonal to `family` (which represents typeface classification, e.g. serif vs. sans-serif).",
+  "values": [
+    {
+      "id": "cjk",
+      "label": "CJK",
+      "description": "Ideographic scripts used for Chinese, Japanese, and Korean (e.g. Adobe Clean Han)"
+    }
+  ]
+}

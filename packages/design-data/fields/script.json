@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "script",
+  "description": "Writing-system/script variant of a typography token (e.g. cjk). Orthogonal to `family` (typeface classification): a script and a family can combine independently (e.g. a CJK serif).",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/scripts.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 6
+  },
+  "scope": "typography",
+  "required": false,
+  "valueType": "string",
+  "excludeFromLegacyKey": false
+}

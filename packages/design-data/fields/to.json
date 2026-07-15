@@ -7,7 +7,7 @@
   "registry": null,
   "validation": "advisory",
   "serialization": {
-    "position": 25
+    "position": 26
   },
   "scope": null,
   "required": false,

@@ -95,3 +95,30 @@ hyphen-joining atomic modifiers, per the compound-state pattern.
 This keeps `family` and `emphasis` distinct from the CSS-axis `weight`/`style` fields, which model
 actual `font-weight`/`font-style` values (e.g. `weight: "bold"`) rather than a relative emphasis
 modifier layered on a family/component.
+
+## Amendment (2026-07-14) — `script` reinstated, `family`/`cjk` fold reversed
+
+The 2026-07-08 call that `cjk` is "a family value, not an independent dimension" is reversed. Two
+things the original decision overlooked:
+
+1. **`family` and the writing-system distinction are orthogonal, not the same axis.** Adobe ships
+   Source Han **Sans** *and* Source Han **Serif** — "CJK serif" is a real, expressible combination
+   in Adobe's own font foundry. Folding `cjk` into `family` makes `cjk` and `serif` mutually
+   exclusive by construction, which cannot represent that combination. That is the textbook
+   definition of an independent dimension, not a duplicate one.
+2. **`family` collides with `property: "font-family"` at the token level.** A name object like
+   `{ property: "font-family", family: "cjk" }` uses "family" at two different altitudes in the
+   same object — the CSS property being set, and the variant axis — which reads as ambiguous.
+
+Adobe's own S2 design docs (`docs/s2-docs/designing/fonts.md`) already organize fonts by *script*
+("ideographic scripts", "Thai script", "Arabic script", "Devanagari script") — `script` is
+established Adobe terminology, not an invented term.
+
+Reinstating the proposal as originally written: `script` (value `cjk`, registry
+`packages/design-data/registry/scripts.json`) is a first-class field, serialized immediately
+before `family` (`component-script-family-emphasis-…-property-…`). `family` is narrowed back to
+true typeface classifications (`sans-serif`, `serif`, `code`); `cjk` is removed from
+`typography-families.json`. All existing `family: "cjk"` tokens are migrated to `script: "cjk"`.
+
+Per-region future granularity (e.g. Adobe-Japan1 / Adobe-Korea1 character-collection precision) is
+a *value* split on `script` (`script: "japanese" | "korean" | …`) if ever needed, not a new field.

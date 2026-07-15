@@ -19,10 +19,12 @@
 //!   (ramp step without family context) is still sortable, and a token with only
 //!   `colorFamily` (non-ramp token such as transparent-black) is also valid.
 //! - Typography tokens (font-*.json, typography.json, multiplier.json) SHOULD have
-//!   `family`, `weight`, `style`, `scaleIndex`, or `structure`. The last two cover
-//!   typography-domain multiplier tokens (line-height ratios, margin multipliers)
-//!   which are identified by scale position or typography-scale category rather than
-//!   typeface attributes.
+//!   `family`, `script`, `weight`, `style`, `scaleIndex`, or `structure`. `script`
+//!   covers writing-system variants (e.g. cjk), orthogonal to `family` (typeface
+//!   classification) — see `docs/proposals/001-typography-taxonomy.md`. The last two
+//!   (`scaleIndex`, `structure`) cover typography-domain multiplier tokens
+//!   (line-height ratios, margin multipliers) which are identified by scale position
+//!   or typography-scale category rather than typeface attributes.
 //! - Motion tokens (duration.json, easing.json, motion.json) SHOULD have
 //!   `motionRole` or `easing`.
 //!
@@ -46,6 +48,7 @@ fn has_required_fields(
         "color" => name_obj.contains_key("colorFamily") || name_obj.contains_key("scaleIndex"),
         "typography" => {
             name_obj.contains_key("family")
+                || name_obj.contains_key("script")
                 || name_obj.contains_key("weight")
                 || name_obj.contains_key("style")
                 || name_obj.contains_key("scaleIndex")
@@ -107,7 +110,7 @@ impl ValidationRule for Rule {
 fn required_fields_description(domain: &str) -> &'static str {
     match domain {
         "color" => "colorFamily, scaleIndex",
-        "typography" => "family, weight, style, scaleIndex, structure",
+        "typography" => "family, script, weight, style, scaleIndex, structure",
         "motion" => "motionRole, easing",
         _ => "(unknown)",
     }
@@ -181,6 +184,15 @@ mod tests {
         let g = make_token(
             FONT_WEIGHT_SCHEMA,
             json!({ "property": "font-weight", "weight": "bold" }),
+        );
+        assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
+    }
+
+    #[test]
+    fn typography_with_script_no_warning() {
+        let g = make_token(
+            FONT_WEIGHT_SCHEMA,
+            json!({ "property": "font-weight", "script": "cjk" }),
         );
         assert!(diagnostics_for_rule(&g, "SPEC-043").is_empty());
     }

@@ -16,8 +16,8 @@
 //!
 //! ```text
 //! {variant?}-{component?}-{structure?}-{substructure?}-{anatomy?}-{object?}
-//! -{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}-{density?}
-//! -{shape?}-{state?}
+//! -{script?}-{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}
+//! -{density?}-{shape?}-{state?}
 //! ```
 //!
 //! Registry ids are expanded to their `tokenName` long-forms before joining
@@ -28,7 +28,7 @@
 //! (`colorFamily`, `colorRole`), and `scaleIndex` are excluded from the general key.
 //! Color-palette tokens have their own path: `{variant?}-{colorFamily}-{scaleIndex?}`.
 //! `weight`/`style` (CSS font-weight/font-style values) remain excluded pending their
-//! own decomposition pass — only `family`/`emphasis` are enabled so far.
+//! own decomposition pass — only `script`/`family`/`emphasis` are enabled so far.
 
 use std::collections::HashSet;
 use std::path::Path;
@@ -668,6 +668,22 @@ mod tests {
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("button-background-color-extra-large")
+        );
+    }
+
+    #[test]
+    fn extract_key_script_sorts_before_family_and_property() {
+        // script (pos 6) before family (pos 7) before emphasis (pos 8) before property (pos 9).
+        let name = json!({
+            "component": "body",
+            "script": "cjk",
+            "family": "serif",
+            "emphasis": "strong",
+            "property": "font-weight"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("body-cjk-serif-strong-font-weight")
         );
     }
 

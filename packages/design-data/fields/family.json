@@ -2,12 +2,12 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
   "specVersion": "1.0.0-draft",
   "name": "family",
-  "description": "Type family of a typography token (e.g. sans-serif, serif, cjk, code). Used to distinguish tokens that apply to different script or display contexts.",
+  "description": "Type family of a typography token (e.g. sans-serif, serif, code). Used to distinguish tokens that apply to different typeface classifications or usage contexts. See `script` for writing-system variants (e.g. cjk).",
   "kind": "semantic",
   "registry": "packages/design-data/registry/typography-families.json",
   "validation": "advisory",
   "serialization": {
-    "position": 6
+    "position": 7
   },
   "scope": "typography",
   "required": false,

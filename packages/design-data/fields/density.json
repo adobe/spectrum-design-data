@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/densities.json",
   "validation": "advisory",
   "serialization": {
-    "position": 12
+    "position": 13
   },
   "scope": null,
   "required": false,

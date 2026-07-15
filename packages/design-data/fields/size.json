@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/sizes.json",
   "validation": "advisory",
   "serialization": {
-    "position": 11
+    "position": 12
   },
   "scope": null,
   "required": false,

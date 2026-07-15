@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/orientations.json",
   "validation": "advisory",
   "serialization": {
-    "position": 9
+    "position": 10
   },
   "scope": null,
   "required": false,
