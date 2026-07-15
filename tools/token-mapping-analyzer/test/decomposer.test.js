@@ -109,7 +109,7 @@ test("matches typography family and emphasis as real fields, not gaps", (t) => {
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "emphasized");
   t.is(result.nameObject.property, "font-weight");
   t.is(result.confidence, "HIGH");
@@ -124,21 +124,21 @@ test("compounds adjacent emphasis terms into one hyphen-joined value", (t) => {
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "light-strong");
   t.is(result.nameObject.property, "font-weight");
   t.is(result.confidence, "HIGH");
   t.true(result.roundtrips);
 });
 
-test("compounds emphasis terms alongside anatomy and family", (t) => {
+test("compounds emphasis terms alongside anatomy and script", (t) => {
   const result = decompose(
     "body-cjk-strong-emphasized-font-weight",
     { component: "body" },
     registry,
     "test",
   );
-  t.is(result.nameObject.family, "cjk");
+  t.is(result.nameObject.script, "cjk");
   t.is(result.nameObject.emphasis, "strong-emphasized");
   t.is(result.nameObject.property, "font-weight");
   t.true(result.roundtrips);

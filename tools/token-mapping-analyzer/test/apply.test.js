@@ -248,8 +248,8 @@ test("applySpaceBetween skips tokens already migrated", (t) => {
   t.is(applied, 0);
 });
 
-// A property string that stacks two concepts (family + emphasis) must have both
-// extracted together in one applyField call, even though only "family" was
+// A property string that stacks two concepts (script + emphasis) must have both
+// extracted together in one applyField call, even though only "script" was
 // requested: decompose() strips both from `property` at once, so writing back
 // only the targeted field (and the fully-stripped property) would silently
 // drop the other and break the roundtrip. Regression test for that bug.
@@ -264,13 +264,13 @@ test("applyField extracts co-occurring fields together to preserve the roundtrip
 
   const { applied } = applyField(
     tokens,
-    "family",
+    "script",
     registry,
     "fixture.tokens.json",
   );
 
   t.is(applied, 1);
-  t.is(tokens[0].name.family, "cjk");
+  t.is(tokens[0].name.script, "cjk");
   t.is(tokens[0].name.emphasis, "strong");
   t.is(tokens[0].name.property, "font-weight");
   t.is(
