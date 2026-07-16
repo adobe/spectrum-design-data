@@ -32,6 +32,13 @@
       "usedIn": ["component-schemas"]
     },
     {
+      "id": "quiet",
+      "label": "Quiet",
+      "description": "Reduced-visual-weight emphasis variant (e.g. no visible border/background until interaction)",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "positive",
       "label": "Positive",
       "description": "Affirmative or positive action variant",

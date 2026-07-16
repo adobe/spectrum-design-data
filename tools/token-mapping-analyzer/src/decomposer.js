@@ -57,6 +57,9 @@ const COMPOUND_PROPERTIES = [
   "component-size-difference",
   "component-size-maximum-perspective",
   "component-size-width-ratio",
+  "width-multiplier",
+  "minimum-width-multiplier",
+  "maximum-width-multiplier",
 ];
 
 /**

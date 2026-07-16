@@ -36,6 +36,13 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["component-schemas"]
     },
     {
+      "id": "quiet",
+      "label": "Quiet",
+      "description": "Reduced-visual-weight emphasis variant (e.g. no visible border/background until interaction)",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "positive",
       "label": "Positive",
       "description": "Affirmative or positive action variant",
@@ -2076,6 +2083,21 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "maximum-width",
       "label": "Maximum Width",
       "description": "CSS max-width constraint (design-system abstraction)"
+    },
+    {
+      "id": "width-multiplier",
+      "label": "Width Multiplier",
+      "description": "Unitless ratio used at the implementation level to derive a width from another dimension (design-system abstraction; design-data has no calc(), reuses the multiplier value schema shared with line-height/margin)"
+    },
+    {
+      "id": "minimum-width-multiplier",
+      "label": "Minimum Width Multiplier",
+      "description": "Unitless ratio used at the implementation level to derive a minimum width from another dimension (design-system abstraction; design-data has no calc(), reuses the multiplier value schema shared with line-height/margin)"
+    },
+    {
+      "id": "maximum-width-multiplier",
+      "label": "Maximum Width Multiplier",
+      "description": "Unitless ratio used at the implementation level to derive a maximum width from another dimension (design-system abstraction; design-data has no calc(), reuses the multiplier value schema shared with line-height/margin)"
     },
     {
       "id": "thickness",
