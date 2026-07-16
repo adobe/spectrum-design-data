@@ -385,8 +385,8 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
   // another registry loses by default (weight/style aren't in fieldPriority):
   // "black" is also a variant/color name, "medium" is also a size alias (id "m").
   const typographyProperty =
-    typeof nameObject.property === "string" &&
-    nameObject.property.startsWith("font-");
+    nameObject.property === "font-weight" ||
+    nameObject.property === "font-style";
   const priority = (f) => {
     if (typographyProperty && (f === "weight" || f === "style")) return -1;
     const i = fieldPriority.indexOf(f);
