@@ -1157,6 +1157,34 @@
       "message": "Known naming exception: 'side-focus-indicator' does not match canonical generation rules (tracked in naming-exceptions.json)"
     },
     {
+      "file": "./src/layout.json",
+      "token": "tab-gap-horizontal-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-gap-horizontal-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "tab-gap-horizontal-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-gap-horizontal-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "tab-gap-horizontal-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-gap-horizontal-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "tab-gap-horizontal-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-gap-horizontal-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
       "file": "./src/typography.json",
       "token": "body-cjk-emphasized-font-style",
       "rule_id": "SPEC-007",

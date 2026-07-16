@@ -5603,7 +5603,12 @@
   },
   {
     "name": {
-      "property": "tab-gap-horizontal-extra-large"
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "property": "gap",
+      "orientation": "horizontal",
+      "size": "xl",
+      "legacyKey": "tab-gap-horizontal-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
@@ -5612,7 +5617,12 @@
   },
   {
     "name": {
-      "property": "tab-gap-horizontal-large"
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "property": "gap",
+      "orientation": "horizontal",
+      "size": "l",
+      "legacyKey": "tab-gap-horizontal-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
@@ -5621,7 +5631,12 @@
   },
   {
     "name": {
-      "property": "tab-gap-horizontal-medium"
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "property": "gap",
+      "orientation": "horizontal",
+      "size": "m",
+      "legacyKey": "tab-gap-horizontal-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -5630,7 +5645,12 @@
   },
   {
     "name": {
-      "property": "tab-gap-horizontal-small"
+      "component": "tabs",
+      "anatomy": "tab-item",
+      "property": "gap",
+      "orientation": "horizontal",
+      "size": "s",
+      "legacyKey": "tab-gap-horizontal-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",

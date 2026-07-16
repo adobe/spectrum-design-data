@@ -1191,6 +1191,30 @@
       "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
     },
     {
+      "token": "tab-gap-horizontal-extra-large",
+      "file": "layout.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key; 'tab' resolves via decomposer alias to anatomy term tab-item, whose canonical serialization diverges from the original 'tab' segment"
+    },
+    {
+      "token": "tab-gap-horizontal-large",
+      "file": "layout.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key; 'tab' resolves via decomposer alias to anatomy term tab-item, whose canonical serialization diverges from the original 'tab' segment"
+    },
+    {
+      "token": "tab-gap-horizontal-medium",
+      "file": "layout.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key; 'tab' resolves via decomposer alias to anatomy term tab-item, whose canonical serialization diverges from the original 'tab' segment"
+    },
+    {
+      "token": "tab-gap-horizontal-small",
+      "file": "layout.json",
+      "category": "anatomy-decomposition",
+      "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key; 'tab' resolves via decomposer alias to anatomy term tab-item, whose canonical serialization diverges from the original 'tab' segment"
+    },
+    {
       "token": "tab-item-bottom-to-text-compact-extra-large",
       "file": "layout-component.json",
       "category": "anatomy-decomposition",

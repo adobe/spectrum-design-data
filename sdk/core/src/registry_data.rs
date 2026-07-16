@@ -1526,6 +1526,7 @@ const ANATOMY_TERMS_JSON: &str = r##"{
     {
       "id": "tab-item",
       "label": "Tab Item",
+      "aliases": ["tab"],
       "description": "Individual tab button within a tabs component",
       "usedIn": ["tokens", "s2-docs"]
     },

@@ -3531,24 +3531,28 @@
   },
   "tab-gap-horizontal-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
     "value": "{spacing-600}",
     "uuid": "0c958750-2c96-453b-9464-f041ac126749",
     "description": "Spacing between child elements for tab components at extra-large size"
   },
   "tab-gap-horizontal-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
     "value": "{spacing-500}",
     "uuid": "8932b4cf-300f-4377-bbda-7fc02011cd37",
     "description": "Spacing between child elements for tab components at large size"
   },
   "tab-gap-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
     "value": "{spacing-400}",
     "uuid": "7a5f3049-0c20-4ff8-84ea-d161e58546fb",
     "description": "Spacing between child elements for tab components at medium size"
   },
   "tab-gap-horizontal-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
     "value": "{spacing-350}",
     "uuid": "a41aaa58-77af-476e-9050-4f4864c8c3f9",
     "description": "Spacing between child elements for tab components at small size"
