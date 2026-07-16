@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-mcp",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "MCP server for Spectrum design tokens, component schemas, and design guidelines (embedded, offline)",
   "type": "module",
   "main": "./src/index.js",

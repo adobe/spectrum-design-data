@@ -1,5 +1,281 @@
 # @adobe/spectrum-design-data
 
+## 0.9.0
+
+### Minor Changes
+
+- [#1223](https://github.com/adobe/spectrum-design-data/pull/1223) [`e77c2b3`](https://github.com/adobe/spectrum-design-data/commit/e77c2b3519e75a07815c2905ac0bd0d7bef042c2) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-048 to validate nested anatomy `contains` references, and populate `contains`
+  for the menu, list-view, and table composite items (closes spectrum-design-data-5us).
+  - **packages/design-data-spec/rules/rules.yaml**: add SPEC-048 `anatomy-contains-resolves`
+    (warning) — a `contains` entry SHOULD match a sibling anatomy part's `name`.
+  - **packages/design-data-spec/schemas/{anatomy-part,component}.schema.json**: update the
+    `contains` field description now that it has a validation rule.
+  - **packages/design-data-spec/spec/anatomy-format.md**: document the flat-vs-`contains`
+    authoring convention and the new rule.
+  - **sdk/core/src/validate/rules/spec048.rs**: implement the rule; register in `mod.rs`.
+  - **packages/design-data/components/menu.json**: declare `menu-item`'s child parts
+    (icon, label, description, value, switch, checkbox, thumbnail, drill-in-chevron,
+    link-out-icon) and populate `contains`.
+  - **packages/design-data/components/list-view.json**: add an `anatomy` array with
+    `list-item` and its child parts.
+  - **packages/design-data/components/table.json**: populate `row`'s `contains` with the
+    existing `row-checkbox` part.
+
+- [#1232](https://github.com/adobe/spectrum-design-data/pull/1232) [`555047a`](https://github.com/adobe/spectrum-design-data/commit/555047a1c54366342a3a1fc550918b14cb3d5820) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose density-compound `property` slugs into the atomic `density` (and
+  co-occurring `size`/`space-between`) fields (closes spectrum-design-data-7zs).
+  - **packages/design-data/tokens/layout-component.tokens.json**,
+    **layout.tokens.json**: migrate 71 tokens whose `property` baked in
+    `compact`/`spacious` (e.g. `height-compact`, `spacing-spacious`) into
+    `density` plus the already-registered `size`/`space-between` fields, via
+    `tools/token-mapping-analyzer/src/apply.js --field density`. Data-only —
+    no Rust or tooling changes required; the density field, registry, and
+    `naming.rs` roundtrip already existed.
+  - **packages/design-data/tokens/layout.tokens.json**: decomposing the
+    `accessory`/`base`/`group`/`list`/`banner` qualifier into the `structure`
+    field would have silently changed 52 published keys in
+    `packages/tokens/src/layout.json` (`structure` is excluded from legacy-key
+    reconstruction). Pinned `name.legacyKey` on those 52 tokens to their
+    original published keys so the decomposition stays publish-invisible.
+
+- [#1234](https://github.com/adobe/spectrum-design-data/pull/1234) [`84c3f09`](https://github.com/adobe/spectrum-design-data/commit/84c3f09d7b48744c24d45e63ecba7f07cc94e5fd) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose drop-shadow-property and context-modifier residual tokens per
+  proposal 004 (closes spectrum-design-data-dsi.1).
+  - **packages/design-data/registry/structures.json**: add the `drop-shadow`
+    structure entry.
+  - **packages/design-data/registry/variants.json**: register `ambient`,
+    `dragged`, `elevated`, `pasteboard`, `elevated-key`, `dragged-key` context
+    variants.
+  - **packages/design-data/registry/property-terms.json**: add `x`/`y`
+    property terms for drop-shadow offsets.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: remove `drop-shadow`
+    from `COMPOUND_PROPERTIES` and drop the now-redundant `context-modifier`/
+    `drop-shadow-property` `KNOWN_GAP_TERMS` entries.
+  - **packages/design-data/tokens/{color-aliases,color-component,layout,
+    layout-component}.tokens.json**: migrate 70 tokens into `structure`/
+    `variant`/`property` fields. `structure` is excluded from legacy-key
+    reconstruction in `naming.rs`, so `name.legacyKey` is pinned on every
+    touched token to keep the decomposition publish-invisible.
+
+- [#1240](https://github.com/adobe/spectrum-design-data/pull/1240) [`14d3b48`](https://github.com/adobe/spectrum-design-data/commit/14d3b48b7efd80f06f42587b05b230fa2f353a6e) Thanks [@GarthDB](https://github.com/GarthDB)! - Register `has-stepper` qualifier + `default-width` property and decompose the
+  number-field stepper and field default-width tokens (closes spectrum-design-data-dsi.2.1).
+  - **packages/design-data/registry/{qualifiers,property-terms}.json**: add
+    `has-stepper` qualifier and `default-width` property term.
+  - **packages/design-data/tokens/layout-component.tokens.json**: decompose 4
+    `number-field-with-stepper-minimum-width-*` tokens to `qualifier: has-stepper`
+    - `property: minimum-width`, pinning `name.legacyKey`; decompose
+      `field-default-width-*` to `{component: field, property: default-width, size}`
+      (roundtrips clean, no legacyKey needed).
+  - **tools/token-mapping-analyzer/src/decomposer.js**: register the `with`+
+    `stepper` phrase as the `has-stepper` qualifier so the published key still
+    decomposes cleanly.
+  - **sdk/core/src/registry_data.rs**: regenerated from the registry changes.
+
+- [#1241](https://github.com/adobe/spectrum-design-data/pull/1241) [`519c444`](https://github.com/adobe/spectrum-design-data/commit/519c4443474e01f807f383fc482cabe30fa1a456) Thanks [@GarthDB](https://github.com/GarthDB)! - Register a `role` name-object field and `full`/`none` shape values, and decompose the
+  11 corner-radius special-value tokens (closes spectrum-design-data-dsi.2.3).
+  - **packages/design-data/fields/role.json**, **registry/roles.json**: new `role`
+    name-object field (`container`, `control`) distinguishing an object's position in a
+    nesting relationship from its `size` — the 9 `corner-radius-{small,medium}-size-*`
+    tokens are two overlapping radius scales (container vs. nested control rounding),
+    not one scale modulated by size.
+  - **registry/shapes.json**: add `full`/`none` shape values for `corner-radius-full`
+    and `corner-radius-none`.
+  - **packages/design-data/tokens/layout.tokens.json**: decompose all 11 tokens to
+    `{property: corner-radius, shape | role, size}`, pinning `name.legacyKey` on each.
+  - **packages/design-data-spec/schemas/token.schema.json**, **spec/{taxonomy,token-format}.md**:
+    document the new `role` field.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: add `role` to the fallback
+    serialization order.
+  - **sdk/core/src/registry_data.rs**: regenerated from the registry changes.
+
+- [#1236](https://github.com/adobe/spectrum-design-data/pull/1236) [`9f5401f`](https://github.com/adobe/spectrum-design-data/commit/9f5401f1281932e7efff0bcbdbc50f69d2f3fea5) Thanks [@GarthDB](https://github.com/GarthDB)! - Register color/layout/qualifier vocab and migrate affected tokens per
+  proposal 006 (closes spectrum-design-data-dsi.2.5).
+  - **packages/design-data/fields/qualifier.json**, **registry/qualifiers.json**:
+    new `qualifier` name-object field (`stacked`, `multiline`, `precision`,
+    `collapsed`, `expanded`, `drag`, `highlight`).
+  - **registry/{positions,anatomy-terms,sizes,property-terms,shapes,
+    structures,color-roles,components}.json**: register `inner`/`outer`/
+    `below`, `pagination`/`slash`/`square`/`well`, `xxxxl`, `minimum`/
+    `minimum-padding-vertical`/`component-size-minimum-perspective`,
+    `rectangle`, `drop-target`, `color-control`, and 6 semantic color roles.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: register two compound
+    property terms; drop `inner`/`outer` from `KNOWN_GAP_TERMS`.
+  - **packages/design-data-spec/schemas/token.schema.json**: list `qualifier`
+    explicitly in `$defs.nameObject.properties`.
+  - **packages/design-data/tokens/{color-aliases,semantic-color-palette,
+    color-component,layout-component,layout,typography}.tokens.json**: migrate
+    affected tokens into structured fields, pinning `name.legacyKey` on each.
+
+- [#1239](https://github.com/adobe/spectrum-design-data/pull/1239) [`204d1ad`](https://github.com/adobe/spectrum-design-data/commit/204d1ad43300d516d75e384509c33b480342b217) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix compound-property matching for line-height/component-size tokens and
+  register the missing component-size vocabulary (closes
+  spectrum-design-data-dsi.2.6).
+  - **tools/token-mapping-analyzer/src/decomposer.js**: register
+    `line-height-font-size`, `component-height`, `component-size-difference`,
+    `component-size-maximum-perspective`, and `component-size-width-ratio` as
+    compound properties, fixing 26 tokens previously flagged as unmatched
+    vocabulary gaps.
+  - **registry/property-terms.json**: register `component-size-maximum-perspective`,
+    `component-size-difference`, and `component-size-width-ratio` (parity with
+    the existing `component-size-minimum-perspective` entry); these calculate
+    the CSS perspective transform for S2 components' pressed/"down"-state
+    scale-down effect.
+
+- [#1242](https://github.com/adobe/spectrum-design-data/pull/1242) [`46449db`](https://github.com/adobe/spectrum-design-data/commit/46449dbcbdbeffb256fb857d3f878b8b376ccb91) Thanks [@GarthDB](https://github.com/GarthDB)! - Promote `weight`/`style` to Phase D decomposition for 8 typography tokens
+  whose qualifier was fused into `property` (closes spectrum-design-data-dsi.2.7).
+  - **packages/design-data/fields/weight.json**, **style.json**: drop
+    `excludeFromLegacyKey` (mirrors `size`).
+  - **packages/design-data/tokens/typography.tokens.json**,
+    **packages/token-names/names/typography.json**: strip the qualifier
+    from `property` and pin `legacyKey` on the 8 affected tokens.
+  - **sdk/core/src/registry_data.rs**: regenerated field catalog
+    (`sdk:codegen`). `packages/tokens/src/typography.json` diff is empty.
+  - **sdk/core/src/naming.rs**: update design-intent comment and tests.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: fix a
+    field-priority ambiguity that misassigned `black`/`medium` to
+    `variant`/`size` instead of `weight` once `property` is font-weight/style.
+
+- [#1226](https://github.com/adobe/spectrum-design-data/pull/1226) [`d7976e0`](https://github.com/adobe/spectrum-design-data/commit/d7976e05dc1d70b8330ff716f35d74f6b2f8fcbb) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a typography `emphasis` field and decompose overloaded typography `property`
+  values into `family`/`emphasis` (closes spectrum-design-data-pur).
+  - **packages/design-data/fields/emphasis.json**: new field for typography emphasis
+    (`strong`, `light`, `heavy`, `emphasized`, `non-emphasized`, and compounds).
+  - **packages/design-data/registry/typography-emphasis.json**: new registry backing
+    the `emphasis` field.
+  - **packages/design-data/fields/family.json**: `excludeFromLegacyKey` flipped to
+    `false` so `family` now participates in legacy key reconstruction.
+  - **packages/design-data/registry/property-terms.json**: register atomic typography
+    properties (margin/margin-multiplier variants, `text-transform`).
+  - **sdk/core/src/naming.rs**: serialize `family`/`emphasis` into the legacy key.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: match `family`/`emphasis`
+    registry terms (including compound runs) instead of parking them as gaps.
+  - **packages/design-data/tokens/typography.tokens.json**,
+    **layout-component.tokens.json**: migrate 197 tokens to the new `family`/`emphasis`
+    fields via `tools/token-mapping-analyzer/src/apply.js`.
+
+- [#1231](https://github.com/adobe/spectrum-design-data/pull/1231) [`62e74d7`](https://github.com/adobe/spectrum-design-data/commit/62e74d7f4d59bcc3e63fbc5b7c594f65ef78b024) Thanks [@GarthDB](https://github.com/GarthDB)! - Register 4 cross-cutting anatomy sub-parts as first-class components (part of
+  spectrum-design-data-46d), clearing the remaining 71 SPEC-009 warnings. No token data
+  changes — these values are reused across multiple unrelated components with no single
+  accurate parent, so each is registered directly rather than routed via `anatomy`.
+  - **packages/design-data/registry/components.json**: add `bar-panel` (6 tokens),
+    `field` (8), `in-field-button` (25), `stack-item` (32).
+
+- [#1229](https://github.com/adobe/spectrum-design-data/pull/1229) [`b4f79db`](https://github.com/adobe/spectrum-design-data/commit/b4f79db78d8b889b46b98d0fc26d424c1d4fe5fe) Thanks [@GarthDB](https://github.com/GarthDB)! - Route tab-item, menu-item, and in-field-stepper anatomy sub-parts to their real parent
+  component, clearing 123 SPEC-009 warnings (part of spectrum-design-data-uep; remaining
+  71 tokens tracked separately pending a taxonomy ruling).
+  - **packages/design-data/registry/anatomy-terms.json**: add `in-field-stepper`; mark
+    `tab-item`/`menu-item` `usedIn: ["tokens"]`.
+  - **packages/design-data/tokens/{layout,color}-component.tokens.json**: 123 tokens gain
+    `component` (real parent: `tabs`, `menu`, `number-field`) + `anatomy` (sub-part) + a
+    pinned `legacyKey` so the published key is unchanged.
+  - **packages/tokens/src/{layout,color}-component.json**: regenerated; only the flat
+    `component` attribute value changed (67 tokens), no key renames.
+  - **packages/tokens/naming-exceptions.json** / **validation-snapshot.json**: track the
+    49 tokens whose pinned legacy key no longer roundtrips through canonical name
+    generation (category `anatomy-decomposition`).
+  - **packages/tokens/test/checkComponentProps.js**: recognize anatomy sub-part prefixes
+    (via the anatomy registry) as valid even when they don't match `component`.
+  - **sdk/core/src/migrate.rs**: `thin_name_val` now pins `legacyKey` when a corrected
+    `component` no longer reproduces the original key, fixing legacy→cascade roundtrip.
+
+- [#1231](https://github.com/adobe/spectrum-design-data/pull/1231) [`62e74d7`](https://github.com/adobe/spectrum-design-data/commit/62e74d7f4d59bcc3e63fbc5b7c594f65ef78b024) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a first-class `icon` name field (part of spectrum-design-data-p89), the Rust
+  prerequisite for re-keying icon tokens off `component` to clear ~315 SPEC-009 warnings.
+  No token data changes yet — `icon` is not used by any token in this change.
+  - **packages/design-data/fields/icon.json**: new field, registry-backed, advisory.
+  - **packages/design-data/registry/icon-terms.json**: 12 icon ids (`icon`, `ui`,
+    `checkmark`, `chevron`, `dash`, `arrow`, `cross`, `add`, `link-out`, `drag-handle`,
+    `asterisk`, `gripper`), with `tokenName` long-form expansions for legacy keys.
+  - **sdk/core/src/naming.rs**: `extract_legacy_key` treats `icon` as an alternate,
+    mutually-exclusive owner to `component` — both in the color-domain branch
+    (`{icon}-{property}-{colorFamily?}-{colorRole?}-{state?}`) and a new non-color branch
+    (`{icon-tokenName}-{property}-{state?}`) for layout/dimension icon tokens.
+
+- [#1231](https://github.com/adobe/spectrum-design-data/pull/1231) [`62e74d7`](https://github.com/adobe/spectrum-design-data/commit/62e74d7f4d59bcc3e63fbc5b7c594f65ef78b024) Thanks [@GarthDB](https://github.com/GarthDB)! - Re-key icon tokens off the new `icon` name field (part of spectrum-design-data-aui),
+  clearing ~315 SPEC-009 warnings. Published legacy keys are unchanged.
+  - **packages/design-data/registry/icon-terms.json**: new registry, 12 icon ids (`icon`,
+    `ui`, `checkmark`, `chevron`, `dash`, `arrow`, `cross`, `add`, `link-out`,
+    `drag-handle`, `asterisk`, `gripper`), with `tokenName` long-form expansions.
+  - **packages/design-data/tokens/icons.tokens.json**: 191 tokens re-keyed
+    `component:'icon'` → `icon:'icon'`.
+  - **packages/design-data/tokens/layout-component.tokens.json**: 124 tokens re-keyed
+    `component:'X-icon'` → `icon:'X'` across 11 distinct values.
+  - **sdk/core/src/naming.rs**: `extract_legacy_key` gains an icon (non-color) branch and
+    a thin-format guard so re-keyed tokens still resolve to their original legacy key.
+  - **sdk/core/src/legacy.rs**: legacy-metadata hoisting (`resolve_owner_component`) now
+    falls back to the icon field so published `component` metadata is unaffected.
+  - **packages/tokens/src/icons.json**, **layout-component.json**: regenerated, byte-identical
+    to their pre-change state.
+
+- [#1238](https://github.com/adobe/spectrum-design-data/pull/1238) [`8d8bf09`](https://github.com/adobe/spectrum-design-data/commit/8d8bf0904e716ed86b10f890251980f73f0215c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose the 16 remaining fused-property typography tokens onto proper
+  `component`/`property`/`family`/`script`/`emphasis`/`size` fields (closes
+  spectrum-design-data-1lf).
+  - **packages/design-data/tokens/typography.tokens.json**:
+    `body-cjk-size-{l,m,s,xl,xs,xxl,xxs,xxxl}`, `body-size-xxs`, `heading-cjk-font-weight`,
+    `heading-cjk-size-xxxxl`, `heading-size-xxxxl` get `component`/`property`/`script`/`size`
+    fields, retaining `legacyKey` to pin their published fused name.
+    `heading-{sans-serif,serif}[-emphasized]-font-weight` get `component`/`property`/`family`/
+    `emphasis` fields; their reconstructed names already match the fused originals, so no
+    `legacyKey` pin is needed.
+  - **packages/tokens/src/typography.json**: regenerated legacy output now carries a
+    `component` attribute on these 16 tokens (previously absent) — an accepted, additive
+    publish diff.
+
+- [#1237](https://github.com/adobe/spectrum-design-data/pull/1237) [`02cc09f`](https://github.com/adobe/spectrum-design-data/commit/02cc09fc2a40c8b93ff759dec5573d360815c707) Thanks [@GarthDB](https://github.com/GarthDB)! - Reinstate the `script` field for CJK typography tokens and decompose all
+  font-size tokens to `property:"font-size"` + `size` (closes
+  spectrum-design-data-wix, amends Proposal 001, see spectrum-design-data-526).
+  - **packages/design-data/fields/script.json**, **registry/scripts.json**:
+    new `script` field/registry — `cjk` writing-system variant, orthogonal
+    to `family` (typeface classification). 22 sibling fields renumbered
+    (`serialization.position` +1) to make room.
+  - **packages/design-data/registry/typography-families.json**: drop `cjk`.
+  - **packages/design-data/tokens/typography.tokens.json**: rename
+    `family:"cjk"` → `script:"cjk"` (~63 tokens); decompose fused
+    `code-cjk-*` tokens; decompose most font-size tokens to
+    `property:"font-size"` + `size` + `script`?, `legacyKey` pinned
+    (~47 tokens). 12 tokens kept fused-`property` (legacy escape hatch) to
+    avoid adding a `component` attribute to `@adobe/spectrum-tokens`.
+    `packages/tokens/src/typography.json` diff against `main` is empty.
+  - **sdk/core/src/validate/rules/spec043.rs**: accept `script` as a
+    typography domain-identifying field alongside `family`.
+
+### Patch Changes
+
+- [#1235](https://github.com/adobe/spectrum-design-data/pull/1235) [`b97a7ef`](https://github.com/adobe/spectrum-design-data/commit/b97a7ef5a205969f83eeca421e75983b8b214a72) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `name.legacyKey` on ordering-mismatch residual tokens to keep published
+  keys stable (closes spectrum-design-data-dsi.3).
+  - **packages/design-data/tokens/{color-aliases,color-component,icons,layout,
+    layout-component,semantic-color-palette,typography}.tokens.json**: 224
+    tokens decompose cleanly but their published legacy key's field order
+    (e.g. density-before-size, `key-focus` state ordering) doesn't match
+    the canonical serialize order. `name.legacyKey` is pinned to each
+    token's existing published key via the same escape hatch used by
+    dsi.1, keeping the change publish-invisible.
+
+- [#1225](https://github.com/adobe/spectrum-design-data/pull/1225) [`96ec195`](https://github.com/adobe/spectrum-design-data/commit/96ec1957d0e7ad064c5d25b5b876c2fd3d61c450) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix decomposition of `icon.color-inverse`, `icon.color-inverse-background`, and
+  `color-wheel.color-area-margin` name objects (closes spectrum-design-data-2mh). No
+  behavior change for `@adobe/spectrum-tokens` consumers — the legacy flat keys are pinned
+  via the new `legacyKey` escape hatch.
+  - **packages/design-data/tokens/icons.tokens.json**: decompose the two inverse icon
+    color tokens into `{component, property, variant: "inverse", legacyKey}`.
+  - **packages/design-data/tokens/layout-component.tokens.json**: decompose
+    `color-wheel.color-area-margin` into `{component: "color-wheel", property: "margin",
+anatomy: "color-area"}`.
+  - **sdk/core/src/naming.rs**: `NameObject` gains a `variant` field; `parse_legacy_name`
+    and `generate_legacy_name` recognize context-category variant words (`inverse`,
+    `static`, `over-background`) as a leading key segment. `extract_legacy_key` honors a new
+    `name.legacyKey` override, checked before reconstruction.
+  - **sdk/core/src/migrate.rs**: `build_flat`'s no-context path now attempts decomposition
+    via `naming::roundtrips` before falling back to a thin name, matching `resolve_name`.
+  - **packages/design-data-spec/schemas/token.schema.json**: document the `legacyKey`
+    escape-hatch field on the name object.
+
+- [#1228](https://github.com/adobe/spectrum-design-data/pull/1228) [`ecd5f38`](https://github.com/adobe/spectrum-design-data/commit/ecd5f38dd679730bf1f2b9b3980cd5032ac4a9f1) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync `components.json` with existing component definitions and decompose a misclassified
+  drop-shadow state (part of SPEC-009 triage epic, closes spectrum-design-data-dm2.3).
+  - **packages/design-data/registry/components.json**: add 32 missing component ids — 20 with
+    existing `components/*.json` definitions (`heading`, `tree-view`, `body`, …) and 12 without a
+    dedicated file yet (`date-field`, `floating-action-button`, `card`, the card variants
+    `collection-card`/`user-card`/`card-horizontal`, …).
+  - **packages/design-data/tokens/color-aliases.tokens.json**: decompose the drop-shadow
+    `emphasized` token from `{property: "drop-shadow", state: "emphasized"}` to
+    `{property: "drop-shadow", variant: "emphasized"}` — emphasis isn't an interactive state.
+    A `legacyKey` pins the published flat name so `@adobe/spectrum-tokens` consumers see no change.
+  - **packages/design-data/registry/variants.json**: add `emphasized` (category `emphasis`).
+
 ## 0.8.0
 
 ### Minor Changes

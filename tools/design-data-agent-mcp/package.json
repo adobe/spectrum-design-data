@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-agent-mcp",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "MCP server and Claude Code skill for the design-data agent surface — read tools run in-process via wasm",
   "type": "module",
   "main": "./src/index.js",

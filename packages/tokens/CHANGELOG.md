@@ -1,5 +1,57 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 14.15.0
+
+### Minor Changes
+
+- [#1229](https://github.com/adobe/spectrum-design-data/pull/1229) [`b4f79db`](https://github.com/adobe/spectrum-design-data/commit/b4f79db78d8b889b46b98d0fc26d424c1d4fe5fe) Thanks [@GarthDB](https://github.com/GarthDB)! - Route tab-item, menu-item, and in-field-stepper anatomy sub-parts to their real parent
+  component, clearing 123 SPEC-009 warnings (part of spectrum-design-data-uep; remaining
+  71 tokens tracked separately pending a taxonomy ruling).
+  - **packages/design-data/registry/anatomy-terms.json**: add `in-field-stepper`; mark
+    `tab-item`/`menu-item` `usedIn: ["tokens"]`.
+  - **packages/design-data/tokens/{layout,color}-component.tokens.json**: 123 tokens gain
+    `component` (real parent: `tabs`, `menu`, `number-field`) + `anatomy` (sub-part) + a
+    pinned `legacyKey` so the published key is unchanged.
+  - **packages/tokens/src/{layout,color}-component.json**: regenerated; only the flat
+    `component` attribute value changed (67 tokens), no key renames.
+  - **packages/tokens/naming-exceptions.json** / **validation-snapshot.json**: track the
+    49 tokens whose pinned legacy key no longer roundtrips through canonical name
+    generation (category `anatomy-decomposition`).
+  - **packages/tokens/test/checkComponentProps.js**: recognize anatomy sub-part prefixes
+    (via the anatomy registry) as valid even when they don't match `component`.
+  - **sdk/core/src/migrate.rs**: `thin_name_val` now pins `legacyKey` when a corrected
+    `component` no longer reproduces the original key, fixing legacy→cascade roundtrip.
+
+- [#1231](https://github.com/adobe/spectrum-design-data/pull/1231) [`62e74d7`](https://github.com/adobe/spectrum-design-data/commit/62e74d7f4d59bcc3e63fbc5b7c594f65ef78b024) Thanks [@GarthDB](https://github.com/GarthDB)! - Re-key icon tokens off the new `icon` name field (part of spectrum-design-data-aui),
+  clearing ~315 SPEC-009 warnings. Published legacy keys are unchanged.
+  - **packages/design-data/registry/icon-terms.json**: new registry, 12 icon ids (`icon`,
+    `ui`, `checkmark`, `chevron`, `dash`, `arrow`, `cross`, `add`, `link-out`,
+    `drag-handle`, `asterisk`, `gripper`), with `tokenName` long-form expansions.
+  - **packages/design-data/tokens/icons.tokens.json**: 191 tokens re-keyed
+    `component:'icon'` → `icon:'icon'`.
+  - **packages/design-data/tokens/layout-component.tokens.json**: 124 tokens re-keyed
+    `component:'X-icon'` → `icon:'X'` across 11 distinct values.
+  - **sdk/core/src/naming.rs**: `extract_legacy_key` gains an icon (non-color) branch and
+    a thin-format guard so re-keyed tokens still resolve to their original legacy key.
+  - **sdk/core/src/legacy.rs**: legacy-metadata hoisting (`resolve_owner_component`) now
+    falls back to the icon field so published `component` metadata is unaffected.
+  - **packages/tokens/src/icons.json**, **layout-component.json**: regenerated, byte-identical
+    to their pre-change state.
+
+- [#1238](https://github.com/adobe/spectrum-design-data/pull/1238) [`8d8bf09`](https://github.com/adobe/spectrum-design-data/commit/8d8bf0904e716ed86b10f890251980f73f0215c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose the 16 remaining fused-property typography tokens onto proper
+  `component`/`property`/`family`/`script`/`emphasis`/`size` fields (closes
+  spectrum-design-data-1lf).
+  - **packages/design-data/tokens/typography.tokens.json**:
+    `body-cjk-size-{l,m,s,xl,xs,xxl,xxs,xxxl}`, `body-size-xxs`, `heading-cjk-font-weight`,
+    `heading-cjk-size-xxxxl`, `heading-size-xxxxl` get `component`/`property`/`script`/`size`
+    fields, retaining `legacyKey` to pin their published fused name.
+    `heading-{sans-serif,serif}[-emphasized]-font-weight` get `component`/`property`/`family`/
+    `emphasis` fields; their reconstructed names already match the fused originals, so no
+    `legacyKey` pin is needed.
+  - **packages/tokens/src/typography.json**: regenerated legacy output now carries a
+    `component` attribute on these 16 tokens (previously absent) — an accepted, additive
+    publish diff.
+
 ## 14.14.0
 
 ### Minor Changes
