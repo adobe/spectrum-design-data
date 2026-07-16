@@ -3,7 +3,7 @@ source: tui/tests/snapshots.rs
 expression: rendered
 ---
 ▶ test · 0 tokens
-  Spectrum Design Data  v0.4.0
+  Spectrum Design Data  v0.5.0
   ↑↓ hi┌ Step 1 of 4 — Intent ──────────────────────────────────────────┐
   ─────│Intent: background-color                                        │───────
   >    │  These tokens already exist for similar intents.               │

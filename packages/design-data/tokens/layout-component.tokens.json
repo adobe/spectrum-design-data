@@ -5968,7 +5968,9 @@
   {
     "name": {
       "component": "combo-box",
-      "property": "quiet-minimum-width-multiplier"
+      "variant": "quiet",
+      "property": "minimum-width-multiplier",
+      "legacyKey": "combo-box-quiet-minimum-width-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2,
