@@ -1,7 +1,7 @@
 [
   {
     "name": {
-      "property": "black-font-weight",
+      "property": "font-weight",
       "weight": "black",
       "legacyKey": "black-font-weight"
     },
@@ -521,8 +521,9 @@
   },
   {
     "name": {
-      "property": "bold-font-weight",
-      "weight": "bold"
+      "property": "font-weight",
+      "weight": "bold",
+      "legacyKey": "bold-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "bold",
@@ -1084,7 +1085,7 @@
   },
   {
     "name": {
-      "property": "default-font-style",
+      "property": "font-style",
       "style": "normal",
       "legacyKey": "default-font-style"
     },
@@ -1865,8 +1866,9 @@
   },
   {
     "name": {
-      "property": "extra-bold-font-weight",
-      "weight": "extra-bold"
+      "property": "font-weight",
+      "weight": "extra-bold",
+      "legacyKey": "extra-bold-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "extra-bold",
@@ -3440,8 +3442,9 @@
   },
   {
     "name": {
-      "property": "italic-font-style",
-      "style": "italic"
+      "property": "font-style",
+      "style": "italic",
+      "legacyKey": "italic-font-style"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-style.json",
     "value": "italic",
@@ -3459,7 +3462,8 @@
     "name": {
       "property": "font-weight",
       "weight": "light",
-      "emphasis": "light"
+      "emphasis": "light",
+      "legacyKey": "light-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "light",
@@ -3883,7 +3887,7 @@
   },
   {
     "name": {
-      "property": "medium-font-weight",
+      "property": "font-weight",
       "weight": "medium",
       "legacyKey": "medium-font-weight"
     },
@@ -3893,8 +3897,9 @@
   },
   {
     "name": {
-      "property": "regular-font-weight",
-      "weight": "regular"
+      "property": "font-weight",
+      "weight": "regular",
+      "legacyKey": "regular-font-weight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-weight.json",
     "value": "regular",

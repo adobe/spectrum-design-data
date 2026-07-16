@@ -11,6 +11,5 @@
   },
   "scope": "typography",
   "required": false,
-  "valueType": "string",
-  "excludeFromLegacyKey": true
+  "valueType": "string"
 }

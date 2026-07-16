@@ -376,9 +376,19 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
   }
 
   // Sort by: longer matches first, then by field priority.
-  // Fields not in fieldPriority (e.g. colorFamily, colorRole, weight) get Infinity
+  // Fields not in fieldPriority (e.g. colorFamily, colorRole) get Infinity
   // so they sort AFTER all listed fields, not before them (indexOf returns -1 otherwise).
+  //
+  // Exception: once `property` has already resolved to a typography compound
+  // (font-weight/font-style, set by Phase 2 before this runs), weight/style
+  // matches outrank everything else. Otherwise a spelling that also exists in
+  // another registry loses by default (weight/style aren't in fieldPriority):
+  // "black" is also a variant/color name, "medium" is also a size alias (id "m").
+  const typographyProperty =
+    typeof nameObject.property === "string" &&
+    nameObject.property.startsWith("font-");
   const priority = (f) => {
+    if (typographyProperty && (f === "weight" || f === "style")) return -1;
     const i = fieldPriority.indexOf(f);
     return i === -1 ? Infinity : i;
   };

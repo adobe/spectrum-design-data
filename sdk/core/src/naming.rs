@@ -398,9 +398,15 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //   Mode-set selectors (not part of the legacy name): colorScheme, scale, contrast
     //   Color-domain (handled by color-domain branch above): colorFamily, colorRole
     //   Integer scale (already embedded in `property`; would double-emit): scaleIndex
-    //   Legacy metadata annotations (value already embedded in `property` for all current
-    //     tokens): weight, style, structure — if any joins Phase D decomposition, remove
-    //     its excludeFromLegacyKey flag and re-verify against the three legacy gates.
+    //   Legacy metadata annotation (value already embedded in `property` for all current
+    //     tokens): structure — if it joins Phase D decomposition, remove its
+    //     excludeFromLegacyKey flag and re-verify against the three legacy gates.
+    //
+    // `weight` and `style` (dsi.2.7) joined Phase D decomposition like `size`: their
+    // qualifier segment (e.g. "bold" in `bold-font-weight`) no longer sorts adjacent to
+    // `property` in serialization order, so the stripped `property` alone won't
+    // roundtrip — each affected token pins an explicit `legacyKey` (naming.rs escape
+    // hatch above) rather than leaving the qualifier fused into `property`.
     //
     // `family` and `emphasis` (typography-scoped, positions 6/7 — before `property` so
     // e.g. cjk-strong-font-weight serializes as family:"cjk" + emphasis:"strong" +
@@ -781,24 +787,42 @@ mod tests {
 
     #[test]
     fn extract_key_legacy_annotation_fields_excluded_from_key() {
-        // structure, weight, style are legacy-metadata annotations whose values are
-        // already embedded in `property` for all current tokens. They carry
-        // exclude_from_legacy_key: true so a catalog-walk refactor can't silently re-include them.
+        // structure is a legacy-metadata annotation whose value is already embedded in
+        // `property` for all current tokens. It carries exclude_from_legacy_key: true so
+        // a catalog-walk refactor can't silently re-include it.
         // (`family` was promoted out of this group for the pur/typography pass — see
-        // extract_key_family_emphasis_before_property.)
+        // extract_key_family_emphasis_before_property. `weight`/`style` joined Phase D
+        // decomposition in dsi.2.7 — see extract_key_weight_style_participate_in_key below.)
         let name = json!({
             "component": "body",
             "property": "bold-font-weight",
-            "structure": "body",
-            "weight": "bold",
-            "style": "italic"
+            "structure": "body"
         });
         let key = extract_legacy_key(&name).unwrap();
         assert_eq!(key, "body-bold-font-weight");
-        assert!(
-            !key.contains("italic"),
-            "style must not appear in legacy key"
-        );
+    }
+
+    #[test]
+    fn extract_key_weight_style_participate_in_key() {
+        // dsi.2.7: weight/style no longer carry exclude_from_legacy_key, so they now
+        // serialize like any other Phase D field. A token whose `property` still has the
+        // qualifier fused in (the pre-decomposition legacy representation) double-emits —
+        // exactly the case that requires a `legacyKey` pin (see resolve_name in migrate.rs).
+        let name = json!({
+            "property": "bold-font-weight",
+            "weight": "bold"
+        });
+        let key = extract_legacy_key(&name).unwrap();
+        assert_eq!(key, "bold-font-weight-bold");
+
+        // A properly stripped property + legacyKey pin roundtrips to the pinned key.
+        let name = json!({
+            "property": "font-weight",
+            "weight": "bold",
+            "legacyKey": "bold-font-weight"
+        });
+        let key = extract_legacy_key(&name).unwrap();
+        assert_eq!(key, "bold-font-weight");
     }
 
     // ── Component color branch (colorRole) ───────────────────────────────────

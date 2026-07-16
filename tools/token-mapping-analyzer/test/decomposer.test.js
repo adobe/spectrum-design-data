@@ -144,6 +144,39 @@ test("compounds emphasis terms alongside anatomy and script", (t) => {
   t.true(result.roundtrips);
 });
 
+test("assigns weight, not variant, when property already resolved to font-weight", (t) => {
+  // "black" is also a registered variant/color-family term; without the
+  // typography-property priority boost it would win over weight (weight isn't
+  // in fieldPriority) since both matches are single-segment.
+  const result = decompose("font-weight-black", {}, registry, "test");
+  t.is(result.nameObject.property, "font-weight");
+  t.is(result.nameObject.weight, "black");
+  t.is(result.nameObject.variant, undefined);
+});
+
+test("assigns weight, not size, when property already resolved to font-weight", (t) => {
+  // "medium" is a registered alias for size id "m"; without the priority
+  // boost it would win over weight for the same reason as "black" above.
+  const result = decompose("font-weight-medium", {}, registry, "test");
+  t.is(result.nameObject.property, "font-weight");
+  t.is(result.nameObject.weight, "medium");
+  t.is(result.nameObject.size, undefined);
+});
+
+test("assigns style when property already resolved to font-style", (t) => {
+  const result = decompose("font-style-italic", {}, registry, "test");
+  t.is(result.nameObject.property, "font-style");
+  t.is(result.nameObject.style, "italic");
+});
+
+test("does not boost weight/style priority for non-typography properties", (t) => {
+  // "black" outside a font-weight/font-style property context should still
+  // resolve to variant, matching pre-existing color-domain decomposition.
+  const result = decompose("black-content-color-default", {}, registry, "test");
+  t.is(result.nameObject.variant, "black");
+  t.is(result.nameObject.weight, undefined);
+});
+
 test("matches a lone family term with no emphasis", (t) => {
   const result = decompose("sans-serif-font-family", {}, registry, "test");
   t.is(result.nameObject.family, "sans-serif");

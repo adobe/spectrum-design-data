@@ -5,11 +5,13 @@
   },
   "black-font-weight": {
     "property": "font-weight",
-    "weight": "black"
+    "weight": "black",
+    "legacyKey": "black-font-weight"
   },
   "bold-font-weight": {
     "property": "font-weight",
-    "weight": "bold"
+    "weight": "bold",
+    "legacyKey": "bold-font-weight"
   },
   "cjk-line-height-100": {
     "property": "line-height-multiplier",
@@ -39,11 +41,13 @@
   },
   "default-font-style": {
     "property": "font-style",
-    "style": "normal"
+    "style": "normal",
+    "legacyKey": "default-font-style"
   },
   "extra-bold-font-weight": {
     "property": "font-weight",
-    "weight": "extra-bold"
+    "weight": "extra-bold",
+    "legacyKey": "extra-bold-font-weight"
   },
   "font-size-100": {
     "property": "font-size",
@@ -127,7 +131,8 @@
   },
   "italic-font-style": {
     "property": "font-style",
-    "style": "italic"
+    "style": "italic",
+    "legacyKey": "italic-font-style"
   },
   "line-height-100": {
     "property": "line-height-multiplier",
@@ -142,7 +147,8 @@
   },
   "light-font-weight": {
     "property": "font-weight",
-    "weight": "light"
+    "weight": "light",
+    "legacyKey": "light-font-weight"
   },
   "line-height-font-size-100": {
     "property": "line-height",
@@ -218,11 +224,13 @@
   },
   "medium-font-weight": {
     "property": "font-weight",
-    "weight": "medium"
+    "weight": "medium",
+    "legacyKey": "medium-font-weight"
   },
   "regular-font-weight": {
     "property": "font-weight",
-    "weight": "regular"
+    "weight": "regular",
+    "legacyKey": "regular-font-weight"
   },
   "sans-serif-font-family": {
     "property": "font-family",
