@@ -248,6 +248,9 @@ test("promotes variant hue → colorFamily for palette ramp tokens (scaleIndex +
   t.is(result.nameObject.variant, undefined);
   t.is(result.nameObject.scaleIndex, "700");
   t.true(result.roundtrips);
+  // Property-less but clean roundtrip (0 unmatched segments) — should score
+  // HIGH regardless of the missing `property` field (dsi.4.8).
+  t.is(result.confidence, "HIGH");
 });
 
 test("promotes variant hue + retains colorRole for component color tokens", (t) => {

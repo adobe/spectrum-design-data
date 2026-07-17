@@ -569,11 +569,10 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
 
   // Phase 10: Score
   const unmatchedCount = finalUnmatched.length;
-  const hasProperty = !!nameObject.property;
   let confidence;
-  if (unmatchedCount === 0 && hasProperty && roundtrips) {
+  if (unmatchedCount === 0 && roundtrips) {
     confidence = "HIGH";
-  } else if (unmatchedCount === 0 && hasProperty) {
+  } else if (unmatchedCount === 0) {
     confidence = "MEDIUM";
   } else if (unmatchedCount <= 2) {
     confidence = "MEDIUM";
