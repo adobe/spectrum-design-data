@@ -279,7 +279,12 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     });
 
     if let Some(cf) = color_family {
-        if owner.is_none() {
+        // Guarded on color_role.is_none() too: a hue (color-families.json) and a
+        // role (color-roles.json) are disjoint registries today, so a name object
+        // never carries both — but if that ever changed, falling through to the
+        // more specific semantic-ramp branch below is safer than silently
+        // dropping colorRole.
+        if owner.is_none() && color_role.is_none() {
             // Palette ramp: no owner, property implicit.
             let mut parts: Vec<String> = Vec::new();
             if let Some(v) = name.get("variant").and_then(|v| v.as_str()) {
@@ -466,6 +471,11 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // it at the end, mirroring the JS decomposer.js general path — non-standard
     // placement (scaleIndex has no catalog position of its own), but matches how
     // these tokens' fused property strings always trailed with the numeric index.
+    // Correctness relies on the convention that any token whose `property` is
+    // still a fused string (e.g. "font-size-100") alongside a populated
+    // scaleIndex pins an explicit legacyKey instead of relying on this
+    // reconstruction — nothing here structurally prevents a double-emit if
+    // that convention were ever violated.
     if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
         parts.push(i.to_string());
     }

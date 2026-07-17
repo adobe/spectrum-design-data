@@ -249,6 +249,18 @@ test("promotes variant hue → colorFamily for palette ramp tokens (scaleIndex +
   t.is(result.confidence, "HIGH");
 });
 
+test("promotes variant → colorRole for semantic ramp tokens with no scaleIndex", (t) => {
+  // dsi.6 review finding: naming.rs's semantic-ramp branch supports the bare
+  // "informative-color" shape (no trailing scaleIndex) — the JS promotion
+  // must not require scaleIndex to be present, unlike the hue-ramp case above.
+  const result = decompose("informative-color", {}, registry, "test");
+  t.is(result.nameObject.colorRole, "informative");
+  t.is(result.nameObject.variant, undefined);
+  t.is(result.nameObject.scaleIndex, undefined);
+  t.is(result.nameObject.property, "color");
+  t.true(result.roundtrips);
+});
+
 test("promotes variant hue + retains colorRole for component color tokens", (t) => {
   // "blue" wins variant priority over colorFamily; "primary" goes to colorRole
   // since variant is already taken. Phase 4.5 promotes blue → colorFamily.
