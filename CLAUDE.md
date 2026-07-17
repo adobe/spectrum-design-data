@@ -84,6 +84,27 @@ License: Apache-2.0.
 * Template literals for interpolation
 * Full patterns and anti-patterns → `.claude/rules/javascript.md` (loads when JS/TS files are open)
 
+## Jira Initiative Tracking
+
+Beads sync to Jira (`DNA` project) via a script in the separate `adobe-mcp-servers`
+repo (`src/corp-jira/scripts/import-beads.ts`), run manually/weekly. Jira only links
+**Epics** to Initiatives (no such field for Story/Task), via a `Child-Issue` link —
+the sync creates this automatically from a bd label.
+
+* **New epic tracking OKR-level work**: `bd create -t epic -l initiative:DNA-XXXX ...`
+* **Existing epic** (including closed ones): `bd label add <epic-id> initiative:DNA-XXXX`
+* Current initiatives (all FY26 OKR-driven, all In Progress):
+  * `DNA-1522` — adaptive support per platform
+  * `DNA-1520` — multi-platform improvements / governance
+  * `DNA-1516` — metrics capture and analysis
+  * `DNA-1740` — per-platform token usage baselines
+  * `DNA-1741` — connect Web/iOS/Android to design data
+  * Pick whichever the epic's OKR-level goal matches; leave untagged if none fit
+    rather than forcing a guess — a new Initiative may need to be created instead.
+* Non-epic beads (task/feature/bug) don't need the label — only the epic level links
+  to an Initiative. Optionally cascade for local filtering only:
+  `bd label propagate <epic-id> initiative:DNA-XXXX` (doesn't affect Jira).
+
 ## Code Intelligence Tools (MCP)
 
 Five MCP servers are configured in `.mcp.json` (committed, portable — uses `${PWD}` for
