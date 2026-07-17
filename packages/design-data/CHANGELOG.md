@@ -1,5 +1,38 @@
 # @adobe/spectrum-design-data
 
+## 0.10.0
+
+### Minor Changes
+
+- [#1243](https://github.com/adobe/spectrum-design-data/pull/1243) [`a214eba`](https://github.com/adobe/spectrum-design-data/commit/a214eba18b230b24cbf99f0ca05cebbd70bb83b5) Thanks [@GarthDB](https://github.com/GarthDB)! - Register `width-multiplier`/`minimum-width-multiplier`/`maximum-width-multiplier`
+  property terms and `quiet` variant (closes spectrum-design-data-dsi.2.2).
+  - **packages/design-data/registry/property-terms.json**: add
+    `width-multiplier`, `minimum-width-multiplier`, `maximum-width-multiplier` —
+    unitless ratios used at the implementation level to derive a dimension from
+    another dimension (design-data has no `calc()`; reuses the existing
+    `multiplier.json` value schema shared with line-height/margin multipliers).
+  - **packages/design-data/registry/variants.json**: add `quiet` emphasis variant.
+  - **packages/design-data/tokens/layout-component.tokens.json**: decompose
+    `combo-box-quiet-minimum-width-multiplier` to `variant: quiet` +
+    `property: minimum-width-multiplier` (was fused into `property`).
+  - **tools/token-mapping-analyzer/src/decomposer.js**: register the three
+    compounds in `COMPOUND_PROPERTIES` so they decompose cleanly.
+  - **packages/tokens/schemas/token-types/multiplier.json**: broaden description
+    to mention width/height (dimension) multipliers.
+  - **sdk/core/src/registry_data.rs**: regenerated from the registry changes.
+
+- [#1244](https://github.com/adobe/spectrum-design-data/pull/1244) [`e6a8046`](https://github.com/adobe/spectrum-design-data/commit/e6a80463a9fc5603afaf14898e015056816f3670) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `tab` → `tab-item` anatomy alias and decompose the 4 `tab-gap-horizontal-*` tokens
+  (closes spectrum-design-data-iqn).
+  - **registry/anatomy-terms.json**: register `tab` as an alias of the existing `tab-item`
+    anatomy term, per the dsi.2.4 taxonomy call (tab is an anatomy part nested inside the
+    `tabs` component, not a component alias).
+  - **tokens/layout.tokens.json**: decompose `tab-gap-horizontal-{extra-large,large,medium,small}`
+    to `component=tabs, anatomy=tab-item, property=gap, orientation=horizontal, size`,
+    pinning `legacyKey` to preserve the published token names.
+  - **packages/tokens/naming-exceptions.json**, **snapshots/validation-snapshot.json**: the
+    `tab-item` alias changes the tokens' canonical re-serialization, so the 4 keys are added
+    to the anatomy-decomposition exceptions allowlist and the golden snapshot is refreshed.
+
 ## 0.9.0
 
 ### Minor Changes
