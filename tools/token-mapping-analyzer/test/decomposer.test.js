@@ -18,17 +18,13 @@ test.before(() => {
 });
 
 test("decomposes simple variant-object-property-state token", (t) => {
-  // "background-color" is a registered 2-seg compound property term, so
-  // "accent-background-color-default" would collapse to property:background-color.
-  // Use "content" (object registry, no compound overlap) to test the full split.
-  const result = decompose(
-    "accent-content-color-default",
-    {},
-    registry,
-    "test",
-  );
+  // "background-color" and "content-color" are registered 2-seg compound
+  // property terms, so "accent-{background,content}-color-default" would
+  // collapse to property:{background,content}-color. Use "edge" (object
+  // registry, no compound overlap) to test the full split.
+  const result = decompose("accent-edge-color-default", {}, registry, "test");
   t.is(result.nameObject.variant, "accent");
-  t.is(result.nameObject.object, "content");
+  t.is(result.nameObject.object, "edge");
   t.is(result.nameObject.property, "color");
   t.is(result.nameObject.state, "default");
   t.is(result.confidence, "HIGH");
@@ -288,16 +284,11 @@ test("promotes variant hue + object role for component color tokens (background 
 });
 
 test("does not promote non-color tokens: variant/object unaffected when property is not color", (t) => {
-  // "accent" is not in colorFamily registry; "content" is not in colorRole registry.
+  // "accent" is not in colorFamily registry; "edge" is not in colorRole registry.
   // No promotion should occur even though property === "color".
-  const result = decompose(
-    "accent-content-color-default",
-    {},
-    registry,
-    "test",
-  );
+  const result = decompose("accent-edge-color-default", {}, registry, "test");
   t.is(result.nameObject.variant, "accent");
-  t.is(result.nameObject.object, "content");
+  t.is(result.nameObject.object, "edge");
   t.is(result.nameObject.colorFamily, undefined);
   t.is(result.nameObject.colorRole, undefined);
 });
