@@ -1,10 +1,11 @@
 [
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "default",
       "colorScheme": "light",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -14,10 +15,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "default",
       "colorScheme": "dark",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
@@ -27,10 +29,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "default",
       "colorScheme": "wireframe",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -40,10 +43,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "down",
       "colorScheme": "light",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -53,10 +57,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "down",
       "colorScheme": "dark",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
@@ -66,10 +71,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "down",
       "colorScheme": "wireframe",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -79,10 +85,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "light",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -92,10 +99,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "dark",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
@@ -105,10 +113,11 @@
   },
   {
     "name": {
+      "colorRole": "accent",
       "property": "background-color",
       "state": "hover",
       "colorScheme": "wireframe",
-      "variant": "accent"
+      "legacyKey": "accent-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -118,7 +127,8 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "colorRole": "accent",
+      "property": "background-color",
       "state": "key-focus",
       "colorScheme": "light",
       "legacyKey": "accent-background-color-key-focus"
@@ -131,7 +141,8 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "colorRole": "accent",
+      "property": "background-color",
       "state": "key-focus",
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-key-focus"
@@ -144,7 +155,8 @@
   },
   {
     "name": {
-      "property": "accent-background-color",
+      "colorRole": "accent",
+      "property": "background-color",
       "state": "key-focus",
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-key-focus"
@@ -157,8 +169,10 @@
   },
   {
     "name": {
-      "property": "accent-content-color",
-      "state": "default"
+      "colorRole": "accent",
+      "property": "content-color",
+      "state": "default",
+      "legacyKey": "accent-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -166,8 +180,10 @@
   },
   {
     "name": {
-      "property": "accent-content-color",
-      "state": "down"
+      "colorRole": "accent",
+      "property": "content-color",
+      "state": "down",
+      "legacyKey": "accent-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -175,8 +191,10 @@
   },
   {
     "name": {
-      "property": "accent-content-color",
-      "state": "hover"
+      "colorRole": "accent",
+      "property": "content-color",
+      "state": "hover",
+      "legacyKey": "accent-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
@@ -184,7 +202,8 @@
   },
   {
     "name": {
-      "property": "accent-content-color",
+      "colorRole": "accent",
+      "property": "content-color",
       "state": "key-focus",
       "legacyKey": "accent-content-color-key-focus"
     },
@@ -194,8 +213,10 @@
   },
   {
     "name": {
-      "property": "accent-content-color",
-      "state": "selected"
+      "colorRole": "accent",
+      "property": "content-color",
+      "state": "selected",
+      "legacyKey": "accent-content-color-selected"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1",
@@ -203,8 +224,10 @@
   },
   {
     "name": {
-      "property": "accent-visual-color",
-      "colorScheme": "light"
+      "colorRole": "accent",
+      "property": "visual-color",
+      "colorScheme": "light",
+      "legacyKey": "accent-visual-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
@@ -214,8 +237,10 @@
   },
   {
     "name": {
-      "property": "accent-visual-color",
-      "colorScheme": "dark"
+      "colorRole": "accent",
+      "property": "visual-color",
+      "colorScheme": "dark",
+      "legacyKey": "accent-visual-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
@@ -225,8 +250,10 @@
   },
   {
     "name": {
-      "property": "accent-visual-color",
-      "colorScheme": "wireframe"
+      "colorRole": "accent",
+      "property": "visual-color",
+      "colorScheme": "wireframe",
+      "legacyKey": "accent-visual-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",

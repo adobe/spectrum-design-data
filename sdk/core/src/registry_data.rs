@@ -1865,6 +1865,16 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Foreground color of an icon"
     },
     {
+      "id": "content-color",
+      "label": "Content Color",
+      "description": "Color of a component's content area"
+    },
+    {
+      "id": "visual-color",
+      "label": "Visual Color",
+      "description": "Color of a component's visible graphic (visual) area"
+    },
+    {
       "id": "shadow-color",
       "label": "Shadow Color",
       "description": "Drop shadow color component"
