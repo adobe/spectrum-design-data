@@ -6,7 +6,7 @@ description: >
   system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
 metadata:
   author: adobe
-  version: "1.8.3"
+  version: "1.8.4"
 when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,

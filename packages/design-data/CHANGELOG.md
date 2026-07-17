@@ -1,5 +1,17 @@
 # @adobe/spectrum-design-data
 
+## 0.12.0
+
+### Minor Changes
+
+- [#1249](https://github.com/adobe/spectrum-design-data/pull/1249) [`6717f58`](https://github.com/adobe/spectrum-design-data/commit/6717f58d3c0e6ed756d15a540e0482155e23f624) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose fused `{colorFamily}-{background|visual}-color` properties in
+  color-aliases into `colorFamily` + `property`, preserving legacy output
+  via `legacyKey`.
+  - **packages/design-data/tokens/color-aliases.tokens.json**: split 114
+    fused-property tokens (19 color families × background/visual-color ×
+    light/dark/wireframe) into `colorFamily` + plain `property`, pinning
+    `legacyKey` to keep serialized output byte-identical.
+
 ## 0.11.0
 
 ### Minor Changes
