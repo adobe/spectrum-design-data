@@ -429,7 +429,12 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
   for (let i = 0; i < segments.length; i++) {
     if (matched[i]) continue;
     if (NUMERIC_SCALE_PATTERN.test(segments[i])) {
-      nameObject.scaleIndex = segments[i];
+      // Number, not string: matches the existing convention (e.g. color-palette's
+      // scaleIndex:100) and is required by naming.rs's `.as_i64()` mirror — a
+      // string here silently fails that cast, dropping the segment from any
+      // legacy key rebuilt from this object (dsi.6 caught this via alias `$ref`
+      // denormalization, which isn't covered by the primary-name roundtrip check).
+      nameObject.scaleIndex = Number(segments[i]);
       matched[i] = true;
       matchDetails[i] = "scaleIndex";
       if (!registry.allFields?.has("scaleIndex")) {
@@ -450,6 +455,10 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
   //
   //   Palette ramp (scaleIndex + no component):
   //     variant:"blue" → colorFamily:"blue"
+  //   Semantic ramp (scaleIndex + no component + property:"color"):
+  //     variant:"accent" → colorRole:"accent"  (dsi.6: accent/informative/negative/
+  //     notice/positive-color-N; unlike the hue ramp, `property` stays "color"
+  //     since serialize() spells it out explicitly for this branch)
   //   Component color (property:"color" + component):
   //     variant:<hue>  → colorFamily:<hue>, then object:<role> → colorRole:<role>
   //     variant:<role> → colorRole:<role>  (no-hue tokens, e.g. color-primary)
@@ -464,6 +473,13 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     ) {
       if (nameObject.variant !== undefined && hueSet.has(nameObject.variant)) {
         nameObject.colorFamily = nameObject.variant;
+        delete nameObject.variant;
+      } else if (
+        nameObject.property === "color" &&
+        nameObject.variant !== undefined &&
+        roleSet.has(nameObject.variant)
+      ) {
+        nameObject.colorRole = nameObject.variant;
         delete nameObject.variant;
       }
     }
@@ -630,6 +646,18 @@ export function serialize(
     if (nameObject.variant)
       parts.push(tokenNameMap[nameObject.variant] || nameObject.variant);
     parts.push(tokenNameMap[colorFamily] || colorFamily);
+    if (nameObject.scaleIndex != null)
+      parts.push(String(nameObject.scaleIndex));
+    return parts.join("-");
+  }
+
+  // Semantic ramp: colorRole present, no component, property === "color" →
+  // {colorRole}-color-{scaleIndex?}. dsi.6: accent/informative/negative/notice/
+  // positive-color-N. Unlike the hue ramp above, "color" is NOT implicit here —
+  // these role names collide with plain words elsewhere, so the legacy key
+  // spells it out (e.g. "accent-color-100", not "accent-100").
+  if (colorRole && !component && nameObject.property === "color") {
+    const parts = [tokenNameMap[colorRole] || colorRole, "color"];
     if (nameObject.scaleIndex != null)
       parts.push(String(nameObject.scaleIndex));
     return parts.join("-");

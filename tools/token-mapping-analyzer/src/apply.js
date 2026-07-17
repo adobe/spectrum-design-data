@@ -200,12 +200,87 @@ export function applySpaceBetween(tokens, registry, filename) {
   return { applied, skippedSpec025: 0 };
 }
 
+/**
+ * Apply the scale-index decomposition (dsi.6): a numeric scale suffix fused
+ * onto `property` (e.g. "size-100", "color-100") with no `scaleIndex` field.
+ * `scaleIndex` isn't a registered taxonomy field (decomposer.js flags it as a
+ * gap in the 13-field spec), so it can't go through the single-registry
+ * `applyField` path above — this mirrors `applySpaceBetween`'s dedicated,
+ * whole-object-merge approach instead.
+ */
+export function applyScaleIndex(tokens, registry, filename) {
+  let applied = 0;
+
+  for (const token of tokens) {
+    if (!token.name || typeof token.name !== "object") continue;
+    if (token.name.scaleIndex !== undefined) continue; // already migrated
+    if (
+      typeof token.name.property !== "string" ||
+      !/-\d+$/.test(token.name.property)
+    )
+      continue;
+
+    const legacyKey = serialize(
+      token.name,
+      registry.tokenNameMap,
+      registry.serializationOrder,
+    );
+    if (!legacyKey) continue;
+
+    const result = decompose(
+      legacyKey,
+      { deprecated: !!token.deprecated, component: token.name?.component },
+      registry,
+      filename,
+    );
+
+    if (
+      result.confidence !== "HIGH" ||
+      !result.roundtrips ||
+      result.nameObject.scaleIndex === undefined ||
+      !result.nameObject.property // guard: property must remain non-empty
+    )
+      continue;
+
+    // Guard: remaining property must be a registered property term
+    if (
+      registry.byField.property &&
+      !registry.byField.property.has(result.nameObject.property)
+    )
+      continue;
+
+    // Whole-object merge (see applyField's comment): a token can stack other
+    // concepts alongside the scale index in the same property string.
+    const patched = { ...token.name, ...result.nameObject };
+
+    if (patched.anatomy && !patched.component) continue; // SPEC-025
+
+    if (
+      result.nameObject.component !== undefined &&
+      token.name.component === undefined
+    )
+      continue; // don't fabricate ownership metadata as a side effect
+
+    if (
+      serialize(patched, registry.tokenNameMap, registry.serializationOrder) !==
+      legacyKey
+    )
+      continue;
+
+    Object.assign(token.name, result.nameObject);
+    applied++;
+  }
+
+  return { applied, skippedSpec025: 0 };
+}
+
 async function main() {
   const { field, write } = parseArgs();
   const registry = loadRegistries();
   const isSpaceBetween = field === "space-between";
+  const isScaleIndex = field === "scale-index";
 
-  if (!isSpaceBetween && !registry.byField[field]) {
+  if (!isSpaceBetween && !isScaleIndex && !registry.byField[field]) {
     console.error(
       `Unknown field: "${field}". Known fields: ${Object.keys(registry.byField).join(", ")}`,
     );
@@ -221,10 +296,15 @@ async function main() {
     const filePath = resolve(CASCADE_DIR, filename);
     const tokens = JSON.parse(readFileSync(filePath, "utf-8"));
 
-    // Count pre-existing field values. space-between is a virtual field name
-    // (property literal "space-between" + paired from/to); use "from" as the
-    // already-migrated marker since space-between itself is never a key on name.
-    const presenceField = isSpaceBetween ? "from" : field;
+    // Count pre-existing field values. space-between and scale-index are virtual
+    // field names (space-between: property literal "space-between" + paired
+    // from/to, using "from" as the already-migrated marker; scale-index: the
+    // real field is "scaleIndex", never a key on name for these virtual names).
+    const presenceField = isSpaceBetween
+      ? "from"
+      : isScaleIndex
+        ? "scaleIndex"
+        : field;
     const hadField = tokens.filter(
       (t) =>
         typeof t.name === "object" && t.name?.[presenceField] !== undefined,
@@ -234,7 +314,9 @@ async function main() {
 
     const { applied, skippedSpec025 } = isSpaceBetween
       ? applySpaceBetween(tokens, registry, filename)
-      : applyField(tokens, field, registry, filename);
+      : isScaleIndex
+        ? applyScaleIndex(tokens, registry, filename)
+        : applyField(tokens, field, registry, filename);
     totalApplied += applied;
     totalSkippedSpec025 += skippedSpec025;
 

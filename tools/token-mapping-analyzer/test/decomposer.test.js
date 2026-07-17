@@ -46,7 +46,7 @@ test("decomposes component token with metadata", (t) => {
 
 test("does not flag scaleIndex as gap when field is declared", (t) => {
   const result = decompose("spacing-100", {}, registry, "test");
-  t.is(result.nameObject.scaleIndex, "100");
+  t.is(result.nameObject.scaleIndex, 100);
   const scaleGap = result.gaps.find((g) => g.type === "numeric-scale-index");
   t.falsy(scaleGap);
 });
@@ -62,7 +62,7 @@ test("flags scaleIndex as gap when field is not declared", (t) => {
     registryWithoutScaleIndex,
     "test",
   );
-  t.is(result.nameObject.scaleIndex, "100");
+  t.is(result.nameObject.scaleIndex, 100);
   const scaleGap = result.gaps.find((g) => g.type === "numeric-scale-index");
   t.truthy(scaleGap);
 });
@@ -74,7 +74,7 @@ test("decomposes line-height-font-size compound with scale index", (t) => {
   // unmatched as gaps.
   const result = decompose("line-height-font-size-100", {}, registry, "test");
   t.is(result.nameObject.property, "line-height-font-size");
-  t.is(result.nameObject.scaleIndex, "100");
+  t.is(result.nameObject.scaleIndex, 100);
   t.deepEqual(result.gaps, []);
   t.true(result.roundtrips);
 });
@@ -82,7 +82,7 @@ test("decomposes line-height-font-size compound with scale index", (t) => {
 test("decomposes component-height compound with scale index", (t) => {
   const result = decompose("component-height-100", {}, registry, "test");
   t.is(result.nameObject.property, "component-height");
-  t.is(result.nameObject.scaleIndex, "100");
+  t.is(result.nameObject.scaleIndex, 100);
   t.deepEqual(result.gaps, []);
   t.true(result.roundtrips);
 });
@@ -242,7 +242,7 @@ test("promotes variant hue → colorFamily for palette ramp tokens (scaleIndex +
   const result = decompose("blue-700", {}, registry, "test");
   t.is(result.nameObject.colorFamily, "blue");
   t.is(result.nameObject.variant, undefined);
-  t.is(result.nameObject.scaleIndex, "700");
+  t.is(result.nameObject.scaleIndex, 700);
   t.true(result.roundtrips);
   // Property-less but clean roundtrip (0 unmatched segments) — should score
   // HIGH regardless of the missing `property` field (dsi.4.8).

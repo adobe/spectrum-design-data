@@ -2352,7 +2352,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-100"
+      "property": "size",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
@@ -2361,7 +2362,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-200"
+      "property": "size",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ad82e875-4243-4665-93b9-91aef258b164",
@@ -2370,7 +2372,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-300"
+      "property": "size",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3c458169-051a-473d-9b68-af84803a74e6",
@@ -2379,7 +2382,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-400"
+      "property": "size",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
@@ -2388,7 +2392,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-50"
+      "property": "size",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
@@ -2397,7 +2402,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-500"
+      "property": "size",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
@@ -2406,7 +2412,8 @@
   {
     "name": {
       "component": "avatar-group",
-      "property": "size-75"
+      "property": "size",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "88990423-8f5c-486b-9c7d-969db3d82cbb",
@@ -2415,8 +2422,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-100",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -2427,8 +2435,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-100",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -2439,8 +2448,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1000",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
@@ -2451,8 +2461,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1000",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
@@ -2463,8 +2474,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1100",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
@@ -2475,8 +2487,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1100",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "80px",
@@ -2487,8 +2500,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1200",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "80px",
@@ -2499,8 +2513,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1200",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "88px",
@@ -2511,8 +2526,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1300",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "88px",
@@ -2523,8 +2539,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1300",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "96px",
@@ -2535,8 +2552,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1400",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "96px",
@@ -2547,8 +2565,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1400",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "104px",
@@ -2559,8 +2578,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1500",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "104px",
@@ -2571,8 +2591,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-1500",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "112px",
@@ -2583,8 +2604,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-200",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -2595,8 +2617,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-200",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -2607,8 +2630,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-300",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -2619,8 +2643,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-300",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -2631,8 +2656,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-400",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -2643,8 +2669,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-400",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
@@ -2655,8 +2682,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-50",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -2667,8 +2695,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-50",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -2679,8 +2708,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-500",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
@@ -2691,8 +2721,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-500",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
@@ -2703,8 +2734,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-600",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
@@ -2715,8 +2747,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-600",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
@@ -2727,8 +2760,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-700",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
@@ -2739,8 +2773,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-700",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "52px",
@@ -2751,8 +2786,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-75",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -2763,8 +2799,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-75",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -2775,8 +2812,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-800",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "52px",
@@ -2787,8 +2825,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-800",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
@@ -2799,8 +2838,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-900",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
@@ -2811,8 +2851,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "size-900",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
@@ -8154,8 +8195,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-100",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -8166,8 +8208,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-100",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -8178,8 +8221,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-200",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -8190,8 +8234,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-200",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -8202,8 +8247,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-300",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "26px",
@@ -8214,8 +8260,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-300",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "30px",
@@ -8226,8 +8273,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-75",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -8238,8 +8286,9 @@
   {
     "name": {
       "component": "in-field-progress-circle",
-      "property": "size-75",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -20310,8 +20359,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-100",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -20322,8 +20372,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-100",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -20334,8 +20385,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-1000",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
@@ -20346,8 +20398,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-1000",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
@@ -20358,8 +20411,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-200",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -20370,8 +20424,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-200",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -20382,8 +20437,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-300",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -20394,8 +20450,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-300",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -20406,8 +20463,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-400",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -20418,8 +20476,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-400",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
@@ -20430,8 +20489,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-50",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -20442,8 +20502,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-50",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 50
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -20454,8 +20515,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-500",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
@@ -20466,8 +20528,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-500",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
@@ -20478,8 +20541,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-600",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
@@ -20490,8 +20554,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-600",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
@@ -20502,8 +20567,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-700",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
@@ -20514,8 +20580,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-700",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "52px",
@@ -20526,8 +20593,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-75",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -20538,8 +20606,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-75",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -20550,8 +20619,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-800",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "52px",
@@ -20562,8 +20632,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-800",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
@@ -20574,8 +20645,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-900",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
@@ -20586,8 +20658,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "size-900",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "scaleIndex": 900
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",

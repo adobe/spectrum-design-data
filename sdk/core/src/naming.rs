@@ -248,6 +248,13 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //   `property` ("color") is implicit and omitted from the key.
     //   e.g. {colorFamily:"blue", scaleIndex:100} → "blue-100"
     //
+    //   Semantic ramp (no owner, colorRole not colorFamily): unlike the hue ramp
+    //   above, `property` ("color") is NOT implicit — the legacy key spells it out
+    //   (e.g. "accent-color-100", not "accent-100") because these role names
+    //   ("accent", "informative", …) collide with plain words elsewhere, so the
+    //   literal "color" segment disambiguates. {colorRole}-color-{scaleIndex?}
+    //   e.g. {colorRole:"accent", property:"color", scaleIndex:100} → "accent-color-100"
+    //
     //   Owner color (owner + colorFamily and/or colorRole):
     //   {owner}-{property}-{colorFamily?}-{colorRole?}-{state?}
     //   `property` is always "color". Explicit ordering avoids the position-walk trap
@@ -286,6 +293,17 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         }
     }
 
+    if let Some(cr) = color_role {
+        if owner.is_none() && name.get("property").and_then(|v| v.as_str()) == Some("color") {
+            // Semantic ramp: no owner, property explicit (see comment above).
+            let mut parts: Vec<String> = vec![cr.to_string(), "color".to_string()];
+            if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+                parts.push(i.to_string());
+            }
+            return Some(parts.join("-"));
+        }
+    }
+
     // Owner color: owner present AND at least one of colorFamily/colorRole.
     if owner.is_some() && (color_family.is_some() || color_role.is_some()) {
         let property = name.get("property").and_then(|v| v.as_str())?;
@@ -314,6 +332,8 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // above — since `icon`'s position (100) sits after `property` in the catalog,
     // so the generic position-walk below can't express the required leading order.
     // e.g. {icon:"add", property:"size-100"} → "add-icon-size-100"
+    // (equivalently, once scaleIndex is split out: {icon:"add", property:"size",
+    // scaleIndex:100} → "add-icon-size-100")
     //
     // Thin-format check mirrors the `component` case just below: some tokens store
     // the full legacy key in `property` already (e.g. property:"icon-color-disabled-
@@ -328,6 +348,9 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
             return Some(property.to_string());
         }
         let mut parts: Vec<String> = vec![ic_expanded.to_string(), property.to_string()];
+        if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+            parts.push(i.to_string());
+        }
         if let Some(st) = name.get("state").and_then(|v| v.as_str()) {
             parts.push(st.to_string());
         }
@@ -378,6 +401,15 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
                 }
             }
 
+            // dsi.6: scaleIndex can be split out of a space-between token's fused
+            // property (e.g. "field-edge-to-disclosure-icon-100"); scaleIndex is
+            // excludeFromLegacyKey so the loop above skips it like every other
+            // branch — append it explicitly, mirroring the general-domain append
+            // below and JS decomposer.js's space-between serialize branch.
+            if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+                parts.push(i.to_string());
+            }
+
             if parts.is_empty() {
                 return None;
             }
@@ -397,7 +429,8 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // Currently excluded fields, grouped by reason (see each field's JSON for per-field notes):
     //   Mode-set selectors (not part of the legacy name): colorScheme, scale, contrast
     //   Color-domain (handled by color-domain branch above): colorFamily, colorRole
-    //   Integer scale (already embedded in `property`; would double-emit): scaleIndex
+    //   Integer scale (walked positionally would double-emit vs. the explicit append
+    //     below, since scaleIndex has no fixed catalog position of its own): scaleIndex
     //   Legacy metadata annotation (value already embedded in `property` for all current
     //     tokens): structure — if it joins Phase D decomposition, remove its
     //     excludeFromLegacyKey flag and re-verify against the three legacy gates.
@@ -428,12 +461,14 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         }
     }
 
-    // ponytail: scaleIndex is not appended here because:
-    //   - Color tokens (blue-100, etc.) reach this path only without colorFamily, which
-    //     is extremely rare; their scaleIndex is handled by the colorFamily branch above.
-    //   - Typography scale tokens pack scaleIndex into `property` already ("font-size-100").
-    // If a future decomposition strips scaleIndex from property for a general-domain token,
-    // revisit this path and add the conditional append.
+    // dsi.6: general-domain tokens (e.g. avatar-group-size-100, spacing-100,
+    // border-width-100) can also have scaleIndex split out of `property`. Append
+    // it at the end, mirroring the JS decomposer.js general path — non-standard
+    // placement (scaleIndex has no catalog position of its own), but matches how
+    // these tokens' fused property strings always trailed with the numeric index.
+    if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+        parts.push(i.to_string());
+    }
 
     if parts.is_empty() {
         return None;
@@ -634,6 +669,20 @@ mod tests {
     }
 
     #[test]
+    fn extract_key_general_domain_scale_index_appended() {
+        // dsi.6: non-color, non-icon tokens (avatar-group-size-100, spacing-100,
+        // border-width-100, …) can also have scaleIndex split out of `property`.
+        let name = json!({"component": "avatar-group", "property": "size", "scaleIndex": 100});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("avatar-group-size-100")
+        );
+
+        let name = json!({"property": "spacing", "scaleIndex": 200});
+        assert_eq!(extract_legacy_key(&name).as_deref(), Some("spacing-200"));
+    }
+
+    #[test]
     fn extract_key_thin_format_property_is_full_key() {
         // Thin format: property starts with component prefix → return property directly.
         let name = json!({"property": "swatch-disabled-icon-border-color", "component": "swatch"});
@@ -736,6 +785,35 @@ mod tests {
             extract_legacy_key(&name).as_deref(),
             Some("accordion-space-between")
         );
+    }
+
+    #[test]
+    fn extract_key_space_between_with_scale_index_no_collision() {
+        // dsi.6: thin-format space-between tokens with a trailing scale index
+        // (e.g. field-edge-to-disclosure-icon-100/-200/...) must append
+        // scaleIndex, or every index variant reconstructs the SAME key and
+        // collides during legacy-output generation, silently dropping data.
+        let name_100 = json!({
+            "property": "space-between",
+            "from": "field-edge",
+            "to": "disclosure-icon",
+            "scaleIndex": 100
+        });
+        let name_200 = json!({
+            "property": "space-between",
+            "from": "field-edge",
+            "to": "disclosure-icon",
+            "scaleIndex": 200
+        });
+        assert_eq!(
+            extract_legacy_key(&name_100).as_deref(),
+            Some("field-edge-to-disclosure-icon-100")
+        );
+        assert_eq!(
+            extract_legacy_key(&name_200).as_deref(),
+            Some("field-edge-to-disclosure-icon-200")
+        );
+        assert_ne!(extract_legacy_key(&name_100), extract_legacy_key(&name_200));
     }
 
     #[test]
@@ -940,6 +1018,51 @@ mod tests {
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("icon-color-disabled-primary")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_size_with_scale_index() {
+        // dsi.6: scaleIndex split out of the fused "size-100" property must still
+        // reconstruct the original legacy key.
+        let name = json!({"icon": "add", "property": "size", "scaleIndex": 100});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("add-icon-size-100")
+        );
+    }
+
+    #[test]
+    fn extract_key_icon_size_with_scale_index_and_state() {
+        let name = json!({
+            "icon": "checkmark",
+            "property": "size",
+            "scaleIndex": 75,
+            "state": "hover"
+        });
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("checkmark-icon-size-75-hover")
+        );
+    }
+
+    #[test]
+    fn extract_key_semantic_color_ramp_with_scale_index() {
+        // dsi.6: colorRole ramp (accent/informative/negative/notice/positive), no
+        // owner — unlike the hue ramp, `property` ("color") is explicit in the key.
+        let name = json!({"property": "color", "colorRole": "accent", "scaleIndex": 100});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("accent-color-100")
+        );
+    }
+
+    #[test]
+    fn extract_key_semantic_color_ramp_no_scale_index() {
+        let name = json!({"property": "color", "colorRole": "informative"});
+        assert_eq!(
+            extract_legacy_key(&name).as_deref(),
+            Some("informative-color")
         );
     }
 }
