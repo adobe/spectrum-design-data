@@ -2589,7 +2589,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-0"
+      "property": "corner-radius",
+      "scaleIndex": 0
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -2597,7 +2598,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-100"
+      "property": "corner-radius",
+      "scaleIndex": 100
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -2605,7 +2607,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-1000"
+      "property": "corner-radius",
+      "scaleIndex": 1000
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.5,
@@ -2613,7 +2616,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-200"
+      "property": "corner-radius",
+      "scaleIndex": 200
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -2621,7 +2625,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-300"
+      "property": "corner-radius",
+      "scaleIndex": 300
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -2629,7 +2634,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-400"
+      "property": "corner-radius",
+      "scaleIndex": 400
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -2637,7 +2643,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-500"
+      "property": "corner-radius",
+      "scaleIndex": 500
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -2645,7 +2652,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-600"
+      "property": "corner-radius",
+      "scaleIndex": 600
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -2653,7 +2661,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-700"
+      "property": "corner-radius",
+      "scaleIndex": 700
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -2661,7 +2670,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-75"
+      "property": "corner-radius",
+      "scaleIndex": 75
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -2669,7 +2679,8 @@
   },
   {
     "name": {
-      "property": "corner-radius-800"
+      "property": "corner-radius",
+      "scaleIndex": 800
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
