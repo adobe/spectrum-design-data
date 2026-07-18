@@ -1970,8 +1970,8 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Border or stroke thickness"
     },
     {
-      "id": "border-radius",
-      "label": "Border Radius",
+      "id": "corner-radius",
+      "label": "Corner Radius",
       "description": "Corner rounding radius"
     },
     {

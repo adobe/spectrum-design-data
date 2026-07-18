@@ -2707,8 +2707,9 @@
   },
   {
     "name": {
-      "property": "corner-radius-medium",
-      "state": "default"
+      "property": "corner-radius",
+      "state": "default",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",

@@ -8047,7 +8047,7 @@
       "anatomy": "fill",
       "qualifier": "stacked",
       "position": "inner",
-      "property": "border-radius",
+      "property": "corner-radius",
       "legacyKey": "in-field-button-fill-stacked-inner-border-rounding"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
