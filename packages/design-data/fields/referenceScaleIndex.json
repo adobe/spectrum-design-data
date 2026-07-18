@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "referenceScaleIndex",
+  "description": "Numeric index referencing a step in ANOTHER scale that this token corresponds to (e.g. a line-height paired with font-size tier N), distinct from scaleIndex (this token's own ramp position).",
+  "kind": "numeric",
+  "registry": null,
+  "validation": "none",
+  "serialization": {
+    "position": 98
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "integer",
+  "excludeFromLegacyKey": true
+}

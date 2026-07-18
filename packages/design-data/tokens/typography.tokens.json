@@ -3491,8 +3491,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-100",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 100,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -3502,8 +3504,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-100",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 100,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -3513,8 +3517,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1000",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1000,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1000"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "46px",
@@ -3524,8 +3530,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1000",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1000,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1000"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
@@ -3535,8 +3543,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1100",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1100,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "52px",
@@ -3546,8 +3556,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1100",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1100,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
@@ -3557,8 +3569,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1200",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1200,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "58px",
@@ -3568,8 +3582,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1200",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1200,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
@@ -3579,8 +3595,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1300",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1300,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "66px",
@@ -3590,8 +3608,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1300",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1300,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "80px",
@@ -3601,8 +3621,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1400",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1400,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "74px",
@@ -3612,8 +3634,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1400",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1400,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "90px",
@@ -3623,8 +3647,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1500",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 1500,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-1500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "84px",
@@ -3634,8 +3660,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-1500",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 1500,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-1500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "102px",
@@ -3645,8 +3673,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-200",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 200,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -3656,8 +3686,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-200",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 200,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -3667,8 +3699,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-25",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 25,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-25"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -3678,8 +3712,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-25",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 25,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-25"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -3689,8 +3725,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-300",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 300,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -3700,8 +3738,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-300",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 300,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "26px",
@@ -3711,8 +3751,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-400",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 400,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -3722,8 +3764,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-400",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 400,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-400"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -3733,8 +3777,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-50",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 50,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-50"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -3744,8 +3790,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-50",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 50,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-50"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -3755,8 +3803,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-500",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 500,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "26px",
@@ -3766,8 +3816,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-500",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 500,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-500"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -3777,8 +3829,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-600",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 600,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-600"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "30px",
@@ -3788,8 +3842,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-600",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 600,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-600"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -3799,8 +3855,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-700",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 700,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-700"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -3810,8 +3868,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-700",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 700,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-700"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
@@ -3821,8 +3881,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-75",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 75,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -3832,8 +3894,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-75",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 75,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -3843,8 +3907,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-800",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 800,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-800"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "36px",
@@ -3854,8 +3920,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-800",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 800,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-800"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "44px",
@@ -3865,8 +3933,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-900",
-      "scale": "desktop"
+      "property": "line-height",
+      "referenceScaleIndex": 900,
+      "scale": "desktop",
+      "legacyKey": "line-height-font-size-900"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "42px",
@@ -3876,8 +3946,10 @@
   },
   {
     "name": {
-      "property": "line-height-font-size-900",
-      "scale": "mobile"
+      "property": "line-height",
+      "referenceScaleIndex": 900,
+      "scale": "mobile",
+      "legacyKey": "line-height-font-size-900"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "50px",
