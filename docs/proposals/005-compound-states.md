@@ -1,6 +1,6 @@
 # Proposal 005: Compound States
 
-**Status:** Draft\
+**Status:** Accepted — implemented for the `color-aliases.json` instances (dsi.9); the `color-component.json` instances (`stack-item-selected-background-color-*`, `table-selected-row-background-*`) are tracked separately under dsi.11.\
 **Affects:** 13 active tokens in `color-aliases.json`, `color-component.json`\
 **Spec reference:** taxonomy.md — state field definition
 
