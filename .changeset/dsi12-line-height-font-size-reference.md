@@ -10,4 +10,5 @@ Decompose fused `line-height-font-size-N` into `line-height` + `referenceScaleIn
 - **packages/design-data/tokens/typography.tokens.json**: 36 `line-height-font-size-N`
   tokens migrated to `property: "line-height"` + `referenceScaleIndex`, with an
   explicit `legacyKey` pin preserving the original flat key until naming.rs learns
-  to reconstruct it from the new field.
+  to reconstruct it from the new field. Verified byte-identical via
+  `design-data migrate legacy-verify` against `packages/tokens/src`.
