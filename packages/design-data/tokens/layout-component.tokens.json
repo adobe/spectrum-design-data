@@ -3,7 +3,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-extra-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -18,7 +19,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-extra-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -33,7 +35,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -48,7 +51,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -63,7 +67,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-medium",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -78,7 +83,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-medium",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -93,7 +99,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-small",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -108,7 +115,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-compact-small",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -230,7 +238,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "bottom-to-text-regular-extra-large"
+      "property": "bottom-to-text-regular-extra-large",
+      "legacyKey": "accordion-bottom-to-text-regular-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3f045028-2598-426a-91bd-443549a4c5f1",
@@ -240,7 +249,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "bottom-to-text-regular-large"
+      "property": "bottom-to-text-regular-large",
+      "legacyKey": "accordion-bottom-to-text-regular-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "036e6eac-cf81-4563-b4ea-f9610de674a8",
@@ -250,7 +260,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "bottom-to-text-regular-medium"
+      "property": "bottom-to-text-regular-medium",
+      "legacyKey": "accordion-bottom-to-text-regular-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "071af591-5387-4a04-b00a-3451bb1f102d",
@@ -260,7 +271,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "bottom-to-text-regular-small"
+      "property": "bottom-to-text-regular-small",
+      "legacyKey": "accordion-bottom-to-text-regular-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "13a9d984-2e46-4319-a466-d59fce44fef3",
@@ -307,7 +319,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-extra-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -322,7 +335,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-extra-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "21px",
@@ -337,7 +351,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -352,7 +367,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -367,7 +383,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-medium",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -382,7 +399,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-medium",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -397,7 +415,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-small",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-bottom-to-text-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -412,7 +431,8 @@
     "name": {
       "component": "accordion",
       "property": "bottom-to-text-spacious-small",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-bottom-to-text-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -957,7 +977,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-extra-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -972,7 +993,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-extra-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -987,7 +1009,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -1002,7 +1025,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -1016,7 +1040,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "top-to-text-compact-medium"
+      "property": "top-to-text-compact-medium",
+      "legacyKey": "accordion-top-to-text-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -1029,7 +1054,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-small",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -1044,7 +1070,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-compact-small",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -1166,7 +1193,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "top-to-text-regular-extra-large"
+      "property": "top-to-text-regular-extra-large",
+      "legacyKey": "accordion-top-to-text-regular-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "346cdddd-d063-42bf-960a-c38e5cdcf862",
@@ -1176,7 +1204,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "top-to-text-regular-large"
+      "property": "top-to-text-regular-large",
+      "legacyKey": "accordion-top-to-text-regular-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dd578daf-93a2-48f0-9df2-e67095cf5d7a",
@@ -1186,7 +1215,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "top-to-text-regular-medium"
+      "property": "top-to-text-regular-medium",
+      "legacyKey": "accordion-top-to-text-regular-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a60996d-f55e-47b5-a966-a10e297e4bd7",
@@ -1196,7 +1226,8 @@
   {
     "name": {
       "component": "accordion",
-      "property": "top-to-text-regular-small"
+      "property": "top-to-text-regular-small",
+      "legacyKey": "accordion-top-to-text-regular-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bbaac303-b17e-48d5-8cad-9342c51d5c80",
@@ -1243,7 +1274,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-extra-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
@@ -1258,7 +1290,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-extra-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "21px",
@@ -1273,7 +1306,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -1288,7 +1322,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -1303,7 +1338,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-medium",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -1318,7 +1354,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-medium",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -1333,7 +1370,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-small",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "accordion-top-to-text-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -1348,7 +1386,8 @@
     "name": {
       "component": "accordion",
       "property": "top-to-text-spacious-small",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "accordion-top-to-text-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3905,7 +3944,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-compact-extra-large"
+      "property": "edge-to-content-compact-extra-large",
+      "legacyKey": "card-edge-to-content-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -3917,7 +3957,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-compact-extra-small"
+      "property": "edge-to-content-compact-extra-small",
+      "legacyKey": "card-edge-to-content-compact-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -3929,7 +3970,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-compact-large"
+      "property": "edge-to-content-compact-large",
+      "legacyKey": "card-edge-to-content-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -3941,7 +3983,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-compact-medium"
+      "property": "edge-to-content-compact-medium",
+      "legacyKey": "card-edge-to-content-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -3953,7 +3996,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-compact-small"
+      "property": "edge-to-content-compact-small",
+      "legacyKey": "card-edge-to-content-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -4025,7 +4069,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-spacious-extra-large"
+      "property": "edge-to-content-spacious-extra-large",
+      "legacyKey": "card-edge-to-content-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -4037,7 +4082,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-spacious-extra-small"
+      "property": "edge-to-content-spacious-extra-small",
+      "legacyKey": "card-edge-to-content-spacious-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -4049,7 +4095,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-spacious-large"
+      "property": "edge-to-content-spacious-large",
+      "legacyKey": "card-edge-to-content-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -4061,7 +4108,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-spacious-medium"
+      "property": "edge-to-content-spacious-medium",
+      "legacyKey": "card-edge-to-content-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -4073,7 +4121,8 @@
   {
     "name": {
       "component": "card",
-      "property": "edge-to-content-spacious-small"
+      "property": "edge-to-content-spacious-small",
+      "legacyKey": "card-edge-to-content-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
