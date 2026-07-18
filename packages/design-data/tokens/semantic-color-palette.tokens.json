@@ -616,8 +616,11 @@
   },
   {
     "name": {
-      "property": "negative-subdued-background-color",
-      "state": "default"
+      "colorRole": "negative",
+      "variant": "subdued",
+      "property": "background-color",
+      "state": "default",
+      "legacyKey": "negative-subdued-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "30fa3891-135b-405a-bf0f-3cc17f711079",
@@ -626,8 +629,11 @@
   },
   {
     "name": {
-      "property": "negative-subdued-background-color",
-      "state": "down"
+      "colorRole": "negative",
+      "variant": "subdued",
+      "property": "background-color",
+      "state": "down",
+      "legacyKey": "negative-subdued-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "53486ec0-79f7-4853-ad5b-dacc5a904f8a",
@@ -636,8 +642,11 @@
   },
   {
     "name": {
-      "property": "negative-subdued-background-color",
-      "state": "hover"
+      "colorRole": "negative",
+      "variant": "subdued",
+      "property": "background-color",
+      "state": "hover",
+      "legacyKey": "negative-subdued-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "53486ec0-79f7-4853-ad5b-dacc5a904f8a",
@@ -646,8 +655,11 @@
   },
   {
     "name": {
-      "property": "negative-subdued-background-color",
-      "state": "key-focus"
+      "colorRole": "negative",
+      "variant": "subdued",
+      "property": "background-color",
+      "state": "key-focus",
+      "legacyKey": "negative-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "53486ec0-79f7-4853-ad5b-dacc5a904f8a",
