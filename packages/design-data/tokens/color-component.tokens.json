@@ -741,8 +741,10 @@
   },
   {
     "name": {
-      "property": "select-box-selected-border-color",
-      "component": "select-box"
+      "component": "select-box",
+      "property": "border-color",
+      "state": "selected",
+      "legacyKey": "select-box-selected-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -781,8 +783,10 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-default",
-      "component": "stack-item"
+      "component": "stack-item",
+      "property": "background-color",
+      "state": "selected-default",
+      "legacyKey": "stack-item-selected-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -790,8 +794,10 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-down",
-      "component": "stack-item"
+      "component": "stack-item",
+      "property": "background-color",
+      "state": "selected-down",
+      "legacyKey": "stack-item-selected-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
@@ -799,8 +805,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-emphasized",
-      "component": "stack-item"
+      "component": "stack-item",
+      "property": "background-color",
+      "state": "selected",
+      "emphasis": "emphasized",
+      "legacyKey": "stack-item-selected-background-color-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",
@@ -808,8 +817,10 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-hover",
-      "component": "stack-item"
+      "component": "stack-item",
+      "property": "background-color",
+      "state": "selected-hover",
+      "legacyKey": "stack-item-selected-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -817,8 +828,10 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-color-key-focus",
-      "component": "stack-item"
+      "component": "stack-item",
+      "property": "background-color",
+      "state": "selected-keyboard-focus",
+      "legacyKey": "stack-item-selected-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -867,8 +880,11 @@
   },
   {
     "name": {
-      "property": "swatch-disabled-icon-border-color",
-      "component": "swatch"
+      "component": "swatch",
+      "anatomy": "icon",
+      "property": "border-color",
+      "state": "disabled",
+      "legacyKey": "swatch-disabled-icon-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -876,8 +892,11 @@
   },
   {
     "name": {
-      "property": "swatch-disabled-icon-border-opacity",
-      "component": "swatch"
+      "component": "swatch",
+      "anatomy": "icon",
+      "property": "border-opacity",
+      "state": "disabled",
+      "legacyKey": "swatch-disabled-icon-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
@@ -894,8 +913,11 @@
   },
   {
     "name": {
-      "property": "table-row-down-opacity",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "opacity",
+      "state": "down",
+      "legacyKey": "table-row-down-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -903,8 +925,11 @@
   },
   {
     "name": {
-      "property": "table-row-hover-color",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "color",
+      "state": "hover",
+      "legacyKey": "table-row-hover-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -912,8 +937,11 @@
   },
   {
     "name": {
-      "property": "table-row-hover-opacity",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "opacity",
+      "state": "hover",
+      "legacyKey": "table-row-hover-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.07",
@@ -921,8 +949,11 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-color",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-color",
+      "state": "selected",
+      "legacyKey": "table-selected-row-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b40c677-e046-4a49-b421-8a4451844512",
@@ -930,8 +961,12 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-color-non-emphasized",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-color",
+      "state": "selected",
+      "emphasis": "non-emphasized",
+      "legacyKey": "table-selected-row-background-color-non-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
@@ -939,8 +974,11 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-opacity",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-opacity",
+      "state": "selected",
+      "legacyKey": "table-selected-row-background-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -948,8 +986,11 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-opacity-hover",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-opacity",
+      "state": "selected-hover",
+      "legacyKey": "table-selected-row-background-opacity-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
@@ -957,8 +998,12 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-opacity-non-emphasized",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-opacity",
+      "state": "selected",
+      "emphasis": "non-emphasized",
+      "legacyKey": "table-selected-row-background-opacity-non-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -966,8 +1011,12 @@
   },
   {
     "name": {
-      "property": "table-selected-row-background-opacity-non-emphasized-hover",
-      "component": "table"
+      "component": "table",
+      "anatomy": "row",
+      "property": "background-opacity",
+      "state": "selected-hover",
+      "emphasis": "non-emphasized",
+      "legacyKey": "table-selected-row-background-opacity-non-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.15",
@@ -1013,8 +1062,12 @@
   },
   {
     "name": {
-      "property": "tree-view-selected-row-background-color-emphasized",
-      "component": "tree-view"
+      "component": "tree-view",
+      "anatomy": "row",
+      "property": "background-color",
+      "state": "selected",
+      "emphasis": "emphasized",
+      "legacyKey": "tree-view-selected-row-background-color-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b40c677-e046-4a49-b421-8a4451844512",
@@ -1022,8 +1075,11 @@
   },
   {
     "name": {
-      "property": "tree-view-selected-row-background-default",
-      "component": "tree-view"
+      "component": "tree-view",
+      "anatomy": "row",
+      "property": "background",
+      "state": "selected-default",
+      "legacyKey": "tree-view-selected-row-background-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -1031,8 +1087,11 @@
   },
   {
     "name": {
-      "property": "tree-view-selected-row-background-hover",
-      "component": "tree-view"
+      "component": "tree-view",
+      "anatomy": "row",
+      "property": "background",
+      "state": "selected-hover",
+      "legacyKey": "tree-view-selected-row-background-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
