@@ -19,9 +19,27 @@
 //! in #941) and checked here like any other advisory field. Fields excluded from
 //! this check:
 //! - `colorScheme`, `scale`, `contrast` — mode-set fields, validated by SPEC-005/SPEC-008
+//!
+//! Per Proposal 005, `state` also accepts compound values (`{mode-state}-{interaction-state}`,
+//! e.g. `"selected-hover"`, `"selected-key-focus"`). A compound value that fails the
+//! whole-string registry lookup is checked segment-by-segment before warning.
+
+use std::collections::HashSet;
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
+
+/// Per Proposal 005, a compound state is `{mode-state}-{interaction-state}`.
+/// Since either segment (e.g. `keyboard-focus`) may itself contain a hyphen,
+/// try every hyphen boundary rather than assuming one fixed split point.
+/// Valid only if some split has both halves individually known to the registry.
+fn is_valid_compound_state(value: &str, registry_set: &HashSet<String>) -> bool {
+    value.match_indices('-').any(|(i, _)| {
+        let (mode_state, rest) = value.split_at(i);
+        let interaction_state = &rest[1..];
+        registry_set.contains(mode_state) && registry_set.contains(interaction_state)
+    })
+}
 
 pub struct Rule;
 
@@ -54,20 +72,26 @@ impl ValidationRule for Rule {
                     None => continue,
                 };
 
-                if !registry_set.contains(value) {
-                    diags.push(Diagnostic {
-                        file: record.file.clone(),
-                        token: Some(record.name.clone()),
-                        rule_id: Some("SPEC-009".into()),
-                        severity: Severity::Warning,
-                        message: format!(
-                            "name.{field} value \"{value}\" is not in the spectrum-design-data \
-                             registry/{field} vocabulary"
-                        ),
-                        instance_path: Some(format!("/name/{field}")),
-                        schema_path: None,
-                    });
+                if registry_set.contains(value) {
+                    continue;
                 }
+
+                if field == "state" && is_valid_compound_state(value, registry_set) {
+                    continue;
+                }
+
+                diags.push(Diagnostic {
+                    file: record.file.clone(),
+                    token: Some(record.name.clone()),
+                    rule_id: Some("SPEC-009".into()),
+                    severity: Severity::Warning,
+                    message: format!(
+                        "name.{field} value \"{value}\" is not in the spectrum-design-data \
+                         registry/{field} vocabulary"
+                    ),
+                    instance_path: Some(format!("/name/{field}")),
+                    schema_path: None,
+                });
             }
         }
 
@@ -184,6 +208,41 @@ mod tests {
             json!({"name": {"property": "color", "colorScheme": "nonexistent"}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
+    }
+
+    #[test]
+    fn compound_state_of_known_segments_no_warning() {
+        let g = TokenGraph::from_pairs(vec![(
+            "t".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color", "state": "selected-hover"}, "value": "#fff"}),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
+    }
+
+    #[test]
+    fn compound_state_with_hyphenated_segment_no_warning() {
+        // "keyboard-focus" (aliased as "key-focus") is itself a single registry
+        // value, so "selected-key-focus" must split as selected + key-focus,
+        // not selected + key + focus.
+        let g = TokenGraph::from_pairs(vec![(
+            "t".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color", "state": "selected-key-focus"}, "value": "#fff"}),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
+    }
+
+    #[test]
+    fn compound_state_with_unknown_segment_warns() {
+        let g = TokenGraph::from_pairs(vec![(
+            "t".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color", "state": "selected-nonexistent"}, "value": "#fff"}),
+        )]);
+        let diags = diagnostics_for_rule(&g, "SPEC-009");
+        assert_eq!(diags.len(), 1);
+        assert!(diags[0].message.contains("selected-nonexistent"));
     }
 
     #[test]
