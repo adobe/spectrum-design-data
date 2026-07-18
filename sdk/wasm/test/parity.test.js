@@ -74,12 +74,14 @@ test("Dataset.embedded() query returns results for known Spectrum tokens", (t) =
 
 test("Dataset.embedded() resolve returns a token for a known property", (t) => {
   const ds = wasm.Dataset.embedded();
-  // accent-background-color: a stable core Spectrum property present across all colorSchemes;
+  // background-color: a stable core Spectrum property present across all colorSchemes;
   // unlikely to be renamed or removed, making it a reliable fixture anchor.
-  const result = ds.resolve("accent-background-color", {
+  // (accent-background-color was decomposed into colorRole:"accent" +
+  // property:"background-color" by #1246 — resolve() matches name.property literally.)
+  const result = ds.resolve("background-color", {
     colorScheme: "light",
   });
-  t.truthy(result, "Expected a resolved token for accent-background-color");
+  t.truthy(result, "Expected a resolved token for background-color");
   t.is(typeof result.specificity, "number");
   t.truthy(result.token.raw);
 });
