@@ -72,9 +72,18 @@ export function loadRegistries() {
       const segments = entry.id.split("-");
       allTerms.push({ segments, field, id: entry.id });
 
-      // Track tokenName for legacy serialization
+      // Track tokenName for legacy serialization, and also index it for
+      // matching: some fields (e.g. icon) serialize to a longer legacy form
+      // ("checkmark" -> "checkmark-icon") that must be recognized as a whole
+      // during decompose, not split into its own segments (which can collide
+      // with unrelated single-segment terms in other registries).
       if (entry.tokenName) {
         tokenNameMap[entry.id] = entry.tokenName;
+        allTerms.push({
+          segments: entry.tokenName.split("-"),
+          field,
+          id: entry.id,
+        });
       }
 
       // Also index aliases for matching

@@ -73,6 +73,7 @@ async function main() {
           deprecated: !!token.deprecated,
           private: !!token.private,
           component: token.name.component,
+          icon: token.name.icon,
         },
         registry,
         filename,

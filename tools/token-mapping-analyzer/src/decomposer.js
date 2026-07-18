@@ -27,6 +27,7 @@ const FALLBACK_SERIALIZATION_ORDER = [
   "shape",
   "state",
   "role",
+  "icon",
 ];
 
 /**
@@ -179,6 +180,30 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       nameObject.component = tokenData.component;
       warnings.push(
         `component "${tokenData.component}" in metadata but not found in name segments`,
+      );
+    }
+  }
+
+  // Phase 1b: Use metadata-provided icon if available. Mirrors the component
+  // handling above — needed because an icon's expanded legacy form (e.g.
+  // "link-out" -> "link-out-icon") can be the same length as an unrelated
+  // anatomy term (anatomy-terms.json also declares "link-out-icon"), so
+  // Phase 3's length-then-priority tie-break would otherwise pick anatomy
+  // (icon isn't in fieldPriority) over the correct icon field.
+  if (tokenData.icon) {
+    const icExpanded = registry.tokenNameMap[tokenData.icon] || tokenData.icon;
+    const icSegments = icExpanded.split("-");
+    const icIndex = findSubsequence(segments, icSegments);
+    if (icIndex !== -1) {
+      nameObject.icon = tokenData.icon;
+      for (let i = icIndex; i < icIndex + icSegments.length; i++) {
+        matched[i] = true;
+        matchDetails[i] = "icon";
+      }
+    } else {
+      nameObject.icon = tokenData.icon;
+      warnings.push(
+        `icon "${tokenData.icon}" in metadata but not found in name segments`,
       );
     }
   }
@@ -731,6 +756,25 @@ export function serialize(
     }
     // != null, not truthy: scaleIndex: 0 is a legitimate value.
     if (nameObject.scaleIndex != null) parts.push(nameObject.scaleIndex);
+    return parts.join("-");
+  }
+
+  // Icon (non-color) domain: an icon-family token without colorFamily/colorRole
+  // (the ramp branches above didn't apply). `icon`'s catalog position sorts
+  // last, but the legacy key spells it first (e.g. "add-icon-size-100"), so
+  // the position-walk below can't express this — needs an explicit branch.
+  // Mirrors sdk/core/src/naming.rs's non-color icon branch — keep in sync.
+  if (nameObject.icon && !colorFamily && !colorRole && nameObject.property) {
+    const icExpanded = tokenNameMap[nameObject.icon] || nameObject.icon;
+    // Thin-format passthrough: property already spells "{icon}-...".
+    if (nameObject.property.startsWith(`${icExpanded}-`)) {
+      return nameObject.property;
+    }
+    const parts = [icExpanded, nameObject.property];
+    if (nameObject.scaleIndex != null)
+      parts.push(String(nameObject.scaleIndex));
+    if (nameObject.state)
+      parts.push(tokenNameMap[nameObject.state] || nameObject.state);
     return parts.join("-");
   }
 

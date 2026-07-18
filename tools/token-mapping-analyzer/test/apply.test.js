@@ -14,7 +14,11 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
 import { serialize } from "../src/decomposer.js";
-import { applyField, applySpaceBetween } from "../src/apply.js";
+import {
+  applyField,
+  applySpaceBetween,
+  applyScaleIndex,
+} from "../src/apply.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
@@ -288,6 +292,37 @@ test("applyField extracts co-occurring fields together to preserve the roundtrip
 // family:"serif" + emphasis:"emphasized"). Without a component field, applying
 // that merge violates SPEC-025 (anatomy requires component) even though the
 // *targeted* field was "family", not "anatomy". Regression test for that bug.
+test("applyScaleIndex migrates icon size-N tokens (dsi.6 icon follow-up, spectrum-design-data-5p3)", (t) => {
+  const registry = loadRegistries();
+  const tokens = [
+    // Plain icon owner.
+    { name: { icon: "add", property: "size-200", scale: "desktop" } },
+    // "link-out-icon" also exists as an anatomy term of the same length —
+    // this token exercises that collision (see decomposer.test.js).
+    { name: { icon: "link-out", property: "size-100", scale: "mobile" } },
+  ];
+
+  const { applied } = applyScaleIndex(
+    tokens,
+    registry,
+    "layout-component.tokens.json",
+  );
+
+  t.is(applied, 2);
+  t.deepEqual(tokens[0].name, {
+    icon: "add",
+    property: "size",
+    scale: "desktop",
+    scaleIndex: 200,
+  });
+  t.deepEqual(tokens[1].name, {
+    icon: "link-out",
+    property: "size",
+    scale: "mobile",
+    scaleIndex: 100,
+  });
+});
+
 test("applyField skips a merge that would introduce a SPEC-025 violation (anatomy without component)", (t) => {
   const registry = loadRegistries();
   const tokens = [

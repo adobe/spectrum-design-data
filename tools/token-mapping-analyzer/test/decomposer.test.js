@@ -402,3 +402,50 @@ test("serialize() reconstructs the -to- connective for a space-between name", (t
   );
   t.is(legacyKey, "accordion-bottom-to-handle-extra-large-hover");
 });
+
+test("decomposes an icon size-N token and splits the scaleIndex (dsi.6 icon follow-up)", (t) => {
+  const result = decompose("add-icon-size-200", {}, registry, "test");
+  t.is(result.nameObject.icon, "add");
+  t.is(result.nameObject.property, "size");
+  t.is(result.nameObject.scaleIndex, 200);
+  t.is(result.confidence, "HIGH");
+  t.true(result.roundtrips);
+});
+
+test("serialize() reconstructs an icon size-N key with state", (t) => {
+  const legacyKey = serialize(
+    { icon: "checkmark", property: "size", scaleIndex: 75, state: "hover" },
+    registry.tokenNameMap,
+    registry.serializationOrder,
+  );
+  t.is(legacyKey, "checkmark-icon-size-75-hover");
+});
+
+// "link-out-icon" is also declared as an anatomy term (anatomy-terms.json), the
+// same length as the icon's expanded tokenName — without metadata, Phase 3's
+// length-then-priority tie-break would resolve it to `anatomy` (icon isn't in
+// fieldPriority) instead of `icon`. Passing tokenData.icon (mirrors component
+// metadata handling) disambiguates it before that tie-break runs.
+test("metadata-provided icon resolves an anatomy/icon tokenName collision (link-out-icon)", (t) => {
+  const withoutMetadata = decompose(
+    "link-out-icon-size-100",
+    {},
+    registry,
+    "test",
+  );
+  t.is(withoutMetadata.nameObject.anatomy, "link-out-icon");
+  t.is(withoutMetadata.nameObject.icon, undefined);
+
+  const withMetadata = decompose(
+    "link-out-icon-size-100",
+    { icon: "link-out" },
+    registry,
+    "test",
+  );
+  t.is(withMetadata.nameObject.icon, "link-out");
+  t.is(withMetadata.nameObject.anatomy, undefined);
+  t.is(withMetadata.nameObject.property, "size");
+  t.is(withMetadata.nameObject.scaleIndex, 100);
+  t.is(withMetadata.confidence, "HIGH");
+  t.true(withMetadata.roundtrips);
+});

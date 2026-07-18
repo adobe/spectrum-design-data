@@ -70,7 +70,11 @@ export function applyField(tokens, field, registry, filename) {
 
     const result = decompose(
       legacyKey,
-      { deprecated: !!token.deprecated, component: token.name?.component },
+      {
+        deprecated: !!token.deprecated,
+        component: token.name?.component,
+        icon: token.name?.icon,
+      },
       registry,
       filename,
     );
@@ -165,7 +169,11 @@ export function applySpaceBetween(tokens, registry, filename) {
 
     const result = decompose(
       legacyKey,
-      { deprecated: !!token.deprecated, component: token.name?.component },
+      {
+        deprecated: !!token.deprecated,
+        component: token.name?.component,
+        icon: token.name?.icon,
+      },
       registry,
       filename,
     );
@@ -229,7 +237,11 @@ export function applyScaleIndex(tokens, registry, filename) {
 
     const result = decompose(
       legacyKey,
-      { deprecated: !!token.deprecated, component: token.name?.component },
+      {
+        deprecated: !!token.deprecated,
+        component: token.name?.component,
+        icon: token.name?.icon,
+      },
       registry,
       filename,
     );

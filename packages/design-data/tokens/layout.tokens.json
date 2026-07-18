@@ -5258,7 +5258,10 @@
   },
   {
     "name": {
-      "property": "label-to-description-0"
+      "property": "space-between",
+      "from": "label",
+      "to": "description",
+      "scaleIndex": 0
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
