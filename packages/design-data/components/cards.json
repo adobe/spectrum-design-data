@@ -173,7 +173,7 @@
     { "token": "focus-indicator-color", "context": "Focus ring" },
     { "token": "disabled-background-color", "context": "Disabled" },
     { "token": "opacity-disabled", "context": "Disabled" },
-    { "token": "card-background-color-loading", "context": "Loading" },
+    { "token": "card-background-loading-color", "context": "Loading" },
     {
       "token": "card-minimum-height-extra-small",
       "context": "Height (minimum)"
@@ -198,7 +198,7 @@
       "context": "Selection checkbox "
     },
     {
-      "token": "card-selection-background-size-extra",
+      "token": "card-selection-background-size-extra-large",
       "context": "Selection checkbox "
     },
     {
@@ -268,23 +268,23 @@
       "context": "Height (minimum), default variant"
     },
     {
-      "token": "collection-card-hero-minimum-height-extra-small",
+      "token": "collection-card-minimum-height-hero-extra-small",
       "context": "Height (minimum), hero image variant"
     },
     {
-      "token": "collection-card-hero-minimum-height-small",
+      "token": "collection-card-minimum-height-hero-small",
       "context": "Height (minimum), hero image variant"
     },
     {
-      "token": "collection-card-hero-minimum-height-medium",
+      "token": "collection-card-minimum-height-hero-medium",
       "context": "Height (minimum), hero image variant"
     },
     {
-      "token": "collection-card-hero-minimum-height-large",
+      "token": "collection-card-minimum-height-hero-large",
       "context": "Height (minimum), hero image variant"
     },
     {
-      "token": "collection-card-hero-minimum-height-extra-large",
+      "token": "collection-card-minimum-height-hero-extra-large",
       "context": "Height (minimum), hero image variant"
     },
     { "token": "spacing-100", "context": "Spacing (header to footer)" },
@@ -314,7 +314,7 @@
       "context": "Height (minimum), default variant"
     },
     {
-      "token": "user-carde-minimum-height-extra-large",
+      "token": "user-card-minimum-height-extra-large",
       "context": "Height (minimum), default variant"
     },
     {
@@ -368,23 +368,11 @@
       "context": "Stroke width (secondary, dark)"
     },
     {
-      "token": "horizontal-card-edge-to-content-default",
-      "context": "Spacing"
-    },
-    {
       "token": "popover-border-color",
       "context": "Border (Secondary, Light theme)"
     },
     {
-      "token": "horizontal-card-edge-to-content-compact",
-      "context": "Spacing (top/side/bottom edge to content)"
-    },
-    {
       "token": "horizontal-card-edge-to-content-regular",
-      "context": "Spacing (top/side/bottom edge to content)"
-    },
-    {
-      "token": "horizontal-card-edge-to-content-spacious",
       "context": "Spacing (top/side/bottom edge to content)"
     }
   ],

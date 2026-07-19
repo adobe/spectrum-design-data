@@ -78,7 +78,7 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "worfklow-icon-size-75", "context": "Layout" },
+    { "token": "workflow-icon-size-75", "context": "Layout" },
     { "token": "workflow-icon-size-100", "context": "Layout" },
     { "token": "rating-width-small", "context": "Width" },
     { "token": "rating-width-medium", "context": "Width" },
@@ -87,7 +87,7 @@
     { "token": "corner-radius-medium-size-small", "context": "Rounding" },
     { "token": "corner-radius-medium-size-medium", "context": "Rounding" },
     { "token": "focus-indicator-thickness", "context": "Focus ring" },
-    { "token": "focus-indicator-grap", "context": "Focus ring" },
+    { "token": "focus-indicator-gap", "context": "Focus ring" },
     {
       "token": "rating-top-to-content-area-small",
       "context": "Spacing (padding)"

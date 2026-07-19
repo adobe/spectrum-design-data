@@ -417,47 +417,7 @@
     { "token": "accordion-top-to-text-regular-large", "context": "S" },
     { "token": "accordion-bottom-to-text-regular-large", "context": "S" },
     { "token": "accordion-top-to-text-regular-extra-large", "context": "S" },
-    { "token": "accordion-bottom-to-text-regular-extra-large", "context": "S" },
-    {
-      "token": "field-top-to-disclosure-icon-75-compact",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-75-regular",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-75-spacious",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-100-compact",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-200-compact",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-200-regular",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-200-spacious",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-300-compact",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-300-regular",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    },
-    {
-      "token": "field-top-to-disclosure-icon-300-spacious",
-      "context": "Spacing (top/bottom to disclosure icon)"
-    }
+    { "token": "accordion-bottom-to-text-regular-extra-large", "context": "S" }
   ],
   "accessibility": {
     "intents": ["expand"],

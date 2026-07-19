@@ -240,10 +240,6 @@
     { "token": "focus-indicator-gap", "context": "Focus (drag handle)" },
     { "token": "component-height-200", "context": "Height" },
     {
-      "token": "stack-item-minimum-vertical-padding",
-      "context": "Spacing (vertical)"
-    },
-    {
       "token": "stack-item-item-to-item",
       "context": "Spacing (vertically, between tree view items)"
     },

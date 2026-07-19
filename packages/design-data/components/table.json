@@ -215,7 +215,7 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "chevron-100", "context": "Header icons" },
+    { "token": "chevron-icon-size-100", "context": "Header icons" },
     {
       "token": "corner-radius-medium-size-extra-small",
       "context": "Note: desktop 6px, mobile 6px;"
@@ -337,15 +337,15 @@
       "context": "Row: selected, checkbox & highlight"
     },
     {
-      "token": "neutral-content-color-default-hover",
+      "token": "neutral-content-color-hover",
       "context": "Row: selected, checkbox & highlight"
     },
     {
-      "token": "neutral-content-color-default-down",
+      "token": "neutral-content-color-down",
       "context": "Row: selected, checkbox & highlight"
     },
     {
-      "token": "neutral-content-color-default-key-focus",
+      "token": "neutral-content-color-key-focus",
       "context": "Row: selected, checkbox & highlight"
     },
     {
@@ -408,7 +408,7 @@
     { "token": "cjk-line-height-100", "context": "Column header and row" },
     { "token": "regular-font-weight", "context": "Column header and row" },
     {
-      "token": "table-row-hover-color;",
+      "token": "table-row-hover-color",
       "context": "S1 Row (not selected, hover)"
     },
     {

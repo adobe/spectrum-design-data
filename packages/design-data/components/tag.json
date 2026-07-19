@@ -236,19 +236,19 @@
     { "token": "accent-background-color-key-focus", "context": "Background" },
     { "token": "white", "context": "Icon and Clear icon" },
     {
-      "token": "neutral-selected-background-color-default",
+      "token": "neutral-background-color-selected-default",
       "context": "Background"
     },
     {
-      "token": "neutral-selected-background-color-hover",
+      "token": "neutral-background-color-selected-hover",
       "context": "Background"
     },
     {
-      "token": "neutral-selected-background-color-down",
+      "token": "neutral-background-color-selected-down",
       "context": "Background"
     },
     {
-      "token": "neutral-selected-background-color-key-focus",
+      "token": "neutral-background-color-selected-key-focus",
       "context": "Background"
     },
     { "token": "gray-25", "context": "Icon and Clear icon" },

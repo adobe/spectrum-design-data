@@ -181,22 +181,22 @@
     { "token": "slider-handle-large", "context": "Handle (size)" },
     { "token": "slider-handle-extra-large", "context": "Handle (size)" },
     {
-      "token": "slider-precision-handle-height-small",
+      "token": "slider-handle-height-precision-small",
       "context": "Handle (size)"
     },
     {
-      "token": "slider-precision-handle-height-medium",
+      "token": "slider-handle-height-precision-medium",
       "context": "Handle (size)"
     },
     {
-      "token": "slider-precision-handle-height-large",
+      "token": "slider-handle-height-precision-large",
       "context": "Handle (size)"
     },
     {
-      "token": "slider-precision-handle-height-extra-large",
+      "token": "slider-handle-height-precision-extra-large",
       "context": "Handle (size)"
     },
-    { "token": "slider-precision-handle-width", "context": "Handle (size)" },
+    { "token": "slider-handle-precision-width", "context": "Handle (size)" },
     { "token": "border-width-200", "context": "Handle (border)" },
     { "token": "focus-indicator-thickness", "context": "Focus ring" },
     { "token": "focus-indicator-gap", "context": "Focus ring" },
@@ -265,19 +265,19 @@
       "context": "Spacing (field label to slider control)"
     },
     {
-      "token": "slider-control-to-side-field-label-small",
+      "token": "slider-control-to-field-label-side-small",
       "context": "Spacing (field label to slider control)"
     },
     {
-      "token": "slider-control-to-side-field-label-medium",
+      "token": "slider-control-to-field-label-side-medium",
       "context": "Spacing (field label to slider control)"
     },
     {
-      "token": "slider-control-to-side-field-label-large",
+      "token": "slider-control-to-field-label-side-large",
       "context": "Spacing (field label to slider control)"
     },
     {
-      "token": "slider-control-to-side-field-label-extra-large",
+      "token": "slider-control-to-field-label-side-extra-large",
       "context": "Spacing (field label to slider control)"
     },
     {
@@ -297,7 +297,6 @@
       "context": "Spacing (slider to field)"
     },
     { "token": "neutral-subdued-content-color-default", "context": "Value" },
-    { "token": "alias-track-default", "context": "Track" },
     { "token": "gray-700", "context": "Track" },
     { "token": "accent-content-color-default", "context": "Track" },
     { "token": "gray-800", "context": "Handle" },

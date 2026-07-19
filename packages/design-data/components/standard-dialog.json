@@ -132,7 +132,7 @@
     { "token": "spacing-400", "context": "Spacing (edge to content)" },
     { "token": "spacing-300", "context": "Spacing (title to description)" },
     { "token": "spacing-200", "context": "Spacing (edge to close button)" },
-    { "token": "background-color-layer2", "context": "Background" },
+    { "token": "background-layer-2-color", "context": "Background" },
     { "token": "overlay-color", "context": "Overlay" },
     { "token": "overlay-opacity", "context": "Overlay" },
     { "token": "title-sans-serif-font-family", "context": "Title" },

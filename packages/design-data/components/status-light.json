@@ -117,7 +117,7 @@
     { "token": "status-light-dot-size-small", "context": "Dot size" },
     { "token": "status-light-dot-size-medium", "context": "Dot size" },
     { "token": "status-light-dot-size-large", "context": "Dot size" },
-    { "token": "status-light-dot-extra-large", "context": "Dot size" },
+    { "token": "status-light-dot-size-extra-large", "context": "Dot size" },
     {
       "token": "status-light-text-to-visual-75",
       "context": "Spacing (dot to label) "

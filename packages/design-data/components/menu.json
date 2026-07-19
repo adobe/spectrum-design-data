@@ -491,7 +491,7 @@
     { "token": "menu-item-background-color-hover", "context": "Background" },
     { "token": "menu-item-background-color-down", "context": "Background" },
     {
-      "token": "menu-item-background-color-key-focus",
+      "token": "menu-item-background-color-keyboard-focus",
       "context": "Background"
     },
     { "token": "menu-item-background-color-disabled", "context": "Background" },
