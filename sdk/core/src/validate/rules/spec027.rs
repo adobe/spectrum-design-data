@@ -30,18 +30,17 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        // tokenBindings reference the legacy flat token name. Post cascade-migration,
-        // every token's `name` is an object (not a string) and carries that flat name
-        // under `name.legacyKey` — match against that instead of a plain string `name`,
-        // which no token has anymore. See bead spectrum-design-data-vpk.
-        let token_names: std::collections::HashSet<&str> = ctx
+        // Resolve each token's flat legacy key (handles both the plain-string
+        // escape hatch and structured `name` objects) — this is what
+        // tokenBindings[].token values match against.
+        let token_names: std::collections::HashSet<String> = ctx
             .graph
             .tokens
             .values()
             .filter_map(|t| {
-                let name = t.raw.get("name")?;
-                name.as_str()
-                    .or_else(|| name.get("legacyKey").and_then(|v| v.as_str()))
+                t.raw
+                    .get("name")
+                    .and_then(crate::naming::extract_legacy_key)
             })
             .collect();
 
@@ -145,23 +144,6 @@ mod tests {
     }
 
     #[test]
-    fn known_token_via_legacy_key_no_error() {
-        // Cascade tokens have an object `name` with a nested `legacyKey`, not a
-        // string `name` -- this is the shape every real token has post-migration.
-        let diags = run(
-            vec![json!({
-                "name": {"component": "button", "property": "background-color", "legacyKey": "button-background-color"},
-                "value": "#fff"
-            })],
-            json!({
-                "name": "button",
-                "tokenBindings": [{"token": "button-background-color", "slot": "default"}]
-            }),
-        );
-        assert!(diags.is_empty());
-    }
-
-    #[test]
     fn unknown_token_error() {
         let diags = run(
             vec![],
@@ -179,6 +161,29 @@ mod tests {
     #[test]
     fn no_bindings_no_error() {
         let diags = run(vec![], json!({"name": "button"}));
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn structured_name_object_resolves() {
+        // Post name-object migration, tokens carry a structured `name` object
+        // rather than a flat string. tokenBindings must still resolve against
+        // the token's legacy key (pinned here via `legacyKey`).
+        let diags = run(
+            vec![json!({
+                "name": {
+                    "property": "height",
+                    "component": "select-box",
+                    "orientation": "vertical",
+                    "legacyKey": "select-box-vertical-height"
+                },
+                "value": "32px"
+            })],
+            json!({
+                "name": "select-box",
+                "tokenBindings": [{"token": "select-box-vertical-height", "slot": "default"}]
+            }),
+        );
         assert!(diags.is_empty());
     }
 }
