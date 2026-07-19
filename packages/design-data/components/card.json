@@ -1,0 +1,28 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/card.json",
+  "specVersion": "1.0.0-draft",
+  "name": "card",
+  "displayName": "Card",
+  "description": "A single card surface used to group related content and actions; the base of the cards family (cards.json documents the group).",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "anatomy": [
+    {
+      "name": "selection"
+    },
+    {
+      "name": "well"
+    }
+  ],
+  "states": [
+    {
+      "name": "default"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

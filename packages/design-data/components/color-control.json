@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/color-control.json",
+  "specVersion": "1.0.0-draft",
+  "name": "color-control",
+  "displayName": "Color control",
+  "description": "Shared interactive control (slider/area) underlying color-picker components.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "anatomy": [
+    {
+      "name": "track"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

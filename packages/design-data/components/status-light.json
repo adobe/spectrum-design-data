@@ -48,44 +48,100 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "informative",
       "values": [
-        { "value": "informative" },
-        { "value": "neutral" },
-        { "value": "positive" },
-        { "value": "notice" },
-        { "value": "negative" },
-        { "value": "indigo" },
-        { "value": "celery" },
-        { "value": "chartreuse" },
-        { "value": "yellow" },
-        { "value": "magenta" },
-        { "value": "fuchsia" },
-        { "value": "purple" },
-        { "value": "seafoam" },
-        { "value": "pink" },
-        { "value": "turquoise" },
-        { "value": "cinnamon" },
-        { "value": "brown" },
-        { "value": "silver" },
-        { "value": "gray" },
-        { "value": "red" },
-        { "value": "orange" },
-        { "value": "green" },
-        { "value": "cyan" }
+        {
+          "value": "informative"
+        },
+        {
+          "value": "neutral"
+        },
+        {
+          "value": "positive"
+        },
+        {
+          "value": "notice"
+        },
+        {
+          "value": "negative"
+        },
+        {
+          "value": "indigo"
+        },
+        {
+          "value": "celery"
+        },
+        {
+          "value": "chartreuse"
+        },
+        {
+          "value": "yellow"
+        },
+        {
+          "value": "magenta"
+        },
+        {
+          "value": "fuchsia"
+        },
+        {
+          "value": "purple"
+        },
+        {
+          "value": "seafoam"
+        },
+        {
+          "value": "pink"
+        },
+        {
+          "value": "turquoise"
+        },
+        {
+          "value": "cinnamon"
+        },
+        {
+          "value": "brown"
+        },
+        {
+          "value": "silver"
+        },
+        {
+          "value": "gray"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "orange"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "cyan"
+        }
       ]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     }
   },
@@ -105,18 +161,47 @@
     {
       "name": "visual-300",
       "description": "Severity dot, 300 size variant."
+    },
+    {
+      "name": "dot"
     }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
-    { "token": "component-height-75", "context": "Height" },
-    { "token": "component-height-100", "context": "Height" },
-    { "token": "component-height-200", "context": "Height" },
-    { "token": "component-height-300", "context": "Height" },
-    { "token": "status-light-dot-size-small", "context": "Dot size" },
-    { "token": "status-light-dot-size-medium", "context": "Dot size" },
-    { "token": "status-light-dot-size-large", "context": "Dot size" },
-    { "token": "status-light-dot-extra-large", "context": "Dot size" },
+    {
+      "token": "component-height-75",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Height"
+    },
+    {
+      "token": "status-light-dot-size-small",
+      "context": "Dot size"
+    },
+    {
+      "token": "status-light-dot-size-medium",
+      "context": "Dot size"
+    },
+    {
+      "token": "status-light-dot-size-large",
+      "context": "Dot size"
+    },
+    {
+      "token": "status-light-dot-extra-large",
+      "context": "Dot size"
+    },
     {
       "token": "status-light-text-to-visual-75",
       "context": "Spacing (dot to label) "
@@ -181,36 +266,128 @@
       "token": "component-bottom-to-text-300",
       "context": "Spacing (top/bottom edge to label)"
     },
-    { "token": "default-font-family", "context": "Label" },
-    { "token": "regular-font-weight", "context": "Label" },
-    { "token": "default-font-style", "context": "Label" },
-    { "token": "font-size-75", "context": "Label" },
-    { "token": "font-size-100", "context": "Label" },
-    { "token": "font-size-200", "context": "Label" },
-    { "token": "font-size-300", "context": "Label" },
-    { "token": "line-height-100", "context": "Label" },
-    { "token": "cjk-line-height-100", "context": "Label" },
-    { "token": "informative-visual-color", "context": "Semantic (Dot) " },
-    { "token": "neutral-visual-color", "context": "Semantic (Dot) " },
-    { "token": "positive-visual-color", "context": "Semantic (Dot) " },
-    { "token": "notice-visual-color", "context": "Semantic (Dot) " },
-    { "token": "negative-visual-color", "context": "Semantic (Dot) " },
-    { "token": "celery-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "chartreuse-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "cyan-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "fuchsia-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "purple-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "magenta-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "indigo-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "seafoam-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "yellow-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "pink-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "turquoise-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "cinnamon-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "brown-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "silver-visual-color", "context": "Non-semantic (Dot)  " },
-    { "token": "gray-600", "context": "Label" },
-    { "token": "neutral-content-color-default", "context": "Label" }
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "informative-visual-color",
+      "context": "Semantic (Dot) "
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Semantic (Dot) "
+    },
+    {
+      "token": "positive-visual-color",
+      "context": "Semantic (Dot) "
+    },
+    {
+      "token": "notice-visual-color",
+      "context": "Semantic (Dot) "
+    },
+    {
+      "token": "negative-visual-color",
+      "context": "Semantic (Dot) "
+    },
+    {
+      "token": "celery-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "chartreuse-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "cyan-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "fuchsia-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "purple-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "magenta-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "indigo-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "seafoam-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "yellow-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "pink-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "turquoise-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "cinnamon-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "brown-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "silver-visual-color",
+      "context": "Non-semantic (Dot)  "
+    },
+    {
+      "token": "gray-600",
+      "context": "Label"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label"
+    }
   ],
-  "accessibility": { "focusable": false }
+  "accessibility": {
+    "focusable": false
+  }
 }

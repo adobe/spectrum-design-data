@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/in-field-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "in-field-button",
+  "displayName": "In-field button",
+  "description": "A button embedded inside a field's input area, such as a clear or disclosure action.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "anatomy": [
+    {
+      "name": "fill"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

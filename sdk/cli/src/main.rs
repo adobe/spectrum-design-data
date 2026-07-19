@@ -121,6 +121,11 @@ enum Commands {
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
+        /// Downgrade component-aware rule errors (SPEC-018/020/022/026/027/031/035/040) to
+        /// warnings so `--components-path` can be loaded without failing on a pre-existing
+        /// backlog. Transitional flag for burn-down; see bead spectrum-design-data-0jm.
+        #[arg(long)]
+        components_report_only: bool,
         /// Treat warnings as errors
         #[arg(long)]
         strict: bool,
@@ -575,6 +580,7 @@ struct ValidateOpts {
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
+    components_report_only: bool,
     strict: bool,
 }
 
@@ -604,7 +610,7 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     let dims_dir = resolved.mode_sets;
     let comps_dir = resolved.components;
 
-    let report = validate::validate_all_with_options_and_names(
+    let mut report = validate::validate_all_with_options_and_names(
         path,
         &registry,
         &exceptions,
@@ -614,6 +620,14 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
+
+    if opts.components_report_only {
+        let ids: std::collections::HashSet<&str> = validate::rules::COMPONENT_RULE_IDS
+            .iter()
+            .copied()
+            .collect();
+        report.downgrade_rules(&ids);
+    }
 
     match opts.format {
         OutputFormat::Json => {
@@ -1620,6 +1634,7 @@ fn main() -> ExitCode {
             mode_sets_path,
             components_path,
             names_dir,
+            components_report_only,
             strict,
         } => {
             let target = path.unwrap_or_else(|| PathBuf::from("."));
@@ -1632,6 +1647,7 @@ fn main() -> ExitCode {
                     mode_sets_path,
                     components_path,
                     names_dir,
+                    components_report_only,
                     strict,
                 },
             )

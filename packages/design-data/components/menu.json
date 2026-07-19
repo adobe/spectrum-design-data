@@ -16,11 +16,11 @@
     },
     {
       "type": "guideline",
-      "content": "A disabled menu item indicates that an option exists but isn’t available in the current context. This helps preserve layout consistency and signals that the action might be available later."
+      "content": "A disabled menu item indicates that an option exists but isn\u2019t available in the current context. This helps preserve layout consistency and signals that the action might be available later."
     },
     {
       "type": "guideline",
-      "content": "An unavailable menu item signals that an option exists but isn’t accessible in the current scenario. This helps ensure the label remains visible and provides context about why the option is unavailable, or directions for how to make it available."
+      "content": "An unavailable menu item signals that an option exists but isn\u2019t accessible in the current scenario. This helps ensure the label remains visible and provides context about why the option is unavailable, or directions for how to make it available."
     },
     {
       "type": "guideline",
@@ -64,7 +64,7 @@
     },
     {
       "type": "guideline",
-      "content": "Menu items can include icons, but only when they add meaningful context — not just for decoration. Use icons when they have a strong, recognizable association with the label (like tool switching in a toolbar)."
+      "content": "Menu items can include icons, but only when they add meaningful context \u2014 not just for decoration. Use icons when they have a strong, recognizable association with the label (like tool switching in a toolbar)."
     },
     {
       "type": "guideline",
@@ -92,15 +92,15 @@
     },
     {
       "type": "guideline",
-      "content": "When a menu is shown in a tray, selecting a parent item with a submenu replaces the tray’s content with the submenu. A back button labeled with the parent item’s title appears at the top of the tray to let users return to the previous menu level."
+      "content": "When a menu is shown in a tray, selecting a parent item with a submenu replaces the tray\u2019s content with the submenu. A back button labeled with the parent item\u2019s title appears at the top of the tray to let users return to the previous menu level."
     },
     {
       "type": "guideline",
-      "content": "A menu item can be navigated using a keyboard. The keyboard focus state takes the menu item’s visual hover state and adds a focus ring around the item."
+      "content": "A menu item can be navigated using a keyboard. The keyboard focus state takes the menu item\u2019s visual hover state and adds a focus ring around the item."
     },
     {
       "type": "guideline",
-      "content": "When a menu item’s label or description are too long for the available horizontal space, they wrap to form another line."
+      "content": "When a menu item\u2019s label or description are too long for the available horizontal space, they wrap to form another line."
     },
     {
       "type": "guideline",
@@ -116,51 +116,96 @@
     },
     {
       "type": "guideline",
-      "content": "Following Adobe’s UX writing style, write menu items in sentence case unless they contain words that are branded terms."
+      "content": "Following Adobe\u2019s UX writing style, write menu items in sentence case unless they contain words that are branded terms."
     },
     {
       "type": "guideline",
-      "content": "Don’t end a menu command with an ellipsis (…) unless it requires additional input to complete the action, typically in a dialog."
+      "content": "Don\u2019t end a menu command with an ellipsis (\u2026) unless it requires additional input to complete the action, typically in a dialog."
     }
   ],
   "options": {
     "container": {
       "type": "string",
-      "values": [{ "value": "popover" }, { "value": "tray" }]
+      "values": [
+        {
+          "value": "popover"
+        },
+        {
+          "value": "tray"
+        }
+      ]
     },
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
     },
-    "description": { "type": "string" },
-    "value": { "type": "string" },
+    "description": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "selectionMode": {
       "type": "string",
       "values": [
-        { "value": "single" },
-        { "value": "multiple" },
-        { "value": "no selection" }
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        },
+        {
+          "value": "no selection"
+        }
       ]
     },
     "selectionStyle": {
       "type": "string",
-      "values": [{ "value": "checkbox" }, { "value": "switch" }]
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "switch"
+        }
+      ]
     },
-    "sectionHeader": { "type": "string" },
-    "isCollapsible": { "type": "boolean", "default": false },
-    "isUnavailable": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "sectionHeader": {
+      "type": "string"
+    },
+    "isCollapsible": {
+      "type": "boolean",
+      "default": false
+    },
+    "isUnavailable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
@@ -182,13 +227,22 @@
         "link-out-icon"
       ]
     },
-    { "name": "icon", "description": "Leading icon of a menu item." },
-    { "name": "label", "description": "Primary label text of a menu item." },
+    {
+      "name": "icon",
+      "description": "Leading icon of a menu item."
+    },
+    {
+      "name": "label",
+      "description": "Primary label text of a menu item."
+    },
     {
       "name": "description",
       "description": "Secondary descriptive text of a menu item."
     },
-    { "name": "value", "description": "Current value display of a menu item." },
+    {
+      "name": "value",
+      "description": "Current value display of a menu item."
+    },
     {
       "name": "switch",
       "description": "Switch control for a menu item with switch selection style."
@@ -197,7 +251,10 @@
       "name": "checkbox",
       "description": "Checkbox control for a menu item with checkbox selection style."
     },
-    { "name": "thumbnail", "description": "Thumbnail image of a menu item." },
+    {
+      "name": "thumbnail",
+      "description": "Thumbnail image of a menu item."
+    },
     {
       "name": "drill-in-chevron",
       "description": "Chevron indicating a menu item opens a sub-menu."
@@ -208,20 +265,50 @@
     }
   ],
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "default"
+    },
+    {
+      "name": "disabled",
+      "trigger": "prop"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
     {
       "token": "popover-submenu-to-menu-item-position",
       "context": "Sub-menu alignment with menu item"
     },
-    { "token": "component-height-75", "context": "Minimum height" },
-    { "token": "component-height-100", "context": "Minimum height" },
-    { "token": "component-height-200", "context": "Minimum height" },
-    { "token": "component-height-300", "context": "Minimum height" },
+    {
+      "token": "component-height-75",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-100",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Minimum height"
+    },
+    {
+      "token": "component-height-300",
+      "context": "Minimum height"
+    },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -234,18 +321,42 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    { "token": "corner-radius-400", "context": "Rounding" },
-    { "token": "corner-radius-500", "context": "Rounding" },
-    { "token": "corner-radius-600", "context": "Rounding" },
-    { "token": "corner-radius-700", "context": "Rounding" },
+    {
+      "token": "corner-radius-400",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-500",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-600",
+      "context": "Rounding"
+    },
+    {
+      "token": "corner-radius-700",
+      "context": "Rounding"
+    },
     {
       "token": "menu-item-section-divider-height",
       "context": "Height (section divider)"
     },
-    { "token": "text-to-visual-75", "context": "Spacing (icon to label)" },
-    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
-    { "token": "text-to-visual-200", "context": "Spacing (icon to label)" },
-    { "token": "text-to-visual-300", "context": "Spacing (icon to label)" },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (icon to label)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (icon to label)"
+    },
     {
       "token": "component-top-to-workflow-icon-75",
       "context": "Spacing (top edge to icon)"
@@ -262,7 +373,10 @@
       "token": "component-top-to-workflow-icon-300",
       "context": "Spacing (top edge to icon)"
     },
-    { "token": "menu-item-to-items", "context": "Spacing (item to item)" },
+    {
+      "token": "menu-item-to-items",
+      "context": "Spacing (item to item)"
+    },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edges to content)"
@@ -431,12 +545,30 @@
       "token": "menu-item-top-to-disclosure-icon-extra-large",
       "context": "Spacing (top edge to disclosure icon)"
     },
-    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
-    { "token": "focus-indicator-gap", "context": "Focus indicator" },
-    { "token": "workflow-icon-size-75", "context": "Icon (menu item)" },
-    { "token": "workflow-icon-size-100", "context": "Icon (menu item)" },
-    { "token": "workflow-icon-size-200", "context": "Icon (menu item)" },
-    { "token": "workflow-icon-size-300", "context": "Icon (menu item)" },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "workflow-icon-size-75",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-200",
+      "context": "Icon (menu item)"
+    },
+    {
+      "token": "workflow-icon-size-300",
+      "context": "Icon (menu item)"
+    },
     {
       "token": "checkmark-icon-size-75",
       "context": "Icon (single selection, selected menu item)"
@@ -481,24 +613,66 @@
       "token": "link-out-icon-size-200",
       "context": "Icon (external link action, menu item)"
     },
-    { "token": "thumbnail-size-500", "context": "Thumbnail" },
-    { "token": "thumbnail-size-700", "context": "Thumbnail" },
-    { "token": "thumbnail-size-800", "context": "Thumbnail" },
-    { "token": "thumbnail-size-900", "context": "Thumbnail" },
-    { "token": "menu-item-background-color-default", "context": "Background" },
-    { "token": "menu-item-background-color-hover", "context": "Background" },
-    { "token": "menu-item-background-color-down", "context": "Background" },
+    {
+      "token": "thumbnail-size-500",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-700",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-800",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "thumbnail-size-900",
+      "context": "Thumbnail"
+    },
+    {
+      "token": "menu-item-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-color-down",
+      "context": "Background"
+    },
     {
       "token": "menu-item-background-color-key-focus",
       "context": "Background"
     },
-    { "token": "menu-item-background-color-disabled", "context": "Background" },
-    { "token": "menu-item-background-opacity", "context": "Background" },
-    { "token": "neutral-content-color-default", "context": "Label and icon" },
-    { "token": "neutral-content-color-hover", "context": "Label and icon" },
-    { "token": "neutral-content-color-down", "context": "Label and icon" },
-    { "token": "neutral-content-color-key-focus", "context": "Label and icon" },
-    { "token": "disabled-content-color", "context": "Label and icon" },
+    {
+      "token": "menu-item-background-color-disabled",
+      "context": "Background"
+    },
+    {
+      "token": "menu-item-background-opacity",
+      "context": "Background"
+    },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-hover",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-down",
+      "context": "Label and icon"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Label and icon"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Label and icon"
+    },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Description"
@@ -507,25 +681,70 @@
       "token": "neutral-subdued-content-color-hover",
       "context": "Description"
     },
-    { "token": "neutral-subdued-content-color-down", "context": "Description" },
+    {
+      "token": "neutral-subdued-content-color-down",
+      "context": "Description"
+    },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Description"
     },
-    { "token": "accent-content-color-default", "context": "Checkmark icon" },
-    { "token": "accent-content-color-hover", "context": "Checkmark icon" },
-    { "token": "accent-content-color-down", "context": "Checkmark icon" },
-    { "token": "accent-content-color-key-focus", "context": "Checkmark icon" },
-    { "token": "focus-indicator-color", "context": "Focus indicator" },
-    { "token": "default-font-family", "context": "Section header title" },
-    { "token": "bold-font-weight", "context": "Section header title" },
-    { "token": "default-font-style", "context": "Section header title" },
-    { "token": "font-size-75", "context": "Section header title" },
-    { "token": "font-size-100", "context": "Section header title" },
-    { "token": "font-size-200", "context": "Section header title" },
-    { "token": "font-size-300", "context": "Section header title" },
-    { "token": "line-height-100", "context": "Section header title" },
-    { "token": "cjk-line-height-100", "context": "Section header title" },
+    {
+      "token": "accent-content-color-default",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-hover",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-down",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Checkmark icon"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Section header title"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Section header title"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Section header title"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Section header title"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Section header title"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Section header title"
+    },
     {
       "token": "regular-font-weight",
       "context": "Descriptions (section header and item)"
@@ -541,8 +760,16 @@
     "focusable": false,
     "keyboardIntents": ["navigate-options", "activate", "dismiss"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

@@ -94,11 +94,24 @@ tasks:
   # components, mode-sets, and registry.
   # Note: `validate` uses --exceptions-path; `migrate convert` uses --exceptions.
   # These are different subcommands with different flag names.
+  #
+  # --components-path loads packages/design-data/components/*.json so
+  # component-aware rules (SPEC-018/020/022/026/027/031/035/040) actually run
+  # instead of silently no-op'ing (see bead spectrum-design-data-0jm).
+  # --components-report-only downgrades their findings to warnings: SPEC-018/
+  # 020/022 are clean (downgrade is a no-op for them), but SPEC-027 still has
+  # a real backlog of ~1887 dangling tokenBindings against scale-decomposed
+  # tokens with no flat legacyKey -- a data-model question tracked in bead
+  # spectrum-design-data-vpk, not yet safe to make blocking. Remove this flag
+  # once that bead resolves and the count reaches 0.
   validate:
     command: ../../sdk/target/debug/design-data
     args:
       - validate
       - ./tokens
+      - --components-path
+      - ./components
+      - --components-report-only
       - --exceptions-path
       - ../tokens/naming-exceptions.json
     toolchain: "system"
@@ -108,6 +121,7 @@ tasks:
       - ~:validate-registry
     inputs:
       - "@globs(tokens)"
+      - "@globs(catalogs)"
       - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.

@@ -28,11 +28,11 @@
     },
     {
       "type": "guideline",
-      "content": "By default, steplists are horizontal and should be used for wider layouts or panels to keep the user’s focus moving from left to right. Vertical steplists should be used for more narrow layouts or panels to accommodate more steps without crowding."
+      "content": "By default, steplists are horizontal and should be used for wider layouts or panels to keep the user\u2019s focus moving from left to right. Vertical steplists should be used for more narrow layouts or panels to accommodate more steps without crowding."
     },
     {
       "type": "guideline",
-      "content": "Users can’t click on incomplete steps. The steplist follows a linear flow, requiring completion of the previous step before moving to the next."
+      "content": "Users can\u2019t click on incomplete steps. The steplist follows a linear flow, requiring completion of the previous step before moving to the next."
     },
     {
       "type": "guideline",
@@ -40,7 +40,7 @@
     },
     {
       "type": "guideline",
-      "content": "When a step’s label is long for the available horizontal space, it wraps to form another line."
+      "content": "When a step\u2019s label is long for the available horizontal space, it wraps to form another line."
     },
     {
       "type": "guideline",
@@ -51,7 +51,14 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -92,9 +99,14 @@
     {
       "name": "track-size",
       "description": "The connecting track between steps."
+    },
+    {
+      "name": "track"
     }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
     {
       "token": "steplist-step-default-width-small",
@@ -144,16 +156,46 @@
       "token": "steplist-step-to-track-size-extra-large",
       "context": "Spacing (step to track)"
     },
-    { "token": "steplist-bottom-to-text", "context": "Text adjustment" },
-    { "token": "border-width-200", "context": "Visual border" },
-    { "token": "text-to-visual-75", "context": "Spacing (text to visual)" },
-    { "token": "text-to-visual-100", "context": "Spacing (text to visual)" },
-    { "token": "text-to-visual-200", "context": "Spacing (text to visual)" },
-    { "token": "text-to-visual-300", "context": "Spacing (text to visual)" },
-    { "token": "steplist-visual-size-small", "context": "Visual size" },
-    { "token": "steplist-visual-size-medium", "context": "Visual size" },
-    { "token": "steplist-visual-size-large", "context": "Visual size" },
-    { "token": "steplist-visual-size-extra-large", "context": "Visual size" },
+    {
+      "token": "steplist-bottom-to-text",
+      "context": "Text adjustment"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Visual border"
+    },
+    {
+      "token": "text-to-visual-75",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-100",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-200",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "text-to-visual-300",
+      "context": "Spacing (text to visual)"
+    },
+    {
+      "token": "steplist-visual-size-small",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-medium",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-large",
+      "context": "Visual size"
+    },
+    {
+      "token": "steplist-visual-size-extra-large",
+      "context": "Visual size"
+    },
     {
       "token": "steplist-track-thickness-thickness",
       "context": "Steplist track thickness"
@@ -162,15 +204,30 @@
       "token": "neutral-subdued-content-color-default",
       "context": "Step text"
     },
-    { "token": "neutral-subdued-content-color-hover", "context": "Step text" },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Step text"
     },
-    { "token": "neutral-content-color-default", "context": "Step text" },
-    { "token": "neutral-content-color-key-focus", "context": "Step text" },
-    { "token": "accent-content-color-default", "context": "Step text" },
-    { "token": "accent-content-color-key-focus", "context": "Step text" },
+    {
+      "token": "neutral-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "neutral-content-color-key-focus",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Step text"
+    },
+    {
+      "token": "accent-content-color-key-focus",
+      "context": "Step text"
+    },
     {
       "token": "neutral-subdued-background-color-default",
       "context": "Step visual"
@@ -183,34 +240,102 @@
       "token": "neutral-subdued-background-color-key-focus",
       "context": "Step visual"
     },
-    { "token": "neutral-background-color-default", "context": "Step visual" },
-    { "token": "neutral-background-color-key-focus", "context": "Step visual" },
-    { "token": "neutral-visual-color", "context": "Step visual" },
-    { "token": "accent-background-color-default", "context": "Step visual" },
-    { "token": "accent-background-color-key-focus", "context": "Step visual" },
-    { "token": "accent-background-color-hover", "context": "Step visual" },
-    { "token": "gray-25", "context": "Step visual text" },
-    { "token": "white", "context": "Step visual text" },
-    { "token": "accent-visual-color", "context": "Steplist track" },
-    { "token": "disabled-content-color", "context": "Disabled" },
-    { "token": "disabled-background-color", "context": "Disabled" },
-    { "token": "default-font-family", "context": "Label" },
-    { "token": "regular-font-weight", "context": "Label" },
-    { "token": "default-font-style", "context": "Label" },
-    { "token": "font-size-75", "context": "Label" },
-    { "token": "font-size-100", "context": "Label" },
-    { "token": "font-size-200", "context": "Label" },
-    { "token": "font-size-300", "context": "Label" },
-    { "token": "line-height-100", "context": "Label" },
-    { "token": "cjk-line-height-100", "context": "Label" }
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Step visual"
+    },
+    {
+      "token": "gray-25",
+      "context": "Step visual text"
+    },
+    {
+      "token": "white",
+      "context": "Step visual text"
+    },
+    {
+      "token": "accent-visual-color",
+      "context": "Steplist track"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
   ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

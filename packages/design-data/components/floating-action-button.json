@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/floating-action-button.json",
+  "specVersion": "1.0.0-draft",
+  "name": "floating-action-button",
+  "displayName": "Floating action button",
+  "description": "A circular button that floats above content to surface a primary action.",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

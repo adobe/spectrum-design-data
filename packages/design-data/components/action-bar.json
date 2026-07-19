@@ -16,7 +16,7 @@
     },
     {
       "type": "guideline",
-      "content": "Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme — light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to \"auto\" mode.\n\nIn dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors."
+      "content": "Action bar in Dark theme.\n\nAction bar is split into a separate component for each color theme \u2014 light and dark. Since each is set to either light or dark mode in Figma, they do not switch automatically like the rest of the UI when placed in frames that are set to \"auto\" mode.\n\nIn dark theme, the action bar also includes a 1px inner border to help it stand out against the background colors."
     },
     {
       "type": "guideline",
@@ -50,10 +50,15 @@
     {
       "type": "do-dont",
       "content": "Don't use quick actions",
-      "dont": "Instead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view.\n\nDon't use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
+      "dont": "Instead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view.\n\nDon't use quick actions \u2014 a deprecated component \u2014 because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
     }
   ],
-  "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "options": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
   "anatomy": [
     {
       "name": "action-group-area",
@@ -62,13 +67,27 @@
     {
       "name": "item-counter",
       "description": "Badge showing a count of items or actions."
+    },
+    {
+      "name": "counter"
     }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
-    { "token": "action-bar-height", "context": "Height" },
-    { "token": "action-bar-minimum-width", "context": "Width (minimum)" },
-    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
+    {
+      "token": "action-bar-height",
+      "context": "Height"
+    },
+    {
+      "token": "action-bar-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "corner-radius-medium-size-extra-large",
+      "context": "Rounding"
+    },
     {
       "token": "action-bar-top-to-content-area",
       "context": "Spacing (padding)"
@@ -93,24 +112,66 @@
       "token": "action-bar-close-button-to-counter",
       "context": "Spacing (counter)"
     },
-    { "token": "background-elevated-color", "context": "Background (default)" },
+    {
+      "token": "background-elevated-color",
+      "context": "Background (default)"
+    },
     {
       "token": "neutral-content-color-default",
       "context": "Background (emphasized)"
     },
-    { "token": "action-bar-border", "context": "Border" },
-    { "token": "drop-shadow-elevated-color", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-x", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-y", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-blur", "context": "Drop shadow" },
-    { "token": "action-bar-counter-font-size", "context": "Counter" },
-    { "token": "line-height-100", "context": "Counter" },
-    { "token": "cjk-line-height-100", "context": "Counter" },
-    { "token": "accent-background-color-default", "context": "Background" },
-    { "token": "accent-background-color-hover", "context": "Background" },
-    { "token": "accent-background-color-down", "context": "Background" },
-    { "token": "accent-background-color-key-focus", "context": "Background" },
-    { "token": "white", "context": "Icon and Clear icon" },
+    {
+      "token": "action-bar-border",
+      "context": "Border"
+    },
+    {
+      "token": "drop-shadow-elevated-color",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-x",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-y",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "drop-shadow-elevated-blur",
+      "context": "Drop shadow"
+    },
+    {
+      "token": "action-bar-counter-font-size",
+      "context": "Counter"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Counter"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Counter"
+    },
+    {
+      "token": "accent-background-color-default",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-hover",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-down",
+      "context": "Background"
+    },
+    {
+      "token": "accent-background-color-key-focus",
+      "context": "Background"
+    },
+    {
+      "token": "white",
+      "context": "Icon and Clear icon"
+    },
     {
       "token": "neutral-selected-background-color-default",
       "context": "Background"
@@ -127,7 +188,10 @@
       "token": "neutral-selected-background-color-key-focus",
       "context": "Background"
     },
-    { "token": "gray-25", "context": "Icon and Clear icon" },
+    {
+      "token": "gray-25",
+      "context": "Icon and Clear icon"
+    },
     {
       "token": "neutral-content-color-hover",
       "context": "Control (selected, non emphasized)"
@@ -160,7 +224,10 @@
       "token": "neutral-subdued-content-color-default",
       "context": "Step text"
     },
-    { "token": "neutral-subdued-content-color-hover", "context": "Step text" },
+    {
+      "token": "neutral-subdued-content-color-hover",
+      "context": "Step text"
+    },
     {
       "token": "neutral-subdued-content-color-key-focus",
       "context": "Step text"
@@ -177,15 +244,28 @@
       "token": "neutral-subdued-background-color-key-focus",
       "context": "Step visual"
     },
-    { "token": "neutral-background-color-default", "context": "Step visual" },
-    { "token": "neutral-background-color-key-focus", "context": "Step visual" },
-    { "token": "neutral-visual-color", "context": "Step visual" }
+    {
+      "token": "neutral-background-color-default",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-background-color-key-focus",
+      "context": "Step visual"
+    },
+    {
+      "token": "neutral-visual-color",
+      "context": "Step visual"
+    }
   ],
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

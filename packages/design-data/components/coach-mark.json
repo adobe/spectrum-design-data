@@ -48,11 +48,11 @@
     },
     {
       "type": "guideline",
-      "content": "The “Previous” button should always be a quiet secondary button."
+      "content": "The \u201cPrevious\u201d button should always be a quiet secondary button."
     },
     {
       "type": "guideline",
-      "content": "The “Skip tour” and “Restart tour” options should only be available within the more actions menu."
+      "content": "The \u201cSkip tour\u201d and \u201cRestart tour\u201d options should only be available within the more actions menu."
     },
     {
       "type": "guideline",
@@ -64,11 +64,11 @@
     },
     {
       "type": "guideline",
-      "content": "The primary action should be brief and consistent. Use \"OK\" for a single coach mark. Within a tour, use “Next” for all but the last step, and “Finish” for the last step. Don’t use different primary action names for every step in a tour."
+      "content": "The primary action should be brief and consistent. Use \"OK\" for a single coach mark. Within a tour, use \u201cNext\u201d for all but the last step, and \u201cFinish\u201d for the last step. Don\u2019t use different primary action names for every step in a tour."
     },
     {
       "type": "guideline",
-      "content": "When a part of the tour is dependent on a user taking an action, it’s okay to put the primary button in the disabled state as long as the user has a way to exit the tour. For a one-off coach mark, this means the primary button should remain as a route to dismiss. In a tour, it’s recommended to have the more actions menu present."
+      "content": "When a part of the tour is dependent on a user taking an action, it\u2019s okay to put the primary button in the disabled state as long as the user has a way to exit the tour. For a one-off coach mark, this means the primary button should remain as a route to dismiss. In a tour, it\u2019s recommended to have the more actions menu present."
     },
     {
       "type": "guideline",
@@ -76,8 +76,12 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "hideImage": {
       "type": "boolean",
       "default": false,
@@ -115,13 +119,36 @@
     {
       "name": "pagination-text",
       "description": "Text indicating step position (e.g. '2 of 5')."
+    },
+    {
+      "name": "body"
+    },
+    {
+      "name": "media"
+    },
+    {
+      "name": "pagination"
+    },
+    {
+      "name": "title"
     }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
-    { "token": "coach-mark-width", "context": "Width" },
-    { "token": "coach-mark-minimum-width", "context": "Width" },
-    { "token": "coach-mark-maximum-width", "context": "Width" },
+    {
+      "token": "coach-mark-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-minimum-width",
+      "context": "Width"
+    },
+    {
+      "token": "coach-mark-maximum-width",
+      "context": "Width"
+    },
     {
       "token": "coach-mark-edge-to-content",
       "context": "Spacing (top/bottom/start/end edge to text)"
@@ -138,34 +165,89 @@
       "token": "coach-mark-pagination-text-to-bottom-edge",
       "context": "Spacing (pagination to bottom)"
     },
-    { "token": "coach-mark-media-minimum-height", "context": "Media (16:9)" },
-    { "token": "coach-mark-media-height", "context": "Media (4:3)" },
-    { "token": "spacing-100", "context": "Spacing (action button to menu)" },
-    { "token": "title-sans-serif-font-family", "context": "Title" },
-    { "token": "title-sans-serif-font-weight", "context": "Title" },
-    { "token": "title-serif-font-style", "context": "Title" },
-    { "token": "coach-mark-title-font-size", "context": "Title" },
-    { "token": "title-line-height", "context": "Title" },
-    { "token": "body-sans-serif-font-family", "context": "Body" },
-    { "token": "body-sans-serif-font-weight", "context": "Body" },
-    { "token": "body-serif-font-style", "context": "Body" },
-    { "token": "coach-mark-body-font-size", "context": "Body" },
-    { "token": "line-height-200", "context": "Body" },
-    { "token": "medium-font-weight", "context": "Pagination" },
+    {
+      "token": "coach-mark-media-minimum-height",
+      "context": "Media (16:9)"
+    },
+    {
+      "token": "coach-mark-media-height",
+      "context": "Media (4:3)"
+    },
+    {
+      "token": "spacing-100",
+      "context": "Spacing (action button to menu)"
+    },
+    {
+      "token": "title-sans-serif-font-family",
+      "context": "Title"
+    },
+    {
+      "token": "title-sans-serif-font-weight",
+      "context": "Title"
+    },
+    {
+      "token": "title-serif-font-style",
+      "context": "Title"
+    },
+    {
+      "token": "coach-mark-title-font-size",
+      "context": "Title"
+    },
+    {
+      "token": "title-line-height",
+      "context": "Title"
+    },
+    {
+      "token": "body-sans-serif-font-family",
+      "context": "Body"
+    },
+    {
+      "token": "body-sans-serif-font-weight",
+      "context": "Body"
+    },
+    {
+      "token": "body-serif-font-style",
+      "context": "Body"
+    },
+    {
+      "token": "coach-mark-body-font-size",
+      "context": "Body"
+    },
+    {
+      "token": "line-height-200",
+      "context": "Body"
+    },
+    {
+      "token": "medium-font-weight",
+      "context": "Pagination"
+    },
     {
       "token": "coach-mark-pagination-body-font-size",
       "context": "Pagination"
     },
-    { "token": "heading-color", "context": "Color" },
-    { "token": "body-color", "context": "Color" },
-    { "token": "coach-mark-pagination-color", "context": "Color" }
+    {
+      "token": "heading-color",
+      "context": "Color"
+    },
+    {
+      "token": "body-color",
+      "context": "Color"
+    },
+    {
+      "token": "coach-mark-pagination-color",
+      "context": "Color"
+    }
   ],
   "accessibility": {
     "intents": ["dismiss"],
     "focusable": true,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

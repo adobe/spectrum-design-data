@@ -30,12 +30,19 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        // Only string-named tokens are referenceable via tokenBindings.
+        // tokenBindings reference the legacy flat token name. Post cascade-migration,
+        // every token's `name` is an object (not a string) and carries that flat name
+        // under `name.legacyKey` — match against that instead of a plain string `name`,
+        // which no token has anymore. See bead spectrum-design-data-vpk.
         let token_names: std::collections::HashSet<&str> = ctx
             .graph
             .tokens
             .values()
-            .filter_map(|t| t.raw.get("name").and_then(|n| n.as_str()))
+            .filter_map(|t| {
+                let name = t.raw.get("name")?;
+                name.as_str()
+                    .or_else(|| name.get("legacyKey").and_then(|v| v.as_str()))
+            })
             .collect();
 
         for comp in &ctx.graph.components {
@@ -129,6 +136,23 @@ mod tests {
     fn known_token_no_error() {
         let diags = run(
             vec![json!({"name": "button-background-color", "value": "#fff"})],
+            json!({
+                "name": "button",
+                "tokenBindings": [{"token": "button-background-color", "slot": "default"}]
+            }),
+        );
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn known_token_via_legacy_key_no_error() {
+        // Cascade tokens have an object `name` with a nested `legacyKey`, not a
+        // string `name` -- this is the shape every real token has post-migration.
+        let diags = run(
+            vec![json!({
+                "name": {"component": "button", "property": "background-color", "legacyKey": "button-background-color"},
+                "value": "#fff"
+            })],
             json!({
                 "name": "button",
                 "tokenBindings": [{"token": "button-background-color", "slot": "default"}]

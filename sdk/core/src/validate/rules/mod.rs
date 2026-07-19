@@ -110,6 +110,14 @@ fn embedded_registry() -> &'static RegistryData {
     RegistryData::embedded()
 }
 
+/// Rules that only produce findings when `--components-path` is loaded (they
+/// short-circuit to a no-op otherwise). Used to downgrade component-rule errors
+/// to warnings under `--components-report-only` during backlog burn-down; see
+/// `ValidationReport::downgrade_rules` and bead spectrum-design-data-0jm.
+pub const COMPONENT_RULE_IDS: &[&str] = &[
+    "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-027", "SPEC-031", "SPEC-035", "SPEC-040",
+];
+
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
 pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
     vec![

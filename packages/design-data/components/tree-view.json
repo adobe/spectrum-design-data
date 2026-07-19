@@ -72,11 +72,11 @@
     },
     {
       "type": "guideline",
-      "content": "The root (topmost) level of the hierarchy does not always need to be shown or displayed as a tree view item. If the root provides no useful context, hide it or replace it with a section header. In cases such as mixed tree views, the root can serve as a “Back” button."
+      "content": "The root (topmost) level of the hierarchy does not always need to be shown or displayed as a tree view item. If the root provides no useful context, hide it or replace it with a section header. In cases such as mixed tree views, the root can serve as a \u201cBack\u201d button."
     },
     {
       "type": "guideline",
-      "content": "In some cases, users may need to view different hierarchies depending on context. To support this, let users drill into a tree view item to display a different variation of the tree view within the same panel. Use a navigation controller with a “Back” button to let users return to the previous view."
+      "content": "In some cases, users may need to view different hierarchies depending on context. To support this, let users drill into a tree view item to display a different variation of the tree view within the same panel. Use a navigation controller with a \u201cBack\u201d button to let users return to the previous view."
     },
     {
       "type": "guideline",
@@ -104,7 +104,7 @@
     },
     {
       "type": "guideline",
-      "content": "When tree views are very large, use a progress circle or a “Show more” control to reveal additional parts when contextually relevant. These loading patterns can apply to the entire tree view or to nested items."
+      "content": "When tree views are very large, use a progress circle or a \u201cShow more\u201d control to reveal additional parts when contextually relevant. These loading patterns can apply to the entire tree view or to nested items."
     },
     {
       "type": "guideline",
@@ -120,7 +120,7 @@
     },
     {
       "type": "guideline",
-      "content": "Any action for modifying the hierarchy should be offered as an explicit control and, if needed, as a keyboard shortcut — but never as a shortcut alone."
+      "content": "Any action for modifying the hierarchy should be offered as an explicit control and, if needed, as a keyboard shortcut \u2014 but never as a shortcut alone."
     },
     {
       "type": "guideline",
@@ -132,7 +132,7 @@
     },
     {
       "type": "guideline",
-      "content": "When you need to provide selection controls within a hierarchy, use a checkbox component instead of the tree view item’s label. This should not correspond to selecting specific content and works best for cases like categorized filtering."
+      "content": "When you need to provide selection controls within a hierarchy, use a checkbox component instead of the tree view item\u2019s label. This should not correspond to selecting specific content and works best for cases like categorized filtering."
     }
   ],
   "options": {
@@ -140,49 +140,128 @@
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
-    "isDetached": { "type": "boolean", "default": false },
-    "isEmphasized": { "type": "boolean", "default": false },
-    "showDragIcon": { "type": "boolean", "default": false },
+    "isDetached": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "showDragIcon": {
+      "type": "boolean",
+      "default": false
+    },
     "selectionMode": {
       "type": "string",
       "default": "multiple",
-      "values": [{ "value": "single" }, { "value": "multiple" }]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "selectionStyle": {
       "type": "string",
       "default": "checkbox",
-      "values": [{ "value": "checkbox" }, { "value": "highlight" }]
+      "values": [
+        {
+          "value": "checkbox"
+        },
+        {
+          "value": "highlight"
+        }
+      ]
     },
     "selectionBehavior": {
       "type": "string",
       "default": "toggle",
-      "values": [{ "value": "toggle" }, { "value": "replace" }]
+      "values": [
+        {
+          "value": "toggle"
+        },
+        {
+          "value": "replace"
+        }
+      ]
     }
   },
   "anatomy": [
     {
       "name": "action-area",
       "description": "Trailing area containing item actions."
+    },
+    {
+      "name": "row"
     }
   ],
   "states": [
-    { "name": "default", "description": "Resting base state." },
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "default",
+      "description": "Resting base state."
+    },
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-default",
+      "trigger": "interaction"
+    },
+    {
+      "name": "selected-hover",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
-    { "token": "workflow-icon-size-100", "context": "Icon" },
-    { "token": "tree-view-minimum-height", "context": "Height (minimum)" },
-    { "token": "tree-view-minimum-width", "context": "Width (minimum)" },
-    { "token": "corner-radius-medium-default", "context": "Rounding" },
+    {
+      "token": "workflow-icon-size-100",
+      "context": "Icon"
+    },
+    {
+      "token": "tree-view-minimum-height",
+      "context": "Height (minimum)"
+    },
+    {
+      "token": "tree-view-minimum-width",
+      "context": "Width (minimum)"
+    },
+    {
+      "token": "corner-radius-medium-default",
+      "context": "Rounding"
+    },
     {
       "token": "tree-view-disclosure-indicator-height",
       "context": "Spacing (disclosure indicator)"
@@ -223,7 +302,10 @@
       "token": "tree-view-level-increment",
       "context": "Spacing (indentation)"
     },
-    { "token": "vertical-align-items", "context": "Spacing (vertical)" },
+    {
+      "token": "vertical-align-items",
+      "context": "Spacing (vertical)"
+    },
     {
       "token": "stack-item-minimum-padding-vertical",
       "context": "Spacing (vertical)"
@@ -232,9 +314,18 @@
       "token": "border-width-100",
       "context": "Border width (selected, highlight)"
     },
-    { "token": "focus-indicator-thickness", "context": "Focus " },
-    { "token": "focus-indicator-gap", "context": "Focus (drag handle)" },
-    { "token": "component-height-200", "context": "Height" },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus "
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus (drag handle)"
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height"
+    },
     {
       "token": "stack-item-minimum-vertical-padding",
       "context": "Spacing (vertical)"
@@ -347,24 +438,78 @@
       "token": "disabled-content-color",
       "context": "Label and icon (disabled)"
     },
-    { "token": "focus-indicator-color", "context": "Focus indicator" },
-    { "token": "title-content-color", "context": "Label and icon" },
-    { "token": "default-font-family", "context": "Text (tree view item)" },
-    { "token": "regular-font-weight", "context": "Text (tree view item)" },
-    { "token": "default-font-style", "context": "Text (tree view item)" },
-    { "token": "font-size-100", "context": "Text (tree view item)" },
-    { "token": "line-height-100", "context": "Text (tree view item)" },
-    { "token": "cjk-line-height-100", "context": "Text (tree view item)" },
-    { "token": "bold-font-weight", "context": "Text (tree view title)" },
-    { "token": "thumbnail-size-75", "context": "Size" },
-    { "token": "thumbnail-size-300", "context": "Size" },
-    { "token": "thumbnail-size-1000", "context": "Size" },
-    { "token": "thumbnail-corner-radius", "context": "Rounding (default)" },
-    { "token": "spacing-75", "context": "Opacity checkerboard (layer)" },
-    { "token": "corner-radius-0", "context": "Rounding (layer)" },
-    { "token": "thumbnail-border-color", "context": "Border (default)" },
-    { "token": "thumbnail-border-opacity", "context": "Border (default)" },
-    { "token": "gray-500", "context": "Border (layer)" },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus indicator"
+    },
+    {
+      "token": "title-content-color",
+      "context": "Label and icon"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Text (tree view item)"
+    },
+    {
+      "token": "bold-font-weight",
+      "context": "Text (tree view title)"
+    },
+    {
+      "token": "thumbnail-size-75",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-300",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-size-1000",
+      "context": "Size"
+    },
+    {
+      "token": "thumbnail-corner-radius",
+      "context": "Rounding (default)"
+    },
+    {
+      "token": "spacing-75",
+      "context": "Opacity checkerboard (layer)"
+    },
+    {
+      "token": "corner-radius-0",
+      "context": "Rounding (layer)"
+    },
+    {
+      "token": "thumbnail-border-color",
+      "context": "Border (default)"
+    },
+    {
+      "token": "thumbnail-border-opacity",
+      "context": "Border (default)"
+    },
+    {
+      "token": "gray-500",
+      "context": "Border (layer)"
+    },
     {
       "token": "opacity-checkerboard-square-light",
       "context": "Checkerboard colors "
@@ -373,7 +518,10 @@
       "token": "opacity-checkerboard-square-dark",
       "context": "Checkerboard colors "
     },
-    { "token": "thumbnail-opacity-disabled", "context": "Disabled" }
+    {
+      "token": "thumbnail-opacity-disabled",
+      "context": "Disabled"
+    }
   ],
   "accessibility": {
     "role": "tree",
@@ -381,8 +529,16 @@
     "focusable": true,
     "keyboardIntents": ["navigate-items", "expand", "collapse", "activate"],
     "wcag": [
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

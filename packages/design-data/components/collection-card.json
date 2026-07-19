@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/collection-card.json",
+  "specVersion": "1.0.0-draft",
+  "name": "collection-card",
+  "displayName": "Collection card",
+  "description": "A card variant representing a collection of items rather than a single asset.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

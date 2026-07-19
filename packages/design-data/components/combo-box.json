@@ -213,10 +213,26 @@
     "errorMessage": { "type": "string" }
   },
   "states": [
-    { "name": "hover-(text-area)", "trigger": "prop" },
-    { "name": "hover-(button-area)", "trigger": "prop" },
-    { "name": "focus-+-hover", "trigger": "prop" },
-    { "name": "focus-+-not-hover", "trigger": "prop" },
+    {
+      "name": "hover-text-area",
+      "trigger": "prop",
+      "description": "Hover scoped to the text-entry anatomy part, distinct from hover over the field button."
+    },
+    {
+      "name": "hover-button-area",
+      "trigger": "prop",
+      "description": "Hover scoped to the field button anatomy part, distinct from hover over the text-entry area."
+    },
+    {
+      "name": "focus-hover",
+      "trigger": "prop",
+      "description": "Combined focus and hover, when the field is focused and the pointer is also over it."
+    },
+    {
+      "name": "focus-not-hover",
+      "trigger": "prop",
+      "description": "Focus without hover, when the field is focused but the pointer is not over it."
+    },
     { "name": "keyboard-focus", "trigger": "interaction" }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },

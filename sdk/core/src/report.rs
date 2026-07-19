@@ -73,4 +73,20 @@ impl ValidationReport {
     pub fn failed(&self, strict: bool) -> bool {
         !self.errors.is_empty() || (strict && !self.warnings.is_empty())
     }
+
+    /// Downgrade errors whose `rule_id` is in `ids` to warnings, and recompute
+    /// `valid`. Used for report-only rollout of a rule set (e.g. component-aware
+    /// rules) so violations still print without failing CI.
+    pub fn downgrade_rules(&mut self, ids: &std::collections::HashSet<&str>) {
+        let (keep, mut downgrade): (Vec<_>, Vec<_>) = self
+            .errors
+            .drain(..)
+            .partition(|d| !matches!(&d.rule_id, Some(id) if ids.contains(id.as_str())));
+        self.errors = keep;
+        for d in &mut downgrade {
+            d.severity = Severity::Warning;
+        }
+        self.warnings.extend(downgrade);
+        self.recompute_valid();
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "field",
+  "displayName": "Field",
+  "description": "Shared layout primitive underlying labeled form fields (text field, picker, etc.).",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

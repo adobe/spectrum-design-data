@@ -16,7 +16,7 @@
     },
     {
       "type": "guideline",
-      "content": "Sliders select a value along a continuous range. They’re ideal when upper and lower limits are fixed. Use when approximate or fast selection is more important than precision."
+      "content": "Sliders select a value along a continuous range. They\u2019re ideal when upper and lower limits are fixed. Use when approximate or fast selection is more important than precision."
     },
     {
       "type": "guideline",
@@ -24,7 +24,7 @@
     },
     {
       "type": "guideline",
-      "content": "The value is the number selected within the slider’s range, from the min value to max value."
+      "content": "The value is the number selected within the slider\u2019s range, from the min value to max value."
     },
     {
       "type": "guideline",
@@ -40,7 +40,7 @@
     },
     {
       "type": "guideline",
-      "content": "Sometimes a value needs to be formatted for localization or for clearer communication such as currencies or percentages. Formatting can involve rounding, mathematical transformations, number formatting, or displaying a prefix or suffix, such as “+/-” or “px.”"
+      "content": "Sometimes a value needs to be formatted for localization or for clearer communication such as currencies or percentages. Formatting can involve rounding, mathematical transformations, number formatting, or displaying a prefix or suffix, such as \u201c+/-\u201d or \u201cpx.\u201d"
     },
     {
       "type": "guideline",
@@ -72,11 +72,11 @@
     },
     {
       "type": "guideline",
-      "content": "A slider can be navigated using a keyboard. The keyboard focus state takes the slider’s visual hover state and adds a blue ring to the slider handle in focus."
+      "content": "A slider can be navigated using a keyboard. The keyboard focus state takes the slider\u2019s visual hover state and adds a blue ring to the slider handle in focus."
     },
     {
       "type": "guideline",
-      "content": "A slider representing multiple non-identical values appears as indeterminate, with an en dash (–) in place of the value. The handle position corresponds to the first selected value."
+      "content": "A slider representing multiple non-identical values appears as indeterminate, with an en dash (\u2013) in place of the value. The handle position corresponds to the first selected value."
     },
     {
       "type": "guideline",
@@ -92,11 +92,11 @@
     },
     {
       "type": "guideline",
-      "content": "In addition to dragging the handle, sliders can offer other ways to change the value, known as “hot text.” Users can click the value text and drag up or down, or scroll up or down while hovering over the value text."
+      "content": "In addition to dragging the handle, sliders can offer other ways to change the value, known as \u201chot text.\u201d Users can click the value text and drag up or down, or scroll up or down while hovering over the value text."
     },
     {
       "type": "guideline",
-      "content": "Slider values can include a unit when it adds context, such as “%” or “px.” When the value is shown within a text field, the unit disappears on focus."
+      "content": "Slider values can include a unit when it adds context, such as \u201c%\u201d or \u201cpx.\u201d When the value is shown within a text field, the unit disappears on focus."
     },
     {
       "type": "guideline",
@@ -104,21 +104,42 @@
     }
   ],
   "options": {
-    "label": { "type": "string" },
+    "label": {
+      "type": "string"
+    },
     "labelPosition": {
       "type": "string",
       "default": "top",
-      "values": [{ "value": "top" }, { "value": "side" }]
+      "values": [
+        {
+          "value": "top"
+        },
+        {
+          "value": "side"
+        }
+      ]
     },
-    "value": { "type": "number", "description": "from minValue to maxValue" },
-    "minValue": { "type": "number", "default": 0 },
-    "maxValue": { "type": "number", "default": 100 },
+    "value": {
+      "type": "number",
+      "description": "from minValue to maxValue"
+    },
+    "minValue": {
+      "type": "number",
+      "default": 0
+    },
+    "maxValue": {
+      "type": "number",
+      "default": 100
+    },
     "isRange": {
       "type": "boolean",
       "default": false,
       "description": "If true, the slider will allow selection of a range of values by displaying two handles."
     },
-    "step": { "type": "number", "default": 1 },
+    "step": {
+      "type": "number",
+      "default": 1
+    },
     "valueFormat": {
       "type": "string",
       "description": "This will vary depending on implementation."
@@ -126,31 +147,84 @@
     "progressionScale": {
       "type": "string",
       "default": "linear",
-      "values": [{ "value": "linear" }, { "value": "log" }]
+      "values": [
+        {
+          "value": "linear"
+        },
+        {
+          "value": "log"
+        }
+      ]
     },
-    "width": { "type": "number" },
-    "hasFill": { "type": "boolean", "default": false },
-    "fillStart": { "type": "number", "default": 0 },
-    "hasGradient": { "type": "boolean", "default": false },
-    "isEditable": { "type": "boolean", "default": false },
-    "isDisabled": { "type": "boolean", "default": false }
+    "width": {
+      "type": "number"
+    },
+    "hasFill": {
+      "type": "boolean",
+      "default": false
+    },
+    "fillStart": {
+      "type": "number",
+      "default": 0
+    },
+    "hasGradient": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEditable": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
   "anatomy": [
     {
       "name": "text-field",
       "description": "Editable numeric value field."
+    },
+    {
+      "name": "handle"
+    },
+    {
+      "name": "track"
+    },
+    {
+      "name": "control"
     }
   ],
   "states": [
-    { "name": "hover", "trigger": "interaction" },
-    { "name": "down", "trigger": "interaction" },
-    { "name": "keyboard-focus", "trigger": "interaction" }
+    {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
+      "name": "keyboard-focus",
+      "trigger": "interaction"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "tokenBindings": [
-    { "token": "field-default-width-small", "context": "Width (default)" },
-    { "token": "field-default-width-medium", "context": "Width (default)" },
-    { "token": "field-default-width-large", "context": "Width (default)" },
+    {
+      "token": "field-default-width-small",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-medium",
+      "context": "Width (default)"
+    },
+    {
+      "token": "field-default-width-large",
+      "context": "Width (default)"
+    },
     {
       "token": "field-default-width-extra-large",
       "context": "Width (default)"
@@ -167,16 +241,46 @@
       "token": "component-size-minimum-perspective-down",
       "context": "Component size (down)"
     },
-    { "token": "slider-track-height-medium", "context": "Track (height)" },
-    { "token": "slider-track-height-large", "context": "Track (height)" },
-    { "token": "component-height-75", "context": "Height (slider control) " },
-    { "token": "component-height-100", "context": "Height (slider control) " },
-    { "token": "component-height-200", "context": "Height (slider control) " },
-    { "token": "component-height-300", "context": "Height (slider control) " },
-    { "token": "slider-handle-small", "context": "Handle (size)" },
-    { "token": "slider-handle-medium", "context": "Handle (size)" },
-    { "token": "slider-handle-large", "context": "Handle (size)" },
-    { "token": "slider-handle-extra-large", "context": "Handle (size)" },
+    {
+      "token": "slider-track-height-medium",
+      "context": "Track (height)"
+    },
+    {
+      "token": "slider-track-height-large",
+      "context": "Track (height)"
+    },
+    {
+      "token": "component-height-75",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-100",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-200",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "component-height-300",
+      "context": "Height (slider control) "
+    },
+    {
+      "token": "slider-handle-small",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-medium",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-large",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "slider-handle-extra-large",
+      "context": "Handle (size)"
+    },
     {
       "token": "slider-precision-handle-height-small",
       "context": "Handle (size)"
@@ -193,10 +297,22 @@
       "token": "slider-precision-handle-height-extra-large",
       "context": "Handle (size)"
     },
-    { "token": "slider-precision-handle-width", "context": "Handle (size)" },
-    { "token": "border-width-200", "context": "Handle (border)" },
-    { "token": "focus-indicator-thickness", "context": "Focus ring" },
-    { "token": "focus-indicator-gap", "context": "Focus ring" },
+    {
+      "token": "slider-precision-handle-width",
+      "context": "Handle (size)"
+    },
+    {
+      "token": "border-width-200",
+      "context": "Handle (border)"
+    },
+    {
+      "token": "focus-indicator-thickness",
+      "context": "Focus ring"
+    },
+    {
+      "token": "focus-indicator-gap",
+      "context": "Focus ring"
+    },
     {
       "token": "component-top-to-text-75",
       "context": "Spacing (top/bottom edge to label)"
@@ -293,26 +409,86 @@
       "token": "slider-control-to-text-field-extra-large",
       "context": "Spacing (slider to field)"
     },
-    { "token": "neutral-subdued-content-color-default", "context": "Value" },
-    { "token": "alias-track-default", "context": "Track" },
-    { "token": "gray-700", "context": "Track" },
-    { "token": "accent-content-color-default", "context": "Track" },
-    { "token": "gray-800", "context": "Handle" },
-    { "token": "gray-900", "context": "Handle" },
-    { "token": "gray-25", "context": "Handle" },
-    { "token": "focus-indicator-color", "context": "Focus ring" },
-    { "token": "disabled-content-color", "context": "Disabled" },
-    { "token": "disabled-background-color", "context": "Disabled" },
-    { "token": "disabled-border-color", "context": "Disabled" },
-    { "token": "default-font-family", "context": "Label" },
-    { "token": "regular-font-weight", "context": "Label" },
-    { "token": "default-font-style", "context": "Label" },
-    { "token": "font-size-75", "context": "Label" },
-    { "token": "font-size-100", "context": "Label" },
-    { "token": "font-size-200", "context": "Label" },
-    { "token": "font-size-300", "context": "Label" },
-    { "token": "line-height-100", "context": "Label" },
-    { "token": "cjk-line-height-100", "context": "Label" }
+    {
+      "token": "neutral-subdued-content-color-default",
+      "context": "Value"
+    },
+    {
+      "token": "alias-track-default",
+      "context": "Track"
+    },
+    {
+      "token": "gray-700",
+      "context": "Track"
+    },
+    {
+      "token": "accent-content-color-default",
+      "context": "Track"
+    },
+    {
+      "token": "gray-800",
+      "context": "Handle"
+    },
+    {
+      "token": "gray-900",
+      "context": "Handle"
+    },
+    {
+      "token": "gray-25",
+      "context": "Handle"
+    },
+    {
+      "token": "focus-indicator-color",
+      "context": "Focus ring"
+    },
+    {
+      "token": "disabled-content-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-background-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "disabled-border-color",
+      "context": "Disabled"
+    },
+    {
+      "token": "default-font-family",
+      "context": "Label"
+    },
+    {
+      "token": "regular-font-weight",
+      "context": "Label"
+    },
+    {
+      "token": "default-font-style",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-75",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-100",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-200",
+      "context": "Label"
+    },
+    {
+      "token": "font-size-300",
+      "context": "Label"
+    },
+    {
+      "token": "line-height-100",
+      "context": "Label"
+    },
+    {
+      "token": "cjk-line-height-100",
+      "context": "Label"
+    }
   ],
   "accessibility": {
     "role": "slider",
@@ -320,9 +496,21 @@
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
     "wcag": [
-      { "criterion": "1.3.1", "level": "A", "title": "Info and Relationships" },
-      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

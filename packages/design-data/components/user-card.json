@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/user-card.json",
+  "specVersion": "1.0.0-draft",
+  "name": "user-card",
+  "displayName": "User card",
+  "description": "A card variant surfacing a user's identity (avatar, name) alongside supporting content.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "anatomy": [
+    {
+      "name": "title"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

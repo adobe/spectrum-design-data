@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/segmented-text-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "segmented-text-field",
+  "displayName": "Segmented text field",
+  "description": "A text field split into discrete segments, such as for structured input.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

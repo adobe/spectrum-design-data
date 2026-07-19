@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/time-field.json",
+  "specVersion": "1.0.0-draft",
+  "name": "time-field",
+  "displayName": "Time field",
+  "description": "A field for entering a time value.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}

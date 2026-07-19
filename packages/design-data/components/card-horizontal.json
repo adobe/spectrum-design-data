@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/card-horizontal.json",
+  "specVersion": "1.0.0-draft",
+  "name": "card-horizontal",
+  "displayName": "Horizontal card",
+  "description": "A card variant laid out horizontally, pairing a preview with content side by side.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "states": [
+    {
+      "name": "default"
+    }
+  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  }
+}
