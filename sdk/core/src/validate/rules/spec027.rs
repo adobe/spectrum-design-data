@@ -30,12 +30,18 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        // Only string-named tokens are referenceable via tokenBindings.
-        let token_names: std::collections::HashSet<&str> = ctx
+        // Resolve each token's flat legacy key (handles both the plain-string
+        // escape hatch and structured `name` objects) — this is what
+        // tokenBindings[].token values match against.
+        let token_names: std::collections::HashSet<String> = ctx
             .graph
             .tokens
             .values()
-            .filter_map(|t| t.raw.get("name").and_then(|n| n.as_str()))
+            .filter_map(|t| {
+                t.raw
+                    .get("name")
+                    .and_then(crate::naming::extract_legacy_key)
+            })
             .collect();
 
         for comp in &ctx.graph.components {
@@ -155,6 +161,29 @@ mod tests {
     #[test]
     fn no_bindings_no_error() {
         let diags = run(vec![], json!({"name": "button"}));
+        assert!(diags.is_empty());
+    }
+
+    #[test]
+    fn structured_name_object_resolves() {
+        // Post name-object migration, tokens carry a structured `name` object
+        // rather than a flat string. tokenBindings must still resolve against
+        // the token's legacy key (pinned here via `legacyKey`).
+        let diags = run(
+            vec![json!({
+                "name": {
+                    "property": "height",
+                    "component": "select-box",
+                    "orientation": "vertical",
+                    "legacyKey": "select-box-vertical-height"
+                },
+                "value": "32px"
+            })],
+            json!({
+                "name": "select-box",
+                "tokenBindings": [{"token": "select-box-vertical-height", "slot": "default"}]
+            }),
+        );
         assert!(diags.is_empty());
     }
 }
