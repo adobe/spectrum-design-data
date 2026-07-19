@@ -9,12 +9,6 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/"
   },
-  "anatomy": [
-    {
-      "name": "title"
-    }
-  ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "anatomy": [{ "name": "title" }],
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }

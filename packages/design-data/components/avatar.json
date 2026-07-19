@@ -28,7 +28,7 @@
     },
     {
       "type": "guideline",
-      "content": "An avatar has multiple visual styles, depending on the user preference. These show up as branded gradient images, initials of the user\u2019s name, as well as any image that a user uploads. For users who do not have Adobe accounts, they will default to the guest avatar."
+      "content": "An avatar has multiple visual styles, depending on the user preference. These show up as branded gradient images, initials of the user’s name, as well as any image that a user uploads. For users who do not have Adobe accounts, they will default to the guest avatar."
     },
     {
       "type": "guideline",
@@ -36,7 +36,7 @@
     },
     {
       "type": "guideline",
-      "content": "An avatar group displays a set of related avatars together. It\u2019s typically used to represent a collection of people or entities."
+      "content": "An avatar group displays a set of related avatars together. It’s typically used to represent a collection of people or entities."
     },
     {
       "type": "guideline",
@@ -44,7 +44,7 @@
     },
     {
       "type": "guideline",
-      "content": "The initials avatar is designed to work with latin characters only and supports 1 or 2 characters that are programmatically identified by the first name and last name in a user\u2019s account settings. For users with non-latin characters, their default avatar should be the gradient image style."
+      "content": "The initials avatar is designed to work with latin characters only and supports 1 or 2 characters that are programmatically identified by the first name and last name in a user’s account settings. For users with non-latin characters, their default avatar should be the gradient image style."
     },
     {
       "type": "guideline",
@@ -56,237 +56,78 @@
       "type": "number",
       "default": 500,
       "values": [
-        {
-          "value": 50
-        },
-        {
-          "value": 75
-        },
-        {
-          "value": 100
-        },
-        {
-          "value": 200
-        },
-        {
-          "value": 300
-        },
-        {
-          "value": 400
-        },
-        {
-          "value": 500
-        },
-        {
-          "value": 600
-        },
-        {
-          "value": 700
-        },
-        {
-          "value": 800
-        },
-        {
-          "value": 900
-        },
-        {
-          "value": 1000
-        },
-        {
-          "value": 1100
-        },
-        {
-          "value": 1200
-        },
-        {
-          "value": 1300
-        },
-        {
-          "value": 1400
-        },
-        {
-          "value": 1500
-        }
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 },
+        { "value": 600 },
+        { "value": 700 },
+        { "value": 800 },
+        { "value": 900 },
+        { "value": 1000 },
+        { "value": 1100 },
+        { "value": 1200 },
+        { "value": 1300 },
+        { "value": 1400 },
+        { "value": 1500 }
       ]
     },
     "image": {
       "type": "string",
       "default": "user image",
       "values": [
-        {
-          "value": "user image"
-        },
-        {
-          "value": "gradient image"
-        },
-        {
-          "value": "gradient"
-        },
-        {
-          "value": "guest image"
-        },
-        {
-          "value": "initials"
-        }
+        { "value": "user image" },
+        { "value": "gradient image" },
+        { "value": "gradient" },
+        { "value": "guest image" },
+        { "value": "initials" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "showStroke": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDisabled": { "type": "boolean", "default": false },
+    "showStroke": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "disabled",
-      "trigger": "prop"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "disabled", "trigger": "prop" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "avatar-size-50",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-75",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-100",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-200",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-300",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-400",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-500",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-600",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-700",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-800",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-900",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1000",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1100",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1200",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1300",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1400",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-size-1500",
-      "context": "Size"
-    },
-    {
-      "token": "avatar-border-thickness",
-      "context": "Border"
-    },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "avatar-gradient-stop-1",
-      "context": "0% "
-    },
-    {
-      "token": "static-[color]-400",
-      "context": "0% "
-    },
-    {
-      "token": "avatar-gradient-stop-2",
-      "context": "66% "
-    },
-    {
-      "token": "static-[color]-600",
-      "context": "66% "
-    },
-    {
-      "token": "avatar-gradient-stop-3",
-      "context": "100% "
-    },
-    {
-      "token": "static-[color]-800",
-      "context": "100% "
-    },
-    {
-      "token": "gradient-angle",
-      "context": "Top-left to bottom-right"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "extra-bold-font-weight",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text (List view item)"
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text (List view item)"
-    }
+    { "token": "avatar-size-50", "context": "Size" },
+    { "token": "avatar-size-75", "context": "Size" },
+    { "token": "avatar-size-100", "context": "Size" },
+    { "token": "avatar-size-200", "context": "Size" },
+    { "token": "avatar-size-300", "context": "Size" },
+    { "token": "avatar-size-400", "context": "Size" },
+    { "token": "avatar-size-500", "context": "Size" },
+    { "token": "avatar-size-600", "context": "Size" },
+    { "token": "avatar-size-700", "context": "Size" },
+    { "token": "avatar-size-800", "context": "Size" },
+    { "token": "avatar-size-900", "context": "Size" },
+    { "token": "avatar-size-1000", "context": "Size" },
+    { "token": "avatar-size-1100", "context": "Size" },
+    { "token": "avatar-size-1200", "context": "Size" },
+    { "token": "avatar-size-1300", "context": "Size" },
+    { "token": "avatar-size-1400", "context": "Size" },
+    { "token": "avatar-size-1500", "context": "Size" },
+    { "token": "avatar-border-thickness", "context": "Border" },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "avatar-gradient-stop-1", "context": "0% " },
+    { "token": "static-[color]-400", "context": "0% " },
+    { "token": "avatar-gradient-stop-2", "context": "66% " },
+    { "token": "static-[color]-600", "context": "66% " },
+    { "token": "avatar-gradient-stop-3", "context": "100% " },
+    { "token": "static-[color]-800", "context": "100% " },
+    { "token": "gradient-angle", "context": "Top-left to bottom-right" },
+    { "token": "default-font-family", "context": "Text (List view item)" },
+    { "token": "extra-bold-font-weight", "context": "Text (List view item)" },
+    { "token": "default-font-style", "context": "Text (List view item)" },
+    { "token": "font-size-100", "context": "Text (List view item)" },
+    { "token": "line-height-100", "context": "Text (List view item)" }
   ],
-  "accessibility": {
-    "focusable": false
-  }
+  "accessibility": { "focusable": false }
 }

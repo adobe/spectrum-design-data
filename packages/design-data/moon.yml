@@ -100,7 +100,7 @@ tasks:
   # instead of silently no-op'ing (see bead spectrum-design-data-0jm).
   # --components-report-only downgrades their findings to warnings: SPEC-018/
   # 020/022 are clean (downgrade is a no-op for them), but SPEC-027 still has
-  # a real backlog of ~1887 dangling tokenBindings against scale-decomposed
+  # a real backlog of ~134 dangling tokenBindings against scale-decomposed
   # tokens with no flat legacyKey -- a data-model question tracked in bead
   # spectrum-design-data-vpk, not yet safe to make blocking. Remove this flag
   # once that bead resolves and the count reaches 0.

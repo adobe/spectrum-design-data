@@ -9,20 +9,7 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/"
   },
-  "anatomy": [
-    {
-      "name": "selection"
-    },
-    {
-      "name": "well"
-    }
-  ],
-  "states": [
-    {
-      "name": "default"
-    }
-  ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "anatomy": [{ "name": "selection" }, { "name": "well" }],
+  "states": [{ "name": "default" }],
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }

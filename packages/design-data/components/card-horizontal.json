@@ -9,12 +9,6 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/"
   },
-  "states": [
-    {
-      "name": "default"
-    }
-  ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "states": [{ "name": "default" }],
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }

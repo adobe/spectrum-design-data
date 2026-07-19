@@ -9,7 +9,5 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/"
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }

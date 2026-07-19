@@ -10,40 +10,14 @@
     "documentationUrl": "https://spectrum.adobe.com/"
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "key-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected-default",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected-down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected-hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected-keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "key-focus", "trigger": "interaction" },
+    { "name": "selected", "trigger": "interaction" },
+    { "name": "selected-default", "trigger": "interaction" },
+    { "name": "selected-down", "trigger": "interaction" },
+    { "name": "selected-hover", "trigger": "interaction" },
+    { "name": "selected-keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }

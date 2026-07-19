@@ -40,7 +40,7 @@
     },
     {
       "type": "guideline",
-      "content": "The width of the side navigation is flexible, so choose a width that works with the navigation items in your experience. Make the width generous enough so that it doesn\u2019t feel too condensed. Doing this will ensure that users won't confuse the side navigation with buttons or other controls."
+      "content": "The width of the side navigation is flexible, so choose a width that works with the navigation items in your experience. Make the width generous enough so that it doesn’t feel too condensed. Doing this will ensure that users won't confuse the side navigation with buttons or other controls."
     },
     {
       "type": "guideline",
@@ -48,7 +48,7 @@
     },
     {
       "type": "guideline",
-      "content": "Make sure the width is generous enough so that it doesn\u2019t feel too condensed. This ensures it doesn\u2019t get confused with buttons or other controls."
+      "content": "Make sure the width is generous enough so that it doesn’t feel too condensed. This ensures it doesn’t get confused with buttons or other controls."
     },
     {
       "type": "guideline",
@@ -127,15 +127,9 @@
       "default": "single",
       "description": "How selection is handled for items.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
+        { "value": "none" },
+        { "value": "single" },
+        { "value": "multiple" }
       ]
     }
   },
@@ -144,44 +138,19 @@
       "name": "trailing-accessory-area",
       "description": "Trailing area for accessory content such as counts or actions."
     },
-    {
-      "name": "indicator"
-    }
+    { "name": "indicator" }
   ],
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    {
-      "token": "component-height-100",
-      "context": "Minimum height"
-    },
-    {
-      "token": "side-navigation-width",
-      "context": "Width (default)"
-    },
-    {
-      "token": "side-navigation-minimum-width",
-      "context": "Width (minimum)"
-    },
-    {
-      "token": "side-navigation-maximum-width",
-      "context": "Width (maximum)"
-    },
+    { "token": "component-height-100", "context": "Minimum height" },
+    { "token": "side-navigation-width", "context": "Width (default)" },
+    { "token": "side-navigation-minimum-width", "context": "Width (minimum)" },
+    { "token": "side-navigation-maximum-width", "context": "Width (maximum)" },
     {
       "token": "component-size-difference-down",
       "context": "Component size (down)"
@@ -206,14 +175,8 @@
       "token": "side-navigation-indicator-to-content",
       "context": "Spacing (indicator to content)"
     },
-    {
-      "token": "workflow-icon-size-100",
-      "context": "Icon"
-    },
-    {
-      "token": "text-to-visual-100",
-      "context": "Spacing (icon to label)"
-    },
+    { "token": "workflow-icon-size-100", "context": "Icon" },
+    { "token": "text-to-visual-100", "context": "Spacing (icon to label)" },
     {
       "token": "component-edge-to-text-100",
       "context": "Spacing (single-level, start/end to content)"
@@ -278,10 +241,7 @@
       "token": "side-navigation-header-to-item",
       "context": "Spacing (vertically between side-nav item and side-nav title)"
     },
-    {
-      "token": "component-top-to-workflow-icon-100",
-      "context": "Layout"
-    },
+    { "token": "component-top-to-workflow-icon-100", "context": "Layout" },
     {
       "token": "component-padding-vertical-100",
       "context": "Spacing (top edge to label)"
@@ -290,22 +250,10 @@
       "token": "side-navigation-bottom-to-text",
       "context": "Spacing (label wrapping)"
     },
-    {
-      "token": "focus-indicator-thickness",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "focus-indicator-gap",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "gray-400",
-      "context": "Side navigation indicator "
-    },
-    {
-      "token": "gray-800",
-      "context": "Side navigation indicator "
-    },
+    { "token": "focus-indicator-thickness", "context": "Focus indicator" },
+    { "token": "focus-indicator-gap", "context": "Focus indicator" },
+    { "token": "gray-400", "context": "Side navigation indicator " },
+    { "token": "gray-800", "context": "Side navigation indicator " },
     {
       "token": "neutral-subdued-content-color-default",
       "context": "Navigation item label and icon"
@@ -338,70 +286,32 @@
       "token": "neutral-content-color-key-focus",
       "context": "Navigation item label and icon (selected)"
     },
-    {
-      "token": "gray-600",
-      "context": "Side navigation title"
-    },
+    { "token": "gray-600", "context": "Side navigation title" },
     {
       "token": "disabled-content-color",
       "context": "Label and icon (disabled)"
     },
-    {
-      "token": "focus-indicator-color",
-      "context": "Focus indicator"
-    },
-    {
-      "token": "default-font-family",
-      "context": "Text  "
-    },
-    {
-      "token": "regular-font-weight",
-      "context": "Text  "
-    },
-    {
-      "token": "default-font-style",
-      "context": "Text  "
-    },
-    {
-      "token": "font-size-100",
-      "context": "Text  "
-    },
-    {
-      "token": "line-height-100",
-      "context": "Text  "
-    },
-    {
-      "token": "cjk-line-height-100",
-      "context": "Text  "
-    },
-    {
-      "token": "bold-font-weight",
-      "context": "Text (selected)"
-    },
+    { "token": "focus-indicator-color", "context": "Focus indicator" },
+    { "token": "default-font-family", "context": "Text  " },
+    { "token": "regular-font-weight", "context": "Text  " },
+    { "token": "default-font-style", "context": "Text  " },
+    { "token": "font-size-100", "context": "Text  " },
+    { "token": "line-height-100", "context": "Text  " },
+    { "token": "cjk-line-height-100", "context": "Text  " },
+    { "token": "bold-font-weight", "context": "Text (selected)" },
     {
       "token": "medium-font-weight",
       "context": "Text (Side navigation title)"
     },
-    {
-      "token": "font-size-75",
-      "context": "Text (Side navigation title)"
-    }
+    { "token": "font-size-75", "context": "Text (Side navigation title)" }
   ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

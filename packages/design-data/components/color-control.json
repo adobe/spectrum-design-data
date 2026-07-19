@@ -9,12 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/"
   },
-  "anatomy": [
-    {
-      "name": "track"
-    }
-  ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  }
+  "anatomy": [{ "name": "track" }],
+  "lifecycle": { "introduced": "1.0.0-draft" }
 }
