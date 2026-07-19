@@ -80,6 +80,47 @@ test("isComponentChangeBreaking - removing values entries (should be breaking in
   );
 });
 
+test("isComponentChangeBreaking - shrinking a tokenBindings array is non-breaking", (t) => {
+  // detailedDiff() diffs arrays index-by-index, so removing entries from the
+  // end of tokenBindings (or a length change from deduping) surfaces as a
+  // top-level "deleted.tokenBindings" entry even though the field is still
+  // present with content. This must not be treated as a removed property.
+  const oldSchema = {
+    ...buttonSchema,
+    tokenBindings: [{ token: "a" }, { token: "b" }, { token: "c" }],
+  };
+  const newSchema = {
+    ...buttonSchema,
+    tokenBindings: [{ token: "a" }, { token: "b" }],
+  };
+  const componentChanges = {
+    added: {},
+    deleted: {
+      tokenBindings: { 2: {} },
+    },
+    updated: {},
+  };
+
+  t.false(isComponentChangeBreaking(componentChanges, oldSchema, newSchema));
+});
+
+test("isComponentChangeBreaking - removing a top-level field entirely is still breaking", (t) => {
+  const oldSchema = {
+    ...buttonSchema,
+    tokenBindings: [{ token: "a" }],
+  };
+  const newSchema = { ...buttonSchema };
+  const componentChanges = {
+    added: {},
+    deleted: {
+      tokenBindings: { 0: {} },
+    },
+    updated: {},
+  };
+
+  t.true(isComponentChangeBreaking(componentChanges, oldSchema, newSchema));
+});
+
 test("isComponentChangeBreaking - no changes should be non-breaking", (t) => {
   // Test case with no actual changes
   const componentChanges = {
