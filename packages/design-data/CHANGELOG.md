@@ -1,5 +1,191 @@
 # @adobe/spectrum-design-data
 
+## 0.13.0
+
+### Minor Changes
+
+- [#1266](https://github.com/adobe/spectrum-design-data/pull/1266) [`e0c0411`](https://github.com/adobe/spectrum-design-data/commit/e0c0411f6242d1ba4a3972d4fad6084f069a4439) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data:validate` now loads component JSON so component-aware SPEC rules
+  actually run in CI instead of silently short-circuiting (closes bead 0jm).
+  - **packages/design-data/moon.yml**: `validate` task now passes `--components-path
+./components --components-report-only`. Report-only until SPEC-027's remaining
+    ~134 genuinely-dangling `tokenBindings` are triaged; SPEC-018/020/022 are already
+    at 0.
+  - **sdk/cli/src/main.rs**, **sdk/core/src/report.rs**: new `--components-report-only`
+    flag downgrading component-rule errors to warnings.
+  - **packages/design-data/components/\*.json**: declared 16 previously-undeclared
+    components; added missing anatomy/state declarations across 13 components; fixed
+    combo-box's malformed state names.
+
+### Patch Changes
+
+- [#1261](https://github.com/adobe/spectrum-design-data/pull/1261) [`e6c8cd4`](https://github.com/adobe/spectrum-design-data/commit/e6c8cd4b8ef5bb7e6cf1245f6eeb89cdd9d01693) Thanks [@GarthDB](https://github.com/GarthDB)! - Add icon-domain recognition to decompose/serialize and migrate icon `size-N` tokens
+  to `scaleIndex` (5p3, dsi.6 follow-up).
+  - **tools/token-mapping-analyzer/src/registry-index.js**: index each term's `tokenName`
+    (e.g. "checkmark" → "checkmark-icon") as its own matchable segment set, not just a
+    serialization alias, so decompose can recognize the icon's expanded legacy form.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: `serialize()` gained an icon-owner
+    branch (mirrors `naming.rs`'s icon-first legacy key ordering); `decompose()` now accepts
+    metadata-provided `icon` (mirrors existing `component` handling) to disambiguate
+    tokenName/anatomy-term collisions of equal segment length (e.g. `link-out-icon`); added
+    `"icon"` to the stale `FALLBACK_SERIALIZATION_ORDER`.
+  - **tools/token-mapping-analyzer/src/apply.js**, **index.js**: thread `token.name.icon`
+    metadata into `decompose()` calls.
+  - **packages/design-data/tokens/layout-component.tokens.json**: 112 icon `size-N` tokens
+    migrated from fused `property: "size-N"` to `property: "size"` + numeric `scaleIndex`,
+    following the dsi.6 recipe; legacy-verify confirms byte-identical output.
+  - **packages/design-data/tokens/layout.tokens.json**: 1 additional `space-between` token
+    picked up by the same full-cascade run.
+
+- [#1264](https://github.com/adobe/spectrum-design-data/pull/1264) [`cd5c385`](https://github.com/adobe/spectrum-design-data/commit/cd5c385487d58c0615b432ca6c07c42c00975fa6) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix SPEC-020/SPEC-022 component anatomy/state gaps surfaced by strict
+  `--components-path` validation (7a5).
+  - **packages/design-data/components/tree-view.json**: declare the `default` state,
+    used by the `space-between` token but previously undeclared.
+  - **packages/design-data/components/swatch.json**: declare the `slash` anatomy part,
+    used by 4 `thickness` tokens but previously undeclared.
+  - **packages/design-data/components/stack-item.json**: new component file — 32 tokens
+    reference `component: "stack-item"` but no schema existed; declares its
+    `down`/`hover`/`key-focus` states.
+
+- [#1259](https://github.com/adobe/spectrum-design-data/pull/1259) [`2f59ddf`](https://github.com/adobe/spectrum-design-data/commit/2f59ddf14bdc0a46741e0d00ffc1ab281ef445e6) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose fused `corner-radius-N` ramp into `property` + `scaleIndex` (a3z).
+  - **packages/design-data/tokens/layout.tokens.json**: 11 `corner-radius-{0,75,100..800,1000}`
+    tokens migrated from fused `property: "corner-radius-N"` to `property: "corner-radius"`
+    plus numeric `scaleIndex`, following the dsi.6 recipe. Each token keeps its existing
+    dimension/multiplier token type; roundtrip verified unchanged.
+
+- [#1257](https://github.com/adobe/spectrum-design-data/pull/1257) [`d9bdf1c`](https://github.com/adobe/spectrum-design-data/commit/d9bdf1c4ac3211d1c0916265e0f5c24ee090b990) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `name.legacyKey` on 133 fused-property residual tokens in
+  `layout-component.tokens.json` (a9t) whose `property` string fuses a
+  relation and size term with no density term (e.g.
+  `card-default-width-extra-large`). These already round-trip correctly via
+  `naming.rs`'s thin-format/general-walk fallback — the pin is a
+  forward-compat anchor against a future decompose() migration silently
+  renaming them, not a fix for an active `serialize()` bug.
+  - **packages/design-data/tokens/layout-component.tokens.json**: pinned
+    `legacyKey` on 133 tokens (86 distinct property strings) across `card`,
+    `collection-card`, `field-label`, `in-field-button`, `menu`, `slider`,
+    `steplist`, `switch`, `table`, and `tag-field`, resolved by `uuid` match
+    against `packages/tokens/src/layout-component.json`. All 133 are pure
+    relation+size compounds needing no `property-terms.json` registration
+    (the atomic-term examples the bead flagged belong to the separate `opk`
+    bead).
+
+- [#1258](https://github.com/adobe/spectrum-design-data/pull/1258) [`47a35e9`](https://github.com/adobe/spectrum-design-data/commit/47a35e97708f4e9e793a011c6e2ad01bf4e523f4) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-009 now validates compound `state` values segment-by-segment instead of
+  requiring the whole hyphenated string to match a literal registry entry,
+  silencing 6 permanent-noise warnings from Proposal 005's compound-state
+  convention (closes bead boh).
+  - **sdk/core/src/validate/rules/spec009.rs**: for the `state` field, a value
+    that fails the whole-string registry lookup is now checked at every hyphen
+    boundary (`{mode-state}-{interaction-state}`), so multi-word interaction
+    states like `keyboard-focus` aren't mis-split; a value only warns if no
+    split has both halves in the registry.
+
+- [#1256](https://github.com/adobe/spectrum-design-data/pull/1256) [`7573ed3`](https://github.com/adobe/spectrum-design-data/commit/7573ed3a243470e549bfcec672f3729a91b2710a) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `name.legacyKey` on 56 fused-property residual tokens in
+  `layout-component.tokens.json` (dg2) whose `property` string fuses a
+  relation, size, and density term in the reverse order from dsi.7
+  (size-before-density, e.g. `row-height-extra-large-regular`). These
+  currently already round-trip correctly via `naming.rs`'s thin-format/
+  general-walk fallback (no active `serialize()` bug today) — the pin is a
+  forward-compatibility anchor so a future decompose() migration that splits
+  `property` into registered `size`/`density` sub-fields can't silently
+  reorder and rename the published key.
+  - **packages/design-data/tokens/layout-component.tokens.json**: pinned
+    `legacyKey` on 56 tokens (28 distinct property strings) across the
+    `table` and `thumbnail` component families, resolved by `uuid` match against
+    `packages/tokens/src/layout-component.json` — never reconstructed from
+    the serialized name, per the dsi.3/dsi.7 house convention.
+
+- [#1254](https://github.com/adobe/spectrum-design-data/pull/1254) [`cb762ce`](https://github.com/adobe/spectrum-design-data/commit/cb762ce98de91253b4d52b8e694886a5d52c4926) Thanks [@GarthDB](https://github.com/GarthDB)! - Register `corner-radius` as the canonical property term (unifying the
+  previously-unregistered `corner-radius` and the single-use `border-radius`
+  entry) and decompose the last fused `corner-radius-medium` residual (dsi.10).
+  - **packages/design-data/registry/property-terms.json**: renamed the
+    `border-radius` term to `corner-radius` (label + id) to match actual
+    token usage; no more unregistered `corner-radius` property.
+  - **packages/design-data/tokens/layout-component.tokens.json**: migrated
+    the one `border-radius` token to `property: corner-radius` (existing
+    pinned `legacyKey` keeps serialized output unchanged).
+  - **packages/design-data/tokens/layout.tokens.json**: decomposed
+    `corner-radius-medium` + `state: default` into
+    `property: corner-radius`, `state: default`, `size: m`, matching its
+    `xl`/`l`/`s` siblings; verified byte-identical via
+    `design-data:roundtrip-verify`.
+
+- [#1262](https://github.com/adobe/spectrum-design-data/pull/1262) [`7dfc335`](https://github.com/adobe/spectrum-design-data/commit/7dfc33565899295084de1eef40e72763673f8810) Thanks [@GarthDB](https://github.com/GarthDB)! - Split state/anatomy/emphasis fields out of 20 fused `property` values in
+  `color-component.tokens.json` (dsi.11).
+  - **packages/design-data/tokens/color-component.tokens.json**: 20 tokens across
+    select-box, stack-item, swatch, table, and tree-view had `property` strings
+    that duplicated the component name and fused state (`selected`/`disabled`,
+    optionally compounded with `hover`/`down`/`key-focus`/`default`), anatomy
+    (`row`/`icon`), and emphasis (`emphasized`/`non-emphasized`) together. Each
+    component places these modifiers in its own legacy order (state can lead or
+    sit mid-key, not just trail), so `serialize()` can't reconstruct the
+    original key from split fields — `legacyKey` pins the exact original string
+    per the a9t precedent (`d9bdf1c4`). `design-data migrate legacy-verify`
+    confirms byte-identical legacy output.
+
+- [#1260](https://github.com/adobe/spectrum-design-data/pull/1260) [`d1dc7cc`](https://github.com/adobe/spectrum-design-data/commit/d1dc7cce646b1fa50fa07a3fe4a488911101922c) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose fused `line-height-font-size-N` into `line-height` + `referenceScaleIndex` (dsi.12).
+  - **packages/design-data/fields/referenceScaleIndex.json**: new field declaring a numeric
+    index that references a step in another scale (here, the font-size tier a line-height
+    is paired with), distinct from `scaleIndex` (a token's own ramp position).
+  - **packages/design-data/tokens/typography.tokens.json**: 36 `line-height-font-size-N`
+    tokens migrated to `property: "line-height"` + `referenceScaleIndex`, with an
+    explicit `legacyKey` pin preserving the original flat key until naming.rs learns
+    to reconstruct it from the new field. Verified byte-identical via
+    `design-data migrate legacy-verify` against `packages/tokens/src`.
+
+- [#1251](https://github.com/adobe/spectrum-design-data/pull/1251) [`c9fab75`](https://github.com/adobe/spectrum-design-data/commit/c9fab753d8779f4c83f0a054bc30accde0184c0f) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose fused ramp/scale-index compounds flagged by dsi.6 into proper
+  `colorRole`/`scaleIndex` fields, closing a serializer gap where Rust and
+  JS silently disagreed on scaleIndex placement.
+  - **packages/design-data/tokens/semantic-color-palette.tokens.json**: split
+    80 `{accent,informative,negative,notice,positive}-color-N` tokens into
+    `colorRole` + `property:"color"` + `scaleIndex`.
+  - **packages/design-data/tokens/layout-component.tokens.json**: split 73
+    fused `{property}-N` tokens into `property` + `scaleIndex`.
+  - **packages/design-data/tokens/layout.tokens.json**: split 66 fused
+    `{property}-N` tokens (incl. space-between gaps) into `property`/
+    `from`/`to` + `scaleIndex`.
+  - **sdk/core/src/naming.rs**: new `colorRole` semantic-ramp branch; now
+    appends `scaleIndex` in the icon, space-between, and general branches.
+  - **tools/token-mapping-analyzer/src/decomposer.js**: `scaleIndex` now
+    serializes as a number (was silently dropped by Rust's `.as_i64()`);
+    added `colorRole` promotion + serialize branch.
+  - **tools/token-mapping-analyzer/src/apply.js**: added `applyScaleIndex()`.
+
+- [#1253](https://github.com/adobe/spectrum-design-data/pull/1253) [`10c04a0`](https://github.com/adobe/spectrum-design-data/commit/10c04a0e33626009c538f4073f3e1d75939f0760) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin `name.legacyKey` on the untracked density-before-size residual flagged
+  by dsi.7, following the dsi.3 precedent (preserve published legacy names
+  via the escape hatch rather than reordering the serializer or renaming
+  tokens).
+  - **packages/design-data/tokens/layout-component.tokens.json**: pinned
+    `legacyKey` on 49 `accordion`/`card` tokens (34 distinct property
+    strings) whose property fuses a relation, density, and size in
+    size-incompatible order (e.g. `bottom-to-text-compact-large`); resolved
+    from `packages/tokens/src/layout-component.json` by uuid match, not by
+    string reconstruction, per the lesson from dsi.3's initial mis-pin.
+
+- [#1255](https://github.com/adobe/spectrum-design-data/pull/1255) [`92ad1bf`](https://github.com/adobe/spectrum-design-data/commit/92ad1bfd3f93fa8b946de37f495be8fa6e8ce531) Thanks [@GarthDB](https://github.com/GarthDB)! - Split fused `colorRole`/`state`/`variant` segments out of `name.property` for
+  the 41 no-legacyKey residual tokens flagged by dsi.9, pinning `name.legacyKey`
+  on each to preserve the published legacy name (matches the existing
+  convention already used by every correctly-authored `colorRole` entry in the
+  same files).
+  - **packages/design-data/tokens/color-aliases.tokens.json**: 37 tokens
+    re-authored: role words to `colorRole`, `disabled` to `state` (it's a
+    registered state, not a color role), `static`+`black`/`white` to
+    `variant`+`colorFamily`, and double-stacked state tokens to Proposal 005's
+    compound-state convention (`state: "focus-hover"`, `"selected-default"`) —
+    its first real implementation.
+  - **packages/design-data/tokens/semantic-color-palette.tokens.json**: 4
+    `negative-subdued-background-color-*` tokens split to `colorRole`+`variant`.
+  - **docs/proposals/005-compound-states.md**: marked Accepted for the
+    `color-aliases.json` instances; `color-component.json` instances remain
+    tracked under dsi.11.
+
+- [#1265](https://github.com/adobe/spectrum-design-data/pull/1265) [`c591174`](https://github.com/adobe/spectrum-design-data/commit/c591174961dc3837b3f0f5d8ab95e65157a89cf9) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-027 now resolves each token's legacy key via the shared `naming::extract_legacy_key`
+  resolver instead of assuming a flat string `name`, eliminating ~2948 false-positive
+  `tokenBindings` errors caused by the name-object migration (closes bead soc).
+  - **sdk/core/src/validate/rules/spec027.rs**: `token_names` is built by resolving each
+    token's structured (or plain-string) `name` through `extract_legacy_key`, the same
+    resolver used by `legacy.rs` and the graph's `legacy_name_index`, so `tokenBindings[].token`
+    references match correctly regardless of name shape; added a regression test covering a
+    structured `name` object.
+
 ## 0.12.0
 
 ### Minor Changes
