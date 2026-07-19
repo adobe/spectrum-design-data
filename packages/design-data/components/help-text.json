@@ -164,7 +164,7 @@
     },
     { "token": "neutral-subdued-content-color-default", "context": "Text" },
     {
-      "token": "disabled-content-color-default",
+      "token": "disabled-content-color",
       "context": "Text and alert icon (disabled)"
     },
     {

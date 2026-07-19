@@ -156,7 +156,7 @@
     { "token": "default-font-size", "context": "Title area and body area" },
     { "token": "font-size-300", "context": "Title area and body area" },
     { "token": "line-height-100", "context": "Title area and body area" },
-    { "token": "grey-300", "context": "Border color" },
+    { "token": "gray-300", "context": "Border color" },
     {
       "token": "neutral-content-color-default",
       "context": "Illustration color"
@@ -177,7 +177,7 @@
       "context": "Border and background color (empty, hover)"
     },
     {
-      "token": "drop-zone-background-color-opacity-indicatored",
+      "token": "drop-zone-background-color-opacity-filled",
       "context": "Border, background, and text area color (filled, hover)"
     },
     {

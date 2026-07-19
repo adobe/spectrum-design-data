@@ -179,7 +179,7 @@
       "context": "Illustration color"
     },
     { "token": "neutral-content-color-hover", "context": "Illustration color" },
-    { "token": "netural-content-color-focus", "context": "Illustration color" },
+    { "token": "neutral-content-color-focus", "context": "Illustration color" },
     {
       "token": "select-box-selected-border-color",
       "context": "Border (selected)"

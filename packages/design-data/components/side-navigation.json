@@ -194,11 +194,11 @@
       "context": "Spacing (multi-level, no icon, start edge to content)"
     },
     {
-      "token": "side-navigation-with-icon-second-level-edge-to-indicator",
+      "token": "side-navigation-second-level-with-icon-edge-to-indicator",
       "context": "Spacing (multi-level, no icon, start edge to content)"
     },
     {
-      "token": "side-navigation-with-icon-third-level-edge-to-indicator",
+      "token": "side-navigation-third-level-with-icon-edge-to-indicator",
       "context": "Spacing (multi-level, no icon, start edge to content)"
     },
     {
@@ -226,7 +226,7 @@
       "context": "Spacing (text to trailing accessory area)"
     },
     {
-      "token": "navigation-trailing-accessory-area-to-edge",
+      "token": "side-navigation-trailing-accessory-area-to-edge",
       "context": "Spacing (single-level, end to content)"
     },
     {

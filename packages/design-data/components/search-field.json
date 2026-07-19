@@ -136,7 +136,6 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "in-field", "context": "Components" },
     {
       "token": "search-field-minimum-width-multiplier",
       "context": "Width (minimum)"

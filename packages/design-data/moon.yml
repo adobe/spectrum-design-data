@@ -99,11 +99,12 @@ tasks:
   # component-aware rules (SPEC-018/020/022/026/027/031/035/040) actually run
   # instead of silently no-op'ing (see bead spectrum-design-data-0jm).
   # --components-report-only downgrades their findings to warnings: SPEC-018/
-  # 020/022 are clean (downgrade is a no-op for them), but SPEC-027 still has
-  # a real backlog of ~134 dangling tokenBindings against scale-decomposed
-  # tokens with no flat legacyKey -- a data-model question tracked in bead
-  # spectrum-design-data-vpk, not yet safe to make blocking. Remove this flag
-  # once that bead resolves and the count reaches 0.
+  # 020/022 are clean (downgrade is a no-op for them). SPEC-027's backlog of
+  # 134 dangling tokenBindings was triaged in bead spectrum-design-data-vpk:
+  # 84 were confident typo/word-order renames or garbage removals (now fixed),
+  # leaving 50 genuinely ambiguous bindings escalated for design-owner sign-off
+  # in child bead spectrum-design-data-vpk.1. Remove this flag once that bead
+  # resolves and the SPEC-027 count reaches 0.
   validate:
     command: ../../sdk/target/debug/design-data
     args:

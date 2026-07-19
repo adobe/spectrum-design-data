@@ -156,7 +156,7 @@
     { "token": "steplist-visual-size-large", "context": "Visual size" },
     { "token": "steplist-visual-size-extra-large", "context": "Visual size" },
     {
-      "token": "steplist-track-thickness-thickness",
+      "token": "steplist-track-thickness-medium",
       "context": "Steplist track thickness"
     },
     {

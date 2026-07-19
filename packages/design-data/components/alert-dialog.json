@@ -95,7 +95,7 @@
     { "token": "body-sans-serif-font-family", "context": "Description" },
     { "token": "body-sans-serif-font-weight", "context": "Description" },
     { "token": "body-sans-serif-font-style", "context": "Description" },
-    { "token": "alert-dialog-body-font-size", "context": "Description" },
+    { "token": "alert-dialog-description-font-size", "context": "Description" },
     { "token": "line-height-200", "context": "Description" },
     { "token": "body-color", "context": "Description" },
     { "token": "alert-dialog-maximum-width", "context": "Maximum width" },
@@ -113,7 +113,7 @@
       "context": "Icon (error and warning variants)"
     },
     { "token": "spacing-100", "context": "Minimum spacing (title to icon)" },
-    { "token": "background-color-layer2", "context": "Background" },
+    { "token": "background-layer-2-color", "context": "Background" },
     { "token": "overlay-color", "context": "Overlay" },
     { "token": "overlay-opacity", "context": "Overlay" },
     { "token": "notice-visual-color", "context": "Icon (warning variant)" },

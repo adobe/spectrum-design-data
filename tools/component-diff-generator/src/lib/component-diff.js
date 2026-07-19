@@ -364,8 +364,18 @@ export function isComponentChangeBreaking(
         }
       }
     } else {
-      // For non-property deletions, consider them breaking
-      return true;
+      // Non-"properties" top-level deletions (e.g. tokenBindings, or any
+      // array-valued field). detailedDiff() diffs arrays index-by-index, so
+      // shrinking an array (removing entries, or a length change from
+      // deduping) surfaces as a "deleted" entry here even though the field
+      // itself is still present. Only treat it as breaking if the field was
+      // actually removed from the updated schema entirely -- a shorter array
+      // is a content change, not a removed property.
+      for (const key of Object.keys(changes.deleted)) {
+        if (updatedSchema?.[key] === undefined) {
+          return true;
+        }
+      }
     }
   }
 

@@ -96,8 +96,6 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "xs-s", "context": "Components" },
-    { "token": "s-m", "context": "Components" },
     { "token": "contextual-help-minimum-width", "context": "Minimum width" },
     { "token": "corner-radius-large-default", "context": "Rounding" },
     {

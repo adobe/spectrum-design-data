@@ -200,8 +200,6 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "(multi-select", "context": "Variants" },
-    { "token": "multi-select)", "context": "Variants" },
     { "token": "workflow-icon-size-100", "context": "Icon size" },
     { "token": "list-view-minimum-height", "context": "Component height" },
     { "token": "list-view-minimum-width", "context": "Component width" },
@@ -271,8 +269,11 @@
       "token": "component-edge-to-text-100",
       "context": "Spacing (horizontal)"
     },
-    { "token": "top-to-text-100", "context": "Spacing (vertical)" },
-    { "token": "bottom-to-text-100", "context": "Spacing (vertical)" },
+    { "token": "component-top-to-text-100", "context": "Spacing (vertical)" },
+    {
+      "token": "component-bottom-to-text-100",
+      "context": "Spacing (vertical)"
+    },
     {
       "token": "component-top-to-workflow-icon-100",
       "context": "Spacing (vertical)"

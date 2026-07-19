@@ -234,7 +234,7 @@
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "component-to-calendar-popover", "context": "Spacing (open)" },
+    { "token": "popover-gap", "context": "Spacing (open)" },
     {
       "token": "single-calendar-popover-minimum-width",
       "context": "Width (minimum)"
@@ -308,13 +308,11 @@
       "token": "neutral-content-color-key-focus",
       "context": "In field button colors "
     },
-    { "token": "disabled-color-content", "context": "In field button colors " },
     { "token": "gray-200", "context": "In field button colors " },
     {
-      "token": "background-disabled-color",
+      "token": "disabled-background-color",
       "context": "In field button colors "
     },
-    { "token": "disabled-background-color", "context": "Disabled" },
     {
       "token": "default-font-family",
       "context": "Label, value, help text, and error message"

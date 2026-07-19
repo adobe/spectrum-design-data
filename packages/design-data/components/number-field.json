@@ -192,7 +192,6 @@
   ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
-    { "token": "in-field", "context": "Components" },
     {
       "token": "field-label-to-component",
       "context": "Spacing (field label to number field)"

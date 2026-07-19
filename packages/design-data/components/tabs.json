@@ -133,14 +133,6 @@
       "token": "tab-item-top-to-workflow-icon-medium",
       "context": "Spacing (top/bottom to edge, workflow icon only)"
     },
-    {
-      "token": "tab-item-side-to-workflow-icon-compact-medium",
-      "context": "Spacing (side to edge, workflow icon only)"
-    },
-    {
-      "token": "tab-item-side-to-workflow-icon-medium",
-      "context": "Spacing (side to edge, workflow icon only)"
-    },
     { "token": "spacing-100", "context": "Spacing (edge to edge)" },
     {
       "token": "tab-item-top-to-text-compact-medium",
