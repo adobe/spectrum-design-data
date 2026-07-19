@@ -76,6 +76,12 @@
     "isSelected": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "slash",
+      "description": "Diagonal slash indicating an empty or \"none\" swatch."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

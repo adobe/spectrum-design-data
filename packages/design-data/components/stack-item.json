@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/stack-item.json",
+  "specVersion": "1.0.0-draft",
+  "name": "stack-item",
+  "displayName": "Stack item",
+  "description": "A single row primitive used by list-like containers such as list-view and tree-view.",
+  "meta": {
+    "category": "containers",
+    "documentationUrl": "https://spectrum.adobe.com/"
+  },
+  "states": [
+    { "name": "down", "trigger": "interaction" },
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "key-focus", "trigger": "interaction" }
+  ],
+  "lifecycle": { "introduced": "1.0.0-draft" }
+}
