@@ -1,7 +1,6 @@
 {
   "name": "@adobe/design-data-wasm",
-  "version": "0.4.0",
-  "private": true,
+  "version": "0.4.1",
   "description": "WebAssembly bindings for design-data-core — query, validate, resolve, diff, and registry helpers for Spectrum design tokens",
   "type": "module",
   "main": "./pkg/node/design_data_wasm.js",
@@ -19,10 +18,12 @@
     "pkg/node/design_data_wasm_bg.wasm",
     "pkg/node/design_data_wasm.d.ts",
     "pkg/node/design_data_wasm_bg.wasm.d.ts",
+    "pkg/node/package.json",
     "pkg/web/design_data_wasm.js",
     "pkg/web/design_data_wasm_bg.wasm",
     "pkg/web/design_data_wasm.d.ts",
     "pkg/web/design_data_wasm_bg.wasm.d.ts",
+    "pkg/web/package.json",
     "README.md"
   ],
   "keywords": [
@@ -34,6 +35,11 @@
   ],
   "engines": {
     "node": ">=20.12.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
   },
   "repository": {
     "type": "git",

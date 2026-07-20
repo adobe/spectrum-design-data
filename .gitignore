@@ -120,9 +120,6 @@ dist
 # Rust (design-data SDK workspace)
 sdk/target/
 
-# wasm-pack generated output — rebuilt by `moon run sdk-wasm:build`
-sdk/wasm/pkg/
-
 # design-data derived embedded-database cache (rebuildable from canonical JSON,
 # never authoritative). Includes the OS cache dir contents and any locally built
 # cache assets emitted by `design-data cache-build`.
