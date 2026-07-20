@@ -16,13 +16,18 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 #     creates or updates the "Version Packages" PR. On the version-PR merge it
 #     does nothing (no pending changesets) and exposes hasChangesets=false.
 #
-#   Phase 2 — `build-binaries` + `release`  (version-PR merge only)
-#     Both jobs gate on hasChangesets==false.
+#   Phase 2 — `build-binaries` + `build-wasm` + `release`  (version-PR merge only)
+#     All three jobs gate on hasChangesets==false.
 #     `build-binaries` additionally gates on `cliReleaseNeeded==true` — it only
 #     runs when sdk/cli/Cargo.toml carries a version not yet tagged as a GitHub
 #     Release. This avoids 4 expensive matrix builds on npm-only releases where
 #     the CLI version is unchanged. The `changesets` job detects this by checking
 #     for an existing `design-data-cli@<version>` git tag.
+#     `build-wasm` builds design-data-wasm's pkg/** output (gitignored, rebuilt
+#     from source) on moon/proto and uploads it as an artifact. This runs in its
+#     own job — not inline in `release` — because proto's toolchain shims put a
+#     non-OIDC-capable npm/pnpm on PATH, which breaks npm trusted publishing
+#     (see `release` job below).
 #     `release` publishes npm packages via changeset publish (OIDC), then
 #     downloads the built artifacts and attaches them to the GitHub Release
 #     tagged by the design-data-cli Cargo.toml version. Only an actual binary
@@ -105,6 +110,58 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
   # ── Phase 2a: build — runs only when CLI version is not yet released ────────
+  # Builds design-data-wasm's pkg/** (gitignored, rebuilt from source) via
+  # moon/proto in its own job — isolated from `release` below, whose npm
+  # trusted-publishing (OIDC) step needs the *real* global npm, not proto's
+  # shim. See the `release` job's "Download wasm package build" step.
+  build-wasm:
+    name: Build wasm package
+    needs: changesets
+    if: needs.changesets.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: wasm
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - run: npm install -g pnpm@10.17.1
+
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+
+      - run: pnpm install --frozen-lockfile
+
+      # wasm-pack is pinned in .prototools and installed by setup-toolchain
+      # below (prebuilt binary — matches ci.yml/deploy-docs.yml).
+      - name: Set up moonrepo
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Build wasm package
+        run: moon run sdk-wasm:build
+
+      - name: Upload wasm package build
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm-pkg-build
+          path: sdk/wasm/pkg
+          retention-days: 1
+
   build-binaries:
     name: Build binary (${{ matrix.platform }})
     needs: changesets
@@ -200,14 +257,16 @@ jobs:
   # ── Phase 2b: publish ───────────────────────────────────────────────────────
   release:
     name: Publish to npm
-    needs: [changesets, build-binaries]
+    needs: [changesets, build-binaries, build-wasm]
     # Runs on any version-PR merge. Only blocks on an actual binary build
     # failure: 'skipped' (nothing to compile) and 'success' both proceed,
-    # while 'failure' aborts the publish.
+    # while 'failure' aborts the publish. build-wasm must succeed — its
+    # output is required to publish design-data-wasm.
     if: |
       !cancelled() &&
       needs.changesets.outputs.hasChangesets == 'false' &&
-      needs.build-binaries.result != 'failure'
+      needs.build-binaries.result != 'failure' &&
+      needs.build-wasm.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -240,30 +299,15 @@ jobs:
       # design-data-wasm's pkg/** build output is gitignored (rebuilt from
       # source) but is required by `files` in sdk/wasm/package.json — without
       # this, `changeset publish` would try to publish an empty package.
-      - name: Set up Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      # Built in the separate `build-wasm` job (not inline here) and
+      # downloaded as an artifact: that job's moon/proto toolchain setup puts
+      # a non-OIDC-capable npm/pnpm shim on PATH, which breaks the npm
+      # trusted-publishing step below if it runs in this job.
+      - name: Download wasm package build
+        uses: actions/download-artifact@v4
         with:
-          toolchain: "1.88.0"
-          targets: wasm32-unknown-unknown
-
-      - name: Cache Cargo build
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: "sdk -> sdk/target"
-          key: wasm
-
-      # wasm-pack is pinned in .prototools and installed by setup-toolchain
-      # below (prebuilt binary — matches ci.yml/deploy-docs.yml). Building it
-      # from source via `cargo install` instead pulls wasm-pack's own
-      # Cargo.lock, whose transitive deps can require a newer rustc than the
-      # 1.88.0 pinned above.
-      - name: Set up moonrepo
-        uses: moonrepo/setup-toolchain@v0
-        with:
-          auto-install: true
-
-      - name: Build wasm package
-        run: moon run sdk-wasm:build
+          name: wasm-pkg-build
+          path: sdk/wasm/pkg
 
       - name: Publish packages
         id: cs
