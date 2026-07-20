@@ -7,7 +7,7 @@
   "description": "A single row primitive used by list-like containers such as list-view and tree-view.",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/stack-item/"
   },
   "states": [
     { "name": "down", "trigger": "interaction" },

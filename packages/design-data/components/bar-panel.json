@@ -7,7 +7,7 @@
   "description": "A panel anchored to an edge, exposing a draggable gripper for resizing.",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/bar-panel/"
   },
   "anatomy": [{ "name": "gripper" }],
   "lifecycle": { "introduced": "1.0.0-draft" }

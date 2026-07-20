@@ -7,7 +7,7 @@
   "description": "A card variant representing a collection of items rather than a single asset.",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/collection-card/"
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

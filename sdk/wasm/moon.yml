@@ -65,8 +65,18 @@ tasks:
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
+      - "pkg/node/design_data_wasm_bg.wasm"
+      - "pkg/node/design_data_wasm_bg.wasm.d.ts"
+      - "pkg/node/package.json"
+      - "pkg/node/README.md"
+      - "pkg/node/LICENSE"
       - "pkg/web/design_data_wasm.js"
       - "pkg/web/design_data_wasm.d.ts"
+      - "pkg/web/design_data_wasm_bg.wasm"
+      - "pkg/web/design_data_wasm_bg.wasm.d.ts"
+      - "pkg/web/package.json"
+      - "pkg/web/README.md"
+      - "pkg/web/LICENSE"
     deps:
       - sdk:codegen-check
       - cache-build

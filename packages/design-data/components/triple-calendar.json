@@ -7,7 +7,7 @@
   "description": "A date-picker calendar variant displaying three consecutive months.",
   "meta": {
     "category": "inputs",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

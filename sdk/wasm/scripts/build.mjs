@@ -22,7 +22,8 @@
 
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import { dirname, join } from 'node:path';
+import { rmSync } from 'node:fs';
 
 const cwd = dirname(fileURLToPath(import.meta.url + '/..'));
 
@@ -33,6 +34,12 @@ function build(target, outDir) {
     ['build', '--target', target, '--out-dir', outDir, '--', '--features', 'embedded'],
     { cwd, stdio: 'inherit' },
   );
+
+  // wasm-pack always drops a `.gitignore` (containing `*`) into outDir. npm's
+  // packlist honors that even though it's not a git-tracked file, silently
+  // dropping the wasm binary from `npm publish`/`npm pack`. Remove it so the
+  // built package is always publish-ready.
+  rmSync(join(cwd, outDir, '.gitignore'), { force: true });
 }
 
 build('nodejs', 'pkg/node');
