@@ -213,7 +213,9 @@
   },
   {
     "name": {
-      "property": "banner-gap-horizontal"
+      "property": "gap",
+      "structure": "banner",
+      "orientation": "horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -222,7 +224,9 @@
   },
   {
     "name": {
-      "property": "banner-gap-vertical"
+      "property": "gap",
+      "structure": "banner",
+      "orientation": "vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -231,7 +235,8 @@
   },
   {
     "name": {
-      "property": "banner-padding-horizontal"
+      "property": "padding-horizontal",
+      "structure": "banner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -252,7 +257,8 @@
   },
   {
     "name": {
-      "property": "banner-padding-vertical"
+      "property": "padding-vertical",
+      "structure": "banner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -712,8 +718,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "size": "xl",
+      "variant": "quiet",
+      "scale": "desktop",
+      "legacyKey": "character-count-to-field-quiet-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-4px",
@@ -724,8 +735,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "size": "xl",
+      "variant": "quiet",
+      "scale": "mobile",
+      "legacyKey": "character-count-to-field-quiet-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-5px",
@@ -736,8 +752,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "l",
+      "scale": "desktop",
+      "legacyKey": "character-count-to-field-quiet-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-3px",
@@ -748,8 +769,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "l",
+      "scale": "mobile",
+      "legacyKey": "character-count-to-field-quiet-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-4px",
@@ -760,8 +786,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "m",
+      "scale": "desktop",
+      "legacyKey": "character-count-to-field-quiet-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-3px",
@@ -772,8 +803,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "m",
+      "scale": "mobile",
+      "legacyKey": "character-count-to-field-quiet-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-4px",
@@ -784,8 +820,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "s",
+      "scale": "desktop",
+      "legacyKey": "character-count-to-field-quiet-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-3px",
@@ -796,8 +837,13 @@
   },
   {
     "name": {
-      "property": "character-count-to-field-quiet-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "character-count",
+      "to": "field",
+      "variant": "quiet",
+      "size": "s",
+      "scale": "mobile",
+      "legacyKey": "character-count-to-field-quiet-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-4px",
@@ -3362,8 +3408,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -3376,8 +3426,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -3390,8 +3444,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3404,8 +3462,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -3418,8 +3480,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -3432,8 +3498,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3446,7 +3516,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-quiet"
+      "property": "space-between",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "variant": "quiet",
+      "legacyKey": "field-edge-to-alert-icon-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3455,8 +3530,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -3469,8 +3548,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-alert-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "alert",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -3483,7 +3566,11 @@
   },
   {
     "name": {
-      "property": "field-edge-to-border-quiet"
+      "component": "field",
+      "variant": "quiet",
+      "object": "edge",
+      "property": "border",
+      "legacyKey": "field-edge-to-border-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3628,7 +3715,11 @@
   },
   {
     "name": {
-      "property": "field-edge-to-text-quiet"
+      "property": "space-between",
+      "from": "field-edge",
+      "to": "text",
+      "variant": "quiet",
+      "legacyKey": "field-edge-to-text-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3637,8 +3728,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -3651,8 +3746,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -3665,8 +3764,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3679,8 +3782,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -3693,8 +3800,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -3707,8 +3818,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3721,7 +3836,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-quiet"
+      "property": "space-between",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "variant": "quiet",
+      "legacyKey": "field-edge-to-validation-icon-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3730,8 +3850,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -3744,8 +3868,12 @@
   },
   {
     "name": {
-      "property": "field-edge-to-validation-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-edge",
+      "to": "icon",
+      "icon": "validation",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -3758,7 +3886,11 @@
   },
   {
     "name": {
-      "property": "field-edge-to-visual-quiet"
+      "property": "space-between",
+      "from": "field-edge",
+      "to": "visual",
+      "variant": "quiet",
+      "legacyKey": "field-edge-to-visual-quiet"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -3904,8 +4036,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl",
+      "component": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -3918,8 +4055,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl",
+      "component": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -3932,8 +4074,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3946,8 +4093,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -3960,8 +4112,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -3974,8 +4131,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -3988,8 +4150,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -4002,8 +4169,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-alert-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "alert",
+      "component": "field",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -4016,8 +4188,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl",
+      "component": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -4030,8 +4207,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl",
+      "component": "field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -4044,8 +4226,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -4058,8 +4245,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -4072,8 +4264,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -4086,8 +4283,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -4100,8 +4302,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -4114,8 +4321,13 @@
   },
   {
     "name": {
-      "property": "field-text-to-validation-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "text",
+      "to": "icon",
+      "icon": "validation",
+      "component": "field",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -4128,8 +4340,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -4142,8 +4358,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -4156,8 +4376,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -4170,8 +4394,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -4184,8 +4412,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -4198,8 +4430,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -4212,8 +4448,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -4226,8 +4466,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-alert-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "alert",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -4376,8 +4620,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "xl",
+      "density": "compact",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
@@ -4390,8 +4639,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "xl",
+      "density": "compact",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-compact-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "21px",
@@ -4404,8 +4658,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "l",
+      "density": "compact",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -4418,8 +4677,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "l",
+      "density": "compact",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-compact-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
@@ -4432,8 +4696,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "m",
+      "density": "compact",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -4446,8 +4715,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "m",
+      "density": "compact",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-compact-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -4460,8 +4734,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "s",
+      "density": "compact",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -4474,8 +4753,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-compact-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "s",
+      "density": "compact",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-compact-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -4624,8 +4908,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "xl",
+      "density": "spacious",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "25px",
@@ -4638,8 +4927,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "xl",
+      "density": "spacious",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "31px",
@@ -4652,8 +4946,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "l",
+      "density": "spacious",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -4666,8 +4965,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "l",
+      "density": "spacious",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "27px",
@@ -4680,8 +4984,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "m",
+      "density": "spacious",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -4694,8 +5003,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "m",
+      "density": "spacious",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "23px",
@@ -4708,8 +5022,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "s",
+      "density": "spacious",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -4722,8 +5041,13 @@
   },
   {
     "name": {
-      "property": "field-top-to-disclosure-icon-spacious-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "disclosure-icon",
+      "size": "s",
+      "density": "spacious",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-disclosure-icon-spacious-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -4848,8 +5172,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
@@ -4862,8 +5190,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -4876,8 +5208,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -4890,8 +5226,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "17px",
@@ -4904,8 +5244,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -4918,8 +5262,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "13px",
@@ -4932,8 +5280,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "scale": "desktop",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -4946,8 +5298,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-validation-icon-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "scale": "mobile",
+      "from": "field-top",
+      "to": "icon",
+      "icon": "validation",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -5283,7 +5639,9 @@
   },
   {
     "name": {
-      "property": "list-gap-regular"
+      "property": "gap",
+      "structure": "list",
+      "weight": "regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",

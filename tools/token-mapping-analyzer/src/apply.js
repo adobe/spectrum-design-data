@@ -187,21 +187,18 @@ export function applySpaceBetween(tokens, registry, filename) {
     )
       continue;
 
-    const patched = {
-      ...token.name,
-      from: result.nameObject.from,
-      to: result.nameObject.to,
-      property: result.nameObject.property,
-    };
+    // Whole-object merge (see applyField's comment): decompose() may pull
+    // other fields (size, density, icon, ...) out of the property string
+    // alongside from/to — dropping them here would silently break the
+    // roundtrip check below.
+    const patched = { ...token.name, ...result.nameObject };
     if (
       serialize(patched, registry.tokenNameMap, registry.serializationOrder) !==
       legacyKey
     )
       continue;
 
-    token.name.from = result.nameObject.from;
-    token.name.to = result.nameObject.to;
-    token.name.property = result.nameObject.property;
+    Object.assign(token.name, result.nameObject);
     applied++;
   }
 

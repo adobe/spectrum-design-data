@@ -147,6 +147,24 @@ function endpointResolves(
 }
 
 /**
+ * If `endpoint` is exactly a registered icon's expanded legacy form (e.g.
+ * "alert-icon" for icon id "alert"), return that icon id. Bare "icon" is
+ * already a valid SPEC-047 anatomy endpoint (anatomy-terms.json), so an
+ * icon-family compound resolves to the anatomy endpoint "icon" plus a
+ * separate `icon` field — not a literal endpoint string of its own.
+ *
+ * @param {string} endpoint
+ * @param {object} registry
+ * @returns {string|null}
+ */
+function iconEndpointMatch(endpoint, registry) {
+  for (const iconId of registry.byField.icon ?? []) {
+    if (registry.tokenNameMap[iconId] === endpoint) return iconId;
+  }
+  return null;
+}
+
+/**
  * Decompose a token name into a 13-field name object.
  *
  * @param {string} tokenName - kebab-case token name
@@ -260,6 +278,7 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       // the longest unmatched *suffix* of beforeConnector first.
       let fromStart = -1;
       let fromCandidate = null;
+      let fromIcon = null;
       for (let k = beforeConnector.length; k >= 1; k--) {
         const startOffset = beforeConnector.length - k;
         const absoluteStart = componentEndIdx + startOffset;
@@ -268,6 +287,13 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
           .every((_, j) => !matched[absoluteStart + j]);
         if (!clean) continue;
         const candidate = beforeConnector.slice(startOffset).join("-");
+        const iconId = iconEndpointMatch(candidate, registry);
+        if (iconId) {
+          fromStart = absoluteStart;
+          fromCandidate = "icon";
+          fromIcon = iconId;
+          break;
+        }
         if (
           endpointResolves(
             candidate,
@@ -285,9 +311,16 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
       if (fromCandidate) {
         const rest = segments.slice(connectorIdx + 1);
         let toSegs = null;
+        let toIcon = null;
         for (let k = rest.length; k >= 1; k--) {
           if (matched[connectorIdx + 1 + k - 1]) continue;
           const candidate = rest.slice(0, k).join("-");
+          const iconId = iconEndpointMatch(candidate, registry);
+          if (iconId) {
+            toSegs = rest.slice(0, k);
+            toIcon = iconId;
+            break;
+          }
           if (
             endpointResolves(
               candidate,
@@ -304,7 +337,8 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
         if (toSegs) {
           nameObject.property = "space-between";
           nameObject.from = fromCandidate;
-          nameObject.to = toSegs.join("-");
+          nameObject.to = toIcon ? "icon" : toSegs.join("-");
+          if (fromIcon || toIcon) nameObject.icon = fromIcon || toIcon;
           for (let i = fromStart; i < connectorIdx; i++) {
             matched[i] = true;
             matchDetails[i] = "from";
@@ -741,12 +775,21 @@ export function serialize(
     nameObject.from &&
     nameObject.to
   ) {
+    // An "icon" endpoint (bare anatomy term) paired with nameObject.icon is an
+    // icon-family compound (e.g. to:"icon", icon:"alert" -> "alert-icon") —
+    // expand via the icon's tokenName rather than the literal "icon".
     const parts = [];
     for (const field of serializationOrder) {
-      if (field === "from" || field === "to") continue;
+      if (field === "from" || field === "to" || field === "icon") continue;
       if (field === "property") {
-        const fromExpanded = tokenNameMap[nameObject.from] || nameObject.from;
-        const toExpanded = tokenNameMap[nameObject.to] || nameObject.to;
+        const fromExpanded =
+          nameObject.from === "icon" && nameObject.icon
+            ? tokenNameMap[nameObject.icon] || nameObject.icon
+            : tokenNameMap[nameObject.from] || nameObject.from;
+        const toExpanded =
+          nameObject.to === "icon" && nameObject.icon
+            ? tokenNameMap[nameObject.icon] || nameObject.icon
+            : tokenNameMap[nameObject.to] || nameObject.to;
         parts.push(`${fromExpanded}-to-${toExpanded}`);
         continue;
       }
