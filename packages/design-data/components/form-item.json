@@ -7,7 +7,7 @@
   "description": "Layout wrapper pairing a form field with its label and helper text.",
   "meta": {
     "category": "inputs",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/form-item/"
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

@@ -7,7 +7,7 @@
   "description": "A circular button that floats above content to surface a primary action.",
   "meta": {
     "category": "actions",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/floating-action-button/"
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

@@ -7,7 +7,7 @@
   "description": "A text field split into discrete segments, such as for structured input.",
   "meta": {
     "category": "inputs",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/segmented-text-field/"
   },
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

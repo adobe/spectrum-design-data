@@ -7,7 +7,7 @@
   "description": "A single card surface used to group related content and actions; the base of the cards family (cards.json documents the group).",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/card/"
   },
   "anatomy": [{ "name": "selection" }, { "name": "well" }],
   "states": [{ "name": "default" }],

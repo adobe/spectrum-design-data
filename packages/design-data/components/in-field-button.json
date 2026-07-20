@@ -7,7 +7,7 @@
   "description": "A button embedded inside a field's input area, such as a clear or disclosure action.",
   "meta": {
     "category": "inputs",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/in-field-button/"
   },
   "anatomy": [{ "name": "fill" }],
   "lifecycle": { "introduced": "1.0.0-draft" }
