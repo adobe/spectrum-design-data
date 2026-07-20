@@ -1,5 +1,18 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.4.3
+
+### Patch Changes
+
+- [#1267](https://github.com/adobe/spectrum-design-data/pull/1267) [`555f25d`](https://github.com/adobe/spectrum-design-data/commit/555f25d6dcba8a5e8918039f2bab2020b8cf72c7) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed a false-positive breaking-change flag when a `tokenBindings` array (or any
+  non-`properties` array field) shrinks. `detailedDiff` diffs arrays index-by-index, so
+  removed trailing entries surfaced as a top-level `deleted.<field>` entry even though
+  the field was still present — `isComponentChangeBreaking` treated any such deletion as
+  breaking regardless. It now only flags breaking when the field is missing from the
+  updated schema entirely.
+  - **src/lib/component-diff.js**: only treat non-`properties` deletions as breaking when
+    the field itself was removed from the updated schema, not merely shortened.
+
 ## 1.4.2
 
 ### Patch Changes

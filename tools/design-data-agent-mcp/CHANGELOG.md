@@ -1,5 +1,29 @@
 # @adobe/design-data-agent-mcp
 
+## 1.8.6
+
+### Patch Changes
+
+- [#1271](https://github.com/adobe/spectrum-design-data/pull/1271) [`df80f34`](https://github.com/adobe/spectrum-design-data/commit/df80f347baa0a9ae056804232228ae9fe3e55fae) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixes a packaging bug where the `@adobe/design-data-wasm` npm tarball omitted
+  the nested `pkg/node/package.json` and `pkg/web/package.json` files. Without
+  them, Node's ESM/CJS module-type resolution incorrectly inherited
+  `"type": "module"` from the wasm package root, causing every real consumer's
+  `import("@adobe/design-data-wasm")` to crash with `ENOENT: no such file or
+directory, open './design_data_wasm_bg.wasm'`. The previously published
+  `0.4.0` is permanently broken and unusable — this releases a fixed version and
+  republishes the two dependents against it.
+  - **@adobe/design-data-wasm**: fix the `files` allowlist to include the
+    per-target `package.json` manifests.
+  - **@adobe/design-data-agent-mcp**: bump `@adobe/design-data-wasm` dependency
+    to the fixed version.
+  - **@adobe/design-data**: bump `@adobe/design-data-wasm` dependency to the
+    fixed version.
+
+- Updated dependencies [[`555f25d`](https://github.com/adobe/spectrum-design-data/commit/555f25d6dcba8a5e8918039f2bab2020b8cf72c7), [`df80f34`](https://github.com/adobe/spectrum-design-data/commit/df80f347baa0a9ae056804232228ae9fe3e55fae)]:
+  - @adobe/spectrum-design-data@0.14.0
+  - @adobe/design-data-wasm@0.4.2
+  - @adobe/design-data@3.0.1
+
 ## 1.8.5
 
 ### Patch Changes
