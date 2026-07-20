@@ -842,7 +842,7 @@
     "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "action-bar-close-button-to-counter": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -881,7 +881,7 @@
     "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-gap-horizontal instead.",
-    "renamed": "banner-gap-horizontal"
+    "renamed": "gap-horizontal"
   },
   "action-bar-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -896,7 +896,7 @@
     "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "action-bar-top-to-item-counter": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -905,7 +905,7 @@
     "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "action-button-edge-to-hold-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1093,7 +1093,7 @@
         "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "alert-banner-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1157,7 +1157,7 @@
         "uuid": "7939208b-2f8c-4569-b7cb-1c1bcfc8705a"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "alert-banner-top-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1177,7 +1177,7 @@
         "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "alert-banner-top-to-workflow-icon": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1197,7 +1197,7 @@
         "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "alert-banner-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -7304,7 +7304,7 @@
         "uuid": "be37c65c-88c5-48cd-9554-8240909db98d"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "side-navigation-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9931,7 +9931,7 @@
         "uuid": "ea902ec1-25d5-47c3-896a-a95d9ca5bd62"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "tab-item-to-tab-item-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9951,7 +9951,7 @@
         "uuid": "c193b2ee-a584-41dc-9ef8-3aebb38fb832"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "tab-item-to-tab-item-vertical-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9971,7 +9971,7 @@
         "uuid": "6b6c960f-adcf-48b0-8310-ba12b47f4d9a"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "tab-item-to-tab-item-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -9991,7 +9991,7 @@
         "uuid": "d51a6c05-67d0-425f-becf-86e783ab3305"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "tab-item-top-to-text-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13143,7 +13143,7 @@
         "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "toast-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13197,7 +13197,7 @@
         "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "toast-top-to-workflow-icon": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13217,7 +13217,7 @@
         "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
       }
     },
-    "renamed": "banner-padding-vertical"
+    "renamed": "padding-vertical"
   },
   "tooltip-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -13456,7 +13456,7 @@
         "uuid": "a06c6929-1acc-4084-a8ee-3d4ad5a0064e"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "tree-view-item-to-item": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
