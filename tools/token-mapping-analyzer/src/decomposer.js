@@ -334,6 +334,12 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
           }
         }
 
+        // A single nameObject.icon field can't hold two distinct glyphs; bail
+        // out rather than silently keeping only the `from` side's icon.
+        if (toSegs && fromIcon && toIcon && fromIcon !== toIcon) {
+          toSegs = null;
+        }
+
         if (toSegs) {
           nameObject.property = "space-between";
           nameObject.from = fromCandidate;

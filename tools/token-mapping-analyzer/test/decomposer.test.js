@@ -102,6 +102,22 @@ test("decomposes space-between gap with an icon-family endpoint (alert-icon)", (
   t.true(result.roundtrips);
 });
 
+test("rejects space-between when from and to resolve to different icons", (t) => {
+  // nameObject.icon can only hold one glyph; a from/to pair naming two
+  // distinct icons must not silently keep only the `from` side's icon.
+  const result = decompose(
+    "checkmark-icon-to-alert-icon",
+    {},
+    registry,
+    "test",
+  );
+  t.not(result.nameObject.property, "space-between");
+  t.true(
+    result.gaps.some((g) => g.type === "spacing-between"),
+    "unresolved -to- pattern should surface as a gap, not a silent mismatch",
+  );
+});
+
 test("matches typography family and emphasis as real fields, not gaps", (t) => {
   const result = decompose(
     "body-cjk-emphasized-font-weight",
