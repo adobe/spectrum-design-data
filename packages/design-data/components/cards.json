@@ -290,18 +290,6 @@
     { "token": "spacing-100", "context": "Spacing (header to footer)" },
     { "token": "card-header-to-footer", "context": "Spacing (text to visual)" },
     {
-      "token": "card-edge-to-content-compact-extra-medium",
-      "context": "Spacing (top/side/bottom edge to content, medium)"
-    },
-    {
-      "token": "card-edge-to-content-default-extra-medium",
-      "context": "Spacing (top/side/bottom edge to content, medium)"
-    },
-    {
-      "token": "card-edge-to-content-spacious-extra-medium",
-      "context": "Spacing (top/side/bottom edge to content, medium)"
-    },
-    {
       "token": "user-card-minimum-height-small",
       "context": "Height (minimum), default variant"
     },
