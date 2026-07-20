@@ -1,5 +1,14 @@
 # @adobe/spectrum-design-data
 
+## 0.14.1
+
+### Patch Changes
+
+- [#1272](https://github.com/adobe/spectrum-design-data/pull/1272) [`d3c2323`](https://github.com/adobe/spectrum-design-data/commit/d3c23237f90cfa8053bd6949b06c5d88fe270c9e) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix placeholder documentationUrls on 17 new components (fixes Deploy Docs).
+  - **packages/design-data/components/**: set per-component documentationUrl
+    (page/<name>/) on the 17 components added in #1266 so component slugs are
+    unique and match filename stems.
+
 ## 0.14.0
 
 ### Minor Changes
