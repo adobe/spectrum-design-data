@@ -1,5 +1,29 @@
 # @adobe/spectrum-design-data
 
+## 0.14.2
+
+### Patch Changes
+
+- [#1270](https://github.com/adobe/spectrum-design-data/pull/1270) [`b3d1803`](https://github.com/adobe/spectrum-design-data/commit/b3d1803e4c3bb0c3189525d6683571fcc8ce2b1b) Thanks [@GarthDB](https://github.com/GarthDB)! - Converged the drifted `key-focus` state alias onto its registry-canonical form
+  `keyboard-focus` (bead spectrum-design-data-bja). Published legacy names are
+  unaffected since each token's `legacyKey` already pins the flat output name.
+  - **packages/design-data/tokens/color-aliases.tokens.json**: 22 tokens'
+    `name.state` changed from `key-focus` to `keyboard-focus`.
+  - **packages/design-data/tokens/color-component.tokens.json**: 1 token's
+    `name.state` changed from `key-focus` to `keyboard-focus`.
+  - **packages/design-data/tokens/layout-component.tokens.json**: 2 tokens'
+    `name.state` changed from `key-focus` to `keyboard-focus`.
+  - **packages/design-data/tokens/semantic-color-palette.tokens.json**: 1
+    token's `name.state` changed from `key-focus` to `keyboard-focus`.
+  - **packages/design-data/components/stack-item.json**: declared state
+    renamed from `key-focus` to `keyboard-focus` to match.
+
+- [#1275](https://github.com/adobe/spectrum-design-data/pull/1275) [`fe842e9`](https://github.com/adobe/spectrum-design-data/commit/fe842e99a4f95ee4bac624ad956cd06dde170b97) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove 3 duplicate/typo'd tokenBindings on cards (SPEC-027 dangling-binding triage).
+  - **packages/design-data/components/cards.json**: removed
+    `card-edge-to-content-{compact,default,spacious}-extra-medium` bindings — exact
+    duplicates of the existing `-medium` bindings with an invalid `-extra-` scale step
+    that doesn't exist in the token set.
+
 ## 0.14.1
 
 ### Patch Changes
