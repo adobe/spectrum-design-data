@@ -129,7 +129,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "light",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -143,7 +143,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -157,7 +157,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -204,7 +204,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "accent-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -394,7 +394,7 @@
   {
     "name": {
       "property": "background-opacity",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "background-opacity-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -2485,7 +2485,7 @@
   {
     "name": {
       "property": "informative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "light",
       "legacyKey": "informative-background-color-key-focus"
     },
@@ -2498,7 +2498,7 @@
   {
     "name": {
       "property": "informative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "dark",
       "legacyKey": "informative-background-color-key-focus"
     },
@@ -2511,7 +2511,7 @@
   {
     "name": {
       "property": "informative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "wireframe",
       "legacyKey": "informative-background-color-key-focus"
     },
@@ -2806,7 +2806,7 @@
   {
     "name": {
       "property": "negative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "light",
       "legacyKey": "negative-background-color-key-focus"
     },
@@ -2819,7 +2819,7 @@
   {
     "name": {
       "property": "negative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "dark",
       "legacyKey": "negative-background-color-key-focus"
     },
@@ -2832,7 +2832,7 @@
   {
     "name": {
       "property": "negative-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "wireframe",
       "legacyKey": "negative-background-color-key-focus"
     },
@@ -2896,7 +2896,7 @@
   {
     "name": {
       "property": "negative-border-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "negative-border-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2939,7 +2939,7 @@
   {
     "name": {
       "property": "negative-content-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "negative-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3018,7 +3018,7 @@
   {
     "name": {
       "property": "neutral-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "neutral-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3127,7 +3127,7 @@
   {
     "name": {
       "property": "neutral-content-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "neutral-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3274,7 +3274,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "light",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3289,7 +3289,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "dark",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3304,7 +3304,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3355,7 +3355,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "neutral-subdued-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3958,7 +3958,7 @@
   {
     "name": {
       "property": "positive-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "light",
       "legacyKey": "positive-background-color-key-focus"
     },
@@ -3971,7 +3971,7 @@
   {
     "name": {
       "property": "positive-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "dark",
       "legacyKey": "positive-background-color-key-focus"
     },
@@ -3984,7 +3984,7 @@
   {
     "name": {
       "property": "positive-background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "colorScheme": "wireframe",
       "legacyKey": "positive-background-color-key-focus"
     },

@@ -658,7 +658,7 @@
       "colorRole": "negative",
       "variant": "subdued",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "negative-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
