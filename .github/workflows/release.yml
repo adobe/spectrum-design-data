@@ -252,9 +252,11 @@ jobs:
           workspaces: "sdk -> sdk/target"
           key: wasm
 
-      - name: Install wasm-pack
-        run: cargo install wasm-pack --locked
-
+      # wasm-pack is pinned in .prototools and installed by setup-toolchain
+      # below (prebuilt binary — matches ci.yml/deploy-docs.yml). Building it
+      # from source via `cargo install` instead pulls wasm-pack's own
+      # Cargo.lock, whose transitive deps can require a newer rustc than the
+      # 1.88.0 pinned above.
       - name: Set up moonrepo
         uses: moonrepo/setup-toolchain@v0
         with:
