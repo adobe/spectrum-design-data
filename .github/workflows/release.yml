@@ -237,6 +237,32 @@ jobs:
           node tasks/buildSpectrumTokens.js
           node tasks/buildManifest.js
 
+      # design-data-wasm's pkg/** build output is gitignored (rebuilt from
+      # source) but is required by `files` in sdk/wasm/package.json — without
+      # this, `changeset publish` would try to publish an empty package.
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: wasm
+
+      - name: Install wasm-pack
+        run: cargo install wasm-pack --locked
+
+      - name: Set up moonrepo
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Build wasm package
+        run: moon run sdk-wasm:build
+
       - name: Publish packages
         id: cs
         uses: GarthDB/changesets-action@v1.6.8
