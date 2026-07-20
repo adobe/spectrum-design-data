@@ -774,7 +774,7 @@
     "name": {
       "component": "stack-item",
       "property": "background-color",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "legacyKey": "stack-item-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

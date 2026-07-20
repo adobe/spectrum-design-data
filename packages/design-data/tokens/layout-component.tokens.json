@@ -5925,7 +5925,7 @@
     "name": {
       "component": "color-handle",
       "property": "size",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "scale": "desktop",
       "legacyKey": "color-handle-size-key-focus"
     },
@@ -5939,7 +5939,7 @@
     "name": {
       "component": "color-handle",
       "property": "size",
-      "state": "key-focus",
+      "state": "keyboard-focus",
       "scale": "mobile",
       "legacyKey": "color-handle-size-key-focus"
     },
