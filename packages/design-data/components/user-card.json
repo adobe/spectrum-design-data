@@ -7,7 +7,7 @@
   "description": "A card variant surfacing a user's identity (avatar, name) alongside supporting content.",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/user-card/"
   },
   "anatomy": [{ "name": "title" }],
   "lifecycle": { "introduced": "1.0.0-draft" }

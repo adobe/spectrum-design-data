@@ -7,7 +7,7 @@
   "description": "A card variant laid out horizontally, pairing a preview with content side by side.",
   "meta": {
     "category": "containers",
-    "documentationUrl": "https://spectrum.adobe.com/"
+    "documentationUrl": "https://spectrum.adobe.com/page/card-horizontal/"
   },
   "states": [{ "name": "default" }],
   "lifecycle": { "introduced": "1.0.0-draft" }
