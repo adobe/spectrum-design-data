@@ -1,5 +1,63 @@
 # @adobe/spectrum-design-data
 
+## 0.15.0
+
+### Minor Changes
+
+- [#1280](https://github.com/adobe/spectrum-design-data/pull/1280) [`fb94215`](https://github.com/adobe/spectrum-design-data/commit/fb942159265526230b069ffd38f6f52590979582) Thanks [@GarthDB](https://github.com/GarthDB)! - Relaxed SPEC-025 so `anatomy` can anchor to a `structure` or a registry
+  term flagged `standaloneScope` (not just `component`), and added SPEC-049 to
+  validate the anatomy vocabulary for those non-component cases. Structured 27
+  previously-fused layout tokens accordingly (bead spectrum-design-data-bzo,
+  bucket 2); legacy names are unaffected.
+  - **sdk/core/src/validate/rules/spec025.rs**: relaxed anchor rule.
+  - **sdk/core/src/validate/rules/spec049.rs**: new rule, validates
+    non-component anatomy values against `anatomy-terms.json`.
+  - **packages/design-data/registry/anatomy-terms.json**: flagged
+    `focus-ring`/`focus-indicator` `standaloneScope: true`.
+  - **packages/design-data/components/table.json**: added `item` anatomy part.
+  - **packages/design-data/registry/property-terms.json**: added `indent`.
+  - **packages/design-data/tokens/layout.tokens.json**: structured
+    `accessory-item-*`, `list-*`, `table-item-*`, `popover-*`, `field-width*`,
+    and `focus-ring`/`focus-indicator` tokens.
+  - **tools/token-mapping-analyzer/src/apply.js**: matching guard relaxation.
+  - **design-data-spec**: `registry-value.json` schema + SPEC-049 rules/fixtures.
+
+### Patch Changes
+
+- [#1279](https://github.com/adobe/spectrum-design-data/pull/1279) [`2f1c008`](https://github.com/adobe/spectrum-design-data/commit/2f1c0088309739e4a8c7d8aa5bba24da8833d7d4) Thanks [@GarthDB](https://github.com/GarthDB)! - Structured 14 untracked fused-property singleton tokens into the `name`
+  object (bead spectrum-design-data-dsi.13). Published legacy names are
+  unaffected since each token's `legacyKey` pins the flat output name.
+  - **packages/design-data/tokens/color-aliases.tokens.json**: extracted
+    `structure`/`emphasis`/`state` from the two `drop-shadow-emphasized(-hover)-key-color`
+    families (6 tokens); extracted `object` (`focus-indicator`/`title`/`track`)
+    and `variant`/`colorFamily` where applicable from 5 generic-alias singletons
+    previously fused as `*-color`.
+  - **packages/design-data/tokens/color-palette.tokens.json**: extracted
+    `component:"avatar"` from the 3 `gradient-stop-N-avatar` tokens.
+  - **packages/design-data/tokens/color-component.tokens.json**: pinned
+    `legacyKey` on the 3 `opacity-checkerboard` `square-dark` tokens (verified
+    the light/dark/wireframe `colorScheme` mismatch flagged in the bead is a
+    naming artifact — "dark" names the darker of two alternating tiles, not the
+    color scheme — no value change).
+  - **packages/design-data/tokens/typography.tokens.json**: pinned `legacyKey`
+    on `default-font-family` (no registered segment to extract).
+
+- [#1277](https://github.com/adobe/spectrum-design-data/pull/1277) [`49fd896`](https://github.com/adobe/spectrum-design-data/commit/49fd8968146f9c0fd6acb95e004d00f1df66731e) Thanks [@GarthDB](https://github.com/GarthDB)! - Structured fused `-to-` spacing tokens in `layout.tokens.json` into the `name`
+  object (bead spectrum-design-data-dsi.8). Published legacy names are
+  unaffected since each migrated token's `legacyKey` pins the flat output name.
+  - **packages/design-data/registry/icon-terms.json**: registered `alert` and
+    `validation` icon ids so icon-family space-between endpoints resolve.
+  - **packages/design-data/tokens/layout.tokens.json**: 48 tokens migrated to
+    `{property:"space-between", from, to, icon?}` shape; 29 idiosyncratic
+    tokens hand-authored with a pinned `legacyKey`; additional `structure`,
+    `size`, `variant`, `qualifier` fields extracted where safe.
+  - **packages/design-data/tokens/layout-component.tokens.json**: 41 tokens
+    migrated to the `space-between` shape (fix applies corpus-wide, not just
+    this bead's file).
+  - **packages/design-data/tokens/color-aliases.tokens.json**: `variant`
+    extracted from fused property strings (e.g. `informative`, `negative`)
+    on keyboard-focus color-scheme tokens.
+
 ## 0.14.2
 
 ### Patch Changes
