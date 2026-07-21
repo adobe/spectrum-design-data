@@ -87,15 +87,35 @@ test("decomposes component-height compound with scale index", (t) => {
   t.true(result.roundtrips);
 });
 
-test("detects spacing-between pattern", (t) => {
+test("decomposes space-between gap with an icon-family endpoint (alert-icon)", (t) => {
   const result = decompose(
     "field-top-to-alert-icon-small",
     {},
     registry,
     "test",
   );
-  const spacingGap = result.gaps.find((g) => g.type === "spacing-between");
-  t.truthy(spacingGap);
+  t.is(result.nameObject.property, "space-between");
+  t.is(result.nameObject.from, "field-top");
+  t.is(result.nameObject.to, "icon");
+  t.is(result.nameObject.icon, "alert");
+  t.deepEqual(result.gaps, []);
+  t.true(result.roundtrips);
+});
+
+test("rejects space-between when from and to resolve to different icons", (t) => {
+  // nameObject.icon can only hold one glyph; a from/to pair naming two
+  // distinct icons must not silently keep only the `from` side's icon.
+  const result = decompose(
+    "checkmark-icon-to-alert-icon",
+    {},
+    registry,
+    "test",
+  );
+  t.not(result.nameObject.property, "space-between");
+  t.true(
+    result.gaps.some((g) => g.type === "spacing-between"),
+    "unresolved -to- pattern should surface as a gap, not a silent mismatch",
+  );
 });
 
 test("matches typography family and emphasis as real fields, not gaps", (t) => {
@@ -401,6 +421,21 @@ test("serialize() reconstructs the -to- connective for a space-between name", (t
     registry.serializationOrder,
   );
   t.is(legacyKey, "accordion-bottom-to-handle-extra-large-hover");
+});
+
+test("serialize() reconstructs an icon-family -to- endpoint (alert-icon)", (t) => {
+  const legacyKey = serialize(
+    {
+      property: "space-between",
+      from: "field-top",
+      to: "icon",
+      icon: "alert",
+      size: "s",
+    },
+    registry.tokenNameMap,
+    registry.serializationOrder,
+  );
+  t.is(legacyKey, "field-top-to-alert-icon-small");
 });
 
 test("decomposes an icon size-N token and splits the scaleIndex (dsi.6 icon follow-up)", (t) => {

@@ -2484,10 +2484,11 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "light",
-      "legacyKey": "informative-background-color-key-focus"
+      "legacyKey": "informative-background-color-key-focus",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2497,10 +2498,11 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "dark",
-      "legacyKey": "informative-background-color-key-focus"
+      "legacyKey": "informative-background-color-key-focus",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "04a018bd-229c-47da-99e9-d338d05f0fb6",
@@ -2510,10 +2512,11 @@
   },
   {
     "name": {
-      "property": "informative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "wireframe",
-      "legacyKey": "informative-background-color-key-focus"
+      "legacyKey": "informative-background-color-key-focus",
+      "variant": "informative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b609325-2bcf-491a-ad38-1409025caae0",
@@ -2805,10 +2808,11 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "light",
-      "legacyKey": "negative-background-color-key-focus"
+      "legacyKey": "negative-background-color-key-focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2818,10 +2822,11 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "dark",
-      "legacyKey": "negative-background-color-key-focus"
+      "legacyKey": "negative-background-color-key-focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b7d5d2db-0282-436b-8cb0-873e891b22a6",
@@ -2831,10 +2836,11 @@
   },
   {
     "name": {
-      "property": "negative-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "wireframe",
-      "legacyKey": "negative-background-color-key-focus"
+      "legacyKey": "negative-background-color-key-focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2895,9 +2901,10 @@
   },
   {
     "name": {
-      "property": "negative-border-color",
+      "property": "border-color",
       "state": "keyboard-focus",
-      "legacyKey": "negative-border-color-key-focus"
+      "legacyKey": "negative-border-color-key-focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -2938,9 +2945,10 @@
   },
   {
     "name": {
-      "property": "negative-content-color",
+      "property": "content-color",
       "state": "keyboard-focus",
-      "legacyKey": "negative-content-color-key-focus"
+      "legacyKey": "negative-content-color-key-focus",
+      "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2",
@@ -3017,9 +3025,10 @@
   },
   {
     "name": {
-      "property": "neutral-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
-      "legacyKey": "neutral-background-color-key-focus"
+      "legacyKey": "neutral-background-color-key-focus",
+      "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -3126,9 +3135,10 @@
   },
   {
     "name": {
-      "property": "neutral-content-color",
+      "property": "content-color",
       "state": "keyboard-focus",
-      "legacyKey": "neutral-content-color-key-focus"
+      "legacyKey": "neutral-content-color-key-focus",
+      "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -3957,10 +3967,11 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "light",
-      "legacyKey": "positive-background-color-key-focus"
+      "legacyKey": "positive-background-color-key-focus",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",
@@ -3970,10 +3981,11 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "dark",
-      "legacyKey": "positive-background-color-key-focus"
+      "legacyKey": "positive-background-color-key-focus",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ffdde321-5c1d-489e-8a0f-afc582248594",
@@ -3983,10 +3995,11 @@
   },
   {
     "name": {
-      "property": "positive-background-color",
+      "property": "background-color",
       "state": "keyboard-focus",
       "colorScheme": "wireframe",
-      "legacyKey": "positive-background-color-key-focus"
+      "legacyKey": "positive-background-color-key-focus",
+      "variant": "positive"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "82d9fc42-d750-43d2-b227-b8df29abaca4",

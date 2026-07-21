@@ -344,7 +344,12 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // the full legacy key in `property` already (e.g. property:"icon-color-disabled-
     // primary", icon:"icon"), with `icon` duplicated as a metadata annotation only.
     // Prepending the owner there would double the prefix.
-    if let Some(ic) = icon {
+    //
+    // Excluded when property is "space-between": an icon-family space-between
+    // endpoint (e.g. {property:"space-between", to:"icon", icon:"alert"}) is
+    // handled by the space-between branch below, which folds `icon` into the
+    // `from`/`to` connective instead of prefixing it as an owner.
+    if let Some(ic) = icon.filter(|_| property != "space-between") {
         let registry = crate::registry::RegistryData::embedded();
         let ic_expanded = registry.token_name("icon", ic).unwrap_or(ic);
         let is_thin =
@@ -382,6 +387,11 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // generic position-walk below can't express a joining `-to-` between two field values.
     // e.g. {component:"accordion", property:"space-between", from:"bottom", to:"handle",
     //       size:"xl", state:"hover"} → "accordion-bottom-to-handle-extra-large-hover"
+    //
+    // An icon-family endpoint is stored as the generic anatomy term "icon" plus a
+    // separate `icon` field (e.g. {from:"field-top", to:"icon", icon:"alert"}) rather
+    // than a literal endpoint of its own — expand it via the `icon` field instead of
+    // the (nonexistent) "to"/"from" registry, mirroring JS decomposer.js's serialize().
     if property == "space-between" {
         let from = name.get("from").and_then(|v| v.as_str());
         let to = name.get("to").and_then(|v| v.as_str());
@@ -394,9 +404,22 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
                 if entry.exclude_from_legacy_key {
                     continue;
                 }
+                if entry.name == "icon" && (f == "icon" || t == "icon") {
+                    continue; // already folded into the from/to connective below
+                }
                 if entry.name == "property" {
-                    let f_expanded = registry.token_name("from", f).unwrap_or(f);
-                    let t_expanded = registry.token_name("to", t).unwrap_or(t);
+                    let f_expanded = if f == "icon" {
+                        icon.and_then(|i| registry.token_name("icon", i))
+                            .unwrap_or(f)
+                    } else {
+                        registry.token_name("from", f).unwrap_or(f)
+                    };
+                    let t_expanded = if t == "icon" {
+                        icon.and_then(|i| registry.token_name("icon", i))
+                            .unwrap_or(t)
+                    } else {
+                        registry.token_name("to", t).unwrap_or(t)
+                    };
                     parts.push(format!("{f_expanded}-to-{t_expanded}"));
                     continue;
                 }

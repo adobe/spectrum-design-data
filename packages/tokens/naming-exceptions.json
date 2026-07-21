@@ -1483,6 +1483,114 @@
       "file": "layout-component.json",
       "category": "anatomy-decomposition",
       "reason": "Does not roundtrip through canonical generation rules (category: anatomy-decomposition) \u2014 legacyKey pinned to preserve the published key after routing this anatomy sub-part token to its real parent component"
+    },
+    {
+      "token": "field-edge-to-alert-icon-extra-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-medium",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-quiet",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-alert-icon-small",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-extra-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-medium",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-quiet",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-edge-to-validation-icon-small",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-alert-icon-extra-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-alert-icon-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-alert-icon-medium",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-alert-icon-small",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-validation-icon-extra-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-validation-icon-large",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-validation-icon-medium",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "field-top-to-validation-icon-small",
+      "file": "layout.json",
+      "category": "state-position",
+      "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
     }
   ]
 }

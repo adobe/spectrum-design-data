@@ -112,35 +112,11 @@
     "value": "2dp",
     "uuid": "f9456531-ab61-4c14-b7af-7016ce1c0d3e"
   },
-  "banner-gap-horizontal": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-400}",
-    "uuid": "c0571c46-5946-4896-bcbf-270560de5385",
-    "description": "Spacing between child elements for banner components"
-  },
-  "banner-gap-vertical": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-100}",
-    "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
-    "description": "Spacing between child elements for banner components"
-  },
-  "banner-padding-horizontal": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-300}",
-    "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
-    "description": "Horizontal internal spacing for banner components"
-  },
   "banner-padding-horizontal-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
     "uuid": "7f237198-3842-49bc-aa79-e723fbe6c78e",
     "description": "Horizontal internal spacing for banner components (compact density)"
-  },
-  "banner-padding-vertical": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-200}",
-    "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "description": "Vertical internal spacing for banner components"
   },
   "base-gap-2x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -2069,6 +2045,7 @@
   },
   "field-edge-to-alert-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "f68f57de-df8c-49b5-9af8-566c2382f669",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2088,6 +2065,7 @@
   },
   "field-edge-to-alert-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "78b56170-dc93-4f41-a110-94f9415c2222",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2107,6 +2085,7 @@
   },
   "field-edge-to-alert-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "4507a27d-3072-47f0-a2b9-ca8523e7d3c9",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2126,12 +2105,14 @@
   },
   "field-edge-to-alert-icon-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "alert-icon",
     "value": "0px",
     "uuid": "7858fdf3-e35f-4bc5-997a-0d480ec1cb32",
     "deprecated": true
   },
   "field-edge-to-alert-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "c1aa6fda-f075-415a-b9f4-008885d7fccd",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2151,6 +2132,7 @@
   },
   "field-edge-to-border-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field",
     "value": "0px",
     "uuid": "7fb81dcf-3329-4353-917d-75de8f43c05d",
     "deprecated": true
@@ -2239,6 +2221,7 @@
   },
   "field-edge-to-validation-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "81a3d661-160e-448d-8f3a-994a01b4c0e4",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2258,6 +2241,7 @@
   },
   "field-edge-to-validation-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "3efc3753-19da-4e87-9c07-f0b379a3ac98",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2277,6 +2261,7 @@
   },
   "field-edge-to-validation-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "700aa9e4-d819-490f-ac2f-b0311b643620",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2296,12 +2281,14 @@
   },
   "field-edge-to-validation-icon-quiet": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "validation-icon",
     "value": "0px",
     "uuid": "151915e5-f946-474f-9595-18d8a159a6ff",
     "deprecated": true
   },
   "field-edge-to-validation-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "5f116e74-21ad-4397-8fd0-72697de194c0",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2404,6 +2391,7 @@
   },
   "field-text-to-alert-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "3507c44d-62d4-4422-a62e-d463a23eb9cf",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2423,6 +2411,7 @@
   },
   "field-text-to-alert-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "8cee0a0d-2faf-4620-ad54-0c48780a9add",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2442,6 +2431,7 @@
   },
   "field-text-to-alert-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "dcce6c23-1a67-49db-826f-e4e3e2d94f01",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2461,6 +2451,7 @@
   },
   "field-text-to-alert-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "3975bf43-b0fb-4ab9-92fb-c4936e1d31b9",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
@@ -2480,6 +2471,7 @@
   },
   "field-text-to-validation-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "461753a3-581e-4675-bcff-13386fe17123",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2499,6 +2491,7 @@
   },
   "field-text-to-validation-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "5d8df662-c7ca-4b45-931d-92c4b27c00c0",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2518,6 +2511,7 @@
   },
   "field-text-to-validation-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "ac8e642d-666a-4d38-be97-6fe05edf1006",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Updated to follow Spectrum Future Foundations spacing formula",
@@ -2537,6 +2531,7 @@
   },
   "field-text-to-validation-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "6d6c6035-1f3f-4e6c-8140-f5dc5a06a8d8",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-horizontal-small instead.",
@@ -2556,6 +2551,7 @@
   },
   "field-top-to-alert-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "91d122d2-799b-45c3-aa4e-4f1a0c7336b2",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
@@ -2575,6 +2571,7 @@
   },
   "field-top-to-alert-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "2ec841a0-c05a-43d6-a77f-093ccf710819",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
@@ -2594,6 +2591,7 @@
   },
   "field-top-to-alert-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "e0425fc4-00bc-4bbd-9d07-576303dca294",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead.",
@@ -2613,6 +2611,7 @@
   },
   "field-top-to-alert-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-icon",
     "uuid": "785eb0f4-da05-495d-820b-b0b0423b1c14",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
@@ -3012,6 +3011,7 @@
   },
   "field-top-to-validation-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "a5ad9ef8-fed7-4726-8ae6-5a87b8ee66c1",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Require unified UI icon set.",
@@ -3031,6 +3031,7 @@
   },
   "field-top-to-validation-icon-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "5aa2d68f-472b-420e-892d-08025e1e962f",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Require unified UI icon set.",
@@ -3050,6 +3051,7 @@
   },
   "field-top-to-validation-icon-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "58d6a35b-1158-43fb-8b0c-06d479682ebf",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Require unified UI icon set.",
@@ -3069,6 +3071,7 @@
   },
   "field-top-to-validation-icon-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "validation-icon",
     "uuid": "da1ccd21-d162-464a-8772-2f0609b7accc",
     "deprecated": true,
     "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Require unified UI icon set.",
@@ -3155,6 +3158,24 @@
     "value": "{spacing-50}",
     "uuid": "fb035d45-e63b-4cd4-b220-675a52e99399",
     "description": "Spacing between child elements for focus indicators"
+  },
+  "gap-horizontal": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-400}",
+    "uuid": "c0571c46-5946-4896-bcbf-270560de5385",
+    "description": "Spacing between child elements for banner components"
+  },
+  "gap-regular": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-75}",
+    "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
+    "description": "Spacing between child elements for list structures (regular density)"
+  },
+  "gap-vertical": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-100}",
+    "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
+    "description": "Spacing between child elements for banner components"
   },
   "gradient-stop-1-genai": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
@@ -3259,12 +3280,6 @@
     "value": "{spacing-50}",
     "uuid": "a66810ec-1839-4ca3-8036-d552a71b1511",
     "description": "Spacing between child elements for list structures (compact density)"
-  },
-  "list-gap-regular": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-75}",
-    "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
-    "description": "Spacing between child elements for list structures (regular density)"
   },
   "list-gap-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3389,6 +3404,18 @@
       }
     },
     "renamed": "base-padding-vertical-small"
+  },
+  "padding-horizontal": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-300}",
+    "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
+    "description": "Horizontal internal spacing for banner components"
+  },
+  "padding-vertical": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{spacing-200}",
+    "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "description": "Vertical internal spacing for banner components"
   },
   "popover-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

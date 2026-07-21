@@ -3100,6 +3100,20 @@ const ICON_TERMS_JSON: &str = r##"{
       "description": "Gripper glyph",
       "tokenName": "gripper-icon",
       "usedIn": ["tokens"]
+    },
+    {
+      "id": "alert",
+      "label": "Alert Icon",
+      "description": "Alert/error glyph",
+      "tokenName": "alert-icon",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "validation",
+      "label": "Validation Icon",
+      "description": "Field validation-state glyph",
+      "tokenName": "validation-icon",
+      "usedIn": ["tokens"]
     }
   ]
 }
