@@ -1077,7 +1077,8 @@
   },
   {
     "name": {
-      "property": "default-font-family"
+      "property": "default-font-family",
+      "legacyKey": "default-font-family"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b",

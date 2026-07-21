@@ -4715,7 +4715,9 @@
   },
   {
     "name": {
-      "property": "gradient-stop-1-avatar"
+      "component": "avatar",
+      "property": "gradient-stop-1",
+      "legacyKey": "gradient-stop-1-avatar"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0,
@@ -4724,7 +4726,9 @@
   },
   {
     "name": {
-      "property": "gradient-stop-2-avatar"
+      "component": "avatar",
+      "property": "gradient-stop-2",
+      "legacyKey": "gradient-stop-2-avatar"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0.6666,
@@ -4733,7 +4737,9 @@
   },
   {
     "name": {
-      "property": "gradient-stop-3-avatar"
+      "component": "avatar",
+      "property": "gradient-stop-3",
+      "legacyKey": "gradient-stop-3-avatar"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 1,

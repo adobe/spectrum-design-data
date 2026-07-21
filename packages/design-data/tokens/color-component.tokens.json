@@ -625,7 +625,8 @@
     "name": {
       "component": "opacity-checkerboard",
       "property": "square-dark",
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "legacyKey": "opacity-checkerboard-square-dark"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -637,7 +638,8 @@
     "name": {
       "component": "opacity-checkerboard",
       "property": "square-dark",
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "legacyKey": "opacity-checkerboard-square-dark"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -649,7 +651,8 @@
     "name": {
       "component": "opacity-checkerboard",
       "property": "square-dark",
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "legacyKey": "opacity-checkerboard-square-dark"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
