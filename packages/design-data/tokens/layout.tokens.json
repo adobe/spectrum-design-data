@@ -5084,8 +5084,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-extra-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "xl",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-progress-circle-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -5098,8 +5102,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-extra-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "xl",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-progress-circle-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -5112,8 +5120,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-large",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "l",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-progress-circle-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -5126,8 +5138,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-large",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "l",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-progress-circle-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "11px",
@@ -5140,8 +5156,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-medium",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "m",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-progress-circle-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -5154,8 +5174,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-medium",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "m",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-progress-circle-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -5168,8 +5192,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-small",
-      "scale": "desktop"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "s",
+      "scale": "desktop",
+      "legacyKey": "field-top-to-progress-circle-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -5182,8 +5210,12 @@
   },
   {
     "name": {
-      "property": "field-top-to-progress-circle-small",
-      "scale": "mobile"
+      "property": "space-between",
+      "from": "field-top",
+      "to": "in-field-progress-circle",
+      "size": "s",
+      "scale": "mobile",
+      "legacyKey": "field-top-to-progress-circle-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
