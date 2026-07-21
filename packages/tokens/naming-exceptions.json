@@ -3,6 +3,24 @@
   "description": "Legacy token names that cannot be deterministically generated from a structured name object. Each entry tracks a known inconsistency for future remediation.",
   "exceptions": [
     {
+      "token": "gradient-stop-1-avatar",
+      "file": "color-palette.json",
+      "category": "component-ordering",
+      "reason": "Legacy name is property-then-component (category: component-ordering); canonical generation order is component-then-property"
+    },
+    {
+      "token": "gradient-stop-2-avatar",
+      "file": "color-palette.json",
+      "category": "component-ordering",
+      "reason": "Legacy name is property-then-component (category: component-ordering); canonical generation order is component-then-property"
+    },
+    {
+      "token": "gradient-stop-3-avatar",
+      "file": "color-palette.json",
+      "category": "component-ordering",
+      "reason": "Legacy name is property-then-component (category: component-ordering); canonical generation order is component-then-property"
+    },
+    {
       "token": "drop-shadow-emphasized-default-color",
       "file": "color-aliases.json",
       "category": "compound-state",

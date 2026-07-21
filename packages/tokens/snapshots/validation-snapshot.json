@@ -261,6 +261,27 @@
       "message": "Known naming exception: 'tree-view-selected-row-background-hover' does not match canonical generation rules (tracked in naming-exceptions.json)"
     },
     {
+      "file": "./src/color-palette.json",
+      "token": "gradient-stop-1-avatar",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'gradient-stop-1-avatar' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-palette.json",
+      "token": "gradient-stop-2-avatar",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'gradient-stop-2-avatar' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/color-palette.json",
+      "token": "gradient-stop-3-avatar",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'gradient-stop-3-avatar' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
       "file": "./src/icons.json",
       "token": "icon-color-disabled-primary",
       "rule_id": "SPEC-007",
