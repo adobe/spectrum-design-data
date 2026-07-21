@@ -201,7 +201,11 @@
     {
       "name": "row",
       "description": "A single data row.",
-      "contains": ["row-checkbox"]
+      "contains": ["row-checkbox", "item"]
+    },
+    {
+      "name": "item",
+      "description": "Generic item element within a table row; used for item-level padding tokens (e.g. table-item-padding-*)."
     },
     {
       "name": "row-checkbox",

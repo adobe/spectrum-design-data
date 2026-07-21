@@ -1,0 +1,13 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "structure": "accessory",
+        "anatomy": "wibble",
+        "property": "gap"
+      },
+      "value": "2px"
+    }
+  ],
+  "components": []
+}

@@ -46,7 +46,7 @@ function loadComponentAnatomy(componentsDir = COMPONENTS_DIR) {
  * Registry files are resolved from the field catalog declarations rather than
  * a hardcoded mapping.
  *
- * Returns { byField, terms, tokenNameMap, serializationOrder, allFields, componentAnatomy } where:
+ * Returns { byField, terms, tokenNameMap, serializationOrder, allFields, componentAnatomy, anatomyStandaloneScope } where:
  * - byField[fieldName] = Set of known ids
  * - terms = sorted list of { segments: string[], field: string, id: string }
  *   for greedy longest-match parsing
@@ -54,6 +54,9 @@ function loadComponentAnatomy(componentsDir = COMPONENTS_DIR) {
  * - serializationOrder = field names ordered by serialization.position
  * - allFields = Map of all field declarations from the catalog
  * - componentAnatomy = Map of component name -> Set of declared anatomy part names
+ * - anatomyStandaloneScope = Set of anatomy-terms ids flagged `standaloneScope: true`
+ *   (mirrors sdk/core/src/registry.rs `parse_standalone_scope_ids` — SPEC-025 lets these
+ *   scope a token name object without a component or structure)
  */
 export function loadRegistries() {
   const { registryFiles, serializationOrder, allFields } = loadFieldCatalog();
@@ -62,6 +65,7 @@ export function loadRegistries() {
   const byField = {};
   const allTerms = [];
   const tokenNameMap = {}; // id -> tokenName for serialization
+  const anatomyStandaloneScope = new Set();
 
   for (const [field, filePath] of Object.entries(registryFiles)) {
     const data = JSON.parse(readFileSync(filePath, "utf-8"));
@@ -69,6 +73,9 @@ export function loadRegistries() {
 
     for (const entry of data.values) {
       ids.add(entry.id);
+      if (field === "anatomy" && entry.standaloneScope) {
+        anatomyStandaloneScope.add(entry.id);
+      }
       const segments = entry.id.split("-");
       allTerms.push({ segments, field, id: entry.id });
 
@@ -109,6 +116,7 @@ export function loadRegistries() {
     serializationOrder,
     allFields,
     componentAnatomy,
+    anatomyStandaloneScope,
   };
 }
 

@@ -53,11 +53,11 @@ export function applyField(tokens, field, registry, filename) {
   for (const token of tokens) {
     if (!token.name || typeof token.name !== "object") continue;
     if (token.name[field] !== undefined) continue; // already migrated
-    // SPEC-025: anatomy requires component
-    if (field === "anatomy" && !token.name.component) {
-      skippedSpec025++;
-      continue;
-    }
+    // SPEC-025: anatomy requires component, structure, or a standaloneScope
+    // registry term (e.g. focus-ring/focus-indicator). The anatomy value isn't
+    // known yet at this point (it's still fused into `property`), so a
+    // standaloneScope-flagged term can't be checked here — the authoritative
+    // check happens below, once decompose() has resolved it.
 
     // Reconstruct the legacy key from the inline name object.
     // mode-set fields (scale, colorScheme, contrast) are excluded by serializationOrder.
@@ -103,11 +103,20 @@ export function applyField(tokens, field, registry, filename) {
     // the targeted field would silently drop the others and break the roundtrip.
     const patched = { ...token.name, ...result.nameObject };
 
-    // SPEC-025: anatomy requires component. decompose() can resolve `anatomy`
-    // as a side effect of extracting an unrelated field (e.g. family/emphasis
-    // stacked with an anatomy term in the same property string), so this guard
-    // must apply to the merged result regardless of which field was targeted.
-    if (patched.anatomy && !patched.component) {
+    // SPEC-025: anatomy requires component, structure, or a standaloneScope
+    // registry term (e.g. focus-ring/focus-indicator). decompose() can resolve
+    // `anatomy` as a side effect of extracting an unrelated field (e.g.
+    // family/emphasis stacked with an anatomy term in the same property
+    // string), so this guard must apply to the merged result regardless of
+    // which field was targeted. Structure-scoped tokens pass this guard but
+    // still won't auto-apply: serialize() drops `structure` from the legacy
+    // key, so the roundtrip check below rejects them.
+    if (
+      patched.anatomy &&
+      !patched.component &&
+      !patched.structure &&
+      !registry.anatomyStandaloneScope.has(patched.anatomy)
+    ) {
       skippedSpec025++;
       continue;
     }

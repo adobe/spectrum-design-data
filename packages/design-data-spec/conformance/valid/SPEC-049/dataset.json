@@ -2,14 +2,6 @@
   "tokens": [
     {
       "name": {
-        "component": "button",
-        "anatomy": "label",
-        "property": "color"
-      },
-      "value": "#ffffff"
-    },
-    {
-      "name": {
         "structure": "accessory",
         "anatomy": "item",
         "property": "padding",
@@ -24,6 +16,14 @@
         "property": "gap"
       },
       "value": "2px"
+    },
+    {
+      "name": {
+        "component": "button",
+        "anatomy": "wibble",
+        "property": "color"
+      },
+      "value": "#ffffff"
     }
   ],
   "components": [
@@ -35,7 +35,9 @@
         "category": "actions",
         "documentationUrl": "https://spectrum.adobe.com/page/button/"
       },
-      "anatomy": [{ "name": "label", "description": "Button text." }]
+      "anatomy": [
+        { "name": "wibble", "description": "Custom documented part." }
+      ]
     }
   ]
 }

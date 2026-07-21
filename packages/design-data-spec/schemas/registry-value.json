@@ -66,6 +66,10 @@
           "type": "boolean",
           "description": "Whether this value is deprecated"
         },
+        "standaloneScope": {
+          "type": "boolean",
+          "description": "Anatomy-term only: whether this term may scope a token's name object on its own, without an accompanying component or structure field (e.g. cross-cutting parts like focus-ring/focus-indicator that have no single owner)"
+        },
         "usedIn": {
           "type": "array",
           "description": "Where this value is used (tokens, component-schemas, etc.)",

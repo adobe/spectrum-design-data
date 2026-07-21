@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-049",
+      "severity": "error",
+      "message_pattern": ".*'wibble'.*not in the.*anatomy-terms.*"
+    }
+  ]
+}
