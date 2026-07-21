@@ -1130,6 +1130,132 @@
     },
     {
       "file": "./src/layout.json",
+      "token": "field-edge-to-alert-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-alert-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-alert-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-alert-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-alert-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-alert-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-alert-icon-quiet",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-alert-icon-quiet' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-alert-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-alert-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-validation-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-validation-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-validation-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-validation-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-validation-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-validation-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-validation-icon-quiet",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-validation-icon-quiet' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-edge-to-validation-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-edge-to-validation-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-alert-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-alert-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-alert-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-alert-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-alert-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-alert-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-alert-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-alert-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-validation-icon-extra-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-validation-icon-extra-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-validation-icon-large",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-validation-icon-large' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-validation-icon-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-validation-icon-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "field-top-to-validation-icon-small",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'field-top-to-validation-icon-small' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
       "token": "focus-indicator-gap",
       "rule_id": "SPEC-007",
       "severity": "info",
