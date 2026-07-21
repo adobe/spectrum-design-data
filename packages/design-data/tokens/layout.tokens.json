@@ -229,7 +229,8 @@
   },
   {
     "name": {
-      "property": "android-elevation"
+      "property": "android-elevation",
+      "legacyKey": "android-elevation"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2dp",
@@ -2918,7 +2919,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-100",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -2930,7 +2932,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-100",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-100"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -2942,7 +2945,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-200",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -2954,7 +2958,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-200",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-200"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -2966,7 +2971,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-300",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -2978,7 +2984,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-300",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-300"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -2990,7 +2997,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-75",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "corner-triangle-icon-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -3002,7 +3010,8 @@
   {
     "name": {
       "property": "corner-triangle-icon-size-75",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "corner-triangle-icon-size-75"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -5820,7 +5829,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-extra-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -5834,7 +5844,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-extra-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "19px",
@@ -5848,7 +5859,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-large",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -5862,7 +5874,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-large",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -5876,7 +5889,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-medium",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -5890,7 +5904,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-medium",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -5904,7 +5919,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-small",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "navigational-indicator-top-to-back-icon-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -5918,7 +5934,8 @@
   {
     "name": {
       "property": "navigational-indicator-top-to-back-icon-small",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "navigational-indicator-top-to-back-icon-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -5951,7 +5968,8 @@
   },
   {
     "name": {
-      "property": "side-focus-indicator"
+      "property": "side-focus-indicator",
+      "legacyKey": "side-focus-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -5960,7 +5978,8 @@
   {
     "name": {
       "property": "side-label-character-count-to-field",
-      "scale": "desktop"
+      "scale": "desktop",
+      "legacyKey": "side-label-character-count-to-field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -5974,7 +5993,8 @@
   {
     "name": {
       "property": "side-label-character-count-to-field",
-      "scale": "mobile"
+      "scale": "mobile",
+      "legacyKey": "side-label-character-count-to-field"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "15px",
@@ -5987,7 +6007,8 @@
   },
   {
     "name": {
-      "property": "side-label-character-count-top-margin-extra-large"
+      "property": "side-label-character-count-top-margin-extra-large",
+      "legacyKey": "side-label-character-count-top-margin-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -5997,7 +6018,8 @@
   },
   {
     "name": {
-      "property": "side-label-character-count-top-margin-large"
+      "property": "side-label-character-count-top-margin-large",
+      "legacyKey": "side-label-character-count-top-margin-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -6007,7 +6029,8 @@
   },
   {
     "name": {
-      "property": "side-label-character-count-top-margin-medium"
+      "property": "side-label-character-count-top-margin-medium",
+      "legacyKey": "side-label-character-count-top-margin-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -6017,7 +6040,8 @@
   },
   {
     "name": {
-      "property": "side-label-character-count-top-margin-small"
+      "property": "side-label-character-count-top-margin-small",
+      "legacyKey": "side-label-character-count-top-margin-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -6727,7 +6751,8 @@
   },
   {
     "name": {
-      "property": "window-to-edge"
+      "property": "window-to-edge",
+      "legacyKey": "window-to-edge"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
