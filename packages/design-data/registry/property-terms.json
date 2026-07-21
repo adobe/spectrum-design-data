@@ -74,6 +74,11 @@
       "description": "Element width"
     },
     {
+      "id": "indent",
+      "label": "Indent",
+      "description": "Horizontal offset applied to nested or hierarchical elements"
+    },
+    {
       "id": "height",
       "label": "Height",
       "description": "Element height"

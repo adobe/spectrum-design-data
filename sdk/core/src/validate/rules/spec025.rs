@@ -11,8 +11,12 @@
 //! SPEC-025: anatomy-requires-component
 //!
 //! A token name object MUST NOT include an `anatomy` field unless a `component`
-//! field is also present. Anatomy parts are scoped to a component; a standalone
-//! anatomy reference has no semantic meaning.
+//! or `structure` field is also present, or the `anatomy` value is a registry
+//! term flagged `standaloneScope: true` (see `registry/anatomy-terms.json`).
+//! Anatomy parts are scoped to a component or structure; a truly standalone
+//! anatomy reference has no semantic meaning, except for the handful of
+//! cross-cutting parts (e.g. `focus-ring`, `focus-indicator`) that have no
+//! single owning component and are explicitly allowed to stand alone.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -37,20 +41,33 @@ impl ValidationRule for Rule {
                 None => continue,
             };
 
-            if name_obj.contains_key("anatomy") && !name_obj.contains_key("component") {
-                diags.push(Diagnostic {
-                    file: record.file.clone(),
-                    token: Some(record.name.clone()),
-                    rule_id: Some("SPEC-025".into()),
-                    severity: Severity::Error,
-                    message: format!(
-                        "Token '{}' has 'anatomy' field without a 'component' field",
-                        record.name
-                    ),
-                    instance_path: Some("/name/anatomy".into()),
-                    schema_path: None,
-                });
+            let Some(anatomy) = name_obj.get("anatomy").and_then(|v| v.as_str()) else {
+                continue;
+            };
+            if name_obj.contains_key("component") || name_obj.contains_key("structure") {
+                continue;
             }
+            if ctx
+                .registry
+                .anatomy_standalone_scope_terms()
+                .contains(anatomy)
+            {
+                continue;
+            }
+
+            diags.push(Diagnostic {
+                file: record.file.clone(),
+                token: Some(record.name.clone()),
+                rule_id: Some("SPEC-025".into()),
+                severity: Severity::Error,
+                message: format!(
+                    "Token '{}' has 'anatomy' field without a 'component' or 'structure' \
+                     field, and '{anatomy}' is not a registry term flagged standaloneScope",
+                    record.name
+                ),
+                instance_path: Some("/name/anatomy".into()),
+                schema_path: None,
+            });
         }
 
         diags
@@ -89,6 +106,37 @@ mod tests {
         assert_eq!(diags.len(), 1);
         assert!(diags[0].message.contains("anatomy"));
         assert!(diags[0].message.contains("component"));
+    }
+
+    #[test]
+    fn anatomy_with_structure_is_valid() {
+        let g = TokenGraph::from_pairs(vec![(
+            "accessory-item-padding-small".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "padding", "structure": "accessory", "anatomy": "item", "size": "small"}, "value": "4px"}),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-025").is_empty());
+    }
+
+    #[test]
+    fn standalone_scope_registry_term_is_valid() {
+        let g = TokenGraph::from_pairs(vec![(
+            "focus-ring-gap".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "gap", "anatomy": "focus-ring"}, "value": "2px"}),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-025").is_empty());
+    }
+
+    #[test]
+    fn non_standalone_scope_term_without_owner_still_errors() {
+        let g = TokenGraph::from_pairs(vec![(
+            "item-color".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color", "anatomy": "item"}, "value": "#fff"}),
+        )]);
+        let diags = diagnostics_for_rule(&g, "SPEC-025");
+        assert_eq!(diags.len(), 1);
     }
 
     #[test]

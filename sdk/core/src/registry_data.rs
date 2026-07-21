@@ -1138,13 +1138,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "focus-ring",
       "label": "Focus Ring",
       "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "focus-indicator",
       "label": "Focus Indicator",
       "description": "Visual indicator showing keyboard focus state on a component",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "workflow-icon",
@@ -1908,6 +1910,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "width",
       "label": "Width",
       "description": "Element width"
+    },
+    {
+      "id": "indent",
+      "label": "Indent",
+      "description": "Horizontal offset applied to nested or hierarchical elements"
     },
     {
       "id": "height",

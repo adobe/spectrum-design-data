@@ -241,13 +241,15 @@
       "id": "focus-ring",
       "label": "Focus Ring",
       "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "focus-indicator",
       "label": "Focus Indicator",
       "description": "Visual indicator showing keyboard focus state on a component",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "workflow-icon",

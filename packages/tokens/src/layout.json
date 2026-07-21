@@ -3091,6 +3091,7 @@
   },
   "field-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field",
     "uuid": "ad37a519-be52-492e-a816-03ed7608fe65",
     "deprecated": true,
     "deprecated_comment": "This token has been deprecated, use field-default-width-medium instead.",
@@ -3110,6 +3111,7 @@
   },
   "field-width-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "field",
     "value": "{field-default-width-extra-large}",
     "uuid": "a903b595-ffe8-43ae-af9b-7b6577191dc5",
     "deprecated": true,
@@ -3118,6 +3120,7 @@
   },
   "field-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "field",
     "value": "{field-default-width-large}",
     "uuid": "cc43e053-1255-403f-aaf5-2182f5438592",
     "deprecated": true,
@@ -3126,6 +3129,7 @@
   },
   "field-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "field",
     "value": "{field-default-width-medium}",
     "uuid": "935927d3-b25e-468a-999a-938643901e50",
     "deprecated": true,
@@ -3134,6 +3138,7 @@
   },
   "field-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "field",
     "value": "{field-default-width-small}",
     "uuid": "d316d676-b4cf-4d16-b89c-63ef1d969861",
     "deprecated": true,
@@ -3419,12 +3424,14 @@
   },
   "popover-gap": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "popover",
     "value": "{spacing-100}",
     "uuid": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
     "description": "Spacing between child elements for popover components"
   },
   "popover-padding": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "popover",
     "value": "{spacing-100}",
     "uuid": "c872da51-317e-44cf-aef8-2f5f9fb77ae8",
     "description": "Internal spacing for popover components"
@@ -3586,18 +3593,21 @@
   },
   "table-item-padding-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "table",
     "value": "{spacing-100}",
     "uuid": "42473d6e-5f40-46c7-9bbc-302e355ae6ae",
     "description": "Internal spacing for table structures items (compact density)"
   },
   "table-item-padding-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "table",
     "value": "{spacing-200}",
     "uuid": "15ffb38e-341b-4c47-a6b3-c197e05afffe",
     "description": "Internal spacing for table structures items (regular density)"
   },
   "table-item-padding-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "table",
     "value": "{spacing-300}",
     "uuid": "a775a186-802e-4256-947c-7fda3ac53caa",
     "description": "Internal spacing for table structures items (spacious density)"

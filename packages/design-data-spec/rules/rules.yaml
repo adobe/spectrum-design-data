@@ -223,8 +223,12 @@ rules:
     name: anatomy-requires-component
     severity: error
     category: reference-integrity
-    assert: A token name object MUST NOT include an 'anatomy' field unless a 'component' field is also present.
-    message: "Token '{token}' has 'anatomy' field without a 'component' field"
+    assert: >
+      A token name object MUST NOT include an 'anatomy' field unless a 'component' or
+      'structure' field is also present, or the 'anatomy' value is a registry term
+      flagged 'standaloneScope: true' in anatomy-terms.json (cross-cutting parts with
+      no single owning component, e.g. 'focus-ring', 'focus-indicator').
+    message: "Token '{token}' has 'anatomy' field without a 'component' or 'structure' field, and '{anatomy}' is not a registry term flagged standaloneScope"
     spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
     introduced_in: "1.0.0-draft"
 
@@ -559,4 +563,18 @@ rules:
       parts.
     message: "Anatomy part '{part}' on component '{component}' contains '{child}', which is not a declared anatomy part on this component"
     spec_ref: spec/anatomy-format.md#contains
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-049
+    name: anatomy-in-registry
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A token name-object 'anatomy' field with no 'component' (SPEC-020 validates that
+      case) MUST reference a known id in the anatomy-terms.json registry. Backstops the
+      two cases SPEC-025 allows anatomy without a component: 'structure'-scoped anatomy
+      and registry terms flagged 'standaloneScope: true'.
+    message: "Token '{token}' references anatomy part '{anatomy}' which is not in the spectrum-design-data registry/anatomy-terms vocabulary"
+    spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
     introduced_in: "1.0.0-draft"
