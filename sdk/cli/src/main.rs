@@ -1388,7 +1388,7 @@ fn run_suggest(
             .iter()
             .map(|r| {
                 serde_json::json!({
-                    "token_name": r.token_name,
+                    "token_name": r.display_name(),
                     "token_uuid": r.token_uuid,
                     "file": r.file.display().to_string(),
                     "layer": serde_json::to_value(r.layer).unwrap_or_default(),
@@ -1410,7 +1410,7 @@ fn run_suggest(
             println!(
                 "  {}. {} (confidence: {:.2})",
                 i + 1,
-                r.token_name,
+                r.display_name(),
                 r.confidence
             );
             if let Some(v) = &r.value {

@@ -113,9 +113,37 @@ pub(super) fn build_value_rows(
 fn seed_alias(graph: &TokenGraph, intent: &str, property_hint: Option<&str>) -> Input {
     let suggestions = suggest::suggest(graph, intent, property_hint, 1);
     if let Some(top) = suggestions.into_iter().next() {
-        Input::from(top.token_name)
+        Input::from(top.display_name())
     } else {
         Input::default()
+    }
+}
+
+#[cfg(test)]
+mod seed_alias_tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn seed_alias_uses_readable_legacy_key_for_cascade_token() {
+        // Cascade tokens are keyed "<file>:<index>" in the graph, not a
+        // readable name — seed_alias must resolve to the name object's
+        // legacyKey, never leak that raw graph key into the wizard input.
+        let graph = TokenGraph::from_pairs(vec![(
+            "color-aliases.tokens.json:0".to_string(),
+            PathBuf::from("color-aliases.tokens.json"),
+            json!({
+                "name": {
+                    "colorRole": "accent",
+                    "property": "background-color",
+                    "state": "default",
+                    "legacyKey": "accent-background-color-default",
+                }
+            }),
+        )]);
+
+        let seeded = seed_alias(&graph, "accent background color", None);
+        assert_eq!(seeded.value(), "accent-background-color-default");
     }
 }
 
