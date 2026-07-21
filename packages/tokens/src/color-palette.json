@@ -2471,18 +2471,21 @@
   },
   "gradient-stop-1-avatar": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
+    "component": "avatar",
     "value": 0,
     "uuid": "8d9e0c2d-d692-47a0-86cd-6349649ec6e2",
     "private": true
   },
   "gradient-stop-2-avatar": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
+    "component": "avatar",
     "value": 0.6666,
     "uuid": "a7791b29-4e4d-4b9f-ab34-0240ac4d6769",
     "private": true
   },
   "gradient-stop-3-avatar": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
+    "component": "avatar",
     "value": 1,
     "uuid": "620ee6f3-eb3d-40ad-854b-9edceb897c7f",
     "private": true

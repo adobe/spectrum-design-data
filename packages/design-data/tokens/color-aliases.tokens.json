@@ -1747,8 +1747,12 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-key-color",
-      "colorScheme": "light"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "colorScheme": "light",
+      "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1758,8 +1762,12 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-key-color",
-      "colorScheme": "dark"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "colorScheme": "dark",
+      "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.36)",
@@ -1769,8 +1777,12 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-hover-key-color",
-      "colorScheme": "wireframe"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "state": "hover",
+      "colorScheme": "wireframe",
+      "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
@@ -1780,8 +1792,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-key-color",
-      "colorScheme": "light"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "colorScheme": "light",
+      "legacyKey": "drop-shadow-emphasized-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -1791,8 +1806,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-key-color",
-      "colorScheme": "dark"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "colorScheme": "dark",
+      "legacyKey": "drop-shadow-emphasized-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.24)",
@@ -1802,8 +1820,11 @@
   },
   {
     "name": {
-      "property": "drop-shadow-emphasized-key-color",
-      "colorScheme": "wireframe"
+      "property": "key-color",
+      "emphasis": "emphasized",
+      "structure": "drop-shadow",
+      "colorScheme": "wireframe",
+      "legacyKey": "drop-shadow-emphasized-key-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -1855,7 +1876,9 @@
   },
   {
     "name": {
-      "property": "focus-indicator-color"
+      "object": "focus-indicator",
+      "property": "color",
+      "legacyKey": "focus-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "85be576c-6810-4971-9748-e558384b903d",
@@ -4552,7 +4575,11 @@
   },
   {
     "name": {
-      "property": "static-black-focus-indicator-color"
+      "variant": "static",
+      "colorFamily": "black",
+      "object": "focus-indicator",
+      "property": "color",
+      "legacyKey": "static-black-focus-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -4590,7 +4617,11 @@
   },
   {
     "name": {
-      "property": "static-white-focus-indicator-color"
+      "variant": "static",
+      "colorFamily": "white",
+      "object": "focus-indicator",
+      "property": "color",
+      "legacyKey": "static-white-focus-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -4628,7 +4659,9 @@
   },
   {
     "name": {
-      "property": "title-color"
+      "object": "title",
+      "property": "color",
+      "legacyKey": "title-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
@@ -4636,7 +4669,9 @@
   },
   {
     "name": {
-      "property": "track-color"
+      "object": "track",
+      "property": "color",
+      "legacyKey": "track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
