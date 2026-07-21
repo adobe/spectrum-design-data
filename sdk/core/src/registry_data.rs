@@ -1335,6 +1335,11 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
+      "id": "in-field-progress-circle",
+      "label": "In-field Progress Circle",
+      "description": "Progress circle rendered inside a field element to indicate a loading state (e.g. in picker, combo-box, text-field)"
+    },
+    {
       "id": "leading-icon",
       "label": "Leading Icon",
       "description": "Icon placed at the leading (start) edge inside a field (e.g. search icon in search-field)",
