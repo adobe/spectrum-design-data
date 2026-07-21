@@ -92,6 +92,23 @@ test("Dataset.embedded() returns consistent results on repeated calls", (t) => {
   t.is(ds1.tokenCount(), ds2.tokenCount());
 });
 
+// A raw cascade graph key looks like "some-file.tokens.json:24" — suggest()
+// must never leak that shape as tokenName; it should resolve to the token's
+// legacyKey/readable name via display_name().
+const RAW_GRAPH_KEY_PATTERN = /\.json:\d+$/;
+
+test("Dataset.embedded() suggest returns readable token names, not raw graph keys", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const results = ds.suggest("accent background color", undefined, 5);
+  t.true(results.length > 0, "Expected suggestions for a common intent");
+  for (const r of results) {
+    t.false(
+      RAW_GRAPH_KEY_PATTERN.test(r.tokenName),
+      `tokenName "${r.tokenName}" looks like a raw "<file>:<index>" graph key, not a resolved name`,
+    );
+  }
+});
+
 // ---------------------------------------------------------------------------
 // Registry helpers — embedded RegistryData (no tokens needed)
 // ---------------------------------------------------------------------------

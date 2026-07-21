@@ -293,15 +293,66 @@ impl ResolutionContext {
 
 impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
     fn from(r: design_data_core::suggest::SuggestionResult) -> Self {
+        // Cascade-format tokens key the graph by "<file>:<index>", not a
+        // readable name — display_name() derives the legacy key from the
+        // name object (falling back to the raw graph key) the same way
+        // diff.rs and the TUI wizard already do.
+        let token_name = r.display_name();
         Self {
             token_uuid: r.token_uuid,
-            token_name: r.token_name,
+            token_name,
             file: r.file.to_string_lossy().into_owned(),
             layer: format!("{:?}", r.layer).to_lowercase(),
             confidence: r.confidence,
             name_object: r.name_object,
             value: r.value,
         }
+    }
+}
+
+#[cfg(test)]
+mod suggest_result_tests {
+    use super::*;
+    use design_data_core::graph::Layer;
+    use design_data_core::suggest::SuggestionResult;
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    #[test]
+    fn conversion_uses_display_name_for_cascade_token() {
+        let result = SuggestionResult {
+            token_uuid: Some("uuid-1".to_string()),
+            token_name: "color-aliases.tokens.json:24".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: Some(json!({
+                "colorRole": "accent",
+                "property": "background-color",
+                "state": "default",
+                "legacyKey": "accent-background-color-default",
+            })),
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "accent-background-color-default");
+    }
+
+    #[test]
+    fn conversion_falls_back_to_graph_key_without_name_object() {
+        let result = SuggestionResult {
+            token_uuid: None,
+            token_name: "some-legacy-string-key".to_string(),
+            file: PathBuf::from("legacy.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: None,
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "some-legacy-string-key");
     }
 }
 
