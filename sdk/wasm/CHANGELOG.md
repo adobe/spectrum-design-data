@@ -1,5 +1,14 @@
 # @adobe/design-data-wasm
 
+## 0.4.4
+
+### Patch Changes
+
+- [#1285](https://github.com/adobe/spectrum-design-data/pull/1285) [`7652ef9`](https://github.com/adobe/spectrum-design-data/commit/7652ef92131342c3c2b8c3c1f3371f31ddc62fa8) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `nameObject`/`raw`/`value` serializing as a JS `Map`, rendered as `{}` by
+  `JSON.stringify`.
+  - **sdk/wasm/src/types.rs**: added `#[tsify(hashmap_as_object)]` to the
+    wasm-boundary result types so nested JSON fields cross as plain objects.
+
 ## 0.4.3
 
 ### Patch Changes
