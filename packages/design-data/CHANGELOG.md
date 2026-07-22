@@ -1,5 +1,23 @@
 # @adobe/spectrum-design-data
 
+## 0.16.1
+
+### Patch Changes
+
+- [#1291](https://github.com/adobe/spectrum-design-data/pull/1291) [`3b7af28`](https://github.com/adobe/spectrum-design-data/commit/3b7af28c5bb071ac4f0374d2efa0dfbc03cd76ee) Thanks [@GarthDB](https://github.com/GarthDB)! - Triaged the 114 remaining untracked residual tokens in
+  `layout-component.tokens.json` (bead spectrum-design-data-opk). No new registry
+  vocabulary was needed; published legacy names are unaffected.
+  - **packages/design-data/tokens/layout-component.tokens.json**: pinned
+    `legacyKey` on 93 deprecated and idiosyncratic-live tokens, and decomposed 21
+    live tokens (popover/media/preview/header minimum/maximum dimensions,
+    disclosure-indicator height/width, indicator thickness, corner-radius
+    family) into existing property and anatomy terms with `legacyKey` pinned.
+  - **packages/design-data/components/card.json**: declared the `preview`
+    anatomy part used by the decomposed `card-preview-minimum-height` token.
+  - **packages/design-data/components/tree-view.json**: declared the
+    `disclosure-indicator` anatomy part used by the decomposed
+    `tree-view-disclosure-indicator-height/width` tokens.
+
 ## 0.16.0
 
 ### Minor Changes
