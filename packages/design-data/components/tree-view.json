@@ -170,7 +170,11 @@
       "name": "action-area",
       "description": "Trailing area containing item actions."
     },
-    { "name": "row" }
+    { "name": "row" },
+    {
+      "name": "disclosure-indicator",
+      "description": "Visual affordance showing a tree view item's expand/collapse state."
+    }
   ],
   "states": [
     { "name": "default", "description": "Resting base state." },

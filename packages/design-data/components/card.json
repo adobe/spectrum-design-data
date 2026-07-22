@@ -9,7 +9,14 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/card/"
   },
-  "anatomy": [{ "name": "selection" }, { "name": "well" }],
+  "anatomy": [
+    { "name": "selection" },
+    { "name": "well" },
+    {
+      "name": "preview",
+      "description": "Preview area or thumbnail within the card."
+    }
+  ],
   "states": [{ "name": "default" }],
   "lifecycle": { "introduced": "1.0.0-draft" }
 }
