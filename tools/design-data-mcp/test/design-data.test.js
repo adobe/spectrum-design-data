@@ -43,6 +43,12 @@ test("design-data-suggest returns ranked results in richer Rust shape", async (t
     t.true(Object.hasOwn(r, "layer"), "result has layer");
     t.is(typeof r.confidence, "number");
     t.true(r.confidence > 0 && r.confidence <= 1);
+    // tokenName must be a resolved name (e.g. legacyKey), never the raw
+    // "<file>:<index>" cascade graph key.
+    t.false(
+      /\.json:\d+$/.test(r.tokenName),
+      `tokenName "${r.tokenName}" looks like a raw graph key, not a resolved name`,
+    );
   }
 });
 
