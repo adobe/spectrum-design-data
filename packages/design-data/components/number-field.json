@@ -412,7 +412,7 @@
       "context": "Spacing (top/bottom edge to text)"
     },
     {
-      "token": "component-top-to-workflow-icon-400",
+      "token": "component-top-to-workflow-icon-300",
       "context": "Leading icon (top/bottom edge to leading icon)"
     },
     { "token": "positive-visual-color", "context": "Positive icon" }
