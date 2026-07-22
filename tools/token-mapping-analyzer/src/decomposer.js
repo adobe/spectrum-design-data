@@ -219,7 +219,12 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
         matchDetails[i] = "icon";
       }
     } else {
-      nameObject.icon = tokenData.icon;
+      // Don't set nameObject.icon here: the icon wasn't actually part of
+      // this key's segments (e.g. semantic-ramp icon color tokens, where
+      // `icon` is domain context, not a name-object field). Setting it
+      // anyway used to leak into Phase 9's re-serialize, which spuriously
+      // routes through serialize()'s icon/owner branch and re-adds an
+      // "icon-" prefix the authored key never had (dsi.14).
       warnings.push(
         `icon "${tokenData.icon}" in metadata but not found in name segments`,
       );
@@ -672,6 +677,18 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     confidence = "FAIL";
   }
 
+  // Thin cascade format: `property` already spells out `{component}-...`
+  // (the full legacy key stored verbatim, `component` a duplicated
+  // annotation). Mirrors sdk/core/src/naming.rs's `is_thin` check — a thin
+  // token's `property` IS the authored legacy string, so the roundtrip
+  // check below is measuring the analyzer's own re-decomposition, not a
+  // product defect. Keep in sync with the `is_thin` branch in serialize().
+  const thin = Boolean(
+    nameObject.component &&
+    nameObject.property &&
+    nameObject.property.startsWith(`${nameObject.component}-`),
+  );
+
   return {
     tokenName,
     sourceFile,
@@ -688,6 +705,10 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     })),
     deprecated: !!tokenData.deprecated,
     private: !!tokenData.private,
+    // `pinned`: token carries an explicit name.legacyKey (source of truth
+    // wins over decomposition — see extract_legacy_key in naming.rs).
+    pinned: !!tokenData.pinned,
+    thin,
   };
 }
 
