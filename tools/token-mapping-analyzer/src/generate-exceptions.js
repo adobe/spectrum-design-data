@@ -126,6 +126,16 @@ function categorize(result) {
 
   // Unmatched segments
   if (result.unmatchedSegments.length > 0) {
+    // Same pin/thin short-circuit as the ordering block above (dsi.14): a
+    // legacyKey pin or thin passthrough means the product never decomposes
+    // this token, so an unmatched segment here is the analyzer disagreeing
+    // with itself, not a real vocabulary gap.
+    if (result.pinned) {
+      return { category: "legacyKey-pinned", proposal: null };
+    }
+    if (result.thin) {
+      return { category: "atomic-legacy", proposal: null };
+    }
     return { category: "vocabulary-gap", proposal: "006" };
   }
 
@@ -197,4 +207,10 @@ function main() {
   }
 }
 
-main();
+// Guard so importing this module (e.g. from a test) doesn't trigger the
+// naming-exceptions.json write as a side effect of module load.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}
+
+export { categorize };
