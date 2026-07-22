@@ -109,6 +109,11 @@ function categorize(result) {
     // same-segments-different-order (canonical order vs. legacy authored
     // order — a proposal-002 rename question) from segment content actually
     // changing (a real serialize()/decompose() defect).
+    // ponytail: compares raw hyphen-split segments as a multiset, not
+    // resolved field values — a value spanning multiple hyphenated words
+    // could false-positive/negative at this boundary. Low risk: both
+    // destination categories require human triage either way, so a
+    // misclassification here just swaps which queue a token lands in.
     const authoredSegments = [...result.tokenName.split("-")].sort();
     const serializedSegments = [...(result.serialized || "").split("-")].sort();
     const sameContent =
