@@ -62,8 +62,10 @@ pub struct TokenResult {
 }
 
 /// A single resolved token result from `Dataset.resolve()`.
+///
+/// `hashmap_as_object`: nests `TokenResult.raw`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 #[serde(rename_all = "camelCase")]
 pub struct ResolveResult {
     pub token: TokenResult,
@@ -189,8 +191,11 @@ pub struct UpdatedToken {
 /// The result of `Dataset.diff()`.
 ///
 /// Mirrors `design_data_core::diff::DiffReport` with typed arrays for each change category.
+///
+/// `hashmap_as_object`: `PropertyChange.new_value`/`.original_value` are
+/// `serde_json::Value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct DiffResult {
     pub renamed: Vec<RenamedToken>,
     pub deprecated: Vec<DeprecatedToken>,
@@ -209,8 +214,12 @@ pub struct DiffResult {
 // ---------------------------------------------------------------------------
 
 /// A list of token results from a query. Typed as `TokenResult[]` in TypeScript.
+///
+/// `hashmap_as_object`: `TokenResult.raw` is a `serde_json::Value` — without this,
+/// serde-wasm-bindgen's default serializer turns nested JSON objects into JS `Map`s,
+/// which `JSON.stringify` (used by every MCP tool response) silently renders as `{}`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct TokenResultArray(Vec<TokenResult>);
 
 impl TokenResultArray {
@@ -237,8 +246,10 @@ pub struct SuggestResult {
 }
 
 /// A list of suggestion results from `Dataset.suggest()`. Typed as `SuggestResult[]` in TypeScript.
+///
+/// `hashmap_as_object`: nests `SuggestResult.name_object`/`value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct SuggestResultArray(Vec<SuggestResult>);
 
 impl SuggestResultArray {
@@ -258,8 +269,10 @@ impl SuggestResultArray {
 /// // r.chain → ["{accent-color-100}", "{blue-100}", "rgb(245, 249, 255)"]
 /// // r.value → "rgb(245, 249, 255)"
 /// ```
+///
+/// `hashmap_as_object`: `value` is a `serde_json::Value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 #[serde(rename_all = "camelCase")]
 pub struct ReferenceChainResult {
     /// The resolved terminal value (absent if the chain is empty or all aliases dangle).
