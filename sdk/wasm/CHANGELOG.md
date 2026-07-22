@@ -1,5 +1,16 @@
 # @adobe/design-data-wasm
 
+## 0.4.3
+
+### Patch Changes
+
+- [#1284](https://github.com/adobe/spectrum-design-data/pull/1284) [`6acda22`](https://github.com/adobe/spectrum-design-data/commit/6acda2204f29884a09760076357ddd89954889f5) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed `Dataset.suggest()` returning raw `"<file>:<index>"` graph keys as
+  `tokenName` for cascade-format tokens instead of the readable legacy name,
+  since it skipped the `display_name()` derivation every other surface (diff,
+  TUI wizard) already uses.
+  - **sdk/wasm/src/types.rs**: `SuggestResult::from` now derives `token_name`
+    via `SuggestionResult::display_name()`.
+
 ## 0.4.2
 
 ### Patch Changes
