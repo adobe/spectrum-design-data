@@ -31,6 +31,24 @@ test("decomposes simple variant-object-property-state token", (t) => {
   t.true(result.roundtrips);
 });
 
+test("icon metadata not found in segments does not leak into nameObject.icon (dsi.14)", (t) => {
+  // Semantic-ramp icon color token: colorRole/colorFamily/colorScheme
+  // collapse to the flat key "background-color" with no "icon" segment.
+  // tokenData.icon is domain context, not part of this key — it must not
+  // be attached to nameObject, or Phase 9's re-serialize spuriously routes
+  // through the icon/owner branch and re-adds an "icon-" prefix the
+  // authored key never had.
+  const result = decompose(
+    "background-color",
+    { icon: "icon" },
+    registry,
+    "test",
+  );
+  t.falsy(result.nameObject.icon);
+  t.is(result.serialized, "background-color");
+  t.true(result.roundtrips);
+});
+
 test("decomposes component token with metadata", (t) => {
   const result = decompose(
     "checkbox-control-size-small",
