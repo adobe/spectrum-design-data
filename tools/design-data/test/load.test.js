@@ -62,8 +62,8 @@ test("loadDataset tokens are queryable", async (t) => {
   const ds = await loadDataset(TMP);
   const results = ds.query("property=background-color");
   t.is(results.length, 1);
-  // result.name is the UUID key; property lives in the raw Map under name.property
-  t.is(results[0].raw.get("name")?.get("property"), "background-color");
+  // result.name is the UUID key; property lives in raw.name.property
+  t.is(results[0].raw.name?.property, "background-color");
 });
 
 test("loadDataset walks subdirectories", async (t) => {
