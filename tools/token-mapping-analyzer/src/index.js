@@ -50,16 +50,18 @@ async function main() {
     console.log(`\n  ${filename}: ${namedTokens.length} tokens`);
 
     for (const token of namedTokens) {
-      // Reconstruct the legacy key from the inline name object (mirrors
-      // apply.js). Most tokens roundtrip through serialize(); a small set of
-      // pinned exceptions (broken by prior decomposition passes) carry an
-      // explicit name.legacyKey instead — fall back to that.
+      // A `name.legacyKey` pin is the authored ground truth (mirrors
+      // sdk/core/src/naming.rs's extract_legacy_key, which checks it first):
+      // it's set explicitly to freeze the published legacy key independent of
+      // however the rest of the name object decomposes. serialize() is only a
+      // fallback for tokens with no pin.
       const legacyKey =
+        token.name.legacyKey ||
         serialize(
           token.name,
           registry.tokenNameMap,
           registry.serializationOrder,
-        ) || token.name.legacyKey;
+        );
       if (!legacyKey) {
         console.warn(
           `  WARNING: could not reconstruct legacy key for token in ${filename} (name: ${JSON.stringify(token.name)}) — dropped from report`,
@@ -74,6 +76,7 @@ async function main() {
           private: !!token.private,
           component: token.name.component,
           icon: token.name.icon,
+          pinned: !!token.name.legacyKey,
         },
         registry,
         filename,

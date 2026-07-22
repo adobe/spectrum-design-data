@@ -1,5 +1,29 @@
 # @adobe/spectrum-design-data
 
+## 0.16.0
+
+### Minor Changes
+
+- [#1281](https://github.com/adobe/spectrum-design-data/pull/1281) [`5684c8a`](https://github.com/adobe/spectrum-design-data/commit/5684c8afbf34fc391717fdb975699e06eb677a4e) Thanks [@GarthDB](https://github.com/GarthDB)! - Added the `in-field-progress-circle` anatomy term and structured the last 8
+  fused `field-top-to-progress-circle-*` layout tokens accordingly (bead
+  spectrum-design-data-bzo, bucket 1); legacy names are unaffected.
+  - **packages/design-data/registry/anatomy-terms.json**: added
+    `in-field-progress-circle` anatomy term.
+  - **packages/design-data/tokens/layout.tokens.json**: structured the 8
+    `field-top-to-progress-circle-*` tokens into `space-between`/`from`/`to`
+    form with `legacyKey`.
+
+### Patch Changes
+
+- [#1283](https://github.com/adobe/spectrum-design-data/pull/1283) [`018f18e`](https://github.com/adobe/spectrum-design-data/commit/018f18e4175e4058fee2ad8f7678c8b07bd278c8) Thanks [@GarthDB](https://github.com/GarthDB)! - Pinned `legacyKey` on the 25 remaining registry-gap residual tokens in
+  `layout.tokens.json` (bead spectrum-design-data-rst). 22 of the 25 are already
+  deprecated with a `replaced_by` token, so registering new anatomy/qualifier
+  vocabulary for them was not worthwhile; published legacy names are unaffected.
+  - **packages/design-data/tokens/layout.tokens.json**: pinned `legacyKey` on
+    `android-elevation`, `corner-triangle-icon-size-*` (8),
+    `navigational-indicator-top-to-back-icon-*` (8), `side-focus-indicator`,
+    and `side-label-character-count-*` (6).
+
 ## 0.15.0
 
 ### Minor Changes

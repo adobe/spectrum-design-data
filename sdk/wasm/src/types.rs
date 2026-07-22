@@ -62,8 +62,10 @@ pub struct TokenResult {
 }
 
 /// A single resolved token result from `Dataset.resolve()`.
+///
+/// `hashmap_as_object`: nests `TokenResult.raw`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 #[serde(rename_all = "camelCase")]
 pub struct ResolveResult {
     pub token: TokenResult,
@@ -189,8 +191,11 @@ pub struct UpdatedToken {
 /// The result of `Dataset.diff()`.
 ///
 /// Mirrors `design_data_core::diff::DiffReport` with typed arrays for each change category.
+///
+/// `hashmap_as_object`: `PropertyChange.new_value`/`.original_value` are
+/// `serde_json::Value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct DiffResult {
     pub renamed: Vec<RenamedToken>,
     pub deprecated: Vec<DeprecatedToken>,
@@ -209,8 +214,12 @@ pub struct DiffResult {
 // ---------------------------------------------------------------------------
 
 /// A list of token results from a query. Typed as `TokenResult[]` in TypeScript.
+///
+/// `hashmap_as_object`: `TokenResult.raw` is a `serde_json::Value` — without this,
+/// serde-wasm-bindgen's default serializer turns nested JSON objects into JS `Map`s,
+/// which `JSON.stringify` (used by every MCP tool response) silently renders as `{}`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct TokenResultArray(Vec<TokenResult>);
 
 impl TokenResultArray {
@@ -237,8 +246,10 @@ pub struct SuggestResult {
 }
 
 /// A list of suggestion results from `Dataset.suggest()`. Typed as `SuggestResult[]` in TypeScript.
+///
+/// `hashmap_as_object`: nests `SuggestResult.name_object`/`value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 pub struct SuggestResultArray(Vec<SuggestResult>);
 
 impl SuggestResultArray {
@@ -258,8 +269,10 @@ impl SuggestResultArray {
 /// // r.chain → ["{accent-color-100}", "{blue-100}", "rgb(245, 249, 255)"]
 /// // r.value → "rgb(245, 249, 255)"
 /// ```
+///
+/// `hashmap_as_object`: `value` is a `serde_json::Value`, see `TokenResultArray`.
 #[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
-#[tsify(into_wasm_abi, from_wasm_abi)]
+#[tsify(into_wasm_abi, from_wasm_abi, hashmap_as_object)]
 #[serde(rename_all = "camelCase")]
 pub struct ReferenceChainResult {
     /// The resolved terminal value (absent if the chain is empty or all aliases dangle).
@@ -293,15 +306,66 @@ impl ResolutionContext {
 
 impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
     fn from(r: design_data_core::suggest::SuggestionResult) -> Self {
+        // Cascade-format tokens key the graph by "<file>:<index>", not a
+        // readable name — display_name() derives the legacy key from the
+        // name object (falling back to the raw graph key) the same way
+        // diff.rs and the TUI wizard already do.
+        let token_name = r.display_name();
         Self {
             token_uuid: r.token_uuid,
-            token_name: r.token_name,
+            token_name,
             file: r.file.to_string_lossy().into_owned(),
             layer: format!("{:?}", r.layer).to_lowercase(),
             confidence: r.confidence,
             name_object: r.name_object,
             value: r.value,
         }
+    }
+}
+
+#[cfg(test)]
+mod suggest_result_tests {
+    use super::*;
+    use design_data_core::graph::Layer;
+    use design_data_core::suggest::SuggestionResult;
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    #[test]
+    fn conversion_uses_display_name_for_cascade_token() {
+        let result = SuggestionResult {
+            token_uuid: Some("uuid-1".to_string()),
+            token_name: "color-aliases.tokens.json:24".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: Some(json!({
+                "colorRole": "accent",
+                "property": "background-color",
+                "state": "default",
+                "legacyKey": "accent-background-color-default",
+            })),
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "accent-background-color-default");
+    }
+
+    #[test]
+    fn conversion_falls_back_to_graph_key_without_name_object() {
+        let result = SuggestionResult {
+            token_uuid: None,
+            token_name: "some-legacy-string-key".to_string(),
+            file: PathBuf::from("legacy.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: None,
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "some-legacy-string-key");
     }
 }
 

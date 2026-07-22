@@ -80,7 +80,6 @@ function categorize(result) {
     result.gaps.length === 0 &&
     result.unmatchedSegments.length === 0
   ) {
-    const state = result.nameObject.state || "";
     if (
       prop.includes("selected") ||
       prop.includes("focus") ||
@@ -88,8 +87,41 @@ function categorize(result) {
     ) {
       return { category: "compound-state", proposal: "005" };
     }
-    // Remaining ordering-only
-    return { category: "ordering-mismatch", proposal: "002" };
+
+    // legacyKey-pinned: name.legacyKey freezes the published key
+    // independent of decomposition (mirrors naming.rs's extract_legacy_key,
+    // which returns the pin before ever walking the catalog order). The
+    // product never decomposes these, so a roundtrip mismatch here is the
+    // analyzer disagreeing with itself, not a real defect.
+    if (result.pinned) {
+      return { category: "legacyKey-pinned", proposal: null };
+    }
+
+    // atomic-legacy: unpinned, but `property` already spells out the full
+    // `{component}-...` legacy string (thin cascade format). The product
+    // emits `property` verbatim (naming.rs's `is_thin` passthrough); again
+    // not a real ordering defect.
+    if (result.thin) {
+      return { category: "atomic-legacy", proposal: null };
+    }
+
+    // Remaining: genuinely decomposed, still don't roundtrip. Split
+    // same-segments-different-order (canonical order vs. legacy authored
+    // order — a proposal-002 rename question) from segment content actually
+    // changing (a real serialize()/decompose() defect).
+    // ponytail: compares raw hyphen-split segments as a multiset, not
+    // resolved field values — a value spanning multiple hyphenated words
+    // could false-positive/negative at this boundary. Low risk: both
+    // destination categories require human triage either way, so a
+    // misclassification here just swaps which queue a token lands in.
+    const authoredSegments = [...result.tokenName.split("-")].sort();
+    const serializedSegments = [...(result.serialized || "").split("-")].sort();
+    const sameContent =
+      authoredSegments.join("|") === serializedSegments.join("|");
+    if (sameContent) {
+      return { category: "canonical-order-legacy", proposal: "002" };
+    }
+    return { category: "ordering-mismatch", proposal: null };
   }
 
   // Unmatched segments

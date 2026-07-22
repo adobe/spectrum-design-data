@@ -92,6 +92,68 @@ test("Dataset.embedded() returns consistent results on repeated calls", (t) => {
   t.is(ds1.tokenCount(), ds2.tokenCount());
 });
 
+// A raw cascade graph key looks like "some-file.tokens.json:24" — suggest()
+// must never leak that shape as tokenName; it should resolve to the token's
+// legacyKey/readable name via display_name().
+const RAW_GRAPH_KEY_PATTERN = /\.json:\d+$/;
+
+test("Dataset.embedded() suggest returns readable token names, not raw graph keys", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const results = ds.suggest("accent background color", undefined, 5);
+  t.true(results.length > 0, "Expected suggestions for a common intent");
+  for (const r of results) {
+    t.false(
+      RAW_GRAPH_KEY_PATTERN.test(r.tokenName),
+      `tokenName "${r.tokenName}" looks like a raw "<file>:<index>" graph key, not a resolved name`,
+    );
+  }
+});
+
+// serde-wasm-bindgen's default serializer turns nested serde_json::Value
+// objects into JS Maps, which JSON.stringify (used by MCP tool responses)
+// silently renders as "{}" — the exact symptom Cable reported for nameObject.
+// These assert the JSON-value-bearing fields are plain objects, not Maps.
+
+test("Dataset.embedded() query result .raw is a plain object, not a Map", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const results = ds.query("property=background-color,colorScheme=light");
+  t.true(results.length > 0);
+  const { raw } = results[0];
+  t.false(raw instanceof Map, ".raw should not be a JS Map");
+  t.truthy(raw.name, ".raw should have own enumerable properties");
+  t.notDeepEqual(JSON.parse(JSON.stringify(raw)), {});
+});
+
+test("Dataset.embedded() suggest result .nameObject is a plain object, not a Map", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const results = ds.suggest("accent background color", undefined, 5);
+  t.true(results.length > 0);
+  for (const r of results) {
+    if (r.nameObject !== undefined) {
+      t.false(
+        r.nameObject instanceof Map,
+        ".nameObject should not be a JS Map",
+      );
+      t.notDeepEqual(JSON.parse(JSON.stringify(r.nameObject)), {});
+    }
+  }
+});
+
+test("Dataset.embedded() resolve result .token.raw is a plain object, not a Map", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const result = ds.resolve("background-color", { colorScheme: "light" });
+  t.truthy(result);
+  t.false(result.token.raw instanceof Map, "token.raw should not be a JS Map");
+  t.notDeepEqual(JSON.parse(JSON.stringify(result.token.raw)), {});
+});
+
+test("Dataset.embedded() resolveReference result .value is not a Map", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const r = ds.resolveReference("{blue-100}", { colorScheme: "light" });
+  t.truthy(r);
+  t.false(r.value instanceof Map, "value should not be a JS Map");
+});
+
 // ---------------------------------------------------------------------------
 // Registry helpers — embedded RegistryData (no tokens needed)
 // ---------------------------------------------------------------------------
