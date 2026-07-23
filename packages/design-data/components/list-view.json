@@ -229,7 +229,7 @@
       "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
     },
     {
-      "token": "component-edge-to-text",
+      "token": "component-edge-to-text-100",
       "context": "Spacing (edge to checkbox, edge to visual, edge to text)"
     },
     {

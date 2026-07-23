@@ -264,7 +264,7 @@
       "token": "component-top-to-workflow-icon-300",
       "context": "Spacing (top edge to icon)"
     },
-    { "token": "menu-item-to-items", "context": "Spacing (item to item)" },
+    { "token": "spacing-50", "context": "Spacing (item to item)" },
     {
       "token": "component-edge-to-text-75",
       "context": "Spacing (start/end edges to content)"
