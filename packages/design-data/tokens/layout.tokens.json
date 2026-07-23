@@ -1621,6 +1621,118 @@
   },
   {
     "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "small",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "375c1ab1-bee4-499b-b257-931bb4bc56d0",
+    "set_uuid": "6f73478a-407b-45fb-ac13-44f3911515cb",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "small",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "fae7af5b-4754-4031-b070-c644e172450a",
+    "set_uuid": "6f73478a-407b-45fb-ac13-44f3911515cb",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "medium",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "903865b1-0c75-41c6-84f3-efd6b5205f29",
+    "set_uuid": "5c0d060f-7ab0-4c40-a907-4006ae45a0d7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "medium",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "d1bcb014-35ee-47a1-baf1-6d55d908cb20",
+    "set_uuid": "5c0d060f-7ab0-4c40-a907-4006ae45a0d7",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "e86a15c7-9715-42b5-9cc5-1f438c278df1",
+    "set_uuid": "9f45a388-c93b-41da-8ab3-cb1145bd613b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "large",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "25px",
+    "uuid": "12f28a62-a19c-401c-b65b-d746c9dfcc75",
+    "set_uuid": "9f45a388-c93b-41da-8ab3-cb1145bd613b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "extra-large",
+      "scale": "desktop"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "1850a55a-9e06-406d-b3db-ccc1c3adf7da",
+    "set_uuid": "8b7938de-34f9-4b5f-ad13-3cf01149814b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
+      "component": "button",
+      "property": "corner-radius",
+      "size": "extra-large",
+      "scale": "mobile"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "06240f78-2979-458a-83cf-46e2476d68e1",
+    "set_uuid": "8b7938de-34f9-4b5f-ad13-3cf01149814b",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "excludeFromLegacy": true
+  },
+  {
+    "name": {
       "property": "component-padding-vertical-100",
       "scale": "desktop"
     },
