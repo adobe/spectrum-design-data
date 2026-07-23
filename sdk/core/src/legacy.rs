@@ -481,6 +481,9 @@ fn convert_array(
         let Some(tok) = item.as_object() else {
             continue;
         };
+        if tok.get("excludeFromLegacy").and_then(Value::as_bool) == Some(true) {
+            continue;
+        }
         // extract_legacy_key handles both object names (decomposed or thin) and
         // string names (SPEC-017 escape hatch).
         let Some(key) = tok.get("name").and_then(extract_legacy_key) else {
@@ -869,6 +872,21 @@ mod tests {
         let (name, entry) = convert_token(&tok).unwrap();
         assert_eq!(name, "spacing-100");
         assert_eq!(entry["value"], "8px");
+    }
+
+    #[test]
+    fn exclude_from_legacy_flag_skips_token() {
+        let arr = json!([
+            {"name": {"property": "spacing-100"}, "value": "8px", "uuid": "excl-0001"},
+            {"name": {"component": "button", "property": "corner-radius", "size": "small"},
+             "value": "12px", "uuid": "excl-0002", "excludeFromLegacy": true}
+        ]);
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+
+        assert!(out.contains_key("spacing-100"));
+        assert!(!out.contains_key("button-corner-radius-small"));
+        assert_eq!(out.len(), 1);
     }
 
     #[test]
