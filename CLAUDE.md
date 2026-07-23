@@ -99,11 +99,18 @@ the sync creates this automatically from a bd label.
   * `DNA-1516` — metrics capture and analysis
   * `DNA-1740` — per-platform token usage baselines
   * `DNA-1741` — connect Web/iOS/Android to design data
+  * `DNA-1747` — Design Data's contribution to AI-authored Spectrum 2 code (shared KR, owned overall by Josh J)
+  * `DNA-1748` — Design Data's contribution to documentation (shared OKR, owned overall by Ashley)
   * Pick whichever the epic's OKR-level goal matches; leave untagged if none fit
     rather than forcing a guess — a new Initiative may need to be created instead.
 * Non-epic beads (task/feature/bug) don't need the label — only the epic level links
-  to an Initiative. Optionally cascade for local filtering only:
-  `bd label propagate <epic-id> initiative:DNA-XXXX` (doesn't affect Jira).
+  to an Initiative (via its parent-child chain up to that epic). Optionally cascade
+  a label for local filtering only: `bd label propagate <epic-id> initiative:DNA-XXXX`
+  (doesn't affect Jira).
+* **Look up the Jira key for a bead id (or vice versa)** without grepping the state
+  file by hand:
+  `node <path-to-adobe-mcp-servers>/src/corp-jira/dist/scripts/import-beads.js --lookup <id> [<id>...]`
+  — works with beads ids and Jira keys mixed in the same call.
 
 ## Code Intelligence Tools (MCP)
 

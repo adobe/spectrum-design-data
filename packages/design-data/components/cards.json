@@ -322,7 +322,7 @@
       "context": "Height (minimum), title below variant"
     },
     {
-      "token": "card-thumbnail-to-title",
+      "token": "spacing-100",
       "context": "Spacing (thumbnail to title)"
     },
     {
