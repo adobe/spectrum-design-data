@@ -352,7 +352,6 @@
       "context": "Label and icon (disabled)"
     },
     { "token": "focus-indicator-color", "context": "Focus indicator" },
-    { "token": "title-content-color", "context": "Label and icon" },
     { "token": "default-font-family", "context": "Text (tree view item)" },
     { "token": "regular-font-weight", "context": "Text (tree view item)" },
     { "token": "default-font-style", "context": "Text (tree view item)" },
