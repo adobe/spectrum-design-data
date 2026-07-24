@@ -119,7 +119,6 @@
     { "token": "gradient-stop-1-avatar", "context": "0% " },
     { "token": "gradient-stop-2-avatar", "context": "66% " },
     { "token": "gradient-stop-3-avatar", "context": "100% " },
-    { "token": "gradient-angle", "context": "Top-left to bottom-right" },
     { "token": "default-font-family", "context": "Text (List view item)" },
     { "token": "extra-bold-font-weight", "context": "Text (List view item)" },
     { "token": "default-font-style", "context": "Text (List view item)" },

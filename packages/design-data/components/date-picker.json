@@ -257,10 +257,6 @@
     { "token": "spacing-700", "context": "Spacing (month + year to chevron) " },
     { "token": "spacing-100", "context": "Spacing (between week labels) " },
     {
-      "token": "current-day-indicator-size-100",
-      "context": "Current day indicator"
-    },
-    {
       "token": "spacing-200",
       "context": "Spacing (between week labels and days) "
     },
