@@ -1,5 +1,29 @@
 # @adobe/spectrum-design-data
 
+## 0.16.2
+
+### Patch Changes
+
+- [`a869f46`](https://github.com/adobe/spectrum-design-data/commit/a869f46db5a6e2a1d2d10fddcd96a95a6acdf4a9) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix SPEC-027 dangling `component-top-to-workflow-icon-400` tokenBindings
+  (bead spectrum-design-data-vpk.1, group A).
+  - **packages/design-data/components/combo-box.json**, **number-field.json**,
+    **text-area.json**, **text-field.json**: rebind the leading-icon spacing
+    entry from `component-top-to-workflow-icon-400` — a step that doesn't
+    exist in the token family (which caps at `-300`) and isn't referenced
+    anywhere else — to the existing `component-top-to-workflow-icon-300`.
+
+- [`a869f46`](https://github.com/adobe/spectrum-design-data/commit/a869f46db5a6e2a1d2d10fddcd96a95a6acdf4a9) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix SPEC-027 dangling `tokenBindings` for three "safe rebind" cases (bead
+  `spectrum-design-data-vpk.1`) where the S2 spec names an existing token, so no
+  new token or design-owner sign-off was needed.
+  - **packages/design-data/components/cards.json**: rebind
+    `card-thumbnail-to-title` to `spacing-100` — the spec documents this gap as
+    `8px (spacing-100)`.
+  - **packages/design-data/components/menu.json**: rebind `menu-item-to-items`
+    to `spacing-50` — the spec documents this gap as `2px (spacing-50)`.
+  - **packages/design-data/components/list-view.json**: rebind the bare
+    `component-edge-to-text` to `component-edge-to-text-100`, matching every
+    other numbered token already bound in this component's `-100` step.
+
 ## 0.16.1
 
 ### Patch Changes
