@@ -15,3 +15,5 @@ the fused legacy key is unchanged.
   `anatomy: "text"`, 16 `workflow-icon-*` to `anatomy: "workflow-icon"` —
   each with an explicit `property`/`size` and pinned `legacyKey`.
   `component-*` tokens are left unchanged (intentionally scopeless).
+  `workflow-icon-*`'s `property: "size"` is a distinct name-object field from
+  the `size` t-shirt-scale field on the same token (e.g. `xxl`) — no collision.
