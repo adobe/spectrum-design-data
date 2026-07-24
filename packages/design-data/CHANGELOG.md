@@ -1,5 +1,18 @@
 # @adobe/spectrum-design-data
 
+## 0.16.3
+
+### Patch Changes
+
+- [#1298](https://github.com/adobe/spectrum-design-data/pull/1298) [`51ceb0b`](https://github.com/adobe/spectrum-design-data/commit/51ceb0bce5744858549ef5157ec44f3857ecd2b7) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove SPEC-027 dangling `tokenBindings` with no backing token or Figma spec
+  entry (bead `spectrum-design-data-vpk.1`, no-spec-entry noise subset).
+  - **packages/design-data/components/date-picker.json**: remove `current-day-indicator-size-100`.
+  - **packages/design-data/components/avatar.json**: remove `gradient-angle`.
+  - **packages/design-data/components/title.json**: remove the bare Title-XXXL
+    `font-family`/`font-weight`/`font-size`/`line-height`/`font-style` bindings
+    (keeps `letter-spacing`, which resolves to a real token).
+  - **packages/design-data/components/tree-view.json**: remove `title-content-color`.
+
 ## 0.16.2
 
 ### Patch Changes
