@@ -1,5 +1,12 @@
 # @adobe/design-data-agent-mcp
 
+## 1.8.15
+
+### Patch Changes
+
+- Updated dependencies [[`2065df4`](https://github.com/adobe/spectrum-design-data/commit/2065df4d9703daa92065579976546d64561f25f7)]:
+  - @adobe/spectrum-design-data@0.17.0
+
 ## 1.8.14
 
 ### Patch Changes
