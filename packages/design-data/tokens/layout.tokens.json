@@ -2525,7 +2525,10 @@
   },
   {
     "name": {
-      "property": "container-gap-2x-large"
+      "property": "gap",
+      "structure": "container",
+      "size": "xxl",
+      "legacyKey": "container-gap-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
@@ -2534,7 +2537,10 @@
   },
   {
     "name": {
-      "property": "container-gap-2x-small"
+      "property": "gap",
+      "structure": "container",
+      "size": "xxs",
+      "legacyKey": "container-gap-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -2543,7 +2549,10 @@
   },
   {
     "name": {
-      "property": "container-gap-extra-large"
+      "property": "gap",
+      "structure": "container",
+      "size": "xl",
+      "legacyKey": "container-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -2552,7 +2561,10 @@
   },
   {
     "name": {
-      "property": "container-gap-extra-small"
+      "property": "gap",
+      "structure": "container",
+      "size": "xs",
+      "legacyKey": "container-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -2561,7 +2573,10 @@
   },
   {
     "name": {
-      "property": "container-gap-large"
+      "property": "gap",
+      "structure": "container",
+      "size": "l",
+      "legacyKey": "container-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
@@ -2570,7 +2585,10 @@
   },
   {
     "name": {
-      "property": "container-gap-medium"
+      "property": "gap",
+      "structure": "container",
+      "size": "m",
+      "legacyKey": "container-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -2579,7 +2597,10 @@
   },
   {
     "name": {
-      "property": "container-gap-small"
+      "property": "gap",
+      "structure": "container",
+      "size": "s",
+      "legacyKey": "container-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -2588,7 +2609,10 @@
   },
   {
     "name": {
-      "property": "container-padding-2x-large"
+      "property": "padding",
+      "structure": "container",
+      "size": "xxl",
+      "legacyKey": "container-padding-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74",
@@ -2597,7 +2621,10 @@
   },
   {
     "name": {
-      "property": "container-padding-2x-small"
+      "property": "padding",
+      "structure": "container",
+      "size": "xxs",
+      "legacyKey": "container-padding-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -2606,7 +2633,10 @@
   },
   {
     "name": {
-      "property": "container-padding-3x-large"
+      "property": "padding",
+      "structure": "container",
+      "size": "xxxl",
+      "legacyKey": "container-padding-3x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b6d0b881-d25e-452c-9069-c18745d21f33",
@@ -2615,7 +2645,10 @@
   },
   {
     "name": {
-      "property": "container-padding-extra-large"
+      "property": "padding",
+      "structure": "container",
+      "size": "xl",
+      "legacyKey": "container-padding-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -2624,7 +2657,10 @@
   },
   {
     "name": {
-      "property": "container-padding-extra-small"
+      "property": "padding",
+      "structure": "container",
+      "size": "xs",
+      "legacyKey": "container-padding-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -2633,7 +2669,10 @@
   },
   {
     "name": {
-      "property": "container-padding-large"
+      "property": "padding",
+      "structure": "container",
+      "size": "l",
+      "legacyKey": "container-padding-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b352f0f0-5843-4c65-8357-625b938ccaa0",
@@ -2642,7 +2681,10 @@
   },
   {
     "name": {
-      "property": "container-padding-medium"
+      "property": "padding",
+      "structure": "container",
+      "size": "m",
+      "legacyKey": "container-padding-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -2651,7 +2693,10 @@
   },
   {
     "name": {
-      "property": "container-padding-small"
+      "property": "padding",
+      "structure": "container",
+      "size": "s",
+      "legacyKey": "container-padding-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -6278,7 +6323,10 @@
   },
   {
     "name": {
-      "property": "text-gap-extra-large"
+      "property": "gap",
+      "anatomy": "text",
+      "size": "xl",
+      "legacyKey": "text-gap-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -6287,7 +6335,10 @@
   },
   {
     "name": {
-      "property": "text-gap-extra-small"
+      "property": "gap",
+      "anatomy": "text",
+      "size": "xs",
+      "legacyKey": "text-gap-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -6296,7 +6347,10 @@
   },
   {
     "name": {
-      "property": "text-gap-large"
+      "property": "gap",
+      "anatomy": "text",
+      "size": "l",
+      "legacyKey": "text-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -6305,7 +6359,10 @@
   },
   {
     "name": {
-      "property": "text-gap-medium"
+      "property": "gap",
+      "anatomy": "text",
+      "size": "m",
+      "legacyKey": "text-gap-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -6314,7 +6371,10 @@
   },
   {
     "name": {
-      "property": "text-gap-small"
+      "property": "gap",
+      "anatomy": "text",
+      "size": "s",
+      "legacyKey": "text-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -6708,8 +6768,9 @@
   },
   {
     "name": {
-      "property": "text-underline-thickness",
-      "legacyKey": "text-underline-thickness"
+      "property": "underline-thickness",
+      "legacyKey": "text-underline-thickness",
+      "anatomy": "text"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "1px",
@@ -6763,8 +6824,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-2x-large",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "xxl",
+      "legacyKey": "workflow-icon-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -6774,8 +6838,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-2x-large",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "xxl",
+      "legacyKey": "workflow-icon-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
@@ -6785,8 +6852,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-2x-small",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "xxs",
+      "legacyKey": "workflow-icon-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -6796,8 +6866,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-2x-small",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "xxs",
+      "legacyKey": "workflow-icon-2x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -6807,8 +6880,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-3x-small",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "xxxs",
+      "legacyKey": "workflow-icon-3x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -6818,8 +6894,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-3x-small",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "xxxs",
+      "legacyKey": "workflow-icon-3x-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -6829,8 +6908,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-extra-large",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "xl",
+      "legacyKey": "workflow-icon-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
@@ -6840,8 +6922,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-extra-large",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "xl",
+      "legacyKey": "workflow-icon-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "30px",
@@ -6851,8 +6936,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-extra-small",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "xs",
+      "legacyKey": "workflow-icon-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
@@ -6862,8 +6950,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-extra-small",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "xs",
+      "legacyKey": "workflow-icon-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -6873,8 +6964,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-large",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "l",
+      "legacyKey": "workflow-icon-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
@@ -6884,8 +6978,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-large",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "l",
+      "legacyKey": "workflow-icon-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "28px",
@@ -6895,8 +6992,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-medium",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "m",
+      "legacyKey": "workflow-icon-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
@@ -6906,8 +7006,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-medium",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "m",
+      "legacyKey": "workflow-icon-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -7046,8 +7149,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-small",
-      "scale": "desktop"
+      "property": "size",
+      "scale": "desktop",
+      "anatomy": "workflow-icon",
+      "size": "s",
+      "legacyKey": "workflow-icon-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -7057,8 +7163,11 @@
   },
   {
     "name": {
-      "property": "workflow-icon-small",
-      "scale": "mobile"
+      "property": "size",
+      "scale": "mobile",
+      "anatomy": "workflow-icon",
+      "size": "s",
+      "legacyKey": "workflow-icon-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",

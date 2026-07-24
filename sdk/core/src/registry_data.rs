@@ -904,7 +904,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "text",
       "label": "Text",
       "description": "Text content or labels",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "control",
@@ -1152,7 +1153,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "workflow-icon",
       "label": "Workflow Icon",
       "description": "Standard workflow icon element within a component (distinct from UI icons)",
-      "usedIn": ["tokens", "s2-docs"]
+      "usedIn": ["tokens", "s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "ui-icon",
