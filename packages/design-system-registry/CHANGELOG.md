@@ -1,5 +1,12 @@
 # @adobe/design-system-registry
 
+## 5.0.19
+
+### Patch Changes
+
+- Updated dependencies [[`51ceb0b`](https://github.com/adobe/spectrum-design-data/commit/51ceb0bce5744858549ef5157ec44f3857ecd2b7)]:
+  - @adobe/spectrum-design-data@0.16.3
+
 ## 5.0.18
 
 ### Patch Changes
