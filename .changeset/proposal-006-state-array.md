@@ -13,7 +13,8 @@ hyphenated-compound encoding).
 - **packages/design-data/fields/state.json**, **registry/states.json**: `state`
   is now `array` type; dropped the dead compound-hyphenation pattern.
 - **packages/design-data-spec/schemas**: name-object `state` is now an array of
-  atomic ids, `minItems: 1`.
+  atomic ids, `minItems: 1`; `field.schema.json`'s `valueType` enum gained
+  `"array"` so `state.json` validates structurally.
 - **packages/design-data/tokens/\*.tokens.json**: every token's `name.state`
   migrated to array form (`"hover"` → `["hover"]`, `"selected-hover"` →
   `["selected", "hover"]`).
