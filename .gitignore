@@ -169,3 +169,7 @@ tools/demo/videos/out/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# Working scratch notes for in-progress skill-building sessions (not a deliverable)
+FIGMA_TOKEN_SYNC_SKILL_NOTES.md
+GRAY_TOKEN_SYNC_DIFF.md
