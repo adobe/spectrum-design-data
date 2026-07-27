@@ -1,0 +1,52 @@
+name: Component Schema Diff PR Comment
+
+# workflow_run always executes using the workflow file on the default branch
+# and gets a full-permission GITHUB_TOKEN, even when the triggering run came
+# from a fork PR - see component-diff-pr-comment.yml for why this is split
+# out.
+on:
+  workflow_run:
+    workflows: ["Component Schema Diff Generate"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  component-diff-comment:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download diff artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: component-diff-report
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/artifact
+
+      - name: Read report metadata
+        id: meta
+        run: |
+          echo "pr-number=$(cat /tmp/artifact/pr-number.txt)" >> "$GITHUB_OUTPUT"
+          echo "diff-generated=$(cat /tmp/artifact/diff-generated.txt)" >> "$GITHUB_OUTPUT"
+          {
+            echo "diff-content<<EOF"
+            cat /tmp/artifact/diff-content.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create or update PR comment
+        uses: ./.github/actions/diff-pr-comment
+        with:
+          diff-type: component
+          diff-generated: ${{ steps.meta.outputs.diff-generated }}
+          diff-content: ${{ steps.meta.outputs.diff-content }}
+          diff-file-path: /tmp/artifact/diff-report.md
+          pr-number: ${{ steps.meta.outputs.pr-number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
