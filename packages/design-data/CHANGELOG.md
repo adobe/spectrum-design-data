@@ -1,5 +1,27 @@
 # @adobe/spectrum-design-data
 
+## 1.0.0
+
+### Major Changes
+
+- [#1302](https://github.com/adobe/spectrum-design-data/pull/1302) [`50d0ffe`](https://github.com/adobe/spectrum-design-data/commit/50d0ffe75b7303bea6b113877b7e559fd4a985de) Thanks [@GarthDB](https://github.com/GarthDB)! - Change token name-object `state` from a single (optionally hyphenated) string to
+  an ordered array of atomic state ids (Proposal 006, supersedes Proposal 005's
+  hyphenated-compound encoding).
+  - **docs/proposals/006-compound-states-as-array.md**: new proposal; Proposal 005
+    marked superseded.
+  - **packages/design-data/fields/state.json**, **registry/states.json**: `state`
+    is now `array` type; dropped the dead compound-hyphenation pattern.
+  - **packages/design-data-spec/schemas**: name-object `state` is now an array of
+    atomic ids, `minItems: 1`; `field.schema.json`'s `valueType` enum gained
+    `"array"` so `state.json` validates structurally.
+  - **packages/design-data/tokens/\*.tokens.json**: every token's `name.state`
+    migrated to array form (`"hover"` → `["hover"]`, `"selected-hover"` →
+    `["selected", "hover"]`).
+  - **sdk/core**: `NameObject.state` is `Option<Vec<String>>`; legacy-key
+    generation and validation rules updated for array state. Query filters
+    (`state=x`) now match any element of a compound array — see `spec/query.md`.
+  - **tools/token-mapping-analyzer**: JS decomposer kept in parity with Rust.
+
 ## 0.17.0
 
 ### Minor Changes
