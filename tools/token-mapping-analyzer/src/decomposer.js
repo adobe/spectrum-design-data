@@ -488,7 +488,10 @@ export function decompose(tokenName, tokenData, registry, sourceFile) {
     }
     if (conflict) continue;
 
-    nameObject[field] = id;
+    // Proposal 006: `state` is an ordered array of atomic ids, not a single
+    // string like every other catalog field. Legacy strings never encode a
+    // true multi-part compound (see naming.rs), so this is always one element.
+    nameObject[field] = field === "state" ? [id] : id;
     for (let i = startIndex; i < startIndex + length; i++) {
       matched[i] = true;
       matchDetails[i] = field;
@@ -774,8 +777,10 @@ export function serialize(
     const parts = [component, nameObject.property];
     if (colorFamily) parts.push(tokenNameMap[colorFamily] || colorFamily);
     if (colorRole) parts.push(tokenNameMap[colorRole] || colorRole);
-    if (nameObject.state)
-      parts.push(tokenNameMap[nameObject.state] || nameObject.state);
+    // Proposal 006: `state` is an ordered array of atomic ids.
+    if (nameObject.state) {
+      for (const s of nameObject.state) parts.push(tokenNameMap[s] || s);
+    }
     return parts.join("-");
   }
 
@@ -820,6 +825,14 @@ export function serialize(
         parts.push(`${fromExpanded}-to-${toExpanded}`);
         continue;
       }
+      // Proposal 006: `state` is an ordered array of atomic ids, not a single
+      // string like every other catalog field.
+      if (field === "state") {
+        if (nameObject.state) {
+          for (const s of nameObject.state) parts.push(tokenNameMap[s] || s);
+        }
+        continue;
+      }
       if (nameObject[field]) {
         parts.push(tokenNameMap[nameObject[field]] || nameObject[field]);
       }
@@ -843,14 +856,24 @@ export function serialize(
     const parts = [icExpanded, nameObject.property];
     if (nameObject.scaleIndex != null)
       parts.push(String(nameObject.scaleIndex));
-    if (nameObject.state)
-      parts.push(tokenNameMap[nameObject.state] || nameObject.state);
+    // Proposal 006: `state` is an ordered array of atomic ids.
+    if (nameObject.state) {
+      for (const s of nameObject.state) parts.push(tokenNameMap[s] || s);
+    }
     return parts.join("-");
   }
 
   // General path (non-color tokens)
   const parts = [];
   for (const field of serializationOrder) {
+    // Proposal 006: `state` is an ordered array of atomic ids, not a single
+    // string like every other catalog field.
+    if (field === "state") {
+      if (nameObject.state) {
+        for (const s of nameObject.state) parts.push(tokenNameMap[s] || s);
+      }
+      continue;
+    }
     if (nameObject[field]) {
       const value = nameObject[field];
       // Use tokenName long form if available (e.g., xl → extra-large)

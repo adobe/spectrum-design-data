@@ -87,34 +87,39 @@ impl ValidationRule for Rule {
             }
 
             // --- state cascade ---
-            if let Some(state_name) = name_obj.get("state").and_then(|v| v.as_str()) {
-                let dep_version = comp
-                    .raw
-                    .get("states")
-                    .and_then(|v| v.as_array())
-                    .and_then(|arr| {
-                        arr.iter()
-                            .find(|s| s.get("name").and_then(|n| n.as_str()) == Some(state_name))
-                    })
-                    .and_then(|s| s.get("lifecycle"))
-                    .and_then(|l| l.get("deprecated"))
-                    .and_then(|v| v.as_str());
+            // Proposal 006: `state` is an ordered array of atomic ids — check each
+            // element independently.
+            if let Some(states) = name_obj.get("state").and_then(|v| v.as_array()) {
+                for state_name in states.iter().filter_map(|v| v.as_str()) {
+                    let dep_version = comp
+                        .raw
+                        .get("states")
+                        .and_then(|v| v.as_array())
+                        .and_then(|arr| {
+                            arr.iter().find(|s| {
+                                s.get("name").and_then(|n| n.as_str()) == Some(state_name)
+                            })
+                        })
+                        .and_then(|s| s.get("lifecycle"))
+                        .and_then(|l| l.get("deprecated"))
+                        .and_then(|v| v.as_str());
 
-                if let Some(version) = dep_version {
-                    out.push(Diagnostic {
-                        file: t.file.clone(),
-                        token: Some(t.name.clone()),
-                        rule_id: Some(self.id().to_string()),
-                        severity: Severity::Warning,
-                        message: format!(
-                            "Token '{}' references deprecated state '{state_name}' \
-                             on component '{component}' (deprecated since {version}); \
-                             update the reference or mark the token deprecated",
-                            t.name
-                        ),
-                        instance_path: Some("/name/state".to_string()),
-                        schema_path: None,
-                    });
+                    if let Some(version) = dep_version {
+                        out.push(Diagnostic {
+                            file: t.file.clone(),
+                            token: Some(t.name.clone()),
+                            rule_id: Some(self.id().to_string()),
+                            severity: Severity::Warning,
+                            message: format!(
+                                "Token '{}' references deprecated state '{state_name}' \
+                                 on component '{component}' (deprecated since {version}); \
+                                 update the reference or mark the token deprecated",
+                                t.name
+                            ),
+                            instance_path: Some("/name/state".to_string()),
+                            schema_path: None,
+                        });
+                    }
                 }
             }
 
@@ -257,7 +262,7 @@ mod tests {
     #[test]
     fn non_deprecated_state_no_warning() {
         let diags = run(
-            json!({"name": {"component": "button", "state": "hover", "property": "background-color"}, "value": "#eee"}),
+            json!({"name": {"component": "button", "state": ["hover"], "property": "background-color"}, "value": "#eee"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
@@ -266,7 +271,7 @@ mod tests {
     #[test]
     fn deprecated_state_warns() {
         let diags = run(
-            json!({"name": {"component": "button", "state": "pressed", "property": "background-color"}, "value": "#ccc"}),
+            json!({"name": {"component": "button", "state": ["pressed"], "property": "background-color"}, "value": "#ccc"}),
             json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
         );
         assert_eq!(diags.len(), 1);
@@ -336,7 +341,7 @@ mod tests {
         // deprecated: false is not a string — must NOT suppress the warning.
         let diags = run(
             json!({
-                "name": {"component": "button", "state": "pressed", "property": "background-color"},
+                "name": {"component": "button", "state": ["pressed"], "property": "background-color"},
                 "value": "#ccc",
                 "deprecated": false
             }),
@@ -362,7 +367,7 @@ mod tests {
     fn multiple_cascades_in_one_token() {
         // Token references both a deprecated anatomy part and a deprecated state — two warnings.
         let diags = run(
-            json!({"name": {"component": "slider", "anatomy": "handle", "state": "pressed", "property": "color"}, "value": "#000"}),
+            json!({"name": {"component": "slider", "anatomy": "handle", "state": ["pressed"], "property": "color"}, "value": "#000"}),
             json!({
                 "name": "slider",
                 "anatomy": [{"name": "handle", "lifecycle": {"deprecated": "1.0.0-draft"}}],

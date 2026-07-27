@@ -3,7 +3,7 @@
   "type": "state",
   "description": "Interaction states for components",
   "allowCustom": true,
-  "customPattern": "^[a-z][a-z0-9-]*(\\s\\+\\s[a-z][a-z0-9-]*)*$",
+  "customPattern": "^[a-z][a-z0-9-]*$",
   "values": [
     {
       "id": "default",

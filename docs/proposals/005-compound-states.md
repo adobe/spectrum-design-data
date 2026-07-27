@@ -1,6 +1,6 @@
 # Proposal 005: Compound States
 
-**Status:** Accepted — implemented for the `color-aliases.json` instances (dsi.9); the `color-component.json` instances (`stack-item-selected-background-color-*`, `table-selected-row-background-*`) are tracked separately under dsi.11.\
+**Status:** Superseded by [Proposal 006](006-compound-states-as-array.md) — the hyphenated-string encoding below shipped for the `color-aliases.json` instances (dsi.9) and the `color-component.json` instances (`stack-item-selected-background-color-*`, `table-selected-row-background-*`, tracked under dsi.11), but proved undecomposable (state ids like `keyboard-focus` themselves contain a hyphen, so a compound value can't be split back into its parts without guessing) and re-fused the concepts Epic 284 exists to pull apart. Proposal 006 replaces the string with an ordered array holding the same content.\
 **Affects:** 13 active tokens in `color-aliases.json`, `color-component.json`\
 **Spec reference:** taxonomy.md — state field definition
 

@@ -19,7 +19,7 @@
     {
       "name": {
         "component": "button",
-        "state": "hover",
+        "state": ["hover"],
         "property": "background-color"
       },
       "value": "#0255be"

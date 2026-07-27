@@ -245,8 +245,11 @@ fn decomposed_name_val(parsed: &naming::NameObject) -> Value {
         name.insert("component".into(), Value::String(c.clone()));
     }
     name.insert("property".into(), Value::String(parsed.property.clone()));
-    if let Some(s) = &parsed.state {
-        name.insert("state".into(), Value::String(s.clone()));
+    if let Some(states) = &parsed.state {
+        name.insert(
+            "state".into(),
+            Value::Array(states.iter().cloned().map(Value::String).collect()),
+        );
     }
     Value::Object(name)
 }
@@ -1223,7 +1226,7 @@ mod tests {
         let forced = HashSet::new();
         let ctx = empty_ctx(&sidecar, &forced);
         let tok = obj(json!({
-            "name": {"component": "button", "property": "background-color", "state": "hover"},
+            "name": {"component": "button", "property": "background-color", "state": ["hover"]},
             "uuid": "0000"
         }));
         let (name, kind) = resolve_name("button-background-color-hover", &tok, &ctx);
@@ -1275,7 +1278,7 @@ mod tests {
         assert_eq!(kind, NameKind::Decomposed);
         assert_eq!(name["component"], "button");
         assert_eq!(name["property"], "background-color");
-        assert_eq!(name["state"], "hover");
+        assert_eq!(name["state"], json!(["hover"]));
     }
 
     #[test]

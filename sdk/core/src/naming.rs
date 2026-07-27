@@ -80,8 +80,10 @@ pub struct NameObject {
     pub component: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub variant: Option<String>,
+    /// Ordered array of atomic state ids (Proposal 006). A compound state lists
+    /// the mode-state before the interaction-state, e.g. `["selected", "hover"]`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub state: Option<String>,
+    pub state: Option<Vec<String>>,
 }
 
 /// Generate the canonical legacy name from a [`NameObject`].
@@ -91,7 +93,7 @@ pub struct NameObject {
 ///    the field-catalog serialization order in `extract_legacy_key`).
 /// 2. If `component` is present, emit `{component}-`.
 /// 3. Always emit `{property}`.
-/// 4. If `state` is present, append `-{state}`.
+/// 4. If `state` is present, append each ordered element as `-{state}`.
 pub fn generate_legacy_name(obj: &NameObject) -> String {
     let mut parts: Vec<&str> = Vec::new();
     if let Some(v) = &obj.variant {
@@ -101,8 +103,8 @@ pub fn generate_legacy_name(obj: &NameObject) -> String {
         parts.push(c);
     }
     parts.push(&obj.property);
-    if let Some(s) = &obj.state {
-        parts.push(s);
+    if let Some(states) = &obj.state {
+        parts.extend(states.iter().map(String::as_str));
     }
     parts.join("-")
 }
@@ -132,7 +134,7 @@ pub fn parse_legacy_name(key: &str, component_hint: Option<&str>) -> NameObject 
         property: property.to_string(),
         component: component_hint.map(str::to_string),
         variant: variant.map(str::to_string),
-        state: state.map(str::to_string),
+        state: state.map(|s| vec![s.to_string()]),
     }
 }
 
@@ -321,8 +323,8 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         if let Some(cr) = color_role {
             parts.push(cr.to_string());
         }
-        if let Some(st) = name.get("state").and_then(|v| v.as_str()) {
-            parts.push(st.to_string());
+        if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+            parts.extend(states.iter().filter_map(|s| s.as_str()).map(str::to_string));
         }
         return Some(parts.join("-"));
     }
@@ -361,8 +363,8 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
             parts.push(i.to_string());
         }
-        if let Some(st) = name.get("state").and_then(|v| v.as_str()) {
-            parts.push(st.to_string());
+        if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+            parts.extend(states.iter().filter_map(|s| s.as_str()).map(str::to_string));
         }
         return Some(parts.join("-"));
     }
@@ -423,6 +425,17 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
                     parts.push(format!("{f_expanded}-to-{t_expanded}"));
                     continue;
                 }
+                // `state` (Proposal 006) is an ordered array of atomic ids, not a
+                // single string like every other catalog field.
+                if entry.name == "state" {
+                    if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+                        for s in states.iter().filter_map(|v| v.as_str()) {
+                            let expanded = registry.token_name("state", s).unwrap_or(s);
+                            parts.push(expanded.to_string());
+                        }
+                    }
+                    continue;
+                }
                 if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
                     let expanded = registry.token_name(entry.name, v).unwrap_or(v);
                     parts.push(expanded.to_string());
@@ -479,6 +492,17 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
 
     for entry in catalog.entries_by_position() {
         if entry.exclude_from_legacy_key {
+            continue;
+        }
+        // `state` (Proposal 006) is an ordered array of atomic ids, not a single
+        // string like every other catalog field — walk its elements in order.
+        if entry.name == "state" {
+            if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+                for s in states.iter().filter_map(|v| v.as_str()) {
+                    let expanded = registry.token_name("state", s).unwrap_or(s);
+                    parts.push(expanded.to_string());
+                }
+            }
             continue;
         }
         if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
@@ -598,7 +622,7 @@ mod tests {
         let obj = parse_legacy_name("menu-item-background-color-hover", Some("menu-item"));
         assert_eq!(obj.component.as_deref(), Some("menu-item"));
         assert_eq!(obj.property, "background-color");
-        assert_eq!(obj.state.as_deref(), Some("hover"));
+        assert_eq!(obj.state.as_deref(), Some(&["hover".to_string()][..]));
         assert!(roundtrips(
             "menu-item-background-color-hover",
             Some("menu-item")
@@ -620,7 +644,10 @@ mod tests {
             "menu-item-background-color-keyboard-focus",
             Some("menu-item"),
         );
-        assert_eq!(obj.state.as_deref(), Some("keyboard-focus"));
+        assert_eq!(
+            obj.state.as_deref(),
+            Some(&["keyboard-focus".to_string()][..])
+        );
         assert_eq!(obj.property, "background-color");
         assert!(roundtrips(
             "menu-item-background-color-keyboard-focus",
@@ -651,7 +678,7 @@ mod tests {
     fn foundation_with_trailing_state() {
         let obj = parse_legacy_name("accent-background-color-default", None);
         assert_eq!(obj.property, "accent-background-color");
-        assert_eq!(obj.state.as_deref(), Some("default"));
+        assert_eq!(obj.state.as_deref(), Some(&["default".to_string()][..]));
         assert!(roundtrips("accent-background-color-default", None));
     }
 
@@ -694,7 +721,8 @@ mod tests {
     #[test]
     fn extract_key_decomposed_component_property_state() {
         // General / decomposed format: generate_legacy_name path.
-        let name = json!({"component": "button", "property": "background-color", "state": "hover"});
+        let name =
+            json!({"component": "button", "property": "background-color", "state": ["hover"]});
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("button-background-color-hover")
@@ -736,7 +764,7 @@ mod tests {
     #[test]
     fn extract_key_no_property_no_color_family_returns_none() {
         // Object with neither property nor colorFamily → None.
-        let name = json!({"state": "hover"});
+        let name = json!({"state": ["hover"]});
         assert_eq!(extract_legacy_key(&name), None);
     }
 
@@ -782,7 +810,7 @@ mod tests {
             "component": "accordion",
             "property": "bottom-to-handle",
             "size": "xl",
-            "state": "hover"
+            "state": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -801,7 +829,7 @@ mod tests {
             "from": "bottom",
             "to": "handle",
             "size": "xl",
-            "state": "hover"
+            "state": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -946,7 +974,7 @@ mod tests {
             "property": "color",
             "colorFamily": "blue",
             "colorRole": "primary",
-            "state": "default"
+            "state": ["default"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -975,7 +1003,7 @@ mod tests {
             "component": "icon",
             "property": "color",
             "colorRole": "primary",
-            "state": "default"
+            "state": ["default"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -1022,7 +1050,7 @@ mod tests {
 
     #[test]
     fn extract_key_icon_non_color_with_state() {
-        let name = json!({"icon": "checkmark", "property": "size", "state": "hover"});
+        let name = json!({"icon": "checkmark", "property": "size", "state": ["hover"]});
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("checkmark-icon-size-hover")
@@ -1071,7 +1099,7 @@ mod tests {
             "icon": "checkmark",
             "property": "size",
             "scaleIndex": 75,
-            "state": "hover"
+            "state": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),

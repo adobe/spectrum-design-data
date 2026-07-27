@@ -20,7 +20,7 @@
     {
       "name": {
         "component": "button",
-        "state": "hover",
+        "state": ["hover"],
         "property": "background-color"
       },
       "value": "#eeeeee"
@@ -28,7 +28,7 @@
     {
       "name": {
         "component": "button",
-        "state": "pressed",
+        "state": ["pressed"],
         "property": "background-color"
       },
       "value": "#cccccc",

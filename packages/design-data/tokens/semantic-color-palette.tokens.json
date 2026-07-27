@@ -164,7 +164,7 @@
       "colorRole": "accent",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "accent-subtle-background-color-default"
     },
@@ -179,7 +179,7 @@
       "colorRole": "accent",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "accent-subtle-background-color-default"
     },
@@ -194,7 +194,7 @@
       "colorRole": "accent",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "accent-subtle-background-color-default"
     },
@@ -414,7 +414,7 @@
       "colorRole": "informative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "informative-subtle-background-color-default"
     },
@@ -429,7 +429,7 @@
       "colorRole": "informative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "informative-subtle-background-color-default"
     },
@@ -444,7 +444,7 @@
       "colorRole": "informative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "informative-subtle-background-color-default"
     },
@@ -619,7 +619,7 @@
       "colorRole": "negative",
       "variant": "subdued",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "negative-subdued-background-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -632,7 +632,7 @@
       "colorRole": "negative",
       "variant": "subdued",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "legacyKey": "negative-subdued-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -645,7 +645,7 @@
       "colorRole": "negative",
       "variant": "subdued",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "negative-subdued-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -658,7 +658,7 @@
       "colorRole": "negative",
       "variant": "subdued",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "negative-subdued-background-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -671,7 +671,7 @@
       "colorRole": "negative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "negative-subtle-background-color-default"
     },
@@ -686,7 +686,7 @@
       "colorRole": "negative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "negative-subtle-background-color-default"
     },
@@ -701,7 +701,7 @@
       "colorRole": "negative",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "negative-subtle-background-color-default"
     },
@@ -876,7 +876,7 @@
       "colorRole": "notice",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "notice-subtle-background-color-default"
     },
@@ -891,7 +891,7 @@
       "colorRole": "notice",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "notice-subtle-background-color-default"
     },
@@ -906,7 +906,7 @@
       "colorRole": "notice",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "notice-subtle-background-color-default"
     },
@@ -1081,7 +1081,7 @@
       "colorRole": "positive",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "positive-subtle-background-color-default"
     },
@@ -1096,7 +1096,7 @@
       "colorRole": "positive",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "positive-subtle-background-color-default"
     },
@@ -1111,7 +1111,7 @@
       "colorRole": "positive",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "positive-subtle-background-color-default"
     },

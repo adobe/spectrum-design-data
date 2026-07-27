@@ -26,7 +26,7 @@ test("decomposes simple variant-object-property-state token", (t) => {
   t.is(result.nameObject.variant, "accent");
   t.is(result.nameObject.object, "edge");
   t.is(result.nameObject.property, "color");
-  t.is(result.nameObject.state, "default");
+  t.deepEqual(result.nameObject.state, ["default"]);
   t.is(result.confidence, "HIGH");
   t.true(result.roundtrips);
 });
@@ -226,7 +226,7 @@ test("matches key-focus as keyboard-focus state", (t) => {
     registry,
     "test",
   );
-  t.is(result.nameObject.state, "keyboard-focus");
+  t.deepEqual(result.nameObject.state, ["keyboard-focus"]);
 });
 
 test("matches with-stepper as has-stepper qualifier", (t) => {
@@ -247,7 +247,7 @@ test("serializes name object in spec order", (t) => {
     component: "button",
     object: "background",
     property: "color",
-    state: "hover",
+    state: ["hover"],
   };
   t.is(serialize(nameObj), "accent-button-background-color-hover");
 });
@@ -433,7 +433,7 @@ test("serialize() reconstructs the -to- connective for a space-between name", (t
       from: "bottom",
       to: "handle",
       size: "xl",
-      state: "hover",
+      state: ["hover"],
     },
     registry.tokenNameMap,
     registry.serializationOrder,
@@ -467,7 +467,7 @@ test("decomposes an icon size-N token and splits the scaleIndex (dsi.6 icon foll
 
 test("serialize() reconstructs an icon size-N key with state", (t) => {
   const legacyKey = serialize(
-    { icon: "checkmark", property: "size", scaleIndex: 75, state: "hover" },
+    { icon: "checkmark", property: "size", scaleIndex: 75, state: ["hover"] },
     registry.tokenNameMap,
     registry.serializationOrder,
   );

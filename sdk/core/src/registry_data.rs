@@ -2395,7 +2395,7 @@ const STATES_JSON: &str = r##"{
   "type": "state",
   "description": "Interaction states for components",
   "allowCustom": true,
-  "customPattern": "^[a-z][a-z0-9-]*(\\s\\+\\s[a-z][a-z0-9-]*)*$",
+  "customPattern": "^[a-z][a-z0-9-]*$",
   "values": [
     {
       "id": "default",
@@ -3273,7 +3273,7 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
         FieldCatalogEntry { name: "size", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "density", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "shape", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "state", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "state", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "colorScheme", position: 16, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "scale", position: 17, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "contrast", position: 18, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },

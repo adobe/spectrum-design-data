@@ -55,25 +55,25 @@ The table below lists all semantic fields. Fields marked with a scope are domain
 
 **Universal semantic fields** (`scope: null` — apply to all token types):
 
-| Field          | Status   | Taxonomy category | Description                                                                                                                                                              |
-| -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `property`     | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                         |
-| `component`    | OPTIONAL | Component         | Component name when the token is component-scoped.                                                                                                                       |
-| `structure`    | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`.                                                   |
-| `substructure` | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).                                                                                   |
-| `anatomy`      | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy).        |
-| `object`       | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces). |
-| `variant`      | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                                                                                                       |
-| `state`        | OPTIONAL | State             | Interactive or semantic state (e.g. `hover`, `focus`, `disabled`).                                                                                                       |
-| `orientation`  | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                                                                                           |
-| `position`     | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                                                                                              |
-| `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                               |
-| `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                     |
-| `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                    |
-| `role`         | OPTIONAL | Role              | An object's role within a nesting relationship (e.g. `container`, `control`), distinct from `size`.                                                                      |
-| `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.        |
-| `from`         | OPTIONAL | —                 | Starting endpoint of a `space-between` measurement (e.g. `top`, `edge`, `text`). See [Space-between endpoints](#space-between-endpoints).                                |
-| `to`           | OPTIONAL | —                 | Ending endpoint of a `space-between` measurement (e.g. `text`, `visual`, `control`). See [Space-between endpoints](#space-between-endpoints).                            |
+| Field          | Status   | Taxonomy category | Description                                                                                                                                                                           |
+| -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `property`     | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                                      |
+| `component`    | OPTIONAL | Component         | Component name when the token is component-scoped.                                                                                                                                    |
+| `structure`    | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`.                                                                |
+| `substructure` | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).                                                                                                |
+| `anatomy`      | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy).                     |
+| `object`       | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces).              |
+| `variant`      | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                                                                                                                    |
+| `state`        | OPTIONAL | State             | Ordered array of one or more interactive or semantic states (e.g. `["hover"]`, `["selected", "hover"]`). See [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md). |
+| `orientation`  | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                                                                                                        |
+| `position`     | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                                                                                                           |
+| `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                                            |
+| `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                                  |
+| `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                                 |
+| `role`         | OPTIONAL | Role              | An object's role within a nesting relationship (e.g. `container`, `control`), distinct from `size`.                                                                                   |
+| `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.                     |
+| `from`         | OPTIONAL | —                 | Starting endpoint of a `space-between` measurement (e.g. `top`, `edge`, `text`). See [Space-between endpoints](#space-between-endpoints).                                             |
+| `to`           | OPTIONAL | —                 | Ending endpoint of a `space-between` measurement (e.g. `text`, `visual`, `control`). See [Space-between endpoints](#space-between-endpoints).                                         |
 
 #### Space-between endpoints
 
@@ -122,7 +122,7 @@ When **`$ref`** is present, the token is an **alias**. The value **MUST** be a n
 
 ```json
 // Cascade canonical form (recommended) — the UUID is stable across renames.
-{ "name": { "property": "accent-background-color", "state": "default", "colorScheme": "dark" },
+{ "name": { "property": "accent-background-color", "state": ["default"], "colorScheme": "dark" },
   "$schema": "…/alias.json",
   "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
   "uuid": "f24eb871-6419-4cef-88a2-cca8548ae31e" }
