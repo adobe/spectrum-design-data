@@ -48,8 +48,13 @@
           "description": "Semantic: variant within a component (e.g. accent, negative, primary)."
         },
         "state": {
-          "type": "string",
-          "description": "Semantic: interactive or semantic state (e.g. hover, focus, disabled)."
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1,
+          "description": "Semantic: interactive or semantic state, as an ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
         },
         "qualifier": {
           "type": "string",

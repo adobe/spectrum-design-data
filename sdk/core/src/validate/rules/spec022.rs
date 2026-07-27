@@ -44,7 +44,9 @@ impl ValidationRule for Rule {
             let Some(component) = name_obj.get("component").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let Some(state) = name_obj.get("state").and_then(|v| v.as_str()) else {
+            // Proposal 006: `state` is an ordered array of atomic ids. Every
+            // element must be a declared state on the referenced component.
+            let Some(states) = name_obj.get("state").and_then(|v| v.as_array()) else {
                 continue;
             };
             let Some(comp) = comp_map.get(component) else {
@@ -62,19 +64,25 @@ impl ValidationRule for Rule {
                 })
                 .unwrap_or_default();
 
-            if !declared_states.is_empty() && !declared_states.contains(state) {
-                let token_label = serde_json::to_string(name_obj).unwrap_or_default();
-                out.push(Diagnostic {
-                    file: t.file.clone(),
-                    token: Some(t.name.clone()),
-                    rule_id: Some(self.id().to_string()),
-                    severity: Severity::Error,
-                    message: format!(
-                        "Token '{token_label}' references undeclared state '{state}' on component '{component}'"
-                    ),
-                    instance_path: None,
-                    schema_path: None,
-                });
+            if declared_states.is_empty() {
+                continue;
+            }
+
+            for state in states.iter().filter_map(|s| s.as_str()) {
+                if !declared_states.contains(state) {
+                    let token_label = serde_json::to_string(name_obj).unwrap_or_default();
+                    out.push(Diagnostic {
+                        file: t.file.clone(),
+                        token: Some(t.name.clone()),
+                        rule_id: Some(self.id().to_string()),
+                        severity: Severity::Error,
+                        message: format!(
+                            "Token '{token_label}' references undeclared state '{state}' on component '{component}'"
+                        ),
+                        instance_path: None,
+                        schema_path: None,
+                    });
+                }
             }
         }
 
@@ -141,7 +149,7 @@ mod tests {
     #[test]
     fn declared_state_no_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": "hover"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "state": ["hover"]}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
@@ -150,7 +158,7 @@ mod tests {
     #[test]
     fn undeclared_state_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": "jello"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "state": ["jello"]}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert_eq!(diags.len(), 1);
@@ -162,7 +170,7 @@ mod tests {
     #[test]
     fn no_states_declared_no_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": "anything"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "state": ["anything"]}, "value": "#fff"}),
             json!({"name": "button"}),
         );
         assert!(diags.is_empty());

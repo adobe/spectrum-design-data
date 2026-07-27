@@ -78,11 +78,12 @@ fn optional_component() -> impl Strategy<Value = Option<String>> {
     .prop_map(|o| o.map(str::to_string))
 }
 
-/// Generate an optional state word (drawn directly from the known set).
-fn optional_state() -> impl Strategy<Value = Option<String>> {
+/// Generate an optional state array (drawn directly from the known set).
+fn optional_state() -> impl Strategy<Value = Option<Vec<String>>> {
     // Sample from non-compound states only; compound states like "key-focus"
     // and "keyboard-focus" interact with the two-segment rmatch logic and are
-    // better tested as dedicated unit tests.
+    // better tested as dedicated unit tests. Proposal 006: `state` is always
+    // an array, so a single sampled state becomes a one-element vec.
     prop::option::of(prop::sample::select(vec![
         "default",
         "hover",
@@ -98,7 +99,7 @@ fn optional_state() -> impl Strategy<Value = Option<String>> {
         "closed",
         "indeterminate",
     ]))
-    .prop_map(|o| o.map(str::to_string))
+    .prop_map(|o| o.map(|s| vec![s.to_string()]))
 }
 
 // ── Properties ────────────────────────────────────────────────────────────────

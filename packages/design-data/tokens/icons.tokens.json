@@ -45,7 +45,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -60,7 +60,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -75,7 +75,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -90,7 +90,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -105,7 +105,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -120,7 +120,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -135,7 +135,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -150,7 +150,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -165,7 +165,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "blue"
@@ -222,7 +222,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -237,7 +237,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -252,7 +252,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -267,7 +267,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -282,7 +282,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -297,7 +297,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -312,7 +312,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -327,7 +327,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -342,7 +342,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "brown"
@@ -399,7 +399,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -414,7 +414,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -429,7 +429,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -444,7 +444,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -459,7 +459,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -474,7 +474,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -489,7 +489,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -504,7 +504,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -519,7 +519,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "celery"
@@ -576,7 +576,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -591,7 +591,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -606,7 +606,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -621,7 +621,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -636,7 +636,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -651,7 +651,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -666,7 +666,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -681,7 +681,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -696,7 +696,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "chartreuse"
@@ -753,7 +753,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorRole": "primary",
       "colorFamily": "cinnamon"
     },
@@ -765,7 +765,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorRole": "primary",
       "colorFamily": "cinnamon"
     },
@@ -777,7 +777,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorRole": "primary",
       "colorFamily": "cinnamon"
     },
@@ -831,7 +831,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorRole": "primary",
       "colorFamily": "cyan"
     },
@@ -843,7 +843,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorRole": "primary",
       "colorFamily": "cyan"
     },
@@ -855,7 +855,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorRole": "primary",
       "colorFamily": "cyan"
     },
@@ -898,7 +898,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -913,7 +913,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -928,7 +928,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -943,7 +943,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -958,7 +958,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -973,7 +973,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -988,7 +988,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -1003,7 +1003,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -1018,7 +1018,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "fuchsia"
@@ -1075,7 +1075,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorRole": "primary",
       "colorFamily": "green"
     },
@@ -1087,7 +1087,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorRole": "primary",
       "colorFamily": "green"
     },
@@ -1099,7 +1099,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorRole": "primary",
       "colorFamily": "green"
     },
@@ -1153,7 +1153,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1168,7 +1168,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1183,7 +1183,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1198,7 +1198,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1213,7 +1213,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1228,7 +1228,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1243,7 +1243,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1258,7 +1258,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1273,7 +1273,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "indigo"
@@ -1322,7 +1322,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1337,7 +1337,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1352,7 +1352,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1367,7 +1367,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1382,7 +1382,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1397,7 +1397,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1412,7 +1412,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1427,7 +1427,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1442,7 +1442,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "magenta"
@@ -1499,7 +1499,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1514,7 +1514,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1529,7 +1529,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1544,7 +1544,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1559,7 +1559,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1574,7 +1574,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1589,7 +1589,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1604,7 +1604,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1619,7 +1619,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "orange"
@@ -1645,7 +1645,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1660,7 +1660,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1675,7 +1675,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1690,7 +1690,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1705,7 +1705,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1720,7 +1720,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1735,7 +1735,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1750,7 +1750,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1765,7 +1765,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "pink"
@@ -1780,7 +1780,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorRole": "primary",
       "legacyKey": "icon-color-primary-default"
     },
@@ -1792,7 +1792,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorRole": "primary",
       "legacyKey": "icon-color-primary-down"
     },
@@ -1804,7 +1804,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorRole": "primary",
       "legacyKey": "icon-color-primary-hover"
     },
@@ -1827,7 +1827,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1842,7 +1842,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1857,7 +1857,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1872,7 +1872,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1887,7 +1887,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1902,7 +1902,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1917,7 +1917,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1932,7 +1932,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -1947,7 +1947,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "purple"
@@ -2004,7 +2004,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2019,7 +2019,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2034,7 +2034,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2049,7 +2049,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2064,7 +2064,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2079,7 +2079,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2094,7 +2094,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2109,7 +2109,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2124,7 +2124,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "red"
@@ -2181,7 +2181,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorRole": "primary",
       "colorFamily": "seafoam"
     },
@@ -2193,7 +2193,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorRole": "primary",
       "colorFamily": "seafoam"
     },
@@ -2205,7 +2205,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorRole": "primary",
       "colorFamily": "seafoam"
     },
@@ -2259,7 +2259,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2274,7 +2274,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2289,7 +2289,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2304,7 +2304,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2319,7 +2319,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2334,7 +2334,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2349,7 +2349,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2364,7 +2364,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2379,7 +2379,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "silver"
@@ -2436,7 +2436,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2451,7 +2451,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2466,7 +2466,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2481,7 +2481,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2496,7 +2496,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2511,7 +2511,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2526,7 +2526,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2541,7 +2541,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2556,7 +2556,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "turquoise"
@@ -2613,7 +2613,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2628,7 +2628,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2643,7 +2643,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2658,7 +2658,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2673,7 +2673,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2688,7 +2688,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2703,7 +2703,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2718,7 +2718,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "colorRole": "primary",
       "colorFamily": "yellow"
@@ -2733,7 +2733,7 @@
     "name": {
       "icon": "icon",
       "property": "color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "colorRole": "primary",
       "colorFamily": "yellow"

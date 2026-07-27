@@ -2098,7 +2098,7 @@
   {
     "name": {
       "property": "component-size-difference",
-      "state": "down"
+      "state": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-2px",
@@ -2107,7 +2107,7 @@
   {
     "name": {
       "property": "component-size-maximum-perspective",
-      "state": "down"
+      "state": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "96px",
@@ -2116,7 +2116,7 @@
   {
     "name": {
       "property": "component-size-minimum-perspective",
-      "state": "down"
+      "state": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -2125,7 +2125,7 @@
   {
     "name": {
       "property": "component-size-width-ratio",
-      "state": "down"
+      "state": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.3333,
@@ -2805,7 +2805,7 @@
   {
     "name": {
       "property": "corner-radius",
-      "state": "default",
+      "state": ["default"],
       "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2825,7 +2825,7 @@
   {
     "name": {
       "property": "corner-radius",
-      "state": "default",
+      "state": ["default"],
       "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2835,7 +2835,7 @@
   {
     "name": {
       "property": "corner-radius",
-      "state": "default",
+      "state": ["default"],
       "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2910,7 +2910,7 @@
   {
     "name": {
       "property": "corner-radius",
-      "state": "default",
+      "state": ["default"],
       "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3308,7 +3308,7 @@
       "property": "blur",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "drop-shadow-emphasized-default-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3320,7 +3320,7 @@
       "property": "x",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "drop-shadow-emphasized-default-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3332,7 +3332,7 @@
       "property": "y",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "drop-shadow-emphasized-default-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3344,7 +3344,7 @@
       "property": "blur",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "drop-shadow-emphasized-hover-blur"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3356,7 +3356,7 @@
       "property": "x",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "drop-shadow-emphasized-hover-x"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3368,7 +3368,7 @@
       "property": "y",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "drop-shadow-emphasized-hover-y"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

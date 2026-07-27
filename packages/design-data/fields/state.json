@@ -2,7 +2,7 @@
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
   "specVersion": "1.0.0-draft",
   "name": "state",
-  "description": "Interactive or semantic state (e.g. hover, focus, disabled, selected). Compound states use hyphenation (e.g. selected-hover).",
+  "description": "Interactive or semantic state (e.g. hover, focus, disabled, selected), as an ordered array of atomic state ids. Compound states list mode-state before interaction-state (e.g. [\"selected\", \"hover\"]).",
   "kind": "semantic",
   "registry": "packages/design-data/registry/states.json",
   "validation": "advisory",
@@ -11,5 +11,5 @@
   },
   "scope": null,
   "required": false,
-  "valueType": "string"
+  "valueType": "array"
 }

@@ -4278,7 +4278,7 @@
     "name": {
       "component": "card-horizontal",
       "property": "space-between",
-      "state": "default",
+      "state": ["default"],
       "from": "edge",
       "to": "content"
     },
@@ -4420,7 +4420,7 @@
     "name": {
       "component": "card",
       "property": "minimum-width",
-      "state": "default"
+      "state": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "100px",
@@ -6009,7 +6009,7 @@
     "name": {
       "component": "color-handle",
       "property": "size",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "scale": "desktop",
       "legacyKey": "color-handle-size-key-focus"
     },
@@ -6023,7 +6023,7 @@
     "name": {
       "component": "color-handle",
       "property": "size",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "scale": "mobile",
       "legacyKey": "color-handle-size-key-focus"
     },
@@ -22372,7 +22372,7 @@
     "name": {
       "component": "tree-view",
       "property": "space-between",
-      "state": "default",
+      "state": ["default"],
       "from": "item",
       "to": "item"
     },

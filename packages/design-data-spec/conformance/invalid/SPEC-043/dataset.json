@@ -4,7 +4,7 @@
       "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
       "name": {
         "property": "color",
-        "state": "hover"
+        "state": ["hover"]
       },
       "value": "#0265dc"
     },

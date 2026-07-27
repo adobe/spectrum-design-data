@@ -25,7 +25,10 @@
     "ferrograph": {
       "command": "ferrograph",
       "args": ["mcp"],
-      "cwd": "${PWD}/sdk"
+      "cwd": "${PWD}/sdk",
+      "env": {
+        "FERROGRAPH_DB": "${PWD}/sdk/.ferrograph"
+      }
     }
   }
 }

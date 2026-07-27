@@ -349,7 +349,7 @@ mod tests {
             Some(json!({
                 "property": "background-color",
                 "component": "button",
-                "state": "hover"
+                "state": ["hover"]
             })),
         );
         assert_eq!(s.display_name(), "button-background-color-hover");

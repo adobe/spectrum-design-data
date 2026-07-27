@@ -119,6 +119,7 @@ repo-relative paths):
 
 * **Scout** — fuzzy front door for the whole repo. Use for: semantic search over tokens/schemas/docs, cross-package references ("what uses this token?"), doc knowledge graph, "find code about X" across TS/JS/JSON/Rust.
 * **Ferrograph** — precise back end for `sdk/` Rust crates only. Use for: exact call graph, blast radius ("what breaks if I change this?"), dead code, ownership/`&`/`&mut`/`unsafe` edges, raw Datalog queries. Deterministic — no LLM tokens, no approximations.
+  * Its index lives at `sdk/.ferrograph` — there is no index at the repo root. The `ferrograph` MCP server already has `cwd` set to `sdk` in `.mcp.json`, so `mcp__ferrograph__*` tools resolve correctly out of the box. If invoking the `ferrograph` CLI directly (e.g. via Bash or the `/ferrograph` skill), `cd sdk` first — passing `.` from the repo root will report no index found.
 * **tuiwright** — TUI snapshot/headless testing for the product TUI. Requires a one-time install: `cargo install --path <path-to-tuiwright-source>/crates/tuiwright-mcp` (source at <https://github.com/GarthDB/tuiwright>).
 * **design-data** — query token/component data from the local SDK build via `@adobe/design-data-agent-mcp`.
 * **figma** — Figma desktop plugin bridge (must have the Figma desktop app running).

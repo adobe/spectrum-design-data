@@ -10,7 +10,7 @@
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$",
       "minLength": 1,
-      "description": "Kebab-case state identifier. Must match the value used in token name-object 'state' fields."
+      "description": "Kebab-case state identifier. Must match an element of the token name-object 'state' array."
     },
     "description": {
       "type": "string",

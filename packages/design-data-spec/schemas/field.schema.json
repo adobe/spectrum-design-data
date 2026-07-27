@@ -76,7 +76,7 @@
     },
     "valueType": {
       "type": "string",
-      "enum": ["string", "integer"],
+      "enum": ["string", "integer", "array"],
       "description": "Type of the field value. Default: 'string'.",
       "default": "string"
     },

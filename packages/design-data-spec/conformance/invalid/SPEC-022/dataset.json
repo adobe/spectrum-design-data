@@ -3,7 +3,7 @@
     {
       "name": {
         "component": "button",
-        "state": "jello",
+        "state": ["jello"],
         "property": "background-color"
       },
       "value": "#ff0000"
