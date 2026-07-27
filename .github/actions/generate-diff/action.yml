@@ -8,8 +8,8 @@ inputs:
   base-ref:
     description: "Base branch/ref for comparison"
     required: true
-  head-ref:
-    description: "Head branch/ref for comparison"
+  local-path:
+    description: "Local checkout path to compare against base-ref (avoids fetching the head branch, which may live in a fork)"
     required: true
   repository:
     description: "Repository name in owner/repo format"
@@ -66,20 +66,25 @@ runs:
         set +e  # Don't exit on command failure
 
         if [[ "${{ inputs.tool }}" == "diff-generator" ]]; then
-          # Token diff generator CLI
+          # Token diff generator CLI. Compares the base branch (fetched remotely
+          # from the base repo) against the already-checked-out local working
+          # tree, rather than fetching the head branch by name - the head
+          # branch lives in the contributor's fork for fork PRs and isn't
+          # reachable from the base repo.
           cd ./tools/${{ inputs.tool }}
           ./src/lib/cli.js report \
             --otb ${{ inputs.base-ref }} \
-            --ntb ${{ inputs.head-ref }} \
+            --local ${{ inputs.local-path }} \
             --repo ${{ inputs.repository }} \
             --format ${{ inputs.format }} \
             --output ${{ inputs.output-file }}
         elif [[ "${{ inputs.tool }}" == "component-diff-generator" ]]; then
-          # Component diff generator CLI with remote support
+          # Component diff generator CLI. Same local-vs-remote-base strategy
+          # as above, for the same fork-PR reason.
           cd ./tools/${{ inputs.tool }}
           node src/cli.js report \
             --osb ${{ inputs.base-ref }} \
-            --nsb ${{ inputs.head-ref }} \
+            --local ${{ inputs.local-path }} \
             --repo ${{ inputs.repository }} \
             --format ${{ inputs.format }} \
             --output ${{ inputs.output-file }} \

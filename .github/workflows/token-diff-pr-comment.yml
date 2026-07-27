@@ -1,5 +1,9 @@
-name: Token Diff PR Comment
+name: Token Diff Generate
 
+# Fork PRs get a read-only GITHUB_TOKEN on pull_request events no matter what
+# `permissions:` says, so report generation (here) and comment posting
+# (token-diff-pr-comment-post.yml, triggered by workflow_run) are split into
+# separate workflows. The artifact is the only thing that crosses the boundary.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -8,12 +12,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  token-diff-comment:
+  token-diff-generate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,18 +30,25 @@ jobs:
         with:
           tool: diff-generator
           base-ref: ${{ github.base_ref }}
-          head-ref: ${{ github.head_ref }}
+          local-path: packages/tokens/src
           repository: ${{ github.repository }}
           format: markdown
           output-file: /tmp/token-diff.md
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create or update PR comment
-        uses: ./.github/actions/diff-pr-comment
+      - name: Save report for comment workflow
+        run: |
+          mkdir -p /tmp/artifact
+          echo "${{ github.event.pull_request.number }}" > /tmp/artifact/pr-number.txt
+          echo "${{ steps.diff.outputs.diff-generated }}" > /tmp/artifact/diff-generated.txt
+          printf '%s' "${{ steps.diff.outputs.diff-content }}" > /tmp/artifact/diff-content.txt
+          if [ -f /tmp/token-diff.md ]; then
+            cp /tmp/token-diff.md /tmp/artifact/diff-report.md
+          fi
+
+      - name: Upload diff artifact
+        uses: actions/upload-artifact@v4
         with:
-          diff-type: token
-          diff-generated: ${{ steps.diff.outputs.diff-generated }}
-          diff-content: ${{ steps.diff.outputs.diff-content }}
-          diff-file-path: /tmp/token-diff.md
-          pr-number: ${{ github.event.pull_request.number }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: token-diff-report
+          path: /tmp/artifact
+          retention-days: 1

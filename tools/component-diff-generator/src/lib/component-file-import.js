@@ -327,7 +327,11 @@ export class ComponentLoader extends FileLoader {
 
     for (const filePath of allFiles) {
       try {
-        const fileData = await this.localFS.loadData([filePath]);
+        // getFiles() returns paths relative to the repo root (its glob cwd),
+        // but loadData() resolves paths relative to the process cwd
+        // (tools/component-diff-generator), so the "../../" prefix is needed
+        // to bridge the two.
+        const fileData = await this.localFS.loadData("../../", [filePath]);
         // Extract component name from file path
         const componentName = filePath.split("/").pop().replace(".json", "");
         result[componentName] = fileData;
