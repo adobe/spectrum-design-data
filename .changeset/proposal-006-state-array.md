@@ -19,5 +19,6 @@ hyphenated-compound encoding).
   migrated to array form (`"hover"` → `["hover"]`, `"selected-hover"` →
   `["selected", "hover"]`).
 - **sdk/core**: `NameObject.state` is `Option<Vec<String>>`; legacy-key
-  generation, validation rules, and the query engine updated for array state.
+  generation and validation rules updated for array state. Query filters
+  (`state=x`) now match any element of a compound array — see `spec/query.md`.
 - **tools/token-mapping-analyzer**: JS decomposer kept in parity with Rust.

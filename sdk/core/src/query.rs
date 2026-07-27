@@ -692,6 +692,29 @@ mod tests {
     }
 
     #[test]
+    fn filter_state_matches_any_element_of_compound_array() {
+        let g = make_graph(vec![
+            (
+                "btn-selected-hover",
+                json!({"name": {"property": "bg", "component": "button", "state": ["selected", "hover"]}, "value": "1"}),
+            ),
+            (
+                "btn-default",
+                json!({"name": {"property": "bg", "component": "button", "state": ["default"]}, "value": "2"}),
+            ),
+        ]);
+        let f = parse("state=hover").unwrap();
+        let results = filter(&g, &f);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].raw["value"], "1");
+
+        let f = parse("state!=hover").unwrap();
+        let results = filter(&g, &f);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].raw["value"], "2");
+    }
+
+    #[test]
     fn filter_or() {
         let g = make_graph(vec![
             (
