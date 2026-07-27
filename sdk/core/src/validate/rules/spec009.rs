@@ -20,26 +20,12 @@
 //! this check:
 //! - `colorScheme`, `scale`, `contrast` — mode-set fields, validated by SPEC-005/SPEC-008
 //!
-//! Per Proposal 005, `state` also accepts compound values (`{mode-state}-{interaction-state}`,
-//! e.g. `"selected-hover"`, `"selected-key-focus"`). A compound value that fails the
-//! whole-string registry lookup is checked segment-by-segment before warning.
-
-use std::collections::HashSet;
+//! Per Proposal 006, `state` is an ordered array of atomic state ids (e.g.
+//! `["selected", "hover"]`) rather than a single string — each element is checked
+//! against the registry independently.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
-
-/// Per Proposal 005, a compound state is `{mode-state}-{interaction-state}`.
-/// Since either segment (e.g. `keyboard-focus`) may itself contain a hyphen,
-/// try every hyphen boundary rather than assuming one fixed split point.
-/// Valid only if some split has both halves individually known to the registry.
-fn is_valid_compound_state(value: &str, registry_set: &HashSet<String>) -> bool {
-    value.match_indices('-').any(|(i, _)| {
-        let (mode_state, rest) = value.split_at(i);
-        let interaction_state = &rest[1..];
-        registry_set.contains(mode_state) && registry_set.contains(interaction_state)
-    })
-}
 
 pub struct Rule;
 
@@ -62,36 +48,43 @@ impl ValidationRule for Rule {
             };
 
             for &field in ctx.registry.advisory_fields() {
-                let value = match name_obj.get(field).and_then(|v| v.as_str()) {
-                    Some(v) => v,
-                    None => continue,
-                };
-
                 let registry_set = match ctx.registry.for_field(field) {
                     Some(s) => s,
                     None => continue,
                 };
 
-                if registry_set.contains(value) {
-                    continue;
-                }
+                // `state` (Proposal 006) is an ordered array of atomic ids; every
+                // other advisory field is a single string.
+                let values: Vec<&str> = if field == "state" {
+                    match name_obj.get(field).and_then(|v| v.as_array()) {
+                        Some(arr) => arr.iter().filter_map(|v| v.as_str()).collect(),
+                        None => continue,
+                    }
+                } else {
+                    match name_obj.get(field).and_then(|v| v.as_str()) {
+                        Some(v) => vec![v],
+                        None => continue,
+                    }
+                };
 
-                if field == "state" && is_valid_compound_state(value, registry_set) {
-                    continue;
-                }
+                for value in values {
+                    if registry_set.contains(value) {
+                        continue;
+                    }
 
-                diags.push(Diagnostic {
-                    file: record.file.clone(),
-                    token: Some(record.name.clone()),
-                    rule_id: Some("SPEC-009".into()),
-                    severity: Severity::Warning,
-                    message: format!(
-                        "name.{field} value \"{value}\" is not in the spectrum-design-data \
-                         registry/{field} vocabulary"
-                    ),
-                    instance_path: Some(format!("/name/{field}")),
-                    schema_path: None,
-                });
+                    diags.push(Diagnostic {
+                        file: record.file.clone(),
+                        token: Some(record.name.clone()),
+                        rule_id: Some("SPEC-009".into()),
+                        severity: Severity::Warning,
+                        message: format!(
+                            "name.{field} value \"{value}\" is not in the spectrum-design-data \
+                             registry/{field} vocabulary"
+                        ),
+                        instance_path: Some(format!("/name/{field}")),
+                        schema_path: None,
+                    });
+                }
             }
         }
 
@@ -138,7 +131,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": "hover"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "state": ["hover"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
@@ -215,7 +208,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": "selected-hover"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "state": ["selected", "hover"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
@@ -223,12 +216,11 @@ mod tests {
     #[test]
     fn compound_state_with_hyphenated_segment_no_warning() {
         // "keyboard-focus" (aliased as "key-focus") is itself a single registry
-        // value, so "selected-key-focus" must split as selected + key-focus,
-        // not selected + key + focus.
+        // value and stays a single array element — not split into "key" + "focus".
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": "selected-key-focus"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "state": ["selected", "key-focus"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
@@ -238,11 +230,11 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": "selected-nonexistent"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "state": ["selected", "nonexistent"]}, "value": "#fff"}),
         )]);
         let diags = diagnostics_for_rule(&g, "SPEC-009");
         assert_eq!(diags.len(), 1);
-        assert!(diags[0].message.contains("selected-nonexistent"));
+        assert!(diags[0].message.contains("nonexistent"));
     }
 
     #[test]
@@ -250,7 +242,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "component": "nope", "state": "nah"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "nope", "state": ["nah"]}, "value": "#fff"}),
         )]);
         let diags = diagnostics_for_rule(&g, "SPEC-009");
         assert_eq!(diags.len(), 2);

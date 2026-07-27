@@ -682,7 +682,7 @@ fn write_tables(db: &Database, graph: &TokenGraph, hash: u64) -> Result<(), Cach
         };
         let mut table = wtx.open_multimap_table(def)?;
         for (key, record) in &graph.tokens {
-            if let Some(value) = query::resolve_key(&record.raw, field) {
+            for value in query::resolve_key(&record.raw, field) {
                 table.insert(value.as_str(), key.as_str())?;
             }
         }

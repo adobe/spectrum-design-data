@@ -210,32 +210,46 @@ fn matches_expr(raw: &serde_json::Value, expr: &FilterExpr) -> bool {
 }
 
 /// Evaluate a single condition against a token's raw JSON.
+///
+/// A field can resolve to more than one value (Proposal 006: `state` is an
+/// ordered array), so `Eq` matches if *any* value matches, and `NotEq` matches
+/// if *no* value matches — this is also correct for the single-value case, and
+/// for a missing field (empty list): `Eq` → false, `NotEq` → true.
 fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
-    let field_value = resolve_key(raw, &cond.key);
+    let values = resolve_key(raw, &cond.key);
+    let any_match = values.iter().any(|v| glob_match(&cond.value, v));
 
-    match (&cond.op, field_value) {
-        (Operator::Eq, Some(actual)) => glob_match(&cond.value, &actual),
-        (Operator::Eq, None) => false,
-        (Operator::NotEq, Some(actual)) => !glob_match(&cond.value, &actual),
-        (Operator::NotEq, None) => true, // Missing field satisfies !=
+    match cond.op {
+        Operator::Eq => any_match,
+        Operator::NotEq => !any_match,
     }
 }
 
-/// Resolve a query key to the field value in a token's raw JSON.
-pub(crate) fn resolve_key(raw: &serde_json::Value, key: &str) -> Option<String> {
-    if NAME_OBJECT_KEYS.contains(&key) {
-        raw.get("name")
-            .and_then(|n| n.get(key))
-            .and_then(|v| v.as_str())
-            .map(String::from)
+/// Resolve a query key to the field's value(s) in a token's raw JSON.
+///
+/// Most name-object fields are a single string. `state` (Proposal 006) is an
+/// ordered array of atomic ids — handled generically here so any array-valued
+/// field resolves to each of its elements.
+pub(crate) fn resolve_key(raw: &serde_json::Value, key: &str) -> Vec<String> {
+    let field = if NAME_OBJECT_KEYS.contains(&key) {
+        raw.get("name").and_then(|n| n.get(key))
     } else if key == "uuid" {
-        raw.get("uuid").and_then(|v| v.as_str()).map(String::from)
+        raw.get("uuid")
     } else if key == "$schema" {
         raw.get("$schema")
-            .and_then(|v| v.as_str())
-            .map(String::from)
     } else {
         None
+    };
+
+    match field {
+        Some(v) if v.is_string() => v.as_str().map(String::from).into_iter().collect(),
+        Some(v) if v.is_array() => v
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter_map(|e| e.as_str().map(String::from))
+            .collect(),
+        _ => Vec::new(),
     }
 }
 
@@ -294,7 +308,7 @@ impl TokenIndex {
         let mut index = TokenIndex::default();
         for (graph_key, token) in &graph.tokens {
             for key in ALLOWED_KEYS {
-                if let Some(value) = resolve_key(&token.raw, key) {
+                for value in resolve_key(&token.raw, key) {
                     index.insert(key, &value, graph_key);
                 }
             }
@@ -346,7 +360,7 @@ impl TokenIndex {
 pub fn build_index(graph: &TokenGraph, key: &str) -> HashMap<String, Vec<String>> {
     let mut index: HashMap<String, Vec<String>> = HashMap::new();
     for (graph_key, token) in &graph.tokens {
-        if let Some(value) = resolve_key(&token.raw, key) {
+        for value in resolve_key(&token.raw, key) {
             index.entry(value).or_default().push(graph_key.clone());
         }
     }
@@ -372,7 +386,7 @@ pub fn facet_counts(
     let records = filter_with_index(graph, index, expr);
     let mut counts: HashMap<String, usize> = HashMap::new();
     for rec in records {
-        if let Some(value) = resolve_key(&rec.raw, field) {
+        for value in resolve_key(&rec.raw, field) {
             *counts.entry(value).or_insert(0) += 1;
         }
     }
@@ -661,7 +675,7 @@ mod tests {
         let g = make_graph(vec![
             (
                 "btn-hover",
-                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
             ),
             (
                 "btn-default",
@@ -669,12 +683,35 @@ mod tests {
             ),
             (
                 "chk-hover",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "3"}),
             ),
         ]);
         let f = parse("component=button,state=hover").unwrap();
         let results = filter(&g, &f);
         assert_eq!(results.len(), 1);
+    }
+
+    #[test]
+    fn filter_state_matches_any_element_of_compound_array() {
+        let g = make_graph(vec![
+            (
+                "btn-selected-hover",
+                json!({"name": {"property": "bg", "component": "button", "state": ["selected", "hover"]}, "value": "1"}),
+            ),
+            (
+                "btn-default",
+                json!({"name": {"property": "bg", "component": "button", "state": ["default"]}, "value": "2"}),
+            ),
+        ]);
+        let f = parse("state=hover").unwrap();
+        let results = filter(&g, &f);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].raw["value"], "1");
+
+        let f = parse("state!=hover").unwrap();
+        let results = filter(&g, &f);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].raw["value"], "2");
     }
 
     #[test]
@@ -815,15 +852,15 @@ mod tests {
         let g = make_graph(vec![
             (
                 "btn",
-                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
             ),
             (
                 "chk",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "2"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "2"}),
             ),
             (
                 "slider",
-                json!({"name": {"property": "bg", "component": "slider", "state": "default"}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "slider", "state": ["default"]}, "value": "3"}),
             ),
             (
                 "light",
@@ -949,15 +986,15 @@ mod tests {
         let g = make_graph(vec![
             (
                 "a",
-                json!({"name": {"property": "bg", "component": "button", "state": "hover"}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
             ),
             (
                 "b",
-                json!({"name": {"property": "bg", "component": "button", "state": "default"}, "value": "2"}),
+                json!({"name": {"property": "bg", "component": "button", "state": ["default"]}, "value": "2"}),
             ),
             (
                 "c",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": "hover"}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "3"}),
             ),
         ]);
         let idx = TokenIndex::build(&g);

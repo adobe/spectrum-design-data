@@ -3,7 +3,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "accent-background-color-default"
     },
@@ -17,7 +17,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-default"
     },
@@ -31,7 +31,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-default"
     },
@@ -45,7 +45,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "legacyKey": "accent-background-color-down"
     },
@@ -59,7 +59,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-down"
     },
@@ -73,7 +73,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-down"
     },
@@ -87,7 +87,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "legacyKey": "accent-background-color-hover"
     },
@@ -101,7 +101,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-hover"
     },
@@ -115,7 +115,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-hover"
     },
@@ -129,7 +129,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "light",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -143,7 +143,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "dark",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -157,7 +157,7 @@
     "name": {
       "colorRole": "accent",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "wireframe",
       "legacyKey": "accent-background-color-key-focus"
     },
@@ -171,7 +171,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "accent-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -182,7 +182,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "down",
+      "state": ["down"],
       "legacyKey": "accent-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -193,7 +193,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "accent-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -204,7 +204,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "accent-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -215,7 +215,7 @@
     "name": {
       "colorRole": "accent",
       "property": "content-color",
-      "state": "selected",
+      "state": ["selected"],
       "legacyKey": "accent-content-color-selected"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -364,7 +364,7 @@
   {
     "name": {
       "property": "opacity",
-      "state": "default",
+      "state": ["default"],
       "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -374,7 +374,7 @@
   {
     "name": {
       "property": "opacity",
-      "state": "down",
+      "state": ["down"],
       "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -384,7 +384,7 @@
   {
     "name": {
       "property": "opacity",
-      "state": "hover",
+      "state": ["hover"],
       "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -394,7 +394,7 @@
   {
     "name": {
       "property": "background-opacity",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "background-opacity-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -447,7 +447,7 @@
     "name": {
       "colorFamily": "blue",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "blue-background-color-default"
     },
@@ -461,7 +461,7 @@
     "name": {
       "colorFamily": "blue",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "blue-background-color-default"
     },
@@ -475,7 +475,7 @@
     "name": {
       "colorFamily": "blue",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "blue-background-color-default"
     },
@@ -490,7 +490,7 @@
       "colorFamily": "blue",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "blue-subtle-background-color-default"
     },
@@ -505,7 +505,7 @@
       "colorFamily": "blue",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "blue-subtle-background-color-default"
     },
@@ -520,7 +520,7 @@
       "colorFamily": "blue",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "blue-subtle-background-color-default"
     },
@@ -573,7 +573,7 @@
     "name": {
       "colorFamily": "brown",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "brown-background-color-default"
     },
@@ -587,7 +587,7 @@
     "name": {
       "colorFamily": "brown",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "brown-background-color-default"
     },
@@ -601,7 +601,7 @@
     "name": {
       "colorFamily": "brown",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "brown-background-color-default"
     },
@@ -616,7 +616,7 @@
       "colorFamily": "brown",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "brown-subtle-background-color-default"
     },
@@ -631,7 +631,7 @@
       "colorFamily": "brown",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "brown-subtle-background-color-default"
     },
@@ -646,7 +646,7 @@
       "colorFamily": "brown",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "brown-subtle-background-color-default"
     },
@@ -699,7 +699,7 @@
     "name": {
       "colorFamily": "celery",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "celery-background-color-default"
     },
@@ -713,7 +713,7 @@
     "name": {
       "colorFamily": "celery",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "celery-background-color-default"
     },
@@ -727,7 +727,7 @@
     "name": {
       "colorFamily": "celery",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "celery-background-color-default"
     },
@@ -742,7 +742,7 @@
       "colorFamily": "celery",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "celery-subtle-background-color-default"
     },
@@ -757,7 +757,7 @@
       "colorFamily": "celery",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "celery-subtle-background-color-default"
     },
@@ -772,7 +772,7 @@
       "colorFamily": "celery",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "celery-subtle-background-color-default"
     },
@@ -825,7 +825,7 @@
     "name": {
       "colorFamily": "chartreuse",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "chartreuse-background-color-default"
     },
@@ -839,7 +839,7 @@
     "name": {
       "colorFamily": "chartreuse",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "chartreuse-background-color-default"
     },
@@ -853,7 +853,7 @@
     "name": {
       "colorFamily": "chartreuse",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "chartreuse-background-color-default"
     },
@@ -868,7 +868,7 @@
       "colorFamily": "chartreuse",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "chartreuse-subtle-background-color-default"
     },
@@ -883,7 +883,7 @@
       "colorFamily": "chartreuse",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "chartreuse-subtle-background-color-default"
     },
@@ -898,7 +898,7 @@
       "colorFamily": "chartreuse",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "chartreuse-subtle-background-color-default"
     },
@@ -951,7 +951,7 @@
     "name": {
       "colorFamily": "cinnamon",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "cinnamon-background-color-default"
     },
@@ -965,7 +965,7 @@
     "name": {
       "colorFamily": "cinnamon",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "cinnamon-background-color-default"
     },
@@ -979,7 +979,7 @@
     "name": {
       "colorFamily": "cinnamon",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "cinnamon-background-color-default"
     },
@@ -994,7 +994,7 @@
       "colorFamily": "cinnamon",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "cinnamon-subtle-background-color-default"
     },
@@ -1009,7 +1009,7 @@
       "colorFamily": "cinnamon",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "cinnamon-subtle-background-color-default"
     },
@@ -1024,7 +1024,7 @@
       "colorFamily": "cinnamon",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "cinnamon-subtle-background-color-default"
     },
@@ -1077,7 +1077,7 @@
     "name": {
       "colorFamily": "cyan",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "cyan-background-color-default"
     },
@@ -1091,7 +1091,7 @@
     "name": {
       "colorFamily": "cyan",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "cyan-background-color-default"
     },
@@ -1105,7 +1105,7 @@
     "name": {
       "colorFamily": "cyan",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "cyan-background-color-default"
     },
@@ -1120,7 +1120,7 @@
       "colorFamily": "cyan",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "cyan-subtle-background-color-default"
     },
@@ -1135,7 +1135,7 @@
       "colorFamily": "cyan",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "cyan-subtle-background-color-default"
     },
@@ -1150,7 +1150,7 @@
       "colorFamily": "cyan",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "cyan-subtle-background-color-default"
     },
@@ -1202,7 +1202,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1212,7 +1212,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1222,7 +1222,7 @@
   {
     "name": {
       "property": "content-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-content-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1234,7 +1234,7 @@
       "variant": "static",
       "colorFamily": "black",
       "property": "background-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-black-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1246,7 +1246,7 @@
       "variant": "static",
       "colorFamily": "black",
       "property": "border-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-black-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1258,7 +1258,7 @@
       "variant": "static",
       "colorFamily": "black",
       "property": "content-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-black-content-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1270,7 +1270,7 @@
       "variant": "static",
       "colorFamily": "white",
       "property": "background-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-white-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1282,7 +1282,7 @@
       "variant": "static",
       "colorFamily": "white",
       "property": "border-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-white-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1294,7 +1294,7 @@
       "variant": "static",
       "colorFamily": "white",
       "property": "content-color",
-      "state": "disabled",
+      "state": ["disabled"],
       "legacyKey": "disabled-static-white-content-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1693,7 +1693,7 @@
       "property": "color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "drop-shadow-emphasized-default-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1704,7 +1704,7 @@
     "name": {
       "property": "drop-shadow",
       "variant": "emphasized",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "drop-shadow-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/drop-shadow.json",
@@ -1738,7 +1738,7 @@
       "property": "color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "drop-shadow-emphasized-hover-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -1750,7 +1750,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
@@ -1765,7 +1765,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
@@ -1780,7 +1780,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "legacyKey": "drop-shadow-emphasized-hover-key-color"
     },
@@ -1888,7 +1888,7 @@
     "name": {
       "colorFamily": "fuchsia",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "fuchsia-background-color-default"
     },
@@ -1902,7 +1902,7 @@
     "name": {
       "colorFamily": "fuchsia",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "fuchsia-background-color-default"
     },
@@ -1916,7 +1916,7 @@
     "name": {
       "colorFamily": "fuchsia",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "fuchsia-background-color-default"
     },
@@ -1931,7 +1931,7 @@
       "colorFamily": "fuchsia",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "fuchsia-subtle-background-color-default"
     },
@@ -1946,7 +1946,7 @@
       "colorFamily": "fuchsia",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "fuchsia-subtle-background-color-default"
     },
@@ -1961,7 +1961,7 @@
       "colorFamily": "fuchsia",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "fuchsia-subtle-background-color-default"
     },
@@ -2014,7 +2014,7 @@
     "name": {
       "colorFamily": "gray",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "gray-background-color-default"
     },
@@ -2028,7 +2028,7 @@
     "name": {
       "colorFamily": "gray",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "gray-background-color-default"
     },
@@ -2042,7 +2042,7 @@
     "name": {
       "colorFamily": "gray",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "gray-background-color-default"
     },
@@ -2057,7 +2057,7 @@
       "colorFamily": "gray",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "gray-subtle-background-color-default"
     },
@@ -2072,7 +2072,7 @@
       "colorFamily": "gray",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "gray-subtle-background-color-default"
     },
@@ -2087,7 +2087,7 @@
       "colorFamily": "gray",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "gray-subtle-background-color-default"
     },
@@ -2140,7 +2140,7 @@
     "name": {
       "colorFamily": "green",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "green-background-color-default"
     },
@@ -2154,7 +2154,7 @@
     "name": {
       "colorFamily": "green",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "green-background-color-default"
     },
@@ -2168,7 +2168,7 @@
     "name": {
       "colorFamily": "green",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "green-background-color-default"
     },
@@ -2183,7 +2183,7 @@
       "colorFamily": "green",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "green-subtle-background-color-default"
     },
@@ -2198,7 +2198,7 @@
       "colorFamily": "green",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "green-subtle-background-color-default"
     },
@@ -2213,7 +2213,7 @@
       "colorFamily": "green",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "green-subtle-background-color-default"
     },
@@ -2266,7 +2266,7 @@
     "name": {
       "colorFamily": "indigo",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "indigo-background-color-default"
     },
@@ -2280,7 +2280,7 @@
     "name": {
       "colorFamily": "indigo",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "indigo-background-color-default"
     },
@@ -2294,7 +2294,7 @@
     "name": {
       "colorFamily": "indigo",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "indigo-background-color-default"
     },
@@ -2309,7 +2309,7 @@
       "colorFamily": "indigo",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "indigo-subtle-background-color-default"
     },
@@ -2324,7 +2324,7 @@
       "colorFamily": "indigo",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "indigo-subtle-background-color-default"
     },
@@ -2339,7 +2339,7 @@
       "colorFamily": "indigo",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "indigo-subtle-background-color-default"
     },
@@ -2391,7 +2391,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "variant": "informative"
     },
@@ -2404,7 +2404,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "variant": "informative"
     },
@@ -2417,7 +2417,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "variant": "informative"
     },
@@ -2430,7 +2430,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "variant": "informative"
     },
@@ -2443,7 +2443,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "variant": "informative"
     },
@@ -2456,7 +2456,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "variant": "informative"
     },
@@ -2469,7 +2469,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "variant": "informative"
     },
@@ -2482,7 +2482,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "variant": "informative"
     },
@@ -2495,7 +2495,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "variant": "informative"
     },
@@ -2508,7 +2508,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "light",
       "legacyKey": "informative-background-color-key-focus",
       "variant": "informative"
@@ -2522,7 +2522,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "dark",
       "legacyKey": "informative-background-color-key-focus",
       "variant": "informative"
@@ -2536,7 +2536,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "wireframe",
       "legacyKey": "informative-background-color-key-focus",
       "variant": "informative"
@@ -2590,7 +2590,7 @@
     "name": {
       "colorFamily": "magenta",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "magenta-background-color-default"
     },
@@ -2604,7 +2604,7 @@
     "name": {
       "colorFamily": "magenta",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "magenta-background-color-default"
     },
@@ -2618,7 +2618,7 @@
     "name": {
       "colorFamily": "magenta",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "magenta-background-color-default"
     },
@@ -2633,7 +2633,7 @@
       "colorFamily": "magenta",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "magenta-subtle-background-color-default"
     },
@@ -2648,7 +2648,7 @@
       "colorFamily": "magenta",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "magenta-subtle-background-color-default"
     },
@@ -2663,7 +2663,7 @@
       "colorFamily": "magenta",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "magenta-subtle-background-color-default"
     },
@@ -2715,7 +2715,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "variant": "negative"
     },
@@ -2728,7 +2728,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "variant": "negative"
     },
@@ -2741,7 +2741,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "variant": "negative"
     },
@@ -2754,7 +2754,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "variant": "negative"
     },
@@ -2767,7 +2767,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "variant": "negative"
     },
@@ -2780,7 +2780,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "variant": "negative"
     },
@@ -2793,7 +2793,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "variant": "negative"
     },
@@ -2806,7 +2806,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "variant": "negative"
     },
@@ -2819,7 +2819,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "variant": "negative"
     },
@@ -2832,7 +2832,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "light",
       "legacyKey": "negative-background-color-key-focus",
       "variant": "negative"
@@ -2846,7 +2846,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "dark",
       "legacyKey": "negative-background-color-key-focus",
       "variant": "negative"
@@ -2860,7 +2860,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "wireframe",
       "legacyKey": "negative-background-color-key-focus",
       "variant": "negative"
@@ -2874,7 +2874,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "default",
+      "state": ["default"],
       "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2884,7 +2884,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "down",
+      "state": ["down"],
       "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2894,7 +2894,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "focus",
+      "state": ["focus"],
       "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2905,7 +2905,7 @@
     "name": {
       "colorRole": "negative",
       "property": "border-color",
-      "state": "focus-hover",
+      "state": ["focus-hover"],
       "legacyKey": "negative-border-color-focus-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2915,7 +2915,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "hover",
+      "state": ["hover"],
       "variant": "negative"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2925,7 +2925,7 @@
   {
     "name": {
       "property": "border-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "negative-border-color-key-focus",
       "variant": "negative"
     },
@@ -2937,7 +2937,7 @@
     "name": {
       "colorRole": "negative",
       "property": "content-color",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "negative-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2948,7 +2948,7 @@
     "name": {
       "colorRole": "negative",
       "property": "content-color",
-      "state": "down",
+      "state": ["down"],
       "legacyKey": "negative-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2959,7 +2959,7 @@
     "name": {
       "colorRole": "negative",
       "property": "content-color",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "negative-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -2969,7 +2969,7 @@
   {
     "name": {
       "property": "content-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "negative-content-color-key-focus",
       "variant": "negative"
     },
@@ -3019,7 +3019,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3029,7 +3029,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3039,7 +3039,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "variant": "neutral"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3049,7 +3049,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "neutral-background-color-key-focus",
       "variant": "neutral"
     },
@@ -3061,7 +3061,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "background-color",
-      "state": "selected-default",
+      "state": ["selected", "default"],
       "legacyKey": "neutral-background-color-selected-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3072,7 +3072,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "background-color",
-      "state": "selected-down",
+      "state": ["selected", "down"],
       "legacyKey": "neutral-background-color-selected-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3083,7 +3083,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "background-color",
-      "state": "selected-hover",
+      "state": ["selected", "hover"],
       "legacyKey": "neutral-background-color-selected-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3094,7 +3094,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "background-color",
-      "state": "selected-key-focus",
+      "state": ["selected-key-focus"],
       "legacyKey": "neutral-background-color-selected-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3105,7 +3105,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "content-color",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "neutral-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3116,7 +3116,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "content-color",
-      "state": "down",
+      "state": ["down"],
       "legacyKey": "neutral-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3127,7 +3127,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "content-color",
-      "state": "focus",
+      "state": ["focus"],
       "legacyKey": "neutral-content-color-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3138,7 +3138,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "content-color",
-      "state": "focus-hover",
+      "state": ["focus-hover"],
       "legacyKey": "neutral-content-color-focus-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3149,7 +3149,7 @@
     "name": {
       "colorRole": "neutral",
       "property": "content-color",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "neutral-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3159,7 +3159,7 @@
   {
     "name": {
       "property": "content-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "neutral-content-color-key-focus",
       "variant": "neutral"
     },
@@ -3172,7 +3172,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "neutral-subdued-background-color-default"
     },
@@ -3187,7 +3187,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "neutral-subdued-background-color-default"
     },
@@ -3202,7 +3202,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subdued-background-color-default"
     },
@@ -3217,7 +3217,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "legacyKey": "neutral-subdued-background-color-down"
     },
@@ -3232,7 +3232,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "legacyKey": "neutral-subdued-background-color-down"
     },
@@ -3247,7 +3247,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subdued-background-color-down"
     },
@@ -3262,7 +3262,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "legacyKey": "neutral-subdued-background-color-hover"
     },
@@ -3277,7 +3277,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "legacyKey": "neutral-subdued-background-color-hover"
     },
@@ -3292,7 +3292,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subdued-background-color-hover"
     },
@@ -3307,7 +3307,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "light",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3322,7 +3322,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "dark",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3337,7 +3337,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subdued-background-color-key-focus"
     },
@@ -3352,7 +3352,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "default",
+      "state": ["default"],
       "legacyKey": "neutral-subdued-content-color-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3364,7 +3364,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "down",
+      "state": ["down"],
       "legacyKey": "neutral-subdued-content-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3376,7 +3376,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "hover",
+      "state": ["hover"],
       "legacyKey": "neutral-subdued-content-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3388,7 +3388,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "legacyKey": "neutral-subdued-content-color-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3400,7 +3400,7 @@
       "colorRole": "neutral",
       "variant": "subdued",
       "property": "content-color",
-      "state": "selected",
+      "state": ["selected"],
       "legacyKey": "neutral-subdued-content-color-selected"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3412,7 +3412,7 @@
       "colorRole": "neutral",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "neutral-subtle-background-color-default"
     },
@@ -3427,7 +3427,7 @@
       "colorRole": "neutral",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "neutral-subtle-background-color-default"
     },
@@ -3442,7 +3442,7 @@
       "colorRole": "neutral",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "neutral-subtle-background-color-default"
     },
@@ -3494,7 +3494,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "variant": "notice"
     },
@@ -3507,7 +3507,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "variant": "notice"
     },
@@ -3520,7 +3520,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "variant": "notice"
     },
@@ -3572,7 +3572,7 @@
   {
     "name": {
       "property": "opacity",
-      "state": "disabled"
+      "state": ["disabled"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.3",
@@ -3582,7 +3582,7 @@
     "name": {
       "colorFamily": "orange",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "orange-background-color-default"
     },
@@ -3596,7 +3596,7 @@
     "name": {
       "colorFamily": "orange",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "orange-background-color-default"
     },
@@ -3610,7 +3610,7 @@
     "name": {
       "colorFamily": "orange",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "orange-background-color-default"
     },
@@ -3625,7 +3625,7 @@
       "colorFamily": "orange",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "orange-subtle-background-color-default"
     },
@@ -3640,7 +3640,7 @@
       "colorFamily": "orange",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "orange-subtle-background-color-default"
     },
@@ -3655,7 +3655,7 @@
       "colorFamily": "orange",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "orange-subtle-background-color-default"
     },
@@ -3749,7 +3749,7 @@
     "name": {
       "colorFamily": "pink",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "pink-background-color-default"
     },
@@ -3763,7 +3763,7 @@
     "name": {
       "colorFamily": "pink",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "pink-background-color-default"
     },
@@ -3777,7 +3777,7 @@
     "name": {
       "colorFamily": "pink",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "pink-background-color-default"
     },
@@ -3792,7 +3792,7 @@
       "colorFamily": "pink",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "pink-subtle-background-color-default"
     },
@@ -3807,7 +3807,7 @@
       "colorFamily": "pink",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "pink-subtle-background-color-default"
     },
@@ -3822,7 +3822,7 @@
       "colorFamily": "pink",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "pink-subtle-background-color-default"
     },
@@ -3874,7 +3874,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "variant": "positive"
     },
@@ -3887,7 +3887,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "variant": "positive"
     },
@@ -3900,7 +3900,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "variant": "positive"
     },
@@ -3913,7 +3913,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "light",
       "variant": "positive"
     },
@@ -3926,7 +3926,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "dark",
       "variant": "positive"
     },
@@ -3939,7 +3939,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "down",
+      "state": ["down"],
       "colorScheme": "wireframe",
       "variant": "positive"
     },
@@ -3952,7 +3952,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "light",
       "variant": "positive"
     },
@@ -3965,7 +3965,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "dark",
       "variant": "positive"
     },
@@ -3978,7 +3978,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "hover",
+      "state": ["hover"],
       "colorScheme": "wireframe",
       "variant": "positive"
     },
@@ -3991,7 +3991,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "light",
       "legacyKey": "positive-background-color-key-focus",
       "variant": "positive"
@@ -4005,7 +4005,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "dark",
       "legacyKey": "positive-background-color-key-focus",
       "variant": "positive"
@@ -4019,7 +4019,7 @@
   {
     "name": {
       "property": "background-color",
-      "state": "keyboard-focus",
+      "state": ["keyboard-focus"],
       "colorScheme": "wireframe",
       "legacyKey": "positive-background-color-key-focus",
       "variant": "positive"
@@ -4073,7 +4073,7 @@
     "name": {
       "colorFamily": "purple",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "purple-background-color-default"
     },
@@ -4087,7 +4087,7 @@
     "name": {
       "colorFamily": "purple",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "purple-background-color-default"
     },
@@ -4101,7 +4101,7 @@
     "name": {
       "colorFamily": "purple",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "purple-background-color-default"
     },
@@ -4116,7 +4116,7 @@
       "colorFamily": "purple",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "purple-subtle-background-color-default"
     },
@@ -4131,7 +4131,7 @@
       "colorFamily": "purple",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "purple-subtle-background-color-default"
     },
@@ -4146,7 +4146,7 @@
       "colorFamily": "purple",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "purple-subtle-background-color-default"
     },
@@ -4199,7 +4199,7 @@
     "name": {
       "colorFamily": "red",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "red-background-color-default"
     },
@@ -4213,7 +4213,7 @@
     "name": {
       "colorFamily": "red",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "red-background-color-default"
     },
@@ -4227,7 +4227,7 @@
     "name": {
       "colorFamily": "red",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "red-background-color-default"
     },
@@ -4242,7 +4242,7 @@
       "colorFamily": "red",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "red-subtle-background-color-default"
     },
@@ -4257,7 +4257,7 @@
       "colorFamily": "red",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "red-subtle-background-color-default"
     },
@@ -4272,7 +4272,7 @@
       "colorFamily": "red",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "red-subtle-background-color-default"
     },
@@ -4325,7 +4325,7 @@
     "name": {
       "colorFamily": "seafoam",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "seafoam-background-color-default"
     },
@@ -4339,7 +4339,7 @@
     "name": {
       "colorFamily": "seafoam",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "seafoam-background-color-default"
     },
@@ -4353,7 +4353,7 @@
     "name": {
       "colorFamily": "seafoam",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "seafoam-background-color-default"
     },
@@ -4368,7 +4368,7 @@
       "colorFamily": "seafoam",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "seafoam-subtle-background-color-default"
     },
@@ -4383,7 +4383,7 @@
       "colorFamily": "seafoam",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "seafoam-subtle-background-color-default"
     },
@@ -4398,7 +4398,7 @@
       "colorFamily": "seafoam",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "seafoam-subtle-background-color-default"
     },
@@ -4451,7 +4451,7 @@
     "name": {
       "colorFamily": "silver",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "silver-background-color-default"
     },
@@ -4465,7 +4465,7 @@
     "name": {
       "colorFamily": "silver",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "silver-background-color-default"
     },
@@ -4479,7 +4479,7 @@
     "name": {
       "colorFamily": "silver",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "silver-background-color-default"
     },
@@ -4494,7 +4494,7 @@
       "colorFamily": "silver",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "silver-subtle-background-color-default"
     },
@@ -4509,7 +4509,7 @@
       "colorFamily": "silver",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "silver-subtle-background-color-default"
     },
@@ -4524,7 +4524,7 @@
       "colorFamily": "silver",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "silver-subtle-background-color-default"
     },
@@ -4681,7 +4681,7 @@
     "name": {
       "colorFamily": "turquoise",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "turquoise-background-color-default"
     },
@@ -4695,7 +4695,7 @@
     "name": {
       "colorFamily": "turquoise",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "turquoise-background-color-default"
     },
@@ -4709,7 +4709,7 @@
     "name": {
       "colorFamily": "turquoise",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "turquoise-background-color-default"
     },
@@ -4724,7 +4724,7 @@
       "colorFamily": "turquoise",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "turquoise-subtle-background-color-default"
     },
@@ -4739,7 +4739,7 @@
       "colorFamily": "turquoise",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "turquoise-subtle-background-color-default"
     },
@@ -4754,7 +4754,7 @@
       "colorFamily": "turquoise",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "turquoise-subtle-background-color-default"
     },
@@ -4807,7 +4807,7 @@
     "name": {
       "colorFamily": "yellow",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "yellow-background-color-default"
     },
@@ -4821,7 +4821,7 @@
     "name": {
       "colorFamily": "yellow",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "yellow-background-color-default"
     },
@@ -4835,7 +4835,7 @@
     "name": {
       "colorFamily": "yellow",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "yellow-background-color-default"
     },
@@ -4850,7 +4850,7 @@
       "colorFamily": "yellow",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "light",
       "legacyKey": "yellow-subtle-background-color-default"
     },
@@ -4865,7 +4865,7 @@
       "colorFamily": "yellow",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "dark",
       "legacyKey": "yellow-subtle-background-color-default"
     },
@@ -4880,7 +4880,7 @@
       "colorFamily": "yellow",
       "variant": "subtle",
       "property": "background-color",
-      "state": "default",
+      "state": ["default"],
       "colorScheme": "wireframe",
       "legacyKey": "yellow-subtle-background-color-default"
     },
@@ -4931,7 +4931,7 @@
   },
   {
     "name": {
-      "state": "selected",
+      "state": ["selected"],
       "property": "stack-item-background-color",
       "qualifier": "highlight",
       "legacyKey": "stack-item-selected-background-color-highlight"

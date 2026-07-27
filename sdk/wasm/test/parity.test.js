@@ -699,7 +699,7 @@ test("resolveReference: follows a one-hop alias chain", (t) => {
     {
       name: {
         property: "accent-background-color",
-        state: "default",
+        state: ["default"],
         colorScheme: "light",
       },
       $schema:
@@ -709,7 +709,7 @@ test("resolveReference: follows a one-hop alias chain", (t) => {
     },
   ]);
 
-  // Note: extract_legacy_key({ property: "accent-background-color", state: "default" })
+  // Note: extract_legacy_key({ property: "accent-background-color", state: ["default"] })
   // → "accent-background-color-default" (via generate_legacy_name).
   const r = ds.resolveReference("{accent-background-color-default}", {
     colorScheme: "light",

@@ -77,6 +77,10 @@ The expression `a=x,b=y|c=z` is equivalent to `(a=x AND b=y) OR (c=z)`.
 
 **RATIONALE:** Negation matching absent fields follows the convention that "not equal to X" includes "does not exist" — the same semantics as label selectors in Kubernetes and CSS attribute selectors.
 
+**NORMATIVE:** `state` (and any future array-valued key) resolves to each element of the array individually. For equality (`=`), a condition matches when **any** element equals the specified value. For negation (`!=`), a condition matches when **no** element equals the specified value (or the field is absent). For example, a token with `name.state: ["selected", "hover"]` matches `state=hover` and does **not** match `state!=hover`.
+
+**RATIONALE:** A compound state (Proposal 006) represents a token that is simultaneously in multiple states; querying for one of those states should find it, consistent with treating the array as a set of active states rather than requiring an exact-array match.
+
 ## Glob matching
 
 **NORMATIVE:** The `*` character in a value is a **glob wildcard** matching zero or more characters.

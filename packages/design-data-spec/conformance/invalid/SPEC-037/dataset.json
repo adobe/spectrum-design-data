@@ -11,7 +11,7 @@
     {
       "name": {
         "component": "button",
-        "state": "pressed",
+        "state": ["pressed"],
         "property": "background-color"
       },
       "value": "#cccccc"

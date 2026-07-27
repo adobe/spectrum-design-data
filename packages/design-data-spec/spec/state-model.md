@@ -10,7 +10,7 @@ Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.c
 
 A **component state** is a named condition under which a component's visual presentation differs from its baseline. States drive token resolution: when a component is in a given state, the design system selects tokens scoped to that state name rather than (or layered on top of) the baseline tokens.
 
-State names appear in the `state` field of token name objects (see [Token format — Name object](token-format.md#name-object)). A token with `"state": "hover"` applies only when the component is in the `hover` state. For this cross-reference to be machine-enforceable, state declarations **MUST** be present on the component declaration.
+State names appear in the `state` field of token name objects, an ordered array of one or more atomic state ids (see [Token format — Name object](token-format.md#name-object) and [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md)). A token with `"state": ["hover"]` applies only when the component is in the `hover` state; `"state": ["selected", "hover"]` applies when both states are simultaneously active. For this cross-reference to be machine-enforceable, state declarations **MUST** be present on the component declaration.
 
 States fall into two trigger types:
 
@@ -188,7 +188,7 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
     "component": "checkbox",
     "anatomy": "checkmark",
     "property": "color",
-    "state": "selected"
+    "state": ["selected"]
   },
   "value": "#0265dc"
 }
