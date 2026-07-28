@@ -33,8 +33,12 @@ const FALLBACK_SERIALIZATION_ORDER = [
 /**
  * Known compound properties that span multiple segments.
  * These are treated as single property values.
+ *
+ * Exported for src/property-atomicity.js, which checks this list first
+ * (mirroring Phase 2 below) so a legitimate CSS compound like "text-align"
+ * isn't misread as anatomy "text" + a stray "align" segment.
  */
-const COMPOUND_PROPERTIES = [
+export const COMPOUND_PROPERTIES = [
   "font-size",
   "font-weight",
   "font-family",

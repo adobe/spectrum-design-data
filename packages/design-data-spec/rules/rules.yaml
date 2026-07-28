@@ -578,3 +578,19 @@ rules:
     message: "Token '{token}' references anatomy part '{anatomy}' which is not in the spectrum-design-data registry/anatomy-terms vocabulary"
     spec_ref: spec/anatomy-format.md#cross-reference-with-token-name-objects
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-050
+    name: property-decomposition-complete
+    severity: warning
+    layer: 2
+    category: naming-consistency
+    assert: >
+      A token name-object's `property` value SHOULD be atomic. It MUST NOT fuse a
+      segment that belongs to another structured field (anatomy, object, position,
+      size, state, colorRole, emphasis) -- detected independent of whether the token
+      roundtrips through canonical name generation (SPEC-007) or is listed in
+      naming-exceptions.json. Roundtripping cleanly does not mean a property is
+      decomposed (spectrum-design-data-284).
+    message: "Token '{token}' fuses '{field}' concept '{value}' into name.property; decompose into the structured field"
+    spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"

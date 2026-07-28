@@ -14,6 +14,7 @@ import { fileURLToPath } from "url";
 import { loadRegistries } from "./registry-index.js";
 import { decompose, serialize } from "./decomposer.js";
 import { generateReport } from "./report.js";
+import { analyzeProperty } from "./property-atomicity.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // Structured cascade tree (inline name objects) — the source of truth for
@@ -39,6 +40,11 @@ async function main() {
 
   console.log("\nAnalyzing tokens...");
   const allResults = [];
+  // spectrum-design-data-284.1: property-fusion detection is independent of
+  // roundtrip/allowlist status, so it runs against the authored
+  // `token.name.property` directly rather than reusing `decompose()`'s
+  // confidence/roundtrip machinery.
+  const fusionResults = [];
 
   for (const filename of TOKEN_FILES) {
     const filePath = resolve(TOKENS_DIR, filename);
@@ -82,6 +88,21 @@ async function main() {
         filename,
       );
       allResults.push(result);
+
+      if (token.name.property) {
+        const fusion = analyzeProperty(token.name.property, registry);
+        if (fusion.fused) {
+          fusionResults.push({
+            token: legacyKey,
+            file: filename,
+            property: fusion.property,
+            fields: fusion.fields,
+            bucket: fusion.bucket,
+            deprecated: !!token.deprecated,
+            private: !!token.private,
+          });
+        }
+      }
     }
 
     // Per-file quick stats
@@ -106,6 +127,32 @@ async function main() {
   writeFileSync(
     resolve(OUTPUT_DIR, "all-decompositions.json"),
     JSON.stringify(allResults, null, 2),
+  );
+
+  // spectrum-design-data-284.1: property-fusion inventory, independent of
+  // roundtrip/naming-exceptions status. See src/property-atomicity.js.
+  const activeFusion = fusionResults.filter((r) => !r.deprecated && !r.private);
+  const fusionByBucket = {};
+  for (const r of activeFusion) {
+    (fusionByBucket[r.bucket] ??= []).push(r);
+  }
+  writeFileSync(
+    resolve(OUTPUT_DIR, "property-fusion-inventory.json"),
+    JSON.stringify(
+      {
+        total: fusionResults.length,
+        active: activeFusion.length,
+        byBucket: Object.fromEntries(
+          Object.entries(fusionByBucket).map(([bucket, tokens]) => [
+            bucket,
+            tokens.length,
+          ]),
+        ),
+        tokens: fusionResults,
+      },
+      null,
+      2,
+    ),
   );
 
   // Print summary
@@ -142,8 +189,22 @@ async function main() {
     console.log(`  "${item.segment}" (${item.count}x) e.g. ${item.tokens[0]}`);
   }
 
+  console.log(
+    "\n=== PROPERTY FUSION (spectrum-design-data-284.1, independent of roundtrip) ===",
+  );
+  console.log(`Fused properties (active): ${activeFusion.length}`);
+  for (const [bucket, tokens] of Object.entries(fusionByBucket)) {
+    console.log(`  ${bucket}: ${tokens.length}`);
+    for (const ex of tokens.slice(0, 3)) {
+      console.log(`    - ${ex.token} (${ex.file})`);
+    }
+  }
+
   console.log(`\nFull report written to: output/analysis-report.json`);
   console.log(`All decompositions written to: output/all-decompositions.json`);
+  console.log(
+    `Property fusion inventory written to: output/property-fusion-inventory.json`,
+  );
 }
 
 main().catch((err) => {
