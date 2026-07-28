@@ -37,6 +37,13 @@ const FALLBACK_SERIALIZATION_ORDER = [
  * Exported for src/property-atomicity.js, which checks this list first
  * (mirroring Phase 2 below) so a legitimate CSS compound like "text-align"
  * isn't misread as anatomy "text" + a stray "align" segment.
+ *
+ * Matching is exact-string only, not prefix -- a new compound term used with
+ * a suffix not yet listed here (e.g. "border-width-thick") won't be exempted
+ * and its trailing segment(s) will be checked against the structural-field
+ * registries like any other property. Add the full suffixed form here if
+ * that's a false positive; this list already required the same manual
+ * enumeration before property-atomicity.js existed.
  */
 export const COMPOUND_PROPERTIES = [
   "font-size",

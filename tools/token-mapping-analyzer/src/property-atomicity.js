@@ -8,7 +8,6 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { matchLongestTerm } from "./registry-index.js";
 import { COMPOUND_PROPERTIES } from "./decomposer.js";
 
 // Fields whose presence in name.property means the property is fusing a
@@ -25,6 +24,40 @@ const STRUCTURAL_FIELDS = [
   "colorRole",
   "emphasis",
 ];
+
+/**
+ * Scan `property`'s hyphen-segments for every contiguous run that matches a
+ * registered id in one of STRUCTURAL_FIELDS. Mirrors
+ * sdk/core/src/validate/rules/spec050.rs::structural_hits exactly -- both
+ * check every contiguous substring against each field's id set, not just the
+ * longest match anchored at each start position (unlike matchLongestTerm,
+ * which is tuned for left-to-right decomposition, not fusion detection).
+ *
+ * @param {string} property
+ * @param {ReturnType<import("./registry-index.js").loadRegistries>} registry
+ * @returns {Record<string, string[]>}
+ */
+function structuralHits(property, registry) {
+  const segments = property.split("-");
+  const fields = {};
+
+  for (const field of STRUCTURAL_FIELDS) {
+    const ids = registry.byField[field];
+    if (!ids) continue;
+    for (let start = 0; start < segments.length; start++) {
+      for (let end = start + 1; end <= segments.length; end++) {
+        const candidate = segments.slice(start, end).join("-");
+        if (ids.has(candidate)) {
+          (fields[field] ??= new Set()).add(candidate);
+        }
+      }
+    }
+  }
+
+  return Object.fromEntries(
+    Object.entries(fields).map(([field, ids]) => [field, [...ids].sort()]),
+  );
+}
 
 /**
  * Classify a single token's `name.property` string for decomposition
@@ -48,22 +81,7 @@ export function analyzeProperty(property, registry) {
     return { property, atomic: true, fused: false, fields: {}, bucket: null };
   }
 
-  const segments = property.split("-");
-  const structuralTerms = registry.terms.filter((t) =>
-    STRUCTURAL_FIELDS.includes(t.field),
-  );
-
-  const fields = {};
-  for (let i = 0; i < segments.length; i++) {
-    const match = matchLongestTerm(segments, i, structuralTerms);
-    if (match) {
-      (fields[match.field] ??= new Set()).add(match.id);
-    }
-  }
-
-  const fieldsOut = Object.fromEntries(
-    Object.entries(fields).map(([field, ids]) => [field, [...ids]]),
-  );
+  const fieldsOut = structuralHits(property, registry);
   const fused = Object.keys(fieldsOut).length > 0;
 
   if (fused) {

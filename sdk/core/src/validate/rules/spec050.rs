@@ -32,7 +32,11 @@ use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
 /// Keep in sync with tools/token-mapping-analyzer/src/decomposer.js
-/// `COMPOUND_PROPERTIES`.
+/// `COMPOUND_PROPERTIES`. Matching is exact-string only, not prefix -- a new
+/// compound term used with a suffix not yet listed here (e.g.
+/// "border-width-thick") won't be exempted and its trailing segment(s) will
+/// be checked against the structural-field registries like any other
+/// property. Add the full suffixed form here if that's a false positive.
 const COMPOUND_PROPERTIES: &[&str] = &[
     "font-size",
     "font-weight",
