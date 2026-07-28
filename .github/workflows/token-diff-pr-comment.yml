@@ -41,7 +41,7 @@ jobs:
           mkdir -p /tmp/artifact
           echo "${{ github.event.pull_request.number }}" > /tmp/artifact/pr-number.txt
           echo "${{ steps.diff.outputs.diff-generated }}" > /tmp/artifact/diff-generated.txt
-          printf '%s' "${{ steps.diff.outputs.diff-content }}" > /tmp/artifact/diff-content.txt
+          printf '%s\n' "${{ steps.diff.outputs.diff-content }}" > /tmp/artifact/diff-content.txt
           if [ -f /tmp/token-diff.md ]; then
             cp /tmp/token-diff.md /tmp/artifact/diff-report.md
           fi
