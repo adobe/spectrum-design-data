@@ -550,8 +550,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-2x-large",
-      "legacyKey": "base-padding-horizontal-uniform-2x-large"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-2x-large",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "xxl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "51761a5c-200d-467d-a575-3722f825edb9",
@@ -560,8 +563,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-2x-small",
-      "legacyKey": "base-padding-horizontal-uniform-2x-small"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-2x-small",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "xxs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "c5f12db9-a471-4678-9828-e9b3d80f550d",
@@ -570,8 +576,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-extra-large",
-      "legacyKey": "base-padding-horizontal-uniform-extra-large"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-extra-large",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "xl"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
@@ -580,8 +589,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-extra-small",
-      "legacyKey": "base-padding-horizontal-uniform-extra-small"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-extra-small",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "xs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
@@ -590,8 +602,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-large",
-      "legacyKey": "base-padding-horizontal-uniform-large"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-large",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "l"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
@@ -600,8 +615,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-medium",
-      "legacyKey": "base-padding-horizontal-uniform-medium"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-medium",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "m"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
@@ -610,8 +628,11 @@
   },
   {
     "name": {
-      "property": "base-padding-horizontal-uniform-small",
-      "legacyKey": "base-padding-horizontal-uniform-small"
+      "property": "padding",
+      "legacyKey": "base-padding-horizontal-uniform-small",
+      "orientation": "horizontal",
+      "shape": "uniform",
+      "size": "s"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
