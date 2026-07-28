@@ -13795,8 +13795,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-emphasized",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected"],
+      "emphasis": "emphasized",
       "legacyKey": "stack-item-selected-background-opacity-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -13805,8 +13808,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-emphasized-down",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected", "down"],
+      "emphasis": "emphasized",
       "legacyKey": "stack-item-selected-background-opacity-emphasized-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -13815,8 +13821,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-emphasized-hover",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected", "hover"],
+      "emphasis": "emphasized",
       "legacyKey": "stack-item-selected-background-opacity-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -13825,8 +13834,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-emphasized-key-focus",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected", "keyboard-focus"],
+      "emphasis": "emphasized",
       "legacyKey": "stack-item-selected-background-opacity-emphasized-key-focus"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -13835,8 +13847,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-highlight",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected"],
+      "qualifier": "highlight",
       "legacyKey": "stack-item-selected-background-opacity-highlight"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -13845,8 +13860,11 @@
   },
   {
     "name": {
-      "property": "stack-item-selected-background-opacity-highlight-hover",
       "component": "stack-item",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected", "hover"],
+      "qualifier": "highlight",
       "legacyKey": "stack-item-selected-background-opacity-highlight-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -22543,8 +22561,12 @@
   },
   {
     "name": {
-      "property": "tree-view-selected-row-background-opacity-emphasized",
       "component": "tree-view",
+      "anatomy": "row",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected"],
+      "emphasis": "emphasized",
       "legacyKey": "tree-view-selected-row-background-opacity-emphasized"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
@@ -22553,8 +22575,12 @@
   },
   {
     "name": {
-      "property": "tree-view-selected-row-background-opacity-emphasized-hover",
       "component": "tree-view",
+      "anatomy": "row",
+      "object": "background",
+      "property": "opacity",
+      "state": ["selected", "hover"],
+      "emphasis": "emphasized",
       "legacyKey": "tree-view-selected-row-background-opacity-emphasized-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
