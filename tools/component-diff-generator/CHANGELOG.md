@@ -1,5 +1,16 @@
 # @adobe/spectrum-component-diff-generator
 
+## 1.4.4
+
+### Patch Changes
+
+- [#1305](https://github.com/adobe/spectrum-design-data/pull/1305) [`8d3754e`](https://github.com/adobe/spectrum-design-data/commit/8d3754e774576fae1bef9a105732b478b6bfef74) Thanks [@GarthDB](https://github.com/GarthDB)! - Fixed local component schema loading always returning zero components (closes #1304).
+  - **src/lib/component-file-import.js**: `loadLocalComponents` called
+    `this.localFS.loadData([filePath])` with the wrong argument shape, so `fileNames` was
+    `undefined` inside `loadData` and every local file load silently failed and was skipped.
+    Any comparison using `--local` (e.g. remote-base-branch vs. local-checkout, used by CI
+    for fork pull requests) reported every remote component as deleted.
+
 ## 1.4.3
 
 ### Patch Changes
