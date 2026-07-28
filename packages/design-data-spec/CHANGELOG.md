@@ -1,5 +1,17 @@
 # @adobe/design-data-spec
 
+## 3.1.0
+
+### Minor Changes
+
+- [#1309](https://github.com/adobe/spectrum-design-data/pull/1309) [`8a9aadb`](https://github.com/adobe/spectrum-design-data/commit/8a9aadbe97480f43675e692fc46293d1fc2e3643) Thanks [@GarthDB](https://github.com/GarthDB)! - Add SPEC-050 to detect fused `name.property` values independent of roundtrip status
+  (closes spectrum-design-data-284.1).
+  - **rules/rules.yaml**: new advisory rule `SPEC-050` (`property-decomposition-complete`)
+    flags a `property` value that fuses a structured field (anatomy, object, position,
+    size, state, colorRole, emphasis) instead of being atomic, regardless of roundtrip
+    or `naming-exceptions.json` status.
+  - **conformance/invalid/SPEC-050/**: new fixture covering the fused-property case.
+
 ## 3.0.0
 
 ### Major Changes
