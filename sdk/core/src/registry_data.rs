@@ -226,6 +226,13 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "hero",
+      "label": "Hero",
+      "description": "Large featured-card layout variant with maximized visual prominence",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -314,6 +321,20 @@ const VARIANTS_JSON: &str = r##"{
       "id": "elevated",
       "label": "Elevated",
       "description": "Elevated surface or shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "base",
+      "label": "Base",
+      "description": "Base (lowest) surface context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "layer",
+      "label": "Layer",
+      "description": "Stacked surface layer context",
       "category": "context",
       "usedIn": ["tokens"]
     },
@@ -1991,6 +2012,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "corner-radius",
       "label": "Corner Radius",
       "description": "Corner rounding radius"
+    },
+    {
+      "id": "rounding-increment",
+      "label": "Rounding Increment",
+      "description": "Step size added to a ring or ring-like anatomy's corner rounding per nesting level"
     },
     {
       "id": "outline-width",

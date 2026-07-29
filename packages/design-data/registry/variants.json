@@ -222,6 +222,13 @@
       "usedIn": ["tokens"]
     },
     {
+      "id": "hero",
+      "label": "Hero",
+      "description": "Large featured-card layout variant with maximized visual prominence",
+      "category": "emphasis",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -310,6 +317,20 @@
       "id": "elevated",
       "label": "Elevated",
       "description": "Elevated surface or shadow context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "base",
+      "label": "Base",
+      "description": "Base (lowest) surface context",
+      "category": "context",
+      "usedIn": ["tokens"]
+    },
+    {
+      "id": "layer",
+      "label": "Layer",
+      "description": "Stacked surface layer context",
       "category": "context",
       "usedIn": ["tokens"]
     },

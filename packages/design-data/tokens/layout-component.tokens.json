@@ -4495,7 +4495,9 @@
   {
     "name": {
       "component": "card",
-      "property": "selection-background-size",
+      "anatomy": "selection",
+      "object": "background",
+      "property": "size",
       "legacyKey": "card-selection-background-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5270,7 +5272,9 @@
   {
     "name": {
       "component": "coach-indicator",
-      "property": "collapsed-ring-rounding-increment",
+      "qualifier": "collapsed",
+      "anatomy": "ring",
+      "property": "rounding-increment",
       "legacyKey": "coach-indicator-collapsed-ring-rounding-increment"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5305,7 +5309,9 @@
   {
     "name": {
       "component": "coach-indicator",
-      "property": "expanded-ring-rounding-increment",
+      "qualifier": "expanded",
+      "anatomy": "ring",
+      "property": "rounding-increment",
       "legacyKey": "coach-indicator-expanded-ring-rounding-increment"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5740,7 +5746,9 @@
   {
     "name": {
       "component": "collection-card",
-      "property": "minimum-height-hero-extra-large",
+      "variant": "hero",
+      "property": "minimum-height",
+      "size": "xl",
       "legacyKey": "collection-card-minimum-height-hero-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5750,7 +5758,9 @@
   {
     "name": {
       "component": "collection-card",
-      "property": "minimum-height-hero-extra-small",
+      "variant": "hero",
+      "property": "minimum-height",
+      "size": "xs",
       "legacyKey": "collection-card-minimum-height-hero-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5760,7 +5770,9 @@
   {
     "name": {
       "component": "collection-card",
-      "property": "minimum-height-hero-large",
+      "variant": "hero",
+      "property": "minimum-height",
+      "size": "l",
       "legacyKey": "collection-card-minimum-height-hero-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5770,7 +5782,9 @@
   {
     "name": {
       "component": "collection-card",
-      "property": "minimum-height-hero-medium",
+      "variant": "hero",
+      "property": "minimum-height",
+      "size": "m",
       "legacyKey": "collection-card-minimum-height-hero-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -5780,7 +5794,9 @@
   {
     "name": {
       "component": "collection-card",
-      "property": "minimum-height-hero-small",
+      "variant": "hero",
+      "property": "minimum-height",
+      "size": "s",
       "legacyKey": "collection-card-minimum-height-hero-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -7132,7 +7148,9 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "cjk-title-font-size",
+      "script": "cjk",
+      "anatomy": "title",
+      "property": "font-size",
       "legacyKey": "drop-zone-cjk-title-font-size"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -9223,7 +9241,8 @@
   {
     "name": {
       "component": "menu",
-      "property": "item-section-divider-height",
+      "anatomy": "section-divider",
+      "property": "height",
       "legacyKey": "menu-item-section-divider-height"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -10853,7 +10872,9 @@
   {
     "name": {
       "component": "radio-button",
-      "property": "selection-indicator",
+      "anatomy": "indicator",
+      "state": ["selected"],
+      "property": "width",
       "legacyKey": "radio-button-selection-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -17043,7 +17064,9 @@
   {
     "name": {
       "component": "table",
-      "property": "border-divider-width",
+      "object": "border",
+      "anatomy": "divider",
+      "property": "width",
       "legacyKey": "table-border-divider-width"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

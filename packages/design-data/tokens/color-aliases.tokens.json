@@ -263,7 +263,9 @@
   },
   {
     "name": {
-      "property": "background-base-color",
+      "variant": "base",
+      "object": "background",
+      "property": "color",
       "legacyKey": "background-base-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -314,7 +316,9 @@
   },
   {
     "name": {
-      "property": "background-layer-color",
+      "variant": "layer",
+      "object": "background",
+      "property": "color",
       "scaleIndex": 1,
       "legacyKey": "background-layer-1-color"
     },
@@ -324,7 +328,9 @@
   },
   {
     "name": {
-      "property": "background-layer-color",
+      "variant": "layer",
+      "object": "background",
+      "property": "color",
       "scaleIndex": 2,
       "colorScheme": "light",
       "legacyKey": "background-layer-2-color"
@@ -337,7 +343,9 @@
   },
   {
     "name": {
-      "property": "background-layer-color",
+      "variant": "layer",
+      "object": "background",
+      "property": "color",
       "scaleIndex": 2,
       "colorScheme": "dark",
       "legacyKey": "background-layer-2-color"
@@ -350,7 +358,9 @@
   },
   {
     "name": {
-      "property": "background-layer-color",
+      "variant": "layer",
+      "object": "background",
+      "property": "color",
       "scaleIndex": 2,
       "colorScheme": "wireframe",
       "legacyKey": "background-layer-2-color"
