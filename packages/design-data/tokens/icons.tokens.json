@@ -865,8 +865,10 @@
   },
   {
     "name": {
-      "property": "icon-color-disabled-primary",
       "icon": "icon",
+      "property": "color",
+      "state": ["disabled"],
+      "colorRole": "primary",
       "legacyKey": "icon-color-disabled-primary"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -875,8 +877,10 @@
   },
   {
     "name": {
-      "property": "icon-color-emphasized-background",
       "icon": "icon",
+      "property": "color",
+      "colorRole": "background",
+      "emphasis": "emphasized",
       "legacyKey": "icon-color-emphasized-background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

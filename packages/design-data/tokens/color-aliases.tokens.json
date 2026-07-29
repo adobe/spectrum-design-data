@@ -3706,7 +3706,9 @@
   },
   {
     "name": {
-      "property": "overlay-color"
+      "anatomy": "overlay",
+      "property": "color",
+      "legacyKey": "overlay-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -3714,8 +3716,10 @@
   },
   {
     "name": {
-      "property": "overlay-opacity",
-      "colorScheme": "light"
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "light",
+      "legacyKey": "overlay-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.4",
@@ -3725,8 +3729,10 @@
   },
   {
     "name": {
-      "property": "overlay-opacity",
-      "colorScheme": "dark"
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "dark",
+      "legacyKey": "overlay-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.6",
@@ -3736,8 +3742,10 @@
   },
   {
     "name": {
-      "property": "overlay-opacity",
-      "colorScheme": "wireframe"
+      "anatomy": "overlay",
+      "property": "opacity",
+      "colorScheme": "wireframe",
+      "legacyKey": "overlay-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.4",
@@ -4587,7 +4595,10 @@
   },
   {
     "name": {
-      "property": "static-black-text-color",
+      "variant": "static",
+      "colorFamily": "black",
+      "object": "text",
+      "property": "color",
       "legacyKey": "static-black-text-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4596,7 +4607,10 @@
   },
   {
     "name": {
-      "property": "static-black-track-color",
+      "variant": "static",
+      "colorFamily": "black",
+      "object": "track",
+      "property": "color",
       "legacyKey": "static-black-track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4608,7 +4622,8 @@
       "variant": "static",
       "colorFamily": "black",
       "object": "track",
-      "property": "indicator-color",
+      "anatomy": "indicator",
+      "property": "color",
       "legacyKey": "static-black-track-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4629,7 +4644,10 @@
   },
   {
     "name": {
-      "property": "static-white-text-color",
+      "variant": "static",
+      "colorFamily": "white",
+      "object": "text",
+      "property": "color",
       "legacyKey": "static-white-text-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4638,7 +4656,10 @@
   },
   {
     "name": {
-      "property": "static-white-track-color",
+      "variant": "static",
+      "colorFamily": "white",
+      "object": "track",
+      "property": "color",
       "legacyKey": "static-white-track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -4650,7 +4671,8 @@
       "variant": "static",
       "colorFamily": "white",
       "object": "track",
-      "property": "indicator-color",
+      "anatomy": "indicator",
+      "property": "color",
       "legacyKey": "static-white-track-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
