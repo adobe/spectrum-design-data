@@ -14798,7 +14798,9 @@
   {
     "name": {
       "component": "swatch-group",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "swatch-group-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.2",

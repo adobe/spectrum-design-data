@@ -2,8 +2,10 @@
   {
     "name": {
       "component": "action-bar",
-      "property": "border-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "object": "border",
+      "legacyKey": "action-bar-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
@@ -14,8 +16,10 @@
   {
     "name": {
       "component": "action-bar",
-      "property": "border-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "object": "border",
+      "legacyKey": "action-bar-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -26,8 +30,10 @@
   {
     "name": {
       "component": "action-bar",
-      "property": "border-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "object": "border",
+      "legacyKey": "action-bar-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
@@ -38,7 +44,9 @@
   {
     "name": {
       "component": "avatar",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "avatar-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "306be0f2-7644-4480-8c83-3bdb1afed54e",
@@ -93,8 +101,9 @@
     "name": {
       "component": "card",
       "anatomy": "well",
-      "property": "background-color",
-      "legacyKey": "card-background-well-color"
+      "property": "color",
+      "legacyKey": "card-background-well-color",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -103,9 +112,11 @@
   {
     "name": {
       "component": "card",
-      "property": "background-color",
+      "property": "color",
       "colorScheme": "light",
-      "anatomy": "selection"
+      "anatomy": "selection",
+      "object": "background",
+      "legacyKey": "card-selection-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b24431ee-5c72-4a73-8733-746c6f5d77c0",
@@ -116,9 +127,11 @@
   {
     "name": {
       "component": "card",
-      "property": "background-color",
+      "property": "color",
       "colorScheme": "dark",
-      "anatomy": "selection"
+      "anatomy": "selection",
+      "object": "background",
+      "legacyKey": "card-selection-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
@@ -129,9 +142,11 @@
   {
     "name": {
       "component": "card",
-      "property": "background-color",
+      "property": "color",
       "colorScheme": "wireframe",
-      "anatomy": "selection"
+      "anatomy": "selection",
+      "object": "background",
+      "legacyKey": "card-selection-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
@@ -174,7 +189,9 @@
   {
     "name": {
       "component": "color-area",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "color-area-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -183,7 +200,9 @@
   {
     "name": {
       "component": "color-area",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "color-area-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -207,8 +226,9 @@
     "name": {
       "component": "color-handle",
       "position": "inner",
-      "property": "border-color",
-      "legacyKey": "color-handle-inner-border-color"
+      "property": "color",
+      "legacyKey": "color-handle-inner-border-color",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -218,8 +238,9 @@
     "name": {
       "component": "color-handle",
       "position": "inner",
-      "property": "border-opacity",
-      "legacyKey": "color-handle-inner-border-opacity"
+      "property": "opacity",
+      "legacyKey": "color-handle-inner-border-opacity",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
@@ -229,8 +250,9 @@
     "name": {
       "component": "color-handle",
       "position": "outer",
-      "property": "border-color",
-      "legacyKey": "color-handle-outer-border-color"
+      "property": "color",
+      "legacyKey": "color-handle-outer-border-color",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -240,8 +262,9 @@
     "name": {
       "component": "color-handle",
       "position": "outer",
-      "property": "border-opacity",
-      "legacyKey": "color-handle-outer-border-opacity"
+      "property": "opacity",
+      "legacyKey": "color-handle-outer-border-opacity",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
@@ -289,8 +312,9 @@
     "name": {
       "component": "color-loupe",
       "position": "inner",
-      "property": "border-color",
-      "legacyKey": "color-loupe-inner-border"
+      "property": "color",
+      "legacyKey": "color-loupe-inner-border",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
@@ -300,8 +324,9 @@
     "name": {
       "component": "color-loupe",
       "position": "outer",
-      "property": "border-color",
-      "legacyKey": "color-loupe-outer-border"
+      "property": "color",
+      "legacyKey": "color-loupe-outer-border",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837",
@@ -310,7 +335,9 @@
   {
     "name": {
       "component": "color-slider",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "color-slider-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -319,7 +346,9 @@
   {
     "name": {
       "component": "color-slider",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "color-slider-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -328,7 +357,9 @@
   {
     "name": {
       "component": "color-wheel",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "color-wheel-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -337,7 +368,9 @@
   {
     "name": {
       "component": "color-wheel",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "color-wheel-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -346,7 +379,9 @@
   {
     "name": {
       "component": "drop-zone",
-      "property": "background-color"
+      "property": "color",
+      "object": "background",
+      "legacyKey": "drop-zone-background-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d7414fe1-8b85-45d9-952e-ab6c4c7b7620",
@@ -403,9 +438,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-default",
-      "property": "background-color",
+      "property": "color",
       "state": ["default"],
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -418,9 +454,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-default",
-      "property": "background-color",
+      "property": "color",
       "state": ["default"],
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -433,9 +470,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-default",
-      "property": "background-color",
+      "property": "color",
       "state": ["default"],
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -448,9 +486,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-disabled",
-      "property": "background-color",
+      "property": "color",
       "state": ["disabled"],
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -463,9 +502,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-disabled",
-      "property": "background-color",
+      "property": "color",
       "state": ["disabled"],
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -478,9 +518,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-disabled",
-      "property": "background-color",
+      "property": "color",
       "state": ["disabled"],
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -493,9 +534,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-down",
-      "property": "background-color",
+      "property": "color",
       "state": ["down"],
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -508,9 +550,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-down",
-      "property": "background-color",
+      "property": "color",
       "state": ["down"],
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -523,9 +566,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-down",
-      "property": "background-color",
+      "property": "color",
       "state": ["down"],
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -538,9 +582,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-hover",
-      "property": "background-color",
+      "property": "color",
       "state": ["hover"],
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -553,9 +598,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-hover",
-      "property": "background-color",
+      "property": "color",
       "state": ["hover"],
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -568,9 +614,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-hover",
-      "property": "background-color",
+      "property": "color",
       "state": ["hover"],
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -583,9 +630,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-keyboard-focus",
-      "property": "background-color",
+      "property": "color",
       "state": ["keyboard-focus"],
-      "colorScheme": "light"
+      "colorScheme": "light",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -598,9 +646,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-keyboard-focus",
-      "property": "background-color",
+      "property": "color",
       "state": ["keyboard-focus"],
-      "colorScheme": "dark"
+      "colorScheme": "dark",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -613,9 +662,10 @@
       "component": "menu",
       "anatomy": "menu-item",
       "legacyKey": "menu-item-background-color-keyboard-focus",
-      "property": "background-color",
+      "property": "color",
       "state": ["keyboard-focus"],
-      "colorScheme": "wireframe"
+      "colorScheme": "wireframe",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -675,8 +725,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-color",
-      "colorScheme": "light"
+      "property": "color",
+      "colorScheme": "light",
+      "object": "border",
+      "legacyKey": "popover-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
@@ -687,8 +739,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-color",
-      "colorScheme": "dark"
+      "property": "color",
+      "colorScheme": "dark",
+      "object": "border",
+      "legacyKey": "popover-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
@@ -699,8 +753,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-color",
-      "colorScheme": "wireframe"
+      "property": "color",
+      "colorScheme": "wireframe",
+      "object": "border",
+      "legacyKey": "popover-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -711,8 +767,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-opacity",
-      "colorScheme": "light"
+      "property": "opacity",
+      "colorScheme": "light",
+      "object": "border",
+      "legacyKey": "popover-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0",
@@ -723,8 +781,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-opacity",
-      "colorScheme": "dark"
+      "property": "opacity",
+      "colorScheme": "dark",
+      "object": "border",
+      "legacyKey": "popover-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "1.0",
@@ -735,8 +795,10 @@
   {
     "name": {
       "component": "popover",
-      "property": "border-opacity",
-      "colorScheme": "wireframe"
+      "property": "opacity",
+      "colorScheme": "wireframe",
+      "object": "border",
+      "legacyKey": "popover-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0",
@@ -747,9 +809,10 @@
   {
     "name": {
       "component": "select-box",
-      "property": "border-color",
+      "property": "color",
       "state": ["selected"],
-      "legacyKey": "select-box-selected-border-color"
+      "legacyKey": "select-box-selected-border-color",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -758,8 +821,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
-      "state": ["down"]
+      "property": "color",
+      "state": ["down"],
+      "object": "background",
+      "legacyKey": "stack-item-background-color-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -768,8 +833,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
-      "state": ["hover"]
+      "property": "color",
+      "state": ["hover"],
+      "object": "background",
+      "legacyKey": "stack-item-background-color-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -778,9 +845,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["keyboard-focus"],
-      "legacyKey": "stack-item-background-color-key-focus"
+      "legacyKey": "stack-item-background-color-key-focus",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -789,9 +857,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected", "default"],
-      "legacyKey": "stack-item-selected-background-color-default"
+      "legacyKey": "stack-item-selected-background-color-default",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -800,9 +869,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected", "down"],
-      "legacyKey": "stack-item-selected-background-color-down"
+      "legacyKey": "stack-item-selected-background-color-down",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
@@ -811,10 +881,11 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected"],
       "emphasis": "emphasized",
-      "legacyKey": "stack-item-selected-background-color-emphasized"
+      "legacyKey": "stack-item-selected-background-color-emphasized",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",
@@ -823,9 +894,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected", "hover"],
-      "legacyKey": "stack-item-selected-background-color-hover"
+      "legacyKey": "stack-item-selected-background-color-hover",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -834,9 +906,10 @@
   {
     "name": {
       "component": "stack-item",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected", "keyboard-focus"],
-      "legacyKey": "stack-item-selected-background-color-key-focus"
+      "legacyKey": "stack-item-selected-background-color-key-focus",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
@@ -868,7 +941,9 @@
   {
     "name": {
       "component": "swatch",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "swatch-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -877,7 +952,9 @@
   {
     "name": {
       "component": "swatch",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "swatch-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
@@ -887,9 +964,10 @@
     "name": {
       "component": "swatch",
       "anatomy": "icon",
-      "property": "border-color",
+      "property": "color",
       "state": ["disabled"],
-      "legacyKey": "swatch-disabled-icon-border-color"
+      "legacyKey": "swatch-disabled-icon-border-color",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -899,9 +977,10 @@
     "name": {
       "component": "swatch",
       "anatomy": "icon",
-      "property": "border-opacity",
+      "property": "opacity",
       "state": ["disabled"],
-      "legacyKey": "swatch-disabled-icon-border-opacity"
+      "legacyKey": "swatch-disabled-icon-border-opacity",
+      "object": "border"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.42",
@@ -910,7 +989,9 @@
   {
     "name": {
       "component": "swatch-group",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "swatch-group-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
@@ -956,9 +1037,10 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected"],
-      "legacyKey": "table-selected-row-background-color"
+      "legacyKey": "table-selected-row-background-color",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b40c677-e046-4a49-b421-8a4451844512",
@@ -968,10 +1050,11 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected"],
       "emphasis": "non-emphasized",
-      "legacyKey": "table-selected-row-background-color-non-emphasized"
+      "legacyKey": "table-selected-row-background-color-non-emphasized",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
@@ -1034,7 +1117,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "border-color"
+      "property": "color",
+      "object": "border",
+      "legacyKey": "thumbnail-border-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
@@ -1043,7 +1128,9 @@
   {
     "name": {
       "component": "thumbnail",
-      "property": "border-opacity"
+      "property": "opacity",
+      "object": "border",
+      "legacyKey": "thumbnail-border-opacity"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.1",
@@ -1076,10 +1163,11 @@
     "name": {
       "component": "tree-view",
       "anatomy": "row",
-      "property": "background-color",
+      "property": "color",
       "state": ["selected"],
       "emphasis": "emphasized",
-      "legacyKey": "tree-view-selected-row-background-color-emphasized"
+      "legacyKey": "tree-view-selected-row-background-color-emphasized",
+      "object": "background"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6b40c677-e046-4a49-b421-8a4451844512",
