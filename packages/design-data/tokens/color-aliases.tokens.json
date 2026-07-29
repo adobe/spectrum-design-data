@@ -393,7 +393,8 @@
   },
   {
     "name": {
-      "property": "background-opacity",
+      "object": "background",
+      "property": "opacity",
       "state": ["keyboard-focus"],
       "legacyKey": "background-opacity-key-focus"
     },

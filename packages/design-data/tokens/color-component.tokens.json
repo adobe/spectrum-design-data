@@ -80,7 +80,9 @@
   {
     "name": {
       "component": "card",
-      "property": "background-loading-color",
+      "object": "background",
+      "property": "color",
+      "state": ["loading"],
       "legacyKey": "card-background-loading-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -979,7 +981,8 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-opacity",
+      "object": "background",
+      "property": "opacity",
       "state": ["selected"],
       "legacyKey": "table-selected-row-background-opacity"
     },
@@ -991,7 +994,8 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-opacity",
+      "object": "background",
+      "property": "opacity",
       "state": ["selected", "hover"],
       "legacyKey": "table-selected-row-background-opacity-hover"
     },
@@ -1003,7 +1007,8 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-opacity",
+      "object": "background",
+      "property": "opacity",
       "state": ["selected"],
       "emphasis": "non-emphasized",
       "legacyKey": "table-selected-row-background-opacity-non-emphasized"
@@ -1016,7 +1021,8 @@
     "name": {
       "component": "table",
       "anatomy": "row",
-      "property": "background-opacity",
+      "object": "background",
+      "property": "opacity",
       "state": ["selected", "hover"],
       "emphasis": "non-emphasized",
       "legacyKey": "table-selected-row-background-opacity-non-emphasized-hover"
@@ -1056,8 +1062,11 @@
   {
     "name": {
       "component": "tree-view",
-      "property": "row-background",
-      "state": ["hover"]
+      "anatomy": "row",
+      "object": "background",
+      "property": "color",
+      "state": ["hover"],
+      "legacyKey": "tree-view-row-background-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "16d156d1-4af9-4878-9984-643a2c08aff8",
@@ -1080,7 +1089,8 @@
     "name": {
       "component": "tree-view",
       "anatomy": "row",
-      "property": "background",
+      "object": "background",
+      "property": "color",
       "state": ["selected", "default"],
       "legacyKey": "tree-view-selected-row-background-default"
     },
@@ -1092,7 +1102,8 @@
     "name": {
       "component": "tree-view",
       "anatomy": "row",
-      "property": "background",
+      "object": "background",
+      "property": "color",
       "state": ["selected", "hover"],
       "legacyKey": "tree-view-selected-row-background-hover"
     },
