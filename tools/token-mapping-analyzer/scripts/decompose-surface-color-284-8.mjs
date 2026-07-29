@@ -70,24 +70,12 @@ for (const filename of files) {
       continue;
     }
 
-    const patched = {
+    token.name = {
       ...token.name,
       object: map.object,
       property: map.property,
       legacyKey,
     };
-
-    // Safety check: the patched name object must still resolve to the same
-    // legacy key via the pin (serialize() prefers an explicit legacyKey, so
-    // this mainly guards against a typo in MAPPING).
-    const resolved = patched.legacyKey;
-    if (resolved !== legacyKey) {
-      skipped++;
-      console.warn(`  SKIP (mismatch): ${filename} ${legacyKey}`);
-      continue;
-    }
-
-    token.name = patched;
     applied++;
   }
 
