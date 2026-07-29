@@ -4597,7 +4597,7 @@
     "name": {
       "variant": "static",
       "colorFamily": "black",
-      "object": "text",
+      "anatomy": "text",
       "property": "color",
       "legacyKey": "static-black-text-color"
     },
@@ -4609,7 +4609,7 @@
     "name": {
       "variant": "static",
       "colorFamily": "black",
-      "object": "track",
+      "anatomy": "track",
       "property": "color",
       "legacyKey": "static-black-track-color"
     },
@@ -4646,7 +4646,7 @@
     "name": {
       "variant": "static",
       "colorFamily": "white",
-      "object": "text",
+      "anatomy": "text",
       "property": "color",
       "legacyKey": "static-white-text-color"
     },
@@ -4658,7 +4658,7 @@
     "name": {
       "variant": "static",
       "colorFamily": "white",
-      "object": "track",
+      "anatomy": "track",
       "property": "color",
       "legacyKey": "static-white-track-color"
     },
