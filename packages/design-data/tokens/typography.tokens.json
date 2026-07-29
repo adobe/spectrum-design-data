@@ -1390,7 +1390,7 @@
       "property": "margin",
       "structure": "detail",
       "position": ["bottom"],
-      "legacyKey": "detail-detail-margin-bottom-multiplier"
+      "legacyKey": "detail-margin-bottom-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.25,
@@ -1402,7 +1402,7 @@
       "property": "margin",
       "structure": "detail",
       "position": ["top"],
-      "legacyKey": "detail-detail-margin-top-multiplier"
+      "legacyKey": "detail-margin-top-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.88888889,
@@ -2771,7 +2771,7 @@
       "property": "margin",
       "structure": "heading",
       "position": ["bottom"],
-      "legacyKey": "heading-heading-margin-bottom-multiplier"
+      "legacyKey": "heading-margin-bottom-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.25,
@@ -2783,7 +2783,7 @@
       "property": "margin",
       "structure": "heading",
       "position": ["top"],
-      "legacyKey": "heading-heading-margin-top-multiplier"
+      "legacyKey": "heading-margin-top-multiplier"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.88888889,
