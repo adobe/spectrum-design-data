@@ -917,7 +917,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "icon",
       "label": "Icon",
       "description": "Icon elements",
-      "usedIn": ["tokens", "component-schemas"]
+      "usedIn": ["tokens", "component-schemas"],
+      "standaloneScope": true
     },
     {
       "id": "label",
@@ -959,13 +960,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "indicator",
       "label": "Indicator",
       "description": "Visual indicator or marker",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "track",
       "label": "Track",
       "description": "Track or rail element (e.g., in sliders)",
-      "usedIn": ["tokens"]
+      "usedIn": ["tokens"],
+      "standaloneScope": true
     },
     {
       "id": "thumb",
@@ -1435,7 +1438,8 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "overlay",
       "label": "Overlay",
       "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
-      "usedIn": ["s2-docs"]
+      "usedIn": ["s2-docs"],
+      "standaloneScope": true
     },
     {
       "id": "header-area",
