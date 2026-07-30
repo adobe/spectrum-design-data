@@ -54,15 +54,18 @@ drops you into an interactive session. Press `?` for the full keymap.
 
 ## Commands
 
-Open the palette with `:` (command mode) or `/` (fuzzy-find mode).
+Open the palette with `:` and type a command name. Press `Tab` to autocomplete
+(fuzzy match with highlighted characters). Press `?` at any point to open the
+context-sensitive help overlay.
 
-| Command                                           | Description                                                                                                |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `:query <expr>`                                   | Filter tokens. Glob-style: `background-color/*`, `accent-*`                                                |
-| `:resolve property=<name>[,<mode-set>=<mode>...]` | Show cascade resolution for a property with optional mode overrides. The ★ column marks the winning token. |
-| `:describe <component>`                           | Inspect a component schema (JSON, scrollable).                                                             |
-| `:validate`                                       | Validate all loaded tokens against their `$schema`. Shows Sev / Rule / Token / Message.                    |
-| `:new [<intent>]`                                 | Open the four-screen token authoring wizard.                                                               |
+| Command                                           | Description                                                                                                                                    |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `:query <expr>`                                   | Filter tokens. Glob-style: `background-color/*`, `accent-*`                                                                                    |
+| `:resolve property=<name>[,<mode-set>=<mode>...]` | Show cascade resolution for a property with optional mode overrides. The ★ column marks the winning token.                                     |
+| `:describe <component>`                           | Inspect a component schema (JSON, scrollable). Alias: `:component`.                                                                            |
+| `:validate`                                       | Validate all loaded tokens against their `$schema`. Findings are **grouped by rule** with expand/collapse. Shows Sev / Rule / Token / Message. |
+| `:find [<intent>]`                                | Open the two-screen **find wizard** (Filters → Preview). Five structured fields with cross-field count badges; free-text intent search.        |
+| `:new [<intent>]`                                 | Open the four-screen token authoring wizard. Alias: `:create`.                                                                                 |
 
 ***
 
@@ -99,54 +102,61 @@ Relaunch without `--no-resume-wizard` to restore.
 
 ### Palette
 
-| Key       | Action                    |
-| --------- | ------------------------- |
-| `:`       | Open command mode         |
-| `/`       | Open fuzzy-find mode      |
-| `Esc`     | Cancel / close palette    |
-| `Enter`   | Dispatch command          |
-| `Tab`     | Autocomplete command name |
-| `↑` / `↓` | Recall palette history    |
+| Key       | Action                                               |
+| --------- | ---------------------------------------------------- |
+| `:`       | Open palette in command mode                         |
+| `Esc`     | Cancel / close palette                               |
+| `Enter`   | Dispatch command                                     |
+| `Tab`     | Fuzzy-autocomplete command name (highlights matches) |
+| `↑` / `↓` | Recall palette history                               |
 
 ### List views (query / resolve / validate)
 
-| Key          | Action                                    |
-| ------------ | ----------------------------------------- |
-| `↑` / `k`    | Move selection up                         |
-| `↓` / `j`    | Move selection down                       |
-| Scroll wheel | Move selection                            |
-| Click row    | Select that row                           |
-| `y`          | Yank selected name / message to clipboard |
-| `Esc`        | Return to empty view                      |
+| Key          | Action                                               |
+| ------------ | ---------------------------------------------------- |
+| `↑` / `k`    | Move selection up                                    |
+| `↓` / `j`    | Move selection down                                  |
+| `g`          | Jump to top                                          |
+| `G`          | Jump to bottom                                       |
+| Scroll wheel | Move selection                                       |
+| Click row    | Select that row                                      |
+| `y`          | Yank selected name / message to clipboard            |
+| `Enter`      | (validate view) Expand / collapse the selected group |
+| `Esc`        | Return to empty view                                 |
 
 ### Describe view
 
-| Key             | Action               |
-| --------------- | -------------------- |
-| `↑` / `k`       | Scroll up one line   |
-| `↓` / `j`       | Scroll down one line |
-| `PgUp` / `PgDn` | Scroll 10 lines      |
-| Scroll wheel    | Scroll body          |
-| `Esc`           | Return to empty view |
+| Key             | Action                                |
+| --------------- | ------------------------------------- |
+| `↑` / `k`       | Scroll up one line                    |
+| `↓` / `j`       | Scroll down one line                  |
+| `←` / `h`       | Scroll left (horizontal scroll)       |
+| `→` / `l`       | Scroll right (horizontal scroll)      |
+| `PgUp` / `PgDn` | Scroll 10 lines                       |
+| Scroll wheel    | Scroll body                           |
+| `y`             | Yank selected row to clipboard        |
+| `Y`             | Yank full component JSON to clipboard |
+| `Esc`           | Return to empty view                  |
 
 ### Wizard
 
-| Screen           | Key                 | Action                                       |
-| ---------------- | ------------------- | -------------------------------------------- |
-| 1 Intent         | `↑`/`↓`             | Navigate suggestions                         |
-| 1 Intent         | `Tab`               | Reuse top suggestion (alias path → Screen 4) |
-| 1 Intent         | `Enter`             | Proceed to Screen 2                          |
-| 2 Classification | `Tab` / `Shift-Tab` | Move between fields                          |
-| 2 Classification | `←` / `→`           | Cycle layer                                  |
-| 2 Classification | `+`                 | Add a name field                             |
-| 3 Values         | `a`                 | Set row kind to Alias                        |
-| 3 Values         | `l`                 | Set row kind to Literal                      |
-| 3 Values         | `e`                 | Edit active row value                        |
-| 4 Confirm        | Type                | Enter rationale                              |
-| 4 Confirm        | `↑`/`↓` / Scroll    | Scroll diff preview                          |
-| 4 Confirm        | `Ctrl+S`            | Edit `$schema` URL                           |
-| 4 Confirm        | `Enter`             | Submit                                       |
-| All              | `Esc`               | Cancel wizard                                |
+| Screen           | Key                 | Action                                                           |
+| ---------------- | ------------------- | ---------------------------------------------------------------- |
+| 1 Intent         | `↑`/`↓`             | Navigate suggestions                                             |
+| 1 Intent         | `Tab`               | Reuse top suggestion (alias path → Screen 4)                     |
+| 1 Intent         | `Enter`             | Proceed to Screen 2                                              |
+| 2 Classification | `Tab` / `Shift-Tab` | Move between fields                                              |
+| 2 Classification | `←` / `→`           | Cycle layer                                                      |
+| 2 Classification | `+`                 | Add a name field                                                 |
+| 3 Values         | `a`                 | Set row kind to Alias                                            |
+| 3 Values         | `l`                 | Set row kind to Literal                                          |
+| 3 Values         | `e`                 | Edit active row value                                            |
+| 4 Confirm        | Type                | Enter rationale                                                  |
+| 4 Confirm        | `↑`/`↓` / Scroll    | Scroll diff preview                                              |
+| 4 Confirm        | `Ctrl+S`            | Edit `$schema` URL                                               |
+| 4 Confirm        | `Enter`             | Submit                                                           |
+| 1 Intent         | `Esc`               | Cancel wizard                                                    |
+| 2–4 Any          | `Esc`               | Go back one screen (Confirm→Values→Classification→Intent→cancel) |
 
 ### Mouse
 
