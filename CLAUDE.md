@@ -88,11 +88,16 @@ License: Apache-2.0.
 
 Beads sync to Jira (`DNA` project) via a script in the separate `adobe-mcp-servers`
 repo (`src/corp-jira/scripts/import-beads.ts`), run manually/weekly. Jira only links
-**Epics** to Initiatives (no such field for Story/Task), via a `Child-Issue` link —
-the sync creates this automatically from a bd label.
+**Epics** to Initiatives (no such field for Story/Task), via the native "Parent Link"
+field (`customfield_21401`, added to DNA's Epic/Initiative screens via JIRA-40949) —
+the sync sets this automatically from a bd label.
 
 * **New epic tracking OKR-level work**: `bd create -t epic -l initiative:DNA-XXXX ...`
 * **Existing epic** (including closed ones): `bd label add <epic-id> initiative:DNA-XXXX`
+* **One initiative per epic, max.** Parent Link is single-valued (an issue-picker
+  field, not multi-select). If an epic ends up with more than one `initiative:`
+  label, the sync warns and picks the first one — fix the epic instead of
+  relying on that: `bd label remove <epic-id> initiative:DNA-WRONG`.
 * Current initiatives (all FY26 OKR-driven, all In Progress):
   * `DNA-1522` — adaptive support per platform
   * `DNA-1520` — multi-platform improvements / governance
