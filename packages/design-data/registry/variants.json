@@ -229,6 +229,13 @@
       "usedIn": ["tokens"]
     },
     {
+      "id": "component",
+      "label": "Component",
+      "description": "Compact in-component typography scale, alongside the page-level body/detail/heading/title roles",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",

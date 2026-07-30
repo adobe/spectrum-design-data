@@ -233,6 +233,13 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
+      "id": "component",
+      "label": "Component",
+      "description": "Compact in-component typography scale, alongside the page-level body/detail/heading/title roles",
+      "category": "typography-role",
+      "usedIn": ["tokens"]
+    },
+    {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
@@ -1924,6 +1931,16 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "CSS outline color"
     },
     {
+      "id": "square-dark",
+      "label": "Square (Dark)",
+      "description": "Color of the darker of the two alternating tiles in an opacity checkerboard pattern. \"Dark\" identifies the tile's fixed relative lightness (paired with square-light), not the surrounding colorScheme theme — this token still varies per colorScheme."
+    },
+    {
+      "id": "square-light",
+      "label": "Square (Light)",
+      "description": "Color of the lighter of the two alternating tiles in an opacity checkerboard pattern. \"Light\" identifies the tile's fixed relative lightness (paired with square-dark), not the surrounding colorScheme theme — this token still varies per colorScheme."
+    },
+    {
       "id": "opacity",
       "label": "Opacity",
       "description": "Element transparency level"
@@ -2062,6 +2079,11 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "letter-spacing",
       "label": "Letter Spacing",
       "description": "Horizontal spacing between characters"
+    },
+    {
+      "id": "typography",
+      "label": "Typography",
+      "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
     },
     {
       "id": "text-align",
