@@ -72,6 +72,17 @@ export const COMPOUND_PROPERTIES = [
   "width-multiplier",
   "minimum-width-multiplier",
   "maximum-width-multiplier",
+  // Registered atomic property terms whose segments happen to collide with
+  // an unrelated object/anatomy registry id -- kept atomic per bead 284.3/284.9
+  // judgment calls, not decomposition gaps. "content" is also a registered
+  // object id (header/footer-content anatomy); "square" is a registered
+  // anatomy id (opacity-checkerboard design asset).
+  "content-color",
+  "square-dark",
+  "square-light",
+  // "row" is a registered anatomy id, but "row-height" (table section header)
+  // is its own atomic sizing concept, not anatomy:"row" + property:"height".
+  "row-height",
 ];
 
 /**
