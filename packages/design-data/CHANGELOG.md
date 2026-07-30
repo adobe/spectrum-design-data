@@ -1,5 +1,96 @@
 # @adobe/spectrum-design-data
 
+## 1.0.1
+
+### Patch Changes
+
+- [#1314](https://github.com/adobe/spectrum-design-data/pull/1314) [`3862608`](https://github.com/adobe/spectrum-design-data/commit/3862608509174f10e92d3c90aeae29f2fe9a4769) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose remaining background/opacity fusion residue missed by 284.3
+  (closes spectrum-design-data-284.6).
+  - **packages/design-data/tokens/color-aliases.tokens.json**:
+    `background-opacity-key-focus` split into `object`/`property`, matching
+    the sibling `background-*-opacity` state tokens.
+  - **packages/design-data/tokens/color-component.tokens.json**:
+    `card-background-loading-color`, `table-selected-row-background-opacity`
+    (+ hover/non-emphasized variants), `tree-view-row-background-hover`, and
+    `tree-view-selected-row-background-{default,hover}` split into
+    `object`/`property`, keeping existing `legacyKey` pins.
+  - `background-base-color`, `background-layer-1-color`/`-2-color`, and
+    `stack-item-selected-background-color-highlight` left unsplit — they'd
+    need a new registered `variant`/`anatomy` id (`base`, `layer`, `item`)
+    that doesn't exist today; that's a registry decision, not a data-only
+    change, so out of scope here.
+
+- [#1310](https://github.com/adobe/spectrum-design-data/pull/1310) [`3f91a83`](https://github.com/adobe/spectrum-design-data/commit/3f91a8388a0fb0675721d1eebbd747c83fadba8e) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose 8 fused compound-state opacity tokens in `stack-item`/`tree-view`
+  into structured `name` fields (closes spectrum-design-data-284.5).
+  - **packages/design-data/tokens/layout-component.tokens.json**: split each
+    token's fused `property` string (e.g.
+    `stack-item-selected-background-opacity-emphasized-hover`) into
+    `component`/`anatomy`/`object`/`property`/`state`/`emphasis`/`qualifier`,
+    keeping the existing pinned `legacyKey` unchanged.
+
+- [#1314](https://github.com/adobe/spectrum-design-data/pull/1314) [`3862608`](https://github.com/adobe/spectrum-design-data/commit/3862608509174f10e92d3c90aeae29f2fe9a4769) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose the final grab-bag of fused `name.property` residue left after
+  284.3/284.6 (closes spectrum-design-data-284.7).
+  - **registry/variants.json**: register `base`/`layer` (context) and `hero`
+    (card emphasis) variant ids.
+  - **registry/property-terms.json**: register `rounding-increment`.
+  - **color-aliases.tokens.json**: `background-{base,layer-1,layer-2}-color`
+    split into `variant`/`object`/`property`.
+  - **typography.tokens.json**: `default-font-family` simplified to atomic
+    `property:"font-family"`.
+  - **layout-component.tokens.json**: split `card-selection-background-size`,
+    coach-indicator ring rounding-increments, `menu-item-section-divider-
+height`, `radio-button-selection-indicator`, `table-border-divider-width`,
+    `collection-card-minimum-height-hero-*`, `drop-zone-cjk-title-font-size`.
+  - **layout.tokens.json**: `side-focus-indicator` split into
+    `orientation`/`anatomy`/`property`.
+  - `opacity-checkerboard-square-{dark,light}` intentionally left atomic
+    (design-asset swatch).
+
+- [#1312](https://github.com/adobe/spectrum-design-data/pull/1312) [`1d9a3b3`](https://github.com/adobe/spectrum-design-data/commit/1d9a3b36ad03dd772f4fd1f3db93a38538404b94) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose 81 fused position/size/state tokens into structured `name` fields
+  (closes spectrum-design-data-284.2).
+  - **packages/design-data/tokens/layout-component.tokens.json**: split 70
+    tokens' fused `property` strings (e.g. `default-width`, `cjk-size-l`,
+    `handle-large`, `steplist-step-default-height-large`) into
+    `property`/`size`/`state`/`anatomy`/`density`/`script`, keeping each
+    token's pinned or newly-reconstructed `legacyKey` unchanged.
+  - **packages/design-data/tokens/layout.tokens.json**: split 7
+    `base-padding-horizontal-uniform-*` tokens into `property`/`orientation`/
+    `shape`/`size`.
+  - **packages/design-data/tokens/typography.tokens.json**: split 4
+    `margin-{top,bottom}-multiplier` tokens (detail, heading) into
+    `property`/`position`.
+  - Triaged 22 genuinely ambiguous tokens without forcing a naming call:
+    `side-focus-indicator`, `default-font-family`, 15 `component-*` typography
+    tokens, and 5 `collection-card-minimum-height-hero-*` tokens (no
+    registered `hero` variant id).
+
+- [#1314](https://github.com/adobe/spectrum-design-data/pull/1314) [`3862608`](https://github.com/adobe/spectrum-design-data/commit/3862608509174f10e92d3c90aeae29f2fe9a4769) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose the four registered legacy-alias surface-color properties into
+  `object` + `property` (closes spectrum-design-data-284.8).
+  - **color-aliases.tokens.json**, **color-component.tokens.json**,
+    **icons.tokens.json**, **layout-component.tokens.json**,
+    **semantic-color-palette.tokens.json**: split `background-color`,
+    `border-color`, `visual-color`, and `border-opacity` into
+    `object:"background"|"border"|"visual"` + `property:"color"|"opacity"`,
+    pinning an explicit `legacyKey` on every changed token.
+  - `content-color`/`fill-color` intentionally left atomic (already-registered
+    atomic property terms, per prior epic-284 decisions).
+
+- [#1313](https://github.com/adobe/spectrum-design-data/pull/1313) [`4358f73`](https://github.com/adobe/spectrum-design-data/commit/4358f736dfe999f786af618c7395a2596ac1baf7) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose fused surface/anatomy + colorRole property values into structured
+  `name` fields (closes spectrum-design-data-284.3).
+  - **packages/design-data/tokens/color-aliases.tokens.json**: split
+    `overlay-color`/`overlay-opacity`, `static-*-text-color`,
+    `static-*-track-color`, and `static-*-track-indicator-color` into
+    `object`/`anatomy` + atomic `property`, keeping existing `legacyKey` pins.
+  - **packages/design-data/tokens/icons.tokens.json**: split
+    `icon-color-disabled-primary` and `icon-color-emphasized-background` into
+    `icon` + `property`/`state`/`colorRole`/`emphasis`.
+  - **packages/design-data/tokens/semantic-color-palette.tokens.json**: split
+    `icon-color-{informative,negative,neutral,notice,positive}` into
+    `anatomy:"icon"` + `property`/`colorRole`.
+  - `background-color`, `border-color`, `visual-color`, `content-color`, and
+    `fill-color` are registered atomic property terms and were intentionally
+    left unsplit.
+
 ## 1.0.0
 
 ### Major Changes
