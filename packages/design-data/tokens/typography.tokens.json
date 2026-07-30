@@ -837,7 +837,9 @@
   },
   {
     "name": {
-      "property": "component-l-bold",
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
       "weight": "bold",
       "legacyKey": "component-l-bold"
     },
@@ -853,7 +855,9 @@
   },
   {
     "name": {
-      "property": "component-l-medium",
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
       "weight": "medium",
       "legacyKey": "component-l-medium"
     },
@@ -869,7 +873,9 @@
   },
   {
     "name": {
-      "property": "component-l-regular",
+      "variant": "component",
+      "property": "typography",
+      "size": "l",
       "weight": "regular",
       "legacyKey": "component-l-regular"
     },
@@ -885,7 +891,9 @@
   },
   {
     "name": {
-      "property": "component-m-bold",
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
       "weight": "bold",
       "legacyKey": "component-m-bold"
     },
@@ -901,7 +909,9 @@
   },
   {
     "name": {
-      "property": "component-m-medium",
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
       "weight": "medium",
       "legacyKey": "component-m-medium"
     },
@@ -917,7 +927,9 @@
   },
   {
     "name": {
-      "property": "component-m-regular",
+      "variant": "component",
+      "property": "typography",
+      "size": "m",
       "weight": "regular",
       "legacyKey": "component-m-regular"
     },
@@ -933,7 +945,9 @@
   },
   {
     "name": {
-      "property": "component-s-bold",
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
       "weight": "bold",
       "legacyKey": "component-s-bold"
     },
@@ -949,7 +963,9 @@
   },
   {
     "name": {
-      "property": "component-s-medium",
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
       "weight": "medium",
       "legacyKey": "component-s-medium"
     },
@@ -965,7 +981,9 @@
   },
   {
     "name": {
-      "property": "component-s-regular",
+      "variant": "component",
+      "property": "typography",
+      "size": "s",
       "weight": "regular",
       "legacyKey": "component-s-regular"
     },
@@ -981,7 +999,9 @@
   },
   {
     "name": {
-      "property": "component-xl-bold",
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
       "weight": "bold",
       "legacyKey": "component-xl-bold"
     },
@@ -997,7 +1017,9 @@
   },
   {
     "name": {
-      "property": "component-xl-medium",
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
       "weight": "medium",
       "legacyKey": "component-xl-medium"
     },
@@ -1013,7 +1035,9 @@
   },
   {
     "name": {
-      "property": "component-xl-regular",
+      "variant": "component",
+      "property": "typography",
+      "size": "xl",
       "weight": "regular",
       "legacyKey": "component-xl-regular"
     },
@@ -1029,7 +1053,9 @@
   },
   {
     "name": {
-      "property": "component-xs-bold",
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
       "weight": "bold",
       "legacyKey": "component-xs-bold"
     },
@@ -1045,7 +1071,9 @@
   },
   {
     "name": {
-      "property": "component-xs-medium",
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
       "weight": "medium",
       "legacyKey": "component-xs-medium"
     },
@@ -1061,7 +1089,9 @@
   },
   {
     "name": {
-      "property": "component-xs-regular",
+      "variant": "component",
+      "property": "typography",
+      "size": "xs",
       "weight": "regular",
       "legacyKey": "component-xs-regular"
     },

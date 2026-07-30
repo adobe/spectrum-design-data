@@ -194,6 +194,11 @@
       "description": "Horizontal spacing between characters"
     },
     {
+      "id": "typography",
+      "label": "Typography",
+      "description": "Composite type style bundling font family, size, weight, letter-spacing, and line-height in one value"
+    },
+    {
       "id": "text-align",
       "label": "Text Align",
       "description": "Horizontal alignment of text content"
