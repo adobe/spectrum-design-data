@@ -1040,4 +1040,16 @@ mod tests {
         assert_eq!(summary.skipped_composite.len(), 2);
         assert!(body.variables.is_empty());
     }
+
+    #[test]
+    fn s2_web_baseline_fixture_deserializes() {
+        let raw = include_str!("../../tests/fixtures/figma/s2-web-variables.baseline.json");
+        let meta: crate::figma::types::VariablesMeta =
+            serde_json::from_str(raw).expect("baseline fixture is valid VariablesMeta");
+        assert!(
+            !meta.variable_collections.is_empty(),
+            "expected at least one collection"
+        );
+        assert!(!meta.variables.is_empty(), "expected at least one variable");
+    }
 }
