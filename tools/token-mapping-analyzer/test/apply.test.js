@@ -49,6 +49,7 @@ const OTHER_DECOMPOSABLE_FIELDS = [
   "contrast",
   "easing",
   "motionRole",
+  "icon",
 ];
 
 /** Recursively collect every token object decomposed for `size` alone. */

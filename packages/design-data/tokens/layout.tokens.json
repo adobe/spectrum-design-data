@@ -6034,7 +6034,9 @@
   },
   {
     "name": {
-      "property": "side-focus-indicator",
+      "orientation": "vertical",
+      "anatomy": "focus-indicator",
+      "property": "thickness",
       "legacyKey": "side-focus-indicator"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

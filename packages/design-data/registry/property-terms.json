@@ -144,6 +144,11 @@
       "description": "Corner rounding radius"
     },
     {
+      "id": "rounding-increment",
+      "label": "Rounding Increment",
+      "description": "Step size added to a ring or ring-like anatomy's corner rounding per nesting level"
+    },
+    {
       "id": "outline-width",
       "label": "Outline Width",
       "description": "CSS outline thickness"
