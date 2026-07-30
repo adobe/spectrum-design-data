@@ -1,5 +1,18 @@
 # @adobe/spectrum-design-data
 
+## 1.0.3
+
+### Patch Changes
+
+- [#1317](https://github.com/adobe/spectrum-design-data/pull/1317) [`f7f8bef`](https://github.com/adobe/spectrum-design-data/commit/f7f8beff6b82d9431c17a84e8286677aa3e27e61) Thanks [@GarthDB](https://github.com/GarthDB)! - Decompose the last remaining fused `name.property`: the stack-item selected/highlight
+  background-color token (closes spectrum-design-data-284). Legacy output is unchanged
+  (`legacyKey` pinned).
+  - **packages/design-data/tokens/color-aliases.tokens.json**: split
+    `stack-item-selected-background-color-highlight`'s fused `stack-item-background-color`
+    property into `object:"background"` + `property:"color"`. The `stack-item` prefix isn't
+    reintroduced as a `component` field — the legacy reference data for this cross-component
+    alias never tagged it with one, so `legacyKey` is the only place it's preserved.
+
 ## 1.0.2
 
 ### Patch Changes
