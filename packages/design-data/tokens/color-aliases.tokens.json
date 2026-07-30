@@ -5276,8 +5276,9 @@
   },
   {
     "name": {
+      "object": "background",
+      "property": "color",
       "state": ["selected"],
-      "property": "stack-item-background-color",
       "qualifier": "highlight",
       "legacyKey": "stack-item-selected-background-color-highlight"
     },
