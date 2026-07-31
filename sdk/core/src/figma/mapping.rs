@@ -113,6 +113,11 @@ pub struct ExportSummary {
 ///
 /// `existing` is the result of `GET /v1/files/:file_key/variables/local` —
 /// used to look up collection and mode IDs for the target collections.
+///
+/// `overrides` maps a legacy token key to an explicit Figma Variable name
+/// (from a `figma audit` artifact); keys absent from the map fall back to the
+/// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
+/// today's naming for every token.
 pub fn build_export_payload(
     token_dir: &Path,
     existing: &VariablesMeta,
@@ -431,6 +436,10 @@ fn make_variable_action(
         .and_then(|m| m.get(token_name))
         .cloned()
         .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+    // Match against the final (possibly overridden) name. An override that
+    // points at a name not already in the file produces a CREATE, not a
+    // rename of the old variable — Figma's variables payload has no rename
+    // action, so remapping an existing token surfaces as a new variable.
     let (action, id, var_id) =
         if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
             let real_id = existing_id.to_string();
