@@ -113,9 +113,15 @@ pub struct ExportSummary {
 ///
 /// `existing` is the result of `GET /v1/files/:file_key/variables/local` —
 /// used to look up collection and mode IDs for the target collections.
+///
+/// `overrides` maps a legacy token key to an explicit Figma Variable name
+/// (from a `figma audit` artifact); keys absent from the map fall back to the
+/// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
+/// today's naming for every token.
 pub fn build_export_payload(
     token_dir: &Path,
     existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     // 1. Look up collection and mode IDs from the existing file.
     let color_col =
@@ -174,6 +180,7 @@ pub fn build_export_payload(
                 &color_mode_ids,
                 &value_index,
                 &existing_var_index,
+                overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
@@ -187,6 +194,7 @@ pub fn build_export_payload(
                 &scale_mode_ids,
                 &value_index,
                 &existing_var_index,
+                overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
@@ -202,6 +210,7 @@ pub fn build_export_payload(
                 color_default_mode,
                 &value_index,
                 &existing_var_index,
+                overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
@@ -218,6 +227,7 @@ pub fn build_export_payload(
                 &value_index,
                 &all_tokens,
                 &existing_var_index,
+                overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
@@ -240,6 +250,7 @@ pub fn build_export_payload(
                 scale_default_mode,
                 &value_index,
                 &existing_var_index,
+                overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
@@ -411,6 +422,7 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn make_variable_action(
     token_name: &str,
     prefix: &str,
@@ -418,8 +430,16 @@ fn make_variable_action(
     figma_type: &str,
     description: Option<&str>,
     existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let figma_name = format!("{prefix}/{token_name}");
+    let figma_name = overrides
+        .and_then(|m| m.get(token_name))
+        .cloned()
+        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+    // Match against the final (possibly overridden) name. An override that
+    // points at a name not already in the file produces a CREATE, not a
+    // rename of the old variable — Figma's variables payload has no rename
+    // action, so remapping an existing token surfaces as a new variable.
     let (action, id, var_id) =
         if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
             let real_id = existing_id.to_string();
@@ -453,6 +473,7 @@ fn process_color_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
@@ -483,6 +504,7 @@ fn process_color_set_token(
         figma_type,
         desc,
         existing_var_index,
+        overrides,
     );
     variables.push(va);
     summary.variables_created += 1;
@@ -526,6 +548,7 @@ fn process_scale_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
@@ -579,6 +602,7 @@ fn process_scale_set_token(
         figma_type,
         desc,
         existing_var_index,
+        overrides,
     );
     variables.push(va);
     summary.variables_created += 1;
@@ -623,6 +647,7 @@ fn process_flat_token(
     default_mode_id: &str,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
@@ -666,6 +691,7 @@ fn process_flat_token(
         figma_type,
         desc,
         existing_var_index,
+        overrides,
     );
     variables.push(va);
     summary.variables_created += 1;
@@ -690,6 +716,7 @@ fn process_alias_token(
     value_index: &HashMap<String, String>,
     all_tokens: &[(String, Value)],
     existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
@@ -774,6 +801,7 @@ fn process_alias_token(
         figma_type,
         desc,
         existing_var_index,
+        overrides,
     );
     variables.push(va);
     summary.variables_created += 1;
@@ -865,7 +893,7 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(summary.mode_values_set, 3);
         assert_eq!(body.variables.len(), 1);
@@ -894,13 +922,51 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(body.variables[0].name, "platformScale/spacing-100");
         assert_eq!(body.variables[0].resolved_type, "FLOAT");
         // Value should be 8.0
         let val = &body.variable_mode_values[0].value;
         assert_eq!(val.as_f64(), Some(8.0));
+    }
+
+    #[test]
+    fn override_remaps_name_absent_override_stays_1to1() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("layout.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "spacing-100": {
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "8px",
+                    "uuid": "d1"
+                },
+                "spacing-200": {
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "16px",
+                    "uuid": "d2"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let overrides: HashMap<String, String> = [(
+            "spacing-100".to_string(),
+            "Layout/spacing-100-real".to_string(),
+        )]
+        .into_iter()
+        .collect();
+        let (body, _summary) = build_export_payload(dir.path(), &meta, Some(&overrides)).unwrap();
+
+        let by_name = |n: &str| body.variables.iter().find(|v| v.name == n);
+        assert!(by_name("Layout/spacing-100-real").is_some());
+        assert!(by_name("platformScale/spacing-200").is_some());
     }
 
     #[test]
@@ -928,7 +994,7 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (_body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (_body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
         // base-color (flat color) + alias-color (alias→color)
         assert_eq!(summary.variables_created, 2);
         assert!(summary.skipped_alias_unresolved.is_empty());
@@ -974,7 +1040,7 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
 
         assert!(
             summary.skipped_alias_unresolved.is_empty(),
@@ -1035,7 +1101,7 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta).unwrap();
+        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
         assert_eq!(summary.variables_created, 0);
         assert_eq!(summary.skipped_composite.len(), 2);
         assert!(body.variables.is_empty());
