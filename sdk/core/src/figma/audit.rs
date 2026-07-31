@@ -102,6 +102,11 @@ pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditRe
             .insert(va.name.clone());
     }
 
+    // Keyed by legacy_key alone, shared across all collections: relies on
+    // legacy keys not overlapping between `.Color theme` and `.Platform scale`
+    // (true today — distinct token namespaces). If that ever changes, a
+    // generated_only name in the second collection to touch a given key would
+    // silently no-op against the first's entry.
     let mut overrides = BTreeMap::new();
     let mut collections = Vec::new();
     for (name, real_names) in &real_by_collection {
@@ -285,6 +290,11 @@ mod tests {
                     "$schema": "https://example.com/color.json",
                     "value": "rgb(255, 0, 0)",
                     "uuid": "u1"
+                },
+                "test-size": {
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "16px",
+                    "uuid": "u2"
                 }
             })
         )
@@ -315,6 +325,22 @@ mod tests {
             color_theme.figma_only,
             vec!["colorTheme/only-in-figma".to_string()],
             "real variable the generator never emits must surface as a coverage gap"
+        );
+
+        let platform_scale = report
+            .collections
+            .iter()
+            .find(|c| c.collection_name == ".Platform scale")
+            .expect(".Platform scale must be reported");
+        assert_eq!(
+            platform_scale.generated_only,
+            vec!["platformScale/test-size".to_string()],
+            "test-size has no real counterpart, so the generator would create a name Figma doesn't have"
+        );
+        assert_eq!(
+            report.overrides.get("test-size"),
+            Some(&String::new()),
+            "a generated_only name must seed the override scaffold with its stripped legacyKey"
         );
     }
 }
