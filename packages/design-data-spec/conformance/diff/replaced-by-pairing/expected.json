@@ -6,13 +6,19 @@
       "uuid": "aaaaaaaa-0002-4000-8000-000000000001",
       "property_changes": [
         {
-          "path": "lifecycle",
+          "path": "lifecycle.deprecatedComment",
           "change_type": "deleted",
-          "original_value": {
-            "deprecatedIn": "3.0.0",
-            "deprecatedComment": "Use action-background-default instead.",
-            "replacedBy": "aaaaaaaa-0002-4000-8000-000000000001"
-          }
+          "original_value": "Use action-background-default instead."
+        },
+        {
+          "path": "lifecycle.deprecatedIn",
+          "change_type": "deleted",
+          "original_value": "3.0.0"
+        },
+        {
+          "path": "lifecycle.replacedBy",
+          "change_type": "deleted",
+          "original_value": "aaaaaaaa-0002-4000-8000-000000000001"
         },
         {
           "path": "name.property",

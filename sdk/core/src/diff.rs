@@ -489,12 +489,9 @@ fn diff_recursive(old: &Value, new: &Value, prefix: String, out: &mut Vec<Proper
                         diff_recursive(old_val, new_val, path, out);
                     }
                     None => {
-                        out.push(PropertyChange {
-                            path,
-                            change_type: ChangeType::Deleted,
-                            new_value: None,
-                            original_value: Some(old_val.clone()),
-                        });
+                        // Per spec/diff.md: comparison MUST recurse to the leaf level with
+                        // full dot-separated paths, even for a wholly-removed subtree.
+                        record_deleted(old_val, path, out);
                     }
                 }
             }
@@ -506,12 +503,7 @@ fn diff_recursive(old: &Value, new: &Value, prefix: String, out: &mut Vec<Proper
                     } else {
                         format!("{prefix}.{key}")
                     };
-                    out.push(PropertyChange {
-                        path,
-                        change_type: ChangeType::Added,
-                        new_value: Some(new_val.clone()),
-                        original_value: None,
-                    });
+                    record_added(new_val, path, out);
                 }
             }
         }
@@ -524,6 +516,50 @@ fn diff_recursive(old: &Value, new: &Value, prefix: String, out: &mut Vec<Proper
                 original_value: Some(old.clone()),
             });
         }
+    }
+}
+
+/// Record a wholly-new subtree as leaf-level Added changes (per spec/diff.md's
+/// recurse-to-leaf-level rule), rather than one Added change for the whole value.
+fn record_added(value: &Value, prefix: String, out: &mut Vec<PropertyChange>) {
+    if let Value::Object(map) = value {
+        for (key, v) in map {
+            let path = if prefix.is_empty() {
+                key.clone()
+            } else {
+                format!("{prefix}.{key}")
+            };
+            record_added(v, path, out);
+        }
+    } else {
+        out.push(PropertyChange {
+            path: prefix,
+            change_type: ChangeType::Added,
+            new_value: Some(value.clone()),
+            original_value: None,
+        });
+    }
+}
+
+/// Record a wholly-removed subtree as leaf-level Deleted changes (per spec/diff.md's
+/// recurse-to-leaf-level rule), rather than one Deleted change for the whole value.
+fn record_deleted(value: &Value, prefix: String, out: &mut Vec<PropertyChange>) {
+    if let Value::Object(map) = value {
+        for (key, v) in map {
+            let path = if prefix.is_empty() {
+                key.clone()
+            } else {
+                format!("{prefix}.{key}")
+            };
+            record_deleted(v, path, out);
+        }
+    } else {
+        out.push(PropertyChange {
+            path: prefix,
+            change_type: ChangeType::Deleted,
+            new_value: None,
+            original_value: Some(value.clone()),
+        });
     }
 }
 
@@ -735,13 +771,35 @@ mod tests {
             "matched token must not be deprecated"
         );
         assert_eq!(report.updated.len(), 1, "must be classified as updated");
-        // `lifecycle` is an entirely new key on `new` (absent on `old`), so
-        // diff_recursive reports it as one Added change at "lifecycle" rather
-        // than recursing into "lifecycle.deprecatedIn".
+        // `lifecycle` is an entirely new key on `new` (absent on `old`), but
+        // diff_recursive still decomposes it to leaf level per spec/diff.md's
+        // recurse-to-leaf-level rule, rather than reporting one blob change at
+        // "lifecycle".
         assert!(report.updated[0]
             .property_changes
             .iter()
-            .any(|c| c.path == "lifecycle"));
+            .any(|c| c.path == "lifecycle.deprecatedIn"));
+    }
+
+    #[test]
+    fn added_and_deleted_objects_decompose_to_leaf_paths() {
+        // A wholly new/removed nested object must be reported as individual
+        // leaf-level Added/Deleted changes, not one blob change for the object.
+        let added = diff_properties(&json!({}), &json!({"lifecycle": {"a": 1, "b": 2}}));
+        let mut added_paths: Vec<&str> = added.iter().map(|c| c.path.as_str()).collect();
+        added_paths.sort();
+        assert_eq!(added_paths, vec!["lifecycle.a", "lifecycle.b"]);
+        assert!(added
+            .iter()
+            .all(|c| c.change_type == ChangeType::Added && c.original_value.is_none()));
+
+        let deleted = diff_properties(&json!({"lifecycle": {"a": 1, "b": 2}}), &json!({}));
+        let mut deleted_paths: Vec<&str> = deleted.iter().map(|c| c.path.as_str()).collect();
+        deleted_paths.sort();
+        assert_eq!(deleted_paths, vec!["lifecycle.a", "lifecycle.b"]);
+        assert!(deleted
+            .iter()
+            .all(|c| c.change_type == ChangeType::Deleted && c.new_value.is_none()));
     }
 
     // ── Added / deleted ─────────────────────────────────────────────────
