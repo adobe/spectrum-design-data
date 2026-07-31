@@ -25,14 +25,13 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
         for t in ctx.graph.tokens.values() {
-            if t.raw.get("replaced_by").is_none() {
+            let Some(lifecycle) = t.raw.get("lifecycle").and_then(|l| l.as_object()) else {
+                continue;
+            };
+            if !lifecycle.contains_key("replacedBy") {
                 continue;
             }
-            let has_deprecated = t
-                .raw
-                .as_object()
-                .map(|o| o.contains_key("deprecated"))
-                .unwrap_or(false);
+            let has_deprecated = lifecycle.contains_key("deprecatedIn");
             if !has_deprecated {
                 out.push(Diagnostic {
                     file: t.file.clone(),
@@ -40,7 +39,7 @@ impl ValidationRule for Rule {
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Error,
                     message: format!(
-                        "Token {} has replaced_by but is not marked deprecated",
+                        "Token {} has lifecycle.replacedBy but is not marked deprecated",
                         t.name
                     ),
                     instance_path: None,

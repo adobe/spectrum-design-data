@@ -58,16 +58,12 @@ const SCALE_SET_SCHEMA: &str =
 
 /// Fields that belong on the outer token entry (hoisted from mode entries when
 /// they are identical across all modes).
-const OUTER_LIFECYCLE_FIELDS: &[&str] = &[
-    "deprecated",
-    "deprecated_comment",
-    "renamed",
-    "replaced_by",
-    "plannedRemoval",
-    "introduced",
-    "private",
-    "description",
-];
+///
+/// `lifecycle` is the cascade-format nested lifecycle object (see
+/// `normalize_lifecycle_for_legacy`, which converts it to flat legacy fields
+/// after hoisting); it is compared/copied as a whole `Value::Object` here, so
+/// hoisting occurs only when every mode entry's `lifecycle` object is identical.
+const OUTER_LIFECYCLE_FIELDS: &[&str] = &["lifecycle", "private", "description"];
 
 // ── Summary ───────────────────────────────────────────────────────────────────
 
@@ -525,63 +521,93 @@ fn convert_array(
     Ok(out)
 }
 
-/// Convert cascade lifecycle fields to legacy format on a token entry.
+/// Convert a cascade nested `lifecycle` object to flat legacy fields on a token entry.
 ///
-/// - `deprecated: "version"` → `deprecated: true`
-/// - `replaced_by: "uuid"` → `renamed: "<property-name>"` (string form, resolved via map)
-/// - `replaced_by: ["uuid", ...]` → `renamed: "<property-name>"` when all elements
+/// - `lifecycle.deprecatedIn: "version"` (or any truthy value) → `deprecated: true`
+/// - `lifecycle.deprecatedComment` → `deprecated_comment` (copied verbatim)
+/// - `lifecycle.replacedBy: "uuid"` → `renamed: "<property-name>"` (string form, resolved via map)
+/// - `lifecycle.replacedBy: ["uuid", ...]` → `renamed: "<property-name>"` when all elements
 ///   resolve to the **same** legacy name (multi-member scale/color-set pointing at one
 ///   logical token); left unset when they resolve to multiple distinct names (genuine
-///   multi-target rename — `deprecated_comment` explains it).
-/// - `plannedRemoval`, `introduced` → removed (no legacy equivalent)
+///   multi-target rename — `deprecatedComment` explains it).
+/// - `lifecycle.plannedRemoval`, `lifecycle.introduced` → dropped (no legacy equivalent)
+///
+/// The `lifecycle` key itself is always removed — legacy format has no nested wrapper.
+///
+/// `deprecated`/`deprecated_comment` are spliced into `lifecycle`'s original map
+/// position (rather than appended fresh) so byte-identical legacy output ordering
+/// matches the pre-nesting flat-field layout, where these were their own keys
+/// already present ahead of `sets`. `renamed` has no such position to preserve —
+/// it never existed until derived here — so it is simply appended at the end,
+/// matching prior behavior.
 fn normalize_lifecycle_for_legacy(
     entry: &mut Map<String, Value>,
     uuid_to_name: &HashMap<String, String>,
 ) {
-    // deprecated: version string → boolean true
-    if let Some(dep) = entry.get("deprecated") {
-        if dep.is_string() {
-            entry.insert("deprecated".into(), Value::Bool(true));
-        }
-    }
+    if let Some(Value::Object(lifecycle)) = entry.get("lifecycle").cloned() {
+        // Fields that reuse `lifecycle`'s exact map position.
+        let mut in_place = Map::new();
 
-    // replaced_by → renamed (resolve UUID(s) to property name)
-    if let Some(replaced) = entry.remove("replaced_by") {
-        if let Some(uuid) = replaced.as_str() {
-            // Single-string form.
-            if let Some(name) = uuid_to_name.get(uuid) {
-                entry.insert("renamed".into(), Value::String(name.clone()));
+        // deprecatedIn: truthy (string version, or a loose boolean true in test
+        // fixtures) → boolean true. Explicit `false`/`null` → not deprecated.
+        if let Some(dep) = lifecycle.get("deprecatedIn") {
+            if !matches!(dep, Value::Bool(false) | Value::Null) {
+                in_place.insert("deprecated".into(), Value::Bool(true));
             }
-        } else if let Some(arr) = replaced.as_array() {
-            // Array form: collect all distinct resolved names.
-            let mut distinct: Vec<&str> = Vec::new();
-            for elem in arr {
-                if let Some(uuid) = elem.as_str() {
-                    if let Some(name) = uuid_to_name.get(uuid) {
-                        let s = name.as_str();
-                        if !distinct.contains(&s) {
-                            distinct.push(s);
+        }
+
+        if let Some(comment) = lifecycle.get("deprecatedComment") {
+            in_place.insert("deprecated_comment".into(), comment.clone());
+        }
+
+        let mut rebuilt = Map::new();
+        for (k, v) in entry.iter() {
+            if k == "lifecycle" {
+                for (fk, fv) in &in_place {
+                    rebuilt.insert(fk.clone(), fv.clone());
+                }
+            } else {
+                rebuilt.insert(k.clone(), v.clone());
+            }
+        }
+        *entry = rebuilt;
+
+        // replacedBy → renamed (resolve UUID(s) to property name); appended fresh.
+        if let Some(replaced) = lifecycle.get("replacedBy") {
+            if let Some(uuid) = replaced.as_str() {
+                // Single-string form.
+                if let Some(name) = uuid_to_name.get(uuid) {
+                    entry.insert("renamed".into(), Value::String(name.clone()));
+                }
+            } else if let Some(arr) = replaced.as_array() {
+                // Array form: collect all distinct resolved names.
+                let mut distinct: Vec<&str> = Vec::new();
+                for elem in arr {
+                    if let Some(uuid) = elem.as_str() {
+                        if let Some(name) = uuid_to_name.get(uuid) {
+                            let s = name.as_str();
+                            if !distinct.contains(&s) {
+                                distinct.push(s);
+                            }
                         }
                     }
                 }
+                // Emit renamed only when all resolvable elements point at the same logical
+                // token (e.g. two scale-set members with the same property name). Unresolvable
+                // UUIDs are skipped rather than treated as ambiguous: if a replacement token is
+                // absent from this conversion run the resolvable elements still identify the
+                // replacement name, so emitting renamed is correct. If elements resolve to two
+                // or more distinct names the mapping is genuinely ambiguous; deprecatedComment
+                // explains it. An empty array (or all unresolvable) produces no renamed.
+                if distinct.len() == 1 {
+                    entry.insert("renamed".into(), Value::String(distinct[0].to_string()));
+                }
+                // Multiple distinct targets or empty: no 1:1 mapping.
             }
-            // Emit renamed only when all resolvable elements point at the same logical
-            // token (e.g. two scale-set members with the same property name). Unresolvable
-            // UUIDs are skipped rather than treated as ambiguous: if a replacement token is
-            // absent from this conversion run the resolvable elements still identify the
-            // replacement name, so emitting renamed is correct. If elements resolve to two
-            // or more distinct names the mapping is genuinely ambiguous; deprecated_comment
-            // explains it. An empty array (or all unresolvable) produces no renamed.
-            if distinct.len() == 1 {
-                entry.insert("renamed".into(), Value::String(distinct[0].to_string()));
-            }
-            // Multiple distinct targets or empty: no 1:1 mapping.
         }
-    }
 
-    // Drop fields with no legacy equivalent.
-    entry.remove("plannedRemoval");
-    entry.remove("introduced");
+        // plannedRemoval, introduced: no legacy equivalent — simply not copied.
+    }
 
     // Recurse into sets entries.
     if let Some(sets) = entry.get_mut("sets").and_then(|v| v.as_object_mut()) {
@@ -592,36 +618,69 @@ fn normalize_lifecycle_for_legacy(
         }
     }
 
-    // Hoist `renamed` to the outer level when it is absent there but consistently
-    // the same across all mode entries. This matches the structural convention of the
-    // committed legacy files (lifecycle fields uniform across all modes belong at the
-    // outer level, not inside each set entry). This can happen when the cascade source
-    // stores per-mode `replaced_by` UUIDs that all resolve to the same legacy token
-    // name (e.g. desktop/mobile scale members of one logical replacement token).
-    if entry.get("renamed").is_none() {
-        let hoist_val: Option<Value> = entry
-            .get("sets")
-            .and_then(|s| s.as_object())
-            .filter(|sets| !sets.is_empty())
-            .and_then(|sets| {
-                let mut iter = sets
-                    .values()
-                    .filter_map(|v| v.as_object()?.get("renamed").cloned());
-                let first = iter.next()?;
-                if iter.all(|v| v == first) {
-                    Some(first)
-                } else {
-                    None
+    // Hoist individual flat legacy fields to the outer level when each is absent
+    // there but consistently the same across all mode entries. This matters because
+    // the initial whole-`lifecycle`-object hoist (OUTER_LIFECYCLE_FIELDS, above) is
+    // all-or-nothing: if per-mode `lifecycle.replacedBy` UUIDs differ (e.g. desktop
+    // and mobile pointing at different-but-equivalent replacement tokens) the whole
+    // object fails to hoist even though `deprecatedIn`/`deprecatedComment` were
+    // identical. This second pass recovers that per-field hoisting after each mode's
+    // own `lifecycle` has already been converted to flat legacy fields above.
+    //
+    // `deprecated`/`deprecated_comment` splice in immediately before `sets` — verified
+    // against real committed data (`packages/tokens/src/layout.json`'s `field-width`
+    // token, which has exactly this shape: consistent deprecation, differing
+    // per-mode replacedBy). `renamed` has no such position to preserve — it's a
+    // brand-new key first derived above, appended at the end.
+    hoist_flat_field_if_consistent(entry, "deprecated", true);
+    hoist_flat_field_if_consistent(entry, "deprecated_comment", true);
+    hoist_flat_field_if_consistent(entry, "renamed", false);
+}
+
+/// Hoist `field` to the outer level when it is absent there but consistently the
+/// same across all mode entries, removing it from each mode entry once hoisted.
+/// When `before_sets` is true, the hoisted key is spliced in immediately before
+/// `sets`; otherwise it is appended at the end of `entry`.
+fn hoist_flat_field_if_consistent(entry: &mut Map<String, Value>, field: &str, before_sets: bool) {
+    if entry.get(field).is_some() {
+        return;
+    }
+    let hoist_val: Option<Value> = entry
+        .get("sets")
+        .and_then(|s| s.as_object())
+        .filter(|sets| !sets.is_empty())
+        .and_then(|sets| {
+            // Every mode entry must carry `field` with the SAME value — a mode
+            // entry lacking it entirely must not be conflated with one whose
+            // value happens to agree with the others.
+            let first = sets.values().next()?.as_object()?.get(field)?;
+            if sets
+                .values()
+                .all(|v| v.as_object().and_then(|o| o.get(field)) == Some(first))
+            {
+                Some(first.clone())
+            } else {
+                None
+            }
+        });
+    if let Some(val) = hoist_val {
+        if before_sets {
+            let mut rebuilt = Map::new();
+            for (k, v) in entry.iter() {
+                if k == "sets" {
+                    rebuilt.insert(field.to_string(), val.clone());
                 }
-            });
-        if let Some(val) = hoist_val {
-            entry.insert("renamed".into(), val);
-            // Remove from mode entries — the value is now represented at the outer level.
-            if let Some(sets) = entry.get_mut("sets").and_then(|v| v.as_object_mut()) {
-                for set_entry in sets.values_mut() {
-                    if let Some(obj) = set_entry.as_object_mut() {
-                        obj.remove("renamed");
-                    }
+                rebuilt.insert(k.clone(), v.clone());
+            }
+            *entry = rebuilt;
+        } else {
+            entry.insert(field.to_string(), val);
+        }
+        // Remove from mode entries — the value is now represented at the outer level.
+        if let Some(sets) = entry.get_mut("sets").and_then(|v| v.as_object_mut()) {
+            for set_entry in sets.values_mut() {
+                if let Some(obj) = set_entry.as_object_mut() {
+                    obj.remove(field);
                 }
             }
         }
@@ -920,34 +979,35 @@ mod tests {
     fn consistent_lifecycle_field_hoisted_to_outer() {
         let arr = json!([
             {"name": {"property": "old-color", "colorScheme": "light"},
-             "value": "#fff", "uuid": "lc-0001", "deprecated": true, "renamed": "new-color"},
+             "value": "#fff", "uuid": "lc-0001", "lifecycle": {"deprecatedIn": true}},
             {"name": {"property": "old-color", "colorScheme": "dark"},
-             "value": "#000", "uuid": "lc-0002", "deprecated": true, "renamed": "new-color"}
+             "value": "#000", "uuid": "lc-0002", "lifecycle": {"deprecatedIn": true}}
         ]);
         let mut summary = LegacySummary::default();
         let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["old-color"];
         assert_eq!(entry["deprecated"], true);
-        assert_eq!(entry["renamed"], "new-color");
         assert!(entry["sets"]["light"].get("deprecated").is_none());
         assert!(entry["sets"]["dark"].get("deprecated").is_none());
     }
 
     #[test]
     fn inconsistent_lifecycle_field_stays_in_mode_entry() {
+        // light has no lifecycle at all; dark is deprecated — the whole `lifecycle`
+        // object differs across modes (present vs absent), so it must NOT hoist.
         let arr = json!([
             {"name": {"property": "mixed-color", "colorScheme": "light"},
-             "value": "#fff", "uuid": "lc-0003", "deprecated": false},
+             "value": "#fff", "uuid": "lc-0003"},
             {"name": {"property": "mixed-color", "colorScheme": "dark"},
-             "value": "#000", "uuid": "lc-0004", "deprecated": true}
+             "value": "#000", "uuid": "lc-0004", "lifecycle": {"deprecatedIn": true}}
         ]);
         let mut summary = LegacySummary::default();
         let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
 
         let entry = &out["mixed-color"];
         assert!(entry.get("deprecated").is_none());
-        assert_eq!(entry["sets"]["light"]["deprecated"], false);
+        assert!(entry["sets"]["light"].get("deprecated").is_none());
         assert_eq!(entry["sets"]["dark"]["deprecated"], true);
     }
 
@@ -1001,8 +1061,10 @@ mod tests {
             "$schema": ".../alias.json",
             "value": "1px",
             "uuid": "old-uuid-empty",
-            "deprecated": "unknown",
-            "replaced_by": []
+            "lifecycle": {
+                "deprecatedIn": "unknown",
+                "replacedBy": []
+            }
         }]);
         let global: HashMap<String, String> = HashMap::new();
         let mut summary = LegacySummary::default();
@@ -1026,8 +1088,10 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "known-uuid-0001",
                 "uuid": "old-partial-uuid",
-                "deprecated": "unknown",
-                "replaced_by": ["known-uuid-0001", "no-such-uuid-xyz"]
+                "lifecycle": {
+                    "deprecatedIn": "unknown",
+                    "replacedBy": ["known-uuid-0001", "no-such-uuid-xyz"]
+                }
             },
             {
                 "name": {"property": "new-token"},
@@ -1068,8 +1132,10 @@ mod tests {
                 "uuid": "old-desktop-uuid-0001",
                 "set_uuid": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
-                "deprecated": "unknown",
-                "replaced_by": "new-desktop-uuid-0001"
+                "lifecycle": {
+                    "deprecatedIn": "unknown",
+                    "replacedBy": "new-desktop-uuid-0001"
+                }
             },
             {
                 "name": {"property": "old-width", "scale": "mobile"},
@@ -1078,8 +1144,10 @@ mod tests {
                 "uuid": "old-mobile-uuid-0001",
                 "set_uuid": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
-                "deprecated": "unknown",
-                "replaced_by": "new-mobile-uuid-0001"
+                "lifecycle": {
+                    "deprecatedIn": "unknown",
+                    "replacedBy": "new-mobile-uuid-0001"
+                }
             },
             {
                 "name": {"property": "new-width", "scale": "desktop"},
@@ -1141,9 +1209,11 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "new-desktop-uuid",
                 "uuid": "old-uuid-0001",
-                "deprecated": "unknown",
-                "deprecated_comment": "Use new-width instead.",
-                "replaced_by": ["new-desktop-uuid", "new-mobile-uuid"]
+                "lifecycle": {
+                    "deprecatedIn": "unknown",
+                    "deprecatedComment": "Use new-width instead.",
+                    "replacedBy": ["new-desktop-uuid", "new-mobile-uuid"]
+                }
             },
             // new-width desktop: both scale members share the same property name.
             {
@@ -1197,9 +1267,11 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "target-a-uuid",
                 "uuid": "old-uuid-0002",
-                "deprecated": "unknown",
-                "deprecated_comment": "Split into token-a and token-b.",
-                "replaced_by": ["target-a-uuid", "target-b-uuid"]
+                "lifecycle": {
+                    "deprecatedIn": "unknown",
+                    "deprecatedComment": "Split into token-a and token-b.",
+                    "replacedBy": ["target-a-uuid", "target-b-uuid"]
+                }
             },
             {
                 "name": {"property": "token-a"},
@@ -1249,8 +1321,10 @@ mod tests {
                 "$schema": ".../color.json",
                 "value": "#fff",
                 "uuid": "old-0001",
-                "deprecated": true,
-                "replaced_by": "set-outer-uuid-0001"
+                "lifecycle": {
+                    "deprecatedIn": true,
+                    "replacedBy": "set-outer-uuid-0001"
+                }
             },
             // new-set light mode: carries set_uuid = "set-outer-uuid-0001".
             {

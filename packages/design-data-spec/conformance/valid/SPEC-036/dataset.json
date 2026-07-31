@@ -13,7 +13,7 @@
         "property": "color"
       },
       "value": "#000000",
-      "deprecated": "1.0.0-draft"
+      "lifecycle": { "deprecatedIn": "1.0.0-draft" }
     }
   ],
   "components": [
@@ -35,7 +35,7 @@
         "documentationUrl": "https://spectrum.adobe.com/page/old-widget/"
       },
       "lifecycle": {
-        "deprecated": "1.0.0-draft",
+        "deprecatedIn": "1.0.0-draft",
         "deprecatedComment": "Superseded by new-widget."
       }
     }

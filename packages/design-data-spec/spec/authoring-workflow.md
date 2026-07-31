@@ -56,19 +56,19 @@ The following table defines the **target token-authoring contract**: the complet
 
 ### Token lifecycle operations
 
-| Operation               | Description                                                                                                                      | Required fields                        |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| **create**              | Introduce a new token to the dataset. Assign a fresh UUID. Populate name object, value or alias `$ref`, `introduced` version.    | `uuid`, `name`, `value` or `$ref`      |
-| **edit**                | Update a token's value, alias target, rationale, or name-object fields. Preserve UUID.                                           | `uuid` (for identity lookup)           |
-| **deprecate**           | Set `deprecated` to the current spec version string; optionally set `replaced_by` and `deprecated_comment`.                      | `deprecated`, `uuid`                   |
-| **rename**              | Assign a new name object. Introduce a `replaced_by` pointer on the old token (or retire it). Preserve UUID on the renamed token. | Name-object fields, `replaced_by`      |
-| **alias-rewire**        | Change the `$ref` target UUID of an alias token. Verify the new target resolves in the cascade.                                  | `$ref`                                 |
-| **mode-set management** | Add, rename, or remove a mode-set entry. Update affected `mode` fields across tokens.                                            | Mode-set file + affected token entries |
-| **remove**              | Delete a token that has passed its migration window. Verify no `$ref` in the dataset resolves to the removed UUID.               | n/a                                    |
+| Operation               | Description                                                                                                                               | Required fields                            |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| **create**              | Introduce a new token to the dataset. Assign a fresh UUID. Populate name object, value or alias `$ref`, `lifecycle.introduced` version.   | `uuid`, `name`, `value` or `$ref`          |
+| **edit**                | Update a token's value, alias target, rationale, or name-object fields. Preserve UUID.                                                    | `uuid` (for identity lookup)               |
+| **deprecate**           | Set `lifecycle.deprecatedIn` to the current spec version string; optionally set `lifecycle.replacedBy` and `lifecycle.deprecatedComment`. | `lifecycle.deprecatedIn`, `uuid`           |
+| **rename**              | Assign a new name object. Introduce a `lifecycle.replacedBy` pointer on the old token (or retire it). Preserve UUID on the renamed token. | Name-object fields, `lifecycle.replacedBy` |
+| **alias-rewire**        | Change the `$ref` target UUID of an alias token. Verify the new target resolves in the cascade.                                           | `$ref`                                     |
+| **mode-set management** | Add, rename, or remove a mode-set entry. Update affected `mode` fields across tokens.                                                     | Mode-set file + affected token entries     |
+| **remove**              | Delete a token that has passed its migration window. Verify no `$ref` in the dataset resolves to the removed UUID.                        | n/a                                        |
 
-**NORMATIVE:** A conforming authoring tool MUST assign UUIDs at creation time and MUST NOT change the UUID of an existing token during any edit, deprecate, rename, or alias-rewire operation. UUID stability is the identity contract that allows `$ref`, `replaced_by`, and external consumers to reference tokens across versions.
+**NORMATIVE:** A conforming authoring tool MUST assign UUIDs at creation time and MUST NOT change the UUID of an existing token during any edit, deprecate, rename, or alias-rewire operation. UUID stability is the identity contract that allows `$ref`, `lifecycle.replacedBy`, and external consumers to reference tokens across versions.
 
-**NORMATIVE:** A conforming authoring tool MUST write a valid `introduced` version on create, using the declared spec version of the active dataset (`specVersion` field in `dataset.json` or `.design-data.toml`).
+**NORMATIVE:** A conforming authoring tool MUST write a valid `lifecycle.introduced` version on create, using the declared spec version of the active dataset (`specVersion` field in `dataset.json` or `.design-data.toml`).
 
 **NORMATIVE:** A conforming authoring tool MUST validate the written dataset against Layer 1 (JSON Schema) and Layer 2 (semantic rules) before persisting the write. A write operation that produces a Layer 1 error MUST be rejected.
 
@@ -95,13 +95,13 @@ Tokens are authored in `tokens/**/*.tokens.json`. Files may be nested arbitraril
 
 **Required at creation:** A conforming authoring tool MUST write:
 
-| Field             | Requirement            | Notes                                                                                                                                          |
-| ----------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`            | REQUIRED               | Name object with at least `property`; MUST be decomposed via the `fields/` catalog — see [Taxonomy-aware authoring](#taxonomy-aware-authoring) |
-| `uuid`            | REQUIRED               | Fresh UUID v4 assigned by the tool; MUST NOT change for the lifetime of the token                                                              |
-| `value` or `$ref` | REQUIRED (exactly one) | Literal value or alias reference to another token's UUID                                                                                       |
-| `$schema`         | RECOMMENDED            | Token-type schema URI (e.g. `color.json`, `typography.json`) from `packages/design-data-spec/schemas/`                                         |
-| `introduced`      | RECOMMENDED            | Spec version string of the active dataset at creation time                                                                                     |
+| Field                  | Requirement            | Notes                                                                                                                                          |
+| ---------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                 | REQUIRED               | Name object with at least `property`; MUST be decomposed via the `fields/` catalog — see [Taxonomy-aware authoring](#taxonomy-aware-authoring) |
+| `uuid`                 | REQUIRED               | Fresh UUID v4 assigned by the tool; MUST NOT change for the lifetime of the token                                                              |
+| `value` or `$ref`      | REQUIRED (exactly one) | Literal value or alias reference to another token's UUID                                                                                       |
+| `$schema`              | RECOMMENDED            | Token-type schema URI (e.g. `color.json`, `typography.json`) from `packages/design-data-spec/schemas/`                                         |
+| `lifecycle.introduced` | RECOMMENDED            | Spec version string of the active dataset at creation time                                                                                     |
 
 **Validation gate:** SPEC-001–017 (name, value, lifecycle, tech-debt), SPEC-041 (mode-set
 conformance), SPEC-042 (field-scope), SPEC-043 (domain-required-fields).
@@ -261,7 +261,7 @@ authoring is Phase C scope; vocabulary additions today follow the manual process
 
 1. Write all authored artifacts to the dataset root's registered directories (not to legacy output files).
 2. Assign UUIDs at creation time and preserve them across all subsequent operations.
-3. Write a valid `introduced` version on all created artifacts.
+3. Write a valid `lifecycle.introduced` version on all created artifacts.
 4. Validate written artifacts against Layer 1 (JSON Schema) and Layer 2 (semantic rules) before persisting.
 5. Support structured name-object field decomposition using the `fields/` catalog for token creation.
 

@@ -494,12 +494,14 @@ fn build_token_value(
         serde_json::Value::String(Uuid::new_v4().to_string()),
     );
 
-    // authoring-workflow.md L71: MUST stamp `introduced` with the active dataset
-    // specVersion at creation time.
-    obj.insert(
+    // authoring-workflow.md L71: MUST stamp `lifecycle.introduced` with the active
+    // dataset specVersion at creation time.
+    let mut lifecycle = serde_json::Map::new();
+    lifecycle.insert(
         "introduced".into(),
         serde_json::Value::String(spec_version.to_string()),
     );
+    obj.insert("lifecycle".into(), serde_json::Value::Object(lifecycle));
 
     serde_json::Value::Object(obj)
 }

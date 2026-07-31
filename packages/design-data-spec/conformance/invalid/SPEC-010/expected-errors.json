@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-010",
       "severity": "error",
-      "message_pattern": "replaced_by target UUID not found"
+      "message_pattern": "lifecycle\\.replacedBy target UUID not found"
     }
   ]
 }

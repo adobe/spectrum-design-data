@@ -10,9 +10,9 @@
       "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
       "property_changes": [
         {
-          "path": "deprecated",
+          "path": "lifecycle",
           "change_type": "added",
-          "new_value": true
+          "new_value": { "deprecatedIn": true }
         }
       ]
     }

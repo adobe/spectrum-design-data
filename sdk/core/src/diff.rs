@@ -310,8 +310,8 @@ fn pair_tokens<'a>(
     }
 
     // Pass 3: Replacement link fallback for unmatched tokens.
-    // If an old token carries `replaced_by` (a UUID string), look up that UUID
-    // in the new graph. If the new token is also unpaired, pair them.
+    // If an old token carries `lifecycle.replacedBy` (a UUID string), look up
+    // that UUID in the new graph. If the new token is also unpaired, pair them.
     // Build new UUID → key index for unpaired new tokens.
     let mut new_by_uuid: HashMap<&str, &str> = HashMap::new();
     for (key, t) in &new.tokens {
@@ -326,7 +326,11 @@ fn pair_tokens<'a>(
         if matched_old.contains(old_key.as_str()) {
             continue;
         }
-        let target_uuid = old_tok.raw.get("replaced_by").and_then(|v| v.as_str());
+        let target_uuid = old_tok
+            .raw
+            .get("lifecycle")
+            .and_then(|l| l.get("replacedBy"))
+            .and_then(|v| v.as_str());
         if let Some(uuid) = target_uuid {
             if let Some(&new_key) = new_by_uuid.get(uuid) {
                 if let Some(new_tok) = new.tokens.get(new_key) {
@@ -439,10 +443,20 @@ fn is_deprecated(raw: &Value) -> bool {
     false
 }
 
-/// Check if the raw JSON has a top-level `deprecated` field.
+/// Check if the raw JSON has a top-level `deprecated` field (legacy format) or a
+/// nested `lifecycle.deprecatedIn` field (cascade format) — the diff tool operates
+/// on either format, including cross-format pairs.
 fn has_deprecated_field(raw: &Value) -> bool {
-    raw.as_object()
+    if raw
+        .as_object()
         .map(|o| o.contains_key("deprecated"))
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    raw.get("lifecycle")
+        .and_then(|l| l.as_object())
+        .map(|l| l.contains_key("deprecatedIn"))
         .unwrap_or(false)
 }
 
@@ -654,7 +668,7 @@ mod tests {
         let old = make_graph(vec![]);
         let new = make_graph(vec![(
             "dep-token",
-            json!({"name": {"property": "dep-token"}, "deprecated": true, "value": "1"}),
+            json!({"name": {"property": "dep-token"}, "lifecycle": {"deprecatedIn": true}, "value": "1"}),
         )]);
         let report = semantic_diff(&old, &new);
         assert_eq!(report.deprecated.len(), 1);
@@ -689,7 +703,7 @@ mod tests {
     fn detect_reverted_token() {
         let old = make_graph(vec![(
             "rev-token",
-            json!({"name": {"property": "rev"}, "uuid": "uuid-1", "deprecated": true, "value": "1"}),
+            json!({"name": {"property": "rev"}, "uuid": "uuid-1", "lifecycle": {"deprecatedIn": true}, "value": "1"}),
         )]);
         let new = make_graph(vec![(
             "rev-token",
@@ -713,7 +727,7 @@ mod tests {
         )]);
         let new = make_graph(vec![(
             "token",
-            json!({"name": {"property": "bg"}, "uuid": "uuid-1", "value": "#fff", "deprecated": true}),
+            json!({"name": {"property": "bg"}, "uuid": "uuid-1", "value": "#fff", "lifecycle": {"deprecatedIn": true}}),
         )]);
         let report = semantic_diff(&old, &new);
         assert!(
@@ -721,10 +735,13 @@ mod tests {
             "matched token must not be deprecated"
         );
         assert_eq!(report.updated.len(), 1, "must be classified as updated");
+        // `lifecycle` is an entirely new key on `new` (absent on `old`), so
+        // diff_recursive reports it as one Added change at "lifecycle" rather
+        // than recursing into "lifecycle.deprecatedIn".
         assert!(report.updated[0]
             .property_changes
             .iter()
-            .any(|c| c.path == "deprecated"));
+            .any(|c| c.path == "lifecycle"));
     }
 
     // ── Added / deleted ─────────────────────────────────────────────────
@@ -812,7 +829,7 @@ mod tests {
             ),
             (
                 "to-revert",
-                json!({"name": {"property": "to-revert"}, "uuid": "u4", "deprecated": true, "value": "4"}),
+                json!({"name": {"property": "to-revert"}, "uuid": "u4", "lifecycle": {"deprecatedIn": true}, "value": "4"}),
             ),
         ]);
         let new = make_graph(vec![
@@ -826,7 +843,7 @@ mod tests {
             ),
             (
                 "to-deprecate",
-                json!({"name": {"property": "to-deprecate"}, "deprecated": true, "value": "dep"}),
+                json!({"name": {"property": "to-deprecate"}, "lifecycle": {"deprecatedIn": true}, "value": "dep"}),
             ),
             (
                 "to-update",
@@ -848,15 +865,14 @@ mod tests {
 
     #[test]
     fn replaced_by_pairs_deprecated_to_new() {
-        // Old token is deprecated with replaced_by pointing to new token's UUID.
-        // No shared UUID or name — pairing via replaced_by (pass 3).
+        // Old token is deprecated with lifecycle.replacedBy pointing to new token's
+        // UUID. No shared UUID or name — pairing via replacedBy (pass 3).
         let old = make_graph(vec![(
             "old-token",
             json!({
                 "name": {"property": "old-prop"},
                 "uuid": "uuid-old",
-                "deprecated": "3.0.0",
-                "replaced_by": "uuid-new",
+                "lifecycle": {"deprecatedIn": "3.0.0", "replacedBy": "uuid-new"},
                 "value": "#fff"
             }),
         )]);
@@ -869,7 +885,11 @@ mod tests {
             }),
         )]);
         let report = semantic_diff(&old, &new);
-        assert_eq!(report.renamed.len(), 1, "should pair via replaced_by");
+        assert_eq!(
+            report.renamed.len(),
+            1,
+            "should pair via lifecycle.replacedBy"
+        );
         assert!(report.added.is_empty(), "new token should not be added");
         assert!(report.deleted.is_empty(), "old token should not be deleted");
     }
