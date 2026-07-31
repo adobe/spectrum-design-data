@@ -1,5 +1,71 @@
 # @adobe/spectrum-design-data
 
+## 2.0.0
+
+### Major Changes
+
+- [#1325](https://github.com/adobe/spectrum-design-data/pull/1325) [`6ef9247`](https://github.com/adobe/spectrum-design-data/commit/6ef9247f997dc34c2eea54f12bc9c9a4cbcda2df) Thanks [@GarthDB](https://github.com/GarthDB)! - Nest token lifecycle fields under a single `lifecycle` object, matching the component
+  schema's existing `lifecycle` pattern (closes spectrum-design-data-u6w). `deprecated`
+  is renamed to `lifecycle.deprecatedIn` — the old name read as boolean-ish even though
+  it holds a version string. Legacy output (`@adobe/spectrum-tokens`) is unchanged;
+  `deprecated`/`deprecated_comment`/`renamed` there stay flat.
+  - **packages/design-data-spec/schemas/token.schema.json**: new `$defs.lifecycle`
+    (`introduced`, `deprecatedIn`, `deprecatedComment`, `replacedBy`, `plannedRemoval`),
+    referenced from `tokenWithValue`/`tokenWithRef` in place of the 5 removed flat fields.
+  - **packages/design-data-spec/schemas/component.schema.json**: renamed the existing
+    `lifecycle.deprecated` to `lifecycle.deprecatedIn` so token and component schemas match.
+  - **packages/design-data/tokens/\*.tokens.json** (7 of 8 files): 1,323 tokens migrated
+    from flat `deprecated`/`deprecated_comment`/`replaced_by`/`plannedRemoval`/`introduced`
+    into the nested `lifecycle` object.
+  - **packages/design-data/scripts/migrate-lifecycle-nesting.js**: new re-runnable
+    migration script.
+  - **sdk/core/src** (`legacy.rs`, `migrate.rs`, `diff.rs`, `authoring/{lifecycle,session}.rs`,
+    `validate/rules/spec0{10,11,12,13,14,36,37}.rs`): retargeted to `lifecycle.*`.
+
+### Minor Changes
+
+- [#1322](https://github.com/adobe/spectrum-design-data/pull/1322) [`fe338ee`](https://github.com/adobe/spectrum-design-data/commit/fe338ee9143b3fa95dc045ac43b3a0b9e5934af2) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator now honors a name-mapping override artifact
+  (closes spectrum-design-data-11k.5).
+  - **sdk/core/src/figma/mapping.rs**: `build_export_payload` takes an optional
+    `overrides: Option<&HashMap<String, String>>` (legacyKey to Figma name);
+    absent or empty overrides keep today's `{prefix}/{legacyKey}` naming;
+    remapping an existing name creates a new variable rather than renaming.
+  - **sdk/cli/src/main.rs**: `figma export` gains a `--mapping <PATH>` flag
+    that loads overrides from a `figma audit` artifact (or a bare
+    `{legacyKey: name}` JSON object).
+
+### Patch Changes
+
+- [#1325](https://github.com/adobe/spectrum-design-data/pull/1325) [`6ef9247`](https://github.com/adobe/spectrum-design-data/commit/6ef9247f997dc34c2eea54f12bc9c9a4cbcda2df) Thanks [@GarthDB](https://github.com/GarthDB)! - Backfill the `deprecated: "unknown"` migration placeholder with the real `@adobe/spectrum-tokens`
+  release version each token was deprecated in (closes spectrum-design-data-3xf). Legacy output is
+  unchanged — `deprecated` stays truthy either way.
+  - **packages/design-data/tokens/\*.tokens.json** (7 of 8 files): 1,323 tokens' deprecation
+    version replaced `"unknown"` with the release version recovered from
+    `packages/tokens/CHANGELOG.md`'s "Newly Deprecated" history (1,242 tokens) or git
+    archaeology on `packages/tokens/src/*.json` (81 tokens).
+  - **packages/design-data/scripts/backfill-deprecated-versions.js**: new re-runnable recovery script
+    documenting the two-source resolution method.
+
+- [#1321](https://github.com/adobe/spectrum-design-data/pull/1321) [`b879343`](https://github.com/adobe/spectrum-design-data/commit/b8793437edeb815c960263de896b9c56b79aa6c5) Thanks [@GarthDB](https://github.com/GarthDB)! - Audit generated Figma Variable names against the real S2-Web baseline
+  snapshot (closes spectrum-design-data-11k.4).
+  - **sdk/core/src/figma/audit.rs**: new `audit_names` — diffs generator
+    output against a real `VariablesMeta` snapshot per collection, reporting
+    matched/figma-only/generated-only names and a legacyKey override scaffold.
+  - **sdk/cli/src/main.rs**: new `design-data figma audit --snapshot <FILE>
+--token-dir <DIR>` subcommand (offline, no network).
+  - **sdk/core/tests/fixtures/figma/name-mapping.audit.json**: committed audit
+    artifact against the 11k.3 baseline.
+
+- [#1319](https://github.com/adobe/spectrum-design-data/pull/1319) [`d35aea8`](https://github.com/adobe/spectrum-design-data/commit/d35aea805d1315d294f312c7bedba4de3edaf2ae) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a checked-in baseline snapshot of Figma variables for the "S2 – Web" file, the
+  ground truth for the upcoming name-mapping audit and offline `figma diff` work
+  (closes spectrum-design-data-11k.3).
+  - **sdk/core/tests/fixtures/figma/s2-web-variables.baseline.json**: key-sorted
+    `VariablesMeta` captured via `design-data figma read --format json`.
+  - **sdk/core/tests/fixtures/figma/README.md**: collection/mode/variable-count summary
+    and capture provenance.
+  - **sdk/core/src/figma/mapping.rs**: smoke test deserializing the fixture back into
+    `VariablesMeta`.
+
 ## 1.0.3
 
 ### Patch Changes
