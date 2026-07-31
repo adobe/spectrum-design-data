@@ -453,6 +453,18 @@ enum FigmaSub {
         #[arg(long)]
         dry_run: bool,
     },
+    /// Audit generated Figma Variable names against a captured snapshot (offline, no API call)
+    Audit {
+        /// Path to a `figma read --format json` snapshot (a `VariablesMeta` JSON file)
+        #[arg(long)]
+        snapshot: PathBuf,
+        /// Path to legacy token source directory (see `migrate legacy-output`)
+        #[arg(long)]
+        token_dir: PathBuf,
+        /// Output format (pretty or json)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -1166,6 +1178,55 @@ fn run_figma_export(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Audit generated Figma Variable names against a captured snapshot — entirely
+/// offline, no network call and no token required.
+fn run_figma_audit(
+    snapshot: &Path,
+    token_dir: &Path,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let text = std::fs::read_to_string(snapshot)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read snapshot {}", snapshot.display()))?;
+    let meta: figma::types::VariablesMeta = serde_json::from_str(&text)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
+
+    let report = figma::audit::audit_names(&meta, token_dir).map_err(|e| miette::miette!("{e}"))?;
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&report).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            for c in &report.collections {
+                println!(
+                    "{}: {} real, covered={}, matched={}, figma_only={}, generated_only={}",
+                    c.collection_name,
+                    c.real_variable_count,
+                    c.generator_covers,
+                    c.matched,
+                    c.figma_only.len(),
+                    c.generated_only.len(),
+                );
+            }
+            println!(
+                "\nSkipped: composite={} unresolved_alias={} unknown_schema={} unparseable={}",
+                report.skipped_composite.len(),
+                report.skipped_alias_unresolved.len(),
+                report.skipped_unknown_schema.len(),
+                report.skipped_unparseable_value.len(),
+            );
+            println!("Overrides needing a decision: {}", report.overrides.len());
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
@@ -1748,6 +1809,11 @@ fn main() -> ExitCode {
                 token,
                 dry_run,
             } => run_figma_export(&path, &file_key, &token, dry_run),
+            FigmaSub::Audit {
+                snapshot,
+                token_dir,
+                format,
+            } => run_figma_audit(&snapshot, &token_dir, format),
         },
         Commands::Primer {
             path,

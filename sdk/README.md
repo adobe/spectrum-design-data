@@ -158,6 +158,13 @@ design-data figma read   --file-key <KEY>
 design-data figma export --file-key <KEY> --output figma-vars.json
 ```
 
+Audit the generator's output against a previously captured snapshot — offline,
+no API call:
+
+```bash
+design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
+```
+
 ### primer
 
 Emit a structural overview of the dataset — useful as context at the start of an agent session.
