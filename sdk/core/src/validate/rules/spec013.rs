@@ -25,10 +25,13 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
         for t in ctx.graph.tokens.values() {
-            let Some(planned) = t.raw.get("plannedRemoval").and_then(|v| v.as_str()) else {
+            let Some(lifecycle) = t.raw.get("lifecycle") else {
                 continue;
             };
-            let deprecated_str = t.raw.get("deprecated").and_then(|v| v.as_str());
+            let Some(planned) = lifecycle.get("plannedRemoval").and_then(|v| v.as_str()) else {
+                continue;
+            };
+            let deprecated_str = lifecycle.get("deprecatedIn").and_then(|v| v.as_str());
 
             if deprecated_str.is_none() {
                 out.push(Diagnostic {

@@ -114,6 +114,40 @@
         "type": "string"
       }
     },
+    "lifecycle": {
+      "type": "object",
+      "description": "Version lifecycle metadata, mirroring the component lifecycle pattern (see component.schema.json).",
+      "properties": {
+        "introduced": {
+          "type": "string",
+          "description": "Spec version when this token was added (e.g. \"1.0.0-draft\")."
+        },
+        "deprecatedIn": {
+          "type": "string",
+          "description": "Spec version when the token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+        },
+        "deprecatedComment": {
+          "type": "string",
+          "description": "Human-readable deprecation explanation and migration guidance."
+        },
+        "replacedBy": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
+          ],
+          "description": "UUID(s) of the replacement token(s). Array form requires deprecatedComment."
+        },
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when token will be removed."
+        }
+      },
+      "additionalProperties": false
+    },
     "tokenWithValue": {
       "type": "object",
       "required": ["name", "value"],
@@ -166,30 +200,8 @@
           "type": "string",
           "format": "uuid"
         },
-        "introduced": {
-          "type": "string"
-        },
-        "deprecated": {
-          "type": "string",
-          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
-        },
-        "deprecated_comment": {
-          "type": "string"
-        },
-        "replaced_by": {
-          "oneOf": [
-            { "type": "string", "format": "uuid" },
-            {
-              "type": "array",
-              "items": { "type": "string", "format": "uuid" },
-              "minItems": 1
-            }
-          ],
-          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
-        },
-        "plannedRemoval": {
-          "type": "string",
-          "description": "Spec version when token will be removed."
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
         },
         "private": {
           "type": "boolean"
@@ -250,30 +262,8 @@
           "type": "string",
           "format": "uuid"
         },
-        "introduced": {
-          "type": "string"
-        },
-        "deprecated": {
-          "type": "string",
-          "description": "Spec version when token was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
-        },
-        "deprecated_comment": {
-          "type": "string"
-        },
-        "replaced_by": {
-          "oneOf": [
-            { "type": "string", "format": "uuid" },
-            {
-              "type": "array",
-              "items": { "type": "string", "format": "uuid" },
-              "minItems": 1
-            }
-          ],
-          "description": "UUID(s) of the replacement token(s). Array form requires deprecated_comment."
-        },
-        "plannedRemoval": {
-          "type": "string",
-          "description": "Spec version when token will be removed."
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
         },
         "private": {
           "type": "boolean"

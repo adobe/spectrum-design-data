@@ -25,7 +25,7 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
         for t in ctx.graph.tokens.values() {
-            let Some(replaced_by) = t.raw.get("replaced_by") else {
+            let Some(replaced_by) = t.raw.get("lifecycle").and_then(|l| l.get("replacedBy")) else {
                 continue;
             };
 
@@ -49,7 +49,7 @@ impl ValidationRule for Rule {
                         token: Some(t.name.clone()),
                         rule_id: Some(self.id().to_string()),
                         severity: Severity::Error,
-                        message: format!("replaced_by target UUID not found: {uuid}"),
+                        message: format!("lifecycle.replacedBy target UUID not found: {uuid}"),
                         instance_path: None,
                         schema_path: None,
                     });

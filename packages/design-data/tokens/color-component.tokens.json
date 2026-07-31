@@ -218,9 +218,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "be45ace6-9227-41d1-80be-0c58c3f8b3cb",
     "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5",
-    "deprecated": "unknown",
-    "deprecated_comment": "Express does not need a separate design for Color loupe and Color handle components",
-    "replaced_by": "be45ace6-9227-41d1-80be-0c58c3f8b3cb"
+    "lifecycle": {
+      "deprecatedIn": "12.6.0",
+      "deprecatedComment": "Express does not need a separate design for Color loupe and Color handle components",
+      "replacedBy": "be45ace6-9227-41d1-80be-0c58c3f8b3cb"
+    }
   },
   {
     "name": {
@@ -280,7 +282,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c",
     "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -292,9 +296,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e475981f-97af-479c-859b-7619dd87c448",
     "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
-    "deprecated": "unknown",
-    "deprecated_comment": "Use `drop-shadow-elevated-color` instead",
-    "replaced_by": "e475981f-97af-479c-859b-7619dd87c448"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.29",
+      "deprecatedComment": "Use `drop-shadow-elevated-color` instead",
+      "replacedBy": "e475981f-97af-479c-859b-7619dd87c448"
+    }
   },
   {
     "name": {
@@ -306,7 +312,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84",
     "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -429,9 +437,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
     "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575",
-    "deprecated": "unknown",
-    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
-    "replaced_by": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
+    "lifecycle": {
+      "deprecatedIn": "12.9.0",
+      "deprecatedComment": "Use `floating-action-button-drop-shadow-color` instead",
+      "replacedBy": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
+    }
   },
   {
     "name": {

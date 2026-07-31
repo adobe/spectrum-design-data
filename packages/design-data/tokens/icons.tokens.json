@@ -1298,7 +1298,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "5233b8b1-4bdd-4253-9973-10a02cd8d1ee",
     "uuid": "9e04025f-b58c-491a-8569-1965ae074f7b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {

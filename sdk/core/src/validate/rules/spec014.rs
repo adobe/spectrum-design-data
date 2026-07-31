@@ -30,7 +30,12 @@ impl ValidationRule for Rule {
             let Some(last_modified) = t.raw.get("lastModified").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let Some(introduced) = t.raw.get("introduced").and_then(|v| v.as_str()) else {
+            let Some(introduced) = t
+                .raw
+                .get("lifecycle")
+                .and_then(|l| l.get("introduced"))
+                .and_then(|v| v.as_str())
+            else {
                 continue;
             };
 

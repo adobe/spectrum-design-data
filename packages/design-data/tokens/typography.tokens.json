@@ -1186,7 +1186,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "c7b1b312-cd81-4c65-8a67-017f91aee40b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1198,7 +1200,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "279d9a16-279f-4788-b5b0-af825a4b5d40",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1210,7 +1214,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "4cc06d86-326e-4b6f-a751-99445bb1d131",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1222,7 +1228,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd477873-3767-4883-ab3f-5ee2758b923b",
     "uuid": "3b531775-a1fd-4a40-b169-7c42b8c6de38",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1234,7 +1242,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "1d4235ff-c183-4d6c-8277-9783e3e1ce7a",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1246,7 +1256,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "0bc51146-a3e5-48c4-8324-4490b9d30f4d",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1258,7 +1270,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "ec87fefe-f35f-41a0-9be1-6d076f0db230",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1270,7 +1284,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "91231878-73dc-46ce-a277-1d14e0e36842",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1403,7 +1419,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0.06em",
     "uuid": "c4dbe044-dc8c-4722-b36c-5442cd2bc279",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1500,7 +1518,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "fc6098a2-3263-433c-8378-ba609629ef53",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1512,7 +1532,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "64972012-5050-41d0-9c9b-269b533a58b7",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1524,7 +1546,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "a6b7c26e-3ff5-4241-b9cc-3026604fe30e",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1536,7 +1560,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "cf8f93e2-2b79-4a4c-bb31-313e013148e3",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1548,7 +1574,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "b7364639-2686-4e12-9ede-d6543d0d0d6d",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1560,7 +1588,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "53f16a1c-9d44-4384-9a7e-88a2c4319486",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1572,7 +1602,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "c1966f09-1c6e-4fe0-89ad-8fb8e847e3ba",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1584,7 +1616,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "4f0f95d3-098a-4852-bd21-785f5bf054b5",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1639,7 +1673,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-transform.json",
     "value": "uppercase",
     "uuid": "8646d403-21f9-4e77-8a21-92289c303715",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1703,7 +1739,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "320bcd8e-2bb8-4e9e-9b1d-4838b2966857",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1715,7 +1753,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "3d27f76e-b068-4f06-bea8-ee31fcbc49b2",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1727,7 +1767,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "f6478d1d-5dcf-43eb-a4fc-498479b29aa7",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1739,7 +1781,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "2a15a805-fd08-4f8e-82e6-9264ef8937cb",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1751,7 +1795,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "42d2049f-cda2-4ae4-8d0a-41f7789f768b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1763,7 +1809,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "1c524d85-9fca-433c-b5c4-5eaa456cc3a2",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1775,7 +1823,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "7a878a3f-b663-41ee-8357-6e62f2e51d80",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1787,7 +1837,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "fc5df058-f678-4dc8-953f-e2738798ee2b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -1842,7 +1894,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/text-transform.json",
     "value": "uppercase",
     "uuid": "0e161c32-c412-4cda-bacb-7eaa548b5534",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2528,7 +2582,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "dac03eec-6910-4176-bfca-33f8a57cf3d7",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2540,7 +2596,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "aea9787b-ee0b-40cc-9089-5973e52b18bd",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2552,7 +2610,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "b5704c75-2914-4268-9023-7f7452e826c1",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2564,7 +2624,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd477873-3767-4883-ab3f-5ee2758b923b",
     "uuid": "9da0ba4c-b4e3-4052-8b2e-d2fde714bb9d",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2576,7 +2638,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "9136e25e-563b-4485-bad7-41809d5317de",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2588,7 +2652,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "83cc347c-7a1a-4665-9de4-cf19903f1043",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2600,7 +2666,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "be854057-43b1-40ce-bdc7-69960cd7638c",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2612,7 +2680,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "5ca91bc2-215b-4cbb-b966-80bfffd569ad",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2707,7 +2777,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee894aad-f166-42eb-b08b-859f73db742a",
     "uuid": "bddd6a96-c280-47ca-8858-20df055e488d",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2969,7 +3041,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "5f88eb81-7052-4c21-9896-f14cb09f0e70",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2981,7 +3055,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd477873-3767-4883-ab3f-5ee2758b923b",
     "uuid": "e882ea46-8f0a-4313-84f5-85bb8d9f1f5e",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -2993,7 +3069,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "c5551fd5-4ee2-4c93-b91f-9ed295fa63a4",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3005,7 +3083,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "fd477873-3767-4883-ab3f-5ee2758b923b",
     "uuid": "ff84a748-5923-451d-967c-a346d2dee46c",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3017,7 +3097,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "bc5d65e0-e13a-424c-a260-9268a0dee66c",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3029,7 +3111,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "c297a503-fc3c-4939-8c5a-6611b9b04719",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3041,7 +3125,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "67271ca0-c9fd-4047-a615-6314d7333f7a",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3053,7 +3139,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "75437f9a-7ee8-4194-b4b3-0746be097396",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3249,7 +3337,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "7bd831cd-3fe0-402b-a105-f65b8e8023e2",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3261,7 +3351,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "b5f79fde-07f7-4c07-897e-0bfdf27e2839",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3273,7 +3365,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "5f30418a-aa76-434e-bca9-902d5be0d929",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3285,7 +3379,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
     "uuid": "66958795-6459-4750-8c68-dc39ab383837",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3297,7 +3393,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "9a58e4ae-dfa1-428b-9d90-11f4275418da",
     "uuid": "71c8e302-6bc1-4f45-b804-c847dd153d1b",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3309,7 +3407,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "98c61df3-057d-4345-881e-0c04628757f3",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3321,7 +3421,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
     "uuid": "73906871-24e5-48cc-9140-ec700c08d144",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3333,7 +3435,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8",
     "uuid": "29ad1c96-62e4-4143-88e8-fc8e08913a52",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {
@@ -3455,7 +3559,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ee894aad-f166-42eb-b08b-859f73db742a",
     "uuid": "82a831b4-b624-475b-b2be-4eb949e48626",
-    "deprecated": "unknown"
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
   },
   {
     "name": {

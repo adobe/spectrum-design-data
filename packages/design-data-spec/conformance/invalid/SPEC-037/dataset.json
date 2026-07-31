@@ -38,7 +38,7 @@
         {
           "name": "handle",
           "lifecycle": {
-            "deprecated": "1.0.0-draft",
+            "deprecatedIn": "1.0.0-draft",
             "deprecatedComment": "Renamed to thumb."
           }
         }
@@ -56,7 +56,7 @@
         {
           "name": "pressed",
           "lifecycle": {
-            "deprecated": "1.0.0-draft",
+            "deprecatedIn": "1.0.0-draft",
             "deprecatedComment": "Use active instead."
           }
         }
@@ -74,7 +74,7 @@
             {
               "value": "cta",
               "lifecycle": {
-                "deprecated": "1.0.0-draft",
+                "deprecatedIn": "1.0.0-draft",
                 "deprecatedComment": "Use primary instead."
               }
             }

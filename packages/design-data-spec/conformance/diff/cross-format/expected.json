@@ -6,9 +6,9 @@
       "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
       "property_changes": [
         {
-          "path": "name",
+          "path": "name.property",
           "change_type": "added",
-          "new_value": { "property": "background-color-default" }
+          "new_value": "background-color-default"
         },
         {
           "path": "value",

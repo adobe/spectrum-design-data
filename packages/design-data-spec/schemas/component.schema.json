@@ -179,7 +179,7 @@
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle",
-          "description": "Version lifecycle metadata for this value. Set lifecycle.deprecated to signal that tokens referencing this value should migrate (SPEC-037)."
+          "description": "Version lifecycle metadata for this value. Set lifecycle.deprecatedIn to signal that tokens referencing this value should migrate (SPEC-037)."
         }
       },
       "additionalProperties": false
@@ -234,7 +234,7 @@
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle",
-          "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecated to signal that tokens referencing this part should migrate."
+          "description": "Version lifecycle metadata for this anatomy part. Set lifecycle.deprecatedIn to signal that tokens referencing this part should migrate."
         }
       },
       "additionalProperties": false
@@ -284,7 +284,7 @@
         },
         "lifecycle": {
           "$ref": "#/$defs/lifecycle",
-          "description": "Version lifecycle metadata for this state. Set lifecycle.deprecated to signal that tokens referencing this state should migrate."
+          "description": "Version lifecycle metadata for this state. Set lifecycle.deprecatedIn to signal that tokens referencing this state should migrate."
         }
       },
       "additionalProperties": false
@@ -314,7 +314,7 @@
           "type": "string",
           "description": "Spec version when this component declaration was added (e.g. '1.0.0-draft')."
         },
-        "deprecated": {
+        "deprecatedIn": {
           "type": "string",
           "description": "Spec version when this component was deprecated. Truthy = deprecated."
         },

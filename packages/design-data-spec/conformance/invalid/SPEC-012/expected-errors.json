@@ -4,7 +4,7 @@
     {
       "rule_id": "SPEC-012",
       "severity": "error",
-      "message_pattern": "has replaced_by but is not marked deprecated"
+      "message_pattern": "has lifecycle\\.replacedBy but is not marked deprecated"
     }
   ]
 }

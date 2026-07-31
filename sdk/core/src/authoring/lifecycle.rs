@@ -127,27 +127,35 @@ pub struct DeprecateTokenInput {
     pub uuid: String,
     /// Path to the `*.tokens.json` cascade file that contains this token.
     pub target: PathBuf,
-    /// The active dataset `specVersion` string to stamp as the `deprecated` value.
+    /// The active dataset `specVersion` string to stamp as `lifecycle.deprecatedIn`.
     pub spec_version: String,
-    /// Human-readable deprecation explanation / migration guidance.
+    /// Human-readable deprecation explanation / migration guidance
+    /// (`lifecycle.deprecatedComment`).
     pub deprecated_comment: Option<String>,
-    /// Replacement token UUID (string) or UUIDs (array of strings).
+    /// Replacement token UUID (string) or UUIDs (array of strings)
+    /// (`lifecycle.replacedBy`).
     pub replaced_by: Option<Value>,
-    /// Spec version when the token will be removed.
+    /// Spec version when the token will be removed (`lifecycle.plannedRemoval`).
     pub planned_removal: Option<String>,
     pub rationale: Option<String>,
 }
 
 /// Deprecate a token and enforce the lifecycle cross-field contract.
 ///
-/// **Contract** (`token-format.md` L145–155):
-/// - If `replaced_by` is an **array**, `deprecated_comment` is **REQUIRED** (L149).
-/// - If `replaced_by` is present, `deprecated` MUST also be set (L151) — always
-///   satisfied here because we always set `deprecated`.
-/// - If `planned_removal` is present, it MUST NOT precede `deprecated` (L153).
+/// Writes into the nested `lifecycle` object (see `token-format.md`'s lifecycle
+/// section), merging with any existing `lifecycle.introduced` rather than
+/// clobbering it.
 ///
-/// Additionally, `deprecated_comment` **SHOULD** accompany `deprecated` (L147);
-/// this is advisory and does not block the operation.
+/// **Contract**:
+/// - If `lifecycle.replacedBy` is an **array**, `lifecycle.deprecatedComment` is
+///   **REQUIRED**.
+/// - If `lifecycle.replacedBy` is present, `lifecycle.deprecatedIn` MUST also be
+///   set — always satisfied here because we always set `deprecatedIn`.
+/// - If `lifecycle.plannedRemoval` is present, it MUST NOT precede
+///   `lifecycle.deprecatedIn`.
+///
+/// Additionally, `lifecycle.deprecatedComment` **SHOULD** accompany
+/// `lifecycle.deprecatedIn`; this is advisory and does not block the operation.
 pub fn deprecate_token(
     input: DeprecateTokenInput,
     registry: &SchemaRegistry,
@@ -194,22 +202,31 @@ pub fn deprecate_token(
         .as_object_mut()
         .ok_or("token is not a JSON object")?;
 
-    token.insert(
-        "deprecated".into(),
+    // Merge into any existing `lifecycle` object (e.g. preserving `introduced`)
+    // rather than clobbering it.
+    let mut lifecycle = match token.remove("lifecycle") {
+        Some(Value::Object(m)) => m,
+        _ => Map::new(),
+    };
+
+    lifecycle.insert(
+        "deprecatedIn".into(),
         Value::String(input.spec_version.clone()),
     );
 
     if let Some(comment) = &input.deprecated_comment {
-        token.insert("deprecated_comment".into(), Value::String(comment.clone()));
+        lifecycle.insert("deprecatedComment".into(), Value::String(comment.clone()));
     }
 
     if let Some(replaced_by) = input.replaced_by {
-        token.insert("replaced_by".into(), replaced_by);
+        lifecycle.insert("replacedBy".into(), replaced_by);
     }
 
     if let Some(planned) = &input.planned_removal {
-        token.insert("plannedRemoval".into(), Value::String(planned.clone()));
+        lifecycle.insert("plannedRemoval".into(), Value::String(planned.clone()));
     }
+
+    token.insert("lifecycle".into(), Value::Object(lifecycle));
 
     if let Some(rationale) = &input.rationale {
         if !rationale.is_empty() {
@@ -239,8 +256,8 @@ pub struct RenameTokenInput {
     pub target: PathBuf,
     /// New name object (`{ "property": "…", … }`) or plain SPEC-017 string.
     pub new_name: Value,
-    /// Optional UUID of a token that should receive a `replaced_by` pointer back
-    /// to this token (the "retire old name" step, L64).
+    /// Optional UUID of a token that should receive a `lifecycle.replacedBy`
+    /// pointer back to this token (the "retire old name" step, L64).
     pub replaced_by_target: Option<String>,
     pub rationale: Option<String>,
 }
@@ -249,8 +266,8 @@ pub struct RenameTokenInput {
 ///
 /// **Contract** (`authoring-workflow.md` L64 / L69):
 /// - UUID MUST be preserved.
-/// - Optionally sets a `replaced_by` pointer on a separate token in the same file
-///   (the "retire old name" step).
+/// - Optionally sets a `lifecycle.replacedBy` pointer on a separate token in the
+///   same file (the "retire old name" step).
 pub fn rename_token(
     input: RenameTokenInput,
     registry: &SchemaRegistry,
@@ -275,11 +292,16 @@ pub fn rename_token(
     let token_val = arr[idx].clone();
     validate_token_object(&input.uuid, &token_val, registry).map_err(|e| e.to_string())?;
 
-    // Retire the old-name token with a replaced_by pointer.
+    // Retire the old-name token with a lifecycle.replacedBy pointer.
     if let Some(old_uuid) = &input.replaced_by_target {
         let old_idx = find_by_uuid(&arr, old_uuid)?;
         if let Some(old_token) = arr[old_idx].as_object_mut() {
-            old_token.insert("replaced_by".into(), Value::String(input.uuid.clone()));
+            let mut lifecycle = match old_token.remove("lifecycle") {
+                Some(Value::Object(m)) => m,
+                _ => Map::new(),
+            };
+            lifecycle.insert("replacedBy".into(), Value::String(input.uuid.clone()));
+            old_token.insert("lifecycle".into(), Value::Object(lifecycle));
         }
     }
 
@@ -624,8 +646,11 @@ mod tests {
         assert!(result.is_ok(), "deprecate_token failed: {:?}", result.err());
         let arr: Vec<Value> =
             serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
-        assert_eq!(arr[0]["deprecated"], json!("1.1.0"));
-        assert_eq!(arr[0]["deprecated_comment"], json!("use new-token instead"));
+        assert_eq!(arr[0]["lifecycle"]["deprecatedIn"], json!("1.1.0"));
+        assert_eq!(
+            arr[0]["lifecycle"]["deprecatedComment"],
+            json!("use new-token instead")
+        );
     }
 
     #[test]
@@ -777,7 +802,7 @@ mod tests {
         let arr: Vec<Value> =
             serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
         let old = arr.iter().find(|t| t["uuid"] == json!(old_uuid)).unwrap();
-        assert_eq!(old["replaced_by"], json!(new_uuid));
+        assert_eq!(old["lifecycle"]["replacedBy"], json!(new_uuid));
     }
 
     #[test]

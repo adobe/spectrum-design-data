@@ -25,15 +25,17 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
         for t in ctx.graph.tokens.values() {
-            let Some(replaced_by) = t.raw.get("replaced_by") else {
+            let Some(lifecycle) = t.raw.get("lifecycle") else {
+                continue;
+            };
+            let Some(replaced_by) = lifecycle.get("replacedBy") else {
                 continue;
             };
             if !replaced_by.is_array() {
                 continue;
             }
-            let has_comment = t
-                .raw
-                .get("deprecated_comment")
+            let has_comment = lifecycle
+                .get("deprecatedComment")
                 .and_then(|v| v.as_str())
                 .is_some_and(|s| !s.is_empty());
             if !has_comment {
@@ -43,7 +45,7 @@ impl ValidationRule for Rule {
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Error,
                     message: format!(
-                        "replaced_by is an array but deprecated_comment is missing on token {}",
+                        "lifecycle.replacedBy is an array but lifecycle.deprecatedComment is missing on token {}",
                         t.name
                     ),
                     instance_path: None,

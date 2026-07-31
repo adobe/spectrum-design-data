@@ -134,18 +134,25 @@ When **`value`** is present, it **MUST** conform to the declared value type for 
 
 ### Lifecycle and metadata
 
-The following OPTIONAL fields implement the token lifecycle model described in [#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in [Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and OpenAPI 3.3's deprecation model.
+Version lifecycle fields are grouped under an OPTIONAL nested `lifecycle` object, mirroring the
+component schema's `lifecycle` pattern (see [Component format](component-format.md)). This
+implements the token lifecycle model described in
+[#623](https://github.com/adobe/spectrum-design-data/discussions/623) and the evolution policy in
+[Evolution](evolution.md). Inspired by Swift's `@available` attribute, Kotlin's `@Deprecated`, and
+OpenAPI 3.3's deprecation model.
 
-| Field                | Type                                    | Description                                                                                                                    |
-| -------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `uuid`               | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
-| `introduced`         | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
-| `deprecated`         | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
-| `deprecated_comment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
-| `replaced_by`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
-| `plannedRemoval`     | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecated`.                |
-| `private`            | boolean                                 | Not part of public API surface.                                                                                                |
-| `rationale`          | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
+| Field                         | Type                                    | Description                                                                                                                    |
+| ----------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `uuid`                        | string (UUID)                           | Stable unique id for rename tracking and diffs.                                                                                |
+| `lifecycle.introduced`        | string (version)                        | Spec version when the token was first added (e.g. `"1.0.0"`).                                                                  |
+| `lifecycle.deprecatedIn`      | string (version)                        | Spec version when the token was deprecated (e.g. `"3.2.0"`). Truthy = deprecated.                                              |
+| `lifecycle.deprecatedComment` | string                                  | Human-readable deprecation explanation and migration guidance.                                                                 |
+| `lifecycle.replacedBy`        | string (UUID) or array of string (UUID) | UUID(s) of the replacement token(s). Single string for 1:1 replacement; array for one-to-many splits.                          |
+| `lifecycle.plannedRemoval`    | string (version)                        | Spec version when the token will be removed. If omitted, defaults to the next major version after `deprecatedIn`.              |
+| `private`                     | boolean                                 | Not part of public API surface.                                                                                                |
+| `rationale`                   | string                                  | Why this token has its current value. Intended for product-layer authoring context; see [Product context](product-context.md). |
+
+`private` and `rationale` stay flat (not version-lifecycle concepts).
 
 #### Lifecycle example
 
@@ -154,38 +161,43 @@ The following OPTIONAL fields implement the token lifecycle model described in [
   "name": { "component": "button", "object": "background", "property": "color", "variant": "primary" },
   "value": "#0265dc",
   "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-  "introduced": "1.0.0",
-  "deprecated": "3.2.0",
-  "deprecated_comment": "Use action-background-default instead.",
-  "replaced_by": "bbbbbbbb-0002-4000-8000-000000000001",
-  "plannedRemoval": "4.0.0"
+  "lifecycle": {
+    "introduced": "1.0.0",
+    "deprecatedIn": "3.2.0",
+    "deprecatedComment": "Use action-background-default instead.",
+    "replacedBy": "bbbbbbbb-0002-4000-8000-000000000001",
+    "plannedRemoval": "4.0.0"
+  }
 }
 ```
 
 #### Normative rules
 
-**NORMATIVE:** If `deprecated` is present, `deprecated_comment` **SHOULD** be present.
+**NORMATIVE:** If `lifecycle.deprecatedIn` is present, `lifecycle.deprecatedComment` **SHOULD** be present.
 
-**NORMATIVE:** If `replaced_by` is an array, `deprecated_comment` is **REQUIRED** — the comment **MUST** explain which replacement applies in which context.
+**NORMATIVE:** If `lifecycle.replacedBy` is an array, `lifecycle.deprecatedComment` is **REQUIRED** — the comment **MUST** explain which replacement applies in which context.
 
-**NORMATIVE:** If `replaced_by` is present, `deprecated` **MUST** be present.
+**NORMATIVE:** If `lifecycle.replacedBy` is present, `lifecycle.deprecatedIn` **MUST** be present.
 
-**NORMATIVE:** If `plannedRemoval` is present, `deprecated` **MUST** be present, and the `plannedRemoval` version **MUST NOT** precede the `deprecated` version.
+**NORMATIVE:** If `lifecycle.plannedRemoval` is present, `lifecycle.deprecatedIn` **MUST** be present, and the `plannedRemoval` version **MUST NOT** precede the `deprecatedIn` version.
 
-**NORMATIVE:** Each UUID in `replaced_by` **MUST** resolve to an existing token in the dataset (see rule `SPEC-010`).
+**NORMATIVE:** Each UUID in `lifecycle.replacedBy` **MUST** resolve to an existing token in the dataset (see rule `SPEC-010`).
 
 #### Legacy format mapping
 
 When generating legacy-format output from cascade tokens:
 
-* `deprecated: "3.2.0"` maps to `deprecated: true`
-* `replaced_by: "<uuid>"` maps to `renamed: "<target-token-name>"` (resolved via UUID lookup)
-* `introduced` and `plannedRemoval` have no legacy equivalent and are not emitted
+* `lifecycle.deprecatedIn: "3.2.0"` (or any truthy value) maps to flat `deprecated: true`
+* `lifecycle.deprecatedComment` maps to flat `deprecated_comment` (copied verbatim)
+* `lifecycle.replacedBy: "<uuid>"` maps to flat `renamed: "<target-token-name>"` (resolved via UUID lookup)
+* `lifecycle.plannedRemoval` and `lifecycle.introduced` have no legacy equivalent and are not emitted
+* The `lifecycle` wrapper itself is never emitted — legacy format has no nested wrapper
 
 When migrating legacy-format tokens to cascade:
 
-* `deprecated: true` maps to `deprecated: "unknown"` (authors should backfill the actual version)
-* `renamed: "<name>"` maps to `replaced_by: "<uuid>"` (resolved via name lookup across all files in the migrated input set). If the rename target is not found in the scanned corpus, the field is dropped — `replaced_by` must be set manually in that case
+* `deprecated: true` maps to `lifecycle.deprecatedIn: "unknown"` (authors should backfill the actual version)
+* `deprecated_comment` maps to `lifecycle.deprecatedComment` (copied verbatim)
+* `renamed: "<name>"` maps to `lifecycle.replacedBy: "<uuid>"` (resolved via name lookup across all files in the migrated input set). If the rename target is not found in the scanned corpus, the field is dropped — `lifecycle.replacedBy` must be set manually in that case
 
 ### `specVersion`
 

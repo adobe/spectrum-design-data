@@ -785,38 +785,64 @@ fn build_flat(
     Value::Object(out)
 }
 
-/// Convert legacy lifecycle fields to cascade model on a token map.
+/// Convert legacy flat lifecycle fields to a cascade nested `lifecycle` object on a
+/// token map.
 ///
-/// - `deprecated: true` → `deprecated: "unknown"` (authors should backfill)
-/// - `renamed: "<name>"` → `replaced_by: "<uuid>"` (resolved via name_to_uuid map)
+/// - `deprecated: true` → `lifecycle.deprecatedIn: "unknown"` (authors should backfill)
+/// - `deprecated_comment` → `lifecycle.deprecatedComment` (copied verbatim)
+/// - `renamed: "<name>"` → `lifecycle.replacedBy: "<uuid>"` (resolved via name_to_uuid map)
 /// - `status` → removed (derivable in cascade model)
+///
+/// `entry` may already carry flat `replaced_by`/`plannedRemoval`/`introduced` (defensive:
+/// `OUTER_LIFECYCLE_FIELDS` copies these superset field names even though legacy source
+/// files never populate them) — these fold into `lifecycle` unchanged rather than being
+/// silently dropped.
 fn normalize_lifecycle_for_cascade(
     entry: &mut Map<String, Value>,
     name_to_uuid: &HashMap<&str, &str>,
 ) {
-    // deprecated: boolean true → version string "unknown"
-    if let Some(dep) = entry.get("deprecated") {
+    let mut lifecycle = Map::new();
+
+    // deprecated: boolean true → version string "unknown"; false → not deprecated.
+    if let Some(dep) = entry.remove("deprecated") {
         if dep.as_bool() == Some(true) {
-            entry.insert("deprecated".into(), Value::String("unknown".into()));
-        } else if dep.as_bool() == Some(false) {
-            entry.remove("deprecated");
+            lifecycle.insert("deprecatedIn".into(), Value::String("unknown".into()));
         }
     }
 
-    // renamed → replaced_by (resolve name to UUID via the file's token map)
+    if let Some(comment) = entry.remove("deprecated_comment") {
+        lifecycle.insert("deprecatedComment".into(), comment);
+    }
+
+    // renamed → replacedBy (resolve name to UUID via the file's token map)
     if let Some(renamed) = entry
         .remove("renamed")
         .and_then(|v| v.as_str().map(String::from))
     {
         if let Some(&uuid) = name_to_uuid.get(renamed.as_str()) {
-            entry.insert("replaced_by".into(), Value::String(uuid.to_string()));
+            lifecycle.insert("replacedBy".into(), Value::String(uuid.to_string()));
         }
         // If the target name isn't found in this file, drop silently — the
-        // target may be in another file and replaced_by must be set manually.
+        // target may be in another file and replacedBy must be set manually.
+    }
+
+    // Defensive passthrough for cascade-only fields legacy never populates.
+    if let Some(replaced_by) = entry.remove("replaced_by") {
+        lifecycle.insert("replacedBy".into(), replaced_by);
+    }
+    if let Some(planned) = entry.remove("plannedRemoval") {
+        lifecycle.insert("plannedRemoval".into(), planned);
+    }
+    if let Some(introduced) = entry.remove("introduced") {
+        lifecycle.insert("introduced".into(), introduced);
     }
 
     // status → remove (derivable, not part of cascade model)
     entry.remove("status");
+
+    if !lifecycle.is_empty() {
+        entry.insert("lifecycle".into(), Value::Object(lifecycle));
+    }
 }
 
 /// Insert `value` or `$ref` into the output map from a source object.
@@ -959,10 +985,10 @@ mod tests {
         );
         assert_eq!(tokens.len(), 2);
         for t in &tokens {
-            // deprecated: true → "unknown" in cascade model
-            assert_eq!(t["deprecated"], "unknown");
-            assert_eq!(t["deprecated_comment"], "use new-token instead");
-            // renamed is stripped (replaced_by with UUID should be set manually)
+            // deprecated: true → lifecycle.deprecatedIn: "unknown" in cascade model
+            assert_eq!(t["lifecycle"]["deprecatedIn"], "unknown");
+            assert_eq!(t["lifecycle"]["deprecatedComment"], "use new-token instead");
+            // renamed is stripped (replacedBy with UUID should be set manually)
             assert!(t.get("renamed").is_none(), "renamed should be stripped");
         }
     }
@@ -980,13 +1006,13 @@ mod tests {
                 }
             })),
         );
-        // desktop entry overrides outer deprecated=true with false → removed
+        // desktop entry overrides outer deprecated=true with false → no lifecycle at all
         assert!(
-            tokens[0].get("deprecated").is_none(),
-            "deprecated: false should be stripped"
+            tokens[0].get("lifecycle").is_none(),
+            "deprecated: false should not produce a lifecycle object"
         );
         // mobile entry inherits outer deprecated=true → "unknown"
-        assert_eq!(tokens[1]["deprecated"], "unknown");
+        assert_eq!(tokens[1]["lifecycle"]["deprecatedIn"], "unknown");
     }
 
     #[test]
@@ -1076,14 +1102,14 @@ mod tests {
         let token = &out1.as_array().unwrap()[0];
 
         assert_eq!(
-            token["replaced_by"], "aaaaaaaa-0002-4000-8000-000000000001",
-            "renamed should resolve to replaced_by via cross-file UUID lookup"
+            token["lifecycle"]["replacedBy"], "aaaaaaaa-0002-4000-8000-000000000001",
+            "renamed should resolve to lifecycle.replacedBy via cross-file UUID lookup"
         );
         assert!(
             token.get("renamed").is_none(),
             "renamed should be stripped from cascade output"
         );
-        assert_eq!(token["deprecated"], "unknown");
+        assert_eq!(token["lifecycle"]["deprecatedIn"], "unknown");
 
         // Cleanup.
         let _ = fs::remove_dir_all(&tmp);

@@ -1,7 +1,7 @@
 [
   {
     "name": { "property": "deprecated-token" },
-    "deprecated": true,
+    "lifecycle": { "deprecatedIn": true },
     "value": "#999999",
     "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
   }

@@ -39,8 +39,13 @@ impl ValidationRule for Rule {
 
         for t in ctx.graph.tokens.values() {
             // Skip tokens that are themselves deprecated — no cascaded warning needed.
-            // Use as_str() so deprecated: null or deprecated: false does not suppress warnings.
-            if t.raw.get("deprecated").and_then(|v| v.as_str()).is_some() {
+            // Use as_str() so a missing/non-string deprecatedIn does not suppress warnings.
+            if t.raw
+                .get("lifecycle")
+                .and_then(|l| l.get("deprecatedIn"))
+                .and_then(|v| v.as_str())
+                .is_some()
+            {
                 continue;
             }
 
@@ -65,7 +70,7 @@ impl ValidationRule for Rule {
                             .find(|p| p.get("name").and_then(|n| n.as_str()) == Some(part_name))
                     })
                     .and_then(|p| p.get("lifecycle"))
-                    .and_then(|l| l.get("deprecated"))
+                    .and_then(|l| l.get("deprecatedIn"))
                     .and_then(|v| v.as_str());
 
                 if let Some(version) = dep_version {
@@ -101,7 +106,7 @@ impl ValidationRule for Rule {
                             })
                         })
                         .and_then(|s| s.get("lifecycle"))
-                        .and_then(|l| l.get("deprecated"))
+                        .and_then(|l| l.get("deprecatedIn"))
                         .and_then(|v| v.as_str());
 
                     if let Some(version) = dep_version {
@@ -147,7 +152,7 @@ impl ValidationRule for Rule {
                             })
                         })
                         .and_then(|entry| entry.get("lifecycle"))
-                        .and_then(|l| l.get("deprecated"))
+                        .and_then(|l| l.get("deprecatedIn"))
                         .and_then(|v| v.as_str());
 
                     if let Some(version) = dep_version {
@@ -246,7 +251,7 @@ mod tests {
     fn deprecated_anatomy_warns() {
         let diags = run(
             json!({"name": {"component": "slider", "anatomy": "handle", "property": "background-color"}, "value": "#fff"}),
-            json!({"name": "slider", "anatomy": [{"name": "handle", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
+            json!({"name": "slider", "anatomy": [{"name": "handle", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -272,7 +277,7 @@ mod tests {
     fn deprecated_state_warns() {
         let diags = run(
             json!({"name": {"component": "button", "state": ["pressed"], "property": "background-color"}, "value": "#ccc"}),
-            json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
+            json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -305,7 +310,7 @@ mod tests {
                         "values": [
                             {"value": "primary"},
                             {"value": "secondary"},
-                            {"value": "cta", "lifecycle": {"deprecated": "1.0.0-draft", "deprecatedComment": "Use primary instead."}}
+                            {"value": "cta", "lifecycle": {"deprecatedIn": "1.0.0-draft", "deprecatedComment": "Use primary instead."}}
                         ]
                     }
                 }
@@ -329,9 +334,9 @@ mod tests {
             json!({
                 "name": {"component": "slider", "anatomy": "handle", "property": "background-color"},
                 "value": "#fff",
-                "deprecated": "1.0.0-draft"
+                "lifecycle": {"deprecatedIn": "1.0.0-draft"}
             }),
-            json!({"name": "slider", "anatomy": [{"name": "handle", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
+            json!({"name": "slider", "anatomy": [{"name": "handle", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert!(diags.is_empty());
     }
@@ -343,9 +348,9 @@ mod tests {
             json!({
                 "name": {"component": "button", "state": ["pressed"], "property": "background-color"},
                 "value": "#ccc",
-                "deprecated": false
+                "lifecycle": {"deprecatedIn": false}
             }),
-            json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
+            json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -358,7 +363,7 @@ mod tests {
         // SPEC-018 owns "component not declared" — SPEC-037 stays silent.
         let diags = run(
             json!({"name": {"component": "ghost", "anatomy": "handle", "property": "color"}, "value": "#000"}),
-            json!({"name": "other-component", "anatomy": [{"name": "handle", "lifecycle": {"deprecated": "1.0.0-draft"}}]}),
+            json!({"name": "other-component", "anatomy": [{"name": "handle", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert!(diags.is_empty());
     }
@@ -370,8 +375,8 @@ mod tests {
             json!({"name": {"component": "slider", "anatomy": "handle", "state": ["pressed"], "property": "color"}, "value": "#000"}),
             json!({
                 "name": "slider",
-                "anatomy": [{"name": "handle", "lifecycle": {"deprecated": "1.0.0-draft"}}],
-                "states": [{"name": "pressed", "lifecycle": {"deprecated": "1.0.0-draft"}}]
+                "anatomy": [{"name": "handle", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}],
+                "states": [{"name": "pressed", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]
             }),
         );
         assert_eq!(diags.len(), 2);

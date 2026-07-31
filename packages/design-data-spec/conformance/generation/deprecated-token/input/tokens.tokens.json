@@ -4,8 +4,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(255, 0, 0)",
     "uuid": "dddddddd-0001-4000-8000-000000000001",
-    "deprecated": "2.0",
-    "deprecated_comment": "Use color-blue-100 instead",
-    "plannedRemoval": "3.0"
+    "lifecycle": {
+      "deprecatedIn": "2.0",
+      "deprecatedComment": "Use color-blue-100 instead",
+      "plannedRemoval": "3.0"
+    }
   }
 ]

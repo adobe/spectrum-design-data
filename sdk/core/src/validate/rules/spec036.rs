@@ -39,8 +39,13 @@ impl ValidationRule for Rule {
 
         for t in ctx.graph.tokens.values() {
             // Skip tokens that are themselves deprecated — no cascaded warning needed.
-            // Use as_str() so deprecated: null or deprecated: false does not suppress the warning.
-            if t.raw.get("deprecated").and_then(|v| v.as_str()).is_some() {
+            // Use as_str() so a missing/non-string deprecatedIn does not suppress the warning.
+            if t.raw
+                .get("lifecycle")
+                .and_then(|l| l.get("deprecatedIn"))
+                .and_then(|v| v.as_str())
+                .is_some()
+            {
                 continue;
             }
 
@@ -57,7 +62,7 @@ impl ValidationRule for Rule {
             let dep_version = comp
                 .raw
                 .get("lifecycle")
-                .and_then(|l| l.get("deprecated"))
+                .and_then(|l| l.get("deprecatedIn"))
                 .and_then(|v| v.as_str());
 
             if let Some(version) = dep_version {
@@ -150,7 +155,7 @@ mod tests {
     fn deprecated_component_warns() {
         let diags = run(
             json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000"}),
-            json!({"name": "old-widget", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": "old-widget", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -163,8 +168,8 @@ mod tests {
     #[test]
     fn already_deprecated_token_no_warning() {
         let diags = run(
-            json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000", "deprecated": "1.0.0-draft"}),
-            json!({"name": "old-widget", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
+            json!({"name": "old-widget", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert!(diags.is_empty());
     }
@@ -173,7 +178,7 @@ mod tests {
     fn string_name_token_skipped() {
         let diags = run(
             json!({"name": "old-widget-color", "value": "#000"}),
-            json!({"name": "old-widget", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": "old-widget", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert!(diags.is_empty());
     }
@@ -183,7 +188,7 @@ mod tests {
         // SPEC-018 owns the "component not declared" error — SPEC-036 stays silent.
         let diags = run(
             json!({"name": {"component": "ghost-component", "property": "color"}, "value": "#000"}),
-            json!({"name": "other-component", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": "other-component", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert!(diags.is_empty());
     }
@@ -192,8 +197,8 @@ mod tests {
     fn deprecated_false_does_not_suppress_warning() {
         // deprecated: false should NOT be treated as deprecated — warning must still fire.
         let diags = run(
-            json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000", "deprecated": false}),
-            json!({"name": "old-widget", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": {"component": "old-widget", "property": "color"}, "value": "#000", "lifecycle": {"deprecatedIn": false}}),
+            json!({"name": "old-widget", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -203,7 +208,7 @@ mod tests {
     fn unrelated_token_no_component_field_no_warning() {
         let diags = run(
             json!({"name": {"property": "border-radius"}, "value": "4px"}),
-            json!({"name": "button", "lifecycle": {"deprecated": "1.0.0-draft"}}),
+            json!({"name": "button", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}),
         );
         assert!(diags.is_empty());
     }

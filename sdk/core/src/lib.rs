@@ -306,8 +306,10 @@ mod relational_conformance {
             json!({
                 "name": {"property": "old"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "deprecated": "3.0.0",
-                "replaced_by": "bbbbbbbb-9999-4000-8000-000000000099",
+                "lifecycle": {
+                    "deprecatedIn": "3.0.0",
+                    "replacedBy": "bbbbbbbb-9999-4000-8000-000000000099"
+                },
                 "value": "#fff"
             }),
         )]);
@@ -323,8 +325,10 @@ mod relational_conformance {
                 json!({
                     "name": {"property": "old"},
                     "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                    "deprecated": "3.0.0",
-                    "replaced_by": "aaaaaaaa-0002-4000-8000-000000000001",
+                    "lifecycle": {
+                        "deprecatedIn": "3.0.0",
+                        "replacedBy": "aaaaaaaa-0002-4000-8000-000000000001"
+                    },
                     "value": "#fff"
                 }),
             ),
@@ -349,8 +353,10 @@ mod relational_conformance {
             json!({
                 "name": {"property": "split"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "deprecated": "3.0.0",
-                "replaced_by": ["aaaaaaaa-0002-4000-8000-000000000001"],
+                "lifecycle": {
+                    "deprecatedIn": "3.0.0",
+                    "replacedBy": ["aaaaaaaa-0002-4000-8000-000000000001"]
+                },
                 "value": "#fff"
             }),
         )]);
@@ -365,7 +371,7 @@ mod relational_conformance {
             json!({
                 "name": {"property": "bad"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "replaced_by": "aaaaaaaa-0002-4000-8000-000000000001",
+                "lifecycle": {"replacedBy": "aaaaaaaa-0002-4000-8000-000000000001"},
                 "value": "#fff"
             }),
         )]);
@@ -380,7 +386,7 @@ mod relational_conformance {
             json!({
                 "name": {"property": "bad"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "plannedRemoval": "4.0.0",
+                "lifecycle": {"plannedRemoval": "4.0.0"},
                 "value": "#fff"
             }),
         )]);
@@ -395,8 +401,7 @@ mod relational_conformance {
             json!({
                 "name": {"property": "bad"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "deprecated": "3.2.0",
-                "plannedRemoval": "3.1.0",
+                "lifecycle": {"deprecatedIn": "3.2.0", "plannedRemoval": "3.1.0"},
                 "value": "#fff"
             }),
         )]);
@@ -416,8 +421,7 @@ mod relational_conformance {
             json!({
                 "name": {"property": "ok"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "deprecated": "3.2.0",
-                "plannedRemoval": "4.0.0",
+                "lifecycle": {"deprecatedIn": "3.2.0", "plannedRemoval": "4.0.0"},
                 "value": "#fff"
             }),
         )]);
@@ -433,8 +437,7 @@ mod relational_conformance {
             json!({
                 "name": {"property": "ok"},
                 "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
-                "deprecated": "3.2.0",
-                "plannedRemoval": "3.10.0",
+                "lifecycle": {"deprecatedIn": "3.2.0", "plannedRemoval": "3.10.0"},
                 "value": "#fff"
             }),
         )]);

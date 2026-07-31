@@ -11,8 +11,10 @@
     "uuid": "11111111-0001-4000-8000-000000000001",
     "set_uuid": "11111111-0003-4000-8000-000000000003",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "deprecated": true,
-    "replaced_by": "11111111-0004-4000-8000-000000000004"
+    "lifecycle": {
+      "deprecatedIn": true,
+      "replacedBy": "11111111-0004-4000-8000-000000000004"
+    }
   },
   {
     "name": {
@@ -26,8 +28,10 @@
     "uuid": "11111111-0002-4000-8000-000000000002",
     "set_uuid": "11111111-0003-4000-8000-000000000003",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
-    "deprecated": true,
-    "replaced_by": "11111111-0004-4000-8000-000000000004"
+    "lifecycle": {
+      "deprecatedIn": true,
+      "replacedBy": "11111111-0004-4000-8000-000000000004"
+    }
   },
   {
     "name": { "property": "color", "colorFamily": "accent-new-400" },

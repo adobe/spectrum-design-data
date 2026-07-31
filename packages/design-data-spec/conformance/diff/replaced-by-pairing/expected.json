@@ -6,25 +6,25 @@
       "uuid": "aaaaaaaa-0002-4000-8000-000000000001",
       "property_changes": [
         {
-          "path": "deprecated",
+          "path": "lifecycle.deprecatedComment",
+          "change_type": "deleted",
+          "original_value": "Use action-background-default instead."
+        },
+        {
+          "path": "lifecycle.deprecatedIn",
           "change_type": "deleted",
           "original_value": "3.0.0"
         },
         {
-          "path": "deprecated_comment",
+          "path": "lifecycle.replacedBy",
           "change_type": "deleted",
-          "original_value": "Use action-background-default instead."
+          "original_value": "aaaaaaaa-0002-4000-8000-000000000001"
         },
         {
           "path": "name.property",
           "change_type": "updated",
           "new_value": "action-background-default",
           "original_value": "old-button-bg"
-        },
-        {
-          "path": "replaced_by",
-          "change_type": "deleted",
-          "original_value": "aaaaaaaa-0002-4000-8000-000000000001"
         },
         {
           "path": "uuid",
