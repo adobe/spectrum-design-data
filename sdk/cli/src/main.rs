@@ -18,7 +18,7 @@ mod data;
 mod format;
 mod lifecycle;
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
 use design_data_core::cache;
@@ -452,6 +452,10 @@ enum FigmaSub {
         /// Generate payload without calling the API
         #[arg(long)]
         dry_run: bool,
+        /// Path to a name-mapping override artifact (from `figma audit`); overrides
+        /// take precedence over the default `{prefix}/{legacyKey}` naming
+        #[arg(long, value_name = "PATH")]
+        mapping: Option<PathBuf>,
     },
     /// Audit generated Figma Variable names against a captured snapshot (offline, no API call)
     Audit {
@@ -1110,14 +1114,43 @@ fn run_query(
     }
 }
 
+/// Load a legacyKey → Figma-name override map from a `figma audit` artifact
+/// (which nests it under an `overrides` field) or a bare `{legacyKey: name}`
+/// JSON object. Empty-string values (the artifact's "needs a decision"
+/// placeholder) are dropped.
+fn load_overrides(path: &Path) -> miette::Result<HashMap<String, String>> {
+    let text = std::fs::read_to_string(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("reading mapping file {}", path.display()))?;
+    let value: serde_json::Value = serde_json::from_str(&text)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("parsing mapping file {}", path.display()))?;
+    let map = value.get("overrides").unwrap_or(&value);
+    let entries = map
+        .as_object()
+        .ok_or_else(|| miette::miette!("mapping file {} is not a JSON object", path.display()))?;
+    Ok(entries
+        .iter()
+        .filter_map(|(k, v)| {
+            v.as_str()
+                .filter(|s| !s.is_empty())
+                .map(|s| (k.clone(), s.to_string()))
+        })
+        .collect())
+}
+
 fn run_figma_export(
     path: &Path,
     file_key: &str,
     token: &str,
     dry_run: bool,
+    mapping: Option<&Path>,
 ) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
+
+    // 0. Load name-mapping overrides, if given.
+    let overrides = mapping.map(load_overrides).transpose()?;
 
     // 1. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
@@ -1127,8 +1160,9 @@ fn run_figma_export(
 
     // 2. Build the export payload.
     eprintln!("Building export payload from {}...", path.display());
-    let (body, summary) = figma::mapping::build_export_payload(path, &response.meta)
-        .map_err(|e| miette::miette!("{e}"))?;
+    let (body, summary) =
+        figma::mapping::build_export_payload(path, &response.meta, overrides.as_ref())
+            .map_err(|e| miette::miette!("{e}"))?;
 
     // 3. Output or post.
     if dry_run {
@@ -1808,7 +1842,8 @@ fn main() -> ExitCode {
                 file_key,
                 token,
                 dry_run,
-            } => run_figma_export(&path, &file_key, &token, dry_run),
+                mapping,
+            } => run_figma_export(&path, &file_key, &token, dry_run, mapping.as_deref()),
             FigmaSub::Audit {
                 snapshot,
                 token_dir,

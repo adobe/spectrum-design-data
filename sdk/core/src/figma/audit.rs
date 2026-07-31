@@ -65,7 +65,7 @@ pub struct AuditReport {
 /// [`crate::legacy::convert_dir`] produces from cascade `.tokens.json` files,
 /// not the cascade format itself.
 pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditReport, FigmaError> {
-    let (body, summary) = build_export_payload(token_dir, existing)?;
+    let (body, summary) = build_export_payload(token_dir, existing, None)?;
 
     // Real variable names per collection, from the snapshot (non-remote only,
     // matching summarize_variables' existing convention). The real file has
