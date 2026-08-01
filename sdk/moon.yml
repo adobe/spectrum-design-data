@@ -15,11 +15,17 @@ fileGroups:
     - "core/src/**/*.rs"
     - "cli/src/**/*.rs"
     - "tui/src/**/*.rs"
-    - "core/Cargo.toml"
-    - "cli/Cargo.toml"
-    - "tui/Cargo.toml"
-    - "Cargo.toml"
-    - "rust-toolchain.toml"
+    # Integration tests live outside src/ — previously missing here, so CI
+    # never re-ran sdk:test/lint when only a tests/ file changed.
+    - "core/tests/**/*.rs"
+    - "cli/tests/**/*.rs"
+    - "tui/tests/**/*.rs"
+    # Glob patterns, not literal filenames: moon's changed-file matching
+    # doesn't register literal entries like "Cargo.toml" (only actual globs),
+    # so the previous per-crate Cargo.toml/rust-toolchain.toml literals here
+    # silently never triggered affected-task detection.
+    - "*.toml"
+    - "*/*.toml"
 tasks:
   codegen:
     command: node
