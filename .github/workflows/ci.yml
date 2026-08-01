@@ -82,6 +82,17 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "sdk -> sdk/target"
+      # Compiler-level cache (bead spectrum-design-data-tdb): covers the cold
+      # case rust-cache can't — a fresh cache (new base branch, first PR run)
+      # still compiles all ~455 crates from scratch. sccache caches individual
+      # object files, so even a cold rust-cache hit reuses prior compilation
+      # output keyed by source hash.
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.7
+      - name: Configure sccache env
+        run: |
+          echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
+          echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
       # wasm-pack is pinned in .prototools and installed by setup-toolchain below.
       - uses: moonrepo/setup-toolchain@v0
         with:

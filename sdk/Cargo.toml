@@ -6,3 +6,16 @@ members = ["core", "cli", "tui", "wasm"]
 edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/adobe/spectrum-design-data"
+
+# bead spectrum-design-data-tdb: the actual local `cargo test` slowness was
+# traced to macOS Gatekeeper/XProtect on-exec scanning of freshly-built test
+# binaries, not compile/link time — see the bead notes. Kept anyway as a
+# low-risk trim: line-tables-only keeps backtraces usable while cutting
+# debuginfo size, and split-debuginfo skips macOS's slow dsymutil packing step.
+[profile.dev]
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
+
+[profile.test]
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
