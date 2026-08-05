@@ -139,7 +139,7 @@
     { "token": "component-height-300", "context": "Minimum height" },
     { "token": "corner-radius-full", "context": "Rounding" },
     {
-      "token": "corner-radius-button-small",
+      "token": "button-corner-radius-small",
       "context": "Rounding (with wrapping)"
     },
     {
@@ -147,11 +147,11 @@
       "context": "Rounding (with wrapping)"
     },
     {
-      "token": "corner-radius-button-large",
+      "token": "button-corner-radius-large",
       "context": "Rounding (with wrapping)"
     },
     {
-      "token": "corner-radius-button-extra-large",
+      "token": "button-corner-radius-extra-large",
       "context": "Rounding (with wrapping)"
     },
     {
