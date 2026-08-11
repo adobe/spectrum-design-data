@@ -176,6 +176,8 @@ pub struct ResolvedData {
     pub fields: Option<PathBuf>,
     /// Directory containing guideline document JSONs.
     pub guidelines: Option<PathBuf>,
+    /// Directory containing Component/Token Relationship (CTR) array files.
+    pub relationships: Option<PathBuf>,
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
     /// Build `manifest.json` path (the token-source file list, not the platform manifest).
@@ -408,6 +410,11 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         c.is_dir().then_some(c)
     };
 
+    let relationships = {
+        let c = root.join("packages/design-data/relationships");
+        c.is_dir().then_some(c)
+    };
+
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let c = root.join("packages/tokens/naming-exceptions.json");
         c.is_file().then_some(c)
@@ -425,6 +432,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         components,
         fields,
         guidelines,
+        relationships,
         exceptions,
         manifest,
         platform_manifest: None,
@@ -512,6 +520,15 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         candidates.into_iter().find(|c| c.is_dir())
     };
 
+    // relationships (Component/Token Relationship array files)
+    let relationships = {
+        let candidates = [
+            cwd.join("packages/design-data/relationships"),
+            cwd.join("../packages/design-data/relationships"),
+        ];
+        candidates.into_iter().find(|c| c.is_dir())
+    };
+
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let candidates = [
@@ -537,6 +554,7 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         components,
         fields,
         guidelines,
+        relationships,
         exceptions,
         manifest,
         platform_manifest: None,

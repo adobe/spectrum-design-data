@@ -85,20 +85,11 @@ impl ValidationRule for Rule {
                     continue; // Layer 1 catches non-string option values
                 };
 
-                let Some(declared_values) = comp
-                    .raw
-                    .get("options")
-                    .and_then(|o| o.get(key.as_str()))
-                    .and_then(|opt| opt.get("values"))
-                    .and_then(|v| v.as_array())
+                let Some(declared) =
+                    crate::validate::rules::component_option_values(comp, key.as_str())
                 else {
                     continue; // option not declared, or no values[] — any value allowed
                 };
-
-                let declared: std::collections::HashSet<&str> = declared_values
-                    .iter()
-                    .filter_map(|entry| entry.get("value").and_then(|v| v.as_str()))
-                    .collect();
 
                 // An empty values[] is a schema oddity (no valid values declared).
                 // Treat it the same as an absent values[] — no constraint — rather

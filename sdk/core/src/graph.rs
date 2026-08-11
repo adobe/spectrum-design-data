@@ -86,6 +86,18 @@ pub struct GuidelineRecord {
     pub raw: Value,
 }
 
+/// One Component/Token Relationship (CTR) entry, loaded from a `relationships/*.json`
+/// array file. Each file is a JSON array of relationship objects (see
+/// `relationship.schema.json` / `relationship-format.md`); `index` is the element's
+/// position within that array.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct RelationshipRecord {
+    pub file: PathBuf,
+    pub index: usize,
+    pub uuid: Option<String>,
+    pub raw: Value,
+}
+
 /// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
@@ -121,6 +133,9 @@ pub struct TokenGraph {
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
     pub fields: Vec<FieldRecord>,
+    /// Component/Token Relationship (CTR) entries from the spec `relationships/`
+    /// catalog, flattened from each file's top-level array.
+    pub relationships: Vec<RelationshipRecord>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
     /// Secondary index: UUID value → primary key in `tokens`.
@@ -538,6 +553,7 @@ impl TokenGraph {
             components: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
+            relationships: Vec::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
@@ -586,6 +602,7 @@ impl TokenGraph {
             components: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
+            relationships: Vec::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
@@ -1058,6 +1075,43 @@ impl TokenGraph {
     /// Attach field records loaded from a fields catalog directory.
     pub fn with_fields(mut self, fields: Vec<FieldRecord>) -> Self {
         self.fields = fields;
+        self
+    }
+
+    /// Load Component/Token Relationship (CTR) entries from a `relationships/`
+    /// catalog directory.
+    ///
+    /// Each file MUST be a JSON array of relationship objects (see
+    /// `relationship.schema.json`); non-array files are silently skipped. This
+    /// mirrors the cascade token-file shape (`tokens/*.tokens.json`), which is
+    /// also a top-level array flattened element-by-element.
+    pub fn load_spec_relationships(dir: &Path) -> Result<Vec<RelationshipRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            let Some(items) = value.as_array() else {
+                continue;
+            };
+            for (index, item) in items.iter().enumerate() {
+                let uuid = item
+                    .get("uuid")
+                    .and_then(|v| v.as_str())
+                    .map(str::to_string);
+                out.push(RelationshipRecord {
+                    file: path.clone(),
+                    index,
+                    uuid,
+                    raw: item.clone(),
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach relationship records loaded from a relationships catalog directory.
+    pub fn with_relationships(mut self, relationships: Vec<RelationshipRecord>) -> Self {
+        self.relationships = relationships;
         self
     }
 
