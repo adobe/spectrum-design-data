@@ -30,12 +30,7 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        let comp_map: std::collections::HashMap<&str, &crate::graph::ComponentRecord> = ctx
-            .graph
-            .components
-            .iter()
-            .map(|c| (c.name.as_str(), c))
-            .collect();
+        let comp_map = super::component_map(ctx.graph);
 
         for t in ctx.graph.tokens.values() {
             let Some(name_obj) = t.raw.get("name").and_then(|v| v.as_object()) else {
@@ -51,20 +46,10 @@ impl ValidationRule for Rule {
                 continue; // SPEC-018 covers undeclared component
             };
 
-            let Some(variant_values) = comp
-                .raw
-                .get("options")
-                .and_then(|o| o.get("variant"))
-                .and_then(|v| v.get("values"))
-                .and_then(|e| e.as_array())
+            let Some(declared) = crate::validate::rules::component_option_values(comp, "variant")
             else {
                 continue; // no values declared — any variant is allowed
             };
-
-            let declared: std::collections::HashSet<&str> = variant_values
-                .iter()
-                .filter_map(|entry| entry.get("value").and_then(|v| v.as_str()))
-                .collect();
 
             if !declared.contains(variant) {
                 let token_label = serde_json::to_string(name_obj).unwrap_or_default();

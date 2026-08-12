@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/relationship.schema.json",
+  "title": "Component/Token Relationship (CTR) file",
+  "description": "Layer 1 — structural shape of a relationships/*.json file: a JSON array of Component/Token Relationship (CTR) entries. Graph rules (option-value validity, component/part/state existence, $ref resolution) are Layer 2. See spec/relationship-format.md.",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/relationship"
+  },
+  "$defs": {
+    "lifecycle": {
+      "type": "object",
+      "description": "Version lifecycle metadata, mirroring the token/component lifecycle pattern (see token.schema.json).",
+      "properties": {
+        "introduced": {
+          "type": "string",
+          "description": "Spec version when this relationship was added (e.g. \"1.0.0-draft\")."
+        },
+        "deprecatedIn": {
+          "type": "string",
+          "description": "Spec version when the relationship was deprecated (e.g. \"3.2.0\"). Truthy = deprecated."
+        },
+        "deprecatedComment": {
+          "type": "string",
+          "description": "Human-readable deprecation explanation and migration guidance."
+        },
+        "replacedBy": {
+          "oneOf": [
+            { "type": "string", "format": "uuid" },
+            {
+              "type": "array",
+              "items": { "type": "string", "format": "uuid" },
+              "minItems": 1
+            }
+          ],
+          "description": "UUID(s) of the replacement relationship(s). Array form requires deprecatedComment."
+        },
+        "plannedRemoval": {
+          "type": "string",
+          "description": "Spec version when the relationship will be removed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "description": "Explicit relationship context: which component, part, and property this CTR describes, plus any option-scoped narrowing. Layer 1 only enforces shape here — that `component.<part>` exists, that `options.<key>` values validate against the referenced component's declared option values, and that `property` matches a registered property term are Layer 2 rules (see spec/relationship-format.md).",
+      "required": ["component", "property"],
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Component name (kebab-case). MUST match a declared component name (SPEC-051)."
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Anatomy part name within the component. MUST match a declared anatomy part when present (SPEC-052)."
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The stylistic attribute this relationship describes (e.g. color, width, padding)."
+        },
+        "options": {
+          "type": "object",
+          "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each key's value MUST validate against the referenced component's options.<key>.values (SPEC-053), except `state`, which is an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
+          "properties": {
+            "state": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "minItems": 1,
+              "description": "Ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+            }
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ctrWithValue": {
+      "type": "object",
+      "required": ["scope", "value"],
+      "not": {
+        "required": ["$ref"]
+      },
+      "dependentRequired": {
+        "setUuid": ["legacyKey"],
+        "setSchema": ["legacyKey"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, value MUST validate against the referenced schema."
+        },
+        "value": {
+          "description": "Literal value owned by this CTR; type narrowed by value-type schemas where applicable.",
+          "anyOf": [
+            { "$ref": "value-types/color.schema.json" },
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "object" },
+            { "type": "array" }
+          ]
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the relationship's purpose."
+        },
+        "legacyKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Interim/transitional: pins the exact flat key written to legacy output (packages/tokens/src) for CTRs that must round-trip through the legacy generator. Not required for CTRs with no legacy counterpart. See spec/relationship-format.md#legacy-fields."
+        },
+        "setUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Interim/transitional: identifies the legacy color-set entry this CTR belongs to, for color-set legacy output reconstruction. Only present alongside legacyKey."
+        },
+        "setSchema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Interim/transitional: names the legacy color-set schema this CTR's set entry conforms to. Only present alongside setUuid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "ctrWithRef": {
+      "type": "object",
+      "required": ["scope", "$ref"],
+      "not": {
+        "required": ["value"]
+      },
+      "dependentRequired": {
+        "setUuid": ["legacyKey"],
+        "setSchema": ["legacyKey"]
+      },
+      "properties": {
+        "specVersion": {
+          "const": "1.0.0-draft"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "context": {
+          "type": "string",
+          "description": "Human-readable label for how this CTR is used (mirrors tokenBindings[].context; maps to a Figma Token Group label). Purely descriptive — not validated."
+        },
+        "$valueType": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URI reference to a value-type schema under schemas/value-types/. When present, the alias resolution chain MUST terminate at a value validating against this schema."
+        },
+        "$ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Alias target. MUST resolve to a token or relationship UUID in the dataset (SPEC-055)."
+        },
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "MUST be globally unique across all relationship entries in the same layer (SPEC-056)."
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/lifecycle"
+        },
+        "private": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain text describing the relationship's purpose."
+        },
+        "legacyKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Interim/transitional: pins the exact flat key written to legacy output (packages/tokens/src) for CTRs that must round-trip through the legacy generator. Not required for CTRs with no legacy counterpart. See spec/relationship-format.md#legacy-fields."
+        },
+        "setUuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Interim/transitional: identifies the legacy color-set entry this CTR belongs to, for color-set legacy output reconstruction. Only present alongside legacyKey."
+        },
+        "setSchema": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Interim/transitional: names the legacy color-set schema this CTR's set entry conforms to. Only present alongside setUuid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "relationship": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/$defs/ctrWithValue" },
+        { "$ref": "#/$defs/ctrWithRef" }
+      ]
+    }
+  }
+}

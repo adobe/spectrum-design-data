@@ -98,6 +98,7 @@ pub fn validate_all_with_options_and_names(
         components_path,
         names_dir,
         None,
+        None,
     )
 }
 
@@ -105,6 +106,10 @@ pub fn validate_all_with_options_and_names(
 ///
 /// `guidelines_path` — optional directory of spec-format guideline JSON files;
 /// when provided, SPEC-045 and SPEC-046 also check guidelines.
+/// `relationships_path` — optional directory of spec-format Component/Token
+/// Relationship (CTR) JSON files; when provided, SPEC-051..057 also check
+/// relationships.
+#[allow(clippy::too_many_arguments)]
 pub fn validate_all_with_full_options(
     data_path: &Path,
     schema_registry: &SchemaRegistry,
@@ -113,6 +118,7 @@ pub fn validate_all_with_full_options(
     components_path: Option<&Path>,
     names_dir: Option<&Path>,
     guidelines_path: Option<&Path>,
+    relationships_path: Option<&Path>,
 ) -> Result<ValidationReport, CoreError> {
     let mut report = structural::validate_structural(data_path, schema_registry)?;
     let mut graph = TokenGraph::from_json_dir_with_names_and_catalogs(
@@ -124,6 +130,11 @@ pub fn validate_all_with_full_options(
     if let Some(dir) = guidelines_path {
         if dir.is_dir() {
             graph.guidelines = TokenGraph::load_spec_guidelines(dir)?;
+        }
+    }
+    if let Some(dir) = relationships_path {
+        if dir.is_dir() {
+            graph.relationships = TokenGraph::load_spec_relationships(dir)?;
         }
     }
     // Load manifest.json from the data directory when present.
@@ -183,6 +194,7 @@ pub fn validate_dataset(
 
     let tokens_dir = root.join("tokens");
     let guidelines_dir = root.join("guidelines");
+    let relationships_dir = root.join("relationships");
     let rest = validate_all_with_full_options(
         &tokens_dir,
         schema_registry,
@@ -191,6 +203,7 @@ pub fn validate_dataset(
         components_path,
         names_dir,
         Some(&guidelines_dir),
+        Some(&relationships_dir),
     )?;
     report.merge(rest);
     Ok(report)

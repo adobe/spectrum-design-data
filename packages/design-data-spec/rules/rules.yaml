@@ -96,7 +96,7 @@ rules:
     name: replaced-by-array-requires-comment
     severity: error
     category: completeness
-    assert: When replaced_by is an array, deprecated_comment MUST be present to explain which replacement applies in which context.
+    assert: When replaced_by is an array, deprecated_comment MUST be present to explain which replacement applies in which scope.
     message: "replaced_by is an array but deprecated_comment is missing on token {token}"
     spec_ref: spec/token-format.md#lifecycle-and-metadata
     introduced_in: "1.0.0-draft"
@@ -322,7 +322,7 @@ rules:
     assert: >
       A validator MUST NOT flag a registry ID as invalid solely because that same ID appears in
       a different registry. Registry IDs are scoped to their registry; cross-registry overlap is
-      intentional when the same word is a valid term in each registry's distinct validation context.
+      intentional when the same word is a valid term in each registry's distinct validation scope.
     message: "Registry ID '{id}' appears in multiple registries — this is permitted; do not reject on cross-registry overlap alone"
     spec_ref: spec/registry.md#id-scoping
     introduced_in: "1.0.0-draft"
@@ -593,4 +593,100 @@ rules:
       decomposed (spectrum-design-data-284).
     message: "Token '{token}' fuses '{field}' concept '{value}' into name.property; decompose into the structured field"
     spec_ref: spec/token-format.md#name-object
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-051
+    name: ctr-component-exists
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A Component/Token Relationship (CTR)'s `scope.component` value MUST match the
+      `name` of a declared component in the dataset. Mirrors SPEC-018
+      (component-name-exists) for the CTR scope object.
+    message: "Relationship '{relationship}' references undeclared component '{component}'"
+    spec_ref: spec/relationship-format.md#scope-fields
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-052
+    name: ctr-part-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A CTR's `scope.part` value, when present, MUST match the `name` of a declared
+      anatomy part on the referenced component. Mirrors SPEC-020
+      (component-anatomy-valid) for the CTR scope object.
+    message: "Relationship '{relationship}' references undeclared anatomy part '{part}' on component '{component}'"
+    spec_ref: spec/relationship-format.md#scope-fields
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-053
+    name: ctr-option-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A CTR's `scope.options.<key>` value MUST match a value in the declared
+      `options.<key>.values` list for the referenced component, when that list exists.
+      Combines the intent of SPEC-019 (component-variant-valid, error) and SPEC-040
+      (component-option-field-valid, warning) into a single error-severity rule for
+      CTRs, since a CTR's options are the whole of its scope rather than one field
+      among many name-object keys.
+    message: "Relationship '{relationship}' has {key} '{value}' which is not declared on component '{component}'"
+    spec_ref: spec/relationship-format.md#scope-fields
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-054
+    name: ctr-state-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      Each element of a CTR's `scope.options.state` array MUST match the `name` of a
+      declared state on the referenced component, when state declarations are present.
+      Mirrors SPEC-022 (component-state-valid) for the CTR scope object.
+    message: "Relationship '{relationship}' references undeclared state '{state}' on component '{component}'"
+    spec_ref: spec/relationship-format.md#scope-fields
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-055
+    name: ctr-ref-resolves
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      A CTR's `$ref` value MUST resolve to a declared token or relationship `uuid` in
+      the dataset. Mirrors SPEC-001 (alias-target-exists) and SPEC-027
+      (token-binding-token-exists) for the CTR alias direction.
+    message: "Relationship alias target not found for $ref: {target}"
+    spec_ref: spec/relationship-format.md#value-owning-vs-relationship-only
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-056
+    name: ctr-uuid-unique
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      CTR `uuid` values MUST be unique across all relationship entries within the same
+      cascade layer. Mirrors SPEC-004 (uuid-global-uniqueness) for relationships.
+    message: "Duplicate relationship uuid {uuid}"
+    spec_ref: spec/relationship-format.md#identity
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-057
+    name: ctr-legacykey-present-if-legacy
+    severity: warning
+    layer: 2
+    category: naming-consistency
+    note: >
+      Advisory placeholder. Detecting "this CTR should have a legacy counterpart" is a
+      generator-side determination deferred to the legacy-migration phase; this rule
+      documents intent rather than enforcing it structurally.
+    assert: >
+      A CTR that round-trips through the legacy generator (packages/tokens/src) SHOULD
+      carry `legacyKey`. Not structurally enforced in this foundation.
+    message: "Relationship '{relationship}' may need a legacyKey to round-trip through the legacy generator"
+    spec_ref: spec/relationship-format.md#legacy-fields-interim
     introduced_in: "1.0.0-draft"

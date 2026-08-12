@@ -61,6 +61,13 @@ mod spec047;
 mod spec048;
 mod spec049;
 mod spec050;
+mod spec051;
+mod spec052;
+mod spec053;
+mod spec054;
+mod spec055;
+mod spec056;
+mod spec057;
 
 use std::collections::HashSet;
 
@@ -102,6 +109,45 @@ pub(crate) fn schema_domain(schema_url: &str) -> Option<&'static str> {
         .find(|(_, suffixes)| suffixes.iter().any(|s| schema_url.ends_with(s)))
         .map(|(domain, _)| *domain)
 }
+
+/// Component lookup by `name`, built once per rule invocation. Shared by
+/// SPEC-019, SPEC-040, SPEC-051, SPEC-052, SPEC-053, and SPEC-054 — all of
+/// which resolve a `scope.component`/`name.component` string against the
+/// loaded component catalog before checking anatomy, states, or options.
+pub(crate) fn component_map(
+    graph: &TokenGraph,
+) -> std::collections::HashMap<&str, &crate::graph::ComponentRecord> {
+    graph
+        .components
+        .iter()
+        .map(|c| (c.name.as_str(), c))
+        .collect()
+}
+
+/// Declared values for `component.options.<key>.values[]`, as the set of each
+/// entry's `value` string. Shared by SPEC-019 (`variant`), SPEC-040 (any option
+/// key), and SPEC-053 (CTR `context.options.<key>`) — all three check that a
+/// scoped value belongs to this set. Returns `None` when the option or its
+/// `values[]` list is not declared (caller treats that as "no constraint").
+pub(crate) fn component_option_values<'a>(
+    comp: &'a crate::graph::ComponentRecord,
+    key: &str,
+) -> Option<std::collections::HashSet<&'a str>> {
+    let declared_values = comp
+        .raw
+        .get("options")
+        .and_then(|o| o.get(key))
+        .and_then(|opt| opt.get("values"))
+        .and_then(|v| v.as_array())?;
+
+    Some(
+        declared_values
+            .iter()
+            .filter_map(|entry| entry.get("value").and_then(|v| v.as_str()))
+            .collect(),
+    )
+}
+
 use crate::graph::TokenGraph;
 use crate::registry::RegistryData;
 use crate::report::Diagnostic;
@@ -118,6 +164,7 @@ fn embedded_registry() -> &'static RegistryData {
 /// `ValidationReport::downgrade_rules` and bead spectrum-design-data-0jm.
 pub const COMPONENT_RULE_IDS: &[&str] = &[
     "SPEC-018", "SPEC-020", "SPEC-022", "SPEC-026", "SPEC-027", "SPEC-031", "SPEC-035", "SPEC-040",
+    "SPEC-051", "SPEC-052", "SPEC-053", "SPEC-054",
 ];
 
 /// All default catalog rules. See packages/design-data-spec/rules/rules.yaml for the full catalog.
@@ -171,6 +218,13 @@ pub fn default_rules() -> Vec<Box<dyn ValidationRule>> {
         Box::new(spec048::Rule),
         Box::new(spec049::Rule),
         Box::new(spec050::Rule),
+        Box::new(spec051::Rule),
+        Box::new(spec052::Rule),
+        Box::new(spec053::Rule),
+        Box::new(spec054::Rule),
+        Box::new(spec055::Rule),
+        Box::new(spec056::Rule),
+        Box::new(spec057::Rule),
     ]
 }
 

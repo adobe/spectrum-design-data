@@ -47,6 +47,8 @@ const requiredPaths = [
   "conformance/generation/flat-token/expected",
   "conformance/generation/mode-set-token/input",
   "conformance/generation/mode-set-token/expected",
+  "spec/relationship-format.md",
+  "schemas/relationship.schema.json",
 ];
 
 for (const rel of requiredPaths) {
