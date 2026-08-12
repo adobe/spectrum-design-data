@@ -12,6 +12,8 @@ layer: library
 fileGroups:
   tokens:
     - "tokens/**/*.tokens.json"
+  relationships:
+    - "relationships/**/*.json"
   registry:
     - "registry/**/*.json"
   catalogs:
@@ -141,6 +143,7 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(tokens)"
+      - "@globs(relationships)"
     outputs:
       - "/packages/tokens/src/**/*.json"
 

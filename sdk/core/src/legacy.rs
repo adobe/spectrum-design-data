@@ -93,7 +93,17 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
 
     // Pass 1: read all cascade files and build a global UUID → property-name map
     // so that cross-file `replaced_by` references resolve to `renamed`.
-    let input_paths = discover_json_files(input_dir)?;
+    let mut input_paths = discover_json_files(input_dir)?;
+    // CTRs live in a sibling `relationships/` directory (see relationship-format.md
+    // — `packages/design-data/relationships/` is a top-level sibling of `tokens/`,
+    // not nested inside it), so the moon `legacy-output` task's `./tokens` input
+    // never reaches them without this. Include them here so a CTR's `legacyKey`
+    // can actually surface in legacy output.
+    if let Some(relationships_dir) = input_dir.parent().map(|p| p.join("relationships")) {
+        if relationships_dir.is_dir() {
+            input_paths.extend(discover_json_files(&relationships_dir)?);
+        }
+    }
     let mut all_files: Vec<(std::path::PathBuf, Value)> = Vec::new();
     let mut global_uuid_to_name: HashMap<String, String> = HashMap::new();
 
@@ -499,6 +509,12 @@ fn convert_array(
             }
         }
     }
+    // ponytail: CTRs are always appended after ordinary tokens here, so within a
+    // property group they sort after any named-token siblings from the same file
+    // rather than preserving `arr`'s original interleaving. Safe today because
+    // relationships/*.json files hold only CTRs and tokens/*.tokens.json files
+    // hold only named tokens — the two shapes never share a file. If that ever
+    // changes, interleave by original index instead of two-pass push+extend.
     candidates.extend(ctr_arena.iter());
 
     // Group tokens by property name, preserving document order via BTreeMap.
@@ -1579,6 +1595,53 @@ mod tests {
         assert_eq!(old["deprecated"], true);
         // new-set should have its outer UUID reconstructed.
         assert_eq!(out["new-set"]["uuid"], "set-outer-uuid-0001");
+    }
+
+    /// Regression: `convert_dir` is invoked by the real pipeline as
+    /// `migrate legacy-output ./tokens --output ...` (see `packages/design-data/moon.yml`),
+    /// i.e. `input_dir` is `tokens/`, not the dataset root. CTRs live in a sibling
+    /// `relationships/` directory (`packages/design-data/relationships/`, per
+    /// relationship-format.md), so `convert_dir` must reach across to that sibling
+    /// itself — a CTR with a `legacyKey` is unreachable otherwise, however correct
+    /// `convert_array`/`ctr_to_legacy_token` are in isolation.
+    #[test]
+    fn convert_dir_discovers_sibling_relationships_directory() {
+        let dataset = tempfile::tempdir().unwrap();
+        let tokens_dir = dataset.path().join("tokens");
+        let relationships_dir = dataset.path().join("relationships");
+        std::fs::create_dir_all(&tokens_dir).unwrap();
+        std::fs::create_dir_all(&relationships_dir).unwrap();
+
+        std::fs::write(
+            tokens_dir.join("size.tokens.json"),
+            json!([{
+                "name": {"property": "spacing-100"},
+                "value": "8px", "uuid": "dir-tok-0001"
+            }])
+            .to_string(),
+        )
+        .unwrap();
+
+        std::fs::write(
+            relationships_dir.join("button.json"),
+            json!([{
+                "scope": {"component": "button", "property": "color"},
+                "value": "#fff", "uuid": "dir-ctr-0001",
+                "legacyKey": "button-color"
+            }])
+            .to_string(),
+        )
+        .unwrap();
+
+        let out_dir = tempfile::tempdir().unwrap();
+        let summary = convert_dir(&tokens_dir, out_dir.path()).unwrap();
+
+        let button_out: Value = serde_json::from_str(
+            &std::fs::read_to_string(out_dir.path().join("button.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(button_out["button-color"]["uuid"], "dir-ctr-0001");
+        assert_eq!(summary.flat_tokens, 2);
     }
 
     /// Integration test: full roundtrip against the real Spectrum token sources.
