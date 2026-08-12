@@ -11,7 +11,9 @@
 //! SPEC-056: ctr-uuid-unique
 //!
 //! CTR `uuid` values MUST be unique across all relationship entries in the
-//! dataset. Mirrors SPEC-004 (uuid-global-uniqueness) for relationships.
+//! dataset, and MUST NOT collide with an existing token `uuid` — a collision
+//! would let a relationship silently shadow a token as a `$ref` target under
+//! SPEC-055. Mirrors SPEC-004 (uuid-global-uniqueness) for relationships.
 //!
 //! `RelationshipRecord` carries no layer distinction (unlike `TokenRecord`),
 //! so — unlike SPEC-004, which only flags duplicates within the same
@@ -44,18 +46,36 @@ impl ValidationRule for Rule {
             by_uuid.entry(u).or_default().push(rel);
         }
 
+        let token_uuids: std::collections::HashSet<&str> = ctx
+            .graph
+            .tokens
+            .values()
+            .filter_map(|t| t.uuid.as_deref())
+            .collect();
+
         let mut out = Vec::new();
         for (uuid, group) in by_uuid {
-            if group.len() < 2 {
-                continue;
-            }
-            for rel in group {
+            if group.len() >= 2 {
+                for rel in &group {
+                    out.push(Diagnostic {
+                        file: rel.file.clone(),
+                        token: None,
+                        rule_id: Some(self.id().to_string()),
+                        severity: Severity::Error,
+                        message: format!("Duplicate relationship uuid {uuid}"),
+                        instance_path: None,
+                        schema_path: None,
+                    });
+                }
+            } else if token_uuids.contains(uuid) {
                 out.push(Diagnostic {
-                    file: rel.file.clone(),
+                    file: group[0].file.clone(),
                     token: None,
                     rule_id: Some(self.id().to_string()),
                     severity: Severity::Error,
-                    message: format!("Duplicate relationship uuid {uuid}"),
+                    message: format!(
+                        "Relationship uuid {uuid} collides with an existing token uuid"
+                    ),
                     instance_path: None,
                     schema_path: None,
                 });
@@ -127,6 +147,37 @@ mod tests {
         assert!(diags
             .iter()
             .all(|d| d.severity == Severity::Error && d.rule_id.as_deref() == Some("SPEC-056")));
+    }
+
+    #[test]
+    fn collision_with_token_uuid_errors() {
+        use crate::graph::TokenRecord;
+
+        let mut g = TokenGraph::default();
+        g.relationships.push(RelationshipRecord {
+            file: PathBuf::from("a.json"),
+            index: 0,
+            uuid: Some("11111111-1111-1111-1111-111111111111".into()),
+            raw: json!({}),
+        });
+        g.tokens.insert(
+            "existing-token".into(),
+            TokenRecord {
+                name: "existing-token".into(),
+                file: PathBuf::from("tokens.json"),
+                index: 0,
+                schema_url: None,
+                uuid: Some("11111111-1111-1111-1111-111111111111".into()),
+                alias_target: None,
+                raw: json!({}),
+                layer: Default::default(),
+            },
+        );
+        let diags = run(&g);
+        assert_eq!(diags.len(), 1);
+        assert_eq!(diags[0].severity, Severity::Error);
+        assert_eq!(diags[0].rule_id.as_deref(), Some("SPEC-056"));
+        assert!(diags[0].message.contains("collides"));
     }
 
     #[test]

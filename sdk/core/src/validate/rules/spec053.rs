@@ -42,12 +42,7 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        let comp_map: std::collections::HashMap<&str, &crate::graph::ComponentRecord> = ctx
-            .graph
-            .components
-            .iter()
-            .map(|c| (c.name.as_str(), c))
-            .collect();
+        let comp_map = super::component_map(ctx.graph);
 
         for rel in &ctx.graph.relationships {
             let Some(scope) = rel.raw.get("scope").and_then(|v| v.as_object()) else {
@@ -63,7 +58,7 @@ impl ValidationRule for Rule {
                 continue; // SPEC-051 covers undeclared component
             };
 
-            let rel_label = serde_json::to_string(scope).unwrap_or_default();
+            let mut invalid: Vec<(&str, &str)> = Vec::new();
 
             for (key, val) in options {
                 if RESERVED.contains(&key.as_str()) {
@@ -83,6 +78,13 @@ impl ValidationRule for Rule {
                 }
 
                 if !declared.contains(field_val) {
+                    invalid.push((key.as_str(), field_val));
+                }
+            }
+
+            if !invalid.is_empty() {
+                let rel_label = serde_json::to_string(scope).unwrap_or_default();
+                for (key, field_val) in invalid {
                     out.push(Diagnostic {
                         file: rel.file.clone(),
                         token: None,

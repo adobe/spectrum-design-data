@@ -110,6 +110,20 @@ pub(crate) fn schema_domain(schema_url: &str) -> Option<&'static str> {
         .map(|(domain, _)| *domain)
 }
 
+/// Component lookup by `name`, built once per rule invocation. Shared by
+/// SPEC-019, SPEC-040, SPEC-051, SPEC-052, SPEC-053, and SPEC-054 — all of
+/// which resolve a `scope.component`/`name.component` string against the
+/// loaded component catalog before checking anatomy, states, or options.
+pub(crate) fn component_map(
+    graph: &TokenGraph,
+) -> std::collections::HashMap<&str, &crate::graph::ComponentRecord> {
+    graph
+        .components
+        .iter()
+        .map(|c| (c.name.as_str(), c))
+        .collect()
+}
+
 /// Declared values for `component.options.<key>.values[]`, as the set of each
 /// entry's `value` string. Shared by SPEC-019 (`variant`), SPEC-040 (any option
 /// key), and SPEC-053 (CTR `context.options.<key>`) — all three check that a

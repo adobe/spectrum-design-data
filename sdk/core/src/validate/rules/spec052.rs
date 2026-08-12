@@ -32,12 +32,7 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        let comp_map: std::collections::HashMap<&str, &crate::graph::ComponentRecord> = ctx
-            .graph
-            .components
-            .iter()
-            .map(|c| (c.name.as_str(), c))
-            .collect();
+        let comp_map = super::component_map(ctx.graph);
 
         for rel in &ctx.graph.relationships {
             let Some(scope) = rel.raw.get("scope").and_then(|v| v.as_object()) else {

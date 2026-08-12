@@ -162,7 +162,7 @@ pub fn deprecate_token(
 ) -> Result<WriteTokenResult, String> {
     // Pre-validate cross-field rules before touching the file.
 
-    // L149: replaced_by array requires a non-empty deprecated_comment.
+    // token-format.md L178: replaced_by array requires a non-empty deprecated_comment.
     let comment_present = input
         .deprecated_comment
         .as_deref()
@@ -171,12 +171,12 @@ pub fn deprecate_token(
     if matches!(&input.replaced_by, Some(Value::Array(_))) && !comment_present {
         return Err(
             "deprecated_comment is required (and must be non-empty) when replaced_by is an array \
-             (token-format.md L149: must explain which replacement applies in which context)"
+             (token-format.md L178: must explain which replacement applies in which context)"
                 .to_string(),
         );
     }
 
-    // L153: plannedRemoval must not precede deprecated (semver comparison).
+    // token-format.md L182: plannedRemoval must not precede deprecated (semver comparison).
     if let Some(planned) = &input.planned_removal {
         let dep_ver = Version::parse(&input.spec_version).map_err(|e| {
             format!(
@@ -189,7 +189,7 @@ pub fn deprecate_token(
         if plan_ver < dep_ver {
             return Err(format!(
                 "planned_removal '{planned}' precedes deprecated version '{}' \
-                 (token-format.md L153)",
+                 (token-format.md L182)",
                 input.spec_version
             ));
         }

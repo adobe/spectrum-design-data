@@ -89,6 +89,10 @@
       "not": {
         "required": ["$ref"]
       },
+      "dependentRequired": {
+        "setUuid": ["legacyKey"],
+        "setSchema": ["legacyKey"]
+      },
       "properties": {
         "specVersion": {
           "const": "1.0.0-draft"
@@ -154,6 +158,10 @@
       "required": ["scope", "$ref"],
       "not": {
         "required": ["value"]
+      },
+      "dependentRequired": {
+        "setUuid": ["legacyKey"],
+        "setSchema": ["legacyKey"]
       },
       "properties": {
         "specVersion": {

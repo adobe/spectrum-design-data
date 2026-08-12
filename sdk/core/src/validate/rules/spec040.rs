@@ -57,12 +57,7 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        let comp_map: std::collections::HashMap<&str, &crate::graph::ComponentRecord> = ctx
-            .graph
-            .components
-            .iter()
-            .map(|c| (c.name.as_str(), c))
-            .collect();
+        let comp_map = super::component_map(ctx.graph);
 
         for t in ctx.graph.tokens.values() {
             let Some(name_obj) = t.raw.get("name").and_then(|v| v.as_object()) else {
