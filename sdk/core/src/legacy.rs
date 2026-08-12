@@ -102,7 +102,17 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         let value: Value = serde_json::from_str(&text)?;
         if let Some(arr) = value.as_array() {
             for item in arr {
-                if let Some(tok) = item.as_object() {
+                if let Some(obj) = item.as_object() {
+                    // Component/Token Relationships (CTRs) have no `name` field —
+                    // adapt them into a synthetic cascade token first so the same
+                    // name-extraction logic below applies to both.
+                    let adapted = if !obj.contains_key("name") && obj.contains_key("scope") {
+                        ctr_to_legacy_token(obj)
+                    } else {
+                        None
+                    };
+                    let tok = adapted.as_ref().unwrap_or(obj);
+
                     // Use extract_legacy_key so string-name (escape-hatch) tokens
                     // are indexed correctly alongside object-name tokens.
                     let name = tok.get("name").and_then(extract_legacy_key);
@@ -470,13 +480,31 @@ fn convert_array(
     summary: &mut LegacySummary,
     global_uuid_to_name: &HashMap<String, String>,
 ) -> Result<Map<String, Value>, CoreError> {
+    // Component/Token Relationships (CTRs) have no `name` field; adapt them into
+    // synthetic cascade tokens up front and keep them alive here so the grouping
+    // loop below can borrow them just like ordinary array elements. A CTR with no
+    // `legacyKey` (relationship-only or net-new) adapts to `None` and is dropped.
+    let mut ctr_arena: Vec<Map<String, Value>> = Vec::new();
+    let mut candidates: Vec<&Map<String, Value>> = Vec::new();
+
+    for item in arr {
+        let Some(obj) = item.as_object() else {
+            continue;
+        };
+        if obj.contains_key("name") {
+            candidates.push(obj);
+        } else if obj.contains_key("scope") {
+            if let Some(adapted) = ctr_to_legacy_token(obj) {
+                ctr_arena.push(adapted);
+            }
+        }
+    }
+    candidates.extend(ctr_arena.iter());
+
     // Group tokens by property name, preserving document order via BTreeMap.
     let mut groups: BTreeMap<String, Vec<&Map<String, Value>>> = BTreeMap::new();
 
-    for item in arr {
-        let Some(tok) = item.as_object() else {
-            continue;
-        };
+    for tok in candidates {
         // extract_legacy_key handles both object names (decomposed or thin) and
         // string names (SPEC-017 escape hatch).
         let Some(key) = tok.get("name").and_then(extract_legacy_key) else {
@@ -519,6 +547,71 @@ fn convert_array(
     }
 
     Ok(out)
+}
+
+/// Adapt a Component/Token Relationship (CTR) record into a synthetic cascade
+/// token object, so the existing name-extraction and set-reconstruction
+/// machinery (`extract_legacy_key`, `resolve_owner_component`,
+/// `collect_mode_set_keys`, `build_set_entry`/`build_flat_entry`) can process
+/// it unchanged.
+///
+/// A CTR has no `name` object — it has `scope` (`component`/`part`/`property`/
+/// `options`) plus a top-level `legacyKey`/`setUuid`/`setSchema` (camelCase,
+/// per `relationship.schema.json`) rather than the cascade token's nested
+/// `name.legacyKey` and snake_case `set_uuid`/`set_schema`. This function
+/// bridges that gap; everything downstream stays untouched.
+///
+/// Returns `None` when the CTR carries no `legacyKey` — relationship-only and
+/// net-new CTRs have no legacy counterpart and are filtered out here.
+fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
+    let legacy_key = rel.get("legacyKey").and_then(|v| v.as_str())?;
+    if legacy_key.is_empty() {
+        return None;
+    }
+
+    let scope = rel.get("scope").and_then(|v| v.as_object());
+
+    let mut name = Map::new();
+    if let Some(options) = scope
+        .and_then(|s| s.get("options"))
+        .and_then(|v| v.as_object())
+    {
+        for (k, v) in options {
+            name.insert(k.clone(), v.clone());
+        }
+    }
+    if let Some(component) = scope.and_then(|s| s.get("component")) {
+        name.insert("component".into(), component.clone());
+    }
+    if let Some(part) = scope.and_then(|s| s.get("part")) {
+        name.insert("anatomy".into(), part.clone());
+    }
+    if let Some(property) = scope.and_then(|s| s.get("property")) {
+        name.insert("property".into(), property.clone());
+    }
+    name.insert("legacyKey".into(), Value::String(legacy_key.to_string()));
+
+    let mut tok = Map::new();
+    tok.insert("name".into(), Value::Object(name));
+
+    for field in ["uuid", "value", "$ref", "$schema"] {
+        if let Some(v) = rel.get(field) {
+            tok.insert(field.to_string(), v.clone());
+        }
+    }
+    if let Some(v) = rel.get("setUuid") {
+        tok.insert("set_uuid".into(), v.clone());
+    }
+    if let Some(v) = rel.get("setSchema") {
+        tok.insert("set_schema".into(), v.clone());
+    }
+    for field in OUTER_LIFECYCLE_FIELDS {
+        if let Some(v) = rel.get(*field) {
+            tok.insert(field.to_string(), v.clone());
+        }
+    }
+
+    Some(tok)
 }
 
 /// Convert a cascade nested `lifecycle` object to flat legacy fields on a token entry.
@@ -952,6 +1045,115 @@ mod tests {
         assert_eq!(entry["sets"]["light"]["uuid"], "cs-0001");
         assert_eq!(entry["sets"]["dark"]["uuid"], "cs-0002");
         assert_eq!(entry["sets"]["wireframe"]["uuid"], "cs-0003");
+        assert_eq!(summary.sets_reconstructed, 1);
+    }
+
+    #[test]
+    fn ctr_with_legacy_key_adapts_to_synthetic_token() {
+        let rel = obj(json!({
+            "scope": {"component": "button", "part": "label", "property": "color",
+                      "options": {"variant": "accent"}},
+            "value": "#fff",
+            "uuid": "ctr-0001",
+            "legacyKey": "button-label-color-accent"
+        }));
+        let tok = ctr_to_legacy_token(&rel).unwrap();
+        assert_eq!(tok["name"]["property"], "color");
+        assert_eq!(tok["name"]["component"], "button");
+        assert_eq!(tok["name"]["anatomy"], "label");
+        assert_eq!(tok["name"]["variant"], "accent");
+        assert_eq!(tok["name"]["legacyKey"], "button-label-color-accent");
+        assert_eq!(tok["value"], "#fff");
+        assert_eq!(tok["uuid"], "ctr-0001");
+    }
+
+    #[test]
+    fn ctr_without_legacy_key_adapts_to_none() {
+        let rel = obj(json!({
+            "scope": {"component": "button", "property": "color"},
+            "context": "informative label color",
+            "$ref": "some-uuid"
+        }));
+        assert!(ctr_to_legacy_token(&rel).is_none());
+    }
+
+    #[test]
+    fn ctr_camel_case_set_fields_translate_to_snake_case() {
+        let rel = obj(json!({
+            "scope": {"component": "swatch", "property": "border-color"},
+            "value": "#000",
+            "uuid": "ctr-0002",
+            "legacyKey": "swatch-border-color",
+            "setUuid": "set-0001",
+            "setSchema": "color-set"
+        }));
+        let tok = ctr_to_legacy_token(&rel).unwrap();
+        assert_eq!(tok["set_uuid"], "set-0001");
+        assert_eq!(tok["set_schema"], "color-set");
+        assert!(tok.get("setUuid").is_none());
+        assert!(tok.get("setSchema").is_none());
+    }
+
+    #[test]
+    fn convert_array_emits_ctr_with_legacy_key_byte_identical_to_equivalent_token() {
+        let ctr_arr = json!([{
+            "scope": {"component": "swatch", "property": "border-color"},
+            "$schema": ".../color.json",
+            "value": "#000",
+            "uuid": "ctr-0003",
+            "legacyKey": "swatch-border-color"
+        }]);
+        let equivalent_token_arr = json!([{
+            "name": {"property": "swatch-border-color", "component": "swatch"},
+            "$schema": ".../color.json",
+            "value": "#000",
+            "uuid": "ctr-0003"
+        }]);
+
+        let mut summary = LegacySummary::default();
+        let from_ctr =
+            convert_array(ctr_arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+        let mut summary2 = LegacySummary::default();
+        let from_token = convert_array(
+            equivalent_token_arr.as_array().unwrap(),
+            &mut summary2,
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert_eq!(from_ctr, from_token);
+    }
+
+    #[test]
+    fn convert_array_drops_relationship_only_ctr_without_legacy_key() {
+        let arr = json!([{
+            "scope": {"component": "button", "property": "color"},
+            "context": "informative label color",
+            "$ref": "some-token-uuid"
+        }]);
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+        assert!(out.is_empty());
+    }
+
+    #[test]
+    fn color_set_reconstructed_from_two_migrated_ctrs() {
+        let arr = json!([
+            {"scope": {"component": "overlay", "property": "opacity",
+                       "options": {"colorScheme": "light"}},
+             "$schema": ".../opacity.json", "value": "0.4", "uuid": "ctr-cs-0001",
+             "legacyKey": "overlay-opacity", "setUuid": "set-cs-0001", "setSchema": "opacity-set"},
+            {"scope": {"component": "overlay", "property": "opacity",
+                       "options": {"colorScheme": "dark"}},
+             "$schema": ".../opacity.json", "value": "0.6", "uuid": "ctr-cs-0002",
+             "legacyKey": "overlay-opacity", "setUuid": "set-cs-0001", "setSchema": "opacity-set"}
+        ]);
+        let mut summary = LegacySummary::default();
+        let out = convert_array(arr.as_array().unwrap(), &mut summary, &HashMap::new()).unwrap();
+
+        let entry = &out["overlay-opacity"];
+        assert_eq!(entry["sets"]["light"]["uuid"], "ctr-cs-0001");
+        assert_eq!(entry["sets"]["dark"]["uuid"], "ctr-cs-0002");
         assert_eq!(summary.sets_reconstructed, 1);
     }
 
