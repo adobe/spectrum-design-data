@@ -17,3 +17,6 @@ package's aggregated output.
 - **packages/tokens/src/color-component.json**: removed — the cascade
   source (`color-component.tokens.json`) now has 0 tokens post-migration,
   so the legacy generator no longer emits this file.
+- **packages/tokens/manifest.json**: regenerated (`node tasks/buildManifest.js`)
+  to include the 84 new per-component files; was stale after the reorg,
+  failing `checkManifest.test.js`.
