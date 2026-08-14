@@ -1,0 +1,2093 @@
+[
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "8d128c7d-ab8e-4a4e-9243-a2e919cb6e6f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "acc3e1b9-532d-485e-84e4-06e744c744b3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e220eb52-f821-4807-9ab7-b5f3905d769f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e77f525e-5043-49c1-a663-9f6c30067043"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e0673a9f-7993-490c-b2db-e8e836837e83"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "85f7f49a-7b87-4e2f-b44e-70e3ccde6291"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "a0ce87ca-29e0-40e3-b7dc-c53678effd9b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "4973c83c-792d-4bc1-9e3d-d047993292ba"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "40778817-6e47-4b58-a495-c4f34cee78df"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "942f0f34-611a-4318-9b0e-3632e7f520b3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "44a668d6-e013-4138-a262-383994b0637f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "c567f435-928c-4bf8-b9c0-ac2f22d58348"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "11088de1-8e3b-4021-968d-a8c59c7b00bd"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "616de468-71fc-4315-87ea-47cdc508a599"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-75"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "c38259e9-87f4-4e7d-a041-692ca676a638"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-75"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "5c4f1f7a-2218-4d03-ac83-9750c2c9336b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-100"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "8fec6012-7cba-4ac5-94d7-14f39fce7612"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-100"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "93e42bfc-c2f0-40cd-a561-9045c68cb5d1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-200"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "0bf1ad10-235a-4c81-aba7-5bf55acc877d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-200"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "9dffd6f3-6230-425e-9208-296cf4d5c185"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-300"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "815523cd-8c01-4125-bb22-3a548f1cc702"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-edge-to-visual-only-300"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "090b3da5-0aa3-4bf8-b3bd-dd8dabb40721"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "bac14298-68f0-4fb6-a152-c95ab19fd27f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Text and icon (semantic)",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Text and icon (semantic)",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "3acd52f0-d19c-4174-9ad5-42885ec9d49d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "da3a7c08-7f54-4486-bb66-146db21f0627"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "02e7121e-71eb-4228-a61a-963d7f2a531b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "48f3445a-63d8-4477-a2f5-1fee6a022328"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "323428c1-792d-41b4-8a17-a12f1ac00e2a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "85515d6c-4674-435f-a2d4-b9bf8311781e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "d878d795-2292-4d90-a9e2-37af1d97a532"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "82b54f71-7c9e-4388-9e3b-4d13f12fad60"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "27688f39-6b46-4b40-a3c5-67694a0ff672"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5adeb281-3183-43e0-b20c-bd4e29f4da7e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a3e71134-b44f-4b52-a84d-4841e01505e6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "385372e9-8b04-45ea-a7a2-f1f62ac68ad6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "8cec4a84-3eea-45d6-ae1b-64907be7da78"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ce074ee2-a2a2-4da3-a99e-603524193d46"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "3fb6aa49-631f-489b-9dab-63a5712d72da"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "981c054e-9db5-4589-b9e7-eed307b115ca"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "3e9a6c2a-bd09-4d28-a95c-920109c1852f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "37c3db03-6dd6-47e5-a03c-25663d116c52"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "f8e435de-1630-4628-8b6d-128987d66ddc"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "61c5e375-bff3-479f-8c32-2d2a5edb906c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ff49d6b0-4f39-4cbb-a580-db03b0579a71"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "f6e68186-e7fe-4d36-b371-72461a271358"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5df9a029-dc91-4078-a198-574486948834"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "67d55f09-a468-4174-9b59-13008b32b44e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "d4fd682d-4bef-4a92-bf14-90ce02b534e6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "b6e14409-7a61-46fc-80d0-2b7854baf871"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "d5cac08e-56e8-4217-a153-33f43c1a2059"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "49170573-9c22-42e1-a1ce-cd3d3972ddb7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "f7814be9-b21f-40ff-9d34-8c0a96eea93e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "be1d8187-effc-430f-ac31-3904cf83a6d6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "9a727140-328d-430f-9b10-8965eebe77d1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e2f2ef18-aabf-44fd-b074-d94f75862f3d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "12c060c6-db12-41ca-8b53-f4fc0afd2ed7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "543af64f-9c28-4e88-8597-3259cd7ebf1f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "764bb832-de5a-4c21-b429-f911a931ead6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "c6c435b6-34b3-4fc1-bf96-a56a15e01fe5"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "83591a94-83e1-4557-8f50-cc1fe9793b76"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "db8b9268-68dc-46be-aace-1adf8d85061b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "23859fff-27f5-4576-83c9-0fbc316e880a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "b7f5a677-4e89-40e1-8324-7619a628ce8b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "dedf817e-2883-4632-936c-207fdafe7469"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ed07d8f4-390f-4124-a4c4-81b62767c6cd"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e577d521-0271-4226-a094-624b35a05826"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "720cfaa3-6bb1-4df1-946f-94fabae54e7b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5f61f890-93b3-4ab9-bc80-d75198a5bacf"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "7b4d71d3-ad78-4e02-a48e-fa79f40854a2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "13e66afc-a9d8-46a9-8b15-310c5b35e52f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "4e02601f-12da-4ce2-b58c-0aa0e309442d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5867d764-d909-4490-b947-533e89997d0a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "c7b29eba-f8a3-43f7-b5b9-0c1a7f04bb38"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "78fc6322-a961-429a-bd40-3e1c1bf2c4e9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "3a363aa8-cf27-48a1-8c61-b1f1eaff6110"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "b60042cd-3ce7-4952-aeae-338d2b5fe98d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e763acbc-2c17-46c5-8484-1d8536e7ef10"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "6beacbfc-6d61-4567-86fe-39771550cf20"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "50eb3d20-ab84-4541-8807-551391016b54"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "168c3534-c54e-415b-a623-27c2a8caea8c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "c6dcdb8e-4966-4de6-a74a-fffa0793d58e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "fbd8df06-a6c9-462b-ad25-a3f77016128e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "6dc7df67-2cfb-440f-9b1c-b7262a7cc2d3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "d442e5b5-5083-443d-ba60-12c60406c452"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "8e940601-2401-46ff-a5fb-9137d12678b7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "13d332e4-45b0-4549-a1a3-a608034960a1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a6e04390-003e-4565-bf96-e0fb8a791cb9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e0bb7dad-7f1b-4b6e-b2fe-99f8b14f3240"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Text and icon (semantic)",
+    "$ref": "457fbeb8-56cd-4f3c-9950-f5e01f83f07c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Text and icon (semantic)",
+    "$ref": "5ce8c477-ae6e-427a-ac5c-79d15c8056ab"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Text and icon (semantic)",
+    "$ref": "e804baf9-ae2c-4574-96d9-10cd5253fe47"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "cc79fbaf-a2e1-4761-82e7-1dbea52acee8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "9a9589e8-c08c-486f-a42f-8e139dedaa37"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "64b2528e-4c1b-4850-a67f-8bd7bb05d36c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "97293b77-c21d-4ba1-bd2c-5d1de37d75eb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "c120499e-98c4-442d-971f-31dee8d16c4d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "5c9c8a1c-c4ac-45e5-ba5f-b08edd9f4297"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "62dfb07f-5eee-451c-9c77-745d8f714766"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "4cbe010f-0608-47e3-bf27-c7da70a70b9e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "71ebebf0-95e7-45f7-9f6f-d14ef51cf4f0"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "8e9429cf-4c89-47be-bc6e-eeecc632aeb1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "c7575b76-8035-4037-8bd5-e8bdb82bddc3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "ea3ceaa2-235b-4c55-88b2-c0d744434d83"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "f0799e87-dbb2-4e71-8253-65f45eddc078"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "c9bfd62b-95c7-47d3-bace-ce3f2bfaade8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "163958bd-7303-4328-ad3c-b04f8dacaf32"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "57a1aa8f-5c06-4ff6-8d1c-0e278a433ebf"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "c7644c81-1b2c-40ee-b3a6-b25e88fc34ea"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "531be3e1-ddfa-4d3b-9a7f-73d7f0e38cd9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "83fd0c1f-fbf3-4540-b370-6f44a6dbba7e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a95998aa-d6ce-4090-9743-614196862acf"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "6529e76c-0c21-449f-a318-2629cf90a58a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5d7cd7c1-66fa-49d4-923b-8cca2dcb4726"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "c098c385-7fce-4f16-b1d1-54a86c608e64"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "8a6b560b-50b2-4dbf-900b-0ed63233df8b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e7e1eb3c-7590-4622-a261-8de879bb1500"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "9b2505cc-2a71-4b1e-804d-3f2ffa69d06c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a9671857-3e09-4132-a522-cd8f5b4cf8ff"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5d5cfc7a-e6f4-4d6d-a39b-359350ddd280"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "fcb0fe04-3498-4cfa-964d-5134bbcc74c6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a238d434-3d0b-48fe-a413-a07e9229cdda"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "2dd50902-f9bb-4f79-b31c-3997f4fd2163"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "b80c47b0-222b-49a2-9012-1465a4575092"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ab75a3ba-17ce-4aae-902f-2b3e0233b726"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "cf459b71-0d91-4cb4-96b8-f536e553f66e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "67618d20-60a0-44d9-b98a-a84faf409788"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "2182ee3c-55aa-4d07-9cc1-f827c88ce3d6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "3b582b64-988e-4b5d-a08d-e04269403536"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "e10ef55e-c18d-4b73-97d0-330b480e9aa4"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "3911fa84-a5b3-4ea1-b6ad-47f222482ddb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "7623166b-5320-40eb-8a5f-2cd12f17bdb2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "73620c8b-3943-46c0-acb8-d517e7e6081e"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "0acaf55e-7e99-45f9-b99b-e461fa78a481"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "084200e3-85bf-496e-b12a-b439e108b9fb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "740e1c42-e68c-4c10-9bcd-30dc0bae6418"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "2f72eaf9-547a-436e-86ab-695979db4f93"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "7d52711e-43fa-4a95-a7b1-3a7367570596"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "7da4709c-caf3-401a-a2ce-07186a7e8e8c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "93563495-60af-4a84-b811-9672fc46a1cc"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "dda05431-bce9-4686-8738-78fb409ab28f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "533023cb-f78a-4f1c-af52-244b3c10a7bb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "2110b943-24cf-4afd-81b2-31676f1400f8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "a53f9f9a-8fde-4de2-83a3-944e1c4556c1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "896f2a2f-4d02-4104-ac33-a3705a9c61e3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "1d628f99-7c9c-423d-a470-a260d84d0d8d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "09787c85-44e0-4efe-b427-f6e7dde544a4"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "143b0387-7069-4bef-b852-9c456d692b88"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "b526e518-47b2-4a1c-b54b-42596381b7fd"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "41f3d269-85d6-4c82-9b1c-e40ea508fa78"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "72400c8f-2e44-4757-8be6-3c1eb28d9606"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "d726501f-8920-4434-b397-b0974037161a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "aa7d44fd-6c77-43dc-8981-4200356fd02a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "5e5d9ba8-df94-43e1-ad40-f78312925ec5"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "4e874813-4ebc-4855-bcb3-83024a6d1ba2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "4f1f131b-b6d1-401b-82ff-be6fc0cce9f3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "77b47209-4527-462b-a11f-b3e5f47857ec"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ac6995d9-8982-4dac-ba85-4c79ec7850a1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "4d114a18-a876-4b01-a356-64b6098496f4"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "68b6af88-a951-48f8-89c3-9d599a05f4dc"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "f326443a-8f5d-4aa2-8bbb-17dc7b0420d6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "c80f665a-801e-45c8-b59b-8b9b47ebb356"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "6f596774-e326-4d80-bf1d-23f7ad1f4ccb"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic) ",
+    "$ref": "ec3dddb5-3944-493c-b5c8-f08c3272dc06"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (semantic)",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "cd900a8d-1852-4592-9031-9edab2f9721f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "fd64c9ca-6ad7-415c-b0b8-2579399e33a5"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "556d02fd-fecb-4772-92cb-921ac509bcae"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "455acfc0-1997-4fee-b1dc-3c91bbd9fca2"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "25e8289f-6c82-4485-8920-a187f790cd47"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Border (semantic)",
+    "$ref": "96075e1a-6739-41c8-985b-af30b09be6c3"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-family"
+    },
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-weight"
+    },
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-style"
+    },
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-75"
+    },
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-75"
+    },
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-100"
+    },
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-100"
+    },
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-200"
+    },
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-200"
+    },
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-300"
+    },
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "font-size-300"
+    },
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-100"
+    },
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "line-height-100"
+    },
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  }
+]

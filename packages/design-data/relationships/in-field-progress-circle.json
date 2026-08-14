@@ -1,0 +1,348 @@
+[
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "dbb4f6bf-ddfb-4184-babe-63815cad7202"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "c522b33c-93b8-491f-b4df-c241f5b5ade8"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "86567889-978e-4dfe-8412-42c8f33c3f44"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "85377238-7488-42e0-99ce-f4fd73316d24"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "32d0a47d-c4bb-4955-aef0-28e07f429b92"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size"
+    },
+    "context": "Height",
+    "$ref": "9e740bd1-b98a-416a-be82-20e222cab3b1"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "content-color"
+    },
+    "context": "Track and fill",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (static white)",
+    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (static white)",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (static black)",
+    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (static black)",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "a3adff4d-e69e-4aa0-95ec-2019328b7d08"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "aa930d94-7874-44d7-80f1-dc431d40c4a4"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "thickness"
+    },
+    "context": "S1 Thickness",
+    "$ref": "076b031f-5980-4112-bf0b-2cec47f54c6b"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "fill"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "b49756fe-40d5-439a-ba07-4e5eb07e7cc5",
+    "legacyKey": "in-field-progress-circle-edge-to-fill",
+    "setUuid": "b051b8d7-11cd-44e4-9a80-743d551722ee",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Single pixel value for a specific component: not a token"
+    }
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "fill"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "1263a125-9e9d-4eb4-8b71-024899dcf623",
+    "legacyKey": "in-field-progress-circle-edge-to-fill",
+    "setUuid": "b051b8d7-11cd-44e4-9a80-743d551722ee",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Single pixel value for a specific component: not a token"
+    }
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 100
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c",
+    "legacyKey": "in-field-progress-circle-size-100",
+    "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 100
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "c522b33c-93b8-491f-b4df-c241f5b5ade8",
+    "legacyKey": "in-field-progress-circle-size-100",
+    "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 200
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "86567889-978e-4dfe-8412-42c8f33c3f44",
+    "legacyKey": "in-field-progress-circle-size-200",
+    "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 200
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "85377238-7488-42e0-99ce-f4fd73316d24",
+    "legacyKey": "in-field-progress-circle-size-200",
+    "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 300
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "32d0a47d-c4bb-4955-aef0-28e07f429b92",
+    "legacyKey": "in-field-progress-circle-size-300",
+    "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 300
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "9e740bd1-b98a-416a-be82-20e222cab3b1",
+    "legacyKey": "in-field-progress-circle-size-300",
+    "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 75
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "dbb4f6bf-ddfb-4184-babe-63815cad7202",
+    "legacyKey": "in-field-progress-circle-size-75",
+    "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "in-field-progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 75
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7",
+    "legacyKey": "in-field-progress-circle-size-75",
+    "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

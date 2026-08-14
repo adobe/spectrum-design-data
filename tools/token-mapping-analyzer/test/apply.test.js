@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
@@ -22,6 +22,10 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASCADE_DIR = resolve(__dirname, "../../../packages/design-data/tokens");
+const RELATIONSHIPS_DIR = resolve(
+  __dirname,
+  "../../../packages/design-data/relationships",
+);
 
 // Domain fields that decompose() can extract from `property` alongside (or
 // instead of) size. A token carrying any of these was a multi-field
@@ -72,6 +76,45 @@ function collectMigrated(obj, acc = []) {
   return acc;
 }
 
+/**
+ * Reconstruct a pre-CTR-migration `name` object from a relationship's `scope`
+ * (inverse of migrate-to-relationships.mjs's convertScopedToken), so tokens
+ * that were name.component-scoped and migrated to relationships/*.json still
+ * surface here as if they were still in tokens/*.json.
+ */
+function ctrToNameToken(ctr) {
+  const { scope, legacyKey } = ctr;
+  const name = { ...(scope.options ?? {}) };
+  if (scope.component !== undefined) name.component = scope.component;
+  if (scope.part !== undefined) name.anatomy = scope.part;
+  if (scope.property !== undefined) name.property = scope.property;
+  if (legacyKey) name.legacyKey = legacyKey;
+  return { ...ctr, name };
+}
+
+/**
+ * Every CTR across relationships/*.json, reconstructed as name-shaped tokens.
+ * name.component tokens that used to live in the cascade file can end up
+ * scattered across many components' relationship files, not just one.
+ */
+function loadAllRelationshipTokens() {
+  return readdirSync(RELATIONSHIPS_DIR)
+    .filter((f) => f.endsWith(".json"))
+    .flatMap((f) =>
+      JSON.parse(readFileSync(resolve(RELATIONSHIPS_DIR, f), "utf-8")).map(
+        ctrToNameToken,
+      ),
+    );
+}
+
+/** Load a cascade token file plus every migrated token now living in relationships/*.json. */
+function loadCascadeWithRelationships(filename) {
+  const data = JSON.parse(
+    readFileSync(resolve(CASCADE_DIR, filename), "utf-8"),
+  );
+  return [...data, ...loadAllRelationshipTokens()];
+}
+
 // Verifies that size decomposition preserved the legacy key for every migrated token.
 //
 // The check is independent of decompose() by reconstructing the pre-migration name
@@ -83,9 +126,7 @@ function collectMigrated(obj, acc = []) {
 // tokens:verifyLegacyOutput (compares generated legacy output against committed src/).
 test("size decomposition preserves the legacy key — layout-component.tokens.json", (t) => {
   const registry = loadRegistries();
-  const data = JSON.parse(
-    readFileSync(resolve(CASCADE_DIR, "layout-component.tokens.json"), "utf-8"),
-  );
+  const data = loadCascadeWithRelationships("layout-component.tokens.json");
   const migrated = collectMigrated(data);
 
   t.true(

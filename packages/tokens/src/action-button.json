@@ -1,0 +1,80 @@
+{
+  "action-button-edge-to-hold-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "action-button",
+    "uuid": "2ab2fb4b-eb8a-4ea7-9fe9-0d60ee52ac73",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "1c72a1bf-cfcc-4553-91c6-d7bbcf02cc5a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "b4b4710b-2073-4285-8342-31ae6712671b"
+      }
+    },
+    "renamed": "accessory-gap-affixed-extra-large"
+  },
+  "action-button-edge-to-hold-icon-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "action-button",
+    "value": "3px",
+    "uuid": "b79597cc-5294-4555-ab78-f4200e480ac3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-extra-small instead.",
+    "renamed": "accessory-gap-affixed-extra-small"
+  },
+  "action-button-edge-to-hold-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "action-button",
+    "uuid": "1f708860-2cfd-42c2-8ccb-f3bb954566ee",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "dc65074f-a923-4130-84e5-59fa5d5f4121"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "86a36757-a2d1-4263-97dc-62cf4543b3f9"
+      }
+    },
+    "renamed": "accessory-gap-affixed-large"
+  },
+  "action-button-edge-to-hold-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "action-button",
+    "uuid": "0f14030d-1b31-4157-b834-f02df83b7a17",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-medium instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "5022d77a-9332-4bb8-bd9f-d353eed2caa3"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "255a24ab-f70d-4698-8d2e-569c37c6c798"
+      }
+    },
+    "renamed": "accessory-gap-affixed-medium"
+  },
+  "action-button-edge-to-hold-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "action-button",
+    "value": "3px",
+    "uuid": "fa106863-0e09-44d4-9465-68cd3254ed2b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-affixed-small instead.",
+    "renamed": "accessory-gap-affixed-small"
+  }
+}

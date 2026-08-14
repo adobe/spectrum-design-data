@@ -1,0 +1,29 @@
+{
+  "floating-action-button-drop-shadow-blur": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "floating-action-button",
+    "value": "12px",
+    "uuid": "82e8cf04-7eda-4f36-8d2c-fda63241c3de"
+  },
+  "floating-action-button-drop-shadow-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "floating-action-button",
+    "value": "{transparent-black-300}",
+    "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
+  },
+  "floating-action-button-drop-shadow-y": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "floating-action-button",
+    "value": "4px",
+    "uuid": "a4ddc1a6-1367-4153-bb7c-c217d16d10f4"
+  },
+  "floating-action-button-shadow-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "floating-action-button",
+    "value": "{floating-action-button-drop-shadow-color}",
+    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575",
+    "deprecated": true,
+    "deprecated_comment": "Use `floating-action-button-drop-shadow-color` instead",
+    "renamed": "floating-action-button-drop-shadow-color"
+  }
+}

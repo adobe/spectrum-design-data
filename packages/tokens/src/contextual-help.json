@@ -1,0 +1,56 @@
+{
+  "contextual-help-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "contextual-help",
+    "uuid": "0e01bc71-96bf-47d2-969a-2cd7f64b4cf6",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "393e9a11-77f6-42a7-973b-34c673ad8afb"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-xs}",
+        "uuid": "1d817b1e-7916-4443-b04d-aa232b089f67"
+      }
+    }
+  },
+  "contextual-help-body-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "contextual-help",
+    "value": "{contextual-help-body-font-size}",
+    "uuid": "e458fa68-ab9c-4441-a7d5-a02f42df1cae",
+    "deprecated": true
+  },
+  "contextual-help-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "contextual-help",
+    "value": "268px",
+    "uuid": "83be73fe-50bc-4be8-969c-0361a816225b"
+  },
+  "contextual-help-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "contextual-help",
+    "uuid": "94426161-4c49-4a84-b362-bc7fe0ec05d7",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-m}",
+        "uuid": "16ee4dfd-afbe-482b-943e-03e2614037dd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-s}",
+        "uuid": "965f0854-0f3c-4d6e-9e21-54542ecf1a17"
+      }
+    }
+  },
+  "contextual-help-title-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "contextual-help",
+    "value": "{contextual-help-title-font-size}",
+    "uuid": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf",
+    "deprecated": true
+  }
+}

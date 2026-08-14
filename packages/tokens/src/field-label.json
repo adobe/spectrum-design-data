@@ -1,0 +1,274 @@
+{
+  "field-label-text-to-asterisk-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "b5fb9c25-00db-4bcc-9910-9fa9c0a8e704",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "4140e899-8a28-4627-a91a-e6526da1bdf5"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "17ba788d-da38-455d-9322-16e4f05ea923"
+      }
+    },
+    "renamed": "base-gap-extra-large"
+  },
+  "field-label-text-to-asterisk-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "e96cc084-8713-459c-8912-7cf238446020",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "997c475e-6ae5-469f-9c8e-9fedafa2b556"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "87149afe-899b-4fb6-bd7c-d2becf8117fc"
+      }
+    },
+    "renamed": "base-gap-large"
+  },
+  "field-label-text-to-asterisk-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "95cbc996-ee6b-4f20-88ce-ccca3753ac14",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "7be280dc-43dc-48c3-bf0c-b53f95e76516"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "2fbc4add-e6b4-4dfa-9a7d-0de628b2f63c"
+      }
+    },
+    "renamed": "base-gap-medium"
+  },
+  "field-label-text-to-asterisk-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "03e228c7-41b9-4f57-b7d9-4b31b881fa35",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "4796831f-4d3e-472c-bad8-699d4eb443ea"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "4271498d-747c-423d-87cc-761b8a181f7c"
+      }
+    },
+    "renamed": "base-gap-small"
+  },
+  "field-label-to-component": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field-label",
+    "value": "0px",
+    "uuid": "4738ec46-a43c-48f9-aeca-87863275dc4d",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "field-label-to-component-quiet-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "af6de4b2-6fee-48fe-9222-c62caa55f212",
+    "deprecated": true,
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-15px",
+        "uuid": "d6c750dc-3117-4c1a-96bf-b94d530e912d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-19px",
+        "uuid": "e1298748-d7cc-4bff-93bc-745b777fcf9e"
+      }
+    }
+  },
+  "field-label-to-component-quiet-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "79363184-cff7-42ae-8087-c68213bfaa8a",
+    "deprecated": true,
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-12px",
+        "uuid": "be80f1b1-4c08-479f-a39e-28b6a64714f2"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-15px",
+        "uuid": "c29cfb87-34e7-4397-bfd8-23378ecbb011"
+      }
+    }
+  },
+  "field-label-to-component-quiet-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "445b1198-2df9-4c34-ae7e-790b846071e0",
+    "deprecated": true,
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-8px",
+        "uuid": "dc00948e-3c0f-4c6b-8e3e-a7fbf396e059"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-10px",
+        "uuid": "074489d2-66b0-4198-94fe-9818279bbf0f"
+      }
+    }
+  },
+  "field-label-to-component-quiet-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "e4372c7c-3f59-4b2d-8862-61453adcd800",
+    "deprecated": true,
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-8px",
+        "uuid": "1218beeb-1d74-4e1a-b495-38d5f07afb55"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "-10px",
+        "uuid": "2d3e67ce-de6d-4e41-bcf8-06b09c0bcce7"
+      }
+    }
+  },
+  "field-label-top-margin-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field-label",
+    "value": "0px",
+    "uuid": "5c14d528-fe17-4b0b-a123-edbdb93fd173",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "field-label-top-margin-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field-label",
+    "value": "0px",
+    "uuid": "f7dd90d8-91e6-4090-a5a9-6b30087860a4",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "field-label-top-margin-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field-label",
+    "value": "0px",
+    "uuid": "b5243f56-7985-4686-b41f-9b9b9a18b047",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "field-label-top-margin-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "field-label",
+    "value": "0px",
+    "uuid": "ab718f97-15c3-4b8b-aee7-b50b09ec0a33",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "field-label-top-to-asterisk-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "2bfd21da-c4db-4837-9404-e02405717b25",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "e53ea4a5-bde5-4695-9ab8-50c2ce704019"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "5227bf07-140a-49c6-88f9-cc454d8a90c1"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "field-label-top-to-asterisk-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "a06e0c59-60ef-41f4-b471-797687ee76cd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "60caa810-5335-4c9f-95a7-0e60d49f43fc"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "e410a804-2655-4bbc-9b66-53a5facc92ac"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "field-label-top-to-asterisk-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "5435348b-4bb7-43b2-910f-31d2ca5873f9",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "eb2b857d-9482-42fb-82f9-bbe7899a22b9"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "6f65ad1a-4a65-4b83-af44-5bd893f3b40e"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "field-label-top-to-asterisk-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "field-label",
+    "uuid": "2eda2c97-806e-40fd-8a72-f6542bd4e988",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires UI icon to be placed in frame of height workflow-icon-[size], or calculate this token + ( (workflow-icon-[size] - ui-icon-[size]) / 2 )",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "7122627b-1906-424d-9cbf-261546ff3774"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "ec0c072f-50fb-4934-99fc-a2576062e7b4"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  }
+}

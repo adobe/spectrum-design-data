@@ -1,0 +1,460 @@
+[
+  {
+    "scope": {
+      "component": "rating",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Layout",
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Layout",
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Layout",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Layout",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "91a0e740-8f77-4d4a-b34c-d673afc1093b"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "height"
+    },
+    "context": "Height",
+    "$ref": "7e0c3f30-31f5-4fa2-b353-a739c904d796"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "height"
+    },
+    "context": "Height",
+    "$ref": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "thickness"
+    },
+    "context": "Focus ring",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "gap"
+    },
+    "context": "Focus ring",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "8cf415d3-57f2-41c6-a175-40c75b58a79e"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "6b99f788-336d-4159-819e-29050f8b571a"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "360ab235-93bf-482c-9ff1-387d69f018e1"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "897117a7-4e29-4fc2-85b4-1b2aa882ff7b"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "a2ad2062-a115-4abb-859b-f9d307b44744"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "888c8501-b709-4b72-9d19-504e3b0befb4"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "spacing"
+    },
+    "context": "Spacing",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Default",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Emphasized",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Hover",
+    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Hover",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Down",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Down",
+    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "content-color"
+    },
+    "context": "Disabled",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "bottom",
+        "to": "content-area",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "897117a7-4e29-4fc2-85b4-1b2aa882ff7b",
+    "legacyKey": "rating-bottom-to-content-area-medium",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "bottom",
+        "to": "content-area",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "360ab235-93bf-482c-9ff1-387d69f018e1",
+    "legacyKey": "rating-bottom-to-content-area-small",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead.",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content-area",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "888c8501-b709-4b72-9d19-504e3b0befb4",
+    "legacyKey": "rating-edge-to-content-area-medium",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content-area",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "a2ad2062-a115-4abb-859b-f9d307b44744",
+    "legacyKey": "rating-edge-to-content-area-small",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead.",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
+    "uuid": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
+    "legacyKey": "rating-height-medium"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "fbdf2291-b332-4436-9e57-430c0a81d526",
+    "uuid": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
+    "legacyKey": "rating-height-small"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "indicator",
+        "to": "icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "b132d948-bec9-4a29-b281-e77801ce5a7c",
+    "legacyKey": "rating-indicator-to-icon",
+    "setUuid": "56769fc6-5bf3-418e-a424-e3a079e2428b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "indicator",
+        "to": "icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "8e13ea1d-8000-485e-8700-5522cc71b95c",
+    "legacyKey": "rating-indicator-to-icon",
+    "setUuid": "56769fc6-5bf3-418e-a424-e3a079e2428b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "part": "indicator",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "f0958cee-9688-43db-9542-1aef164f9dfe",
+    "legacyKey": "rating-indicator-width",
+    "setUuid": "2716ef49-9896-4451-a7c2-e0dce18ead18",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "part": "indicator",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "dce9ff1e-06d1-49a5-817f-5319f4ab15e2",
+    "legacyKey": "rating-indicator-width",
+    "setUuid": "2716ef49-9896-4451-a7c2-e0dce18ead18",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "content-area",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "6b99f788-336d-4159-819e-29050f8b571a",
+    "legacyKey": "rating-top-to-content-area-medium",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "content-area",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "8cf415d3-57f2-41c6-a175-40c75b58a79e",
+    "legacyKey": "rating-top-to-content-area-small",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead.",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "width",
+      "options": {
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "128px",
+    "uuid": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
+    "legacyKey": "rating-width-medium"
+  },
+  {
+    "scope": {
+      "component": "rating",
+      "property": "width",
+      "options": {
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "104px",
+    "uuid": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
+    "legacyKey": "rating-width-small"
+  }
+]

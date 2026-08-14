@@ -56,14 +56,27 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "variant": {
       "type": "string",
       "default": "dialog",
-      "values": [{ "value": "dialog" }, { "value": "full screen" }]
+      "values": [
+        {
+          "value": "dialog"
+        },
+        {
+          "value": "full screen"
+        }
+      ]
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -92,28 +105,25 @@
       }
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    { "token": "takeover-dialog-width", "context": "Height & width" },
-    { "token": "takeover-dialog-height", "context": "Height & width" },
-    { "token": "window-to-edge", "context": "Margins (dialog option)" },
-    {
-      "token": "corner-radius-extra-large-default",
-      "context": "Rounding (dialog option)"
-    },
-    { "token": "background-layer-2-color", "context": "Background" },
-    { "token": "overlay-color", "context": "Overlay" },
-    { "token": "overlay-opacity", "context": "Overlay" },
-    { "token": "heading-color", "context": "Title" }
-  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

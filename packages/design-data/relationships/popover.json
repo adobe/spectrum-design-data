@@ -1,0 +1,306 @@
+[
+  {
+    "scope": {
+      "component": "popover",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "width"
+    },
+    "context": "Tip",
+    "$ref": "c4bc3596-1fbc-4b08-85af-6bd8142e499a"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "height"
+    },
+    "context": "Tip",
+    "$ref": "5960406b-973d-4e1f-9bb4-2c7a22422c5b"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "space-between"
+    },
+    "context": "Spacing (left/right edge to content area)",
+    "$ref": "2a3bd47e-fde5-41d3-a585-f970bdefaf07"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "spacing"
+    },
+    "context": "Spacing (tip to source)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "66da6f53-5446-43c1-bbe0-73b46763fde1"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "92133ef4-9b81-4fbd-9736-8b83078ef053"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color"
+    },
+    "context": "Drop shadow",
+    "$ref": "e475981f-97af-479c-859b-7619dd87c448"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "x"
+    },
+    "context": "Drop shadow",
+    "$ref": "59324423-4428-40d7-a227-5f75aeb38312"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "y"
+    },
+    "context": "Drop shadow",
+    "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "blur"
+    },
+    "context": "Drop shadow",
+    "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
+    "uuid": "66da6f53-5446-43c1-bbe0-73b46763fde1",
+    "legacyKey": "popover-border-color",
+    "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
+    "uuid": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3",
+    "legacyKey": "popover-border-color",
+    "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
+    "uuid": "92133ef4-9b81-4fbd-9736-8b83078ef053",
+    "legacyKey": "popover-border-color",
+    "setUuid": "a06ca705-47c8-414b-8768-f49a0b5997c2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "light",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0",
+    "uuid": "05c58363-1d34-4991-a7f7-7be7da4df50a",
+    "legacyKey": "popover-border-opacity",
+    "setUuid": "d34281bc-ac57-407a-b8e5-1dbdedd45797",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "dark",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "1.0",
+    "uuid": "fa9feacc-0c82-41a7-badc-5803c45a703b",
+    "legacyKey": "popover-border-opacity",
+    "setUuid": "d34281bc-ac57-407a-b8e5-1dbdedd45797",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "opacity",
+      "options": {
+        "colorScheme": "wireframe",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0",
+    "uuid": "55ab7957-997f-41a7-b31d-0994a2f77859",
+    "legacyKey": "popover-border-opacity",
+    "setUuid": "d34281bc-ac57-407a-b8e5-1dbdedd45797",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "2a3bd47e-fde5-41d3-a585-f970bdefaf07",
+    "legacyKey": "popover-edge-to-content-area",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token popover-padding instead.",
+      "replacedBy": "c872da51-317e-44cf-aef8-2f5f9fb77ae8"
+    }
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "part": "tip",
+      "property": "height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "5960406b-973d-4e1f-9bb4-2c7a22422c5b",
+    "legacyKey": "popover-tip-height"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "part": "tip",
+      "property": "width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "c4bc3596-1fbc-4b08-85af-6bd8142e499a",
+    "legacyKey": "popover-tip-width"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "content-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "2a3bd47e-fde5-41d3-a585-f970bdefaf07",
+    "uuid": "f97488e8-b1c1-442e-b98c-0ae6cff0b774",
+    "legacyKey": "popover-top-to-content-area",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.34",
+      "deprecatedComment": "Introduced as an error. Use popover-edge-to-content-area instead",
+      "replacedBy": "2a3bd47e-fde5-41d3-a585-f970bdefaf07"
+    }
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "6bae40ba-3b57-4e4b-a8a7-4044cd729068",
+    "legacyKey": "popover-gap"
+  },
+  {
+    "scope": {
+      "component": "popover",
+      "property": "padding"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "c872da51-317e-44cf-aef8-2f5f9fb77ae8",
+    "legacyKey": "popover-padding"
+  }
+]

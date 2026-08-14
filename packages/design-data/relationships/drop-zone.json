@@ -1,0 +1,538 @@
+[
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "width"
+    },
+    "context": "Component width",
+    "$ref": "2097b13e-94b3-4a06-a0af-c7d8420d1273"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "spacing"
+    },
+    "context": "Padding",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "content-maximum-width"
+    },
+    "context": "Content width (maximum)",
+    "$ref": "b8d0db71-9a25-46fc-b77a-037fcf86be8e"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "border-width"
+    },
+    "context": "Border width and corner radius",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "corner-radius"
+    },
+    "context": "Border width and corner radius",
+    "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "border-dash-length"
+    },
+    "context": "Border width and corner radius",
+    "$ref": "a596af57-256f-4445-b91f-36e47bfb2d95"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "border-dash-gap"
+    },
+    "context": "Border width and corner radius",
+    "$ref": "47c15433-53d3-425b-8b87-ea234701f781"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "spacing"
+    },
+    "context": "Spacing (illustration to title area) ",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "spacing"
+    },
+    "context": "Spacing (title area to body area) ",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "spacing"
+    },
+    "context": "Spacing (body area to action) ",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-height-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-height-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-edge-to-text-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "11088de1-8e3b-4021-968d-a8c59c7b00bd"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-edge-to-text-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "616de468-71fc-4315-87ea-47cdc508a599"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Text area (filled, hover)",
+    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-family"
+    },
+    "context": "Title area and body area",
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-weight"
+    },
+    "context": "Title area and body area",
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-style"
+    },
+    "context": "Title area and body area",
+    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-size"
+    },
+    "context": "Title area and body area",
+    "$ref": "07564dd0-3628-42e1-8a29-253448a8c75f"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-size"
+    },
+    "context": "Title area and body area",
+    "$ref": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "line-height"
+    },
+    "context": "Title area and body area",
+    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-family"
+    },
+    "context": "Title area and body area",
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-weight"
+    },
+    "context": "Title area and body area",
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-style"
+    },
+    "context": "Title area and body area",
+    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-size"
+    },
+    "context": "Title area and body area",
+    "$ref": "644593be-82da-4ae4-ae57-fabebd4513ca"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "line-height"
+    },
+    "context": "Title area and body area",
+    "$ref": "39accad7-3de1-4850-9773-4e0ff8080049"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-family"
+    },
+    "context": "Title area and body area",
+    "$ref": "a552c422-c51c-458a-87b0-c6fe5178bf4b"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-weight"
+    },
+    "context": "Title area and body area",
+    "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-size-300"
+    },
+    "context": "Title area and body area",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "font-size-300"
+    },
+    "context": "Title area and body area",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "line-height-100"
+    },
+    "context": "Title area and body area",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border color",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border color",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border color",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "content-color"
+    },
+    "context": "Illustration color",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Title and body color",
+    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Title and body color",
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border and background color (empty, hover)",
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border and background color (empty, hover)",
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border and background color (empty, hover)",
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border and background color (empty, hover)",
+    "$ref": "866f3613-c12f-4475-87b1-ad86ef2ce153"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "opacity"
+    },
+    "context": "Border and background color (empty, hover)",
+    "$ref": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "opacity"
+    },
+    "context": "Border, background, and text area color (filled, hover)",
+    "$ref": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color"
+    },
+    "context": "Border, background, and text area color (filled, hover)",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "color",
+      "options": {
+        "object": "background"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d7414fe1-8b85-45d9-952e-ab6c4c7b7620",
+    "uuid": "866f3613-c12f-4475-87b1-ad86ef2ce153",
+    "legacyKey": "drop-zone-background-color"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "opacity",
+      "options": {
+        "object": "background"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63",
+    "legacyKey": "drop-zone-background-color-opacity"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "opacity",
+      "options": {
+        "state": ["filled"],
+        "object": "background"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.3",
+    "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc",
+    "legacyKey": "drop-zone-background-color-opacity-filled"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "body",
+      "property": "font-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "22f5b08c-2b86-447d-be0b-ed03841dbcfb",
+    "uuid": "644593be-82da-4ae4-ae57-fabebd4513ca",
+    "legacyKey": "drop-zone-body-font-size"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "body",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "644593be-82da-4ae4-ae57-fabebd4513ca",
+    "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457",
+    "legacyKey": "drop-zone-body-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.35",
+      "deprecatedComment": "Use drop-zone-body-font-size instead",
+      "replacedBy": "644593be-82da-4ae4-ae57-fabebd4513ca"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "border-dash-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "47c15433-53d3-425b-8b87-ea234701f781",
+    "legacyKey": "drop-zone-border-dash-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token drop-target-dash-gap instead.",
+      "replacedBy": "5582026a-22e6-4e0e-9a21-2a7a43b026a6"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "border-dash-length"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "a596af57-256f-4445-b91f-36e47bfb2d95",
+    "legacyKey": "drop-zone-border-dash-length",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token drop-target-dash-length instead.",
+      "replacedBy": "24cd8175-3dc5-46ae-b1af-01632787fcd8"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "script": "cjk"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f",
+    "uuid": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75",
+    "legacyKey": "drop-zone-cjk-title-font-size"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "cjk-title-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75",
+    "uuid": "013387e8-8925-4bb4-a8ee-94420141fde9",
+    "legacyKey": "drop-zone-cjk-title-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.35",
+      "deprecatedComment": "Use drop-zone-cjk-title-font-size instead",
+      "replacedBy": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "content-maximum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
+    "uuid": "b8d0db71-9a25-46fc-b77a-037fcf86be8e",
+    "legacyKey": "drop-zone-content-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "13.5.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "title",
+      "property": "font-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "5a575423-6129-4fcf-93f0-d3eb44096dd5",
+    "uuid": "07564dd0-3628-42e1-8a29-253448a8c75f",
+    "legacyKey": "drop-zone-title-font-size"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "title",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "07564dd0-3628-42e1-8a29-253448a8c75f",
+    "uuid": "edc68bfe-7ad3-4a12-81fa-ded8fb6fc2e3",
+    "legacyKey": "drop-zone-title-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.35",
+      "deprecatedComment": "Use drop-zone-title-font-size instead",
+      "replacedBy": "07564dd0-3628-42e1-8a29-253448a8c75f"
+    }
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "property": "width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "428px",
+    "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
+    "legacyKey": "drop-zone-width"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "segmented-control-item-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "segmented-control",
+    "value": "{component-height-100}",
+    "uuid": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5"
+  },
+  "segmented-control-item-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "segmented-control",
+    "value": "265px",
+    "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de"
+  },
+  "segmented-control-selection-border-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "segmented-control",
+    "value": "{border-width-200}",
+    "uuid": "10f93760-7b09-4a4e-8cc2-33783e571926"
+  }
+}

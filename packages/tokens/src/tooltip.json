@@ -1,0 +1,59 @@
+{
+  "tooltip-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tooltip",
+    "uuid": "e606fea0-3540-4461-96b5-c57e9d9b39ef",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "160px",
+        "uuid": "e5ba234a-afdd-451e-84e7-51314446cdae"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "200px",
+        "uuid": "6d7623e1-65f5-4af5-8c08-b33b093b85ae"
+      }
+    }
+  },
+  "tooltip-tip-corner-radius": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "tooltip",
+    "value": "1px",
+    "uuid": "53fef925-59e3-4df5-9ac2-e2b4d34d9bca"
+  },
+  "tooltip-tip-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tooltip",
+    "uuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "481757aa-c6b5-4281-9a63-feeb1c88aec6"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "70c9f65f-1e23-4c47-94dd-0c3ddde15743"
+      }
+    }
+  },
+  "tooltip-tip-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tooltip",
+    "uuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "0732bd0e-c5c0-4e58-8fee-2015c1753237"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "ad2c09a6-c42e-4eef-94a3-6c2180c6e2af"
+      }
+    }
+  }
+}

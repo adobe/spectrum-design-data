@@ -1,0 +1,108 @@
+{
+  "meter-default-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "meter",
+    "value": "{meter-width}",
+    "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5",
+    "deprecated": true,
+    "deprecated_comment": "Token renamed, use `meter-width`",
+    "renamed": "meter-width"
+  },
+  "meter-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "meter",
+    "value": "768px",
+    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
+  },
+  "meter-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "meter",
+    "value": "48px",
+    "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295"
+  },
+  "meter-thickness-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "meter",
+    "uuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "e5ac2b35-da1d-4936-baa8-498705c9529c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "272738b2-a274-4e2e-8582-9c2cc7962a85"
+      }
+    }
+  },
+  "meter-thickness-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "meter",
+    "uuid": "13344afb-aeba-4871-82c6-13275b3aa535",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "06751674-2222-433d-9dc6-40f14b2add6c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "c9052808-918e-4368-b113-28f928104eda"
+      }
+    }
+  },
+  "meter-thickness-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "meter",
+    "uuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "6e404f16-900e-4dd2-8705-3c9077f52240"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca"
+      }
+    }
+  },
+  "meter-thickness-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "meter",
+    "uuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "0013e354-3f26-41a5-8486-2577045872f6"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37"
+      }
+    }
+  },
+  "meter-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "meter",
+    "uuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "192px",
+        "uuid": "ceeda4da-026b-496c-8abd-7081aceae262"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "240px",
+        "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
+      }
+    }
+  }
+}

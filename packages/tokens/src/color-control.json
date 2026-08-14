@@ -1,0 +1,19 @@
+{
+  "color-control-track-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "color-control",
+    "uuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "424db2a9-5795-400b-a98a-58081d311bff"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "30px",
+        "uuid": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd"
+      }
+    }
+  }
+}

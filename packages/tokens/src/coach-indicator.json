@@ -1,0 +1,56 @@
+{
+  "coach-indicator-collapsed-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "2px",
+    "uuid": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead.",
+    "renamed": "focus-ring-gap"
+  },
+  "coach-indicator-collapsed-ring-rounding-increment": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "6px",
+    "uuid": "252dc667-b847-4295-8669-3e2f4d408f51"
+  },
+  "coach-indicator-collapsed-ring-thickness": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "4px",
+    "uuid": "fff486aa-26a4-4b41-91a7-762f8b29d47a"
+  },
+  "coach-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "coach-indicator",
+    "value": "{blue-800}",
+    "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
+  },
+  "coach-indicator-expanded-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "6px",
+    "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "renamed": "base-gap-medium"
+  },
+  "coach-indicator-expanded-ring-rounding-increment": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "14px",
+    "uuid": "770aa608-80a3-4715-894b-c1d85a1b0c5e"
+  },
+  "coach-indicator-expanded-ring-thickness": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "coach-indicator",
+    "value": "8px",
+    "uuid": "09c84cdf-0c82-4201-8203-9eb05d8b9486"
+  },
+  "coach-indicator-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "coach-indicator",
+    "value": "0.2",
+    "uuid": "6fa9bbc8-4c96-45a4-b133-bb2556a003de"
+  }
+}

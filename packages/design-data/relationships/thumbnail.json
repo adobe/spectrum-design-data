@@ -1,0 +1,718 @@
+[
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "0578d5e5-9c2d-46f2-9268-85bdf566b3a5"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "7f33676b-63dd-4d16-b7e1-36520ade716d"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "20706cc7-9d07-4938-8328-debd3ab8d822"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "852fc55b-beb7-428c-bc0c-452abc204de3"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "545604c8-484f-4697-907c-31e2b2cb46d0"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "ec457831-d272-4809-a84a-f1e9dcaec495"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "0e548378-9633-49d2-90d8-b40e1ba7c98e"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "95c5905f-b209-4e84-881f-13ea85f12d87"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "7ee6d5ae-eb01-49e1-93ba-df3e7c25d876"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "b0351cf7-f0df-4044-ab26-5b6649ea2e1f"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "87234a25-8f6d-457c-9d3f-363930fec12c"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "1798b58e-fce4-411d-ba8d-75006fa4f53e"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "d533a543-9622-4c43-92a6-82dd5eebcc64"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "543dcd25-42cc-4198-b4ba-ba5524b08691"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "d6aaa2c4-d213-44de-9bae-742d26df8765"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "5eab16f9-5537-4a14-958d-d96200c5723f"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "8cee2b4d-48c8-45aa-803b-5d1cd9027fcf"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "94ca9817-988a-4e4f-9163-954d29204049"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "97f11dd2-0173-464c-9eef-c260c9e8cf22"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "48959be8-02f9-45b9-8190-af60c93cbb6c"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "13681294-e3c6-4898-a17e-943932a53c08"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "opacity-checkerboard-size"
+    },
+    "context": "Opacity Checkerboard",
+    "$ref": "0322f848-009a-45c4-ad4a-17d8f7e41995"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "color"
+    },
+    "context": "Border ",
+    "$ref": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "opacity"
+    },
+    "context": "Border ",
+    "$ref": "58bd04e9-5b85-44d8-8474-96e157701070"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "square-light"
+    },
+    "context": "Checkerboard Colors ",
+    "$ref": "c7e50676-3f61-49c3-a35f-2532fdb02360"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "square-dark"
+    },
+    "context": "Checkerboard Colors ",
+    "$ref": "84a7cd5e-bb2b-4bb5-bb5f-f5839ae3a761"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "square-dark"
+    },
+    "context": "Checkerboard Colors ",
+    "$ref": "f783b8cb-d31f-46c2-b550-990639752510"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "square-dark"
+    },
+    "context": "Checkerboard Colors ",
+    "$ref": "35fcf7b1-7140-4522-8410-48547aaf6fd6"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "opacity"
+    },
+    "context": "Disabled",
+    "$ref": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "color",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
+    "uuid": "5bd226f1-0a6b-42bc-80af-4a9dde99e9e9",
+    "legacyKey": "thumbnail-border-color"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "opacity",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "58bd04e9-5b85-44d8-8474-96e157701070",
+    "legacyKey": "thumbnail-border-opacity"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "opacity",
+      "options": {
+        "state": ["disabled"]
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74",
+    "uuid": "92418bcd-5f0f-4f26-9a96-51f8c9e871bf",
+    "legacyKey": "thumbnail-opacity-disabled"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "corner-radius"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
+    "uuid": "13681294-e3c6-4898-a17e-943932a53c08",
+    "legacyKey": "thumbnail-corner-radius"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "part": "square",
+      "property": "opacity-checkerboard-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995",
+    "legacyKey": "thumbnail-opacity-checkerboard-square-size"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 100
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf",
+    "legacyKey": "thumbnail-size-100",
+    "setUuid": "6ccfba1b-2acd-4ea1-a969-af165b1b4803",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 100
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "545604c8-484f-4697-907c-31e2b2cb46d0",
+    "legacyKey": "thumbnail-size-100",
+    "setUuid": "6ccfba1b-2acd-4ea1-a969-af165b1b4803",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 1000
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "48959be8-02f9-45b9-8190-af60c93cbb6c",
+    "legacyKey": "thumbnail-size-1000",
+    "setUuid": "98ec54b1-1ad9-46cd-af5a-0d1247ceb197",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 1000
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "72px",
+    "uuid": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14",
+    "legacyKey": "thumbnail-size-1000",
+    "setUuid": "98ec54b1-1ad9-46cd-af5a-0d1247ceb197",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 200
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "ec457831-d272-4809-a84a-f1e9dcaec495",
+    "legacyKey": "thumbnail-size-200",
+    "setUuid": "788eb0e7-5684-4113-aa58-1b26fa525631",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 200
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "0e548378-9633-49d2-90d8-b40e1ba7c98e",
+    "legacyKey": "thumbnail-size-200",
+    "setUuid": "788eb0e7-5684-4113-aa58-1b26fa525631",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 300
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "95c5905f-b209-4e84-881f-13ea85f12d87",
+    "legacyKey": "thumbnail-size-300",
+    "setUuid": "9a069107-9b74-49a7-b29e-48dc8ffec9ef",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 300
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe",
+    "legacyKey": "thumbnail-size-300",
+    "setUuid": "9a069107-9b74-49a7-b29e-48dc8ffec9ef",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 400
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "7ee6d5ae-eb01-49e1-93ba-df3e7c25d876",
+    "legacyKey": "thumbnail-size-400",
+    "setUuid": "ab26b7c6-b002-4494-9cd6-116b53eb6a95",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 400
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "b0351cf7-f0df-4044-ab26-5b6649ea2e1f",
+    "legacyKey": "thumbnail-size-400",
+    "setUuid": "ab26b7c6-b002-4494-9cd6-116b53eb6a95",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 50
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "0578d5e5-9c2d-46f2-9268-85bdf566b3a5",
+    "legacyKey": "thumbnail-size-50",
+    "setUuid": "3c384b5a-5d50-4178-a24d-e6479b13df5e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 50
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "7f33676b-63dd-4d16-b7e1-36520ade716d",
+    "legacyKey": "thumbnail-size-50",
+    "setUuid": "3c384b5a-5d50-4178-a24d-e6479b13df5e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 500
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "87234a25-8f6d-457c-9d3f-363930fec12c",
+    "legacyKey": "thumbnail-size-500",
+    "setUuid": "bfd1dccd-2166-445f-ac3e-14c78e3e0aa3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 500
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "44px",
+    "uuid": "1798b58e-fce4-411d-ba8d-75006fa4f53e",
+    "legacyKey": "thumbnail-size-500",
+    "setUuid": "bfd1dccd-2166-445f-ac3e-14c78e3e0aa3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 600
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "44px",
+    "uuid": "d533a543-9622-4c43-92a6-82dd5eebcc64",
+    "legacyKey": "thumbnail-size-600",
+    "setUuid": "843927ab-cce4-45e5-a626-0f09dce95c27",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 600
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "543dcd25-42cc-4198-b4ba-ba5524b08691",
+    "legacyKey": "thumbnail-size-600",
+    "setUuid": "843927ab-cce4-45e5-a626-0f09dce95c27",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 700
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "d6aaa2c4-d213-44de-9bae-742d26df8765",
+    "legacyKey": "thumbnail-size-700",
+    "setUuid": "783c3746-367c-42d9-862e-1eb1ec229b31",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 700
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "52px",
+    "uuid": "5eab16f9-5537-4a14-958d-d96200c5723f",
+    "legacyKey": "thumbnail-size-700",
+    "setUuid": "783c3746-367c-42d9-862e-1eb1ec229b31",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 75
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "20706cc7-9d07-4938-8328-debd3ab8d822",
+    "legacyKey": "thumbnail-size-75",
+    "setUuid": "389eb221-ff20-43c3-86d6-fefd6d63283c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 75
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "852fc55b-beb7-428c-bc0c-452abc204de3",
+    "legacyKey": "thumbnail-size-75",
+    "setUuid": "389eb221-ff20-43c3-86d6-fefd6d63283c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 800
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "52px",
+    "uuid": "8cee2b4d-48c8-45aa-803b-5d1cd9027fcf",
+    "legacyKey": "thumbnail-size-800",
+    "setUuid": "644086da-cb67-4cd9-902d-a05f67858932",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 800
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "94ca9817-988a-4e4f-9163-954d29204049",
+    "legacyKey": "thumbnail-size-800",
+    "setUuid": "644086da-cb67-4cd9-902d-a05f67858932",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "scaleIndex": 900
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202",
+    "legacyKey": "thumbnail-size-900",
+    "setUuid": "1c2c552a-5d02-42e3-af7c-8fdb7a909e2e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "thumbnail",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "scaleIndex": 900
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "97f11dd2-0173-464c-9eef-c260c9e8cf22",
+    "legacyKey": "thumbnail-size-900",
+    "setUuid": "1c2c552a-5d02-42e3-af7c-8fdb7a909e2e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

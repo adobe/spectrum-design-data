@@ -1,0 +1,346 @@
+[
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "2b9f6096-84e7-4430-a3a9-a9daadcd1225"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "a7fafd60-dc38-425a-b6b6-952a06d30ab4"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "2b9efe78-8384-4994-a4ab-82046f109d20"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "c380cf9b-cb59-465c-9b56-41654d3239f1"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "a91ff845-aeb8-4a1b-9e4a-d34c77bb8253"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "c7719369-7d3d-4446-ade2-08abb472a985"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "becddd13-6ef9-4abc-9468-25885b2b4b84"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "a37ef752-662b-4152-b247-0ce9fcd624e4"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "a3adff4d-e69e-4aa0-95ec-2019328b7d08"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "aa930d94-7874-44d7-80f1-dc431d40c4a4"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "076b031f-5980-4112-bf0b-2cec47f54c6b"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "corner-radius"
+    },
+    "context": "Rounding (fill)",
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill",
+    "$ref": "6f2bb13a-8579-495c-8fe3-0046b1f99b01"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "content-color"
+    },
+    "context": "Track and fill",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (white)",
+    "$ref": "23791534-8963-4ff8-bfb4-15108da47103"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (white)",
+    "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (black)",
+    "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "color"
+    },
+    "context": "Track and fill (black)",
+    "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "a91ff845-aeb8-4a1b-9e4a-d34c77bb8253",
+    "legacyKey": "progress-circle-size-large",
+    "setUuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "80px",
+    "uuid": "c7719369-7d3d-4446-ade2-08abb472a985",
+    "legacyKey": "progress-circle-size-large",
+    "setUuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "2b9efe78-8384-4994-a4ab-82046f109d20",
+    "legacyKey": "progress-circle-size-medium",
+    "setUuid": "f275f342-c396-4781-944e-07cb302f5241",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "c380cf9b-cb59-465c-9b56-41654d3239f1",
+    "legacyKey": "progress-circle-size-medium",
+    "setUuid": "f275f342-c396-4781-944e-07cb302f5241",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "2b9f6096-84e7-4430-a3a9-a9daadcd1225",
+    "legacyKey": "progress-circle-size-small",
+    "setUuid": "ab2492f4-18ef-471b-94f7-9998be139116",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "a7fafd60-dc38-425a-b6b6-952a06d30ab4",
+    "legacyKey": "progress-circle-size-small",
+    "setUuid": "ab2492f4-18ef-471b-94f7-9998be139116",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "6331ae2c-ddf9-4de4-8df4-82b5581cf2ea",
+    "legacyKey": "progress-circle-thickness-large",
+    "setUuid": "aac55ca2-87f0-4a75-a0ab-282c0b1a1419",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "076b031f-5980-4112-bf0b-2cec47f54c6b",
+    "legacyKey": "progress-circle-thickness-large",
+    "setUuid": "aac55ca2-87f0-4a75-a0ab-282c0b1a1419",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "a3adff4d-e69e-4aa0-95ec-2019328b7d08",
+    "legacyKey": "progress-circle-thickness-medium",
+    "setUuid": "27f28f23-f8b4-4c99-a2fc-a7db1606f80c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "aa930d94-7874-44d7-80f1-dc431d40c4a4",
+    "legacyKey": "progress-circle-thickness-medium",
+    "setUuid": "27f28f23-f8b4-4c99-a2fc-a7db1606f80c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "becddd13-6ef9-4abc-9468-25885b2b4b84",
+    "legacyKey": "progress-circle-thickness-small",
+    "setUuid": "5212e366-45e2-41af-9132-926fdbf8b91b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "progress-circle",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "a37ef752-662b-4152-b247-0ce9fcd624e4",
+    "legacyKey": "progress-circle-thickness-small",
+    "setUuid": "5212e366-45e2-41af-9132-926fdbf8b91b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

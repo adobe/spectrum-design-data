@@ -1,0 +1,56 @@
+[
+  {
+    "scope": {
+      "component": "floating-action-button",
+      "property": "color",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e",
+    "uuid": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
+    "legacyKey": "floating-action-button-drop-shadow-color"
+  },
+  {
+    "scope": {
+      "component": "floating-action-button",
+      "property": "shadow-color"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0",
+    "uuid": "f843b1b7-4b2f-496e-a679-b0372e49d575",
+    "legacyKey": "floating-action-button-shadow-color",
+    "lifecycle": {
+      "deprecatedIn": "12.9.0",
+      "deprecatedComment": "Use `floating-action-button-drop-shadow-color` instead",
+      "replacedBy": "d66d3a56-1ba0-4ce7-a263-eb46a4d17af0"
+    }
+  },
+  {
+    "scope": {
+      "component": "floating-action-button",
+      "property": "blur",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "82e8cf04-7eda-4f36-8d2c-fda63241c3de",
+    "legacyKey": "floating-action-button-drop-shadow-blur"
+  },
+  {
+    "scope": {
+      "component": "floating-action-button",
+      "property": "y",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "a4ddc1a6-1367-4153-bb7c-c217d16d10f4",
+    "legacyKey": "floating-action-button-drop-shadow-y"
+  }
+]

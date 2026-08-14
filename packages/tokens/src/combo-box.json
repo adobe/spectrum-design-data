@@ -1,0 +1,68 @@
+{
+  "combo-box-minimum-width-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "combo-box",
+    "value": 2.5,
+    "uuid": "eabcc77a-f263-43ed-9944-9daa78a56b66"
+  },
+  "combo-box-quiet-minimum-width-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "combo-box",
+    "value": 2,
+    "uuid": "4798728b-9a97-4ce1-b703-0182b1513e8b",
+    "deprecated": true
+  },
+  "combo-box-visual-to-field-button": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "combo-box",
+    "value": "0px",
+    "uuid": "6c3c7201-2f5b-455a-bcbf-5e3d783887bf",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "combo-box-visual-to-field-button-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "combo-box",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "4a4ee415-1f25-4d36-928c-5ece0ce4abcc",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
+  },
+  "combo-box-visual-to-field-button-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "combo-box",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "356c4912-69c7-4a95-956b-c1aa78cb02cb",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
+  },
+  "combo-box-visual-to-field-button-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "combo-box",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "c5a4baf2-effe-4d9a-92f3-b4ead5440d36",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
+  },
+  "combo-box-visual-to-field-button-quiet": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "combo-box",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "292cbbe1-1ba4-4369-9768-2051c07e6406",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
+  },
+  "combo-box-visual-to-field-button-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "combo-box",
+    "value": "{combo-box-visual-to-field-button}",
+    "uuid": "5d054a3e-e4bb-4ca3-b84a-51b3d7fa2cb8",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with combo-box-visual-to-field-button",
+    "renamed": "combo-box-visual-to-field-button"
+  }
+}

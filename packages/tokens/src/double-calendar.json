@@ -1,0 +1,14 @@
+{
+  "double-calendar-popover-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "double-calendar",
+    "value": "320px",
+    "uuid": "70cf1c19-7b41-4556-8db2-07fc7ad19666"
+  },
+  "double-calendar-popover-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "double-calendar",
+    "value": "616px",
+    "uuid": "5c1de210-df6c-4a3a-8cc7-b9766a676f2f"
+  }
+}

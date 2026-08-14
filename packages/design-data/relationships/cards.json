@@ -1,0 +1,1034 @@
+[
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "dad01ae6-b161-4d09-8296-33c6ee7d8ca1"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "6d94093e-daba-4312-b083-61f44d027737"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "813d9d3b-8e02-44d9-a898-3045947edc08"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "549fbfad-78b7-430d-8fac-7d23084f2bea"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "7a98c2aa-404f-4fba-a20d-f5b73919b13e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "b99da217-1715-446c-9120-53e435cb0d0a"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "bec36248-9c3d-4ecd-857e-c5c20bdc0e1a"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "5645fd64-11a8-4a0e-95f6-2f0cd89f5852"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "dc3ab4d0-f006-4ade-91da-ef263a676244"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "7a94daad-ec68-4ef1-9c84-9bf6c9b6b696"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "9b2b13ac-1728-49f5-8e15-6eeed2e7f855"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "42b0d345-b069-48b6-be41-6ed9047097d4"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "ccfe1006-0ddd-4203-b0e0-4c92a090c376"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "2e85d49c-4002-4beb-9173-f4b2ab78d043"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "6f924664-b056-4fdb-a6ab-c5609e3e9316"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "a83a882e-430c-46fc-a8be-5ade0dd8a4c6"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-compact-extra-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra small)",
+    "$ref": "562738ca-ed16-4855-8855-3914b9109408"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "card-edge-to-content-default-extra-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra small)",
+    "$ref": "9ecb4a76-013a-4952-9646-a5660005b31e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-spacious-extra-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra small)",
+    "$ref": "91289dd0-0a27-49ef-96c9-3508edecfa44"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-compact-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, small)",
+    "$ref": "521df9e4-9c61-4a73-9157-d235a4d04090"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "card-edge-to-content-default-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, small)",
+    "$ref": "569f8d0a-75f3-4743-aa51-9ec6479cdf21"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-spacious-small"
+    },
+    "context": "Spacing (top/side/bottom edge to content, small)",
+    "$ref": "8ec39e04-de4f-48cf-9c8b-7bb7f76730a0"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-compact-medium"
+    },
+    "context": "Spacing (top/side/bottom edge to content, medium)",
+    "$ref": "f3566ff3-2430-4fdd-a48c-e8c0d3c34adc"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "card-edge-to-content-default-medium"
+    },
+    "context": "Spacing (top/side/bottom edge to content, medium)",
+    "$ref": "04ef066b-4733-4d20-9538-7eefd71e7a1e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-spacious-medium"
+    },
+    "context": "Spacing (top/side/bottom edge to content, medium)",
+    "$ref": "98ef0816-ad83-43ec-b976-1169a7ce8540"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-compact-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, large)",
+    "$ref": "0b551228-5a6a-403d-bb92-9800835cb3be"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "card-edge-to-content-default-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, large)",
+    "$ref": "8856270e-65b5-4f81-87c0-5332ffd7459f"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-spacious-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, large)",
+    "$ref": "73da978a-bede-439e-97cd-afeb32e87780"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-compact-extra-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra large)",
+    "$ref": "a9f253aa-631e-447a-8335-15b4491a8e9d"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "card-edge-to-content-default-extra-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra large)",
+    "$ref": "7acf60d0-7870-403e-94b9-18e84eff861b"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "edge-to-content-spacious-extra-large"
+    },
+    "context": "Spacing (top/side/bottom edge to content, extra large)",
+    "$ref": "c4ee268c-aca6-488f-90db-d3e51a0c5c89"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "gap"
+    },
+    "context": "Focus indicator",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "7e6678b7-2903-434b-8ee2-06c83815b01d"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Well",
+    "$ref": "c9c0e684-6b6c-4314-9b5b-7ba5e3333071"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "content-color"
+    },
+    "context": "Border",
+    "$ref": "ea46f6d3-4261-4482-a70f-2cddd113aa4a"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "opacity"
+    },
+    "context": "Disabled",
+    "$ref": "fdf6fd5d-55a0-4428-a258-4e8fafc74b74"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Loading",
+    "$ref": "6022f845-b182-493f-bdae-f86f6336efaa"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum)",
+    "$ref": "f4492a8a-8cb4-481f-a2e4-73da516023be"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum)",
+    "$ref": "862e84ab-4efa-4c8e-a0e0-5ed158dadbcb"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum)",
+    "$ref": "a29c460d-3496-49e9-8996-f4b42b9fbce7"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum)",
+    "$ref": "2047247e-07d1-4b9b-b184-c173e6421daf"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum)",
+    "$ref": "ef218a9a-900a-4454-840c-2380020bcbf3"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "b9268c45-50c7-4209-9f73-99293e15b7fd"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "d169a0a3-9bda-41b4-9e58-897652c95627"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "f8e58ca1-5087-4c4a-95dc-2f145f63fbc5"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "89dca1bf-84e5-436e-9e86-35f37f739812"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "622c6e86-dea6-416d-9f13-bb6ef112d3cb"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "81c0608b-c977-490e-b8d7-830d0676fdad"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Selection checkbox ",
+    "$ref": "5dd9406f-9b36-43f1-8b35-b1bb7f2a4c8d"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (title to action button)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (title to action button)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (header to description)",
+    "$ref": "e874d2cd-6ad6-4d1c-8103-789945f10294"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "18b0ff0d-494c-4d33-acab-a62528c5ca66"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Value",
+    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Value",
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "content-color"
+    },
+    "context": "Value",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "content-color"
+    },
+    "context": "Disabled",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-family"
+    },
+    "context": "Title",
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-weight"
+    },
+    "context": "Title",
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-style"
+    },
+    "context": "Title",
+    "$ref": "70955f1b-4124-432e-bd9d-c5b42c890195"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-50"
+    },
+    "context": "Title",
+    "$ref": "8593a326-de37-414d-b3f6-5254b41dce07"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-50"
+    },
+    "context": "Title",
+    "$ref": "b7561ce1-e12e-4aed-9766-181f7eca309e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-75"
+    },
+    "context": "Title",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-75"
+    },
+    "context": "Title",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-100"
+    },
+    "context": "Title",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-100"
+    },
+    "context": "Title",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-200"
+    },
+    "context": "Title",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-200"
+    },
+    "context": "Title",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-300"
+    },
+    "context": "Title",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-size-300"
+    },
+    "context": "Title",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "line-height-100"
+    },
+    "context": "Title",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "line-height-100"
+    },
+    "context": "Title",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-family"
+    },
+    "context": "Body",
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-weight"
+    },
+    "context": "Body",
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "font-style"
+    },
+    "context": "Body",
+    "$ref": "d317d387-9bc8-4258-a79a-a0dd4e22d952"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "fabfd445-4c39-4d39-9f7f-1ec531d4eb40"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "9264b1ff-23ae-4fd5-8863-742c305689e2"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "8422dc66-e17d-4c54-a18b-a997a8e5d7c3"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "e5027e50-3a1f-425d-b06b-8e4cf4663c22"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "6b242eb5-aa73-417c-b786-9047ae7a65ac"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), hero image variant",
+    "$ref": "dc2f0f1a-609a-448a-833d-ded2580ef737"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), hero image variant",
+    "$ref": "adfc74bd-7520-4bfa-b278-28178007cfbc"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), hero image variant",
+    "$ref": "63ecc7ce-8a38-4d18-94ed-d9e6394279ba"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), hero image variant",
+    "$ref": "d5586b0d-1ff1-4e7e-88ce-75d41aff90d9"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), hero image variant",
+    "$ref": "24d72e3c-ed0d-47d7-85f5-4792fcf87b7f"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to footer)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "f646530e-480c-4dbb-85fe-771eb5685966"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "53c81b30-6d98-4eaa-857f-15707d54a548"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "7cf979ef-c47b-41f3-8230-49d67ad47740"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), default variant",
+    "$ref": "9a9f173d-6262-490f-976f-bd9abb9ec355"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), title below variant",
+    "$ref": "3373c4d2-d81b-4649-bc24-5251879778c1"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), title below variant",
+    "$ref": "5f4edfbc-eb2e-4dd5-add1-bf45530b0e61"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), title below variant",
+    "$ref": "4cc4f673-912b-4e53-a75e-c8bd4603ab19"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "minimum-height"
+    },
+    "context": "Height (minimum), title below variant",
+    "$ref": "a603a785-8cd8-4caf-a2b4-cfe3371cc10e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "spacing"
+    },
+    "context": "Spacing (thumbnail to title)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (description to footer)",
+    "$ref": "248d1f30-c0d3-49bb-a5b7-0860cc75ee85"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "545604c8-484f-4697-907c-31e2b2cb46d0"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "95c5905f-b209-4e84-881f-13ea85f12d87"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "87234a25-8f6d-457c-9d3f-363930fec12c"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "1798b58e-fce4-411d-ba8d-75006fa4f53e"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "d6aaa2c4-d213-44de-9bae-742d26df8765"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "5eab16f9-5537-4a14-958d-d96200c5723f"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "5b9fb77d-8a2e-4e1c-ba86-475cd66b4202"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "97f11dd2-0173-464c-9eef-c260c9e8cf22"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "48959be8-02f9-45b9-8190-af60c93cbb6c"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/side/bottom edge to content)",
+    "$ref": "fd732759-52ab-45b7-9949-9d9352091efe"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/side/bottom edge to content)",
+    "$ref": "45af5962-8d41-476d-a92d-befa408b47b7"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/side/bottom edge to content)",
+    "$ref": "104c7b60-387b-4550-b0eb-573915d28f42"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "border-width"
+    },
+    "context": "Stroke width (secondary, dark)",
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border (Secondary, Light theme)",
+    "$ref": "66da6f53-5446-43c1-bbe0-73b46763fde1"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border (Secondary, Light theme)",
+    "$ref": "825dc035-7b1c-4ddd-b1a9-be1546dae7e3"
+  },
+  {
+    "scope": {
+      "component": "cards",
+      "property": "color"
+    },
+    "context": "Border (Secondary, Light theme)",
+    "$ref": "92133ef4-9b81-4fbd-9736-8b83078ef053"
+  }
+]

@@ -1,0 +1,518 @@
+[
+  {
+    "scope": {
+      "component": "meter",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width",
+    "$ref": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "maximum-width"
+    },
+    "context": "Maximum width",
+    "$ref": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-75"
+    },
+    "context": "Text",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-75"
+    },
+    "context": "Text",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-200"
+    },
+    "context": "Text",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-200"
+    },
+    "context": "Text",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-300"
+    },
+    "context": "Text",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "font-size-300"
+    },
+    "context": "Text",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "spacing"
+    },
+    "context": "Spacing (field label to progress bar)",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top edge to text)",
+    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "spacing"
+    },
+    "context": "Minimum spacing (field label to text)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "0013e354-3f26-41a5-8486-2577045872f6"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "eb9c3cff-5a1a-4832-a623-6ab258b81d37"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "6e404f16-900e-4dd2-8705-3c9077f52240"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "06751674-2222-433d-9dc6-40f14b2add6c"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "c9052808-918e-4368-b113-28f928104eda"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "e5ac2b35-da1d-4936-baa8-498705c9529c"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness"
+    },
+    "context": "Meter (thickness)",
+    "$ref": "272738b2-a274-4e2e-8582-9c2cc7962a85"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "corner-radius"
+    },
+    "context": "Meter (rounding)",
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color"
+    },
+    "context": "Text",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Track and indicator",
+    "$ref": "6f2bb13a-8579-495c-8fe3-0046b1f99b01"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "content-color"
+    },
+    "context": "Track and indicator",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Text (black)",
+    "$ref": "9b7919b5-764c-4f93-b4c7-39d8bf7f2b51"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Track and indicator (black)",
+    "$ref": "c6d40ce0-bcee-4b56-9e63-a51ee1579ef0"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Track and indicator (black)",
+    "$ref": "0599d3b0-4d9e-4a12-ae0e-8f60e3533ab9"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Text (white)",
+    "$ref": "13ee65f0-4bb9-4213-905d-92c1b788a702"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Track and indicator (white)",
+    "$ref": "23791534-8963-4ff8-bfb4-15108da47103"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "color"
+    },
+    "context": "Track and indicator (white)",
+    "$ref": "a1cbc282-1376-48d1-b8bb-92f10aef7c6f"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "meter-default-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ceeda4da-026b-496c-8abd-7081aceae262",
+    "uuid": "2633d29d-8a14-48e8-977c-bdb9a53b3bd5",
+    "legacyKey": "meter-default-width",
+    "lifecycle": {
+      "deprecatedIn": "12.18.0",
+      "deprecatedComment": "Token renamed, use `meter-width`",
+      "replacedBy": [
+        "ceeda4da-026b-496c-8abd-7081aceae262",
+        "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "maximum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "768px",
+    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
+    "legacyKey": "meter-maximum-width"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "48px",
+    "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295",
+    "legacyKey": "meter-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "e5ac2b35-da1d-4936-baa8-498705c9529c",
+    "legacyKey": "meter-thickness-extra-large",
+    "setUuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "13px",
+    "uuid": "272738b2-a274-4e2e-8582-9c2cc7962a85",
+    "legacyKey": "meter-thickness-extra-large",
+    "setUuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "06751674-2222-433d-9dc6-40f14b2add6c",
+    "legacyKey": "meter-thickness-large",
+    "setUuid": "13344afb-aeba-4871-82c6-13275b3aa535",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "c9052808-918e-4368-b113-28f928104eda",
+    "legacyKey": "meter-thickness-large",
+    "setUuid": "13344afb-aeba-4871-82c6-13275b3aa535",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "6e404f16-900e-4dd2-8705-3c9077f52240",
+    "legacyKey": "meter-thickness-medium",
+    "setUuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca",
+    "legacyKey": "meter-thickness-medium",
+    "setUuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "0013e354-3f26-41a5-8486-2577045872f6",
+    "legacyKey": "meter-thickness-small",
+    "setUuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "thickness",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37",
+    "legacyKey": "meter-thickness-small",
+    "setUuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "192px",
+    "uuid": "ceeda4da-026b-496c-8abd-7081aceae262",
+    "legacyKey": "meter-width",
+    "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "meter",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "240px",
+    "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568",
+    "legacyKey": "meter-width",
+    "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

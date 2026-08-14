@@ -1,0 +1,111 @@
+{
+  "picker-border-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "picker",
+    "value": "{border-width-100}",
+    "uuid": "69c28762-f456-4641-b6ce-7cb295e3a27d"
+  },
+  "picker-end-edge-to-disclosure-icon-quiet": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "picker",
+    "value": "0px",
+    "uuid": "03da68d8-cd87-4e29-9aaf-ab467594ec2b",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "picker-end-edge-to-disclousure-icon-quiet": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "picker",
+    "value": "{picker-end-edge-to-disclosure-icon-quiet}",
+    "uuid": "c8bd227d-c72b-4f6a-9d93-0b595821dee0",
+    "deprecated": true,
+    "deprecated_comment": "Use `picker-end-edge-to-disclosure-icon-quiet` instead",
+    "renamed": "picker-end-edge-to-disclosure-icon-quiet"
+  },
+  "picker-minimum-width-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "picker",
+    "value": 2,
+    "uuid": "67b68a30-ae00-4da2-9730-99196a2eaf96"
+  },
+  "picker-visual-to-disclosure-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "picker",
+    "uuid": "e23401b3-8651-4e03-8be3-380e09670ccc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "de09427a-eef3-4360-a912-0b0d5602d4a4"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "0ac097c8-020e-4a7b-b692-59dfdf07e3f8"
+      }
+    },
+    "renamed": "base-gap-extra-large"
+  },
+  "picker-visual-to-disclosure-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "picker",
+    "uuid": "ea7d1bf8-6182-441c-8ffd-046980a2e7b1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "2f22005b-305b-4629-bc03-10d81e36ce78"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "47f5a27f-4039-4668-bb21-aafb9dcb82fb"
+      }
+    },
+    "renamed": "base-gap-large"
+  },
+  "picker-visual-to-disclosure-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "picker",
+    "uuid": "bb6e5e38-eb54-464a-a94a-00be04263d2a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "f83b0313-ba78-4c98-be6e-702b58956589"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "c620ab2b-256d-409a-a80c-7d7c2295efc8"
+      }
+    },
+    "renamed": "base-gap-medium"
+  },
+  "picker-visual-to-disclosure-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "picker",
+    "uuid": "6b3db559-9077-45a2-9e7c-993833799c0a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-small instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "4bcebd07-28a8-401d-9072-3b2ac22e8b63"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "269725c9-3462-4132-8487-95dd61814448"
+      }
+    },
+    "renamed": "base-gap-small"
+  }
+}

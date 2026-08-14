@@ -53,7 +53,12 @@
       "dont": "Instead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view.\n\nDon't use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
     }
   ],
-  "options": { "isEmphasized": { "type": "boolean", "default": false } },
+  "options": {
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    }
+  },
   "anatomy": [
     {
       "name": "action-group-area",
@@ -63,130 +68,22 @@
       "name": "item-counter",
       "description": "Badge showing a count of items or actions."
     },
-    { "name": "counter" }
+    {
+      "name": "counter"
+    }
   ],
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    { "token": "action-bar-height", "context": "Height" },
-    { "token": "action-bar-minimum-width", "context": "Width (minimum)" },
-    { "token": "corner-radius-medium-size-extra-large", "context": "Rounding" },
-    {
-      "token": "action-bar-top-to-content-area",
-      "context": "Spacing (padding)"
-    },
-    {
-      "token": "action-bar-bottom-to-content-area",
-      "context": "Spacing (padding)"
-    },
-    {
-      "token": "action-bar-edge-to-content-area",
-      "context": "Spacing (padding)"
-    },
-    {
-      "token": "action-bar-label-to-action-group-area",
-      "context": "Spacing (label to action button group)"
-    },
-    {
-      "token": "action-bar-top-to-item-counter",
-      "context": "Spacing (counter)"
-    },
-    {
-      "token": "action-bar-close-button-to-counter",
-      "context": "Spacing (counter)"
-    },
-    { "token": "background-elevated-color", "context": "Background (default)" },
-    {
-      "token": "neutral-content-color-default",
-      "context": "Background (emphasized)"
-    },
-    { "token": "action-bar-border-color", "context": "Border" },
-    { "token": "drop-shadow-elevated-color", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-x", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-y", "context": "Drop shadow" },
-    { "token": "drop-shadow-elevated-blur", "context": "Drop shadow" },
-    { "token": "action-bar-counter-font-size", "context": "Counter" },
-    { "token": "line-height-100", "context": "Counter" },
-    { "token": "cjk-line-height-100", "context": "Counter" },
-    { "token": "accent-background-color-default", "context": "Background" },
-    { "token": "accent-background-color-hover", "context": "Background" },
-    { "token": "accent-background-color-down", "context": "Background" },
-    { "token": "accent-background-color-key-focus", "context": "Background" },
-    { "token": "white", "context": "Icon and Clear icon" },
-    {
-      "token": "neutral-background-color-selected-default",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-selected-hover",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-selected-down",
-      "context": "Background"
-    },
-    {
-      "token": "neutral-background-color-selected-key-focus",
-      "context": "Background"
-    },
-    { "token": "gray-25", "context": "Icon and Clear icon" },
-    {
-      "token": "neutral-content-color-hover",
-      "context": "Control (selected, non emphasized)"
-    },
-    {
-      "token": "neutral-content-color-down",
-      "context": "Control (selected, non emphasized)"
-    },
-    {
-      "token": "neutral-content-color-key-focus",
-      "context": "Control (selected, non emphasized)"
-    },
-    {
-      "token": "accent-content-color-default",
-      "context": "Control (selected, emphasized)"
-    },
-    {
-      "token": "accent-content-color-hover",
-      "context": "Control (selected, emphasized)"
-    },
-    {
-      "token": "accent-content-color-down",
-      "context": "Control (selected, emphasized)"
-    },
-    {
-      "token": "accent-content-color-key-focus",
-      "context": "Control (selected, emphasized)"
-    },
-    {
-      "token": "neutral-subdued-content-color-default",
-      "context": "Step text"
-    },
-    { "token": "neutral-subdued-content-color-hover", "context": "Step text" },
-    {
-      "token": "neutral-subdued-content-color-key-focus",
-      "context": "Step text"
-    },
-    {
-      "token": "neutral-subdued-background-color-default",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-subdued-background-color-hover",
-      "context": "Step visual"
-    },
-    {
-      "token": "neutral-subdued-background-color-key-focus",
-      "context": "Step visual"
-    },
-    { "token": "neutral-background-color-default", "context": "Step visual" },
-    { "token": "neutral-background-color-key-focus", "context": "Step visual" },
-    { "token": "neutral-visual-color", "context": "Step visual" }
-  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

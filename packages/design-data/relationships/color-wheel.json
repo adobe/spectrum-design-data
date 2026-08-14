@@ -1,0 +1,187 @@
+[
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "d4cdb77e-54b8-4bcf-97b1-992287af2690"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "81d866f0-e2a6-4f27-bb22-6675cce4e937"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "647244c3-b071-45c1-94f7-3be32cfebabe"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "6733cd28-a949-40f7-bd36-034af9c0261f"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width"
+    },
+    "context": "Track width",
+    "$ref": "424db2a9-5795-400b-a98a-58081d311bff"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width"
+    },
+    "context": "Track width",
+    "$ref": "07e3ac46-3f96-4c00-aa6a-09840ee04bdd"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "margin"
+    },
+    "context": "Margin to color area",
+    "$ref": "4b6bca16-ea29-4d6c-81cf-9005b9a3b5e5"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "a60c3946-dff7-4245-bdcd-b61445066e48"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "opacity"
+    },
+    "context": "Border",
+    "$ref": "be8fac27-b644-492e-a89d-6c87cfecb8a1"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "color",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
+    "uuid": "a60c3946-dff7-4245-bdcd-b61445066e48",
+    "legacyKey": "color-wheel-border-color"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "opacity",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.1",
+    "uuid": "be8fac27-b644-492e-a89d-6c87cfecb8a1",
+    "legacyKey": "color-wheel-border-opacity"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "part": "color-area",
+      "property": "margin"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "4b6bca16-ea29-4d6c-81cf-9005b9a3b5e5",
+    "legacyKey": "color-wheel-color-area-margin"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "175px",
+    "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe",
+    "legacyKey": "color-wheel-minimum-width",
+    "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "219px",
+    "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f",
+    "legacyKey": "color-wheel-minimum-width",
+    "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "192px",
+    "uuid": "d4cdb77e-54b8-4bcf-97b1-992287af2690",
+    "legacyKey": "color-wheel-width",
+    "setUuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-wheel",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "240px",
+    "uuid": "81d866f0-e2a6-4f27-bb22-6675cce4e937",
+    "legacyKey": "color-wheel-width",
+    "setUuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

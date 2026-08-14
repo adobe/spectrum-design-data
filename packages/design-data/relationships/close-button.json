@@ -1,0 +1,322 @@
+[
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-75"
+    },
+    "context": "Button size",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-75"
+    },
+    "context": "Button size",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-100"
+    },
+    "context": "Button size",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-100"
+    },
+    "context": "Button size",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-200"
+    },
+    "context": "Button size",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-200"
+    },
+    "context": "Button size",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-300"
+    },
+    "context": "Button size",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-height-300"
+    },
+    "context": "Button size",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-size-difference"
+    },
+    "context": "Button size (down)",
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-size-width-ratio"
+    },
+    "context": "Button size (down)",
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "component-size-minimum-perspective"
+    },
+    "context": "Button size (down)",
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "11f65b04-c50d-45bb-86bd-34520aa7db61"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "37867ac1-4101-4553-98e1-c8a94fdd2d66"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "b7e0939f-45ef-4250-8138-2bee9dcb2be4"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "1228762d-8c89-4e04-a097-5001d805877d"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "size"
+    },
+    "context": "Cross icon size",
+    "$ref": "a865d5f8-4798-4721-ab76-3b51067d6439"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "thickness"
+    },
+    "context": "Focus ring ",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "gap"
+    },
+    "context": "Focus ring ",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "content-color"
+    },
+    "context": "Cross icon",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Background ",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Background ",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Background ",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static white)",
+    "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static white)",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static white)",
+    "$ref": "fbd40c55-bb12-43ff-9fa6-c93884befc89"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Focus ring (static white)",
+    "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Background (static white)",
+    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static black) ",
+    "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static black) ",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Cross icon (static black) ",
+    "$ref": "579e401c-de49-41af-a8c7-a0a070c31979"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Focus ring (static black) ",
+    "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c"
+  },
+  {
+    "scope": {
+      "component": "close-button",
+      "property": "color"
+    },
+    "context": "Background (static black)",
+    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+  }
+]

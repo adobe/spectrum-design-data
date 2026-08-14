@@ -38,11 +38,18 @@ impl ValidationRule for Rule {
             };
 
             for uuid in uuids {
+                // A replacedBy target may itself have been migrated into a CTR
+                // (relationships/*.json) — same uuid, different container.
                 let exists = ctx
                     .graph
                     .tokens
                     .values()
-                    .any(|other| other.uuid.as_deref() == Some(uuid));
+                    .any(|other| other.uuid.as_deref() == Some(uuid))
+                    || ctx
+                        .graph
+                        .relationships
+                        .iter()
+                        .any(|rel| rel.uuid.as_deref() == Some(uuid));
                 if !exists {
                     out.push(Diagnostic {
                         file: t.file.clone(),

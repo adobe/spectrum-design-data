@@ -1,0 +1,190 @@
+{
+  "illustrated-message-body-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "illustrated-message",
+    "value": "{illustrated-message-large-body-font-size}",
+    "uuid": "4140710f-ae31-4ae3-b8b6-2d3eb6a1ae78",
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-body-font-size instead",
+    "renamed": "illustrated-message-medium-body-font-size"
+  },
+  "illustrated-message-cjk-title-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "illustrated-message",
+    "value": "{illustrated-message-large-cjk-title-font-size}",
+    "uuid": "e77279df-bc62-441a-8a30-5faa41d0df10",
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-cjk-title-font-size instead",
+    "renamed": "illustrated-message-medium-cjk-title-font-size"
+  },
+  "illustrated-message-horizontal-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "illustrated-message",
+    "value": "535px",
+    "uuid": "4413ee4d-86b1-4d88-b2ee-64c0939698b9"
+  },
+  "illustrated-message-large-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "83e747ed-01c0-484c-9c89-53bd77e4d2c8",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "0208e74a-4a86-42e4-a5d0-f931715c293b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-xs}",
+        "uuid": "f4956b2c-dfda-4449-850b-36cf3a82ea09"
+      }
+    }
+  },
+  "illustrated-message-large-cjk-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "44509721-b85a-4c57-8850-d52322e0afef",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-xxl}",
+        "uuid": "1929c819-5333-43ad-ba6c-fcf236270251"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-xl}",
+        "uuid": "e3c5a7ed-94f9-4938-9b92-b411e971af20"
+      }
+    }
+  },
+  "illustrated-message-large-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "ba5544ad-9362-4b55-ba0a-fa4944ca31ca",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-xxl}",
+        "uuid": "abfe147d-04dd-45bd-8e86-eae6249e1745"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-xl}",
+        "uuid": "05104cea-7882-4f80-a994-3e072d29eec2"
+      }
+    }
+  },
+  "illustrated-message-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "illustrated-message",
+    "value": "{illustrated-message-vertical-maximum-width}",
+    "uuid": "0e464925-5524-4fcc-a2f1-54ef42a2990a",
+    "deprecated": true
+  },
+  "illustrated-message-medium-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "22f5b08c-2b86-447d-be0b-ed03841dbcfb",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-s}",
+        "uuid": "ca0d9e22-35a8-4ae5-99ee-29cce3ffa0bd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{body-size-xs}",
+        "uuid": "32b359dc-b489-4476-afbd-1c04e6b0ff0e"
+      }
+    }
+  },
+  "illustrated-message-medium-cjk-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "d873db87-9e50-4aef-a9ee-b3b7da6bb44f",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-xl}",
+        "uuid": "ee763c7d-b98f-4f2e-9fc4-764cfa2ac53f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-l}",
+        "uuid": "1cb0c913-f4ec-478c-b92d-4c9d78875362"
+      }
+    }
+  },
+  "illustrated-message-medium-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "5a575423-6129-4fcf-93f0-d3eb44096dd5",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-xl}",
+        "uuid": "8e2d1a48-937c-4493-9624-5ca8383f74bd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-l}",
+        "uuid": "65961091-abdb-4155-9887-4aebe857c4fd"
+      }
+    }
+  },
+  "illustrated-message-small-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "illustrated-message",
+    "value": "{body-size-xs}",
+    "uuid": "fad078e5-1791-4003-994d-3567162d8233"
+  },
+  "illustrated-message-small-cjk-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "e5e7d4e3-39c7-4184-b590-cc4abf2f60fc",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-m}",
+        "uuid": "9a6cf390-ca10-4242-a7d4-da4c9acc4058"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-cjk-size-s}",
+        "uuid": "a144455d-6bb3-43d4-828c-6b6f67ae9c51"
+      }
+    }
+  },
+  "illustrated-message-small-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "illustrated-message",
+    "uuid": "2164a3c7-b90d-4072-8f72-f364d07edb38",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-m}",
+        "uuid": "f21da7b8-ba19-43e0-96e5-f9e60476ef6e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{title-size-s}",
+        "uuid": "ef8d0abb-9652-4db3-8f1d-506c03e5e115"
+      }
+    }
+  },
+  "illustrated-message-title-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "illustrated-message",
+    "value": "{illustrated-message-large-title-font-size}",
+    "uuid": "365ec548-431b-4e1e-9f9d-7b04d337f001",
+    "deprecated": true,
+    "deprecated_comment": "Use illustrated-message-medium-title-font-size instead",
+    "renamed": "illustrated-message-medium-title-font-size"
+  },
+  "illustrated-message-vertical-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "illustrated-message",
+    "value": "380px",
+    "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd"
+  }
+}

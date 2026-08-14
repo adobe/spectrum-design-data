@@ -1,0 +1,150 @@
+{
+  "checkbox-control-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "05686950-e677-4bc0-90c2-0addbe401d17",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "4ba47ba1-c9bd-447e-8948-009d5b424e0d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "26px",
+        "uuid": "13093f8b-e38e-449f-a982-7f960bb84dfa"
+      }
+    }
+  },
+  "checkbox-control-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "71f3577d-e685-41e9-9443-c498fd0125ba",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "839a52bc-b9ee-473f-acde-0799b4f55ded"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "b4367578-989e-438d-9a3e-7cb077f2f7c9"
+      }
+    }
+  },
+  "checkbox-control-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "04a220ef-907c-433a-b040-fe421cdaf930",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "86288454-7192-4e4c-b55f-fc509fc58c01"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "00fee3f7-a743-45d6-a2b6-028d5d96964a"
+      }
+    }
+  },
+  "checkbox-control-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "39090c90-aa5a-448f-8dd5-01e0c0a5fa2a",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "460e8170-de69-4f8e-8420-6c87a1f6f5cd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "af31c1a5-ffce-4a54-8862-3e711ca53d25"
+      }
+    }
+  },
+  "checkbox-top-to-control-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "068911fa-495d-43d0-a1bd-c35de883bc47",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires other design enhancements to this component",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "3c4217bb-91f2-4347-9f65-a0528992f600"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "b3be5ac8-2415-4490-8b4a-c08661ec84d1"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "checkbox-top-to-control-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "af3f2878-5437-4b37-a399-508a3bf038fa",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires other design enhancements to this component",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "93edae08-5320-4e7e-a006-a9af1d3665ad"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "d040d2f4-9bb4-4d27-adac-40fef079d958"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "checkbox-top-to-control-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "6ed456cf-9c7d-40d1-99b9-0bd4e0e8dc22",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires other design enhancements to this component",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "dcde5d2d-60f8-4d56-bfb1-bba44a087515"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "e3751526-2db9-421c-85f9-d60071aac49b"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "checkbox-top-to-control-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "checkbox",
+    "uuid": "417a665d-fbe5-4756-ba30-0e8b79c0bee0",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires other design enhancements to this component",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "20518175-5bc7-4659-8007-e74339c39433"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "f254146e-f469-44b1-b0c9-1ac72e88f9e3"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  }
+}

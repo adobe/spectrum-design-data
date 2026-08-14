@@ -84,8 +84,12 @@
     }
   ],
   "options": {
-    "title": { "type": "string" },
-    "description": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "hideImage": {
       "type": "boolean",
       "default": false,
@@ -94,14 +98,29 @@
     "size": {
       "type": "string",
       "default": "m",
-      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        }
+      ]
     },
-    "hideCloseButton": { "type": "boolean", "default": false },
+    "hideCloseButton": {
+      "type": "boolean",
+      "default": false
+    },
     "footerContent": {
       "type": "string",
       "description": "Optional footer content to display in the dialog footer like a checkbox."
     },
-    "primaryActionLabel": { "type": "string" },
+    "primaryActionLabel": {
+      "type": "string"
+    },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -112,50 +131,25 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    {
-      "token": "standard-dialog-maximum-width-small",
-      "context": "Maximum width"
-    },
-    {
-      "token": "standard-dialog-maximum-width-medium",
-      "context": "Maximum width"
-    },
-    {
-      "token": "standard-dialog-maximum-width-large",
-      "context": "Maximum width"
-    },
-    { "token": "standard-dialog-minimum-width", "context": "Minimum width" },
-    { "token": "corner-radius-extra-large-default", "context": "Rounding" },
-    { "token": "spacing-500", "context": "Spacing (edge to content)" },
-    { "token": "spacing-400", "context": "Spacing (edge to content)" },
-    { "token": "spacing-300", "context": "Spacing (title to description)" },
-    { "token": "spacing-200", "context": "Spacing (edge to close button)" },
-    { "token": "background-layer-2-color", "context": "Background" },
-    { "token": "overlay-color", "context": "Overlay" },
-    { "token": "overlay-opacity", "context": "Overlay" },
-    { "token": "title-sans-serif-font-family", "context": "Title" },
-    { "token": "title-sans-serif-font-weight", "context": "Title" },
-    { "token": "title-sans-serif-font-style", "context": "Title" },
-    { "token": "standard-dialog-title-font-size", "context": "Title" },
-    { "token": "title-line-height", "context": "Title" },
-    { "token": "heading-color", "context": "Title" },
-    { "token": "body-sans-serif-font-family", "context": "Description" },
-    { "token": "body-sans-serif-font-weight", "context": "Description" },
-    { "token": "body-sans-serif-font-style", "context": "Description" },
-    { "token": "standard-dialog-body-font-size", "context": "Description" },
-    { "token": "line-height-200", "context": "Description" },
-    { "token": "body-color", "context": "Description" }
-  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
-      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+      {
+        "criterion": "2.4.3",
+        "level": "A",
+        "title": "Focus Order"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
     ]
   }
 }

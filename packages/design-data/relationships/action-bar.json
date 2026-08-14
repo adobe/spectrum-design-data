@@ -1,0 +1,731 @@
+[
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "height"
+    },
+    "context": "Height",
+    "$ref": "e67822de-d0cd-4b49-8e90-6c43523bb4dd"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "9fb582b4-38e6-43d0-9b94-69964fb24c9f"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (padding)",
+    "$ref": "a9fc8786-060e-4663-9381-211621240b2f"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to action button group)",
+    "$ref": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (counter)",
+    "$ref": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between"
+    },
+    "context": "Spacing (counter)",
+    "$ref": "bc54e89f-6740-4004-891e-c515f8f79693"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background (default)",
+    "$ref": "2275e0fa-69a3-4542-9ec6-919e44035118"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background (default)",
+    "$ref": "4c19885d-0411-43dc-8f4a-db81905728e6"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background (default)",
+    "$ref": "644ca621-9138-44e3-bdd7-123a9fccd9a6"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Background (emphasized)",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "166159cc-9353-4d22-90f0-64718533d73a"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "dac0d761-d8c1-4b1f-bfbe-766651122ecf"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "e242c2e1-54db-40c5-98ee-abebdcd59f4d"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Drop shadow",
+    "$ref": "e475981f-97af-479c-859b-7619dd87c448"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "x"
+    },
+    "context": "Drop shadow",
+    "$ref": "59324423-4428-40d7-a227-5f75aeb38312"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "y"
+    },
+    "context": "Drop shadow",
+    "$ref": "45f313a5-1749-4b95-b5e3-20944adbea84"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "blur"
+    },
+    "context": "Drop shadow",
+    "$ref": "f3487a86-3aea-4527-8b5c-287c0bddad6c"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "font-size"
+    },
+    "context": "Counter",
+    "$ref": "66540ddb-ec74-487f-8e09-a37b436694b5"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "line-height-100"
+    },
+    "context": "Counter",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "line-height-100"
+    },
+    "context": "Counter",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a5201034-a592-47c6-be78-050ae951043e"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "af809118-7a97-409c-925f-8d7636a791c8"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1c220122-5f32-42f9-848f-ae10061241e5"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "966c56d0-4461-45e7-9e20-0277f2111a34"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9b8df7df-3439-4614-b446-97a4de782e27"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, non emphasized)",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "a1ab50d5-1aa1-4198-9510-7ea8458cc62f"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "2d72c9fc-22d0-4e4d-9b00-fae4b30a47b5"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "81fb8734-c8c3-4f6e-8a14-177ce1d7db02"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "eece165c-743c-4d7a-b770-3ee50e1951cf"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "a1e08db6-3a72-4b8e-9475-b54a7b9be506"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "ee7dec87-de8b-4145-9985-f5ba78bc3a3b"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "95cf1481-f476-47ce-a45a-54da64b44255"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color",
+      "options": {
+        "colorScheme": "light",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
+    "uuid": "166159cc-9353-4d22-90f0-64718533d73a",
+    "legacyKey": "action-bar-border-color",
+    "setUuid": "1f180759-7dbe-4ac3-80f6-78433659d52c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color",
+      "options": {
+        "colorScheme": "dark",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d1edde4a-c912-42fb-b8d4-e10e6b994d2f",
+    "uuid": "dac0d761-d8c1-4b1f-bfbe-766651122ecf",
+    "legacyKey": "action-bar-border-color",
+    "setUuid": "1f180759-7dbe-4ac3-80f6-78433659d52c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "color",
+      "options": {
+        "colorScheme": "wireframe",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
+    "uuid": "e242c2e1-54db-40c5-98ee-abebdcd59f4d",
+    "legacyKey": "action-bar-border-color",
+    "setUuid": "1f180759-7dbe-4ac3-80f6-78433659d52c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "bottom",
+        "to": "content-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708",
+    "legacyKey": "action-bar-bottom-to-content-area",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "close-button",
+        "to": "counter"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f9da434a-7742-4d38-ad52-05dec8d09cfa",
+    "uuid": "bc54e89f-6740-4004-891e-c515f8f79693",
+    "legacyKey": "action-bar-close-button-to-counter",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token group-gap-extra-small instead.",
+      "replacedBy": "c3ada312-da94-4779-bbf0-0fde3beb8121"
+    }
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "part": "counter",
+      "property": "font-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ee894aad-f166-42eb-b08b-859f73db742a",
+    "uuid": "66540ddb-ec74-487f-8e09-a37b436694b5",
+    "legacyKey": "action-bar-counter-font-size"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "content-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "a9fc8786-060e-4663-9381-211621240b2f",
+    "legacyKey": "action-bar-edge-to-content-area",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-horizontal-compact instead.",
+      "replacedBy": "7f237198-3842-49bc-aa79-e723fbe6c78e"
+    }
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
+    "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd",
+    "legacyKey": "action-bar-height"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "label",
+        "to": "action-group-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
+    "legacyKey": "action-bar-label-to-action-group-area",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-gap-horizontal instead.",
+      "replacedBy": "c0571c46-5946-4896-bcbf-270560de5385"
+    }
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "176px",
+    "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f",
+    "legacyKey": "action-bar-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "content-area"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b",
+    "legacyKey": "action-bar-top-to-content-area",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "action-bar",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "item-counter"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "8108a8e0-0883-4490-a23f-f96fb9cd8ca4",
+    "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9",
+    "legacyKey": "action-bar-top-to-item-counter",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  }
+]

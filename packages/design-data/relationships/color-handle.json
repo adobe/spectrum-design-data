@@ -1,0 +1,325 @@
+[
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size"
+    },
+    "context": "Size (keyboard focus)",
+    "$ref": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size"
+    },
+    "context": "Size (keyboard focus)",
+    "$ref": "b81cc6a6-390f-43dc-a6c8-dd335c177da3"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size"
+    },
+    "context": "Size (keyboard focus)",
+    "$ref": "de9cc5ca-81cf-4bde-bd21-be2402e460c5"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size"
+    },
+    "context": "Size (keyboard focus)",
+    "$ref": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "8ec9adae-0093-42f4-bd1b-6f3b2279996b"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "945e0167-6893-49dd-ab21-886f93f70b92"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "fbf27473-7c97-4d94-968d-c3e68e0cd242"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "0c93f310-d7c6-474b-8f07-0e8e76e2756e"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "opacity"
+    },
+    "context": "Border",
+    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "e4733356-090e-4bb7-b32d-ab9df30fb785"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "opacity"
+    },
+    "context": "Border",
+    "$ref": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "content-color"
+    },
+    "context": "Border (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color"
+    },
+    "context": "Border (disabled)",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "be45ace6-9227-41d1-80be-0c58c3f8b3cb",
+    "uuid": "97dfaf7f-ac2d-4517-84cc-6f692f712fc5",
+    "legacyKey": "color-handle-drop-shadow-color",
+    "lifecycle": {
+      "deprecatedIn": "12.6.0",
+      "deprecatedComment": "Express does not need a separate design for Color loupe and Color handle components",
+      "replacedBy": "be45ace6-9227-41d1-80be-0c58c3f8b3cb"
+    }
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color",
+      "options": {
+        "position": "inner",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
+    "uuid": "0c93f310-d7c6-474b-8f07-0e8e76e2756e",
+    "legacyKey": "color-handle-inner-border-color"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "opacity",
+      "options": {
+        "position": "inner",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "uuid": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
+    "legacyKey": "color-handle-inner-border-opacity"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "color",
+      "options": {
+        "position": "outer",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
+    "uuid": "e4733356-090e-4bb7-b32d-ab9df30fb785",
+    "legacyKey": "color-handle-outer-border-color"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "opacity",
+      "options": {
+        "position": "outer",
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "72b473c6-ec9b-4830-a0f8-48b80070e7b8",
+    "uuid": "0a0eff89-7e7d-4b7f-bcfa-a85e33e5798a",
+    "legacyKey": "color-handle-outer-border-opacity"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "8ec9adae-0093-42f4-bd1b-6f3b2279996b",
+    "legacyKey": "color-handle-border-width"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "blur",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0",
+    "uuid": "29e4a8c8-33ba-44b3-952d-26f3fd6ae4f0",
+    "legacyKey": "color-handle-drop-shadow-blur"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "x",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0",
+    "uuid": "49499527-3fdb-4a91-a832-0ae0631ba3bb",
+    "legacyKey": "color-handle-drop-shadow-x"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "y",
+      "options": {
+        "structure": "drop-shadow"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0",
+    "uuid": "05b11927-d0cd-46a6-ae30-6f268f143d4e",
+    "legacyKey": "color-handle-drop-shadow-y"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width",
+      "options": {
+        "position": "inner"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "945e0167-6893-49dd-ab21-886f93f70b92",
+    "legacyKey": "color-handle-inner-border-width"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "border-width",
+      "options": {
+        "position": "outer"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "fbf27473-7c97-4d94-968d-c3e68e0cd242",
+    "legacyKey": "color-handle-outer-border-width"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "7c7fd224-a9d5-4d97-b3de-fd9e4e076444",
+    "legacyKey": "color-handle-size",
+    "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "b81cc6a6-390f-43dc-a6c8-dd335c177da3",
+    "legacyKey": "color-handle-size",
+    "setUuid": "c55cdacd-cc28-4e4f-8974-c44d95317370",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "de9cc5ca-81cf-4bde-bd21-be2402e460c5",
+    "legacyKey": "color-handle-size-key-focus",
+    "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "color-handle",
+      "property": "size",
+      "options": {
+        "state": ["keyboard-focus"],
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "40px",
+    "uuid": "feddbfb7-7f1a-4eee-9cbf-b393aafb7385",
+    "legacyKey": "color-handle-size-key-focus",
+    "setUuid": "1ff02a51-9266-411d-a8e4-02222f45bac8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

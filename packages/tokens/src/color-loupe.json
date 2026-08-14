@@ -1,0 +1,67 @@
+{
+  "color-loupe-bottom-to-color-handle": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "color-loupe",
+    "value": "12px",
+    "uuid": "92beba60-f61d-426a-a864-203dca7244a0"
+  },
+  "color-loupe-drop-shadow-blur": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{drop-shadow-elevated-blur}",
+    "uuid": "86caa027-9e9e-4a5f-aa38-058f0a96bc9d",
+    "deprecated": true
+  },
+  "color-loupe-drop-shadow-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{drop-shadow-elevated-color}",
+    "uuid": "918b8089-d89f-45d2-8c9c-f3f13f81b0b9",
+    "deprecated": true,
+    "deprecated_comment": "Use `drop-shadow-elevated-color` instead",
+    "renamed": "drop-shadow-elevated-color"
+  },
+  "color-loupe-drop-shadow-y": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{drop-shadow-elevated-y}",
+    "uuid": "c9af5d60-11b1-4fc3-972e-6a607120657b",
+    "deprecated": true
+  },
+  "color-loupe-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "color-loupe",
+    "value": "64px",
+    "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51"
+  },
+  "color-loupe-inner-border": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{transparent-black-200}",
+    "uuid": "d2c4cb48-8a90-461d-95bc-d882ba01472b"
+  },
+  "color-loupe-inner-border-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "color-loupe",
+    "value": "1px",
+    "uuid": "b3900f89-0a7a-4c47-a6d9-ca8aa19b9bfb"
+  },
+  "color-loupe-outer-border": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{white}",
+    "uuid": "4e1d1cc5-736e-4e82-9054-5c1a74ac1aca"
+  },
+  "color-loupe-outer-border-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-loupe",
+    "value": "{border-width-200}",
+    "uuid": "51cd5039-1319-451a-b13f-bb3a218238a5"
+  },
+  "color-loupe-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "color-loupe",
+    "value": "48px",
+    "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "drop-zone-background-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{accent-visual-color}",
+    "uuid": "866f3613-c12f-4475-87b1-ad86ef2ce153"
+  },
+  "drop-zone-background-color-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "drop-zone",
+    "value": "0.1",
+    "uuid": "ee5ed78b-230c-4b37-9d76-1787a975bb63"
+  },
+  "drop-zone-background-color-opacity-filled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "drop-zone",
+    "value": "0.3",
+    "uuid": "ca70550a-b11a-438f-9c70-ff1eeba532cc"
+  },
+  "drop-zone-body-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{illustrated-message-medium-body-font-size}",
+    "uuid": "644593be-82da-4ae4-ae57-fabebd4513ca"
+  },
+  "drop-zone-body-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{drop-zone-body-font-size}",
+    "uuid": "bb3fee51-24cc-4643-9f22-fa1592ab2457",
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-body-font-size instead",
+    "renamed": "drop-zone-body-font-size"
+  },
+  "drop-zone-border-dash-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "drop-zone",
+    "value": "6px",
+    "uuid": "47c15433-53d3-425b-8b87-ea234701f781",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token drop-target-dash-gap instead.",
+    "renamed": "drop-target-dash-gap"
+  },
+  "drop-zone-border-dash-length": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "drop-zone",
+    "value": "8px",
+    "uuid": "a596af57-256f-4445-b91f-36e47bfb2d95",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token drop-target-dash-length instead.",
+    "renamed": "drop-target-dash-length"
+  },
+  "drop-zone-cjk-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{illustrated-message-medium-cjk-title-font-size}",
+    "uuid": "56fc89be-658e-4c5c-9b8e-7ac6f7d7db75"
+  },
+  "drop-zone-cjk-title-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{drop-zone-cjk-title-font-size}",
+    "uuid": "013387e8-8925-4bb4-a8ee-94420141fde9",
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-cjk-title-font-size instead",
+    "renamed": "drop-zone-cjk-title-font-size"
+  },
+  "drop-zone-content-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{illustrated-message-maximum-width}",
+    "uuid": "b8d0db71-9a25-46fc-b77a-037fcf86be8e",
+    "deprecated": true
+  },
+  "drop-zone-title-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{illustrated-message-medium-title-font-size}",
+    "uuid": "07564dd0-3628-42e1-8a29-253448a8c75f"
+  },
+  "drop-zone-title-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "drop-zone",
+    "value": "{drop-zone-title-font-size}",
+    "uuid": "edc68bfe-7ad3-4a12-81fa-ded8fb6fc2e3",
+    "deprecated": true,
+    "deprecated_comment": "Use drop-zone-title-font-size instead",
+    "renamed": "drop-zone-title-font-size"
+  },
+  "drop-zone-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "drop-zone",
+    "value": "428px",
+    "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273"
+  }
+}

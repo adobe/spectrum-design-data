@@ -1,0 +1,24 @@
+{
+  "date-picker-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "date-picker",
+    "value": "152px",
+    "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"
+  },
+  "date-picker-text-to-visual": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "date-picker",
+    "value": "0px",
+    "uuid": "c6c92147-8ee5-408b-9590-adede6abc935",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "date-picker-visual-to-field-button": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "date-picker",
+    "value": "0px",
+    "uuid": "da7f0c10-fa1b-4700-8acf-01feebdeed7f",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  }
+}

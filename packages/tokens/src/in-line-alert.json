@@ -1,0 +1,8 @@
+{
+  "in-line-alert-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-line-alert",
+    "value": "240px",
+    "uuid": "8007ebd8-fd67-4dc2-8444-9e6a50c88675"
+  }
+}

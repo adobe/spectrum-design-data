@@ -1,0 +1,519 @@
+{
+  "menu-item-background-color-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "menu",
+    "uuid": "0c358fa2-087d-402a-bf64-9edefa6545cd",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "f4d97d6a-c1f3-4ef5-b7e5-8fbee1365a83"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "9b9e8b32-46b8-470d-85b9-352c00e90138"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "ae0fb15e-c8a2-42c4-b973-0fb523003b79"
+      }
+    }
+  },
+  "menu-item-background-color-disabled": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "menu",
+    "uuid": "54607292-7896-4ca9-8c86-9c053c95c7d3",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "211d6540-cf9d-4d80-815b-885844283fa6"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "0e2c2900-180c-443a-86ff-49170166e616"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "5924d0c5-6938-4660-8be3-9374bb3e5b0c"
+      }
+    }
+  },
+  "menu-item-background-color-down": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "menu",
+    "uuid": "bc7380b4-c387-4b2b-b3ba-8361ae0d11fd",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "d609bd79-ab48-4a7a-95b1-da5a88ac5338"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "7ccdd9e8-3677-4de8-b9df-19efa80d88c0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "e31108a0-1b8a-4d5e-b579-592a01619bd0"
+      }
+    }
+  },
+  "menu-item-background-color-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "menu",
+    "uuid": "cf29fd2d-b99b-45e0-9326-fedc1aa7fd13",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "857e82a6-537e-4534-9084-353c5401f567"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "f68ff159-e886-4519-b95e-e93879a2f535"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "1329d684-6ac9-4f46-9bbc-046e2de5276e"
+      }
+    }
+  },
+  "menu-item-background-color-keyboard-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "menu",
+    "uuid": "47a9204b-22f4-4685-9756-dcb2a0bbde61",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "dd044387-57b9-4867-90fa-b3c4c4a62e5c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-200}",
+        "uuid": "ae9dc785-2406-407e-ab47-d42d6fbf65f6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-100}",
+        "uuid": "e9b046ee-408e-4781-a2cd-1d321bde4529"
+      }
+    }
+  },
+  "menu-item-background-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "menu",
+    "value": "0",
+    "uuid": "6f464689-0b87-4f38-b9a4-e5015acdd0d7"
+  },
+  "menu-item-edge-to-content-not-selected-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "5cfd407f-6acc-4796-b337-e48e46a15ff4",
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "45px",
+        "uuid": "2480bdaf-ac18-4f67-9a0b-f92200fb31d7"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "54px",
+        "uuid": "3385c12f-199b-4e9d-b2e2-ef6e2658d180"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "de0aca49-d688-4b7b-85d1-7b1d74ed1098",
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "38px",
+        "uuid": "bc6a7e9d-b84c-4bf3-9a63-a08047deb41c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "47px",
+        "uuid": "90385dcc-ea45-466f-ba4d-a1b13f6a079c"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "68195e44-015b-4611-9557-81fd60ff5965",
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "32px",
+        "uuid": "ac4c8abe-abca-4c6f-82e7-ed7fae0c761d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "42px",
+        "uuid": "5faa4858-5590-40d4-bd12-b4c839908c4c"
+      }
+    }
+  },
+  "menu-item-edge-to-content-not-selected-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "9e079b05-cb44-4901-945f-35f78b3c5fb5",
+    "deprecated": true,
+    "deprecated_comment": "This use case should not be a single token but either calculated or structurally determined. Refactor may be required.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "28px",
+        "uuid": "033fb47f-30d8-4ff2-9825-a3318ca2118b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "de2ef572-54a2-46c2-ad1d-60468fbe6090"
+      }
+    }
+  },
+  "menu-item-label-to-description": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "menu",
+    "value": "{menu-item-label-to-description-medium}",
+    "uuid": "628cf42f-eb40-49b0-b110-3340421d4502",
+    "deprecated": true
+  },
+  "menu-item-label-to-description-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "2px",
+    "uuid": "5543ede1-4e55-44f5-920f-288ee96e06ca",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-extra-large instead.",
+    "renamed": "text-gap-extra-large"
+  },
+  "menu-item-label-to-description-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "2px",
+    "uuid": "4ce8b4db-72f8-411b-baad-8b66c0496182",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-large instead.",
+    "renamed": "text-gap-large"
+  },
+  "menu-item-label-to-description-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "1px",
+    "uuid": "608fd592-fff8-435e-88e2-846bd34cc235",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead.",
+    "renamed": "text-gap-medium"
+  },
+  "menu-item-label-to-description-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "1px",
+    "uuid": "66d57402-d7db-45df-8872-fd362014bcbe",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-small instead.",
+    "renamed": "text-gap-small"
+  },
+  "menu-item-section-divider-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "12px",
+    "uuid": "dac5c077-b948-434b-91bd-0759c2414007"
+  },
+  "menu-item-top-to-disclosure-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "c700c8fe-18e4-49b5-9887-dc65217207f1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "63919dd9-0dfa-4e6f-ab89-8a24fc91061b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "77e97b70-ef7e-4228-8d91-0ff9d9d2b063"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "menu-item-top-to-disclosure-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "a42d6196-dd09-4731-98fb-6eecf7551f15",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "bceffb12-72a3-40eb-98a5-3d5fb4d3b627"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "bda3ee60-8f9a-41b2-a8a2-894aed3b3bed"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "menu-item-top-to-disclosure-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "e89563f5-9481-4f60-9af8-d2836ccc4a8d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "0ed8f599-b4c1-4ac5-b2b0-60db06a98a88"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "e0468683-b2d2-4839-9ad8-46963d7402fc"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "menu-item-top-to-disclosure-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "108ba016-2e21-4f7b-94a7-3f61c987620b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "8e4b2873-fb57-42d6-8b7b-91fd270c048e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "eb9cf950-cba2-4fb8-a115-8a4c0ddb00d0"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "menu-item-top-to-selected-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "70bbe380-0356-4d91-98ea-93f40c66638d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "7be78bf9-a761-45a4-b764-b88e6209440b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "3ff6cb7a-20cb-4b25-a367-7e4497d0f237"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "menu-item-top-to-selected-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "a3d53327-385a-44c0-a2ee-266cef172810",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. UI icons must be in a frame that has height equal to workflow-icon-size-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "ccfed193-e366-4b13-806c-0cc18e2a87b4"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "f84569c5-bb63-4eb1-8193-1130e88e7e5b"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "menu-item-top-to-selected-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "acef8bbf-016d-44cc-ab9e-59e5b982d38e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. UI icons must be in a frame that has height equal to workflow-icon-size-medium",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "8fb8ad12-9bb9-417f-8d0d-7323455cfb7a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "61e906e3-6daa-4841-b4f0-54939157a50b"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "menu-item-top-to-selected-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "a2e09127-bc4b-4f6f-bff3-b6c1524733e5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. UI icons must be in a frame that has height equal to workflow-icon-size-small",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "fbe45d1b-f4b9-40d1-965f-38abe057dc69"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "943a0b43-6c91-40a3-a680-318a934bf6ef"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "menu-item-top-to-thumbnail-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "ea52bf43-3e3b-4559-aec3-4f0a02734a95",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Unify with all top component paddings",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "06a6c13b-2d58-4102-b169-073eed5599e6"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "dfeef197-57b9-41a1-b759-3c782a64f2f3"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "menu-item-top-to-thumbnail-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "1df536f1-c853-4955-9533-8c9371fc05cc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Unify with all top component paddings",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "0d468b92-74df-4044-8af3-c867eebbf370"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "64b2f613-35b2-46a8-be7d-c39c314840b9"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "menu-item-top-to-thumbnail-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "57fe1e26-77a9-4d8a-ab54-a6f16dc9c5fc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Unify with all top component paddings",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "f71c4487-3c1e-4204-b631-b0658a6b5e12"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "62815f67-4e23-43f9-93d2-f29d1688cddf"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "menu-item-top-to-thumbnail-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "menu",
+    "uuid": "f81ebf2a-300e-4bc8-89e0-baec8fc07ee4",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Unify with all top component paddings",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "456d5283-eb93-4b8d-b796-7f181ebcec04"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "af422766-3185-47d6-adba-31b1e97b92d9"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "menu-section-header-to-description-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "2px",
+    "uuid": "c9e46b75-f1d8-4b19-a258-b8b0a0e66484",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-extra-large instead.",
+    "renamed": "text-gap-extra-large"
+  },
+  "menu-section-header-to-description-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "2px",
+    "uuid": "2899d6e1-acad-453b-ad65-1e6a6e380363",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-large instead.",
+    "renamed": "text-gap-large"
+  },
+  "menu-section-header-to-description-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "1px",
+    "uuid": "4211feff-12af-4288-b86d-4c66a5a55b8f",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-medium instead.",
+    "renamed": "text-gap-medium"
+  },
+  "menu-section-header-to-description-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "menu",
+    "value": "1px",
+    "uuid": "ac039575-7c1f-4733-a310-b39cebf83b82",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token text-gap-small instead.",
+    "renamed": "text-gap-small"
+  }
+}

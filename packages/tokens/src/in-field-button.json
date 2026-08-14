@@ -1,0 +1,213 @@
+{
+  "in-field-button-edge-to-disclosure-icon-stacked-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "16px",
+    "uuid": "d563157b-f0d7-407d-aaaf-ae1790c75503",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-extra-large"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "13px",
+    "uuid": "6a6e5478-b549-4a39-a7f5-5d3c417464ce",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-large"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "9px",
+    "uuid": "ccb60cfc-86fe-4959-b4a8-1a45835132c8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-medium"
+  },
+  "in-field-button-edge-to-disclosure-icon-stacked-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "7px",
+    "uuid": "8b6a0ab1-4dba-4da2-9c67-3befca0f110e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Requires refactor; prior value is this token + accessory-gap-[size]",
+    "renamed": "accessory-item-padding-small"
+  },
+  "in-field-button-edge-to-fill": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "0px",
+    "uuid": "5bffe992-2982-49e8-aa3a-e4e93c884f43",
+    "deprecated": true
+  },
+  "in-field-button-edge-to-fill-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "in-field-button",
+    "uuid": "bb2781a4-0b80-4d3d-9d40-9755833ef217",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "4b212f73-7a28-4d95-b06b-6d3f0d7e5cf9"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "61cf3878-48bd-4785-ad71-ec35c4f99656"
+      }
+    },
+    "renamed": "accessory-gap-extra-large"
+  },
+  "in-field-button-edge-to-fill-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "8px",
+    "uuid": "44e97486-53ce-4bb0-a778-0f9262dfe27e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-large instead.",
+    "renamed": "accessory-gap-large"
+  },
+  "in-field-button-edge-to-fill-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "6px",
+    "uuid": "86f41898-b794-4f7e-ae41-9eb84c2c7a5b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-medium instead.",
+    "renamed": "accessory-gap-medium"
+  },
+  "in-field-button-edge-to-fill-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "in-field-button",
+    "uuid": "9a3568cf-7ca2-4393-a087-c865ad803e70",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-gap-small instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "0171b422-021a-4f25-bbe3-7d6ca6459166"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "a2143caf-07e6-4d45-977c-3d79d69c335e"
+      }
+    },
+    "renamed": "accessory-gap-small"
+  },
+  "in-field-button-fill-stacked-inner-border-rounding": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "0px",
+    "uuid": "f8ed9a70-58f1-4f1a-9e87-24bca6d7b4e1"
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "in-field-button",
+    "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large}",
+    "uuid": "c47499c1-b89f-49a7-bbb5-17e83e4b306e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-extra-large"
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "in-field-button",
+    "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-large}",
+    "uuid": "710ebe58-f0d8-4d6b-8974-0be1f2f48dc4",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-large"
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "in-field-button",
+    "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-medium}",
+    "uuid": "3dd5babb-5026-4f28-89ae-bfe687673f31",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-medium"
+  },
+  "in-field-button-inner-edge-to-disclosure-icon-stacked-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "in-field-button",
+    "value": "{in-field-button-outer-edge-to-disclosure-icon-stacked-small}",
+    "uuid": "6c1330a4-1c89-45a7-b2b1-8cbcaf20b9ab",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-small"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "5px",
+    "uuid": "391e1e67-1677-4f60-a09a-3b49bacd01f5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-extra-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-extra-large"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "4px",
+    "uuid": "acc9c48a-f461-48ff-9f69-0224c4feabc6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-large instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-large"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "3px",
+    "uuid": "a87d68bb-4249-43cd-947d-bd061baba0ef",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-medium instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-medium"
+  },
+  "in-field-button-outer-edge-to-disclosure-icon-stacked-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "3px",
+    "uuid": "9890df35-2d45-4767-9cbe-ee745d09d990",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token accessory-item-padding-small instead. Not present in S2 specs. May require refactor",
+    "renamed": "accessory-item-padding-small"
+  },
+  "in-field-button-stacked-inner-edge-to-fill": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "0px",
+    "uuid": "56b54ece-0ff3-4957-9c1c-9e7fb992653c",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "in-field-button-width-stacked-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "44px",
+    "uuid": "5f844b3f-e0d7-40f0-a754-a14bee6a0fb4"
+  },
+  "in-field-button-width-stacked-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "36px",
+    "uuid": "4e103763-4310-4aff-980f-652ad023084f"
+  },
+  "in-field-button-width-stacked-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "28px",
+    "uuid": "bb8c7ce0-1766-47f9-b30e-36b3b57dc2ea"
+  },
+  "in-field-button-width-stacked-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "in-field-button",
+    "value": "20px",
+    "uuid": "24125066-c8d1-4c4a-85b3-493d112d3ca0"
+  }
+}

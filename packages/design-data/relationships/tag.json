@@ -1,0 +1,1801 @@
+[
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "60fd0b38-3bad-4a0f-8a69-d4cf79b635ff"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "6f6fae3d-eafd-41d7-a863-b2f0b57240ab"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "f3293ec2-befd-49e8-a280-b5a1827aa40c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "a2833b95-ba74-4caf-89e6-8294465d2780"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "0578d5e5-9c2d-46f2-9268-85bdf566b3a5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "7f33676b-63dd-4d16-b7e1-36520ade716d"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "20706cc7-9d07-4938-8328-debd3ab8d822"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "852fc55b-beb7-428c-bc0c-452abc204de3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "46dd2eca-598a-45e3-8c7d-c6cf17e148bf"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Components",
+    "$ref": "545604c8-484f-4697-907c-31e2b2cb46d0"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "d3327dae-cc93-4099-ad75-b5a4193af8e4"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "3b9e5d81-e49a-4080-ac53-094e0f7eb151"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "9b373ba1-7381-4360-8730-bd91afacbfa7"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "40485b19-e1ac-4981-a17c-bb6e264c730d"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "234b3886-77eb-4ad5-9d19-40d801a54617"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "b2788159-dd2d-4f94-9282-d8cdbba41807"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "maximum-width-multiplier"
+    },
+    "context": "Maximum width (with label)",
+    "$ref": "8771f506-a491-4222-be86-0e666ea2c711"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-size-difference"
+    },
+    "context": "Component size (down)",
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-size-width-ratio"
+    },
+    "context": "Component size (down)",
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-size-minimum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "8e597833-1025-4de4-b34a-2f34201487c3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "622d259d-b52b-409a-bf58-04705d8423f9"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "c9fac273-0c5c-46cd-b774-ad566a540511"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "11f924ca-5542-4864-b153-77363a32d690"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "5b416331-7910-4d64-9b5f-43fd1832d3a6"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "size"
+    },
+    "context": "Cross icon",
+    "$ref": "11f65b04-c50d-45bb-86bd-34520aa7db61"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "8d128c7d-ab8e-4a4e-9243-a2e919cb6e6f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "acc3e1b9-532d-485e-84e4-06e744c744b3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e220eb52-f821-4807-9ab7-b5f3905d769f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e77f525e-5043-49c1-a663-9f6c30067043"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "e0673a9f-7993-490c-b2db-e8e836837e83"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "85f7f49a-7b87-4e2f-b44e-70e3ccde6291"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "40778817-6e47-4b58-a495-c4f34cee78df"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "942f0f34-611a-4318-9b0e-3632e7f520b3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "44a668d6-e013-4138-a262-383994b0637f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "c567f435-928c-4bf8-b9c0-ac2f22d58348"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (visual to label)",
+    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "bfc9cd19-e115-4ff2-908d-6cd4725f68bc"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "2011748e-f950-4c6e-9eee-1c0d77b7ba36"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "c964fe64-fcb6-4417-977d-b15880daf164"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "ff7424ba-5f65-46ff-b408-4ffb2cfc5035"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "8533ad58-9e81-4154-8ad1-57213741e814"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (label to cross icon)",
+    "$ref": "7c1375da-c6c7-42b3-b60e-0ef6724c6303"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "a27b0e7c-8840-4d08-8f88-39643589c554"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "6f913e5f-debc-4b7d-897d-c2704847c2e5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "e4e422af-181f-47b5-b165-f514a0a6f41c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "a2f75bb4-0ce4-4993-9a43-09cd2b7376bf"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "896b20fc-c13e-4785-a252-00857208d51c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (cross icon to end edge)",
+    "$ref": "b046b12c-5c39-4018-8ccc-9a5cb08eb6e5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "cf1239b1-495a-482c-8aeb-3b98c6b75583"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "a2c40238-1fda-4482-a419-b8092a385c9b"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "394343df-fb5d-44be-b6d1-9975ab8a4156"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "8dbabe33-52e7-4dc1-b2e3-81c1c62d98cb"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "57de6911-6f5f-4a0d-9606-e7584a10d7f4"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to avatar)",
+    "$ref": "9881ad7c-e9df-40b1-a368-4f8185042c3f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "c9e5e973-4942-414e-b128-5569f62453a2"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "d93e04b9-1901-4ec4-947a-62c84205e61e"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "1bfd3452-93c8-424a-99e4-55e5ecbee90b"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "ac7b17a2-99ef-45b3-ab3b-4d3eeaf99fb9"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "e335436a-190c-4417-86f4-b7266c093377"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to cross icon)",
+    "$ref": "af69e3d1-92b6-4e62-93f2-c1f1f10f0a63"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "gap"
+    },
+    "context": "Focus indicator",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a5201034-a592-47c6-be78-050ae951043e"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "af809118-7a97-409c-925f-8d7636a791c8"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1c220122-5f32-42f9-848f-ae10061241e5"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "966c56d0-4461-45e7-9e20-0277f2111a34"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9b8df7df-3439-4614-b446-97a4de782e27"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "content-color"
+    },
+    "context": "Icon and Clear icon and Label",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "content-color"
+    },
+    "context": "Icon and Clear icon and Label",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "content-color"
+    },
+    "context": "Icon and Clear icon and Label",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "content-color"
+    },
+    "context": "Icon and Clear icon and Label",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Fill",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "content-color"
+    },
+    "context": "Icon and Clear icon",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "color"
+    },
+    "context": "Focus indicator",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "896b20fc-c13e-4785-a252-00857208d51c",
+    "legacyKey": "tag-edge-to-clear-icon-large",
+    "setUuid": "4d6e4dec-5d27-4791-b639-5e4a211a21fb",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-large instead.",
+      "replacedBy": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "b046b12c-5c39-4018-8ccc-9a5cb08eb6e5",
+    "legacyKey": "tag-edge-to-clear-icon-large",
+    "setUuid": "4d6e4dec-5d27-4791-b639-5e4a211a21fb",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-large instead.",
+      "replacedBy": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "e4e422af-181f-47b5-b165-f514a0a6f41c",
+    "legacyKey": "tag-edge-to-clear-icon-medium",
+    "setUuid": "2d000eb2-5aed-48d3-822e-11522c9c38f3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-medium instead.",
+      "replacedBy": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "a2f75bb4-0ce4-4993-9a43-09cd2b7376bf",
+    "legacyKey": "tag-edge-to-clear-icon-medium",
+    "setUuid": "2d000eb2-5aed-48d3-822e-11522c9c38f3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-medium instead.",
+      "replacedBy": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "a27b0e7c-8840-4d08-8f88-39643589c554",
+    "legacyKey": "tag-edge-to-clear-icon-small",
+    "setUuid": "58051d9f-6a04-4e64-8a6e-73858a57935c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-small instead.",
+      "replacedBy": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "clear-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "6f913e5f-debc-4b7d-897d-c2704847c2e5",
+    "legacyKey": "tag-edge-to-clear-icon-small",
+    "setUuid": "58051d9f-6a04-4e64-8a6e-73858a57935c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-small instead.",
+      "replacedBy": "1247c1ab-9e31-482a-832c-d32911a1e698"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "8533ad58-9e81-4154-8ad1-57213741e814",
+    "legacyKey": "tag-label-to-clear-icon-large",
+    "setUuid": "9a8b0028-fefe-41fe-83a9-fed108acb3b3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead.",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "7c1375da-c6c7-42b3-b60e-0ef6724c6303",
+    "legacyKey": "tag-label-to-clear-icon-large",
+    "setUuid": "9a8b0028-fefe-41fe-83a9-fed108acb3b3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead.",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "c964fe64-fcb6-4417-977d-b15880daf164",
+    "legacyKey": "tag-label-to-clear-icon-medium",
+    "setUuid": "9136db47-9232-460e-9e57-1143b4ba9e7b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "ff7424ba-5f65-46ff-b408-4ffb2cfc5035",
+    "legacyKey": "tag-label-to-clear-icon-medium",
+    "setUuid": "9136db47-9232-460e-9e57-1143b4ba9e7b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "bfc9cd19-e115-4ff2-908d-6cd4725f68bc",
+    "legacyKey": "tag-label-to-clear-icon-small",
+    "setUuid": "32732b36-a364-4eec-a240-3e8eb538c15d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead.",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "label",
+        "to": "clear-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "2011748e-f950-4c6e-9eee-1c0d77b7ba36",
+    "legacyKey": "tag-label-to-clear-icon-small",
+    "setUuid": "32732b36-a364-4eec-a240-3e8eb538c15d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead.",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "maximum-width-multiplier"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 7,
+    "uuid": "8771f506-a491-4222-be86-0e666ea2c711",
+    "legacyKey": "tag-maximum-width-multiplier"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "33px",
+    "uuid": "234b3886-77eb-4ad5-9d19-40d801a54617",
+    "legacyKey": "tag-minimum-width-large",
+    "setUuid": "c160e0a6-c19c-4fb5-af16-49ffea4b9b56",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "42px",
+    "uuid": "b2788159-dd2d-4f94-9282-d8cdbba41807",
+    "legacyKey": "tag-minimum-width-large",
+    "setUuid": "c160e0a6-c19c-4fb5-af16-49ffea4b9b56",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "27px",
+    "uuid": "9b373ba1-7381-4360-8730-bd91afacbfa7",
+    "legacyKey": "tag-minimum-width-medium",
+    "setUuid": "33cfd1f4-12a3-4cd8-a621-d67868424511",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "34px",
+    "uuid": "40485b19-e1ac-4981-a17c-bb6e264c730d",
+    "legacyKey": "tag-minimum-width-medium",
+    "setUuid": "33cfd1f4-12a3-4cd8-a621-d67868424511",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width-multiplier"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1,
+    "uuid": "837b2ac3-0adc-438c-b249-b96bac07049f",
+    "legacyKey": "tag-minimum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "21px",
+    "uuid": "d3327dae-cc93-4099-ad75-b5a4193af8e4",
+    "legacyKey": "tag-minimum-width-small",
+    "setUuid": "3d401849-853a-4920-8a94-ac001432d63c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "25px",
+    "uuid": "3b9e5d81-e49a-4080-ac53-094e0f7eb151",
+    "legacyKey": "tag-minimum-width-small",
+    "setUuid": "3d401849-853a-4920-8a94-ac001432d63c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "avatar",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "57de6911-6f5f-4a0d-9606-e7584a10d7f4",
+    "legacyKey": "tag-top-to-avatar-large",
+    "setUuid": "6dc82803-d302-4e3a-9932-3155bdd4a64f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead.",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "avatar",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "9881ad7c-e9df-40b1-a368-4f8185042c3f",
+    "legacyKey": "tag-top-to-avatar-large",
+    "setUuid": "6dc82803-d302-4e3a-9932-3155bdd4a64f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead.",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "avatar",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "394343df-fb5d-44be-b6d1-9975ab8a4156",
+    "legacyKey": "tag-top-to-avatar-medium",
+    "setUuid": "1a1233a0-7ad4-4ea9-a453-7dfadd1d6dae",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "avatar",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "8dbabe33-52e7-4dc1-b2e3-81c1c62d98cb",
+    "legacyKey": "tag-top-to-avatar-medium",
+    "setUuid": "1a1233a0-7ad4-4ea9-a453-7dfadd1d6dae",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead.",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "avatar",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "cf1239b1-495a-482c-8aeb-3b98c6b75583",
+    "legacyKey": "tag-top-to-avatar-small",
+    "setUuid": "a2f37017-0efa-4706-849a-1808c497e136",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead.",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "avatar",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "a2c40238-1fda-4482-a419-b8092a385c9b",
+    "legacyKey": "tag-top-to-avatar-small",
+    "setUuid": "a2f37017-0efa-4706-849a-1808c497e136",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead.",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "e335436a-190c-4417-86f4-b7266c093377",
+    "legacyKey": "tag-top-to-cross-icon-large",
+    "setUuid": "dfa2b156-7b26-44dd-b2fc-ea33b38192de",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "af69e3d1-92b6-4e62-93f2-c1f1f10f0a63",
+    "legacyKey": "tag-top-to-cross-icon-large",
+    "setUuid": "dfa2b156-7b26-44dd-b2fc-ea33b38192de",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-large instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "ece70425-e509-45cc-8336-76fc8afdb921"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "1bfd3452-93c8-424a-99e4-55e5ecbee90b",
+    "legacyKey": "tag-top-to-cross-icon-medium",
+    "setUuid": "50b571a8-0931-454b-aa73-88cda1772cb0",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "ac7b17a2-99ef-45b3-ab3b-4d3eeaf99fb9",
+    "legacyKey": "tag-top-to-cross-icon-medium",
+    "setUuid": "50b571a8-0931-454b-aa73-88cda1772cb0",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "c9e5e973-4942-414e-b128-5569f62453a2",
+    "legacyKey": "tag-top-to-cross-icon-small",
+    "setUuid": "814117c5-90a4-4fad-a66d-68b68a25d8d2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    }
+  },
+  {
+    "scope": {
+      "component": "tag",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "cross-icon",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "d93e04b9-1901-4ec4-947a-62c84205e61e",
+    "legacyKey": "tag-top-to-cross-icon-small",
+    "setUuid": "814117c5-90a4-4fad-a66d-68b68a25d8d2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-small instead. Edge cases should be ok for edge usage. In principle, it's still padding. In reality, it's vertical not horizontal. But that may be ok",
+      "replacedBy": "ba072414-2cdd-4773-86a5-11ca47c08e23"
+    }
+  }
+]

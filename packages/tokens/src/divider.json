@@ -1,0 +1,32 @@
+{
+  "divider-horizontal-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "divider",
+    "value": "200px",
+    "uuid": "a0093378-0b2c-474b-9fe5-76940fd1398b"
+  },
+  "divider-thickness-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "divider",
+    "value": "4px",
+    "uuid": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5"
+  },
+  "divider-thickness-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "divider",
+    "value": "2px",
+    "uuid": "3cf3e962-92f3-4334-8b92-9a1da9396c25"
+  },
+  "divider-thickness-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "divider",
+    "value": "1px",
+    "uuid": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36"
+  },
+  "divider-vertical-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "divider",
+    "value": "200px",
+    "uuid": "299db7d6-66f6-4fcb-890d-223406c85ae4"
+  }
+}

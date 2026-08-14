@@ -1,0 +1,188 @@
+[
+  {
+    "scope": {
+      "component": "standard-panel",
+      "part": "gripper",
+      "property": "color"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "60077744-c665-4c80-8f88-dff31a10219e",
+    "uuid": "71840c7b-acdd-45b9-a228-5091591f5405",
+    "legacyKey": "standard-panel-gripper-color"
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "part": "gripper",
+      "property": "color",
+      "options": {
+        "qualifier": "drag"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
+    "uuid": "69e2d0b3-6807-4e46-9f8a-72bf49439f36",
+    "legacyKey": "standard-panel-gripper-color-drag"
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "close-button",
+        "density": "compact"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "3px",
+    "uuid": "6364d657-804c-4753-832d-09bfdf5ad36a",
+    "legacyKey": "standard-panel-edge-to-close-button-compact",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "close-button",
+        "weight": "regular"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "f2c9847f-2c3f-4e2e-94ed-59b6cc58f34a",
+    "legacyKey": "standard-panel-edge-to-close-button-regular",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "edge",
+        "to": "close-button",
+        "density": "spacious"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "b9c04337-a6f5-42db-9bf9-a761c0d9f876",
+    "legacyKey": "standard-panel-edge-to-close-button-spacious",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "maximum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "400px",
+    "uuid": "11400ef3-c995-41bc-8a9d-eb389d95f360",
+    "legacyKey": "standard-panel-maximum-width"
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "200px",
+    "uuid": "37ab7428-8175-409f-8e74-55e51a962139",
+    "legacyKey": "standard-panel-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "part": "title",
+      "property": "font-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "0babc342-b506-495d-aaf1-20fe9e571e1b",
+    "uuid": "ce8278ea-da1b-4a42-bf7d-4018c9e9d18e",
+    "legacyKey": "standard-panel-title-font-size"
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "close-button",
+        "density": "compact"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "66f385cd-b60b-42dd-bfdc-aba2db6e35a2",
+    "legacyKey": "standard-panel-top-to-close-button-compact",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "close-button",
+        "weight": "regular"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "968a056e-4397-4a71-91f1-a0f1ebb6f751",
+    "legacyKey": "standard-panel-top-to-close-button-regular",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "space-between",
+      "options": {
+        "from": "top",
+        "to": "close-button",
+        "density": "spacious"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "17px",
+    "uuid": "96572147-20a9-4089-9904-0a0efa42a5af",
+    "legacyKey": "standard-panel-top-to-close-button-spacious",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. RECOMMEND ALTERNATIVE MEASUREMENT (negative offset) so a single token can be reused across all densities",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "standard-panel",
+      "property": "width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "260px",
+    "uuid": "41cd9d92-4d69-4aaa-9c95-e980aa5eb992",
+    "legacyKey": "standard-panel-width"
+  }
+]

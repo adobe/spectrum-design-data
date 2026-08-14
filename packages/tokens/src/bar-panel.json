@@ -1,0 +1,41 @@
+{
+  "bar-panel-gripper-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "bar-panel",
+    "value": "{gray-200}",
+    "uuid": "5a46c025-32b4-4bda-bab0-5ab0fb69ca8e"
+  },
+  "bar-panel-gripper-color-drag": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "bar-panel",
+    "value": "{gray-800}",
+    "uuid": "16431c28-23e4-4077-bcfa-138f90583282"
+  },
+  "bar-panel-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "bar-panel",
+    "value": "72px",
+    "uuid": "00c313bf-61be-4f5a-9d26-3e9f1ea0e950"
+  },
+  "bar-panel-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "bar-panel",
+    "value": "40px",
+    "uuid": "db0862a7-3a92-4c24-a06a-d20acfd94e1b"
+  },
+  "bar-panel-spacing-extra-spacious": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "bar-panel",
+    "value": "20px",
+    "uuid": "5fbb857b-5703-4e8e-bba4-86720ca261bd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-large instead.",
+    "renamed": "container-padding-extra-large"
+  },
+  "bar-panel-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "bar-panel",
+    "value": "56px",
+    "uuid": "c0e0d08b-e22f-44d3-b547-6bd173d00e1b"
+  }
+}
