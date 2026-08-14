@@ -114,6 +114,8 @@ tasks:
       - ./tokens
       - --components-path
       - ./components
+      - --relationships-path
+      - ./relationships
       - --components-report-only
       - --exceptions-path
       - ../tokens/naming-exceptions.json

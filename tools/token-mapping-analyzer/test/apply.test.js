@@ -14,6 +14,7 @@ import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadRegistries } from "../src/registry-index.js";
 import { serialize } from "../src/decomposer.js";
+import { scopeToName } from "../src/ctr-scope.js";
 import {
   applyField,
   applySpaceBetween,
@@ -84,10 +85,7 @@ function collectMigrated(obj, acc = []) {
  */
 function ctrToNameToken(ctr) {
   const { scope, legacyKey } = ctr;
-  const name = { ...(scope.options ?? {}) };
-  if (scope.component !== undefined) name.component = scope.component;
-  if (scope.part !== undefined) name.anatomy = scope.part;
-  if (scope.property !== undefined) name.property = scope.property;
+  const name = scopeToName(scope);
   if (legacyKey) name.legacyKey = legacyKey;
   return { ...ctr, name };
 }

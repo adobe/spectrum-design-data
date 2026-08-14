@@ -45,11 +45,7 @@ impl ValidationRule for Rule {
                     .tokens
                     .values()
                     .any(|other| other.uuid.as_deref() == Some(uuid))
-                    || ctx
-                        .graph
-                        .relationships
-                        .iter()
-                        .any(|rel| rel.uuid.as_deref() == Some(uuid));
+                    || ctx.graph.relationship_target_exists(uuid);
                 if !exists {
                     out.push(Diagnostic {
                         file: t.file.clone(),

@@ -175,7 +175,7 @@ export function createReadTools() {
     {
       name: "describe_component",
       description:
-        "Return the JSON schema and token bindings for a design system component by its ID.",
+        "Return the JSON schema and token relationships (bindings) for a design system component by its ID.",
       inputSchema: {
         type: "object",
         required: ["id"],
@@ -210,7 +210,23 @@ export function createReadTools() {
             : `Call primer to see available component IDs.`;
           throw new Error(`Component not found: "${id}". ${hint}`);
         }
-        return JSON.parse(readFileSync(componentFile, "utf-8"));
+        const component = JSON.parse(readFileSync(componentFile, "utf-8"));
+
+        // Component/Token Relationships (CTRs) migrated most tokenBindings out
+        // of the component file into relationships/<id>.json — merge them back
+        // in so callers relying on this tool for a component's token bindings
+        // still see them (see spectrum-design-data-x29.4).
+        const relationshipsDir = config.relationshipsDir;
+        const relationshipFile = relationshipsDir
+          ? join(relationshipsDir, `${id}.json`)
+          : null;
+        if (relationshipFile && existsSync(relationshipFile)) {
+          component.relationships = JSON.parse(
+            readFileSync(relationshipFile, "utf-8"),
+          );
+        }
+
+        return component;
       },
     },
   ];

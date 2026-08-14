@@ -14,3 +14,6 @@ package's aggregated output.
 - **packages/tokens/src/\*.json**: 84 new per-component files (e.g.
   `body.json`, `popover.json`, `button.json`) holding the tokens moved
   out of the files above.
+- **packages/tokens/src/color-component.json**: removed — the cascade
+  source (`color-component.tokens.json`) now has 0 tokens post-migration,
+  so the legacy generator no longer emits this file.

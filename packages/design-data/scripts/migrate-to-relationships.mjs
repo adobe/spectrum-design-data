@@ -46,6 +46,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
 import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { nameToScope } from "../../../tools/token-mapping-analyzer/src/ctr-scope.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "../../..");
@@ -65,11 +66,6 @@ const TOKEN_FILES_WITH_COMPONENT_SCOPE = [
   "layout.tokens.json",
   "color-palette.tokens.json",
 ];
-
-/** Fields folded into scope.options rather than a dedicated scope.* key. */
-const SCOPE_TOP_LEVEL_KEYS = new Set(["component", "anatomy", "property"]);
-/** name.* keys that carry legacy-reconstruction metadata, not scope narrowing. */
-const NAME_NON_SCOPE_KEYS = new Set(["legacyKey"]);
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
@@ -94,14 +90,19 @@ function legacyKeyFor(name, registry) {
  * color-set, ...) legitimately share one flat legacy key across several
  * per-mode entries (same set_uuid, distinct uuid) — see color-aliases.tokens.json's
  * established convention of parallel per-mode alias entries.
+ *
+ * Also returns the parsed tokens keyed by file path, so callers that need to
+ * re-walk a subset of files (part B, below) don't re-parse them from disk.
  */
 function buildFlatKeyIndex(registry) {
   const index = new Map();
+  const tokensByFile = new Map();
   for (const file of readdirSync(TOKENS_DIR).filter((f) =>
     f.endsWith(".tokens.json"),
   )) {
     const filePath = join(TOKENS_DIR, file);
     const tokens = readJson(filePath);
+    tokensByFile.set(filePath, tokens);
     tokens.forEach((token, tokenIndex) => {
       const key = legacyKeyFor(token.name, registry);
       if (!key) return;
@@ -113,7 +114,7 @@ function buildFlatKeyIndex(registry) {
       }
     });
   }
-  return index;
+  return { index, tokensByFile };
 }
 
 /**
@@ -137,7 +138,10 @@ function convertTokenBindings(componentId, tokenBindings, flatKeyIndex) {
       const property =
         typeof targetName === "object" ? targetName.property : undefined;
       ctrs.push({
-        scope: { component: componentId, ...(property ? { property } : {}) },
+        scope: {
+          component: componentId,
+          ...(property !== undefined ? { property } : {}),
+        },
         ...(binding.context ? { context: binding.context } : {}),
         $ref: match.token.uuid,
       });
@@ -152,25 +156,7 @@ function convertTokenBindings(componentId, tokenBindings, flatKeyIndex) {
  */
 function convertScopedToken(token, registry) {
   const name = token.name;
-  const scope = { component: name.component };
-  if (name.anatomy !== undefined) scope.part = name.anatomy;
-  if (name.property !== undefined) scope.property = name.property;
-
-  const options = {};
-  for (const [key, value] of Object.entries(name)) {
-    if (SCOPE_TOP_LEVEL_KEYS.has(key) || NAME_NON_SCOPE_KEYS.has(key))
-      continue;
-    if (key === "state") {
-      scope.options ??= {};
-      scope.options.state = value;
-      continue;
-    }
-    options[key] = value;
-  }
-  if (Object.keys(options).length > 0) {
-    scope.options = { ...(scope.options ?? {}), ...options };
-  }
-
+  const scope = nameToScope(name);
   const legacyKey = legacyKeyFor(name, registry);
 
   const ctr = {
@@ -197,7 +183,7 @@ function appendRelationships(componentId, ctrs, relationshipsByComponent) {
 function main() {
   mkdirSync(RELATIONSHIPS_DIR, { recursive: true });
   const registry = loadRegistries();
-  const flatKeyIndex = buildFlatKeyIndex(registry);
+  const { index: flatKeyIndex, tokensByFile } = buildFlatKeyIndex(registry);
 
   const relationshipsByComponent = new Map();
   let componentsChanged = 0;
@@ -238,7 +224,7 @@ function main() {
   const tokenFilesChanged = [];
   for (const file of TOKEN_FILES_WITH_COMPONENT_SCOPE) {
     const filePath = join(TOKENS_DIR, file);
-    const tokens = readJson(filePath);
+    const tokens = tokensByFile.get(filePath);
     const remaining = [];
     let changedInFile = 0;
 

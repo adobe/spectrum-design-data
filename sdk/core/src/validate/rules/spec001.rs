@@ -28,7 +28,9 @@ impl ValidationRule for Rule {
             let Some(target) = &t.alias_target else {
                 continue;
             };
-            if ctx.graph.resolve_alias_key(target).is_none() {
+            if ctx.graph.resolve_alias_key(target).is_none()
+                && !ctx.graph.relationship_target_exists(target)
+            {
                 out.push(Diagnostic {
                     file: t.file.clone(),
                     token: Some(t.name.clone()),
