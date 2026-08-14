@@ -1,0 +1,616 @@
+{
+  "heading-cjk-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "05c74b28-3051-498c-874a-5dc523bc27e5"
+  },
+  "heading-cjk-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "d854afd2-290a-40ae-a627-c4cdabeb546a"
+  },
+  "heading-cjk-font-family": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{cjk-font-family}",
+    "uuid": "b6652ee5-466f-4117-a77c-a93a40f2a791"
+  },
+  "heading-cjk-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "c93b39df-82e9-4e87-920f-1747e5d48e8e"
+  },
+  "heading-cjk-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "bd54516c-2fda-4421-ab62-720c3a887a34"
+  },
+  "heading-cjk-heavy-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "aef21944-3dac-4b2d-ba7b-0a4df3f406bb"
+  },
+  "heading-cjk-heavy-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "9315971c-6e83-42c8-9c24-d1bc6fa5e106"
+  },
+  "heading-cjk-heavy-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "b2f50ba2-e694-47ba-b81a-ea8fc813247e"
+  },
+  "heading-cjk-heavy-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "73c20d2f-1227-46bc-8548-102358405b0b"
+  },
+  "heading-cjk-heavy-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "619a15ba-f74e-4ff4-a604-312b810f1a50"
+  },
+  "heading-cjk-heavy-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "a0f680fa-2453-4bcc-b06c-9ff82de50c0c"
+  },
+  "heading-cjk-heavy-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "26817f91-2742-4170-aa01-1e1e67ef01e8"
+  },
+  "heading-cjk-heavy-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "b7d2203c-c651-493e-80c2-b71b7c7c2692"
+  },
+  "heading-cjk-light-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "dac03eec-6910-4176-bfca-33f8a57cf3d7",
+    "deprecated": true
+  },
+  "heading-cjk-light-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{regular-font-weight}",
+    "uuid": "aea9787b-ee0b-40cc-9089-5973e52b18bd",
+    "deprecated": true
+  },
+  "heading-cjk-light-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "b5704c75-2914-4268-9023-7f7452e826c1",
+    "deprecated": true
+  },
+  "heading-cjk-light-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{light-font-weight}",
+    "uuid": "9da0ba4c-b4e3-4052-8b2e-d2fde714bb9d",
+    "deprecated": true
+  },
+  "heading-cjk-light-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "9136e25e-563b-4485-bad7-41809d5317de",
+    "deprecated": true
+  },
+  "heading-cjk-light-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "83cc347c-7a1a-4665-9de4-cf19903f1043",
+    "deprecated": true
+  },
+  "heading-cjk-light-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "be854057-43b1-40ce-bdc7-69960cd7638c",
+    "deprecated": true
+  },
+  "heading-cjk-light-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "5ca91bc2-215b-4cbb-b966-80bfffd569ad",
+    "deprecated": true
+  },
+  "heading-cjk-line-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{cjk-line-height-100}",
+    "uuid": "3e038db9-c5f7-4b8b-b1af-31075a31e0cc"
+  },
+  "heading-cjk-size-l": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-600}",
+    "uuid": "f57ffe02-2e41-46f3-a0ac-1feb63bdd748"
+  },
+  "heading-cjk-size-m": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-400}",
+    "uuid": "43f45659-314b-45aa-9886-1beb096fc4ce"
+  },
+  "heading-cjk-size-s": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-300}",
+    "uuid": "c1242a8c-ca10-40d0-8fc4-67bbbce8fc5f"
+  },
+  "heading-cjk-size-xl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-800}",
+    "uuid": "43535e5f-607e-43f4-bd37-8230b1f7993f"
+  },
+  "heading-cjk-size-xs": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-200}",
+    "uuid": "132688a7-917d-44b9-a34f-a7135599b299"
+  },
+  "heading-cjk-size-xxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1000}",
+    "uuid": "fbf59302-1ad2-4327-bfde-d638a0ca2429"
+  },
+  "heading-cjk-size-xxs": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-100}",
+    "uuid": "bddd6a96-c280-47ca-8858-20df055e488d",
+    "deprecated": true
+  },
+  "heading-cjk-size-xxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1200}",
+    "uuid": "5a44e177-2478-4bb0-9212-ba2df64c8b00"
+  },
+  "heading-cjk-size-xxxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1400}",
+    "uuid": "3b954e15-341a-40f4-a47e-9abd2813fec4"
+  },
+  "heading-cjk-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "22934d4d-4952-40a7-a5e5-256a7a3c9371"
+  },
+  "heading-cjk-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "0080a817-b26f-42f1-84c4-5ed1ac08c12c"
+  },
+  "heading-cjk-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "4f061165-0e86-46b9-83c3-c95eeb8ff956"
+  },
+  "heading-cjk-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "eaf179aa-4514-4206-b3e2-a99b7d4d2029"
+  },
+  "heading-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{gray-900}",
+    "uuid": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+  },
+  "heading-line-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{line-height-100}",
+    "uuid": "64f28fe4-20f7-48cb-baeb-ff1898573727"
+  },
+  "heading-margin-bottom-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "heading",
+    "value": 0.25,
+    "uuid": "dd2035b4-506f-41ab-a656-de3668d44e0f"
+  },
+  "heading-margin-top-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "heading",
+    "value": 0.88888889,
+    "uuid": "008fa04b-6d74-416b-a6ae-ceec90f08642"
+  },
+  "heading-sans-serif-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "2f17833a-28a4-4152-8999-12b077557797"
+  },
+  "heading-sans-serif-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "e4a183fd-53c5-4dbb-afd1-6308e2e74f80"
+  },
+  "heading-sans-serif-font-family": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{sans-serif-font-family}",
+    "uuid": "234d7b9d-bddc-4988-8be5-ef5e41e08185"
+  },
+  "heading-sans-serif-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "561d905e-7f44-43da-b2b4-26e12551ef6d"
+  },
+  "heading-sans-serif-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{extra-bold-font-weight}",
+    "uuid": "1d4d09b4-021a-48e8-a724-bfecc13df325"
+  },
+  "heading-sans-serif-heavy-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "924c338f-7141-490a-a842-ad632c26160c"
+  },
+  "heading-sans-serif-heavy-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "a7cb3274-e48e-435b-a066-32027ac19e84"
+  },
+  "heading-sans-serif-heavy-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "0c4cdd06-8180-40b1-9b1f-d7d973a7b772"
+  },
+  "heading-sans-serif-heavy-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "ef13b8f0-f686-492d-990f-691ec91ebb96"
+  },
+  "heading-sans-serif-heavy-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "c20ea22a-c34d-4c7c-a816-75b533e28c92"
+  },
+  "heading-sans-serif-heavy-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "8779e773-7b37-4eb0-ae7a-2ba0104ad9d5"
+  },
+  "heading-sans-serif-heavy-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "86775b10-5682-49fb-9d38-6bdb857da801"
+  },
+  "heading-sans-serif-heavy-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "2104c3c2-d834-436a-a26d-508056f1013d"
+  },
+  "heading-sans-serif-light-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "5f88eb81-7052-4c21-9896-f14cb09f0e70",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{light-font-weight}",
+    "uuid": "e882ea46-8f0a-4313-84f5-85bb8d9f1f5e",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "c5551fd5-4ee2-4c93-b91f-9ed295fa63a4",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{light-font-weight}",
+    "uuid": "ff84a748-5923-451d-967c-a346d2dee46c",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "bc5d65e0-e13a-424c-a260-9268a0dee66c",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "c297a503-fc3c-4939-8c5a-6611b9b04719",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "67271ca0-c9fd-4047-a615-6314d7333f7a",
+    "deprecated": true
+  },
+  "heading-sans-serif-light-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "75437f9a-7ee8-4194-b4b3-0746be097396",
+    "deprecated": true
+  },
+  "heading-sans-serif-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "f692d35f-1b11-43d1-ad29-967436b90928"
+  },
+  "heading-sans-serif-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "9d834e30-53c1-4cea-9e17-2326038cb6cb"
+  },
+  "heading-sans-serif-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "2117cb6e-67f7-4509-b4fb-e9e442b6dc0e"
+  },
+  "heading-sans-serif-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "79275989-91ed-408a-b884-a31d9f8bac26"
+  },
+  "heading-serif-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "fe694554-832d-457d-a320-f02629f9c441"
+  },
+  "heading-serif-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "a0983216-b0c5-4a3f-97dc-96ee711acb1f"
+  },
+  "heading-serif-font-family": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{serif-font-family}",
+    "uuid": "f2430818-41b5-439a-8347-6b384e78d141"
+  },
+  "heading-serif-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "938f3684-44c6-4ae2-935a-b88921fcd7fe"
+  },
+  "heading-serif-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "350aa193-9996-49c8-b5e4-54d4f7bef3c2"
+  },
+  "heading-serif-heavy-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "a18ac621-eade-4224-9660-3e9a080219ec"
+  },
+  "heading-serif-heavy-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "82e9d579-8918-4114-bafa-3a9757556f84"
+  },
+  "heading-serif-heavy-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "14532cb8-6c88-46ce-886b-96fac971e7b9"
+  },
+  "heading-serif-heavy-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "6b74c5ea-6bf4-46bb-bee1-3841606f1500"
+  },
+  "heading-serif-heavy-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "adf303e8-1e27-4aec-9bbc-5abe166358ec"
+  },
+  "heading-serif-heavy-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "2d8e76cd-f123-488d-893d-54a9f48f679e"
+  },
+  "heading-serif-heavy-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "b2875bbe-b5cb-452f-b7d6-3dcb4fc59921"
+  },
+  "heading-serif-heavy-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "af0010c7-5134-4fe4-bee1-bbb7dd31de3a"
+  },
+  "heading-serif-light-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "7bd831cd-3fe0-402b-a105-f65b8e8023e2",
+    "deprecated": true
+  },
+  "heading-serif-light-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{regular-font-weight}",
+    "uuid": "b5f79fde-07f7-4c07-897e-0bfdf27e2839",
+    "deprecated": true
+  },
+  "heading-serif-light-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "5f30418a-aa76-434e-bca9-902d5be0d929",
+    "deprecated": true
+  },
+  "heading-serif-light-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{regular-font-weight}",
+    "uuid": "66958795-6459-4750-8c68-dc39ab383837",
+    "deprecated": true
+  },
+  "heading-serif-light-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "71c8e302-6bc1-4f45-b804-c847dd153d1b",
+    "deprecated": true
+  },
+  "heading-serif-light-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "98c61df3-057d-4345-881e-0c04628757f3",
+    "deprecated": true
+  },
+  "heading-serif-light-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "73906871-24e5-48cc-9140-ec700c08d144",
+    "deprecated": true
+  },
+  "heading-serif-light-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{bold-font-weight}",
+    "uuid": "29ad1c96-62e4-4143-88e8-fc8e08913a52",
+    "deprecated": true
+  },
+  "heading-serif-strong-emphasized-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{italic-font-style}",
+    "uuid": "da6e1593-9d2a-4fd8-8877-d30d6e1d1c07"
+  },
+  "heading-serif-strong-emphasized-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "cd32f2b7-3e9f-47ae-ad34-2c7783dd5b2f"
+  },
+  "heading-serif-strong-font-style": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{default-font-style}",
+    "uuid": "2e0ef484-406a-4902-995d-9a3d5177ec12"
+  },
+  "heading-serif-strong-font-weight": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{black-font-weight}",
+    "uuid": "6df0fb95-4aa0-4c67-896d-fa6aa3d34e95"
+  },
+  "heading-size-l": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-700}",
+    "uuid": "336e434c-9026-4bb3-96b1-5bb44376b868"
+  },
+  "heading-size-m": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-500}",
+    "uuid": "4cdcefe1-2006-4560-839f-5bdef6db8c1a"
+  },
+  "heading-size-s": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-400}",
+    "uuid": "96673fee-b75c-4867-9041-48362af044bc"
+  },
+  "heading-size-xl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-900}",
+    "uuid": "94bb5ad9-503a-428a-a8ba-6cf3f70592ac"
+  },
+  "heading-size-xs": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-300}",
+    "uuid": "4f179af6-c31f-48f8-927c-a45150668ad3"
+  },
+  "heading-size-xxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1100}",
+    "uuid": "464e34cd-e768-4a38-a72b-cae1a4852ef3"
+  },
+  "heading-size-xxs": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-100}",
+    "uuid": "82a831b4-b624-475b-b2be-4eb949e48626",
+    "deprecated": true
+  },
+  "heading-size-xxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1300}",
+    "uuid": "db884bf9-e7b5-420a-b408-bd9a4d6bb0a4"
+  },
+  "heading-size-xxxxl": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "heading",
+    "value": "{font-size-1500}",
+    "uuid": "517d86cc-2e66-4cdc-8841-cb32db9e56f4"
+  }
+}

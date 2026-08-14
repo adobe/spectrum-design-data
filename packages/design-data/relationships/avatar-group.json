@@ -1,0 +1,437 @@
+[
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "d55ab204-ee6c-47e3-a21b-25543c8fc36b"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "420c8327-fa41-4919-9e01-4d58178d739b"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "1c869018-8c56-4c10-acea-7fc6e838aa09"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "590ef940-55ea-4690-a403-e4b47a185a64"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "5e60d980-21db-4bbd-b321-a20808571411"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "80e446ee-0091-4c6e-9158-e15fbc6207a4"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size"
+    },
+    "context": "Size",
+    "$ref": "4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (avatar group to label)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-50"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "4328bc86-01d4-4467-b99a-33099effe781"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-50"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "b395e912-9061-44bd-ab77-840cde0f3e80"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-75"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "4970f7de-506d-4e2c-9412-8ebd268c5da3"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-75"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "889a7ebb-86b7-4615-87ee-e75aa4b48d60"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-100"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "273888c7-abc9-4af8-802a-e8ecf864f2fa"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-100"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "bacd5b38-1eed-49d6-9513-f363315f2a23"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-200"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "629d5ce9-487d-4ee9-be0d-5ff24c66d174"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-200"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "7815e63c-1d4f-4ee0-a656-a6053595ad59"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-300"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "e345324b-640f-4f45-88c6-4765ca97ea22"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-300"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "04481b80-1c05-416a-95cf-c0c85147ce2e"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-400"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "63c5deff-94da-4981-ba9a-fd46b4372830"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-400"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "5c733ac6-d7b9-44f0-8827-1d8232ca5332"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-500"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "8b6b74b4-e7c3-4f7c-a2b6-f410fcc17a83"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "to-avatar-500"
+    },
+    "context": "Spacing (avatar to avatar)",
+    "$ref": "c980c4f4-f2c5-4963-873e-de275f3353d1"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-family"
+    },
+    "context": "Layout",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-weight"
+    },
+    "context": "Layout",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-style"
+    },
+    "context": "Layout",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-50"
+    },
+    "context": "Layout",
+    "$ref": "8593a326-de37-414d-b3f6-5254b41dce07"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-50"
+    },
+    "context": "Layout",
+    "$ref": "b7561ce1-e12e-4aed-9766-181f7eca309e"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-75"
+    },
+    "context": "Layout",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-75"
+    },
+    "context": "Layout",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-100"
+    },
+    "context": "Layout",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-100"
+    },
+    "context": "Layout",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-200"
+    },
+    "context": "Layout",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-200"
+    },
+    "context": "Layout",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-300"
+    },
+    "context": "Layout",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-300"
+    },
+    "context": "Layout",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-400"
+    },
+    "context": "Layout",
+    "$ref": "292a28d6-2e15-46e2-80cd-5171d977e9b5"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-400"
+    },
+    "context": "Layout",
+    "$ref": "d5ed0e8d-01ac-495f-bd15-fecc30af17c4"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-500"
+    },
+    "context": "Layout",
+    "$ref": "9be56e29-2e79-41e0-b5a9-6a2dabc70aa1"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-500"
+    },
+    "context": "Layout",
+    "$ref": "a69a5079-1b5b-4ccf-946f-8b6e3fae4d7e"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-600"
+    },
+    "context": "Layout",
+    "$ref": "db1d7d01-8dd4-4c27-b58c-686f030e5e46"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "font-size-600"
+    },
+    "context": "Layout",
+    "$ref": "ac892307-2559-48f5-9e2c-98dabbb0abc2"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "line-height-100"
+    },
+    "context": "Layout",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "line-height-100"
+    },
+    "context": "Layout",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 100
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
+    "uuid": "1c869018-8c56-4c10-acea-7fc6e838aa09",
+    "legacyKey": "avatar-group-size-100"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 200
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ad82e875-4243-4665-93b9-91aef258b164",
+    "uuid": "590ef940-55ea-4690-a403-e4b47a185a64",
+    "legacyKey": "avatar-group-size-200"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 300
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "3c458169-051a-473d-9b68-af84803a74e6",
+    "uuid": "5e60d980-21db-4bbd-b321-a20808571411",
+    "legacyKey": "avatar-group-size-300"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 400
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
+    "uuid": "80e446ee-0091-4c6e-9158-e15fbc6207a4",
+    "legacyKey": "avatar-group-size-400"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 50
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
+    "uuid": "d55ab204-ee6c-47e3-a21b-25543c8fc36b",
+    "legacyKey": "avatar-group-size-50"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 500
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
+    "uuid": "4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1",
+    "legacyKey": "avatar-group-size-500"
+  },
+  {
+    "scope": {
+      "component": "avatar-group",
+      "property": "size",
+      "options": {
+        "scaleIndex": 75
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "88990423-8f5c-486b-9c7d-969db3d82cbb",
+    "uuid": "420c8327-fa41-4919-9e01-4d58178d739b",
+    "legacyKey": "avatar-group-size-75"
+  }
+]

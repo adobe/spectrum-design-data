@@ -1,0 +1,118 @@
+[
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "width"
+    },
+    "context": "Height & width",
+    "$ref": "bb70e39d-c686-4cd2-a991-6b51fa16d9df"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "height"
+    },
+    "context": "Height & width",
+    "$ref": "be327284-79fe-40b7-b996-8ad176d40d8e"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "window-to-edge"
+    },
+    "context": "Margins (dialog option)",
+    "$ref": "a3e53161-c38a-4ee0-88c2-4a36fd530e51"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "corner-radius"
+    },
+    "context": "Rounding (dialog option)",
+    "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "color"
+    },
+    "context": "Overlay",
+    "$ref": "af66daa6-9e52-4e68-a605-86d1de4ee971"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "26b9803c-577f-4a29-badd-dfc459e8b73e"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "31d5b502-6266-4309-8f8a-3892e6e158da"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "8964a28b-af18-4623-b530-7f4446ee6fa4"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "color"
+    },
+    "context": "Title",
+    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "100%",
+    "uuid": "be327284-79fe-40b7-b996-8ad176d40d8e",
+    "legacyKey": "takeover-dialog-height"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "property": "width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "100%",
+    "uuid": "bb70e39d-c686-4cd2-a991-6b51fa16d9df",
+    "legacyKey": "takeover-dialog-width"
+  }
+]

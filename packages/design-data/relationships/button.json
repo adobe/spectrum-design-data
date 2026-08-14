@@ -1,0 +1,1412 @@
+[
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "corner-radius"
+    },
+    "context": "Rounding (with wrapping)",
+    "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "minimum-width-multiplier"
+    },
+    "context": "Minimum width (with label)",
+    "$ref": "68b6ac88-d229-460d-8d59-3f5c141db358"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-size-difference"
+    },
+    "context": "Component size (down)",
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-size-width-ratio"
+    },
+    "context": "Component size (down)",
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-size-minimum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "3eaca9fb-25c0-4a1d-8c44-320cc0e0305b"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "64343da6-f1a6-4615-b2b8-41f9509679e5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "fff86b73-4e28-4453-9ba3-7c40998ace07"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "14624bfc-b08f-4637-991b-94a703a7b808"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "b9324a3c-557e-4832-8418-1d7783e7b9be"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "053363f2-5b8e-4365-8353-3cffac169608"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "4ccb4a02-6aa9-459a-a459-1d0ebbe2dc11"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "7ae3b6ee-2f80-4596-9d4a-08a5bf9612a7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "5c80900c-ff68-4b78-86fa-571bbf1eb9aa"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "8a23edfc-b993-48bb-917f-377051e02dff"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "3c96bdad-6e05-4a1b-930b-92d35adf5d9d"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "10e326b3-bcce-47df-a1ab-0e3ab9964dd2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "4cca2097-286e-46d5-bc8e-273ea50354e7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "c77f6b68-32b7-499c-81d9-50855cc68279"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "29fa8da5-3f74-4141-bfb1-0f2847655345"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edges)",
+    "$ref": "dd7bc474-d5f1-46fe-8a6e-b1645c34c982"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-75"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "47f5ab02-22db-4d82-be1d-804669d7fbd4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-75"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "7332a4d3-3775-4247-a4c0-fb01f0604d63"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-100"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "dd9e6e28-a382-46a1-a6e0-f73c8cc0ed70"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-100"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "cf58ae75-8f3f-4b9e-809b-ee78abbb2f2f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-200"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "64cdd254-d3fe-40e6-97a8-76dd8156afa8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-200"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "989aee4c-5c90-454a-b68d-a7564669c2bd"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-300"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "9654369a-5bf8-4436-a331-aeac1fd25a70"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-pill-edge-to-visual-only-300"
+    },
+    "context": "Spacing (start/end edges, icon only)",
+    "$ref": "cb4f356c-2dcd-4043-8f5c-3da904716b48"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "bac14298-68f0-4fb6-a152-c95ab19fd27f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "gap"
+    },
+    "context": "Focus indicator",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "026b1d5e-7cbc-4ee9-91e8-19766b9ac541"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e2c0de7e-d271-4b2c-9393-d864a95732e6"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a5201034-a592-47c6-be78-050ae951043e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "af809118-7a97-409c-925f-8d7636a791c8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Icon",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "d2481a50-13a0-4f19-8faa-a1a215fee21d"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "648da867-549e-47c3-9312-e9cfda288705"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b1104fe3-4965-411e-95d3-87f59cdbc756"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "3c2d5afe-fff4-487d-a312-000f738c8704"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "8565ec8e-2196-47ac-8636-40084acbfd4f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "ce2e6ea6-c692-4cff-a2ac-f0c1c2e054ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "41a6ee21-8db2-410b-a694-fca1fbf70f2a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "f1470931-f4f8-47d9-b118-5b813e4c154a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "abcf178e-0e44-4f57-a62c-382cb9478be2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "95cf1481-f476-47ce-a45a-54da64b44255"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "142f9467-e519-4ed7-bd98-69a31e876e70"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "5a0fdda5-6ac2-4a31-a7b9-6b3a5dd868d6"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Icon",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Icon",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Icon",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Fill",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Outline",
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Focus indicator",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "c5c823c6-1911-4e0e-ba2f-5105f467e108"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Icon",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "98a7279b-e21c-41ae-9bae-8b9b2b243e35"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a1b64a62-7c78-415e-a9be-c86acbf361ca"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "12e610d4-e3dc-4e86-9c09-09d86915b6f1"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "fbd40c55-bb12-43ff-9fa6-c93884befc89"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon and label",
+    "$ref": "fe319bca-0413-4ad8-a783-c64563e05816"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "c0dfeb64-983e-4f4c-a13e-24b5fbd2b791"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Static white – Focus indicator",
+    "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "c0a331f9-53e3-4c72-b5e3-139d730a1752"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "098f2f56-e52f-47b1-943a-d1d7218de484"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "d0867b86-6245-4c02-8617-ea7fd5c80288"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "7565eb32-d745-4fc3-8779-a717f8ba910a"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "16a871e1-d9df-42bb-8889-99059d70e82e"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "b769453b-586c-4dd2-b3a1-ddf5964160bc"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "579e401c-de49-41af-a8c7-a0a070c31979"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "content-color"
+    },
+    "context": "Icon and label",
+    "$ref": "e75dbb08-80eb-4de5-afd4-55a532c69c97"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "2df7303f-3c34-47d1-9ec9-b901dfbcf947"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "color"
+    },
+    "context": "Static black – Focus indicator",
+    "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c"
+  },
+  {
+    "scope": {
+      "component": "button",
+      "property": "minimum-width-multiplier"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 2.25,
+    "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358",
+    "legacyKey": "button-minimum-width-multiplier"
+  }
+]

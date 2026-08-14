@@ -1,0 +1,96 @@
+{
+  "toast-bottom-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "toast",
+    "uuid": "ecad3ac8-e45f-460c-a0a9-13f41a3bfdf0",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "821e8f74-d1de-4507-9ff7-ece44e535e8c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "toast-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "toast",
+    "uuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "52px",
+        "uuid": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "60px",
+        "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
+      }
+    }
+  },
+  "toast-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "toast",
+    "uuid": "e8dc3919-27bb-4fec-9c7c-7842ca1e6946",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "336px",
+        "uuid": "9ac252c8-06dd-48a9-a3d3-ca8ccfb355dd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "420px",
+        "uuid": "a4de5997-1eb1-430f-9a9f-cf2637d02d34"
+      }
+    }
+  },
+  "toast-top-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "toast",
+    "uuid": "f2d06ddb-31e5-4da8-9345-47ed975b7d1a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "be4f24cf-9334-4fc4-aa72-e0347beecda7"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "toast-top-to-workflow-icon": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "toast",
+    "uuid": "10da87b7-e0a1-4793-9912-0d43dd15acaf",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Refactor may be needed",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "d10d2a55-2b4d-46b1-81e9-521d6c3578e1"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
+      }
+    },
+    "renamed": "padding-vertical"
+  }
+}

@@ -1,0 +1,248 @@
+[
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width",
+    "$ref": "83be73fe-50bc-4be8-969c-0361a816225b"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "29981aef-aea6-4cde-849f-4bc67e320ea7"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "spacing"
+    },
+    "context": "Spacing (top/bottom/start/end edge to text)",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to body, body to link)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to body, body to link)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to body, body to link)",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "size"
+    },
+    "context": "Title",
+    "$ref": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-family"
+    },
+    "context": "Title",
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-weight"
+    },
+    "context": "Title",
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-style"
+    },
+    "context": "Title",
+    "$ref": "faa965d6-42c0-40f9-802e-ff0ea69d740d"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "line-height"
+    },
+    "context": "Title",
+    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "size"
+    },
+    "context": "Body",
+    "$ref": "e458fa68-ab9c-4441-a7d5-a02f42df1cae"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-family"
+    },
+    "context": "Body",
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-weight"
+    },
+    "context": "Body",
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "font-style"
+    },
+    "context": "Body",
+    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "line-height-200"
+    },
+    "context": "Body",
+    "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "color"
+    },
+    "context": "Color",
+    "$ref": "a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "color"
+    },
+    "context": "Color",
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "body",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "uuid": "393e9a11-77f6-42a7-973b-34c673ad8afb",
+    "legacyKey": "contextual-help-body-font-size",
+    "setUuid": "0e01bc71-96bf-47d2-969a-2cd7f64b4cf6",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "body",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25e93322-8f0b-45f8-ae9a-18668251f064",
+    "uuid": "1d817b1e-7916-4443-b04d-aa232b089f67",
+    "legacyKey": "contextual-help-body-font-size",
+    "setUuid": "0e01bc71-96bf-47d2-969a-2cd7f64b4cf6",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "body",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "0e01bc71-96bf-47d2-969a-2cd7f64b4cf6",
+    "uuid": "e458fa68-ab9c-4441-a7d5-a02f42df1cae",
+    "legacyKey": "contextual-help-body-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "268px",
+    "uuid": "83be73fe-50bc-4be8-969c-0361a816225b",
+    "legacyKey": "contextual-help-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "6d63a369-4261-44a4-bf8d-a567dffa8ef6",
+    "uuid": "16ee4dfd-afbe-482b-943e-03e2614037dd",
+    "legacyKey": "contextual-help-title-font-size",
+    "setUuid": "94426161-4c49-4a84-b362-bc7fe0ec05d7",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "0babc342-b506-495d-aaf1-20fe9e571e1b",
+    "uuid": "965f0854-0f3c-4d6e-9e21-54542ecf1a17",
+    "legacyKey": "contextual-help-title-font-size",
+    "setUuid": "94426161-4c49-4a84-b362-bc7fe0ec05d7",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "contextual-help",
+      "part": "title",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "94426161-4c49-4a84-b362-bc7fe0ec05d7",
+    "uuid": "5358fd6c-d9a0-4caa-a85e-af82ed82efaf",
+    "legacyKey": "contextual-help-title-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0"
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "swatch-group-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "swatch-group",
+    "value": "{gray-1000}",
+    "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
+  },
+  "swatch-group-border-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "swatch-group",
+    "value": "0.2",
+    "uuid": "19968846-dad0-42eb-b6a8-af65f3a910ff"
+  },
+  "swatch-group-spacing-spacious": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "swatch-group",
+    "value": "6px",
+    "uuid": "b80ef303-eae7-498f-b172-73a098be0f0b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-gap-2x-small instead. NOTE: All other swatch gaps need to use these semantics too",
+    "renamed": "container-gap-2x-small"
+  }
+}

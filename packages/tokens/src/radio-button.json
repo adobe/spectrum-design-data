@@ -1,0 +1,156 @@
+{
+  "radio-button-control-size-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "5c7699c2-dc1c-49aa-87ee-55b888c32689",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "cc041f48-aaa4-4c20-8990-599e0c56134e"
+      }
+    }
+  },
+  "radio-button-control-size-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "bfe838ca-b2a9-4b1d-ad1b-a27822a78bda",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "23d0a4aa-693d-4b79-b942-3898f9cf0b80"
+      }
+    }
+  },
+  "radio-button-control-size-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "e6de4bc6-29a8-41c8-89d3-05aa7d89e660",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "9de5b045-532c-48ef-872e-bd3c22f89a41"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "2eef4003-e666-48e7-b25b-8c50063ce400"
+      }
+    }
+  },
+  "radio-button-control-size-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "e10044fc-687d-4354-afc9-39d9210fc6db",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "407304fc-7c74-4427-9032-b44ab03c07ce"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "90a2b18a-61c7-40d8-926c-d6b18a641010"
+      }
+    }
+  },
+  "radio-button-selection-indicator": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "radio-button",
+    "value": "4px",
+    "uuid": "a7fc6bdb-5b9c-42d4-8f78-d34021ac0708"
+  },
+  "radio-button-top-to-control-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "77bbc887-ee2d-4a6c-8a1b-6a6b9cd6a2fd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Controls must be in a frame that has height equal to workflow-icon-size-extra-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "f4620f0a-43ba-4650-8640-9425ed1a1260"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "c478710f-1747-455b-998a-6fa837762905"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "radio-button-top-to-control-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "b99d260c-1bc7-4e0e-96be-bdfe4592829d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Controls must be in a frame that has height equal to workflow-icon-size-large",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "309c9559-1763-4345-8090-aaa12f570889"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "41d0dde7-de34-4e99-96d0-4f727ed71673"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "radio-button-top-to-control-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "a7ff453c-7241-406a-a682-c7d841c66134",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Controls must be in a frame that has height equal to workflow-icon-size-medium",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "dcc0155a-6bd1-4148-acaf-e255a7f4d22a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "2f805530-cefe-420a-89e6-a6a81c0faea0"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "radio-button-top-to-control-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "radio-button",
+    "uuid": "1f228973-43d9-46f2-a3c6-9d4074d49bb3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "b775d7e9-d182-4818-9ae0-b3765a0ecbf7"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "02438c4c-161d-45eb-935d-b083ab830876"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  }
+}

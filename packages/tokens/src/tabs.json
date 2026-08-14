@@ -1,0 +1,882 @@
+{
+  "tab-gap-horizontal-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{spacing-600}",
+    "uuid": "0c958750-2c96-453b-9464-f041ac126749"
+  },
+  "tab-gap-horizontal-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{spacing-500}",
+    "uuid": "8932b4cf-300f-4377-bbda-7fc02011cd37"
+  },
+  "tab-gap-horizontal-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{spacing-400}",
+    "uuid": "7a5f3049-0c20-4ff8-84ea-d161e58546fb"
+  },
+  "tab-gap-horizontal-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{spacing-350}",
+    "uuid": "a41aaa58-77af-476e-9050-4f4864c8c3f9"
+  },
+  "tab-item-bottom-to-text-compact-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "adc6e66b-3fc9-4fd7-84ec-ef4494c62774",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "7e3a0369-fcc2-45d7-87ab-9053588713ef"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "3641ac9c-5610-4996-a55d-c2a94b2ff9ea"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "tab-item-bottom-to-text-compact-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "c3498128-c005-4ee4-915e-eb287caa1041",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "8e701e0e-4d7c-4d38-ba6b-1fd2ef5978dc"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "091144b7-c63b-4827-840d-741cec01432a"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "tab-item-bottom-to-text-compact-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "d4758ee5-0e66-4812-90f3-618775a200e2",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "b44bbd5a-ef03-4e83-a9f5-88c896969d4d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "e69dee42-92da-4ca9-9eb8-97a7860adaba"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "tab-item-bottom-to-text-compact-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "4a7ca31f-9087-4865-9a19-669fec8b1e6d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "d87a2ee3-6f7c-4f5e-8191-d35624fc10f1"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "f453e51e-3d58-430e-8f17-8b95718dbf34"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "tab-item-bottom-to-text-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "60b185b4-b257-47e6-9340-7e1a074a40ea",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "5840c3b8-3488-417b-8b33-f3fc667ffd7a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "25px",
+        "uuid": "c63380d4-cc26-4299-b227-af2faedfdc74"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-bottom-to-text-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "662d4ef9-344e-450f-bd48-0298f111d88a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "61dd06ac-501e-4725-9d54-cc7a3d9f6586"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "31d1b6b6-721f-4474-ba86-795367399e49"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-bottom-to-text-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "1cb59572-fa95-4bc4-b3b1-bad21a5bc28d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "f507e1bd-f08e-42b1-aee6-ea38f9f8a387"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "691db84a-5336-4e45-bf73-ee617057e718"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-bottom-to-text-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "cfdfec23-be3a-4327-9067-60ecf3e9bed6",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "2d0f71e2-66fc-4f28-bd4b-be41df0948ed"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "e0791360-b505-492b-bf71-dfa393abecfa"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-compact-height-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-300}",
+    "uuid": "49130d66-edfb-48bd-8648-96c47f40a884"
+  },
+  "tab-item-compact-height-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-200}",
+    "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702"
+  },
+  "tab-item-compact-height-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-100}",
+    "uuid": "e8c7c826-548d-4037-b064-3cf699675d35"
+  },
+  "tab-item-compact-height-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-75}",
+    "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96"
+  },
+  "tab-item-focus-indicator-gap-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "efaf1230-6cee-4541-89de-e4ae0879cbdc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "1f12f9aa-19bd-4f77-93db-d737c0538677"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "6c0aad05-5224-4ade-913a-3dc5ebceeb62"
+      }
+    },
+    "renamed": "focus-ring-gap"
+  },
+  "tab-item-focus-indicator-gap-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "c3865c45-3de0-4ab2-bb81-720c5bff2b41",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "6fd78b93-1356-4eb0-9f70-bed00c3eb2aa"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "6c4d8c39-9f75-4c75-94e2-274a69a8f556"
+      }
+    },
+    "renamed": "focus-ring-gap"
+  },
+  "tab-item-focus-indicator-gap-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b84c88e4-e5f2-489b-9564-185e3bd4beda",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "cbbaa048-129d-439f-8aae-59153e28216b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "09ee234f-a596-47ba-89df-ab9ebc07ded8"
+      }
+    },
+    "renamed": "focus-ring-gap"
+  },
+  "tab-item-focus-indicator-gap-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "352d0f7d-f92e-4ac0-8170-9583107459bb",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead. Requires refactor;",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "d23bdd67-d7d0-42df-9575-61502d3692ab"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "5fbc924e-e79e-46c6-8544-c92d7f33bc26"
+      }
+    },
+    "renamed": "focus-ring-gap"
+  },
+  "tab-item-height-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-500}",
+    "uuid": "42ed814c-5044-4c70-b82f-b49f8226241e"
+  },
+  "tab-item-height-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-400}",
+    "uuid": "8abd0b0e-fd6d-4064-9d0e-1ab998fcb0ce"
+  },
+  "tab-item-height-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-300}",
+    "uuid": "5d2288f4-f383-47fa-baca-0168cb46750a"
+  },
+  "tab-item-height-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "tabs",
+    "value": "{component-height-200}",
+    "uuid": "7b31cf38-5bac-4f79-a4f1-172a4ea66e10"
+  },
+  "tab-item-start-to-edge-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b3d0f59e-2e13-4e51-9252-a91a1556de92",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-extra-large instead. Not present in design; obscure and difficult to find in implementations",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "a480fffb-0a23-4893-87ce-730eb925a7cc"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "4e0b2015-06c8-41ab-9e2b-3a332a7625ff"
+      }
+    },
+    "renamed": "base-padding-horizontal-extra-large"
+  },
+  "tab-item-start-to-edge-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "d4258a99-f47a-495c-9f24-b63f19c55c71",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-large instead. Not present in design; obscure and difficult to find in implementations",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "c3f8f94b-d456-4aeb-8340-bd5643efe8fc"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "2c85fa9a-e854-46f6-bc6b-547692d08290"
+      }
+    },
+    "renamed": "base-padding-horizontal-large"
+  },
+  "tab-item-start-to-edge-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b3abe910-99fc-4f8b-83af-057fd478c2ee",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead. Not present in design; obscure and difficult to find in implementations",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "4d105a45-7403-47f2-ba50-419d822ff879"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "229477d5-e21a-4f4b-a24d-580f0c60eec5"
+      }
+    },
+    "renamed": "base-padding-horizontal-medium"
+  },
+  "tab-item-start-to-edge-quiet": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "tabs",
+    "value": "0px",
+    "uuid": "f869f703-a850-4c6c-b518-ec8a1b355046",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "tab-item-start-to-edge-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "52087c63-410d-455b-8e3b-51ab1bd831c3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-small instead. Not present in design; obscure and difficult to find in implementations",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "712e62ce-b869-4097-aee1-82e3b7505e14"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "8d413f56-6634-49c8-8d6a-53d0f57f1bbc"
+      }
+    },
+    "renamed": "base-padding-horizontal-small"
+  },
+  "tab-item-to-tab-item-horizontal-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "f1708d11-7b46-45fd-8d39-5c31a65b7e0c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "30px",
+        "uuid": "c92ec468-0fac-4e12-b1f8-f22d09cb6c1e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "36px",
+        "uuid": "482ed7f6-ba60-4110-85c8-daf5bf352406"
+      }
+    },
+    "renamed": "tab-gap-horizontal-extra-large"
+  },
+  "tab-item-to-tab-item-horizontal-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "3b8da429-2985-480a-b85b-319f0c458bd1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "27px",
+        "uuid": "1f9460a7-2ec0-4353-875c-ee5a6143d00b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "33px",
+        "uuid": "71bdfd06-4672-464f-b787-9a62137b1763"
+      }
+    },
+    "renamed": "tab-gap-horizontal-large"
+  },
+  "tab-item-to-tab-item-horizontal-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "ebae14c7-73ca-4f71-9caa-82fde4816b90",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-medium instead. Requires acknowledgement of internal button structure",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "24px",
+        "uuid": "31bea7d1-c8c2-4901-9f18-7a5c936d243f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "30px",
+        "uuid": "885a7cc3-8873-4cb7-99e7-b17f42fb48f1"
+      }
+    },
+    "renamed": "tab-gap-horizontal-medium"
+  },
+  "tab-item-to-tab-item-horizontal-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "038f3637-a968-4ccb-bf7e-6dde89677a8b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token tab-gap-horizontal-small instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "21px",
+        "uuid": "79695d07-21cb-4772-b3f7-b2eb56e7ad20"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "27px",
+        "uuid": "8b5e1596-f13a-4786-b0c7-f01615423922"
+      }
+    },
+    "renamed": "tab-gap-horizontal-small"
+  },
+  "tab-item-to-tab-item-vertical-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "5ce7dfa6-aa85-4be6-bd22-10ae28c79f71",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "d74ea722-c146-4ad2-ab20-41c332ae1190"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "ea902ec1-25d5-47c3-896a-a95d9ca5bd62"
+      }
+    },
+    "renamed": "gap-regular"
+  },
+  "tab-item-to-tab-item-vertical-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b0613cb8-b17d-4c5c-bab9-02153144c284",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "9846992c-e27b-4760-8808-7c44cca2cc65"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "c193b2ee-a584-41dc-9ef8-3aebb38fb832"
+      }
+    },
+    "renamed": "gap-regular"
+  },
+  "tab-item-to-tab-item-vertical-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "1579ace5-820f-4b4b-81ed-3b1b8dfc3ae8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "7cd196c1-18b1-4dae-abf7-7ef1b531e0af"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "6b6c960f-adcf-48b0-8310-ba12b47f4d9a"
+      }
+    },
+    "renamed": "gap-regular"
+  },
+  "tab-item-to-tab-item-vertical-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "877ed7ee-8207-4eb3-8412-de9089cd8eae",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-gap-regular instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "da8211ee-8944-447f-a6df-6a16580e1893"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "d51a6c05-67d0-425f-becf-86e783ab3305"
+      }
+    },
+    "renamed": "gap-regular"
+  },
+  "tab-item-top-to-text-compact-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "e5a80358-315d-47b0-ad24-c74d9ad8ac98",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "2bdd22cd-93fe-4cf4-a025-e690ecafb50b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "9694ebdc-cc88-4584-89f5-10a2c8de686f"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "tab-item-top-to-text-compact-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "4506ad0b-71e6-4627-b8e8-d6ff00b14e58",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "93af7bac-830c-4460-abe2-0b2d8f786786"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "fd20b444-38ac-4438-a9ef-32474222e45f"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "tab-item-top-to-text-compact-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b88d643b-05db-464a-8b71-cd6b682e17e8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "2481e3a1-302b-46b8-98c2-e9461dd47d0c"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "128757b0-d690-4886-95d5-e9df36182a0f"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "tab-item-top-to-text-compact-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "1f2a4336-4d5b-4b39-a163-0a78a39c848c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "bbcf3eda-4add-4d0d-b5ae-c2e7078e85ed"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "d37488c4-d489-45bd-9086-8157c5204ae4"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "tab-item-top-to-text-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "9a697594-5717-49da-a138-f3c03306082a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "f1b6b932-748d-4b26-9c03-2bd9d0a40ac6"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "25px",
+        "uuid": "174cc6c8-9c0a-44c0-b6c7-ea6d337c819b"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "tab-item-top-to-text-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "1ad119cf-c6ec-458f-b6d6-16c8432b9c28",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "8b9275f5-3e63-459c-97fc-bc03691aa772"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "7e3db5ca-cd32-464b-9a23-9d03e83faa9c"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "tab-item-top-to-text-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "b66ff2e3-edd1-4e73-9446-85f596b6252e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "e75e4e96-6d1b-4a86-9059-5c1f6f6ab269"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "a8c455e9-60e5-4838-bc9c-eaf7b39a4bf7"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "tab-item-top-to-text-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "1a709fec-7699-4373-83ba-8e8cb6963c5b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "a9a6d785-f06d-4505-89ea-552d47ebe49d"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "3e155b8c-6cea-4b59-817c-cf71a63e00c7"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "tab-item-top-to-workflow-icon-compact-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "863df6bc-a4c3-46f7-80c4-43b3437b37a8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "dd4769f3-5c7e-491f-9d01-c80af0b561fb"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "f310e5d7-7435-41a0-b44d-ececff4844f2"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "tab-item-top-to-workflow-icon-compact-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "d7b9e286-1b4e-47ef-a0fa-549f26e89848",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "fab951e5-1a78-4fb4-8c19-677f5f231189"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "fad964d8-0020-4583-97ab-7d6565d01bdc"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "tab-item-top-to-workflow-icon-compact-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "ae256abb-27d9-4771-9617-e24c722279ab",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "7788c25c-0ce2-4170-8c5f-2fb1d98d953a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "4fb0520b-8c74-4fb7-b279-a3586a06a57e"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "tab-item-top-to-workflow-icon-compact-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "04cfef16-7bba-4d8f-9270-6334a2473cff",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Requires acknowledgement of internal button structure - Density does not affect this value; onlly the tab item vertical padding",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "96c22cdc-aecb-4747-aea9-f140af5ee048"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "b79002d2-bcff-4e8d-a406-e512c7e7d0e3"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "tab-item-top-to-workflow-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "f94bad20-f7c9-4998-822c-b8d20158c4bb",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "2c869793-c10b-40ef-9545-45a8a6b4cbb5"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "26px",
+        "uuid": "5afa2636-7d4c-4d83-b9fc-3c5a52ee4646"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-top-to-workflow-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "8f813787-f636-49e9-94bf-464b291df600",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "65e1f735-5f46-4bb3-9c7b-d5f5abab91a1"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "23px",
+        "uuid": "4dd99579-949b-4bf9-b022-e8f0c95eae33"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-top-to-workflow-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "5c4ae90f-f4b7-4f50-9e86-b8711c101c9e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "aec60dda-9e5a-40c8-8e45-5e1662eab6e3"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "820baccf-af24-42a3-9729-99408bc9322f"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  },
+  "tab-item-top-to-workflow-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "tabs",
+    "uuid": "906995a7-4f9b-4b37-a90f-7f7712aa6f70",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token list-item-padding-vertical-spacious instead. Requires refactor: this token + base-padding-vertical will get desired value",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "7bd7427d-06a8-4194-a9f4-300fd1a4f547"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "923fd09d-8d08-4465-961f-63ac12014206"
+      }
+    },
+    "renamed": "list-item-padding-vertical-spacious"
+  }
+}

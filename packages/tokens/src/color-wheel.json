@@ -1,0 +1,54 @@
+{
+  "color-wheel-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "color-wheel",
+    "value": "{gray-1000}",
+    "uuid": "a60c3946-dff7-4245-bdcd-b61445066e48"
+  },
+  "color-wheel-border-opacity": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "component": "color-wheel",
+    "value": "0.1",
+    "uuid": "be8fac27-b644-492e-a89d-6c87cfecb8a1"
+  },
+  "color-wheel-color-area-margin": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "color-wheel",
+    "value": "12px",
+    "uuid": "4b6bca16-ea29-4d6c-81cf-9005b9a3b5e5"
+  },
+  "color-wheel-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "color-wheel",
+    "uuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "175px",
+        "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "219px",
+        "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f"
+      }
+    }
+  },
+  "color-wheel-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "color-wheel",
+    "uuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "192px",
+        "uuid": "d4cdb77e-54b8-4bcf-97b1-992287af2690"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "240px",
+        "uuid": "81d866f0-e2a6-4f27-bb22-6675cce4e937"
+      }
+    }
+  }
+}

@@ -83,32 +83,73 @@
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        { "value": "s" },
-        { "value": "m" },
-        { "value": "l" },
-        { "value": "xl" }
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
       ]
     },
     "density": {
       "type": "string",
       "default": "regular",
-      "values": [{ "value": "regular" }, { "value": "compact" }]
+      "values": [
+        {
+          "value": "regular"
+        },
+        {
+          "value": "compact"
+        }
+      ]
     },
-    "isJustified": { "type": "boolean", "default": false },
-    "isQuiet": { "type": "boolean", "default": false },
-    "isEmphasized": { "type": "boolean", "default": false },
-    "enableSelection": { "type": "boolean", "default": false },
+    "isJustified": {
+      "type": "boolean",
+      "default": false
+    },
+    "isQuiet": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEmphasized": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableSelection": {
+      "type": "boolean",
+      "default": false
+    },
     "selectionMode": {
       "type": "string",
       "default": "single",
       "description": "Only applicable if selection is enabled",
-      "values": [{ "value": "single" }, { "value": "multiple" }]
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -118,19 +159,32 @@
     "overflowMode": {
       "type": "string",
       "default": "wrap",
-      "values": [{ "value": "wrap" }, { "value": "collapse" }]
+      "values": [
+        {
+          "value": "wrap"
+        },
+        {
+          "value": "collapse"
+        }
+      ]
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    { "token": "spacing-75", "context": "Spacing (horizontal, regular)" },
-    { "token": "spacing-100", "context": "Spacing (horizontal, regular)" },
-    { "token": "spacing-50", "context": "Spacing (horizontal, compact)" }
-  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["trigger"],
     "focusable": false,
-    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
   }
 }

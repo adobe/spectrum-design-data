@@ -33,39 +33,47 @@
       "default": "hue",
       "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
       "values": [
-        { "value": "hue" },
-        { "value": "saturation" },
-        { "value": "lightness" },
-        { "value": "red" },
-        { "value": "green" },
-        { "value": "blue" },
-        { "value": "alpha" }
+        {
+          "value": "hue"
+        },
+        {
+          "value": "saturation"
+        },
+        {
+          "value": "lightness"
+        },
+        {
+          "value": "red"
+        },
+        {
+          "value": "green"
+        },
+        {
+          "value": "blue"
+        },
+        {
+          "value": "alpha"
+        }
       ]
     },
-    "isDisabled": { "type": "boolean", "default": false }
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
   },
-  "lifecycle": { "introduced": "1.0.0-draft" },
-  "tokenBindings": [
-    { "token": "color-handle-size", "context": "Size (keyboard focus)" },
-    {
-      "token": "color-handle-size-key-focus",
-      "context": "Size (keyboard focus)"
-    },
-    { "token": "color-handle-border-width", "context": "Border" },
-    { "token": "color-handle-inner-border-width", "context": "Border" },
-    { "token": "color-handle-outer-border-width", "context": "Border" },
-    { "token": "white", "context": "Border" },
-    { "token": "color-handle-inner-border-color", "context": "Border" },
-    { "token": "color-handle-inner-border-opacity", "context": "Border" },
-    { "token": "color-handle-outer-border-color", "context": "Border" },
-    { "token": "color-handle-outer-border-opacity", "context": "Border" },
-    { "token": "disabled-content-color", "context": "Border (disabled)" },
-    { "token": "disabled-background-color", "context": "Border (disabled)" }
-  ],
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
-    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      }
+    ]
   }
 }

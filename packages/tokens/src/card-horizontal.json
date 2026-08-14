@@ -1,0 +1,29 @@
+{
+  "card-horizontal-edge-to-content-compact": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "card-horizontal",
+    "value": "12px",
+    "uuid": "fd732759-52ab-45b7-9949-9d9352091efe",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead.",
+    "renamed": "container-padding-small"
+  },
+  "card-horizontal-edge-to-content-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "card-horizontal",
+    "value": "16px",
+    "uuid": "45af5962-8d41-476d-a92d-befa408b47b7",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead.",
+    "renamed": "container-padding-medium"
+  },
+  "card-horizontal-edge-to-content-spacious": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "card-horizontal",
+    "value": "20px",
+    "uuid": "104c7b60-387b-4550-b0eb-573915d28f42",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-large instead.",
+    "renamed": "container-padding-large"
+  }
+}

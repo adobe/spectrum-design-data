@@ -1,0 +1,14 @@
+{
+  "single-calendar-popover-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "single-calendar",
+    "value": "320px",
+    "uuid": "1f0b1cd3-1f15-4a60-a01f-a04f4fb913dd"
+  },
+  "single-calendar-popover-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "single-calendar",
+    "value": "320px",
+    "uuid": "7f880ee3-c074-4370-a132-c22dbe0d5880"
+  }
+}

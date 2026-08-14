@@ -1270,6 +1270,17 @@ impl TokenGraph {
         None
     }
 
+    /// Whether `target` resolves to a relationship's own `uuid`, or to a
+    /// mode-set group id that only survives as `setUuid` on sibling
+    /// relationships — i.e. a CTR-side alias anchor, for callers that already
+    /// tried [`Self::resolve_alias_key`] (token-side) and came up empty.
+    pub fn relationship_target_exists(&self, target: &str) -> bool {
+        self.relationships.iter().any(|r| {
+            r.uuid.as_deref() == Some(target)
+                || r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(target)
+        })
+    }
+
     /// Resolve a set-level UUID to the context-appropriate child record.
     ///
     /// Picks the child from `set_uuid_index` whose name-object fields best match

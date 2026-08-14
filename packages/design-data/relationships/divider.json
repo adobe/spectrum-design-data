@@ -1,0 +1,181 @@
+[
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "3cf3e962-92f3-4334-8b92-9a1da9396c25"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness"
+    },
+    "context": "Thickness",
+    "$ref": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "horizontal-minimum-width"
+    },
+    "context": "Horizontal",
+    "$ref": "a0093378-0b2c-474b-9fe5-76940fd1398b"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "vertical-minimum-height"
+    },
+    "context": "Horizontal",
+    "$ref": "299db7d6-66f6-4fcb-890d-223406c85ae4"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill ",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill (white)",
+    "$ref": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill (white)",
+    "$ref": "b85836bf-af47-412a-900a-4ec5ad0733b2"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill (black)",
+    "$ref": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "color"
+    },
+    "context": "Fill (black)",
+    "$ref": "3e89f180-b0f0-4de0-904b-c80f0210a361"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "horizontal-minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "200px",
+    "uuid": "a0093378-0b2c-474b-9fe5-76940fd1398b",
+    "legacyKey": "divider-horizontal-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness",
+      "options": {
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5",
+    "legacyKey": "divider-thickness-large"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness",
+      "options": {
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "3cf3e962-92f3-4334-8b92-9a1da9396c25",
+    "legacyKey": "divider-thickness-medium"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "thickness",
+      "options": {
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36",
+    "legacyKey": "divider-thickness-small"
+  },
+  {
+    "scope": {
+      "component": "divider",
+      "property": "vertical-minimum-height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "200px",
+    "uuid": "299db7d6-66f6-4fcb-890d-223406c85ae4",
+    "legacyKey": "divider-vertical-minimum-height"
+  }
+]

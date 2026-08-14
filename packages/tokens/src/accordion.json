@@ -1,0 +1,838 @@
+{
+  "accordion-bottom-to-text-compact-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "92fef7e7-45bc-4dcd-91c2-c42e696263a8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "7a576841-a2a5-4443-9d31-03a12c7a2efd"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "70e6d9e7-2a8e-4f0d-96d6-aac7cde829bd"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-bottom-to-text-compact-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "21208d7c-2fd2-48d2-afd6-0b50e9f5ea38",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "40f76138-1a69-45ed-8df5-db8bc9792383"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "b4f92e98-694f-46cc-91be-8e0e2d5a17a4"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "accordion-bottom-to-text-compact-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "4e3a7c0a-d52a-43a8-b05f-6c98b7bb4859",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "c73f4637-7a33-4598-9498-8eb4a9e9e863"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "97b9278a-11d0-4470-99c3-e2d47ca5a714"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "accordion-bottom-to-text-compact-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "c9702adb-1f13-477c-b13c-79c4d8709856",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "2px",
+        "uuid": "524cb169-a9c1-4d3c-864e-dba03df6eac9"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "af95123b-2ab5-49bb-a070-1ca48b498f58"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "accordion-bottom-to-text-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "3f045028-2598-426a-91bd-443549a4c5f1",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "47f2bc45-5fa5-439a-a705-ef965c6ea010"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "5ce86cfe-434b-42ab-b334-c574bae01e6f"
+      }
+    },
+    "renamed": "base-padding-vertical-2x-large"
+  },
+  "accordion-bottom-to-text-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "036e6eac-cf81-4563-b4ea-f9610de674a8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "7ec7fa3a-5ab0-41e8-816a-bdd63b7d9d82"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "7db5a087-c361-4080-be50-8e4864436108"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-bottom-to-text-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "071af591-5387-4a04-b00a-3451bb1f102d",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "c0f14d75-a7a7-4325-b891-76d055e6371f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "abbcad5f-be29-4ca4-b48f-6b0eab7f9942"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "accordion-bottom-to-text-regular-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-bottom-to-text-extra-large}",
+    "uuid": "8c199212-a745-414c-8f6b-22d2445ade3c",
+    "deprecated": true
+  },
+  "accordion-bottom-to-text-regular-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-bottom-to-text-large}",
+    "uuid": "f484838e-1f0c-4125-9298-beb4ddc0fd53",
+    "deprecated": true
+  },
+  "accordion-bottom-to-text-regular-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-bottom-to-text-medium}",
+    "uuid": "2d6fa243-5f7e-41a8-840b-27a6432f54bc",
+    "deprecated": true
+  },
+  "accordion-bottom-to-text-regular-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-bottom-to-text-small}",
+    "uuid": "d64620dc-dd4a-447a-8491-d9e144ec8828",
+    "deprecated": true
+  },
+  "accordion-bottom-to-text-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "13a9d984-2e46-4319-a466-d59fce44fef3",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "ee8445cc-82a2-489f-9ff9-ec5d38a8dfd5"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "b69abbba-a98c-40f2-8a9a-972710b73149"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "accordion-bottom-to-text-spacious-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "9f4b3199-56cf-4d3f-9185-969001da490c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-3x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "3ca8a65d-5561-4d8e-a4f2-0b653b42991b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "21px",
+        "uuid": "ba11dc6e-fbd8-46bc-94fd-b4d02f654d2d"
+      }
+    },
+    "renamed": "base-padding-vertical-3x-large"
+  },
+  "accordion-bottom-to-text-spacious-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "1fc7990f-7ae1-4047-9d0d-e4170d41c631",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "96acbf76-082b-487c-8c47-f0fa173f54d2"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "2a6fa386-4eba-44d5-b129-c832264fafd9"
+      }
+    },
+    "renamed": "base-padding-vertical-2x-large"
+  },
+  "accordion-bottom-to-text-spacious-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "6092119d-924e-4774-a79c-21886bce0b78",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "8a3eadad-8b88-4885-b4ca-07360b45d3ba"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "05d8a39d-a0d5-496c-810a-f1244c31b169"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-bottom-to-text-spacious-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "ab6d93cd-177d-47b0-b521-f8e3e831b7b5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "bdc61836-fdcf-4ca0-a277-dd9cb314563a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "56a65744-b195-4faf-ab5c-69a8424593f9"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "accordion-content-area-bottom-to-content": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "85bd22b3-6be9-4b69-953a-7717b501ea0b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "87008eae-491c-4f7d-a13b-83eae517c92f"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "48383ab9-1e66-47f9-988b-6f59b7349241"
+      }
+    },
+    "renamed": "container-padding-medium"
+  },
+  "accordion-content-area-edge-to-content-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "ed09b2f0-da52-4317-8be2-89ce2508650e",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "c26ba15a-cb44-44b2-8423-baf52b1b42db"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "c9aaff95-a17a-408b-bb55-1c9026314c8b"
+      }
+    },
+    "renamed": "container-padding-medium"
+  },
+  "accordion-content-area-edge-to-content-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "2ed28849-15b1-4e23-9a81-e5a75be79bc9",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "755f796f-bcb6-466c-b4f2-b10b0f819bba"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "f4d133f7-d444-4ddc-907f-9d75ff621a03"
+      }
+    },
+    "renamed": "container-padding-small"
+  },
+  "accordion-content-area-edge-to-content-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "67a7388d-91db-4c0d-a32c-0eda0c6705ba",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "66fbf171-ff30-4376-9026-686ae3e2fc70"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "80419f6a-d93a-4cc0-883a-833e4717e28f"
+      }
+    },
+    "renamed": "container-padding-extra-small"
+  },
+  "accordion-content-area-edge-to-content-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "5dd933e8-c1db-43d1-b3ac-67f7df4ce6fc",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "b7b23a23-abca-4e96-8c6f-d2b5b4c79d99"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "782d9dfd-413f-4031-8431-be9b638c69b6"
+      }
+    },
+    "renamed": "container-padding-extra-small"
+  },
+  "accordion-content-area-top-to-content": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "3e16490f-8fca-4a5a-ad95-fb1882d367d9",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "709082c2-71b9-423a-9c93-3b53a9e18da3"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "9c651dee-7d77-414d-930b-7c6b78cfed1b"
+      }
+    }
+  },
+  "accordion-disclosure-indicator-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "0px",
+    "uuid": "27b481a4-0ea9-4e1c-a283-4a799d18d642",
+    "deprecated": true
+  },
+  "accordion-disclosure-indicator-to-text-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "13517d70-4770-469b-8574-fab16c6ebfc5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-2x-large instead. These gap vales don't match with what's in the Figma component. Recommending design update anyhow",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "90fe1ad4-76a8-4b02-a036-af6d4397334e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "aafcb612-0828-48c7-af1c-39870aafd44a"
+      }
+    },
+    "renamed": "base-gap-2x-large"
+  },
+  "accordion-disclosure-indicator-to-text-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "43049c7d-3f40-41f1-ae4e-d08ab2d6d6ad",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "802cef85-0ad5-417b-953f-66a812e6637e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "fae0b204-0198-465a-aa98-c7b4224e4c48"
+      }
+    },
+    "renamed": "base-gap-extra-large"
+  },
+  "accordion-disclosure-indicator-to-text-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "63508f68-42cd-46f3-a4f9-88ce0914d2d7",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "e28ca787-7457-4f40-9188-039347047c83"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "f62edd6d-b833-4aea-8e03-ddd1dfccc464"
+      }
+    },
+    "renamed": "base-gap-large"
+  },
+  "accordion-disclosure-indicator-to-text-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "8c484a6a-0851-4f12-8a63-afc3a56d9b53",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-gap-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "e6cb7eb7-afa3-441f-9f22-5ca8eec66749"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "f009b7a8-95ca-4b39-92c3-f7656cf2e429"
+      }
+    },
+    "renamed": "base-gap-medium"
+  },
+  "accordion-edge-to-content-area-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "17px",
+    "uuid": "75bc2d16-cf6b-48ef-a2e5-0516835af468",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-medium instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-medium"
+  },
+  "accordion-edge-to-content-area-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "14px",
+    "uuid": "56633713-ae34-4a8a-8cfd-39508e4c4b0a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-small"
+  },
+  "accordion-edge-to-content-area-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "11px",
+    "uuid": "77894e1e-8b67-468d-a3d0-d9a7c87d1a52",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
+  },
+  "accordion-edge-to-content-area-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "7px",
+    "uuid": "b594a566-9649-497d-bf8f-289ec3f59689",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token container-padding-extra-small instead. Duplicate token use case. Major refactor necessary",
+    "renamed": "container-padding-extra-small"
+  },
+  "accordion-edge-to-disclosure-indicator": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "0px",
+    "uuid": "614e6448-c0a4-4ad1-b125-f362e3001a86",
+    "deprecated": true
+  },
+  "accordion-edge-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "0px",
+    "uuid": "a9641e89-2c2e-49c3-9662-f530ad23a688",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "accordion-focus-indicator-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "2px",
+    "uuid": "318c5cda-be1b-416b-b1b7-b962e5f45c0c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token focus-ring-gap instead.",
+    "renamed": "focus-ring-gap"
+  },
+  "accordion-item-to-divider": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "0px",
+    "uuid": "9a2c9dee-7acf-4083-9c66-685454444f8c",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "accordion-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "200px",
+        "uuid": "47ae1059-6b16-4823-866d-11be0c0e0e8a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "250px",
+        "uuid": "ae8169fe-1672-4e95-87a5-344ec4d7f163"
+      }
+    }
+  },
+  "accordion-small-top-to-text-spacious": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "e96c75c2-f69a-49b5-8309-6490c5b0768c",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use accordion-top-to-text-spacious-small instead",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "229fa20e-6d13-40b0-b19f-5cf6386f81ac"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "bef73b91-db4f-4532-9f4d-f5a81ead625d"
+      }
+    },
+    "renamed": "accordion-top-to-text-spacious-small"
+  },
+  "accordion-top-to-text-compact-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "ac9fa12f-4864-47c2-bd03-bc057a9bedfa",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "6e08e002-56bf-421e-b9f8-9d37b1e80e6e"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "5ebd5aab-49b3-49d1-be25-8aff15217eda"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-top-to-text-compact-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "b8bef4c7-090d-409d-91ce-398ebf3db5ee",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "a73cc1b0-e31d-4d42-bb89-2e283fe9c59b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "14px",
+        "uuid": "c09ca9bf-1b8b-4ff3-93b7-e9296472dc76"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "accordion-top-to-text-compact-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "accordion",
+    "value": "5px",
+    "uuid": "484c9603-07f1-4ba6-b1bf-7cfaec5d1594",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "renamed": "base-padding-vertical-medium"
+  },
+  "accordion-top-to-text-compact-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "287c49e1-860a-4fd3-8024-0fecfbbbff26",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-small instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "3px",
+        "uuid": "d6cc404c-af92-43be-88e3-407fdcb6e068"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "cfc8d280-5ea0-47f2-bdcb-ae5e93627498"
+      }
+    },
+    "renamed": "base-padding-vertical-small"
+  },
+  "accordion-top-to-text-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "346cdddd-d063-42bf-960a-c38e5cdcf862",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "1a8c45b2-caa4-47b9-b72a-782894168342"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "d76aaca3-6e02-4f90-b254-debf8d10fc89"
+      }
+    },
+    "renamed": "base-padding-vertical-2x-large"
+  },
+  "accordion-top-to-text-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "dd578daf-93a2-48f0-9df2-e67095cf5d7a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "12px",
+        "uuid": "b005554a-ac7f-45ff-86a1-d240d1270f40"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "ebc6e896-6964-4337-b146-468e43d31db3"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-top-to-text-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "9a60996d-f55e-47b5-a966-a10e297e4bd7",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "9px",
+        "uuid": "728ad09d-0820-4c71-9974-57386f3d62d2"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "2d7e81ba-1390-4607-8ee2-5d322d3e0bae"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  },
+  "accordion-top-to-text-regular-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-top-to-text-extra-large}",
+    "uuid": "9289aae4-ddaa-4a43-8f00-973dea8350f2",
+    "deprecated": true
+  },
+  "accordion-top-to-text-regular-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-top-to-text-large}",
+    "uuid": "2021d787-ddaa-470a-a25d-8a57f67b7359",
+    "deprecated": true
+  },
+  "accordion-top-to-text-regular-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-top-to-text-medium}",
+    "uuid": "48db5aeb-6752-4267-89c7-48ed84692ec8",
+    "deprecated": true
+  },
+  "accordion-top-to-text-regular-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "accordion",
+    "value": "{accordion-top-to-text-small}",
+    "uuid": "4f6e49d2-9ab8-4548-aae4-eed45a4003b9",
+    "deprecated": true
+  },
+  "accordion-top-to-text-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "bbaac303-b17e-48d5-8cad-9342c51d5c80",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-medium instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "7px",
+        "uuid": "efd68835-b6de-479c-9c71-bccbe8e20c21"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "0dea279c-62ca-4670-a693-03eaa7ccecb5"
+      }
+    },
+    "renamed": "base-padding-vertical-medium"
+  },
+  "accordion-top-to-text-spacious-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "1804d0c4-e643-4c87-8c36-4868405d08b4",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-3x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "17px",
+        "uuid": "5d8877e0-076c-4c9f-b2e9-cdde6942ea61"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "21px",
+        "uuid": "bd300d17-3599-4382-8a7d-1b78700d49e9"
+      }
+    },
+    "renamed": "base-padding-vertical-3x-large"
+  },
+  "accordion-top-to-text-spacious-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "b7fb12b8-5e6d-4d82-99e7-aa961b86c99b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-2x-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "16px",
+        "uuid": "8e042372-2504-46f2-8486-4d6174293ea2"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "19px",
+        "uuid": "e90553f0-d71e-44c2-b70a-89110fab7c6a"
+      }
+    },
+    "renamed": "base-padding-vertical-2x-large"
+  },
+  "accordion-top-to-text-spacious-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "93e90ef0-28d7-46c1-8e44-1077e64e8d0c",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-extra-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "19c91104-bdf4-4969-8d92-c9cd47d39d13"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "63602a66-5f96-4e6a-8bf0-2ac03321a577"
+      }
+    },
+    "renamed": "base-padding-vertical-extra-large"
+  },
+  "accordion-top-to-text-spacious-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "accordion",
+    "uuid": "264faa19-9174-4d2c-8fb2-16dc0a693abd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-vertical-large instead. Major refactor necessary",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "11px",
+        "uuid": "696ab6c1-0c23-4868-8d6c-039d6d430d29"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "15px",
+        "uuid": "7bcbaaf1-f1d8-4755-acb2-5f6a45c3b9fe"
+      }
+    },
+    "renamed": "base-padding-vertical-large"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "alert-banner-bottom-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "848a9c0d-eba9-4258-83fd-80e114fac05a",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "e19fdd96-44a4-407b-b2b1-01001684fc84"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "22px",
+        "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "alert-banner-minimum-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "56px",
+        "uuid": "450405f8-4f08-4151-85dd-730b669a7ed0"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "64px",
+        "uuid": "6d313800-3020-45f8-969d-63e81057ff97"
+      }
+    }
+  },
+  "alert-banner-to-bottom-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "alert-banner",
+    "value": "{alert-banner-bottom-to-text}",
+    "uuid": "e2bd6435-6fbd-4030-9ff5-b034438b8d8a",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-bottom-to-text instead",
+    "renamed": "alert-banner-bottom-to-text"
+  },
+  "alert-banner-to-top-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "alert-banner",
+    "value": "{alert-banner-top-to-text}",
+    "uuid": "8fefedaf-6e95-4a14-a8ba-08381f57bfeb",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-text instead",
+    "renamed": "alert-banner-top-to-text"
+  },
+  "alert-banner-to-top-workflow-icon": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "alert-banner",
+    "value": "{alert-banner-top-to-workflow-icon}",
+    "uuid": "42b40d65-eed4-432e-8ede-74d89905d131",
+    "deprecated": true,
+    "deprecated_comment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead",
+    "renamed": "alert-banner-top-to-workflow-icon"
+  },
+  "alert-banner-top-to-alert-icon": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "cee3c085-e5bb-405e-9065-49e43f9113db",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "37px",
+        "uuid": "fa14092c-ef3f-4b11-8bc8-968d22bed6e0"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "29px",
+        "uuid": "7939208b-2f8c-4569-b7cb-1c1bcfc8705a"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "alert-banner-top-to-text": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "db0461aa-d466-4a49-8f6d-f3b65659abb5",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "1d289972-d5ba-41e8-8935-e8c83afb15cf"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "21px",
+        "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "alert-banner-top-to-workflow-icon": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "8ab5ed06-52be-4cbc-8922-35483e361488",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "18px",
+        "uuid": "fbe047c4-0346-4b81-bdf6-6565cede7a28"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "20px",
+        "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
+      }
+    },
+    "renamed": "padding-vertical"
+  },
+  "alert-banner-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "alert-banner",
+    "uuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "832px",
+        "uuid": "713e9ae2-e226-45ab-bce9-869533253ee7"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "680px",
+        "uuid": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca"
+      }
+    }
+  }
+}

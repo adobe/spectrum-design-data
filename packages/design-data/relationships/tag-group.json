@@ -1,0 +1,34 @@
+[
+  {
+    "scope": {
+      "component": "tag-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (vertical)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "tag-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (vertical)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "tag-group",
+      "property": "to-component"
+    },
+    "context": "Spacing (Field label to Tags)",
+    "$ref": "4738ec46-a43c-48f9-aeca-87863275dc4d"
+  },
+  {
+    "scope": {
+      "component": "tag-group",
+      "property": "to-component"
+    },
+    "context": "Spacing (Text area to Help text)",
+    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
+  }
+]

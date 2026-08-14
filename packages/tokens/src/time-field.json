@@ -1,0 +1,17 @@
+{
+  "time-field-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "time-field",
+    "value": 2.5,
+    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
+  },
+  "time-field-text-to-visual": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "time-field",
+    "value": "20px",
+    "uuid": "9953fcd9-ac62-49bd-beb2-926dc9fbb8c8",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token base-padding-horizontal-medium instead.",
+    "renamed": "base-padding-horizontal-medium"
+  }
+}

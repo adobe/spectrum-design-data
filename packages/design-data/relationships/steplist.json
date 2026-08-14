@@ -1,0 +1,902 @@
+[
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "width"
+    },
+    "context": "Width small (default)",
+    "$ref": "5fe717d5-b262-46d8-8386-5a94070337c2"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "width"
+    },
+    "context": "Width small (default)",
+    "$ref": "8606a7f5-fa38-4081-b0a6-4633e7442bd1"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "width"
+    },
+    "context": "Width small (default)",
+    "$ref": "f4bae4c5-208e-45d7-94ac-6c9355087224"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "width"
+    },
+    "context": "Width small (default)",
+    "$ref": "0b435546-8368-4fb1-a8a1-c50b14b26ae2"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "height"
+    },
+    "context": "Height small (default)",
+    "$ref": "205e9849-ecb4-4df6-8f59-a6d9b1458a72"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "height"
+    },
+    "context": "Height small (default)",
+    "$ref": "732ea53c-5929-4d31-beef-4ffd60f79c0e"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "height"
+    },
+    "context": "Height small (default)",
+    "$ref": "912f3b78-d09e-4700-a637-5fefc71960c2"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "height"
+    },
+    "context": "Height small (default)",
+    "$ref": "201dc21b-a416-443c-afca-6801cabf31a5"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (step to track)",
+    "$ref": "80d29ff2-a2ca-4987-9fa2-6799ba6aa416"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (step to track)",
+    "$ref": "3a6f8cf2-d250-4af6-8641-f0ffd4c789b3"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (step to track)",
+    "$ref": "e8d064e4-3bdb-4fef-97e8-db596d5d2fab"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (step to track)",
+    "$ref": "bbff5dad-42bf-44f0-a34d-b6733360d28b"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Text adjustment",
+    "$ref": "a52c893c-8c03-43a5-88ed-3cd230365b84"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "border-width"
+    },
+    "context": "Visual border",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to visual)",
+    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size"
+    },
+    "context": "Visual size",
+    "$ref": "a65898ec-6a5a-4e4a-8a75-358e78a8345d"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size"
+    },
+    "context": "Visual size",
+    "$ref": "a94843d0-9ef6-423f-b963-7b9ad658ce40"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size"
+    },
+    "context": "Visual size",
+    "$ref": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size"
+    },
+    "context": "Visual size",
+    "$ref": "1b147315-b106-4d2a-80cb-9be0eed84b7e"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "thickness"
+    },
+    "context": "Steplist track thickness",
+    "$ref": "d4db995b-1eff-44cc-8abc-93324a3af119"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Step text",
+    "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "a1ab50d5-1aa1-4198-9510-7ea8458cc62f"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "2d72c9fc-22d0-4e4d-9b00-fae4b30a47b5"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "81fb8734-c8c3-4f6e-8a14-177ce1d7db02"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "eece165c-743c-4d7a-b770-3ee50e1951cf"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "a1e08db6-3a72-4b8e-9475-b54a7b9be506"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "ee7dec87-de8b-4145-9985-f5ba78bc3a3b"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "95cf1481-f476-47ce-a45a-54da64b44255"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "0dc6ed4d-17d5-4878-8ac3-bd99549b4f42"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "35ef6675-7e66-4ef5-8c8d-e8e70939b224"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "57233b29-bbc6-4f9e-83c1-9325fd6f964c"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "d9d8488d-9b38-47e0-9660-dcad040f3ca8"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "f24eb871-6419-4cef-88a2-cca8548ae31e"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "1f4f6c48-633c-4eb5-b7d6-bf5a9a7fde18"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "43ca5f34-decc-4de8-9413-74ce57802b65"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "af809118-7a97-409c-925f-8d7636a791c8"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "afb8dd77-7de2-4749-a594-1ff68b2fcd67"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "9651d413-47dc-4b55-976f-91e5c6c91fb5"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "9e140a94-c11f-470b-b7af-49880e58d4ce"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual",
+    "$ref": "a4fb3dc6-b724-4e5d-bbc4-c4d985e85975"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual text",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual text",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual text",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Step visual text",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Steplist track",
+    "$ref": "dbcb4372-f250-42bd-a5bc-b9d48cfb9322"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Steplist track",
+    "$ref": "8ccd197f-fc8e-4d31-866c-2b96049eea89"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Steplist track",
+    "$ref": "6e12afb7-c76e-4a83-acc2-f891953d5190"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "content-color"
+    },
+    "context": "Disabled",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between",
+      "options": {
+        "from": "bottom",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "1px",
+    "uuid": "a52c893c-8c03-43a5-88ed-3cd230365b84",
+    "legacyKey": "steplist-bottom-to-text",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Even noted in design spec; only needed until VF swap"
+    }
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "height",
+      "options": {
+        "state": ["default"],
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "78px",
+    "uuid": "201dc21b-a416-443c-afca-6801cabf31a5",
+    "legacyKey": "steplist-step-default-height-extra-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "height",
+      "options": {
+        "state": ["default"],
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "70px",
+    "uuid": "912f3b78-d09e-4700-a637-5fefc71960c2",
+    "legacyKey": "steplist-step-default-height-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "height",
+      "options": {
+        "state": ["default"],
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "54px",
+    "uuid": "732ea53c-5929-4d31-beef-4ffd60f79c0e",
+    "legacyKey": "steplist-step-default-height-medium"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "height",
+      "options": {
+        "state": ["default"],
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "46px",
+    "uuid": "205e9849-ecb4-4df6-8f59-a6d9b1458a72",
+    "legacyKey": "steplist-step-default-height-small"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "width",
+      "options": {
+        "state": ["default"],
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "78px",
+    "uuid": "0b435546-8368-4fb1-a8a1-c50b14b26ae2",
+    "legacyKey": "steplist-step-default-width-extra-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "width",
+      "options": {
+        "state": ["default"],
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "70px",
+    "uuid": "f4bae4c5-208e-45d7-94ac-6c9355087224",
+    "legacyKey": "steplist-step-default-width-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "width",
+      "options": {
+        "state": ["default"],
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "54px",
+    "uuid": "8606a7f5-fa38-4081-b0a6-4633e7442bd1",
+    "legacyKey": "steplist-step-default-width-medium"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "step",
+      "property": "width",
+      "options": {
+        "state": ["default"],
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "46px",
+    "uuid": "5fe717d5-b262-46d8-8386-5a94070337c2",
+    "legacyKey": "steplist-step-default-width-small"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between",
+      "options": {
+        "from": "step",
+        "to": "track-size",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "bbff5dad-42bf-44f0-a34d-b6733360d28b",
+    "legacyKey": "steplist-step-to-track-size-extra-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between",
+      "options": {
+        "from": "step",
+        "to": "track-size",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "e8d064e4-3bdb-4fef-97e8-db596d5d2fab",
+    "legacyKey": "steplist-step-to-track-size-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between",
+      "options": {
+        "from": "step",
+        "to": "track-size",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "3a6f8cf2-d250-4af6-8641-f0ffd4c789b3",
+    "legacyKey": "steplist-step-to-track-size-medium"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "space-between",
+      "options": {
+        "from": "step",
+        "to": "track-size",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "80d29ff2-a2ca-4987-9fa2-6799ba6aa416",
+    "legacyKey": "steplist-step-to-track-size-small"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "part": "track",
+      "property": "thickness",
+      "options": {
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "d4db995b-1eff-44cc-8abc-93324a3af119",
+    "legacyKey": "steplist-track-thickness-medium"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size",
+      "options": {
+        "size": "xl",
+        "object": "visual"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "32px",
+    "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e",
+    "legacyKey": "steplist-visual-size-extra-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size",
+      "options": {
+        "object": "visual",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630",
+    "legacyKey": "steplist-visual-size-large"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size",
+      "options": {
+        "object": "visual",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40",
+    "legacyKey": "steplist-visual-size-medium"
+  },
+  {
+    "scope": {
+      "component": "steplist",
+      "property": "size",
+      "options": {
+        "object": "visual",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d",
+    "legacyKey": "steplist-visual-size-small"
+  }
+]

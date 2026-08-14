@@ -36,7 +36,6 @@ const cascadeDecomposedKeys = new Set(
 
 test("ensure all component tokens are have component data", async (t) => {
   const tokenData = {
-    ...(await getFileTokens("color-component.json")),
     ...(await getFileTokens("layout-component.json")),
     ...(await getFileTokens("icons.json")),
   };

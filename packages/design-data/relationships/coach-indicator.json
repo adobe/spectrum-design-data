@@ -1,0 +1,180 @@
+[
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "thickness"
+    },
+    "context": "Ring",
+    "$ref": "fff486aa-26a4-4b41-91a7-762f8b29d47a"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "thickness"
+    },
+    "context": "Ring",
+    "$ref": "09c84cdf-0c82-4201-8203-9eb05d8b9486"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "collapsed-gap"
+    },
+    "context": "Ring",
+    "$ref": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "expanded-gap"
+    },
+    "context": "Ring",
+    "$ref": "b25c696f-c6c3-45af-bdc9-fe3a046067f3"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "rounding-increment"
+    },
+    "context": "Rounding",
+    "$ref": "252dc667-b847-4295-8669-3e2f4d408f51"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "rounding-increment"
+    },
+    "context": "Rounding",
+    "$ref": "770aa608-80a3-4715-894b-c1d85a1b0c5e"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "context": "Indicator (Default)",
+    "$ref": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "opacity"
+    },
+    "context": "Indicator (Default)",
+    "$ref": "6fa9bbc8-4c96-45a4-b133-bb2556a003de"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "context": "Indicator (Static white)",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "color"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "85be576c-6810-4971-9748-e558384b903d",
+    "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c",
+    "legacyKey": "coach-indicator-color"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "collapsed-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "adb8eace-decc-4bef-93e9-ff2cb27e9ce6",
+    "legacyKey": "coach-indicator-collapsed-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token focus-ring-gap instead.",
+      "replacedBy": "fb035d45-e63b-4cd4-b220-675a52e99399"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "qualifier": "collapsed"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "252dc667-b847-4295-8669-3e2f4d408f51",
+    "legacyKey": "coach-indicator-collapsed-ring-rounding-increment"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "qualifier": "collapsed"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "fff486aa-26a4-4b41-91a7-762f8b29d47a",
+    "legacyKey": "coach-indicator-collapsed-ring-thickness"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "expanded-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "b25c696f-c6c3-45af-bdc9-fe3a046067f3",
+    "legacyKey": "coach-indicator-expanded-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-gap-medium instead.",
+      "replacedBy": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "rounding-increment",
+      "options": {
+        "qualifier": "expanded"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "770aa608-80a3-4715-894b-c1d85a1b0c5e",
+    "legacyKey": "coach-indicator-expanded-ring-rounding-increment"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "part": "ring",
+      "property": "thickness",
+      "options": {
+        "qualifier": "expanded"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "09c84cdf-0c82-4201-8203-9eb05d8b9486",
+    "legacyKey": "coach-indicator-expanded-ring-thickness"
+  },
+  {
+    "scope": {
+      "component": "coach-indicator",
+      "property": "opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.2",
+    "uuid": "6fa9bbc8-4c96-45a4-b133-bb2556a003de",
+    "legacyKey": "coach-indicator-opacity"
+  }
+]

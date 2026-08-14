@@ -1,0 +1,689 @@
+[
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "b3f14387-44fd-43d3-a152-c8e691ef87df"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-width"
+    },
+    "context": "Width",
+    "$ref": "9f413341-5ed5-4cd0-8348-1c7141dcab8d"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-width"
+    },
+    "context": "Width",
+    "$ref": "9004d69e-5726-42f5-a4d0-de09db2de784"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "maximum-width"
+    },
+    "context": "Width",
+    "$ref": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "maximum-width"
+    },
+    "context": "Width",
+    "$ref": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom/start/end edge to text)",
+    "$ref": "d5a3e2c7-f717-4436-91a3-3ab34aebd48e"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom/start/end edge to text)",
+    "$ref": "11fb0ab2-d6a0-4da8-9c83-c1f6b918406a"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to body, body to footer)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "spacing"
+    },
+    "context": "Spacing (header to body, body to footer)",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between"
+    },
+    "context": "Spacing (pagination to bottom)",
+    "$ref": "d2ff2d4f-058e-412b-9e16-1725d6d29e25"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between"
+    },
+    "context": "Spacing (pagination to bottom)",
+    "$ref": "cd48e6b7-a4d8-4a22-8d65-531d770a9898"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-height"
+    },
+    "context": "Media (16:9)",
+    "$ref": "e62c5a76-685c-4b48-98bb-746d6dd4b10e"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-height"
+    },
+    "context": "Media (16:9)",
+    "$ref": "53703e12-f837-4573-bd44-e4727ed2aeaa"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "height"
+    },
+    "context": "Media (4:3)",
+    "$ref": "f6381a33-ac4e-4ff9-86a3-183c857772ad"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "height"
+    },
+    "context": "Media (4:3)",
+    "$ref": "45b31e46-b878-40a2-a28a-91c480f45253"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "spacing"
+    },
+    "context": "Spacing (action button to menu)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-family"
+    },
+    "context": "Title",
+    "$ref": "9a65d2f0-87c0-404b-9965-6e4b00efeda8"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-weight"
+    },
+    "context": "Title",
+    "$ref": "58a27a2e-58c6-42dc-b860-1a8458966da4"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-style"
+    },
+    "context": "Title",
+    "$ref": "70955f1b-4124-432e-bd9d-c5b42c890195"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Title",
+    "$ref": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Title",
+    "$ref": "45855bc5-3b86-49a9-b443-7be9aa763c4e"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "line-height"
+    },
+    "context": "Title",
+    "$ref": "e1397d35-0c23-410c-a213-65db1eb4887f"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-family"
+    },
+    "context": "Body",
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-weight"
+    },
+    "context": "Body",
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-style"
+    },
+    "context": "Body",
+    "$ref": "d317d387-9bc8-4258-a79a-a0dd4e22d952"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Body",
+    "$ref": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Body",
+    "$ref": "73959c3d-afc2-4f6e-bd34-0399bf3b5b73"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "line-height-200"
+    },
+    "context": "Body",
+    "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-weight"
+    },
+    "context": "Pagination",
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Pagination",
+    "$ref": "06ae2458-8490-4741-8a02-97f60cc01592"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "font-size"
+    },
+    "context": "Pagination",
+    "$ref": "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "color"
+    },
+    "context": "Color",
+    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "color"
+    },
+    "context": "Color",
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "color"
+    },
+    "context": "Color",
+    "$ref": "f8cefe70-db2c-489e-bbbe-964050e96ab6"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "pagination",
+      "property": "color"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "b49953b7-ef80-4e57-b1e7-546279b36bb4",
+    "uuid": "f8cefe70-db2c-489e-bbbe-964050e96ab6",
+    "legacyKey": "coach-mark-pagination-color"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "body",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "4f7f6878-5304-48d3-8a42-5bb452c2163b",
+    "uuid": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
+    "legacyKey": "coach-mark-body-font-size",
+    "setUuid": "f4f305ae-e0da-48ec-9dab-c33cdd11b80f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "body",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "uuid": "73959c3d-afc2-4f6e-bd34-0399bf3b5b73",
+    "legacyKey": "coach-mark-body-font-size",
+    "setUuid": "f4f305ae-e0da-48ec-9dab-c33cdd11b80f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "body",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
+    "uuid": "eba9f466-deda-48d5-a120-14419d5a670f",
+    "legacyKey": "coach-mark-body-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.27",
+      "deprecatedComment": "Replace with coach-mark-body-font-size",
+      "replacedBy": [
+        "4b88a0d5-2d07-4e63-afa6-cdd611f0a8c1",
+        "73959c3d-afc2-4f6e-bd34-0399bf3b5b73"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "content"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "d5a3e2c7-f717-4436-91a3-3ab34aebd48e",
+    "legacyKey": "coach-mark-edge-to-content",
+    "setUuid": "aba07ab5-e655-4a1c-9704-7850bafefae8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-extra-large instead.",
+      "replacedBy": "2e855806-0f65-4df0-9d8f-74428daa358d"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "content"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "11fb0ab2-d6a0-4da8-9c83-c1f6b918406a",
+    "legacyKey": "coach-mark-edge-to-content",
+    "setUuid": "aba07ab5-e655-4a1c-9704-7850bafefae8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-extra-large instead.",
+      "replacedBy": "2e855806-0f65-4df0-9d8f-74428daa358d"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "maximum-width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "380px",
+    "uuid": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396",
+    "legacyKey": "coach-mark-maximum-width",
+    "setUuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "maximum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "248px",
+    "uuid": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90",
+    "legacyKey": "coach-mark-maximum-width",
+    "setUuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "media",
+      "property": "height",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "222px",
+    "uuid": "f6381a33-ac4e-4ff9-86a3-183c857772ad",
+    "legacyKey": "coach-mark-media-height",
+    "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "media",
+      "property": "height",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "162px",
+    "uuid": "45b31e46-b878-40a2-a28a-91c480f45253",
+    "legacyKey": "coach-mark-media-height",
+    "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "media",
+      "property": "minimum-height",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "166px",
+    "uuid": "e62c5a76-685c-4b48-98bb-746d6dd4b10e",
+    "legacyKey": "coach-mark-media-minimum-height",
+    "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "media",
+      "property": "minimum-height",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "121px",
+    "uuid": "53703e12-f837-4573-bd44-e4727ed2aeaa",
+    "legacyKey": "coach-mark-media-minimum-height",
+    "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "296px",
+    "uuid": "9f413341-5ed5-4cd0-8348-1c7141dcab8d",
+    "legacyKey": "coach-mark-minimum-width",
+    "setUuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "216px",
+    "uuid": "9004d69e-5726-42f5-a4d0-de09db2de784",
+    "legacyKey": "coach-mark-minimum-width",
+    "setUuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "pagination",
+      "property": "font-size",
+      "options": {
+        "structure": "body",
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "uuid": "06ae2458-8490-4741-8a02-97f60cc01592",
+    "legacyKey": "coach-mark-pagination-body-font-size",
+    "setUuid": "b8a50488-10c4-4b9e-8e3f-7cfdaea6b4a8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "pagination",
+      "property": "font-size",
+      "options": {
+        "structure": "body",
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25e93322-8f0b-45f8-ae9a-18668251f064",
+    "uuid": "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2",
+    "legacyKey": "coach-mark-pagination-body-font-size",
+    "setUuid": "b8a50488-10c4-4b9e-8e3f-7cfdaea6b4a8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "pagination-body-size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "06ae2458-8490-4741-8a02-97f60cc01592",
+    "uuid": "df8bc8ae-b6fa-4414-93b7-c89d8097fe11",
+    "legacyKey": "coach-mark-pagination-body-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.27",
+      "deprecatedComment": "Replace with coach-mark-pagination-body-font-size",
+      "replacedBy": [
+        "06ae2458-8490-4741-8a02-97f60cc01592",
+        "4f8c99a5-0942-41b0-ac41-923ea9ca2bf2"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "pagination-text",
+        "to": "bottom-edge"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "33px",
+    "uuid": "d2ff2d4f-058e-412b-9e16-1725d6d29e25",
+    "legacyKey": "coach-mark-pagination-text-to-bottom-edge",
+    "setUuid": "b99f2904-e6e6-4ad2-b8d7-02d7ca334932",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-extra-large instead. Refactor may be required",
+      "replacedBy": "2e855806-0f65-4df0-9d8f-74428daa358d"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "pagination-text",
+        "to": "bottom-edge"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "cd48e6b7-a4d8-4a22-8d65-531d770a9898",
+    "legacyKey": "coach-mark-pagination-text-to-bottom-edge",
+    "setUuid": "b99f2904-e6e6-4ad2-b8d7-02d7ca334932",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-padding-extra-large instead. Refactor may be required",
+      "replacedBy": "2e855806-0f65-4df0-9d8f-74428daa358d"
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "6d63a369-4261-44a4-bf8d-a567dffa8ef6",
+    "uuid": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
+    "legacyKey": "coach-mark-title-font-size",
+    "setUuid": "5ede1ea6-2643-489b-bd30-7165f5afe323",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "0babc342-b506-495d-aaf1-20fe9e571e1b",
+    "uuid": "45855bc5-3b86-49a9-b443-7be9aa763c4e",
+    "legacyKey": "coach-mark-title-font-size",
+    "setUuid": "5ede1ea6-2643-489b-bd30-7165f5afe323",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "part": "title",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
+    "uuid": "331604db-3f28-472e-810d-9010ed2c8e33",
+    "legacyKey": "coach-mark-title-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.27",
+      "deprecatedComment": "Replace with coach-mark-title-font-size",
+      "replacedBy": [
+        "5b132698-4ee2-40e4-83c0-9ad80f36f5fd",
+        "45855bc5-3b86-49a9-b443-7be9aa763c4e"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "296px",
+    "uuid": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c",
+    "legacyKey": "coach-mark-width",
+    "setUuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "coach-mark",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "216px",
+    "uuid": "b3f14387-44fd-43d3-a152-c8e691ef87df",
+    "legacyKey": "coach-mark-width",
+    "setUuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

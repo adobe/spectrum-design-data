@@ -1,0 +1,16 @@
+{
+  "segmented-text-field-gap": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "segmented-text-field",
+    "value": "0px",
+    "uuid": "9e790995-7d43-4ce2-8ac0-a1c79c607575",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "segmented-text-field-rounding": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "segmented-text-field",
+    "value": "2px",
+    "uuid": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9"
+  }
+}

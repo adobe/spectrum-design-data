@@ -1,0 +1,186 @@
+[
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (primary)",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (primary)",
+    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (primary)",
+    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (primary)",
+    "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (secondary)",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (secondary)",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (secondary)",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "content-color"
+    },
+    "context": "Text (secondary)",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "color"
+    },
+    "context": "Text (white)",
+    "$ref": "9b799da8-2130-417e-b7ee-5e1154a89837"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "color"
+    },
+    "context": "Text (black)",
+    "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-family"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-weight"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-style"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-size-100"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-size-100"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "line-height-100"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "line-height-100"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "text-underline-gap"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "d9d51235-f3fe-4e2a-bdca-b6a104d9a9e5"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "underline-thickness"
+    },
+    "context": "Standalone variant, Default style",
+    "$ref": "13f36ce1-84bb-41db-bec8-6d6e8f5c6ed3"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "font-weight"
+    },
+    "context": "Inline variant, Default style",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "thickness"
+    },
+    "context": "Focus ring",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "link",
+      "property": "gap"
+    },
+    "context": "Focus ring",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  }
+]

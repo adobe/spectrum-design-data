@@ -1,0 +1,82 @@
+{
+  "progress-bar-maximum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "progress-bar",
+    "value": "768px",
+    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784"
+  },
+  "progress-bar-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "progress-bar",
+    "value": "48px",
+    "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7"
+  },
+  "progress-bar-thickness-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "progress-bar",
+    "uuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "71229a29-a2cf-46bc-84d4-d324bffad26b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "13px",
+        "uuid": "c15e51b3-4a5e-421e-aa4e-e0a82840f1a2"
+      }
+    }
+  },
+  "progress-bar-thickness-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "progress-bar",
+    "uuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "f8dfa5e7-efb8-409f-8ab3-6bf3adf2199b"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "10px",
+        "uuid": "4b680695-7e42-493c-889b-c76a60ab1f4f"
+      }
+    }
+  },
+  "progress-bar-thickness-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "progress-bar",
+    "uuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "6px",
+        "uuid": "0d9f1945-262b-48d0-b584-ff78ec28e012"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "8px",
+        "uuid": "d53e3ac6-6091-4c3f-9e1b-b12b716a5f95"
+      }
+    }
+  },
+  "progress-bar-thickness-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "component": "progress-bar",
+    "uuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
+    "sets": {
+      "desktop": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "4px",
+        "uuid": "f8881a13-70fb-4797-a3ec-08c3c8432b5a"
+      },
+      "mobile": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+        "value": "5px",
+        "uuid": "ab98c47f-f2e4-4f74-8008-55c65907b6eb"
+      }
+    }
+  }
+}

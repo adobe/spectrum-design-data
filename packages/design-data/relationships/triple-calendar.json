@@ -1,0 +1,24 @@
+[
+  {
+    "scope": {
+      "component": "triple-calendar",
+      "part": "popover",
+      "property": "minimum-height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "320px",
+    "uuid": "19c4d5a5-6ccb-407e-afa7-79f19286837b",
+    "legacyKey": "triple-calendar-popover-minimum-height"
+  },
+  {
+    "scope": {
+      "component": "triple-calendar",
+      "part": "popover",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "912px",
+    "uuid": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6",
+    "legacyKey": "triple-calendar-popover-minimum-width"
+  }
+]

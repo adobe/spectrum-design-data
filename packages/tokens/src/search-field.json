@@ -1,0 +1,8 @@
+{
+  "search-field-minimum-width-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "search-field",
+    "value": 4,
+    "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b"
+  }
+}

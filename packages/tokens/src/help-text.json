@@ -1,0 +1,46 @@
+{
+  "help-text-to-component": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "help-text",
+    "value": "0px",
+    "uuid": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa",
+    "deprecated": true,
+    "deprecated_comment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+  },
+  "help-text-top-to-workflow-icon-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "help-text",
+    "value": "{component-top-to-workflow-icon-300}",
+    "uuid": "bec914a9-5905-40ac-bd61-a727016c1228",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-300",
+    "renamed": "component-top-to-workflow-icon-300"
+  },
+  "help-text-top-to-workflow-icon-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "help-text",
+    "value": "{component-top-to-workflow-icon-200}",
+    "uuid": "54cae12b-5f21-47b4-a964-6033bd025975",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-200",
+    "renamed": "component-top-to-workflow-icon-200"
+  },
+  "help-text-top-to-workflow-icon-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "help-text",
+    "value": "{component-top-to-workflow-icon-100}",
+    "uuid": "d159b313-4def-493a-adcf-398e2d1fce9f",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-100",
+    "renamed": "component-top-to-workflow-icon-100"
+  },
+  "help-text-top-to-workflow-icon-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "help-text",
+    "value": "{component-top-to-workflow-icon-75}",
+    "uuid": "91cb19ef-63fc-4d98-a61e-a5f55951f656",
+    "deprecated": true,
+    "deprecated_comment": "Replaced with component-top-to-workflow-icon-75",
+    "renamed": "component-top-to-workflow-icon-75"
+  }
+}

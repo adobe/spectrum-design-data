@@ -1,0 +1,26 @@
+[
+  {
+    "scope": {
+      "component": "segmented-text-field",
+      "property": "gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "0px",
+    "uuid": "9e790995-7d43-4ce2-8ac0-a1c79c607575",
+    "legacyKey": "segmented-text-field-gap",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Zero values are removed without token replacements; hardcode a zero-pixel value in implementation."
+    }
+  },
+  {
+    "scope": {
+      "component": "segmented-text-field",
+      "property": "corner-radius"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9",
+    "legacyKey": "segmented-text-field-rounding"
+  }
+]

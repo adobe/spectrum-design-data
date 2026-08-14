@@ -1,0 +1,796 @@
+[
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "minimum-width-multiplier"
+    },
+    "context": "Width (minimum)",
+    "$ref": "c4b2177d-4468-4180-be27-69d26a51ba0b"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "096ddcb7-5afd-416f-9a11-4275556c4b52"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "08c2390a-353b-4e6b-b025-dbaeaa5fdff2"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-75"
+    },
+    "context": "Height",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-75"
+    },
+    "context": "Height",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-100"
+    },
+    "context": "Height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-100"
+    },
+    "context": "Height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-200"
+    },
+    "context": "Height",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-200"
+    },
+    "context": "Height",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-300"
+    },
+    "context": "Height",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-height-300"
+    },
+    "context": "Height",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "to-component"
+    },
+    "context": "Spacing (search field to help text)",
+    "$ref": "f99eb317-ebe5-43e7-8066-982fe7a9a8aa"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "4853520b-bda3-45d1-bd20-8508cac08847"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "85cdef34-0682-45eb-ac06-98c76883cdf7"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-75"
+    },
+    "context": "Icon",
+    "$ref": "b720c214-babe-426d-9629-9ec60d5e8622"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "6392e605-932e-456d-be53-149b624a04e2"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-200"
+    },
+    "context": "Icon",
+    "$ref": "9948e083-8c75-48f7-8e58-32c75ec76116"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "25908278-79d3-47f4-9b53-adbdd1c13e2a"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "workflow-icon-size-300"
+    },
+    "context": "Icon",
+    "$ref": "df0dc6c3-59fc-4ee0-87a9-c3d49a07cf9c"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "5c80900c-ff68-4b78-86fa-571bbf1eb9aa"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-75"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "8a23edfc-b993-48bb-917f-377051e02dff"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "3c96bdad-6e05-4a1b-930b-92d35adf5d9d"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "10e326b3-bcce-47df-a1ab-0e3ab9964dd2"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "4cca2097-286e-46d5-bc8e-273ea50354e7"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-200"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "c77f6b68-32b7-499c-81d9-50855cc68279"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "29fa8da5-3f74-4141-bfb1-0f2847655345"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-text-300"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "dd7bc474-d5f1-46fe-8a6e-b1645c34c982"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "3eaca9fb-25c0-4a1d-8c44-320cc0e0305b"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-75"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "64343da6-f1a6-4615-b2b8-41f9509679e5"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "fff86b73-4e28-4453-9ba3-7c40998ace07"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "14624bfc-b08f-4637-991b-94a703a7b808"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "b9324a3c-557e-4832-8418-1d7783e7b9be"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-200"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "053363f2-5b8e-4365-8353-3cffac169608"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "4ccb4a02-6aa9-459a-a459-1d0ebbe2dc11"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-pill-edge-to-visual-300"
+    },
+    "context": "Spacing (start/end edge to text)",
+    "$ref": "7ae3b6ee-2f80-4596-9d4a-08a5bf9612a7"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "2bc8b2ca-9792-4034-a604-43ce28ce8ede"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-75"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "9d1b0ef4-5433-43fe-aa33-0274ff29f6f3"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "ef82b92a-2cbd-4b70-920c-4b999b018e07"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-200"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "259c0cf5-d321-4a6b-a3ae-b8c58fc1c9d6"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "72d6ae5c-e133-4e7f-bc96-3e4c28d586fd"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "component-top-to-workflow-icon-300"
+    },
+    "context": "Spacing (top edge to icon)",
+    "$ref": "bac14298-68f0-4fb6-a152-c95ab19fd27f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "gap"
+    },
+    "context": "Focus indicator",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "typography"
+    },
+    "context": "Label",
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "typography"
+    },
+    "context": "Label",
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "typography"
+    },
+    "context": "Label",
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "typography"
+    },
+    "context": "Label",
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "8e85a017-2c5d-4a52-92df-c0426e00c3c3"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "25be5bf4-e450-4a58-89e2-a04e02b7b78b"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "0c323ed8-47c4-4fbb-bb66-a393a1e992cd"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "898fde6d-f477-46a6-8323-698dee558580"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "efb450f9-976a-47cb-a7cc-667b9fe967a9"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "790dde8d-c117-4759-be93-2498297c6fa3"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "52e64384-f918-4415-8d02-da3af639890f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height"
+    },
+    "context": "Label",
+    "$ref": "80beb678-586c-4277-9db0-1ab373ec8f80"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "e6a41088-a188-483c-b197-63ed3c70463d"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Value, label and icon",
+    "$ref": "3ab25385-aece-42c4-af86-01ea97ed2455"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "content-color"
+    },
+    "context": "Background and border (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Background and border (disabled)",
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "search-field",
+      "property": "minimum-width-multiplier"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 4,
+    "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b",
+    "legacyKey": "search-field-minimum-width-multiplier"
+  }
+]

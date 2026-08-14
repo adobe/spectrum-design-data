@@ -1,0 +1,96 @@
+{
+  "action-bar-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "component": "action-bar",
+    "uuid": "1f180759-7dbe-4ac3-80f6-78433659d52c",
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "166159cc-9353-4d22-90f0-64718533d73a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{gray-400}",
+        "uuid": "dac0d761-d8c1-4b1f-bfbe-766651122ecf"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+        "value": "{transparent-white-25}",
+        "uuid": "e242c2e1-54db-40c5-98ee-abebdcd59f4d"
+      }
+    }
+  },
+  "action-bar-bottom-to-content-area": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{spacing-200}",
+    "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "padding-vertical"
+  },
+  "action-bar-close-button-to-counter": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{text-to-control-50}",
+    "uuid": "bc54e89f-6740-4004-891e-c515f8f79693",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token group-gap-extra-small instead.",
+    "renamed": "group-gap-extra-small"
+  },
+  "action-bar-counter-font-size": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{font-size-100}",
+    "uuid": "66540ddb-ec74-487f-8e09-a37b436694b5"
+  },
+  "action-bar-edge-to-content-area": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{spacing-100}",
+    "uuid": "a9fc8786-060e-4663-9381-211621240b2f",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-horizontal-compact instead.",
+    "renamed": "banner-padding-horizontal-compact"
+  },
+  "action-bar-height": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{component-height-400}",
+    "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd"
+  },
+  "action-bar-label-to-action-group-area": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{spacing-300}",
+    "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-gap-horizontal instead.",
+    "renamed": "gap-horizontal"
+  },
+  "action-bar-minimum-width": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "action-bar",
+    "value": "176px",
+    "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f"
+  },
+  "action-bar-top-to-content-area": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{spacing-200}",
+    "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "padding-vertical"
+  },
+  "action-bar-top-to-item-counter": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "component": "action-bar",
+    "value": "{component-top-to-text-300}",
+    "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9",
+    "deprecated": true,
+    "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
+    "renamed": "padding-vertical"
+  }
+}

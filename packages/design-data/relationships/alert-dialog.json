@@ -1,0 +1,412 @@
+[
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-family"
+    },
+    "context": "Title",
+    "$ref": "234d7b9d-bddc-4988-8be5-ef5e41e08185"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-weight"
+    },
+    "context": "Title",
+    "$ref": "1d4d09b4-021a-48e8-a724-bfecc13df325"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-style"
+    },
+    "context": "Title",
+    "$ref": "561d905e-7f44-43da-b2b4-26e12551ef6d"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-size"
+    },
+    "context": "Title",
+    "$ref": "749fa425-de12-464d-a1e2-80eb135d3ea6"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-size"
+    },
+    "context": "Title",
+    "$ref": "c84328d2-578b-4a36-9065-6c6a9e1d311f"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "line-height"
+    },
+    "context": "Title",
+    "$ref": "64f28fe4-20f7-48cb-baeb-ff1898573727"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Title",
+    "$ref": "60300cd2-9b30-4ee3-b7a1-b8dae00270d9"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-family"
+    },
+    "context": "Description",
+    "$ref": "32c3d84f-2b0d-4ccd-ba3c-b8475d82550b"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-weight"
+    },
+    "context": "Description",
+    "$ref": "6813005d-9df4-459b-9fab-b2a054c32c31"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-style"
+    },
+    "context": "Description",
+    "$ref": "e1da0eff-7482-46a0-8190-4c54c6b1e1dd"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-size"
+    },
+    "context": "Description",
+    "$ref": "eda300de-5f0a-42e9-9880-9244a45d4e7d"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "font-size"
+    },
+    "context": "Description",
+    "$ref": "e969f730-9eea-4a35-8981-2804d660c23e"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "line-height-200"
+    },
+    "context": "Description",
+    "$ref": "832f2589-0e75-48dd-bbe3-e3f5b98e6c97"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Description",
+    "$ref": "a7218010-91c1-4f20-8072-7b1801593014"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "maximum-width"
+    },
+    "context": "Maximum width",
+    "$ref": "45258afa-543b-4fbc-a621-677d8081c2f1"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "minimum-width"
+    },
+    "context": "Minimum width",
+    "$ref": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "spacing"
+    },
+    "context": "Spacing (edge to content)",
+    "$ref": "490b4010-1561-4b12-8cbb-cdb4b650ba74"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "spacing"
+    },
+    "context": "Spacing (edge to content)",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "spacing"
+    },
+    "context": "Spacing (title to description)",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon (error and warning variants)",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon (error and warning variants)",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "spacing"
+    },
+    "context": "Minimum spacing (title to icon)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Overlay",
+    "$ref": "af66daa6-9e52-4e68-a605-86d1de4ee971"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "26b9803c-577f-4a29-badd-dfc459e8b73e"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "31d5b502-6266-4309-8f8a-3892e6e158da"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "opacity"
+    },
+    "context": "Overlay",
+    "$ref": "8964a28b-af18-4623-b530-7f4446ee6fa4"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (warning variant)",
+    "$ref": "b8b38df6-aac5-49fc-99bb-d64a543c5bf8"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (warning variant)",
+    "$ref": "2759c912-6385-40e4-9ed9-ff2e11815b4d"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (warning variant)",
+    "$ref": "e6e779ea-6015-467f-8df7-9027280bdea2"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (error variant)",
+    "$ref": "d1beeda3-a00d-4f8c-8553-0a0f84093b1f"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (error variant)",
+    "$ref": "70cb0316-5b7a-416c-bf93-7d8885c4fce6"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "color"
+    },
+    "context": "Icon (error variant)",
+    "$ref": "9211e320-de05-4097-8350-fef2293be6a0"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "4f7f6878-5304-48d3-8a42-5bb452c2163b",
+    "uuid": "eda300de-5f0a-42e9-9880-9244a45d4e7d",
+    "legacyKey": "alert-dialog-description-font-size",
+    "setUuid": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "uuid": "e969f730-9eea-4a35-8981-2804d660c23e",
+    "legacyKey": "alert-dialog-description-font-size",
+    "setUuid": "6c94683e-1c66-4e07-84e4-7a8b6d7b069d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "description",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "eda300de-5f0a-42e9-9880-9244a45d4e7d",
+    "uuid": "9dc42d1a-b87d-4a5d-a5a3-6afd4d5bd599",
+    "legacyKey": "alert-dialog-description-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.26",
+      "deprecatedComment": "Replace with alert-dialog-description-font-size",
+      "replacedBy": [
+        "eda300de-5f0a-42e9-9880-9244a45d4e7d",
+        "e969f730-9eea-4a35-8981-2804d660c23e"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "maximum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "480px",
+    "uuid": "45258afa-543b-4fbc-a621-677d8081c2f1",
+    "legacyKey": "alert-dialog-maximum-width"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "property": "minimum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "288px",
+    "uuid": "7d066c2d-ea59-483d-b8a3-6a9b9e35eedd",
+    "legacyKey": "alert-dialog-minimum-width"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "d4c4db99-70f2-4c79-8595-4d23407de068",
+    "uuid": "749fa425-de12-464d-a1e2-80eb135d3ea6",
+    "legacyKey": "alert-dialog-title-font-size",
+    "setUuid": "5b046013-d264-4f71-b609-7dd2057571ff",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "title",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "b5aaaa50-721b-4b41-ad90-345cd995f69e",
+    "uuid": "c84328d2-578b-4a36-9065-6c6a9e1d311f",
+    "legacyKey": "alert-dialog-title-font-size",
+    "setUuid": "5b046013-d264-4f71-b609-7dd2057571ff",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-dialog",
+      "part": "title",
+      "property": "size"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "749fa425-de12-464d-a1e2-80eb135d3ea6",
+    "uuid": "9b7ce1fc-ea8a-4d7b-a926-0accbd6b1197",
+    "legacyKey": "alert-dialog-title-size",
+    "lifecycle": {
+      "deprecatedIn": "13.0.0-beta.26",
+      "deprecatedComment": "Replace with alert-dialog-title-font-size",
+      "replacedBy": [
+        "749fa425-de12-464d-a1e2-80eb135d3ea6",
+        "c84328d2-578b-4a36-9065-6c6a9e1d311f"
+      ]
+    }
+  }
+]

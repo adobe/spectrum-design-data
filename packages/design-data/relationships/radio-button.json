@@ -1,0 +1,1032 @@
+[
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "407304fc-7c74-4427-9032-b44ab03c07ce"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "90a2b18a-61c7-40d8-926c-d6b18a641010"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "9de5b045-532c-48ef-872e-bd3c22f89a41"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "2eef4003-e666-48e7-b25b-8c50063ce400"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "23d0a4aa-693d-4b79-b942-3898f9cf0b80"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "size"
+    },
+    "context": "S2 Control (size)",
+    "$ref": "cc041f48-aaa4-4c20-8990-599e0c56134e"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "b775d7e9-d182-4818-9ae0-b3765a0ecbf7"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "02438c4c-161d-45eb-935d-b083ab830876"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "dcc0155a-6bd1-4148-acaf-e255a7f4d22a"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "2f805530-cefe-420a-89e6-a6a81c0faea0"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "309c9559-1763-4345-8090-aaa12f570889"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "41d0dde7-de34-4e99-96d0-4f727ed71673"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "f4620f0a-43ba-4650-8640-9425ed1a1260"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "S2 Spacing (top edge to control)",
+    "$ref": "c478710f-1747-455b-998a-6fa837762905"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "S1 Control (selected, non emphasized)",
+    "$ref": "fd1c9f2b-8358-4bd3-a5cc-d211673428bc"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "S1 Control (selected, non emphasized)",
+    "$ref": "1c220122-5f32-42f9-848f-ae10061241e5"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "S1 Control (selected, non emphasized)",
+    "$ref": "9b8df7df-3439-4614-b446-97a4de782e27"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "f70d4c16-f588-4fa9-9318-b7184a739193"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-75"
+    },
+    "context": "Minimum height",
+    "$ref": "5f363452-6317-4e7c-965a-291b3dfa8a8f"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "8bf70f40-b282-4c5d-98f0-329245bdb6f9"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-200"
+    },
+    "context": "Minimum height",
+    "$ref": "7c69efb5-bde7-4ee0-ad1e-2f20e85ebc24"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "f4aaa7bb-e724-42ad-8ddf-934cc972995a"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-height-300"
+    },
+    "context": "Minimum height",
+    "$ref": "53c665a4-83ae-45f2-b90d-33ce52430b84"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-size-difference"
+    },
+    "context": "Component size (down)",
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-size-width-ratio"
+    },
+    "context": "Component size (down)",
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-size-minimum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "border-width"
+    },
+    "context": "Control (border)",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "aa27af6e-baef-4d7c-bf8c-f9a972e51713"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "45f94495-0f53-42b2-94f6-7a6d91eb2ca1"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "24a438ce-be6a-477e-aa0e-a3e97e286904"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "b4ce04fa-bc03-44c9-afef-a38810ac9c65"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "307fb510-8759-41ee-89d2-fcfe4d554b85"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "8991287c-763f-4a39-ad5b-7ccdbc39b3f6"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "7cde8c74-2ac9-4468-a25e-06c1a6cd9cbe"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between"
+    },
+    "context": "Spacing (control to label)",
+    "$ref": "53a33d46-8d81-4f13-8c79-c4d9257a5b68"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-top-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-75"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-200"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "component-bottom-to-text-300"
+    },
+    "context": "Spacing (top/bottom edge to label)",
+    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "thickness"
+    },
+    "context": "Focus ring",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "gap"
+    },
+    "context": "Focus ring",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "width"
+    },
+    "context": "Selection indicator",
+    "$ref": "a7fc6bdb-5b9c-42d4-8f78-d34021ac0708"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "spacing"
+    },
+    "context": "Radio group spacing (horizontal)",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Label",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Label",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Label",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Label",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Control",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Control",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Control",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "b14c876e-2930-413b-8688-1e0cf2358185"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "d6cd141c-d7a4-457f-bed5-9a725ca7a0fe"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "25d3b2d2-e7d5-4686-95ff-bfaaddc14ff1"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Control (selected, emphasized)",
+    "$ref": "71dcd137-f767-4d2c-b6ac-942b99ac8621"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "content-color"
+    },
+    "context": "Label (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Radio button colors",
+    "$ref": "0b469d2e-7c66-4188-b6bf-bbc379f75538"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "color"
+    },
+    "context": "Radio button colors",
+    "$ref": "2ea616aa-e08f-47cb-a3b0-3d7a06bd6ec2"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-75"
+    },
+    "context": "Label",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "b36caaa3-7047-4dfb-8a84-f990a8ac3a91"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-200"
+    },
+    "context": "Label",
+    "$ref": "7e51ff4e-2749-49d1-b9ed-75de92a73991"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "3dc9b6a4-77e3-484b-be8c-fbc2f50e6175"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "font-size-300"
+    },
+    "context": "Label",
+    "$ref": "9b9a7175-dcca-43aa-98ce-f1c3e4eefda7"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4",
+    "legacyKey": "radio-button-control-size-extra-large",
+    "setUuid": "5c7699c2-dc1c-49aa-87ee-55b888c32689",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "cc041f48-aaa4-4c20-8990-599e0c56134e",
+    "legacyKey": "radio-button-control-size-extra-large",
+    "setUuid": "5c7699c2-dc1c-49aa-87ee-55b888c32689",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8",
+    "legacyKey": "radio-button-control-size-large",
+    "setUuid": "bfe838ca-b2a9-4b1d-ad1b-a27822a78bda",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "23d0a4aa-693d-4b79-b942-3898f9cf0b80",
+    "legacyKey": "radio-button-control-size-large",
+    "setUuid": "bfe838ca-b2a9-4b1d-ad1b-a27822a78bda",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "14px",
+    "uuid": "9de5b045-532c-48ef-872e-bd3c22f89a41",
+    "legacyKey": "radio-button-control-size-medium",
+    "setUuid": "e6de4bc6-29a8-41c8-89d3-05aa7d89e660",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "2eef4003-e666-48e7-b25b-8c50063ce400",
+    "legacyKey": "radio-button-control-size-medium",
+    "setUuid": "e6de4bc6-29a8-41c8-89d3-05aa7d89e660",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "desktop",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "407304fc-7c74-4427-9032-b44ab03c07ce",
+    "legacyKey": "radio-button-control-size-small",
+    "setUuid": "e10044fc-687d-4354-afc9-39d9210fc6db",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "control",
+      "property": "size",
+      "options": {
+        "scale": "mobile",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "16px",
+    "uuid": "90a2b18a-61c7-40d8-926c-d6b18a641010",
+    "legacyKey": "radio-button-control-size-small",
+    "setUuid": "e10044fc-687d-4354-afc9-39d9210fc6db",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "part": "indicator",
+      "property": "width",
+      "options": {
+        "state": ["selected"]
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "a7fc6bdb-5b9c-42d4-8f78-d34021ac0708",
+    "legacyKey": "radio-button-selection-indicator"
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "control",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "f4620f0a-43ba-4650-8640-9425ed1a1260",
+    "legacyKey": "radio-button-top-to-control-extra-large",
+    "setUuid": "77bbc887-ee2d-4a6c-8a1b-6a6b9cd6a2fd",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Controls must be in a frame that has height equal to workflow-icon-size-extra-large",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "control",
+        "size": "xl"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "19px",
+    "uuid": "c478710f-1747-455b-998a-6fa837762905",
+    "legacyKey": "radio-button-top-to-control-extra-large",
+    "setUuid": "77bbc887-ee2d-4a6c-8a1b-6a6b9cd6a2fd",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-extra-large instead. Controls must be in a frame that has height equal to workflow-icon-size-extra-large",
+      "replacedBy": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "control",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "12px",
+    "uuid": "309c9559-1763-4345-8090-aaa12f570889",
+    "legacyKey": "radio-button-top-to-control-large",
+    "setUuid": "b99d260c-1bc7-4e0e-96be-bdfe4592829d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Controls must be in a frame that has height equal to workflow-icon-size-large",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "control",
+        "size": "l"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "15px",
+    "uuid": "41d0dde7-de34-4e99-96d0-4f727ed71673",
+    "legacyKey": "radio-button-top-to-control-large",
+    "setUuid": "b99d260c-1bc7-4e0e-96be-bdfe4592829d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-large instead. Controls must be in a frame that has height equal to workflow-icon-size-large",
+      "replacedBy": "cc707192-e70f-4965-8582-55fa97d02184"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "control",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "9px",
+    "uuid": "dcc0155a-6bd1-4148-acaf-e255a7f4d22a",
+    "legacyKey": "radio-button-top-to-control-medium",
+    "setUuid": "a7ff453c-7241-406a-a682-c7d841c66134",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Controls must be in a frame that has height equal to workflow-icon-size-medium",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "control",
+        "size": "m"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "11px",
+    "uuid": "2f805530-cefe-420a-89e6-a6a81c0faea0",
+    "legacyKey": "radio-button-top-to-control-medium",
+    "setUuid": "a7ff453c-7241-406a-a682-c7d841c66134",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Controls must be in a frame that has height equal to workflow-icon-size-medium",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "control",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "b775d7e9-d182-4818-9ae0-b3765a0ecbf7",
+    "legacyKey": "radio-button-top-to-control-small",
+    "setUuid": "1f228973-43d9-46f2-a3c6-9d4074d49bb3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  },
+  {
+    "scope": {
+      "component": "radio-button",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "control",
+        "size": "s"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "7px",
+    "uuid": "02438c4c-161d-45eb-935d-b083ab830876",
+    "legacyKey": "radio-button-top-to-control-small",
+    "setUuid": "1f228973-43d9-46f2-a3c6-9d4074d49bb3",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-small instead. Controls must be in a frame that has height equal to workflow-icon-size-small",
+      "replacedBy": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
+    }
+  }
+]

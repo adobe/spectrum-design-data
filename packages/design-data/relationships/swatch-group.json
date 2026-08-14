@@ -1,0 +1,70 @@
+[
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (spacious)",
+    "$ref": "b80ef303-eae7-498f-b172-73a098be0f0b"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "color"
+    },
+    "context": "Border",
+    "$ref": "08b8d06a-5475-47bf-ad2e-9f52ee07345a"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "opacity"
+    },
+    "context": "Border",
+    "$ref": "19968846-dad0-42eb-b6a8-af65f3a910ff"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "color",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "dbe6ded6-404a-4011-9a64-d2375eca73d3",
+    "uuid": "08b8d06a-5475-47bf-ad2e-9f52ee07345a",
+    "legacyKey": "swatch-group-border-color"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "opacity",
+      "options": {
+        "object": "border"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.2",
+    "uuid": "19968846-dad0-42eb-b6a8-af65f3a910ff",
+    "legacyKey": "swatch-group-border-opacity"
+  },
+  {
+    "scope": {
+      "component": "swatch-group",
+      "property": "spacing",
+      "options": {
+        "density": "spacious"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "b80ef303-eae7-498f-b172-73a098be0f0b",
+    "legacyKey": "swatch-group-spacing-spacious",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-gap-2x-small instead. NOTE: All other swatch gaps need to use these semantics too",
+      "replacedBy": "b83df7f2-8811-4bad-b012-213e430e2aaf"
+    }
+  }
+]

@@ -130,6 +130,8 @@ pub struct CliPathOverrides {
     pub components: Option<PathBuf>,
     /// `--fields-path`.
     pub fields: Option<PathBuf>,
+    /// `--relationships-path`.
+    pub relationships: Option<PathBuf>,
     /// Naming-exceptions file (`--exceptions-path`).
     pub exceptions: Option<PathBuf>,
 }
@@ -410,10 +412,10 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         c.is_dir().then_some(c)
     };
 
-    let relationships = {
+    let relationships = overrides.relationships.clone().or_else(|| {
         let c = root.join("packages/design-data/relationships");
         c.is_dir().then_some(c)
-    };
+    });
 
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let c = root.join("packages/tokens/naming-exceptions.json");
@@ -521,13 +523,13 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     };
 
     // relationships (Component/Token Relationship array files)
-    let relationships = {
+    let relationships = overrides.relationships.clone().or_else(|| {
         let candidates = [
             cwd.join("packages/design-data/relationships"),
             cwd.join("../packages/design-data/relationships"),
         ];
         candidates.into_iter().find(|c| c.is_dir())
-    };
+    });
 
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {

@@ -47,24 +47,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "letter-spacing",
-      "context": "Title-XXXL"
-    },
-    {
-      "token": "title-margin-top-multiplier",
-      "context": "Margins"
-    },
-    {
-      "token": "title-margin-bottom-multiplier",
-      "context": "Margins"
-    },
-    {
-      "token": "title-color",
-      "context": "Color"
-    }
-  ],
   "accessibility": {
     "focusable": false
   }

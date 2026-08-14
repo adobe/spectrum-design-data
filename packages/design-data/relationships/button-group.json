@@ -1,0 +1,18 @@
+[
+  {
+    "scope": {
+      "component": "button-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (horizontal)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "button-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (horizontal)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  }
+]

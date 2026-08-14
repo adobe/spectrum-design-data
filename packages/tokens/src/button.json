@@ -1,0 +1,8 @@
+{
+  "button-minimum-width-multiplier": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "component": "button",
+    "value": 2.25,
+    "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358"
+  }
+}

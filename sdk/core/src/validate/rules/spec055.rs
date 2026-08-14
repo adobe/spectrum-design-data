@@ -33,19 +33,17 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut out = Vec::new();
 
-        let relationship_uuids: std::collections::HashSet<&str> = ctx
-            .graph
-            .relationships
-            .iter()
-            .filter_map(|r| r.uuid.as_deref())
-            .collect();
-
         for rel in &ctx.graph.relationships {
             let Some(target) = rel.raw.get("$ref").and_then(|v| v.as_str()) else {
                 continue;
             };
             let resolves_to_token = ctx.graph.resolve_alias_key(target).is_some();
-            let resolves_to_relationship = relationship_uuids.contains(target);
+            // A sibling relationship's own `uuid` or `setUuid` is a valid $ref
+            // target too — once every member of a mode-set group has been
+            // migrated to CTRs, the group id only survives as `setUuid` on
+            // sibling CTRs (see graph.rs's set_uuid_index for the equivalent
+            // token-side precedent).
+            let resolves_to_relationship = ctx.graph.relationship_target_exists(target);
             if !resolves_to_token && !resolves_to_relationship {
                 out.push(Diagnostic {
                     file: rel.file.clone(),

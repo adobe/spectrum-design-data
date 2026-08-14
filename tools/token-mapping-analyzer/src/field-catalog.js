@@ -44,9 +44,12 @@ export function loadFieldCatalog(fieldsDir = DEFAULT_FIELDS_DIR) {
     }
   }
 
-  // Build serialization order: semantic fields sorted by position
+  // Build serialization order: semantic fields sorted by position, excluding
+  // fields flagged excludeFromLegacyKey (e.g. `structure`) — those are never
+  // part of the reconstructed legacy key, mirroring sdk/core/src/naming.rs's
+  // catalog-driven position-walk.
   const serializationOrder = declarations
-    .filter((d) => d.kind === "semantic")
+    .filter((d) => d.kind === "semantic" && !d.excludeFromLegacyKey)
     .sort((a, b) => a.serialization.position - b.serialization.position)
     .map((d) => d.name);
 

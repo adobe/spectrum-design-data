@@ -1,0 +1,62 @@
+{
+  "collection-card-minimum-height-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "249px",
+    "uuid": "6b242eb5-aa73-417c-b786-9047ae7a65ac"
+  },
+  "collection-card-minimum-height-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "88px",
+    "uuid": "fabfd445-4c39-4d39-9f7f-1ec531d4eb40"
+  },
+  "collection-card-minimum-height-hero-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "514px",
+    "uuid": "24d72e3c-ed0d-47d7-85f5-4792fcf87b7f"
+  },
+  "collection-card-minimum-height-hero-extra-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "168px",
+    "uuid": "dc2f0f1a-609a-448a-833d-ded2580ef737"
+  },
+  "collection-card-minimum-height-hero-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "414px",
+    "uuid": "d5586b0d-1ff1-4e7e-88ce-75d41aff90d9"
+  },
+  "collection-card-minimum-height-hero-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "317px",
+    "uuid": "63ecc7ce-8a38-4d18-94ed-d9e6394279ba"
+  },
+  "collection-card-minimum-height-hero-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "243px",
+    "uuid": "adfc74bd-7520-4bfa-b278-28178007cfbc"
+  },
+  "collection-card-minimum-height-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "202px",
+    "uuid": "e5027e50-3a1f-425d-b06b-8e4cf4663c22"
+  },
+  "collection-card-minimum-height-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "157px",
+    "uuid": "8422dc66-e17d-4c54-a18b-a997a8e5d7c3"
+  },
+  "collection-card-minimum-height-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "collection-card",
+    "value": "124px",
+    "uuid": "9264b1ff-23ae-4fd5-8863-742c305689e2"
+  }
+}

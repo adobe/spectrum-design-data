@@ -1,0 +1,435 @@
+[
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "height"
+    },
+    "context": "Height ",
+    "$ref": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "corner-radius"
+    },
+    "context": "Corner radius",
+    "$ref": "a83a882e-430c-46fc-a8be-5ade0dd8a4c6"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon ",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon ",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-visual-only-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "$ref": "8fec6012-7cba-4ac5-94d7-14f39fce7612"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-visual-only-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon only)",
+    "$ref": "93e42bfc-c2f0-40cd-a561-9045c68cb5d1"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "$ref": "e220eb52-f821-4807-9ab7-b5f3905d769f"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-visual-100"
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "$ref": "e77f525e-5043-49c1-a663-9f6c30067043"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (start/end edges, workflow icon with label)",
+    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon with label)",
+    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-top-to-text-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon with label)",
+    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon with label)",
+    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-bottom-to-text-100"
+    },
+    "context": "Spacing (top/bottom to edge, workflow icon with label)",
+    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "spacing"
+    },
+    "context": "Spacing (between segmented control items)",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "spacing"
+    },
+    "context": "Spacing (between segmented control items)",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "thickness"
+    },
+    "context": "Focus ring",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "gap"
+    },
+    "context": "Focus ring",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "border-width"
+    },
+    "context": "Selection border",
+    "$ref": "10f93760-7b09-4a4e-8cc2-33783e571926"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "e6a41088-a188-483c-b197-63ed3c70463d"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "3ab25385-aece-42c4-af86-01ea97ed2455"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (no track)",
+    "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Segmented control items (with track)",
+    "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "content-color"
+    },
+    "context": "Disabled",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "font-family"
+    },
+    "context": "Label",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "font-style"
+    },
+    "context": "Label",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "font-weight"
+    },
+    "context": "Label",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "font-size-100"
+    },
+    "context": "Label",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "property": "line-height-100"
+    },
+    "context": "Label",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "height"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
+    "uuid": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5",
+    "legacyKey": "segmented-control-item-height"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "item",
+      "property": "maximum-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "265px",
+    "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de",
+    "legacyKey": "segmented-control-item-maximum-width"
+  },
+  {
+    "scope": {
+      "component": "segmented-control",
+      "part": "selection",
+      "property": "border-width"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "10f93760-7b09-4a4e-8cc2-33783e571926",
+    "legacyKey": "segmented-control-selection-border-width"
+  }
+]

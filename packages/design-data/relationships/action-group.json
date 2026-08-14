@@ -1,0 +1,26 @@
+[
+  {
+    "scope": {
+      "component": "action-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (horizontal, regular)",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd"
+  },
+  {
+    "scope": {
+      "component": "action-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (horizontal, regular)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "action-group",
+      "property": "spacing"
+    },
+    "context": "Spacing (horizontal, compact)",
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104"
+  }
+]

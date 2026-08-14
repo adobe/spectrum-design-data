@@ -1,0 +1,1613 @@
+[
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "3d7afc6a-f66b-4033-9ed4-e60cde661a18"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-height-100"
+    },
+    "context": "Minimum height",
+    "$ref": "5c31197d-0412-469d-a2dd-684efbd4b7e6"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "d087f995-da55-4c96-89c4-69a9a83e2f05"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "width"
+    },
+    "context": "Width (default)",
+    "$ref": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "998bb752-7826-4437-ac18-14e08644e226"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "$ref": "ad835d79-64d9-4183-ace0-912c87fc2241"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "68210b40-f87e-4059-88c1-e66d1c8cbd38"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "maximum-width"
+    },
+    "context": "Width (maximum)",
+    "$ref": "bcb163a0-0156-4e2e-abfe-b2ac0158f348"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-size-difference"
+    },
+    "context": "Component size (down)",
+    "$ref": "9ef4a0a5-b81c-4f54-8927-286ece29a824"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-size-width-ratio"
+    },
+    "context": "Component size (down)",
+    "$ref": "4ee7342c-f2ef-4554-af0f-011052ff6177"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-size-minimum-perspective"
+    },
+    "context": "Component size (down)",
+    "$ref": "103daec0-9711-4422-84d1-62ab77afa00d"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "height"
+    },
+    "context": "Side navigation indicator",
+    "$ref": "07262bb6-4b57-4848-b45d-bbf808bdf257"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "height"
+    },
+    "context": "Side navigation indicator",
+    "$ref": "dfae987d-8f6c-4b2c-a01b-3a010581488d"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "thickness"
+    },
+    "context": "Side navigation indicator",
+    "$ref": "6c2264d9-425a-4dec-9071-a47e0d2bfca6"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (indicator to content)",
+    "$ref": "436f98c0-ec74-40ab-9a26-a8fe8d139329"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (indicator to content)",
+    "$ref": "37ba411c-9067-46b0-b757-8348f4cf9aab"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to label)",
+    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-edge-to-text-100"
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "$ref": "cb89bc11-246a-4824-afa3-68076c56f3d9"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (single-level, start/end to content)",
+    "$ref": "a1ae3448-227c-4277-9bab-f0147eff02e9"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "e44d5d55-8fc5-4231-ab37-0c06edd06d2c"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "87377ada-4ebf-4a45-b651-35ee1f94e73b"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "aaf6af3d-4d94-4559-880e-c6201a4f72a7"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "650a896e-c67d-427b-950c-88cfc1099406"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "c1a8c779-aacf-4b14-8b15-9734deafcc41"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "b76c6a5c-23c1-4cf1-8bbb-baca46b3b497"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "0c3ad7a1-6e2d-4e34-874e-45a654884650"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-indicator"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "2216f8c3-43e1-47ef-aaad-20b0c9bf0f17"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "2e5df819-ac9e-4b09-bdf6-8b1fe751c8fb"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "e77cde34-8f77-4fd1-a1f7-aa6738130902"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "adfe198d-a39b-47a1-bfa4-77dd0d139803"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "06140452-b779-4527-ae3a-5f0623a6b97c"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-second-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "d254c910-2939-48ce-8547-08cfb346a0db"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-second-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "7d4cd9bd-bfaf-4ad7-9c3b-19f7913f0825"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-third-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "f1d90f18-e114-477f-88ca-548c5ddbc287"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-third-level-edge-to-text"
+    },
+    "context": "Spacing (multi-level, no icon, start edge to content)",
+    "$ref": "f82ab001-808a-4528-bf4a-be27645a28fc"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (edge to disclosure icon)",
+    "$ref": "7b68e88f-8ddd-496e-9fae-7fbe44317965"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (edge to disclosure icon)",
+    "$ref": "87d3f491-f45f-4bee-9dbd-00086cca5858"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to trailing accessory area)",
+    "$ref": "fe5071ea-bcff-4a7b-ade8-16850426ac30"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (text to trailing accessory area)",
+    "$ref": "ce76b010-6554-4cfd-993f-9963aa15830e"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (single-level, end to content)",
+    "$ref": "37969411-2beb-4038-bdee-d2a84398ef19"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (single-level, end to content)",
+    "$ref": "f52fe067-f989-4f43-a762-1ea453fa0dde"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav items)",
+    "$ref": "47e687e4-c458-4e0b-bd02-7698cc14983b"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav items)",
+    "$ref": "be37c65c-88c5-48cd-9554-8240909db98d"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav item and side-nav title)",
+    "$ref": "c5de72a2-931a-429d-ba85-5aaf2e30fbc4"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav item and side-nav title)",
+    "$ref": "0f3821f1-6f0e-4325-bfa7-e572768fd468"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav item and side-nav title)",
+    "$ref": "423b5520-bb29-4179-9145-67305ca75b75"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (vertically between side-nav item and side-nav title)",
+    "$ref": "ad959938-ad69-4137-91e4-fcf2465b223a"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Layout",
+    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-top-to-workflow-icon-100"
+    },
+    "context": "Layout",
+    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-padding-vertical-100"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "5b2e9907-858e-41f9-9c63-a37e30ec472e"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "component-padding-vertical-100"
+    },
+    "context": "Spacing (top edge to label)",
+    "$ref": "67715127-dfd9-44ed-a3bf-4816e9dafb34"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (label wrapping)",
+    "$ref": "8751d85d-a325-4e4e-a7b2-0a3ca94b6b6e"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between"
+    },
+    "context": "Spacing (label wrapping)",
+    "$ref": "e3f49e5e-f9ec-485c-846e-7a8fda08caea"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "gap"
+    },
+    "context": "Focus indicator",
+    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation indicator ",
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon",
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon",
+    "$ref": "a6d8a177-3e5c-4d28-a675-c21c2695d2f6"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon",
+    "$ref": "8ab4accc-bd95-48e0-ae3a-539740a07cc6"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon",
+    "$ref": "4e79877b-254d-4226-a28f-4c80d2d8b2f3"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon (selected)",
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon (selected)",
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon (selected)",
+    "$ref": "cf169d95-e427-4665-a983-c24727dbfa60"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Navigation item label and icon (selected)",
+    "$ref": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation title",
+    "$ref": "e6a41088-a188-483c-b197-63ed3c70463d"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation title",
+    "$ref": "8880b8f1-7850-49ef-a7ab-fd4e16cb37a6"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Side navigation title",
+    "$ref": "3ab25385-aece-42c4-af86-01ea97ed2455"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "content-color"
+    },
+    "context": "Label and icon (disabled)",
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "color"
+    },
+    "context": "Focus indicator",
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-family"
+    },
+    "context": "Text  ",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-weight"
+    },
+    "context": "Text  ",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-style"
+    },
+    "context": "Text  ",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-size-100"
+    },
+    "context": "Text  ",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-size-100"
+    },
+    "context": "Text  ",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "line-height-100"
+    },
+    "context": "Text  ",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "line-height-100"
+    },
+    "context": "Text  ",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-weight"
+    },
+    "context": "Text (selected)",
+    "$ref": "ff246e6b-7515-49a2-9dc6-8cdf1ea9b2d8"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-weight"
+    },
+    "context": "Text (Side navigation title)",
+    "$ref": "c966c3b6-1bf5-4064-89f9-00d9ec673fd4"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-size-75"
+    },
+    "context": "Text (Side navigation title)",
+    "$ref": "55d90327-8cc9-4d4f-891f-9d42751d989a"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "font-size-75"
+    },
+    "context": "Text (Side navigation title)",
+    "$ref": "07e1c2a8-3925-4d71-8fae-3486483ff44c"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "bottom",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "8751d85d-a325-4e4e-a7b2-0a3ca94b6b6e",
+    "legacyKey": "side-navigation-bottom-to-text",
+    "setUuid": "4647e408-e2c8-417b-94dc-1fe44ef91fe2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "bottom",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "e3f49e5e-f9ec-485c-846e-7a8fda08caea",
+    "legacyKey": "side-navigation-bottom-to-text",
+    "setUuid": "4647e408-e2c8-417b-94dc-1fe44ef91fe2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "counter",
+        "to": "disclosure"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "fe5071ea-bcff-4a7b-ade8-16850426ac30",
+    "legacyKey": "side-navigation-counter-to-disclosure",
+    "setUuid": "8d6fedf3-e99a-410a-90b4-468c4d7ad275",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+      "replacedBy": "3cd1e483-969b-492c-8d44-d29348c981a5"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "counter",
+        "to": "disclosure"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "ce76b010-6554-4cfd-993f-9963aa15830e",
+    "legacyKey": "side-navigation-counter-to-disclosure",
+    "setUuid": "8d6fedf3-e99a-410a-90b4-468c4d7ad275",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+      "replacedBy": "3cd1e483-969b-492c-8d44-d29348c981a5"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "edge",
+        "to": "indicator"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "cb89bc11-246a-4824-afa3-68076c56f3d9",
+    "legacyKey": "side-navigation-edge-to-indicator",
+    "setUuid": "b87a907f-3c16-4f57-9a23-3e38aa8287ae",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+      "replacedBy": "3cd1e483-969b-492c-8d44-d29348c981a5"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "edge",
+        "to": "indicator"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "a1ae3448-227c-4277-9bab-f0147eff02e9",
+    "legacyKey": "side-navigation-edge-to-indicator",
+    "setUuid": "b87a907f-3c16-4f57-9a23-3e38aa8287ae",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-gap-medium instead. Refactor may be needed",
+      "replacedBy": "3cd1e483-969b-492c-8d44-d29348c981a5"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "header",
+        "to": "item"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "423b5520-bb29-4179-9145-67305ca75b75",
+    "legacyKey": "side-navigation-header-to-item",
+    "setUuid": "ea95e13b-1da3-4720-b01b-1e121b6acb59",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "header",
+        "to": "item"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "10px",
+    "uuid": "ad959938-ad69-4137-91e4-fcf2465b223a",
+    "legacyKey": "side-navigation-header-to-item",
+    "setUuid": "ea95e13b-1da3-4720-b01b-1e121b6acb59",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-vertical-medium instead. Clean VF update will correct this",
+      "replacedBy": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "part": "indicator",
+      "property": "height",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "07262bb6-4b57-4848-b45d-bbf808bdf257",
+    "legacyKey": "side-navigation-indicator-height",
+    "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "part": "indicator",
+      "property": "height",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "dfae987d-8f6c-4b2c-a01b-3a010581488d",
+    "legacyKey": "side-navigation-indicator-height",
+    "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "part": "indicator",
+      "property": "thickness"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
+    "legacyKey": "side-navigation-indicator-thickness"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "indicator",
+        "to": "content"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "436f98c0-ec74-40ab-9a26-a8fe8d139329",
+    "legacyKey": "side-navigation-indicator-to-content",
+    "setUuid": "5bd0f57a-50af-40b4-89f8-43a9678ffa52",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-uniform-medium instead. If using base padding horizontal, this would be 7",
+      "replacedBy": "a982f1e2-0545-4ca3-8104-32208ea9e152"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "indicator",
+        "to": "content"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "8px",
+    "uuid": "37ba411c-9067-46b0-b757-8348f4cf9aab",
+    "legacyKey": "side-navigation-indicator-to-content",
+    "setUuid": "5bd0f57a-50af-40b4-89f8-43a9678ffa52",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token base-padding-horizontal-uniform-medium instead. If using base padding horizontal, this would be 7",
+      "replacedBy": "a982f1e2-0545-4ca3-8104-32208ea9e152"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "item",
+        "to": "header"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "24px",
+    "uuid": "c5de72a2-931a-429d-ba85-5aaf2e30fbc4",
+    "legacyKey": "side-navigation-item-to-header",
+    "setUuid": "3aeb1d76-ba81-4f10-b5fe-fc3c8e40145c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-gap-extra-large instead.",
+      "replacedBy": "c9c7652f-0332-417f-8520-e2202d7a08dc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "item",
+        "to": "header"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "0f3821f1-6f0e-4325-bfa7-e572768fd468",
+    "legacyKey": "side-navigation-item-to-header",
+    "setUuid": "3aeb1d76-ba81-4f10-b5fe-fc3c8e40145c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token container-gap-extra-large instead.",
+      "replacedBy": "c9c7652f-0332-417f-8520-e2202d7a08dc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "item",
+        "to": "item"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "47e687e4-c458-4e0b-bd02-7698cc14983b",
+    "legacyKey": "side-navigation-item-to-item",
+    "setUuid": "43e16db0-e78e-4a13-8b64-92d46ede1a9e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-gap-regular instead.",
+      "replacedBy": "b7e1af59-753e-4059-8f46-8d862f631ad8"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "item",
+        "to": "item"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "5px",
+    "uuid": "be37c65c-88c5-48cd-9554-8240909db98d",
+    "legacyKey": "side-navigation-item-to-item",
+    "setUuid": "43e16db0-e78e-4a13-8b64-92d46ede1a9e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-gap-regular instead.",
+      "replacedBy": "b7e1af59-753e-4059-8f46-8d862f631ad8"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "maximum-width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "240px",
+    "uuid": "68210b40-f87e-4059-88c1-e66d1c8cbd38",
+    "legacyKey": "side-navigation-maximum-width",
+    "setUuid": "771e5a13-6af2-46f9-b850-25e81e2e2c4a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "maximum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "300px",
+    "uuid": "bcb163a0-0156-4e2e-abfe-b2ac0158f348",
+    "legacyKey": "side-navigation-maximum-width",
+    "setUuid": "771e5a13-6af2-46f9-b850-25e81e2e2c4a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "minimum-width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "144px",
+    "uuid": "998bb752-7826-4437-ac18-14e08644e226",
+    "legacyKey": "side-navigation-minimum-width",
+    "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "minimum-width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "180px",
+    "uuid": "ad835d79-64d9-4183-ace0-912c87fc2241",
+    "legacyKey": "side-navigation-minimum-width",
+    "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-indicator",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "30px",
+    "uuid": "e44d5d55-8fc5-4231-ab37-0c06edd06d2c",
+    "legacyKey": "side-navigation-second-level-edge-to-indicator",
+    "setUuid": "708b50f4-cbb7-4af3-99bc-f2a006422ee2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-indicator",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "87377ada-4ebf-4a45-b651-35ee1f94e73b",
+    "legacyKey": "side-navigation-second-level-edge-to-indicator",
+    "setUuid": "708b50f4-cbb7-4af3-99bc-f2a006422ee2",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "38px",
+    "uuid": "2e5df819-ac9e-4b09-bdf6-8b1fe751c8fb",
+    "legacyKey": "side-navigation-second-level-edge-to-text",
+    "setUuid": "aedf6dad-a2d8-4c1b-aa3e-51060d22835f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead.",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "44px",
+    "uuid": "e77cde34-8f77-4fd1-a1f7-aa6738130902",
+    "legacyKey": "side-navigation-second-level-edge-to-text",
+    "setUuid": "aedf6dad-a2d8-4c1b-aa3e-51060d22835f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead.",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-indicator",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "c1a8c779-aacf-4b14-8b15-9734deafcc41",
+    "legacyKey": "side-navigation-second-level-with-icon-edge-to-indicator",
+    "setUuid": "0e0bc57b-9deb-4e27-aba6-db5dc7bcbb65",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-second-level-edge-to-indicator. Refactor may be needed",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-indicator",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "26px",
+    "uuid": "b76c6a5c-23c1-4cf1-8bbb-baca46b3b497",
+    "legacyKey": "side-navigation-second-level-with-icon-edge-to-indicator",
+    "setUuid": "0e0bc57b-9deb-4e27-aba6-db5dc7bcbb65",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-second-level-edge-to-indicator. Refactor may be needed",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "28px",
+    "uuid": "7ba0524c-cfef-47fd-b3df-2c71e5618d20",
+    "legacyKey": "side-navigation-second-level-with-icon-edge-to-text",
+    "setUuid": "e09f8f4b-9384-49ad-88e9-f8b3fc966b1e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "second-level-with-icon-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "34px",
+    "uuid": "17ae8b85-c5d2-47c0-810a-c99c91735d3e",
+    "legacyKey": "side-navigation-second-level-with-icon-edge-to-text",
+    "setUuid": "e09f8f4b-9384-49ad-88e9-f8b3fc966b1e",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-indicator",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "aaf6af3d-4d94-4559-880e-c6201a4f72a7",
+    "legacyKey": "side-navigation-third-level-edge-to-indicator",
+    "setUuid": "5a69662d-fd28-43ac-b3c9-99ae2aad79d8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-indicator",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "62px",
+    "uuid": "650a896e-c67d-427b-950c-88cfc1099406",
+    "legacyKey": "side-navigation-third-level-edge-to-indicator",
+    "setUuid": "5a69662d-fd28-43ac-b3c9-99ae2aad79d8",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "adfe198d-a39b-47a1-bfa4-77dd0d139803",
+    "legacyKey": "side-navigation-third-level-edge-to-text",
+    "setUuid": "36b92445-279d-4553-b000-730127f09f3d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead.",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "70px",
+    "uuid": "06140452-b779-4527-ae3a-5f0623a6b97c",
+    "legacyKey": "side-navigation-third-level-edge-to-text",
+    "setUuid": "36b92445-279d-4553-b000-730127f09f3d",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead.",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-indicator",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "36px",
+    "uuid": "0c3ad7a1-6e2d-4e34-874e-45a654884650",
+    "legacyKey": "side-navigation-third-level-with-icon-edge-to-indicator",
+    "setUuid": "e990d96a-cf34-4e09-bf51-4f8179b18df7",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-third-level-edge-to-indicator. Refactor may be needed",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-indicator",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "42px",
+    "uuid": "2216f8c3-43e1-47ef-aaad-20b0c9bf0f17",
+    "legacyKey": "side-navigation-third-level-with-icon-edge-to-indicator",
+    "setUuid": "e990d96a-cf34-4e09-bf51-4f8179b18df7",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead. S2 spec file has this named side-navigation-with-icon-third-level-edge-to-indicator. Refactor may be needed",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "44px",
+    "uuid": "7103cb49-859e-4376-8422-0e2a94b5d2d9",
+    "legacyKey": "side-navigation-third-level-with-icon-edge-to-text",
+    "setUuid": "50359a00-5714-4f4f-accc-b9debc6de08f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "third-level-with-icon-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "50px",
+    "uuid": "811bd0a1-ed6a-4238-a194-c7709a1691ed",
+    "legacyKey": "side-navigation-third-level-with-icon-edge-to-text",
+    "setUuid": "50359a00-5714-4f4f-accc-b9debc6de08f",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-indent-large instead. Refactor may be needed",
+      "replacedBy": "c5c94124-c16d-46f1-a22a-acf1378846bc"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "trailing-accessory-area",
+        "to": "edge"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "4px",
+    "uuid": "37969411-2beb-4038-bdee-d2a84398ef19",
+    "legacyKey": "side-navigation-trailing-accessory-area-to-edge",
+    "setUuid": "4d352b4a-afeb-4435-a485-0bda4ecd6d1c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-padding-vertical-regular instead. Refactor may be needed",
+      "replacedBy": "6207cc71-4b5d-4ada-ad9d-07ec0d51487c"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "trailing-accessory-area",
+        "to": "edge"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "6px",
+    "uuid": "f52fe067-f989-4f43-a762-1ea453fa0dde",
+    "legacyKey": "side-navigation-trailing-accessory-area-to-edge",
+    "setUuid": "4d352b4a-afeb-4435-a485-0bda4ecd6d1c",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token list-item-padding-vertical-regular instead. Refactor may be needed",
+      "replacedBy": "6207cc71-4b5d-4ada-ad9d-07ec0d51487c"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "192px",
+    "uuid": "d087f995-da55-4c96-89c4-69a9a83e2f05",
+    "legacyKey": "side-navigation-width",
+    "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "240px",
+    "uuid": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2",
+    "legacyKey": "side-navigation-width",
+    "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-second-level-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e09f8f4b-9384-49ad-88e9-f8b3fc966b1e",
+    "uuid": "d254c910-2939-48ce-8547-08cfb346a0db",
+    "legacyKey": "side-navigation-with-icon-second-level-edge-to-text",
+    "setUuid": "54cd1b31-fdef-4b15-a236-eb18e8468a65",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead.",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-second-level-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e09f8f4b-9384-49ad-88e9-f8b3fc966b1e",
+    "uuid": "7d4cd9bd-bfaf-4ad7-9c3b-19f7913f0825",
+    "legacyKey": "side-navigation-with-icon-second-level-edge-to-text",
+    "setUuid": "54cd1b31-fdef-4b15-a236-eb18e8468a65",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead.",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-third-level-edge-to-text",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "50359a00-5714-4f4f-accc-b9debc6de08f",
+    "uuid": "f1d90f18-e114-477f-88ca-548c5ddbc287",
+    "legacyKey": "side-navigation-with-icon-third-level-edge-to-text",
+    "setUuid": "ea2417cb-8f92-44ef-9f0c-00046c43fc69",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead.",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  },
+  {
+    "scope": {
+      "component": "side-navigation",
+      "property": "with-icon-third-level-edge-to-text",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "50359a00-5714-4f4f-accc-b9debc6de08f",
+    "uuid": "f82ab001-808a-4528-bf4a-be27645a28fc",
+    "legacyKey": "side-navigation-with-icon-third-level-edge-to-text",
+    "setUuid": "ea2417cb-8f92-44ef-9f0c-00046c43fc69",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "13.16.0",
+      "deprecatedComment": "Use semantic token list-indent-medium instead.",
+      "replacedBy": "9af302c3-7cf8-4b03-b6d1-4af5e641d67f"
+    }
+  }
+]

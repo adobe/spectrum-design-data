@@ -1,0 +1,556 @@
+[
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon asset",
+    "$ref": "40abc60f-ab65-41ef-b724-a0f0bdd94d14"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "workflow-icon-size-100"
+    },
+    "context": "Icon asset",
+    "$ref": "9e882a20-b8e1-4e9b-89f9-26f21db3cd78"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "minimum-height"
+    },
+    "context": "Height",
+    "$ref": "450405f8-4f08-4151-85dd-730b669a7ed0"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "minimum-height"
+    },
+    "context": "Height",
+    "$ref": "6d313800-3020-45f8-969d-63e81057ff97"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "713e9ae2-e226-45ab-bce9-869533253ee7"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "width"
+    },
+    "context": "Width",
+    "$ref": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (icon to text)",
+    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "spacing"
+    },
+    "context": "Spacing (start edge to text and icon)",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "spacing"
+    },
+    "context": "Spacing (close button to end edge)",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "spacing"
+    },
+    "context": "Spacing (close button to end edge)",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "fbe047c4-0346-4b81-bdf6-6565cede7a28"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to icon)",
+    "$ref": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "$ref": "1d289972-d5ba-41e8-8935-e8c83afb15cf"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "$ref": "8db02117-b543-4b3e-b0ff-203e9a821708"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "$ref": "e19fdd96-44a4-407b-b2b1-01001684fc84"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between"
+    },
+    "context": "Spacing (top/bottom edge to text)",
+    "$ref": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "3b09b2fd-cbf9-4933-9655-27a75d984f06"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "fdcab585-e3a9-4026-bf40-e7fdd01bf05b"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "3acd52f0-d19c-4174-9ad5-42885ec9d49d"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "da3a7c08-7f54-4486-bb66-146db21f0627"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "02e7121e-71eb-4228-a61a-963d7f2a531b"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "46204746-7fe7-4f22-887e-2c9b85c3b7bc"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "1117b73b-42e3-4ad6-8b26-af76859a27bb"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "color"
+    },
+    "context": "Background",
+    "$ref": "ebadb88b-90a3-492e-ba3c-e9f1232b5ce5"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "font-family"
+    },
+    "context": "Text",
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "font-weight"
+    },
+    "context": "Text",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "font-style"
+    },
+    "context": "Text",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "$ref": "938e2d24-1e90-48f0-a596-595a69103707"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "font-size-100"
+    },
+    "context": "Text",
+    "$ref": "2f9ee3cf-ccb1-4f0b-aed6-96e472fb7411"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "$ref": "dd125d1d-cf4d-45c8-ab21-52331a9a264b"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "line-height-100"
+    },
+    "context": "Text",
+    "$ref": "8b4ab68d-9060-4e11-9ecc-3b9d3db27fe4"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "bottom",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "e19fdd96-44a4-407b-b2b1-01001684fc84",
+    "legacyKey": "alert-banner-bottom-to-text",
+    "setUuid": "848a9c0d-eba9-4258-83fd-80e114fac05a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "bottom",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "22px",
+    "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d",
+    "legacyKey": "alert-banner-bottom-to-text",
+    "setUuid": "848a9c0d-eba9-4258-83fd-80e114fac05a",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "minimum-height",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "56px",
+    "uuid": "450405f8-4f08-4151-85dd-730b669a7ed0",
+    "legacyKey": "alert-banner-minimum-height",
+    "setUuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "minimum-height",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "64px",
+    "uuid": "6d313800-3020-45f8-969d-63e81057ff97",
+    "legacyKey": "alert-banner-minimum-height",
+    "setUuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "to-bottom-text"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e19fdd96-44a4-407b-b2b1-01001684fc84",
+    "uuid": "e2bd6435-6fbd-4030-9ff5-b034438b8d8a",
+    "legacyKey": "alert-banner-to-bottom-text",
+    "lifecycle": {
+      "deprecatedIn": "12.3.0",
+      "deprecatedComment": "Introduced as an error. Use alert-banner-bottom-to-text instead",
+      "replacedBy": [
+        "e19fdd96-44a4-407b-b2b1-01001684fc84",
+        "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "to-top-text"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "1d289972-d5ba-41e8-8935-e8c83afb15cf",
+    "uuid": "8fefedaf-6e95-4a14-a8ba-08381f57bfeb",
+    "legacyKey": "alert-banner-to-top-text",
+    "lifecycle": {
+      "deprecatedIn": "12.3.0",
+      "deprecatedComment": "Introduced as an error. Use alert-banner-top-to-text instead",
+      "replacedBy": [
+        "1d289972-d5ba-41e8-8935-e8c83afb15cf",
+        "8db02117-b543-4b3e-b0ff-203e9a821708"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "to-top-workflow-icon"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "fbe047c4-0346-4b81-bdf6-6565cede7a28",
+    "uuid": "42b40d65-eed4-432e-8ede-74d89905d131",
+    "legacyKey": "alert-banner-to-top-workflow-icon",
+    "lifecycle": {
+      "deprecatedIn": "12.3.0",
+      "deprecatedComment": "Introduced as an error. Use alert-banner-top-to-workflow-icon instead",
+      "replacedBy": [
+        "fbe047c4-0346-4b81-bdf6-6565cede7a28",
+        "402c755b-322c-4ea0-856c-ca209bdaa8ec"
+      ]
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "alert-icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "37px",
+    "uuid": "fa14092c-ef3f-4b11-8bc8-968d22bed6e0",
+    "legacyKey": "alert-banner-top-to-alert-icon",
+    "setUuid": "cee3c085-e5bb-405e-9065-49e43f9113db",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "alert-icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "29px",
+    "uuid": "7939208b-2f8c-4569-b7cb-1c1bcfc8705a",
+    "legacyKey": "alert-banner-top-to-alert-icon",
+    "setUuid": "cee3c085-e5bb-405e-9065-49e43f9113db",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "1d289972-d5ba-41e8-8935-e8c83afb15cf",
+    "legacyKey": "alert-banner-top-to-text",
+    "setUuid": "db0461aa-d466-4a49-8f6d-f3b65659abb5",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "text"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "21px",
+    "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708",
+    "legacyKey": "alert-banner-top-to-text",
+    "setUuid": "db0461aa-d466-4a49-8f6d-f3b65659abb5",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "desktop",
+        "from": "top",
+        "to": "workflow-icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "18px",
+    "uuid": "fbe047c4-0346-4b81-bdf6-6565cede7a28",
+    "legacyKey": "alert-banner-top-to-workflow-icon",
+    "setUuid": "8ab5ed06-52be-4cbc-8922-35483e361488",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "space-between",
+      "options": {
+        "scale": "mobile",
+        "from": "top",
+        "to": "workflow-icon"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec",
+    "legacyKey": "alert-banner-top-to-workflow-icon",
+    "setUuid": "8ab5ed06-52be-4cbc-8922-35483e361488",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "14.3.0",
+      "deprecatedComment": "Use semantic token banner-padding-vertical instead. Need to evaluate how token is used in implementation; refactor may be necessary.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    }
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "width",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "832px",
+    "uuid": "713e9ae2-e226-45ab-bce9-869533253ee7",
+    "legacyKey": "alert-banner-width",
+    "setUuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "scope": {
+      "component": "alert-banner",
+      "property": "width",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "680px",
+    "uuid": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca",
+    "legacyKey": "alert-banner-width",
+    "setUuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  }
+]

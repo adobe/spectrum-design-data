@@ -1,0 +1,50 @@
+{
+  "user-card-minimum-height-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "236px",
+    "uuid": "9a9f173d-6262-490f-976f-bd9abb9ec355"
+  },
+  "user-card-minimum-height-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "219px",
+    "uuid": "7cf979ef-c47b-41f3-8230-49d67ad47740"
+  },
+  "user-card-minimum-height-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "202px",
+    "uuid": "53c81b30-6d98-4eaa-857f-15707d54a548"
+  },
+  "user-card-minimum-height-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "192px",
+    "uuid": "f646530e-480c-4dbb-85fe-771eb5685966"
+  },
+  "user-card-minimum-height-title-below-extra-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "263px",
+    "uuid": "a603a785-8cd8-4caf-a2b4-cfe3371cc10e"
+  },
+  "user-card-minimum-height-title-below-large": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "244px",
+    "uuid": "4cc4f673-912b-4e53-a75e-c8bd4603ab19"
+  },
+  "user-card-minimum-height-title-below-medium": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "224px",
+    "uuid": "5f4edfbc-eb2e-4dd5-add1-bf45530b0e61"
+  },
+  "user-card-minimum-height-title-below-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "component": "user-card",
+    "value": "212px",
+    "uuid": "3373c4d2-d81b-4649-bc24-5251879778c1"
+  }
+}

@@ -118,6 +118,9 @@ enum Commands {
         /// Directory containing spec-format component declaration JSON files (enables SPEC-028/029 on components)
         #[arg(long, value_name = "DIR")]
         components_path: Option<PathBuf>,
+        /// Directory containing Component/Token Relationship (CTR) JSON files (enables SPEC-055 target resolution)
+        #[arg(long, value_name = "DIR")]
+        relationships_path: Option<PathBuf>,
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
@@ -595,6 +598,7 @@ struct ValidateOpts {
     exceptions_path: Option<PathBuf>,
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
+    relationships_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
     components_report_only: bool,
     strict: bool,
@@ -612,6 +616,7 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
             exceptions: opts.exceptions_path,
             mode_sets: opts.mode_sets_path,
             components: opts.components_path,
+            relationships: opts.relationships_path,
             ..Default::default()
         },
     )
@@ -625,14 +630,17 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
 
     let dims_dir = resolved.mode_sets;
     let comps_dir = resolved.components;
+    let relationships_dir = resolved.relationships;
 
-    let mut report = validate::validate_all_with_options_and_names(
+    let mut report = validate::validate_all_with_full_options(
         path,
         &registry,
         &exceptions,
         dims_dir.as_deref(),
         comps_dir.as_deref(),
         opts.names_dir.as_deref(),
+        None,
+        relationships_dir.as_deref(),
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
@@ -1728,6 +1736,7 @@ fn main() -> ExitCode {
             exceptions_path,
             mode_sets_path,
             components_path,
+            relationships_path,
             names_dir,
             components_report_only,
             strict,
@@ -1741,6 +1750,7 @@ fn main() -> ExitCode {
                     exceptions_path,
                     mode_sets_path,
                     components_path,
+                    relationships_path,
                     names_dir,
                     components_report_only,
                     strict,
