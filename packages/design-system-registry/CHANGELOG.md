@@ -1,5 +1,12 @@
 # @adobe/design-system-registry
 
+## 5.0.26
+
+### Patch Changes
+
+- Updated dependencies [[`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7)]:
+  - @adobe/spectrum-design-data@2.1.0
+
 ## 5.0.25
 
 ### Patch Changes

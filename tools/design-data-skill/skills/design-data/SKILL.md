@@ -9,7 +9,7 @@ description: >
 metadata:
   author: adobe
   version: "1.3.1"
-  designDataVersion: "2.0.0"
+  designDataVersion: "2.1.0"
 when_to_use: >
   Trigger on: token names (color, spacing, typography, dimension), "which token",
   "Spectrum component options", validate tokens, design-data primer, query tokens,

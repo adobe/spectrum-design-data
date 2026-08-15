@@ -1,5 +1,19 @@
 # @adobe/design-data-agent-mcp
 
+## 1.8.21
+
+### Patch Changes
+
+- [#1330](https://github.com/adobe/spectrum-design-data/pull/1330) [`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `describe_component` silently dropping token bindings for CTR-migrated
+  components (closes spectrum-design-data-x29.4).
+  - **tools/design-data-agent-mcp/src/tools/read.js**: `describe_component` now
+    resolves bindings from `relationships/*.json` (CTRs) in addition to the
+    legacy `tokenBindings` field, so migrated components (91 files) no longer
+    report empty bindings.
+
+- Updated dependencies [[`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7)]:
+  - @adobe/spectrum-design-data@2.1.0
+
 ## 1.8.20
 
 ### Patch Changes
