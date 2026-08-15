@@ -1,0 +1,14 @@
+[
+  {
+    "scope": { "component": "button", "property": "border-color" },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(0, 0, 0)",
+    "uuid": "cccccccc-0001-4000-8000-000000000001",
+    "legacyKey": "button-border-color"
+  },
+  {
+    "scope": { "component": "button", "property": "icon-color" },
+    "context": "informative icon color",
+    "$ref": "bbbbbbbb-0001-4000-8000-000000000001"
+  }
+]

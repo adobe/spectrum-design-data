@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-056",
+      "severity": "error",
+      "message_pattern": ".*Duplicate relationship uuid.*11111111-1111-1111-1111-111111111111.*"
+    }
+  ]
+}

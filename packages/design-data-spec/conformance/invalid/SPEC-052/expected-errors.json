@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-052",
+      "severity": "error",
+      "message_pattern": ".*undeclared anatomy part.*capsule.*"
+    }
+  ]
+}
