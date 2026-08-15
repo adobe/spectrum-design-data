@@ -49,6 +49,17 @@ const requiredPaths = [
   "conformance/generation/mode-set-token/expected",
   "spec/relationship-format.md",
   "schemas/relationship.schema.json",
+  "conformance/invalid/SPEC-051",
+  "conformance/invalid/SPEC-052",
+  "conformance/invalid/SPEC-053",
+  "conformance/invalid/SPEC-054",
+  "conformance/invalid/SPEC-055",
+  "conformance/invalid/SPEC-056",
+  "conformance/invalid/SPEC-057",
+  "conformance/valid/SPEC-051",
+  "conformance/generation/ctr-legacy-key/input",
+  "conformance/generation/ctr-legacy-key/relationships",
+  "conformance/generation/ctr-legacy-key/expected",
 ];
 
 for (const rel of requiredPaths) {

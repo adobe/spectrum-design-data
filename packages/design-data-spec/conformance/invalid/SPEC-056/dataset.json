@@ -1,0 +1,22 @@
+{
+  "relationships": [
+    {
+      "scope": { "component": "button", "property": "background-color" },
+      "value": "#ff0000",
+      "uuid": "11111111-1111-1111-1111-111111111111"
+    },
+    {
+      "scope": { "component": "button", "property": "border-color" },
+      "value": "#00ff00",
+      "uuid": "11111111-1111-1111-1111-111111111111"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": { "category": "actions" }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "relationships": [
+    {
+      "scope": {
+        "component": "button",
+        "property": "background-color",
+        "options": { "state": ["jello"] }
+      },
+      "value": "#ff0000"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": { "category": "actions" },
+      "states": [
+        { "name": "hover", "trigger": "interaction", "precedence": 50 },
+        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+      ]
+    }
+  ]
+}

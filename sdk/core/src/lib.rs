@@ -542,6 +542,20 @@ mod validation_conformance {
             graph = graph.with_components(comp_records);
         }
 
+        if let Some(relationships) = dataset.get("relationships").and_then(|v| v.as_array()) {
+            let rel_records: Vec<crate::graph::RelationshipRecord> = relationships
+                .iter()
+                .enumerate()
+                .map(|(index, raw)| crate::graph::RelationshipRecord {
+                    file: std::path::PathBuf::from("dataset.json"),
+                    index,
+                    uuid: raw.get("uuid").and_then(|v| v.as_str()).map(String::from),
+                    raw: raw.clone(),
+                })
+                .collect();
+            graph = graph.with_relationships(rel_records);
+        }
+
         if let Some(mode_sets) = dataset.get("modeSets").and_then(|v| v.as_array()) {
             let ms_records: Vec<ModeSetRecord> = mode_sets
                 .iter()
@@ -1618,5 +1632,10 @@ mod generation_conformance {
     #[test]
     fn mode_set_edit() {
         run_fixture("mode-set-edit");
+    }
+
+    #[test]
+    fn ctr_legacy_key() {
+        run_fixture("ctr-legacy-key");
     }
 }

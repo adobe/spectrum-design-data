@@ -1,0 +1,8 @@
+{
+  "button-border-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "component": "button",
+    "value": "rgb(0, 0, 0)",
+    "uuid": "cccccccc-0001-4000-8000-000000000001"
+  }
+}

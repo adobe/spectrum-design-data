@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-053",
+      "severity": "error",
+      "message_pattern": ".*style.*ghost.*not declared.*button.*"
+    }
+  ]
+}

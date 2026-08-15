@@ -1,0 +1,42 @@
+{
+  "relationships": [
+    {
+      "scope": {
+        "component": "button",
+        "part": "label",
+        "property": "background-color",
+        "options": { "style": "fill", "state": ["hover"] }
+      },
+      "value": "#ff0000",
+      "uuid": "33333333-3333-3333-3333-333333333333",
+      "legacyKey": "button-label-background-color-fill-hover"
+    },
+    {
+      "scope": { "component": "button", "property": "border-color" },
+      "context": "informative border color",
+      "$ref": "33333333-3333-3333-3333-333333333333"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": { "category": "actions" },
+      "anatomy": [
+        { "name": "icon", "description": "Leading icon." },
+        { "name": "label", "description": "Button text.", "required": true }
+      ],
+      "options": {
+        "style": {
+          "type": "enum",
+          "values": [{ "value": "fill" }, { "value": "outline" }]
+        }
+      },
+      "states": [
+        { "name": "hover", "trigger": "interaction", "precedence": 50 },
+        { "name": "disabled", "trigger": "prop", "precedence": 100 }
+      ]
+    }
+  ]
+}

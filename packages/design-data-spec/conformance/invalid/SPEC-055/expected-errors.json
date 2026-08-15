@@ -1,0 +1,10 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-055",
+      "severity": "error",
+      "message_pattern": ".*alias target not found.*99999999-9999-9999-9999-999999999999.*"
+    }
+  ]
+}

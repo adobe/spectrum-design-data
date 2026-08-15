@@ -1,0 +1,16 @@
+{
+  "relationships": [
+    {
+      "scope": { "component": "button", "property": "background-color" },
+      "$ref": "99999999-9999-9999-9999-999999999999"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/button.json",
+      "name": "button",
+      "displayName": "Button",
+      "meta": { "category": "actions" }
+    }
+  ]
+}
