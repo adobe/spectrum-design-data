@@ -1,5 +1,32 @@
 # @adobe/design-data-spec
 
+## 3.2.0
+
+### Minor Changes
+
+- [#1327](https://github.com/adobe/spectrum-design-data/pull/1327) [`7035973`](https://github.com/adobe/spectrum-design-data/commit/7035973b5b4b70d8ad89ec0c4979d7b687050a4d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Component/Token Relationship (CTR) foundation — an anonymous-token
+  join entity unifying `tokenBindings` and name-object component scoping.
+  - **schemas/relationship.schema.json**: new Layer-1 schema for
+    `relationships/*.json`, mirroring `token.schema.json`'s value/`$ref` split.
+  - **spec/relationship-format.md**: normative prose for the CTR scope
+    model and interim legacy-compatibility fields.
+  - **rules/rules.yaml**: SPEC-051..057, headlined by `ctr-option-valid`
+    validating a CTR's options against the component's own options schema.
+
+### Patch Changes
+
+- [#1331](https://github.com/adobe/spectrum-design-data/pull/1331) [`38b1b13`](https://github.com/adobe/spectrum-design-data/commit/38b1b134db2ecb41281da6271f5234cd4d935587) Thanks [@GarthDB](https://github.com/GarthDB)! - Add conformance fixtures for the Component/Token Relationship (CTR) rules
+  (closes spectrum-design-data-x29.5).
+  - **conformance/invalid/SPEC-051..057**: one dataset + expected-errors
+    fixture per CTR rule (undeclared component/part/option/state, unresolved
+    `$ref`, duplicate `uuid`, missing `legacyKey` warning).
+  - **conformance/valid/SPEC-051**: a zero-diagnostic baseline CTR dataset
+    covering both value-owning and relationship-only shapes.
+  - **conformance/generation/ctr-legacy-key**: proves a value-owning CTR
+    reproduces its legacy token byte-identically and a relationship-only
+    CTR is filtered out of legacy output.
+  - **scripts/check-layout.mjs**: registers the new fixture paths.
+
 ## 3.1.0
 
 ### Minor Changes

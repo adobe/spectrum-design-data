@@ -1,5 +1,14 @@
 # markdown-generator
 
+## 0.1.61
+
+### Patch Changes
+
+- Updated dependencies [[`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7), [`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7)]:
+  - @adobe/spectrum-tokens@15.0.0
+  - @adobe/spectrum-design-data@2.1.0
+  - @adobe/spectrum-component-api-schemas@6.1.44
+
 ## 0.1.60
 
 ### Patch Changes

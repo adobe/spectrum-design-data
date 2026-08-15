@@ -1,5 +1,27 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.0.0
+
+### Major Changes
+
+- [#1330](https://github.com/adobe/spectrum-design-data/pull/1330) [`afbadb2`](https://github.com/adobe/spectrum-design-data/commit/afbadb23a3ddd75640777909cdf97b849fc0daa7) Thanks [@GarthDB](https://github.com/GarthDB)! - Reorganize `src/` into per-component token files, following the CTR
+  migration in `@adobe/spectrum-design-data` (spectrum-design-data-x29.4).
+  Token content is unchanged byte-for-byte per token; only the file each
+  token lives in changes. Breaking for any consumer importing a specific
+  `src/*` path directly (`exports["./src/*"]`) rather than through the
+  package's aggregated output.
+  - **packages/tokens/src/{color-palette,layout-component,layout,typography}.json**:
+    name.component-scoped tokens removed.
+  - **packages/tokens/src/\*.json**: 84 new per-component files (e.g.
+    `body.json`, `popover.json`, `button.json`) holding the tokens moved
+    out of the files above.
+  - **packages/tokens/src/color-component.json**: removed — the cascade
+    source (`color-component.tokens.json`) now has 0 tokens post-migration,
+    so the legacy generator no longer emits this file.
+  - **packages/tokens/manifest.json**: regenerated (`node tasks/buildManifest.js`)
+    to include the 84 new per-component files; was stale after the reorg,
+    failing `checkManifest.test.js`.
+
 ## 14.15.0
 
 ### Minor Changes
