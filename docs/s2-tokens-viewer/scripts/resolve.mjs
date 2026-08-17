@@ -73,7 +73,7 @@ function isTokenRecord(obj) {
 function loadObjectMap() {
   const slugs = new Map();
   const files = readdirSync(tokensDir)
-    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json')
+    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json' && f !== 'color-component.json')
     .sort(); // deterministic order
 
   for (const file of files) {
@@ -159,11 +159,7 @@ function buildColorComponentFile(ds) {
     }
   }
 
-  const output = {
-    $schema: 'https://opensource.adobe.com/spectrum-design-data/schemas/token-file.json',
-    ...aggregated,
-  };
-  writeFileSync(colorComponentOutPath, JSON.stringify(output, null, 2));
+  writeFileSync(colorComponentOutPath, JSON.stringify(aggregated, null, 2));
   console.log(`[resolve] Wrote ${colorComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
 }
 
