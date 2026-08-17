@@ -19,3 +19,10 @@
 # See: https://docs.rs/getrandom/latest/getrandom/#webassembly-support
 [target.wasm32-unknown-unknown]
 rustflags = ['--cfg', 'getrandom_backend="wasm_js"']
+
+# lld links noticeably faster than the default bfd linker. Scoped to Linux CI
+# only (default macOS ld-prime is already fast and isn't the bottleneck there;
+# warm-cache CI rebuilds are link-time-dominated since deps are cached and only
+# changed crates recompile + relink).
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]

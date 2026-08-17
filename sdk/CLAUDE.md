@@ -45,5 +45,27 @@ New YAML/moon.yml: `# Copyright YYYY Adobe. All rights reserved.`
 
 ## Testing
 
-`cargo test --workspace` runs all unit and integration tests.
+`moon run sdk:test` runs all unit and integration tests via `cargo nextest run --workspace`
+(schedules all tests across one pool instead of one binary at a time — much faster with
+\~27 integration-test binaries across the workspace). Doctests aren't run by nextest;
+`moon run sdk:test-doc` (`cargo test --workspace --doc`) covers those separately.
 No AVA — the Rust crates do not use JavaScript testing frameworks.
+
+Local install: `cargo install cargo-nextest@0.9.114 --locked` (or `cargo binstall cargo-nextest`).
+Pinned to 0.9.114 because newer releases require rustc 1.91+, ahead of this repo's
+pinned `rust-toolchain.toml` (1.88.0). CI installs via `taiki-e/install-action`,
+which fetches a prebuilt binary and isn't affected by this constraint.
+
+### Local test performance (macOS)
+
+On managed macOS machines, both Gatekeeper/XProtect and CrowdStrike Falcon re-scan
+freshly built test binaries on exec, which can dominate wall-clock time — not
+compile/link (see bead `spectrum-design-data-tdb`). Two independent mitigations,
+neither of which this repo can configure for you:
+
+* **Gatekeeper**: `sudo spctl developer-mode enable-terminal`, then enable your
+  terminal app under **System Settings → Privacy & Security → Developer Tools**.
+* **CrowdStrike Falcon**: request a path exclusion for `sdk/target/` (or your
+  Cargo target dir) from your org's CrowdStrike admin/IT security team. Don't
+  attempt to disable or bypass the Falcon agent yourself — it's centrally
+  managed via MDM.

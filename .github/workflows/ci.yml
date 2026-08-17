@@ -75,6 +75,15 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
           components: clippy, rustfmt
+      # lld links noticeably faster than the default bfd linker, applied via
+      # sdk/.cargo/config.toml (scoped to x86_64-unknown-linux-gnu only).
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      # cargo-nextest runs sdk:test — schedules all tests across one pool
+      # instead of one binary at a time (~27 integration-test binaries).
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
       # Persist the Cargo build cache (sdk/target/) across PR runs.
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
