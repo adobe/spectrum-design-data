@@ -113,18 +113,6 @@
     {
       "token": "card-selection-background-corner-radius-extra-large",
       "context": "Selection checkbox "
-    },
-    {
-      "token": "card-header-to-footer",
-      "context": "Spacing (text to visual)"
-    },
-    {
-      "token": "card-title-to-description",
-      "context": "Spacing (title to description)"
-    },
-    {
-      "token": "horizontal-card-edge-to-content-regular",
-      "context": "Spacing (top/side/bottom edge to content)"
     }
   ],
   "accessibility": {

@@ -247,24 +247,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "table-selected-row-background-color-highlight",
-      "context": "Selected row background (highlight selection)"
-    },
-    {
-      "token": "table-selected-row-background-opacity-highlight",
-      "context": "Selected row background (highlight selection)"
-    },
-    {
-      "token": "table-selected-row-background-opacity-highlight-hover",
-      "context": "Selected row background (highlight selection, hover)"
-    },
-    {
-      "token": "table-selected-row-background-opacity-hover-highlight",
-      "context": "S2 Selected row background (highlight selection, hover)"
-    }
-  ],
   "accessibility": {
     "role": "grid",
     "intents": ["select", "navigate"],

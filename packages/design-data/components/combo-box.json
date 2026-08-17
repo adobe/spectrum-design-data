@@ -293,12 +293,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "in-field-progress-circle",
-      "context": "In-field progress circle"
-    }
-  ],
   "accessibility": {
     "role": "combobox",
     "intents": ["input", "select", "expand"],
