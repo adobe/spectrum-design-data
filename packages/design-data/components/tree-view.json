@@ -249,16 +249,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "tree-view-edge-to-drag-handle",
-      "context": "Spacing (edge to drag handle, drag handle)"
-    },
-    {
-      "token": "tree-view-drag-handle-to-checkbox",
-      "context": "Spacing (drag handle to checkbox, drag handle + checkbox)"
-    }
-  ],
   "accessibility": {
     "role": "tree",
     "intents": ["navigate", "select", "expand"],

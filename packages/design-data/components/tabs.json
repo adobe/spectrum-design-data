@@ -133,16 +133,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "tab-item-to-tab-item-compact-horizontal-medium",
-      "context": "Spacing (between tab items, horizontal)"
-    },
-    {
-      "token": "tab-selection-indicator-thickness",
-      "context": "Selection indicator (underline)"
-    }
-  ],
   "accessibility": {
     "intents": ["navigate"],
     "focusable": true,
