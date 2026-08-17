@@ -1017,6 +1017,34 @@
       "message": "Known naming exception: 'side-focus-indicator' does not match canonical generation rules (tracked in naming-exceptions.json)"
     },
     {
+      "file": "./src/layout.json",
+      "token": "strikethrough-day-orientation",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'strikethrough-day-orientation' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "strikethrough-day-thickness",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'strikethrough-day-thickness' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "tab-item-to-tab-item-compact-horizontal-medium",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-item-to-tab-item-compact-horizontal-medium' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
+      "file": "./src/layout.json",
+      "token": "tab-selection-indicator-thickness",
+      "rule_id": "SPEC-007",
+      "severity": "info",
+      "message": "Known naming exception: 'tab-selection-indicator-thickness' does not match canonical generation rules (tracked in naming-exceptions.json)"
+    },
+    {
       "file": "./src/menu.json",
       "token": "menu-item-edge-to-content-not-selected-extra-large",
       "rule_id": "SPEC-007",

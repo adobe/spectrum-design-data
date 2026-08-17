@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/angle.json",
+  "title": "Angle",
+  "description": "An angle in degrees, e.g. for rotation or gradient direction. Positive values rotate clockwise from horizontal.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/angle.json"
+    },
+    "value": {
+      "type": "number"
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "uuid": {}
+  }
+}

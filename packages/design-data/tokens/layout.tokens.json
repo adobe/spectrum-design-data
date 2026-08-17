@@ -7192,5 +7192,69 @@
     "uuid": "a659c66d-1e77-4818-95ea-501e65162841",
     "set_uuid": "dd3133de-94a6-4007-a68e-4202762f0eb5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "component": "tabs",
+      "property": "gap",
+      "orientation": "horizontal",
+      "density": "compact",
+      "size": "m",
+      "legacyKey": "tab-item-to-tab-item-compact-horizontal-medium"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "95593667-9f7c-4e5e-a739-8dd479cd082f",
+    "description": "Spacing between tab items, horizontal, compact density"
+  },
+  {
+    "name": {
+      "component": "tabs",
+      "anatomy": "indicator",
+      "property": "thickness",
+      "legacyKey": "tab-selection-indicator-thickness"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "181806e5-0216-4b11-a775-9ed4bb8832fc",
+    "description": "Thickness of the tab selection indicator (underline)"
+  },
+  {
+    "name": {
+      "component": "date-picker",
+      "anatomy": "day",
+      "qualifier": "strikethrough",
+      "property": "thickness",
+      "legacyKey": "strikethrough-day-thickness"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "2px",
+    "uuid": "c4e4695b-3838-4bd4-b045-8219c77f6786",
+    "description": "Thickness of the strikethrough line on an unavailable calendar day"
+  },
+  {
+    "name": {
+      "component": "date-picker",
+      "anatomy": "day",
+      "qualifier": "strikethrough",
+      "property": "angle",
+      "legacyKey": "strikethrough-day-orientation"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/angle.json",
+    "value": -25,
+    "uuid": "e9a6e122-49fc-4d40-880d-1d9006d7154e",
+    "description": "Angle of the strikethrough line on an unavailable calendar day, in degrees (negative rotates counter-clockwise from horizontal)"
+  },
+  {
+    "name": {
+      "component": "date-picker",
+      "anatomy": "in-field-button",
+      "property": "gap",
+      "legacyKey": "date-picker-text-to-in-field-button"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "value": "20px",
+    "uuid": "19864654-c28c-4ad9-b35d-c669b33c5b9c",
+    "description": "Spacing between date field value and the in-field calendar button"
   }
 ]
