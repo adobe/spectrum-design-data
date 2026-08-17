@@ -44,6 +44,7 @@ tasks:
       - tokens/**/*.json
     outputs:
       - tokens/resolved.json
+      - tokens/color-component.json
   export:
     command:
       - sh

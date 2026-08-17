@@ -1308,11 +1308,14 @@
       async function fetchAndValidateData() {
         const dataPromises = config.jsonFiles.map(fetchJsonData);
         const results = await Promise.all(dataPromises);
-        const validData = results.filter((result) => result !== null);
+        // Keep results index-aligned with config.jsonFiles: init() destructures this array
+        // positionally, so filtering out a failed fetch would shift every later tab's data
+        // into the wrong slot. A missing file becomes an empty tab instead.
+        const validData = results.map((result) => result ?? {});
 
         console.log("Fetched data:", validData);
 
-        if (validData.length === 0) {
+        if (results.every((result) => result === null)) {
           document.getElementById("gridContainer").innerHTML =
             "<p>No data was loaded. Please check the console for errors.</p>";
           return null;
