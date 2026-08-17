@@ -62,15 +62,41 @@ tasks:
       - "/packages/design-data/guidelines/*.json"
     deps:
       - codegen-check
+  # cargo-nextest schedules all tests across one global thread pool instead of
+  # one binary at a time, which matters here: tui/tests/ alone has 23 separate
+  # integration-test binaries. Doctests aren't run by nextest, so they're a
+  # separate task below (test-doc) — see .github/ci-targets.json.
   test:
     command: cargo
     args:
-      - test
+      - nextest
+      - run
       - --workspace
     inputs:
       - "@globs(sources)"
       - "core/src/registry_data.rs"
       # Embedded snapshot sources — re-run tests when token data changes.
+      - "/packages/design-data/tokens/*.tokens.json"
+      - "/packages/tokens/schemas/**/*.json"
+      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/tokens/manifest.json"
+      - "/packages/design-data/mode-sets/*.json"
+      - "/packages/design-data/components/*.json"
+      - "/packages/design-data/fields/*.json"
+      - "/packages/design-data/guidelines/*.json"
+    deps:
+      - codegen-check
+  # nextest doesn't run doctests — this covers the runnable ```rust examples
+  # in core/src (write.rs, naming.rs, legacy.rs, migrate.rs, cascade.rs, etc).
+  test-doc:
+    command: cargo
+    args:
+      - test
+      - --workspace
+      - --doc
+    inputs:
+      - "@globs(sources)"
+      - "core/src/registry_data.rs"
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
