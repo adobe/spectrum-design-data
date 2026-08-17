@@ -1,5 +1,25 @@
 # @adobe/spectrum-design-data
 
+## 2.1.1
+
+### Patch Changes
+
+- [#1333](https://github.com/adobe/spectrum-design-data/pull/1333) [`0b2d328`](https://github.com/adobe/spectrum-design-data/commit/0b2d328b9dbfe7adf3cb762853faa15a4ba92dd0) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove SPEC-027 dangling `tokenBindings` superseded by CTR relationships or
+  referencing no real token (closes spectrum-design-data-vpk).
+  - **components/cards.json**: drop 3 legacy bindings (`card-header-to-footer`,
+    `card-title-to-description`, `horizontal-card-edge-to-content-regular`) now
+    covered by CTR relationships.
+  - **components/table.json**: drop 4 duplicate selected-row-background bindings
+    covered by CTR.
+  - **components/combo-box.json**: drop the `in-field-progress-circle` binding
+    (that name is an anatomy anchor, not a token; covered by CTR).
+  - **components/list-view.json**: drop the stale `stack-item-*` binding
+    covered by CTR.
+  - **components/tree-view.json**: drop 2 drag-handle spacing bindings covered
+    by CTR.
+  - **components/drop-zone.json**: drop 4 bindings referencing non-Spectrum
+    garbage token names.
+
 ## 2.1.0
 
 ### Minor Changes
