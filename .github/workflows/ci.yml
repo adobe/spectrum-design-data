@@ -83,7 +83,7 @@ jobs:
       # instead of one binary at a time (~27 integration-test binaries).
       - uses: taiki-e/install-action@v2
         with:
-          tool: cargo-nextest
+          tool: cargo-nextest@0.9.114
       # Persist the Cargo build cache (sdk/target/) across PR runs.
       # On a warm hit this turns a full 455-crate recompile into an incremental
       # build — the single biggest CI speedup in this repo.
