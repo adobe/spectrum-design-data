@@ -10,8 +10,6 @@ referencing no real token (closes spectrum-design-data-vpk).
   covered by CTR relationships.
 - **components/table.json**: drop 4 duplicate selected-row-background bindings
   covered by CTR.
-- **components/tabs.json**: drop 2 bindings covered by the "Tab items and
-  selection indicator" CTR.
 - **components/combo-box.json**: drop the `in-field-progress-circle` binding
   (that name is an anatomy anchor, not a token; covered by CTR).
 - **components/list-view.json**: drop the stale `stack-item-*` binding
