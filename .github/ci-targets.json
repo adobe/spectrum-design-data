@@ -22,6 +22,7 @@
     "sdk:fmt-check",
     "sdk:lint",
     "sdk:test",
+    "sdk:test-doc",
     "sdk-wasm:ci",
     "tokens:test",
     "tokens:validateDesignData",
