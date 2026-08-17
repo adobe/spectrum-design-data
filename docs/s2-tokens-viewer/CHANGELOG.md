@@ -1,5 +1,17 @@
 # s2-tokens-viewer
 
+## 0.2.10
+
+### Patch Changes
+
+- [#1335](https://github.com/adobe/spectrum-design-data/pull/1335) [`39c90de`](https://github.com/adobe/spectrum-design-data/commit/39c90de5b658f82e0a14772e4dd1247200fe9efc) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix broken tabs (closes viewer report from Matt Davey).
+  - **index.html**: stop dropping failed fetches from the results array before
+    `init()` destructures it positionally — a single missing file no longer
+    shifts every later tab's data into the wrong slot.
+  - **scripts/resolve.mjs**: regenerate `tokens/color-component.json` at build
+    time from the CTR-authored per-component token files (removed upstream in
+    #1330), restoring the Component colors tab.
+
 ## 0.2.9
 
 ### Patch Changes
