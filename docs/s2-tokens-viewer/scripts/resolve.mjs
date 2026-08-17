@@ -32,6 +32,20 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 const tokensDir = join(root, 'tokens');
 const outPath = join(tokensDir, 'resolved.json');
+const colorComponentOutPath = join(tokensDir, 'color-component.json');
+
+// The CTR migration (#1330) removed the aggregated color-component.json and reorganized
+// component tokens into per-component files (action-bar.json, avatar.json, ...). The viewer's
+// "Component colors" tab still expects one aggregated file, so this rebuilds it at build time.
+const FOUNDATION_FILES = new Set([
+  'color-palette.json',
+  'color-aliases.json',
+  'semantic-color-palette.json',
+  'icons.json',
+  'layout.json',
+  'layout-component.json',
+  'typography.json',
+]);
 
 // Context key → cascade name-object field mapping (from spike Phase C).
 const CTX_MAP = {
@@ -59,7 +73,7 @@ function isTokenRecord(obj) {
 function loadObjectMap() {
   const slugs = new Map();
   const files = readdirSync(tokensDir)
-    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json')
+    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json' && f !== 'color-component.json')
     .sort(); // deterministic order
 
   for (const file of files) {
@@ -86,11 +100,76 @@ function loadObjectMap() {
   return { slugs };
 }
 
+/**
+ * True if a resolved value string is a color (hex or rgb/rgba).
+ */
+function isColorValue(value) {
+  return typeof value === 'string' && /^(#[0-9a-f]{3,8}|rgba?\()/i.test(value);
+}
+
+/**
+ * True if any of a token's alias values (flat `value` or per-context `sets.*.value`)
+ * resolve to a color, using the same Dataset the rest of this script already loaded.
+ */
+function resolvesToColor(ds, entry) {
+  const values = entry.sets
+    ? Object.values(entry.sets).map(set => set.value)
+    : [entry.value];
+  for (const value of values) {
+    if (typeof value !== 'string') continue;
+    if (!value.includes('{')) {
+      if (isColorValue(value)) return true;
+      continue;
+    }
+    for (const ctx of Object.values(CTX_MAP)) {
+      const r = ds.resolveReference(value, ctx);
+      if (r && isColorValue(r.value)) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Rebuild the aggregated color-component.json that the CTR migration (#1330) removed, by
+ * scanning the per-component object-map files for color-domain tokens (color-set/opacity
+ * schema, or an alias value that resolves to a color).
+ */
+function buildColorComponentFile(ds) {
+  const aggregated = {};
+  const files = readdirSync(tokensDir)
+    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json'
+      && f !== 'color-component.json' && !FOUNDATION_FILES.has(f))
+    .sort(); // deterministic order
+
+  for (const file of files) {
+    let data;
+    try {
+      data = JSON.parse(readFileSync(join(tokensDir, file), 'utf-8'));
+    } catch {
+      continue; // already warned about unparseable files in loadObjectMap()
+    }
+    if (Array.isArray(data)) continue; // cascade format — skip
+
+    for (const [name, entry] of Object.entries(data)) {
+      if (!isTokenRecord(entry) || !entry.component) continue;
+      const schema = entry.$schema || '';
+      const isColorDomain = schema.endsWith('color-set.json') || schema.endsWith('opacity.json')
+        || resolvesToColor(ds, entry);
+      if (isColorDomain) aggregated[name] = entry;
+    }
+  }
+
+  writeFileSync(colorComponentOutPath, JSON.stringify(aggregated, null, 2));
+  console.log(`[resolve] Wrote ${colorComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
+}
+
 async function main() {
   // Load wasm — node build is synchronous; no init() call needed.
   const wasm = await import('@adobe/design-data-wasm');
   const ds = wasm.Dataset.embedded();
   const datasetTokenCount = ds.tokenCount();
+
+  buildColorComponentFile(ds);
 
   const { slugs } = loadObjectMap();
   console.log(`[resolve] ${slugs.size} slugs, ${datasetTokenCount} tokens in embedded dataset`);
