@@ -213,12 +213,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "stack-item-drag-handle-to-control",
-      "context": "Spacing (drag handle to checkbox, to visual, to text)"
-    }
-  ],
   "accessibility": {
     "intents": ["select", "navigate"],
     "focusable": true,
