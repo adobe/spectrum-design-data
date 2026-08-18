@@ -12,6 +12,7 @@
       "command": "npx",
       "args": ["-y", "@adobe/design-data-agent-mcp"],
       "env": {
+        "DESIGN_DATA_ROOT": "${PWD}",
         "DESIGN_DATA_BIN": "${PWD}/sdk/target/release/design-data",
         "DESIGN_DATA_PATH": "packages/design-data/tokens",
         "DESIGN_DATA_COMPONENTS": "packages/design-data/components",
