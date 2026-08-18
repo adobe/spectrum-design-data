@@ -45,6 +45,11 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.88.0
         with:
           targets: wasm32-unknown-unknown
+      # sdk/.cargo/config.toml forces the lld linker for all Linux builds, and
+      # viewer:resolve → sdk-wasm:build transitively builds the SDK — install it
+      # here too, mirroring ci.yml.
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
       # Persist the Cargo build cache across deploys so the viewer's wasm
       # build is incremental rather than recompiling from scratch each time.
       - name: Cache Cargo build
