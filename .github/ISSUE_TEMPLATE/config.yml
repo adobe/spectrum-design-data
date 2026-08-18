@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Propose an RFC / larger design-data change
+    url: https://github.com/adobe/spectrum-design-data/discussions/714
+    about: For proposals bigger than a single token change (new taxonomy, schema changes, new categories), start a discussion under the RFC umbrella epic instead of filing an issue.
