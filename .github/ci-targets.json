@@ -66,6 +66,7 @@
     "token-naming-audit:lint",
     "tokens:build",
     "viewer:clean",
+    "viewer:convert",
     "viewer:export",
     "viewer:prepare",
     "viewer:resolve",

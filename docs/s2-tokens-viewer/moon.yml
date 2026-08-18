@@ -32,6 +32,29 @@ tasks:
       - node_modules/@adobe/spectrum-tokens/package.json
     outputs:
       - tokens/
+  # Convert the object-map token source (tokens/) to cascade-format .json files (cascade/) so
+  # resolve.mjs can build a Dataset.fromTokens() dataset that actually contains every token —
+  # Dataset.embedded() is a snapshot of packages/design-data/tokens, which post-CTR no longer
+  # carries component tokens as resolvable entries (see #1330).
+  convert:
+    command: bash
+    args:
+      - -c
+      - >-
+        cargo run --manifest-path "$MOON_WORKSPACE_ROOT/sdk/Cargo.toml" -p design-data-cli --
+        migrate convert "$MOON_WORKSPACE_ROOT/docs/s2-tokens-viewer/tokens"
+        --output "$MOON_WORKSPACE_ROOT/docs/s2-tokens-viewer/cascade"
+        --names-dir "$MOON_WORKSPACE_ROOT/packages/token-names/names"
+        --exceptions "$MOON_WORKSPACE_ROOT/packages/tokens/naming-exceptions.json"
+    inputs:
+      - tokens/**/*.json
+      - "/packages/token-names/names/**/*.json"
+      - "/packages/tokens/naming-exceptions.json"
+    outputs:
+      - cascade/
+    deps:
+      - ~:prepare
+    toolchain: "system"
   resolve:
     command:
       - node
@@ -39,12 +62,15 @@ tasks:
     deps:
       - sdk-wasm:build
       - ~:prepare
+      - ~:convert
     inputs:
       - scripts/resolve.mjs
       - tokens/**/*.json
+      - cascade/**/*.json
     outputs:
       - tokens/resolved.json
       - tokens/color-component.json
+      - tokens/layout-component.json
   export:
     command:
       - sh
