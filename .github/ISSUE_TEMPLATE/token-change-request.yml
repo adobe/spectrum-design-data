@@ -8,10 +8,13 @@ body:
     attributes:
       value: |
         Use this form to request a token change instead of authoring directly in Token
-        Studio. Tokens are authored via the `design-data` CLI/TUI/MCP authoring session
-        into `packages/design-data/tokens/`, then exported to Figma natively
-        (`design-data figma export`) — see
-        [authoring-workflow.md](../../packages/design-data-spec/spec/authoring-workflow.md).
+        Studio. The design-data team will action the request via the `design-data`
+        CLI/TUI/MCP authoring session and, once the change lands, run
+        `design-data figma export` to sync it to Figma — see
+        [authoring-workflow.md](../../packages/design-data-spec/spec/authoring-workflow.md)
+        and the [Token Studio sunset roadmap](../../docs/token-studio-sunset.md) for the
+        current state of that pipeline (the authoring write path does not yet target the
+        foundation corpus directly — see roadmap Phase 1).
         For proposals bigger than a single token (new taxonomy, schema changes), use the
         RFC discussion link in the issue chooser instead.
 
@@ -42,22 +45,34 @@ body:
         - label: All platforms
 
   - type: textarea
-    id: token-names
+    id: token-name-current
     attributes:
-      label: Token name(s)
-      description: Existing or proposed token name(s). Include property + component/variant/state if known.
+      label: Current token name (or "new" for create)
+      description: The existing token being changed. Include property + component/variant/state if known. Use "new" if this is a create request.
       placeholder: e.g. background-color, badge, accent, hover
     validations:
       required: true
 
   - type: textarea
+    id: token-name-new
+    attributes:
+      label: New token name (rename only)
+      description: Required only for **rename** requests — the name the token should have after the change. Leave blank for all other change types.
+      placeholder: e.g. background-color, badge, accent, hover-emphasized
+
+  - type: textarea
     id: value-or-alias
     attributes:
-      label: Value or alias target
-      description: A literal value, OR the name/UUID of an existing token this should alias to. Exactly one, not both.
+      label: Value, or new alias target (create/edit/alias-rewire)
+      description: A literal value, OR the name/UUID of the token this should alias to *after* the change. Exactly one, not both. Not required for deprecate/rename/remove.
       placeholder: e.g. "#FF0000" OR alias to blue-900
-    validations:
-      required: true
+
+  - type: input
+    id: alias-rewire-from
+    attributes:
+      label: Previous alias target (alias-rewire only)
+      description: Required only for **alias-rewire** requests — the token UUID/name currently being aliased to, so reviewers can confirm what's being replaced.
+      placeholder: e.g. currently aliases to blue-800
 
   - type: input
     id: modes
@@ -65,6 +80,19 @@ body:
       label: Modes affected (if any)
       description: colorScheme / scale / contrast combinations this value varies by.
       placeholder: e.g. colorScheme=dark, scale=large
+
+  - type: textarea
+    id: known-consumers
+    attributes:
+      label: Known consuming components / tokenBindings
+      description: >-
+        Components or tokenBindings that reference this token today (or should reference
+        it after a rename/alias-rewire/deprecate/remove). Dangling tokenBindings after a
+        token change are the most common cause of breakage — list what you know, even if
+        incomplete, so reviewers can check the rest.
+      placeholder: e.g. badge, tag — or "none known, please check"
+    validations:
+      required: true
 
   - type: textarea
     id: motivation
@@ -96,10 +124,13 @@ body:
   - type: dropdown
     id: figma-sync
     attributes:
-      label: Figma sync needed?
-      description: If yes, this token will also need `design-data figma export` run after the change lands.
+      label: Should this token be visible in Figma (S2 Web) variables?
+      description: >-
+        Figma export runs for every landed token change by default. Answer "No" only if
+        this token is intentionally code-only (e.g. an internal/private token) and should
+        be excluded from the Figma Variables sync.
       options:
-        - "Yes"
-        - "No"
+        - "Yes (default)"
+        - "No — code-only, exclude from Figma"
     validations:
       required: true
