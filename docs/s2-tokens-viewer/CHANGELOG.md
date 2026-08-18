@@ -1,5 +1,26 @@
 # s2-tokens-viewer
 
+## 0.2.11
+
+### Patch Changes
+
+- [#1340](https://github.com/adobe/spectrum-design-data/pull/1340) [`153a664`](https://github.com/adobe/spectrum-design-data/commit/153a6649ddee60997d57a6be2c30a46543886cc9) Thanks [@GarthDB](https://github.com/GarthDB)! - Restore search/resolution for component tokens broken by the CTR migration (#1330).
+  - **scripts/resolve.mjs**: add `buildLayoutComponentFile()` (mirrors `buildColorComponentFile()`)
+    so non-color component tokens land in `tokens/layout-component.json` again — they're rendered
+    and searchable, not just the color subset #1335 already fixed.
+  - **scripts/resolve.mjs**: build the wasm `Dataset` from the viewer's own cascade-converted
+    source via `Dataset.fromTokens()` instead of the stale `Dataset.embedded()` snapshot, so
+    component-token aliases resolve to real values instead of showing raw `{ref}` strings.
+  - **moon.yml**: add a `convert` task (`design-data-cli migrate convert`) that produces the
+    cascade files `resolve` now consumes.
+  - **scripts/resolve.mjs**: `buildLayoutComponentFile()` now seeds from the pristine
+    `node_modules/@adobe/spectrum-tokens/src/layout-component.json` instead of its own prior
+    output, so re-running `resolve.mjs` drops tokens renamed/removed upstream instead of
+    accumulating them forever.
+
+- Updated dependencies [[`9c697cf`](https://github.com/adobe/spectrum-design-data/commit/9c697cfcee3820ddc7bc3688ea000552de708641)]:
+  - @adobe/spectrum-tokens@15.1.0
+
 ## 0.2.10
 
 ### Patch Changes
