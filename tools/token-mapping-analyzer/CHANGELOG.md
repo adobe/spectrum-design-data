@@ -1,5 +1,12 @@
 # token-mapping-analyzer
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [[`9c697cf`](https://github.com/adobe/spectrum-design-data/commit/9c697cfcee3820ddc7bc3688ea000552de708641)]:
+  - @adobe/spectrum-tokens@15.1.0
+
 ## 0.0.14
 
 ### Patch Changes
