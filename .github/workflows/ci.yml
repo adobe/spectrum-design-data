@@ -38,6 +38,11 @@ jobs:
       # proto/rustup interaction bug. Pre-installing via dtolnay/rust-toolchain
       # ensures proto finds cargo already present and skips its own install.
       - uses: dtolnay/rust-toolchain@1.88.0
+      # sdk/.cargo/config.toml forces the lld linker for all Linux builds, and
+      # some node-list moon tasks transitively depend on sdk:build — install
+      # it here too, mirroring the Rust job below.
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
       - uses: moonrepo/setup-toolchain@v0
         with:
           auto-install: true
