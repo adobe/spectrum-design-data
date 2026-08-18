@@ -31,8 +31,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 const tokensDir = join(root, 'tokens');
+const cascadeDir = join(root, 'cascade');
 const outPath = join(tokensDir, 'resolved.json');
 const colorComponentOutPath = join(tokensDir, 'color-component.json');
+const layoutComponentOutPath = join(tokensDir, 'layout-component.json');
+const layoutComponentSrcPath = join(root, 'node_modules/@adobe/spectrum-tokens/src/layout-component.json');
 
 // The CTR migration (#1330) removed the aggregated color-component.json and reorganized
 // component tokens into per-component files (action-bar.json, avatar.json, ...). The viewer's
@@ -163,16 +166,80 @@ function buildColorComponentFile(ds) {
   console.log(`[resolve] Wrote ${colorComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
 }
 
+/**
+ * Merge every NON-color component token into the source-shipped `layout-component.json`
+ * (which, post-CTR, only retains a handful of leftover icon-size tokens — the rest moved to
+ * per-component files). Mirrors buildColorComponentFile()'s scan but takes the opposite side
+ * of the same color-domain test, so every component token lands in exactly one aggregate.
+ *
+ * Seeds from the pristine copy in node_modules (not tokens/layout-component.json, which this
+ * function overwrites) so re-running the script never re-reads its own prior output — a token
+ * renamed or removed from a per-component source file is dropped, not carried forward forever.
+ */
+function buildLayoutComponentFile(ds) {
+  const aggregated = JSON.parse(readFileSync(layoutComponentSrcPath, 'utf-8'));
+  const files = readdirSync(tokensDir)
+    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json'
+      && f !== 'color-component.json' && !FOUNDATION_FILES.has(f))
+    .sort(); // deterministic order
+
+  for (const file of files) {
+    let data;
+    try {
+      data = JSON.parse(readFileSync(join(tokensDir, file), 'utf-8'));
+    } catch {
+      continue; // already warned about unparseable files in loadObjectMap()
+    }
+    if (Array.isArray(data)) continue; // cascade format — skip
+
+    for (const [name, entry] of Object.entries(data)) {
+      if (!isTokenRecord(entry) || !entry.component) continue;
+      const schema = entry.$schema || '';
+      const isColorDomain = schema.endsWith('color-set.json') || schema.endsWith('opacity.json')
+        || resolvesToColor(ds, entry);
+      if (!isColorDomain) aggregated[name] = entry;
+    }
+  }
+
+  writeFileSync(layoutComponentOutPath, JSON.stringify(aggregated, null, 2));
+  console.log(`[resolve] Wrote ${layoutComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
+}
+
+/**
+ * Load every cascade-format .json file from cascadeDir (produced by
+ * `moon run viewer:convert` via `design-data migrate convert`) into one flat token array
+ * suitable for Dataset.fromTokens(). Each file is a top-level array of cascade token objects.
+ */
+function loadCascadeTokens() {
+  const tokens = [];
+  for (const file of readdirSync(cascadeDir).filter(f => f.endsWith('.json')).sort()) {
+    let data;
+    try {
+      data = JSON.parse(readFileSync(join(cascadeDir, file), 'utf-8'));
+    } catch (e) {
+      console.warn(`[resolve] Skipping unparseable cascade file: ${file} — ${e.message}`);
+      continue;
+    }
+    if (Array.isArray(data)) tokens.push(...data);
+  }
+  return tokens;
+}
+
 async function main() {
   // Load wasm — node build is synchronous; no init() call needed.
   const wasm = await import('@adobe/design-data-wasm');
-  const ds = wasm.Dataset.embedded();
+  // Build the dataset from the viewer's own cascade-converted source (not Dataset.embedded(),
+  // a packages/design-data/tokens snapshot that post-CTR no longer carries component tokens
+  // as resolvable entries — see #1330) so every token, including component tokens, resolves.
+  const cascadeTokens = loadCascadeTokens();
+  const ds = wasm.Dataset.fromTokens(cascadeTokens);
   const datasetTokenCount = ds.tokenCount();
 
   buildColorComponentFile(ds);
+  buildLayoutComponentFile(ds);
 
   const { slugs } = loadObjectMap();
-  console.log(`[resolve] ${slugs.size} slugs, ${datasetTokenCount} tokens in embedded dataset`);
+  console.log(`[resolve] ${slugs.size} slugs, ${datasetTokenCount} tokens in cascade dataset`);
 
   const resolved = {};
   let wasmCount = 0;
