@@ -1,0 +1,105 @@
+name: Token change request
+description: Request a create/edit/deprecate/rename/alias-rewire/remove on a design token (Figma + code).
+title: "[Token] "
+labels:
+  - token-request
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request a token change instead of authoring directly in Token
+        Studio. Tokens are authored via the `design-data` CLI/TUI/MCP authoring session
+        into `packages/design-data/tokens/`, then exported to Figma natively
+        (`design-data figma export`) — see
+        [authoring-workflow.md](../../packages/design-data-spec/spec/authoring-workflow.md).
+        For proposals bigger than a single token (new taxonomy, schema changes), use the
+        RFC discussion link in the issue chooser instead.
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Change type
+      description: Which token lifecycle operation is this?
+      options:
+        - create
+        - edit
+        - deprecate
+        - rename
+        - alias-rewire
+        - remove
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: platforms
+    attributes:
+      label: Platform target
+      description: Where does this token need to show up?
+      options:
+        - label: S2 Web
+        - label: iOS
+        - label: Android
+        - label: All platforms
+
+  - type: textarea
+    id: token-names
+    attributes:
+      label: Token name(s)
+      description: Existing or proposed token name(s). Include property + component/variant/state if known.
+      placeholder: e.g. background-color, badge, accent, hover
+    validations:
+      required: true
+
+  - type: textarea
+    id: value-or-alias
+    attributes:
+      label: Value or alias target
+      description: A literal value, OR the name/UUID of an existing token this should alias to. Exactly one, not both.
+      placeholder: e.g. "#FF0000" OR alias to blue-900
+    validations:
+      required: true
+
+  - type: input
+    id: modes
+    attributes:
+      label: Modes affected (if any)
+      description: colorScheme / scale / contrast combinations this value varies by.
+      placeholder: e.g. colorScheme=dark, scale=large
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation and context
+      description: Why is this change needed? What problem does it solve? Link related work.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: semver
+    attributes:
+      label: Expected semver impact
+      description: See changeset rules in CLAUDE.md — patch = bug fix, minor = additive/behavior change, major = breaking.
+      options:
+        - patch
+        - minor
+        - major
+        - not sure
+    validations:
+      required: true
+
+  - type: input
+    id: deadline
+    attributes:
+      label: Deadline / linked issue or epic
+      placeholder: e.g. Needed by Thursday — AI branding work (#1234)
+
+  - type: dropdown
+    id: figma-sync
+    attributes:
+      label: Figma sync needed?
+      description: If yes, this token will also need `design-data figma export` run after the change lands.
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
