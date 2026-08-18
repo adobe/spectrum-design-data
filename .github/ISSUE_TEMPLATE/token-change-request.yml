@@ -1,5 +1,5 @@
 name: Token change request
-description: Request a create/edit/deprecate/rename/alias-rewire/remove on a design token (Figma + code).
+description: Request a create/edit/rename/deprecate on a design token (Figma + code).
 title: "[Token] "
 labels:
   - token-request
@@ -9,29 +9,80 @@ body:
       value: |
         Use this form to request a token change instead of authoring directly in Token
         Studio. The design-data team will action the request via the `design-data`
-        CLI/TUI/MCP authoring session and, once the change lands, run
-        `design-data figma export` to sync it to Figma — see
-        [authoring-workflow.md](../../packages/design-data-spec/spec/authoring-workflow.md)
-        and the [Token Studio sunset roadmap](../../docs/token-studio-sunset.md) for the
-        current state of that pipeline (the authoring write path does not yet target the
-        foundation corpus directly — see roadmap Phase 1).
+        CLI/TUI/MCP authoring session and, once the change lands, sync it to Figma.
+
+        Tokens are named and organized the way they're shown in the
+        [S2 Token specs](https://www.figma.com/design/eoZHKJH9a3LJkHYCGt60Vb/S2-Token-specs?node-id=8476-1743)
+        Figma file — by property, component, variant, and state. Use that file to find
+        the exact current name of a token.
+
+        Want to remove a token entirely? Request **Deprecate** below — the design-data
+        team removes it later, once nothing else depends on it.
+
         For proposals bigger than a single token (new taxonomy, schema changes), use the
-        RFC discussion link in the issue chooser instead.
+        "Propose an RFC" link in the issue chooser instead.
 
   - type: dropdown
     id: change-type
     attributes:
       label: Change type
-      description: Which token lifecycle operation is this?
+      description: What do you want to do?
       options:
-        - create
-        - edit
-        - deprecate
-        - rename
-        - alias-rewire
-        - remove
+        - "Create — add a token that doesn't exist yet"
+        - "Edit — change a token's value, or what it inherits from"
+        - "Rename — creates a token with the new name and deprecates the old name (anything using the old name keeps working, pointed at the new one)"
+        - "Deprecate — mark a token as no longer recommended"
     validations:
       required: true
+
+  - type: input
+    id: token-name-current
+    attributes:
+      label: Token name
+      description: >-
+        For Edit / Rename / Deprecate: the exact current name, as shown in the S2 Token
+        specs (e.g. `component-property-variant-state`). For Create: the name the new
+        token should have.
+      placeholder: e.g. swatch-border-color
+    validations:
+      required: true
+
+  - type: input
+    id: token-name-new
+    attributes:
+      label: New token name — Rename only
+      description: The name the token should have after the rename. Leave blank for all other change types.
+      placeholder: e.g. swatch-border-color-hover
+
+  - type: textarea
+    id: value-or-alias
+    attributes:
+      label: Value, or token to inherit from — Create / Edit only
+      description: >-
+        A literal value (e.g. `12px`, `0.42`, `#FF0000`), OR the name of another token
+        this one should inherit its value from (e.g. `gray-1000`). Give exactly one, not
+        both. Leave blank for Rename / Deprecate.
+      placeholder: e.g. "#FF0000" OR gray-1000
+
+  - type: input
+    id: replacement
+    attributes:
+      label: Replacement token — Deprecate / Rename, if there is one
+      description: The token designers/consumers should use instead, by name.
+      placeholder: e.g. gray-1000
+
+  - type: checkboxes
+    id: modes
+    attributes:
+      label: Modes / themes affected
+      description: Which light/dark, wireframe, or desktop/mobile variants does this apply to?
+      options:
+        - label: Light
+        - label: Dark
+        - label: Wireframe
+        - label: Desktop
+        - label: Mobile
+        - label: All / not sure
 
   - type: checkboxes
     id: platforms
@@ -45,56 +96,6 @@ body:
         - label: All platforms
 
   - type: textarea
-    id: token-name-current
-    attributes:
-      label: Current token name (or "new" for create)
-      description: The existing token being changed. Include property + component/variant/state if known. Use "new" if this is a create request.
-      placeholder: e.g. background-color, badge, accent, hover
-    validations:
-      required: true
-
-  - type: textarea
-    id: token-name-new
-    attributes:
-      label: New token name (rename only)
-      description: Required only for **rename** requests — the name the token should have after the change. Leave blank for all other change types.
-      placeholder: e.g. background-color, badge, accent, hover-emphasized
-
-  - type: textarea
-    id: value-or-alias
-    attributes:
-      label: Value, or new alias target (create/edit/alias-rewire)
-      description: A literal value, OR the name/UUID of the token this should alias to *after* the change. Exactly one, not both. Not required for deprecate/rename/remove.
-      placeholder: e.g. "#FF0000" OR alias to blue-900
-
-  - type: input
-    id: alias-rewire-from
-    attributes:
-      label: Previous alias target (alias-rewire only)
-      description: Required only for **alias-rewire** requests — the token UUID/name currently being aliased to, so reviewers can confirm what's being replaced.
-      placeholder: e.g. currently aliases to blue-800
-
-  - type: input
-    id: modes
-    attributes:
-      label: Modes affected (if any)
-      description: colorScheme / scale / contrast combinations this value varies by.
-      placeholder: e.g. colorScheme=dark, scale=large
-
-  - type: textarea
-    id: known-consumers
-    attributes:
-      label: Known consuming components / tokenBindings
-      description: >-
-        Components or tokenBindings that reference this token today (or should reference
-        it after a rename/alias-rewire/deprecate/remove). Dangling tokenBindings after a
-        token change are the most common cause of breakage — list what you know, even if
-        incomplete, so reviewers can check the rest.
-      placeholder: e.g. badge, tag — or "none known, please check"
-    validations:
-      required: true
-
-  - type: textarea
     id: motivation
     attributes:
       label: Motivation and context
@@ -102,35 +103,34 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: semver
+  - type: textarea
+    id: migration-note
     attributes:
-      label: Expected semver impact
-      description: See changeset rules in CLAUDE.md — patch = bug fix, minor = additive/behavior change, major = breaking.
-      options:
-        - patch
-        - minor
-        - major
-        - not sure
+      label: Migration guidance — Deprecate / Rename
+      description: What should someone using the old token do instead? This gets carried into the deprecation notice.
+
+  - type: textarea
+    id: known-consumers
+    attributes:
+      label: Known consuming components
+      description: >-
+        Components that reference this token today (or should reference it after a
+        rename/deprecate). Dangling references after a token change are the most common
+        cause of breakage — list what you know, even if incomplete, so reviewers can
+        check the rest.
+      placeholder: e.g. badge, tag — or "none known, please check"
     validations:
       required: true
+
+  - type: input
+    id: figma-reference
+    attributes:
+      label: Link or screenshot from the S2 Token specs
+      description: Optional, but helps reviewers confirm exactly which token/appearance you mean.
+      placeholder: e.g. https://www.figma.com/design/eoZHKJH9a3LJkHYCGt60Vb/S2-Token-specs?node-id=...
 
   - type: input
     id: deadline
     attributes:
       label: Deadline / linked issue or epic
       placeholder: e.g. Needed by Thursday — AI branding work (#1234)
-
-  - type: dropdown
-    id: figma-sync
-    attributes:
-      label: Should this token be visible in Figma (S2 Web) variables?
-      description: >-
-        Figma export runs for every landed token change by default. Answer "No" only if
-        this token is intentionally code-only (e.g. an internal/private token) and should
-        be excluded from the Figma Variables sync.
-      options:
-        - "Yes (default)"
-        - "No — code-only, exclude from Figma"
-    validations:
-      required: true
