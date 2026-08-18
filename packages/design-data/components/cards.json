@@ -97,24 +97,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "card-selection-background-corner-radius-small",
-      "context": "Selection checkbox "
-    },
-    {
-      "token": "card-selection-background-corner-radius-medium",
-      "context": "Selection checkbox "
-    },
-    {
-      "token": "card-selection-background-corner-radius-large",
-      "context": "Selection checkbox "
-    },
-    {
-      "token": "card-selection-background-corner-radius-extra-large",
-      "context": "Selection checkbox "
-    }
-  ],
   "accessibility": {
     "intents": ["select"],
     "focusable": true,

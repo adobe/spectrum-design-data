@@ -1609,6 +1609,30 @@
       "file": "layout.json",
       "category": "state-position",
       "reason": "Does not roundtrip through canonical generation rules (category: state-position)"
+    },
+    {
+      "token": "tab-item-to-tab-item-compact-horizontal-medium",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the original dangling tokenBindings name (SPEC-027 vpk.1 fix); does not roundtrip through field-order generation"
+    },
+    {
+      "token": "tab-selection-indicator-thickness",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the original dangling tokenBindings name (SPEC-027 vpk.1 fix); does not roundtrip through field-order generation"
+    },
+    {
+      "token": "strikethrough-day-thickness",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the original dangling tokenBindings name (SPEC-027 vpk.1 fix); does not roundtrip through field-order generation"
+    },
+    {
+      "token": "strikethrough-day-orientation",
+      "file": "layout.json",
+      "category": "legacy-preserved",
+      "reason": "legacyKey pinned to the original dangling tokenBindings name (SPEC-027 vpk.1 fix); does not roundtrip through field-order generation"
     }
   ]
 }

@@ -1620,6 +1620,21 @@
     "value": "{gray-900}",
     "uuid": "c2c538e0-6f8d-4586-953a-b98ef40c9eca"
   },
+  "neutral-content-color-selected-default": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-800}",
+    "uuid": "7289003d-78b6-4c61-aada-a3252a7a9bd2"
+  },
+  "neutral-content-color-selected-hover": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "018f02b1-2f01-4b48-8161-4a0e9d2eed09"
+  },
+  "neutral-content-color-selected-key-focus": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{gray-900}",
+    "uuid": "1b040ae6-315e-49a5-9363-62ba79b139ff"
+  },
   "neutral-subdued-background-color-default": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
     "uuid": "08075b0a-0918-4302-b9af-16734a57b9bb",

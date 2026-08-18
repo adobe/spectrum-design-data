@@ -103,12 +103,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "alert-dialog-top-to-alert-icon",
-      "context": "Icon asset (error and warning variants)"
-    }
-  ],
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],

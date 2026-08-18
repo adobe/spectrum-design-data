@@ -264,23 +264,7 @@
   },
   "tokenBindings": [
     {
-      "token": "range-border-dash-length",
-      "context": "Range fill stroke padding"
-    },
-    {
-      "token": "range-border-dash-gap",
-      "context": "Range fill stroke padding"
-    },
-    {
-      "token": "range-border-dash-thickness",
-      "context": "Range fill stroke padding"
-    },
-    {
       "token": "strikethrough-day-thickness",
-      "context": "Strikethrough day "
-    },
-    {
-      "token": "strikethrough-day-orientation",
       "context": "Strikethrough day "
     },
     {

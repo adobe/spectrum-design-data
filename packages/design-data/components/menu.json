@@ -289,12 +289,6 @@
   "lifecycle": {
     "introduced": "1.0.0-draft"
   },
-  "tokenBindings": [
-    {
-      "token": "popover-submenu-to-menu-item-position",
-      "context": "Sub-menu alignment with menu item"
-    }
-  ],
   "accessibility": {
     "role": "menu",
     "intents": ["select"],

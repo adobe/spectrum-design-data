@@ -3372,6 +3372,39 @@
   {
     "name": {
       "colorRole": "neutral",
+      "property": "content-color",
+      "state": ["selected", "default"],
+      "legacyKey": "neutral-content-color-selected-default"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "f417fb5b-c7cc-41c2-a870-f6cd9a280c22",
+    "uuid": "7289003d-78b6-4c61-aada-a3252a7a9bd2"
+  },
+  {
+    "name": {
+      "colorRole": "neutral",
+      "property": "content-color",
+      "state": ["selected", "hover"],
+      "legacyKey": "neutral-content-color-selected-hover"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
+    "uuid": "018f02b1-2f01-4b48-8161-4a0e9d2eed09"
+  },
+  {
+    "name": {
+      "colorRole": "neutral",
+      "property": "content-color",
+      "state": ["selected", "keyboard-focus"],
+      "legacyKey": "neutral-content-color-selected-key-focus"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "e0eaa59c-81ad-4632-a61d-ab0bee53af4a",
+    "uuid": "1b040ae6-315e-49a5-9363-62ba79b139ff"
+  },
+  {
+    "name": {
+      "colorRole": "neutral",
       "variant": "subdued",
       "property": "color",
       "state": ["default"],
