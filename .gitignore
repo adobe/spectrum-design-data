@@ -147,6 +147,7 @@ temp-*
 
 # auto-generated token files (copied by prepare scripts)
 docs/s2-tokens-viewer/tokens/
+docs/s2-tokens-viewer/cascade/
 
 # tool output directories (graphify, ferrograph)
 graphify-out/
