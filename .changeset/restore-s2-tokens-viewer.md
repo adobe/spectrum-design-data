@@ -12,3 +12,7 @@ Restore search/resolution for component tokens broken by the CTR migration (#133
   component-token aliases resolve to real values instead of showing raw `{ref}` strings.
 - **moon.yml**: add a `convert` task (`design-data-cli migrate convert`) that produces the
   cascade files `resolve` now consumes.
+- **scripts/resolve.mjs**: `buildLayoutComponentFile()` now seeds from the pristine
+  `node_modules/@adobe/spectrum-tokens/src/layout-component.json` instead of its own prior
+  output, so re-running `resolve.mjs` drops tokens renamed/removed upstream instead of
+  accumulating them forever.

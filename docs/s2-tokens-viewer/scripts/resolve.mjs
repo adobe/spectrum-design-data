@@ -35,6 +35,7 @@ const cascadeDir = join(root, 'cascade');
 const outPath = join(tokensDir, 'resolved.json');
 const colorComponentOutPath = join(tokensDir, 'color-component.json');
 const layoutComponentOutPath = join(tokensDir, 'layout-component.json');
+const layoutComponentSrcPath = join(root, 'node_modules/@adobe/spectrum-tokens/src/layout-component.json');
 
 // The CTR migration (#1330) removed the aggregated color-component.json and reorganized
 // component tokens into per-component files (action-bar.json, avatar.json, ...). The viewer's
@@ -170,9 +171,13 @@ function buildColorComponentFile(ds) {
  * (which, post-CTR, only retains a handful of leftover icon-size tokens — the rest moved to
  * per-component files). Mirrors buildColorComponentFile()'s scan but takes the opposite side
  * of the same color-domain test, so every component token lands in exactly one aggregate.
+ *
+ * Seeds from the pristine copy in node_modules (not tokens/layout-component.json, which this
+ * function overwrites) so re-running the script never re-reads its own prior output — a token
+ * renamed or removed from a per-component source file is dropped, not carried forward forever.
  */
 function buildLayoutComponentFile(ds) {
-  const aggregated = JSON.parse(readFileSync(join(tokensDir, 'layout-component.json'), 'utf-8'));
+  const aggregated = JSON.parse(readFileSync(layoutComponentSrcPath, 'utf-8'));
   const files = readdirSync(tokensDir)
     .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json'
       && f !== 'color-component.json' && !FOUNDATION_FILES.has(f))
