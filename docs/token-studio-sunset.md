@@ -2,7 +2,7 @@
 
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-**Status:** Draft roadmap, Phase 0 in progress.
+**Status:** Draft roadmap. Phase 0 and Phase 1 complete; Phase 2 (verify Figma export parity) next.
 
 ## Why
 
@@ -24,37 +24,38 @@ that native path.
 
 ### Phase 0 — now (unblocked)
 
-- Ship the [token change request issue form](../.github/ISSUE_TEMPLATE/token-change-request.yml)
+* Ship the [token change request issue form](../.github/ISSUE_TEMPLATE/token-change-request.yml)
   as the designer-facing intake, replacing "open a Token Studio PR" for one-off requests.
-- Announce the new intake in `#spectrum-tokens`; Token Studio still accepted during
+* Announce the new intake in `#spectrum-tokens`; Token Studio still accepted during
   transition.
 
-### Phase 1 — foundation-corpus write target (gating)
+### Phase 1 — foundation-corpus write target (gating) — done
 
-The shipped CLI/TUI/MCP authoring write path currently targets product-layer files, not
-the foundation corpus (`packages/design-data/tokens/*.tokens.json`). Redirecting it is
-**Phase B** in `authoring-workflow.md` §Scheduled promotion, and is **not yet shipped**.
-Nothing below can complete until this lands. Track as its own epic; see RFC
+The CLI/TUI/MCP authoring write path now targets the foundation corpus
+(`packages/design-data/tokens/*.tokens.json`) directly, rather than product-layer files. This
+redirect was **Phase B** in `authoring-workflow.md` §Scheduled promotion and has **shipped**
+(epic `spectrum-design-data-122`,
+closed). Phases below are unblocked; see RFC
 [#625](https://github.com/adobe/spectrum-design-data/discussions/625).
 
 ### Phase 2 — verify Figma export parity
 
-- Confirm `design-data figma export` reads the cascade token format
+* Confirm `design-data figma export` reads the cascade token format
   (`packages/design-data/tokens/`) end to end. The CLI help text calls its input a
   "legacy token source directory" — that naming is overloaded; verify
   `build_export_payload`'s expected input shape in `sdk/core/src/figma/mapping.rs` before
   relying on it.
-- Confirm round-trip to legacy output (`design-data:legacy-output`,
+* Confirm round-trip to legacy output (`design-data:legacy-output`,
   `design-data:roundtrip-verify`) so `@adobe/spectrum-tokens` consumers see no regression.
 
 ### Phase 3 — decommission the inbound sync
 
 Once the native path is authoritative and verified, retire:
 
-- `tools/token-changeset-generator/`
-- `.github/workflows/enhance-sync-pr.yml`
-- `.github/actions/extract-source-pr-info`
-- the `enhance-sync-pr` skill
+* `tools/token-changeset-generator/`
+* `.github/workflows/enhance-sync-pr.yml`
+* `.github/actions/extract-source-pr-info`
+* the `enhance-sync-pr` skill
 
 Coordinate with the external `spectrum-tokens-studio-data` repo owners (`mrcjhicks`) —
 sync PRs originate there, so this is a cross-repo change, not a delete-and-done in this repo.

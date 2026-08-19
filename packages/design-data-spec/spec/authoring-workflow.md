@@ -35,20 +35,20 @@ Per [Evolution — Legacy format contract](evolution.md#legacy-format-contract),
 
 The following tools constitute the normative authoring surface:
 
-| Tool                       | Form                                                         | Status                                                                              | Scope                                                                  |
-| -------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `design-data` CLI          | `design-data write-token` subcommand                         | Shipped — product-layer token creation                                              | Foundation corpus authoring: see [Gap — Phase B](#scheduled-promotion) |
-| `design-data-tui`          | interactive token naming + creation wizard                   | Shipped (RFC [#973](https://github.com/adobe/spectrum-design-data/discussions/973)) | Foundation corpus authoring: see [Gap — Phase B](#scheduled-promotion) |
-| MCP authoring session      | `start_authoring_session` / `authoring_session_commit` tools | Shipped (RFC [#973](https://github.com/adobe/spectrum-design-data/discussions/973)) | Foundation corpus authoring: see [Gap — Phase B](#scheduled-promotion) |
-| Design Data management app | future browser-based tool                                    | Not yet shipped                                                                     | Full CRUD across all categories                                        |
+| Tool                       | Form                                                                                                                                                                            | Status                                                                                                                                                                | Scope                                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `design-data` CLI          | `design-data write-token` + cascade mutation/mode-set subcommands (edit/deprecate/rename/alias-rewire/remove, add-mode/rename-mode/remove-mode/create-mode-set/remove-mode-set) | Shipped — cascade foundation-corpus token + mode-set authoring (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122)) | Component/field/registry authoring not yet shipped — see [Per-category authoring contracts](#per-category-authoring-contracts) |
+| `design-data-tui`          | interactive token naming + creation wizard                                                                                                                                      | Shipped (RFC [#973](https://github.com/adobe/spectrum-design-data/discussions/973)); writes cascade `*.tokens.json` directly (Phase B)                                | Component/field/registry authoring not yet shipped                                                                             |
+| MCP authoring session      | `start_authoring_session` / `authoring_session_commit` tools, plus `edit_token`/`deprecate_token`/`rename_token`/`rewire_alias`/`remove_token`/mode-set tools                   | Shipped (RFC [#973](https://github.com/adobe/spectrum-design-data/discussions/973)); writes cascade `*.tokens.json` directly (Phase B)                                | Component/field/registry authoring not yet shipped                                                                             |
+| Design Data management app | future browser-based tool                                                                                                                                                       | Not yet shipped                                                                                                                                                       | Full CRUD across all categories                                                                                                |
 
 **RECOMMENDED:** Authors SHOULD use the TUI or MCP authoring session rather than editing cascade JSON files directly. Tooling enforces UUID uniqueness, name-object field decomposition, and referential integrity that is difficult to maintain manually.
 
 ### Scheduled promotion {#scheduled-promotion}
 
-The shipped CLI/TUI/MCP write path currently targets product-layer files (`foundation.json`, `platform.json`, `product.json`) — the distributed design system model introduced for product teams. Redirecting those tools to write to the foundation Spectrum corpus (`packages/design-data/tokens/*.tokens.json`) is Phase B work.
+The CLI/TUI/MCP write path now targets the foundation Spectrum corpus (`packages/design-data/tokens/*.tokens.json`, via `design_data_core::write::cascade_target_filename`) rather than the legacy product-layer files (`foundation.json`, `platform.json`, `product.json`). This redirect was **Phase B** work and has shipped (epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122), closed).
 
-**NORMATIVE:** Once the Phase B authoring engine ships, all authoring tools described above MUST write to the dataset root, not to legacy layer files. The `write_token` and `write_component` operations in [Agent-readable surface](agent-surface.md) are currently RECOMMENDED; they are **scheduled to become required** (MUST) when the Phase B foundation-corpus write target ships. The exact promotion version is tracked in RFC [#625](https://github.com/adobe/spectrum-design-data/discussions/625). This mirrors the SPEC-017 escalation precedent in [Token format](token-format.md#string-name-escape-hatch--spec-017-severity-schedule).
+**NORMATIVE:** All authoring tools described above MUST write to the dataset root, not to legacy layer files. The `write_token` operation in [Agent-readable surface](agent-surface.md) is now **required** (MUST) for the foundation-corpus write target; `write_component` remains RECOMMENDED pending component authoring support (not yet shipped — see [Per-category authoring contracts](#per-category-authoring-contracts)). The promotion is tracked in RFC [#625](https://github.com/adobe/spectrum-design-data/discussions/625). This mirrors the SPEC-017 escalation precedent in [Token format](token-format.md#string-name-escape-hatch--spec-017-severity-schedule).
 
 ## Lifecycle operations
 
@@ -78,14 +78,14 @@ The following table defines the **target token-authoring contract**: the complet
 
 The following per-category contracts specify what the authoring surface authors in each registered directory and which validation rules gate the output. Detailed authoring workflows per category are specified in separate subsections of this document as Phase A work progresses.
 
-| Category   | Directory     | Authoring status                                                                 | Validation gate                            |
-| ---------- | ------------- | -------------------------------------------------------------------------------- | ------------------------------------------ |
-| Tokens     | `tokens/`     | Shipped (create only; edit/lifecycle operations are Phase B)                     | SPEC-001–017, SPEC-041, SPEC-042, SPEC-043 |
-| Components | `components/` | Not yet shipped (`write_component` deferred — [Agent surface](agent-surface.md)) | SPEC-018–040                               |
-| Fields     | `fields/`     | Not yet shipped                                                                  | SPEC-042, SPEC-043                         |
-| Mode sets  | `mode-sets/`  | Not yet shipped                                                                  | SPEC-005, SPEC-008, SPEC-041               |
-| Guidelines | `guidelines/` | Not yet shipped                                                                  | SPEC-045, SPEC-046                         |
-| Registry   | `registry/`   | Not yet shipped (vocabulary is hand-maintained)                                  | SPEC-033, SPEC-034, SPEC-035               |
+| Category   | Directory     | Authoring status                                                                                                                                                       | Validation gate                            |
+| ---------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Tokens     | `tokens/`     | Shipped — create, edit, deprecate, rename, alias-rewire, remove (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122)) | SPEC-001–017, SPEC-041, SPEC-042, SPEC-043 |
+| Components | `components/` | Not yet shipped (`write_component` deferred — [Agent surface](agent-surface.md))                                                                                       | SPEC-018–040                               |
+| Fields     | `fields/`     | Not yet shipped                                                                                                                                                        | SPEC-042, SPEC-043                         |
+| Mode sets  | `mode-sets/`  | Shipped — add/rename/remove-mode, create/remove-mode-set (Phase B, epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122))        | SPEC-005, SPEC-008, SPEC-041               |
+| Guidelines | `guidelines/` | Not yet shipped as a manual authoring surface; generated via extended transformer (Phase 10, beads `ek4`)                                                              | SPEC-045, SPEC-046                         |
+| Registry   | `registry/`   | Not yet shipped (vocabulary is hand-maintained)                                                                                                                        | SPEC-033, SPEC-034, SPEC-035               |
 
 ### Token authoring contract
 
@@ -106,9 +106,9 @@ Tokens are authored in `tokens/**/*.tokens.json`. Files may be nested arbitraril
 **Validation gate:** SPEC-001–017 (name, value, lifecycle, tech-debt), SPEC-041 (mode-set
 conformance), SPEC-042 (field-scope), SPEC-043 (domain-required-fields).
 
-**Edit and lifecycle operations (Phase B):** Edit, deprecate, rename, alias-rewire, mode-set
+**Edit and lifecycle operations (Phase B, shipped):** Edit, deprecate, rename, alias-rewire, mode-set
 management, and remove are specified in [Lifecycle operations](#lifecycle-operations) and are
-implemented in Phase B.
+implemented (epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122), closed).
 
 ***
 
@@ -134,8 +134,8 @@ be named with the component's `name` field value (e.g. `button.json` for `name: 
 cross-references), SPEC-034 (category registry sync), SPEC-035 (anatomy-term registry sync),
 SPEC-038–040 (lifecycle, display name, schema).
 
-**Authoring status:** Not yet shipped — `write_component` is Phase B scheduled (see
-[Scheduled promotion](#scheduled-promotion)).
+**Authoring status:** Not yet shipped — `write_component` was out of scope for Phase B (tokens and
+mode-sets only; see [Scheduled promotion](#scheduled-promotion)) and remains unscheduled.
 
 ***
 
