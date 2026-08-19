@@ -5320,5 +5320,167 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e05251ac-d64a-4157-9b20-224f0392269e",
     "uuid": "beaff99a-634a-4ce8-b2f4-54c63202d45b"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 0
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0",
+    "uuid": "f3dbabcc-8aca-4c2a-83de-31052be74892"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 50
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.02",
+    "uuid": "953a3ae4-200e-4021-84cc-7177c0199bb0"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 75
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.03",
+    "uuid": "e397b1c2-18ad-421d-a16a-91a94a8fb510"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 100
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.04",
+    "uuid": "f60d39bb-d6de-472f-92f2-16d376899c7a"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 125
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.06",
+    "uuid": "88498cf4-9297-45c8-a268-24fa6df45e8f"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 150
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.08",
+    "uuid": "f3a644a5-79e6-4ca8-b928-2769f7fc4976"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 200
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.12",
+    "uuid": "4650acd2-32bf-4c59-b73e-90965643392e"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 300
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.16",
+    "uuid": "dc734505-ee27-4ffa-abdb-7edb9420007d"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 350
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.2",
+    "uuid": "2841d19f-afb3-47a1-92a4-1d37ef7dafb8"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 400
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.24",
+    "uuid": "5065fe2c-135e-41a1-8495-7471e4e185b7"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 500
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.32",
+    "uuid": "cc57bed6-8348-4c30-bfdc-88a34d4d5886"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 600
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.4",
+    "uuid": "94faa089-0cd2-44c3-bab6-53a754fe2c56"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 700
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.48",
+    "uuid": "e0caf147-d392-4eb4-bcc3-b4133176915c"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 750
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.56",
+    "uuid": "0f26b201-f7d1-4960-ac0c-1cca49aad42a"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 800
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.64",
+    "uuid": "d5f4d0aa-6301-400f-a585-50a815768c19"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 900
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.8",
+    "uuid": "aca4b30c-1352-433a-a372-fbfcd5f73c8d"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 950
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "0.96",
+    "uuid": "354bc196-1f32-45d8-ba2f-f6c38346b3f8"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "scaleIndex": 1000
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "value": "1",
+    "uuid": "a6f37fff-9050-4b30-b345-bfd67adf6239"
   }
 ]
