@@ -34,7 +34,7 @@ that native path.
 The CLI/TUI/MCP authoring write path now targets the foundation corpus
 (`packages/design-data/tokens/*.tokens.json`) directly, rather than product-layer files. This
 redirect was **Phase B** in `authoring-workflow.md` §Scheduled promotion and has **shipped**
-(epic [`spectrum-design-data-122`](https://github.com/adobe/spectrum-design-data/issues/122),
+(epic `spectrum-design-data-122`,
 closed). Phases below are unblocked; see RFC
 [#625](https://github.com/adobe/spectrum-design-data/discussions/625).
 
