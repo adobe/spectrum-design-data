@@ -1,5 +1,16 @@
 # s2-tokens-viewer
 
+## 0.2.12
+
+### Patch Changes
+
+- [#1350](https://github.com/adobe/spectrum-design-data/pull/1350) [`432ec03`](https://github.com/adobe/spectrum-design-data/commit/432ec03bfbe7754a1a99c6acc24d7ccd50f16d75) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix crash and duplicate work in resolve.mjs found in review of #1341.
+  - **scripts/resolve.mjs**: `loadCascadeTokens()` now throws a clear error naming
+    `moon run viewer:convert` when `cascade/` is missing, instead of an uncaught `ENOENT`.
+  - **scripts/resolve.mjs**: merge `buildColorComponentFile()` and `buildLayoutComponentFile()`
+    into a single `buildComponentFiles()` pass over `tokensDir` so each component token file is
+    read, parsed, and checked for color-domain only once instead of twice.
+
 ## 0.2.11
 
 ### Patch Changes
