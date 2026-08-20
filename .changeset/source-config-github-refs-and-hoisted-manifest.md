@@ -10,4 +10,6 @@ Decouple the platform manifest from the source and let the GitHub source pin any
   misplaced keys instead of silently dropping them.
 - **sdk/core/src/data_source/fetch.rs**: the `github` source pins by exactly one of `tag`,
   `branch`, or `sha` (release tarball over HTTPS — no Node, no git binary); branch pins refetch
-  each run, tag/sha stay cached.
+  each run, tag/sha stay cached. Also fixes stale-cache eviction, which scanned a non-existent
+  parent dir and never pruned old refs — now prunes the same repo's other refs, leaving other
+  repos untouched.

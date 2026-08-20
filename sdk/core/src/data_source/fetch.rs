@@ -242,7 +242,10 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
 
     let bytes = download_bytes(&url)?;
     extract_github_tarball(&bytes, &url, &root)?;
-    evict_stale_versions(&root, &base.join("github").join(&safe_repo));
+    // Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir
+    // and prune only *this repo's* other refs — the `{safe_repo}@` prefix keeps a
+    // fetch of one repo from evicting another repo's cache.
+    evict_stale_versions(&root, &base.join("github"), &format!("{safe_repo}@"));
 
     Ok(root)
 }
@@ -448,14 +451,16 @@ fn should_extract(rel: &Path) -> bool {
 // Stale-version eviction
 // ---------------------------------------------------------------------------
 
-/// Remove sibling version directories under `parent_dir` that differ from
-/// `current`, keeping the cache footprint bounded across version upgrades.
+/// Remove sibling version directories under `parent_dir` whose name starts with
+/// `prefix` but differs from `current`, keeping the cache footprint bounded across
+/// version upgrades. The `prefix` scopes eviction to one logical source (e.g. one
+/// github repo) so pruning one repo's stale refs never touches another repo's cache.
 /// Best-effort: errors are silently ignored.
-fn evict_stale_versions(current: &Path, parent_dir: &Path) {
+fn evict_stale_versions(current: &Path, parent_dir: &Path, prefix: &str) {
     if !parent_dir.is_dir() {
         return;
     }
-    let current_name = match current.file_name() {
+    let current_name = match current.file_name().and_then(|n| n.to_str()) {
         Some(n) => n,
         None => return,
     };
@@ -464,7 +469,10 @@ fn evict_stale_versions(current: &Path, parent_dir: &Path) {
     };
     for entry in entries.flatten() {
         let path = entry.path();
-        if path.file_name() != Some(current_name) && path.is_dir() {
+        let Some(name) = path.file_name().and_then(|n| n.to_str()) else {
+            continue;
+        };
+        if name.starts_with(prefix) && name != current_name && path.is_dir() {
             let _ = std::fs::remove_dir_all(&path);
         }
     }
@@ -569,6 +577,26 @@ mod tests {
             GithubRef::from_fields(Some("t"), Some("b"), None),
             Err(FetchError::GithubRef(_))
         ));
+    }
+
+    #[test]
+    fn evict_prunes_same_repo_other_refs_only() {
+        let tmp = tempfile::TempDir::new().unwrap();
+        let gh = tmp.path().join("github");
+        std::fs::create_dir_all(&gh).unwrap();
+        // Flat entries: two refs of repo A, one ref of repo B.
+        let current = gh.join("adobe-spectrum-design-data@tag-new");
+        let stale = gh.join("adobe-spectrum-design-data@tag-old");
+        let other = gh.join("adobe-spectrum-tokens@tag-x");
+        for d in [&current, &stale, &other] {
+            std::fs::create_dir_all(d).unwrap();
+        }
+
+        evict_stale_versions(&current, &gh, "adobe-spectrum-design-data@");
+
+        assert!(current.is_dir(), "current ref must be kept");
+        assert!(!stale.is_dir(), "same-repo stale ref must be pruned");
+        assert!(other.is_dir(), "another repo's cache must be untouched");
     }
 
     #[test]
