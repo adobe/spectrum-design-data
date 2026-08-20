@@ -1,0 +1,17 @@
+# Copyright 2026 Adobe. All rights reserved.
+#
+# Platform manifest POC config for Spectrum iOS (bd spectrum-design-data-284.10 /
+# spectrum-design-data-7mt.3). NOT for production use — see FINDINGS.md.
+#
+# Pins the foundation to a published Spectrum tokens release via the `github`
+# source (pure-HTTPS release tarball — no Node, no git binary), then cascades the
+# Layer-2 platform manifest on top. The manifest is declared as a top-level,
+# source-independent key so it applies to any source, not just `type = "path"`
+# (the original blocker — see FINDINGS.md gap #0, now resolved).
+
+manifest = "manifest.json"
+
+[source]
+type = "github"
+repo = "adobe/spectrum-design-data"
+tag = "@adobe/spectrum-tokens@15.0.0"

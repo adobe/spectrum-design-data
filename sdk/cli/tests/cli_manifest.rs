@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 //! Integration tests for the Foundation→Platform manifest cascade wired through
-//! `.design-data.toml`'s `[source].manifest` field (epic #1047 Phase 2, #1053).
+//! `.design-data.toml`'s top-level `manifest` key (epic #1047 Phase 2, #1053).
 
 use std::fs;
 use std::path::PathBuf;
@@ -53,7 +53,7 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     fs::write(
         project.path().join(".design-data.toml"),
         format!(
-            "[source]\ntype = \"path\"\nroot = \"{}\"\nmanifest = \"manifest.json\"\n",
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
             repo_root().display()
         ),
     )

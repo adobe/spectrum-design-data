@@ -11,7 +11,7 @@
 //! Platform manifest application for the Foundation→Platform cascade.
 //!
 //! Reads a Layer 2 platform `manifest.json` declared in `.design-data.toml`
-//! (`[source].manifest`), optionally validates it against `manifest.schema.json`,
+//! (top-level `manifest` key), optionally validates it against `manifest.schema.json`,
 //! and applies it to a [`TokenGraph`] via
 //! [`TokenGraph::apply_platform_manifest`](crate::graph::TokenGraph::apply_platform_manifest).
 
@@ -33,7 +33,7 @@ pub fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
 }
 
 /// Apply the Layer 2 platform manifest declared in `.design-data.toml`
-/// (`[source].manifest`) to `graph`, returning mode-set restrictions to feed
+/// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
 /// into a [`ResolutionContext`](crate::cascade::ResolutionContext).
 ///
 /// A no-op (empty map) when no manifest is configured. When the spec's

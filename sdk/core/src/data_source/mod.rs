@@ -16,8 +16,11 @@
 //! 1. **Explicit CLI flags / positional args** — passed via [`CliPathOverrides`].
 //!    `Some` values are used directly; `None` falls through to the next tier.
 //! 2. **`.design-data.toml` config file** — discovered by walking up from `cwd`.
-//!    Only the `path` source type is active in this release; `npm`/`github`/`git`
-//!    return [`DataSourceError::NotYetImplemented`] until `#1050` lands.
+//!    `path` and `github` sources fetch/resolve data; `npm`/`git` still
+//!    return [`DataSourceError::NotYetImplemented`] until `#1050` lands. The
+//!    `github` source pins by `tag`, `branch`, or `sha`. A Layer 2 platform
+//!    manifest is configured via the **top-level `manifest` key** (not per
+//!    source), so it cascades over any source or the embedded/probed default.
 //! 3. **CWD-relative probing** — tries `packages/tokens/…` and
 //!    `packages/design-data-spec/…` relative to `cwd`.  Preserves the original
 //!    in-monorepo behaviour when run from inside a checkout.
@@ -53,29 +56,35 @@ pub struct DesignDataConfig {
     pub source: Option<SourceConfig>,
     /// Cache location overrides.
     pub cache: Option<CacheConfig>,
+    /// Optional path to a Layer 2 platform `manifest.json` (absolute, or relative
+    /// to the directory containing `.design-data.toml`).
+    ///
+    /// Top-level and **source-independent**: the platform manifest is a local,
+    /// platform-authored file describing the Foundation→Platform cascade; the
+    /// `[source]` block only says where the *foundation* dataset comes from. When
+    /// set, the resolver records it on [`ResolvedData::platform_manifest`] so the
+    /// caller can apply the cascade
+    /// ([`crate::graph::TokenGraph::apply_platform_manifest`]) over whatever source
+    /// is configured (`path`, `github`, or the embedded/probed default).
+    pub manifest: Option<PathBuf>,
 }
 
 /// Describes where to obtain or locate the design data.
 ///
 /// Serialised as `type = "npm"` / `"github"` / `"git"` / `"path"` in the TOML.
 #[derive(Debug, Deserialize)]
-#[serde(tag = "type", rename_all = "lowercase")]
+#[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum SourceConfig {
     /// A local filesystem path; the root of a repo that follows the standard
     /// monorepo layout (`packages/tokens/`, `packages/design-data-spec/`, …).
     ///
-    /// This is the only source type active in this release.  The `root` is
-    /// resolved relative to the directory containing `.design-data.toml`.
+    /// The `root` is resolved relative to the directory containing
+    /// `.design-data.toml`. To apply a platform manifest cascade over this
+    /// source, set the top-level `manifest` key (see [`DesignDataConfig`]).
     Path {
         /// Path to the local design-data repo root (absolute, or relative to
         /// the directory containing `.design-data.toml`).
         root: PathBuf,
-        /// Optional path to a Layer 2 platform `manifest.json` (absolute, or
-        /// relative to the directory containing `.design-data.toml`). When set,
-        /// the resolver records it on [`ResolvedData::platform_manifest`] so the
-        /// caller can apply the Foundation→Platform cascade
-        /// ([`crate::graph::TokenGraph::apply_platform_manifest`]).
-        manifest: Option<PathBuf>,
     },
     /// `@adobe/spectrum-tokens` (and matching `design-data-spec`) from the npm
     /// registry.  **Not yet implemented — planned for `#1050`.**
@@ -85,12 +94,24 @@ pub enum SourceConfig {
         /// Exact version to resolve.
         version: String,
     },
-    /// A GitHub release tarball.  **Not yet implemented — planned for `#1050`.**
+    /// A GitHub archive tarball. Fetched and cached (see
+    /// `sdk/core/src/data_source/fetch.rs`). The archive contains the full
+    /// dataset including `packages/tokens/schemas/**`, fetched over plain HTTPS
+    /// with no Node or git binary required.
+    ///
+    /// Pin to **exactly one** of `tag`, `branch`, or `sha`. A `branch` pin is
+    /// mutable and is refetched on every run; `tag`/`sha` are immutable and
+    /// served from cache. Apply a platform manifest via the top-level `manifest`
+    /// key (see [`DesignDataConfig`]).
     Github {
         /// `owner/repo` slug, e.g. `adobe/spectrum-design-data`.
         repo: String,
-        /// Release tag to download.
-        tag: String,
+        /// Release/annotated tag to download (`refs/tags/{tag}`).
+        tag: Option<String>,
+        /// Branch to download (`refs/heads/{branch}`). Mutable — refetched each run.
+        branch: Option<String>,
+        /// Exact commit SHA to download.
+        sha: Option<String>,
     },
     /// A git repository (clone / fetch at a ref).
     /// **Not yet implemented — planned for `#1050`.**
@@ -186,7 +207,7 @@ pub struct ResolvedData {
     /// Populated here but consumed by #1049 (embedded snapshot provenance tracking).
     #[allow(dead_code)]
     pub manifest: Option<PathBuf>,
-    /// Layer 2 **platform** `manifest.json` path from `[source].manifest`, if any.
+    /// Layer 2 **platform** `manifest.json` path from the top-level `manifest` key, if any.
     ///
     /// Unlike [`Self::manifest`] (the token build manifest), this is the platform
     /// cascade manifest declaring `foundationVersion`, include/exclude filters,
@@ -254,13 +275,28 @@ pub enum DataSourceError {
 pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData, DataSourceError> {
     // Tier 1 is handled per-field inside each helper (overrides win always).
 
+    // The platform manifest is a top-level, source-independent config key: it can
+    // cascade over any source below (path/github) or the probed/embedded default.
+    // Carry it down to whichever tier actually resolves.
+    let mut carried_manifest: Option<PathBuf> = None;
+
     // Tier 2: look for `.design-data.toml` walking up from cwd.
     if let Some((config_path, config)) = find_config(cwd)? {
+        // Resolve the optional platform manifest relative to the config file's
+        // directory, up front, before `config_path` is moved into a provenance record.
+        let config_dir = config_path.parent().unwrap_or(cwd).to_path_buf();
+        let platform_manifest = config.manifest.as_ref().map(|m| {
+            if m.is_absolute() {
+                m.clone()
+            } else {
+                config_dir.join(m)
+            }
+        });
+
         if let Some(source) = &config.source {
             return match source {
-                SourceConfig::Path { root, manifest } => {
+                SourceConfig::Path { root } => {
                     // Resolve root relative to the config file's directory.
-                    let config_dir = config_path.parent().unwrap_or(cwd);
                     let abs_root = if root.is_absolute() {
                         root.clone()
                     } else {
@@ -269,15 +305,6 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                     if !abs_root.is_dir() {
                         return Err(DataSourceError::PathNotFound { root: abs_root });
                     }
-                    // Resolve the optional platform manifest relative to the config dir
-                    // before `config_path` is moved into the provenance record.
-                    let platform_manifest = manifest.as_ref().map(|m| {
-                        if m.is_absolute() {
-                            m.clone()
-                        } else {
-                            config_dir.join(m)
-                        }
-                    });
                     // Canonicalize to resolve `..` components before passing to from_root.
                     let canonical = abs_root.canonicalize().unwrap_or(abs_root);
                     let mut resolved =
@@ -287,20 +314,28 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                 }
                 SourceConfig::Npm { .. }
                 | SourceConfig::Github { .. }
-                | SourceConfig::Git { .. } => fetch_source(
-                    source,
-                    config.cache.as_ref().and_then(|c| c.dir.as_deref()),
-                    overrides,
-                ),
+                | SourceConfig::Git { .. } => {
+                    let mut resolved = fetch_source(
+                        source,
+                        config.cache.as_ref().and_then(|c| c.dir.as_deref()),
+                        overrides,
+                    )?;
+                    resolved.platform_manifest = platform_manifest;
+                    Ok(resolved)
+                }
             };
         }
-        // Config file present but no [source] block → fall through to probing.
+        // Config file present but no [source] block → fall through to probing,
+        // carrying any top-level manifest so it can cascade over the local dataset.
+        carried_manifest = platform_manifest;
     }
 
     // Tier 3: CWD-relative probing — original in-monorepo behaviour.
     // If we are inside a monorepo checkout probe will find everything; return immediately.
     if is_in_repo(cwd) {
-        return Ok(probe_cwd(cwd, overrides));
+        let mut resolved = probe_cwd(cwd, overrides);
+        resolved.platform_manifest = carried_manifest;
+        return Ok(resolved);
     }
 
     // Tier 4: Embedded snapshot — materialize to the OS cache dir on first use.
@@ -308,13 +343,15 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
     // through so existing users outside a repo aren't broken.
     match embedded::materialize() {
         Ok(root) => {
-            return Ok(from_root(
+            let mut resolved = from_root(
                 &root,
                 overrides,
                 Provenance::Embedded {
                     version: embedded::EMBEDDED_DATA_VERSION,
                 },
-            ));
+            );
+            resolved.platform_manifest = carried_manifest;
+            return Ok(resolved);
         }
         Err(e) => {
             // Only surface the warning under debug logging — materialisation
@@ -743,6 +780,48 @@ mod tests {
         );
         assert!(resolved.schemas_root.starts_with(&canon_root));
         assert!(resolved.components.is_some());
+    }
+
+    #[test]
+    fn top_level_manifest_resolves_relative_to_config_dir() {
+        let tmp = TempDir::new().unwrap();
+        let ext_repo = tmp.path().join("spectrum-repo");
+        make_monorepo(&ext_repo);
+
+        let project = tmp.path().join("my-project");
+        fs::create_dir_all(&project).unwrap();
+        // Top-level `manifest` key, source-independent (here with a path source).
+        fs::write(
+            project.join(".design-data.toml"),
+            "manifest = \"platform.json\"\n[source]\ntype = \"path\"\nroot = \"../spectrum-repo\"\n",
+        )
+        .unwrap();
+        fs::write(project.join("platform.json"), "{}").unwrap();
+
+        let resolved = resolve(&project, &CliPathOverrides::default()).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(project.join("platform.json"))
+        );
+    }
+
+    #[test]
+    fn top_level_manifest_carries_to_probe_without_source() {
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        // A manifest but no [source] block → cascade over the probed local dataset.
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "manifest = \"platform.json\"\n",
+        )
+        .unwrap();
+
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        assert_eq!(resolved.provenance, Provenance::InRepo);
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("platform.json"))
+        );
     }
 
     #[test]

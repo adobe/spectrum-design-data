@@ -23,11 +23,14 @@
 //!   packages/tokens/schemas/**
 //!   packages/tokens/naming-exceptions.json
 //!   packages/tokens/manifest.json
-//!   packages/design-data/mode-sets/          ← github / git only
+//!   packages/design-data/mode-sets/          ← github only
 //!   packages/design-data/components/
 //!   packages/design-data/fields/
 //!   .complete                                ← written last; signals complete extraction
 //! ```
+//!
+//! The `<key>` for a github source is `github/<repo>@<kind>-<ref>`, where `<kind>`
+//! is `tag`/`branch`/`sha` — so a tag and a same-named branch never collide.
 //!
 //! Where `<base>` is resolved in priority order:
 //! 1. Explicit `cache_dir` argument (from `[cache].dir` in `.design-data.toml`)
@@ -38,9 +41,9 @@
 //!
 //! | Source   | Status          | Dataset          |
 //! |----------|-----------------|------------------|
-//! | `github` | ✅ implemented  | Full (tokens + spec catalog) |
-//! | `npm`    | 🚧 stub         | Tokens only — no spec catalog in npm tarball |
-//! | `git`    | 🚧 stub         | Planned: `gix` crate |
+//! | `github` | ✅ implemented  | Full (tokens + spec catalog); pins by tag/branch/sha |
+//! | `npm`    | 🚧 stub         | Published npm packages are dataset-incomplete (no schemas) — use github |
+//! | `git`    | 🚧 stub         | Arbitrary git hosts unsupported — use github tag/branch/sha |
 //!
 //! ## Atomicity
 //!
@@ -70,6 +73,9 @@ pub enum FetchError {
         source_type: &'static str,
         reason: &'static str,
     },
+    /// A `github` source did not pin exactly one of `tag` / `branch` / `sha`.
+    #[error("github source must pin exactly one of `tag`, `branch`, or `sha` ({0})")]
+    GithubRef(&'static str),
     /// A network request failed.
     #[error("network error fetching {url}: {source}")]
     Network {
@@ -110,17 +116,29 @@ pub fn ensure_cached(
 ) -> Result<PathBuf, FetchError> {
     let base = resolve_cache_base(cache_dir_override)?;
     match source {
-        SourceConfig::Github { repo, tag } => fetch_github(&base, repo, tag),
+        SourceConfig::Github {
+            repo,
+            tag,
+            branch,
+            sha,
+        } => {
+            let git_ref =
+                GithubRef::from_fields(tag.as_deref(), branch.as_deref(), sha.as_deref())?;
+            fetch_github(&base, repo, &git_ref)
+        }
         SourceConfig::Npm { .. } => Err(FetchError::NotYetSupported {
             source_type: "npm",
-            reason: "the @adobe/spectrum-tokens npm tarball contains only token data \
-                     (no design-data-spec catalog). Use source.type = \"github\" for the \
-                     full dataset. npm support is planned for a future release.",
+            reason: "the published npm packages are dataset-incomplete for the cascade \
+                     (@adobe/spectrum-tokens ships tokens only; @adobe/spectrum-design-data \
+                     omits packages/tokens/schemas). Use source.type = \"github\", which \
+                     serves the full dataset (incl. schemas) over plain HTTPS with no Node \
+                     required, and pins by tag/branch/sha.",
         }),
         SourceConfig::Git { .. } => Err(FetchError::NotYetSupported {
             source_type: "git",
-            reason: "git source support is planned (will use the gix crate). \
-                     Use source.type = \"github\" for tagged releases.",
+            reason: "arbitrary git hosts are not supported. Use source.type = \"github\" \
+                     and pin by tag, branch, or sha — it covers branch/commit tracking of \
+                     the foundation repo over plain HTTPS.",
         }),
         // `Path` is handled by the resolver directly and never reaches fetch.
         SourceConfig::Path { .. } => unreachable!("path source does not go through fetch"),
@@ -149,22 +167,78 @@ fn resolve_cache_base(override_dir: Option<&Path>) -> Result<PathBuf, FetchError
 // GitHub source
 // ---------------------------------------------------------------------------
 
-fn fetch_github(base: &Path, repo: &str, tag: &str) -> Result<PathBuf, FetchError> {
-    // Sanitize repo and tag for use as filesystem path components.
-    // We keep an `@` separator between the repo slug and the safe tag so that a
-    // tag like `adobe/spectrum-tokens14.11.0` (no `@`) doesn't collide with
-    // `@adobe/spectrum-tokens@14.11.0` after sanitization.
+/// A resolved GitHub ref to fetch: exactly one of tag/branch/sha.
+///
+/// GitHub serves an archive tarball for any ref, not just release tags, so a
+/// single code path covers immutable pins (`tag`, `sha`) and mutable branch
+/// tracking. `branch` refs are refetched on every run (see [`fetch_github`]).
+enum GithubRef {
+    Tag(String),
+    Branch(String),
+    Sha(String),
+}
+
+impl GithubRef {
+    /// Validate that exactly one of tag/branch/sha is set.
+    fn from_fields(
+        tag: Option<&str>,
+        branch: Option<&str>,
+        sha: Option<&str>,
+    ) -> Result<Self, FetchError> {
+        match (tag, branch, sha) {
+            (Some(t), None, None) => Ok(Self::Tag(t.to_string())),
+            (None, Some(b), None) => Ok(Self::Branch(b.to_string())),
+            (None, None, Some(s)) => Ok(Self::Sha(s.to_string())),
+            (None, None, None) => Err(FetchError::GithubRef("none set")),
+            _ => Err(FetchError::GithubRef("more than one set")),
+        }
+    }
+
+    /// The archive path segment for `https://github.com/{repo}/archive/{...}.tar.gz`.
+    fn archive_path(&self) -> String {
+        match self {
+            Self::Tag(t) => format!("refs/tags/{t}"),
+            Self::Branch(b) => format!("refs/heads/{b}"),
+            Self::Sha(s) => s.clone(),
+        }
+    }
+
+    /// Cache-key segment, kind-prefixed so a tag and same-named branch don't collide.
+    fn cache_segment(&self) -> String {
+        let (kind, val) = match self {
+            Self::Tag(t) => ("tag", t),
+            Self::Branch(b) => ("branch", b),
+            Self::Sha(s) => ("sha", s),
+        };
+        format!("{kind}-{}", val.replace(['/', '@'], "-"))
+    }
+
+    /// A branch is a mutable ref: its tip moves, so the cache must not pin it.
+    fn is_mutable(&self) -> bool {
+        matches!(self, Self::Branch(_))
+    }
+}
+
+fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf, FetchError> {
+    // Sanitize repo for use as a filesystem path component. Keep an `@` separator
+    // between the repo slug and the kind-prefixed ref segment so that distinct
+    // refs (and repos) never collide after sanitization.
     let safe_repo = repo.replace('/', "-");
-    let safe_tag = tag.replace(['/', '@'], "-");
-    let key = format!("github/{safe_repo}@{safe_tag}");
+    let key = format!("github/{safe_repo}@{}", git_ref.cache_segment());
     let root = base.join(&key);
     let sentinel = root.join(".complete");
 
-    if sentinel.exists() {
+    // ponytail: immutable refs (tag/sha) served from cache; branch tips move, so
+    // always refetch (~2MB). Upgrade path: ETag/If-None-Match conditional GET if
+    // the per-run refetch cost ever matters.
+    if sentinel.exists() && !git_ref.is_mutable() {
         return Ok(root);
     }
 
-    let url = format!("https://github.com/{repo}/archive/refs/tags/{tag}.tar.gz");
+    let url = format!(
+        "https://github.com/{repo}/archive/{}.tar.gz",
+        git_ref.archive_path()
+    );
 
     let bytes = download_bytes(&url)?;
     extract_github_tarball(&bytes, &url, &root)?;
@@ -464,6 +538,40 @@ mod tests {
     }
 
     #[test]
+    fn github_ref_requires_exactly_one() {
+        // Exactly one → Ok, with the right archive path + kind-prefixed cache segment.
+        let t = GithubRef::from_fields(Some("@adobe/spectrum-tokens@15.0.0"), None, None).unwrap();
+        assert_eq!(t.archive_path(), "refs/tags/@adobe/spectrum-tokens@15.0.0");
+        assert_eq!(t.cache_segment(), "tag--adobe-spectrum-tokens-15.0.0");
+        assert!(!t.is_mutable());
+
+        let b = GithubRef::from_fields(None, Some("main"), None).unwrap();
+        assert_eq!(b.archive_path(), "refs/heads/main");
+        assert_eq!(b.cache_segment(), "branch-main");
+        assert!(b.is_mutable());
+
+        let s = GithubRef::from_fields(None, None, Some("abc123")).unwrap();
+        assert_eq!(s.archive_path(), "abc123");
+        assert_eq!(s.cache_segment(), "sha-abc123");
+        assert!(!s.is_mutable());
+
+        // A tag and a same-named branch must not collide in the cache.
+        let tag_x = GithubRef::from_fields(Some("x"), None, None).unwrap();
+        let branch_x = GithubRef::from_fields(None, Some("x"), None).unwrap();
+        assert_ne!(tag_x.cache_segment(), branch_x.cache_segment());
+
+        // Zero or more-than-one → error.
+        assert!(matches!(
+            GithubRef::from_fields(None, None, None),
+            Err(FetchError::GithubRef(_))
+        ));
+        assert!(matches!(
+            GithubRef::from_fields(Some("t"), Some("b"), None),
+            Err(FetchError::GithubRef(_))
+        ));
+    }
+
+    #[test]
     fn npm_source_returns_not_yet_supported() {
         let _guard = env_lock();
         let tmp = tempfile::TempDir::new().unwrap();
@@ -514,7 +622,9 @@ mod tests {
 
         let source = SourceConfig::Github {
             repo: "adobe/spectrum-design-data".into(),
-            tag: "@adobe/spectrum-tokens@14.11.0".into(),
+            tag: Some("@adobe/spectrum-tokens@14.11.0".into()),
+            branch: None,
+            sha: None,
         };
 
         // First call — downloads.

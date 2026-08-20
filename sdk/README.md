@@ -140,7 +140,7 @@ Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and
 
 **Cache file keys:** `open_cached` (tokens only) and `open_cached_with_catalogs` produce different on-disk files for the same tokens root. CLI/TUI pass catalogs; WASM/tools using plain `build_bytes` / `open_cached` get a separate entry unless they use the `*_with_catalogs` variants.
 
-**Platform manifest (CLI/TUI):** Both surfaces apply a configured `[source].manifest` at session start via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` reports token count from the hydrated graph (catalogs included); it does not apply a platform manifest filter.
+**Platform manifest (CLI/TUI):** Both surfaces apply a manifest configured via the top-level `manifest` key in `.design-data.toml` at session start via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` reports token count from the hydrated graph (catalogs included); it does not apply a platform manifest filter.
 
 Opt out of the cache layer when depending on `design-data-core` as a library:
 
