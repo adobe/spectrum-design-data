@@ -57,7 +57,7 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     fs::write(
         project.path().join(".design-data.toml"),
         format!(
-            "[source]\ntype = \"path\"\nroot = \"{}\"\nmanifest = \"manifest.json\"\n",
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
             repo_root().display()
         ),
     )
