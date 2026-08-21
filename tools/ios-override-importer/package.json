@@ -1,0 +1,22 @@
+{
+  "name": "ios-override-importer",
+  "version": "0.0.1",
+  "description": "One-time importer converting Spectrum iOS's override-log.csv into a Platform Manifest (manifest.json)",
+  "type": "module",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^6.1.1"
+  }
+}
