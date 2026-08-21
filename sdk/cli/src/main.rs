@@ -30,7 +30,7 @@ use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
 use design_data_core::figma;
-use design_data_core::graph::TokenGraph;
+use design_data_core::graph::{Layer, TokenGraph};
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
@@ -427,6 +427,20 @@ enum MigrateSub {
         input: PathBuf,
         /// Destination directory for legacy JSON output files
         #[arg(long, value_name = "OUTPUT")]
+        output: PathBuf,
+    },
+    /// Convert a dataset, with its configured platform manifest cascade applied,
+    /// to a single legacy-format JSON snapshot (e.g. for tokentool
+    /// `generate-source-code --input`). Contrast-variant tokens are skipped —
+    /// `legacy::convert_array` groups sets by colorScheme/scale only, so a
+    /// contrast:high extension sharing a base token's colorScheme would
+    /// silently overwrite it (see bead spectrum-design-data-h890.17).
+    LegacyOutputCascaded {
+        /// Path to the token dataset directory (default: resolved canonical dataset)
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Destination file for the combined legacy-format JSON snapshot
+        #[arg(long, value_name = "FILE")]
         output: PathBuf,
     },
     /// Add missing outer-level UUIDs to set tokens in legacy JSON files (in-place)
@@ -898,6 +912,94 @@ fn run_migrate_legacy_output(input: &Path, output: &Path) -> miette::Result<Exit
     println!(
         "Converted {} file(s): {} tokens produced ({} sets, {} flat)",
         summary.files_written,
+        summary.tokens_produced,
+        summary.sets_reconstructed,
+        summary.flat_tokens,
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_migrate_legacy_output_cascaded(path: &Path, output: &Path) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    // Apply the configured platform manifest (filters/overrides/extensions) — same
+    // cascade `run_query`/`run_resolve` apply — so this is the same dataset a
+    // platform's `resolve`/`query` calls see, not the raw foundation.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    // ponytail: contrast-variant records (e.g. manifest extensions adding
+    // contrast:"high") share a legacyKey+colorScheme with their regular-contrast
+    // sibling — legacy::convert_array groups sets by colorScheme/scale only, so
+    // keeping both would silently overwrite one. Skip non-default contrast until
+    // legacy.rs learns a contrast set-dimension (spectrum-design-data-h890.17).
+    let is_default_contrast = |v: &serde_json::Value| {
+        v.get("name")
+            .and_then(|n| n.as_object())
+            .is_none_or(|n| !n.contains_key("contrast"))
+    };
+    // ponytail: a manifest override inserts a NEW Platform-layer TokenRecord
+    // under a synthetic key without removing the original Foundation-layer
+    // record sharing the same uuid (apply_platform_manifest only ever adds or
+    // filters by key, never shadows by uuid). Drop the Foundation-layer
+    // duplicate here so convert_records's colorScheme/scale grouping doesn't
+    // nondeterministically pick whichever copy HashMap iteration visits last.
+    let overridden_uuids: std::collections::HashSet<&str> = graph
+        .tokens
+        .values()
+        .filter(|t| matches!(t.layer, Layer::Platform))
+        .filter_map(|t| t.uuid.as_deref())
+        .collect();
+    let mut records: Vec<serde_json::Value> = graph
+        .tokens
+        .values()
+        .filter(|t| {
+            matches!(t.layer, Layer::Platform)
+                || !t
+                    .uuid
+                    .as_deref()
+                    .is_some_and(|u| overridden_uuids.contains(u))
+        })
+        .map(|t| &t.raw)
+        .filter(|raw| is_default_contrast(raw))
+        .cloned()
+        .collect();
+    records.extend(
+        graph
+            .relationships
+            .iter()
+            .map(|r| &r.raw)
+            .filter(|raw| is_default_contrast(raw))
+            .cloned(),
+    );
+
+    let (legacy_map, summary) = legacy::convert_records(&records)
+        .into_diagnostic()
+        .wrap_err("failed to convert cascaded dataset to legacy format")?;
+
+    if let Some(parent) = output.parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent).into_diagnostic()?;
+        }
+    }
+    let mut out_text =
+        serde_json::to_string_pretty(&serde_json::Value::Object(legacy_map)).into_diagnostic()?;
+    out_text.push('\n');
+    std::fs::write(output, out_text).into_diagnostic()?;
+
+    println!(
+        "Wrote {}: {} tokens produced ({} sets, {} flat)",
+        output.display(),
         summary.tokens_produced,
         summary.sets_reconstructed,
         summary.flat_tokens,
@@ -1910,6 +2012,10 @@ fn main() -> ExitCode {
             } => run_migrate_convert(&input, &output, names_dir.as_deref(), exceptions.as_deref()),
             MigrateSub::LegacyOutput { input, output } => {
                 run_migrate_legacy_output(&input, &output)
+            }
+            MigrateSub::LegacyOutputCascaded { path, output } => {
+                let target = path.unwrap_or_else(|| PathBuf::from("."));
+                run_migrate_legacy_output_cascaded(&target, &output)
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
             MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
