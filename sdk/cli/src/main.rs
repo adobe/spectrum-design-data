@@ -34,6 +34,7 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
+use design_data_core::naming;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::primer;
 use design_data_core::query;
@@ -178,6 +179,30 @@ enum Commands {
         /// Output format
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
+    },
+    /// Decompose a legacy kebab-case token slug into its structured name-object
+    /// fields (property/component/variant/state), verifying the roundtrip.
+    /// One-off exposure of `naming::parse_legacy_name`/`roundtrips` for external
+    /// importers (e.g. platform-manifest tooling) that need this without
+    /// reimplementing the algorithm.
+    DecomposeLegacyName {
+        /// Legacy slug to decompose (e.g. accent-background-color-default)
+        #[arg(value_name = "SLUG")]
+        slug: String,
+        /// Known component prefix, if any (mirrors the token's own "component" field)
+        #[arg(long, value_name = "NAME")]
+        component_hint: Option<String>,
+    },
+    /// Dump every token's computed legacy key (not deduped — one entry per
+    /// colorScheme/contrast member) as JSON. One-off exposure of
+    /// `naming::extract_legacy_key` (the same forward function that builds
+    /// `TokenGraph::legacy_name_index`) for external importers that need to
+    /// match an exact colorScheme/contrast member, which the deduped index
+    /// can't do (sdk/core/src/graph.rs:967-978).
+    DumpLegacyKeys {
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
     },
     /// Compare two token datasets and report changes
     Diff {
@@ -499,6 +524,51 @@ fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load exceptions from {}", p.display()))?;
     Ok(file.token_set())
+}
+
+/// `design-data decompose-legacy-name <slug>` — prints `{property, component?,
+/// variant?, state?, roundtrips}` as JSON. `roundtrips: false` means the parse
+/// is not trustworthy (the slug doesn't reproduce from the parsed fields) and
+/// callers should treat the slug as unresolved rather than use the fields.
+fn run_decompose_legacy_name(slug: &str, component_hint: Option<&str>) -> miette::Result<ExitCode> {
+    let parsed = naming::parse_legacy_name(slug, component_hint);
+    let roundtrips = naming::roundtrips(slug, component_hint);
+    let mut body = serde_json::to_value(&parsed).into_diagnostic()?;
+    body["roundtrips"] = serde_json::Value::Bool(roundtrips);
+    println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
+    Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data dump-legacy-keys [PATH]` — prints a JSON array of
+/// `{legacyKey, uuid, colorScheme?, contrast?}`, one entry per token (not
+/// deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
+fn run_dump_legacy_keys(path: &Path) -> miette::Result<ExitCode> {
+    let graph = TokenGraph::open_cached(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    let mut out = Vec::new();
+    for rec in graph.tokens.values() {
+        let Some(name_val) = rec.raw.get("name") else {
+            continue;
+        };
+        let Some(legacy_key) = naming::extract_legacy_key(name_val) else {
+            continue;
+        };
+        let Some(uuid) = rec.uuid.clone() else {
+            continue;
+        };
+        let color_scheme = name_val.get("colorScheme").and_then(|v| v.as_str());
+        let contrast = name_val.get("contrast").and_then(|v| v.as_str());
+        out.push(serde_json::json!({
+            "legacyKey": legacy_key,
+            "uuid": uuid,
+            "colorScheme": color_scheme,
+            "contrast": contrast,
+        }));
+    }
+    println!("{}", serde_json::to_string_pretty(&out).into_diagnostic()?);
+    Ok(ExitCode::SUCCESS)
 }
 
 fn run_resolve(
@@ -1796,6 +1866,13 @@ fn main() -> ExitCode {
                 contrast,
                 format,
             )
+        }
+        Commands::DecomposeLegacyName {
+            slug,
+            component_hint,
+        } => run_decompose_legacy_name(&slug, component_hint.as_deref()),
+        Commands::DumpLegacyKeys { path } => {
+            run_dump_legacy_keys(&path.unwrap_or_else(|| PathBuf::from(".")))
         }
         Commands::Diff {
             old,
