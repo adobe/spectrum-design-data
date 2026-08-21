@@ -943,7 +943,10 @@ fn build_mode_entry(
         .or_else(|| {
             all_tokens
                 .iter()
-                .find(|t| t.contains_key("$ref") == is_alias)
+                .find(|t| {
+                    t.contains_key("$ref") == is_alias
+                        && t.get("$schema").and_then(|v| v.as_str()).is_some()
+                })
                 .and_then(|t| t.get("$schema").and_then(|v| v.as_str()))
                 .map(str::to_string)
         })
@@ -1335,6 +1338,33 @@ mod tests {
         assert_eq!(
             bg["sets"]["dark"]["$schema"],
             "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json"
+        );
+    }
+
+    /// Regression: the alias-ness sibling search must not match `tok` itself.
+    /// `tok` (the override being processed) has no `$schema` by construction —
+    /// if the search's `find` predicate matches `tok` before reaching a real
+    /// schema-bearing sibling, `and_then` short-circuits to `None` and the
+    /// whole `or_else` chain falls through to the hardcoded fallback, silently
+    /// discarding a perfectly good sibling schema later in iteration order.
+    #[test]
+    fn convert_records_schema_fallback_skips_self_to_find_real_sibling_schema() {
+        let arr = json!([
+            {"name": {"property": "seafoam-bg", "colorScheme": "light"},
+             "$schema": ".../alias.json", "$ref": "seafoam-900", "uuid": "bg-light"},
+            {"name": {"property": "seafoam-bg", "colorScheme": "dark"},
+             "value": "rgba(9,144,120,1.0)", "uuid": "bg-dark"},
+            {"name": {"property": "seafoam-bg", "colorScheme": "dim"},
+             "value": "rgba(3,80,66,1.0)", "uuid": "bg-dim",
+             "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/custom-marker.json"},
+        ]);
+        let records: Vec<Value> = arr.as_array().unwrap().clone();
+        let (out, _summary) = convert_records(&records).unwrap();
+
+        let bg = &out["seafoam-bg"];
+        assert_eq!(
+            bg["sets"]["dark"]["$schema"],
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/custom-marker.json"
         );
     }
 

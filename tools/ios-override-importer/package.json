@@ -4,6 +4,10 @@
   "description": "One-time importer converting Spectrum iOS's override-log.csv into a Platform Manifest (manifest.json)",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": "20.17.0"
+  },
+  "packageManager": "pnpm@10.17.1",
   "scripts": {},
   "repository": {
     "type": "git",

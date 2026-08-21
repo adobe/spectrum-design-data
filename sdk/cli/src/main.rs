@@ -30,7 +30,7 @@ use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
 use design_data_core::figma;
-use design_data_core::graph::{Layer, TokenGraph};
+use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
@@ -948,28 +948,12 @@ fn run_migrate_legacy_output_cascaded(path: &Path, output: &Path) -> miette::Res
             .and_then(|n| n.as_object())
             .is_none_or(|n| !n.contains_key("contrast"))
     };
-    // ponytail: a manifest override inserts a NEW Platform-layer TokenRecord
-    // under a synthetic key without removing the original Foundation-layer
-    // record sharing the same uuid (apply_platform_manifest only ever adds or
-    // filters by key, never shadows by uuid). Drop the Foundation-layer
-    // duplicate here so convert_records's colorScheme/scale grouping doesn't
-    // nondeterministically pick whichever copy HashMap iteration visits last.
-    let overridden_uuids: std::collections::HashSet<&str> = graph
-        .tokens
-        .values()
-        .filter(|t| matches!(t.layer, Layer::Platform))
-        .filter_map(|t| t.uuid.as_deref())
-        .collect();
+    // apply_platform_manifest replaces an overridden token's record in place
+    // (same graph key), so `graph.tokens` never holds a stale Foundation-layer
+    // duplicate here.
     let mut records: Vec<serde_json::Value> = graph
         .tokens
         .values()
-        .filter(|t| {
-            matches!(t.layer, Layer::Platform)
-                || !t
-                    .uuid
-                    .as_deref()
-                    .is_some_and(|u| overridden_uuids.contains(u))
-        })
         .map(|t| &t.raw)
         .filter(|raw| is_default_contrast(raw))
         .cloned()

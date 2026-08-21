@@ -9,6 +9,7 @@
 // governing permissions and limitations under the License.
 
 import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
@@ -33,6 +34,11 @@ const CLI_BIN = `${REPO_ROOT}sdk/target/debug/design-data`;
 // that entirely — it's the exact same string the CSV/Aliases column already
 // contains.
 export function loadLegacyKeyIndex(tokensDir = TOKENS_DIR, binPath = CLI_BIN) {
+  if (!existsSync(binPath)) {
+    throw new Error(
+      `design-data CLI binary not found at ${binPath} — run \`moon run sdk:build\` first.`,
+    );
+  }
   const out = execFileSync(binPath, ["dump-legacy-keys", tokensDir], {
     encoding: "utf8",
     maxBuffer: 64 * 1024 * 1024,

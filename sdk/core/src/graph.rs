@@ -783,7 +783,7 @@ impl TokenGraph {
                     continue;
                 };
                 let matches = self.resolve_override_targets(target)?;
-                for (match_idx, (name_obj, orig_value, uuid)) in matches.into_iter().enumerate() {
+                for (shadowed_key, name_obj, orig_value, uuid) in matches {
                     let mut synthetic = serde_json::Map::new();
                     synthetic.insert("name".to_string(), name_obj);
                     if let Some(new_value) = entry.get("value") {
@@ -808,11 +808,13 @@ impl TokenGraph {
                     }
                     let raw = Value::Object(synthetic);
                     let alias_target = raw.as_object().and_then(extract_alias_target);
-                    let key = format!("platform-override:{target}:{idx}:{match_idx}");
+                    // Reuse the shadowed record's own key so the override *replaces*
+                    // the Foundation-layer entry in place, rather than shadowing it
+                    // under a synthetic key — leaving no stale duplicate behind for
+                    // callers to accidentally see (spectrum-design-data-h890.10).
+                    let key = shadowed_key;
                     if let Some(u) = &uuid {
-                        self.uuid_index
-                            .entry(u.clone())
-                            .or_insert_with(|| key.clone());
+                        self.uuid_index.insert(u.clone(), key.clone());
                     }
                     self.tokens.insert(
                         key.clone(),
@@ -912,10 +914,14 @@ impl TokenGraph {
             return Ok(query::filter(self, &filter)
                 .into_iter()
                 .filter_map(|rec| {
-                    rec.raw
-                        .get("name")
-                        .cloned()
-                        .map(|name_obj| (name_obj, rec.raw.get("value").cloned(), rec.uuid.clone()))
+                    rec.raw.get("name").cloned().map(|name_obj| {
+                        (
+                            rec.name.clone(),
+                            name_obj,
+                            rec.raw.get("value").cloned(),
+                            rec.uuid.clone(),
+                        )
+                    })
                 })
                 .collect());
         }
@@ -925,6 +931,7 @@ impl TokenGraph {
         if let Some(rec) = self.resolve_alias_key(target) {
             if let Some(name_obj) = rec.raw.get("name").cloned() {
                 return Ok(vec![(
+                    rec.name.clone(),
                     name_obj,
                     rec.raw.get("value").cloned(),
                     rec.uuid.clone(),
@@ -1153,7 +1160,8 @@ pub struct PlatformManifest {
 }
 
 /// One foundation token matched by a manifest `overrides[].target` string.
-type OverrideTargetMatch = (Value, Option<Value>, Option<String>);
+/// (shadowed source key, name object, original value, uuid).
+type OverrideTargetMatch = (String, Value, Option<Value>, Option<String>);
 
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {

@@ -96,8 +96,15 @@ export function emitManifest(rows, options) {
   const extensionTokens = [];
   const unresolved = [];
 
+  // Load once for the whole run — emitRow shells out to the CLI binary and
+  // dumps the entire corpus, which is too expensive to repeat per row.
+  const withIndex = {
+    ...options,
+    legacyKeyIndex: options?.legacyKeyIndex ?? loadLegacyKeyIndex(),
+  };
+
   for (const row of rows) {
-    const result = emitRow(row, options);
+    const result = emitRow(row, withIndex);
     overrides.push(...result.overrides);
     extensionTokens.push(...result.extensionTokens);
     if (result.unresolved)
