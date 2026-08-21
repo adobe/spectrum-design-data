@@ -114,6 +114,35 @@ fn query_rejects_manifest_failing_schema_validation() {
 }
 
 #[test]
+fn migrate_legacy_output_cascaded_prefers_override_over_shadowed_foundation() {
+    // Regression for spectrum-design-data-h890.10: `apply_platform_manifest`
+    // inserts an override as a NEW Platform-layer TokenRecord under a
+    // synthetic key, leaving the original Foundation-layer record (same
+    // uuid) in place. `migrate legacy-output-cascaded` must emit only the
+    // override's value, deterministically — not whichever copy `HashMap`
+    // iteration visits last.
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "overrides": [{"target": "u-btn-bg", "value": "#ffffff"}]
+    }));
+    let output = project.path().join("legacy.json");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["migrate", "legacy-output-cascaded", "tokens", "--output"])
+        .arg(&output)
+        .assert()
+        .success();
+
+    let legacy: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&output).expect("read output"))
+            .expect("parse output");
+    assert_eq!(legacy["button-background-color"]["value"], "#ffffff");
+}
+
+#[test]
 fn resolve_applies_manifest_override_by_uuid() {
     let project = setup_project(json!({
         "specVersion": "1.0.0-draft",

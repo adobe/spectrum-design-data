@@ -34,6 +34,7 @@ use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
+use design_data_core::naming;
 use design_data_core::naming::NamingExceptionsFile;
 use design_data_core::primer;
 use design_data_core::query;
@@ -178,6 +179,30 @@ enum Commands {
         /// Output format
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
+    },
+    /// Decompose a legacy kebab-case token slug into its structured name-object
+    /// fields (property/component/variant/state), verifying the roundtrip.
+    /// One-off exposure of `naming::parse_legacy_name`/`roundtrips` for external
+    /// importers (e.g. platform-manifest tooling) that need this without
+    /// reimplementing the algorithm.
+    DecomposeLegacyName {
+        /// Legacy slug to decompose (e.g. accent-background-color-default)
+        #[arg(value_name = "SLUG")]
+        slug: String,
+        /// Known component prefix, if any (mirrors the token's own "component" field)
+        #[arg(long, value_name = "NAME")]
+        component_hint: Option<String>,
+    },
+    /// Dump every token's computed legacy key (not deduped — one entry per
+    /// colorScheme/contrast member) as JSON. One-off exposure of
+    /// `naming::extract_legacy_key` (the same forward function that builds
+    /// `TokenGraph::legacy_name_index`) for external importers that need to
+    /// match an exact colorScheme/contrast member, which the deduped index
+    /// can't do (sdk/core/src/graph.rs:967-978).
+    DumpLegacyKeys {
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
     },
     /// Compare two token datasets and report changes
     Diff {
@@ -404,6 +429,20 @@ enum MigrateSub {
         #[arg(long, value_name = "OUTPUT")]
         output: PathBuf,
     },
+    /// Convert a dataset, with its configured platform manifest cascade applied,
+    /// to a single legacy-format JSON snapshot (e.g. for tokentool
+    /// `generate-source-code --input`). Contrast-variant tokens are skipped —
+    /// `legacy::convert_array` groups sets by colorScheme/scale only, so a
+    /// contrast:high extension sharing a base token's colorScheme would
+    /// silently overwrite it (see bead spectrum-design-data-h890.17).
+    LegacyOutputCascaded {
+        /// Path to the token dataset directory (default: resolved canonical dataset)
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Destination file for the combined legacy-format JSON snapshot
+        #[arg(long, value_name = "FILE")]
+        output: PathBuf,
+    },
     /// Add missing outer-level UUIDs to set tokens in legacy JSON files (in-place)
     AddUuids {
         /// Directory containing legacy .json token files to update
@@ -499,6 +538,51 @@ fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load exceptions from {}", p.display()))?;
     Ok(file.token_set())
+}
+
+/// `design-data decompose-legacy-name <slug>` — prints `{property, component?,
+/// variant?, state?, roundtrips}` as JSON. `roundtrips: false` means the parse
+/// is not trustworthy (the slug doesn't reproduce from the parsed fields) and
+/// callers should treat the slug as unresolved rather than use the fields.
+fn run_decompose_legacy_name(slug: &str, component_hint: Option<&str>) -> miette::Result<ExitCode> {
+    let parsed = naming::parse_legacy_name(slug, component_hint);
+    let roundtrips = naming::roundtrips(slug, component_hint);
+    let mut body = serde_json::to_value(&parsed).into_diagnostic()?;
+    body["roundtrips"] = serde_json::Value::Bool(roundtrips);
+    println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
+    Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data dump-legacy-keys [PATH]` — prints a JSON array of
+/// `{legacyKey, uuid, colorScheme?, contrast?}`, one entry per token (not
+/// deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
+fn run_dump_legacy_keys(path: &Path) -> miette::Result<ExitCode> {
+    let graph = TokenGraph::open_cached(path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    let mut out = Vec::new();
+    for rec in graph.tokens.values() {
+        let Some(name_val) = rec.raw.get("name") else {
+            continue;
+        };
+        let Some(legacy_key) = naming::extract_legacy_key(name_val) else {
+            continue;
+        };
+        let Some(uuid) = rec.uuid.clone() else {
+            continue;
+        };
+        let color_scheme = name_val.get("colorScheme").and_then(|v| v.as_str());
+        let contrast = name_val.get("contrast").and_then(|v| v.as_str());
+        out.push(serde_json::json!({
+            "legacyKey": legacy_key,
+            "uuid": uuid,
+            "colorScheme": color_scheme,
+            "contrast": contrast,
+        }));
+    }
+    println!("{}", serde_json::to_string_pretty(&out).into_diagnostic()?);
+    Ok(ExitCode::SUCCESS)
 }
 
 fn run_resolve(
@@ -828,6 +912,78 @@ fn run_migrate_legacy_output(input: &Path, output: &Path) -> miette::Result<Exit
     println!(
         "Converted {} file(s): {} tokens produced ({} sets, {} flat)",
         summary.files_written,
+        summary.tokens_produced,
+        summary.sets_reconstructed,
+        summary.flat_tokens,
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
+fn run_migrate_legacy_output_cascaded(path: &Path, output: &Path) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    // Apply the configured platform manifest (filters/overrides/extensions) — same
+    // cascade `run_query`/`run_resolve` apply — so this is the same dataset a
+    // platform's `resolve`/`query` calls see, not the raw foundation.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    // ponytail: contrast-variant records (e.g. manifest extensions adding
+    // contrast:"high") share a legacyKey+colorScheme with their regular-contrast
+    // sibling — legacy::convert_array groups sets by colorScheme/scale only, so
+    // keeping both would silently overwrite one. Skip non-default contrast until
+    // legacy.rs learns a contrast set-dimension (spectrum-design-data-h890.17).
+    let is_default_contrast = |v: &serde_json::Value| {
+        v.get("name")
+            .and_then(|n| n.as_object())
+            .is_none_or(|n| !n.contains_key("contrast"))
+    };
+    // apply_platform_manifest replaces an overridden token's record in place
+    // (same graph key), so `graph.tokens` never holds a stale Foundation-layer
+    // duplicate here.
+    let mut records: Vec<serde_json::Value> = graph
+        .tokens
+        .values()
+        .map(|t| &t.raw)
+        .filter(|raw| is_default_contrast(raw))
+        .cloned()
+        .collect();
+    records.extend(
+        graph
+            .relationships
+            .iter()
+            .map(|r| &r.raw)
+            .filter(|raw| is_default_contrast(raw))
+            .cloned(),
+    );
+
+    let (legacy_map, summary) = legacy::convert_records(&records)
+        .into_diagnostic()
+        .wrap_err("failed to convert cascaded dataset to legacy format")?;
+
+    if let Some(parent) = output.parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent).into_diagnostic()?;
+        }
+    }
+    let mut out_text =
+        serde_json::to_string_pretty(&serde_json::Value::Object(legacy_map)).into_diagnostic()?;
+    out_text.push('\n');
+    std::fs::write(output, out_text).into_diagnostic()?;
+
+    println!(
+        "Wrote {}: {} tokens produced ({} sets, {} flat)",
+        output.display(),
         summary.tokens_produced,
         summary.sets_reconstructed,
         summary.flat_tokens,
@@ -1797,6 +1953,13 @@ fn main() -> ExitCode {
                 format,
             )
         }
+        Commands::DecomposeLegacyName {
+            slug,
+            component_hint,
+        } => run_decompose_legacy_name(&slug, component_hint.as_deref()),
+        Commands::DumpLegacyKeys { path } => {
+            run_dump_legacy_keys(&path.unwrap_or_else(|| PathBuf::from(".")))
+        }
         Commands::Diff {
             old,
             new,
@@ -1833,6 +1996,10 @@ fn main() -> ExitCode {
             } => run_migrate_convert(&input, &output, names_dir.as_deref(), exceptions.as_deref()),
             MigrateSub::LegacyOutput { input, output } => {
                 run_migrate_legacy_output(&input, &output)
+            }
+            MigrateSub::LegacyOutputCascaded { path, output } => {
+                let target = path.unwrap_or_else(|| PathBuf::from("."));
+                run_migrate_legacy_output_cascaded(&target, &output)
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
             MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
