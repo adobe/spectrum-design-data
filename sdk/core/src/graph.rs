@@ -899,7 +899,8 @@ impl TokenGraph {
     /// Resolve a manifest override `target` to the affected token name objects.
     ///
     /// Resolution order matches [`Self::apply_platform_manifest`]: query expression
-    /// (when `target` contains `=` or `!=`), then UUID lookup, then graph key.
+    /// (when `target` contains `=` or `!=`), then [`Self::resolve_alias_key`]'s
+    /// uuid → graph key → legacy-name chain.
     fn resolve_override_targets(
         &self,
         target: &str,
@@ -918,12 +919,10 @@ impl TokenGraph {
                 })
                 .collect());
         }
-        let record = self
-            .uuid_index
-            .get(target)
-            .and_then(|k| self.tokens.get(k))
-            .or_else(|| self.tokens.get(target));
-        if let Some(rec) = record {
+        // Reuse the canonical resolver so overrides targeting a token's legacy
+        // slug (e.g. "blue-100") resolve the same as any other alias reference,
+        // instead of silently no-oping (spectrum-design-data-8bkb).
+        if let Some(rec) = self.resolve_alias_key(target) {
             if let Some(name_obj) = rec.raw.get("name").cloned() {
                 return Ok(vec![(
                     name_obj,
@@ -1697,6 +1696,36 @@ mod tests {
             .filter(|t| t.layer == Layer::Platform)
             .count();
         assert_eq!(platform_overrides, 2); // btn-bg + chk-bg
+    }
+
+    #[test]
+    fn manifest_override_by_legacy_slug_adds_platform_token() {
+        // Real override logs speak in legacy names (e.g. "blue-100"), not the
+        // file:index keys cascade-format tokens are actually stored under.
+        // Regression test for spectrum-design-data-8bkb.
+        let mut g = cascade_graph_from(json!([
+            {
+                "name": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 },
+                "$schema": "https://example.com/color.json",
+                "value": "rgb(0,0,255)",
+                "uuid": "bbbbbbbb-0000-0000-0000-000000000001"
+            }
+        ]));
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "blue-100", "value": "rgb(255,0,0)"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let overridden = g
+            .tokens
+            .values()
+            .find(|t| t.layer == Layer::Platform)
+            .expect("platform override token present — legacy slug target must resolve");
+        assert_eq!(
+            overridden.raw.get("value").and_then(|v| v.as_str()),
+            Some("rgb(255,0,0)")
+        );
     }
 
     #[test]
