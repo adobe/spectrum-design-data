@@ -3,7 +3,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(0, 0, 0)",
     "uuid": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by transparent-static-black-1000 (see spectrum-design-data#1346).",
+    "private": true,
+    "renamed": "transparent-static-black-1000"
   },
   "blue-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -6167,157 +6170,1243 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.09)",
     "uuid": "7565eb32-d745-4fc3-8779-a717f8ba910a",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-150"
   },
   "transparent-black-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(0, 0, 0)",
     "uuid": "098f2f56-e52f-47b1-943a-d1d7218de484",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-1000"
   },
   "transparent-black-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.12)",
     "uuid": "a84ecad8-8005-4ce4-add6-7f83f7e05ba0",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-200"
   },
   "transparent-black-25": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0)",
     "uuid": "d0867b86-6245-4c02-8617-ea7fd5c80288",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-0"
   },
   "transparent-black-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.15)",
     "uuid": "16a871e1-d9df-42bb-8889-99059d70e82e",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-300"
   },
   "transparent-black-400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.22)",
     "uuid": "b769453b-586c-4dd2-b3a1-ddf5964160bc",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-400"
   },
   "transparent-black-50": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.03)",
     "uuid": "d6aa176c-30bd-423f-b05f-4360672bd87e",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-75"
   },
   "transparent-black-500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.44)",
     "uuid": "cebedd9f-9e4b-47cf-addb-45d8ff9c9179",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-700"
   },
   "transparent-black-600": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.56)",
     "uuid": "199e19a5-bf7d-4933-8425-d7d5881e4cf5",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-750"
   },
   "transparent-black-700": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.69)",
     "uuid": "56da822f-98ea-4ad1-b993-3f052de45f36",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-800"
   },
   "transparent-black-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.05)",
     "uuid": "d33a66ea-ca60-416f-9e92-967dbbb1e983",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-125"
   },
   "transparent-black-800": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.84)",
     "uuid": "3e89f180-b0f0-4de0-904b-c80f0210a361",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-900"
   },
   "transparent-black-900": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.93)",
     "uuid": "c0a331f9-53e3-4c72-b5e3-139d730a1752",
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-black-950"
+  },
+  "transparent-neutral-0": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "dc419ecc-dd36-42fa-97ab-4aefb42d4946",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "feba58bd-a3f1-4b41-b135-2394782398bd"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "34e9d515-8c5a-4a7f-88aa-914e1e082e5b"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "07cf5b2b-5352-437b-84f1-d8312fdd2815"
+      }
+    }
+  },
+  "transparent-neutral-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "1bbc74a6-02c7-4a1a-ae38-6ffe8834b42c",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.04)",
+        "uuid": "d6c5d093-015f-45a1-a3ff-5be533fffd30"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "f90638a6-8f27-4d63-965b-7cecf03044e6"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.04)",
+        "uuid": "9e909bed-bc45-4419-a192-920fd1f77782"
+      }
+    }
+  },
+  "transparent-neutral-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "d202fdc8-f097-4cbc-80f6-97829f2e5a6a",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(0, 0, 0)",
+        "uuid": "65cd38d4-6d96-4631-99c3-aa17657bfeb5"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "9c42741e-d327-412b-91fd-a938e9abea95"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(0, 0, 0)",
+        "uuid": "4910350b-09f3-4f4c-b663-22de9bbdc0b4"
+      }
+    }
+  },
+  "transparent-neutral-125": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "e44456fd-2125-4700-ba06-7d0eae5ceee5",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.06)",
+        "uuid": "92ab0c09-a0a7-496b-be52-2aff0b5ea474"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.06)",
+        "uuid": "4f04b29b-5891-4747-8744-db232eb3fb27"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.06)",
+        "uuid": "c9ac5bfe-493f-4107-ac65-f1dfa37acf13"
+      }
+    }
+  },
+  "transparent-neutral-150": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "a391a8da-8f9e-451f-91fc-bd93c799daf9",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.08)",
+        "uuid": "03f0c586-f4bb-488b-bc80-12a15422a334"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.08)",
+        "uuid": "5a20e385-00c4-4440-9dde-b08192526178"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.08)",
+        "uuid": "7b3b3d14-1858-4066-bf57-22954a55f486"
+      }
+    }
+  },
+  "transparent-neutral-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "7ef182cf-438b-4198-aa14-9bc6072cf68f",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "aa690925-078a-46e8-841e-7be795674e67"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.12)",
+        "uuid": "be461442-ace9-4854-8447-c0dc62f353e8"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "77b72500-49ee-4cfd-aaa8-5dfb42370afc"
+      }
+    }
+  },
+  "transparent-neutral-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "ec90965e-65c4-4166-9b52-0e6c9605ac0b",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.16)",
+        "uuid": "38f098d0-6420-41b9-8e3c-c8a694c7b8a4"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.16)",
+        "uuid": "66651027-9ccc-41ea-9e29-442f454a52f7"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.16)",
+        "uuid": "15fdf690-6089-46df-bb91-298ccee79704"
+      }
+    }
+  },
+  "transparent-neutral-350": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "f532bfc8-ed03-4afe-ab91-bf921d656760",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.2)",
+        "uuid": "16393b2c-498f-465b-bf99-2081c09763b0"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.2)",
+        "uuid": "b7c69323-c7cd-4575-a1a3-050a1c5da132"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.2)",
+        "uuid": "97257b75-0f87-4062-8c31-65353e3e34f9"
+      }
+    }
+  },
+  "transparent-neutral-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "6c195b20-c203-41eb-ae88-bf00c466a1fa",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.24)",
+        "uuid": "bfd6af00-c8cb-49e0-9d6f-1c15ab01bb97"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.24)",
+        "uuid": "eede0928-f7b3-40dc-8f62-91a1954ef3fd"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.24)",
+        "uuid": "a8c727b9-04a8-4453-b8dd-0e00bb01bf18"
+      }
+    }
+  },
+  "transparent-neutral-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "5b2eaeaf-1274-4b1b-9506-fbac9b318f13",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.02)",
+        "uuid": "05a23628-7f13-49f8-94af-6630c4b9b53e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.02)",
+        "uuid": "b0e6637d-40fb-4b20-98f1-86d03d5fdb08"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.02)",
+        "uuid": "3606048e-7d4a-4748-a647-21b9ff37ae26"
+      }
+    }
+  },
+  "transparent-neutral-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "7f68a249-367f-4bf4-8ba8-6de8cee4fcdf",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.32)",
+        "uuid": "6a3e8fb6-7287-4edc-a9cc-8e63a674737a"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.32)",
+        "uuid": "f64e09c6-a535-4946-bfc6-026471525055"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.32)",
+        "uuid": "41321351-7fb4-40d4-aba0-6a56a69f6d5c"
+      }
+    }
+  },
+  "transparent-neutral-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "b273b2ff-49cb-43ae-9b82-d8d9c7909a82",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.4)",
+        "uuid": "7be21910-9006-4ed4-b2a2-a003dcaa4c7b"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.4)",
+        "uuid": "aab3621d-161c-4580-88cf-9cdb7044ed86"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.4)",
+        "uuid": "7dd38bad-9644-49e3-a758-7e45b6c750d4"
+      }
+    }
+  },
+  "transparent-neutral-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "d1ba2a1c-f393-4aca-a293-5eddc31e61b9",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.48)",
+        "uuid": "9b33ab28-754d-475f-bb9b-5629788d9052"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.48)",
+        "uuid": "af9c5012-4f3a-4ae4-a184-a7700f2d7683"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.48)",
+        "uuid": "6a163052-c5fd-4569-bf2f-6e8209341ae0"
+      }
+    }
+  },
+  "transparent-neutral-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "7df458c0-4cb9-46c3-9311-eb02a0dc2cc7",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "db8cb955-a977-4995-b81e-d18768a1a51e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.03)",
+        "uuid": "0bab712a-5e8c-455a-926c-0698516bf652"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "daac3620-70e7-4cb6-b333-c013b797b6d4"
+      }
+    }
+  },
+  "transparent-neutral-750": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "e20764f0-390e-476a-9920-9454d5f57efe",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "fcba0249-dd8d-4d27-867b-324f6c7e4a28"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.56)",
+        "uuid": "b8d7fa8f-8a4f-4bfb-9aee-462eba64dc2f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "7caab168-b98a-44ee-b0ce-b064421e5214"
+      }
+    }
+  },
+  "transparent-neutral-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "3a767038-879c-4b80-b8d0-f4f0e566136f",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.64)",
+        "uuid": "47438928-238b-4620-bd8e-d538084d9a75"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.64)",
+        "uuid": "047081cd-80f1-46e4-8cf1-c681a941841e"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.64)",
+        "uuid": "3a91dbb5-faaf-47eb-9ea3-78691767dd47"
+      }
+    }
+  },
+  "transparent-neutral-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "9265fa68-80ee-4335-be27-a43ca0cad36f",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.8)",
+        "uuid": "483c7f5e-c78c-41c2-bb2e-7a6f0c1f18b1"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.8)",
+        "uuid": "7bd964af-a751-4b9f-85b6-7bce18e8f43d"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.8)",
+        "uuid": "abe4a0a0-44c0-4a80-8a17-6e9b196d7e49"
+      }
+    }
+  },
+  "transparent-neutral-950": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "491ae0a2-f624-4ca5-8362-c1cccbfdde61",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.96)",
+        "uuid": "92de183b-2ae7-4f15-9ff3-95b751099c5e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.96)",
+        "uuid": "bdcc8a33-95af-4dea-b25e-1e670b7d8818"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.96)",
+        "uuid": "58f36d26-5fe7-442d-b64f-8fcb3d34357a"
+      }
+    }
+  },
+  "transparent-neutral-inverse-0": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "1c281ea9-d3f3-4469-9a08-79730034e553",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "b26626a0-19ae-49a5-872e-64525fc548c0"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0)",
+        "uuid": "e53d878d-41f0-4a90-8bcf-a1e86ae6809c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0)",
+        "uuid": "0214c1ed-7869-42fb-9b36-bbbea40ced4e"
+      }
+    }
+  },
+  "transparent-neutral-inverse-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "bb09595a-da90-438c-8400-2b7e1e33ca56",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "b4193bf4-8732-4f01-99ac-e51f282ce432"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.04)",
+        "uuid": "85c4ff28-14b0-4f41-93f7-16b0fadcef1a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.04)",
+        "uuid": "bf9dff2d-c92c-45e2-8dab-1b24e0e66264"
+      }
+    }
+  },
+  "transparent-neutral-inverse-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "57cc32b6-7b53-4f12-a1d8-fe46d92b48c4",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "abf634ed-c9f2-4110-a964-4923c52628de"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(0, 0, 0)",
+        "uuid": "8b7acec1-dc1b-4b7c-bd82-f172d43b09d5"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgb(255, 255, 255)",
+        "uuid": "a1da2d66-4e06-4663-86f4-db412f2e76e4"
+      }
+    }
+  },
+  "transparent-neutral-inverse-125": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "1384fccd-2f63-4a1a-9ccf-e076776922b3",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.06)",
+        "uuid": "d4cc39f5-fd40-4dfe-9e9c-751773a79bc8"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.06)",
+        "uuid": "93b2e8ca-2da4-4cca-bd64-2a3f1d7ea84f"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.06)",
+        "uuid": "28be75dd-87f9-4a26-b214-60a0aee53f93"
+      }
+    }
+  },
+  "transparent-neutral-inverse-150": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "fb762cda-63be-4d4e-a73b-74c80ffb1278",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.08)",
+        "uuid": "9ec05616-b5a8-44a4-804a-ec05015da3ba"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.08)",
+        "uuid": "9621d24d-51b9-4b3c-b86c-19b38ba68c91"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.08)",
+        "uuid": "9e806902-5442-4237-968e-b4254f8e521f"
+      }
+    }
+  },
+  "transparent-neutral-inverse-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "281e6a26-12a4-4394-a415-dae75e5c7adc",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.12)",
+        "uuid": "563bba1f-9b34-4c15-b6ce-bb30e917bf4f"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.12)",
+        "uuid": "2e5b9896-08d4-4fbb-a95a-8357a5caf116"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.12)",
+        "uuid": "7a68b823-4d26-45a5-89b7-8d7fcadb0a07"
+      }
+    }
+  },
+  "transparent-neutral-inverse-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "062024f0-8960-4def-9bed-450c6749c3bc",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.16)",
+        "uuid": "7c683a7d-e84d-462a-9a0d-07bf9abd418c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.16)",
+        "uuid": "0cbf45d0-4e4c-4cd5-a02e-4b955294162c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.16)",
+        "uuid": "d0f9f23f-9d87-4ae2-a38d-8df8ad94ad67"
+      }
+    }
+  },
+  "transparent-neutral-inverse-350": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "ad684b19-d0d6-4e1f-a446-680f66e3c62d",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.2)",
+        "uuid": "1c64e6bf-1d24-4312-9797-c873ba73cdc4"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.2)",
+        "uuid": "3454546e-9dd5-449a-a430-ce9c7a793fc0"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.2)",
+        "uuid": "41ed3703-b781-4a1e-876d-5cebdb12be0e"
+      }
+    }
+  },
+  "transparent-neutral-inverse-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "a3b46511-bfcc-4887-80a3-74d97e77701a",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.24)",
+        "uuid": "58d5dbb4-4bea-4844-aa3c-a84978e7ec91"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.24)",
+        "uuid": "18bb3088-dd96-4a6e-8001-f815828cb9ac"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.24)",
+        "uuid": "bec2f90e-2527-4752-9066-773c1e589c94"
+      }
+    }
+  },
+  "transparent-neutral-inverse-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "02b1840f-e2bd-446a-8fa7-bffd537e9e2f",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.02)",
+        "uuid": "3f528c72-61ac-4363-8fcf-4b9992cff0ed"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.02)",
+        "uuid": "3eb09413-675b-4c94-a2c0-02c50023a4ec"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.02)",
+        "uuid": "944c5286-9089-4b7f-9fa8-3f59d195130e"
+      }
+    }
+  },
+  "transparent-neutral-inverse-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "c0f4b332-ae13-4d86-9f39-af87c3f005ba",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.32)",
+        "uuid": "ba62b32f-9222-4239-ae91-bbca4011c937"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.32)",
+        "uuid": "032ea519-9841-4997-b1cc-ca30e92954fa"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.32)",
+        "uuid": "7af83082-949d-475c-b616-4331ec7ebb57"
+      }
+    }
+  },
+  "transparent-neutral-inverse-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "d484c4a5-72a4-426a-bb21-b3e55fe27cfd",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.4)",
+        "uuid": "764629a7-7357-4d39-96bb-6564ac000d9e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.4)",
+        "uuid": "d2e83fd1-243e-4205-b065-da1ffc7cbf7c"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.4)",
+        "uuid": "9718c298-79d0-452a-ad14-2f27ace57c56"
+      }
+    }
+  },
+  "transparent-neutral-inverse-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "dd4438d9-bbc6-487a-a8ea-2cce6fa845d4",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.48)",
+        "uuid": "a71c5de6-18f9-4659-8506-a646c3dd8a98"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.48)",
+        "uuid": "47897d45-b8be-4fdb-9190-c6568fa52b7a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.48)",
+        "uuid": "095d1597-ad25-4006-aeb5-83b7418ba769"
+      }
+    }
+  },
+  "transparent-neutral-inverse-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "4dcde190-60c9-42c1-9f94-3ac875470990",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.03)",
+        "uuid": "fd43df15-65a0-47e2-924e-4db66aa3ac4e"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.03)",
+        "uuid": "26451995-681d-4902-bda2-dcfaa5f948bc"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.03)",
+        "uuid": "0c97e6e7-c9f3-4d7c-bff9-54fdfcfbd6f8"
+      }
+    }
+  },
+  "transparent-neutral-inverse-750": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "6a4bfa7b-89af-4b20-a294-006f25063b18",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.56)",
+        "uuid": "1081ed05-dc45-4065-b368-f5ca6ffc7e50"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.56)",
+        "uuid": "f4a37932-ba78-46d0-8c2d-857d2fae0a79"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.56)",
+        "uuid": "3625ecb0-5e1f-4c8a-a6d2-630bb8cca7ef"
+      }
+    }
+  },
+  "transparent-neutral-inverse-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "8cc4aea9-cdfd-43dc-ae06-d0344767767c",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.64)",
+        "uuid": "0d31e23f-9be0-4f4f-9306-76e85a3c693c"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.64)",
+        "uuid": "2d959641-ad64-4b7e-a586-3c64e541fb7a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.64)",
+        "uuid": "320725cf-8e3b-46f4-8130-8cdfeb45a0f9"
+      }
+    }
+  },
+  "transparent-neutral-inverse-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "0e31e918-1cc7-48b8-a314-04a8550196e8",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.8)",
+        "uuid": "46a8fd06-a4b8-4f05-b3e7-59a99573a93f"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.8)",
+        "uuid": "ae54d6f9-79d1-4e97-b977-ffaaa745bbc1"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.8)",
+        "uuid": "db01e4f9-fc12-4e7b-ac18-db575fedcfa5"
+      }
+    }
+  },
+  "transparent-neutral-inverse-950": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
+    "uuid": "84d8385f-70c8-4014-87e4-b9e71264e4f2",
+    "private": true,
+    "sets": {
+      "light": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.96)",
+        "uuid": "a4116ece-351f-4d25-a3d7-c7cea8723a33"
+      },
+      "dark": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(0, 0, 0, 0.96)",
+        "uuid": "b45c79fd-afa4-442f-9c57-d9f558d6dc2a"
+      },
+      "wireframe": {
+        "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        "value": "rgba(255, 255, 255, 0.96)",
+        "uuid": "e091cf56-9724-49c7-ae2f-1cfa9b28edb3"
+      }
+    }
+  },
+  "transparent-static-black-0": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0)",
+    "uuid": "4c6c4a38-6c07-4cb6-839f-42e19352878b",
+    "private": true
+  },
+  "transparent-static-black-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.04)",
+    "uuid": "30112a5f-22d5-409f-a4d2-a3ed41a06ef8",
+    "private": true
+  },
+  "transparent-static-black-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(0, 0, 0)",
+    "uuid": "14295fd8-cf96-4310-896a-2eb506044cf7",
+    "private": true
+  },
+  "transparent-static-black-125": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.06)",
+    "uuid": "85430624-0267-460a-924c-0ce833bf0c9a",
+    "private": true
+  },
+  "transparent-static-black-150": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.08)",
+    "uuid": "2b151cf8-6d5a-4c19-9427-d7fe6f2b8cc6",
+    "private": true
+  },
+  "transparent-static-black-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.12)",
+    "uuid": "eb21afdd-8b7f-470e-b820-b83ad6a6038b",
+    "private": true
+  },
+  "transparent-static-black-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.16)",
+    "uuid": "d4c03e22-2171-4eb9-a623-4607843d2313",
+    "private": true
+  },
+  "transparent-static-black-350": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.2)",
+    "uuid": "f4945e6d-b72b-4aa6-be46-8b78a88b10c6",
+    "private": true
+  },
+  "transparent-static-black-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.24)",
+    "uuid": "e7bd0b77-cde0-40da-bb00-cedb3bf10f4c",
+    "private": true
+  },
+  "transparent-static-black-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.02)",
+    "uuid": "96a853f7-f9d6-4b64-b46f-1963b9d964ab",
+    "private": true
+  },
+  "transparent-static-black-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.32)",
+    "uuid": "7a9d122a-9e7e-4022-a6b8-ba1458c3fe8c",
+    "private": true
+  },
+  "transparent-static-black-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.4)",
+    "uuid": "5121b685-07b1-401c-9018-8f33ca788483",
+    "private": true
+  },
+  "transparent-static-black-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.48)",
+    "uuid": "ddea46ea-5e02-401d-9d00-d3f8462d4034",
+    "private": true
+  },
+  "transparent-static-black-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.03)",
+    "uuid": "f214ee93-bb8d-4268-8107-7fe692077726",
+    "private": true
+  },
+  "transparent-static-black-750": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.56)",
+    "uuid": "ee26cdaa-79ef-4ee1-9dd6-58ad34d677fc",
+    "private": true
+  },
+  "transparent-static-black-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.64)",
+    "uuid": "a56b26df-0a9a-4195-a21c-ce2e9bca73af",
+    "private": true
+  },
+  "transparent-static-black-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.8)",
+    "uuid": "2bc60486-0f73-42bf-a285-b04dc7f5a4be",
+    "private": true
+  },
+  "transparent-static-black-950": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(0, 0, 0, 0.96)",
+    "uuid": "6394bd97-15e3-44dc-81a4-3f6824f80e8f",
+    "private": true
+  },
+  "transparent-static-white-0": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0)",
+    "uuid": "2bc62075-b2ab-4c01-bfc7-8e72f8f59ec9",
+    "private": true
+  },
+  "transparent-static-white-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.04)",
+    "uuid": "ac48e2b3-cabd-4b22-91da-edb0344a5324",
+    "private": true
+  },
+  "transparent-static-white-1000": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgb(255, 255, 255)",
+    "uuid": "c970eb38-9660-4747-9a34-a42a7a0a9aa0",
+    "private": true
+  },
+  "transparent-static-white-125": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.06)",
+    "uuid": "7f66d433-39be-4f2e-aaff-9b32f4ed5ae0",
+    "private": true
+  },
+  "transparent-static-white-150": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.08)",
+    "uuid": "42b9891b-4f6a-47b6-85ae-5de6f738dcd5",
+    "private": true
+  },
+  "transparent-static-white-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.12)",
+    "uuid": "65c75813-9804-4c3c-ad3b-1f2dc689146c",
+    "private": true
+  },
+  "transparent-static-white-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.16)",
+    "uuid": "bbd48ecb-2187-48bd-b82b-60bc73d2b46e",
+    "private": true
+  },
+  "transparent-static-white-350": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.2)",
+    "uuid": "cd7af04f-e88d-43dc-9553-ef9f4ab06155",
+    "private": true
+  },
+  "transparent-static-white-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.24)",
+    "uuid": "0087ec48-c1a5-4b04-9020-4e073610e15b",
+    "private": true
+  },
+  "transparent-static-white-50": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.02)",
+    "uuid": "c51a957e-b8aa-4aa0-a1b2-fd5fa26922d8",
+    "private": true
+  },
+  "transparent-static-white-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.32)",
+    "uuid": "3a50c390-0e35-4da0-8012-224cfa8e51d4",
+    "private": true
+  },
+  "transparent-static-white-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.4)",
+    "uuid": "5b51a116-4854-4c73-b084-dbce2d1a002c",
+    "private": true
+  },
+  "transparent-static-white-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.48)",
+    "uuid": "f81bc3a3-a5aa-4a7d-bcc0-f9e230d71cdf",
+    "private": true
+  },
+  "transparent-static-white-75": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.03)",
+    "uuid": "895557f4-6c0c-4caf-aa7f-ba7d12a4b3fd",
+    "private": true
+  },
+  "transparent-static-white-750": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.56)",
+    "uuid": "762fbc8e-6aac-44bb-8e27-3017b18f7167",
+    "private": true
+  },
+  "transparent-static-white-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.64)",
+    "uuid": "785bf002-282b-4b3a-9646-03f3f40a4953",
+    "private": true
+  },
+  "transparent-static-white-900": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.8)",
+    "uuid": "a97688e0-003b-42d1-b942-0dfc920c39d2",
+    "private": true
+  },
+  "transparent-static-white-950": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "value": "rgba(255, 255, 255, 0.96)",
+    "uuid": "8d2325cb-687f-429b-b941-248707e0444b",
     "private": true
   },
   "transparent-white-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.11)",
     "uuid": "a1b64a62-7c78-415e-a9be-c86acbf361ca",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-200"
   },
   "transparent-white-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(255, 255, 255)",
     "uuid": "1409a50a-9a9d-463d-957f-fa2e4f98a0cd",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-1000"
   },
   "transparent-white-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.14)",
     "uuid": "936db837-bc5a-40b0-a0e8-8e39b9fc62cb",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-300"
   },
   "transparent-white-25": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0)",
     "uuid": "98a7279b-e21c-41ae-9bae-8b9b2b243e35",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-0"
   },
   "transparent-white-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.17)",
     "uuid": "5ffa0283-ce9c-4f96-9227-f559ec54ee0c",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-300"
   },
   "transparent-white-400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.21)",
     "uuid": "12e610d4-e3dc-4e86-9c09-09d86915b6f1",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-350"
   },
   "transparent-white-50": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.04)",
     "uuid": "db1dbf26-fa48-42e1-b724-7953b0a6a543",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-100"
   },
   "transparent-white-500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.39)",
     "uuid": "89c1380f-3e8e-4895-b025-027cee7ecd5b",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-600"
   },
   "transparent-white-600": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.51)",
     "uuid": "b24431ee-5c72-4a73-8733-746c6f5d77c0",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-700"
   },
   "transparent-white-700": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.66)",
     "uuid": "3ecc14ec-a21e-47ba-8225-915509a532af",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-800"
   },
   "transparent-white-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.07)",
     "uuid": "28d11d38-570d-4d99-b581-855781b972c5",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-150"
   },
   "transparent-white-800": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.85)",
     "uuid": "b85836bf-af47-412a-900a-4ec5ad0733b2",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-900"
   },
   "transparent-white-900": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(255, 255, 255, 0.94)",
     "uuid": "c5c823c6-1911-4e0e-ba2f-5105f467e108",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by the transparent-static color family (see spectrum-design-data#1346). Migrate usages to the replacement token; some replacements shift value slightly to align with the new opacity scale and should be re-checked for contrast.",
+    "private": true,
+    "renamed": "transparent-static-white-950"
   },
   "turquoise-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
@@ -6675,7 +7764,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(255, 255, 255)",
     "uuid": "9b799da8-2130-417e-b7ee-5e1154a89837",
-    "private": true
+    "deprecated": true,
+    "deprecated_comment": "Replaced by transparent-static-white-1000 (see spectrum-design-data#1346).",
+    "private": true,
+    "renamed": "transparent-static-white-1000"
   },
   "yellow-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",
