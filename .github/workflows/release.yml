@@ -377,8 +377,10 @@ jobs:
       # so this opens one from a bot branch and merges it immediately rather
       # than pushing directly — works regardless of whether GH_TOKEN can
       # bypass protection, since 0 approvals/required checks are configured.
+      # Restricted to main: this workflow also runs on beta, and a beta-triggered
+      # run would branch off beta and auto-merge a PR into main with no review gate.
       - name: Bump Homebrew formula
-        if: needs.build-binaries.result == 'success'
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
