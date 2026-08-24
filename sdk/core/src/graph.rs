@@ -918,7 +918,7 @@ impl TokenGraph {
                         (
                             rec.name.clone(),
                             name_obj,
-                            rec.raw.get("value").cloned(),
+                            rec.resolve_leaf(self).raw.get("value").cloned(),
                             rec.uuid.clone(),
                         )
                     })
@@ -933,7 +933,11 @@ impl TokenGraph {
                 return Ok(vec![(
                     rec.name.clone(),
                     name_obj,
-                    rec.raw.get("value").cloned(),
+                    // Resolve through the alias chain so a pure `$ref` target's
+                    // effective type (from its leaf's literal `value`) is available
+                    // to the cascade type-safety guard, not just literal-value
+                    // targets (spectrum-design-data-c3qw).
+                    rec.resolve_leaf(self).raw.get("value").cloned(),
                     rec.uuid.clone(),
                 )]);
             }
@@ -1749,6 +1753,60 @@ mod tests {
             g.apply_platform_manifest(&manifest),
             Err(CoreError::ParseError(_))
         ));
+    }
+
+    /// Foundation graph like [`foundation_graph`] but `btn-bg` is a pure `$ref`
+    /// alias to a separate leaf token, instead of carrying a literal `value`.
+    fn foundation_graph_with_alias_target() -> TokenGraph {
+        TokenGraph::from_pairs(vec![
+            (
+                "btn-bg-leaf".into(),
+                PathBuf::from("palette.json"),
+                json!({"name": {"property": "color", "colorFamily": "blue", "scaleIndex": 100}, "value": "#aaa", "uuid": "u-btn-bg-leaf"}),
+            ),
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "$ref": "u-btn-bg-leaf", "uuid": "u-btn-bg"}),
+            ),
+        ])
+    }
+
+    #[test]
+    fn manifest_override_alias_type_change_errors() {
+        // btn-bg is a pure $ref alias (no literal `value`); its leaf's value is a
+        // string. Overriding with a number must still violate type safety instead
+        // of silently applying (spectrum-design-data-c3qw).
+        let mut g = foundation_graph_with_alias_target();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": 42}]
+        });
+        assert!(matches!(
+            g.apply_platform_manifest(&manifest),
+            Err(CoreError::ParseError(_))
+        ));
+    }
+
+    #[test]
+    fn manifest_override_alias_same_type_succeeds() {
+        // Same setup, but the override keeps the same kind (string) — must apply.
+        let mut g = foundation_graph_with_alias_target();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": "#000000"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let overridden = g
+            .tokens
+            .get("btn-bg")
+            .expect("override replaces shadowed alias token in place");
+        assert_eq!(
+            overridden.raw.get("value").and_then(|v| v.as_str()),
+            Some("#000000")
+        );
     }
 
     #[test]
