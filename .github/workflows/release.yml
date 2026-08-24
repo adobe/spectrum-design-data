@@ -356,13 +356,18 @@ jobs:
             --title "design-data CLI ${CLI_VERSION}" \
             --notes "Native CLI binary for \`design-data\` v${CLI_VERSION}. Install via \`cargo install design-data-cli\` or download below." \
             || true
+          # Each platform's artifact directory contains a same-named
+          # `design-data` binary (matrix.platform disambiguates the dir, not
+          # the file) — stage into a separate upload/ dir with distinct,
+          # per-platform names before uploading. Uploading straight from the
+          # download dirs with a shared asset name previously clobbered all
+          # three Unix binaries onto one `design-data` asset.
+          mkdir -p upload
           for platform in darwin-arm64 darwin-x64 linux-x64; do
-            gh release upload "${TAG}" \
-              "design-data-${platform}/design-data" \
-              --clobber
+            cp "design-data-${platform}/design-data" "upload/design-data-${platform}"
           done
-          gh release upload "${TAG}" \
-            "design-data-win32-x64/design-data.exe" \
-            --clobber
+          cp "design-data-win32-x64/design-data.exe" "upload/design-data-win32-x64.exe"
+          ( cd upload && sha256sum * > SHA256SUMS )
+          gh release upload "${TAG}" upload/* --clobber
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
