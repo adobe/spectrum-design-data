@@ -529,6 +529,14 @@ enum DiffFormat {
     Markdown,
 }
 
+/// Resolve `overrides` against the current working directory. Shared by every
+/// command handler so the config/probing/embedded-snapshot tiers in
+/// [`data_source::resolve`] are applied consistently everywhere.
+fn resolve_data_source(overrides: CliPathOverrides) -> miette::Result<data_source::ResolvedData> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    data_source::resolve(&cwd, &overrides).into_diagnostic()
+}
+
 fn load_exceptions(path: Option<&Path>) -> miette::Result<HashSet<String>> {
     let Some(p) = path else {
         // No path provided and not resolved — no exceptions file found.
@@ -557,15 +565,10 @@ fn run_decompose_legacy_name(slug: &str, component_hint: Option<&str>) -> miette
 /// `{legacyKey, uuid, colorScheme?, contrast?}`, one entry per token (not
 /// deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
 fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(Path::to_path_buf),
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
     let path = &resolved.tokens_root;
 
     let graph = TokenGraph::open_cached(path)
@@ -618,16 +621,11 @@ fn run_resolve(
     }
 
     // Resolve catalog paths first so the cache can hydrate them on hit.
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(Path::to_path_buf),
-            mode_sets: mode_sets_path,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        mode_sets: mode_sets_path,
+        ..Default::default()
+    })?;
     let path = &resolved.tokens_root;
 
     // Load token graph (via the embedded-database cache when fresh).
@@ -705,20 +703,15 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
     if !validate::engine_ready() {
         miette::bail!("validation engine not ready");
     }
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(Path::to_path_buf),
-            schema_root: opts.schema_path,
-            exceptions: opts.exceptions_path,
-            mode_sets: opts.mode_sets_path,
-            components: opts.components_path,
-            relationships: opts.relationships_path,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        schema_root: opts.schema_path,
+        exceptions: opts.exceptions_path,
+        mode_sets: opts.mode_sets_path,
+        components: opts.components_path,
+        relationships: opts.relationships_path,
+        ..Default::default()
+    })?;
     let path = &resolved.tokens_root;
 
     let schema_root = resolved.schemas_root;
@@ -813,15 +806,11 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
         miette::bail!("validation engine not ready");
     }
     let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            schema_root: opts.schema_path,
-            exceptions: opts.exceptions_path,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        schema_root: opts.schema_path,
+        exceptions: opts.exceptions_path,
+        ..Default::default()
+    })?;
 
     let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
@@ -885,16 +874,11 @@ fn run_migrate_verify(
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            schema_root: schema_path,
-            exceptions: exceptions_path,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        schema_root: schema_path,
+        exceptions: exceptions_path,
+        ..Default::default()
+    })?;
     let registry =
         SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).into_diagnostic()?;
     let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
@@ -938,15 +922,10 @@ fn run_migrate_legacy_output_cascaded(
     explicit_path: Option<&Path>,
     output: &Path,
 ) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(Path::to_path_buf),
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
     let path = &resolved.tokens_root;
 
     let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
@@ -1146,16 +1125,11 @@ fn run_migrate_snapshot(
     schema_path: Option<PathBuf>,
     exceptions_path: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            schema_root: schema_path,
-            exceptions: exceptions_path,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        schema_root: schema_path,
+        exceptions: exceptions_path,
+        ..Default::default()
+    })?;
     let registry =
         SchemaRegistry::load_legacy_token_schemas(&resolved.schemas_root).into_diagnostic()?;
     let exceptions = load_exceptions(resolved.exceptions.as_deref())?;
@@ -1235,15 +1209,10 @@ fn run_query(
     format: OutputFormat,
     count_only: bool,
 ) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(Path::to_path_buf),
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
     let path = &resolved.tokens_root;
 
     let (mut graph, mut index) = TokenGraph::open_cached_with_index_with_catalogs(
@@ -1515,18 +1484,13 @@ fn run_primer(
     fields_dir: Option<PathBuf>,
     mode_sets_dir: Option<PathBuf>,
 ) -> miette::Result<ExitCode> {
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(|p| p.to_path_buf()),
-            mode_sets: mode_sets_dir,
-            components: components_dir,
-            fields: fields_dir,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(|p| p.to_path_buf()),
+        mode_sets: mode_sets_dir,
+        components: components_dir,
+        fields: fields_dir,
+        ..Default::default()
+    })?;
 
     // Dataset path: explicit arg wins; otherwise use the resolved tokens root (which
     // comes from the config source, embedded snapshot, or in-repo CWD probing).
@@ -1629,15 +1593,10 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
         return Ok(ExitCode::from(1));
     }
 
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            components: components_dir,
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        components: components_dir,
+        ..Default::default()
+    })?;
     let dir = resolved
         .components
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
@@ -1723,18 +1682,13 @@ fn run_cache_build(
     fields_path: Option<&Path>,
 ) -> miette::Result<ExitCode> {
     // Resolve the dataset: explicit arg wins, else the canonical resolved root.
-    let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(
-        &cwd,
-        &CliPathOverrides {
-            tokens_root: explicit_path.map(|p| p.to_path_buf()),
-            mode_sets: mode_sets_path.map(|p| p.to_path_buf()),
-            components: components_path.map(|p| p.to_path_buf()),
-            fields: fields_path.map(|p| p.to_path_buf()),
-            ..Default::default()
-        },
-    )
-    .into_diagnostic()?;
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(|p| p.to_path_buf()),
+        mode_sets: mode_sets_path.map(|p| p.to_path_buf()),
+        components: components_path.map(|p| p.to_path_buf()),
+        fields: fields_path.map(|p| p.to_path_buf()),
+        ..Default::default()
+    })?;
     let tokens_root = resolved.tokens_root;
 
     cache::build_file_with_all_catalogs(
