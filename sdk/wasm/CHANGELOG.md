@@ -1,5 +1,51 @@
 # @adobe/design-data-wasm
 
+## 0.5.0
+
+### Minor Changes
+
+- [#1365](https://github.com/adobe/spectrum-design-data/pull/1365) [`a7d3693`](https://github.com/adobe/spectrum-design-data/commit/a7d369357d997fa3f678225a220d26e5cb7f81ee) Thanks [@GarthDB](https://github.com/GarthDB)! - Enforce cascade type-safety on manifest overrides targeting alias-only tokens.
+  - **sdk/core/src/graph.rs**: `resolve_override_targets` now resolves the shadowed
+    token's value through its alias chain (`TokenRecord::resolve_leaf`) instead of
+    only reading a literal `value`, so an override that changes a `$ref`-aliased
+    token's value type (e.g. color → dimension) is rejected like the existing
+    literal-value case, instead of silently applying.
+
+- [#1367](https://github.com/adobe/spectrum-design-data/pull/1367) [`fdff7f5`](https://github.com/adobe/spectrum-design-data/commit/fdff7f5af05b19e61ecb6d20c87df0b77445109b) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a standalone `validate-manifest` CLI subcommand (closes bead spectrum-design-data-h890.5).
+  - **sdk/cli/src/main.rs**: new `validate-manifest [PATH] [--manifest FILE] [--format]`
+    subcommand — validates a configured Layer 2 platform manifest (Layer 1 schema shape +
+    apply-time cascade checks) with CI-friendly exit codes, without running a query.
+  - **sdk/core/src/data_source/mod.rs**: `CliPathOverrides` gains a `platform_manifest`
+    override so the manifest can be supplied on the command line, winning over the
+    `.design-data.toml` `manifest` key.
+
+### Patch Changes
+
+- [#1360](https://github.com/adobe/spectrum-design-data/pull/1360) [`4b841f2`](https://github.com/adobe/spectrum-design-data/commit/4b841f2dba5089bd37f96afd6c22d98c93401f62) Thanks [@GarthDB](https://github.com/GarthDB)! - Load tokens from the resolved `[source]` for `query`/`resolve`/legacy-output-cascaded (h890.19).
+  - **sdk/cli/src/main.rs**: `run_query`, `run_resolve`, and
+    `run_migrate_legacy_output_cascaded` now load the dataset from
+    `resolved.tokens_root` (an explicit PATH argument still wins) instead of always
+    reading the raw CWD, so a `.design-data.toml` `[source]` block actually takes
+    effect — matching the pattern already used by `run_primer`/`run_cache_build`.
+
+- [#1366](https://github.com/adobe/spectrum-design-data/pull/1366) [`30a282c`](https://github.com/adobe/spectrum-design-data/commit/30a282c7c6493188cc6370e20be5eb3bd783048c) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship spec schemas in the GitHub tarball so manifest Layer-1 validation runs (closes bead h890.4).
+  - **sdk/core/src/data_source/fetch.rs**: `should_extract` now retains
+    `packages/design-data-spec/schemas/**`, which was previously dropped during
+    tarball extraction of a fetched foundation.
+  - **sdk/core/src/manifest.rs**: `apply_configured` now errors when a platform
+    manifest is configured but `manifest.schema.json` cannot be located, instead of
+    silently skipping Layer 1 validation.
+  - **sdk/core/src/data_source/embedded.rs**: the embedded fallback snapshot (used
+    outside a monorepo checkout, with no fetched or local source) now also bakes in
+    `manifest.schema.json`, so the new guard above doesn't newly break that path.
+
+- [#1363](https://github.com/adobe/spectrum-design-data/pull/1363) [`01e7a9c`](https://github.com/adobe/spectrum-design-data/commit/01e7a9cce239d42167dc88fdc998c3a87413c1dd) Thanks [@GarthDB](https://github.com/GarthDB)! - Load tokens from the resolved `[source]` for `validate`/`dump-legacy-keys` (h890.20).
+  - **sdk/cli/src/main.rs**: `run_validate` and `run_dump_legacy_keys` now load the
+    dataset from `resolved.tokens_root` (an explicit PATH argument still wins)
+    instead of always reading the raw CWD, so a `.design-data.toml` `[source]`
+    block actually takes effect — matching the pattern already used by
+    `run_query`/`run_resolve`/`run_migrate_legacy_output_cascaded` (h890.19).
+
 ## 0.4.5
 
 ### Patch Changes
