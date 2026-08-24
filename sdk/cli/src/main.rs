@@ -556,7 +556,18 @@ fn run_decompose_legacy_name(slug: &str, component_hint: Option<&str>) -> miette
 /// `design-data dump-legacy-keys [PATH]` — prints a JSON array of
 /// `{legacyKey, uuid, colorScheme?, contrast?}`, one entry per token (not
 /// deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
-fn run_dump_legacy_keys(path: &Path) -> miette::Result<ExitCode> {
+fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let resolved = data_source::resolve(
+        &cwd,
+        &CliPathOverrides {
+            tokens_root: explicit_path.map(Path::to_path_buf),
+            ..Default::default()
+        },
+    )
+    .into_diagnostic()?;
+    let path = &resolved.tokens_root;
+
     let graph = TokenGraph::open_cached(path)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
@@ -690,7 +701,7 @@ struct ValidateOpts {
     strict: bool,
 }
 
-fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
+fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Result<ExitCode> {
     if !validate::engine_ready() {
         miette::bail!("validation engine not ready");
     }
@@ -698,6 +709,7 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
     let resolved = data_source::resolve(
         &cwd,
         &CliPathOverrides {
+            tokens_root: explicit_path.map(Path::to_path_buf),
             schema_root: opts.schema_path,
             exceptions: opts.exceptions_path,
             mode_sets: opts.mode_sets_path,
@@ -707,6 +719,7 @@ fn run_validate(path: &Path, opts: ValidateOpts) -> miette::Result<ExitCode> {
         },
     )
     .into_diagnostic()?;
+    let path = &resolved.tokens_root;
 
     let schema_root = resolved.schemas_root;
     let registry = SchemaRegistry::load_legacy_token_schemas(&schema_root)
@@ -1917,23 +1930,20 @@ fn main() -> ExitCode {
             names_dir,
             components_report_only,
             strict,
-        } => {
-            let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_validate(
-                &target,
-                ValidateOpts {
-                    format,
-                    schema_path,
-                    exceptions_path,
-                    mode_sets_path,
-                    components_path,
-                    relationships_path,
-                    names_dir,
-                    components_report_only,
-                    strict,
-                },
-            )
-        }
+        } => run_validate(
+            path.as_deref(),
+            ValidateOpts {
+                format,
+                schema_path,
+                exceptions_path,
+                mode_sets_path,
+                components_path,
+                relationships_path,
+                names_dir,
+                components_report_only,
+                strict,
+            },
+        ),
         Commands::ValidateDataset {
             path,
             format,
@@ -1975,9 +1985,7 @@ fn main() -> ExitCode {
             slug,
             component_hint,
         } => run_decompose_legacy_name(&slug, component_hint.as_deref()),
-        Commands::DumpLegacyKeys { path } => {
-            run_dump_legacy_keys(&path.unwrap_or_else(|| PathBuf::from(".")))
-        }
+        Commands::DumpLegacyKeys { path } => run_dump_legacy_keys(path.as_deref()),
         Commands::Diff {
             old,
             new,
