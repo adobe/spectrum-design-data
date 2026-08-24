@@ -116,7 +116,7 @@ test("Dataset.embedded() suggest returns readable token names, not raw graph key
 
 test("Dataset.embedded() query result .raw is a plain object, not a Map", (t) => {
   const ds = wasm.Dataset.embedded();
-  const results = ds.query("property=background-color,colorScheme=light");
+  const results = ds.query("property=color,colorScheme=light");
   t.true(results.length > 0);
   const { raw } = results[0];
   t.false(raw instanceof Map, ".raw should not be a JS Map");
