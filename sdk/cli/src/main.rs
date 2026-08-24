@@ -587,7 +587,7 @@ fn run_dump_legacy_keys(path: &Path) -> miette::Result<ExitCode> {
 
 fn run_resolve(
     property: &str,
-    path: &Path,
+    explicit_path: Option<&Path>,
     mode_sets_path: Option<PathBuf>,
     color_scheme: Option<String>,
     scale: Option<String>,
@@ -611,11 +611,13 @@ fn run_resolve(
     let resolved = data_source::resolve(
         &cwd,
         &CliPathOverrides {
+            tokens_root: explicit_path.map(Path::to_path_buf),
             mode_sets: mode_sets_path,
             ..Default::default()
         },
     )
     .into_diagnostic()?;
+    let path = &resolved.tokens_root;
 
     // Load token graph (via the embedded-database cache when fresh).
     let mut graph = TokenGraph::open_cached_with_catalogs(
@@ -919,9 +921,20 @@ fn run_migrate_legacy_output(input: &Path, output: &Path) -> miette::Result<Exit
     Ok(ExitCode::SUCCESS)
 }
 
-fn run_migrate_legacy_output_cascaded(path: &Path, output: &Path) -> miette::Result<ExitCode> {
+fn run_migrate_legacy_output_cascaded(
+    explicit_path: Option<&Path>,
+    output: &Path,
+) -> miette::Result<ExitCode> {
     let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+    let resolved = data_source::resolve(
+        &cwd,
+        &CliPathOverrides {
+            tokens_root: explicit_path.map(Path::to_path_buf),
+            ..Default::default()
+        },
+    )
+    .into_diagnostic()?;
+    let path = &resolved.tokens_root;
 
     let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
         path,
@@ -1204,13 +1217,21 @@ fn run_diff(
 }
 
 fn run_query(
-    path: &Path,
+    explicit_path: Option<&Path>,
     filter_expr: &str,
     format: OutputFormat,
     count_only: bool,
 ) -> miette::Result<ExitCode> {
     let cwd = std::env::current_dir().into_diagnostic()?;
-    let resolved = data_source::resolve(&cwd, &CliPathOverrides::default()).into_diagnostic()?;
+    let resolved = data_source::resolve(
+        &cwd,
+        &CliPathOverrides {
+            tokens_root: explicit_path.map(Path::to_path_buf),
+            ..Default::default()
+        },
+    )
+    .into_diagnostic()?;
+    let path = &resolved.tokens_root;
 
     let (mut graph, mut index) = TokenGraph::open_cached_with_index_with_catalogs(
         path,
@@ -1941,18 +1962,15 @@ fn main() -> ExitCode {
             scale,
             contrast,
             format,
-        } => {
-            let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_resolve(
-                &property,
-                &target,
-                mode_sets_path,
-                color_scheme,
-                scale,
-                contrast,
-                format,
-            )
-        }
+        } => run_resolve(
+            &property,
+            path.as_deref(),
+            mode_sets_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        ),
         Commands::DecomposeLegacyName {
             slug,
             component_hint,
@@ -1971,10 +1989,7 @@ fn main() -> ExitCode {
             filter,
             format,
             count,
-        } => {
-            let target = path.unwrap_or_else(|| PathBuf::from("."));
-            run_query(&target, &filter, format, count)
-        }
+        } => run_query(path.as_deref(), &filter, format, count),
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {
                 path,
@@ -1998,8 +2013,7 @@ fn main() -> ExitCode {
                 run_migrate_legacy_output(&input, &output)
             }
             MigrateSub::LegacyOutputCascaded { path, output } => {
-                let target = path.unwrap_or_else(|| PathBuf::from("."));
-                run_migrate_legacy_output_cascaded(&target, &output)
+                run_migrate_legacy_output_cascaded(path.as_deref(), &output)
             }
             MigrateSub::AddUuids { dir } => run_migrate_add_uuids(&dir),
             MigrateSub::RoundtripVerify { path } => run_migrate_roundtrip_verify(&path),
