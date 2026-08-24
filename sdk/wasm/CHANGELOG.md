@@ -1,5 +1,35 @@
 # @adobe/design-data-wasm
 
+## 0.4.5
+
+### Patch Changes
+
+- [#1358](https://github.com/adobe/spectrum-design-data/pull/1358) [`46a5a8b`](https://github.com/adobe/spectrum-design-data/commit/46a5a8baf54063697b476c90196adf186231654b) Thanks [@GarthDB](https://github.com/GarthDB)! - Expose legacy-name decomposition for platform-manifest tooling (closes h890.8).
+  - **sdk/cli/src/main.rs**: new `decompose-legacy-name` subcommand (exposes
+    `naming::parse_legacy_name`/`roundtrips`) and `dump-legacy-keys` subcommand
+    (exposes `naming::extract_legacy_key` per token, undeduped) so external
+    importers can resolve legacy slugs without reimplementing the algorithm.
+
+- [#1358](https://github.com/adobe/spectrum-design-data/pull/1358) [`46a5a8b`](https://github.com/adobe/spectrum-design-data/commit/46a5a8baf54063697b476c90196adf186231654b) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `migrate legacy-output-cascaded` for feeding classic-schema consumers (e.g. iOS
+  tokentool) from a manifest-resolved dataset (h890.10).
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` overrides now replace the
+    targeted Foundation-layer record in place instead of shadowing it under a
+    synthetic key, so every graph consumer (not just this new command) sees one
+    deterministic record per token.
+  - **sdk/cli/src/main.rs**: new `migrate legacy-output-cascaded [PATH] --output FILE`
+    applies the configured platform manifest cascade before converting to legacy
+    schema.
+  - **sdk/core/src/legacy.rs**: new `convert_records` entry point converts an
+    already-cascaded in-memory array; `build_mode_entry`'s `$schema` fallback for
+    schema-less override records now matches alias-ness instead of copying an
+    unrelated sibling's schema, and no longer matches the token being processed.
+
+- [#1356](https://github.com/adobe/spectrum-design-data/pull/1356) [`33225fb`](https://github.com/adobe/spectrum-design-data/commit/33225fb76a313247bcd054a6ef21eb6dbeb7ebbc) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix manifest overrides silently no-oping when targeted by a token's legacy slug.
+  - **sdk/core/src/graph.rs**: `resolve_override_targets` now resolves non-query
+    `target` values through `resolve_alias_key` (uuid → graph key → legacy-name
+    index) instead of a partial uuid/direct-key-only lookup, so overrides written
+    against legacy names (e.g. `blue-100`) actually apply.
+
 ## 0.4.4
 
 ### Patch Changes
