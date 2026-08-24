@@ -62,6 +62,105 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     project
 }
 
+/// Like [`setup_project`], but the `.design-data.toml` has no top-level `manifest`
+/// key — `manifest.json` is still written to the project root so a test can pass it
+/// explicitly via `--manifest`.
+fn setup_project_without_manifest_key(manifest: serde_json::Value) -> tempfile::TempDir {
+    let project = setup_project(manifest);
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("rewrite config without manifest key");
+    project
+}
+
+#[test]
+fn validate_manifest_accepts_valid_manifest() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .success()
+        .stdout(contains("valid"));
+}
+
+#[test]
+fn validate_manifest_rejects_schema_violation() {
+    // Missing required `foundationVersion` → Layer 1 schema validation fails.
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(1);
+}
+
+#[test]
+fn validate_manifest_rejects_unparseable_query() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["not-a-valid-query"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(1);
+}
+
+#[test]
+fn validate_manifest_errors_when_none_configured() {
+    let project = setup_project_without_manifest_key(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(2)
+        .stderr(contains("no platform manifest"));
+}
+
+#[test]
+fn validate_manifest_honors_explicit_flag() {
+    let project = setup_project_without_manifest_key(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens", "--manifest", "manifest.json"])
+        .assert()
+        .success()
+        .stdout(contains("valid"));
+}
+
 #[test]
 fn query_applies_manifest_include_filter() {
     let project = setup_project(json!({
