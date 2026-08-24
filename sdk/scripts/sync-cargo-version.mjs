@@ -50,14 +50,21 @@ if (updated === cargo) {
 const lockPath = resolve(root, 'Cargo.lock');
 const lock = readFileSync(lockPath, 'utf8');
 
-const lockUpdated = lock.replace(
-  /(name = "design-data-tui"\nversion = )"[^"]+"/,
-  `$1"${tuiVersion}"`,
-);
+const lockEntry = /name = "design-data-tui"\nversion = "([^"]+)"/.exec(lock);
 
-if (lockUpdated === lock) {
+if (!lockEntry) {
+  throw new Error(
+    `Could not find a "design-data-tui" entry in sdk/Cargo.lock — refusing to skip the sync silently.`,
+  );
+}
+
+if (lockEntry[1] === tuiVersion) {
   console.log(`sdk/Cargo.lock already at ${tuiVersion}`);
 } else {
+  const lockUpdated = lock.replace(
+    /(name = "design-data-tui"\nversion = )"[^"]+"/,
+    `$1"${tuiVersion}"`,
+  );
   writeFileSync(lockPath, lockUpdated);
   console.log(`Updated sdk/Cargo.lock design-data-tui to ${tuiVersion}`);
 }
