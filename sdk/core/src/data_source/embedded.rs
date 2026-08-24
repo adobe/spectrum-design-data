@@ -11,9 +11,10 @@
 //! Compile-time embedded Spectrum design-data snapshot.
 //!
 //! The design-data binary carries a pinned copy of `@adobe/spectrum-design-data` (the
-//! canonical cascade-format token corpus) and the matching `@adobe/design-data-spec`
-//! catalog baked in at build time via [`include_dir!`].  On first use outside a monorepo
-//! checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
+//! canonical cascade-format token corpus), its `packages/tokens/schemas` JSON Schemas, and
+//! the single `packages/design-data-spec/schemas/manifest.schema.json` Layer 1 schema, all
+//! baked in at build time via [`include_dir!`] / `include_str!`.  On first use outside a
+//! monorepo checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
 //! the OS cache dir so the disk-based loaders in `graph.rs`, `schema.rs`, and
 //! `discovery.rs` can read it as normal.
 //!
@@ -33,6 +34,9 @@
 //!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
 //!       manifest.json
+//!     design-data-spec/
+//!       schemas/
+//!         manifest.schema.json  ← Layer 1 platform-manifest schema (only file embedded)
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!
@@ -82,6 +86,15 @@ static NAMING_EXCEPTIONS: &str = include_str!(concat!(
 static TOKENS_MANIFEST: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/../../packages/tokens/manifest.json"
+));
+
+/// Layer 1 platform-manifest JSON Schema, used by `manifest::apply_configured` to
+/// validate a configured platform manifest (`packages/design-data-spec/schemas/manifest.schema.json`).
+/// Embedded as a single file (it has no `$ref`s to sibling schemas) rather than the whole
+/// `design-data-spec` catalog, which is source-authoring tooling not needed at runtime.
+static MANIFEST_SCHEMA: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/../../packages/design-data-spec/schemas/manifest.schema.json"
 ));
 
 // ---------------------------------------------------------------------------
@@ -217,6 +230,10 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         &tmp.join("packages/tokens/manifest.json"),
         TOKENS_MANIFEST.as_bytes(),
     )?;
+    write_file(
+        &tmp.join("packages/design-data-spec/schemas/manifest.schema.json"),
+        MANIFEST_SCHEMA.as_bytes(),
+    )?;
 
     // Rename tmp → root.  Atomic on POSIX (same filesystem); non-atomic on Windows
     // cross-device, but the sentinel guarantees correctness regardless.
@@ -327,6 +344,18 @@ mod tests {
             fs::read_to_string(&sentinel).unwrap(),
             "DIRTY",
             "second call should not have overwritten the sentinel"
+        );
+    }
+
+    #[test]
+    fn materialize_writes_manifest_schema() {
+        let (_tmp, root) = temp_root();
+        let schema_path = root.join("packages/design-data-spec/schemas/manifest.schema.json");
+        assert!(schema_path.is_file());
+        let schemas_root = root.join("packages/tokens/schemas");
+        assert_eq!(
+            crate::manifest::locate_manifest_schema(&schemas_root),
+            Some(schema_path)
         );
     }
 
