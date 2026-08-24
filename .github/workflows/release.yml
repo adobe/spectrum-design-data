@@ -371,3 +371,55 @@ jobs:
           gh release upload "${TAG}" upload/* --clobber
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Bumps Formula/design-data.rb (version + macOS sha256s) to match the
+      # release just published above. main requires a PR (branch protection),
+      # so this opens one from a bot branch and merges it immediately rather
+      # than pushing directly — works regardless of whether GH_TOKEN can
+      # bypass protection, since 0 approvals/required checks are configured.
+      - name: Bump Homebrew formula
+        if: needs.build-binaries.result == 'success'
+        shell: bash
+        run: |
+          CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          DARWIN_ARM_SHA=$(awk '/design-data-darwin-arm64$/{print $1}' upload/SHA256SUMS)
+          DARWIN_X64_SHA=$(awk '/design-data-darwin-x64$/{print $1}' upload/SHA256SUMS)
+
+          python3 - "$CLI_VERSION" "$DARWIN_ARM_SHA" "$DARWIN_X64_SHA" <<'PYEOF'
+          import re, sys
+          new_version, arm_sha, x64_sha = sys.argv[1], sys.argv[2], sys.argv[3]
+          path = "Formula/design-data.rb"
+          text = open(path).read()
+
+          text = re.sub(r'version "[^"]+"', f'version "{new_version}"', text, count=1)
+          text = re.sub(r'design-data-cli%40[0-9][^/"]*', f'design-data-cli%40{new_version}', text)
+
+          def replace_sha(text, marker, new_sha):
+              pattern = re.compile(r'(url "[^"]*' + re.escape(marker) + r'"\n\s*sha256 ")[0-9a-f]{64}(")')
+              return pattern.sub(lambda m: m.group(1) + new_sha + m.group(2), text)
+
+          text = replace_sha(text, "design-data-darwin-arm64", arm_sha)
+          text = replace_sha(text, "design-data-darwin-x64", x64_sha)
+          open(path, "w").write(text)
+          PYEOF
+
+          ruby -c Formula/design-data.rb
+
+          if git diff --quiet Formula/design-data.rb; then
+            echo "Formula already up to date — skipping bump PR."
+            exit 0
+          fi
+
+          BRANCH="chore/bump-homebrew-formula-${CLI_VERSION}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Formula/design-data.rb
+          git commit -m "chore(homebrew): bump design-data formula to ${CLI_VERSION}"
+          git push origin "${BRANCH}"
+          gh pr create --title "chore(homebrew): bump design-data formula to ${CLI_VERSION}" \
+            --body "Auto-bumped by release.yml for design-data-cli@${CLI_VERSION}." \
+            --base main --head "${BRANCH}"
+          gh pr merge "${BRANCH}" --squash --delete-branch
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
