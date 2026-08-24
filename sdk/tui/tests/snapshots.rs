@@ -43,6 +43,18 @@ fn buffer_to_string(buf: &Buffer) -> String {
         .join("\n")
 }
 
+/// `insta::assert_snapshot!`, normalizing the compiled-in crate version first so
+/// a version bump alone doesn't break every snapshot that renders the header bar.
+macro_rules! assert_snapshot_version_normalized {
+    ($name:expr, $rendered:expr) => {
+        insta::with_settings!({
+            filters => vec![(r"v\d+\.\d+\.\d+", "v[VERSION]")],
+        }, {
+            insta::assert_snapshot!($name, $rendered);
+        });
+    };
+}
+
 // ── Home / empty view ─────────────────────────────────────────────────────────
 
 /// The initial home screen (no query, no modal).
@@ -51,12 +63,7 @@ fn snapshot_home_view() {
     let mut model = Model::new();
     let buf = render_to_buffer(&mut model, 80, 24);
     let rendered = buffer_to_string(&buf);
-    insta::with_settings!({
-        // Normalize the compiled-in crate version so version bumps don't break this snapshot.
-        filters => vec![(r"v\d+\.\d+\.\d+", "v[VERSION]")],
-    }, {
-        insta::assert_snapshot!("home_view_80x24", rendered);
-    });
+    assert_snapshot_version_normalized!("home_view_80x24", rendered);
 }
 
 // ── Query results view ────────────────────────────────────────────────────────
@@ -101,7 +108,7 @@ fn snapshot_palette_open() {
     );
     let buf = render_to_buffer(&mut model, 80, 24);
     let rendered = buffer_to_string(&buf);
-    insta::assert_snapshot!("palette_open_80x24", rendered);
+    assert_snapshot_version_normalized!("palette_open_80x24", rendered);
 }
 
 // ── Wizard (new token modal) ──────────────────────────────────────────────────
@@ -119,5 +126,5 @@ fn snapshot_wizard_screen1() {
     );
     let buf = render_to_buffer(&mut model, 80, 24);
     let rendered = buffer_to_string(&buf);
-    insta::assert_snapshot!("wizard_screen1_80x24", rendered);
+    assert_snapshot_version_normalized!("wizard_screen1_80x24", rendered);
 }
