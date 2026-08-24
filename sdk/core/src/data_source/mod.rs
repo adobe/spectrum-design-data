@@ -155,6 +155,9 @@ pub struct CliPathOverrides {
     pub relationships: Option<PathBuf>,
     /// Naming-exceptions file (`--exceptions-path`).
     pub exceptions: Option<PathBuf>,
+    /// Explicit platform manifest.json (`--manifest`), overriding the
+    /// `.design-data.toml` top-level `manifest` key.
+    pub platform_manifest: Option<PathBuf>,
 }
 
 /// Records how the paths were determined so callers and diagnostics can report it.
@@ -280,6 +283,15 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
     // Carry it down to whichever tier actually resolves.
     let mut carried_manifest: Option<PathBuf> = None;
 
+    // `--manifest` always wins over the config `manifest` key (tier 1 override).
+    let override_manifest = overrides.platform_manifest.as_ref().map(|m| {
+        if m.is_absolute() {
+            m.clone()
+        } else {
+            cwd.join(m)
+        }
+    });
+
     // Tier 2: look for `.design-data.toml` walking up from cwd.
     if let Some((config_path, config)) = find_config(cwd)? {
         // Resolve the optional platform manifest relative to the config file's
@@ -309,7 +321,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                     let canonical = abs_root.canonicalize().unwrap_or(abs_root);
                     let mut resolved =
                         from_root(&canonical, overrides, Provenance::Config { config_path });
-                    resolved.platform_manifest = platform_manifest;
+                    resolved.platform_manifest = override_manifest.clone().or(platform_manifest);
                     Ok(resolved)
                 }
                 SourceConfig::Npm { .. }
@@ -320,7 +332,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                         config.cache.as_ref().and_then(|c| c.dir.as_deref()),
                         overrides,
                     )?;
-                    resolved.platform_manifest = platform_manifest;
+                    resolved.platform_manifest = override_manifest.clone().or(platform_manifest);
                     Ok(resolved)
                 }
             };
@@ -334,7 +346,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
     // If we are inside a monorepo checkout probe will find everything; return immediately.
     if is_in_repo(cwd) {
         let mut resolved = probe_cwd(cwd, overrides);
-        resolved.platform_manifest = carried_manifest;
+        resolved.platform_manifest = override_manifest.clone().or(carried_manifest);
         return Ok(resolved);
     }
 
@@ -350,7 +362,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
                     version: embedded::EMBEDDED_DATA_VERSION,
                 },
             );
-            resolved.platform_manifest = carried_manifest;
+            resolved.platform_manifest = override_manifest.clone().or(carried_manifest);
             return Ok(resolved);
         }
         Err(e) => {

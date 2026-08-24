@@ -156,6 +156,20 @@ enum Commands {
         #[arg(long)]
         strict: bool,
     },
+    /// Validate the configured Layer 2 platform manifest (Foundation→Platform cascade):
+    /// Layer 1 schema-shape check plus apply-time include/exclude and override-target
+    /// resolution — the same validation `query` enforces, without running a query.
+    ValidateManifest {
+        /// Path to the dataset root (or its tokens/ dir). Default: current directory.
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Explicit platform manifest.json (overrides the `.design-data.toml` `manifest` key)
+        #[arg(long, value_name = "FILE")]
+        manifest: Option<PathBuf>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
     /// Resolve a token value for a given mode set context
     Resolve {
         /// Token property name to resolve (e.g. background-color-default)
@@ -866,6 +880,89 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
         return Ok(ExitCode::from(1));
     }
     Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data validate-manifest [PATH] [--manifest FILE] [--format]` — validate the
+/// configured Layer 2 platform manifest directly, without running a query. Loads the
+/// foundation token graph and runs the same cascade `manifest::apply_configured` applies
+/// during `query`/`resolve`/`convert`: Layer 1 schema-shape validation plus apply-time
+/// checks (include/exclude query parse, override-target resolution).
+///
+/// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
+/// bad include/exclude query, missing override target); `2` no platform manifest
+/// configured or supplied via `--manifest`.
+fn run_validate_manifest(
+    explicit_path: Option<&Path>,
+    manifest_override: Option<PathBuf>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        platform_manifest: manifest_override,
+        ..Default::default()
+    })?;
+
+    let Some(manifest_path) = resolved.platform_manifest.clone() else {
+        let message = "no platform manifest configured (set the `.design-data.toml` \
+                        top-level `manifest` key, or pass --manifest <FILE>)";
+        match format {
+            OutputFormat::Json => {
+                println!("{}", serde_json::json!({"valid": false, "error": message}));
+            }
+            OutputFormat::Pretty => eprintln!("design-data: error: {message}"),
+        }
+        return Ok(ExitCode::from(2));
+    };
+
+    let path = &resolved.tokens_root;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    match manifest::apply_configured(&mut graph, &resolved) {
+        Ok(_) => {
+            match format {
+                OutputFormat::Json => {
+                    println!(
+                        "{}",
+                        serde_json::json!({
+                            "valid": true,
+                            "manifest": manifest_path.display().to_string(),
+                        })
+                    );
+                }
+                OutputFormat::Pretty => {
+                    println!("design-data: {} is valid", manifest_path.display());
+                }
+            }
+            Ok(ExitCode::SUCCESS)
+        }
+        Err(e) => {
+            match format {
+                OutputFormat::Json => {
+                    println!(
+                        "{}",
+                        serde_json::json!({
+                            "valid": false,
+                            "manifest": manifest_path.display().to_string(),
+                            "error": e.to_string(),
+                        })
+                    );
+                }
+                OutputFormat::Pretty => {
+                    eprintln!(
+                        "design-data: error: {} failed validation:\n{e}",
+                        manifest_path.display()
+                    );
+                }
+            }
+            Ok(ExitCode::from(1))
+        }
+    }
 }
 
 fn run_migrate_verify(
@@ -1918,6 +2015,11 @@ fn main() -> ExitCode {
                 },
             )
         }
+        Commands::ValidateManifest {
+            path,
+            manifest,
+            format,
+        } => run_validate_manifest(path.as_deref(), manifest, format),
         Commands::Resolve {
             property,
             path,
