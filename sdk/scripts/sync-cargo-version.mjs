@@ -11,7 +11,9 @@
 /**
  * Syncs the tui Cargo.toml version from tui/package.json after `changeset version`.
  *
- * - For `tui`: reads version from tui/package.json and writes it into tui/Cargo.toml.
+ * - For `tui`: reads version from tui/package.json and writes it into tui/Cargo.toml,
+ *   then patches the matching `design-data-tui` entry in Cargo.lock so the lockfile
+ *   doesn't drift out from under the next `cargo build`/`test`.
  *
  * The `design-data-cli` Rust crate (sdk/cli/Cargo.toml) is versioned independently
  * and released via GitHub Releases — it no longer has a corresponding npm package.
@@ -40,4 +42,22 @@ if (updated === cargo) {
 } else {
   writeFileSync(cargoPath, updated);
   console.log(`Updated sdk/tui/Cargo.toml to ${tuiVersion}`);
+}
+
+// Keep Cargo.lock's design-data-tui entry in sync too, so a plain `cargo build`
+// right after this doesn't rewrite the lockfile as an incidental diff.
+
+const lockPath = resolve(root, 'Cargo.lock');
+const lock = readFileSync(lockPath, 'utf8');
+
+const lockUpdated = lock.replace(
+  /(name = "design-data-tui"\nversion = )"[^"]+"/,
+  `$1"${tuiVersion}"`,
+);
+
+if (lockUpdated === lock) {
+  console.log(`sdk/Cargo.lock already at ${tuiVersion}`);
+} else {
+  writeFileSync(lockPath, lockUpdated);
+  console.log(`Updated sdk/Cargo.lock design-data-tui to ${tuiVersion}`);
 }
