@@ -59,15 +59,21 @@ pub fn apply_configured(
         ))
     })?;
 
-    if let Some(schema_path) = locate_manifest_schema(&resolved.schemas_root) {
-        let errors = SchemaRegistry::validate_manifest(&manifest, &schema_path)?;
-        if !errors.is_empty() {
-            return Err(CoreError::ParseError(format!(
-                "platform manifest {} failed Layer 1 schema validation:\n  {}",
-                manifest_path.display(),
-                errors.join("\n  ")
-            )));
-        }
+    let schema_path = locate_manifest_schema(&resolved.schemas_root).ok_or_else(|| {
+        CoreError::ParseError(format!(
+            "platform manifest {} is configured but manifest.schema.json could not be \
+             located under {} — Layer 1 validation cannot run",
+            manifest_path.display(),
+            resolved.schemas_root.display()
+        ))
+    })?;
+    let errors = SchemaRegistry::validate_manifest(&manifest, &schema_path)?;
+    if !errors.is_empty() {
+        return Err(CoreError::ParseError(format!(
+            "platform manifest {} failed Layer 1 schema validation:\n  {}",
+            manifest_path.display(),
+            errors.join("\n  ")
+        )));
     }
 
     let outcome = graph.apply_platform_manifest(&manifest)?;
@@ -81,6 +87,13 @@ mod tests {
     use crate::graph::TokenGraph;
     use serde_json::json;
     use std::path::PathBuf;
+
+    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
+    /// default `schemas_root` an in-repo `ResolvedData` carries.
+    fn repo_schemas_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+    }
 
     fn resolved_with_manifest(manifest_path: PathBuf, schemas_root: PathBuf) -> ResolvedData {
         ResolvedData {
@@ -167,7 +180,7 @@ mod tests {
         .unwrap();
 
         let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, dir.path().to_path_buf());
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         let restrictions = apply_configured(&mut graph, &resolved).unwrap();
         assert!(restrictions.is_empty());
         assert_eq!(graph.tokens.len(), 2);
@@ -192,8 +205,29 @@ mod tests {
         .unwrap();
 
         let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, dir.path().to_path_buf());
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         let err = apply_configured(&mut graph, &resolved).unwrap_err();
         assert!(err.to_string().contains("query parse error"));
+    }
+
+    #[test]
+    fn missing_schema_is_an_error_not_a_silent_skip() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0"
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        // schemas_root has no ancestor containing manifest.schema.json.
+        let resolved = resolved_with_manifest(manifest_path, dir.path().to_path_buf());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("could not be located"));
     }
 }

@@ -443,6 +443,14 @@ fn should_extract(rel: &Path) -> bool {
                 Some("tokens") | Some("components") | Some("fields") | Some("mode-sets")
             )
         }
+        (Some("packages"), Some("design-data-spec")) => {
+            // schemas/ — Layer-1 spec schemas (manifest.schema.json et al.) used to
+            // validate a fetched foundation. Other subdirs (docs, audits, scripts…) are not needed.
+            let third = components
+                .next()
+                .map(|c| c.as_os_str().to_string_lossy().into_owned());
+            matches!(third.as_deref(), Some("schemas"))
+        }
         _ => false,
     }
 }
@@ -531,13 +539,30 @@ mod tests {
     }
 
     #[test]
-    fn should_not_extract_other_spec_dirs() {
-        assert!(!should_extract(Path::new(
+    fn should_extract_spec_schemas() {
+        assert!(should_extract(Path::new(
+            "packages/design-data-spec/schemas/manifest.schema.json"
+        )));
+        assert!(should_extract(Path::new(
             "packages/design-data-spec/schemas/token.schema.json"
         )));
+        assert!(should_extract(Path::new(
+            "packages/design-data-spec/schemas/value-types/color.schema.json"
+        )));
+        // Other design-data-spec dirs are NOT extracted.
         assert!(!should_extract(Path::new(
             "packages/design-data-spec/rules/rules.yaml"
         )));
+        assert!(!should_extract(Path::new(
+            "packages/design-data-spec/docs/README.md"
+        )));
+        assert!(!should_extract(Path::new(
+            "packages/design-data-spec/package.json"
+        )));
+    }
+
+    #[test]
+    fn should_not_extract_other_spec_dirs() {
         assert!(!should_extract(Path::new(
             "packages/component-schemas/index.js"
         )));
