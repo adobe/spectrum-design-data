@@ -1,5 +1,12 @@
 # markdown-generator
 
+## 0.1.64
+
+### Patch Changes
+
+- Updated dependencies [[`a734594`](https://github.com/adobe/spectrum-design-data/commit/a734594d1592701632f790a58992a904df579ee1)]:
+  - @adobe/spectrum-tokens@15.2.0
+
 ## 0.1.63
 
 ### Patch Changes

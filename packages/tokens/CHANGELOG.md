@@ -1,5 +1,13 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.2.0
+
+### Minor Changes
+
+- [#1348](https://github.com/adobe/spectrum-design-data/pull/1348) [`a734594`](https://github.com/adobe/spectrum-design-data/commit/a734594d1592701632f790a58992a904df579ee1) Thanks [@GarthDB](https://github.com/GarthDB)! - Add an 18-step opacity foundation scale (closes #1344).
+  - **color-aliases.json**: add `opacity-0`…`opacity-1000` (18 steps) as the reusable
+    opacity foundation scale.
+
 ## 15.1.0
 
 ### Minor Changes
