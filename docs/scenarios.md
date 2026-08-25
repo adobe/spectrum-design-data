@@ -18,6 +18,9 @@ You are a designer or engineer on a product team. Spectrum is your design system
 
 ### Common tasks
 
+> Don't have the CLI yet? See [installing `design-data`](../sdk/cli/README.md#install)
+> — Homebrew (macOS), `cargo install design-data-cli`, or a GitHub Release download.
+
 **See what a component declares:**
 
 ```bash
