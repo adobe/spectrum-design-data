@@ -1,0 +1,185 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+name: Validate design-data
+description: >
+  Installs the design-data CLI and validates a platform repo's dataset and
+  manifest against the Spectrum foundation, including a foundation-drift
+  check against the foundation's latest tag.
+
+inputs:
+  dataset-path:
+    description: "Path to the dataset root passed to validate-dataset/validate-manifest"
+    required: false
+    default: "."
+  manifest:
+    description: "Path to the platform manifest.json"
+    required: false
+    default: "manifest.json"
+  cli-version:
+    description: "design-data-cli release version to install, or 'latest'"
+    required: false
+    default: "latest"
+  install-method:
+    description: "How to install the CLI: 'release' (direct binary download) or 'homebrew'"
+    required: false
+    default: "release"
+  foundation-repo:
+    description: "owner/repo of the Spectrum foundation to check for drift"
+    required: false
+    default: "adobe/spectrum-design-data"
+  foundation-tag-prefix:
+    description: "Tag prefix identifying foundation release tags in foundation-repo"
+    required: false
+    default: "@adobe/spectrum-tokens@"
+  drift-mode:
+    description: "'warn' (annotate only) or 'fail' (block the PR) on foundation drift"
+    required: false
+    default: "warn"
+  open-issue:
+    description: "Open a 'foundation moved' issue when drift is detected"
+    required: false
+    default: "false"
+  github-token:
+    description: "GitHub token for release lookups, tag lookups, and issue creation"
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  dataset-valid:
+    description: "Whether validate-dataset passed (true/false)"
+    value: ${{ steps.validate-dataset.outputs.valid }}
+  manifest-valid:
+    description: "Whether validate-manifest passed (true/false)"
+    value: ${{ steps.validate-manifest.outputs.valid }}
+  foundation-drift:
+    description: "Whether the pinned foundationVersion is behind the foundation's latest tag"
+    value: ${{ steps.drift.outputs.drift }}
+  pinned-foundation-version:
+    description: "foundationVersion pinned in the manifest"
+    value: ${{ steps.drift.outputs.pinned }}
+  latest-foundation-version:
+    description: "Latest foundation version found in foundation-repo"
+    value: ${{ steps.drift.outputs.latest }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install design-data CLI (release binary)
+      if: inputs.install-method == 'release'
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+        version="${{ inputs.cli-version }}"
+        if [[ "$version" == "latest" ]]; then
+          version=$(gh release list --repo adobe/spectrum-design-data \
+            --limit 50 --json tagName \
+            --jq '.[].tagName | select(startswith("design-data-cli@"))' \
+            | sed 's/^design-data-cli@//' | sort -V | tail -1)
+        fi
+        tag="design-data-cli@${version}"
+        mkdir -p "$RUNNER_TEMP/design-data-cli"
+        curl -fsSL \
+          "https://github.com/adobe/spectrum-design-data/releases/download/${tag//@/%40}/design-data-linux-x64" \
+          -o "$RUNNER_TEMP/design-data-cli/design-data"
+        chmod +x "$RUNNER_TEMP/design-data-cli/design-data"
+        echo "$RUNNER_TEMP/design-data-cli" >> "$GITHUB_PATH"
+
+    - name: Install design-data CLI (Homebrew)
+      if: inputs.install-method == 'homebrew'
+      shell: bash
+      run: |
+        set -euo pipefail
+        brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-data
+        brew install adobe/spectrum-design-data/design-data
+
+    - name: Validate dataset
+      id: validate-dataset
+      shell: bash
+      run: |
+        set +e
+        design-data validate-dataset "${{ inputs.dataset-path }}" --strict --format json \
+          | tee /tmp/validate-dataset.json
+        code=$?
+        set -e
+        echo "valid=$([[ $code -eq 0 ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+        exit $code
+
+    - name: Validate manifest
+      id: validate-manifest
+      shell: bash
+      run: |
+        set +e
+        design-data validate-manifest "${{ inputs.dataset-path }}" \
+          --manifest "${{ inputs.manifest }}" --format json \
+          | tee /tmp/validate-manifest.json
+        code=$?
+        set -e
+        echo "valid=$([[ $code -eq 0 ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+        exit $code
+
+    - name: Check foundation drift
+      id: drift
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+        pinned=$(jq -r '.foundationVersion' "${{ inputs.manifest }}")
+        prefix="${{ inputs.foundation-tag-prefix }}"
+        latest=$(gh api "repos/${{ inputs.foundation-repo }}/tags" --paginate \
+          --jq '.[].name | select(startswith("'"$prefix"'"))' \
+          | sed "s|^${prefix}||" | sort -V | tail -1)
+
+        echo "pinned=$pinned" >> "$GITHUB_OUTPUT"
+        echo "latest=$latest" >> "$GITHUB_OUTPUT"
+
+        if [[ -z "$latest" || "$pinned" == "$latest" ]]; then
+          echo "drift=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        echo "drift=true" >> "$GITHUB_OUTPUT"
+        message="Foundation moved: manifest pins ${prefix}${pinned}, latest is ${prefix}${latest}"
+        if [[ "${{ inputs.drift-mode }}" == "fail" ]]; then
+          echo "::error::${message}"
+          exit 1
+        else
+          echo "::warning::${message}"
+        fi
+
+    - name: Open foundation-moved issue
+      if: inputs.open-issue == 'true' && steps.drift.outputs.drift == 'true'
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+        title="Foundation moved: ${{ steps.drift.outputs.pinned }} → ${{ steps.drift.outputs.latest }}"
+        existing=$(gh issue list --search "in:title \"${title}\"" --state open --json title \
+          --jq 'length')
+        if [[ "$existing" -gt 0 ]]; then
+          echo "Issue already open for this drift, skipping."
+          exit 0
+        fi
+        gh issue create --title "$title" --body "$(cat <<EOF
+        The foundation dataset (\`${{ inputs.foundation-repo }}\`) has moved past the
+        version pinned in \`${{ inputs.manifest }}\`.
+
+        - Pinned: \`${{ steps.drift.outputs.pinned }}\`
+        - Latest: \`${{ steps.drift.outputs.latest }}\`
+
+        Review the foundation changelog and update \`foundationVersion\` in
+        \`${{ inputs.manifest }}\` once the platform overrides have been checked
+        against the new release.
+        EOF
+        )"
