@@ -4,13 +4,27 @@ CLI tool for working with [Adobe Spectrum](https://spectrum.adobe.com) design to
 
 ## Install
 
+**Homebrew (macOS):**
+
 ```sh
-npm install -g @adobe/design-data
-# or use without installing:
-npx @adobe/design-data <command>
+brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-data
+brew install adobe/spectrum-design-data/design-data
 ```
 
-Requires Node.js ≥ 20.12. No Rust toolchain needed — the CLI binary is included via platform-specific optional dependencies.
+**Cargo (any platform with a Rust toolchain):**
+
+```sh
+cargo install design-data-cli
+```
+
+**Manual download (Linux/Windows, or any platform):**
+
+Grab the binary for your platform from the latest
+[`design-data-cli@*` GitHub Release](https://github.com/adobe/spectrum-design-data/releases),
+`chmod +x` it (Unix), and put it on your `PATH`. Checksums are in `SHA256SUMS`.
+
+> The `@adobe/design-data` npm package is JS/wasm library glue, not the CLI —
+> `npm install -g @adobe/design-data` does **not** install the `design-data` command.
 
 ## Usage
 

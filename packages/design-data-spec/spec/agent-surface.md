@@ -66,7 +66,7 @@ An agent loop benefits from a small, structural overview at session start so tha
 
 ### CLI
 
-The reference CLI is `design-data` (see [`sdk/cli/`](../../../sdk/cli/)). RFC-C extends the existing subcommands (`validate`, `resolve`, `diff`, `query`) with:
+The reference CLI is `design-data` (see [`sdk/cli/`](../../../sdk/cli/)). Install it via Homebrew (macOS), `cargo install design-data-cli`, or a [GitHub Release download](https://github.com/adobe/spectrum-design-data/releases) — see the [`sdk/cli/` README](../../../sdk/cli/README.md#install). RFC-C extends the existing subcommands (`validate`, `resolve`, `diff`, `query`) with:
 
 * `design-data primer [PATH]` — emit the [Session primer](#session-primer) payload.
 * `design-data suggest "<intent>" [--property <hint>]` — invoke `suggest_token`.
