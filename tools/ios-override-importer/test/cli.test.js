@@ -14,10 +14,12 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { run } from "../src/cli.js";
 
-// Out-of-scope (typography) rows only, so emitManifest never touches the
+// Out-of-scope (letter-spacing) rows only, so emitManifest never touches the
 // Rust CLI oracle or the foundation-token corpus — this test is a
 // dependency-free smoke check of arg parsing + file writing, not the
-// resolution pipeline (covered by emit-manifest.test.js).
+// resolution pipeline (covered by emit-manifest.test.js). FontSize rows do
+// touch the corpus (via the legacy-key index), so they're deliberately kept
+// out of this fixture.
 test("writes a manifest and gap report from a CSV", (t) => {
   const dir = mkdtempSync(join(tmpdir(), "ios-importer-cli-"));
   const csvPath = join(dir, "override-log.csv");
@@ -27,7 +29,7 @@ test("writes a manifest and gap report from a CSV", (t) => {
   writeFileSync(
     csvPath,
     "Token Name,Old Value,New Value,Aliases,Override Source\n" +
-      'font-size-100,"Scale(FontSize(17.0))",FontSize(14.0),,figma-tokens.json\n',
+      'letter-spacing-font-size-10,"Custom token",Measurement(0.433),,letter-spacing.json\n',
   );
 
   run(["--csv", csvPath, "--out", outPath, "--gaps", gapsPath]);

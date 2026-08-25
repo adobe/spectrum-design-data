@@ -11,9 +11,42 @@
 import { categorizeRow } from "./categorize.js";
 import { resolveTarget } from "./resolve-target.js";
 import { findTokenUuid, loadLegacyKeyIndex } from "./find-token-uuid.js";
+import { isFontSizeValue, parseFontSize } from "./parse-scale.js";
 
 const COLOR_SCHEMA =
   "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+
+/**
+ * Resolve a font-size row directly by uuid existence at the `mobile` scale
+ * member, scanning `[Token Name, ...Aliases]` in order — NOT via
+ * `resolveTarget`'s structural decompose. A component name like
+ * `action-bar-counter-font-size` roundtrips through `decompose-legacy-name`
+ * just fine (it's a valid property slug), which would resolve to itself and
+ * shadow the real `font-size-100` alias it points to. Existence in the
+ * legacy-key index (built from the same tokens the CSV was generated
+ * against) is the reliable signal here instead.
+ */
+function emitFontSizeRow(row, legacyKeyIndex) {
+  const candidates = [row["Token Name"], ...splitAliases(row.Aliases)].filter(
+    Boolean,
+  );
+  const value = parseFontSize(row["New Value"]);
+  for (const slug of candidates) {
+    const uuid = findTokenUuid(legacyKeyIndex, slug, { scale: "mobile" });
+    if (uuid) {
+      return { overrides: [{ target: uuid, value }], extensionTokens: [] };
+    }
+  }
+  return { overrides: [], extensionTokens: [], unresolved: candidates };
+}
+
+function splitAliases(aliases) {
+  if (!aliases) return [];
+  return aliases
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 
 /**
  * Turn one categorized+resolved row into manifest fragments, per MODE rather
@@ -32,13 +65,23 @@ const COLOR_SCHEMA =
  *   resolved name fields (mirrors the color-set member shape — same
  *   identity, different colorScheme/contrast). These are new records, so no
  *   existence check is needed.
- * - `out-of-scope` (typography/size) → no manifest fragment.
+ * - `out-of-scope` (letter-spacing, non-color/font-size sizing) → no manifest
+ *   fragment.
  *
  * Rows whose target doesn't resolve at all (own name nor any Aliases entry)
  * produce no fragment either — the caller logs `row` into the gap report
  * instead of fabricating a name.
+ *
+ * Font-size rows (`FontSize(N)` / `Scale(FontSize(N))`) are handled up front
+ * via `emitFontSizeRow`, bypassing `categorizeRow`/`resolveTarget` entirely —
+ * see that function's doc for why. See spectrum-design-data-h890.15.
  */
 export function emitRow(row, options) {
+  if (isFontSizeValue(row["New Value"])) {
+    const legacyKeyIndex = options?.legacyKeyIndex ?? loadLegacyKeyIndex();
+    return emitFontSizeRow(row, legacyKeyIndex);
+  }
+
   const { category, overrideModes, extensionModes } = categorizeRow(row);
   if (category === "out-of-scope") {
     return { overrides: [], extensionTokens: [] };

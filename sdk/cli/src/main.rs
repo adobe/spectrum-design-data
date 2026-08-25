@@ -576,8 +576,11 @@ fn run_decompose_legacy_name(slug: &str, component_hint: Option<&str>) -> miette
 }
 
 /// `design-data dump-legacy-keys [PATH]` — prints a JSON array of
-/// `{legacyKey, uuid, colorScheme?, contrast?}`, one entry per token (not
-/// deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
+/// `{legacyKey, uuid, colorScheme?, contrast?, scale?}`, one entry per token
+/// (not deduped by legacyKey, unlike `TokenGraph::legacy_name_index`).
+/// `scale` disambiguates scale-set members (e.g. `font-size-100` has both a
+/// `mobile` and `desktop` uuid under the same legacy key) — see
+/// spectrum-design-data-h890.15.
 fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: explicit_path.map(Path::to_path_buf),
@@ -602,11 +605,13 @@ fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode
         };
         let color_scheme = name_val.get("colorScheme").and_then(|v| v.as_str());
         let contrast = name_val.get("contrast").and_then(|v| v.as_str());
+        let scale = name_val.get("scale").and_then(|v| v.as_str());
         out.push(serde_json::json!({
             "legacyKey": legacy_key,
             "uuid": uuid,
             "colorScheme": color_scheme,
             "contrast": contrast,
+            "scale": scale,
         }));
     }
     println!("{}", serde_json::to_string_pretty(&out).into_diagnostic()?);

@@ -12,9 +12,10 @@ import test from "ava";
 import { findTokenUuid } from "../src/find-token-uuid.js";
 
 const INDEX = new Map([
-  ["blue-1000::light::", "u-light"],
-  ["blue-1000::dark::", "u-dark"],
-  ["blue-1000::light::high", "u-light-high"],
+  ["blue-1000::light::::", "u-light"],
+  ["blue-1000::dark::::", "u-dark"],
+  ["blue-1000::light::high::", "u-light-high"],
+  ["font-size-100::::::mobile", "u-font-size-100-mobile"],
 ]);
 
 test("finds the uuid for an exact legacy-key + mode match", (t) => {
@@ -33,4 +34,9 @@ test("disambiguates plain vs. contrast:high modes", (t) => {
 test("returns null when no record matches", (t) => {
   const uuid = findTokenUuid(INDEX, "red-1000", { colorScheme: "light" });
   t.is(uuid, null);
+});
+
+test("disambiguates scale-set members sharing a legacy key (mobile vs. desktop)", (t) => {
+  const uuid = findTokenUuid(INDEX, "font-size-100", { scale: "mobile" });
+  t.is(uuid, "u-font-size-100-mobile");
 });

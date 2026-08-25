@@ -27,8 +27,8 @@ test("true-value-change emits uuid-targeted overrides, one per changed mode", (t
       "ColorSet(light: Color(9, 9, 9, 1.0), dark: Color(2, 2, 2, 1.0))",
   };
   const legacyKeyIndex = new Map([
-    ["accent-background-color-default::light::", "uuid-light"],
-    ["accent-background-color-default::dark::", "uuid-dark"],
+    ["accent-background-color-default::light::::", "uuid-light"],
+    ["accent-background-color-default::dark::::", "uuid-dark"],
   ]);
   const result = emitRow(row, {
     decompose,
@@ -120,11 +120,43 @@ test("contrast-addition includes contrast:high in the extension token's name", (
 
 test("out-of-scope rows emit nothing", (t) => {
   const row = {
-    "Old Value": "Scale(FontSize(17.0))",
-    "New Value": "FontSize(14.0)",
+    "Old Value": "Custom token",
+    "New Value": "Measurement(0.43)",
   };
   const result = emitRow(row, { decompose, colorFamilies: FAMILIES });
   t.deepEqual(result, { overrides: [], extensionTokens: [] });
+});
+
+test("font-size row resolves via alias to an override on the mobile scale member", (t) => {
+  const row = {
+    "Token Name": "action-bar-counter-font-size",
+    Aliases: "font-size-100",
+    "Old Value": "Scale(FontSize(17.0))",
+    "New Value": "FontSize(14.0)",
+  };
+  const legacyKeyIndex = new Map([
+    ["font-size-100::::::mobile", "uuid-font-size-100"],
+  ]);
+  const result = emitRow(row, { legacyKeyIndex });
+  t.deepEqual(result, {
+    overrides: [{ target: "uuid-font-size-100", value: "14px" }],
+    extensionTokens: [],
+  });
+});
+
+test("font-size row with no resolvable alias reports unresolved", (t) => {
+  const row = {
+    "Token Name": "alert-dialog-title-font-size",
+    Aliases: "",
+    "Old Value": "Scale(FontSize(24.0))",
+    "New Value": "Scale(FontSize(20.0))",
+  };
+  const result = emitRow(row, { legacyKeyIndex: new Map() });
+  t.deepEqual(result, {
+    overrides: [],
+    extensionTokens: [],
+    unresolved: ["alert-dialog-title-font-size"],
+  });
 });
 
 test("unresolved rows report candidates instead of a fragment", (t) => {

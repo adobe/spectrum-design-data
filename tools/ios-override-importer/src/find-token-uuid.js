@@ -45,20 +45,30 @@ export function loadLegacyKeyIndex(tokensDir = TOKENS_DIR, binPath = CLI_BIN) {
   });
   const index = new Map();
   for (const e of JSON.parse(out)) {
-    index.set(indexKey(e.legacyKey, e.colorScheme, e.contrast), e.uuid);
+    index.set(
+      indexKey(e.legacyKey, e.colorScheme, e.contrast, e.scale),
+      e.uuid,
+    );
   }
   return index;
 }
 
-function indexKey(legacyKey, colorScheme, contrast) {
-  return `${legacyKey}::${colorScheme ?? ""}::${contrast ?? ""}`;
+function indexKey(legacyKey, colorScheme, contrast, scale) {
+  return `${legacyKey}::${colorScheme ?? ""}::${contrast ?? ""}::${scale ?? ""}`;
 }
 
 /**
  * Look up the uuid of the foundation token whose computed legacy key is
- * `slug`, at the given `{colorScheme, contrast?}` mode. Returns null if no
- * match exists — callers should treat that as unresolved, not guess.
+ * `slug`, at the given `{colorScheme, contrast?, scale?}` mode. `scale`
+ * disambiguates scale-set members that share a legacy key (e.g.
+ * `font-size-100` has both a `mobile` and `desktop` uuid) — color modes
+ * don't set it, so they fall back to matching the null/null scale entry as
+ * before. Returns null if no match exists — callers should treat that as
+ * unresolved, not guess.
  */
 export function findTokenUuid(index, slug, mode) {
-  return index.get(indexKey(slug, mode.colorScheme, mode.contrast)) ?? null;
+  return (
+    index.get(indexKey(slug, mode.colorScheme, mode.contrast, mode.scale)) ??
+    null
+  );
 }
