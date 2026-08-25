@@ -1,7 +1,7 @@
 ---
-"@adobe/design-data-spec": patch
-"@adobe/design-data-tui": patch
-"@adobe/design-data-wasm": patch
+"@adobe/design-data-spec": minor
+"@adobe/design-data-tui": minor
+"@adobe/design-data-wasm": minor
 ---
 
 Schema-validate `extensions.tokens` in the platform manifest, closing a gap

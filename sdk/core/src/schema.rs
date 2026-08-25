@@ -15,7 +15,7 @@ use std::fs;
 use std::path::Path;
 use std::sync::Arc;
 
-use jsonschema::{Draft, Registry, Resource, Validator};
+use jsonschema::{Draft, Registry, Resource, ValidationOptions, Validator};
 use serde_json::Value;
 
 use crate::CoreError;
@@ -120,29 +120,10 @@ impl SchemaRegistry {
         manifest: &Value,
         manifest_schema_path: &Path,
     ) -> Result<Vec<String>, CoreError> {
-        let text = fs::read_to_string(manifest_schema_path)?;
-        let schema: Value = serde_json::from_str(&text)?;
-
-        // Register sibling schemas (token.schema.json, cascade-file.schema.json,
-        // value-types/*) so the `extensions.tokens` cross-schema `$ref` resolves
-        // offline instead of erroring or hitting the network.
-        let mut resources: Vec<(String, Resource)> = Vec::new();
-        if let Some(dir) = manifest_schema_path.parent() {
-            collect_schema_resources(dir, &mut resources)?;
-            let value_types = dir.join("value-types");
-            if value_types.is_dir() {
-                collect_schema_resources(&value_types, &mut resources)?;
-            }
-        }
-
-        let mut builder = jsonschema::options().with_draft(Draft::Draft202012);
-        if !resources.is_empty() {
-            let registry = Registry::try_from_resources(resources)?;
-            builder = builder.with_registry(registry);
-        }
-        let validator = builder
-            .build(&schema)
-            .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
+        let validator = build_schema_validator(
+            manifest_schema_path,
+            jsonschema::options().with_draft(Draft::Draft202012),
+        )?;
         Ok(validator
             .iter_errors(manifest)
             .map(|e| e.to_string())
@@ -165,28 +146,10 @@ impl SchemaRegistry {
         value: &Value,
         schema_path: &Path,
     ) -> Result<Vec<String>, CoreError> {
-        let text = fs::read_to_string(schema_path)?;
-        let schema: Value = serde_json::from_str(&text)?;
-
-        // Register sibling schemas so `$ref`s by canonical `$id` resolve offline.
-        let mut resources: Vec<(String, Resource)> = Vec::new();
-        if let Some(dir) = schema_path.parent() {
-            collect_schema_resources(dir, &mut resources)?;
-            let value_types = dir.join("value-types");
-            if value_types.is_dir() {
-                collect_schema_resources(&value_types, &mut resources)?;
-            }
-        }
-
-        let mut builder = jsonschema::options();
-        if !resources.is_empty() {
-            let registry = Registry::try_from_resources(resources)?;
-            builder = builder.with_registry(registry);
-        }
-        let validator = builder
-            .should_validate_formats(true)
-            .build(&schema)
-            .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
+        let validator = build_schema_validator(
+            schema_path,
+            jsonschema::options().should_validate_formats(true),
+        )?;
         Ok(validator
             .iter_errors(value)
             .map(|e| e.to_string())
@@ -207,6 +170,36 @@ impl SchemaRegistry {
             token_file_schema_url: String::new(),
         }
     }
+}
+
+/// Read `schema_path`, register sibling `*.json` schemas in its directory (and a
+/// `value-types/` subdirectory, if present) by their `$id` so cross-schema `$ref`s
+/// resolve offline, then compile a [`Validator`] with `options` (draft, format
+/// validation, etc. are the caller's choice — this only wires up the registry).
+fn build_schema_validator(
+    schema_path: &Path,
+    options: ValidationOptions,
+) -> Result<Validator, CoreError> {
+    let text = fs::read_to_string(schema_path)?;
+    let schema: Value = serde_json::from_str(&text)?;
+
+    let mut resources: Vec<(String, Resource)> = Vec::new();
+    if let Some(dir) = schema_path.parent() {
+        collect_schema_resources(dir, &mut resources)?;
+        let value_types = dir.join("value-types");
+        if value_types.is_dir() {
+            collect_schema_resources(&value_types, &mut resources)?;
+        }
+    }
+
+    let mut builder = options;
+    if !resources.is_empty() {
+        let registry = Registry::try_from_resources(resources)?;
+        builder = builder.with_registry(registry);
+    }
+    builder
+        .build(&schema)
+        .map_err(|e| CoreError::SchemaBuild(e.to_string()))
 }
 
 /// Read every `*.json` schema file in `dir`, pairing each by its `$id` with a
@@ -312,5 +305,26 @@ mod tests {
         });
         let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
         assert!(!errors.is_empty());
+    }
+
+    // build_schema_validator wires the *entire* schemas/ directory (plus value-types/)
+    // into one registry, keyed by $id — so a future schema with a colliding $id would
+    // silently shadow another rather than erroring, breaking validation for whichever
+    // schema loses. This guards that: if it ever fires, narrow build_schema_validator's
+    // resource collection to only the files each caller actually depends on instead of
+    // the whole directory.
+    #[test]
+    fn schemas_directory_has_no_duplicate_ids() {
+        let dir = manifest_schema_path().parent().unwrap().to_path_buf();
+        let mut resources = Vec::new();
+        collect_schema_resources(&dir, &mut resources).unwrap();
+        let value_types = dir.join("value-types");
+        if value_types.is_dir() {
+            collect_schema_resources(&value_types, &mut resources).unwrap();
+        }
+        let mut seen = std::collections::HashSet::new();
+        for (id, _) in &resources {
+            assert!(seen.insert(id.clone()), "duplicate schema $id: {id}");
+        }
     }
 }
