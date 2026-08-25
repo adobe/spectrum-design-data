@@ -99,8 +99,18 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
+        version="${{ inputs.cli-version }}"
         brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-data
-        brew install adobe/spectrum-design-data/design-data
+        if [[ "$version" == "latest" ]]; then
+          brew install adobe/spectrum-design-data/design-data
+        else
+          # brew extract walks the tap's git history (rewritten on every release
+          # by the auto-bump step in release.yml) to reconstruct the formula as
+          # it was at the pinned version.
+          brew tap-new --no-git homebrew/local || true
+          brew extract --version="$version" adobe/spectrum-design-data/design-data homebrew/local
+          brew install "homebrew/local/design-data@${version}"
+        fi
 
     - name: Validate dataset
       id: validate-dataset
@@ -109,7 +119,7 @@ runs:
         set +e
         design-data validate-dataset "${{ inputs.dataset-path }}" --strict --format json \
           | tee /tmp/validate-dataset.json
-        code=$?
+        code=${PIPESTATUS[0]}
         set -e
         echo "valid=$([[ $code -eq 0 ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
         exit $code
@@ -122,7 +132,7 @@ runs:
         design-data validate-manifest "${{ inputs.dataset-path }}" \
           --manifest "${{ inputs.manifest }}" --format json \
           | tee /tmp/validate-manifest.json
-        code=$?
+        code=${PIPESTATUS[0]}
         set -e
         echo "valid=$([[ $code -eq 0 ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
         exit $code
