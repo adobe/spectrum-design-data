@@ -128,6 +128,13 @@ jobs:
           toolchain: "1.88.0"
           targets: wasm32-unknown-unknown
 
+      # sdk/.cargo/config.toml forces the lld linker for all Linux builds
+      # (see ci.yml's Rust job for the same requirement) — without it, host
+      # build scripts (e.g. serde_core, libc) fail to link with "cannot find
+      # 'ld'" on the default ubuntu-latest image.
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+
       - name: Cache Cargo build
         uses: Swatinem/rust-cache@v2
         with:
@@ -201,6 +208,13 @@ jobs:
         with:
           toolchain: "1.88.0"
           targets: ${{ matrix.target }}
+
+      # sdk/.cargo/config.toml forces the lld linker for x86_64-unknown-linux-gnu
+      # (see ci.yml's Rust job and this workflow's build-wasm job) — install it
+      # on the linux-x64 leg only.
+      - name: Install lld
+        if: matrix.platform == 'linux-x64'
+        run: sudo apt-get update && sudo apt-get install -y lld
 
       # Persist the Cargo build cache per target platform so release builds
       # are incremental rather than cold-compiling 455 crates each time.
@@ -342,13 +356,72 @@ jobs:
             --title "design-data CLI ${CLI_VERSION}" \
             --notes "Native CLI binary for \`design-data\` v${CLI_VERSION}. Install via \`cargo install design-data-cli\` or download below." \
             || true
+          # Each platform's artifact directory contains a same-named
+          # `design-data` binary (matrix.platform disambiguates the dir, not
+          # the file) — stage into a separate upload/ dir with distinct,
+          # per-platform names before uploading. Uploading straight from the
+          # download dirs with a shared asset name previously clobbered all
+          # three Unix binaries onto one `design-data` asset.
+          mkdir -p upload
           for platform in darwin-arm64 darwin-x64 linux-x64; do
-            gh release upload "${TAG}" \
-              "design-data-${platform}/design-data" \
-              --clobber
+            cp "design-data-${platform}/design-data" "upload/design-data-${platform}"
           done
-          gh release upload "${TAG}" \
-            "design-data-win32-x64/design-data.exe" \
-            --clobber
+          cp "design-data-win32-x64/design-data.exe" "upload/design-data-win32-x64.exe"
+          ( cd upload && sha256sum * > SHA256SUMS )
+          gh release upload "${TAG}" upload/* --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Bumps Formula/design-data.rb (version + macOS sha256s) to match the
+      # release just published above. main requires a PR (branch protection),
+      # so this opens one from a bot branch and merges it immediately rather
+      # than pushing directly — works regardless of whether GH_TOKEN can
+      # bypass protection, since 0 approvals/required checks are configured.
+      # Restricted to main: this workflow also runs on beta, and a beta-triggered
+      # run would branch off beta and auto-merge a PR into main with no review gate.
+      - name: Bump Homebrew formula
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          DARWIN_ARM_SHA=$(awk '/design-data-darwin-arm64$/{print $1}' upload/SHA256SUMS)
+          DARWIN_X64_SHA=$(awk '/design-data-darwin-x64$/{print $1}' upload/SHA256SUMS)
+
+          python3 - "$CLI_VERSION" "$DARWIN_ARM_SHA" "$DARWIN_X64_SHA" <<'PYEOF'
+          import re, sys
+          new_version, arm_sha, x64_sha = sys.argv[1], sys.argv[2], sys.argv[3]
+          path = "Formula/design-data.rb"
+          text = open(path).read()
+
+          text = re.sub(r'version "[^"]+"', f'version "{new_version}"', text, count=1)
+          text = re.sub(r'design-data-cli%40[0-9][^/"]*', f'design-data-cli%40{new_version}', text)
+
+          def replace_sha(text, marker, new_sha):
+              pattern = re.compile(r'(url "[^"]*' + re.escape(marker) + r'"\n\s*sha256 ")[0-9a-f]{64}(")')
+              return pattern.sub(lambda m: m.group(1) + new_sha + m.group(2), text)
+
+          text = replace_sha(text, "design-data-darwin-arm64", arm_sha)
+          text = replace_sha(text, "design-data-darwin-x64", x64_sha)
+          open(path, "w").write(text)
+          PYEOF
+
+          ruby -c Formula/design-data.rb
+
+          if git diff --quiet Formula/design-data.rb; then
+            echo "Formula already up to date — skipping bump PR."
+            exit 0
+          fi
+
+          BRANCH="chore/bump-homebrew-formula-${CLI_VERSION}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add Formula/design-data.rb
+          git commit -m "chore(homebrew): bump design-data formula to ${CLI_VERSION}"
+          git push origin "${BRANCH}"
+          gh pr create --title "chore(homebrew): bump design-data formula to ${CLI_VERSION}" \
+            --body "Auto-bumped by release.yml for design-data-cli@${CLI_VERSION}." \
+            --base main --head "${BRANCH}"
+          gh pr merge "${BRANCH}" --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

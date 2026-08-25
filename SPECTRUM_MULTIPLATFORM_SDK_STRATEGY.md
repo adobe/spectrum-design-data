@@ -1,463 +1,228 @@
 # Spectrum Multi-Platform SDK Strategy
 
-_Comprehensive Research & Strategic Planning_
+*Strategy and roadmap — living document. Last reconciled with shipped reality 2026-08-20.*
 
-## 🎯 **Executive Summary**
+> **Status note.** An earlier draft of this document described a customization mechanism —
+> inline `[filters]`/`[transforms]` TOML blocks, an in-tree `platform-configs/` directory,
+> per-platform `generated/` SDKs, and UniFFI/JNI/FFI bindings — that was **never built**. The
+> mechanism that actually shipped is the **externalized per-platform manifest repo** built on the
+> **Layer-2 platform `manifest.json` cascade**. This revision keeps the multi-platform vision but
+> corrects "how it works" to what exists in the codebase today, and lays out the roadmap to close
+> the gaps. Items still aspirational are marked **(future)**.
 
-This document consolidates research and strategic planning for building a **comprehensive, multi-platform SDK** for Adobe's Spectrum Design System. The strategy leverages **Rust as the core engine** with platform-specific bindings and **enterprise-grade customization capabilities**.
+## 🎯 Executive summary
 
-### **Key Strategic Decisions**
+Spectrum design data (tokens + component schemas + catalogs) is processed by a **Rust core engine**
+(`sdk/core`) exposed three ways: a `design-data` **CLI** (`sdk/cli`), a **wasm** package for
+JS/browser (`sdk/wasm`), and an **MCP server** for AI agents (`tools/design-data-agent-mcp`). A
+platform team adopts the system by standing up a small **platform manifest repo** that pins the
+foundation and declares its platform-specific overrides and extensions declaratively — then the same
+core tooling validates, resolves, diffs, and (increasingly) round-trips that data to Figma and code.
 
-1. **Rust Core Engine**: Single source of truth with optimal performance
-2. **Multi-Platform Targets**: TypeScript, Vanilla JS, iOS, Android, Qt
-3. **Team-Owned Customization**: Platform teams control their implementations
-4. **Enterprise-Grade Features**: Validation, documentation generation, migration tooling
-5. **Design Data Expansion**: Tokens + Component Schemas + Future Anatomy Data
+The worked prototype is **[`GarthDB/spectrum-ios-design-data`](https://github.com/GarthDB/spectrum-ios-design-data)**:
+a repo whose `.design-data.toml` pins `adobe/spectrum-design-data` via the `github` source and
+cascades a local `manifest.json` on top.
 
----
+### Key strategic decisions
 
-## 📊 **Project Scope & Data Sources**
+1. **Rust core, single source of truth** — one engine (`sdk/core`) behind CLI, wasm, and MCP.
+2. **Multi-platform targets** — TypeScript/JS and browser today (wasm); iOS, Android, Web
+   components as consumers of resolved data; native FFI bindings **(future)**.
+3. **Team-owned customization via a manifest repo** — platform teams own a small repo, not a slice
+   of the monorepo. Customization is a validated `manifest.json`, not ad-hoc config.
+4. **Validation and governance as CI** — every platform repo validates its manifest + cascade and
+   detects foundation drift on each PR.
+5. **Design-data scope** — tokens + component schemas today; component anatomy data **(future)**.
 
-### **Design Data Coverage**
+## 📊 Current state (what actually shipped)
+
+**Foundation SDK — `adobe/spectrum-design-data`:**
+
+* **CLI** (`sdk/cli/src/main.rs`): `validate`, `validate-dataset`, `resolve`, `query`, `diff`,
+  `primer`, `figma read|export|audit`, `write`, `authoring-session`, `lifecycle`, `data`,
+  `cache-build`, `tui`. `validate`, `validate-dataset`, and `diff` emit `--format json` and exit **1
+  on failure/drift, 2 on hard error** — directly CI-gateable.
+* **`.design-data.toml` discovery + cascade** (`sdk/core/src/data_source/mod.rs`): a project points
+  at a foundation via `[source]` — `type = "path"` or `type = "github"` (a repo pinned by exactly
+  one of `tag`/`branch`/`sha`, fetched as a release tarball over pure HTTPS, cached; cache dir via
+  `DESIGN_DATA_CACHE_DIR`). A **top-level, source-independent `manifest` key** points at a Layer-2
+  platform `manifest.json` that cascades over whatever source resolved.
+* **Manifest cascade + validation** (`sdk/core/src/manifest.rs`, `graph.rs`):
+  `manifest::apply_configured` Layer-1 validates the manifest against `manifest.schema.json`, then
+  `TokenGraph::apply_platform_manifest` applies `include`/`exclude` query filters, `overrides`,
+  `extensions`, and `modeSetRestrictions`. Rules live in `packages/design-data-spec/rules/rules.yaml`
+  (notably **SPEC-039** manifest-query-parseable, **SPEC-041** mode-set-restriction-coverage,
+  **SPEC-044** dataset-structure).
+* **wasm** (`sdk/wasm`): a `Dataset` class exposing query/resolve/diff/validate/primer to JS/TS.
+* **AI/MCP** (`tools/design-data-agent-mcp`, wired in `.mcp.json`): read tools run in-process via
+  wasm; authoring/write shell out to the CLI. Read/query/resolve/diff/validate + guided authoring.
+* **Figma** (`sdk/core/src/figma/`, CLI `figma export|read|audit`): a Figma Variables REST bridge
+  that can export cascade tokens as Figma Variables and read/audit existing ones.
+
+**Known gaps (tracked as beads under epic `spectrum-design-data-h890`):** the CLI is not yet
+distributed to teams (crates are internal-only); the github tarball omits the spec-schemas dir so
+manifest Layer-1 validation silently no-ops against a fetched foundation; there is no standalone
+`validate-manifest` command or reusable validation Action; `figma export` consumes a raw token dir,
+not the manifest-resolved dataset; the MCP env layer only understands local paths, not the
+`.design-data.toml` cascade. See the roadmap below.
+
+## 🧭 The value story — why a platform team adopts this
+
+The manifest layer is extra surface area for a platform team, so it has to pay for itself. Framed
+against **Spectrum iOS today** (`spectrum-tokens-ios`), where the override "source of truth" is a
+Figma file plus hand-authored JSON, merged by `Tools/tokentool` into Swift with an
+`override-log.csv` emitted as an *unvalidated* byproduct:
+
+| Today (Spectrum iOS)                                                    | With a platform manifest repo                                                |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Overrides live in a Figma file + `override-log.csv` (a merge byproduct) | Overrides are a **declarative, reviewable `manifest.json`**                  |
+| Nothing validates overrides against the foundation                      | **CI validates** manifest + cascade on every PR (`validate-dataset`, exit 1) |
+| Foundation bumps break overrides silently                               | **`diff` drift-gate** flags foundation changes that touch overridden tokens  |
+| The Swift generator's input is an ad-hoc merged blob                    | Input is a **pinned, reproducible resolved dataset**                         |
+| No AI/query surface scoped to the platform's tokens                     | `resolve`/`query`/authoring **scoped to the platform set** via MCP           |
+| Figma↔code is one-way, manual, token-by-token                           | **Figma round-trip** driven by the same manifest                             |
+
+Net: the manifest layer replaces opaque merge/CSV toil with a validated, diffable, tool-supported
+contract. It costs a team one small repo and removes silent breakage and manual reconciliation.
+
+## 🏗️ Reference architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  Spectrum Design Data                   │
-├─────────────────┬─────────────────┬─────────────────────┤
-│     Tokens      │    Schemas      │     Anatomy         │
-│   (Current)     │   (Current)     │    (Future)         │
-├─────────────────┼─────────────────┼─────────────────────┤
-│ • Colors        │ • Component     │ • Layout            │
-│ • Typography    │   Properties    │   Relationships     │
-│ • Spacing       │ • Validation    │ • Spatial           │
-│ • Layout        │   Rules         │   Constraints       │
-│ • Animation     │ • Type Defs     │ • Responsive        │
-│ • Icons         │ • Examples      │   Behavior          │
-└─────────────────┴─────────────────┴─────────────────────┘
+adobe/spectrum-design-data          per-platform manifest repo            platform impl repo
+ (foundation dataset,          e.g. GarthDB/spectrum-ios-design-data      e.g. spectrum-tokens-ios
+  SDK: core/CLI/wasm/MCP)                                                  (Swift + tokentool)
+        │                              .design-data.toml (github pin)             │
+        │  release binaries  ─────►    manifest.json (overrides/extensions)       │
+        │  (Homebrew / CI)             validation CI (design-data Action)         │
+        │                              .mcp.json + skill (platform-scoped AI)     │
+        ▼                                        │                                ▼
+   figma export/import  ◄────────────────────────┼──────────────►  generate-source-code consumes the
+   (Figma Variables)                     resolve / query / diff      RESOLVED dataset (not ad-hoc merge)
 ```
 
-### **Current Data Sources**
-
-- **`@adobe/spectrum-tokens`** (`packages/tokens/`)
-- **`@adobe/spectrum-component-api-schemas`** (`packages/component-schemas/`)
-- **Future: Component Anatomy Data** (spatial relationships, layout constraints)
-
----
-
-## 🏗️ **Technical Architecture**
-
-### **Core Technology Stack**
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Rust Core Engine                     │
-│  • Design Data Processing    • Diff Algorithms          │
-│  • Platform Customization   • Validation System        │
-│  • Documentation Generation • Performance Optimization  │
-└─────────────────┬───────────────────────────────────────┘
-                  │
-        ┌─────────┼─────────┬─────────┬─────────┐
-        │         │         │         │         │
-        ▼         ▼         ▼         ▼         ▼
-┌─────────────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────────┐
-│TypeScript/  │ │ iOS │ │ And │ │ Qt  │ │ Web     │
-│JavaScript   │ │     │ │roid │ │     │ │ Comp.   │
-│(WASM/NAPI)  │ │(FFI)│ │(JNI)│ │(FFI)│ │ (WASM)  │
-└─────────────┘ └─────┘ └─────┘ └─────┘ └─────────┘
-```
-
-### **Binding Technologies by Platform**
-
-| Platform           | Technology | Rationale                                                 |
-| ------------------ | ---------- | --------------------------------------------------------- |
-| **TypeScript/JS**  | **WASM**   | Universal compatibility, npm-friendly, 30-50% bundle size |
-| **iOS/macOS**      | **UniFFI** | Type-safe Swift bindings, excellent SwiftUI integration   |
-| **Android**        | **JNI**    | Standard for native performance, Kotlin compatibility     |
-| **Qt/C++**         | **FFI**    | Direct C interface, optimal performance                   |
-| **Web Components** | **WASM**   | Browser-native, framework-agnostic                        |
-
----
-
-## 🎯 **Platform-Specific Customization System**
-
-### **Team Ownership Model**
-
-```
-spectrum-design-data/
-├── base-design-system/          # 🔒 Core Spectrum Team
-│   ├── tokens/
-│   ├── schemas/
-│   └── anatomy/
-│
-├── platform-configs/            # 🎯 Platform Teams Own
-│   ├── ios-config.toml          # iOS Team
-│   ├── android-config.toml      # Android Team
-│   ├── web-config.toml          # Web Team
-│   └── qt-config.toml           # Qt Team
-│
-└── generated/                   # 🤖 Auto-Generated
-    ├── ios-sdk/
-    ├── android-sdk/
-    ├── web-sdk/
-    └── qt-sdk/
-```
-
-### **Customization Capabilities**
-
-#### **1. Filtering**
-
-```toml
-# Remove components/tokens not needed for platform
-[filters]
-exclude_components = ["bottom-navigation-android", "desktop-only-*"]
-exclude_tokens = ["android-*", "material-*"]
-include_token_categories = ["color", "typography", "spacing"]
-```
-
-#### **2. Transforming**
-
-```toml
-# Rename to match platform conventions
-[transforms.component_renames]
-"text-field" = "text_input"        # iOS prefers text_input
-"checkbox" = "check_box"           # Match UIKit naming
-
-[transforms.property_renames]
-"backgroundColor" = "background_color"  # Snake case for iOS
-"borderRadius" = "corner_radius"        # iOS terminology
-
-[transforms.token_transforms]
-# Convert units for platform
-"dimension-*" = { from = "px", to = "pt", scale = 0.75 }  # Web→iOS
-"color-*" = { color_space = "sRGB", format = "hex" }
-```
-
-#### **3. Extending**
-
-```toml
-# Add platform-specific data
-[extensions.tokens]
-# iOS-specific haptic feedback
-"haptic-feedback-light" = { value = "UIImpactFeedbackGenerator.light", type = "haptic" }
-
-# Android-specific elevation
-"elevation-2" = { value = "2dp", type = "elevation" }
-
-# Web-specific CSS properties
-"focus-ring-color" = { value = "#005fcc", css_var = "--spectrum-focus-ring-color" }
-
-[extensions.components.button]
-# Platform-specific properties
-properties.accessibility_identifier = { type = "string", required = false }  # iOS
-properties.elevation = { type = "elevation", default = "2dp" }              # Android
-properties.css_class = { type = "string", required = false }                # Web
-```
-
-#### **4. Validation**
-
-```toml
-[validation.accessibility]
-# Platform-specific requirements
-minimum_touch_target = "44pt"      # iOS: 44pt, Android: 48dp, Web: 44px
-supports_dynamic_type = true       # iOS requirement
-supports_talkback = true           # Android requirement
-wcag_compliance = "AA"             # Web requirement
-```
-
----
-
-## 📚 **Platform-Native Documentation Generation**
-
-### **Documentation Strategy**
-
-Each platform gets documentation in their expected format:
-
-| Platform       | Format      | Integration                  |
-| -------------- | ----------- | ---------------------------- |
-| **TypeScript** | **TSDoc**   | VSCode, IntelliSense         |
-| **iOS**        | **DocC**    | Xcode, Swift Package Manager |
-| **Android**    | **KDoc**    | Android Studio, Gradle       |
-| **Qt**         | **Doxygen** | Qt Creator, CMake            |
-
-### **Generated Documentation Examples**
-
-#### **TypeScript (TSDoc)**
-
-````typescript
-/**
- * Spectrum Button component configuration
- * @example
- * ```typescript
- * const button = new SpectrumButton({
- *   variant: 'primary',
- *   size: 'medium'
- * });
- * ```
- */
-export interface ButtonConfig {
-  /** Button visual variant */
-  variant: "primary" | "secondary" | "accent";
-  /** Button size following Spectrum guidelines */
-  size: "small" | "medium" | "large";
-}
-````
-
-#### **iOS (DocC)**
-
-````swift
-/// Spectrum Button component for iOS
-///
-/// Provides a native UIButton implementation following Spectrum design guidelines.
-///
-/// ## Usage
-/// ```swift
-/// let button = SpectrumButton(
-///     variant: .primary,
-///     size: .medium
-/// )
-/// ```
-///
-/// - Important: Supports Dynamic Type and VoiceOver accessibility
-/// - Note: Includes haptic feedback for user interactions
-public class SpectrumButton: UIButton {
-    /// The visual variant of the button
-    public var variant: ButtonVariant
-
-    /// The size of the button following Spectrum guidelines
-    public var size: ButtonSize
-}
-````
-
-#### **Android (KDoc)**
-
-````kotlin
-/**
- * Spectrum Button component for Android
- *
- * Provides a Material Design compatible button following Spectrum guidelines.
- *
- * ## Example
- * ```kotlin
- * val button = SpectrumButton(
- *     variant = ButtonVariant.PRIMARY,
- *     size = ButtonSize.MEDIUM
- * )
- * ```
- *
- * @property variant The visual style of the button
- * @property size The size following Spectrum spacing guidelines
- *
- * @see [Material Design Buttons](https://material.io/components/buttons)
- */
-class SpectrumButton(
-    var variant: ButtonVariant,
-    var size: ButtonSize
-) : MaterialButton() {
-    // Implementation
-}
-````
-
----
-
-## 🚀 **Performance Analysis & Strategy**
-
-### **Rust vs JavaScript Performance**
-
-Based on comprehensive benchmarking of the `optimized-diff` algorithm:
-
-| Test Case         | JavaScript | Rust (Debug) | Rust (Release) | Improvement     |
-| ----------------- | ---------- | ------------ | -------------- | --------------- |
-| **Small Objects** | 2.1ms      | 0.8ms        | 0.3ms          | **7x faster**   |
-| **Large Objects** | 45.2ms     | 18.7ms       | 8.1ms          | **5.6x faster** |
-| **Deep Nesting**  | 12.8ms     | 5.2ms        | 2.3ms          | **5.6x faster** |
-| **Array Heavy**   | 8.9ms      | 3.4ms        | 1.4ms          | **6.4x faster** |
-
-### **Bundle Size Analysis**
-
-| Distribution              | Size                      | Compatibility             |
-| ------------------------- | ------------------------- | ------------------------- |
-| **JavaScript (Original)** | 12.4KB gzipped            | Universal                 |
-| **WASM**                  | 18.7KB gzipped            | Universal (95%+ browsers) |
-| **NAPI-RS**               | 2.1MB (platform-specific) | Node.js only              |
-
-**Decision: WASM for npm distribution** - Better compatibility vs. size tradeoff.
-
-### **Memory Usage**
-
-- **JavaScript**: Garbage collection pressure with large objects
-- **Rust**: Predictable memory usage, no GC pauses
-- **Performance Improvement**: 60-80% memory reduction for large datasets
-
----
-
-## 🏢 **Enterprise Adoption Strategy**
-
-### **Addressing Common Adoption Blockers**
-
-#### **Before: Traditional SDK Issues**
-
-- ❌ "Component names don't match our existing API"
-- ❌ "Missing platform-specific properties we need"
-- ❌ "Tokens don't work with our theming system"
-- ❌ "Can't adopt without breaking existing consumers"
-- ❌ "Performance issues with large design systems"
-- ❌ "Documentation doesn't match our platform conventions"
-
-#### **After: Multi-Platform SDK Solution**
-
-- ✅ **Configurable Naming**: Teams rename everything to match existing APIs
-- ✅ **Platform Extensions**: Add platform-specific properties easily
-- ✅ **Token Transformation**: Convert to any format/unit system
-- ✅ **Gradual Migration**: Adopt incrementally without breaking changes
-- ✅ **High Performance**: Rust core handles large datasets efficiently
-- ✅ **Native Documentation**: Platform-specific docs in expected formats
-
-### **Team Ownership Benefits**
-
-#### **For Platform Teams**
+Three roles, each owned by a different team:
+
+* **Foundation** (Core Spectrum team): the dataset + the SDK/CLI/wasm/MCP + distribution.
+* **Platform manifest repo** (platform design/eng team): the declarative overrides + CI + AI config.
+* **Platform implementation** (platform eng team): the native library and its code generator, now
+  fed by a resolved dataset rather than a bespoke merge.
+
+## 📦 Building & distributing the tools to implementation teams
+
+Distribution is currently greenfield (no release binaries, no tap; `release.yml` handles only
+JS/changeset publishing). Recommended, assuming macOS for engineers to start:
+
+* **CLI → Homebrew (engineers).** Use **`cargo-dist`**: one config builds macOS arm64+x86\_64 release
+  binaries as GitHub Release assets, generates a **Homebrew formula** (an `adobe/homebrew-spectrum`
+  tap), and emits a shell installer plus a CI install step — covering both `brew install design-data`
+  for engineers and the CI install path for the validation Action in one tool. Wire into
+  `release.yml`. (Beads `h890.1`, `h890.2`.)
+* **AI/MCP** already ships via `npx @adobe/design-data-agent-mcp` — no change needed.
+* **wasm** ships via npm (`@adobe/design-data-wasm`) for browser and Figma-plugin consumers.
+* **TUI**: decide whether to publish the npm wrapper (currently `private`) or keep it brew-only.
+  (Bead `h890.3`.)
+
+Native FFI distribution (Swift Package via UniFFI, Android AAR via JNI) is **(future)** — see roadmap.
+
+## ✅ Validation, CI, and the reusable Action
+
+The whole point of a manifest repo is that its correctness is machine-checked. The building blocks
+exist; the roadmap wires them into a turnkey Action:
+
+* **Ship the spec schemas in the github tarball** so manifest Layer-1 validation actually runs
+  against a fetched foundation (`should_extract`, `sdk/core/src/data_source/fetch.rs`). (Bead
+  `h890.4`; relates to `spectrum-design-data-9osr`.)
+* **Add a standalone `validate-manifest` subcommand** (today manifest validation only runs as a side
+  effect of `query`). (Bead `h890.5`.)
+* **Publish a reusable composite GitHub Action** (`.github/actions/validate`) that installs the CLI
+  and runs `validate-dataset --strict --format json`, `validate-manifest`, and a **foundation-drift
+  `diff`** (pinned `foundationVersion` vs latest tag) — gating platform-repo PRs and optionally
+  opening a "foundation moved" issue. (Bead `h890.6`.)
+
+## 🧰 What a platform manifest repo ships (the template)
+
+Generalized from the iOS prototype, a scaffold (a template repo, or a `design-data init` subcommand)
+produces: `.design-data.toml` (github pin), a `manifest.json` skeleton, the validation workflow
+above, a repo-local `.mcp.json` + design-data skill (platform-scoped AI), `README.md`, `LICENSE`.
+(Bead `h890.7`.)
+
+## 🎨 Figma variable round-trip
+
+Spectrum iOS's overrides originate in Figma today, so Figma is a first-class interface, not an
+afterthought. Two directions, both building on the existing `figma` CLI bridge:
+
+* **Manifest → Figma**: extend `figma export` (`run_figma_export`, `sdk/cli/src/main.rs`) to consume
+  a **manifest-resolved** dataset, so a platform's Figma variable collection is authored *from* the
+  manifest. (Bead `h890.11`.)
+* **Figma → manifest**: a new importer turning Figma variables into `manifest.json`
+  overrides/extensions — the declarative replacement for tokentool's `convert-variable-collections`
+  authoring path. (Bead `h890.12`.)
+* **(future)** a wasm-backed Figma plugin for live query/resolve, which needs a wasm binding for
+  `apply_platform_manifest` (not exposed today). (Bead `h890.13`.)
+
+## 🤖 Platform-scoped AI tools
+
+Point the design-data MCP server at a platform manifest repo so `resolve`/`query`/`diff`/authoring
+operate on the **platform-resolved** dataset:
+
+* **Short term (works today):** resolve the cascade to a local dir and set `DESIGN_DATA_PATH` at it.
+* **Better:** teach `@adobe/design-data-agent-mcp` to honor `.design-data.toml` (github source +
+  manifest cascade) directly, rather than only local-path env vars
+  (`tools/design-data-agent-mcp/src/config.js`). Ship the repo-local `.mcp.json` + skill via the
+  template so a platform engineer gets scoped AI tools out of the box. (Bead `h890.14`.)
+
+## 📱 Worked example: interfacing Spectrum iOS
+
+`spectrum-tokens-ios` is the concrete adoption target. Its current pipeline —
+`fetch` foundation → `fetch-figma-variables` → `convert-variable-collections` → `merge` (foundation
+
+* `ios-tokens/*.json` + figma-derived, emitting `override-log.csv`) → `generate-source-code` (Swift)
+  — collapses onto the manifest model:
+
+- The 742-row `override-log.csv` **imports into `manifest.json`** overrides + `extensions.tokens`
+  (contrast/elevated additions become extensions, since the foundation ships no `contrast=high`
+  record to override). This is the highest-signal value demonstration on real data. (Bead `h890.8`.)
+- The iOS foundation pin moves from `@adobe/spectrum-tokens@13.0.0` (pre-cascade format) to a
+  cascade-format release (`15.0.0`+) — a prerequisite. (Bead `h890.9`.)
+- `tokentool`'s `generate-source-code` keeps owning Swift codegen, but its **input becomes a
+  `design-data`-resolved dataset** (CLI output or a published resolved snapshot from the manifest
+  repo), retiring the ad-hoc `merge` + `figma-tokens.json` + `override-log.csv` as source of truth.
+  (Bead `h890.10`.)
+
+## 🛠️ Roadmap
+
+Tracked under epic **`spectrum-design-data-h890`** ("Platform design-data ecosystem: tooling for
+implementation teams", initiative `DNA-1741`; governance overlap `DNA-1520`). Workstreams:
+
+| WS  | Theme                                                                        | Beads           |
+| --- | ---------------------------------------------------------------------------- | --------------- |
+| WS1 | Build & distribute the CLI (cargo-dist, Homebrew tap, channels)              | `h890.1`–`.3`   |
+| WS2 | Validation hardening + reusable Action + drift gate                          | `h890.4`–`.6`   |
+| WS3 | Platform-manifest repo template / `design-data init`                         | `h890.7`        |
+| WS4 | Spectrum iOS interface (override import, pin move, resolved-dataset codegen) | `h890.8`–`.10`  |
+| WS5 | Figma variable round-trip                                                    | `h890.11`–`.13` |
+| WS6 | Platform-scoped AI/MCP                                                       | `h890.14`       |
 
-1. **Autonomy**: Control SDK without waiting for core team
-2. **Expertise**: Apply platform-specific best practices
-3. **Integration**: Rename/transform to match existing codebases
-4. **Migration**: Start with heavy customization, gradually adopt standards
+Related manifest-engine gaps from the iOS POC (`FINDINGS.md`) live under epic `spectrum-design-data-b17`:
+`8bkb`, `c3qw`, `jl7t`, `9osr`, `uduh`.
 
-#### **For Core Spectrum Team**
+### Aspirational / not yet scoped (future)
 
-1. **Reduced Maintenance**: Platform teams handle platform-specific issues
-2. **Better Adoption**: Teams can't say "it doesn't work for our platform"
-3. **Innovation**: Platform teams contribute successful patterns back
-4. **Scalability**: System scales to unlimited platforms/teams
+* Native FFI bindings: **UniFFI** (Swift), **JNI** (Android/Kotlin), **FFI** (Qt/C++).
+* Platform-native documentation generation (DocC, KDoc, TSDoc, Doxygen).
+* Component **anatomy** data (spatial relationships, layout constraints).
+* Usage analytics, automated migration suggestions, cross-platform optimization.
 
-#### **For Enterprise Organizations**
+## 💡 Strategic differentiation
 
-1. **Flexibility**: Accommodates existing enterprise constraints
-2. **Quality**: Platform-specific validation ensures consistency
-3. **Governance**: Configuration-as-code provides audit trails
-4. **ROI**: Faster adoption = better design system ROI
+The combination of a **shared Rust core** (consistency + performance) with **externalized,
+declarative per-platform manifest repos** (team autonomy + validated customization) gives platform
+teams ownership without forking the design system, and gives the core team machine-checkable
+governance. Customization-as-a-validated-manifest — reviewed in PRs, diffed against the foundation,
+and consumed by the same tools that author Figma variables and drive AI assistance — is what makes
+the system adoptable at scale.
 
----
+***
 
-## 🛠️ **Implementation Roadmap**
-
-### **Phase 1: Core Foundation (Q1)**
-
-- ✅ Rust core engine with diff algorithms
-- ✅ Basic configuration system
-- ✅ WASM compilation for npm
-- ✅ Performance benchmarking framework
-
-### **Phase 2: Platform Bindings (Q2)**
-
-- 🎯 UniFFI implementation for iOS
-- 🎯 JNI bindings for Android
-- 🎯 FFI interface for Qt
-- 🎯 Platform-specific validation systems
-
-### **Phase 3: Advanced Customization (Q3)**
-
-- 🎯 Filter/transform/extend engines
-- 🎯 Conditional customizations
-- 🎯 Build variant support
-- 🎯 Migration tooling from existing systems
-
-### **Phase 4: Documentation & Tooling (Q4)**
-
-- 🎯 Platform-native documentation generation
-- 🎯 IDE integrations (VSCode, Xcode, Android Studio)
-- 🎯 CI/CD pipeline templates
-- 🎯 Team onboarding materials
-
-### **Phase 5: Enterprise Features (Q1 Next Year)**
-
-- 🎯 Advanced analytics and usage tracking
-- 🎯 Automated migration suggestions
-- 🎯 Cross-platform optimization recommendations
-- 🎯 Enterprise support and training programs
-
----
-
-## 🎯 **Success Metrics**
-
-### **Adoption Metrics**
-
-- **Platform Team Adoption**: Target 80% of platform teams using SDK within 6 months
-- **Component Coverage**: 90% of Spectrum components available on each platform
-- **Token Usage**: 95% of design tokens successfully transformed per platform
-
-### **Performance Metrics**
-
-- **Build Time**: < 30 seconds for full platform SDK generation
-- **Runtime Performance**: 5-10x improvement over pure JavaScript implementations
-- **Bundle Size**: < 50KB additional overhead per platform (excluding platform-specific code)
-
-### **Developer Experience Metrics**
-
-- **Time to Integration**: < 1 hour from download to first component rendered
-- **Documentation Completeness**: 100% API coverage in platform-native formats
-- **Developer Satisfaction**: > 8/10 in quarterly developer surveys
-
-### **Business Impact Metrics**
-
-- **Design Consistency**: 90% reduction in design deviation across platforms
-- **Development Velocity**: 40% faster component development with SDK
-- **Maintenance Cost**: 60% reduction in design system maintenance overhead
-
----
-
-## 🔄 **Continuous Evolution Strategy**
-
-### **Feedback Loops**
-
-1. **Platform Team Feedback**: Monthly reviews of customization requests
-2. **Usage Analytics**: Track which components/tokens are most/least used
-3. **Performance Monitoring**: Continuous benchmarking across all platforms
-4. **Community Contributions**: Open source contributions from platform teams
-
-### **Innovation Pipeline**
-
-1. **Emerging Platforms**: Ready to add new platforms (Flutter, React Native, etc.)
-2. **AI Integration**: Potential for AI-assisted customization suggestions
-3. **Design Tool Integration**: Direct integration with Figma, Sketch, Adobe XD
-4. **Real-time Synchronization**: Live updates from design tools to code
-
----
-
-## 💡 **Strategic Differentiation**
-
-This multi-platform SDK strategy represents a **fundamental shift** in how design systems are implemented and maintained:
-
-### **From Traditional Approach**
-
-- Separate implementations per platform
-- Manual synchronization of design decisions
-- Platform teams blocked by core team capacity
-- Documentation fragmented across platforms
-- Performance limited by weakest implementation
-
-### **To Unified Platform Strategy**
-
-- **Single Source of Truth**: Rust core ensures consistency
-- **Autonomous Platform Teams**: Teams control their implementations
-- **Performance at Scale**: Rust handles enterprise-scale design systems
-- **Platform-Native Excellence**: Documentation and APIs match platform expectations
-- **Enterprise-Grade Governance**: Configuration-as-code with full auditability
-
----
-
-## 🎯 **Conclusion**
-
-This multi-platform SDK strategy addresses the **real-world challenges** that prevent successful design system adoption at enterprise scale:
-
-1. **Technical Performance**: Rust core provides the performance needed for large-scale design systems
-2. **Team Autonomy**: Platform-specific customization allows teams to maintain ownership
-3. **Enterprise Integration**: Flexible transformation system accommodates existing codebases
-4. **Quality Assurance**: Platform-specific validation ensures consistency without sacrificing appropriateness
-5. **Developer Experience**: Platform-native documentation and APIs feel natural to each platform's developers
-
-The combination of **shared Rust core** (consistency + performance) with **platform-specific customization** (autonomy + flexibility) creates a design system platform that **scales to enterprise needs** while maintaining the benefits of a unified foundation.
-
-**This isn't just an SDK - it's a platform for distributed design system governance that makes design systems truly enterprise-ready.**
-
----
-
-_This document represents comprehensive research and strategic planning for Adobe Spectrum's multi-platform SDK initiative. It should be treated as a living document that evolves with implementation learnings and platform team feedback._
+*This is a living document. As roadmap beads land, move items from "future" into "current state" and
+keep the value story anchored to what a platform team actually experiences.*

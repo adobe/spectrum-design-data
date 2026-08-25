@@ -783,7 +783,7 @@ impl TokenGraph {
                     continue;
                 };
                 let matches = self.resolve_override_targets(target)?;
-                for (match_idx, (name_obj, orig_value, uuid)) in matches.into_iter().enumerate() {
+                for (shadowed_key, name_obj, orig_value, uuid) in matches {
                     let mut synthetic = serde_json::Map::new();
                     synthetic.insert("name".to_string(), name_obj);
                     if let Some(new_value) = entry.get("value") {
@@ -808,11 +808,13 @@ impl TokenGraph {
                     }
                     let raw = Value::Object(synthetic);
                     let alias_target = raw.as_object().and_then(extract_alias_target);
-                    let key = format!("platform-override:{target}:{idx}:{match_idx}");
+                    // Reuse the shadowed record's own key so the override *replaces*
+                    // the Foundation-layer entry in place, rather than shadowing it
+                    // under a synthetic key — leaving no stale duplicate behind for
+                    // callers to accidentally see (spectrum-design-data-h890.10).
+                    let key = shadowed_key;
                     if let Some(u) = &uuid {
-                        self.uuid_index
-                            .entry(u.clone())
-                            .or_insert_with(|| key.clone());
+                        self.uuid_index.insert(u.clone(), key.clone());
                     }
                     self.tokens.insert(
                         key.clone(),
@@ -899,7 +901,8 @@ impl TokenGraph {
     /// Resolve a manifest override `target` to the affected token name objects.
     ///
     /// Resolution order matches [`Self::apply_platform_manifest`]: query expression
-    /// (when `target` contains `=` or `!=`), then UUID lookup, then graph key.
+    /// (when `target` contains `=` or `!=`), then [`Self::resolve_alias_key`]'s
+    /// uuid → graph key → legacy-name chain.
     fn resolve_override_targets(
         &self,
         target: &str,
@@ -911,23 +914,30 @@ impl TokenGraph {
             return Ok(query::filter(self, &filter)
                 .into_iter()
                 .filter_map(|rec| {
-                    rec.raw
-                        .get("name")
-                        .cloned()
-                        .map(|name_obj| (name_obj, rec.raw.get("value").cloned(), rec.uuid.clone()))
+                    rec.raw.get("name").cloned().map(|name_obj| {
+                        (
+                            rec.name.clone(),
+                            name_obj,
+                            rec.resolve_leaf(self).raw.get("value").cloned(),
+                            rec.uuid.clone(),
+                        )
+                    })
                 })
                 .collect());
         }
-        let record = self
-            .uuid_index
-            .get(target)
-            .and_then(|k| self.tokens.get(k))
-            .or_else(|| self.tokens.get(target));
-        if let Some(rec) = record {
+        // Reuse the canonical resolver so overrides targeting a token's legacy
+        // slug (e.g. "blue-100") resolve the same as any other alias reference,
+        // instead of silently no-oping (spectrum-design-data-8bkb).
+        if let Some(rec) = self.resolve_alias_key(target) {
             if let Some(name_obj) = rec.raw.get("name").cloned() {
                 return Ok(vec![(
+                    rec.name.clone(),
                     name_obj,
-                    rec.raw.get("value").cloned(),
+                    // Resolve through the alias chain so a pure `$ref` target's
+                    // effective type (from its leaf's literal `value`) is available
+                    // to the cascade type-safety guard, not just literal-value
+                    // targets (spectrum-design-data-c3qw).
+                    rec.resolve_leaf(self).raw.get("value").cloned(),
                     rec.uuid.clone(),
                 )]);
             }
@@ -1154,7 +1164,8 @@ pub struct PlatformManifest {
 }
 
 /// One foundation token matched by a manifest `overrides[].target` string.
-type OverrideTargetMatch = (Value, Option<Value>, Option<String>);
+/// (shadowed source key, name object, original value, uuid).
+type OverrideTargetMatch = (String, Value, Option<Value>, Option<String>);
 
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {
@@ -1700,6 +1711,36 @@ mod tests {
     }
 
     #[test]
+    fn manifest_override_by_legacy_slug_adds_platform_token() {
+        // Real override logs speak in legacy names (e.g. "blue-100"), not the
+        // file:index keys cascade-format tokens are actually stored under.
+        // Regression test for spectrum-design-data-8bkb.
+        let mut g = cascade_graph_from(json!([
+            {
+                "name": { "property": "color", "colorFamily": "blue", "scaleIndex": 100 },
+                "$schema": "https://example.com/color.json",
+                "value": "rgb(0,0,255)",
+                "uuid": "bbbbbbbb-0000-0000-0000-000000000001"
+            }
+        ]));
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "blue-100", "value": "rgb(255,0,0)"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let overridden = g
+            .tokens
+            .values()
+            .find(|t| t.layer == Layer::Platform)
+            .expect("platform override token present — legacy slug target must resolve");
+        assert_eq!(
+            overridden.raw.get("value").and_then(|v| v.as_str()),
+            Some("rgb(255,0,0)")
+        );
+    }
+
+    #[test]
     fn manifest_override_type_change_errors() {
         let mut g = foundation_graph();
         // btn-bg value is a string; overriding with a number violates type safety.
@@ -1712,6 +1753,60 @@ mod tests {
             g.apply_platform_manifest(&manifest),
             Err(CoreError::ParseError(_))
         ));
+    }
+
+    /// Foundation graph like [`foundation_graph`] but `btn-bg` is a pure `$ref`
+    /// alias to a separate leaf token, instead of carrying a literal `value`.
+    fn foundation_graph_with_alias_target() -> TokenGraph {
+        TokenGraph::from_pairs(vec![
+            (
+                "btn-bg-leaf".into(),
+                PathBuf::from("palette.json"),
+                json!({"name": {"property": "color", "colorFamily": "blue", "scaleIndex": 100}, "value": "#aaa", "uuid": "u-btn-bg-leaf"}),
+            ),
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "$ref": "u-btn-bg-leaf", "uuid": "u-btn-bg"}),
+            ),
+        ])
+    }
+
+    #[test]
+    fn manifest_override_alias_type_change_errors() {
+        // btn-bg is a pure $ref alias (no literal `value`); its leaf's value is a
+        // string. Overriding with a number must still violate type safety instead
+        // of silently applying (spectrum-design-data-c3qw).
+        let mut g = foundation_graph_with_alias_target();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": 42}]
+        });
+        assert!(matches!(
+            g.apply_platform_manifest(&manifest),
+            Err(CoreError::ParseError(_))
+        ));
+    }
+
+    #[test]
+    fn manifest_override_alias_same_type_succeeds() {
+        // Same setup, but the override keeps the same kind (string) — must apply.
+        let mut g = foundation_graph_with_alias_target();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "overrides": [{"target": "u-btn-bg", "value": "#000000"}]
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        let overridden = g
+            .tokens
+            .get("btn-bg")
+            .expect("override replaces shadowed alias token in place");
+        assert_eq!(
+            overridden.raw.get("value").and_then(|v| v.as_str()),
+            Some("#000000")
+        );
     }
 
     #[test]

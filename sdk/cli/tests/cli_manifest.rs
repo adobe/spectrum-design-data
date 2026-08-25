@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 //! Integration tests for the Foundation→Platform manifest cascade wired through
-//! `.design-data.toml`'s `[source].manifest` field (epic #1047 Phase 2, #1053).
+//! `.design-data.toml`'s top-level `manifest` key (epic #1047 Phase 2, #1053).
 
 use std::fs;
 use std::path::PathBuf;
@@ -53,13 +53,112 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     fs::write(
         project.path().join(".design-data.toml"),
         format!(
-            "[source]\ntype = \"path\"\nroot = \"{}\"\nmanifest = \"manifest.json\"\n",
+            "manifest = \"manifest.json\"\n[source]\ntype = \"path\"\nroot = \"{}\"\n",
             repo_root().display()
         ),
     )
     .expect("write config");
 
     project
+}
+
+/// Like [`setup_project`], but the `.design-data.toml` has no top-level `manifest`
+/// key — `manifest.json` is still written to the project root so a test can pass it
+/// explicitly via `--manifest`.
+fn setup_project_without_manifest_key(manifest: serde_json::Value) -> tempfile::TempDir {
+    let project = setup_project(manifest);
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("rewrite config without manifest key");
+    project
+}
+
+#[test]
+fn validate_manifest_accepts_valid_manifest() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .success()
+        .stdout(contains("valid"));
+}
+
+#[test]
+fn validate_manifest_rejects_schema_violation() {
+    // Missing required `foundationVersion` → Layer 1 schema validation fails.
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(1);
+}
+
+#[test]
+fn validate_manifest_rejects_unparseable_query() {
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["not-a-valid-query"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(1);
+}
+
+#[test]
+fn validate_manifest_errors_when_none_configured() {
+    let project = setup_project_without_manifest_key(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens"])
+        .assert()
+        .code(2)
+        .stderr(contains("no platform manifest"));
+}
+
+#[test]
+fn validate_manifest_honors_explicit_flag() {
+    let project = setup_project_without_manifest_key(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["validate-manifest", "tokens", "--manifest", "manifest.json"])
+        .assert()
+        .success()
+        .stdout(contains("valid"));
 }
 
 #[test]
@@ -111,6 +210,35 @@ fn query_rejects_manifest_failing_schema_validation() {
         .args(["query", "tokens", "--filter", "", "--count"])
         .assert()
         .failure();
+}
+
+#[test]
+fn migrate_legacy_output_cascaded_prefers_override_over_shadowed_foundation() {
+    // Regression for spectrum-design-data-h890.10: `apply_platform_manifest`
+    // inserts an override as a NEW Platform-layer TokenRecord under a
+    // synthetic key, leaving the original Foundation-layer record (same
+    // uuid) in place. `migrate legacy-output-cascaded` must emit only the
+    // override's value, deterministically — not whichever copy `HashMap`
+    // iteration visits last.
+    let project = setup_project(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "overrides": [{"target": "u-btn-bg", "value": "#ffffff"}]
+    }));
+    let output = project.path().join("legacy.json");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["migrate", "legacy-output-cascaded", "tokens", "--output"])
+        .arg(&output)
+        .assert()
+        .success();
+
+    let legacy: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&output).expect("read output"))
+            .expect("parse output");
+    assert_eq!(legacy["button-background-color"]["value"], "#ffffff");
 }
 
 #[test]

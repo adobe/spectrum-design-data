@@ -55,6 +55,12 @@ const COLOR_SET_SCHEMA: &str =
     "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json";
 const SCALE_SET_SCHEMA: &str =
     "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json";
+const COLOR_SCHEMA: &str =
+    "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+const DIMENSION_SCHEMA: &str =
+    "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json";
+const ALIAS_SCHEMA: &str =
+    "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json";
 
 /// Fields that belong on the outer token entry (hoisted from mode entries when
 /// they are identical across all modes).
@@ -111,34 +117,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         let text = std::fs::read_to_string(&input_path)?;
         let value: Value = serde_json::from_str(&text)?;
         if let Some(arr) = value.as_array() {
-            for item in arr {
-                if let Some(obj) = item.as_object() {
-                    // Component/Token Relationships (CTRs) have no `name` field —
-                    // adapt them into a synthetic cascade token first so the same
-                    // name-extraction logic below applies to both.
-                    let adapted = if !obj.contains_key("name") && obj.contains_key("scope") {
-                        ctr_to_legacy_token(obj)
-                    } else {
-                        None
-                    };
-                    let tok = adapted.as_ref().unwrap_or(obj);
-
-                    // Use extract_legacy_key so string-name (escape-hatch) tokens
-                    // are indexed correctly alongside object-name tokens.
-                    let name = tok.get("name").and_then(extract_legacy_key);
-                    if let Some(ref name) = name {
-                        // Index the per-mode uuid.
-                        if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
-                            global_uuid_to_name.insert(uuid.to_string(), name.clone());
-                        }
-                        // Also index set_uuid so replaced_by pointing at a set token's
-                        // outer UUID resolves correctly to renamed.
-                        if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                            global_uuid_to_name.insert(set_uuid.to_string(), name.clone());
-                        }
-                    }
-                }
-            }
+            global_uuid_to_name.extend(index_uuid_names(arr));
         }
         all_files.push((input_path, value));
     }
@@ -173,6 +152,55 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
     }
 
     Ok(summary)
+}
+
+/// Convert a single in-memory cascade array — e.g. a `TokenGraph` with a
+/// platform manifest cascade already applied — into one combined legacy
+/// token map, keyed by legacy slug.
+///
+/// Unlike [`convert_dir`], this takes the array directly instead of reading
+/// `.tokens.json` files from disk, and produces one map rather than one file
+/// per input file — the shape a single published "resolved snapshot" needs
+/// (e.g. tokentool's `generate-source-code --input`). The UUID → name index
+/// used for `$ref`/`replaced_by` resolution is built from `arr` itself.
+pub fn convert_records(arr: &[Value]) -> Result<(Map<String, Value>, LegacySummary), CoreError> {
+    let global_uuid_to_name = index_uuid_names(arr);
+    let mut summary = LegacySummary::default();
+    let legacy = convert_array(arr, &mut summary, &global_uuid_to_name)?;
+    summary.files_processed = 1;
+    summary.files_written = 1;
+    Ok((legacy, summary))
+}
+
+/// Build the UUID/set_uuid → legacy-name index used to resolve `$ref` and
+/// `replaced_by` targets, over every named token or CTR in `arr`.
+///
+/// Shared by [`convert_dir`]'s cross-file pass-1 (accumulated across files)
+/// and [`convert_records`] (a single already-combined array).
+fn index_uuid_names(arr: &[Value]) -> HashMap<String, String> {
+    let mut global_uuid_to_name = HashMap::new();
+    for item in arr {
+        let Some(obj) = item.as_object() else {
+            continue;
+        };
+        let adapted = if !obj.contains_key("name") && obj.contains_key("scope") {
+            ctr_to_legacy_token(obj)
+        } else {
+            None
+        };
+        let tok = adapted.as_ref().unwrap_or(obj);
+
+        let name = tok.get("name").and_then(extract_legacy_key);
+        if let Some(name) = name {
+            if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
+                global_uuid_to_name.insert(uuid.to_string(), name.clone());
+            }
+            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
+                global_uuid_to_name.insert(set_uuid.to_string(), name.clone());
+            }
+        }
+    }
+    global_uuid_to_name
 }
 
 /// Convert a single cascade token to a legacy entry value.
@@ -878,7 +906,7 @@ fn build_set_entry(
         let Some(mode) = name_obj.get(dim_key).and_then(|v| v.as_str()) else {
             continue;
         };
-        let entry = build_mode_entry(tok, tokens, uuid_to_name);
+        let entry = build_mode_entry(tok, tokens, dim_key, uuid_to_name);
         sets.insert(mode.to_string(), Value::Object(entry));
     }
     outer.insert("sets".into(), Value::Object(sets));
@@ -892,11 +920,46 @@ fn build_set_entry(
 fn build_mode_entry(
     tok: &Map<String, Value>,
     all_tokens: &[&Map<String, Value>],
+    dim_key: &str,
     uuid_to_name: &HashMap<String, String>,
 ) -> Map<String, Value> {
     let mut entry = Map::new();
 
-    if let Some(schema) = tok.get("$schema").and_then(|v| v.as_str()) {
+    // Fall back when this token's own $schema is absent — a manifest
+    // `overrides[]` entry synthesizes its Platform-layer token with just
+    // `{name, value, uuid}` (schema_url: None, see graph.rs
+    // apply_platform_manifest). Prefer a sibling with the same alias-ness
+    // (has `$ref` or not) as `tok`, since JSONContainerType dispatches purely
+    // off `$schema` — copying an alias sibling's `alias.json` onto a mode an
+    // override replaced with a literal value would mislabel it and make
+    // tokentool expect `{ref}` syntax. If no such sibling exists (e.g. every
+    // other mode is an alias), derive the base value-type schema from the
+    // set kind instead of guessing from an alias-shaped sibling.
+    let is_alias = tok.contains_key("$ref");
+    let schema = tok
+        .get("$schema")
+        .and_then(|v| v.as_str())
+        .map(str::to_string)
+        .or_else(|| {
+            all_tokens
+                .iter()
+                .find(|t| {
+                    t.contains_key("$ref") == is_alias
+                        && t.get("$schema").and_then(|v| v.as_str()).is_some()
+                })
+                .and_then(|t| t.get("$schema").and_then(|v| v.as_str()))
+                .map(str::to_string)
+        })
+        .or_else(|| {
+            Some(if is_alias {
+                ALIAS_SCHEMA.to_string()
+            } else if dim_key == "colorScheme" {
+                COLOR_SCHEMA.to_string()
+            } else {
+                DIMENSION_SCHEMA.to_string()
+            })
+        });
+    if let Some(schema) = schema {
         entry.insert("$schema".into(), Value::String(schema.to_string()));
     }
 
@@ -1246,6 +1309,63 @@ mod tests {
         assert_eq!(entry["sets"]["light"]["value"], "{blue-900}");
         assert_eq!(entry["sets"]["dark"]["value"], "{blue-300}");
         assert!(entry["sets"]["light"].get("$ref").is_none());
+    }
+
+    /// Regression for h890.10: a manifest override synthesizes its Platform-layer
+    /// token with `{name, value, uuid}` only (no `$schema`, see graph.rs
+    /// `apply_platform_manifest`). When every OTHER mode in the set is an alias
+    /// (so no non-alias sibling schema is available to borrow), `build_mode_entry`
+    /// must derive a literal value-type schema from the set kind (`color.json` for
+    /// a colorScheme set) rather than leaking the alias sibling's `alias.json` —
+    /// JSONContainerType (tokentool's classic-schema parser) dispatches purely off
+    /// `$schema`, so mislabeling a literal as `.alias` breaks parsing downstream.
+    #[test]
+    fn convert_records_schema_fallback_prefers_alias_ness_match() {
+        let arr = json!([
+            // "light" is a genuine alias; "dark" is an override with no $schema
+            // of its own and no non-alias sibling to borrow from.
+            {"name": {"property": "seafoam-bg", "colorScheme": "light"},
+             "$schema": ".../alias.json", "$ref": "seafoam-900", "uuid": "bg-light"},
+            {"name": {"property": "seafoam-bg", "colorScheme": "dark"},
+             "value": "rgba(9,144,120,1.0)", "uuid": "bg-dark"},
+        ]);
+        let records: Vec<Value> = arr.as_array().unwrap().clone();
+        let (out, _summary) = convert_records(&records).unwrap();
+
+        let bg = &out["seafoam-bg"];
+        assert_eq!(bg["sets"]["light"]["value"], "{seafoam-900}");
+        assert_eq!(bg["sets"]["dark"]["value"], "rgba(9,144,120,1.0)");
+        assert_eq!(
+            bg["sets"]["dark"]["$schema"],
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json"
+        );
+    }
+
+    /// Regression: the alias-ness sibling search must not match `tok` itself.
+    /// `tok` (the override being processed) has no `$schema` by construction —
+    /// if the search's `find` predicate matches `tok` before reaching a real
+    /// schema-bearing sibling, `and_then` short-circuits to `None` and the
+    /// whole `or_else` chain falls through to the hardcoded fallback, silently
+    /// discarding a perfectly good sibling schema later in iteration order.
+    #[test]
+    fn convert_records_schema_fallback_skips_self_to_find_real_sibling_schema() {
+        let arr = json!([
+            {"name": {"property": "seafoam-bg", "colorScheme": "light"},
+             "$schema": ".../alias.json", "$ref": "seafoam-900", "uuid": "bg-light"},
+            {"name": {"property": "seafoam-bg", "colorScheme": "dark"},
+             "value": "rgba(9,144,120,1.0)", "uuid": "bg-dark"},
+            {"name": {"property": "seafoam-bg", "colorScheme": "dim"},
+             "value": "rgba(3,80,66,1.0)", "uuid": "bg-dim",
+             "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/custom-marker.json"},
+        ]);
+        let records: Vec<Value> = arr.as_array().unwrap().clone();
+        let (out, _summary) = convert_records(&records).unwrap();
+
+        let bg = &out["seafoam-bg"];
+        assert_eq!(
+            bg["sets"]["dark"]["$schema"],
+            "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/custom-marker.json"
+        );
     }
 
     /// Regression for P1: multi-mode-set cascade tokens MUST error, not silently

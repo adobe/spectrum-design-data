@@ -133,51 +133,22 @@ function resolvesToColor(ds, entry) {
 }
 
 /**
- * Rebuild the aggregated color-component.json that the CTR migration (#1330) removed, by
- * scanning the per-component object-map files for color-domain tokens (color-set/opacity
- * schema, or an alias value that resolves to a color).
- */
-function buildColorComponentFile(ds) {
-  const aggregated = {};
-  const files = readdirSync(tokensDir)
-    .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json'
-      && f !== 'color-component.json' && !FOUNDATION_FILES.has(f))
-    .sort(); // deterministic order
-
-  for (const file of files) {
-    let data;
-    try {
-      data = JSON.parse(readFileSync(join(tokensDir, file), 'utf-8'));
-    } catch {
-      continue; // already warned about unparseable files in loadObjectMap()
-    }
-    if (Array.isArray(data)) continue; // cascade format — skip
-
-    for (const [name, entry] of Object.entries(data)) {
-      if (!isTokenRecord(entry) || !entry.component) continue;
-      const schema = entry.$schema || '';
-      const isColorDomain = schema.endsWith('color-set.json') || schema.endsWith('opacity.json')
-        || resolvesToColor(ds, entry);
-      if (isColorDomain) aggregated[name] = entry;
-    }
-  }
-
-  writeFileSync(colorComponentOutPath, JSON.stringify(aggregated, null, 2));
-  console.log(`[resolve] Wrote ${colorComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
-}
-
-/**
- * Merge every NON-color component token into the source-shipped `layout-component.json`
+ * Rebuild the aggregated color-component.json that the CTR migration (#1330) removed, and
+ * merge every NON-color component token into the source-shipped `layout-component.json`
  * (which, post-CTR, only retains a handful of leftover icon-size tokens — the rest moved to
- * per-component files). Mirrors buildColorComponentFile()'s scan but takes the opposite side
- * of the same color-domain test, so every component token lands in exactly one aggregate.
+ * per-component files). A single pass over the per-component object-map files splits each
+ * entry into one aggregate or the other via the same color-domain test (color-set/opacity
+ * schema, or an alias value that resolves to a color), so every file is read, parsed, and
+ * checked only once instead of twice.
  *
- * Seeds from the pristine copy in node_modules (not tokens/layout-component.json, which this
- * function overwrites) so re-running the script never re-reads its own prior output — a token
- * renamed or removed from a per-component source file is dropped, not carried forward forever.
+ * The layout aggregate seeds from the pristine copy in node_modules (not
+ * tokens/layout-component.json, which this function overwrites) so re-running the script
+ * never re-reads its own prior output — a token renamed or removed from a per-component
+ * source file is dropped, not carried forward forever.
  */
-function buildLayoutComponentFile(ds) {
-  const aggregated = JSON.parse(readFileSync(layoutComponentSrcPath, 'utf-8'));
+function buildComponentFiles(ds) {
+  const colorAggregated = {};
+  const layoutAggregated = JSON.parse(readFileSync(layoutComponentSrcPath, 'utf-8'));
   const files = readdirSync(tokensDir)
     .filter(f => f.endsWith('.json') && f !== 'package.json' && f !== 'resolved.json'
       && f !== 'color-component.json' && !FOUNDATION_FILES.has(f))
@@ -197,12 +168,15 @@ function buildLayoutComponentFile(ds) {
       const schema = entry.$schema || '';
       const isColorDomain = schema.endsWith('color-set.json') || schema.endsWith('opacity.json')
         || resolvesToColor(ds, entry);
-      if (!isColorDomain) aggregated[name] = entry;
+      if (isColorDomain) colorAggregated[name] = entry;
+      else layoutAggregated[name] = entry;
     }
   }
 
-  writeFileSync(layoutComponentOutPath, JSON.stringify(aggregated, null, 2));
-  console.log(`[resolve] Wrote ${layoutComponentOutPath} (${Object.keys(aggregated).length} tokens)`);
+  writeFileSync(colorComponentOutPath, JSON.stringify(colorAggregated, null, 2));
+  console.log(`[resolve] Wrote ${colorComponentOutPath} (${Object.keys(colorAggregated).length} tokens)`);
+  writeFileSync(layoutComponentOutPath, JSON.stringify(layoutAggregated, null, 2));
+  console.log(`[resolve] Wrote ${layoutComponentOutPath} (${Object.keys(layoutAggregated).length} tokens)`);
 }
 
 /**
@@ -211,8 +185,18 @@ function buildLayoutComponentFile(ds) {
  * suitable for Dataset.fromTokens(). Each file is a top-level array of cascade token objects.
  */
 function loadCascadeTokens() {
+  let entries;
+  try {
+    entries = readdirSync(cascadeDir);
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      throw new Error(`[resolve] ${cascadeDir} does not exist — run 'moon run viewer:convert' first.`);
+    }
+    throw e;
+  }
+
   const tokens = [];
-  for (const file of readdirSync(cascadeDir).filter(f => f.endsWith('.json')).sort()) {
+  for (const file of entries.filter(f => f.endsWith('.json')).sort()) {
     let data;
     try {
       data = JSON.parse(readFileSync(join(cascadeDir, file), 'utf-8'));
@@ -235,8 +219,7 @@ async function main() {
   const ds = wasm.Dataset.fromTokens(cascadeTokens);
   const datasetTokenCount = ds.tokenCount();
 
-  buildColorComponentFile(ds);
-  buildLayoutComponentFile(ds);
+  buildComponentFiles(ds);
 
   const { slugs } = loadObjectMap();
   console.log(`[resolve] ${slugs.size} slugs, ${datasetTokenCount} tokens in cascade dataset`);

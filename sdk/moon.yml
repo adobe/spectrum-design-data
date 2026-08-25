@@ -158,3 +158,4 @@ tasks:
       - "tui/package.json"
     outputs:
       - "tui/Cargo.toml"
+      - "Cargo.lock"
