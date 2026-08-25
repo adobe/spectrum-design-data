@@ -87,6 +87,10 @@
       "type": "object",
       "description": "Platform-local tokens, mode sets, and formatting rules.",
       "properties": {
+        "tokens": {
+          "$ref": "cascade-file.schema.json",
+          "description": "Platform-local token definitions, in cascade-format (same shape as a cascade token file)."
+        },
         "formatting": {
           "type": "object",
           "description": "Rules for serializing structured name objects into platform-specific token name strings.",
