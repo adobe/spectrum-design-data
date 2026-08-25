@@ -122,8 +122,25 @@ impl SchemaRegistry {
     ) -> Result<Vec<String>, CoreError> {
         let text = fs::read_to_string(manifest_schema_path)?;
         let schema: Value = serde_json::from_str(&text)?;
-        let validator = jsonschema::options()
-            .with_draft(Draft::Draft202012)
+
+        // Register sibling schemas (token.schema.json, cascade-file.schema.json,
+        // value-types/*) so the `extensions.tokens` cross-schema `$ref` resolves
+        // offline instead of erroring or hitting the network.
+        let mut resources: Vec<(String, Resource)> = Vec::new();
+        if let Some(dir) = manifest_schema_path.parent() {
+            collect_schema_resources(dir, &mut resources)?;
+            let value_types = dir.join("value-types");
+            if value_types.is_dir() {
+                collect_schema_resources(&value_types, &mut resources)?;
+            }
+        }
+
+        let mut builder = jsonschema::options().with_draft(Draft::Draft202012);
+        if !resources.is_empty() {
+            let registry = Registry::try_from_resources(resources)?;
+            builder = builder.with_registry(registry);
+        }
+        let validator = builder
             .build(&schema)
             .map_err(|e| CoreError::SchemaBuild(e.to_string()))?;
         Ok(validator
@@ -258,6 +275,40 @@ mod tests {
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
             "bogusKey": true
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(!errors.is_empty());
+    }
+
+    #[test]
+    fn validate_manifest_accepts_valid_extensions_tokens() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "tokens": [
+                    {
+                        "name": {"property": "color"},
+                        "value": "#000"
+                    }
+                ]
+            }
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
+    }
+
+    #[test]
+    fn validate_manifest_rejects_malformed_extensions_tokens() {
+        // Missing the required `name` and has neither `value` nor `$ref`.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "tokens": [
+                    {"bogus": true}
+                ]
+            }
         });
         let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
         assert!(!errors.is_empty());
