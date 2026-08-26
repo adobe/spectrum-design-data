@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 import { categorizeRow } from "./categorize.js";
-import { resolveTarget } from "./resolve-target.js";
+import { resolveTarget, splitAliases } from "./resolve-target.js";
 import { findTokenUuid, loadLegacyKeyIndex } from "./find-token-uuid.js";
 import { isFontSizeValue, parseFontSize } from "./parse-scale.js";
 
@@ -38,14 +38,6 @@ function emitFontSizeRow(row, legacyKeyIndex) {
     }
   }
   return { overrides: [], extensionTokens: [], unresolved: candidates };
-}
-
-function splitAliases(aliases) {
-  if (!aliases) return [];
-  return aliases
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 }
 
 /**
