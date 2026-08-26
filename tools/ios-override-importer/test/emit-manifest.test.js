@@ -27,8 +27,8 @@ test("true-value-change emits uuid-targeted overrides, one per changed mode", (t
       "ColorSet(light: Color(9, 9, 9, 1.0), dark: Color(2, 2, 2, 1.0))",
   };
   const legacyKeyIndex = new Map([
-    ["accent-background-color-default::light::::", "uuid-light"],
-    ["accent-background-color-default::dark::::", "uuid-dark"],
+    ["accent-background-color-default::light::::::", "uuid-light"],
+    ["accent-background-color-default::dark::::::", "uuid-dark"],
   ]);
   const result = emitRow(row, {
     decompose,
@@ -157,6 +157,34 @@ test("elevated/elevatedIncreased slots emit extension tokens with variant:elevat
   );
 });
 
+test("a changed elevated slot is unresolved, not written onto the base dark uuid", (t) => {
+  // Old Value already has a real (non-"none") elevated color that differs
+  // from New Value, so categorizeRow buckets it into overrideModes with
+  // variant:"elevated". The legacyKeyIndex here mimics the real
+  // dump-legacy-keys output: it only has an entry for the base dark member
+  // (no variant), because foundation's elevated member lives under its own
+  // legacyKey entirely. Without variant in the index key, this used to
+  // resolve to the base dark uuid and corrupt it.
+  const row = {
+    "Token Name": "accent-background-color-default",
+    Aliases: "",
+    "Old Value":
+      "ColorSet(light: Color(1, 1, 1, 1.0), dark: Color(2, 2, 2, 1.0), elevated: Color(9, 9, 9, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: none)",
+    "New Value":
+      "ColorSet(light: Color(1, 1, 1, 1.0), dark: Color(2, 2, 2, 1.0), elevated: Color(3, 3, 3, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: none)",
+  };
+  const legacyKeyIndex = new Map([
+    ["accent-background-color-default::dark::::::", "uuid-dark"],
+  ]);
+  const result = emitRow(row, {
+    decompose,
+    colorFamilies: FAMILIES,
+    legacyKeyIndex,
+  });
+  t.deepEqual(result.overrides, []);
+  t.deepEqual(result.unresolved, ["accent-background-color-default (dark)"]);
+});
+
 test("out-of-scope rows emit nothing", (t) => {
   const row = {
     "Old Value": "Custom token",
@@ -174,7 +202,7 @@ test("font-size row resolves via alias to an override on the mobile scale member
     "New Value": "FontSize(14.0)",
   };
   const legacyKeyIndex = new Map([
-    ["font-size-100::::::mobile", "uuid-font-size-100"],
+    ["font-size-100::::::mobile::", "uuid-font-size-100"],
   ]);
   const result = emitRow(row, { legacyKeyIndex });
   t.deepEqual(result, {
