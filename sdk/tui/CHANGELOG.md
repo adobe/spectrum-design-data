@@ -1,5 +1,34 @@
 # @adobe/design-data-tui
 
+## 0.9.0
+
+### Minor Changes
+
+- [#1380](https://github.com/adobe/spectrum-design-data/pull/1380) [`cc15f52`](https://github.com/adobe/spectrum-design-data/commit/cc15f524d616e7fe602fa7445950ec89ec7a7279) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest carry component specs and platform-extension states
+  as first-class, cascade-consumable sections, not just tokens — the first
+  step in externalizing iOS-specific design data while keeping iOS capability
+  in the monorepo (bead spectrum-design-data-h890.22).
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `components` (array of `component.schema.json` items) and
+    `platformExtensions` (array of `platform-extension.json` items).
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds two guarded
+    sections — `extensions.components` add-or-replaces into the component
+    catalog by name; `extensions.platformExtensions` add-or-replaces by
+    `(platform, extends)` and rejects a `termId` that doesn't exist in the
+    referenced base registry.
+
+- [#1376](https://github.com/adobe/spectrum-design-data/pull/1376) [`adf5595`](https://github.com/adobe/spectrum-design-data/commit/adf55951bf3c753f5c448d869c04959cc229bf6b) Thanks [@GarthDB](https://github.com/GarthDB)! - Schema-validate `extensions.tokens` in the platform manifest, closing a gap
+  where malformed extension tokens (bad `$schema`, missing `name`) previously
+  failed silently or downstream instead of at manifest-validation time (closes
+  bead spectrum-design-data-9osr).
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions.tokens`
+    now references `cascade-file.schema.json`, so entries must match the same
+    cascade token shape as `token.schema.json`.
+  - **sdk/core/src/schema.rs**: `SchemaRegistry::validate_manifest` now registers
+    sibling schemas (`token.schema.json`, `cascade-file.schema.json`,
+    `value-types/*`) via `collect_schema_resources`, so the new cross-schema
+    `$ref` resolves offline instead of erroring.
+
 ## 0.8.0
 
 ### Minor Changes
