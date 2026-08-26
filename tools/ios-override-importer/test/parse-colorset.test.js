@@ -40,12 +40,24 @@ test("maps *Increased slots to contrast:high", (t) => {
   ]);
 });
 
-test("reports unmapped slots (elevated) as skipped, not guessed", (t) => {
+test("maps elevated/elevatedIncreased to variant:elevated at colorScheme:dark", (t) => {
   const { modes, skipped } = parseColorSet(
-    "ColorSet(light: none, dark: none, elevated: Color(5, 5, 5, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: none)",
+    "ColorSet(light: none, dark: none, elevated: Color(5, 5, 5, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: Color(6, 6, 6, 1.0))",
   );
-  t.deepEqual(modes, []);
-  t.deepEqual(skipped, ["elevated"]);
+  t.deepEqual(modes, [
+    {
+      variant: "elevated",
+      colorScheme: "dark",
+      value: "rgba(5, 5, 5, 1.0)",
+    },
+    {
+      variant: "elevated",
+      colorScheme: "dark",
+      contrast: "high",
+      value: "rgba(6, 6, 6, 1.0)",
+    },
+  ]);
+  t.deepEqual(skipped, []);
 });
 
 test("throws on a non-ColorSet literal", (t) => {

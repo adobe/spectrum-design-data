@@ -60,7 +60,7 @@ export function categorizeRow(row) {
   const overrideModes = [];
   const extensionModes = [];
   for (const m of newModes) {
-    const old = valueFor(oldModes, m.colorScheme, m.contrast);
+    const old = valueFor(oldModes, m.colorScheme, m.contrast, m.variant);
     if (old === undefined) {
       extensionModes.push(m);
     } else if (old !== m.value) {
@@ -68,10 +68,13 @@ export function categorizeRow(row) {
     }
     // old === m.value: unchanged, nothing to emit.
   }
+  // Base light/dark only — `variant` defaults to undefined here, so an
+  // elevated slot (colorScheme:"dark", variant:"elevated") can't be mistaken
+  // for the plain dark base value even though they share a colorScheme.
   const baseChanged = ["light", "dark"].some(
     (scheme) =>
-      valueFor(oldModes, scheme, undefined) !==
-      valueFor(newModes, scheme, undefined),
+      valueFor(oldModes, scheme, undefined, undefined) !==
+      valueFor(newModes, scheme, undefined, undefined),
   );
 
   return {
@@ -82,8 +85,11 @@ export function categorizeRow(row) {
   };
 }
 
-function valueFor(modes, colorScheme, contrast) {
+function valueFor(modes, colorScheme, contrast, variant) {
   return modes.find(
-    (m) => m.colorScheme === colorScheme && m.contrast === contrast,
+    (m) =>
+      m.colorScheme === colorScheme &&
+      m.contrast === contrast &&
+      m.variant === variant,
   )?.value;
 }

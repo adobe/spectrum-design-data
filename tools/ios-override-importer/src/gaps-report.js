@@ -12,8 +12,11 @@
 // — foundation/registry-level decisions, tracked for docs/proposals/006 per
 // the plan. Static, not derived from the CSV.
 const KNOWN_GAPS = [
-  "`elevated`/`elevatedIncreased` ColorSet slots: no foundation colorScheme " +
-    "or contrast mode maps to iOS's elevated surface concept (10 CSV rows skipped).",
+  '`elevated`/`elevatedIncreased` ColorSet slots import as `variant:"elevated"` ' +
+    'extension tokens at `colorScheme:"dark"` (mirrors `background-elevated-color`\'s ' +
+    'dark-elevated member). `variant:elevated` combined with `contrast:"high"` ' +
+    "(the elevatedIncreased shape) is a new-but-additive combination — not seen " +
+    "elsewhere in foundation yet, but not gated on further design work either.",
   '`lightIncreased`/`darkIncreased` naming maps to `contrast:"high"` — modeled ' +
     "here, but the increased→high crosswalk isn't registered anywhere else.",
   "`pressed`/`down` state terms are advisory-only (state isn't hard-enforced by " +

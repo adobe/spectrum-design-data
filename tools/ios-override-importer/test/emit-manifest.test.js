@@ -118,6 +118,45 @@ test("contrast-addition includes contrast:high in the extension token's name", (
   ]);
 });
 
+test("elevated/elevatedIncreased slots emit extension tokens with variant:elevated", (t) => {
+  const row = {
+    "Token Name": "accent-background-color-default",
+    Aliases: "",
+    "Old Value": "Custom token",
+    "New Value":
+      "ColorSet(light: Color(1, 2, 3, 1.0), dark: Color(4, 5, 6, 1.0), elevated: Color(7, 7, 7, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: Color(8, 8, 8, 1.0))",
+  };
+  const result = emitRow(row, { decompose, colorFamilies: FAMILIES });
+  t.deepEqual(
+    result.extensionTokens.filter((e) => e.name.variant === "elevated"),
+    [
+      {
+        name: {
+          property: "accent-background-color",
+          state: ["default"],
+          colorScheme: "dark",
+          variant: "elevated",
+        },
+        $schema:
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        value: "rgba(7, 7, 7, 1.0)",
+      },
+      {
+        name: {
+          property: "accent-background-color",
+          state: ["default"],
+          colorScheme: "dark",
+          variant: "elevated",
+          contrast: "high",
+        },
+        $schema:
+          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+        value: "rgba(8, 8, 8, 1.0)",
+      },
+    ],
+  );
+});
+
 test("out-of-scope rows emit nothing", (t) => {
   const row = {
     "Old Value": "Custom token",
