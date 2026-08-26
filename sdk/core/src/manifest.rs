@@ -230,4 +230,96 @@ mod tests {
         let err = apply_configured(&mut graph, &resolved).unwrap_err();
         assert!(err.to_string().contains("could not be located"));
     }
+
+    #[test]
+    fn manifest_injects_platform_component() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "components": [{
+                        "$id": "tab-bar-ios",
+                        "name": "tab-bar-ios",
+                        "displayName": "Tab Bar (iOS)",
+                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .components
+            .iter()
+            .find(|c| c.name == "tab-bar-ios")
+            .expect("injected component present");
+        assert_eq!(injected.raw["_layer"], "platform");
+    }
+
+    #[test]
+    fn manifest_injects_platform_extension() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "platformExtensions": [{
+                        "platform": "iOS",
+                        "extends": "states",
+                        "extensions": [{"termId": "default", "platformTerm": "normal"}]
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .platform_extensions
+            .iter()
+            .find(|r| r.platform == "iOS" && r.extends == "states")
+            .expect("injected platform extension present");
+        assert_eq!(injected.raw["extensions"][0]["termId"], "default");
+    }
+
+    #[test]
+    fn manifest_rejects_unknown_term_id() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "platformExtensions": [{
+                        "platform": "iOS",
+                        "extends": "states",
+                        "extensions": [{"termId": "not-a-real-state"}]
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("not-a-real-state"));
+    }
 }

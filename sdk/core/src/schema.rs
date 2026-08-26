@@ -307,6 +307,59 @@ mod tests {
         assert!(!errors.is_empty());
     }
 
+    #[test]
+    fn validate_manifest_accepts_valid_extensions_components_and_platform_extensions() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "components": [
+                    {
+                        "$id": "tab-bar-ios",
+                        "name": "tab-bar-ios",
+                        "displayName": "Tab Bar (iOS)",
+                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
+                    }
+                ],
+                "platformExtensions": [
+                    {
+                        "platform": "iOS",
+                        "extends": "states",
+                        "extensions": [
+                            {"termId": "hover", "platformTerm": "highlighted"}
+                        ]
+                    }
+                ]
+            }
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
+    }
+
+    #[test]
+    fn validate_manifest_rejects_malformed_extensions_components() {
+        // Missing the required `name` (and `$id`/`displayName`/`meta`).
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": { "components": [{"bogus": true}] }
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(!errors.is_empty());
+    }
+
+    #[test]
+    fn validate_manifest_rejects_malformed_platform_extensions() {
+        // Missing the required `extends`/`extensions`.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": { "platformExtensions": [{"platform": "iOS"}] }
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(!errors.is_empty());
+    }
+
     // build_schema_validator wires the *entire* schemas/ directory (plus value-types/)
     // into one registry, keyed by $id — so a future schema with a colliding $id would
     // silently shadow another rather than erroring, breaking validation for whichever

@@ -18,6 +18,7 @@ use serde_json::Value;
 use crate::discovery::discover_json_files;
 use crate::naming::extract_legacy_key;
 use crate::query;
+use crate::registry::RegistryData;
 use crate::CoreError;
 
 /// Cascade layer (Foundation < Platform < Product).
@@ -78,6 +79,17 @@ pub struct ComponentRecord {
     pub raw: Value,
 }
 
+/// One platform-extension declaration (spec-format JSON, `platform-extension.json`
+/// shape), annotating existing base-registry ids with platform-specific terminology.
+/// Loaded from a catalog directory or injected via a platform manifest's
+/// `extensions.platformExtensions`.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct PlatformExtensionRecord {
+    pub platform: String,
+    pub extends: String,
+    pub raw: Value,
+}
+
 /// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct GuidelineRecord {
@@ -129,6 +141,9 @@ pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub mode_sets: Vec<ModeSetRecord>,
     pub components: Vec<ComponentRecord>,
+    /// Platform-extension declarations, loaded from the spec `platform-extensions/`
+    /// catalog or injected via a platform manifest's `extensions.platformExtensions`.
+    pub platform_extensions: Vec<PlatformExtensionRecord>,
     /// Guideline documents from the spec `guidelines/` catalog.
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
@@ -551,6 +566,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            platform_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -600,6 +616,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            platform_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -889,6 +906,95 @@ impl TokenGraph {
                     if !modes.is_empty() {
                         mode_set_restrictions.insert(ms_name.clone(), modes);
                     }
+                }
+            }
+        }
+
+        // 5. extensions.components — platform-local component specs, add-or-replace
+        // by name into the component catalog. Marked in `raw["_layer"]` rather than
+        // a new `ComponentRecord` field, to avoid touching its cache encoding.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("components"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let mut raw = entry.clone();
+                if let Some(obj) = raw.as_object_mut() {
+                    obj.insert("_layer".into(), Value::String("platform".into()));
+                }
+                let record = ComponentRecord {
+                    name: name.to_string(),
+                    file: PathBuf::from("manifest.json"),
+                    raw,
+                };
+                if let Some(existing) = self.components.iter_mut().find(|c| c.name == name) {
+                    *existing = record;
+                } else {
+                    self.components.push(record);
+                }
+            }
+        }
+
+        // 6. extensions.platformExtensions — platform terminology annotating ids in
+        // an existing base registry. Replaced by (platform, extends); every termId
+        // must already exist in that base registry (extensions never add new ids).
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("platformExtensions"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let (Some(platform), Some(extends)) = (
+                    entry.get("platform").and_then(|v| v.as_str()),
+                    entry.get("extends").and_then(|v| v.as_str()),
+                ) else {
+                    continue;
+                };
+                // platform-extension.json's own doc/examples use the plural registry
+                // name ("states", "sizes"), but the field catalog keys registries by
+                // their singular field name ("state", "size") — try both spellings.
+                // ponytail: strip-trailing-s shim; revisit if a registry name doesn't
+                // pluralize this simply.
+                let registries = RegistryData::embedded();
+                let registry = registries
+                    .for_field(extends)
+                    .or_else(|| registries.for_field(extends.strip_suffix('s').unwrap_or(extends)))
+                    .ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.platformExtensions declares \
+                             extends:\"{extends}\" but no such base registry exists"
+                        ))
+                    })?;
+                if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
+                    for term in terms {
+                        if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
+                            if !registry.contains(term_id) {
+                                return Err(CoreError::ParseError(format!(
+                                    "platform manifest extensions.platformExtensions \
+                                     ({platform}/{extends}) references termId \"{term_id}\" \
+                                     which does not exist in the \"{extends}\" registry"
+                                )));
+                            }
+                        }
+                    }
+                }
+                let record = PlatformExtensionRecord {
+                    platform: platform.to_string(),
+                    extends: extends.to_string(),
+                    raw: entry.clone(),
+                };
+                if let Some(existing) = self
+                    .platform_extensions
+                    .iter_mut()
+                    .find(|r| r.platform == platform && r.extends == extends)
+                {
+                    *existing = record;
+                } else {
+                    self.platform_extensions.push(record);
                 }
             }
         }

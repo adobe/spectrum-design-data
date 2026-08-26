@@ -91,6 +91,18 @@
           "$ref": "cascade-file.schema.json",
           "description": "Platform-local token definitions, in cascade-format (same shape as a cascade token file)."
         },
+        "components": {
+          "type": "array",
+          "items": { "$ref": "component.schema.json" },
+          "description": "Platform-local component specs, injected into the component catalog (add-or-replace by name)."
+        },
+        "platformExtensions": {
+          "type": "array",
+          "items": {
+            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json"
+          },
+          "description": "Platform-local terminology extensions (e.g. iOS state vocabulary), annotating ids in an existing base registry."
+        },
         "formatting": {
           "type": "object",
           "description": "Rules for serializing structured name objects into platform-specific token name strings.",
