@@ -1607,12 +1607,19 @@ fn run_primer(
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Load fields from disk (not threaded through the runtime cache path).
-    let graph = if let Some(dir) = &resolved.fields {
+    let mut graph = if let Some(dir) = &resolved.fields {
         let fields = TokenGraph::load_spec_fields(dir).unwrap_or_default();
         graph.with_fields(fields)
     } else {
         graph
     };
+
+    // Apply the configured platform manifest (same cascade `run_query`/`run_resolve`
+    // apply) — no-ops when no manifest is configured — so injected
+    // extensions.components/platformExtensions surface in the primer output.
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
 
     let provenance = match &resolved.provenance {
         data_source::Provenance::InRepo => serde_json::json!({ "source": "in-repo" }),
