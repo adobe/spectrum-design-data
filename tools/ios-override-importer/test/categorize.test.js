@@ -63,6 +63,34 @@ test("true-value-change row can also add a genuinely new contrast mode", (t) => 
   ]);
 });
 
+test("elevated slots are extension modes, not mistaken for the plain dark base value", (t) => {
+  // Shapes cinnamon-100: base light/dark unchanged, elevated/elevatedIncreased
+  // go from none -> a value. Guards valueFor's variant coordinate — without
+  // it, colorScheme:"dark" would collide between the elevated slot and the
+  // plain dark base value and this would wrongly categorize as an override.
+  const { category, overrideModes, extensionModes } = categorizeRow({
+    "Old Value":
+      "ColorSet(light: Color(1, 1, 1, 1.0), dark: Color(2, 2, 2, 1.0), elevated: none, lightIncreased: none, darkIncreased: none, elevatedIncreased: none)",
+    "New Value":
+      "ColorSet(light: Color(1, 1, 1, 1.0), dark: Color(2, 2, 2, 1.0), elevated: Color(3, 3, 3, 1.0), lightIncreased: none, darkIncreased: none, elevatedIncreased: Color(4, 4, 4, 1.0))",
+  });
+  t.is(category, "contrast-addition");
+  t.deepEqual(overrideModes, []);
+  t.deepEqual(extensionModes, [
+    {
+      variant: "elevated",
+      colorScheme: "dark",
+      value: "rgba(3, 3, 3, 1.0)",
+    },
+    {
+      variant: "elevated",
+      colorScheme: "dark",
+      contrast: "high",
+      value: "rgba(4, 4, 4, 1.0)",
+    },
+  ]);
+});
+
 test("out-of-scope: New Value isn't a ColorSet (typography/size row)", (t) => {
   const { category } = categorizeRow({
     "Old Value": "Scale(FontSize(17.0))",

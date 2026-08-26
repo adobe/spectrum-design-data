@@ -108,6 +108,7 @@ export function emitRow(row, options) {
     name: {
       ...target.name,
       colorScheme: m.colorScheme,
+      ...(m.variant ? { variant: m.variant } : {}),
       ...(m.contrast ? { contrast: m.contrast } : {}),
     },
     $schema: COLOR_SCHEMA,

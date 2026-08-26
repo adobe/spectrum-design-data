@@ -9,14 +9,22 @@
 // governing permissions and limitations under the License.
 
 // Swift `ColorSet(light: Color(r, g, b, a), dark: none, ...)` slot -> foundation
-// mode-set coordinate. `elevated`/`elevatedIncreased` are intentionally absent:
-// no `elevated` colorScheme mode exists in the foundation today (only 10 of 742
-// rows use it) — see the gap report instead of guessing a mapping.
+// mode-set coordinate. `elevated`/`elevatedIncreased` map to foundation's existing
+// `variant:"elevated"` axis (see `background-elevated-color` in
+// color-aliases.tokens.json) at `colorScheme:"dark"` — iOS's single `elevated`
+// slot only diverges from base in dark mode, so this lines up 1:1 with
+// foundation's dark-elevated member. See spectrum-design-data-h890.16.
 const SLOT_TO_MODES = {
   light: { colorScheme: "light" },
   dark: { colorScheme: "dark" },
   lightIncreased: { colorScheme: "light", contrast: "high" },
   darkIncreased: { colorScheme: "dark", contrast: "high" },
+  elevated: { variant: "elevated", colorScheme: "dark" },
+  elevatedIncreased: {
+    variant: "elevated",
+    colorScheme: "dark",
+    contrast: "high",
+  },
 };
 
 const COLOR_SET_RE = /^ColorSet\((.*)\)$/s;

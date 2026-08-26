@@ -46,29 +46,38 @@ export function loadLegacyKeyIndex(tokensDir = TOKENS_DIR, binPath = CLI_BIN) {
   const index = new Map();
   for (const e of JSON.parse(out)) {
     index.set(
-      indexKey(e.legacyKey, e.colorScheme, e.contrast, e.scale),
+      // dump-legacy-keys emits no `variant` — every real entry keys with
+      // variant="" (base). A `variant:"elevated"` mode (see parse-colorset.js)
+      // must NOT collapse onto its base sibling's key: elevated foundation
+      // members live under their own legacyKey entirely (e.g.
+      // `background-elevated-color` vs. `background-base-color`), so a CSV
+      // row's (base-slug, variant:"elevated") mode can never legitimately
+      // match here — it must fall through to unresolved, not the base uuid.
+      indexKey(e.legacyKey, e.colorScheme, e.contrast, e.scale, e.variant),
       e.uuid,
     );
   }
   return index;
 }
 
-function indexKey(legacyKey, colorScheme, contrast, scale) {
-  return `${legacyKey}::${colorScheme ?? ""}::${contrast ?? ""}::${scale ?? ""}`;
+function indexKey(legacyKey, colorScheme, contrast, scale, variant) {
+  return `${legacyKey}::${colorScheme ?? ""}::${contrast ?? ""}::${scale ?? ""}::${variant ?? ""}`;
 }
 
 /**
  * Look up the uuid of the foundation token whose computed legacy key is
- * `slug`, at the given `{colorScheme, contrast?, scale?}` mode. `scale`
- * disambiguates scale-set members that share a legacy key (e.g.
+ * `slug`, at the given `{colorScheme, contrast?, scale?, variant?}` mode.
+ * `scale` disambiguates scale-set members that share a legacy key (e.g.
  * `font-size-100` has both a `mobile` and `desktop` uuid) — color modes
  * don't set it, so they fall back to matching the null/null scale entry as
- * before. Returns null if no match exists — callers should treat that as
- * unresolved, not guess.
+ * before. `variant` (e.g. `"elevated"`) keeps a variant mode from matching
+ * its variant-less base sibling's entry. Returns null if no match exists —
+ * callers should treat that as unresolved, not guess.
  */
 export function findTokenUuid(index, slug, mode) {
   return (
-    index.get(indexKey(slug, mode.colorScheme, mode.contrast, mode.scale)) ??
-    null
+    index.get(
+      indexKey(slug, mode.colorScheme, mode.contrast, mode.scale, mode.variant),
+    ) ?? null
   );
 }

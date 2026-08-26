@@ -12,10 +12,10 @@ import test from "ava";
 import { findTokenUuid } from "../src/find-token-uuid.js";
 
 const INDEX = new Map([
-  ["blue-1000::light::::", "u-light"],
-  ["blue-1000::dark::::", "u-dark"],
-  ["blue-1000::light::high::", "u-light-high"],
-  ["font-size-100::::::mobile", "u-font-size-100-mobile"],
+  ["blue-1000::light::::::", "u-light"],
+  ["blue-1000::dark::::::", "u-dark"],
+  ["blue-1000::light::high::::", "u-light-high"],
+  ["font-size-100::::::mobile::", "u-font-size-100-mobile"],
 ]);
 
 test("finds the uuid for an exact legacy-key + mode match", (t) => {
