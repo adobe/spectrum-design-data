@@ -85,7 +85,7 @@ export function resolveTarget(
   return { slug: null, candidates };
 }
 
-function splitAliases(aliases) {
+export function splitAliases(aliases) {
   if (!aliases) return [];
   return aliases
     .split(",")

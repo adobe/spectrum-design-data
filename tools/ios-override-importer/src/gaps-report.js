@@ -18,8 +18,13 @@ const KNOWN_GAPS = [
     "here, but the increased→high crosswalk isn't registered anywhere else.",
   "`pressed`/`down` state terms are advisory-only (state isn't hard-enforced by " +
     "registry.rs) — they pass through untouched, not a resolved equivalence.",
-  "Typography/size rows (`Scale(FontSize(...))`, 155 rows) are out of scope for " +
-    "this importer; see the follow-up bead for font-size/letter-spacing import.",
+  "`FontSize(N)`/`Scale(FontSize(N))` rows import as overrides against the " +
+    "`mobile` scale-set member (spectrum-design-data-h890.15); rows with no " +
+    "resolvable font-size alias fall through to the unresolved list below.",
+  "`letter-spacing-font-size-*` (Measurement) and `letter-spacing-body-*` " +
+    "(DynamicTypeSizeSet) rows have no foundation equivalent — no per-size " +
+    "letter-spacing scale or DynamicTypeSize mode-set exists yet. Deferred to " +
+    "spectrum-design-data-h890.16 pending a foundation naming/units decision.",
 ];
 
 /**
