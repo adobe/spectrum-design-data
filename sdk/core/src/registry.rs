@@ -275,6 +275,17 @@ mod tests {
     }
 
     #[test]
+    fn for_field_also_resolves_registry_file_basename() {
+        // A caller that only knows the registry file name (e.g. `platform-extension.json`'s
+        // `extends: "states"`) must resolve to the same registry as the field-catalog name.
+        let r = RegistryData::embedded();
+        let by_field = r.for_field("state").unwrap();
+        let by_registry_name = r.for_field("states").unwrap();
+        assert_eq!(by_field, by_registry_name);
+        assert!(by_registry_name.contains("hover"));
+    }
+
+    #[test]
     fn advisory_fields_matches_catalog() {
         let r = RegistryData::embedded();
         let fields = r.advisory_fields();

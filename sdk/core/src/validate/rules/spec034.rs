@@ -75,7 +75,7 @@ mod tests {
 
     use serde_json::json;
 
-    use crate::graph::{ComponentRecord, TokenGraph};
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
     use crate::validate::relational::diagnostics_for_rule;
 
     fn graph_with_category(name: &str, category: &str) -> TokenGraph {
@@ -87,6 +87,7 @@ mod tests {
                 "name": name,
                 "meta": { "category": category, "documentationUrl": "https://example.com" }
             }),
+            layer: Layer::Foundation,
         });
         g
     }
@@ -100,6 +101,7 @@ mod tests {
                 "name": name,
                 "meta": { "documentationUrl": "https://example.com" }
             }),
+            layer: Layer::Foundation,
         });
         g
     }
@@ -141,6 +143,7 @@ mod tests {
             name: "widget".to_string(),
             file: PathBuf::from("widget.json"),
             raw: json!({ "name": "widget" }),
+            layer: Layer::Foundation,
         });
         assert!(diagnostics_for_rule(&g, "SPEC-034").is_empty());
     }

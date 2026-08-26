@@ -73,7 +73,7 @@ mod tests {
 
     use serde_json::json;
 
-    use crate::graph::{ComponentRecord, TokenGraph};
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
     use crate::registry::RegistryData;
     use crate::report::Severity;
     use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -89,6 +89,7 @@ mod tests {
                 .to_string(),
             file: PathBuf::from("test-comp.json"),
             raw: comp_raw,
+            layer: Layer::Foundation,
         });
         let exceptions = std::collections::HashSet::new();
         let registry = RegistryData::embedded();

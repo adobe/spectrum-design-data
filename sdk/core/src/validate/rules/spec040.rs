@@ -154,6 +154,7 @@ mod tests {
             name: comp_name,
             file: PathBuf::from("components/test.json"),
             raw: component_json,
+            layer: Layer::Foundation,
         });
         g
     }

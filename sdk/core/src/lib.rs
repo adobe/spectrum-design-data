@@ -536,6 +536,7 @@ mod validation_conformance {
                         name,
                         file: std::path::PathBuf::from("dataset.json"),
                         raw: v.clone(),
+                        layer: Layer::Foundation,
                     })
                 })
                 .collect();

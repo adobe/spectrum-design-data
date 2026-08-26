@@ -115,7 +115,7 @@ pub struct CachedDataset {
 
 /// Bump when the on-disk schema or value encoding changes, to invalidate caches
 /// written by older binaries (in addition to the tokens-version namespace).
-const CACHE_SCHEMA_VERSION: u32 = 3;
+const CACHE_SCHEMA_VERSION: u32 = 4;
 
 const META: TableDefinition<&str, &[u8]> = TableDefinition::new("meta");
 const TOKENS: TableDefinition<&str, &[u8]> = TableDefinition::new("tokens");

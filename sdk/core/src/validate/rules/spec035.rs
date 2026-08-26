@@ -77,7 +77,7 @@ mod tests {
 
     use serde_json::json;
 
-    use crate::graph::{ComponentRecord, TokenGraph};
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
     use crate::validate::relational::diagnostics_for_rule;
 
     fn graph_with_anatomy(name: &str, parts: serde_json::Value) -> TokenGraph {
@@ -90,6 +90,7 @@ mod tests {
                 "anatomy": parts,
                 "meta": { "documentationUrl": "https://example.com" }
             }),
+            layer: Layer::Foundation,
         });
         g
     }
@@ -103,6 +104,7 @@ mod tests {
                 "name": name,
                 "meta": { "documentationUrl": "https://example.com" }
             }),
+            layer: Layer::Foundation,
         });
         g
     }

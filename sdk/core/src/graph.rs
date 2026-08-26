@@ -18,6 +18,7 @@ use serde_json::Value;
 use crate::discovery::discover_json_files;
 use crate::naming::extract_legacy_key;
 use crate::query;
+use crate::registry::RegistryData;
 use crate::CoreError;
 
 /// Cascade layer (Foundation < Platform < Product).
@@ -76,6 +77,19 @@ pub struct ComponentRecord {
     pub name: String,
     pub file: PathBuf,
     pub raw: Value,
+    /// Cascade layer this component belongs to.
+    pub layer: Layer,
+}
+
+/// One platform-extension declaration (spec-format JSON, `platform-extension.json`
+/// shape), annotating existing base-registry ids with platform-specific terminology.
+/// Populated only via a platform manifest's `extensions.platformExtensions` — there
+/// is no catalog-directory loader for these (unlike components/guidelines/fields).
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct PlatformExtensionRecord {
+    pub platform: String,
+    pub extends: String,
+    pub raw: Value,
 }
 
 /// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
@@ -129,6 +143,9 @@ pub struct TokenGraph {
     pub tokens: HashMap<String, TokenRecord>,
     pub mode_sets: Vec<ModeSetRecord>,
     pub components: Vec<ComponentRecord>,
+    /// Platform-extension declarations, populated only via a platform manifest's
+    /// `extensions.platformExtensions` (see [`PlatformExtensionRecord`]).
+    pub platform_extensions: Vec<PlatformExtensionRecord>,
     /// Guideline documents from the spec `guidelines/` catalog.
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
@@ -551,6 +568,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            platform_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -600,6 +618,7 @@ impl TokenGraph {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
+            platform_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -893,6 +912,78 @@ impl TokenGraph {
             }
         }
 
+        // 5. extensions.components — platform-local component specs, add-or-replace
+        // by name into the component catalog.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("components"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = ComponentRecord {
+                    name: name.to_string(),
+                    file: PathBuf::from("manifest.json"),
+                    raw: entry.clone(),
+                    layer: Layer::Platform,
+                };
+                upsert_by_key(&mut self.components, |c| c.name == name, record);
+            }
+        }
+
+        // 6. extensions.platformExtensions — platform terminology annotating ids in
+        // an existing base registry. Replaced by (platform, extends); every termId
+        // must already exist in that base registry (extensions never add new ids).
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("platformExtensions"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let (Some(platform), Some(extends)) = (
+                    entry.get("platform").and_then(|v| v.as_str()),
+                    entry.get("extends").and_then(|v| v.as_str()),
+                ) else {
+                    continue;
+                };
+                // `extends` names a registry by its field-catalog field name
+                // ("state") or its registry-file basename ("states") — both keys
+                // resolve to the same registry (see `build_registry_map`).
+                let registries = RegistryData::embedded();
+                let registry = registries.for_field(extends).ok_or_else(|| {
+                    CoreError::ParseError(format!(
+                        "platform manifest extensions.platformExtensions declares \
+                         extends:\"{extends}\" but no such base registry exists"
+                    ))
+                })?;
+                if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
+                    for term in terms {
+                        if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
+                            if !registry.contains(term_id) {
+                                return Err(CoreError::ParseError(format!(
+                                    "platform manifest extensions.platformExtensions \
+                                     ({platform}/{extends}) references termId \"{term_id}\" \
+                                     which does not exist in the \"{extends}\" registry"
+                                )));
+                            }
+                        }
+                    }
+                }
+                let record = PlatformExtensionRecord {
+                    platform: platform.to_string(),
+                    extends: extends.to_string(),
+                    raw: entry.clone(),
+                };
+                upsert_by_key(
+                    &mut self.platform_extensions,
+                    |r| r.platform == platform && r.extends == extends,
+                    record,
+                );
+            }
+        }
+
         Ok(PlatformManifest {
             mode_set_restrictions,
         })
@@ -1009,6 +1100,7 @@ impl TokenGraph {
                         name: name.to_string(),
                         file: path,
                         raw: value,
+                        layer: Layer::Foundation,
                     });
                 }
             }
@@ -1166,6 +1258,17 @@ pub struct PlatformManifest {
 /// One foundation token matched by a manifest `overrides[].target` string.
 /// (shadowed source key, name object, original value, uuid).
 type OverrideTargetMatch = (String, Value, Option<Value>, Option<String>);
+
+/// Add-or-replace `record` in `vec`: replaces the first element matching `key`,
+/// or appends if none match. Shared by the manifest `extensions.components` and
+/// `extensions.platformExtensions` injection blocks.
+fn upsert_by_key<T>(vec: &mut Vec<T>, key: impl Fn(&T) -> bool, record: T) {
+    if let Some(existing) = vec.iter_mut().find(|item| key(item)) {
+        *existing = record;
+    } else {
+        vec.push(record);
+    }
+}
 
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {
