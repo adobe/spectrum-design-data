@@ -1674,6 +1674,7 @@ fn run_primer(
             println!("Token count:   {}", payload.token_count);
             println!("Mode sets:     {}", mode_set_summary.join(", "));
             println!("Components:    {comp_preview}");
+            println!("Platform ext.: {}", payload.platform_extensions.len());
             println!("Fields:        {}", payload.taxonomy_fields.len());
             println!(
                 "Manifest:      {}",
