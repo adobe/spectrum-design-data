@@ -218,6 +218,7 @@ mod tests {
             name: "accordion".into(),
             file: PathBuf::from("accordion.json"),
             raw: json!({"name": "accordion", "anatomy": [{"name": "handle"}]}),
+            layer: crate::graph::Layer::Foundation,
         });
         assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
     }
@@ -289,7 +290,8 @@ mod tests {
                     name: (*owner).into(),
                     file: PathBuf::from(format!("{owner}.json")),
                     raw: json!({"name": owner, "anatomy": parts.iter().map(|p| json!({"name": p})).collect::<Vec<_>>()}),
-                });
+                                layer: crate::graph::Layer::Foundation,
+});
             }
             let diags = diagnostics_for_rule(&g, "SPEC-047");
             assert!(
@@ -314,6 +316,7 @@ mod tests {
             name: "accordion".into(),
             file: PathBuf::from("accordion.json"),
             raw: json!({"name": "accordion", "anatomy": [{"name": "content-area"}]}),
+            layer: crate::graph::Layer::Foundation,
         });
         assert!(diagnostics_for_rule(&g, "SPEC-047").is_empty());
     }

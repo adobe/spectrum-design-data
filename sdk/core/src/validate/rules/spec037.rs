@@ -186,7 +186,7 @@ mod tests {
 
     use serde_json::json;
 
-    use crate::graph::{ComponentRecord, TokenGraph, TokenRecord};
+    use crate::graph::{ComponentRecord, Layer, TokenGraph, TokenRecord};
     use crate::registry::RegistryData;
     use crate::report::Severity;
     use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -216,6 +216,7 @@ mod tests {
             name: comp_name,
             file: PathBuf::from("dataset.json"),
             raw: comp_raw,
+            layer: Layer::Foundation,
         });
         g
     }

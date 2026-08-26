@@ -98,9 +98,19 @@ pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
     let mut map = std::collections::HashMap::new();
 `;
+const fieldNames = new Set(registryFields.map((d) => d.name));
 for (const decl of registryFields) {
   const constName = registryPathToConstName(decl.registry);
   generated += `    map.insert("${decl.name}".to_string(), parse_registry(${constName}));\n`;
+  // Also key by the registry file's own basename (e.g. "states" for the
+  // "state" field), so callers that only know the registry name — like a
+  // platform manifest's `extensions.platformExtensions[].extends` — resolve
+  // without needing to guess the field-catalog spelling. Skip if it would
+  // clash with an actual field name.
+  const registryBasename = basename(decl.registry, ".json");
+  if (registryBasename !== decl.name && !fieldNames.has(registryBasename)) {
+    generated += `    map.insert("${registryBasename}".to_string(), parse_registry(${constName}));\n`;
+  }
 }
 generated += `    map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));\n`;
 generated += `    map\n}\n`;

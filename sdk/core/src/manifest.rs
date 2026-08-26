@@ -261,7 +261,7 @@ mod tests {
             .iter()
             .find(|c| c.name == "tab-bar-ios")
             .expect("injected component present");
-        assert_eq!(injected.raw["_layer"], "platform");
+        assert_eq!(injected.layer, crate::graph::Layer::Platform);
     }
 
     #[test]

@@ -463,7 +463,7 @@ mod validation_conformance {
     use regex::Regex;
     use serde_json::Value;
 
-    use crate::graph::{ComponentRecord, GuidelineRecord, ModeSetRecord, TokenGraph};
+    use crate::graph::{ComponentRecord, GuidelineRecord, Layer, ModeSetRecord, TokenGraph};
     use crate::naming::NamingExceptionsFile;
     use crate::report::Severity;
     use crate::validate::rules::{default_rules, run_rules};
@@ -536,6 +536,7 @@ mod validation_conformance {
                         name,
                         file: std::path::PathBuf::from("dataset.json"),
                         raw: v.clone(),
+                        layer: Layer::Foundation,
                     })
                 })
                 .collect();
