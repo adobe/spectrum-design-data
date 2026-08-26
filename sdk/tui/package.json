@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-tui",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Interactive TUI for Spectrum design data authoring and inspection",
   "private": true,
   "repository": {
