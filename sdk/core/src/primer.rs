@@ -49,8 +49,9 @@ pub struct PrimerField {
 
 /// Full primer payload assembled from a [`TokenGraph`].
 ///
-/// Shape: `{ specVersion, tokenCount, modeSets, components, taxonomyFields,
-/// manifest, provenance }` — identical to the JSON emitted by `design-data primer`.
+/// Shape: `{ specVersion, tokenCount, modeSets, components, platformExtensions,
+/// taxonomyFields, manifest, provenance }` — identical to the JSON emitted by
+/// `design-data primer`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PrimerData {
@@ -58,6 +59,10 @@ pub struct PrimerData {
     pub token_count: usize,
     pub mode_sets: Vec<PrimerModeSet>,
     pub components: Vec<String>,
+    /// `"{platform}:{extends}"` per platform-extension record injected via a
+    /// platform manifest's `extensions.platformExtensions`. Empty unless a
+    /// manifest supplied them.
+    pub platform_extensions: Vec<String>,
     pub taxonomy_fields: Vec<PrimerField>,
     pub manifest: serde_json::Value,
     pub provenance: serde_json::Value,
@@ -83,6 +88,13 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
     let mut components: Vec<String> = graph.components.iter().map(|c| c.name.clone()).collect();
     components.sort();
 
+    let mut platform_extensions: Vec<String> = graph
+        .platform_extensions
+        .iter()
+        .map(|pe| format!("{}:{}", pe.platform, pe.extends))
+        .collect();
+    platform_extensions.sort();
+
     let mut taxonomy_fields: Vec<PrimerField> = graph
         .fields
         .iter()
@@ -99,8 +111,29 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
         token_count: graph.tokens.len(),
         mode_sets,
         components,
+        platform_extensions,
         taxonomy_fields,
         manifest: graph.manifest.clone(),
         provenance,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::graph::PlatformExtensionRecord;
+    use serde_json::json;
+
+    #[test]
+    fn build_surfaces_platform_extensions() {
+        let mut graph = TokenGraph::default();
+        graph.platform_extensions.push(PlatformExtensionRecord {
+            platform: "iOS".into(),
+            extends: "states".into(),
+            raw: json!({"platform": "iOS", "extends": "states"}),
+        });
+
+        let payload = build(&graph, json!({"source": "embedded"}));
+        assert_eq!(payload.platform_extensions, vec!["iOS:states".to_string()]);
     }
 }
