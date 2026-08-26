@@ -1114,14 +1114,6 @@ impl TokenGraph {
         self
     }
 
-    /// Platform-extension records injected via a platform manifest's
-    /// `extensions.platformExtensions`. Empty unless a manifest supplied them.
-    // ponytail: getter over the already-pub field; gives external consumers a
-    // stable &[T] read surface. Add a real query filter when someone asks.
-    pub fn platform_extensions(&self) -> &[PlatformExtensionRecord] {
-        &self.platform_extensions
-    }
-
     /// Load spec-format guideline documents from a catalog directory.
     ///
     /// Each file must be a JSON object with a `name` field (guideline slug).
