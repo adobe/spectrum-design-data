@@ -12,7 +12,7 @@ mod common;
 use common::{key, settle, update_ctx, update_ctx_builder};
 
 use crossterm::event::KeyCode;
-use design_data_core::graph::{ComponentRecord, TokenGraph};
+use design_data_core::graph::{ComponentRecord, Layer, TokenGraph};
 use design_data_tui::app::{ActiveView, DescribeView};
 use design_data_tui::{update, Message, Model, UpdateCtx};
 use serde_json::json;
@@ -27,6 +27,7 @@ fn make_graph_with_components() -> TokenGraph {
         name: "button".into(),
         file: fixtures_components_dir().join("button.json"),
         raw: json!({"name": "button", "description": "A clickable button."}),
+        layer: Layer::default(),
     }];
     TokenGraph::default().with_components(comps)
 }
