@@ -96,6 +96,11 @@
           "items": { "$ref": "component.schema.json" },
           "description": "Platform-local component specs, injected into the component catalog (add-or-replace by name)."
         },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "field.schema.json" },
+          "description": "Platform-local field declarations, injected into the field catalog (add-or-replace by name)."
+        },
         "platformExtensions": {
           "type": "array",
           "items": {

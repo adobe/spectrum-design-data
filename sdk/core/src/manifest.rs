@@ -297,6 +297,41 @@ mod tests {
     }
 
     #[test]
+    fn manifest_injects_platform_field() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "fields": [{
+                        "name": "hapticStyle",
+                        "kind": "semantic",
+                        "registry": null,
+                        "validation": "none",
+                        "serialization": {"position": 9},
+                        "required": false
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .fields
+            .iter()
+            .find(|f| f.name == "hapticStyle")
+            .expect("injected field present");
+        assert!(!injected.required);
+    }
+
+    #[test]
     fn manifest_injects_platform_guideline() {
         let dir = tempfile::tempdir().unwrap();
         let manifest_path = dir.path().join("manifest.json");

@@ -984,7 +984,40 @@ impl TokenGraph {
             }
         }
 
-        // 7. extensions.guidelines — platform-local guideline docs, add-or-replace
+        // 7. extensions.fields — platform-local field declarations, add-or-replace
+        // by name into the field catalog. `extensions.formatting.conceptOrder`
+        // (if present) references field names by string, so a platform that
+        // renames or removes a field it also references there is
+        // self-inconsistent; that is a manifest-authoring concern, not
+        // enforced here.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("fields"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let required = entry
+                    .get("required")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false);
+                let description = entry
+                    .get("description")
+                    .and_then(|v| v.as_str())
+                    .filter(|s| !s.is_empty())
+                    .map(str::to_string);
+                let record = FieldRecord {
+                    name: name.to_string(),
+                    required,
+                    description,
+                };
+                upsert_by_key(&mut self.fields, |f| f.name == name, record);
+            }
+        }
+
+        // 8. extensions.guidelines — platform-local guideline docs, add-or-replace
         // by name into the guideline catalog.
         if let Some(entries) = manifest
             .get("extensions")
