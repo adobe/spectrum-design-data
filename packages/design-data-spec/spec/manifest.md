@@ -4,6 +4,23 @@
 
 This document defines the **platform manifest**: how a platform implementation repository declares its relationship to **foundation** design data — version pin, inclusion filters, typed overrides, and extensions.
 
+## Capability matrix
+
+The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; most other artifact types (fields, guidelines, relationships/CTRs, exceptions, translations, schemas) have no manifest-level override mechanism at all.
+
+| Operation                                                                                       | Supported?                                                 | Field                           | Applies to            |
+| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------- | --------------------- |
+| Remove / exclude                                                                                | Yes                                                        | `exclude`                       | Tokens only           |
+| Include / whitelist                                                                             | Yes                                                        | `include`                       | Tokens only           |
+| Override value (type-preserving)                                                                | Yes                                                        | `overrides[].value`             | Tokens only           |
+| Override → re-alias                                                                             | Yes                                                        | `overrides[].$ref`              | Tokens only           |
+| Add new tokens (may alias via `$ref`)                                                           | Yes                                                        | `extensions.tokens`             | Tokens                |
+| Add / replace components                                                                        | Yes                                                        | `extensions.components`         | Components            |
+| Annotate existing terminology (cannot add new ids)                                              | Yes                                                        | `extensions.platformExtensions` | Existing registry ids |
+| Restrict allowed mode-set values                                                                | Yes                                                        | `modeSetRestrictions`           | Mode sets             |
+| Reformat name serialization                                                                     | Schema-declared only, not yet applied by the reference SDK | `extensions.formatting`         | Token name strings    |
+| Override/remove/alias fields, guidelines, relationships/CTRs, exceptions, translations, schemas | No                                                         | —                               | —                     |
+
 ## Manifest document
 
 A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.schema.json) (canonical `$id`: `https://opensource.adobe.com/spectrum-design-data/schemas/v0/manifest.schema.json`).
@@ -17,13 +34,13 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field                 | Type            | Description                                                                                                           |
-| --------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                           |
-| `exclude`             | array of string | Queries removing tokens from the included set.                                                                        |
-| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                      |
-| `extensions`          | object          | New tokens or mode sets introduced at the platform layer.                                                             |
-| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions). |
+| Field                 | Type            | Description                                                                                                                                          |
+| --------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                          |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                       |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                     |
+| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `platformExtensions`, `formatting` (see `extensions` section below). |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                |
 
 ### `include` / `exclude`
 
@@ -42,6 +59,18 @@ Each override object **MUST** include enough information to identify a target to
 ### `extensions`
 
 **RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, mode sets) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
+
+#### `extensions.tokens`
+
+Platform-local token definitions, in cascade-file format. Inserted at the platform layer alongside (not replacing) foundation tokens; entries **MAY** carry a `$ref` to alias an existing token instead of a literal value.
+
+#### `extensions.components`
+
+Platform-local component specs, injected into the component catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by component `name` at the platform layer.
+
+#### `extensions.platformExtensions`
+
+Platform terminology annotations layered onto **existing** foundation registry entries (for example, platform-specific state names). **NORMATIVE:** every `termId` **MUST** already exist in the referenced foundation registry — this mechanism annotates existing ids, it does **NOT** introduce new ones.
 
 #### `extensions.formatting`
 
