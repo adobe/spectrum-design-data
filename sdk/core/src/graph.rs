@@ -984,6 +984,26 @@ impl TokenGraph {
             }
         }
 
+        // 7. extensions.guidelines — platform-local guideline docs, add-or-replace
+        // by name into the guideline catalog.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("guidelines"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = GuidelineRecord {
+                    name: name.to_string(),
+                    file: PathBuf::from("manifest.json"),
+                    raw: entry.clone(),
+                };
+                upsert_by_key(&mut self.guidelines, |g| g.name == name, record);
+            }
+        }
+
         Ok(PlatformManifest {
             mode_set_restrictions,
         })
