@@ -16,12 +16,29 @@
  *
  * Note: authoring_session_step_intent in authoring.js still uses the CLI because
  * the NLP suggest ranking is not yet on the wasm surface.
+ *
+ * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
+ * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
+ * validate_usage all reflect it (they read config.cascadeDataPath instead of
+ * config.dataPath when config.cascadeActive). describe_component
+ * does not — components/relationships still come from config.componentsDir /
+ * config.relationshipsDir, which resolve from the embedded @adobe/spectrum-design-data
+ * package regardless of cascade state. A platform source repo generally carries a
+ * token cascade only, not its own component schemas, so this is left out of scope
+ * rather than guessed at; revisit if a platform manifest starts declaring components.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
 import { config } from "../config.js";
+
+// Note: this module intentionally never spawns the native binary — primer and
+// describe_component must keep working with no CLI on PATH at all (see the
+// structural test in read.test.js). Cascade resolution happens once at startup
+// in cascade-bootstrap.js (which does spawn the binary); by the time these
+// handlers run, a cascade dataset is just another local directory at
+// config.dataPath.
 
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
@@ -32,15 +49,22 @@ async function getWasm() {
 
 let _dataset;
 /**
- * Return the embedded Spectrum dataset, caching it after first access.
+ * Return the active dataset, caching it after first access.
+ *
+ * When cascade-bootstrap.js resolved a `.design-data.toml` platform source at
+ * startup (config.cascadeActive), config.cascadeDataPath is a local dir holding
+ * the resolved cascade — load that instead of the embedded Spectrum snapshot,
+ * the same way resolve_token/query_tokens already do. cascadeActive is decided
+ * once at startup before any request runs, so caching here is safe.
  *
  * Dataset.embedded() clones the in-memory graph on every call; caching here
- * avoids that per-request cost.
+ * avoids that per-request cost either way.
  */
 async function getDataset() {
   if (!_dataset) {
-    const wasm = await getWasm();
-    _dataset = wasm.Dataset.embedded();
+    _dataset = config.cascadeActive
+      ? await loadDataset(config.cascadeDataPath)
+      : (await getWasm()).Dataset.embedded();
   }
   return _dataset;
 }
@@ -87,7 +111,7 @@ export function createReadTools() {
           // top-level source is the legacy skill-contract field; provenance.source
           // duplicates it intentionally — provenance is the richer metrics object
           // and consumers should prefer it going forward.
-          source: "embedded",
+          source: config.cascadeActive ? "cascade" : "embedded",
           tokenCount: ds.tokenCount(),
           modeSets: {
             colorScheme: wasm.getFieldValues("colorScheme") ?? [],
@@ -136,7 +160,9 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ property, colorScheme, scale, contrast }) {
-        const ds = await loadDataset(config.dataPath);
+        const ds = await loadDataset(
+          config.cascadeActive ? config.cascadeDataPath : config.dataPath,
+        );
         const context = {};
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
@@ -167,7 +193,9 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ filter }) {
-        const ds = await loadDataset(config.dataPath);
+        const ds = await loadDataset(
+          config.cascadeActive ? config.cascadeDataPath : config.dataPath,
+        );
         return ds.query(filter);
       },
     },

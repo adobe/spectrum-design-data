@@ -38,7 +38,9 @@ export function createValidateTools() {
         additionalProperties: false,
       },
       async handler({ path, strict, schema_path } = {}) {
-        const target = path ?? config.dataPath;
+        const target =
+          path ??
+          (config.cascadeActive ? config.cascadeDataPath : config.dataPath);
         const schemaPath = schema_path ?? config.schemaPath ?? null;
         // NOTE: exceptionsPath (DESIGN_DATA_EXCEPTIONS / --exceptions-path) applies to the
         // SPEC-007 naming rule in the relational layer. The in-process wasm validate() does
