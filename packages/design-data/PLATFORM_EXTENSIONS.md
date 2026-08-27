@@ -126,14 +126,14 @@ import {
 } from '@adobe/spectrum-design-data';
 
 // Load platform extension
-const iosStates = loadPlatformExtension('./platform-extensions/ios-states.json');
+const webStates = loadPlatformExtension('./platform-extensions/web-components-states.json');
 
 // Get platform-specific term
-const hoverTerm = getTermForPlatform(states, 'hover', 'iOS', iosStates);
+const hoverTerm = getTermForPlatform(states, 'hover', 'Web Components', webStates);
 
-console.log(hoverTerm.platform.term); // "highlighted"
-console.log(hoverTerm.platform.reference); // "UIControl.State.highlighted"
-console.log(hoverTerm.platform.codeExample); // "button.isHighlighted = true"
+console.log(hoverTerm.platform.term); // "hover"
+console.log(hoverTerm.platform.reference); // ":hover pseudo-class"
+console.log(hoverTerm.platform.codeExample); // ":host(:hover) { ... }"
 ```
 
 ### Loading All Extensions
@@ -311,5 +311,4 @@ For questions or feedback:
 * [Design System Registry README](README.md)
 * [Authoring Guide](AUTHORING.md)
 * [Platform Extension Schema](schemas/platform-extension.json)
-* [Example: iOS States Extension](registry/platform-extensions/ios-states.json)
 * [Example: Web Components States Extension](registry/platform-extensions/web-components-states.json)
