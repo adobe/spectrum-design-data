@@ -19,7 +19,8 @@
  *
  * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
  * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
- * validate_usage all reflect it (they read config.dataPath). describe_component
+ * validate_usage all reflect it (they read config.cascadeDataPath instead of
+ * config.dataPath when config.cascadeActive). describe_component
  * does not — components/relationships still come from config.componentsDir /
  * config.relationshipsDir, which resolve from the embedded @adobe/spectrum-design-data
  * package regardless of cascade state. A platform source repo generally carries a
@@ -51,9 +52,9 @@ let _dataset;
  * Return the active dataset, caching it after first access.
  *
  * When cascade-bootstrap.js resolved a `.design-data.toml` platform source at
- * startup (config.cascadeActive), config.dataPath is a local dir holding the
- * resolved cascade — load that instead of the embedded Spectrum snapshot, the
- * same way resolve_token/query_tokens already do. cascadeActive is decided
+ * startup (config.cascadeActive), config.cascadeDataPath is a local dir holding
+ * the resolved cascade — load that instead of the embedded Spectrum snapshot,
+ * the same way resolve_token/query_tokens already do. cascadeActive is decided
  * once at startup before any request runs, so caching here is safe.
  *
  * Dataset.embedded() clones the in-memory graph on every call; caching here
@@ -62,7 +63,7 @@ let _dataset;
 async function getDataset() {
   if (!_dataset) {
     _dataset = config.cascadeActive
-      ? await loadDataset(config.dataPath)
+      ? await loadDataset(config.cascadeDataPath)
       : (await getWasm()).Dataset.embedded();
   }
   return _dataset;
@@ -159,7 +160,9 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ property, colorScheme, scale, contrast }) {
-        const ds = await loadDataset(config.dataPath);
+        const ds = await loadDataset(
+          config.cascadeActive ? config.cascadeDataPath : config.dataPath,
+        );
         const context = {};
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
@@ -190,7 +193,9 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ filter }) {
-        const ds = await loadDataset(config.dataPath);
+        const ds = await loadDataset(
+          config.cascadeActive ? config.cascadeDataPath : config.dataPath,
+        );
         return ds.query(filter);
       },
     },

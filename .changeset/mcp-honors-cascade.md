@@ -11,3 +11,5 @@ snapshot (closes bead h890.14).
   `describe_component` stays out of scope.
 - **src/config.js**, **src/index.js**, **src/cli.js**: wiring for the new
   `DESIGN_DATA_CONFIG` env var and startup bootstrap.
+- Cascade state lives in `config.cascadeDataPath`, separate from `dataPath`/
+  `dataRoot`, so it can't leak into unrelated write/authoring/data tools.

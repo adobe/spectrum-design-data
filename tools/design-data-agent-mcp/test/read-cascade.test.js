@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 // Kept in its own serial test file (rather than added to read.test.js) because
-// every test here mutates the shared `config` singleton (config.dataPath /
+// every test here mutates the shared `config` singleton (config.cascadeDataPath /
 // config.cascadeActive) to simulate a resolved cascade — read.js's module-level
 // dataset cache means these must not interleave with each other or with
 // read.test.js's embedded-dataset assertions (a separate worker process, so no
@@ -37,14 +37,16 @@ test.before((t) => {
     JSON.stringify([FIXTURE_TOKEN]),
   );
   t.context.dir = dir;
-  t.context.savedDataPath = config.dataPath;
+  t.context.originalDataPath = config.dataPath;
+  t.context.originalDataRoot = config.dataRoot;
+  t.context.savedCascadeDataPath = config.cascadeDataPath;
   t.context.savedCascadeActive = config.cascadeActive;
-  config.dataPath = dir;
+  config.cascadeDataPath = dir;
   config.cascadeActive = true;
 });
 
 test.after.always((t) => {
-  config.dataPath = t.context.savedDataPath;
+  config.cascadeDataPath = t.context.savedCascadeDataPath;
   config.cascadeActive = t.context.savedCascadeActive;
   rmSync(t.context.dir, { recursive: true, force: true });
 });
@@ -77,5 +79,13 @@ test.serial(
     const result = await getHandler("query_tokens")({ filter: "" });
     t.is(result.length, 1);
     t.is(result[0].raw.value, "#ff00ff");
+  },
+);
+
+test.serial(
+  "cascade does not leak into config.dataPath/dataRoot (the fallback anchors write/authoring/data tools use)",
+  (t) => {
+    t.is(config.dataPath, t.context.originalDataPath);
+    t.is(config.dataRoot, t.context.originalDataRoot);
   },
 );

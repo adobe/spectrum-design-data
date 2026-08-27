@@ -25,6 +25,7 @@ function freshConfig(overrides = {}) {
     dataPath: "/original/data/path",
     dataRoot: "/original/data/root",
     designDataConfig: null,
+    cascadeDataPath: null,
     cascadeActive: false,
     ...overrides,
   };
@@ -84,7 +85,7 @@ test("falls back when the CLI emits unparseable JSON", async (t) => {
   t.false(config.cascadeActive);
 });
 
-test("materializes resolved tokens and repoints dataPath/dataRoot on success", async (t) => {
+test("materializes resolved tokens into cascadeDataPath on success, without touching dataPath/dataRoot", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
   t.teardown(() => rmSync(dir, { recursive: true, force: true }));
   const config = freshConfig({ designDataConfig: dir });
@@ -111,11 +112,17 @@ test("materializes resolved tokens and repoints dataPath/dataRoot on success", a
   t.deepEqual(seenArgs, ["query", "--filter", "", "--format", "json"]);
   t.is(seenCwd, dir);
   t.true(config.cascadeActive);
-  t.is(config.dataRoot, dir);
-  t.not(config.dataPath, "/original/data/path");
-  t.true(existsSync(join(config.dataPath, "resolved.tokens.json")));
+  // dataPath/dataRoot are the fallback anchors for unrelated write/authoring/data
+  // tools (write.js, data.js, authoring.js) — cascade resolution must not leak
+  // into them, or those tools would silently redirect to the cascade's temp dir.
+  t.is(config.dataPath, "/original/data/path");
+  t.is(config.dataRoot, "/original/data/root");
+  t.not(config.cascadeDataPath, null);
+  t.true(existsSync(join(config.cascadeDataPath, "resolved.tokens.json")));
   t.deepEqual(
-    JSON.parse(readFileSync(join(config.dataPath, "resolved.tokens.json"))),
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "resolved.tokens.json")),
+    ),
     tokens,
   );
 });

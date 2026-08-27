@@ -33,11 +33,15 @@ function resolveConfigDir(configPath) {
 }
 
 /**
- * Resolve `config.designDataConfig`'s cascade and repoint `config.dataPath` /
- * `config.dataRoot` / `config.cascadeActive` at the result. No-ops if
- * `designDataConfig` is unset. Never throws — a failed resolve (e.g. no
- * network for a github source) logs to stderr and leaves config untouched,
- * so the server still starts against the embedded/local fallback.
+ * Resolve `config.designDataConfig`'s cascade and populate
+ * `config.cascadeDataPath` / `config.cascadeActive` with the result.
+ * Deliberately does not touch `config.dataPath`/`config.dataRoot` — those
+ * remain the fallback anchors for unrelated write/authoring/data tools,
+ * which must keep targeting the real dataset root, not the cascade's
+ * resolved snapshot. No-ops if `designDataConfig` is unset. Never throws —
+ * a failed resolve (e.g. no network for a github source) logs to stderr and
+ * leaves config untouched, so the server still starts against the
+ * embedded/local fallback.
  *
  * @param {object} config - The mutable config object from ./config.js.
  * @param {{ run?: typeof runCli }} [opts] - `run` is injectable for tests.
@@ -71,8 +75,7 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
       "utf-8",
     );
 
-    config.dataPath = dir;
-    config.dataRoot = configDir;
+    config.cascadeDataPath = dir;
     config.cascadeActive = true;
     console.error(
       `[design-data-mcp] cascade resolved from ${configDir} ` +
