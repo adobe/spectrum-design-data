@@ -40,7 +40,6 @@ The package includes the following registries:
 
 Platform-specific terminology extensions are available in `registry/platform-extensions/`:
 
-* **ios-states.json** - iOS-specific state terminology (UIControl.State, etc.)
 * **web-components-states.json** - Web Components state terminology (CSS pseudo-classes, etc.)
 
 ## Installation
@@ -219,14 +218,14 @@ import {
 } from '@adobe/design-system-registry';
 
 // Load platform extension
-const iosStates = loadPlatformExtension('./registry/platform-extensions/ios-states.json');
+const webStates = loadPlatformExtension('./registry/platform-extensions/web-components-states.json');
 
 // Get platform-specific term
-const hoverTerm = getTermForPlatform(states, 'hover', 'iOS', iosStates);
+const hoverTerm = getTermForPlatform(states, 'hover', 'Web Components', webStates);
 
-console.log(hoverTerm.platform.term); // "highlighted"
-console.log(hoverTerm.platform.reference); // "UIControl.State.highlighted"
-console.log(hoverTerm.platform.codeExample); // "button.isHighlighted = true"
+console.log(hoverTerm.platform.term); // "hover"
+console.log(hoverTerm.platform.reference); // ":hover pseudo-class"
+console.log(hoverTerm.platform.codeExample); // ":host(:hover) { ... }"
 ```
 
 See [PLATFORM\_EXTENSIONS.md](PLATFORM_EXTENSIONS.md) for detailed documentation.

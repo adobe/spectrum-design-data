@@ -430,8 +430,8 @@ mod tests {
             .collect();
         assert_eq!(
             components.len(),
-            98,
-            "expected 98 component schemas — update this count if you've added/removed \
+            97,
+            "expected 97 component schemas — update this count if you've added/removed \
              schemas from packages/design-data/components/"
         );
     }
