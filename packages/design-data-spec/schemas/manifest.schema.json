@@ -108,6 +108,11 @@
           },
           "description": "Platform-local terminology extensions (e.g. iOS state vocabulary), annotating ids in an existing base registry."
         },
+        "guidelines": {
+          "type": "array",
+          "items": { "$ref": "guideline.schema.json" },
+          "description": "Platform-local guideline docs, injected into the guideline catalog (add-or-replace by name)."
+        },
         "formatting": {
           "type": "object",
           "description": "Rules for serializing structured name objects into platform-specific token name strings.",

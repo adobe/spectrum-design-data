@@ -332,6 +332,42 @@ mod tests {
     }
 
     #[test]
+    fn manifest_injects_platform_guideline() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "guidelines": [{
+                        "$id": "https://example.com/guidelines/ios-haptics",
+                        "name": "ios-haptics",
+                        "title": "iOS Haptics",
+                        "category": "developing",
+                        "documentBlocks": [
+                            {"type": "purpose", "content": "When to use haptic feedback on iOS."}
+                        ]
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .guidelines
+            .iter()
+            .find(|g| g.name == "ios-haptics")
+            .expect("injected guideline present");
+        assert_eq!(injected.raw["title"], "iOS Haptics");
+    }
+
+    #[test]
     fn manifest_rejects_unknown_term_id() {
         let dir = tempfile::tempdir().unwrap();
         let manifest_path = dir.path().join("manifest.json");
