@@ -35,13 +35,13 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field                 | Type            | Description                                                                                                                                          |
-| --------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                          |
-| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                       |
-| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                     |
-| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `platformExtensions`, `formatting` (see `extensions` section below). |
-| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                |
+| Field                 | Type            | Description                                                                                                                                                        |
+| --------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                        |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                     |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                   |
+| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `guidelines`, `platformExtensions`, `formatting` (see `extensions` section below). |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                              |
 
 ### `include` / `exclude`
 
