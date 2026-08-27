@@ -47,15 +47,27 @@ node tools/design-data-agent-mcp/src/index.js
 
 ### Environment variables
 
-| Variable                 | Default       | Description                                       |
-| ------------------------ | ------------- | ------------------------------------------------- |
-| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary (authoring only) |
-| `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to |
-| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                 |
-| `DESIGN_DATA_COMPONENTS` | —             | Override components directory                     |
-| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                         |
-| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)             |
-| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)         |
+| Variable                 | Default       | Description                                                                    |
+| ------------------------ | ------------- | ------------------------------------------------------------------------------ |
+| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary (authoring only)                              |
+| `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to                              |
+| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                                              |
+| `DESIGN_DATA_COMPONENTS` | —             | Override components directory                                                  |
+| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                                                      |
+| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)                                          |
+| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)                                      |
+| `DESIGN_DATA_CONFIG`     | —             | Path to a `.design-data.toml` (or its directory) to resolve a platform cascade |
+
+> **Platform cascade.** If `DESIGN_DATA_CONFIG` is set, the server shells out to
+> the `design-data` CLI once at startup (`design-data query --filter "" --format
+> json`, run from the config's directory) to resolve its `.design-data.toml`
+> source (path/npm/github/git) and any top-level `manifest` cascade, then
+> materializes the result to a temp dir and points `primer` / `resolve_token` /
+> `query_tokens` / `validate_usage` at it instead of the embedded Spectrum
+> snapshot. `describe_component` is unaffected — it always reads components from
+> `@adobe/spectrum-design-data` regardless of cascade state. If resolution fails
+> (e.g. no network for a github source), the server logs a warning and falls
+> back to the embedded/local dataset rather than crashing.
 
 > **Path resolution.** The MCP client launches this server with the working
 > directory inherited from wherever the editor was opened — which may be a

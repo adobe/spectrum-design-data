@@ -11,13 +11,15 @@
 import { spawn } from "child_process";
 import { config } from "./config.js";
 
-export function runCli(args, { timeout = 10_000, stdin } = {}) {
+export function runCli(args, { timeout = 10_000, stdin, cwd } = {}) {
   return new Promise((resolve, reject) => {
     const proc = spawn(config.bin, args, {
       // Anchor the CLI's working directory to the resolved data root so its own
       // tier/probe logic (data_source::resolve, is_in_repo) resolves correctly
       // even when Claude Code launched the server from a monorepo subdirectory.
-      cwd: config.dataRoot,
+      // `cwd` override lets the cascade bootstrap point the CLI at a
+      // `.design-data.toml` directory that differs from config.dataRoot.
+      cwd: cwd ?? config.dataRoot,
       // isolates CLI stdout from the MCP JSON-RPC stream on the parent's stdout
       stdio: [stdin != null ? "pipe" : "ignore", "pipe", "pipe"],
     });

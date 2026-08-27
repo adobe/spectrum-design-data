@@ -78,4 +78,15 @@ export const config = {
     anchorPath(process.env.DESIGN_DATA_FIELDS) ??
     resolveDataPackageDir("fields") ??
     null,
+  // Path to a `.design-data.toml` (or its containing directory) declaring a
+  // platform source + manifest cascade. When set, cascade-bootstrap.js
+  // resolves it once at startup (via the CLI, which already knows how to
+  // fetch/cache a github source and apply the manifest) and repoints
+  // dataPath/dataRoot/cascadeActive below at the result. Unset by default so
+  // an in-repo run's ambient .design-data.toml (if any) doesn't surprise it.
+  designDataConfig: anchorPath(process.env.DESIGN_DATA_CONFIG ?? null),
+  // Flipped to true by cascade-bootstrap.js on a successful resolve. Tools
+  // that otherwise default to the embedded Spectrum snapshot (primer,
+  // describe_component) check this to switch to the resolved dataPath instead.
+  cascadeActive: false,
 };

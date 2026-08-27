@@ -24,6 +24,8 @@ import { createReadTools } from "./tools/read.js";
 import { createValidateTools } from "./tools/validate.js";
 import { createDiffTools } from "./tools/diff.js";
 import { createWriteTools } from "./tools/write.js";
+import { bootstrapCascade } from "./cascade-bootstrap.js";
+import { config } from "./config.js";
 
 export function createAllTools() {
   return [
@@ -85,6 +87,7 @@ export function createMCPServer() {
 }
 
 async function startServer() {
+  await bootstrapCascade(config);
   const server = createMCPServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
