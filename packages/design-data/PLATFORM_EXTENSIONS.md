@@ -149,41 +149,40 @@ const allExtensions = loadAllPlatformExtensions(extensionsDir);
 const iosExtensions = allExtensions.filter(ext => ext.platform === 'iOS');
 ```
 
-## Example: iOS States Extension
+## Example: Web Components States Extension
 
-Here's a complete example showing how iOS extends the states registry:
+Here's a complete example showing how Web Components extends the states registry:
 
 ```json
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
-  "platform": "iOS",
-  "platformVersion": "iOS 17+",
-  "description": "iOS-specific terminology for interaction states",
+  "platform": "Web Components",
+  "platformVersion": "Spectrum Web Components 0.x+",
+  "description": "Web Components-specific terminology for interaction states",
   "extends": "states",
   "extensions": [
     {
       "termId": "hover",
-      "platformTerm": "highlighted",
-      "platformAliases": ["isHighlighted"],
-      "notes": "iOS uses 'highlighted' for pointer interactions on devices with pointer support",
-      "reference": "UIControl.State.highlighted",
-      "codeExample": "button.isHighlighted = true",
+      "platformTerm": "hover",
+      "notes": "Implemented via CSS :hover pseudo-class",
+      "reference": ":hover pseudo-class",
+      "codeExample": ":host(:hover) { ... }",
       "differences": [
-        "Only available on iOS devices with pointer support",
-        "Not triggered by touch interactions",
-        "Maps to UIControl.State.highlighted property"
+        "Automatically handled by browser CSS",
+        "Works with any pointing device",
+        "No JavaScript required for basic hover states"
       ]
     },
     {
       "termId": "disabled",
       "platformTerm": "disabled",
-      "platformAliases": ["isEnabled"],
-      "notes": "iOS uses isEnabled property (inverted boolean)",
-      "reference": "UIControl.isEnabled",
-      "codeExample": "button.isEnabled = false",
+      "notes": "Implemented via disabled attribute and :disabled pseudo-class",
+      "reference": "disabled attribute",
+      "codeExample": "<sp-button disabled>Label</sp-button>",
       "differences": [
-        "Property is named 'isEnabled' but inverted (false = disabled)",
-        "Affects both visual appearance and interaction"
+        "Uses standard HTML disabled attribute",
+        "Prevents all interactions automatically",
+        "Affects tab order and screen reader behavior"
       ]
     }
   ]
