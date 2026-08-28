@@ -8,22 +8,23 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                          | Supported?                                                 | Field                           | Applies to            |
-| -------------------------------------------------- | ---------------------------------------------------------- | ------------------------------- | --------------------- |
-| Remove / exclude                                   | Yes                                                        | `exclude`                       | Tokens only           |
-| Include / whitelist                                | Yes                                                        | `include`                       | Tokens only           |
-| Override value (type-preserving)                   | Yes                                                        | `overrides[].value`             | Tokens only           |
-| Override → re-alias                                | Yes                                                        | `overrides[].$ref`              | Tokens only           |
-| Add new tokens (may alias via `$ref`)              | Yes                                                        | `extensions.tokens`             | Tokens                |
-| Add / replace components                           | Yes                                                        | `extensions.components`         | Components            |
-| Add / replace field declarations                   | Yes                                                        | `extensions.fields`             | Fields                |
-| Add / replace guideline documents                  | Yes                                                        | `extensions.guidelines`         | Guidelines            |
-| Add relationships/CTRs; override/remove by `uuid`  | Yes                                                        | `extensions.relationships`      | Relationships (CTRs)  |
-| Add / remove naming exceptions                     | Yes                                                        | `extensions.namingExceptions`   | Naming validation     |
-| Annotate existing terminology (cannot add new ids) | Yes                                                        | `extensions.platformExtensions` | Existing registry ids |
-| Restrict allowed mode-set values                   | Yes                                                        | `modeSetRestrictions`           | Mode sets             |
-| Reformat name serialization                        | Schema-declared only, not yet applied by the reference SDK | `extensions.formatting`         | Token name strings    |
-| Override/remove/alias translations, schemas        | No                                                         | —                               | —                     |
+| Operation                                          | Supported?                                                   | Field                           | Applies to            |
+| -------------------------------------------------- | ------------------------------------------------------------ | ------------------------------- | --------------------- |
+| Remove / exclude                                   | Yes                                                          | `exclude`                       | Tokens only           |
+| Include / whitelist                                | Yes                                                          | `include`                       | Tokens only           |
+| Override value (type-preserving)                   | Yes                                                          | `overrides[].value`             | Tokens only           |
+| Override → re-alias                                | Yes                                                          | `overrides[].$ref`              | Tokens only           |
+| Add new tokens (may alias via `$ref`)              | Yes                                                          | `extensions.tokens`             | Tokens                |
+| Add / replace components                           | Yes                                                          | `extensions.components`         | Components            |
+| Add / replace field declarations                   | Yes                                                          | `extensions.fields`             | Fields                |
+| Add / replace guideline documents                  | Yes                                                          | `extensions.guidelines`         | Guidelines            |
+| Add relationships/CTRs; override/remove by `uuid`  | Yes                                                          | `extensions.relationships`      | Relationships (CTRs)  |
+| Add / remove naming exceptions                     | Yes                                                          | `extensions.namingExceptions`   | Naming validation     |
+| Annotate existing terminology (cannot add new ids) | Yes                                                          | `extensions.platformExtensions` | Existing registry ids |
+| Restrict allowed mode-set values                   | Yes                                                          | `modeSetRestrictions`           | Mode sets             |
+| Reformat name serialization                        | Schema-declared only, not yet applied by the reference SDK   | `extensions.formatting`         | Token name strings    |
+| Override/remove/alias translations                 | No                                                           | —                               | —                     |
+| Override Layer-1 schemas                           | No (decided; see [spike](manifest-schema-override-spike.md)) | —                               | —                     |
 
 ## Manifest document
 
@@ -143,3 +144,4 @@ The platform manifest is the Layer 2 context document. For Layer 3 (product-laye
 
 * [#715 — Distributed Design Data Architecture](https://github.com/adobe/spectrum-design-data/discussions/715)
 * [#625 — Token Authoring Workflow](https://github.com/adobe/spectrum-design-data/discussions/625)
+* [Schema-override spike](manifest-schema-override-spike.md) — why the manifest cascade does not allow platform overrides of Layer-1 schemas
