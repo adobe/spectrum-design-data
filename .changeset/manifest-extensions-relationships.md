@@ -18,7 +18,5 @@ started for components/platformExtensions in h890.22.
   have no other stable key.
 - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded
   section handling add/override/remove, reusing the existing
-  `RelationshipRecord` (already carries `uuid: Option<String>`) — no struct
-  change, so no cache-schema-version bump is needed. An override/remove
-  entry missing `uuid` is rejected with a clear error, not silently
-  skipped.
+  `RelationshipRecord`. Add always appends, even on a `uuid` collision;
+  override/remove require an explicit `uuid` or error.

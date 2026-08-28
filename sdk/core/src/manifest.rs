@@ -444,6 +444,53 @@ mod tests {
     }
 
     #[test]
+    fn manifest_plain_add_relationship_appends_even_on_uuid_collision() {
+        // A plain add (no "op") must never silently overwrite an existing
+        // relationship, even if its uuid happens to collide — only an explicit
+        // "op": "override" entry may replace. Regression for a bug where
+        // colliding plain adds were routed through upsert-by-uuid.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [
+                        {
+                            "scope": {"component": "button", "property": "corner-radius"},
+                            "value": "4px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        },
+                        {
+                            "scope": {"component": "slider", "property": "corner-radius"},
+                            "value": "2px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        }
+                    ]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let matching: Vec<_> = graph
+            .relationships
+            .iter()
+            .filter(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
+            .collect();
+        assert_eq!(
+            matching.len(),
+            2,
+            "both plain adds must be appended, not one overwriting the other"
+        );
+    }
+
+    #[test]
     fn manifest_removes_relationship_by_uuid() {
         let dir = tempfile::tempdir().unwrap();
         let manifest_path = dir.path().join("manifest.json");

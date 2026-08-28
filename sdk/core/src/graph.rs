@@ -1062,18 +1062,15 @@ impl TokenGraph {
                         let record = RelationshipRecord {
                             file: PathBuf::from("manifest.json"),
                             index,
-                            uuid: uuid.clone(),
+                            uuid,
                             raw: entry.clone(),
                         };
-                        if let Some(target_uuid) = uuid.as_deref() {
-                            upsert_by_key(
-                                &mut self.relationships,
-                                |r| r.uuid.as_deref() == Some(target_uuid),
-                                record,
-                            );
-                        } else {
-                            self.relationships.push(record);
-                        }
+                        // Always append — a plain add has no "op" and must not
+                        // silently overwrite an existing relationship even if its
+                        // (optional, unconstrained) uuid happens to collide with
+                        // one already present. Overwriting requires an explicit
+                        // "op": "override" entry (handled below).
+                        self.relationships.push(record);
                     }
                     Some("override") => {
                         let target_uuid =
