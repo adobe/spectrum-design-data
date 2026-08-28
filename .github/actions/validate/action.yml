@@ -155,6 +155,8 @@ runs:
         set -euo pipefail
         pinned=$(jq -r '.foundationVersion' "${{ inputs.manifest }}")
         prefix="${{ inputs.foundation-tag-prefix }}"
+        # foundationVersion may be a bare semver or the full tag string; normalize to bare.
+        pinned="${pinned#"$prefix"}"
         latest=$(gh api "repos/${{ inputs.foundation-repo }}/tags" --paginate \
           --jq '.[].name | select(startswith("'"$prefix"'"))' \
           | sed "s|^${prefix}||" | sort -V | tail -1)
