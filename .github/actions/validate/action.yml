@@ -19,6 +19,14 @@ inputs:
     description: "Path to the dataset root passed to validate-dataset/validate-manifest"
     required: false
     default: "."
+  skip-dataset-validation:
+    description: >
+      Set to 'true' to skip validate-dataset. Use this for manifest-only overlay repos
+      (foundation pinned remotely via `.design-data.toml`, only local extensions/overrides)
+      that have no local tokens/ directory — validate-dataset's SPEC-044 structure check
+      requires one and fails unconditionally without it.
+    required: false
+    default: "false"
   manifest:
     description: "Path to the platform manifest.json"
     required: false
@@ -54,7 +62,7 @@ inputs:
 
 outputs:
   dataset-valid:
-    description: "Whether validate-dataset passed (true/false)"
+    description: "Whether validate-dataset passed (true/false), or empty if skip-dataset-validation is 'true'"
     value: ${{ steps.validate-dataset.outputs.valid }}
   manifest-valid:
     description: "Whether validate-manifest passed (true/false)"
@@ -114,6 +122,7 @@ runs:
 
     - name: Validate dataset
       id: validate-dataset
+      if: inputs.skip-dataset-validation != 'true'
       shell: bash
       run: |
         set +e
