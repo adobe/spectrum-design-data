@@ -6,22 +6,25 @@ This document defines the **platform manifest**: how a platform implementation r
 
 ## Capability matrix
 
-The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; most other artifact types (fields, relationships/CTRs, exceptions, translations, schemas) have no manifest-level override mechanism at all.
+The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                                                  | Supported?                                                   | Field                           | Applies to            |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------- | --------------------- |
-| Remove / exclude                                                           | Yes                                                          | `exclude`                       | Tokens only           |
-| Include / whitelist                                                        | Yes                                                          | `include`                       | Tokens only           |
-| Override value (type-preserving)                                           | Yes                                                          | `overrides[].value`             | Tokens only           |
-| Override → re-alias                                                        | Yes                                                          | `overrides[].$ref`              | Tokens only           |
-| Add new tokens (may alias via `$ref`)                                      | Yes                                                          | `extensions.tokens`             | Tokens                |
-| Add / replace components                                                   | Yes                                                          | `extensions.components`         | Components            |
-| Add / replace guideline documents                                          | Yes                                                          | `extensions.guidelines`         | Guidelines            |
-| Annotate existing terminology (cannot add new ids)                         | Yes                                                          | `extensions.platformExtensions` | Existing registry ids |
-| Restrict allowed mode-set values                                           | Yes                                                          | `modeSetRestrictions`           | Mode sets             |
-| Reformat name serialization                                                | Schema-declared only, not yet applied by the reference SDK   | `extensions.formatting`         | Token name strings    |
-| Override/remove/alias fields, relationships/CTRs, exceptions, translations | No                                                           | —                               | —                     |
-| Override Layer-1 schemas                                                   | No (decided; see [spike](manifest-schema-override-spike.md)) | —                               | —                     |
+| Operation                                          | Supported?                                                   | Field                           | Applies to            |
+| -------------------------------------------------- | ------------------------------------------------------------ | ------------------------------- | --------------------- |
+| Remove / exclude                                   | Yes                                                          | `exclude`                       | Tokens only           |
+| Include / whitelist                                | Yes                                                          | `include`                       | Tokens only           |
+| Override value (type-preserving)                   | Yes                                                          | `overrides[].value`             | Tokens only           |
+| Override → re-alias                                | Yes                                                          | `overrides[].$ref`              | Tokens only           |
+| Add new tokens (may alias via `$ref`)              | Yes                                                          | `extensions.tokens`             | Tokens                |
+| Add / replace components                           | Yes                                                          | `extensions.components`         | Components            |
+| Add / replace field declarations                   | Yes                                                          | `extensions.fields`             | Fields                |
+| Add / replace guideline documents                  | Yes                                                          | `extensions.guidelines`         | Guidelines            |
+| Add relationships/CTRs; override/remove by `uuid`  | Yes                                                          | `extensions.relationships`      | Relationships (CTRs)  |
+| Add / remove naming exceptions                     | Yes                                                          | `extensions.namingExceptions`   | Naming validation     |
+| Annotate existing terminology (cannot add new ids) | Yes                                                          | `extensions.platformExtensions` | Existing registry ids |
+| Restrict allowed mode-set values                   | Yes                                                          | `modeSetRestrictions`           | Mode sets             |
+| Reformat name serialization                        | Schema-declared only, not yet applied by the reference SDK   | `extensions.formatting`         | Token name strings    |
+| Override/remove/alias translations                 | No                                                           | —                               | —                     |
+| Override Layer-1 schemas                           | No (decided; see [spike](manifest-schema-override-spike.md)) | —                               | —                     |
 
 ## Manifest document
 
@@ -36,13 +39,13 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field                 | Type            | Description                                                                                                                                                        |
-| --------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                        |
-| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                     |
-| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                   |
-| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `guidelines`, `platformExtensions`, `formatting` (see `extensions` section below). |
-| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                              |
+| Field                 | Type            | Description                                                                                                                                                                                                       |
+| --------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                                                                       |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                                                                    |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                                                                  |
+| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `fields`, `guidelines`, `relationships`, `namingExceptions`, `platformExtensions`, `formatting` (see `extensions` section below). |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                                                                             |
 
 ### `include` / `exclude`
 
@@ -70,9 +73,39 @@ Platform-local token definitions, in cascade-file format. Inserted at the platfo
 
 Platform-local component specs, injected into the component catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by component `name` at the platform layer.
 
+#### `extensions.fields`
+
+Platform-local field declarations, injected into the field catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by field `name` at the platform layer; each entry **MUST** validate against `field.schema.json`. Note: `extensions.formatting.conceptOrder` (if declared) references field names by string — a platform that renames or removes a field it also references there is self-inconsistent; that is a manifest-authoring concern, not enforced by the reference SDK.
+
 #### `extensions.guidelines`
 
 Platform-local guideline documents, injected into the guideline catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by guideline `name` at the platform layer; each entry **MUST** validate against `guideline.schema.json`.
+
+#### `extensions.relationships`
+
+Platform-local Component/Token Relationship (CTR) entries. Relationships have no inherent
+stable key — only an optional `uuid` — so add and override/remove use different identity
+rules:
+
+* **Add:** an entry with no `op` field is a full relationship object (validated against
+  `relationship.schema.json`), appended at the platform layer.
+* **Override / remove:** relationships have no other stable identity, so targeting one
+  **MUST** carry a `uuid`. **NORMATIVE:** an `extensions.relationships` entry with `"op":
+  "override"` or `"op": "remove"` that omits `uuid` is a manifest error — the reference SDK
+  rejects it rather than silently skipping it. `"op": "override"` also carries a `value` (the
+  replacement relationship object); `"op": "remove"` drops the matching record.
+
+#### `extensions.namingExceptions`
+
+Platform-local overlay on the base naming-exceptions set used by naming validation.
+**NORMATIVE:** the reference SDK applies `remove` before `add`, so a name listed in both
+ends up present (add wins) rather than silently dropped. Absent this key, the base set
+(embedded or file-loaded) is used unchanged.
+
+| Field    | Type            | Description                                                  |
+| -------- | --------------- | ------------------------------------------------------------ |
+| `add`    | array of string | Names to add to the naming-exceptions set for this platform. |
+| `remove` | array of string | Names to remove from the base naming-exceptions set.         |
 
 #### `extensions.platformExtensions`
 

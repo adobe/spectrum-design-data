@@ -297,6 +297,41 @@ mod tests {
     }
 
     #[test]
+    fn manifest_injects_platform_field() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "fields": [{
+                        "name": "hapticStyle",
+                        "kind": "semantic",
+                        "registry": null,
+                        "validation": "none",
+                        "serialization": {"position": 9},
+                        "required": false
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .fields
+            .iter()
+            .find(|f| f.name == "hapticStyle")
+            .expect("injected field present");
+        assert!(!injected.required);
+    }
+
+    #[test]
     fn manifest_injects_platform_guideline() {
         let dir = tempfile::tempdir().unwrap();
         let manifest_path = dir.path().join("manifest.json");
@@ -330,6 +365,196 @@ mod tests {
             .find(|g| g.name == "ios-haptics")
             .expect("injected guideline present");
         assert_eq!(injected.raw["title"], "iOS Haptics");
+    }
+
+    #[test]
+    fn manifest_injects_platform_relationship() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [{
+                        "scope": {"component": "button", "property": "corner-radius"},
+                        "value": "4px",
+                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let injected = graph
+            .relationships
+            .iter()
+            .find(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
+            .expect("injected relationship present");
+        assert_eq!(injected.raw["value"], "4px");
+    }
+
+    #[test]
+    fn manifest_overrides_relationship_by_uuid() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [
+                        {
+                            "scope": {"component": "button", "property": "corner-radius"},
+                            "value": "4px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        },
+                        {
+                            "op": "override",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a",
+                            "value": {
+                                "scope": {"component": "button", "property": "corner-radius"},
+                                "value": "8px",
+                                "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                            }
+                        }
+                    ]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let overridden = graph
+            .relationships
+            .iter()
+            .find(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
+            .expect("overridden relationship present");
+        assert_eq!(overridden.raw["value"], "8px");
+        assert_eq!(graph.relationships.len(), 1);
+    }
+
+    #[test]
+    fn manifest_plain_add_relationship_appends_even_on_uuid_collision() {
+        // A plain add (no "op") must never silently overwrite an existing
+        // relationship, even if its uuid happens to collide — only an explicit
+        // "op": "override" entry may replace. Regression for a bug where
+        // colliding plain adds were routed through upsert-by-uuid.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [
+                        {
+                            "scope": {"component": "button", "property": "corner-radius"},
+                            "value": "4px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        },
+                        {
+                            "scope": {"component": "slider", "property": "corner-radius"},
+                            "value": "2px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        }
+                    ]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        let matching: Vec<_> = graph
+            .relationships
+            .iter()
+            .filter(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
+            .collect();
+        assert_eq!(
+            matching.len(),
+            2,
+            "both plain adds must be appended, not one overwriting the other"
+        );
+    }
+
+    #[test]
+    fn manifest_removes_relationship_by_uuid() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [
+                        {
+                            "scope": {"component": "button", "property": "corner-radius"},
+                            "value": "4px",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        },
+                        {
+                            "op": "remove",
+                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
+                        }
+                    ]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert!(graph
+            .relationships
+            .iter()
+            .all(|r| r.uuid.as_deref() != Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a")));
+    }
+
+    #[test]
+    fn manifest_rejects_relationship_override_without_uuid() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = dir.path().join("manifest.json");
+        std::fs::write(
+            &manifest_path,
+            json!({
+                "specVersion": "1.0.0-draft",
+                "foundationVersion": "1.0.0",
+                "extensions": {
+                    "relationships": [{
+                        "op": "override",
+                        "value": {
+                            "scope": {"component": "button", "property": "corner-radius"},
+                            "value": "8px"
+                        }
+                    }]
+                }
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        // Layer 1 schema requires "uuid" alongside "op": "override", so this is
+        // rejected at schema validation, before graph.rs's own uuid check runs.
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("schema validation"));
     }
 
     #[test]

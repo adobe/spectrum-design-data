@@ -150,7 +150,9 @@ pub fn validate_all_with_full_options(
     } else {
         None
     };
-    let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
+    let effective_exceptions =
+        crate::naming::apply_naming_exceptions_overlay(naming_exceptions, manifest.as_ref());
+    let rel = relational::validate_relational(&graph, &effective_exceptions, manifest.as_ref());
     report.merge(rel);
     Ok(report)
 }

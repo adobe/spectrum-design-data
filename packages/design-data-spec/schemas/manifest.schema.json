@@ -96,6 +96,41 @@
           "items": { "$ref": "component.schema.json" },
           "description": "Platform-local component specs, injected into the component catalog (add-or-replace by name)."
         },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "field.schema.json" },
+          "description": "Platform-local field declarations, injected into the field catalog (add-or-replace by name)."
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "relationship.schema.json#/$defs/relationship" },
+              {
+                "type": "object",
+                "required": ["op", "uuid", "value"],
+                "properties": {
+                  "op": { "const": "override" },
+                  "uuid": { "type": "string", "format": "uuid" },
+                  "value": {
+                    "$ref": "relationship.schema.json#/$defs/relationship"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": ["op", "uuid"],
+                "properties": {
+                  "op": { "const": "remove" },
+                  "uuid": { "type": "string", "format": "uuid" }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "description": "Platform-local Component/Token Relationship (CTR) add/override/remove. Entries without \"op\" are added positionally; \"override\"/\"remove\" require a \"uuid\" to target an existing relationship."
+        },
         "platformExtensions": {
           "type": "array",
           "items": {
@@ -107,6 +142,23 @@
           "type": "array",
           "items": { "$ref": "guideline.schema.json" },
           "description": "Platform-local guideline docs, injected into the guideline catalog (add-or-replace by name)."
+        },
+        "namingExceptions": {
+          "type": "object",
+          "description": "Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.",
+          "properties": {
+            "add": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Token names to add to the naming-exceptions set for this platform."
+            },
+            "remove": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Token names to remove from the base naming-exceptions set for this platform."
+            }
+          },
+          "additionalProperties": false
         },
         "formatting": {
           "type": "object",
