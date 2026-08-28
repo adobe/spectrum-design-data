@@ -566,6 +566,37 @@ impl NamingExceptionsFile {
     }
 }
 
+/// Overlay a platform manifest's `extensions.namingExceptions.{add,remove}` onto
+/// a base naming-exceptions set, returning a new owned set. `remove` is applied
+/// before `add`, so a manifest that lists the same name in both ends up with it
+/// present (add wins) rather than silently dropped.
+///
+/// A no-op clone of `base` when `manifest` is absent or carries no
+/// `extensions.namingExceptions` key.
+pub fn apply_naming_exceptions_overlay(
+    base: &HashSet<String>,
+    manifest: Option<&serde_json::Value>,
+) -> HashSet<String> {
+    let mut set = base.clone();
+    let Some(overlay) = manifest
+        .and_then(|m| m.get("extensions"))
+        .and_then(|e| e.get("namingExceptions"))
+    else {
+        return set;
+    };
+    if let Some(remove) = overlay.get("remove").and_then(|v| v.as_array()) {
+        for name in remove.iter().filter_map(|v| v.as_str()) {
+            set.remove(name);
+        }
+    }
+    if let Some(add) = overlay.get("add").and_then(|v| v.as_array()) {
+        for name in add.iter().filter_map(|v| v.as_str()) {
+            set.insert(name.to_string());
+        }
+    }
+    set
+}
+
 /// Check whether `key` roundtrips through parse → generate **and** that no
 /// state word is embedded inside the `property` portion (which would indicate
 /// the legacy name has state in a non-canonical position).
@@ -1124,6 +1155,58 @@ mod tests {
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("informative-color")
+        );
+    }
+
+    fn set(names: &[&str]) -> HashSet<String> {
+        names.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn overlay_no_manifest_is_noop() {
+        let base = set(&["foo"]);
+        assert_eq!(apply_naming_exceptions_overlay(&base, None), base);
+    }
+
+    #[test]
+    fn overlay_manifest_without_naming_exceptions_key_is_noop() {
+        let base = set(&["foo"]);
+        let manifest = json!({"extensions": {"tokens": []}});
+        assert_eq!(
+            apply_naming_exceptions_overlay(&base, Some(&manifest)),
+            base
+        );
+    }
+
+    #[test]
+    fn overlay_add_only() {
+        let base = set(&["foo"]);
+        let manifest = json!({"extensions": {"namingExceptions": {"add": ["bar"]}}});
+        assert_eq!(
+            apply_naming_exceptions_overlay(&base, Some(&manifest)),
+            set(&["foo", "bar"])
+        );
+    }
+
+    #[test]
+    fn overlay_remove_only() {
+        let base = set(&["foo", "bar"]);
+        let manifest = json!({"extensions": {"namingExceptions": {"remove": ["bar"]}}});
+        assert_eq!(
+            apply_naming_exceptions_overlay(&base, Some(&manifest)),
+            set(&["foo"])
+        );
+    }
+
+    #[test]
+    fn overlay_add_and_remove_same_name_add_wins() {
+        let base = set(&["foo"]);
+        let manifest = json!({
+            "extensions": {"namingExceptions": {"add": ["foo"], "remove": ["foo"]}}
+        });
+        assert_eq!(
+            apply_naming_exceptions_overlay(&base, Some(&manifest)),
+            set(&["foo"])
         );
     }
 }
