@@ -61,6 +61,16 @@ Each override object **MUST** include enough information to identify a target to
 
 **NORMATIVE:** Overrides **MUST NOT** change the resolved type of the token (aligns with [Cascade — type safety](cascade.md)).
 
+An override is applied as a new **platform-layer** record, not an in-place edit of the
+foundation record it targets — the original foundation record is left untouched.
+[Query](query.md) reports records across all cascade layers, so a query over an overridden
+token's selector returns both the untouched foundation record and the new platform-layer
+record (e.g. an override on a `state=disabled` token increases the matching count by one,
+rather than replacing an existing match). Only [`resolve` / `resolve_property`](cascade.md)
+apply `Foundation < Platform < Product` precedence to select a single winner. Tooling that
+counts "tokens a platform ships" from `query` output should resolve first, or it will
+double-count overridden tokens.
+
 ### `extensions`
 
 **RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, mode sets) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
@@ -131,6 +141,11 @@ A platform **MAY** declare formatting rules that control how structured name obj
 **NORMATIVE:** Manifests **MUST** pass Layer 1 JSON Schema validation.
 
 **RECOMMENDED:** Validators resolve `foundationVersion` against a registry or lockfile and report mismatches as errors or warnings per product policy.
+
+**RECOMMENDED:** Validators confirm the resolved `foundationVersion` provides a cascade-format
+dataset (`packages/design-data/*`), not a pre-cascade legacy release predating the structured
+`name` object, mode sets, and UUIDs — a manifest cascaded against a pre-cascade pin is not
+meaningful. Report a pre-cascade pin as an error per product policy.
 
 ## Automated upgrades
 
