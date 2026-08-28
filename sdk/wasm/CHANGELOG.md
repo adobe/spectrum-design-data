@@ -1,5 +1,67 @@
 # @adobe/design-data-wasm
 
+## 0.7.0
+
+### Minor Changes
+
+- [#1388](https://github.com/adobe/spectrum-design-data/pull/1388) [`17239f3`](https://github.com/adobe/spectrum-design-data/commit/17239f31fe23279e1034ef4dd1d1c3072d550a16) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest carry field declarations as a first-class,
+  cascade-consumable `extensions` section (bead spectrum-design-data-h890.23.2),
+  continuing the cascade parity work started for components/platformExtensions
+  in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `fields` (array of `field.schema.json` items).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.fields` subsection document the add-or-replace-by-name
+    semantics, including the `conceptOrder` name-reference caveat.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded section
+    that add-or-replaces into the field catalog by `name`, reusing the
+    existing `FieldRecord`/`load_spec_fields` and `upsert_by_key` — no
+    struct change, so no cache-schema-version bump is needed.
+
+- [#1387](https://github.com/adobe/spectrum-design-data/pull/1387) [`eb6e57f`](https://github.com/adobe/spectrum-design-data/commit/eb6e57f47c6bb38e2675418e9ef7f0737a385f3b) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest carry guideline documents as a first-class,
+  cascade-consumable `extensions` section (bead spectrum-design-data-h890.23.1),
+  continuing the cascade parity work started for components/platformExtensions
+  in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `guidelines` (array of `guideline.schema.json` items).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.guidelines` subsection document the add-or-replace-by-name
+    semantics.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded section
+    that add-or-replaces into the guideline catalog by `name`, reusing the
+    existing `GuidelineRecord`/`load_spec_guidelines` and `upsert_by_key` — no
+    struct change, so no cache-schema-version bump is needed.
+
+- [#1390](https://github.com/adobe/spectrum-design-data/pull/1390) [`3aa312d`](https://github.com/adobe/spectrum-design-data/commit/3aa312db6a055108f685b832dfafdf195ab088fc) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest overlay add/remove naming exceptions onto the base
+  set used by naming validation (bead spectrum-design-data-h890.23.4),
+  completing the cascade parity work for h890.23.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `namingExceptions` (`{ add, remove }`, both optional arrays of
+    non-empty strings).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.namingExceptions` subsection document the add/remove overlay
+    semantics (`remove` applied before `add`, so add wins on overlap).
+  - **sdk/core/src/naming.rs**: new `apply_naming_exceptions_overlay` helper;
+    naming exceptions stay a plain `HashSet<String>` outside `TokenGraph`, so
+    the overlay is applied where `validate_all_with_full_options` already
+    loads the sibling `manifest.json`, rather than as a graph-cascade section.
+
+- [#1389](https://github.com/adobe/spectrum-design-data/pull/1389) [`e0300ab`](https://github.com/adobe/spectrum-design-data/commit/e0300ab6167bc237c83d9d45885a10405c10b974) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest add, override, or remove Component/Token
+  Relationship (CTR) entries via a new `extensions.relationships` section
+  (bead spectrum-design-data-h890.23.3), continuing the cascade parity work
+  started for components/platformExtensions in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `relationships` (array of `relationship.schema.json` items, or
+    `{op: "override"|"remove", uuid, value?}` targeting entries).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a
+    new `extensions.relationships` subsection document the identity model —
+    add is positional, override/remove require a `uuid` since relationships
+    have no other stable key.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded
+    section handling add/override/remove, reusing the existing
+    `RelationshipRecord`. Add always appends, even on a `uuid` collision;
+    override/remove require an explicit `uuid` or error.
+
 ## 0.6.0
 
 ### Minor Changes

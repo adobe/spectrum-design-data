@@ -1,5 +1,17 @@
 # @adobe/spectrum-design-data
 
+## 2.3.0
+
+### Minor Changes
+
+- [#1385](https://github.com/adobe/spectrum-design-data/pull/1385) [`6d070af`](https://github.com/adobe/spectrum-design-data/commit/6d070af0f289fc18d23b7406ed23bc606ccc7e65) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove iOS-specific component and platform-extension data now served from the
+  external `spectrum-ios-design-data` repo via the manifest cascade (closes bead
+  h890.22.5).
+  - **components/tab-bar-ios.json**: removed — canonical copy now lives external,
+    wired through `extensions.components`.
+  - **registry/platform-extensions/ios-states.json**: removed — canonical copy
+    now lives external, wired through `extensions.platformExtensions`.
+
 ## 2.2.0
 
 ### Minor Changes

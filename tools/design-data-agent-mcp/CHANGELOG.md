@@ -1,5 +1,27 @@
 # @adobe/design-data-agent-mcp
 
+## 1.9.0
+
+### Minor Changes
+
+- [#1383](https://github.com/adobe/spectrum-design-data/pull/1383) [`2a96db9`](https://github.com/adobe/spectrum-design-data/commit/2a96db9fd2816e2fd7166ef80b352e8c92e0ab91) Thanks [@GarthDB](https://github.com/GarthDB)! - MCP read tools now honor a `.design-data.toml` cascade, not just the embedded
+  snapshot (closes bead h890.14).
+  - **src/cascade-bootstrap.js**: new — resolves `DESIGN_DATA_CONFIG` via the CLI
+    once at startup, materializes to a temp dataset.
+  - **src/tools/read.js**: `primer` reflects the cascade when active;
+    `describe_component` stays out of scope.
+  - **src/config.js**, **src/index.js**, **src/cli.js**: wiring for the new
+    `DESIGN_DATA_CONFIG` env var and startup bootstrap.
+  - Cascade state lives in `config.cascadeDataPath`, separate from `dataPath`/
+    `dataRoot`, so it can't leak into unrelated write/authoring/data tools.
+
+### Patch Changes
+
+- Updated dependencies [[`17239f3`](https://github.com/adobe/spectrum-design-data/commit/17239f31fe23279e1034ef4dd1d1c3072d550a16), [`eb6e57f`](https://github.com/adobe/spectrum-design-data/commit/eb6e57f47c6bb38e2675418e9ef7f0737a385f3b), [`3aa312d`](https://github.com/adobe/spectrum-design-data/commit/3aa312db6a055108f685b832dfafdf195ab088fc), [`e0300ab`](https://github.com/adobe/spectrum-design-data/commit/e0300ab6167bc237c83d9d45885a10405c10b974), [`6d070af`](https://github.com/adobe/spectrum-design-data/commit/6d070af0f289fc18d23b7406ed23bc606ccc7e65)]:
+  - @adobe/design-data-wasm@0.7.0
+  - @adobe/spectrum-design-data@2.3.0
+  - @adobe/design-data@3.0.7
+
 ## 1.8.26
 
 ### Patch Changes
