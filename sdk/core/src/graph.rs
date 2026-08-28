@@ -1037,6 +1037,101 @@ impl TokenGraph {
             }
         }
 
+        // 9. extensions.relationships — platform-local CTR add/override/remove.
+        // Add: an entry with no "op" is a full relationship object (per
+        // relationship.schema.json), appended at the platform layer, keyed
+        // positionally (file "manifest.json", index = its position in this array).
+        // Override/remove: relationships have no stable identity besides an
+        // optional `uuid`, so targeting one requires an entry with "op":
+        // "override" or "op": "remove" plus a "uuid" — an override/remove entry
+        // missing a uuid is a manifest-authoring error, rejected rather than
+        // silently skipped. "override" also carries a "value" (the replacement
+        // relationship object); "remove" drops the matching record entirely.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("relationships"))
+            .and_then(|v| v.as_array())
+        {
+            for (index, entry) in entries.iter().enumerate() {
+                match entry.get("op").and_then(|v| v.as_str()) {
+                    None => {
+                        let uuid = entry
+                            .get("uuid")
+                            .and_then(|v| v.as_str())
+                            .map(str::to_string);
+                        let record = RelationshipRecord {
+                            file: PathBuf::from("manifest.json"),
+                            index,
+                            uuid,
+                            raw: entry.clone(),
+                        };
+                        // Always append — a plain add has no "op" and must not
+                        // silently overwrite an existing relationship even if its
+                        // (optional, unconstrained) uuid happens to collide with
+                        // one already present. Overwriting requires an explicit
+                        // "op": "override" entry (handled below).
+                        self.relationships.push(record);
+                    }
+                    Some("override") => {
+                        let target_uuid =
+                            entry.get("uuid").and_then(|v| v.as_str()).ok_or_else(|| {
+                                CoreError::ParseError(
+                                    "platform manifest extensions.relationships override entry \
+                                     is missing a \"uuid\" — relationships have no other stable \
+                                     identity to target"
+                                        .to_string(),
+                                )
+                            })?;
+                        let value = entry.get("value").cloned().ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships override for uuid \
+                                 \"{target_uuid}\" is missing a \"value\" (the replacement \
+                                 relationship object)"
+                            ))
+                        })?;
+                        let target = self
+                            .relationships
+                            .iter_mut()
+                            .find(|r| r.uuid.as_deref() == Some(target_uuid))
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.relationships override \
+                                     targets uuid \"{target_uuid}\" which does not exist"
+                                ))
+                            })?;
+                        target.raw = value;
+                    }
+                    Some("remove") => {
+                        let target_uuid =
+                            entry.get("uuid").and_then(|v| v.as_str()).ok_or_else(|| {
+                                CoreError::ParseError(
+                                    "platform manifest extensions.relationships remove entry is \
+                                     missing a \"uuid\" — relationships have no other stable \
+                                     identity to target"
+                                        .to_string(),
+                                )
+                            })?;
+                        let before = self.relationships.len();
+                        self.relationships
+                            .retain(|r| r.uuid.as_deref() != Some(target_uuid));
+                        if self.relationships.len() == before {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships remove targets \
+                                 uuid \"{target_uuid}\" which does not exist"
+                            )));
+                        }
+                    }
+                    Some(other) => {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.relationships entry has unknown op \
+                             \"{other}\" (expected \"override\" or \"remove\", or omit \"op\" \
+                             to add)"
+                        )));
+                    }
+                }
+            }
+        }
+
         Ok(PlatformManifest {
             mode_set_restrictions,
         })
@@ -1984,6 +2079,54 @@ mod tests {
             .find(|t| t.uuid.as_deref() == Some("u-card-elev"))
             .expect("extension token present");
         assert_eq!(ext.layer, Layer::Platform);
+    }
+
+    #[test]
+    fn manifest_relationship_override_without_uuid_errors() {
+        // Bypasses Layer 1 schema validation (which already requires "uuid"
+        // alongside "op": "override"/"remove") to exercise graph.rs's own
+        // uuid-required check directly.
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{
+                    "op": "override",
+                    "value": {"scope": {"component": "button", "property": "corner-radius"}, "value": "8px"}
+                }]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("missing a \"uuid\""));
+    }
+
+    #[test]
+    fn manifest_relationship_remove_without_uuid_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{"op": "remove"}]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("missing a \"uuid\""));
+    }
+
+    #[test]
+    fn manifest_relationship_unknown_op_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{"op": "rename", "uuid": "u-whatever"}]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("unknown op"));
     }
 
     #[test]
