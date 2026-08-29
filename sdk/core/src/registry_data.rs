@@ -2531,8 +2531,10 @@ const STATES_JSON: &str = r##"{
     {
       "id": "active",
       "label": "Active",
+      "aliases": ["pressed"],
       "description": "Active or pressed state",
-      "usedIn": ["component-options", "component-schemas"]
+      "usedIn": ["component-options", "component-schemas"],
+      "relatedTerms": ["down"]
     },
     {
       "id": "focus",
@@ -2603,7 +2605,8 @@ const STATES_JSON: &str = r##"{
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
-      "usedIn": ["tokens", "component-schemas"]
+      "usedIn": ["tokens", "component-schemas"],
+      "relatedTerms": ["active"]
     },
     {
       "id": "pending",
