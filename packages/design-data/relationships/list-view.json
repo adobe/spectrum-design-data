@@ -61,7 +61,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to drag handle)",
-    "$ref": "abc302a3-c0b5-4f93-a141-39988ca3720b"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to drag handle)",
-    "$ref": "799fbc36-ea79-44d2-8e8b-dc3aade544a0"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -77,7 +77,7 @@
       "property": "space-between"
     },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "0a392deb-fee3-4968-bc52-1377f9e23307"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "space-between"
     },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "16b8c9c7-a601-4ff9-bf9d-c5a118738506"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "space-between"
     },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "e65d0e08-9c29-43f6-b7a2-281865a82b70"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "space-between"
     },
     "context": "Spacing (drag handle to checkbox, to visual, to text)",
-    "$ref": "aaee547c-df72-420e-8d39-3028e79feac1"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "cb302d23-5dd8-4ca6-b104-3fc5f03f633b"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "ef8dc413-ef24-456c-aa91-6a80d107f6c6"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "5405f82f-6022-468c-a150-b74210ef52cb"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "7e743edb-d49b-4750-88b3-e35b6e534a3b"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (edge to checkbox, edge to visual, edge to text)",
-    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "space-between"
     },
     "context": "Spacing (content items to text)",
-    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "space-between"
     },
     "context": "Spacing (content items to text)",
-    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "space-between"
     },
     "context": "Spacing (navigation indicator to edge, actions to edge)",
-    "$ref": "3b41366d-2c29-4477-95fa-528c762b8a3b"
+    "$ref": "3cd1e483-969b-492c-8d44-d29348c981a5"
   },
   {
     "scope": {
@@ -181,7 +181,7 @@
       "property": "space-between"
     },
     "context": "Spacing (navigation indicator to edge, actions to edge)",
-    "$ref": "cd7df3af-975e-4d8a-addd-92a920173fd6"
+    "$ref": "3cd1e483-969b-492c-8d44-d29348c981a5"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to Navigation icon)",
-    "$ref": "6dc382ce-8e48-4bd9-8078-1272da767b13"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -197,7 +197,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to Navigation icon)",
-    "$ref": "16552174-994e-41c3-9439-32b9876c399d"
+    "$ref": "2147f873-8f42-4821-9654-9db2b1adc2f9"
   },
   {
     "scope": {
@@ -253,7 +253,7 @@
       "property": "gap"
     },
     "context": "Focus (drag handle)",
-    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
   },
   {
     "scope": {
@@ -325,7 +325,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (horizontal)",
-    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (horizontal)",
-    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -341,7 +341,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -349,7 +349,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -357,7 +357,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -365,7 +365,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -373,7 +373,7 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -381,7 +381,7 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (vertical)",
-    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {

@@ -45,7 +45,7 @@
       "property": "space-between"
     },
     "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "0ec68b5a-4251-4727-a689-b10722ce1a43"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -53,7 +53,7 @@
       "property": "space-between"
     },
     "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "ff3c5329-ccec-4b94-b200-29a377b34380"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -61,7 +61,7 @@
       "property": "space-between"
     },
     "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "7357ba3f-c707-4475-b616-4752776c06d1"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "space-between"
     },
     "context": "Spacing (column header row top/bottom to text)",
-    "$ref": "631d14a5-1d2e-4e4a-90e8-146e8a397530"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, compact density)",
-    "$ref": "02c5faff-dbb4-4633-ae57-413b3666dfca"
+    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, compact density)",
-    "$ref": "d9d8fee2-9e0f-4c2b-8059-f9badb3b6482"
+    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "ae401c94-c643-446f-a44e-38c9f3104fc6"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "0cd86854-57ca-4023-b544-8a4a76418164"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "f14087ac-db72-43df-a8fa-9c9b03c6a1c9"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 11px, mobile 14px;",
-    "$ref": "6ff9a81f-a2f8-4966-a48b-c8561aa4f833"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "9893c4bf-aa89-4b46-987f-09432943734a"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "cfa36bf7-cce0-4049-970a-8f11c6d60673"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -181,7 +181,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "2cedf119-a2f6-484a-8bdd-83652a8d6d79"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "space-between"
     },
     "context": "Spacing (row top/bottom to text, spacious density)",
-    "$ref": "8273e28d-20b4-4575-9449-9178af111e38"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -197,7 +197,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to start/end edge or divider)",
-    "$ref": "5e46672f-eab0-4ec3-bd14-68ffa4404ec1"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -205,7 +205,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
-    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -213,7 +213,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 10px;\n\nThis applies to icon, avatar, and thumbnail.",
-    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -229,7 +229,7 @@
       "property": "space-between"
     },
     "context": "Spacing (checkbox to text)",
-    "$ref": "400553db-907c-43a5-8545-92ba212e12b8"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -237,7 +237,7 @@
       "property": "space-between"
     },
     "context": "Spacing (checkbox to text)",
-    "$ref": "cb7c89c0-9f31-43c4-8427-2e048f549ff7"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -245,7 +245,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "578765e6-b2ec-4bfe-ae28-f24cbee15898"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -253,7 +253,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "2e168a2b-46aa-453f-9ca1-746485216c84"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -261,7 +261,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "0b12ff10-52e2-4084-9f1b-ee7bc0b50576"
+    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae"
   },
   {
     "scope": {
@@ -269,7 +269,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 8px, mobile 11px;",
-    "$ref": "84f00d87-c0ea-42fd-8477-9fff028bf79c"
+    "$ref": "42473d6e-5f40-46c7-9bbc-302e355ae6ae"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 12px, mobile 16px;",
-    "$ref": "be965b15-08f8-43be-9953-52151d8c7670"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -285,7 +285,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 12px, mobile 16px;",
-    "$ref": "2ae09505-d43f-4e2c-b8a6-014ccfef5c10"
+    "$ref": "15ffb38e-341b-4c47-a6b3-c197e05afffe"
   },
   {
     "scope": {
@@ -293,7 +293,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 16px, mobile 21px;",
-    "$ref": "c8a04cab-bfad-4b82-94dc-6c2b4160c7cb"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "space-between"
     },
     "context": "Note: desktop 16px, mobile 21px;",
-    "$ref": "a57d2d1a-5e0c-4d4c-84eb-dd2339366aad"
+    "$ref": "a775a186-802e-4256-947c-7fda3ac53caa"
   },
   {
     "scope": {
@@ -325,7 +325,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -341,7 +341,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -349,7 +349,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (section header row top/bottom to text) ",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {

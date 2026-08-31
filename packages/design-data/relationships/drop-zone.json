@@ -45,7 +45,7 @@
       "property": "border-dash-length"
     },
     "context": "Border width and corner radius",
-    "$ref": "a596af57-256f-4445-b91f-36e47bfb2d95"
+    "$ref": "24cd8175-3dc5-46ae-b1af-01632787fcd8"
   },
   {
     "scope": {
@@ -53,7 +53,7 @@
       "property": "border-dash-gap"
     },
     "context": "Border width and corner radius",
-    "$ref": "47c15433-53d3-425b-8b87-ea234701f781"
+    "$ref": "5582026a-22e6-4e0e-9a21-2a7a43b026a6"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "11088de1-8e3b-4021-968d-a8c59c7b00bd"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "component-edge-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "616de468-71fc-4315-87ea-47cdc508a599"
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Text area (filled, hover)",
-    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {

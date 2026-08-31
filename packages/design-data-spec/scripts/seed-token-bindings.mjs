@@ -34,6 +34,7 @@ import { fileURLToPath } from "url";
 import { homedir } from "os";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
 import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDryRun = process.argv.includes("--dry-run");
@@ -72,20 +73,22 @@ function legacyKeyFor(name, registry) {
 /** Every token across tokens/*.tokens.json, keyed by its computed legacy flat key. */
 function buildFlatKeyIndex(registry) {
   const index = new Map();
+  const uuidToToken = new Map();
   for (const file of readdirSync(tokensDir).filter((f) => f.endsWith(".tokens.json"))) {
     const tokens = JSON.parse(readFileSync(join(tokensDir, file), "utf8"));
     for (const token of tokens) {
+      if (token.uuid) uuidToToken.set(token.uuid, token);
       const key = legacyKeyFor(token.name, registry);
       if (!key) continue;
       if (!index.has(key)) index.set(key, []);
       index.get(key).push(token);
     }
   }
-  return index;
+  return { index, uuidToToken };
 }
 
 const registry = loadRegistries();
-const flatKeyIndex = buildFlatKeyIndex(registry);
+const { index: flatKeyIndex, uuidToToken } = buildFlatKeyIndex(registry);
 
 let seeded = 0;
 let skipped = 0;
@@ -125,7 +128,9 @@ for (const [displayName, references] of Object.entries(figmaData)) {
       ctrs.push({
         scope: { component: slug, ...(property !== undefined ? { property } : {}) },
         ...(context ? { context } : {}),
-        $ref: token.uuid,
+        // Follow replacedBy so re-seeding from the Figma spec never pins a
+        // deprecated token's uuid when a live semantic replacement exists.
+        $ref: resolveReplacementUuid(token, uuidToToken),
       });
     }
   }
