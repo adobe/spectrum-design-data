@@ -131,8 +131,21 @@ export function loadDisplayName(component, componentsDir = COMPONENTS_DIR) {
  * the legacyKey only when the property name doesn't carry a size suffix (e.g. a bare
  * `corner-radius` CTR bound straight to `corner-radius-medium-size-small`).
  */
-function resolveRow(ds, uuid, property) {
-  const results = ds.query(`uuid=${uuid}`);
+function resolveLiveUuid(uuid, legacyByUuid) {
+  const seen = new Set();
+  let current = uuid;
+  while (legacyByUuid.has(current) && !seen.has(current)) {
+    seen.add(current);
+    const replacedBy = legacyByUuid.get(current)?.lifecycle?.replacedBy;
+    if (!replacedBy) break;
+    current = replacedBy;
+  }
+  return current;
+}
+
+function resolveRow(ds, uuid, property, legacyByUuid) {
+  const liveUuid = resolveLiveUuid(uuid, legacyByUuid);
+  const results = ds.query(`uuid=${liveUuid}`);
   const token = results[0]?.raw;
   const legacyKey = token?.name?.legacyKey;
   if (!legacyKey) return null;
@@ -171,6 +184,14 @@ export async function generateComponentSpec(component, opts = {}) {
   const relationships = loadRelationships(component);
   const displayName = loadDisplayName(component);
 
+  // relationships/<component>.json mixes pure CTR rows ({scope, context, $ref}) with
+  // embedded legacy/deprecated token records ({uuid, value, lifecycle.replacedBy, ...}).
+  // A CTR row's $ref can point at one of these legacy uuids instead of a live cascade
+  // token directly, so build an index to follow that replacedBy chain in resolveRow.
+  const legacyByUuid = new Map(
+    relationships.filter((r) => r.uuid).map((r) => [r.uuid, r]),
+  );
+
   const groupsByContext = new Map();
   const unmapped = [];
 
@@ -187,7 +208,7 @@ export async function generateComponentSpec(component, opts = {}) {
       continue;
     }
 
-    const resolved = resolveRow(ds, ref, property);
+    const resolved = resolveRow(ds, ref, property, legacyByUuid);
     if (!resolved) {
       unmapped.push({
         property,
