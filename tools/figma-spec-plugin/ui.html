@@ -1,0 +1,53 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<!-- Licensed under the Apache License, Version 2.0 (see LICENSE / code.js header). -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font: 12px sans-serif; margin: 12px; }
+      button { margin-top: 8px; }
+      #status { margin-top: 8px; color: #555; }
+    </style>
+  </head>
+  <body>
+    <p>Load a <code>component-token-spec.json</code> produced by
+      <code>tools/component-spec-generator</code>, then render it.</p>
+    <input type="file" id="file" accept="application/json" />
+    <button id="render" disabled>Render</button>
+    <div id="status"></div>
+    <script>
+      let spec = null;
+      const fileInput = document.getElementById("file");
+      const renderBtn = document.getElementById("render");
+      const status = document.getElementById("status");
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        try {
+          spec = JSON.parse(await file.text());
+          renderBtn.disabled = false;
+          status.textContent = `Loaded ${Object.keys(spec).length} component(s).`;
+        } catch (err) {
+          status.textContent = `Invalid JSON: ${err.message}`;
+        }
+      });
+
+      renderBtn.addEventListener("click", () => {
+        status.textContent = "Rendering...";
+        parent.postMessage({ pluginMessage: { type: "render-spec", spec } }, "*");
+      });
+
+      window.onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        if (!msg) return;
+        if (msg.type === "render-complete") {
+          status.textContent = `Done: ${msg.result.pagesRendered} page(s), ${msg.result.groupsRendered} group(s).`;
+        } else if (msg.type === "render-error") {
+          status.textContent = `Error: ${msg.message}`;
+        }
+      };
+    </script>
+  </body>
+</html>
