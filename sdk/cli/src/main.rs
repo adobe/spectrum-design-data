@@ -518,6 +518,29 @@ enum FigmaSub {
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
     },
+    /// Import Figma Variable edits back into manifest `overrides` entries
+    Import {
+        /// Path to legacy token source directory
+        #[arg(value_name = "PATH")]
+        path: PathBuf,
+        /// Figma file key to read from
+        #[arg(long)]
+        file_key: String,
+        /// Figma personal access token (or set FIGMA_TOKEN env var)
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: String,
+        /// Path to a platform manifest.json; tokens are resolved through the
+        /// manifest cascade so overrides target the same records `figma export` reads
+        #[arg(long, value_name = "PATH")]
+        manifest: PathBuf,
+        /// Path to a name-mapping override artifact (from `figma audit`); used
+        /// in reverse to invert renamed Figma variable names back to legacy keys
+        #[arg(long, value_name = "PATH")]
+        mapping: Option<PathBuf>,
+        /// Write the resulting overrides manifest here instead of stdout
+        #[arg(long, value_name = "PATH")]
+        out: Option<PathBuf>,
+    },
     /// Audit generated Figma Variable names against a captured snapshot (offline, no API call)
     Audit {
         /// Path to a `figma read --format json` snapshot (a `VariablesMeta` JSON file)
@@ -1516,6 +1539,109 @@ fn run_figma_export(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Read a Figma file's current variable values and emit manifest `overrides`
+/// entries for the ones that diverge from the manifest-resolved source.
+fn run_figma_import(
+    path: &Path,
+    file_key: &str,
+    token: &str,
+    manifest_path: &Path,
+    mapping: Option<&Path>,
+    out: Option<&Path>,
+) -> miette::Result<ExitCode> {
+    let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
+    let client = figma::api::FigmaClient::new(token.to_string());
+
+    // 0. Load the name-mapping artifact, if given, and reverse it: export maps
+    // legacyKey -> figmaName, import needs figmaName -> legacyKey.
+    let renames = mapping
+        .map(|p| {
+            load_overrides(p).map(|m| {
+                m.into_iter()
+                    .map(|(k, v)| (v, k))
+                    .collect::<HashMap<_, _>>()
+            })
+        })
+        .transpose()?;
+
+    // 1. Load the same manifest-resolved TokenGraph `figma export` reads, so
+    // overrides target the records it exported.
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: Some(path.to_path_buf()),
+        platform_manifest: Some(manifest_path.to_path_buf()),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    // 2. GET the file's current variables.
+    eprintln!("Fetching variables from Figma...");
+    let response = rt
+        .block_on(client.get_local_variables(file_key))
+        .map_err(|e| miette::miette!("{e}"))?;
+
+    // 3. Diff against the resolved graph.
+    let (overrides, summary) =
+        figma::import::build_import_overrides(&response.meta, &graph, renames.as_ref());
+
+    // 4. Wrap into a manifest fragment, carrying the source manifest's version fields.
+    let manifest_text = std::fs::read_to_string(manifest_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("reading manifest {}", manifest_path.display()))?;
+    let manifest_json: serde_json::Value =
+        serde_json::from_str(&manifest_text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("parsing manifest {}", manifest_path.display()))?;
+    let output = serde_json::json!({
+        "specVersion": manifest_json.get("specVersion").cloned().unwrap_or_else(|| serde_json::json!("1.0.0-draft")),
+        "foundationVersion": manifest_json.get("foundationVersion").cloned().unwrap_or_else(|| serde_json::json!("1.0.0")),
+        "overrides": overrides,
+    });
+    let text = serde_json::to_string_pretty(&output).into_diagnostic()?;
+    match out {
+        Some(out_path) => std::fs::write(out_path, &text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("writing {}", out_path.display()))?,
+        None => println!("{text}"),
+    }
+
+    eprintln!(
+        "\nSummary: {} overrides, {} unchanged",
+        summary.overrides_emitted, summary.unchanged
+    );
+    if !summary.unmapped.is_empty() {
+        eprintln!(
+            "  Unmapped: {} — {:?}",
+            summary.unmapped.len(),
+            summary.unmapped
+        );
+    }
+    if !summary.multimode_divergent.is_empty() {
+        eprintln!(
+            "  Multi-mode divergent (no single value to emit): {} — {:?}",
+            summary.multimode_divergent.len(),
+            summary.multimode_divergent,
+        );
+    }
+    if !summary.unconvertible.is_empty() {
+        eprintln!(
+            "  Unconvertible: {} — {:?}",
+            summary.unconvertible.len(),
+            summary.unconvertible,
+        );
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 /// Audit generated Figma Variable names against a captured snapshot — entirely
 /// offline, no network call and no token required.
 fn run_figma_audit(
@@ -2147,6 +2273,21 @@ fn main() -> ExitCode {
                 dry_run,
                 mapping.as_deref(),
                 manifest.as_deref(),
+            ),
+            FigmaSub::Import {
+                path,
+                file_key,
+                token,
+                manifest,
+                mapping,
+                out,
+            } => run_figma_import(
+                &path,
+                &file_key,
+                &token,
+                &manifest,
+                mapping.as_deref(),
+                out.as_deref(),
             ),
             FigmaSub::Audit {
                 snapshot,
