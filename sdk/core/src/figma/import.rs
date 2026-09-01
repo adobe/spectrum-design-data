@@ -203,6 +203,14 @@ fn diff_against_source(
         }
         "FLOAT" => {
             let n = figma_value.as_f64().ok_or(())?;
+            if let Some(source_n) = source.and_then(Value::as_f64) {
+                if approx_eq(n, source_n) {
+                    return Ok(None);
+                }
+                return Ok(Some(Value::Number(
+                    serde_json::Number::from_f64(n).ok_or(())?,
+                )));
+            }
             if let Some((source_n, unit)) = source_str.and_then(parse_float_with_unit) {
                 if approx_eq(n, source_n) {
                     return Ok(None);
@@ -325,6 +333,23 @@ mod tests {
         let (overrides, summary) = build_import_overrides(&meta, &graph, None);
         assert_eq!(summary.overrides_emitted, 1);
         assert_eq!(overrides[0]["value"], "16px");
+    }
+
+    /// A bare-number source (e.g. an opacity/font-weight token, not a
+    /// unit-suffixed dimension) must still be compared numerically —
+    /// otherwise an unedited FLOAT variable falsely reads as diverged.
+    #[test]
+    fn unchanged_bare_numeric_float_produces_no_override() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/opacity-disabled",
+            "FLOAT",
+            vec![("m-desktop", json!(0.6666))],
+        )]);
+        let graph = mock_graph("opacity-disabled", "u-opacity-disabled", json!(0.6666));
+        let (overrides, summary) = build_import_overrides(&meta, &graph, None);
+        assert!(overrides.is_empty());
+        assert_eq!(summary.unchanged, 1);
+        assert_eq!(summary.overrides_emitted, 0);
     }
 
     #[test]
