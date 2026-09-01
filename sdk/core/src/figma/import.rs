@@ -17,12 +17,15 @@
 //! Figma value has actually diverged — re-running import on an unedited file
 //! produces an empty `overrides` array.
 
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
 
+use serde::Serialize;
 use serde_json::Value;
 
 use super::color::{format_color, parse_color};
+use super::mapping::build_export_payload;
 use super::types::{FigmaColor, FigmaVariable, VariablesMeta};
+use super::FigmaError;
 use crate::graph::TokenGraph;
 
 /// The unit suffixes recognized on a dimension-like token value, matching the
@@ -101,6 +104,200 @@ pub fn build_import_overrides(
     }
 
     (overrides, summary)
+}
+
+/// One variable/token's classification in a [`DiffReport`].
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "class", rename_all = "kebab-case")]
+pub enum DiffClass {
+    /// Figma's value matches the manifest-resolved source.
+    Match,
+    /// Figma's value diverges from the manifest-resolved source.
+    ValueMismatch { design_data: Value, figma: Value },
+    /// A Figma variable with no corresponding design-data token.
+    FigmaOnly,
+    /// A design-data token the generator would export, but no matching
+    /// Figma variable exists in the file.
+    DesignDataOnly,
+    /// Covered by neither an override (multi-mode divergent) nor a
+    /// convertible value (unresolved alias, or an unhandled resolved type).
+    SkippedUncovered { reason: String },
+}
+
+/// One entry in a [`DiffReport`]: a Figma variable name (or, for
+/// [`DiffClass::DesignDataOnly`], the name the generator would produce)
+/// paired with its classification.
+#[derive(Debug, Clone, Serialize)]
+pub struct DiffEntry {
+    pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub legacy_key: Option<String>,
+    /// True when this variable's name came from the `--mapping` rename
+    /// artifact rather than the default `{prefix}/{legacyKey}` convention.
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub renamed: bool,
+    #[serde(flatten)]
+    pub class: DiffClass,
+}
+
+/// Per-category totals for a [`DiffReport`], for quick scanning.
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct DiffCounts {
+    pub matched: usize,
+    pub value_mismatch: usize,
+    pub figma_only: usize,
+    pub design_data_only: usize,
+    pub renamed: usize,
+    pub skipped_uncovered: usize,
+}
+
+/// Value-level diff report: every Figma variable and every design-data
+/// token the generator would export, classified.
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct DiffReport {
+    /// Sorted by name for stable, script-friendly output.
+    pub entries: Vec<DiffEntry>,
+    pub counts: DiffCounts,
+}
+
+/// Read-only, value-level counterpart to [`build_import_overrides`]: instead
+/// of emitting manifest overrides for divergent variables, classifies *every*
+/// Figma variable and design-data token as match / value-mismatch /
+/// figma-only / design-data-only / skipped-uncovered (with a `renamed` flag
+/// when the `--mapping` artifact supplied the name).
+///
+/// `mapping` is the forward name-mapping artifact (legacy key → Figma name),
+/// the same direction `figma export --mapping` and [`build_export_payload`]
+/// use; this reverses it internally for the Figma-driven walk, which needs
+/// the opposite direction (as `build_import_overrides` does).
+///
+/// The design-data-only pass reuses [`build_export_payload`] to compute the
+/// set of Figma names the generator would produce (the same approach
+/// `figma::audit::audit_names` uses for its `generated_only` bucket), so it
+/// requires the file to contain the `.Color theme` and `.Platform scale`
+/// collections `build_export_payload` targets.
+pub fn diff_values(
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    tokens: &[(String, Value)],
+    mapping: Option<&HashMap<String, String>>,
+) -> Result<DiffReport, FigmaError> {
+    let reversed: Option<HashMap<String, String>> =
+        mapping.map(|m| m.iter().map(|(k, v)| (v.clone(), k.clone())).collect());
+
+    let mut entries = Vec::new();
+    let mut counts = DiffCounts::default();
+    let mut seen: BTreeSet<String> = BTreeSet::new();
+
+    let mut variables: Vec<&FigmaVariable> =
+        meta.variables.values().filter(|v| !v.remote).collect();
+    variables.sort_by(|a, b| a.name.cmp(&b.name));
+
+    for variable in variables {
+        seen.insert(variable.name.clone());
+        let renamed = reversed
+            .as_ref()
+            .is_some_and(|m| m.contains_key(&variable.name));
+
+        let Some(legacy_key) = invert_name(&variable.name, reversed.as_ref()) else {
+            counts.figma_only += 1;
+            entries.push(DiffEntry {
+                name: variable.name.clone(),
+                legacy_key: None,
+                renamed,
+                class: DiffClass::FigmaOnly,
+            });
+            continue;
+        };
+        let Some(record) = graph.resolve_alias_key(&legacy_key) else {
+            counts.figma_only += 1;
+            entries.push(DiffEntry {
+                name: variable.name.clone(),
+                legacy_key: Some(legacy_key),
+                renamed,
+                class: DiffClass::FigmaOnly,
+            });
+            continue;
+        };
+
+        let collapsed = match collapse_modes(variable) {
+            Ok(Some(v)) => v,
+            Ok(None) => {
+                counts.skipped_uncovered += 1;
+                entries.push(DiffEntry {
+                    name: variable.name.clone(),
+                    legacy_key: Some(legacy_key),
+                    renamed,
+                    class: DiffClass::SkippedUncovered {
+                        reason: "multimode-divergent".to_string(),
+                    },
+                });
+                continue;
+            }
+            Err(()) => {
+                counts.skipped_uncovered += 1;
+                entries.push(DiffEntry {
+                    name: variable.name.clone(),
+                    legacy_key: Some(legacy_key),
+                    renamed,
+                    class: DiffClass::SkippedUncovered {
+                        reason: "unconvertible".to_string(),
+                    },
+                });
+                continue;
+            }
+        };
+
+        let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
+        let class =
+            match diff_against_source(&variable.resolved_type, &collapsed, source_value.as_ref()) {
+                Ok(None) => {
+                    counts.matched += 1;
+                    DiffClass::Match
+                }
+                Ok(Some(figma_value)) => {
+                    counts.value_mismatch += 1;
+                    DiffClass::ValueMismatch {
+                        design_data: source_value.clone().unwrap_or(Value::Null),
+                        figma: figma_value,
+                    }
+                }
+                Err(()) => {
+                    counts.skipped_uncovered += 1;
+                    DiffClass::SkippedUncovered {
+                        reason: "unconvertible".to_string(),
+                    }
+                }
+            };
+        if renamed {
+            counts.renamed += 1;
+        }
+        entries.push(DiffEntry {
+            name: variable.name.clone(),
+            legacy_key: Some(legacy_key),
+            renamed,
+            class,
+        });
+    }
+
+    // Design-data-only pass: names the generator would produce that no real
+    // Figma variable in the file covers.
+    let (body, _summary) = build_export_payload(tokens, meta, mapping)?;
+    for action in &body.variables {
+        if !seen.contains(&action.name) {
+            counts.design_data_only += 1;
+            let legacy_key = action.name.split_once('/').map(|(_, key)| key.to_string());
+            entries.push(DiffEntry {
+                name: action.name.clone(),
+                legacy_key,
+                renamed: false,
+                class: DiffClass::DesignDataOnly,
+            });
+        }
+    }
+
+    entries.sort_by(|a, b| a.name.cmp(&b.name));
+    Ok(DiffReport { entries, counts })
 }
 
 /// Invert a Figma variable name back to its legacy token key: the rename
@@ -306,6 +503,83 @@ mod tests {
         assert!(overrides.is_empty());
         assert_eq!(summary.unchanged, 1);
         assert_eq!(summary.overrides_emitted, 0);
+    }
+
+    #[test]
+    fn diff_values_reports_known_mismatch() {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+
+        let var = mock_variable(
+            "colorTheme/blue-100",
+            "COLOR",
+            vec![("m-light", json!({"r": 0.0, "g": 0.0, "b": 1.0, "a": 1.0}))],
+        );
+        let mut variables = HashMap::new();
+        variables.insert(var.id.clone(), var);
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            "col-1".to_string(),
+            FigmaVariableCollection {
+                id: "col-1".to_string(),
+                name: ".Color theme".to_string(),
+                key: "k1".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-light".to_string(),
+                    name: "Light".to_string(),
+                }],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        variable_collections.insert(
+            "col-2".to_string(),
+            FigmaVariableCollection {
+                id: "col-2".to_string(),
+                name: ".Platform scale".to_string(),
+                key: "k2".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-desktop".to_string(),
+                    name: "Desktop".to_string(),
+                }],
+                default_mode_id: "m-desktop".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let meta = VariablesMeta {
+            variables,
+            variable_collections,
+        };
+
+        let graph = mock_graph("blue-100", "u-blue-100", json!("#ff8000"));
+        let tokens = vec![(
+            "blue-100".to_string(),
+            json!({
+                "$schema": "https://example.com/color.json",
+                "name": "blue-100",
+                "value": "#ff8000",
+                "uuid": "u-blue-100",
+            }),
+        )];
+
+        let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+        assert_eq!(report.counts.value_mismatch, 1);
+        assert_eq!(report.counts.matched, 0);
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "colorTheme/blue-100")
+            .expect("mismatched variable must be reported");
+        match &entry.class {
+            DiffClass::ValueMismatch { design_data, figma } => {
+                assert_eq!(design_data, &json!("#ff8000"));
+                assert_eq!(figma, &json!("#0000ff"));
+            }
+            other => panic!("expected ValueMismatch, got {other:?}"),
+        }
     }
 
     #[test]

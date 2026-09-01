@@ -553,6 +553,31 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Value-level diff between the manifest-resolved dataset and a Figma file (read-only)
+    Diff {
+        /// Figma file key to read from (required unless `--snapshot` is given)
+        #[arg(long)]
+        file_key: Option<String>,
+        /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: Option<String>,
+        /// Diff offline against a captured `figma read --format json` snapshot instead of
+        /// calling the Figma API
+        #[arg(long, value_name = "PATH")]
+        snapshot: Option<PathBuf>,
+        /// Path to a name-mapping override artifact (from `figma audit`); overrides take
+        /// precedence over the default `{prefix}/{legacyKey}` naming
+        #[arg(long, value_name = "PATH")]
+        mapping: Option<PathBuf>,
+        /// Path to a platform manifest.json; when given, tokens are resolved through the
+        /// manifest cascade (include/exclude, overrides, extensions) instead of the default
+        /// resolved dataset
+        #[arg(long, value_name = "PATH")]
+        manifest: Option<PathBuf>,
+        /// Output format (pretty or json)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -1691,6 +1716,100 @@ fn run_figma_audit(
     Ok(ExitCode::SUCCESS)
 }
 
+/// Value-level diff between the manifest-resolved dataset and a Figma file —
+/// read-only counterpart to `figma import`. Either `--snapshot` (offline, no
+/// token needed) or `--file-key`/`--token` (a live API call) must be given.
+fn run_figma_diff(
+    file_key: Option<&str>,
+    token: Option<&str>,
+    snapshot: Option<&Path>,
+    mapping: Option<&Path>,
+    manifest: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    // 0. Get the file's variables — offline from a snapshot, or a live fetch.
+    let meta: figma::types::VariablesMeta = if let Some(snapshot_path) = snapshot {
+        let text = std::fs::read_to_string(snapshot_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read snapshot {}", snapshot_path.display()))?;
+        serde_json::from_str(&text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot_path.display()))?
+    } else {
+        let file_key = file_key.ok_or_else(|| {
+            miette::miette!("either --snapshot or --file-key/--token is required")
+        })?;
+        let token = token.ok_or_else(|| {
+            miette::miette!("either --snapshot or --file-key/--token is required")
+        })?;
+        let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
+        let client = figma::api::FigmaClient::new(token.to_string());
+        eprintln!("Fetching variables from Figma...");
+        rt.block_on(client.get_local_variables(file_key))
+            .map_err(|e| miette::miette!("{e}"))?
+            .meta
+    };
+
+    // 1. Load the name-mapping artifact, if given — same forward direction
+    // (legacyKey -> figmaName) `figma export`/`build_export_payload` use.
+    let mapping_map = mapping.map(load_overrides).transpose()?;
+
+    // 2. Load the manifest-resolved TokenGraph, same as `figma export`/`import`.
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let tokens: Vec<(String, serde_json::Value)> = graph
+        .tokens
+        .values()
+        .map(|r| (r.name.clone(), r.raw.clone()))
+        .collect();
+
+    // 3. Diff.
+    let report = figma::import::diff_values(&meta, &graph, &tokens, mapping_map.as_ref())
+        .map_err(|e| miette::miette!("{e}"))?;
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&report).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            let c = &report.counts;
+            println!(
+                "match={} value-mismatch={} figma-only={} design-data-only={} renamed={} skipped-uncovered={}",
+                c.matched, c.value_mismatch, c.figma_only, c.design_data_only, c.renamed, c.skipped_uncovered,
+            );
+            for entry in report
+                .entries
+                .iter()
+                .filter(|e| !matches!(e.class, figma::import::DiffClass::Match))
+            {
+                println!("  {} — {:?}", entry.name, entry.class);
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
@@ -2294,6 +2413,21 @@ fn main() -> ExitCode {
                 token_dir,
                 format,
             } => run_figma_audit(&snapshot, &token_dir, format),
+            FigmaSub::Diff {
+                file_key,
+                token,
+                snapshot,
+                mapping,
+                manifest,
+                format,
+            } => run_figma_diff(
+                file_key.as_deref(),
+                token.as_deref(),
+                snapshot.as_deref(),
+                mapping.as_deref(),
+                manifest.as_deref(),
+                format,
+            ),
         },
         Commands::Primer {
             path,
