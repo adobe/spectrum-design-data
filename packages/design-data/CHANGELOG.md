@@ -1,5 +1,49 @@
 # @adobe/spectrum-design-data
 
+## 2.4.0
+
+### Minor Changes
+
+- [#1399](https://github.com/adobe/spectrum-design-data/pull/1399) [`05e89b2`](https://github.com/adobe/spectrum-design-data/commit/05e89b2a6c440837de12362b24a526b9f160d7f4) Thanks [@GarthDB](https://github.com/GarthDB)! - New `figma diff` CLI command reports a value-level, read-only comparison
+  between the manifest-resolved dataset and a Figma file's actual variable
+  values (closes spectrum-design-data-11k.6).
+  - **sdk/core/src/figma/import.rs**: add `diff_values`, classifying every
+    Figma variable and design-data token as match / value-mismatch /
+    figma-only / design-data-only / renamed / skipped-uncovered, reusing
+    the value-comparison codec `build_import_overrides` uses.
+  - **sdk/cli/src/main.rs**: `figma diff --file-key --token [--snapshot]
+[--mapping] [--manifest] --format pretty|json`.
+  - **sdk/core/src/figma/{mapping,import}.rs**: normalizes opacity,
+    font-weight/style naming, `dp` units, and per-scale mode alignment
+    (only when the aligned scale actually matches) so `figma diff` reports
+    only genuine drift; a `--mapping`-renamed design-data-only entry now
+    reports its real legacy key; `renamed` prints separately from the
+    counts it can overlap with.
+
+- [#1396](https://github.com/adobe/spectrum-design-data/pull/1396) [`f122a90`](https://github.com/adobe/spectrum-design-data/commit/f122a901858ca1ed3d833e934b8c94197534b22f) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator can now export from a manifest-resolved dataset
+  instead of a raw token-source directory (closes spectrum-design-data-h890.11).
+  - **sdk/core/src/figma/mapping.rs**: `build_export_payload` takes a
+    `tokens: &[(String, Value)]` slice instead of a token-source directory
+    path; `load_all_tokens` is now `pub` so callers load tokens themselves
+    before building the payload.
+  - **sdk/cli/src/main.rs**: `figma export` gains a `--manifest <PATH>` flag;
+    when given, tokens are resolved through the platform manifest cascade
+    (include/exclude, overrides, extensions) before export instead of reading
+    `path` as a raw token directory. Behavior without `--manifest` is unchanged.
+
+- [#1398](https://github.com/adobe/spectrum-design-data/pull/1398) [`13ec65c`](https://github.com/adobe/spectrum-design-data/commit/13ec65cd489c0cdb75258c071e3d6e6fa743b20d) Thanks [@GarthDB](https://github.com/GarthDB)! - New `figma import` CLI command reads a Figma file's current variable values and
+  emits manifest `overrides` entries for the ones a designer edited (closes
+  spectrum-design-data-h890.12).
+  - **sdk/core/src/figma/import.rs**: new module — inverts the `{prefix}/{legacyKey}`
+    Figma Variable naming convention back to a token, diffs its per-mode Figma value
+    against the manifest-resolved source, and emits an override only when it diverged.
+  - **sdk/core/src/figma/color.rs**: adds `format_color`, the reverse of `parse_color`.
+  - **sdk/core/src/figma/mod.rs**: registers the new `import` module.
+  - **sdk/cli/src/main.rs**: `figma import <path> --file-key <k> --manifest <m.json>
+[--mapping <artifact>] [--out <PATH>]` fetches Figma variables and writes the
+    resulting overrides manifest, reporting unmapped/multi-mode-divergent/unconvertible
+    variables to stderr.
+
 ## 2.3.1
 
 ### Patch Changes
