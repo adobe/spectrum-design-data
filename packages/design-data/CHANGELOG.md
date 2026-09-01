@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 2.3.1
+
+### Patch Changes
+
+- [#1393](https://github.com/adobe/spectrum-design-data/pull/1393) [`63d0ef4`](https://github.com/adobe/spectrum-design-data/commit/63d0ef4a7d82db80caf6229dac55c9d820443927) Thanks [@GarthDB](https://github.com/GarthDB)! - Register the iOS pressed/down state synonym surfaced by the iOS platform-manifest POC
+  (spectrum-design-data-h890.17).
+  - **packages/design-data/registry/states.json**: `active` gains `aliases: ["pressed"]`
+    (iOS's pressed/down terms) and cross-references `down`; regenerated
+    `sdk/core/src/registry_data.rs`.
+
 ## 2.3.0
 
 ### Minor Changes

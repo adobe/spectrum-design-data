@@ -1,5 +1,23 @@
 # @adobe/design-data-mcp
 
+## 1.7.31
+
+### Patch Changes
+
+- [#1395](https://github.com/adobe/spectrum-design-data/pull/1395) [`7ca8513`](https://github.com/adobe/spectrum-design-data/commit/7ca8513eaf40c2ee1291385b81796410eafe6f3c) Thanks [@GarthDB](https://github.com/GarthDB)! - Tell agents how to stay on the latest bundled dataset (closes the Protopack Web
+  stale-dataset gap surfaced in Slack).
+  - **tools/design-data-mcp/src/index.js**: server now sends an `instructions` string
+    explaining the embedded dataset travels with the package version and how to check it.
+  - **tools/design-data-mcp/README.md**: pin `@latest` in the npx configs; add a "Staying
+    current" note.
+  - **tools/design-data-agent-mcp/src/index.js**: same `instructions` addition.
+  - **tools/design-data-agent-mcp/README.md**: pin `@latest`; add a "Staying current" note.
+  - **tools/design-data-agent-mcp/skills/design-data/SKILL.md**: pin `@latest` in the
+    bootstrap config; note the same.
+
+- Updated dependencies [[`63d0ef4`](https://github.com/adobe/spectrum-design-data/commit/63d0ef4a7d82db80caf6229dac55c9d820443927)]:
+  - @adobe/spectrum-design-data@2.3.1
+
 ## 1.7.30
 
 ### Patch Changes
