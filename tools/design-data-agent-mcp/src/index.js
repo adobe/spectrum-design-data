@@ -48,7 +48,17 @@ export function createMCPServer() {
   const allTools = createAllTools();
   const server = new Server(
     { name: "design-data-agent-mcp", version: pkg.version },
-    { capabilities: { tools: {} } },
+    {
+      capabilities: { tools: {} },
+      instructions:
+        "This server bundles a snapshot of Spectrum design data (tokens, components, " +
+        "guidelines) baked into its wasm at build time. The data version travels with the " +
+        "package version, so there is nothing to update separately. To get newer Spectrum " +
+        "data, install the latest published package (npx -y @adobe/design-data-agent-mcp@latest " +
+        '— plain "npx -y @adobe/design-data-agent-mcp" can reuse a cached older build). Call ' +
+        "the design-data primer tool and read provenance.designDataVersion to see the " +
+        "embedded dataset version.",
+    },
   );
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: allTools.map(({ name, description, inputSchema }) => ({

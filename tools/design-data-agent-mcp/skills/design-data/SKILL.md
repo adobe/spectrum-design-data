@@ -38,7 +38,7 @@ Add `@adobe/design-data-agent-mcp` to your `.cursor/mcp.json`:
   "mcpServers": {
     "design-data-agent": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "args": ["-y", "@adobe/design-data-agent-mcp@latest"],
       "env": {
         "DESIGN_DATA_PATH": "./packages/tokens/src",
         "DESIGN_DATA_COMPONENTS": "./packages/design-data/components",
@@ -49,7 +49,9 @@ Add `@adobe/design-data-agent-mcp` to your `.cursor/mcp.json`:
 }
 ```
 
-Adjust paths to match your dataset layout.
+Adjust paths to match your dataset layout. Pin `@latest` — the embedded Spectrum snapshot is
+baked into the wasm at build time and travels with the package version, so there's no separate
+data update to run, but plain `npx -y <pkg>` (no tag) can reuse a cached older build.
 
 ***
 
