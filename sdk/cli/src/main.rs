@@ -512,6 +512,11 @@ enum FigmaSub {
         /// take precedence over the default `{prefix}/{legacyKey}` naming
         #[arg(long, value_name = "PATH")]
         mapping: Option<PathBuf>,
+        /// Path to a platform manifest.json; when given, tokens are resolved
+        /// through the manifest cascade (include/exclude, overrides, extensions)
+        /// before export instead of reading `path` as a raw token directory
+        #[arg(long, value_name = "PATH")]
+        manifest: Option<PathBuf>,
     },
     /// Audit generated Figma Variable names against a captured snapshot (offline, no API call)
     Audit {
@@ -1414,6 +1419,7 @@ fn run_figma_export(
     token: &str,
     dry_run: bool,
     mapping: Option<&Path>,
+    manifest: Option<&Path>,
 ) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
@@ -1421,19 +1427,48 @@ fn run_figma_export(
     // 0. Load name-mapping overrides, if given.
     let overrides = mapping.map(load_overrides).transpose()?;
 
-    // 1. GET existing variables to obtain collection/mode IDs.
+    // 1. Load tokens — either straight from the source directory, or resolved
+    // through the platform manifest cascade (include/exclude, overrides,
+    // extensions) when `--manifest` is given.
+    let tokens = match manifest {
+        None => figma::mapping::load_all_tokens(path).map_err(|e| miette::miette!("{e}"))?,
+        Some(manifest_path) => {
+            let resolved = resolve_data_source(CliPathOverrides {
+                tokens_root: Some(path.to_path_buf()),
+                platform_manifest: Some(manifest_path.to_path_buf()),
+                ..Default::default()
+            })?;
+            let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+                &resolved.tokens_root,
+                resolved.mode_sets.as_deref(),
+                resolved.components.as_deref(),
+            )
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+            manifest::apply_configured(&mut graph, &resolved)
+                .into_diagnostic()
+                .wrap_err("failed to apply platform manifest cascade")?;
+            graph
+                .tokens
+                .values()
+                .map(|r| (r.name.clone(), r.raw.clone()))
+                .collect()
+        }
+    };
+
+    // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
     let response = rt
         .block_on(client.get_local_variables(file_key))
         .map_err(|e| miette::miette!("{e}"))?;
 
-    // 2. Build the export payload.
+    // 3. Build the export payload.
     eprintln!("Building export payload from {}...", path.display());
     let (body, summary) =
-        figma::mapping::build_export_payload(path, &response.meta, overrides.as_ref())
+        figma::mapping::build_export_payload(&tokens, &response.meta, overrides.as_ref())
             .map_err(|e| miette::miette!("{e}"))?;
 
-    // 3. Output or post.
+    // 4. Output or post.
     if dry_run {
         println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
     } else {
@@ -1450,7 +1485,7 @@ fn run_figma_export(
         );
     }
 
-    // 4. Print summary to stderr.
+    // 5. Print summary to stderr.
     eprintln!(
         "\nSummary: {} variables, {} mode values",
         summary.variables_created, summary.mode_values_set
@@ -2104,7 +2139,15 @@ fn main() -> ExitCode {
                 token,
                 dry_run,
                 mapping,
-            } => run_figma_export(&path, &file_key, &token, dry_run, mapping.as_deref()),
+                manifest,
+            } => run_figma_export(
+                &path,
+                &file_key,
+                &token,
+                dry_run,
+                mapping.as_deref(),
+                manifest.as_deref(),
+            ),
             FigmaSub::Audit {
                 snapshot,
                 token_dir,

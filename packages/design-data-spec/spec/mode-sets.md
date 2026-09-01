@@ -27,11 +27,11 @@ A **mode set declaration** is a JSON object describing one axis of variation. It
 
 These mode sets are declared in the `mode-sets/` catalog (see [Mode Set catalog](#mode-set-catalog)) and **SHOULD** be used consistently across Spectrum-compatible datasets:
 
-| `name`        | `modes`                      | `default` | Notes                                                                             |
-| ------------- | ---------------------------- | --------- | --------------------------------------------------------------------------------- |
-| `colorScheme` | `light`, `dark`, `wireframe` | `light`   | Theme / appearance.                                                               |
-| `scale`       | `desktop`, `mobile`          | `desktop` | Density scale. Legacy names; desktop = medium, mobile = large in W3C terminology. |
-| `contrast`    | `regular`, `high`            | `regular` | Accessibility contrast level.                                                     |
+| `name`        | `modes`                      | `default` | Notes                                                                                                                                                        |
+| ------------- | ---------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `colorScheme` | `light`, `dark`, `wireframe` | `light`   | Theme / appearance.                                                                                                                                          |
+| `scale`       | `desktop`, `mobile`          | `desktop` | Density scale. Legacy names; desktop = medium, mobile = large in W3C terminology.                                                                            |
+| `contrast`    | `regular`, `high`            | `regular` | Accessibility contrast level. iOS platform data authors `increased` as a synonym for `high` — treat the two as the same crosswalk term, not distinct values. |
 
 ## Mode Set catalog
 
