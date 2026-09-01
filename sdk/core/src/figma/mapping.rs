@@ -34,8 +34,8 @@ const DIMENSION: &str = "dimension.json";
 pub(crate) const OPACITY: &str = "opacity.json";
 const FONT_FAMILY: &str = "font-family.json";
 const FONT_SIZE: &str = "font-size.json";
-const FONT_STYLE: &str = "font-style.json";
-const FONT_WEIGHT: &str = "font-weight.json";
+pub(crate) const FONT_STYLE: &str = "font-style.json";
+pub(crate) const FONT_WEIGHT: &str = "font-weight.json";
 const ALIAS: &str = "alias.json";
 
 // Schemas we skip (composite types with no Figma Variable equivalent).
@@ -425,6 +425,9 @@ fn value_to_figma(value_str: &str, figma_type: &str, is_opacity: bool) -> Option
             // Strip common unit suffixes: px, em, rem, %
             // Note: dp (Android density-independent pixels) is intentionally not
             // stripped — dp values have no Figma equivalent and are tracked separately.
+            // (The diff/import side's `UNIT_SUFFIXES` does recognize `dp`, for
+            // comparison purposes only — a captured Figma file can carry a
+            // dp-sourced numeric value even though export never writes one.)
             let s = value_str
                 .trim()
                 .trim_end_matches("rem")

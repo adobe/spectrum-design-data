@@ -23,7 +23,9 @@ use serde::Serialize;
 use serde_json::Value;
 
 use super::color::{format_color, parse_color};
-use super::mapping::{build_export_payload, figma_opacity_to_fraction, OPACITY};
+use super::mapping::{
+    build_export_payload, figma_opacity_to_fraction, FONT_STYLE, FONT_WEIGHT, OPACITY,
+};
 use super::types::{FigmaColor, FigmaVariable, VariablesMeta};
 use super::FigmaError;
 use crate::graph::TokenGraph;
@@ -37,10 +39,56 @@ fn record_is_opacity(record: &crate::graph::TokenRecord, graph: &TokenGraph) -> 
         .is_some_and(|s| s.ends_with(OPACITY))
 }
 
+/// Whether `record` is a font-weight/font-style token, whose STRING value is
+/// compared name-insensitively (`canon_font_name`) rather than verbatim.
+fn record_is_font_name(record: &crate::graph::TokenRecord, graph: &TokenGraph) -> bool {
+    record
+        .resolve_leaf(graph)
+        .raw
+        .get("$schema")
+        .and_then(Value::as_str)
+        .is_some_and(|s| s.ends_with(FONT_STYLE) || s.ends_with(FONT_WEIGHT))
+}
+
+/// Canonicalize a font-weight/style name for comparison: casing and
+/// kebab-case punctuation aren't meaningful ("extra-bold" == "ExtraBold"),
+/// and "normal" is Figma's "Regular" — the only such synonym seen in the
+/// corpus (ponytail: add more, e.g. "oblique", only if they show up).
+fn canon_font_name(s: &str) -> String {
+    let s = s.to_lowercase().replace('-', "");
+    if s == "normal" {
+        "regular".to_string()
+    } else {
+        s
+    }
+}
+
+/// The Figma mode name a scale-set token's `name.scale` field would match
+/// ("Desktop" -> "desktop"), used to align a per-scale-divergent design-data
+/// token to the one Figma mode actually present, instead of an arbitrary
+/// scale entry. Only applied when the variable has exactly one populated
+/// mode — with more than one, which scale to align to is ambiguous
+/// (ponytail: no case in the corpus needs that; add it if one shows up).
+fn figma_mode_scale(variable: &FigmaVariable, meta: &VariablesMeta) -> Option<String> {
+    if variable.values_by_mode.len() != 1 {
+        return None;
+    }
+    let mode_id = variable.values_by_mode.keys().next()?;
+    let collection = meta
+        .variable_collections
+        .get(&variable.variable_collection_id)?;
+    collection
+        .modes
+        .iter()
+        .find(|m| &m.mode_id == mode_id)
+        .map(|m| m.name.to_lowercase())
+}
+
 /// The unit suffixes recognized on a dimension-like token value, matching the
-/// ones stripped on export (`mapping.rs`'s `value_to_figma`). `dp` is
-/// intentionally excluded — it was never exported to Figma either.
-const UNIT_SUFFIXES: &[&str] = &["rem", "em", "px", "%"];
+/// ones stripped on export (`mapping.rs`'s `value_to_figma`), plus `dp` —
+/// recognized here for comparison only; export still never strips it (see
+/// `value_to_figma`'s FLOAT arm).
+const UNIT_SUFFIXES: &[&str] = &["rem", "em", "px", "%", "dp"];
 
 /// Summary of one import run.
 #[derive(Debug, Default)]
@@ -100,13 +148,19 @@ pub fn build_import_overrides(
             }
         };
 
+        // ponytail: a manifest override is single-valued, so there's no scale
+        // to align to here the way diff_values does below — leave this arbitrary
+        // scale-entry pick as-is; a per-scale override target is a separate,
+        // thornier design question that hasn't come up in practice.
         let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
         let is_opacity = record_is_opacity(record, graph);
+        let is_font_name = record_is_font_name(record, graph);
         match diff_against_source(
             &variable.resolved_type,
             &collapsed,
             source_value.as_ref(),
             is_opacity,
+            is_font_name,
         ) {
             Ok(None) => summary.unchanged += 1,
             Ok(Some(value)) => {
@@ -266,13 +320,30 @@ pub fn diff_values(
             }
         };
 
-        let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
+        let leaf = record.resolve_leaf(graph);
+        // Align to the design-data entry for the Figma variable's own scale
+        // (e.g. Desktop -> "desktop") when the source is a scale-set token
+        // (`set_uuid` present) that diverges per scale — otherwise a single
+        // arbitrary scale entry gets compared against a specific Figma mode
+        // and can false-positive (or false-negative) the diff.
+        let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
+            let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
+            let ctx = HashMap::from([("scale".to_string(), scale)]);
+            graph
+                .resolve_set_in_context(set_uuid, &ctx)?
+                .raw
+                .get("value")
+                .cloned()
+        });
+        let source_value = scale_source_value.or_else(|| leaf.raw.get("value").cloned());
         let is_opacity = record_is_opacity(record, graph);
+        let is_font_name = record_is_font_name(record, graph);
         let class = match diff_against_source(
             &variable.resolved_type,
             &collapsed,
             source_value.as_ref(),
             is_opacity,
+            is_font_name,
         ) {
             Ok(None) => {
                 counts.matched += 1;
@@ -411,6 +482,7 @@ fn diff_against_source(
     figma_value: &Value,
     source: Option<&Value>,
     is_opacity: bool,
+    is_font_name: bool,
 ) -> Result<Option<Value>, ()> {
     let source_str = source.and_then(Value::as_str);
     match resolved_type {
@@ -452,6 +524,13 @@ fn diff_against_source(
             let s = figma_value.as_str().ok_or(())?;
             if source_str == Some(s) {
                 return Ok(None);
+            }
+            if is_font_name {
+                if let Some(src) = source_str {
+                    if canon_font_name(src) == canon_font_name(s) {
+                        return Ok(None);
+                    }
+                }
             }
             Ok(Some(Value::String(s.to_string())))
         }
@@ -699,6 +778,180 @@ mod tests {
         let (overrides, summary) = build_import_overrides(&meta, &graph, None);
         assert!(overrides.is_empty());
         assert_eq!(summary.unchanged, 1);
+    }
+
+    #[test]
+    fn font_weight_name_casing_agrees() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/bold-font-weight",
+            "STRING",
+            vec![("m-desktop", json!("Bold"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "bold-font-weight",
+            "u-bold",
+            json!("bold"),
+            "https://example.com/font-weight.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    #[test]
+    fn font_style_normal_agrees_with_figma_regular() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/default-font-style",
+            "STRING",
+            vec![("m-desktop", json!("Regular"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "default-font-style",
+            "u-default-style",
+            json!("normal"),
+            "https://example.com/font-style.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    /// A genuinely different weight must still be reported — canonicalization
+    /// normalizes naming, not the underlying value.
+    #[test]
+    fn font_weight_genuine_difference_still_mismatches() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/bold-font-weight",
+            "STRING",
+            vec![("m-desktop", json!("Black"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "bold-font-weight",
+            "u-bold",
+            json!("bold"),
+            "https://example.com/font-weight.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.value_mismatch, 1);
+    }
+
+    #[test]
+    fn dp_unit_agrees_with_bare_figma_number() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/android-elevation",
+            "FLOAT",
+            vec![("m-desktop", json!(2.0))],
+        )]);
+        let graph = mock_graph("android-elevation", "u-elevation", json!("2dp"));
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    /// Two-entry scale-set graph (desktop/mobile sharing `set_uuid`), used to
+    /// verify the diff aligns to the Figma variable's own scale instead of an
+    /// arbitrary entry.
+    fn mock_scale_graph(legacy_key: &str, desktop: Value, mobile: Value) -> TokenGraph {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/dimension.json",
+                    "name": {"property": "padding", "scale": "desktop", "legacyKey": legacy_key},
+                    "value": desktop,
+                    "uuid": format!("u-{legacy_key}-desktop"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/dimension.json",
+                    "name": {"property": "padding", "scale": "mobile", "legacyKey": legacy_key},
+                    "value": mobile,
+                    "uuid": format!("u-{legacy_key}-mobile"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+            ])
+        )
+        .unwrap();
+        TokenGraph::from_json_dir(dir.path()).unwrap()
+    }
+
+    fn mock_meta_with_single_mode(
+        variable: FigmaVariable,
+        mode_name: &str,
+        mode_id: &str,
+    ) -> VariablesMeta {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            variable.variable_collection_id.clone(),
+            FigmaVariableCollection {
+                id: variable.variable_collection_id.clone(),
+                name: ".Platform scale".to_string(),
+                key: "k".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: mode_id.to_string(),
+                    name: mode_name.to_string(),
+                }],
+                default_mode_id: mode_id.to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let mut variables = HashMap::new();
+        variables.insert(variable.id.clone(), variable);
+        VariablesMeta {
+            variables,
+            variable_collections,
+        }
+    }
+
+    /// The false-positive case this fix targets: design-data's mobile entry
+    /// (50) differs from Figma's captured Desktop mode (42), but the desktop
+    /// entry (42) agrees — the diff must align to Figma's scale, not an
+    /// arbitrary entry, and report a match.
+    #[test]
+    fn scale_set_aligns_to_figmas_captured_mode() {
+        let var = mock_variable(
+            "platformScale/line-height-900",
+            "FLOAT",
+            vec![("m-desktop", json!(42.0))],
+        );
+        let meta = mock_meta_with_single_mode(var, "Desktop", "m-desktop");
+        let graph = mock_scale_graph("line-height-900", json!("42px"), json!("50px"));
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    /// A genuine desktop-to-desktop difference must still be reported once
+    /// aligned to the correct scale.
+    #[test]
+    fn scale_set_still_mismatches_on_real_desktop_drift() {
+        let var = mock_variable(
+            "platformScale/base-padding-horizontal-large",
+            "FLOAT",
+            vec![("m-desktop", json!(16.0))],
+        );
+        let meta = mock_meta_with_single_mode(var, "Desktop", "m-desktop");
+        let graph = mock_scale_graph(
+            "base-padding-horizontal-large",
+            json!("14px"),
+            json!("12px"),
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.value_mismatch, 1);
+        let entry = &report.entries[0];
+        match &entry.class {
+            DiffClass::ValueMismatch { design_data, .. } => {
+                assert_eq!(design_data, &json!("14px"));
+            }
+            other => panic!("expected ValueMismatch, got {other:?}"),
+        }
     }
 
     #[test]

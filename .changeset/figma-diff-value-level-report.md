@@ -15,6 +15,7 @@ values (closes spectrum-design-data-11k.6).
 - **sdk/cli/src/main.rs**: `figma diff --file-key --token [--snapshot]
   [--mapping] [--manifest] --format pretty|json`; `--snapshot` diffs
   offline against a captured `VariablesMeta` snapshot, no API call.
-- **sdk/core/src/figma/{mapping,import}.rs**: the FLOAT codec now
-  normalizes opacity between design-data's 0-1 fraction and Figma's
-  0-100 scale across export, import, and diff.
+- **sdk/core/src/figma/{mapping,import}.rs**: the codec now normalizes
+  opacity (0-1 fraction vs Figma's 0-100), font-weight/style naming, `dp`
+  units, and per-scale mode alignment, so `figma diff` reports only
+  genuine value drift.
