@@ -23,10 +23,19 @@ use serde::Serialize;
 use serde_json::Value;
 
 use super::color::{format_color, parse_color};
-use super::mapping::build_export_payload;
+use super::mapping::{build_export_payload, figma_opacity_to_fraction, OPACITY};
 use super::types::{FigmaColor, FigmaVariable, VariablesMeta};
 use super::FigmaError;
 use crate::graph::TokenGraph;
+
+fn record_is_opacity(record: &crate::graph::TokenRecord, graph: &TokenGraph) -> bool {
+    record
+        .resolve_leaf(graph)
+        .raw
+        .get("$schema")
+        .and_then(Value::as_str)
+        .is_some_and(|s| s.ends_with(OPACITY))
+}
 
 /// The unit suffixes recognized on a dimension-like token value, matching the
 /// ones stripped on export (`mapping.rs`'s `value_to_figma`). `dp` is
@@ -92,7 +101,13 @@ pub fn build_import_overrides(
         };
 
         let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
-        match diff_against_source(&variable.resolved_type, &collapsed, source_value.as_ref()) {
+        let is_opacity = record_is_opacity(record, graph);
+        match diff_against_source(
+            &variable.resolved_type,
+            &collapsed,
+            source_value.as_ref(),
+            is_opacity,
+        ) {
             Ok(None) => summary.unchanged += 1,
             Ok(Some(value)) => {
                 let target = record.uuid.clone().unwrap_or_else(|| record.name.clone());
@@ -252,26 +267,31 @@ pub fn diff_values(
         };
 
         let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
-        let class =
-            match diff_against_source(&variable.resolved_type, &collapsed, source_value.as_ref()) {
-                Ok(None) => {
-                    counts.matched += 1;
-                    DiffClass::Match
+        let is_opacity = record_is_opacity(record, graph);
+        let class = match diff_against_source(
+            &variable.resolved_type,
+            &collapsed,
+            source_value.as_ref(),
+            is_opacity,
+        ) {
+            Ok(None) => {
+                counts.matched += 1;
+                DiffClass::Match
+            }
+            Ok(Some(figma_value)) => {
+                counts.value_mismatch += 1;
+                DiffClass::ValueMismatch {
+                    design_data: source_value.clone().unwrap_or(Value::Null),
+                    figma: figma_value,
                 }
-                Ok(Some(figma_value)) => {
-                    counts.value_mismatch += 1;
-                    DiffClass::ValueMismatch {
-                        design_data: source_value.clone().unwrap_or(Value::Null),
-                        figma: figma_value,
-                    }
+            }
+            Err(()) => {
+                counts.skipped_uncovered += 1;
+                DiffClass::SkippedUncovered {
+                    reason: "unconvertible".to_string(),
                 }
-                Err(()) => {
-                    counts.skipped_uncovered += 1;
-                    DiffClass::SkippedUncovered {
-                        reason: "unconvertible".to_string(),
-                    }
-                }
-            };
+            }
+        };
         entries.push(DiffEntry {
             name: variable.name.clone(),
             legacy_key: Some(legacy_key),
@@ -390,6 +410,7 @@ fn diff_against_source(
     resolved_type: &str,
     figma_value: &Value,
     source: Option<&Value>,
+    is_opacity: bool,
 ) -> Result<Option<Value>, ()> {
     let source_str = source.and_then(Value::as_str);
     match resolved_type {
@@ -403,7 +424,12 @@ fn diff_against_source(
             Ok(Some(Value::String(format_color(&color))))
         }
         "FLOAT" => {
-            let n = figma_value.as_f64().ok_or(())?;
+            let raw_n = figma_value.as_f64().ok_or(())?;
+            let n = if is_opacity {
+                figma_opacity_to_fraction(raw_n)
+            } else {
+                raw_n
+            };
             if let Some(source_n) = source.and_then(Value::as_f64) {
                 if approx_eq(n, source_n) {
                     return Ok(None);
@@ -473,6 +499,15 @@ mod tests {
     /// as the object-format fixtures `mapping.rs`'s export tests use) so the
     /// uuid/legacy-name indexes are populated exactly as they are in production.
     fn mock_graph(legacy_key: &str, uuid: &str, value: Value) -> TokenGraph {
+        mock_graph_with_schema(legacy_key, uuid, value, "https://example.com/color.json")
+    }
+
+    fn mock_graph_with_schema(
+        legacy_key: &str,
+        uuid: &str,
+        value: Value,
+        schema: &str,
+    ) -> TokenGraph {
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("tokens.json");
         let mut f = std::fs::File::create(&path).unwrap();
@@ -481,7 +516,7 @@ mod tests {
             "{}",
             json!({
                 legacy_key: {
-                    "$schema": "https://example.com/color.json",
+                    "$schema": schema,
                     "name": legacy_key,
                     "value": value,
                     "uuid": uuid,
@@ -587,6 +622,86 @@ mod tests {
     }
 
     #[test]
+    fn opacity_scale_agrees_when_figma_is_percent_of_fraction() {
+        let meta = mock_meta(vec![mock_variable(
+            "colorTheme/background-opacity-down",
+            "FLOAT",
+            vec![("m-light", json!(10.0))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "background-opacity-down",
+            "u-opacity-down",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    #[test]
+    fn opacity_mismatch_reports_fraction_scale() {
+        let meta = mock_meta(vec![mock_variable(
+            "colorTheme/background-opacity-down",
+            "FLOAT",
+            vec![("m-light", json!(20.0))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "background-opacity-down",
+            "u-opacity-down",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.value_mismatch, 1);
+        let entry = &report.entries[0];
+        match &entry.class {
+            DiffClass::ValueMismatch { design_data, figma } => {
+                assert_eq!(design_data, &json!("0.1"));
+                assert_eq!(figma, &json!("0.2"));
+            }
+            other => panic!("expected ValueMismatch, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn opacity_import_override_uses_fraction_scale() {
+        let meta = mock_meta(vec![mock_variable(
+            "colorTheme/background-opacity-down",
+            "FLOAT",
+            vec![("m-light", json!(20.0))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "background-opacity-down",
+            "u-opacity-down",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let (overrides, summary) = build_import_overrides(&meta, &graph, None);
+        assert_eq!(summary.overrides_emitted, 1);
+        assert_eq!(overrides[0]["target"], "u-opacity-down");
+        assert_eq!(overrides[0]["value"], "0.2");
+    }
+
+    #[test]
+    fn opacity_import_no_override_when_scales_agree() {
+        let meta = mock_meta(vec![mock_variable(
+            "colorTheme/background-opacity-down",
+            "FLOAT",
+            vec![("m-light", json!(10.0))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "background-opacity-down",
+            "u-opacity-down",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let (overrides, summary) = build_import_overrides(&meta, &graph, None);
+        assert!(overrides.is_empty());
+        assert_eq!(summary.unchanged, 1);
+    }
+
+    #[test]
     fn diverged_color_emits_uuid_override() {
         let meta = mock_meta(vec![mock_variable(
             "colorTheme/blue-100",
@@ -613,17 +728,18 @@ mod tests {
         assert_eq!(overrides[0]["value"], "16px");
     }
 
-    /// A bare-number source (e.g. an opacity/font-weight token, not a
-    /// unit-suffixed dimension) must still be compared numerically —
+    /// A bare-number source (e.g. a font-weight token, not a unit-suffixed
+    /// dimension, and not opacity — this mock's schema is `color.json`, so no
+    /// opacity scaling applies) must still be compared numerically —
     /// otherwise an unedited FLOAT variable falsely reads as diverged.
     #[test]
     fn unchanged_bare_numeric_float_produces_no_override() {
         let meta = mock_meta(vec![mock_variable(
-            "platformScale/opacity-disabled",
+            "platformScale/font-weight-bold",
             "FLOAT",
             vec![("m-desktop", json!(0.6666))],
         )]);
-        let graph = mock_graph("opacity-disabled", "u-opacity-disabled", json!(0.6666));
+        let graph = mock_graph("font-weight-bold", "u-font-weight-bold", json!(0.6666));
         let (overrides, summary) = build_import_overrides(&meta, &graph, None);
         assert!(overrides.is_empty());
         assert_eq!(summary.unchanged, 1);

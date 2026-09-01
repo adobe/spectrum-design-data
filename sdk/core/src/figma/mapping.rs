@@ -31,7 +31,7 @@ const COLOR_SET: &str = "color-set.json";
 const COLOR: &str = "color.json";
 const SCALE_SET: &str = "scale-set.json";
 const DIMENSION: &str = "dimension.json";
-const OPACITY: &str = "opacity.json";
+pub(crate) const OPACITY: &str = "opacity.json";
 const FONT_FAMILY: &str = "font-family.json";
 const FONT_SIZE: &str = "font-size.json";
 const FONT_STYLE: &str = "font-style.json";
@@ -400,8 +400,22 @@ fn schema_to_figma_type(schema: &str) -> &'static str {
     }
 }
 
+/// design-data stores opacity as a 0–1 fraction; Figma variables use a 0–100
+/// scale. `is_opacity` callers convert between them at the codec boundary so
+/// export/import/diff all agree on the fraction as the canonical scale.
+pub(crate) fn fraction_to_figma_opacity(fraction: f64) -> f64 {
+    // ponytail: round to 6 decimal places to shed float noise (0.1 * 100.0
+    // can land on 10.000000000000002); precision beyond that isn't meaningful
+    // for an opacity value.
+    ((fraction * 100.0) * 1e6).round() / 1e6
+}
+
+pub(crate) fn figma_opacity_to_fraction(figma_value: f64) -> f64 {
+    ((figma_value / 100.0) * 1e6).round() / 1e6
+}
+
 /// Convert a raw value string to a Figma-compatible JSON value.
-fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
+fn value_to_figma(value_str: &str, figma_type: &str, is_opacity: bool) -> Option<Value> {
     match figma_type {
         "COLOR" => {
             let c = parse_color(value_str).ok()?;
@@ -418,6 +432,11 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
                 .trim_end_matches("px")
                 .trim_end_matches('%');
             let n: f64 = s.parse().ok()?;
+            let n = if is_opacity {
+                fraction_to_figma_opacity(n)
+            } else {
+                n
+            };
             Some(Value::Number(serde_json::Number::from_f64(n)?))
         }
         "STRING" => Some(Value::String(value_str.to_string())),
@@ -530,7 +549,9 @@ fn process_color_set_token(
         });
 
         if let Some(val_str) = resolved {
-            if let Some(figma_val) = value_to_figma(val_str, figma_type) {
+            if let Some(figma_val) =
+                value_to_figma(val_str, figma_type, inner_schema.ends_with(OPACITY))
+            {
                 mode_values.push(ModeValueAction {
                     variable_id: var_id.clone(),
                     mode_id: mode_id.clone(),
@@ -628,7 +649,9 @@ fn process_scale_set_token(
         });
 
         if let Some(val_str) = resolved {
-            if let Some(figma_val) = value_to_figma(val_str, figma_type) {
+            if let Some(figma_val) =
+                value_to_figma(val_str, figma_type, inner_schema.ends_with(OPACITY))
+            {
                 mode_values.push(ModeValueAction {
                     variable_id: var_id.clone(),
                     mode_id: mode_id.clone(),
@@ -676,7 +699,11 @@ fn process_flat_token(
         raw_value
     };
 
-    let figma_val = match value_to_figma(resolved, figma_type) {
+    let is_opacity = entry
+        .get("$schema")
+        .and_then(|v| v.as_str())
+        .is_some_and(|s| s.ends_with(OPACITY));
+    let figma_val = match value_to_figma(resolved, figma_type, is_opacity) {
         Some(v) => v,
         None => {
             summary
@@ -791,10 +818,11 @@ fn process_alias_token(
         )
     };
 
-    let figma_val = match value_to_figma(resolved_value, figma_type) {
-        Some(v) => v,
-        None => return,
-    };
+    let figma_val =
+        match value_to_figma(resolved_value, figma_type, target_schema.ends_with(OPACITY)) {
+            Some(v) => v,
+            None => return,
+        };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
     let (va, var_id) = make_variable_action(
@@ -934,6 +962,38 @@ mod tests {
         // Value should be 8.0
         let val = &body.variable_mode_values[0].value;
         assert_eq!(val.as_f64(), Some(8.0));
+    }
+
+    #[test]
+    fn opacity_token_scales_fraction_to_figma_percent() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("color-aliases.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "background-opacity-down": {
+                    "$schema": "https://example.com/opacity.json",
+                    "value": "0.1",
+                    "uuid": "o1"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(
+            body.variables[0].name,
+            "platformScale/background-opacity-down"
+        );
+        assert_eq!(body.variables[0].resolved_type, "FLOAT");
+        let val = &body.variable_mode_values[0].value;
+        assert_eq!(val.as_f64(), Some(10.0));
     }
 
     #[test]
