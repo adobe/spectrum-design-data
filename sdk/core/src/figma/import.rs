@@ -198,6 +198,9 @@ pub fn diff_values(
         let renamed = reversed
             .as_ref()
             .is_some_and(|m| m.contains_key(&variable.name));
+        if renamed {
+            counts.renamed += 1;
+        }
 
         let Some(legacy_key) = invert_name(&variable.name, reversed.as_ref()) else {
             counts.figma_only += 1;
@@ -269,9 +272,6 @@ pub fn diff_values(
                     }
                 }
             };
-        if renamed {
-            counts.renamed += 1;
-        }
         entries.push(DiffEntry {
             name: variable.name.clone(),
             legacy_key: Some(legacy_key),
@@ -282,17 +282,21 @@ pub fn diff_values(
 
     // Design-data-only pass: names the generator would produce that no real
     // Figma variable in the file covers.
-    let (body, _summary) = build_export_payload(tokens, meta, mapping)?;
-    for action in &body.variables {
-        if !seen.contains(&action.name) {
-            counts.design_data_only += 1;
-            let legacy_key = action.name.split_once('/').map(|(_, key)| key.to_string());
-            entries.push(DiffEntry {
-                name: action.name.clone(),
-                legacy_key,
-                renamed: false,
-                class: DiffClass::DesignDataOnly,
-            });
+    // A file missing the `.Color theme`/`.Platform scale` collections can't
+    // produce an export payload at all; that's a reason to skip this one
+    // pass, not to discard the Figma-driven diff already computed above.
+    if let Ok((body, _summary)) = build_export_payload(tokens, meta, mapping) {
+        for action in &body.variables {
+            if !seen.contains(&action.name) {
+                counts.design_data_only += 1;
+                let legacy_key = action.name.split_once('/').map(|(_, key)| key.to_string());
+                entries.push(DiffEntry {
+                    name: action.name.clone(),
+                    legacy_key,
+                    renamed: false,
+                    class: DiffClass::DesignDataOnly,
+                });
+            }
         }
     }
 
