@@ -23,7 +23,7 @@ Add to `.cursor/mcp-servers.json` in your project root:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp"]
+      "args": ["-y", "@adobe/design-data-mcp@latest"]
     }
   }
 }
@@ -38,11 +38,19 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
   "mcpServers": {
     "design-data": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-mcp"]
+      "args": ["-y", "@adobe/design-data-mcp@latest"]
     }
   }
 }
 ```
+
+## Staying current
+
+The embedded Spectrum snapshot is baked into the wasm at build time and travels with the
+package version — there's no separate data update to run. Pin `@latest` (as above) so `npx`
+fetches the newest published version rather than reusing whatever it last cached; `-y` alone
+only skips the install confirmation, it doesn't force a re-fetch. Call `design-data-primer` and
+check `provenance.designDataVersion` to see which dataset version is embedded.
 
 ## Tools
 
