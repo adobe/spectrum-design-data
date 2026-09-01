@@ -109,7 +109,13 @@ pub struct ExportSummary {
     pub skipped_unparseable_value: Vec<String>,
 }
 
-/// Build a Figma POST payload from legacy token source files.
+/// Build a Figma POST payload from a flat set of legacy-shaped token entries.
+///
+/// `tokens` is `(name, raw legacy JSON entry)` pairs — either loaded straight
+/// from a token-source directory ([`load_all_tokens`]) or collected from a
+/// manifest-resolved [`crate::graph::TokenGraph`] (`(record.name, record.raw)`
+/// for each [`crate::graph::TokenRecord`]) so platform overrides/extensions are
+/// reflected in the export.
 ///
 /// `existing` is the result of `GET /v1/files/:file_key/variables/local` —
 /// used to look up collection and mode IDs for the target collections.
@@ -119,7 +125,7 @@ pub struct ExportSummary {
 /// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
 /// today's naming for every token.
 pub fn build_export_payload(
-    token_dir: &Path,
+    tokens: &[(String, Value)],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
@@ -140,11 +146,8 @@ pub fn build_export_payload(
     let color_default_mode = &color_col.default_mode_id;
     let scale_default_mode = &scale_col.default_mode_id;
 
-    // 2. Load all token files from the directory.
-    let all_tokens = load_all_tokens(token_dir)?;
-
-    // 3. Build a name→value lookup for alias resolution.
-    let value_index = build_value_index(&all_tokens);
+    // 2. Build a name→value lookup for alias resolution.
+    let value_index = build_value_index(tokens);
 
     // 4. Process each token.
     let mut summary = ExportSummary::default();
@@ -158,7 +161,7 @@ pub fn build_export_payload(
         .map(|v| (v.name.as_str(), v.id.as_str()))
         .collect();
 
-    for (token_name, token_entry) in &all_tokens {
+    for (token_name, token_entry) in tokens {
         let schema = token_entry
             .get("$schema")
             .and_then(|v| v.as_str())
@@ -225,7 +228,7 @@ pub fn build_export_payload(
                 color_default_mode,
                 scale_default_mode,
                 &value_index,
-                &all_tokens,
+                tokens,
                 &existing_var_index,
                 overrides,
                 &mut variables,
@@ -298,7 +301,7 @@ fn resolve_mode_ids(
 }
 
 /// Load all legacy JSON token files from a directory into a flat map.
-fn load_all_tokens(dir: &Path) -> Result<Vec<(String, Value)>, FigmaError> {
+pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, Value)>, FigmaError> {
     let mut tokens = Vec::new();
     let mut paths: Vec<_> = std::fs::read_dir(dir)
         .map_err(|e| FigmaError::Api {
@@ -893,7 +896,8 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(summary.mode_values_set, 3);
         assert_eq!(body.variables.len(), 1);
@@ -922,13 +926,38 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(body.variables[0].name, "platformScale/spacing-100");
         assert_eq!(body.variables[0].resolved_type, "FLOAT");
         // Value should be 8.0
         let val = &body.variable_mode_values[0].value;
         assert_eq!(val.as_f64(), Some(8.0));
+    }
+
+    #[test]
+    fn build_export_payload_accepts_in_memory_tokens_not_just_a_directory() {
+        // Mirrors what a manifest-resolved TokenGraph hands the exporter:
+        // `(record.name, record.raw)` pairs with no backing directory — the
+        // seam that lets `figma export --manifest` feed platform-overridden
+        // `raw` values (e.g. from `apply_platform_manifest`) straight through
+        // without materializing them to disk first.
+        let tokens = vec![(
+            "spacing-100".to_string(),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "12px",
+                "uuid": "d1"
+            }),
+        )];
+
+        let meta = mock_meta();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+        let val = &body.variable_mode_values[0].value;
+        assert_eq!(val.as_f64(), Some(12.0));
     }
 
     #[test]
@@ -962,7 +991,8 @@ mod tests {
         )]
         .into_iter()
         .collect();
-        let (body, _summary) = build_export_payload(dir.path(), &meta, Some(&overrides)).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, _summary) = build_export_payload(&tokens, &meta, Some(&overrides)).unwrap();
 
         let by_name = |n: &str| body.variables.iter().find(|v| v.name == n);
         assert!(by_name("Layout/spacing-100-real").is_some());
@@ -994,7 +1024,8 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (_body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (_body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
         // base-color (flat color) + alias-color (alias→color)
         assert_eq!(summary.variables_created, 2);
         assert!(summary.skipped_alias_unresolved.is_empty());
@@ -1040,7 +1071,8 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
 
         assert!(
             summary.skipped_alias_unresolved.is_empty(),
@@ -1101,7 +1133,8 @@ mod tests {
         .unwrap();
 
         let meta = mock_meta();
-        let (body, summary) = build_export_payload(dir.path(), &meta, None).unwrap();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
         assert_eq!(summary.variables_created, 0);
         assert_eq!(summary.skipped_composite.len(), 2);
         assert!(body.variables.is_empty());

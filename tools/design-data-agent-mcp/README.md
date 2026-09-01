@@ -26,17 +26,26 @@ https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-
 ### npm (MCP server)
 
 ```sh
-npx @adobe/design-data-agent-mcp
+npx @adobe/design-data-agent-mcp@latest
 ```
 
 The `@adobe/design-data` CLI binary is **only** needed for `authoring_session_step_intent`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
+
+### Staying current
+
+The embedded Spectrum snapshot is baked into the wasm at build time and travels with the
+package version — there's no separate data update to run. Pin `@latest` (as above) so `npx`
+fetches the newest published version rather than reusing whatever it last cached; `-y` alone
+only skips the install confirmation, it doesn't force a re-fetch. Already on `/plugin`? Run
+`/plugin update design-data-agent@spectrum-design-data`. Call the primer tool and check
+`provenance.designDataVersion` to see which dataset version is embedded.
 
 ## MCP server
 
 Configure your MCP client to run:
 
 ```sh
-npx -y @adobe/design-data-agent-mcp
+npx -y @adobe/design-data-agent-mcp@latest
 ```
 
 Or from a repo clone:
@@ -100,7 +109,7 @@ node tools/design-data-agent-mcp/src/index.js
   "mcpServers": {
     "design-data-agent": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "args": ["-y", "@adobe/design-data-agent-mcp@latest"],
       "env": {
         "DESIGN_DATA_ROOT": "/abs/path/to/your/repo",
         "DESIGN_DATA_PATH": "packages/design-data/tokens",
@@ -119,7 +128,7 @@ node tools/design-data-agent-mcp/src/index.js
   "mcpServers": {
     "design-data-agent": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "args": ["-y", "@adobe/design-data-agent-mcp@latest"],
       "env": {
         "DESIGN_DATA_BIN": "design-data",
         "DESIGN_DATA_PATH": "/path/to/your/dataset"

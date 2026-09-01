@@ -1,5 +1,14 @@
 # @adobe/design-data-spec
 
+## 3.4.1
+
+### Patch Changes
+
+- [`a1d6e8a`](https://github.com/adobe/spectrum-design-data/commit/a1d6e8a8df15106aaaec047077d4d09011247227) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify two manifest cascade behaviors surfaced by the iOS platform manifest POC.
+  - **spec/manifest.md**: documents that overrides land as new platform-layer records, not
+    in-place edits (`query` double-counts an overridden token; only `resolve` picks the
+    cascade winner), and recommends validators reject a pre-cascade-format `foundationVersion`.
+
 ## 3.4.0
 
 ### Minor Changes
