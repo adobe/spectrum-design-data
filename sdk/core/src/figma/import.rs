@@ -30,32 +30,31 @@ use super::types::{FigmaColor, FigmaVariable, VariablesMeta};
 use super::FigmaError;
 use crate::graph::TokenGraph;
 
-fn record_is_opacity(record: &crate::graph::TokenRecord, graph: &TokenGraph) -> bool {
-    record
-        .resolve_leaf(graph)
-        .raw
+/// Whether `leaf`'s (already alias-resolved) schema is the opacity schema.
+fn record_is_opacity(leaf: &crate::graph::TokenRecord) -> bool {
+    leaf.raw
         .get("$schema")
         .and_then(Value::as_str)
         .is_some_and(|s| s.ends_with(OPACITY))
 }
 
-/// Whether `record` is a font-weight/font-style token, whose STRING value is
-/// compared name-insensitively (`canon_font_name`) rather than verbatim.
-fn record_is_font_name(record: &crate::graph::TokenRecord, graph: &TokenGraph) -> bool {
-    record
-        .resolve_leaf(graph)
-        .raw
+/// Whether `leaf`'s (already alias-resolved) schema is a font-weight/style
+/// token, whose STRING value is compared name-insensitively
+/// (`canon_font_name`) rather than verbatim.
+fn record_is_font_name(leaf: &crate::graph::TokenRecord) -> bool {
+    leaf.raw
         .get("$schema")
         .and_then(Value::as_str)
         .is_some_and(|s| s.ends_with(FONT_STYLE) || s.ends_with(FONT_WEIGHT))
 }
 
 /// Canonicalize a font-weight/style name for comparison: casing and
-/// kebab-case punctuation aren't meaningful ("extra-bold" == "ExtraBold"),
-/// and "normal" is Figma's "Regular" — the only such synonym seen in the
-/// corpus (ponytail: add more, e.g. "oblique", only if they show up).
+/// kebab-case/space punctuation aren't meaningful ("extra-bold" == "ExtraBold"
+/// == "Extra Bold"), and "normal" is Figma's "Regular" — the only such
+/// synonym seen in the corpus (ponytail: add more, e.g. "oblique", only if
+/// they show up).
 fn canon_font_name(s: &str) -> String {
-    let s = s.to_lowercase().replace('-', "");
+    let s = s.to_lowercase().replace(['-', ' '], "");
     if s == "normal" {
         "regular".to_string()
     } else {
@@ -152,9 +151,10 @@ pub fn build_import_overrides(
         // to align to here the way diff_values does below — leave this arbitrary
         // scale-entry pick as-is; a per-scale override target is a separate,
         // thornier design question that hasn't come up in practice.
-        let source_value = record.resolve_leaf(graph).raw.get("value").cloned();
-        let is_opacity = record_is_opacity(record, graph);
-        let is_font_name = record_is_font_name(record, graph);
+        let leaf = record.resolve_leaf(graph);
+        let source_value = leaf.raw.get("value").cloned();
+        let is_opacity = record_is_opacity(leaf);
+        let is_font_name = record_is_font_name(leaf);
         match diff_against_source(
             &variable.resolved_type,
             &collapsed,
@@ -328,16 +328,18 @@ pub fn diff_values(
         // and can false-positive (or false-negative) the diff.
         let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
             let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
-            let ctx = HashMap::from([("scale".to_string(), scale)]);
-            graph
-                .resolve_set_in_context(set_uuid, &ctx)?
-                .raw
-                .get("value")
-                .cloned()
+            let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
+            let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
+            // `resolve_set_in_context` degrades to an arbitrary tie-broken
+            // member when none actually matches `scale` (e.g. a Figma mode
+            // like "Tablet" with no design-data counterpart) — only trust
+            // the alignment when the candidate's own scale really agrees.
+            let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
+            (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
         });
         let source_value = scale_source_value.or_else(|| leaf.raw.get("value").cloned());
-        let is_opacity = record_is_opacity(record, graph);
-        let is_font_name = record_is_font_name(record, graph);
+        let is_opacity = record_is_opacity(leaf);
+        let is_font_name = record_is_font_name(leaf);
         let class = match diff_against_source(
             &variable.resolved_type,
             &collapsed,
@@ -380,7 +382,7 @@ pub fn diff_values(
         for action in &body.variables {
             if !seen.contains(&action.name) {
                 counts.design_data_only += 1;
-                let legacy_key = action.name.split_once('/').map(|(_, key)| key.to_string());
+                let legacy_key = invert_name(&action.name, reversed.as_ref());
                 entries.push(DiffEntry {
                     name: action.name.clone(),
                     legacy_key,
@@ -700,6 +702,77 @@ mod tests {
         }
     }
 
+    /// A design-data-only token that's covered by `--mapping` must report its
+    /// real legacy key, not whatever comes after the last `/` in the mapped
+    /// Figma name (which can differ, e.g. `spacing-100` -> `Layout/spacing-100-real`).
+    #[test]
+    fn design_data_only_entry_uses_mapping_for_legacy_key() {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            "col-1".to_string(),
+            FigmaVariableCollection {
+                id: "col-1".to_string(),
+                name: ".Color theme".to_string(),
+                key: "k1".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-light".to_string(),
+                    name: "Light".to_string(),
+                }],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        variable_collections.insert(
+            "col-2".to_string(),
+            FigmaVariableCollection {
+                id: "col-2".to_string(),
+                name: ".Platform scale".to_string(),
+                key: "k2".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-desktop".to_string(),
+                    name: "Desktop".to_string(),
+                }],
+                default_mode_id: "m-desktop".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let meta = VariablesMeta {
+            variables: HashMap::new(),
+            variable_collections,
+        };
+
+        let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
+        let tokens = vec![(
+            "spacing-100".to_string(),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "name": "spacing-100",
+                "value": "8px",
+                "uuid": "u-spacing-100",
+            }),
+        )];
+        let mapping: HashMap<String, String> = [(
+            "spacing-100".to_string(),
+            "Layout/spacing-100-real".to_string(),
+        )]
+        .into_iter()
+        .collect();
+
+        let report = diff_values(&meta, &graph, &tokens, Some(&mapping)).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Layout/spacing-100-real")
+            .expect("design-data-only entry must be reported");
+        assert_eq!(entry.legacy_key.as_deref(), Some("spacing-100"));
+    }
+
     #[test]
     fn opacity_scale_agrees_when_figma_is_percent_of_fraction() {
         let meta = mock_meta(vec![mock_variable(
@@ -791,6 +864,24 @@ mod tests {
             "bold-font-weight",
             "u-bold",
             json!("bold"),
+            "https://example.com/font-weight.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    #[test]
+    fn font_weight_space_variant_agrees() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/extra-bold-font-weight",
+            "STRING",
+            vec![("m-desktop", json!("Extra Bold"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "extra-bold-font-weight",
+            "u-extra-bold",
+            json!("extra-bold"),
             "https://example.com/font-weight.json",
         );
         let report = diff_values(&meta, &graph, &[], None).unwrap();

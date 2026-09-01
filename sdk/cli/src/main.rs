@@ -1793,9 +1793,13 @@ fn run_figma_diff(
         }
         OutputFormat::Pretty => {
             let c = &report.counts;
+            // `renamed` is an orthogonal flag (a variable can be renamed *and*
+            // matched, mismatched, etc.), not a sibling partition — print it
+            // separately so the other five don't look like they should sum
+            // to the total entry count.
             println!(
-                "match={} value-mismatch={} figma-only={} design-data-only={} renamed={} skipped-uncovered={}",
-                c.matched, c.value_mismatch, c.figma_only, c.design_data_only, c.renamed, c.skipped_uncovered,
+                "match={} value-mismatch={} figma-only={} design-data-only={} skipped-uncovered={} (renamed={})",
+                c.matched, c.value_mismatch, c.figma_only, c.design_data_only, c.skipped_uncovered, c.renamed,
             );
             for entry in report
                 .entries
