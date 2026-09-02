@@ -153,6 +153,11 @@ pub struct TokenGraph {
     /// Component/Token Relationship (CTR) entries from the spec `relationships/`
     /// catalog, flattened from each file's top-level array.
     pub relationships: Vec<RelationshipRecord>,
+    /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
+    /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
+    /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
+    /// whenever `relationships` changes; see [`Self::resolve_relationship_ref`].
+    relationship_tokens: HashMap<String, TokenRecord>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
     /// Secondary index: UUID value → primary key in `tokens`.
@@ -572,6 +577,7 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            relationship_tokens: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
@@ -622,6 +628,7 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            relationship_tokens: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
@@ -1132,6 +1139,8 @@ impl TokenGraph {
             }
         }
 
+        self.reindex_relationship_tokens();
+
         Ok(PlatformManifest {
             mode_set_restrictions,
         })
@@ -1362,7 +1371,128 @@ impl TokenGraph {
     /// Attach relationship records loaded from a relationships catalog directory.
     pub fn with_relationships(mut self, relationships: Vec<RelationshipRecord>) -> Self {
         self.relationships = relationships;
+        self.reindex_relationship_tokens();
         self
+    }
+
+    /// Schemas whose inline CTR `value` is a plain literal directly comparable
+    /// to a Figma value — unlike `font-family.json`, whose inline CTR value is
+    /// a bare family-name string with no schema-driven comparison rule, so it
+    /// deliberately stays unresolved here (see `resolve_relationship_ref`).
+    ///
+    /// Not derived from `figma::import::diff_against_source`'s Figma-side
+    /// `resolved_type` match (`COLOR`/`FLOAT`/`STRING`) — that classifies by
+    /// Figma variable type, this by design-data `$schema`, and there's no
+    /// shared enum between them. Adding a schema here that isn't actually
+    /// FLOAT/STRING-comparable on the Figma side needs a matching look at
+    /// `diff_against_source`.
+    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 3] =
+        ["dimension.json", "multiplier.json", "gradient-stop.json"];
+
+    /// Rebuild `relationship_tokens` from `self.relationships`: for every CTR
+    /// `legacyKey` with no `$ref`-backed entry, synthesize a leaf `TokenRecord`
+    /// from its inline `value`, so `resolve_relationship_ref` can return it.
+    ///
+    /// When a `legacyKey` has several inline entries (a scale-set CTR, e.g.
+    /// `avatar-size-100` has one per `scale`), prefers `scale: "desktop"` —
+    /// same convention as the alias-target fallback's default-mode pick —
+    /// then the first scale-less entry, then simply the first.
+    ///
+    /// Call after any mutation of `self.relationships` (this fn,
+    /// `apply_platform_manifest`'s CTR add/override/remove, and
+    /// `validate::validate_all_with_full_options`'s `relationships_path` load).
+    pub(crate) fn reindex_relationship_tokens(&mut self) {
+        self.relationship_tokens.clear();
+        let mut by_key: HashMap<&str, Vec<&RelationshipRecord>> = HashMap::new();
+        for rec in &self.relationships {
+            if rec.raw.get("$ref").is_some() {
+                continue; // $ref-backed CTRs resolve via resolve_alias_key instead.
+            }
+            let Some(legacy_key) = rec.raw.get("legacyKey").and_then(Value::as_str) else {
+                continue;
+            };
+            let comparable = rec
+                .raw
+                .get("$schema")
+                .and_then(Value::as_str)
+                .is_some_and(|s| {
+                    Self::INLINE_CTR_COMPARABLE_SCHEMAS
+                        .iter()
+                        .any(|suf| s.ends_with(suf))
+                });
+            if comparable && rec.raw.get("value").is_some() {
+                by_key.entry(legacy_key).or_default().push(rec);
+            }
+        }
+        for (legacy_key, candidates) in by_key {
+            let chosen = candidates
+                .iter()
+                .find(|r| {
+                    r.raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get("scale"))
+                        .and_then(Value::as_str)
+                        == Some("desktop")
+                })
+                .or_else(|| {
+                    candidates.iter().find(|r| {
+                        r.raw
+                            .get("scope")
+                            .and_then(|s| s.get("options"))
+                            .and_then(|o| o.get("scale"))
+                            .is_none()
+                    })
+                })
+                .or_else(|| candidates.first())
+                .expect("candidates is non-empty by construction");
+            // CTRs key scale variants under `scope.options.scale` /
+            // `setUuid` (camelCase), not the `name.scale` / `set_uuid`
+            // (snake_case) shape `scale_aligned_source_value` reads off
+            // cascade-token records via `set_uuid_index` — and that index
+            // is built only from `self.tokens`, which CTR-only scale-sets
+            // never enter. Rather than force these into that pipeline,
+            // stash every scale's value directly on the synthetic raw so
+            // `scale_aligned_source_value` can pick the Figma-mode-matching
+            // one itself when there's more than one.
+            let mut raw = chosen.raw.clone();
+            if candidates.len() > 1 {
+                let mut scale_values = serde_json::Map::new();
+                for c in &candidates {
+                    let scale = c
+                        .raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get("scale"))
+                        .and_then(Value::as_str);
+                    if let (Some(scale), Some(value)) = (scale, c.raw.get("value")) {
+                        scale_values.insert(scale.to_string(), value.clone());
+                    }
+                }
+                if let Some(obj) = raw.as_object_mut() {
+                    if !scale_values.is_empty() {
+                        obj.insert("ctrScaleValues".to_string(), Value::Object(scale_values));
+                    }
+                }
+            }
+            self.relationship_tokens.insert(
+                legacy_key.to_string(),
+                TokenRecord {
+                    name: legacy_key.to_string(),
+                    file: chosen.file.clone(),
+                    index: chosen.index,
+                    schema_url: chosen
+                        .raw
+                        .get("$schema")
+                        .and_then(Value::as_str)
+                        .map(str::to_string),
+                    uuid: chosen.uuid.clone(),
+                    alias_target: None,
+                    raw,
+                    layer: Layer::default(),
+                },
+            );
+        }
     }
 
     /// Find the `$schema` URL of any token whose `name.property` matches `property`.
@@ -1543,20 +1673,25 @@ impl TokenGraph {
         })
     }
 
-    /// Resolve a Component/Token Relationship (CTR) `legacyKey` to the token
-    /// its `$ref` points at, for callers that already tried
-    /// [`Self::resolve_alias_key`] (token-side) and came up empty.
+    /// Resolve a Component/Token Relationship (CTR) `legacyKey` to a token,
+    /// for callers that already tried [`Self::resolve_alias_key`] (token-side)
+    /// and came up empty.
     ///
-    /// Returns `None` when no CTR has that `legacyKey`, or when it carries an
-    /// inline `value` instead of a `$ref` (e.g. `code-font-family`) — inline
-    /// CTR values aren't compared today.
+    /// Tries the CTR's `$ref` target first. Falls back to the CTR's own
+    /// inline `value` when it carries one directly (e.g. `avatar-size-100`'s
+    /// dimension) — see [`Self::reindex_relationship_tokens`] for which
+    /// schemas qualify (`font-family`'s inline value, e.g. `code-font-family`,
+    /// deliberately doesn't: no schema-driven comparison rule for it here).
+    /// Returns `None` when no CTR has that `legacyKey`, or neither path found
+    /// a usable value.
     pub fn resolve_relationship_ref<'a>(&'a self, legacy_key: &str) -> Option<&'a TokenRecord> {
-        let rec = self
+        let via_ref = self
             .relationships
             .iter()
-            .find(|r| r.raw.get("legacyKey").and_then(|v| v.as_str()) == Some(legacy_key))?;
-        let target = rec.raw.get("$ref").and_then(|v| v.as_str())?;
-        self.resolve_alias_key(target)
+            .find(|r| r.raw.get("legacyKey").and_then(|v| v.as_str()) == Some(legacy_key))
+            .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
+            .and_then(|target| self.resolve_alias_key(target));
+        via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
     /// Resolve a set-level UUID to the context-appropriate child record.
@@ -2267,6 +2402,63 @@ mod tests {
         assert!(g_inline
             .resolve_relationship_ref("code-font-family")
             .is_none());
+    }
+
+    #[test]
+    fn resolve_relationship_ref_resolves_inline_dimension_ctrs_preferring_desktop() {
+        // avatar-size-100's CTR shape: a scale-set with a desktop and a mobile
+        // entry sharing one legacyKey, each an inline dimension value (no
+        // $ref) — the real shape in packages/design-data/relationships/avatar.json.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 0,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "mobile", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "28px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000001",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 1,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "desktop", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "24px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000002",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            // A scale-less inline CTR, e.g. alert-dialog-maximum-width.
+            RelationshipRecord {
+                file: PathBuf::from("relationships/alert-dialog.json"),
+                index: 0,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "scope": {"component": "alert-dialog", "property": "maximum-width"},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "480px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000003",
+                    "legacyKey": "alert-dialog-maximum-width"
+                }),
+            },
+        ]);
+
+        // Desktop entry wins even though mobile was inserted first.
+        let avatar = g
+            .resolve_relationship_ref("avatar-size-100")
+            .expect("inline dimension CTR must resolve");
+        assert_eq!(avatar.raw["value"], "24px");
+
+        let dialog = g
+            .resolve_relationship_ref("alert-dialog-maximum-width")
+            .expect("scale-less inline dimension CTR must resolve");
+        assert_eq!(dialog.raw["value"], "480px");
     }
 
     #[test]

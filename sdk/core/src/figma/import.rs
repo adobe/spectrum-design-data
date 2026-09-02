@@ -97,6 +97,9 @@ fn scale_aligned_source_value(
     leaf: &crate::graph::TokenRecord,
 ) -> Option<Value> {
     let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
+        if let Some(values) = leaf.raw.get("ctrScaleValues").and_then(Value::as_object) {
+            return values.get(&scale).cloned();
+        }
         let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
         let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
         let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
@@ -1889,6 +1892,60 @@ mod tests {
             }
             other => panic!("expected ValueMismatch, got {other:?}"),
         }
+    }
+
+    /// Same false-positive-fix scenario as `scale_set_aligns_to_figmas_captured_mode`,
+    /// but sourced from a CTR-only scale-set (inline `value`, `setUuid`, no
+    /// standalone `tokens/*.tokens.json` entry — avatar-size-100's real shape)
+    /// instead of a cascade token. Regression test for the bug where
+    /// `reindex_relationship_tokens` cloned the CTR's raw as-is: since CTRs
+    /// never enter `set_uuid_index` and use `scope.options.scale` (not
+    /// `name.scale`), scale alignment silently fell back to the hardcoded
+    /// desktop value for every mode, including mobile.
+    #[test]
+    fn ctr_scale_set_aligns_to_figmas_captured_mode() {
+        use crate::graph::RelationshipRecord;
+
+        let var = mock_variable(
+            "platformScale/avatar-size-100",
+            "FLOAT",
+            vec![("m-mobile", json!(28.0))],
+        );
+        let meta = mock_meta_with_single_mode(var, "Mobile", "m-mobile");
+        let graph = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 0,
+                uuid: Some("dddddddd-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "desktop", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "24px",
+                    "uuid": "dddddddd-0000-0000-0000-000000000001",
+                    "legacyKey": "avatar-size-100",
+                    "setUuid": "su-avatar-size-100",
+                    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 1,
+                uuid: Some("dddddddd-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "mobile", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "28px",
+                    "uuid": "dddddddd-0000-0000-0000-000000000002",
+                    "legacyKey": "avatar-size-100",
+                    "setUuid": "su-avatar-size-100",
+                    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+                }),
+            },
+        ]);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
     }
 
     #[test]
