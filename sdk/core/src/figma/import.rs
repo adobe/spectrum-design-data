@@ -312,7 +312,7 @@ pub fn diff_values(
             .resolve_alias_key(&legacy_key)
             .or_else(|| graph.resolve_relationship_ref(&legacy_key))
             .map(|record| (legacy_key.clone(), record))
-            .or_else(|| resolve_alias_target(variable, meta, graph))
+            .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()))
         else {
             counts.figma_only += 1;
             entries.push(DiffEntry {
@@ -466,18 +466,29 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
 /// regress an existing one. Follows a single alias hop — every case observed
 /// against the S2 baseline aliases directly to a resolvable target.
 /// ponytail: one hop, not a chain walk; extend if a deeper chain ever appears.
+///
+/// Reads the variable's value from its collection's `default_mode_id` — the
+/// same mode `resolve_figma_value` reads for an alias target — rather than an
+/// arbitrary `HashMap` entry, since a multi-mode variable's iteration order
+/// isn't guaranteed to land on the mode that actually holds the alias.
+/// `renames` is the same reversed name-mapping `diff_values` threads into its
+/// own direct `invert_name` call, applied here to the alias target's name.
 fn resolve_alias_target<'a>(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
     graph: &'a TokenGraph,
+    renames: Option<&HashMap<String, String>>,
 ) -> Option<(String, &'a crate::graph::TokenRecord)> {
-    let value = variable.values_by_mode.values().next()?;
+    let collection = meta
+        .variable_collections
+        .get(&variable.variable_collection_id)?;
+    let value = variable.values_by_mode.get(&collection.default_mode_id)?;
     if !is_alias(value) {
         return None;
     }
     let target_id = value.get("id").and_then(Value::as_str)?;
     let target_name = &meta.variables.get(target_id)?.name;
-    let key = invert_name(target_name, None)?;
+    let key = invert_name(target_name, renames)?;
     let record = graph
         .resolve_alias_key(&key)
         .or_else(|| graph.resolve_relationship_ref(&key))?;
@@ -2194,6 +2205,58 @@ mod tests {
         // Both the alias and its (also-unresolvable) target end up figma_only.
         assert_eq!(report.counts.figma_only, 2);
         assert_eq!(report.counts.matched, 0);
+    }
+
+    #[test]
+    fn diff_values_resolves_alias_target_via_supplied_renames() {
+        // The alias target's own Figma name ("PlatformScaleOddName") has no
+        // '/' at all, so invert_name's generic fallback can't invert it on
+        // its own — it only resolves through a `--mapping` override, exactly
+        // like diff_values' own direct-name resolution already supports.
+        // Regression test: resolve_alias_target must thread `reversed`
+        // through to its `invert_name` call, not just try `None`.
+        let target = mock_variable(
+            "PlatformScaleOddName",
+            "FLOAT",
+            vec![("m-modeless", json!(400.0))],
+        );
+        let alias = mock_variable(
+            "Standard dialog/Maximum width/Small",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+        let graph = mock_graph_with_schema(
+            "standard-dialog-maximum-width-small",
+            "u-sdmws",
+            json!("400px"),
+            "https://example.com/dimension.json",
+        );
+        let mapping: HashMap<String, String> = [(
+            "standard-dialog-maximum-width-small".to_string(),
+            "PlatformScaleOddName".to_string(),
+        )]
+        .into_iter()
+        .collect();
+
+        let report = diff_values(&meta, &graph, &[], Some(&mapping)).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Standard dialog/Maximum width/Small")
+            .unwrap();
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match, got {:?}",
+            entry.class
+        );
+        assert_eq!(
+            entry.legacy_key.as_deref(),
+            Some("standard-dialog-maximum-width-small")
+        );
     }
 
     /// End-to-end check: an emitted override must satisfy
