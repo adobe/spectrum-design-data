@@ -157,6 +157,14 @@ pub struct TokenGraph {
     /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
     /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
     /// whenever `relationships` changes; see [`Self::resolve_relationship_ref`].
+    ///
+    /// These synthetic records live *only* here — they never enter `self.tokens`,
+    /// `uuid_index`, or `set_uuid_index` (built solely from `tokens/*.tokens.json`).
+    /// So context-aware resolution (`Self::resolve_set_in_context`,
+    /// `Self::resolve_alias_in_context`) can't see CTR-only scale-sets; a future need
+    /// for that should follow the `ctrScaleValues` inline-stash pattern used by
+    /// `Self::reindex_relationship_tokens` rather than feeding these into the shared
+    /// indexes (which are iterated elsewhere for diff classification).
     relationship_tokens: HashMap<String, TokenRecord>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
