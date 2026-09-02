@@ -1535,8 +1535,10 @@ fn run_figma_export(
 
     // 5. Print summary to stderr.
     eprintln!(
-        "\nSummary: {} variables, {} mode values",
-        summary.variables_created, summary.mode_values_set
+        "\nSummary: {} variables, {} mode values ({} aliased)",
+        summary.variables_created,
+        summary.mode_values_set + summary.mode_values_aliased,
+        summary.mode_values_aliased
     );
     if !summary.skipped_composite.is_empty() {
         eprintln!("  Skipped (composite): {}", summary.skipped_composite.len());
@@ -1559,6 +1561,12 @@ fn run_figma_export(
             summary.skipped_unparseable_value.len(),
             summary.skipped_unparseable_value,
         );
+    }
+    if !summary.mode_warnings.is_empty() {
+        eprintln!("  Warnings (missing mode): {}", summary.mode_warnings.len());
+        for w in &summary.mode_warnings {
+            eprintln!("    {w}");
+        }
     }
 
     Ok(ExitCode::SUCCESS)
@@ -1777,7 +1785,14 @@ fn run_figma_diff(
     let tokens: Vec<(String, serde_json::Value)> = graph
         .tokens
         .values()
-        .map(|r| (r.name.clone(), r.raw.clone()))
+        .map(|r| {
+            let name = r
+                .raw
+                .get("name")
+                .and_then(naming::extract_legacy_key)
+                .unwrap_or_else(|| r.name.clone());
+            (name, r.raw.clone())
+        })
         .collect();
 
     // 3. Diff.
