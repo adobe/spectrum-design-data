@@ -1670,35 +1670,74 @@ impl TokenGraph {
         None
     }
 
+    /// Relationship whose own `uuid`, or `setUuid`, equals `target` — i.e.
+    /// `target` is a CTR-side alias anchor rather than a token-side one.
+    /// Shared by [`Self::relationship_target_exists`] and
+    /// [`Self::resolve_relationship_ref`]'s sibling-CTR fallback.
+    fn find_relationship_target(&self, target: &str) -> Option<&RelationshipRecord> {
+        self.relationships.iter().find(|r| {
+            r.uuid.as_deref() == Some(target)
+                || r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(target)
+        })
+    }
+
     /// Whether `target` resolves to a relationship's own `uuid`, or to a
     /// mode-set group id that only survives as `setUuid` on sibling
     /// relationships — i.e. a CTR-side alias anchor, for callers that already
     /// tried [`Self::resolve_alias_key`] (token-side) and came up empty.
     pub fn relationship_target_exists(&self, target: &str) -> bool {
-        self.relationships.iter().any(|r| {
-            r.uuid.as_deref() == Some(target)
-                || r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(target)
-        })
+        self.find_relationship_target(target).is_some()
     }
 
     /// Resolve a Component/Token Relationship (CTR) `legacyKey` to a token,
     /// for callers that already tried [`Self::resolve_alias_key`] (token-side)
     /// and came up empty.
     ///
-    /// Tries the CTR's `$ref` target first. Falls back to the CTR's own
-    /// inline `value` when it carries one directly (e.g. `avatar-size-100`'s
-    /// dimension) — see [`Self::reindex_relationship_tokens`] for which
-    /// schemas qualify (`font-family`'s inline value, e.g. `code-font-family`,
-    /// deliberately doesn't: no schema-driven comparison rule for it here).
-    /// Returns `None` when no CTR has that `legacyKey`, or neither path found
-    /// a usable value.
+    /// Tries the CTR's `$ref` target first, via [`Self::resolve_alias_key`].
+    /// When that misses, `$ref` may point at a *sibling* CTR's own
+    /// `uuid`/`setUuid` rather than a token (e.g. `avatar-group-size-100`'s
+    /// `$ref` targets `avatar-size-100`'s scale-set `setUuid`) — recurses
+    /// into that sibling's own `legacyKey` to follow the chain, which may run
+    /// several CTRs deep (e.g. `drop-zone-title-font-size` →
+    /// `illustrated-message-medium-title-font-size` → `body-size-s` → a
+    /// token's `set_uuid`) before landing on a token or an inline value.
+    /// Falls back to the CTR's own inline `value` when it carries one
+    /// directly (e.g. `avatar-size-100`'s dimension) — see
+    /// [`Self::reindex_relationship_tokens`] for which schemas qualify
+    /// (`font-family`'s inline value, e.g. `code-font-family`, deliberately
+    /// doesn't: no schema-driven comparison rule for it here, so a chain
+    /// that bottoms out there — e.g. `code-cjk-font-family` — stays
+    /// unresolved by design). Returns `None` when no CTR has that
+    /// `legacyKey`, or no path found a usable value.
     pub fn resolve_relationship_ref<'a>(&'a self, legacy_key: &str) -> Option<&'a TokenRecord> {
+        self.resolve_relationship_ref_inner(legacy_key, 0)
+    }
+
+    fn resolve_relationship_ref_inner<'a>(
+        &'a self,
+        legacy_key: &str,
+        depth: usize,
+    ) -> Option<&'a TokenRecord> {
+        // ponytail: depth cap guards a cyclic/malformed $ref chain; real
+        // chains observed so far are 3 hops deep at most.
+        if depth > 16 {
+            return None;
+        }
         let via_ref = self
             .relationships
             .iter()
             .find(|r| r.raw.get("legacyKey").and_then(|v| v.as_str()) == Some(legacy_key))
             .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
-            .and_then(|target| self.resolve_alias_key(target));
+            .and_then(|target| {
+                self.resolve_alias_key(target).or_else(|| {
+                    let sibling_key = self
+                        .find_relationship_target(target)?
+                        .raw
+                        .get("legacyKey")
+                        .and_then(|v| v.as_str())?;
+                    self.resolve_relationship_ref_inner(sibling_key, depth + 1)
+                })
+            });
         via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
@@ -2467,6 +2506,125 @@ mod tests {
             .resolve_relationship_ref("alert-dialog-maximum-width")
             .expect("scale-less inline dimension CTR must resolve");
         assert_eq!(dialog.raw["value"], "480px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_ref_to_sibling_ctr_uuid() {
+        // avatar-group-size-100's real shape: its $ref targets
+        // avatar-size-100's scale-set setUuid, which only exists on that
+        // sibling CTR — never in tokens/*.tokens.json.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 0,
+                uuid: Some("ffffffff-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "desktop", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "24px",
+                    "uuid": "ffffffff-0000-0000-0000-000000000001",
+                    "setUuid": "ffffffff-0000-0000-0000-00000000000a",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar-group.json"),
+                index: 0,
+                uuid: Some("ffffffff-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar-group", "property": "size", "options": {"scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "$ref": "ffffffff-0000-0000-0000-00000000000a",
+                    "uuid": "ffffffff-0000-0000-0000-000000000002",
+                    "legacyKey": "avatar-group-size-100"
+                }),
+            },
+        ]);
+
+        let rec = g
+            .resolve_relationship_ref("avatar-group-size-100")
+            .expect("$ref to a sibling CTR's setUuid must resolve");
+        assert_eq!(rec.raw["value"], "24px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_multi_hop_ctr_chain_to_token() {
+        // drop-zone-title-font-size's real shape: a 3-hop chain of $refs
+        // across CTRs before landing on a token's set_uuid.
+        let uuid = "11111111-0000-0000-0000-000000000099";
+        let g = cascade_graph_from(json!([{
+            "name": { "property": "font-size", "value": "l" },
+            "$schema": "https://example.com/font-size.json",
+            "value": "20px",
+            "set_uuid": uuid
+        }]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/body.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "body-size-s",
+                    "$ref": uuid
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/illustrated-message.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "illustrated-message-medium-title-font-size",
+                    "$ref": "11111111-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/drop-zone.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "legacyKey": "drop-zone-title-font-size",
+                    "setUuid": "11111111-0000-0000-0000-000000000002",
+                    "$ref": "11111111-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        let rec = g
+            .resolve_relationship_ref("drop-zone-title-font-size")
+            .expect("multi-hop CTR chain to a token must resolve");
+        assert_eq!(rec.raw["value"], "20px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_stays_unresolved_through_font_family_chain() {
+        // code-cjk-font-family's real shape: its $ref targets
+        // code-font-family, an inline font-family CTR deliberately excluded
+        // from INLINE_CTR_COMPARABLE_SCHEMAS. The chain must stay unresolved
+        // rather than surfacing that inline value.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/code.json"),
+                index: 0,
+                uuid: Some("22222222-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "code-font-family",
+                    "value": "Source Code Pro",
+                    "uuid": "22222222-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/code.json"),
+                index: 1,
+                uuid: Some("22222222-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "code-cjk-font-family",
+                    "$ref": "22222222-0000-0000-0000-000000000001",
+                    "uuid": "22222222-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        assert!(g.resolve_relationship_ref("code-cjk-font-family").is_none());
     }
 
     #[test]
