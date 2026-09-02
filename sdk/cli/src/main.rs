@@ -578,6 +578,32 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Draft legacyKey -> figmaName override candidates for names `diff` can't
+    /// resolve, by matching resolved values instead (read-only; for review,
+    /// not applied automatically)
+    Pair {
+        /// Figma file key to read from (required unless `--snapshot` is given)
+        #[arg(long)]
+        file_key: Option<String>,
+        /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: Option<String>,
+        /// Pair offline against a captured `figma read --format json` snapshot instead of
+        /// calling the Figma API
+        #[arg(long, value_name = "PATH")]
+        snapshot: Option<PathBuf>,
+        /// Path to an existing name-mapping override artifact (from `figma audit`); names
+        /// it already covers are skipped
+        #[arg(long, value_name = "PATH")]
+        mapping: Option<PathBuf>,
+        /// Path to a platform manifest.json; when given, tokens are resolved through the
+        /// manifest cascade instead of the default resolved dataset
+        #[arg(long, value_name = "PATH")]
+        manifest: Option<PathBuf>,
+        /// Output format (pretty or json)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -1727,14 +1753,23 @@ fn run_figma_audit(
 /// Value-level diff between the manifest-resolved dataset and a Figma file —
 /// read-only counterpart to `figma import`. Either `--snapshot` (offline, no
 /// token needed) or `--file-key`/`--token` (a live API call) must be given.
-fn run_figma_diff(
+type FigmaDiffInputs = (
+    figma::types::VariablesMeta,
+    Option<HashMap<String, String>>,
+    TokenGraph,
+);
+
+/// Load a Figma `VariablesMeta` (offline snapshot or live fetch), the
+/// name-mapping artifact (if given), and the manifest-resolved `TokenGraph` —
+/// the setup `figma diff` and `figma pair` both need before their own
+/// comparison logic diverges.
+fn load_figma_diff_inputs(
     file_key: Option<&str>,
     token: Option<&str>,
     snapshot: Option<&Path>,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
-    format: OutputFormat,
-) -> miette::Result<ExitCode> {
+) -> miette::Result<FigmaDiffInputs> {
     // 0. Get the file's variables — offline from a snapshot, or a live fetch.
     let meta: figma::types::VariablesMeta = if let Some(snapshot_path) = snapshot {
         let text = std::fs::read_to_string(snapshot_path)
@@ -1782,6 +1817,20 @@ fn run_figma_diff(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
+
+    Ok((meta, mapping_map, graph))
+}
+
+fn run_figma_diff(
+    file_key: Option<&str>,
+    token: Option<&str>,
+    snapshot: Option<&Path>,
+    mapping: Option<&Path>,
+    manifest: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let (meta, mapping_map, graph) =
+        load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
     let tokens: Vec<(String, std::path::PathBuf, serde_json::Value)> = graph
         .tokens
         .values()
@@ -1822,6 +1871,61 @@ fn run_figma_diff(
                 .filter(|e| !matches!(e.class, figma::import::DiffClass::Match))
             {
                 println!("  {} — {:?}", entry.name, entry.class);
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
+/// S2.Color-theme name prefixes whose Figma names don't reliably invert to a
+/// legacy key by convention (`Palette/` does; see `invert_name`) — the only
+/// prefixes [`figma::import::pair_by_value`] is asked to cover today.
+///
+/// These are real-file naming conventions observed in the S2.Color-theme
+/// collection, not the exporter's own output — `mapping::COLLECTION_SPECS`
+/// models what `figma export` generates (`colorTheme/`, `platformScale/`)
+/// and has no entry for `Palette/`/`Alias/`/`Icon/`, so there's nothing to
+/// derive this list from automatically. If a new S2.Color-theme prefix group
+/// shows up, add it here by hand.
+const PAIR_NAME_PREFIXES: &[&str] = &["Alias/", "Icon/"];
+
+fn run_figma_pair(
+    file_key: Option<&str>,
+    token: Option<&str>,
+    snapshot: Option<&Path>,
+    mapping: Option<&Path>,
+    manifest: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let (meta, mapping_map, graph) =
+        load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
+
+    let report =
+        figma::import::pair_by_value(&meta, &graph, PAIR_NAME_PREFIXES, mapping_map.as_ref());
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&report).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            println!(
+                "candidates={} ambiguous={} unmatched={}",
+                report.candidates.len(),
+                report.ambiguous.len(),
+                report.unmatched.len(),
+            );
+            for c in &report.candidates {
+                println!("  {} -> {}", c.figma_name, c.legacy_key);
+            }
+            if !report.ambiguous.is_empty() {
+                println!("ambiguous (multiple value matches, no clear winner):");
+                for name in &report.ambiguous {
+                    println!("  {name}");
+                }
             }
         }
     }
@@ -2440,6 +2544,21 @@ fn main() -> ExitCode {
                 manifest,
                 format,
             } => run_figma_diff(
+                file_key.as_deref(),
+                token.as_deref(),
+                snapshot.as_deref(),
+                mapping.as_deref(),
+                manifest.as_deref(),
+                format,
+            ),
+            FigmaSub::Pair {
+                file_key,
+                token,
+                snapshot,
+                mapping,
+                manifest,
+                format,
+            } => run_figma_pair(
                 file_key.as_deref(),
                 token.as_deref(),
                 snapshot.as_deref(),

@@ -84,6 +84,32 @@ fn figma_mode_scale(variable: &FigmaVariable, meta: &VariablesMeta) -> Option<St
         .map(|m| m.name.to_lowercase())
 }
 
+/// The design-data value to compare a Figma variable against: aligned to the
+/// variable's own scale (e.g. Desktop -> "desktop") when `leaf` is a
+/// scale-set token (`set_uuid` present) that diverges per scale — otherwise
+/// an arbitrary scale entry could be compared against a specific Figma mode
+/// and false-positive (or false-negative) the comparison. Falls back to
+/// `leaf`'s own value when there's no scale to align to, or alignment fails.
+fn scale_aligned_source_value(
+    variable: &FigmaVariable,
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    leaf: &crate::graph::TokenRecord,
+) -> Option<Value> {
+    let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
+        let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
+        let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
+        let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
+        // `resolve_set_in_context` degrades to an arbitrary tie-broken
+        // member when none actually matches `scale` (e.g. a Figma mode
+        // like "Tablet" with no design-data counterpart) — only trust
+        // the alignment when the candidate's own scale really agrees.
+        let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
+        (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
+    });
+    scale_source_value.or_else(|| leaf.raw.get("value").cloned())
+}
+
 /// The unit suffixes recognized on a dimension-like token value, matching the
 /// ones stripped on export (`mapping.rs`'s `value_to_figma`), plus `dp` —
 /// recognized here for comparison only; export still never strips it (see
@@ -136,7 +162,7 @@ pub fn build_import_overrides(
             continue;
         };
 
-        let collapsed = match collapse_modes(variable) {
+        let collapsed = match collapse_modes(variable, meta) {
             Ok(Some(v)) => v,
             Ok(None) => {
                 summary.multimode_divergent.push(variable.name.clone());
@@ -293,7 +319,7 @@ pub fn diff_values(
             continue;
         };
 
-        let collapsed = match collapse_modes(variable) {
+        let collapsed = match collapse_modes(variable, meta) {
             Ok(Some(v)) => v,
             Ok(None) => {
                 counts.skipped_uncovered += 1;
@@ -322,23 +348,7 @@ pub fn diff_values(
         };
 
         let leaf = record.resolve_leaf(graph);
-        // Align to the design-data entry for the Figma variable's own scale
-        // (e.g. Desktop -> "desktop") when the source is a scale-set token
-        // (`set_uuid` present) that diverges per scale — otherwise a single
-        // arbitrary scale entry gets compared against a specific Figma mode
-        // and can false-positive (or false-negative) the diff.
-        let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
-            let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
-            let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
-            let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
-            // `resolve_set_in_context` degrades to an arbitrary tie-broken
-            // member when none actually matches `scale` (e.g. a Figma mode
-            // like "Tablet" with no design-data counterpart) — only trust
-            // the alignment when the candidate's own scale really agrees.
-            let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
-            (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
-        });
-        let source_value = scale_source_value.or_else(|| leaf.raw.get("value").cloned());
+        let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
         let is_opacity = record_is_opacity(leaf);
         let is_font_name = record_is_font_name(leaf);
         let class = match diff_against_source(
@@ -418,11 +428,20 @@ pub fn diff_values(
 /// Invert a Figma variable name back to its legacy token key: the rename
 /// map takes precedence, else strip everything up to and including the
 /// first `/` (the exact reverse of `format!("{prefix}/{token_name}")`).
+///
+/// A nested Figma name (e.g. `Palette/blue/100`, from a source collection
+/// whose names cascade multiple path segments) leaves further `/`s in the
+/// stripped tail — normalize those to `-` since legacy keys are dash-form
+/// (`blue-100`). Slash-form keys never resolve today, so this is additive.
 fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> Option<String> {
     renames
         .and_then(|m| m.get(figma_name))
         .cloned()
-        .or_else(|| figma_name.split_once('/').map(|(_, key)| key.to_string()))
+        .or_else(|| {
+            figma_name
+                .split_once('/')
+                .map(|(_, key)| key.replace('/', "-"))
+        })
 }
 
 /// Collapse a variable's per-mode values into one comparable value, only when
@@ -430,28 +449,50 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
 ///
 /// `Ok(None)` means modes diverge — the caller reports and skips it, since a
 /// manifest override has no per-mode dimension. `Err(())` means a mode holds
-/// an unresolved alias (`VARIABLE_ALIAS`), which this importer doesn't follow.
-fn collapse_modes(variable: &FigmaVariable) -> Result<Option<Value>, ()> {
+/// a `VARIABLE_ALIAS` this importer couldn't resolve (see
+/// [`resolve_figma_value`]) — a broken reference or a cyclic/too-deep chain.
+fn collapse_modes(variable: &FigmaVariable, meta: &VariablesMeta) -> Result<Option<Value>, ()> {
     let mut values = variable.values_by_mode.values();
     let Some(first) = values.next() else {
         return Ok(None);
     };
-    if is_alias(first) {
-        return Err(());
-    }
+    let first = resolve_figma_value(meta, first, 0).ok_or(())?;
     for other in values {
-        if is_alias(other) {
-            return Err(());
-        }
-        if !values_agree(first, other) {
+        let other = resolve_figma_value(meta, other, 0).ok_or(())?;
+        if !values_agree(&first, &other) {
             return Ok(None);
         }
     }
-    Ok(Some(first.clone()))
+    Ok(Some(first))
 }
 
 fn is_alias(v: &Value) -> bool {
     v.get("type").and_then(Value::as_str) == Some("VARIABLE_ALIAS")
+}
+
+/// Cap on `VARIABLE_ALIAS` hops [`resolve_figma_value`] will follow, guarding
+/// against a cyclic or pathologically deep chain. S2.Color-theme's real
+/// chains are 1-3 hops deep; this is generous headroom, not a tuned figure.
+const MAX_ALIAS_DEPTH: usize = 16;
+
+/// Resolve a variable value to a concrete literal, following `VARIABLE_ALIAS`
+/// chains through `meta.variables` (its own default mode, since Modeless
+/// collections like S2.Color-theme have exactly one). Every S2 value is an
+/// alias — without this, `collapse_modes` always failed them as unconvertible.
+fn resolve_figma_value(meta: &VariablesMeta, value: &Value, depth: usize) -> Option<Value> {
+    if !is_alias(value) {
+        return Some(value.clone());
+    }
+    if depth >= MAX_ALIAS_DEPTH {
+        return None;
+    }
+    let target_id = value.get("id").and_then(Value::as_str)?;
+    let target = meta.variables.get(target_id)?;
+    let collection = meta
+        .variable_collections
+        .get(&target.variable_collection_id)?;
+    let next = target.values_by_mode.get(&collection.default_mode_id)?;
+    resolve_figma_value(meta, next, depth + 1)
 }
 
 fn values_agree(a: &Value, b: &Value) -> bool {
@@ -558,6 +599,183 @@ fn diff_against_source(
     }
 }
 
+/// One candidate `legacyKey -> figmaName` override drafted by
+/// [`pair_by_value`], for human review before merging into a mapping
+/// artifact consumed by `figma export`/`diff --mapping`.
+#[derive(Debug, Clone, Serialize, PartialEq, Eq, PartialOrd, Ord)]
+pub struct PairingCandidate {
+    pub legacy_key: String,
+    pub figma_name: String,
+}
+
+/// Report from [`pair_by_value`]: drafted candidates plus what couldn't be
+/// resolved, for human curation.
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct PairingReport {
+    pub candidates: Vec<PairingCandidate>,
+    /// Figma names whose value resolved but matched more than one
+    /// design-data token, even after path-based disambiguation — needs a
+    /// human pick.
+    pub ambiguous: Vec<String>,
+    /// Figma names whose value didn't resolve (dangling/cyclic alias) or
+    /// matched zero design-data tokens (e.g. `app-frame`, which has no
+    /// design-data counterpart — permanently figma-only).
+    pub unmatched: Vec<String>,
+}
+
+/// Score how many of a candidate token's name-cascade field values appear
+/// as a path segment of `figma_name`, for disambiguating a value collision
+/// (several design-data tokens sharing one resolved value). Segment
+/// comparison is exact, case-insensitive; array-valued fields (e.g.
+/// `state: ["default"]`) match if any element matches.
+fn figma_path_score(raw: &Value, figma_name: &str) -> usize {
+    let Some(name) = raw.get("name").and_then(Value::as_object) else {
+        return 0;
+    };
+    let segments: BTreeSet<String> = figma_name.split('/').map(str::to_ascii_lowercase).collect();
+    name.values()
+        .filter(|v| match v {
+            Value::String(s) => segments.contains(&s.to_ascii_lowercase()),
+            Value::Array(items) => items
+                .iter()
+                .filter_map(Value::as_str)
+                .any(|s| segments.contains(&s.to_ascii_lowercase())),
+            _ => false,
+        })
+        .count()
+}
+
+/// Draft `legacyKey -> figmaName` override candidates for Figma variables
+/// whose name doesn't already invert to a known legacy key (`invert_name`/
+/// `resolve_alias_key`), by matching resolved values instead.
+///
+/// Only variables whose name starts with one of `name_prefixes` (e.g.
+/// `["Alias/", "Icon/"]`) are considered — Palette and any name already
+/// resolved or explicitly mapped via `mapping` are left alone, so this only
+/// fills genuine gaps. `mapping` is the same forward `legacyKey ->
+/// figmaName` artifact `figma export`/`diff --mapping` use. Every
+/// candidate's value is checked against every design-data token's resolved
+/// (alias-followed) value via the same [`diff_against_source`] comparison
+/// the diff itself uses, so a candidate is never proposed on a value the
+/// diff would call `value-mismatch`.
+pub fn pair_by_value(
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    name_prefixes: &[&str],
+    mapping: Option<&HashMap<String, String>>,
+) -> PairingReport {
+    // `invert_name` expects a figmaName -> legacyKey map, the reverse of
+    // `mapping`'s legacyKey -> figmaName convention (mirrors `diff_values`).
+    let reversed: Option<HashMap<String, String>> =
+        mapping.map(|m| m.iter().map(|(k, v)| (v.clone(), k.clone())).collect());
+
+    let mut report = PairingReport::default();
+
+    // legacy_key -> alias-resolved leaf record, mirroring how the CLI
+    // derives legacy keys for `diff_values` (main.rs: extract_legacy_key on
+    // the raw name, falling back to the graph key).
+    let mut by_key: std::collections::BTreeMap<String, &crate::graph::TokenRecord> =
+        std::collections::BTreeMap::new();
+    // `graph.tokens` is a HashMap, so iterate in graph-key order rather than
+    // hash order — when two tokens derive the same legacy_key, `or_insert_with`
+    // below keeps whichever comes first, and that pick must be stable across
+    // runs (it previously wasn't: HashMap iteration order varies per process).
+    let mut sorted_keys: Vec<&String> = graph.tokens.keys().collect();
+    sorted_keys.sort();
+    for key in sorted_keys {
+        let record = &graph.tokens[key];
+        let legacy_key = record
+            .raw
+            .get("name")
+            .and_then(crate::naming::extract_legacy_key)
+            .unwrap_or_else(|| record.name.clone());
+        by_key
+            .entry(legacy_key)
+            .or_insert_with(|| record.resolve_leaf(graph));
+    }
+
+    for variable in meta.variables.values() {
+        // A remote/library-linked variable is never a real pairing target —
+        // `diff_values`/`build_import_overrides` both skip these too.
+        if variable.remote {
+            continue;
+        }
+        if !name_prefixes.iter().any(|p| variable.name.starts_with(p)) {
+            continue;
+        }
+        if invert_name(&variable.name, reversed.as_ref()).is_some_and(|k| by_key.contains_key(&k)) {
+            continue; // already resolves by name — nothing to pair
+        }
+
+        // `collapse_modes` (not a raw `values_by_mode.values().next()` pick)
+        // both cross-checks multi-mode agreement and resolves alias chains
+        // deterministically — a plain HashMap `.next()` here previously made
+        // results flip between runs on the same snapshot.
+        let resolved = match collapse_modes(variable, meta) {
+            Ok(Some(v)) => v,
+            Ok(None) | Err(()) => {
+                report.unmatched.push(variable.name.clone());
+                continue;
+            }
+        };
+
+        // ponytail: O(N×M) scan (N unresolved variables × M design-data
+        // tokens) — at S2.Color-theme's scale (hundreds of each) this runs
+        // in milliseconds; build a value -> [legacy_key] index once if this
+        // is ever called against a much larger corpus.
+        let matches: Vec<&str> = by_key
+            .iter()
+            .filter(|(_, leaf)| {
+                let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
+                diff_against_source(
+                    &variable.resolved_type,
+                    &resolved,
+                    source_value.as_ref(),
+                    record_is_opacity(leaf),
+                    record_is_font_name(leaf),
+                )
+                .is_ok_and(|v| v.is_none())
+            })
+            .map(|(key, _)| key.as_str())
+            .collect();
+
+        let chosen = match matches.as_slice() {
+            [] => None,
+            [only] => Some((*only).to_string()),
+            several => {
+                let scored: Vec<(usize, &str)> = several
+                    .iter()
+                    .map(|key| (figma_path_score(&by_key[*key].raw, &variable.name), *key))
+                    .collect();
+                let best = scored.iter().map(|(score, _)| *score).max().unwrap_or(0);
+                let winners: Vec<&str> = scored
+                    .iter()
+                    .filter(|(score, _)| *score == best)
+                    .map(|(_, key)| *key)
+                    .collect();
+                match winners.as_slice() {
+                    [only] => Some((*only).to_string()),
+                    _ => None,
+                }
+            }
+        };
+
+        match chosen {
+            Some(legacy_key) => report.candidates.push(PairingCandidate {
+                legacy_key,
+                figma_name: variable.name.clone(),
+            }),
+            None if matches.len() > 1 => report.ambiguous.push(variable.name.clone()),
+            None => report.unmatched.push(variable.name.clone()),
+        }
+    }
+
+    report.candidates.sort();
+    report.ambiguous.sort();
+    report.unmatched.sort();
+    report
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -624,6 +842,244 @@ mod tests {
         )
         .unwrap();
         TokenGraph::from_json_dir(dir.path()).unwrap()
+    }
+
+    /// A multi-token graph from full token JSON objects (`name` may be a
+    /// cascade object, unlike `mock_graph`'s flat-string `name`) — needed
+    /// for [`pair_by_value`] tests, which match/disambiguate by value across
+    /// several design-data tokens at once.
+    fn mock_graph_multi(tokens: Vec<(&str, Value)>) -> TokenGraph {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let obj: serde_json::Map<String, Value> = tokens
+            .into_iter()
+            .map(|(key, token)| (key.to_string(), token))
+            .collect();
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(f, "{}", Value::Object(obj)).unwrap();
+        TokenGraph::from_json_dir(dir.path()).unwrap()
+    }
+
+    #[test]
+    fn pair_by_value_matches_unresolvable_name_by_value() {
+        // "Alias/accent-color-default" doesn't invert to any known legacy
+        // key (design-data's key is "accent-background-color-default"), but
+        // its value matches exactly one design-data token.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/accent-color-default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+
+        let graph = mock_graph_multi(vec![(
+            "accent-background-color-default",
+            json!({
+                "$schema": "https://example.com/color.json",
+                "name": {
+                    "colorRole": "accent",
+                    "object": "background",
+                    "state": ["default"],
+                    "legacyKey": "accent-background-color-default",
+                },
+                "value": "#ff8000",
+                "uuid": "u1",
+            }),
+        )]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert_eq!(
+            report.candidates,
+            vec![PairingCandidate {
+                legacy_key: "accent-background-color-default".to_string(),
+                figma_name: "Alias/accent-color-default".to_string(),
+            }]
+        );
+        assert!(report.ambiguous.is_empty());
+        assert!(report.unmatched.is_empty());
+    }
+
+    #[test]
+    fn pair_by_value_disambiguates_collision_by_path_segments() {
+        // Two design-data tokens share the resolved value; only one's name
+        // fields overlap with the Figma path's segments.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/background/accent/default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+
+        let graph = mock_graph_multi(vec![
+            (
+                "accent-background-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {
+                        "colorRole": "accent",
+                        "object": "background",
+                        "state": ["default"],
+                        "legacyKey": "accent-background-color-default",
+                    },
+                    "value": "#ff8000",
+                    "uuid": "u1",
+                }),
+            ),
+            (
+                "informative-background-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {
+                        "colorRole": "informative",
+                        "object": "background",
+                        "state": ["default"],
+                        "legacyKey": "informative-background-color-default",
+                    },
+                    "value": "#ff8000",
+                    "uuid": "u2",
+                }),
+            ),
+        ]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert_eq!(
+            report.candidates,
+            vec![PairingCandidate {
+                legacy_key: "accent-background-color-default".to_string(),
+                figma_name: "Alias/background/accent/default".to_string(),
+            }]
+        );
+        assert!(report.ambiguous.is_empty());
+    }
+
+    #[test]
+    fn pair_by_value_reports_true_gap_as_unmatched() {
+        // No design-data token holds this value at all (e.g. "app-frame",
+        // which has no design-data counterpart) — a permanent figma-only.
+        let variable = mock_variable(
+            "Alias/app-frame",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 0.1, "g": 0.1, "b": 0.1, "a": 1.0}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![variable]);
+        let graph = mock_graph_multi(vec![(
+            "accent-background-color-default",
+            json!({
+                "$schema": "https://example.com/color.json",
+                "name": "accent-background-color-default",
+                "value": "#ff8000",
+                "uuid": "u1",
+            }),
+        )]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert_eq!(report.unmatched, vec!["Alias/app-frame".to_string()]);
+    }
+
+    /// A remote/library-linked variable must never be surfaced as a pairing
+    /// candidate — `diff_values`/`build_import_overrides` both skip these,
+    /// and a reviewer curating candidates has no way to act on one.
+    #[test]
+    fn pair_by_value_ignores_remote_variables() {
+        let mut variable = mock_variable(
+            "Alias/accent-color-default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        variable.remote = true;
+        let meta = mock_meta_modeless(vec![variable]);
+        let graph = mock_graph_multi(vec![(
+            "accent-background-color-default",
+            json!({
+                "$schema": "https://example.com/color.json",
+                "name": "accent-background-color-default",
+                "value": "#ff8000",
+                "uuid": "u1",
+            }),
+        )]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert!(report.ambiguous.is_empty());
+        assert!(report.unmatched.is_empty());
+    }
+
+    /// A cyclic `VARIABLE_ALIAS` chain must fail closed via the depth guard,
+    /// not loop forever or panic.
+    #[test]
+    fn resolve_figma_value_stops_on_cyclic_alias_chain() {
+        let a = mock_variable(
+            "Alias/a",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/b"}),
+            )],
+        );
+        let b = mock_variable(
+            "Alias/b",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![a, b]);
+        let alias_value = json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"});
+        assert_eq!(resolve_figma_value(&meta, &alias_value, 0), None);
+    }
+
+    /// Build a `VariablesMeta` with one Modeless collection ("col-1", the
+    /// same id [`mock_variable`] defaults to) so [`resolve_figma_value`] can
+    /// look up each alias target's default mode.
+    fn mock_meta_modeless(variables: Vec<FigmaVariable>) -> VariablesMeta {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+        let collection = FigmaVariableCollection {
+            id: "col-1".to_string(),
+            name: "S2.Color-theme".to_string(),
+            key: "k".to_string(),
+            modes: vec![FigmaMode {
+                mode_id: "m-modeless".to_string(),
+                name: "Modeless".to_string(),
+            }],
+            default_mode_id: "m-modeless".to_string(),
+            remote: false,
+            hidden_from_publishing: false,
+            variable_ids: vec![],
+        };
+        VariablesMeta {
+            variables: variables.into_iter().map(|v| (v.id.clone(), v)).collect(),
+            variable_collections: [(collection.id.clone(), collection)].into_iter().collect(),
+        }
     }
 
     #[test]
@@ -1230,6 +1686,92 @@ mod tests {
         let (overrides, summary) = build_import_overrides(&meta, &graph, Some(&renames));
         assert_eq!(summary.overrides_emitted, 1);
         assert_eq!(overrides[0]["target"], "u-spacing-100");
+    }
+
+    #[test]
+    fn invert_name_normalizes_nested_slashes_to_dashes() {
+        // A nested source name (e.g. S2.Color-theme's "Palette/blue/100")
+        // must invert to the dash-form legacy key, not the slash-form tail.
+        assert_eq!(
+            invert_name("Palette/blue/100", None),
+            Some("blue-100".to_string())
+        );
+        // A flat name is unaffected.
+        assert_eq!(
+            invert_name("colorTheme/blue-100", None),
+            Some("blue-100".to_string())
+        );
+    }
+
+    /// S2.Color-theme is Modeless and every value is a `VARIABLE_ALIAS` —
+    /// this is the case `collapse_modes` used to hard-fail as unconvertible.
+    /// `resolve_figma_value` must follow the chain to the target's concrete
+    /// value so a same-value alias produces a real `match`.
+    #[test]
+    fn aliased_variable_resolves_through_target_to_concrete_value() {
+        let target = mock_variable(
+            "Palette/blue/100",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/accent-color-default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+
+        let graph = mock_graph("accent-color-default", "u-accent", json!("#ff8000"));
+        let (overrides, summary) = build_import_overrides(&meta, &graph, None);
+        assert!(
+            overrides.is_empty(),
+            "resolved alias value matches design-data's value: no override needed"
+        );
+        assert_eq!(summary.unconvertible, Vec::<String>::new());
+        assert_eq!(summary.unchanged, 1);
+    }
+
+    /// A `VARIABLE_ALIAS` pointing at a nonexistent target must still fail
+    /// closed as unconvertible, not panic.
+    #[test]
+    fn alias_to_missing_target_stays_unconvertible() {
+        let alias = mock_variable(
+            "Alias/dangling",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "VariableID:does-not-exist"}),
+            )],
+        );
+        let meta = mock_meta(vec![alias]);
+        let graph = mock_graph("dangling", "u-dangling", json!("#ff8000"));
+        let (_, summary) = build_import_overrides(&meta, &graph, None);
+        assert_eq!(summary.unconvertible, vec!["Alias/dangling".to_string()]);
+    }
+
+    #[test]
+    fn nested_palette_name_resolves_instead_of_figma_only() {
+        let meta = mock_meta(vec![mock_variable(
+            "Palette/blue/100",
+            "COLOR",
+            vec![(
+                "m-light",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        )]);
+        let graph = mock_graph("blue-100", "u-blue-100", json!("#ff8000"));
+        let (overrides, summary) = build_import_overrides(&meta, &graph, None);
+        assert!(overrides.is_empty());
+        assert_eq!(
+            summary.unchanged, 1,
+            "nested Palette name must resolve to the known key, not fall through as unresolved"
+        );
     }
 
     /// End-to-end check: an emitted override must satisfy
