@@ -1753,14 +1753,23 @@ fn run_figma_audit(
 /// Value-level diff between the manifest-resolved dataset and a Figma file —
 /// read-only counterpart to `figma import`. Either `--snapshot` (offline, no
 /// token needed) or `--file-key`/`--token` (a live API call) must be given.
-fn run_figma_diff(
+type FigmaDiffInputs = (
+    figma::types::VariablesMeta,
+    Option<HashMap<String, String>>,
+    TokenGraph,
+);
+
+/// Load a Figma `VariablesMeta` (offline snapshot or live fetch), the
+/// name-mapping artifact (if given), and the manifest-resolved `TokenGraph` —
+/// the setup `figma diff` and `figma pair` both need before their own
+/// comparison logic diverges.
+fn load_figma_diff_inputs(
     file_key: Option<&str>,
     token: Option<&str>,
     snapshot: Option<&Path>,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
-    format: OutputFormat,
-) -> miette::Result<ExitCode> {
+) -> miette::Result<FigmaDiffInputs> {
     // 0. Get the file's variables — offline from a snapshot, or a live fetch.
     let meta: figma::types::VariablesMeta = if let Some(snapshot_path) = snapshot {
         let text = std::fs::read_to_string(snapshot_path)
@@ -1808,6 +1817,20 @@ fn run_figma_diff(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
+
+    Ok((meta, mapping_map, graph))
+}
+
+fn run_figma_diff(
+    file_key: Option<&str>,
+    token: Option<&str>,
+    snapshot: Option<&Path>,
+    mapping: Option<&Path>,
+    manifest: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    let (meta, mapping_map, graph) =
+        load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
     let tokens: Vec<(String, std::path::PathBuf, serde_json::Value)> = graph
         .tokens
         .values()
@@ -1858,6 +1881,13 @@ fn run_figma_diff(
 /// S2.Color-theme name prefixes whose Figma names don't reliably invert to a
 /// legacy key by convention (`Palette/` does; see `invert_name`) — the only
 /// prefixes [`figma::import::pair_by_value`] is asked to cover today.
+///
+/// These are real-file naming conventions observed in the S2.Color-theme
+/// collection, not the exporter's own output — `mapping::COLLECTION_SPECS`
+/// models what `figma export` generates (`colorTheme/`, `platformScale/`)
+/// and has no entry for `Palette/`/`Alias/`/`Icon/`, so there's nothing to
+/// derive this list from automatically. If a new S2.Color-theme prefix group
+/// shows up, add it here by hand.
 const PAIR_NAME_PREFIXES: &[&str] = &["Alias/", "Icon/"];
 
 fn run_figma_pair(
@@ -1868,51 +1898,8 @@ fn run_figma_pair(
     manifest: Option<&Path>,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
-    // Steps 0-2 mirror `run_figma_diff` exactly — same snapshot/API load,
-    // same mapping artifact, same manifest-resolved TokenGraph.
-    let meta: figma::types::VariablesMeta = if let Some(snapshot_path) = snapshot {
-        let text = std::fs::read_to_string(snapshot_path)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to read snapshot {}", snapshot_path.display()))?;
-        serde_json::from_str(&text)
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot_path.display()))?
-    } else {
-        let file_key = file_key.ok_or_else(|| {
-            miette::miette!("either --snapshot or --file-key/--token is required")
-        })?;
-        let token = token.ok_or_else(|| {
-            miette::miette!("either --snapshot or --file-key/--token is required")
-        })?;
-        let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
-        let client = figma::api::FigmaClient::new(token.to_string());
-        eprintln!("Fetching variables from Figma...");
-        rt.block_on(client.get_local_variables(file_key))
-            .map_err(|e| miette::miette!("{e}"))?
-            .meta
-    };
-
-    let mapping_map = mapping.map(load_overrides).transpose()?;
-
-    let resolved = resolve_data_source(CliPathOverrides {
-        platform_manifest: manifest.map(Path::to_path_buf),
-        ..Default::default()
-    })?;
-    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
-        &resolved.tokens_root,
-        resolved.mode_sets.as_deref(),
-        resolved.components.as_deref(),
-    )
-    .into_diagnostic()
-    .wrap_err_with(|| {
-        format!(
-            "failed to load tokens from {}",
-            resolved.tokens_root.display()
-        )
-    })?;
-    manifest::apply_configured(&mut graph, &resolved)
-        .into_diagnostic()
-        .wrap_err("failed to apply platform manifest cascade")?;
+    let (meta, mapping_map, graph) =
+        load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
 
     let report =
         figma::import::pair_by_value(&meta, &graph, PAIR_NAME_PREFIXES, mapping_map.as_ref());

@@ -84,6 +84,32 @@ fn figma_mode_scale(variable: &FigmaVariable, meta: &VariablesMeta) -> Option<St
         .map(|m| m.name.to_lowercase())
 }
 
+/// The design-data value to compare a Figma variable against: aligned to the
+/// variable's own scale (e.g. Desktop -> "desktop") when `leaf` is a
+/// scale-set token (`set_uuid` present) that diverges per scale — otherwise
+/// an arbitrary scale entry could be compared against a specific Figma mode
+/// and false-positive (or false-negative) the comparison. Falls back to
+/// `leaf`'s own value when there's no scale to align to, or alignment fails.
+fn scale_aligned_source_value(
+    variable: &FigmaVariable,
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    leaf: &crate::graph::TokenRecord,
+) -> Option<Value> {
+    let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
+        let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
+        let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
+        let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
+        // `resolve_set_in_context` degrades to an arbitrary tie-broken
+        // member when none actually matches `scale` (e.g. a Figma mode
+        // like "Tablet" with no design-data counterpart) — only trust
+        // the alignment when the candidate's own scale really agrees.
+        let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
+        (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
+    });
+    scale_source_value.or_else(|| leaf.raw.get("value").cloned())
+}
+
 /// The unit suffixes recognized on a dimension-like token value, matching the
 /// ones stripped on export (`mapping.rs`'s `value_to_figma`), plus `dp` —
 /// recognized here for comparison only; export still never strips it (see
@@ -322,23 +348,7 @@ pub fn diff_values(
         };
 
         let leaf = record.resolve_leaf(graph);
-        // Align to the design-data entry for the Figma variable's own scale
-        // (e.g. Desktop -> "desktop") when the source is a scale-set token
-        // (`set_uuid` present) that diverges per scale — otherwise a single
-        // arbitrary scale entry gets compared against a specific Figma mode
-        // and can false-positive (or false-negative) the diff.
-        let scale_source_value = figma_mode_scale(variable, meta).and_then(|scale| {
-            let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
-            let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
-            let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
-            // `resolve_set_in_context` degrades to an arbitrary tie-broken
-            // member when none actually matches `scale` (e.g. a Figma mode
-            // like "Tablet" with no design-data counterpart) — only trust
-            // the alignment when the candidate's own scale really agrees.
-            let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
-            (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
-        });
-        let source_value = scale_source_value.or_else(|| leaf.raw.get("value").cloned());
+        let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
         let is_opacity = record_is_opacity(leaf);
         let is_font_name = record_is_font_name(leaf);
         let class = match diff_against_source(
@@ -685,6 +695,11 @@ pub fn pair_by_value(
     }
 
     for variable in meta.variables.values() {
+        // A remote/library-linked variable is never a real pairing target —
+        // `diff_values`/`build_import_overrides` both skip these too.
+        if variable.remote {
+            continue;
+        }
         if !name_prefixes.iter().any(|p| variable.name.starts_with(p)) {
             continue;
         }
@@ -692,22 +707,30 @@ pub fn pair_by_value(
             continue; // already resolves by name — nothing to pair
         }
 
-        let Some(first_value) = variable.values_by_mode.values().next() else {
-            report.unmatched.push(variable.name.clone());
-            continue;
-        };
-        let Some(resolved) = resolve_figma_value(meta, first_value, 0) else {
-            report.unmatched.push(variable.name.clone());
-            continue;
+        // `collapse_modes` (not a raw `values_by_mode.values().next()` pick)
+        // both cross-checks multi-mode agreement and resolves alias chains
+        // deterministically — a plain HashMap `.next()` here previously made
+        // results flip between runs on the same snapshot.
+        let resolved = match collapse_modes(variable, meta) {
+            Ok(Some(v)) => v,
+            Ok(None) | Err(()) => {
+                report.unmatched.push(variable.name.clone());
+                continue;
+            }
         };
 
+        // ponytail: O(N×M) scan (N unresolved variables × M design-data
+        // tokens) — at S2.Color-theme's scale (hundreds of each) this runs
+        // in milliseconds; build a value -> [legacy_key] index once if this
+        // is ever called against a much larger corpus.
         let matches: Vec<&str> = by_key
             .iter()
             .filter(|(_, leaf)| {
+                let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
                 diff_against_source(
                     &variable.resolved_type,
                     &resolved,
-                    leaf.raw.get("value"),
+                    source_value.as_ref(),
                     record_is_opacity(leaf),
                     record_is_font_name(leaf),
                 )
@@ -977,6 +1000,62 @@ mod tests {
         let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
         assert!(report.candidates.is_empty());
         assert_eq!(report.unmatched, vec!["Alias/app-frame".to_string()]);
+    }
+
+    /// A remote/library-linked variable must never be surfaced as a pairing
+    /// candidate — `diff_values`/`build_import_overrides` both skip these,
+    /// and a reviewer curating candidates has no way to act on one.
+    #[test]
+    fn pair_by_value_ignores_remote_variables() {
+        let mut variable = mock_variable(
+            "Alias/accent-color-default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        variable.remote = true;
+        let meta = mock_meta_modeless(vec![variable]);
+        let graph = mock_graph_multi(vec![(
+            "accent-background-color-default",
+            json!({
+                "$schema": "https://example.com/color.json",
+                "name": "accent-background-color-default",
+                "value": "#ff8000",
+                "uuid": "u1",
+            }),
+        )]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert!(report.ambiguous.is_empty());
+        assert!(report.unmatched.is_empty());
+    }
+
+    /// A cyclic `VARIABLE_ALIAS` chain must fail closed via the depth guard,
+    /// not loop forever or panic.
+    #[test]
+    fn resolve_figma_value_stops_on_cyclic_alias_chain() {
+        let a = mock_variable(
+            "Alias/a",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/b"}),
+            )],
+        );
+        let b = mock_variable(
+            "Alias/b",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![a, b]);
+        let alias_value = json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"});
+        assert_eq!(resolve_figma_value(&meta, &alias_value, 0), None);
     }
 
     /// Build a `VariablesMeta` with one Modeless collection ("col-1", the
