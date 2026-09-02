@@ -1878,17 +1878,26 @@ fn run_figma_diff(
     Ok(ExitCode::SUCCESS)
 }
 
-/// S2.Color-theme name prefixes whose Figma names don't reliably invert to a
-/// legacy key by convention (`Palette/` does; see `invert_name`) — the only
-/// prefixes [`figma::import::pair_by_value`] is asked to cover today.
+/// Name prefixes whose Figma names don't reliably invert to a legacy key by
+/// convention (`Palette/` and the Typography atomic leaves do; see
+/// `invert_name`) — the prefixes [`figma::import::pair_by_value`] is asked
+/// to cover today.
 ///
-/// These are real-file naming conventions observed in the S2.Color-theme
-/// collection, not the exporter's own output — `mapping::COLLECTION_SPECS`
-/// models what `figma export` generates (`colorTheme/`, `platformScale/`)
-/// and has no entry for `Palette/`/`Alias/`/`Icon/`, so there's nothing to
-/// derive this list from automatically. If a new S2.Color-theme prefix group
-/// shows up, add it here by hand.
-const PAIR_NAME_PREFIXES: &[&str] = &["Alias/", "Icon/"];
+/// These are real-file naming conventions observed in specific collections,
+/// not the exporter's own output — `mapping::COLLECTION_SPECS` models what
+/// `figma export` generates (`colorTheme/`, `platformScale/`) and has no
+/// entry for these, so there's nothing to derive this list from
+/// automatically. If a new prefix group shows up, add it here by hand.
+///
+/// `Heading/`/`Body/`/`Title/`/`Detail/`/`Code/` are the Typography
+/// collection's grouping variables: most decompose onto a handful of
+/// shared atomic values already claimed by the Typography leaf variables
+/// (see `normalize_typography_leaf`), so `pair_by_value` is expected to
+/// report the bulk of them `ambiguous` rather than producing candidates —
+/// that's a structural fact about the source data, not a bug in pairing.
+const PAIR_NAME_PREFIXES: &[&str] = &[
+    "Alias/", "Icon/", "Heading/", "Body/", "Title/", "Detail/", "Code/",
+];
 
 fn run_figma_pair(
     file_key: Option<&str>,
