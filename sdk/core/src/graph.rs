@@ -2628,6 +2628,37 @@ mod tests {
     }
 
     #[test]
+    fn resolve_relationship_ref_terminates_on_cyclic_ctr_ref() {
+        // Malformed data: two CTRs whose $refs point at each other's uuid,
+        // forming a cycle. Must return None via the depth cap rather than
+        // recursing forever / overflowing the stack.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/cycle.json"),
+                index: 0,
+                uuid: Some("33333333-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "cycle-a",
+                    "$ref": "33333333-0000-0000-0000-000000000002",
+                    "uuid": "33333333-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/cycle.json"),
+                index: 1,
+                uuid: Some("33333333-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "cycle-b",
+                    "$ref": "33333333-0000-0000-0000-000000000001",
+                    "uuid": "33333333-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        assert!(g.resolve_relationship_ref("cycle-a").is_none());
+    }
+
+    #[test]
     fn legacy_name_index_resolves_cascade_token_by_name() {
         // Cascade tokens are keyed file:index. resolve_alias_key must still find
         // them when given their human-readable legacy name.
