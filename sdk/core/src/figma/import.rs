@@ -308,7 +308,10 @@ pub fn diff_values(
             });
             continue;
         };
-        let Some(record) = graph.resolve_alias_key(&legacy_key) else {
+        let Some(record) = graph
+            .resolve_alias_key(&legacy_key)
+            .or_else(|| graph.resolve_relationship_ref(&legacy_key))
+        else {
             counts.figma_only += 1;
             entries.push(DiffEntry {
                 name: variable.name.clone(),
@@ -427,8 +430,10 @@ pub fn diff_values(
 
 /// Invert a Figma variable name back to its legacy token key: the rename
 /// map takes precedence, else a Typography-leaf-specific rule (see
-/// [`normalize_typography_leaf`]), else strip everything up to and including
-/// the first `/` (the exact reverse of `format!("{prefix}/{token_name}")`).
+/// [`normalize_typography_leaf`]), else a Typography-grouping rule (see
+/// [`normalize_typography_grouping`]), else strip everything up to and
+/// including the first `/` (the exact reverse of
+/// `format!("{prefix}/{token_name}")`).
 ///
 /// A nested Figma name (e.g. `Palette/blue/100`, from a source collection
 /// whose names cascade multiple path segments) leaves further `/`s in the
@@ -439,6 +444,7 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
         .and_then(|m| m.get(figma_name))
         .cloned()
         .or_else(|| normalize_typography_leaf(figma_name))
+        .or_else(|| normalize_typography_grouping(figma_name))
         .or_else(|| {
             figma_name
                 .split_once('/')
@@ -452,10 +458,10 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
 /// assumes. `resolve_alias_key` does exact lookup only (no fuzzy matching),
 /// so this must reproduce the legacy key verbatim.
 ///
-/// Only the five atomic leaf prefixes are handled — the Typography
-/// collection's grouping variables (`Heading/…`, `Body/…`, etc.) have no
-/// single design-data token to invert to (design-data models them as
-/// orthogonal composites) and are deliberately left unmatched here.
+/// Only the five atomic leaf prefixes are handled here — the Typography
+/// collection's grouping variables (`Heading/…`, `Body/…`, etc.) invert via
+/// [`normalize_typography_grouping`] instead, to their Component/Token
+/// Relationship (CTR) `legacyKey` in `packages/design-data/relationships/`.
 fn normalize_typography_leaf(figma_name: &str) -> Option<String> {
     let slug = |name: &str| name.to_lowercase().replace(' ', "-");
     if let Some(n) = figma_name.strip_prefix("Font size/") {
@@ -472,6 +478,22 @@ fn normalize_typography_leaf(figma_name: &str) -> Option<String> {
     }
     if let Some(name) = figma_name.strip_prefix("Font family/") {
         return Some(format!("{}-font-family", slug(name)));
+    }
+    None
+}
+
+/// Map a Typography-grouping Figma name (`Heading/…`, `Body/…`, `Title/…`,
+/// `Detail/…`, `Code/…`) to its Component/Token Relationship (CTR)
+/// `legacyKey` in `packages/design-data/relationships/*.json`, resolved by
+/// [`crate::graph::TokenGraph::resolve_relationship_ref`]. Every grouping
+/// shape (`{Type}/{Script}/[Strong/][Emphasized/]{Field}`,
+/// `{Type}/[Emphasized/]{Field}`, `{Type}/Size/{Tier}`) reduces to the same
+/// slug transform — verified against all 130 grouping variables in the
+/// Typography collection.
+fn normalize_typography_grouping(figma_name: &str) -> Option<String> {
+    const PREFIXES: [&str; 5] = ["Heading/", "Body/", "Title/", "Detail/", "Code/"];
+    if PREFIXES.iter().any(|p| figma_name.starts_with(p)) {
+        return Some(figma_name.to_lowercase().replace(['/', ' '], "-"));
     }
     None
 }
@@ -1964,6 +1986,33 @@ mod tests {
         assert_eq!(
             invert_name("Font family/Serif", None),
             Some("serif-font-family".to_string())
+        );
+    }
+
+    #[test]
+    fn invert_name_normalizes_typography_groupings() {
+        assert_eq!(
+            invert_name("Body/Sans serif/Emphasized/Font weight", None),
+            Some("body-sans-serif-emphasized-font-weight".to_string())
+        );
+        assert_eq!(
+            invert_name("Body/Sans serif/Strong/Emphasized/Font style", None),
+            Some("body-sans-serif-strong-emphasized-font-style".to_string())
+        );
+        assert_eq!(
+            invert_name("Detail/Serif/Strong/Font style", None),
+            Some("detail-serif-strong-font-style".to_string())
+        );
+        // The lone grouping without a `$ref` CTR target (an inline value) —
+        // still inverts to the correct legacy key; `resolve_relationship_ref`
+        // is the one that (correctly) can't resolve it further.
+        assert_eq!(
+            invert_name("Code/Font family", None),
+            Some("code-font-family".to_string())
+        );
+        assert_eq!(
+            invert_name("Heading/Size/XXXXL", None),
+            Some("heading-size-xxxxl".to_string())
         );
     }
 
