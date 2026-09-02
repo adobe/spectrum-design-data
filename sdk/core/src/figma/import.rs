@@ -426,8 +426,9 @@ pub fn diff_values(
 }
 
 /// Invert a Figma variable name back to its legacy token key: the rename
-/// map takes precedence, else strip everything up to and including the
-/// first `/` (the exact reverse of `format!("{prefix}/{token_name}")`).
+/// map takes precedence, else a Typography-leaf-specific rule (see
+/// [`normalize_typography_leaf`]), else strip everything up to and including
+/// the first `/` (the exact reverse of `format!("{prefix}/{token_name}")`).
 ///
 /// A nested Figma name (e.g. `Palette/blue/100`, from a source collection
 /// whose names cascade multiple path segments) leaves further `/`s in the
@@ -437,11 +438,42 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
     renames
         .and_then(|m| m.get(figma_name))
         .cloned()
+        .or_else(|| normalize_typography_leaf(figma_name))
         .or_else(|| {
             figma_name
                 .split_once('/')
                 .map(|(_, key)| key.replace('/', "-"))
         })
+}
+
+/// Map an atomic Typography-collection Figma name to its exact design-data
+/// legacy key, for the handful of prefixes whose naming convention diverges
+/// from the generic `{prefix}/{legacyKey}` one `invert_name`'s fallback
+/// assumes. `resolve_alias_key` does exact lookup only (no fuzzy matching),
+/// so this must reproduce the legacy key verbatim.
+///
+/// Only the five atomic leaf prefixes are handled — the Typography
+/// collection's grouping variables (`Heading/…`, `Body/…`, etc.) have no
+/// single design-data token to invert to (design-data models them as
+/// orthogonal composites) and are deliberately left unmatched here.
+fn normalize_typography_leaf(figma_name: &str) -> Option<String> {
+    let slug = |name: &str| name.to_lowercase().replace(' ', "-");
+    if let Some(n) = figma_name.strip_prefix("Font size/") {
+        return Some(format!("font-size-{n}"));
+    }
+    if let Some(n) = figma_name.strip_prefix("Line height/Font size ") {
+        return Some(format!("line-height-font-size-{n}"));
+    }
+    if let Some(name) = figma_name.strip_prefix("Font weight/") {
+        return Some(format!("{}-font-weight", slug(name)));
+    }
+    if let Some(name) = figma_name.strip_prefix("Font style/") {
+        return Some(format!("{}-font-style", slug(name)));
+    }
+    if let Some(name) = figma_name.strip_prefix("Font family/") {
+        return Some(format!("{}-font-family", slug(name)));
+    }
+    None
 }
 
 /// Collapse a variable's per-mode values into one comparable value, only when
@@ -1899,6 +1931,39 @@ mod tests {
         assert_eq!(
             invert_name("colorTheme/blue-100", None),
             Some("blue-100".to_string())
+        );
+    }
+
+    #[test]
+    fn invert_name_normalizes_typography_atomic_leaves() {
+        assert_eq!(
+            invert_name("Font size/100", None),
+            Some("font-size-100".to_string())
+        );
+        assert_eq!(
+            invert_name("Line height/Font size 100", None),
+            Some("line-height-font-size-100".to_string())
+        );
+        assert_eq!(
+            invert_name("Font weight/Extra bold", None),
+            Some("extra-bold-font-weight".to_string())
+        );
+        assert_eq!(
+            invert_name("Font style/Italic", None),
+            Some("italic-font-style".to_string())
+        );
+        assert_eq!(
+            invert_name("Font family/Default", None),
+            Some("default-font-family".to_string())
+        );
+        // No atomic `sans-serif`/`serif` font-family token exists in
+        // design-data (only `default-font-family`) — the rule still
+        // produces the naming-convention-correct key; `resolve_alias_key`
+        // legitimately fails to find it, so this stays `figma_only` rather
+        // than silently mismatching against an unrelated token.
+        assert_eq!(
+            invert_name("Font family/Serif", None),
+            Some("serif-font-family".to_string())
         );
     }
 
