@@ -21,7 +21,8 @@ use serde_json::Value;
 
 use super::color::parse_color;
 use super::types::{
-    FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
+    FigmaVariableAlias, FigmaVariableCollection, ModeValueAction, PostVariablesBody,
+    VariableAction, VariablesMeta,
 };
 use super::FigmaError;
 
@@ -103,6 +104,8 @@ pub fn summarize_variables(meta: &VariablesMeta) -> Vec<CollectionSummary> {
 pub struct ExportSummary {
     pub variables_created: usize,
     pub mode_values_set: usize,
+    pub mode_values_aliased: usize,
+    pub mode_warnings: Vec<String>,
     pub skipped_composite: Vec<String>,
     pub skipped_alias_unresolved: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
@@ -161,6 +164,36 @@ pub fn build_export_payload(
         .map(|v| (v.name.as_str(), v.id.as_str()))
         .collect();
 
+    // 3. Pre-pass: resolve every non-skipped, non-alias-schema token's Figma
+    // variable id up front, so a token that aliases a target processed later in
+    // the main loop can still emit a VARIABLE_ALIAS instead of a flattened literal.
+    let mut alias_target_ids: HashMap<String, String> = HashMap::new();
+    for (token_name, token_entry) in tokens {
+        let schema = token_entry
+            .get("$schema")
+            .and_then(|v| v.as_str())
+            .unwrap_or("");
+        if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) || schema.ends_with(ALIAS) {
+            continue;
+        }
+        let prefix = if schema.ends_with(COLOR_SET) || schema.ends_with(COLOR) {
+            COLOR_THEME_PREFIX
+        } else if schema.ends_with(SCALE_SET)
+            || schema.ends_with(DIMENSION)
+            || schema.ends_with(OPACITY)
+            || schema.ends_with(FONT_FAMILY)
+            || schema.ends_with(FONT_SIZE)
+            || schema.ends_with(FONT_STYLE)
+            || schema.ends_with(FONT_WEIGHT)
+        {
+            PLATFORM_SCALE_PREFIX
+        } else {
+            continue;
+        };
+        let (_, id) = resolve_variable_id(token_name, prefix, &existing_var_index, overrides);
+        alias_target_ids.insert(token_name.clone(), id);
+    }
+
     for (token_name, token_entry) in tokens {
         let schema = token_entry
             .get("$schema")
@@ -183,6 +216,7 @@ pub fn build_export_payload(
                 &color_mode_ids,
                 &value_index,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
@@ -197,6 +231,7 @@ pub fn build_export_payload(
                 &scale_mode_ids,
                 &value_index,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
@@ -447,6 +482,32 @@ fn value_to_figma(value_str: &str, figma_type: &str, is_opacity: bool) -> Option
     }
 }
 
+/// Resolve a token's Figma variable name and id (real id if it already exists in
+/// the file, otherwise a temp id used for CREATE). Shared by [`make_variable_action`]
+/// and the alias-target pre-pass so the two can't diverge.
+fn resolve_variable_id(
+    token_name: &str,
+    prefix: &str,
+    existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
+) -> (String, String) {
+    let figma_name = overrides
+        .and_then(|m| m.get(token_name))
+        .cloned()
+        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+    // Match against the final (possibly overridden) name. An override that
+    // points at a name not already in the file produces a CREATE, not a
+    // rename of the old variable — Figma's variables payload has no rename
+    // action, so remapping an existing token surfaces as a new variable.
+    let id = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
+        existing_id.to_string()
+    } else {
+        // Figma rejects temp IDs containing '/'; use '__' as separator.
+        figma_name.replace('/', "__")
+    };
+    (figma_name, id)
+}
+
 #[allow(clippy::too_many_arguments)]
 fn make_variable_action(
     token_name: &str,
@@ -457,23 +518,14 @@ fn make_variable_action(
     existing_var_index: &HashMap<&str, &str>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let figma_name = overrides
-        .and_then(|m| m.get(token_name))
-        .cloned()
-        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
-    // Match against the final (possibly overridden) name. An override that
-    // points at a name not already in the file produces a CREATE, not a
-    // rename of the old variable — Figma's variables payload has no rename
-    // action, so remapping an existing token surfaces as a new variable.
-    let (action, id, var_id) =
-        if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-            let real_id = existing_id.to_string();
-            ("UPDATE".to_string(), Some(real_id.clone()), real_id)
-        } else {
-            // Figma rejects temp IDs containing '/'; use '__' as separator.
-            let temp_id = figma_name.replace('/', "__");
-            ("CREATE".to_string(), Some(temp_id.clone()), temp_id)
-        };
+    let (figma_name, var_id) =
+        resolve_variable_id(token_name, prefix, existing_var_index, overrides);
+    let action = if existing_var_index.contains_key(figma_name.as_str()) {
+        "UPDATE".to_string()
+    } else {
+        "CREATE".to_string()
+    };
+    let id = Some(var_id.clone());
 
     let va = VariableAction {
         action,
@@ -498,6 +550,7 @@ fn process_color_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -535,13 +588,29 @@ fn process_color_set_token(
     summary.variables_created += 1;
 
     for &mode_name in COLOR_MODES {
-        let Some(mode_id) = mode_ids.get(mode_name) else {
-            continue;
-        };
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
+        let Some(mode_id) = mode_ids.get(mode_name) else {
+            summary.mode_warnings.push(format!(
+                "{token_name}: no '{mode_name}' mode in '{COLOR_THEME_COLLECTION}' — value dropped"
+            ));
+            continue;
+        };
         let raw_value = mode_entry.get("value").and_then(|v| v.as_str());
+
+        let alias_target = raw_value.filter(|v| v.starts_with('{') && v.ends_with('}'));
+        if let Some(target_id) = alias_target.and_then(|v| alias_target_ids.get(&v[1..v.len() - 1]))
+        {
+            mode_values.push(ModeValueAction {
+                variable_id: var_id.clone(),
+                mode_id: mode_id.clone(),
+                value: serde_json::to_value(FigmaVariableAlias::new(target_id.clone())).unwrap(),
+            });
+            summary.mode_values_aliased += 1;
+            continue;
+        }
+
         let resolved = raw_value.and_then(|v| {
             if v.starts_with('{') && v.ends_with('}') {
                 let target = &v[1..v.len() - 1];
@@ -575,6 +644,7 @@ fn process_scale_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -635,13 +705,29 @@ fn process_scale_set_token(
     summary.variables_created += 1;
 
     for &mode_name in SCALE_MODES {
-        let Some(mode_id) = mode_ids.get(mode_name) else {
-            continue;
-        };
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
+        let Some(mode_id) = mode_ids.get(mode_name) else {
+            summary.mode_warnings.push(format!(
+                "{token_name}: no '{mode_name}' mode in '{PLATFORM_SCALE_COLLECTION}' — value dropped"
+            ));
+            continue;
+        };
         let raw_value = mode_entry.get("value").and_then(|v| v.as_str());
+
+        let alias_target = raw_value.filter(|v| v.starts_with('{') && v.ends_with('}'));
+        if let Some(target_id) = alias_target.and_then(|v| alias_target_ids.get(&v[1..v.len() - 1]))
+        {
+            mode_values.push(ModeValueAction {
+                variable_id: var_id.clone(),
+                mode_id: mode_id.clone(),
+                value: serde_json::to_value(FigmaVariableAlias::new(target_id.clone())).unwrap(),
+            });
+            summary.mode_values_aliased += 1;
+            continue;
+        }
+
         let resolved = raw_value.and_then(|v| {
             if v.starts_with('{') && v.ends_with('}') {
                 let target = &v[1..v.len() - 1];
@@ -938,6 +1024,43 @@ mod tests {
     }
 
     #[test]
+    fn scale_set_token_with_no_matching_target_mode_warns_instead_of_silently_dropping() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("scale.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "test-scale": {
+                    "$schema": "https://example.com/scale-set.json",
+                    "sets": {
+                        "desktop": { "$schema": "https://example.com/dimension.json", "value": "16px", "uuid": "u1" },
+                        "mobile": { "$schema": "https://example.com/dimension.json", "value": "24px", "uuid": "u2" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+        // mock_meta()'s .Platform scale collection only defines a Desktop mode.
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        // Desktop value still lands; Mobile value is dropped but now warned about.
+        assert_eq!(summary.mode_values_set, 1);
+        assert_eq!(body.variable_mode_values.len(), 1);
+        assert_eq!(summary.mode_warnings.len(), 1);
+        let warning = &summary.mode_warnings[0];
+        assert!(warning.contains("test-scale"), "{warning}");
+        assert!(warning.contains("mobile"), "{warning}");
+        assert!(warning.contains(".Platform scale"), "{warning}");
+    }
+
+    #[test]
     fn dimension_token_goes_to_platform_scale() {
         use std::io::Write;
         let dir = tempfile::tempdir().unwrap();
@@ -1201,6 +1324,150 @@ mod tests {
         assert_eq!(summary.variables_created, 0);
         assert_eq!(summary.skipped_composite.len(), 2);
         assert!(body.variables.is_empty());
+    }
+
+    #[test]
+    fn in_set_alias_emits_variable_alias_reference() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("colors.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "base-color-set-a": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "a-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "a-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "a-wire" }
+                    },
+                    "uuid": "a0"
+                },
+                "base-color-set-b": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(1, 1, 1)", "uuid": "b-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(2, 2, 2)", "uuid": "b-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(3, 3, 3)", "uuid": "b-wire" }
+                    },
+                    "uuid": "b0"
+                },
+                // Note: this key sorts before both base-color-set-* keys, so the
+                // main loop processes it before its alias targets — exercising the
+                // pre-pass that makes target ids available regardless of order.
+                "alias-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-color-set-b}", "uuid": "al-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-wire" }
+                    },
+                    "uuid": "al0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        assert_eq!(summary.mode_values_aliased, 3);
+        assert_eq!(summary.mode_values_set, 6);
+
+        let alias_var_id = body
+            .variables
+            .iter()
+            .find(|v| v.name == "colorTheme/alias-color-set")
+            .and_then(|v| v.id.clone())
+            .expect("alias-color-set variable created");
+        let alias_values: Vec<_> = body
+            .variable_mode_values
+            .iter()
+            .filter(|mv| mv.variable_id == alias_var_id)
+            .collect();
+        assert_eq!(alias_values.len(), 3);
+        for mv in &alias_values {
+            assert_eq!(
+                mv.value.get("type").and_then(|v| v.as_str()),
+                Some("VARIABLE_ALIAS")
+            );
+        }
+        let alias_target_ids: Vec<_> = alias_values
+            .iter()
+            .filter_map(|mv| mv.value.get("id").and_then(|v| v.as_str()))
+            .collect();
+        assert!(alias_target_ids.contains(&"colorTheme__base-color-set-a"));
+        assert!(alias_target_ids.contains(&"colorTheme__base-color-set-b"));
+    }
+
+    #[test]
+    fn alias_to_non_prepassed_target_falls_back_to_literal() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("colors.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "base-color": {
+                    "$schema": "https://example.com/color.json",
+                    "value": "rgb(10, 20, 30)",
+                    "uuid": "bc"
+                },
+                "base-alias": {
+                    "$schema": "https://example.com/alias.json",
+                    "value": "{base-color}",
+                    "uuid": "ba"
+                },
+                "test-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-wire" }
+                    },
+                    "uuid": "t0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        // "base-alias" is a top-level alias token, excluded from the alias-target
+        // pre-pass (its own Figma routing isn't known up front), so aliasing it
+        // still flattens through value_index instead of emitting a VARIABLE_ALIAS
+        // pointing at something that isn't a Figma variable.
+        assert_eq!(summary.mode_values_aliased, 0);
+
+        let test_set_id = body
+            .variables
+            .iter()
+            .find(|v| v.name == "colorTheme/test-color-set")
+            .and_then(|v| v.id.clone())
+            .expect("test-color-set variable created");
+        let mode_values: Vec<_> = body
+            .variable_mode_values
+            .iter()
+            .filter(|mv| mv.variable_id == test_set_id)
+            .collect();
+        assert_eq!(mode_values.len(), 3);
+        for mv in mode_values {
+            assert_ne!(
+                mv.value.get("type").and_then(|v| v.as_str()),
+                Some("VARIABLE_ALIAS")
+            );
+            assert!(
+                mv.value.get("r").is_some(),
+                "expected flattened FigmaColor literal, got {mv:?}"
+            );
+        }
     }
 
     #[test]
