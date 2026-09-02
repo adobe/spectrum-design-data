@@ -1,5 +1,68 @@
 # @adobe/spectrum-design-data
 
+## 2.5.0
+
+### Minor Changes
+
+- [#1401](https://github.com/adobe/spectrum-design-data/pull/1401) [`ac24aa5`](https://github.com/adobe/spectrum-design-data/commit/ac24aa5c754c11fdb236baf8d43f91eed0d3acc5) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator's collection routing is now file-aware instead of
+  purely schema-based, as plumbing for wiring up new Figma collections
+  (closes spectrum-design-data-11k.10.1).
+  - **sdk/core/src/figma/mapping.rs**: adds `TokenKind`/`CollectionSpec` and a
+    `COLLECTION_SPECS` table (still 2 wildcard entries — `.Color theme` and
+    `.Platform scale` — so behavior is unchanged); `resolve_collections`/
+    `pick_collection` replace the two hardcoded `find_collection` calls;
+    `load_all_tokens` and `build_export_payload` thread each token's source
+    file through as a `(name, file, value)` triple so a future spec can route
+    by file; `process_alias_token` takes its color/scale prefixes as
+    parameters.
+  - **sdk/core/src/figma/import.rs**: `diff_values` accepts the same 3-tuple
+    token shape.
+  - **sdk/cli/src/main.rs**: manifest-cascade export and `figma diff` build
+    the 3-tuple token list, including each token's file.
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator now emits native `VARIABLE_ALIAS` references for
+  mode values that alias another exported variable, instead of flattening them
+  to a literal (closes spectrum-design-data-11k.8.3).
+  - **sdk/core/src/figma/mapping.rs**: `process_color_set_token` and
+    `process_scale_set_token` push a `VARIABLE_ALIAS` value when a mode's alias
+    target is part of the export run, falling back to today's literal
+    flattening only when the target is outside the exported set;
+    `resolve_variable_id` is extracted from `make_variable_action` and a
+    pre-pass resolves every token's variable id up front so alias targets
+    processed later in the token list still resolve; `ExportSummary` gains
+    `mode_values_aliased`.
+  - **sdk/cli/src/main.rs**: `figma export`'s summary line reports how many
+    mode values were aliased.
+
+### Patch Changes
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff` no longer reports garbage `path:index` names for cascade-format
+  tokens, which was masking the real design-data-only coverage gap (closes
+  spectrum-design-data-11k.9).
+  - **sdk/cli/src/main.rs**: `run_figma_diff` resolves each token's real legacy
+    key via `naming::extract_legacy_key` instead of using the raw graph key,
+    which is a synthetic `path:index` string for cascade-format tokens.
+  - **sdk/core/src/figma/import.rs**: a name that still falls back to its
+    synthetic key is now classified `skipped-uncovered` with reason
+    `legacy-key-unresolved`, instead of leaking into `design-data-only`.
+
+- [#1403](https://github.com/adobe/spectrum-design-data/pull/1403) [`c23cc54`](https://github.com/adobe/spectrum-design-data/commit/c23cc5457a50e3253ce57a7e04d93e92f20300a1) Thanks [@GarthDB](https://github.com/GarthDB)! - Figma export no longer sends `VARIABLE_ALIAS` references to variable ids that
+  were never created, which Figma would reject (closes spectrum-design-data-qz1o).
+  - **sdk/core/src/figma/mapping.rs**: `build_export_payload` now drops any
+    `ModeValueAction` whose `VARIABLE_ALIAS` targets an id absent from the
+    emitted `variables` list (e.g. an alias target with malformed `sets`) and
+    records a `mode_warnings` entry instead of emitting the dangling reference.
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - Figma export now warns when a token's mode has no matching mode in the
+  target collection, instead of silently dropping that mode value (closes
+  spectrum-design-data-11k.8.2).
+  - **sdk/core/src/figma/mapping.rs**: `ExportSummary` gains `mode_warnings`;
+    `process_color_set_token`/`process_scale_set_token` record a warning
+    naming the token, mode, and collection when the target collection has no
+    matching mode, instead of silently skipping.
+  - **sdk/cli/src/main.rs**: `figma export` prints mode warnings after the
+    summary.
+
 ## 2.4.0
 
 ### Minor Changes
