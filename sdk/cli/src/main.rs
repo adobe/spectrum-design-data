@@ -578,6 +578,32 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Draft legacyKey -> figmaName override candidates for names `diff` can't
+    /// resolve, by matching resolved values instead (read-only; for review,
+    /// not applied automatically)
+    Pair {
+        /// Figma file key to read from (required unless `--snapshot` is given)
+        #[arg(long)]
+        file_key: Option<String>,
+        /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
+        #[arg(long, env = "FIGMA_TOKEN")]
+        token: Option<String>,
+        /// Pair offline against a captured `figma read --format json` snapshot instead of
+        /// calling the Figma API
+        #[arg(long, value_name = "PATH")]
+        snapshot: Option<PathBuf>,
+        /// Path to an existing name-mapping override artifact (from `figma audit`); names
+        /// it already covers are skipped
+        #[arg(long, value_name = "PATH")]
+        mapping: Option<PathBuf>,
+        /// Path to a platform manifest.json; when given, tokens are resolved through the
+        /// manifest cascade instead of the default resolved dataset
+        #[arg(long, value_name = "PATH")]
+        manifest: Option<PathBuf>,
+        /// Output format (pretty or json)
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
@@ -1829,6 +1855,97 @@ fn run_figma_diff(
     Ok(ExitCode::SUCCESS)
 }
 
+/// S2.Color-theme name prefixes whose Figma names don't reliably invert to a
+/// legacy key by convention (`Palette/` does; see `invert_name`) — the only
+/// prefixes [`figma::import::pair_by_value`] is asked to cover today.
+const PAIR_NAME_PREFIXES: &[&str] = &["Alias/", "Icon/"];
+
+fn run_figma_pair(
+    file_key: Option<&str>,
+    token: Option<&str>,
+    snapshot: Option<&Path>,
+    mapping: Option<&Path>,
+    manifest: Option<&Path>,
+    format: OutputFormat,
+) -> miette::Result<ExitCode> {
+    // Steps 0-2 mirror `run_figma_diff` exactly — same snapshot/API load,
+    // same mapping artifact, same manifest-resolved TokenGraph.
+    let meta: figma::types::VariablesMeta = if let Some(snapshot_path) = snapshot {
+        let text = std::fs::read_to_string(snapshot_path)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read snapshot {}", snapshot_path.display()))?;
+        serde_json::from_str(&text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot_path.display()))?
+    } else {
+        let file_key = file_key.ok_or_else(|| {
+            miette::miette!("either --snapshot or --file-key/--token is required")
+        })?;
+        let token = token.ok_or_else(|| {
+            miette::miette!("either --snapshot or --file-key/--token is required")
+        })?;
+        let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
+        let client = figma::api::FigmaClient::new(token.to_string());
+        eprintln!("Fetching variables from Figma...");
+        rt.block_on(client.get_local_variables(file_key))
+            .map_err(|e| miette::miette!("{e}"))?
+            .meta
+    };
+
+    let mapping_map = mapping.map(load_overrides).transpose()?;
+
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    let report =
+        figma::import::pair_by_value(&meta, &graph, PAIR_NAME_PREFIXES, mapping_map.as_ref());
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&report).into_diagnostic()?
+            );
+        }
+        OutputFormat::Pretty => {
+            println!(
+                "candidates={} ambiguous={} unmatched={}",
+                report.candidates.len(),
+                report.ambiguous.len(),
+                report.unmatched.len(),
+            );
+            for c in &report.candidates {
+                println!("  {} -> {}", c.figma_name, c.legacy_key);
+            }
+            if !report.ambiguous.is_empty() {
+                println!("ambiguous (multiple value matches, no clear winner):");
+                for name in &report.ambiguous {
+                    println!("  {name}");
+                }
+            }
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_figma_read(file_key: &str, token: &str, format: OutputFormat) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
@@ -2440,6 +2557,21 @@ fn main() -> ExitCode {
                 manifest,
                 format,
             } => run_figma_diff(
+                file_key.as_deref(),
+                token.as_deref(),
+                snapshot.as_deref(),
+                mapping.as_deref(),
+                manifest.as_deref(),
+                format,
+            ),
+            FigmaSub::Pair {
+                file_key,
+                token,
+                snapshot,
+                mapping,
+                manifest,
+                format,
+            } => run_figma_pair(
                 file_key.as_deref(),
                 token.as_deref(),
                 snapshot.as_deref(),
