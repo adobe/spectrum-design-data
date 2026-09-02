@@ -60,7 +60,6 @@
     "disabled-static-white-border-color": "Alias/border/disabled/static-white",
     "disabled-static-white-content-color": "Alias/content/disabled/static-white",
     "drop-shadow-ambient-color": "Alias/drop-shadow/ambient",
-    "drop-shadow-color-100": "Alias/drop-shadow/100",
     "drop-shadow-color-200": "Alias/drop-shadow/200",
     "drop-shadow-color-300": "Alias/drop-shadow/300",
     "drop-shadow-dragged-key-color": "Alias/drop-shadow/dragged-key",
