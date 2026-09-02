@@ -1922,7 +1922,10 @@ fn run_figma_pair(
                 println!("  {} -> {}", c.figma_name, c.legacy_key);
             }
             if !report.ambiguous.is_empty() {
-                println!("ambiguous (multiple value matches, no clear winner):");
+                println!(
+                    "ambiguous (multiple value matches with no clear winner, or a winner \
+                     that collided with another variable's pick):"
+                );
                 for name in &report.ambiguous {
                     println!("  {name}");
                 }

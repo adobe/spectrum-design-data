@@ -17,7 +17,7 @@
 //! Figma value has actually diverged — re-running import on an unedited file
 //! produces an empty `overrides` array.
 
-use std::collections::{BTreeSet, HashMap};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::path::PathBuf;
 
 use serde::Serialize;
@@ -623,26 +623,33 @@ pub struct PairingReport {
     pub unmatched: Vec<String>,
 }
 
-/// Score how many of a candidate token's name-cascade field values appear
-/// as a path segment of `figma_name`, for disambiguating a value collision
-/// (several design-data tokens sharing one resolved value). Segment
-/// comparison is exact, case-insensitive; array-valued fields (e.g.
-/// `state: ["default"]`) match if any element matches.
-fn figma_path_score(raw: &Value, figma_name: &str) -> usize {
-    let Some(name) = raw.get("name").and_then(Value::as_object) else {
-        return 0;
-    };
-    let segments: BTreeSet<String> = figma_name.split('/').map(str::to_ascii_lowercase).collect();
-    name.values()
-        .filter(|v| match v {
-            Value::String(s) => segments.contains(&s.to_ascii_lowercase()),
-            Value::Array(items) => items
-                .iter()
-                .filter_map(Value::as_str)
-                .any(|s| segments.contains(&s.to_ascii_lowercase())),
-            _ => false,
-        })
-        .count()
+/// Word set used to disambiguate a value collision: `suggest::tokenize`'s
+/// split (any non-alphanumeric separator, single-char words dropped) with
+/// pure-digit words also dropped — a Figma path and a legacy key can share
+/// a bare scale index (e.g. `100`) with no semantic overlap at all, which
+/// must not read as a real word match.
+fn semantic_words(s: &str) -> HashSet<String> {
+    crate::suggest::tokenize(s)
+        .into_iter()
+        .filter(|w| !w.chars().all(|c| c.is_ascii_digit()))
+        .collect()
+}
+
+/// Score how well two word sets match by Jaccard similarity, for
+/// disambiguating a value collision (several design-data tokens sharing one
+/// resolved value). A design-data token's semantic identity (e.g. `notice`,
+/// `background`, `key-focus`) lives in its own key, not in its raw
+/// name-cascade field values (those are primitive scale identifiers like
+/// `colorFamily`/`scaleIndex`), so comparing against the key itself is what
+/// actually breaks these ties.
+///
+/// Returned as `(intersection, union)` rather than a ratio so callers can
+/// compare two scores exactly via cross-multiplication
+/// (`a.0 * b.1` vs `b.0 * a.1`) instead of float equality.
+fn word_overlap(a: &HashSet<String>, b: &HashSet<String>) -> (usize, usize) {
+    let intersection = a.intersection(b).count();
+    let union = a.union(b).count();
+    (intersection, union.max(1))
 }
 
 /// Draft `legacyKey -> figmaName` override candidates for Figma variables
@@ -693,6 +700,12 @@ pub fn pair_by_value(
             .entry(legacy_key)
             .or_insert_with(|| record.resolve_leaf(graph));
     }
+    // Each legacy_key's word set is reused across every colliding variable
+    // that considers it, so tokenize once here rather than per comparison.
+    let key_words: HashMap<&str, HashSet<String>> = by_key
+        .keys()
+        .map(|key| (key.as_str(), semantic_words(key)))
+        .collect();
 
     for variable in meta.variables.values() {
         // A remote/library-linked variable is never a real pairing target —
@@ -743,18 +756,40 @@ pub fn pair_by_value(
             [] => None,
             [only] => Some((*only).to_string()),
             several => {
-                let scored: Vec<(usize, &str)> = several
+                // Compare Jaccard ratios (intersection/union) without floats:
+                // a.0/a.1 >= b.0/b.1  <=>  a.0*b.1 >= b.0*a.1. Equal ratios
+                // then break on the larger absolute intersection — 4/10 is a
+                // stronger match than 2/5 even though the ratio is the same,
+                // so it isn't treated as a coin-flip tie against it.
+                let score_cmp = |a: &(usize, usize), b: &(usize, usize)| {
+                    (a.0 * b.1).cmp(&(b.0 * a.1)).then(a.0.cmp(&b.0))
+                };
+                let name_words = semantic_words(&variable.name);
+                let scored: Vec<((usize, usize), &str)> = several
                     .iter()
-                    .map(|key| (figma_path_score(&by_key[*key].raw, &variable.name), *key))
+                    .map(|key| {
+                        let overlap = key_words
+                            .get(key)
+                            .map_or((0, 1), |words| word_overlap(&name_words, words));
+                        (overlap, *key)
+                    })
                     .collect();
-                let best = scored.iter().map(|(score, _)| *score).max().unwrap_or(0);
-                let winners: Vec<&str> = scored
-                    .iter()
-                    .filter(|(score, _)| *score == best)
-                    .map(|(_, key)| *key)
-                    .collect();
-                match winners.as_slice() {
-                    [only] => Some((*only).to_string()),
+                let best = scored.iter().map(|(score, _)| *score).max_by(score_cmp);
+                match best {
+                    // A zero-intersection "winner" carries no signal — every
+                    // candidate is equally (dis)similar, so it isn't a real
+                    // disambiguation and must still fall through to ambiguous.
+                    Some(best) if best.0 > 0 => {
+                        let winners: Vec<&str> = scored
+                            .iter()
+                            .filter(|(score, _)| score_cmp(score, &best).is_eq())
+                            .map(|(_, key)| *key)
+                            .collect();
+                        match winners.as_slice() {
+                            [only] => Some((*only).to_string()),
+                            _ => None,
+                        }
+                    }
                     _ => None,
                 }
             }
@@ -769,6 +804,24 @@ pub fn pair_by_value(
             None => report.unmatched.push(variable.name.clone()),
         }
     }
+
+    // A `legacyKey -> figmaName` mapping artifact can only hold one figmaName
+    // per key, so if two different Figma variables both independently chose
+    // the same legacy_key, neither pick was truly distinguishing — demote
+    // both back to ambiguous rather than silently emitting a pair the
+    // mapping artifact would then collide on.
+    let mut counts: HashMap<String, usize> = HashMap::new();
+    for candidate in &report.candidates {
+        *counts.entry(candidate.legacy_key.clone()).or_default() += 1;
+    }
+    let (colliding, unique): (Vec<_>, Vec<_>) = report
+        .candidates
+        .into_iter()
+        .partition(|c| counts[&c.legacy_key] > 1);
+    report.candidates = unique;
+    report
+        .ambiguous
+        .extend(colliding.into_iter().map(|c| c.figma_name));
 
     report.candidates.sort();
     report.ambiguous.sort();
@@ -975,6 +1028,121 @@ mod tests {
     }
 
     #[test]
+    fn pair_by_value_leaves_true_word_tie_ambiguous() {
+        // Two design-data tokens share the resolved value AND the exact same
+        // word set (order differs, which the set-based Jaccard score ignores
+        // by design) — neither name is a better match, so this must stay
+        // ambiguous rather than the tiebreak guessing one.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/accent/default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+
+        let graph = mock_graph_multi(vec![
+            (
+                "accent-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "accent-color-default"},
+                    "value": "#ff8000",
+                    "uuid": "u1",
+                }),
+            ),
+            (
+                "default-accent-color",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "default-accent-color"},
+                    "value": "#ff8000",
+                    "uuid": "u2",
+                }),
+            ),
+        ]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert_eq!(report.ambiguous, vec!["Alias/accent/default".to_string()]);
+    }
+
+    #[test]
+    fn pair_by_value_demotes_cross_variable_legacy_key_collision() {
+        // Two different Figma variables both uniquely tiebreak to the same
+        // legacy_key — a legacyKey -> figmaName mapping artifact can only
+        // hold one figmaName per key, so neither pick was truly
+        // distinguishing; both must fall back to ambiguous instead of one
+        // candidate silently overwriting the other in the mapping artifact.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let first = mock_variable(
+            "Alias/content/neutral/default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let second = mock_variable(
+            "Alias/content/typography/body",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, first, second]);
+
+        let graph = mock_graph_multi(vec![
+            (
+                "neutral-content-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "neutral-content-color-default"},
+                    "value": "#ff8000",
+                    "uuid": "u1",
+                }),
+            ),
+            (
+                "gray-800",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "gray-800"},
+                    "value": "#ff8000",
+                    "uuid": "u2",
+                }),
+            ),
+        ]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert_eq!(
+            report.ambiguous,
+            vec![
+                "Alias/content/neutral/default".to_string(),
+                "Alias/content/typography/body".to_string(),
+            ]
+        );
+    }
+
+    #[test]
     fn pair_by_value_reports_true_gap_as_unmatched() {
         // No design-data token holds this value at all (e.g. "app-frame",
         // which has no design-data counterpart) — a permanent figma-only.
@@ -1031,6 +1199,37 @@ mod tests {
         assert!(report.candidates.is_empty());
         assert!(report.ambiguous.is_empty());
         assert!(report.unmatched.is_empty());
+    }
+
+    /// The curated `S2.Color-theme` `--mapping` artifact is a hand-maintained
+    /// override on top of `pair_by_value`'s output — nothing re-derives it
+    /// from the fixture at test time, so a bad edit (e.g. two legacy_keys
+    /// silently pointing at the same figmaName, which `load_overrides`'
+    /// figmaName -> legacyKey reversal would then collapse into one) would
+    /// otherwise go unnoticed until someone ran `figma export` for real.
+    #[test]
+    fn s2_color_theme_mapping_fixture_has_no_duplicate_figma_names() {
+        let raw = include_str!("../../tests/fixtures/figma/s2-color-theme.mapping.json");
+        #[derive(serde::Deserialize)]
+        struct MappingFile {
+            overrides: HashMap<String, String>,
+        }
+        let mapping: MappingFile =
+            serde_json::from_str(raw).expect("mapping fixture is valid {overrides: {...}} JSON");
+        assert!(
+            !mapping.overrides.is_empty(),
+            "expected at least one curated override"
+        );
+
+        let mut seen_figma_names: HashMap<&str, &str> = HashMap::new();
+        for (legacy_key, figma_name) in &mapping.overrides {
+            if let Some(other_key) = seen_figma_names.insert(figma_name, legacy_key) {
+                panic!(
+                    "figma_name {figma_name:?} is claimed by both {other_key:?} and \
+                     {legacy_key:?} — load_overrides' reversed map can only keep one"
+                );
+            }
+        }
     }
 
     /// A cyclic `VARIABLE_ALIAS` chain must fail closed via the depth guard,
