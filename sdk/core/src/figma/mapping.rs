@@ -375,27 +375,49 @@ fn build_export_payload_with_specs(
     // a VARIABLE_ALIAS may only point at an id that actually made it into
     // `variables`. Drop any that don't and warn, rather than sending Figma a
     // POST that references an undefined variable id.
-    let emitted_ids: HashSet<&str> = variables.iter().filter_map(|v| v.id.as_deref()).collect();
-    mode_values.retain(|mv| {
-        let Some(alias_id) = mv
-            .value
-            .get("type")
-            .and_then(|t| t.as_str())
-            .filter(|t| *t == "VARIABLE_ALIAS")
-            .and_then(|_| mv.value.get("id"))
-            .and_then(|id| id.as_str())
-        else {
-            return true;
-        };
-        if emitted_ids.contains(alias_id) {
-            true
-        } else {
-            summary.mode_warnings.push(format!(
-                "dangling VARIABLE_ALIAS to '{alias_id}' — target variable was never created, value dropped"
-            ));
-            false
-        }
-    });
+    let mut dangling_variable_ids: HashSet<String> = HashSet::new();
+    {
+        let emitted_ids: HashSet<&str> = variables.iter().filter_map(|v| v.id.as_deref()).collect();
+        mode_values.retain(|mv| {
+            let Some(alias_id) = variable_alias_target_id(&mv.value) else {
+                return true;
+            };
+            if emitted_ids.contains(alias_id) {
+                true
+            } else {
+                dangling_variable_ids.insert(mv.variable_id.clone());
+                summary.mode_values_aliased = summary.mode_values_aliased.saturating_sub(1);
+                summary.mode_warnings.push(format!(
+                    "dangling VARIABLE_ALIAS to '{alias_id}' — target variable was never created, value dropped"
+                ));
+                false
+            }
+        });
+    }
+
+    // A variable whose every mode value pointed at a dangling alias now has no
+    // mode values at all — don't send Figma an otherwise-empty CREATE/UPDATE
+    // for it.
+    if !dangling_variable_ids.is_empty() {
+        let variable_ids_with_values: HashSet<&str> = mode_values
+            .iter()
+            .map(|mv| mv.variable_id.as_str())
+            .collect();
+        variables.retain(|v| {
+            let Some(id) = v.id.as_deref() else {
+                return true;
+            };
+            if dangling_variable_ids.contains(id) && !variable_ids_with_values.contains(id) {
+                summary.variables_created = summary.variables_created.saturating_sub(1);
+                summary.mode_warnings.push(format!(
+                    "'{id}' dropped entirely — every mode value pointed at a missing alias target"
+                ));
+                false
+            } else {
+                true
+            }
+        });
+    }
 
     let body = PostVariablesBody {
         variable_collections: vec![],
@@ -642,6 +664,17 @@ fn value_to_figma(value_str: &str, figma_type: &str, is_opacity: bool) -> Option
         "STRING" => Some(Value::String(value_str.to_string())),
         _ => None,
     }
+}
+
+/// Extract the target variable id from a [`ModeValueAction`] value if it's a
+/// `VARIABLE_ALIAS` reference. Shared by the post-loop dangling-alias sweep in
+/// [`build_export_payload_with_specs`] and its tests, so a shape change to the
+/// alias JSON can't drift the two apart.
+fn variable_alias_target_id(value: &Value) -> Option<&str> {
+    if value.get("type").and_then(|t| t.as_str()) != Some("VARIABLE_ALIAS") {
+        return None;
+    }
+    value.get("id").and_then(|id| id.as_str())
 }
 
 /// Resolve a token's Figma variable name and id (real id if it already exists in
@@ -1601,8 +1634,7 @@ mod tests {
             .filter_map(|v| v.id.as_deref())
             .collect();
         for mv in &body.variable_mode_values {
-            if mv.value.get("type").and_then(|t| t.as_str()) == Some("VARIABLE_ALIAS") {
-                let target = mv.value.get("id").and_then(|v| v.as_str()).unwrap();
+            if let Some(target) = variable_alias_target_id(&mv.value) {
                 assert!(
                     emitted_ids.contains(target),
                     "dangling VARIABLE_ALIAS to '{target}' with no matching VariableAction"
@@ -1616,6 +1648,26 @@ mod tests {
                 .any(|w| w.contains("dangling VARIABLE_ALIAS")),
             "expected a mode_warnings entry for the dropped alias, got: {:?}",
             summary.mode_warnings
+        );
+
+        // Every mode of `alias-color-set` aliased the malformed `base-color-set-a`,
+        // so after dropping the dangling aliases it has zero mode values left — it
+        // must be dropped entirely, not sent to Figma as an empty CREATE/UPDATE.
+        assert!(
+            !emitted_ids.contains("colorTheme__alias-color-set"),
+            "expected the fully-dangling variable to be dropped, ids: {emitted_ids:?}"
+        );
+        assert!(
+            summary
+                .mode_warnings
+                .iter()
+                .any(|w| w.contains("dropped entirely")),
+            "expected a mode_warnings entry for the dropped variable, got: {:?}",
+            summary.mode_warnings
+        );
+        assert_eq!(
+            summary.mode_values_aliased, 0,
+            "dropped alias values must not be counted in the summary"
         );
     }
 
