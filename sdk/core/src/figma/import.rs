@@ -623,26 +623,34 @@ pub struct PairingReport {
     pub unmatched: Vec<String>,
 }
 
-/// Score how many of a candidate token's name-cascade field values appear
-/// as a path segment of `figma_name`, for disambiguating a value collision
-/// (several design-data tokens sharing one resolved value). Segment
-/// comparison is exact, case-insensitive; array-valued fields (e.g.
-/// `state: ["default"]`) match if any element matches.
-fn figma_path_score(raw: &Value, figma_name: &str) -> usize {
-    let Some(name) = raw.get("name").and_then(Value::as_object) else {
-        return 0;
-    };
-    let segments: BTreeSet<String> = figma_name.split('/').map(str::to_ascii_lowercase).collect();
-    name.values()
-        .filter(|v| match v {
-            Value::String(s) => segments.contains(&s.to_ascii_lowercase()),
-            Value::Array(items) => items
-                .iter()
-                .filter_map(Value::as_str)
-                .any(|s| segments.contains(&s.to_ascii_lowercase())),
-            _ => false,
-        })
-        .count()
+/// Split a Figma path (`/`-joined) or a legacy key (`-`-joined) into
+/// lowercase words, splitting on both separators — a Figma segment is
+/// often a compound like `key-focus`, and a legacy key's own words are
+/// `-`-joined, so this puts both on the same footing for comparison.
+fn tokenize_words(s: &str) -> BTreeSet<String> {
+    s.split(['/', '-'])
+        .filter(|w| !w.is_empty())
+        .map(str::to_ascii_lowercase)
+        .collect()
+}
+
+/// Score how well `legacy_key` matches `figma_name` by Jaccard similarity
+/// of their word sets, for disambiguating a value collision (several
+/// design-data tokens sharing one resolved value). A design-data token's
+/// semantic identity (e.g. `notice`, `background`, `key-focus`) lives in
+/// its own key, not in its raw name-cascade field values (those are
+/// primitive scale identifiers like `colorFamily`/`scaleIndex`), so
+/// comparing against the key itself is what actually breaks these ties.
+///
+/// Returned as `(intersection, union)` rather than a ratio so callers can
+/// compare two scores exactly via cross-multiplication
+/// (`a.0 * b.1` vs `b.0 * a.1`) instead of float equality.
+fn figma_name_similarity(legacy_key: &str, figma_name: &str) -> (usize, usize) {
+    let figma_words = tokenize_words(figma_name);
+    let key_words = tokenize_words(legacy_key);
+    let intersection = figma_words.intersection(&key_words).count();
+    let union = figma_words.union(&key_words).count();
+    (intersection, union.max(1))
 }
 
 /// Draft `legacyKey -> figmaName` override candidates for Figma variables
@@ -743,18 +751,30 @@ pub fn pair_by_value(
             [] => None,
             [only] => Some((*only).to_string()),
             several => {
-                let scored: Vec<(usize, &str)> = several
+                // Compare Jaccard ratios (intersection/union) without floats:
+                // a.0/a.1 >= b.0/b.1  <=>  a.0*b.1 >= b.0*a.1.
+                let ratio_cmp =
+                    |a: &(usize, usize), b: &(usize, usize)| (a.0 * b.1).cmp(&(b.0 * a.1));
+                let scored: Vec<((usize, usize), &str)> = several
                     .iter()
-                    .map(|key| (figma_path_score(&by_key[*key].raw, &variable.name), *key))
+                    .map(|key| (figma_name_similarity(key, &variable.name), *key))
                     .collect();
-                let best = scored.iter().map(|(score, _)| *score).max().unwrap_or(0);
-                let winners: Vec<&str> = scored
-                    .iter()
-                    .filter(|(score, _)| *score == best)
-                    .map(|(_, key)| *key)
-                    .collect();
-                match winners.as_slice() {
-                    [only] => Some((*only).to_string()),
+                let best = scored.iter().map(|(score, _)| *score).max_by(ratio_cmp);
+                match best {
+                    // A zero-intersection "winner" carries no signal — every
+                    // candidate is equally (dis)similar, so it isn't a real
+                    // disambiguation and must still fall through to ambiguous.
+                    Some(best) if best.0 > 0 => {
+                        let winners: Vec<&str> = scored
+                            .iter()
+                            .filter(|(score, _)| ratio_cmp(score, &best).is_eq())
+                            .map(|(_, key)| *key)
+                            .collect();
+                        match winners.as_slice() {
+                            [only] => Some((*only).to_string()),
+                            _ => None,
+                        }
+                    }
                     _ => None,
                 }
             }
@@ -769,6 +789,24 @@ pub fn pair_by_value(
             None => report.unmatched.push(variable.name.clone()),
         }
     }
+
+    // A `legacyKey -> figmaName` mapping artifact can only hold one figmaName
+    // per key, so if two different Figma variables both independently chose
+    // the same legacy_key, neither pick was truly distinguishing — demote
+    // both back to ambiguous rather than silently emitting a pair the
+    // mapping artifact would then collide on.
+    let mut counts: HashMap<String, usize> = HashMap::new();
+    for candidate in &report.candidates {
+        *counts.entry(candidate.legacy_key.clone()).or_default() += 1;
+    }
+    let (colliding, unique): (Vec<_>, Vec<_>) = report
+        .candidates
+        .into_iter()
+        .partition(|c| counts[&c.legacy_key] > 1);
+    report.candidates = unique;
+    report
+        .ambiguous
+        .extend(colliding.into_iter().map(|c| c.figma_name));
 
     report.candidates.sort();
     report.ambiguous.sort();
@@ -972,6 +1010,121 @@ mod tests {
             }]
         );
         assert!(report.ambiguous.is_empty());
+    }
+
+    #[test]
+    fn pair_by_value_leaves_true_word_tie_ambiguous() {
+        // Two design-data tokens share the resolved value AND the exact same
+        // word set (order differs, which the set-based Jaccard score ignores
+        // by design) — neither name is a better match, so this must stay
+        // ambiguous rather than the tiebreak guessing one.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/accent/default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+
+        let graph = mock_graph_multi(vec![
+            (
+                "accent-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "accent-color-default"},
+                    "value": "#ff8000",
+                    "uuid": "u1",
+                }),
+            ),
+            (
+                "default-accent-color",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "default-accent-color"},
+                    "value": "#ff8000",
+                    "uuid": "u2",
+                }),
+            ),
+        ]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert_eq!(report.ambiguous, vec!["Alias/accent/default".to_string()]);
+    }
+
+    #[test]
+    fn pair_by_value_demotes_cross_variable_legacy_key_collision() {
+        // Two different Figma variables both uniquely tiebreak to the same
+        // legacy_key — a legacyKey -> figmaName mapping artifact can only
+        // hold one figmaName per key, so neither pick was truly
+        // distinguishing; both must fall back to ambiguous instead of one
+        // candidate silently overwriting the other in the mapping artifact.
+        let target = mock_variable(
+            "Palette/orange/500",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+            )],
+        );
+        let first = mock_variable(
+            "Alias/content/neutral/default",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let second = mock_variable(
+            "Alias/content/typography/body",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, first, second]);
+
+        let graph = mock_graph_multi(vec![
+            (
+                "neutral-content-color-default",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "neutral-content-color-default"},
+                    "value": "#ff8000",
+                    "uuid": "u1",
+                }),
+            ),
+            (
+                "gray-800",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": {"legacyKey": "gray-800"},
+                    "value": "#ff8000",
+                    "uuid": "u2",
+                }),
+            ),
+        ]);
+
+        let report = pair_by_value(&meta, &graph, &["Alias/", "Icon/"], None);
+        assert!(report.candidates.is_empty());
+        assert_eq!(
+            report.ambiguous,
+            vec![
+                "Alias/content/neutral/default".to_string(),
+                "Alias/content/typography/body".to_string(),
+            ]
+        );
     }
 
     #[test]
