@@ -18,6 +18,7 @@
 //! produces an empty `overrides` array.
 
 use std::collections::{BTreeSet, HashMap};
+use std::path::PathBuf;
 
 use serde::Serialize;
 use serde_json::Value;
@@ -248,7 +249,7 @@ pub struct DiffReport {
 pub fn diff_values(
     meta: &VariablesMeta,
     graph: &TokenGraph,
-    tokens: &[(String, Value)],
+    tokens: &[(String, PathBuf, Value)],
     mapping: Option<&HashMap<String, String>>,
 ) -> Result<DiffReport, FigmaError> {
     let reversed: Option<HashMap<String, String>> =
@@ -694,6 +695,7 @@ mod tests {
         let graph = mock_graph("blue-100", "u-blue-100", json!("#ff8000"));
         let tokens = vec![(
             "blue-100".to_string(),
+            PathBuf::from("test.json"),
             json!({
                 "$schema": "https://example.com/color.json",
                 "name": "blue-100",
@@ -767,6 +769,7 @@ mod tests {
         let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
         let tokens = vec![(
             "spacing-100".to_string(),
+            PathBuf::from("test.json"),
             json!({
                 "$schema": "https://example.com/dimension.json",
                 "name": "spacing-100",
@@ -840,6 +843,7 @@ mod tests {
         let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
         let tokens = vec![(
             "/repo/packages/design-data/tokens/layout.tokens.json:3".to_string(),
+            PathBuf::from("test.json"),
             json!({
                 "$schema": "https://example.com/dimension.json",
                 "value": "8px",

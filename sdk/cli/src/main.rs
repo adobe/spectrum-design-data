@@ -1499,7 +1499,7 @@ fn run_figma_export(
             graph
                 .tokens
                 .values()
-                .map(|r| (r.name.clone(), r.raw.clone()))
+                .map(|r| (r.name.clone(), r.file.clone(), r.raw.clone()))
                 .collect()
         }
     };
@@ -1782,7 +1782,7 @@ fn run_figma_diff(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
-    let tokens: Vec<(String, serde_json::Value)> = graph
+    let tokens: Vec<(String, std::path::PathBuf, serde_json::Value)> = graph
         .tokens
         .values()
         .map(|r| {
@@ -1791,7 +1791,7 @@ fn run_figma_diff(
                 .get("name")
                 .and_then(naming::extract_legacy_key)
                 .unwrap_or_else(|| r.name.clone());
-            (name, r.raw.clone())
+            (name, r.file.clone(), r.raw.clone())
         })
         .collect();
 
