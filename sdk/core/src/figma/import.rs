@@ -308,9 +308,11 @@ pub fn diff_values(
             });
             continue;
         };
-        let Some(record) = graph
+        let Some((legacy_key, record)) = graph
             .resolve_alias_key(&legacy_key)
             .or_else(|| graph.resolve_relationship_ref(&legacy_key))
+            .map(|record| (legacy_key.clone(), record))
+            .or_else(|| resolve_alias_target(variable, meta, graph))
         else {
             counts.figma_only += 1;
             entries.push(DiffEntry {
@@ -450,6 +452,36 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
                 .split_once('/')
                 .map(|(_, key)| key.replace('/', "-"))
         })
+}
+
+/// Resolve a Figma variable that is itself a `VARIABLE_ALIAS` through to the
+/// design-data record its *alias target* maps to. Some collections (Layout,
+/// for one) model every variable as a semantic alias into `.Platform scale`
+/// (e.g. `Alert dialog/Maximum width` -> `platformScale/alert-dialog-maximum-width`)
+/// — the variable's own hierarchical name never inverts to a real legacy key,
+/// but its target's name does via the ordinary [`invert_name`] rules.
+///
+/// Fallback only: callers try direct name inversion first, so this can only
+/// turn a would-be `figma_only` variable into a match/value-mismatch, never
+/// regress an existing one. Follows a single alias hop — every case observed
+/// against the S2 baseline aliases directly to a resolvable target.
+/// ponytail: one hop, not a chain walk; extend if a deeper chain ever appears.
+fn resolve_alias_target<'a>(
+    variable: &FigmaVariable,
+    meta: &VariablesMeta,
+    graph: &'a TokenGraph,
+) -> Option<(String, &'a crate::graph::TokenRecord)> {
+    let value = variable.values_by_mode.values().next()?;
+    if !is_alias(value) {
+        return None;
+    }
+    let target_id = value.get("id").and_then(Value::as_str)?;
+    let target_name = &meta.variables.get(target_id)?.name;
+    let key = invert_name(target_name, None)?;
+    let record = graph
+        .resolve_alias_key(&key)
+        .or_else(|| graph.resolve_relationship_ref(&key))?;
+    Some((key, record))
 }
 
 /// Map an atomic Typography-collection Figma name to its exact design-data
@@ -2085,6 +2117,83 @@ mod tests {
             summary.unchanged, 1,
             "nested Palette name must resolve to the known key, not fall through as unresolved"
         );
+    }
+
+    #[test]
+    fn diff_values_resolves_alias_through_target_name() {
+        // "Standard dialog/Maximum width/Small" doesn't invert to any known
+        // legacy key (design-data has no such token), but it's a Figma
+        // VARIABLE_ALIAS into "platformScale/standard-dialog-maximum-width-small",
+        // which does. Mirrors the real Layout-collection shape: 329 variables
+        // that are all semantic aliases into `.Platform scale`.
+        let target = mock_variable(
+            "platformScale/standard-dialog-maximum-width-small",
+            "FLOAT",
+            vec![("m-modeless", json!(400.0))],
+        );
+        let alias = mock_variable(
+            "Standard dialog/Maximum width/Small",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+        let graph = mock_graph_with_schema(
+            "standard-dialog-maximum-width-small",
+            "u-sdmws",
+            json!("400px"),
+            "https://example.com/dimension.json",
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        // Both the alias and the target it points at are diffed as their own
+        // Figma variables (the target's own name also inverts cleanly here) —
+        // matched == 2, not 1.
+        assert_eq!(report.counts.matched, 2);
+        assert_eq!(report.counts.figma_only, 0);
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Standard dialog/Maximum width/Small")
+            .unwrap();
+        assert_eq!(
+            entry.legacy_key.as_deref(),
+            Some("standard-dialog-maximum-width-small"),
+            "reported key should be the alias target's, not the unresolvable own name"
+        );
+    }
+
+    #[test]
+    fn diff_values_alias_with_unresolvable_target_stays_figma_only() {
+        // Same shape, but the target's own inverted name isn't a known
+        // design-data key either — the fallback must not invent a match.
+        let target = mock_variable(
+            "platformScale/totally-unknown-dimension",
+            "FLOAT",
+            vec![("m-modeless", json!(400.0))],
+        );
+        let alias = mock_variable(
+            "Standard dialog/Maximum width/Small",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+        let graph = mock_graph_with_schema(
+            "standard-dialog-maximum-width-small",
+            "u-sdmws",
+            json!("400px"),
+            "https://example.com/dimension.json",
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        // Both the alias and its (also-unresolvable) target end up figma_only.
+        assert_eq!(report.counts.figma_only, 2);
+        assert_eq!(report.counts.matched, 0);
     }
 
     /// End-to-end check: an emitted override must satisfy
