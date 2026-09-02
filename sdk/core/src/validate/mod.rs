@@ -135,6 +135,7 @@ pub fn validate_all_with_full_options(
     if let Some(dir) = relationships_path {
         if dir.is_dir() {
             graph.relationships = TokenGraph::load_spec_relationships(dir)?;
+            graph.reindex_relationship_tokens();
         }
     }
     // Load manifest.json from the data directory when present.

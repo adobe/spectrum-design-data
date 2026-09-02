@@ -1379,6 +1379,13 @@ impl TokenGraph {
     /// to a Figma value — unlike `font-family.json`, whose inline CTR value is
     /// a bare family-name string with no schema-driven comparison rule, so it
     /// deliberately stays unresolved here (see `resolve_relationship_ref`).
+    ///
+    /// Not derived from `figma::import::diff_against_source`'s Figma-side
+    /// `resolved_type` match (`COLOR`/`FLOAT`/`STRING`) — that classifies by
+    /// Figma variable type, this by design-data `$schema`, and there's no
+    /// shared enum between them. Adding a schema here that isn't actually
+    /// FLOAT/STRING-comparable on the Figma side needs a matching look at
+    /// `diff_against_source`.
     const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 3] =
         ["dimension.json", "multiplier.json", "gradient-stop.json"];
 
@@ -1391,9 +1398,10 @@ impl TokenGraph {
     /// same convention as the alias-target fallback's default-mode pick —
     /// then the first scale-less entry, then simply the first.
     ///
-    /// Call after any mutation of `self.relationships` (this fn and
-    /// `apply_platform_manifest`'s CTR add/override/remove are the only two).
-    fn reindex_relationship_tokens(&mut self) {
+    /// Call after any mutation of `self.relationships` (this fn,
+    /// `apply_platform_manifest`'s CTR add/override/remove, and
+    /// `validate::validate_all_with_full_options`'s `relationships_path` load).
+    pub(crate) fn reindex_relationship_tokens(&mut self) {
         self.relationship_tokens.clear();
         let mut by_key: HashMap<&str, Vec<&RelationshipRecord>> = HashMap::new();
         for rec in &self.relationships {
@@ -1438,6 +1446,35 @@ impl TokenGraph {
                 })
                 .or_else(|| candidates.first())
                 .expect("candidates is non-empty by construction");
+            // CTRs key scale variants under `scope.options.scale` /
+            // `setUuid` (camelCase), not the `name.scale` / `set_uuid`
+            // (snake_case) shape `scale_aligned_source_value` reads off
+            // cascade-token records via `set_uuid_index` — and that index
+            // is built only from `self.tokens`, which CTR-only scale-sets
+            // never enter. Rather than force these into that pipeline,
+            // stash every scale's value directly on the synthetic raw so
+            // `scale_aligned_source_value` can pick the Figma-mode-matching
+            // one itself when there's more than one.
+            let mut raw = chosen.raw.clone();
+            if candidates.len() > 1 {
+                let mut scale_values = serde_json::Map::new();
+                for c in &candidates {
+                    let scale = c
+                        .raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get("scale"))
+                        .and_then(Value::as_str);
+                    if let (Some(scale), Some(value)) = (scale, c.raw.get("value")) {
+                        scale_values.insert(scale.to_string(), value.clone());
+                    }
+                }
+                if let Some(obj) = raw.as_object_mut() {
+                    if !scale_values.is_empty() {
+                        obj.insert("ctrScaleValues".to_string(), Value::Object(scale_values));
+                    }
+                }
+            }
             self.relationship_tokens.insert(
                 legacy_key.to_string(),
                 TokenRecord {
@@ -1451,7 +1488,7 @@ impl TokenGraph {
                         .map(str::to_string),
                     uuid: chosen.uuid.clone(),
                     alias_target: None,
-                    raw: chosen.raw.clone(),
+                    raw,
                     layer: Layer::default(),
                 },
             );
