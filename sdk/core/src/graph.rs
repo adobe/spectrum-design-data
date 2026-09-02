@@ -1543,6 +1543,22 @@ impl TokenGraph {
         })
     }
 
+    /// Resolve a Component/Token Relationship (CTR) `legacyKey` to the token
+    /// its `$ref` points at, for callers that already tried
+    /// [`Self::resolve_alias_key`] (token-side) and came up empty.
+    ///
+    /// Returns `None` when no CTR has that `legacyKey`, or when it carries an
+    /// inline `value` instead of a `$ref` (e.g. `code-font-family`) — inline
+    /// CTR values aren't compared today.
+    pub fn resolve_relationship_ref<'a>(&'a self, legacy_key: &str) -> Option<&'a TokenRecord> {
+        let rec = self
+            .relationships
+            .iter()
+            .find(|r| r.raw.get("legacyKey").and_then(|v| v.as_str()) == Some(legacy_key))?;
+        let target = rec.raw.get("$ref").and_then(|v| v.as_str())?;
+        self.resolve_alias_key(target)
+    }
+
     /// Resolve a set-level UUID to the context-appropriate child record.
     ///
     /// Picks the child from `set_uuid_index` whose name-object fields best match
@@ -2208,6 +2224,49 @@ mod tests {
         let alias_rec = g.tokens.get(&alias_key).unwrap();
         let resolved = alias_rec.resolve_leaf(&g);
         assert_eq!(resolved.raw["value"], "rgb(0,0,255)");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_ctr_ref_to_token() {
+        // A leaf token plus a CTR (Component/Token Relationship) whose $ref
+        // points at it by UUID, keyed by legacyKey the way
+        // packages/design-data/relationships/*.json entries are.
+        let uuid = "cccccccc-0000-0000-0000-000000000001";
+        let g = cascade_graph_from(json!([{
+            "name": { "property": "font-weight", "value": "regular" },
+            "$schema": "https://example.com/font-weight.json",
+            "value": "regular",
+            "uuid": uuid
+        }]))
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/body.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000001".to_string()),
+            raw: json!({
+                "legacyKey": "body-sans-serif-emphasized-font-weight",
+                "$ref": uuid
+            }),
+        }]);
+
+        let rec = g
+            .resolve_relationship_ref("body-sans-serif-emphasized-font-weight")
+            .expect("CTR $ref lookup must succeed");
+        assert_eq!(rec.raw["value"], "regular");
+
+        // Unknown legacyKey and a $ref-less (inline-value) CTR both miss.
+        assert!(g.resolve_relationship_ref("no-such-key").is_none());
+        let g_inline = g.with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/code.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000002".to_string()),
+            raw: json!({
+                "legacyKey": "code-font-family",
+                "value": "Source Code Pro"
+            }),
+        }]);
+        assert!(g_inline
+            .resolve_relationship_ref("code-font-family")
+            .is_none());
     }
 
     #[test]

@@ -1814,6 +1814,12 @@ fn load_figma_diff_inputs(
             resolved.tokens_root.display()
         )
     })?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
