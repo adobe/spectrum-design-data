@@ -381,8 +381,25 @@ pub fn diff_values(
     if let Ok((body, _summary)) = build_export_payload(tokens, meta, mapping) {
         for action in &body.variables {
             if !seen.contains(&action.name) {
-                counts.design_data_only += 1;
                 let legacy_key = invert_name(&action.name, reversed.as_ref());
+                // A legacy key that never resolved (e.g. a cascade-format
+                // token with no usable `name`/`legacyKey` field) falls back
+                // to its synthetic `path:index` graph key, which always
+                // contains `.json:` — surface that as a skip, not a
+                // misleading "real gap" entry.
+                if action.name.contains(".json:") {
+                    counts.skipped_uncovered += 1;
+                    entries.push(DiffEntry {
+                        name: action.name.clone(),
+                        legacy_key,
+                        renamed: false,
+                        class: DiffClass::SkippedUncovered {
+                            reason: "legacy-key-unresolved".to_string(),
+                        },
+                    });
+                    continue;
+                }
+                counts.design_data_only += 1;
                 entries.push(DiffEntry {
                     name: action.name.clone(),
                     legacy_key,
@@ -771,6 +788,79 @@ mod tests {
             .find(|e| e.name == "Layout/spacing-100-real")
             .expect("design-data-only entry must be reported");
         assert_eq!(entry.legacy_key.as_deref(), Some("spacing-100"));
+    }
+
+    /// A token whose name resolution fell back to its synthetic
+    /// `path:index` graph key (no usable `name`/`legacyKey` field, e.g. a
+    /// cascade-format token graph.rs couldn't extract a legacy key from)
+    /// must be reported as skipped, not as a misleading "design-data-only"
+    /// real gap.
+    #[test]
+    fn unresolved_legacy_key_is_skipped_not_design_data_only() {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            "col-1".to_string(),
+            FigmaVariableCollection {
+                id: "col-1".to_string(),
+                name: ".Color theme".to_string(),
+                key: "k1".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-light".to_string(),
+                    name: "Light".to_string(),
+                }],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        variable_collections.insert(
+            "col-2".to_string(),
+            FigmaVariableCollection {
+                id: "col-2".to_string(),
+                name: ".Platform scale".to_string(),
+                key: "k2".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-desktop".to_string(),
+                    name: "Desktop".to_string(),
+                }],
+                default_mode_id: "m-desktop".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let meta = VariablesMeta {
+            variables: HashMap::new(),
+            variable_collections,
+        };
+
+        let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
+        let tokens = vec![(
+            "/repo/packages/design-data/tokens/layout.tokens.json:3".to_string(),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "u-spacing-100",
+            }),
+        )];
+
+        let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+        assert_eq!(report.counts.design_data_only, 0);
+        assert_eq!(report.counts.skipped_uncovered, 1);
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name.contains(".json:"))
+            .expect("unresolved-name entry must be reported");
+        match &entry.class {
+            DiffClass::SkippedUncovered { reason } => {
+                assert_eq!(reason, "legacy-key-unresolved");
+            }
+            other => panic!("expected SkippedUncovered, got {other:?}"),
+        }
     }
 
     #[test]

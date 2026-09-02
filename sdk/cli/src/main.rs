@@ -1785,7 +1785,14 @@ fn run_figma_diff(
     let tokens: Vec<(String, serde_json::Value)> = graph
         .tokens
         .values()
-        .map(|r| (r.name.clone(), r.raw.clone()))
+        .map(|r| {
+            let name = r
+                .raw
+                .get("name")
+                .and_then(naming::extract_legacy_key)
+                .unwrap_or_else(|| r.name.clone());
+            (name, r.raw.clone())
+        })
         .collect();
 
     // 3. Diff.
