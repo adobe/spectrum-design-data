@@ -207,9 +207,21 @@ fn diff_multimode(
                         .cloned()
                 })
                 .or_else(|| {
-                    set_uuid.and_then(|set_uuid| {
-                        resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
-                    })
+                    // `record`'s own `set_uuid` is only trustworthy as a
+                    // fallback when `legacy_key` isn't CTR-backed at all —
+                    // for a CTR with sibling records, `record` was resolved
+                    // context-free and may be an arbitrary (e.g. Light)
+                    // sibling, so falling back to *its* `set_uuid` here for
+                    // a mode none of the siblings actually cover would
+                    // silently compare against the wrong palette step
+                    // instead of reporting the mode uncovered.
+                    (!graph.has_relationship_record(legacy_key))
+                        .then(|| {
+                            set_uuid.and_then(|set_uuid| {
+                                resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
+                            })
+                        })
+                        .flatten()
                 })
         });
 

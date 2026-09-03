@@ -1765,12 +1765,30 @@ impl TokenGraph {
             if r.raw.get("legacyKey").and_then(Value::as_str) != Some(legacy_key) {
                 continue;
             }
+            let scope_options = r.raw.get("scope").and_then(|s| s.get("options"));
+            // A record that doesn't mention a `ctx` key at all doesn't
+            // discriminate on it (e.g. a single-record CTR with no
+            // `colorScheme` option covers every mode) — only an explicit,
+            // disagreeing value disqualifies a candidate. Re-verify like
+            // `resolve_set_member_in_context` does: a sibling that
+            // explicitly names *some* `ctx` key with a different value is
+            // never acceptable, even as a last resort — an uncovered mode
+            // (e.g. a Wireframe variant no sibling declares) must fall
+            // through to `SkippedUncovered`, not silently compare against a
+            // sibling scoped to a different mode.
+            let conflicts = ctx.iter().any(|(k, v)| {
+                scope_options
+                    .and_then(|o| o.get(k.as_str()))
+                    .and_then(Value::as_str)
+                    .is_some_and(|existing| existing != v.as_str())
+            });
+            if conflicts {
+                continue;
+            }
             let score = ctx
                 .iter()
                 .filter(|(k, v)| {
-                    r.raw
-                        .get("scope")
-                        .and_then(|s| s.get("options"))
+                    scope_options
                         .and_then(|o| o.get(k.as_str()))
                         .and_then(Value::as_str)
                         == Some(v.as_str())
@@ -1782,6 +1800,17 @@ impl TokenGraph {
             }
         }
         best
+    }
+
+    /// Whether any relationship record (any sibling, regardless of context)
+    /// carries this `legacyKey` — used to tell "this token isn't CTR-backed
+    /// at all" (safe to fall back to its own direct `set_uuid`) apart from
+    /// "it's CTR-backed but no sibling matches this context" (genuinely
+    /// uncovered; must not fall back to a differently-scoped sibling).
+    pub(crate) fn has_relationship_record(&self, legacy_key: &str) -> bool {
+        self.relationships
+            .iter()
+            .any(|r| r.raw.get("legacyKey").and_then(Value::as_str) == Some(legacy_key))
     }
 
     /// Context-aware sibling of [`Self::resolve_relationship_ref`]: picks the
@@ -2820,6 +2849,44 @@ mod tests {
             .resolve_relationship_ref_in_context("opacity-checkerboard-square-dark", &ctx)
             .expect("dark-context resolution must find gray-800's dark member");
         assert_eq!(rec.raw["value"], "#dbdbdb");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_reports_none_for_uncovered_mode() {
+        // A CTR whose siblings only cover light/dark must NOT fall back to
+        // an arbitrary sibling (e.g. light) when asked for a mode neither
+        // one declares (e.g. wireframe) — that's a genuinely uncovered
+        // mode, not a 0-score tie-break default.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 0,
+                uuid: Some("55555555-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-light"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 1,
+                uuid: Some("55555555-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-dark"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "wireframe".to_string())]);
+        assert!(g
+            .resolve_relationship_ref_in_context("uncovered-mode-token", &ctx)
+            .is_none());
+        assert!(g.has_relationship_record("uncovered-mode-token"));
+        assert!(!g.has_relationship_record("some-other-key"));
     }
 
     #[test]
