@@ -106,6 +106,25 @@ fn scale_aligned_source_value(
     scale_source_value.or_else(|| leaf.raw.get("value").cloned())
 }
 
+/// The axis (`scale` or `colorScheme`) `record` was itself disambiguated on,
+/// as a one-entry context map — `None` when `record` carries neither (an
+/// ordinary, unambiguous token). Lets a caller keep an alias chain pinned to
+/// the same scale/scheme `record` was picked for, instead of dropping it the
+/// moment a hop lands on another `set_uuid`.
+fn default_source_context(record: &crate::graph::TokenRecord) -> Option<HashMap<String, String>> {
+    let name = record.raw.get("name")?;
+    if let Some(scale) = name.get("scale").and_then(Value::as_str) {
+        return Some(HashMap::from([("scale".to_string(), scale.to_string())]));
+    }
+    if let Some(scheme) = name.get("colorScheme").and_then(Value::as_str) {
+        return Some(HashMap::from([(
+            "colorScheme".to_string(),
+            scheme.to_string(),
+        )]));
+    }
+    None
+}
+
 /// Resolve `set_uuid`'s member whose `name.<field>` matches `mode_key`,
 /// re-verifying the winner rather than trusting it blindly:
 /// `resolve_set_in_context` degrades to an arbitrary tie-broken member when
@@ -565,6 +584,19 @@ pub fn diff_values(
                 continue;
             }
         };
+
+        // `record` may be one of several tokens sharing this legacy_key,
+        // disambiguated only by `name.scale`/`name.colorScheme` (a scale-set's
+        // desktop/mobile members, a color-set's light/dark/wireframe members).
+        // Walking its alias chain context-free (`resolve_leaf`) can drop that
+        // axis the moment a hop lands on another set_uuid, degrading to an
+        // arbitrary (first-indexed) member instead of staying on the same
+        // scale/scheme the top-level record was picked for. Pin the chain to
+        // that same axis, matching how a mode-less Figma variable's own alias
+        // chain stays on one collection mode (its default) throughout.
+        let leaf = default_source_context(record)
+            .map(|ctx| record.resolve_leaf_in_context(graph, &ctx))
+            .unwrap_or(leaf);
 
         let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
         let is_opacity = record_is_opacity(leaf);

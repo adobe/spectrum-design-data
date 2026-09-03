@@ -13,10 +13,9 @@ variables.
   instead of falling back to a first/Light candidate; `approx_eq`'s tolerance
   absorbs float32 round-trip noise; a name-inverted match onto a composite
   (array-shaped) token is rejected in favor of the real flat sibling.
-- **sdk/core/src/graph.rs**: CTR siblings sharing one `legacyKey` resolve
-  through the matching `scope.options` sibling instead of an arbitrary
-  first one, and an uncovered mode is reported as such rather than
-  compared against a mismatched sibling's value.
-- **sdk/cli/src/main.rs**: `figma diff` summary line reports
-  `multi-mode-mismatch` count.
+- **sdk/core/src/graph.rs**: CTR siblings sharing one `legacyKey` resolve via
+  the matching `scope.options` sibling; `from_records` builds
+  `legacy_name_index` deterministically instead of first-wins over `redb`'s
+  cache-hydration key order.
+- **sdk/cli/src/main.rs**: `figma diff` summary reports `multi-mode-mismatch`.
 - **sdk/README.md**: documents the new `multi-mode-mismatch` class.

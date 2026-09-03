@@ -601,7 +601,6 @@ impl TokenGraph {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
         let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
-        let mut legacy_name_index = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
@@ -617,18 +616,9 @@ impl TokenGraph {
                     .or_default()
                     .push(record.name.clone());
             }
-            // Index by legacy name derived from the name object so that inline
-            // composite refs can resolve if this was a cascade-format token.
-            if let Some(name_val) = record.raw.get("name") {
-                if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| record.name.clone());
-                }
-            }
             tokens.insert(record.name.clone(), record);
         }
-        Self {
+        let mut graph = Self {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
@@ -639,9 +629,16 @@ impl TokenGraph {
             relationship_tokens: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
-            legacy_name_index,
+            legacy_name_index: HashMap::new(),
             set_uuid_index,
-        }
+        };
+        // `records`' order is whatever the caller supplied (e.g. the cache's
+        // `hydrate` iterates a `redb` table in lexicographic key order, not
+        // the tokens' original file/array order) — build `legacy_name_index`
+        // via the same deterministic "desktop"/"light" tie-break used
+        // elsewhere, rather than first-wins over an arbitrary order.
+        graph.rebuild_legacy_name_index();
+        graph
     }
 
     /// Load a `product-context.json` and insert Product-layer tokens into the graph.
@@ -1231,16 +1228,51 @@ impl TokenGraph {
         }
     }
 
+    /// Rebuild `legacy_name_index` from `self.tokens` (a `HashMap`, so iteration
+    /// order is not the tokens' original file/array order — anything relying on
+    /// "first seen wins" here would pick a candidate nondeterministically).
+    ///
+    /// When several tokens share one `legacyKey` (a scale-set's desktop/mobile
+    /// members, or a color-set's light/dark/wireframe members — both legitimate:
+    /// the legacy flat-key format has no room for the mode axis), prefer the
+    /// canonical/base member deterministically: `name.scale == "desktop"`, else
+    /// `name.colorScheme == "light"`, else the lexicographically-first graph key.
+    /// Same "desktop is base" convention as [`Self::reindex_relationship_tokens`]'s
+    /// CTR-side scale tie-break.
     fn rebuild_legacy_name_index(&mut self) {
         self.legacy_name_index.clear();
+        let mut candidates: HashMap<String, Vec<&str>> = HashMap::new();
         for (key, rec) in &self.tokens {
             if let Some(name_val) = rec.raw.get("name") {
                 if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    self.legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| key.clone());
+                    candidates.entry(legacy_key).or_default().push(key.as_str());
                 }
             }
+        }
+        for (legacy_key, mut keys) in candidates {
+            keys.sort_unstable();
+            let chosen = keys
+                .iter()
+                .find(|k| {
+                    self.tokens[**k]
+                        .raw
+                        .get("name")
+                        .and_then(|n| n.get("scale"))
+                        == Some(&Value::String("desktop".to_string()))
+                })
+                .or_else(|| {
+                    keys.iter().find(|k| {
+                        self.tokens[**k]
+                            .raw
+                            .get("name")
+                            .and_then(|n| n.get("colorScheme"))
+                            == Some(&Value::String("light".to_string()))
+                    })
+                })
+                .or_else(|| keys.first())
+                .expect("keys is non-empty by construction");
+            self.legacy_name_index
+                .insert(legacy_key, (*chosen).to_string());
         }
     }
 
@@ -2543,6 +2575,54 @@ mod tests {
         let alias_rec = g.tokens.get(&alias_key).unwrap();
         let resolved = alias_rec.resolve_leaf(&g);
         assert_eq!(resolved.raw["value"], "rgb(0,0,255)");
+    }
+
+    #[test]
+    fn from_records_legacy_name_index_is_order_independent() {
+        // `from_records` feeds the cache's `hydrate` path, whose input order
+        // is a `redb` table's lexicographic key order, not the tokens' file/
+        // array order — e.g. "...:10" (dark) sorts before "...:9" (light).
+        // Build the same two color-set members (sharing one legacyKey) in
+        // both orders and confirm `legacy_name_index` picks the "light" one
+        // either way, instead of whichever happened to come first.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+
+        for records in [vec![dark.clone(), light.clone()], vec![light, dark]] {
+            let g = TokenGraph::from_records(records);
+            let key = g
+                .legacy_name_index
+                .get("accent-background-color-key-focus")
+                .expect("legacy key must resolve");
+            assert_eq!(
+                key, "color-aliases.tokens.json:9",
+                "must prefer the light candidate"
+            );
+        }
     }
 
     #[test]
