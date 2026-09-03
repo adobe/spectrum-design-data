@@ -1831,6 +1831,32 @@ impl TokenRecord {
         }
         current
     }
+
+    /// Context-aware twin of [`TokenRecord::resolve_leaf`]: walks alias edges via
+    /// [`TokenGraph::resolve_alias_in_context`] instead of `resolve_alias_key`, so a
+    /// hop that lands on a `set_uuid` re-enters the mode-appropriate child instead of
+    /// falling back to an arbitrary (first-indexed) one. Use this when the caller has
+    /// an active mode context (e.g. resolving a `.Color theme` set member's own
+    /// `$ref` chain); use `resolve_leaf` when there is none.
+    pub fn resolve_leaf_in_context<'a>(
+        &'a self,
+        graph: &'a TokenGraph,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> &'a TokenRecord {
+        let mut current = self;
+        let mut seen: Vec<&str> = vec![&self.name];
+        while let Some(target_name) = current.alias_target.as_deref() {
+            let Some(next) = graph.resolve_alias_in_context(target_name, ctx) else {
+                break;
+            };
+            if seen.contains(&next.name.as_str()) {
+                break;
+            }
+            seen.push(&next.name);
+            current = next;
+        }
+        current
+    }
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
