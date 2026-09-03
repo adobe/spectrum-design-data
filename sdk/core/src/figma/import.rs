@@ -161,6 +161,7 @@ fn diff_multimode(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
     graph: &TokenGraph,
+    legacy_key: &str,
     record: &crate::graph::TokenRecord,
     leaf: &crate::graph::TokenRecord,
 ) -> DiffClass {
@@ -195,12 +196,22 @@ fn diff_multimode(
         // design-data member matches this Figma mode) is reported
         // `SkippedUncovered` below instead of being compared against an
         // unrelated mode's value.
-        let dd_resolution =
-            multimode_name_field(graph, &mode_key)
-                .zip(set_uuid)
-                .map(|(field, set_uuid)| {
-                    resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
-                });
+        let dd_resolution = multimode_name_field(graph, &mode_key).map(|field| {
+            let ctx = HashMap::from([(field.to_string(), mode_key.clone())]);
+            graph
+                .resolve_relationship_ref_in_context(legacy_key, &ctx)
+                .and_then(|rec| {
+                    rec.resolve_leaf_in_context(graph, &ctx)
+                        .raw
+                        .get("value")
+                        .cloned()
+                })
+                .or_else(|| {
+                    set_uuid.and_then(|set_uuid| {
+                        resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
+                    })
+                })
+        });
 
         let class = if let Some(None) = dd_resolution {
             DiffClass::SkippedUncovered {
@@ -491,7 +502,7 @@ pub fn diff_values(
         // tokens with no set to align to (ordinary single-value tokens) fall
         // through unchanged to the existing collapse-and-compare path.
         if variable.values_by_mode.len() > 1 && record.raw.get("set_uuid").is_some() {
-            let class = diff_multimode(variable, meta, graph, record, leaf);
+            let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
                 _ => counts.multi_mode_mismatch += 1,

@@ -1741,6 +1741,88 @@ impl TokenGraph {
         via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
+    /// Relationship record whose `legacyKey` matches and whose
+    /// `scope.options` best fits `ctx` — same tie-break style as
+    /// [`Self::resolve_set_in_context`] (highest match count wins), but
+    /// scored against a CTR's `scope.options` rather than a token's `name`.
+    ///
+    /// Some CTRs emit multiple sibling records under one `legacyKey`,
+    /// distinguished only by `scope.options` (e.g.
+    /// `opacity-checkerboard-square-dark`'s light/dark/wireframe
+    /// `colorScheme` variants, each `$ref`-ing a different palette step) —
+    /// [`Self::resolve_relationship_ref`]'s plain `.find()` picks whichever
+    /// sibling happens first, which is wrong whenever the siblings disagree
+    /// (as they do here: light/wireframe target gray-200, dark targets
+    /// gray-800). This scores every same-`legacyKey` sibling against `ctx`.
+    fn best_relationship_candidate<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a RelationshipRecord> {
+        let mut best_score: Option<usize> = None;
+        let mut best: Option<&RelationshipRecord> = None;
+        for r in &self.relationships {
+            if r.raw.get("legacyKey").and_then(Value::as_str) != Some(legacy_key) {
+                continue;
+            }
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    r.raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get(k.as_str()))
+                        .and_then(Value::as_str)
+                        == Some(v.as_str())
+                })
+                .count();
+            if best_score.is_none_or(|b| score > b) {
+                best_score = Some(score);
+                best = Some(r);
+            }
+        }
+        best
+    }
+
+    /// Context-aware sibling of [`Self::resolve_relationship_ref`]: picks the
+    /// same-`legacyKey` relationship record whose `scope.options` best
+    /// matches `ctx` (via [`Self::best_relationship_candidate`]) instead of
+    /// the first one found, then resolves its `$ref` through
+    /// [`Self::resolve_alias_in_context`] so a `$ref` to a mode-set
+    /// (`set_uuid`) also lands on the `ctx`-appropriate member.
+    pub fn resolve_relationship_ref_in_context<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        self.resolve_relationship_ref_in_context_inner(legacy_key, ctx, 0)
+    }
+
+    fn resolve_relationship_ref_in_context_inner<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+        depth: usize,
+    ) -> Option<&'a TokenRecord> {
+        if depth > 16 {
+            return None;
+        }
+        let via_ref = self
+            .best_relationship_candidate(legacy_key, ctx)
+            .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
+            .and_then(|target| {
+                self.resolve_alias_in_context(target, ctx).or_else(|| {
+                    let sibling_key = self
+                        .find_relationship_target(target)?
+                        .raw
+                        .get("legacyKey")
+                        .and_then(|v| v.as_str())?;
+                    self.resolve_relationship_ref_in_context_inner(sibling_key, ctx, depth + 1)
+                })
+            });
+        via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
+    }
+
     /// Resolve a set-level UUID to the context-appropriate child record.
     ///
     /// Picks the child from `set_uuid_index` whose name-object fields best match
@@ -2682,6 +2764,62 @@ mod tests {
         ]);
 
         assert!(g.resolve_relationship_ref("cycle-a").is_none());
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_picks_matching_option_sibling() {
+        // Real shape: `opacity-checkerboard-square-dark` has three sibling
+        // CTR records sharing one legacyKey, distinguished only by
+        // `scope.options.colorScheme` — light/wireframe `$ref` gray-200's
+        // set, dark `$ref`s gray-800's set. Context-free
+        // `resolve_relationship_ref` picks whichever comes first (light),
+        // which is wrong for Dark. `resolve_relationship_ref_in_context`
+        // must pick the sibling whose own colorScheme option matches ctx.
+        let g = cascade_graph_from(json!([
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 200, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#323232",
+                "uuid": "u-gray-200-dark",
+                "set_uuid": "su-gray-200"
+            },
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 800, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#dbdbdb",
+                "uuid": "u-gray-800-dark",
+                "set_uuid": "su-gray-800"
+            },
+        ]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 0,
+                uuid: Some("44444444-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-200"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 1,
+                uuid: Some("44444444-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-800"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "dark".to_string())]);
+        let rec = g
+            .resolve_relationship_ref_in_context("opacity-checkerboard-square-dark", &ctx)
+            .expect("dark-context resolution must find gray-800's dark member");
+        assert_eq!(rec.raw["value"], "#dbdbdb");
     }
 
     #[test]

@@ -11,11 +11,11 @@ variables.
 - **sdk/core/src/figma/import.rs, graph.rs**: new `DiffClass::MultiModeMismatch`
   and `DiffCounts.multi_mode_mismatch`. Set-backed (`set_uuid`) variables are
   compared mode-by-mode instead of collapsed; an unmatched Figma mode is
-  `SkippedUncovered`, not compared to an unrelated mode. Both alias hops now
-  stay mode-aware: `resolve_figma_value` follows a `VARIABLE_ALIAS` through
-  its same-named mode, and a set member's own `$ref` chain resolves via the
-  new `TokenRecord::resolve_leaf_in_context` — fixing a first-child/Light
-  fallback that mis-resolved most `.Color theme` mismatches.
+  `SkippedUncovered`. Three alias hops now stay mode-aware instead of
+  silently falling back to a first/Light candidate: `resolve_figma_value`'s
+  `VARIABLE_ALIAS` follow, a set member's own `$ref` chain
+  (`resolve_leaf_in_context`), and CTR siblings sharing one `legacyKey`
+  distinguished by `scope.options` (`resolve_relationship_ref_in_context`).
 - **sdk/cli/src/main.rs**: `figma diff` summary line reports
   `multi-mode-mismatch` count.
 - **sdk/README.md**: documents the new `multi-mode-mismatch` class.
