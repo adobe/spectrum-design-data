@@ -65,7 +65,7 @@
       }
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "$ref": "8a182a6b-149b-41a6-b608-fc247bcc298f",
+    "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",
     "uuid": "1ad58d16-66da-44ae-829e-9ee1ff56a857",
     "legacyKey": "stack-item-selected-background-color-down"
   },
