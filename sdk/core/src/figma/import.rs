@@ -163,7 +163,7 @@ fn diff_multimode(
         let figma_value = variable
             .values_by_mode
             .get(mode_id)
-            .and_then(|v| resolve_figma_value(meta, v, 0));
+            .and_then(|v| resolve_figma_value(meta, v, 0, Some(&mode_name)));
 
         // The design-data value resolved for this same named mode: align to
         // the matching set member (same pattern as `scale_aligned_source_value`,
@@ -704,9 +704,9 @@ fn collapse_modes(variable: &FigmaVariable, meta: &VariablesMeta) -> Result<Opti
     let Some(first) = values.next() else {
         return Ok(None);
     };
-    let first = resolve_figma_value(meta, first, 0).ok_or(())?;
+    let first = resolve_figma_value(meta, first, 0, None).ok_or(())?;
     for other in values {
-        let other = resolve_figma_value(meta, other, 0).ok_or(())?;
+        let other = resolve_figma_value(meta, other, 0, None).ok_or(())?;
         if !values_agree(&first, &other) {
             return Ok(None);
         }
@@ -724,10 +724,19 @@ fn is_alias(v: &Value) -> bool {
 const MAX_ALIAS_DEPTH: usize = 16;
 
 /// Resolve a variable value to a concrete literal, following `VARIABLE_ALIAS`
-/// chains through `meta.variables` (its own default mode, since Modeless
-/// collections like S2.Color-theme have exactly one). Every S2 value is an
-/// alias — without this, `collapse_modes` always failed them as unconvertible.
-fn resolve_figma_value(meta: &VariablesMeta, value: &Value, depth: usize) -> Option<Value> {
+/// chains through `meta.variables`. `mode_name` (case-insensitive) picks which
+/// of the target's own modes to read when the target has more than one — e.g.
+/// resolving `.Color theme`'s Dark mode through an alias must read the
+/// target's Dark mode too, not its default. Falls back to the target
+/// collection's default mode when `mode_name` is `None` or has no match
+/// there (Modeless collections like S2.Color-theme have exactly one mode, so
+/// "default" is the only choice; `collapse_modes` relies on this fallback).
+fn resolve_figma_value(
+    meta: &VariablesMeta,
+    value: &Value,
+    depth: usize,
+    mode_name: Option<&str>,
+) -> Option<Value> {
     if !is_alias(value) {
         return Some(value.clone());
     }
@@ -739,8 +748,16 @@ fn resolve_figma_value(meta: &VariablesMeta, value: &Value, depth: usize) -> Opt
     let collection = meta
         .variable_collections
         .get(&target.variable_collection_id)?;
-    let next = target.values_by_mode.get(&collection.default_mode_id)?;
-    resolve_figma_value(meta, next, depth + 1)
+    let mode_id = mode_name
+        .and_then(|name| {
+            collection
+                .modes
+                .iter()
+                .find(|m| m.name.eq_ignore_ascii_case(name))
+        })
+        .map_or(&collection.default_mode_id, |m| &m.mode_id);
+    let next = target.values_by_mode.get(mode_id)?;
+    resolve_figma_value(meta, next, depth + 1, mode_name)
 }
 
 fn values_agree(a: &Value, b: &Value) -> bool {
@@ -1502,7 +1519,7 @@ mod tests {
         );
         let meta = mock_meta_modeless(vec![a, b]);
         let alias_value = json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"});
-        assert_eq!(resolve_figma_value(&meta, &alias_value, 0), None);
+        assert_eq!(resolve_figma_value(&meta, &alias_value, 0, None), None);
     }
 
     /// Build a `VariablesMeta` with one Modeless collection ("col-1", the
@@ -2147,6 +2164,51 @@ mod tests {
         assert_eq!(report.counts.matched, 1);
         assert_eq!(report.counts.multi_mode_mismatch, 0);
         assert_eq!(report.counts.skipped_uncovered, 0);
+        assert!(matches!(report.entries[0].class, DiffClass::Match));
+    }
+
+    /// The bug from the real `color-wheel-border-color` report: its Light,
+    /// Dark, and Wireframe values are each a `VARIABLE_ALIAS` to the *same*
+    /// target variable (`colorTheme/gray-1000`) within the same collection.
+    /// Resolving every mode via the target's default (Light) mode collapsed
+    /// Dark and Wireframe to the target's Light value — each alias hop must
+    /// resolve through the target's own same-named mode instead.
+    #[test]
+    fn diff_multimode_resolves_alias_through_same_named_mode() {
+        let target = mock_variable(
+            "colorTheme/gray-1000",
+            "COLOR",
+            vec![
+                ("m-light", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+                ("m-dark", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let alias = json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()});
+        let var = mock_variable(
+            "colorTheme/color-wheel-border-color",
+            "COLOR",
+            vec![
+                ("m-light", alias.clone()),
+                ("m-dark", alias.clone()),
+                ("m-wireframe", alias),
+            ],
+        );
+        let mut meta = mock_meta_color_theme(var);
+        meta.variables.insert(target.id.clone(), target);
+        let graph = mock_color_set_graph(
+            "color-wheel-border-color",
+            json!("#000000"),
+            json!("#ffffff"),
+            json!("#000000"),
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.multi_mode_mismatch, 0);
         assert!(matches!(report.entries[0].class, DiffClass::Match));
     }
 

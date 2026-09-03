@@ -13,7 +13,10 @@ uncovered `.Color theme` variables.
   `resolve_set_in_context`, matching the export side's per-mode resolution,
   rather than collapsed via `collapse_modes`. Full agreement across modes
   still reports plain `Match`. Variables without a `set_uuid` keep the
-  existing single-value comparison path.
+  existing single-value comparison path. `resolve_figma_value` now resolves a
+  `VARIABLE_ALIAS` target through its same-named mode instead of always the
+  target's default mode, so an aliased mode (e.g. `color-wheel-border-color`
+  → `gray-1000`) compares correctly.
 - **sdk/cli/src/main.rs**: `figma diff` summary line reports
   `multi-mode-mismatch` count.
 - **sdk/README.md**: documents the new `multi-mode-mismatch` class.
