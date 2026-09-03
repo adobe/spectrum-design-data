@@ -492,6 +492,16 @@ pub fn diff_values(
             .resolve_alias_key(&legacy_key)
             .or_else(|| graph.resolve_relationship_ref(&legacy_key))
             .map(|record| (legacy_key.clone(), record))
+            // A naive name inversion can coincidentally land on a real but
+            // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
+            // dragged`'s array of shadow layers) has `value: [...]`, which no
+            // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
+            // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
+            // inverted name happens to equal that composite's own key isn't
+            // actually a match for it. Treat it as unresolved so the
+            // alias-target fallback below can find the real (flat) sibling
+            // token instead (e.g. `drop-shadow-dragged-color`).
+            .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
             .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()))
         else {
             counts.figma_only += 1;
@@ -3053,6 +3063,73 @@ mod tests {
         assert_eq!(
             entry.legacy_key.as_deref(),
             Some("standard-dialog-maximum-width-small")
+        );
+    }
+
+    #[test]
+    fn diff_values_rejects_direct_match_onto_composite_shape() {
+        // "Alias/drop-shadow/dragged" (COLOR) is a VARIABLE_ALIAS into a flat
+        // color variable. Naive name inversion of its own name ("Alias/drop-
+        // shadow/dragged" -> "drop-shadow-dragged") coincidentally equals the
+        // key of an unrelated design-data token: a composite, multi-layer
+        // drop-shadow (`value` is an array of shadow-layer objects). A scalar
+        // COLOR variable can never legitimately match that shape, so the
+        // direct hit must be rejected and the alias-target fallback should
+        // find the real (flat-color) sibling, "drop-shadow-dragged-color",
+        // instead. Regression test for the real S2 baseline mismatch this
+        // shape confusion caused (design_data_only in previous test naming).
+        let target = mock_variable(
+            "colorTheme/drop-shadow-dragged-color",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.2}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/drop-shadow/dragged",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+        let graph = mock_graph_multi(vec![
+            (
+                "drop-shadow-dragged",
+                json!({
+                    "$schema": "https://example.com/drop-shadow.json",
+                    "name": "drop-shadow-dragged",
+                    "value": [{"x": "0px", "y": "12px", "blur": "16px", "spread": "0px", "color": "#000000"}],
+                    "uuid": "u-composite",
+                }),
+            ),
+            (
+                "drop-shadow-dragged-color",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": "drop-shadow-dragged-color",
+                    "value": "rgba(0, 0, 0, 0.2)",
+                    "uuid": "u-flat",
+                }),
+            ),
+        ]);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Alias/drop-shadow/dragged")
+            .unwrap();
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match against the flat color sibling, got {:?}",
+            entry.class
+        );
+        assert_eq!(
+            entry.legacy_key.as_deref(),
+            Some("drop-shadow-dragged-color")
         );
     }
 

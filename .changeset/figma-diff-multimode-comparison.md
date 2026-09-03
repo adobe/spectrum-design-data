@@ -10,7 +10,9 @@ variables.
 
 - **sdk/core/src/figma/import.rs**: new `DiffClass::MultiModeMismatch` and
   `DiffCounts.multi_mode_mismatch`. Alias/`$ref` chains stay mode-aware
-  instead of silently falling back to a first/Light candidate.
+  instead of falling back to a first/Light candidate; `approx_eq`'s tolerance
+  absorbs float32 round-trip noise; a name-inverted match onto a composite
+  (array-shaped) token is rejected in favor of the real flat sibling.
 - **sdk/core/src/graph.rs**: CTR siblings sharing one `legacyKey` resolve
   through the matching `scope.options` sibling instead of an arbitrary
   first one, and an uncovered mode is reported as such rather than
