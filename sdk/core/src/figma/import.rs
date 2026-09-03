@@ -833,8 +833,18 @@ fn colors_agree(a: &FigmaColor, b: &FigmaColor) -> bool {
     approx_eq(a.r, b.r) && approx_eq(a.g, b.g) && approx_eq(a.b, b.b) && approx_eq(a.a, b.a)
 }
 
+/// Absolute tolerance for numeric agreement between a design-data value and
+/// a Figma-authored one. Wider than float-arithmetic noise (`1e-6`) on
+/// purpose: a manually authored Figma library's FLOAT variables round-trip
+/// through 32-bit float storage on top of being hand-typed to ~3 decimal
+/// places, so an intended `0` or `8/9` can arrive as `0.0010000000474974513`
+/// or `0.8889999985694885` — noise, not a real disagreement. `2e-3` clears
+/// that noise with headroom below the smallest real mismatch seen in
+/// practice (a 2px scale-step drift).
+const VALUE_TOLERANCE: f64 = 2e-3;
+
 fn approx_eq(a: f64, b: f64) -> bool {
-    (a - b).abs() < 1e-6
+    (a - b).abs() < VALUE_TOLERANCE
 }
 
 /// Parse a Spectrum value string's leading number and its unit suffix, e.g.
@@ -1613,6 +1623,20 @@ mod tests {
         assert!(overrides.is_empty());
         assert_eq!(summary.unchanged, 1);
         assert_eq!(summary.overrides_emitted, 0);
+    }
+
+    #[test]
+    fn approx_eq_absorbs_hand_authored_float32_roundtrip_noise() {
+        // A manually authored Figma FLOAT variable round-trips through
+        // 32-bit float storage on top of being hand-typed to ~3 decimals,
+        // so design-data's exact `0` or `8/9` can arrive as
+        // `0.0010000000474974513` or `0.8889999985694885` — not a real
+        // disagreement.
+        assert!(approx_eq(0.0, 0.0010000000474974513));
+        assert!(approx_eq(8.0 / 9.0, 0.8889999985694885));
+        // A genuine scale-step drift (e.g. 18px vs 20px) must still count
+        // as a mismatch.
+        assert!(!approx_eq(18.0, 20.0));
     }
 
     #[test]
