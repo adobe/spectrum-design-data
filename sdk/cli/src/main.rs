@@ -1868,8 +1868,8 @@ fn run_figma_diff(
             // separately so the other five don't look like they should sum
             // to the total entry count.
             println!(
-                "match={} value-mismatch={} figma-only={} design-data-only={} skipped-uncovered={} (renamed={})",
-                c.matched, c.value_mismatch, c.figma_only, c.design_data_only, c.skipped_uncovered, c.renamed,
+                "match={} value-mismatch={} figma-only={} design-data-only={} skipped-uncovered={} multi-mode-mismatch={} (renamed={})",
+                c.matched, c.value_mismatch, c.figma_only, c.design_data_only, c.skipped_uncovered, c.multi_mode_mismatch, c.renamed,
             );
             for entry in report
                 .entries
