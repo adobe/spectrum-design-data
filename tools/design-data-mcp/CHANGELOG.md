@@ -1,5 +1,20 @@
 # @adobe/design-data-mcp
 
+## 1.7.36
+
+### Patch Changes
+
+- [#1418](https://github.com/adobe/spectrum-design-data/pull/1418) [`1843984`](https://github.com/adobe/spectrum-design-data/commit/1843984e12ea8d923df53b33805186241ce74937) Thanks [@GarthDB](https://github.com/GarthDB)! - Warn at runtime when the embedded dataset is behind latest published
+  @adobe/spectrum-design-data (closes spectrum-design-data-9fe.5).
+  - **tools/design-data-agent-mcp/src/dataset-freshness.js**: new best-effort
+    npm-registry version check, silent on any network failure.
+  - **tools/design-data-agent-mcp/src/tools/read.js**: `primer` now returns
+    `provenance.datasetStatus` and logs a stderr warning once when stale.
+  - **tools/design-data-mcp/src/dataset-freshness.js**: same check, duplicated
+    per package (no shared dependency between the two servers).
+  - **tools/design-data-mcp/src/tools/design-data.js**: `design-data-primer`
+    gets the same `datasetStatus` field and warning.
+
 ## 1.7.35
 
 ### Patch Changes
