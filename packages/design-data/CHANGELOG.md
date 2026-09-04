@@ -1,5 +1,214 @@
 # @adobe/spectrum-design-data
 
+## 2.6.0
+
+### Minor Changes
+
+- [#1413](https://github.com/adobe/spectrum-design-data/pull/1413) [`7f7b1d4`](https://github.com/adobe/spectrum-design-data/commit/7f7b1d465d7280551fffc8a3ab2b66132c50a1b8) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff`/`figma import` now resolve CTR `$ref`s that target another CTR's
+  own `uuid`/`setUuid` instead of a token, recovering 3 `drop-zone-*-font-size`
+  `.Platform scale` variables previously reported `figma-only`
+  (closes spectrum-design-data-11k.10.9).
+  - **sdk/core/src/graph.rs**: `resolve_relationship_ref` recurses into a
+    sibling CTR when its `$ref` target isn't a token, following chains up to
+    16 hops deep (e.g. `drop-zone-title-font-size` → `illustrated-message-*` →
+    `body-*` → a token). `relationship_target_exists` now shares the same
+    sibling lookup. `code-cjk-font-family` still doesn't resolve — its chain
+    bottoms out at an inline `font-family` CTR, out of scope by design.
+
+- [#1411](https://github.com/adobe/spectrum-design-data/pull/1411) [`9acf536`](https://github.com/adobe/spectrum-design-data/commit/9acf53640c3e02a4efdf38aba81b1f087666d8f9) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff`/`figma import` now resolve Component/Token Relationship (CTR)
+  entries that carry their value inline instead of a `$ref`, recovering 438
+  `.Platform scale` variables previously reported `figma-only` for lacking a
+  design-data token (closes spectrum-design-data-11k.10.8).
+  - **sdk/core/src/graph.rs**: `resolve_relationship_ref` falls back to a new
+    `relationship_tokens` index of inline-value CTRs (dimension, multiplier,
+    gradient-stop). Scale-set CTRs carry all scale values along, so per-mode
+    diffs align to Figma's own mode rather than a hardcoded scale. Inline
+    `font-family` CTRs still don't resolve — no comparison rule for them.
+  - **sdk/core/src/figma/import.rs**: `scale_aligned_source_value` reads the
+    new per-scale values directly, since CTR scale-sets never enter
+    `set_uuid_index`.
+  - **sdk/core/src/validate/mod.rs**: reindexes `relationship_tokens` after
+    loading a `relationships_path` catalog.
+
+- [#1409](https://github.com/adobe/spectrum-design-data/pull/1409) [`7cc6005`](https://github.com/adobe/spectrum-design-data/commit/7cc600534a0cd5666b0b82d2b99731c5d6ef9b4f) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff` now resolves variables whose own name can't invert to a legacy
+  key but which are themselves a Figma alias into a resolvable variable,
+  recovering the `Layout` collection and more of `S2.Color-theme` (closes
+  spectrum-design-data-11k.10.4).
+  - **sdk/core/src/figma/import.rs**: new `resolve_alias_target` fallback in
+    `diff_values` follows a `VARIABLE_ALIAS` to its target and inverts the
+    target's name when the variable's own name doesn't resolve, turning ~586
+    `figma-only` variables into `match`/`value-mismatch` (all 329 `Layout`
+    variables, plus previously-uncovered `S2.Color-theme`/`.Platform
+scale`/`Iconography` variables) without a per-collection override table.
+
+- [#1404](https://github.com/adobe/spectrum-design-data/pull/1404) [`b09aa84`](https://github.com/adobe/spectrum-design-data/commit/b09aa84a062456b3ae875b40053792e057a74c6a) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff`/`figma pair` now resolve most of the `S2.Color-theme` collection
+  instead of reporting it almost entirely `figma-only` (closes
+  spectrum-design-data-11k.10.2).
+  - **sdk/core/src/figma/import.rs**: `invert_name` normalizes nested Figma
+    names (`Palette/blue/100`) to dash-form legacy keys instead of only
+    stripping the first slash, recovering ~370 Palette variables.
+  - **sdk/core/src/figma/import.rs**: `collapse_modes` now follows
+    `VARIABLE_ALIAS` chains via a new `resolve_figma_value` resolver instead of
+    giving up, turning hundreds of `skipped-uncovered` variables into real
+    `match`/`value-mismatch` results.
+  - **sdk/core/src/figma/import.rs**: new `pair_by_value` auto-pairs
+    name-unresolvable `Alias/`/`Icon/` variables to design-data tokens by
+    resolved value, for human review via a `--mapping` override.
+  - **sdk/cli/src/main.rs**: new `figma pair` subcommand exposes
+    `pair_by_value` (mirrors `figma diff`'s flags).
+
+- [#1407](https://github.com/adobe/spectrum-design-data/pull/1407) [`715bc9d`](https://github.com/adobe/spectrum-design-data/commit/715bc9d19da54eb39a3397bba3bca8cb0149a38c) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff`/`figma pair` now resolve the atomic Typography leaf variables
+  instead of reporting them `figma-only` (closes spectrum-design-data-11k.10.3).
+  - **sdk/core/src/figma/import.rs**: `invert_name` normalizes atomic
+    Typography-collection names (`Font size/100`, `Line height/Font size 100`,
+    `Font weight/Extra bold`, etc.) to their legacy keys, recovering 47 of the
+    177 `figma-only` Typography variables.
+  - **sdk/cli/src/main.rs**: `PAIR_NAME_PREFIXES` adds the Typography grouping
+    prefixes (`Heading/`, `Body/`, `Title/`, `Detail/`, `Code/`) so `figma pair`
+    covers them; most report `ambiguous` since design-data models these
+    groupings as composites, not per-field tokens.
+  - **sdk/core/tests/fixtures/figma/s2-typography.mapping.json**: new curated
+    mapping for the 5 grouping variables that pair cleanly by value.
+
+- [#1408](https://github.com/adobe/spectrum-design-data/pull/1408) [`294486e`](https://github.com/adobe/spectrum-design-data/commit/294486e8c753c69b4786fb7d6cdbcb09fde606f9) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff` now resolves Typography grouping variables against their
+  Component/Token Relationship (CTR) targets instead of reporting them
+  `figma-only` (closes spectrum-design-data-11k.10.7).
+  - **sdk/core/src/figma/import.rs**: `invert_name` normalizes the Typography
+    grouping prefixes (`Heading/`, `Body/`, `Title/`, `Detail/`, `Code/`) to
+    their CTR `legacyKey`, recovering 129 of the remaining 130 `figma-only`
+    Typography variables.
+  - **sdk/core/src/graph.rs**: new `TokenGraph::resolve_relationship_ref`
+    follows a CTR's `$ref` to its target token, as a fallback when
+    `resolve_alias_key` finds no direct token match.
+  - **sdk/cli/src/main.rs**: `figma diff`'s graph now loads
+    `packages/design-data/relationships` so CTRs are available to resolve
+    against, also recovering non-Typography CTR-backed variables previously
+    reported `figma-only`.
+
+- [#1406](https://github.com/adobe/spectrum-design-data/pull/1406) [`1750f5d`](https://github.com/adobe/spectrum-design-data/commit/1750f5d1bcc4db52a64bb7d4c68eb2addb175587) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma pair` resolves nearly all remaining `S2.Color-theme` value collisions
+  instead of leaving them ambiguous (closes spectrum-design-data-11k.10.6).
+  - **sdk/core/src/figma/import.rs**: replace `figma_path_score`'s
+    cascade-field matching with a Jaccard word-overlap score between a Figma
+    path and the design-data key itself — the words that actually carry
+    semantic identity (e.g. `notice`, `key-focus`) live in the key, not its
+    raw cascade fields — ignoring bare numeric words (a shared scale index
+    like `100` isn't semantic overlap). Cuts ambiguous collisions from 321 to 6.
+  - **sdk/core/src/figma/import.rs**: `pair_by_value` now demotes any
+    legacy_key chosen by more than one Figma variable back to ambiguous,
+    since a mapping artifact can only hold one figmaName per key.
+  - **sdk/cli/src/main.rs**: `figma pair`'s pretty-format ambiguous label now
+    also covers entries demoted by the collision guard above, not just ties.
+  - **sdk/core/tests/fixtures/figma/s2-color-theme.mapping.json**: new curated
+    `--mapping` artifact (322 entries) for `figma diff`/`figma export`,
+    covering the resolved collisions plus one hand-picked true tie.
+
+## 2.5.0
+
+### Minor Changes
+
+- [#1401](https://github.com/adobe/spectrum-design-data/pull/1401) [`ac24aa5`](https://github.com/adobe/spectrum-design-data/commit/ac24aa5c754c11fdb236baf8d43f91eed0d3acc5) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator's collection routing is now file-aware instead of
+  purely schema-based, as plumbing for wiring up new Figma collections
+  (closes spectrum-design-data-11k.10.1).
+  - **sdk/core/src/figma/mapping.rs**: adds `TokenKind`/`CollectionSpec` and a
+    `COLLECTION_SPECS` table (still 2 wildcard entries — `.Color theme` and
+    `.Platform scale` — so behavior is unchanged); `resolve_collections`/
+    `pick_collection` replace the two hardcoded `find_collection` calls;
+    `load_all_tokens` and `build_export_payload` thread each token's source
+    file through as a `(name, file, value)` triple so a future spec can route
+    by file; `process_alias_token` takes its color/scale prefixes as
+    parameters.
+  - **sdk/core/src/figma/import.rs**: `diff_values` accepts the same 3-tuple
+    token shape.
+  - **sdk/cli/src/main.rs**: manifest-cascade export and `figma diff` build
+    the 3-tuple token list, including each token's file.
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator now emits native `VARIABLE_ALIAS` references for
+  mode values that alias another exported variable, instead of flattening them
+  to a literal (closes spectrum-design-data-11k.8.3).
+  - **sdk/core/src/figma/mapping.rs**: `process_color_set_token` and
+    `process_scale_set_token` push a `VARIABLE_ALIAS` value when a mode's alias
+    target is part of the export run, falling back to today's literal
+    flattening only when the target is outside the exported set;
+    `resolve_variable_id` is extracted from `make_variable_action` and a
+    pre-pass resolves every token's variable id up front so alias targets
+    processed later in the token list still resolve; `ExportSummary` gains
+    `mode_values_aliased`.
+  - **sdk/cli/src/main.rs**: `figma export`'s summary line reports how many
+    mode values were aliased.
+
+### Patch Changes
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - `figma diff` no longer reports garbage `path:index` names for cascade-format
+  tokens, which was masking the real design-data-only coverage gap (closes
+  spectrum-design-data-11k.9).
+  - **sdk/cli/src/main.rs**: `run_figma_diff` resolves each token's real legacy
+    key via `naming::extract_legacy_key` instead of using the raw graph key,
+    which is a synthetic `path:index` string for cascade-format tokens.
+  - **sdk/core/src/figma/import.rs**: a name that still falls back to its
+    synthetic key is now classified `skipped-uncovered` with reason
+    `legacy-key-unresolved`, instead of leaking into `design-data-only`.
+
+- [#1403](https://github.com/adobe/spectrum-design-data/pull/1403) [`c23cc54`](https://github.com/adobe/spectrum-design-data/commit/c23cc5457a50e3253ce57a7e04d93e92f20300a1) Thanks [@GarthDB](https://github.com/GarthDB)! - Figma export no longer sends `VARIABLE_ALIAS` references to variable ids that
+  were never created, which Figma would reject (closes spectrum-design-data-qz1o).
+  - **sdk/core/src/figma/mapping.rs**: `build_export_payload` now drops any
+    `ModeValueAction` whose `VARIABLE_ALIAS` targets an id absent from the
+    emitted `variables` list (e.g. an alias target with malformed `sets`) and
+    records a `mode_warnings` entry instead of emitting the dangling reference.
+
+- [#1400](https://github.com/adobe/spectrum-design-data/pull/1400) [`11e8084`](https://github.com/adobe/spectrum-design-data/commit/11e8084a80d68a7a08ac5f02a04e389485f37772) Thanks [@GarthDB](https://github.com/GarthDB)! - Figma export now warns when a token's mode has no matching mode in the
+  target collection, instead of silently dropping that mode value (closes
+  spectrum-design-data-11k.8.2).
+  - **sdk/core/src/figma/mapping.rs**: `ExportSummary` gains `mode_warnings`;
+    `process_color_set_token`/`process_scale_set_token` record a warning
+    naming the token, mode, and collection when the target collection has no
+    matching mode, instead of silently skipping.
+  - **sdk/cli/src/main.rs**: `figma export` prints mode warnings after the
+    summary.
+
+## 2.4.0
+
+### Minor Changes
+
+- [#1399](https://github.com/adobe/spectrum-design-data/pull/1399) [`05e89b2`](https://github.com/adobe/spectrum-design-data/commit/05e89b2a6c440837de12362b24a526b9f160d7f4) Thanks [@GarthDB](https://github.com/GarthDB)! - New `figma diff` CLI command reports a value-level, read-only comparison
+  between the manifest-resolved dataset and a Figma file's actual variable
+  values (closes spectrum-design-data-11k.6).
+  - **sdk/core/src/figma/import.rs**: add `diff_values`, classifying every
+    Figma variable and design-data token as match / value-mismatch /
+    figma-only / design-data-only / renamed / skipped-uncovered, reusing
+    the value-comparison codec `build_import_overrides` uses.
+  - **sdk/cli/src/main.rs**: `figma diff --file-key --token [--snapshot]
+[--mapping] [--manifest] --format pretty|json`.
+  - **sdk/core/src/figma/{mapping,import}.rs**: normalizes opacity,
+    font-weight/style naming, `dp` units, and per-scale mode alignment
+    (only when the aligned scale actually matches) so `figma diff` reports
+    only genuine drift; a `--mapping`-renamed design-data-only entry now
+    reports its real legacy key; `renamed` prints separately from the
+    counts it can overlap with.
+
+- [#1396](https://github.com/adobe/spectrum-design-data/pull/1396) [`f122a90`](https://github.com/adobe/spectrum-design-data/commit/f122a901858ca1ed3d833e934b8c94197534b22f) Thanks [@GarthDB](https://github.com/GarthDB)! - The Figma export generator can now export from a manifest-resolved dataset
+  instead of a raw token-source directory (closes spectrum-design-data-h890.11).
+  - **sdk/core/src/figma/mapping.rs**: `build_export_payload` takes a
+    `tokens: &[(String, Value)]` slice instead of a token-source directory
+    path; `load_all_tokens` is now `pub` so callers load tokens themselves
+    before building the payload.
+  - **sdk/cli/src/main.rs**: `figma export` gains a `--manifest <PATH>` flag;
+    when given, tokens are resolved through the platform manifest cascade
+    (include/exclude, overrides, extensions) before export instead of reading
+    `path` as a raw token directory. Behavior without `--manifest` is unchanged.
+
+- [#1398](https://github.com/adobe/spectrum-design-data/pull/1398) [`13ec65c`](https://github.com/adobe/spectrum-design-data/commit/13ec65cd489c0cdb75258c071e3d6e6fa743b20d) Thanks [@GarthDB](https://github.com/GarthDB)! - New `figma import` CLI command reads a Figma file's current variable values and
+  emits manifest `overrides` entries for the ones a designer edited (closes
+  spectrum-design-data-h890.12).
+  - **sdk/core/src/figma/import.rs**: new module — inverts the `{prefix}/{legacyKey}`
+    Figma Variable naming convention back to a token, diffs its per-mode Figma value
+    against the manifest-resolved source, and emits an override only when it diverged.
+  - **sdk/core/src/figma/color.rs**: adds `format_color`, the reverse of `parse_color`.
+  - **sdk/core/src/figma/mod.rs**: registers the new `import` module.
+  - **sdk/cli/src/main.rs**: `figma import <path> --file-key <k> --manifest <m.json>
+[--mapping <artifact>] [--out <PATH>]` fetches Figma variables and writes the
+    resulting overrides manifest, reporting unmapped/multi-mode-divergent/unconvertible
+    variables to stderr.
+
 ## 2.3.1
 
 ### Patch Changes

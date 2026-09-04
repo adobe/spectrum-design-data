@@ -14,14 +14,15 @@
 //! `{camelCasePrefix}/{kebab-case-token-name}` naming — matching legacy token
 //! names 1:1.
 
-use std::collections::HashMap;
-use std::path::Path;
+use std::collections::{HashMap, HashSet};
+use std::path::{Path, PathBuf};
 
 use serde_json::Value;
 
 use super::color::parse_color;
 use super::types::{
-    FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
+    FigmaVariableAlias, FigmaVariableCollection, ModeValueAction, PostVariablesBody,
+    VariableAction, VariablesMeta,
 };
 use super::FigmaError;
 
@@ -31,11 +32,11 @@ const COLOR_SET: &str = "color-set.json";
 const COLOR: &str = "color.json";
 const SCALE_SET: &str = "scale-set.json";
 const DIMENSION: &str = "dimension.json";
-const OPACITY: &str = "opacity.json";
+pub(crate) const OPACITY: &str = "opacity.json";
 const FONT_FAMILY: &str = "font-family.json";
 const FONT_SIZE: &str = "font-size.json";
-const FONT_STYLE: &str = "font-style.json";
-const FONT_WEIGHT: &str = "font-weight.json";
+pub(crate) const FONT_STYLE: &str = "font-style.json";
+pub(crate) const FONT_WEIGHT: &str = "font-weight.json";
 const ALIAS: &str = "alias.json";
 
 // Schemas we skip (composite types with no Figma Variable equivalent).
@@ -54,6 +55,42 @@ const COLOR_THEME_COLLECTION: &str = ".Color theme";
 const COLOR_THEME_PREFIX: &str = "colorTheme";
 const PLATFORM_SCALE_COLLECTION: &str = ".Platform scale";
 const PLATFORM_SCALE_PREFIX: &str = "platformScale";
+
+/// Which mode set (and thus which of `COLOR_MODES`/`SCALE_MODES`) a token's
+/// schema routes through — orthogonal to which specific collection it lands in.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum TokenKind {
+    Color,
+    Scale,
+}
+
+/// A Figma collection this exporter can target, and which source token files
+/// route into it. `source_files` is a list of file basenames; an empty slice
+/// is a wildcard matching every file — used by today's two collections, since
+/// the legacy corpus mixes color and scale schemas within the same files.
+/// A non-empty `source_files` entry takes priority over a wildcard of the
+/// same `kind` when a token's file matches both.
+struct CollectionSpec {
+    figma_collection_name: &'static str,
+    default_prefix: &'static str,
+    kind: TokenKind,
+    source_files: &'static [&'static str],
+}
+
+const COLLECTION_SPECS: &[CollectionSpec] = &[
+    CollectionSpec {
+        figma_collection_name: COLOR_THEME_COLLECTION,
+        default_prefix: COLOR_THEME_PREFIX,
+        kind: TokenKind::Color,
+        source_files: &[],
+    },
+    CollectionSpec {
+        figma_collection_name: PLATFORM_SCALE_COLLECTION,
+        default_prefix: PLATFORM_SCALE_PREFIX,
+        kind: TokenKind::Scale,
+        source_files: &[],
+    },
+];
 
 // ── Mode name mapping ────────────────────────────────────────────────────────
 
@@ -103,6 +140,8 @@ pub fn summarize_variables(meta: &VariablesMeta) -> Vec<CollectionSummary> {
 pub struct ExportSummary {
     pub variables_created: usize,
     pub mode_values_set: usize,
+    pub mode_values_aliased: usize,
+    pub mode_warnings: Vec<String>,
     pub skipped_composite: Vec<String>,
     pub skipped_alias_unresolved: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
@@ -111,11 +150,13 @@ pub struct ExportSummary {
 
 /// Build a Figma POST payload from a flat set of legacy-shaped token entries.
 ///
-/// `tokens` is `(name, raw legacy JSON entry)` pairs — either loaded straight
-/// from a token-source directory ([`load_all_tokens`]) or collected from a
-/// manifest-resolved [`crate::graph::TokenGraph`] (`(record.name, record.raw)`
-/// for each [`crate::graph::TokenRecord`]) so platform overrides/extensions are
-/// reflected in the export.
+/// `tokens` is `(name, source file, raw legacy JSON entry)` triples — either
+/// loaded straight from a token-source directory ([`load_all_tokens`]) or
+/// collected from a manifest-resolved [`crate::graph::TokenGraph`]
+/// (`(record.name, record.file, record.raw)` for each
+/// [`crate::graph::TokenRecord`]) so platform overrides/extensions are
+/// reflected in the export. The source file lets [`CollectionSpec::source_files`]
+/// route a token by which file it came from, not just by `$schema`.
 ///
 /// `existing` is the result of `GET /v1/files/:file_key/variables/local` —
 /// used to look up collection and mode IDs for the target collections.
@@ -125,26 +166,25 @@ pub struct ExportSummary {
 /// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
 /// today's naming for every token.
 pub fn build_export_payload(
-    tokens: &[(String, Value)],
+    tokens: &[(String, PathBuf, Value)],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    // 1. Look up collection and mode IDs from the existing file.
-    let color_col =
-        find_collection(existing, COLOR_THEME_COLLECTION).ok_or_else(|| FigmaError::Api {
-            status: 0,
-            message: format!("collection '{COLOR_THEME_COLLECTION}' not found in file"),
-        })?;
-    let scale_col =
-        find_collection(existing, PLATFORM_SCALE_COLLECTION).ok_or_else(|| FigmaError::Api {
-            status: 0,
-            message: format!("collection '{PLATFORM_SCALE_COLLECTION}' not found in file"),
-        })?;
+    build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)
+}
 
-    let color_mode_ids = resolve_mode_ids(&color_col.modes, COLOR_MODES);
-    let scale_mode_ids = resolve_mode_ids(&scale_col.modes, SCALE_MODES);
-    let color_default_mode = &color_col.default_mode_id;
-    let scale_default_mode = &scale_col.default_mode_id;
+/// Same as [`build_export_payload`], but with an explicit collection-spec
+/// table — the production entry point always uses [`COLLECTION_SPECS`]; tests
+/// use this to exercise routing against additional mock collections.
+fn build_export_payload_with_specs(
+    tokens: &[(String, PathBuf, Value)],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    specs: &'static [CollectionSpec],
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    // 1. Look up collection and mode IDs from the existing file, for every
+    // collection the spec table can route to.
+    let resolved = resolve_collections(existing, specs)?;
 
     // 2. Build a name→value lookup for alias resolution.
     let value_index = build_value_index(tokens);
@@ -161,7 +201,45 @@ pub fn build_export_payload(
         .map(|v| (v.name.as_str(), v.id.as_str()))
         .collect();
 
-    for (token_name, token_entry) in tokens {
+    // 3. Pre-pass: resolve every non-skipped, non-alias-schema token's Figma
+    // variable id up front, so a token that aliases a target processed later in
+    // the main loop can still emit a VARIABLE_ALIAS instead of a flattened literal.
+    let mut alias_target_ids: HashMap<String, String> = HashMap::new();
+    for (token_name, token_file, token_entry) in tokens {
+        let schema = token_entry
+            .get("$schema")
+            .and_then(|v| v.as_str())
+            .unwrap_or("");
+        if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) || schema.ends_with(ALIAS) {
+            continue;
+        }
+        let kind = if schema.ends_with(COLOR_SET) || schema.ends_with(COLOR) {
+            TokenKind::Color
+        } else if schema.ends_with(SCALE_SET)
+            || schema.ends_with(DIMENSION)
+            || schema.ends_with(OPACITY)
+            || schema.ends_with(FONT_FAMILY)
+            || schema.ends_with(FONT_SIZE)
+            || schema.ends_with(FONT_STYLE)
+            || schema.ends_with(FONT_WEIGHT)
+        {
+            TokenKind::Scale
+        } else {
+            continue;
+        };
+        let Some(rc) = pick_collection(&resolved, kind, token_file) else {
+            continue;
+        };
+        let (_, id) = resolve_variable_id(
+            token_name,
+            rc.spec.default_prefix,
+            &existing_var_index,
+            overrides,
+        );
+        alias_target_ids.insert(token_name.clone(), id);
+    }
+
+    for (token_name, token_file, token_entry) in tokens {
         let schema = token_entry
             .get("$schema")
             .and_then(|v| v.as_str())
@@ -175,42 +253,56 @@ pub fn build_export_payload(
 
         // Route to the appropriate collection.
         if schema.ends_with(COLOR_SET) {
+            let Some(rc) = pick_collection(&resolved, TokenKind::Color, token_file) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
             process_color_set_token(
                 token_name,
                 token_entry,
-                &color_col.id,
-                COLOR_THEME_PREFIX,
-                &color_mode_ids,
+                rc.collection_id,
+                rc.spec.default_prefix,
+                &rc.mode_ids,
                 &value_index,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
             );
         } else if schema.ends_with(SCALE_SET) {
+            let Some(rc) = pick_collection(&resolved, TokenKind::Scale, token_file) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
             process_scale_set_token(
                 token_name,
                 token_entry,
-                &scale_col.id,
-                PLATFORM_SCALE_PREFIX,
-                &scale_mode_ids,
+                rc.collection_id,
+                rc.spec.default_prefix,
+                &rc.mode_ids,
                 &value_index,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
                 &mut summary,
             );
         } else if schema.ends_with(COLOR) {
-            // Flat color token → .Color theme, default mode (Light).
+            // Flat color token → resolved Color-kind collection, default mode (Light).
+            let Some(rc) = pick_collection(&resolved, TokenKind::Color, token_file) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
             process_flat_token(
                 token_name,
                 token_entry,
-                &color_col.id,
-                COLOR_THEME_PREFIX,
+                rc.collection_id,
+                rc.spec.default_prefix,
                 "COLOR",
-                color_default_mode,
+                rc.default_mode_id,
                 &value_index,
                 &existing_var_index,
                 overrides,
@@ -220,13 +312,22 @@ pub fn build_export_payload(
             );
         } else if schema.ends_with(ALIAS) {
             // Top-level alias — route based on what it resolves to.
+            let (Some(color_rc), Some(scale_rc)) = (
+                pick_collection(&resolved, TokenKind::Color, token_file),
+                pick_collection(&resolved, TokenKind::Scale, token_file),
+            ) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
             process_alias_token(
                 token_name,
                 token_entry,
-                &color_col.id,
-                &scale_col.id,
-                color_default_mode,
-                scale_default_mode,
+                color_rc.collection_id,
+                color_rc.spec.default_prefix,
+                scale_rc.collection_id,
+                scale_rc.spec.default_prefix,
+                color_rc.default_mode_id,
+                scale_rc.default_mode_id,
                 &value_index,
                 tokens,
                 &existing_var_index,
@@ -242,15 +343,19 @@ pub fn build_export_payload(
             || schema.ends_with(FONT_STYLE)
             || schema.ends_with(FONT_WEIGHT)
         {
-            // Flat non-color token → .Platform scale, default mode (Desktop).
+            // Flat non-color token → resolved Scale-kind collection, default mode (Desktop).
+            let Some(rc) = pick_collection(&resolved, TokenKind::Scale, token_file) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
             let figma_type = schema_to_figma_type(schema);
             process_flat_token(
                 token_name,
                 token_entry,
-                &scale_col.id,
-                PLATFORM_SCALE_PREFIX,
+                rc.collection_id,
+                rc.spec.default_prefix,
                 figma_type,
-                scale_default_mode,
+                rc.default_mode_id,
                 &value_index,
                 &existing_var_index,
                 overrides,
@@ -261,6 +366,57 @@ pub fn build_export_payload(
         } else if !schema.is_empty() {
             summary.skipped_unknown_schema.push(token_name.clone());
         }
+    }
+
+    // ponytail: the alias-target pre-pass registers an id for a token before
+    // knowing whether that token's own processing later bails (malformed
+    // `sets`/`value` — no schema validation runs before export). Enforce the
+    // invariant here, once, instead of threading it through every bail site:
+    // a VARIABLE_ALIAS may only point at an id that actually made it into
+    // `variables`. Drop any that don't and warn, rather than sending Figma a
+    // POST that references an undefined variable id.
+    let mut dangling_variable_ids: HashSet<String> = HashSet::new();
+    {
+        let emitted_ids: HashSet<&str> = variables.iter().filter_map(|v| v.id.as_deref()).collect();
+        mode_values.retain(|mv| {
+            let Some(alias_id) = variable_alias_target_id(&mv.value) else {
+                return true;
+            };
+            if emitted_ids.contains(alias_id) {
+                true
+            } else {
+                dangling_variable_ids.insert(mv.variable_id.clone());
+                summary.mode_values_aliased = summary.mode_values_aliased.saturating_sub(1);
+                summary.mode_warnings.push(format!(
+                    "dangling VARIABLE_ALIAS to '{alias_id}' — target variable was never created, value dropped"
+                ));
+                false
+            }
+        });
+    }
+
+    // A variable whose every mode value pointed at a dangling alias now has no
+    // mode values at all — don't send Figma an otherwise-empty CREATE/UPDATE
+    // for it.
+    if !dangling_variable_ids.is_empty() {
+        let variable_ids_with_values: HashSet<&str> = mode_values
+            .iter()
+            .map(|mv| mv.variable_id.as_str())
+            .collect();
+        variables.retain(|v| {
+            let Some(id) = v.id.as_deref() else {
+                return true;
+            };
+            if dangling_variable_ids.contains(id) && !variable_ids_with_values.contains(id) {
+                summary.variables_created = summary.variables_created.saturating_sub(1);
+                summary.mode_warnings.push(format!(
+                    "'{id}' dropped entirely — every mode value pointed at a missing alias target"
+                ));
+                false
+            } else {
+                true
+            }
+        });
     }
 
     let body = PostVariablesBody {
@@ -282,6 +438,67 @@ fn find_collection<'a>(
     meta.variable_collections.values().find(|c| c.name == name)
 }
 
+/// A [`CollectionSpec`] resolved against a real Figma file's collections/modes.
+struct ResolvedCollection<'a> {
+    spec: &'static CollectionSpec,
+    collection_id: &'a str,
+    mode_ids: HashMap<String, String>,
+    default_mode_id: &'a str,
+}
+
+/// Resolve every entry in `specs` against `existing`, failing fast if any
+/// named collection is missing from the file — same fail-fast behavior as
+/// the two hardcoded `find_collection` calls this replaces, generalized to
+/// however many entries `specs` has.
+fn resolve_collections<'a>(
+    existing: &'a VariablesMeta,
+    specs: &'static [CollectionSpec],
+) -> Result<Vec<ResolvedCollection<'a>>, FigmaError> {
+    specs
+        .iter()
+        .map(|spec| {
+            let col = find_collection(existing, spec.figma_collection_name).ok_or_else(|| {
+                FigmaError::Api {
+                    status: 0,
+                    message: format!(
+                        "collection '{}' not found in file",
+                        spec.figma_collection_name
+                    ),
+                }
+            })?;
+            let modes = match spec.kind {
+                TokenKind::Color => COLOR_MODES,
+                TokenKind::Scale => SCALE_MODES,
+            };
+            Ok(ResolvedCollection {
+                spec,
+                collection_id: &col.id,
+                mode_ids: resolve_mode_ids(&col.modes, modes),
+                default_mode_id: &col.default_mode_id,
+            })
+        })
+        .collect()
+}
+
+/// Pick the collection a token in `file` should route to for `kind`. A
+/// specific (non-empty `source_files`) match always wins over the wildcard
+/// fallback for the same kind, regardless of table order.
+fn pick_collection<'a, 'b>(
+    resolved: &'b [ResolvedCollection<'a>],
+    kind: TokenKind,
+    file: &Path,
+) -> Option<&'b ResolvedCollection<'a>> {
+    let basename = file.file_name().and_then(|f| f.to_str()).unwrap_or("");
+    resolved
+        .iter()
+        .find(|r| r.spec.kind == kind && r.spec.source_files.contains(&basename))
+        .or_else(|| {
+            resolved
+                .iter()
+                .find(|r| r.spec.kind == kind && r.spec.source_files.is_empty())
+        })
+}
+
 /// Map mode names (e.g. "light", "dark") to their Figma mode IDs.
 /// Case-insensitive matching since Figma uses "Light"/"Dark" etc.
 fn resolve_mode_ids(
@@ -300,8 +517,10 @@ fn resolve_mode_ids(
     map
 }
 
-/// Load all legacy JSON token files from a directory into a flat map.
-pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, Value)>, FigmaError> {
+/// Load all legacy JSON token files from a directory into a flat map,
+/// keeping each token's source file (basename-matchable against
+/// [`CollectionSpec::source_files`]).
+pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, PathBuf, Value)>, FigmaError> {
     let mut tokens = Vec::new();
     let mut paths: Vec<_> = std::fs::read_dir(dir)
         .map_err(|e| FigmaError::Api {
@@ -325,7 +544,7 @@ pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, Value)>, FigmaError> {
                 message: format!("failed to parse {}: {e}", path.display()),
             })?;
         for (name, entry) in obj {
-            tokens.push((name, entry));
+            tokens.push((name, path.clone(), entry));
         }
     }
     Ok(tokens)
@@ -333,11 +552,11 @@ pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, Value)>, FigmaError> {
 
 /// Build a lookup from token name → resolved concrete value string.
 /// Follows alias chains up to 10 levels deep.
-fn build_value_index(tokens: &[(String, Value)]) -> HashMap<String, String> {
-    let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, v)| (n.as_str(), v)).collect();
+fn build_value_index(tokens: &[(String, PathBuf, Value)]) -> HashMap<String, String> {
+    let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, _, v)| (n.as_str(), v)).collect();
     let mut index = HashMap::new();
 
-    for (name, entry) in tokens {
+    for (name, _file, entry) in tokens {
         if let Some(resolved) = resolve_value(name, entry, &by_name, 0) {
             index.insert(name.clone(), resolved);
         }
@@ -400,8 +619,22 @@ fn schema_to_figma_type(schema: &str) -> &'static str {
     }
 }
 
+/// design-data stores opacity as a 0–1 fraction; Figma variables use a 0–100
+/// scale. `is_opacity` callers convert between them at the codec boundary so
+/// export/import/diff all agree on the fraction as the canonical scale.
+pub(crate) fn fraction_to_figma_opacity(fraction: f64) -> f64 {
+    // ponytail: round to 6 decimal places to shed float noise (0.1 * 100.0
+    // can land on 10.000000000000002); precision beyond that isn't meaningful
+    // for an opacity value.
+    ((fraction * 100.0) * 1e6).round() / 1e6
+}
+
+pub(crate) fn figma_opacity_to_fraction(figma_value: f64) -> f64 {
+    ((figma_value / 100.0) * 1e6).round() / 1e6
+}
+
 /// Convert a raw value string to a Figma-compatible JSON value.
-fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
+fn value_to_figma(value_str: &str, figma_type: &str, is_opacity: bool) -> Option<Value> {
     match figma_type {
         "COLOR" => {
             let c = parse_color(value_str).ok()?;
@@ -411,6 +644,9 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
             // Strip common unit suffixes: px, em, rem, %
             // Note: dp (Android density-independent pixels) is intentionally not
             // stripped — dp values have no Figma equivalent and are tracked separately.
+            // (The diff/import side's `UNIT_SUFFIXES` does recognize `dp`, for
+            // comparison purposes only — a captured Figma file can carry a
+            // dp-sourced numeric value even though export never writes one.)
             let s = value_str
                 .trim()
                 .trim_end_matches("rem")
@@ -418,11 +654,53 @@ fn value_to_figma(value_str: &str, figma_type: &str) -> Option<Value> {
                 .trim_end_matches("px")
                 .trim_end_matches('%');
             let n: f64 = s.parse().ok()?;
+            let n = if is_opacity {
+                fraction_to_figma_opacity(n)
+            } else {
+                n
+            };
             Some(Value::Number(serde_json::Number::from_f64(n)?))
         }
         "STRING" => Some(Value::String(value_str.to_string())),
         _ => None,
     }
+}
+
+/// Extract the target variable id from a [`ModeValueAction`] value if it's a
+/// `VARIABLE_ALIAS` reference. Shared by the post-loop dangling-alias sweep in
+/// [`build_export_payload_with_specs`] and its tests, so a shape change to the
+/// alias JSON can't drift the two apart.
+fn variable_alias_target_id(value: &Value) -> Option<&str> {
+    if value.get("type").and_then(|t| t.as_str()) != Some("VARIABLE_ALIAS") {
+        return None;
+    }
+    value.get("id").and_then(|id| id.as_str())
+}
+
+/// Resolve a token's Figma variable name and id (real id if it already exists in
+/// the file, otherwise a temp id used for CREATE). Shared by [`make_variable_action`]
+/// and the alias-target pre-pass so the two can't diverge.
+fn resolve_variable_id(
+    token_name: &str,
+    prefix: &str,
+    existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
+) -> (String, String) {
+    let figma_name = overrides
+        .and_then(|m| m.get(token_name))
+        .cloned()
+        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+    // Match against the final (possibly overridden) name. An override that
+    // points at a name not already in the file produces a CREATE, not a
+    // rename of the old variable — Figma's variables payload has no rename
+    // action, so remapping an existing token surfaces as a new variable.
+    let id = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
+        existing_id.to_string()
+    } else {
+        // Figma rejects temp IDs containing '/'; use '__' as separator.
+        figma_name.replace('/', "__")
+    };
+    (figma_name, id)
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -435,23 +713,14 @@ fn make_variable_action(
     existing_var_index: &HashMap<&str, &str>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let figma_name = overrides
-        .and_then(|m| m.get(token_name))
-        .cloned()
-        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
-    // Match against the final (possibly overridden) name. An override that
-    // points at a name not already in the file produces a CREATE, not a
-    // rename of the old variable — Figma's variables payload has no rename
-    // action, so remapping an existing token surfaces as a new variable.
-    let (action, id, var_id) =
-        if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-            let real_id = existing_id.to_string();
-            ("UPDATE".to_string(), Some(real_id.clone()), real_id)
-        } else {
-            // Figma rejects temp IDs containing '/'; use '__' as separator.
-            let temp_id = figma_name.replace('/', "__");
-            ("CREATE".to_string(), Some(temp_id.clone()), temp_id)
-        };
+    let (figma_name, var_id) =
+        resolve_variable_id(token_name, prefix, existing_var_index, overrides);
+    let action = if existing_var_index.contains_key(figma_name.as_str()) {
+        "UPDATE".to_string()
+    } else {
+        "CREATE".to_string()
+    };
+    let id = Some(var_id.clone());
 
     let va = VariableAction {
         action,
@@ -476,6 +745,7 @@ fn process_color_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -513,13 +783,29 @@ fn process_color_set_token(
     summary.variables_created += 1;
 
     for &mode_name in COLOR_MODES {
-        let Some(mode_id) = mode_ids.get(mode_name) else {
-            continue;
-        };
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
+        let Some(mode_id) = mode_ids.get(mode_name) else {
+            summary.mode_warnings.push(format!(
+                "{token_name}: no '{mode_name}' mode in '{COLOR_THEME_COLLECTION}' — value dropped"
+            ));
+            continue;
+        };
         let raw_value = mode_entry.get("value").and_then(|v| v.as_str());
+
+        let alias_target = raw_value.filter(|v| v.starts_with('{') && v.ends_with('}'));
+        if let Some(target_id) = alias_target.and_then(|v| alias_target_ids.get(&v[1..v.len() - 1]))
+        {
+            mode_values.push(ModeValueAction {
+                variable_id: var_id.clone(),
+                mode_id: mode_id.clone(),
+                value: serde_json::to_value(FigmaVariableAlias::new(target_id.clone())).unwrap(),
+            });
+            summary.mode_values_aliased += 1;
+            continue;
+        }
+
         let resolved = raw_value.and_then(|v| {
             if v.starts_with('{') && v.ends_with('}') {
                 let target = &v[1..v.len() - 1];
@@ -530,7 +816,9 @@ fn process_color_set_token(
         });
 
         if let Some(val_str) = resolved {
-            if let Some(figma_val) = value_to_figma(val_str, figma_type) {
+            if let Some(figma_val) =
+                value_to_figma(val_str, figma_type, inner_schema.ends_with(OPACITY))
+            {
                 mode_values.push(ModeValueAction {
                     variable_id: var_id.clone(),
                     mode_id: mode_id.clone(),
@@ -551,6 +839,7 @@ fn process_scale_set_token(
     mode_ids: &HashMap<String, String>,
     value_index: &HashMap<String, String>,
     existing_var_index: &HashMap<&str, &str>,
+    alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -611,13 +900,29 @@ fn process_scale_set_token(
     summary.variables_created += 1;
 
     for &mode_name in SCALE_MODES {
-        let Some(mode_id) = mode_ids.get(mode_name) else {
-            continue;
-        };
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
+        let Some(mode_id) = mode_ids.get(mode_name) else {
+            summary.mode_warnings.push(format!(
+                "{token_name}: no '{mode_name}' mode in '{PLATFORM_SCALE_COLLECTION}' — value dropped"
+            ));
+            continue;
+        };
         let raw_value = mode_entry.get("value").and_then(|v| v.as_str());
+
+        let alias_target = raw_value.filter(|v| v.starts_with('{') && v.ends_with('}'));
+        if let Some(target_id) = alias_target.and_then(|v| alias_target_ids.get(&v[1..v.len() - 1]))
+        {
+            mode_values.push(ModeValueAction {
+                variable_id: var_id.clone(),
+                mode_id: mode_id.clone(),
+                value: serde_json::to_value(FigmaVariableAlias::new(target_id.clone())).unwrap(),
+            });
+            summary.mode_values_aliased += 1;
+            continue;
+        }
+
         let resolved = raw_value.and_then(|v| {
             if v.starts_with('{') && v.ends_with('}') {
                 let target = &v[1..v.len() - 1];
@@ -628,7 +933,9 @@ fn process_scale_set_token(
         });
 
         if let Some(val_str) = resolved {
-            if let Some(figma_val) = value_to_figma(val_str, figma_type) {
+            if let Some(figma_val) =
+                value_to_figma(val_str, figma_type, inner_schema.ends_with(OPACITY))
+            {
                 mode_values.push(ModeValueAction {
                     variable_id: var_id.clone(),
                     mode_id: mode_id.clone(),
@@ -676,7 +983,11 @@ fn process_flat_token(
         raw_value
     };
 
-    let figma_val = match value_to_figma(resolved, figma_type) {
+    let is_opacity = entry
+        .get("$schema")
+        .and_then(|v| v.as_str())
+        .is_some_and(|s| s.ends_with(OPACITY));
+    let figma_val = match value_to_figma(resolved, figma_type, is_opacity) {
         Some(v) => v,
         None => {
             summary
@@ -713,11 +1024,13 @@ fn process_alias_token(
     token_name: &str,
     entry: &Value,
     color_collection_id: &str,
+    color_prefix: &str,
     scale_collection_id: &str,
+    scale_prefix: &str,
     color_default_mode_id: &str,
     scale_default_mode_id: &str,
     value_index: &HashMap<String, String>,
-    all_tokens: &[(String, Value)],
+    all_tokens: &[(String, PathBuf, Value)],
     existing_var_index: &HashMap<&str, &str>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -739,8 +1052,8 @@ fn process_alias_token(
     // Find the target token to determine its schema.
     let target_schema = all_tokens
         .iter()
-        .find(|(n, _)| n == target_name)
-        .and_then(|(_, v)| v.get("$schema"))
+        .find(|(n, _, _)| n == target_name)
+        .and_then(|(_, _, v)| v.get("$schema"))
         .and_then(|v| v.as_str())
         .unwrap_or("");
 
@@ -778,23 +1091,16 @@ fn process_alias_token(
         || (figma_type == "FLOAT"
             && (target_schema.ends_with(OPACITY) || target_schema.ends_with(COLOR_SET)));
     let (collection_id, prefix, default_mode_id) = if is_color {
-        (
-            color_collection_id,
-            COLOR_THEME_PREFIX,
-            color_default_mode_id,
-        )
+        (color_collection_id, color_prefix, color_default_mode_id)
     } else {
-        (
-            scale_collection_id,
-            PLATFORM_SCALE_PREFIX,
-            scale_default_mode_id,
-        )
+        (scale_collection_id, scale_prefix, scale_default_mode_id)
     };
 
-    let figma_val = match value_to_figma(resolved_value, figma_type) {
-        Some(v) => v,
-        None => return,
-    };
+    let figma_val =
+        match value_to_figma(resolved_value, figma_type, target_schema.ends_with(OPACITY)) {
+            Some(v) => v,
+            None => return,
+        };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
     let (va, var_id) = make_variable_action(
@@ -907,6 +1213,43 @@ mod tests {
     }
 
     #[test]
+    fn scale_set_token_with_no_matching_target_mode_warns_instead_of_silently_dropping() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("scale.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "test-scale": {
+                    "$schema": "https://example.com/scale-set.json",
+                    "sets": {
+                        "desktop": { "$schema": "https://example.com/dimension.json", "value": "16px", "uuid": "u1" },
+                        "mobile": { "$schema": "https://example.com/dimension.json", "value": "24px", "uuid": "u2" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+        // mock_meta()'s .Platform scale collection only defines a Desktop mode.
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        // Desktop value still lands; Mobile value is dropped but now warned about.
+        assert_eq!(summary.mode_values_set, 1);
+        assert_eq!(body.variable_mode_values.len(), 1);
+        assert_eq!(summary.mode_warnings.len(), 1);
+        let warning = &summary.mode_warnings[0];
+        assert!(warning.contains("test-scale"), "{warning}");
+        assert!(warning.contains("mobile"), "{warning}");
+        assert!(warning.contains(".Platform scale"), "{warning}");
+    }
+
+    #[test]
     fn dimension_token_goes_to_platform_scale() {
         use std::io::Write;
         let dir = tempfile::tempdir().unwrap();
@@ -937,6 +1280,38 @@ mod tests {
     }
 
     #[test]
+    fn opacity_token_scales_fraction_to_figma_percent() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("color-aliases.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "background-opacity-down": {
+                    "$schema": "https://example.com/opacity.json",
+                    "value": "0.1",
+                    "uuid": "o1"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(
+            body.variables[0].name,
+            "platformScale/background-opacity-down"
+        );
+        assert_eq!(body.variables[0].resolved_type, "FLOAT");
+        let val = &body.variable_mode_values[0].value;
+        assert_eq!(val.as_f64(), Some(10.0));
+    }
+
+    #[test]
     fn build_export_payload_accepts_in_memory_tokens_not_just_a_directory() {
         // Mirrors what a manifest-resolved TokenGraph hands the exporter:
         // `(record.name, record.raw)` pairs with no backing directory — the
@@ -945,6 +1320,7 @@ mod tests {
         // without materializing them to disk first.
         let tokens = vec![(
             "spacing-100".to_string(),
+            PathBuf::from("in-memory.json"),
             json!({
                 "$schema": "https://example.com/dimension.json",
                 "value": "12px",
@@ -1138,6 +1514,310 @@ mod tests {
         assert_eq!(summary.variables_created, 0);
         assert_eq!(summary.skipped_composite.len(), 2);
         assert!(body.variables.is_empty());
+    }
+
+    #[test]
+    fn in_set_alias_emits_variable_alias_reference() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("colors.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "base-color-set-a": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "a-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "a-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "a-wire" }
+                    },
+                    "uuid": "a0"
+                },
+                "base-color-set-b": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(1, 1, 1)", "uuid": "b-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(2, 2, 2)", "uuid": "b-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(3, 3, 3)", "uuid": "b-wire" }
+                    },
+                    "uuid": "b0"
+                },
+                // Note: this key sorts before both base-color-set-* keys, so the
+                // main loop processes it before its alias targets — exercising the
+                // pre-pass that makes target ids available regardless of order.
+                "alias-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-color-set-b}", "uuid": "al-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-wire" }
+                    },
+                    "uuid": "al0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        assert_eq!(summary.mode_values_aliased, 3);
+        assert_eq!(summary.mode_values_set, 6);
+
+        let alias_var_id = body
+            .variables
+            .iter()
+            .find(|v| v.name == "colorTheme/alias-color-set")
+            .and_then(|v| v.id.clone())
+            .expect("alias-color-set variable created");
+        let alias_values: Vec<_> = body
+            .variable_mode_values
+            .iter()
+            .filter(|mv| mv.variable_id == alias_var_id)
+            .collect();
+        assert_eq!(alias_values.len(), 3);
+        for mv in &alias_values {
+            assert_eq!(
+                mv.value.get("type").and_then(|v| v.as_str()),
+                Some("VARIABLE_ALIAS")
+            );
+        }
+        let alias_target_ids: Vec<_> = alias_values
+            .iter()
+            .filter_map(|mv| mv.value.get("id").and_then(|v| v.as_str()))
+            .collect();
+        assert!(alias_target_ids.contains(&"colorTheme__base-color-set-a"));
+        assert!(alias_target_ids.contains(&"colorTheme__base-color-set-b"));
+    }
+
+    #[test]
+    fn alias_to_malformed_set_target_drops_dangling_reference() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("colors.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                // Malformed: color-set schema but no `sets` object, so
+                // `process_color_set_token` bails without emitting a
+                // VariableAction — even though the pre-pass already
+                // registered an id for it.
+                "base-color-set-a": {
+                    "$schema": "https://example.com/color-set.json",
+                    "uuid": "a0"
+                },
+                "alias-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-wire" }
+                    },
+                    "uuid": "al0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        let emitted_ids: std::collections::HashSet<_> = body
+            .variables
+            .iter()
+            .filter_map(|v| v.id.as_deref())
+            .collect();
+        for mv in &body.variable_mode_values {
+            if let Some(target) = variable_alias_target_id(&mv.value) {
+                assert!(
+                    emitted_ids.contains(target),
+                    "dangling VARIABLE_ALIAS to '{target}' with no matching VariableAction"
+                );
+            }
+        }
+        assert!(
+            summary
+                .mode_warnings
+                .iter()
+                .any(|w| w.contains("dangling VARIABLE_ALIAS")),
+            "expected a mode_warnings entry for the dropped alias, got: {:?}",
+            summary.mode_warnings
+        );
+
+        // Every mode of `alias-color-set` aliased the malformed `base-color-set-a`,
+        // so after dropping the dangling aliases it has zero mode values left — it
+        // must be dropped entirely, not sent to Figma as an empty CREATE/UPDATE.
+        assert!(
+            !emitted_ids.contains("colorTheme__alias-color-set"),
+            "expected the fully-dangling variable to be dropped, ids: {emitted_ids:?}"
+        );
+        assert!(
+            summary
+                .mode_warnings
+                .iter()
+                .any(|w| w.contains("dropped entirely")),
+            "expected a mode_warnings entry for the dropped variable, got: {:?}",
+            summary.mode_warnings
+        );
+        assert_eq!(
+            summary.mode_values_aliased, 0,
+            "dropped alias values must not be counted in the summary"
+        );
+    }
+
+    #[test]
+    fn alias_to_non_prepassed_target_falls_back_to_literal() {
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("colors.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "base-color": {
+                    "$schema": "https://example.com/color.json",
+                    "value": "rgb(10, 20, 30)",
+                    "uuid": "bc"
+                },
+                "base-alias": {
+                    "$schema": "https://example.com/alias.json",
+                    "value": "{base-color}",
+                    "uuid": "ba"
+                },
+                "test-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-wire" }
+                    },
+                    "uuid": "t0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+
+        // "base-alias" is a top-level alias token, excluded from the alias-target
+        // pre-pass (its own Figma routing isn't known up front), so aliasing it
+        // still flattens through value_index instead of emitting a VARIABLE_ALIAS
+        // pointing at something that isn't a Figma variable.
+        assert_eq!(summary.mode_values_aliased, 0);
+
+        let test_set_id = body
+            .variables
+            .iter()
+            .find(|v| v.name == "colorTheme/test-color-set")
+            .and_then(|v| v.id.clone())
+            .expect("test-color-set variable created");
+        let mode_values: Vec<_> = body
+            .variable_mode_values
+            .iter()
+            .filter(|mv| mv.variable_id == test_set_id)
+            .collect();
+        assert_eq!(mode_values.len(), 3);
+        for mv in mode_values {
+            assert_ne!(
+                mv.value.get("type").and_then(|v| v.as_str()),
+                Some("VARIABLE_ALIAS")
+            );
+            assert!(
+                mv.value.get("r").is_some(),
+                "expected flattened FigmaColor literal, got {mv:?}"
+            );
+        }
+    }
+
+    /// `mock_meta()` plus a 3rd collection reachable only via a specific
+    /// `source_files` entry — proves `CollectionSpec`/`resolve_collections`
+    /// can route by file, without touching any of the real production
+    /// collections in `COLLECTION_SPECS`.
+    fn mock_meta_with_extra_collection() -> VariablesMeta {
+        let mut meta = mock_meta();
+        meta.variable_collections.insert(
+            "col-3".into(),
+            super::super::types::FigmaVariableCollection {
+                id: "col-3".into(),
+                name: ".Mock Extra".into(),
+                key: "k3".into(),
+                modes: vec![super::super::types::FigmaMode {
+                    mode_id: "m-extra".into(),
+                    name: "Desktop".into(),
+                }],
+                default_mode_id: "m-extra".into(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        meta
+    }
+
+    const MOCK_EXTRA_SPECS: &[CollectionSpec] = &[
+        CollectionSpec {
+            figma_collection_name: COLOR_THEME_COLLECTION,
+            default_prefix: COLOR_THEME_PREFIX,
+            kind: TokenKind::Color,
+            source_files: &[],
+        },
+        CollectionSpec {
+            figma_collection_name: ".Mock Extra",
+            default_prefix: "mockExtra",
+            kind: TokenKind::Scale,
+            source_files: &["special-widget.json"],
+        },
+        CollectionSpec {
+            figma_collection_name: PLATFORM_SCALE_COLLECTION,
+            default_prefix: PLATFORM_SCALE_PREFIX,
+            kind: TokenKind::Scale,
+            source_files: &[],
+        },
+    ];
+
+    #[test]
+    fn file_specific_spec_routes_token_to_mock_collection() {
+        let tokens = vec![(
+            "widget-gap".to_string(),
+            PathBuf::from("special-widget.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "w1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let (body, summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(body.variables[0].name, "mockExtra/widget-gap");
+    }
+
+    #[test]
+    fn wildcard_spec_still_applies_for_files_not_listed_in_a_specific_entry() {
+        let tokens = vec![(
+            "spacing-100".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let (body, summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(body.variables[0].name, "platformScale/spacing-100");
     }
 
     #[test]

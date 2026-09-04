@@ -55,6 +55,20 @@ pub fn parse_color(value: &str) -> Result<FigmaColor, FigmaError> {
     Err(FigmaError::UnsupportedColorFormat(value.to_string()))
 }
 
+/// Format a Figma `{ r, g, b, a }` color back into a Spectrum hex string.
+///
+/// Inverse of [`parse_color`]'s hex path. Emits `#rrggbb`, or `#rrggbbaa`
+/// when `a < 1.0` so a fully-opaque round trip stays the shorter 6-digit form.
+pub fn format_color(c: &FigmaColor) -> String {
+    let byte = |v: f64| ((v.clamp(0.0, 1.0) * 255.0).round() as u32).min(255);
+    let (r, g, b) = (byte(c.r), byte(c.g), byte(c.b));
+    if c.a < 1.0 {
+        format!("#{r:02x}{g:02x}{b:02x}{:02x}", byte(c.a))
+    } else {
+        format!("#{r:02x}{g:02x}{b:02x}")
+    }
+}
+
 fn parse_number_list(s: &str) -> Result<Vec<f64>, FigmaError> {
     s.split(',')
         .map(|p| {
@@ -172,5 +186,20 @@ mod tests {
         assert!(parse_color("hsl(0, 100%, 50%)").is_err());
         assert!(parse_color("not-a-color").is_err());
         assert!(parse_color("#gg0000").is_err());
+    }
+
+    #[test]
+    fn format_color_round_trips_through_parse_color() {
+        for hex in ["#ff8000", "#000000", "#ffffff", "#ff800080"] {
+            let c = parse_color(hex).unwrap();
+            let round_tripped = parse_color(&format_color(&c)).unwrap();
+            assert_color(&round_tripped, c.r, c.g, c.b, c.a);
+        }
+    }
+
+    #[test]
+    fn format_color_omits_alpha_when_opaque() {
+        let c = parse_color("#ff8000").unwrap();
+        assert_eq!(format_color(&c), "#ff8000");
     }
 }

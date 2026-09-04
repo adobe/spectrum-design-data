@@ -165,6 +165,18 @@ no API call:
 design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
 ```
 
+Diff the manifest-resolved dataset against a Figma file's actual variable
+values — read-only, value-level, and works either offline against a captured
+snapshot or live against `--file-key`/`--token`. Classifies every variable/
+token as `match`, `value-mismatch`, `figma-only`, `design-data-only`,
+`renamed` (via `--mapping`), `skipped-uncovered`, or `multi-mode-mismatch`
+(a genuinely multi-mode variable, e.g. `.Color theme`'s Light/Dark/Wireframe,
+compared mode-by-mode against design-data's own per-mode values):
+
+```bash
+design-data figma diff --snapshot figma-vars.json --format json
+```
+
 ### primer
 
 Emit a structural overview of the dataset — useful as context at the start of an agent session.
