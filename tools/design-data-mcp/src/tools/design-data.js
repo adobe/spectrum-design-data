@@ -20,6 +20,8 @@ import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname, resolve, sep } from "path";
 
+import { checkDatasetFreshness } from "../dataset-freshness.js";
+
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
 async function getWasm() {
@@ -136,6 +138,11 @@ export function createDesignDataTools() {
         // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
         // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
         const { provenance } = ds.primer();
+        // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
+        // failure, never blocks the primer response.
+        const datasetStatus = await checkDatasetFreshness(
+          provenance.designDataVersion,
+        );
 
         return {
           // top-level source is the legacy skill-contract field; provenance.source
@@ -155,7 +162,9 @@ export function createDesignDataTools() {
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
-          provenance,
+          provenance: datasetStatus
+            ? { ...provenance, datasetStatus }
+            : provenance,
         };
       },
     },
