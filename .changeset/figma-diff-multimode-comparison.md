@@ -12,10 +12,11 @@ variables.
   `DiffCounts.multi_mode_mismatch`. Alias/`$ref` chains stay mode-aware
   instead of falling back to a first/Light candidate; `approx_eq`'s tolerance
   absorbs float32 round-trip noise; a name-inverted match onto a composite
-  (array-shaped) token is rejected in favor of the real flat sibling.
+  token is rejected for the real flat sibling; the multi-mode routing guard
+  also recognizes CTR-only records' camelCase `setUuid`.
 - **sdk/core/src/graph.rs**: CTR siblings sharing one `legacyKey` resolve via
-  the matching `scope.options` sibling; `from_records` builds
-  `legacy_name_index` deterministically instead of first-wins over `redb`'s
-  cache-hydration key order.
+  the matching `scope.options` sibling, now per-context instead of a single
+  shared default, with ties broken on smallest uuid; `from_records` builds
+  `legacy_name_index` deterministically instead of first-wins.
 - **sdk/cli/src/main.rs**: `figma diff` summary reports `multi-mode-mismatch`.
 - **sdk/README.md**: documents the new `multi-mode-mismatch` class.

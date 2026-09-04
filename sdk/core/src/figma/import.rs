@@ -63,6 +63,19 @@ fn canon_font_name(s: &str) -> String {
     }
 }
 
+/// `raw`'s scale/mode-set anchor, checking both the token-side snake_case
+/// `set_uuid` (`tokens/*.tokens.json`) and the CTR-side camelCase `setUuid`
+/// (`relationships/*.json`, see `graph.rs`'s `reindex_relationship_tokens`
+/// doc) — a CTR-only `record`/`leaf` (no owning token, resolved via
+/// `resolve_relationship_ref`) carries its raw straight from the
+/// relationship record, so only checking `set_uuid` silently treats it as
+/// single-mode everywhere this is read.
+fn record_set_uuid(raw: &Value) -> Option<&str> {
+    raw.get("set_uuid")
+        .or_else(|| raw.get("setUuid"))
+        .and_then(Value::as_str)
+}
+
 /// The Figma mode name a scale-set token's `name.scale` field would match
 /// ("Desktop" -> "desktop"), used to align a per-scale-divergent design-data
 /// token to the one Figma mode actually present, instead of an arbitrary
@@ -100,7 +113,7 @@ fn scale_aligned_source_value(
         if let Some(values) = leaf.raw.get("ctrScaleValues").and_then(Value::as_object) {
             return values.get(&scale).cloned();
         }
-        let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
+        let set_uuid = record_set_uuid(&leaf.raw)?;
         resolve_set_member_in_context(graph, set_uuid, "scale", &scale)
     });
     scale_source_value.or_else(|| leaf.raw.get("value").cloned())
@@ -189,7 +202,7 @@ fn diff_multimode(
         .get(&variable.variable_collection_id);
     let is_opacity = record_is_opacity(leaf);
     let is_font_name = record_is_font_name(leaf);
-    let set_uuid = record.raw.get("set_uuid").and_then(Value::as_str);
+    let set_uuid = record_set_uuid(&record.raw);
 
     let mut mode_ids: Vec<&String> = variable.values_by_mode.keys().collect();
     mode_ids.sort();
@@ -542,7 +555,7 @@ pub fn diff_values(
         // of requiring universal agreement. Single-mode variables and
         // tokens with no set to align to (ordinary single-value tokens) fall
         // through unchanged to the existing collapse-and-compare path.
-        if variable.values_by_mode.len() > 1 && record.raw.get("set_uuid").is_some() {
+        if variable.values_by_mode.len() > 1 && record_set_uuid(&record.raw).is_some() {
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
@@ -2512,6 +2525,83 @@ mod tests {
         assert_eq!(report.counts.matched, 0);
         assert_eq!(report.counts.skipped_uncovered, 0);
 
+        match &report.entries[0].class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Desktop"], DiffClass::Match));
+                match by_mode["Mobile"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("50px"));
+                        assert_eq!(figma, &json!("55px"));
+                    }
+                    other => panic!("expected ValueMismatch for Mobile, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// A follow-up PR #1416 review finding: the `diff_multimode` routing
+    /// guard checked only the snake_case `set_uuid` field. Relationship
+    /// (CTR) raw uses camelCase `setUuid` instead
+    /// (`reindex_relationship_tokens` clones the relationship's own raw
+    /// as-is) — so a legacy key with no owning token (only a
+    /// `relationships/*.json` entry, resolved via
+    /// `resolve_relationship_ref`) never matched the guard and silently fell
+    /// through to the old collapse-and-give-up path even though it was
+    /// genuinely multi-mode, unlike the token-owned case in
+    /// `platform_scale_modes_compared_individually_when_one_diverges` above.
+    #[test]
+    fn ctr_only_multimode_variable_routes_through_diff_multimode() {
+        use crate::graph::RelationshipRecord;
+
+        let var = mock_variable(
+            "platformScale/ctr-only-line-height-900",
+            "FLOAT",
+            vec![("m-desktop", json!(42.0)), ("m-mobile", json!(55.0))],
+        );
+        let meta = mock_meta_platform_scale(var);
+
+        // No owning token at all — only two inline-value CTR siblings
+        // (the `avatar-size-100` shape), distinguished by
+        // `scope.options.scale`, so `resolve_alias_key` misses entirely and
+        // `diff_values` must fall back to `resolve_relationship_ref`, whose
+        // synthesized `TokenRecord` clones the CTR's own (camelCase
+        // `setUuid`) raw as-is.
+        let graph = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/ctr-only-line-height.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "desktop"}},
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "42px",
+                    "legacyKey": "ctr-only-line-height-900",
+                    "setUuid": "su-ctr-only-line-height-900",
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/ctr-only-line-height.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "mobile"}},
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "50px",
+                    "legacyKey": "ctr-only-line-height-900",
+                    "setUuid": "su-ctr-only-line-height-900",
+                }),
+            },
+        ]);
+        let graph = with_real_mode_sets(graph);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        // Before the fix: `record_set_uuid` only checked `set_uuid`, missed
+        // the CTR's `setUuid`, so this fell through to the old collapse path
+        // instead of `diff_multimode` (multi_mode_mismatch stayed 0).
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
         match &report.entries[0].class {
             DiffClass::MultiModeMismatch { modes } => {
                 let by_mode: HashMap<&str, &DiffClass> =
