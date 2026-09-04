@@ -166,6 +166,15 @@ pub struct TokenGraph {
     /// `Self::reindex_relationship_tokens` rather than feeding these into the shared
     /// indexes (which are iterated elsewhere for diff classification).
     relationship_tokens: HashMap<String, TokenRecord>,
+    /// Cache: CTR `legacyKey` → every inline-value sibling as its own synthetic
+    /// [`TokenRecord`] (unlike `relationship_tokens`, which keeps only one
+    /// "chosen" default per key). Rebuilt alongside `relationship_tokens` by
+    /// [`Self::reindex_relationship_tokens`]; used by
+    /// [`Self::best_relationship_token_in_context`] so a context-matched
+    /// inline sibling (e.g. one distinguished only by `colorScheme`) isn't
+    /// discarded in favor of the context-blind default when it has no `$ref`
+    /// for [`Self::resolve_relationship_ref_in_context`] to follow.
+    relationship_tokens_by_key: HashMap<String, Vec<TokenRecord>>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
     /// Secondary index: UUID value → primary key in `tokens`.
@@ -586,6 +595,7 @@ impl TokenGraph {
             fields: Vec::new(),
             relationships: Vec::new(),
             relationship_tokens: HashMap::new(),
+            relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
@@ -601,7 +611,6 @@ impl TokenGraph {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
         let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
-        let mut legacy_name_index = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
@@ -617,18 +626,9 @@ impl TokenGraph {
                     .or_default()
                     .push(record.name.clone());
             }
-            // Index by legacy name derived from the name object so that inline
-            // composite refs can resolve if this was a cascade-format token.
-            if let Some(name_val) = record.raw.get("name") {
-                if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| record.name.clone());
-                }
-            }
             tokens.insert(record.name.clone(), record);
         }
-        Self {
+        let mut graph = Self {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
@@ -637,11 +637,19 @@ impl TokenGraph {
             fields: Vec::new(),
             relationships: Vec::new(),
             relationship_tokens: HashMap::new(),
+            relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
-            legacy_name_index,
+            legacy_name_index: HashMap::new(),
             set_uuid_index,
-        }
+        };
+        // `records`' order is whatever the caller supplied (e.g. the cache's
+        // `hydrate` iterates a `redb` table in lexicographic key order, not
+        // the tokens' original file/array order) — build `legacy_name_index`
+        // via the same deterministic "desktop"/"light" tie-break used
+        // elsewhere, rather than first-wins over an arbitrary order.
+        graph.rebuild_legacy_name_index();
+        graph
     }
 
     /// Load a `product-context.json` and insert Product-layer tokens into the graph.
@@ -1231,16 +1239,51 @@ impl TokenGraph {
         }
     }
 
+    /// Rebuild `legacy_name_index` from `self.tokens` (a `HashMap`, so iteration
+    /// order is not the tokens' original file/array order — anything relying on
+    /// "first seen wins" here would pick a candidate nondeterministically).
+    ///
+    /// When several tokens share one `legacyKey` (a scale-set's desktop/mobile
+    /// members, or a color-set's light/dark/wireframe members — both legitimate:
+    /// the legacy flat-key format has no room for the mode axis), prefer the
+    /// canonical/base member deterministically: `name.scale == "desktop"`, else
+    /// `name.colorScheme == "light"`, else the lexicographically-first graph key.
+    /// Same "desktop is base" convention as [`Self::reindex_relationship_tokens`]'s
+    /// CTR-side scale tie-break.
     fn rebuild_legacy_name_index(&mut self) {
         self.legacy_name_index.clear();
+        let mut candidates: HashMap<String, Vec<&str>> = HashMap::new();
         for (key, rec) in &self.tokens {
             if let Some(name_val) = rec.raw.get("name") {
                 if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    self.legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| key.clone());
+                    candidates.entry(legacy_key).or_default().push(key.as_str());
                 }
             }
+        }
+        for (legacy_key, mut keys) in candidates {
+            keys.sort_unstable();
+            let chosen = keys
+                .iter()
+                .find(|k| {
+                    self.tokens[**k]
+                        .raw
+                        .get("name")
+                        .and_then(|n| n.get("scale"))
+                        == Some(&Value::String("desktop".to_string()))
+                })
+                .or_else(|| {
+                    keys.iter().find(|k| {
+                        self.tokens[**k]
+                            .raw
+                            .get("name")
+                            .and_then(|n| n.get("colorScheme"))
+                            == Some(&Value::String("light".to_string()))
+                    })
+                })
+                .or_else(|| keys.first())
+                .expect("keys is non-empty by construction");
+            self.legacy_name_index
+                .insert(legacy_key, (*chosen).to_string());
         }
     }
 
@@ -1411,6 +1454,7 @@ impl TokenGraph {
     /// `validate::validate_all_with_full_options`'s `relationships_path` load).
     pub(crate) fn reindex_relationship_tokens(&mut self) {
         self.relationship_tokens.clear();
+        self.relationship_tokens_by_key.clear();
         let mut by_key: HashMap<&str, Vec<&RelationshipRecord>> = HashMap::new();
         for rec in &self.relationships {
             if rec.raw.get("$ref").is_some() {
@@ -1500,7 +1544,88 @@ impl TokenGraph {
                     layer: Layer::default(),
                 },
             );
+            // Keep every candidate's own record too (raw untouched, no
+            // `ctrScaleValues` stashing) — `relationship_tokens` above holds
+            // only the single "chosen" default, which is wrong whenever a
+            // context-aware caller needs a *different* sibling than the
+            // default (e.g. one distinguished by `colorScheme` rather than
+            // `scale`). See `best_relationship_token_in_context`.
+            self.relationship_tokens_by_key.insert(
+                legacy_key.to_string(),
+                candidates
+                    .iter()
+                    .map(|c| TokenRecord {
+                        name: legacy_key.to_string(),
+                        file: c.file.clone(),
+                        index: c.index,
+                        schema_url: c
+                            .raw
+                            .get("$schema")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                        uuid: c.uuid.clone(),
+                        alias_target: None,
+                        raw: c.raw.clone(),
+                        layer: Layer::default(),
+                    })
+                    .collect(),
+            );
         }
+    }
+
+    /// Context-aware sibling of the `relationship_tokens` default: when a
+    /// `legacyKey` has more than one inline-value CTR sibling (see
+    /// [`Self::reindex_relationship_tokens`]), scores each against `ctx` the
+    /// same way [`Self::best_relationship_candidate`] does and returns the
+    /// best match; falls back to the single context-blind default when
+    /// there's only one candidate (or none cached, e.g. legacy_key isn't
+    /// inline-value-backed at all).
+    fn best_relationship_token_in_context<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        let Some(candidates) = self.relationship_tokens_by_key.get(legacy_key) else {
+            return self.relationship_tokens.get(legacy_key);
+        };
+        if candidates.len() == 1 {
+            return self.relationship_tokens.get(legacy_key);
+        }
+        let mut best_score: Option<usize> = None;
+        let mut best_uuid: Option<&str> = None;
+        let mut best: Option<&TokenRecord> = None;
+        for c in candidates {
+            let scope_options = c.raw.get("scope").and_then(|s| s.get("options"));
+            let conflicts = ctx.iter().any(|(k, v)| {
+                scope_options
+                    .and_then(|o| o.get(k.as_str()))
+                    .and_then(Value::as_str)
+                    .is_some_and(|existing| existing != v.as_str())
+            });
+            if conflicts {
+                continue;
+            }
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    scope_options
+                        .and_then(|o| o.get(k.as_str()))
+                        .and_then(Value::as_str)
+                        == Some(v.as_str())
+                })
+                .count();
+            let cand_uuid = c.uuid.as_deref().unwrap_or("");
+            let is_better = match best_score {
+                None => true,
+                Some(b) => score > b || (score == b && Some(cand_uuid) < best_uuid),
+            };
+            if is_better {
+                best_score = Some(score);
+                best_uuid = Some(cand_uuid);
+                best = Some(c);
+            }
+        }
+        best.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
     /// Find the `$schema` URL of any token whose `name.property` matches `property`.
@@ -1741,6 +1866,129 @@ impl TokenGraph {
         via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
+    /// Relationship record whose `legacyKey` matches and whose
+    /// `scope.options` best fits `ctx` — same tie-break style as
+    /// [`Self::resolve_set_in_context`] (highest match count wins), but
+    /// scored against a CTR's `scope.options` rather than a token's `name`.
+    ///
+    /// Some CTRs emit multiple sibling records under one `legacyKey`,
+    /// distinguished only by `scope.options` (e.g.
+    /// `opacity-checkerboard-square-dark`'s light/dark/wireframe
+    /// `colorScheme` variants, each `$ref`-ing a different palette step) —
+    /// [`Self::resolve_relationship_ref`]'s plain `.find()` picks whichever
+    /// sibling happens first, which is wrong whenever the siblings disagree
+    /// (as they do here: light/wireframe target gray-200, dark targets
+    /// gray-800). This scores every same-`legacyKey` sibling against `ctx`.
+    fn best_relationship_candidate<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a RelationshipRecord> {
+        let mut best_score: Option<usize> = None;
+        let mut best_uuid: Option<&str> = None;
+        let mut best: Option<&RelationshipRecord> = None;
+        for r in &self.relationships {
+            if r.raw.get("legacyKey").and_then(Value::as_str) != Some(legacy_key) {
+                continue;
+            }
+            let scope_options = r.raw.get("scope").and_then(|s| s.get("options"));
+            // A record that doesn't mention a `ctx` key at all doesn't
+            // discriminate on it (e.g. a single-record CTR with no
+            // `colorScheme` option covers every mode) — only an explicit,
+            // disagreeing value disqualifies a candidate. Re-verify like
+            // `resolve_set_member_in_context` does: a sibling that
+            // explicitly names *some* `ctx` key with a different value is
+            // never acceptable, even as a last resort — an uncovered mode
+            // (e.g. a Wireframe variant no sibling declares) must fall
+            // through to `SkippedUncovered`, not silently compare against a
+            // sibling scoped to a different mode.
+            let conflicts = ctx.iter().any(|(k, v)| {
+                scope_options
+                    .and_then(|o| o.get(k.as_str()))
+                    .and_then(Value::as_str)
+                    .is_some_and(|existing| existing != v.as_str())
+            });
+            if conflicts {
+                continue;
+            }
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    scope_options
+                        .and_then(|o| o.get(k.as_str()))
+                        .and_then(Value::as_str)
+                        == Some(v.as_str())
+                })
+                .count();
+            let cand_uuid = r.uuid.as_deref().unwrap_or("");
+            // Higher score wins; equal scores break on uuid lexicographic
+            // ascending — same convention as `resolve_set_in_context`, so
+            // two siblings scoring equally on disjoint context keys (e.g.
+            // one scoped only by `colorScheme`, the other only by `scale`)
+            // pick a stable candidate instead of whichever loaded first.
+            let is_better = match best_score {
+                None => true,
+                Some(b) => score > b || (score == b && Some(cand_uuid) < best_uuid),
+            };
+            if is_better {
+                best_score = Some(score);
+                best_uuid = Some(cand_uuid);
+                best = Some(r);
+            }
+        }
+        best
+    }
+
+    /// Whether any relationship record (any sibling, regardless of context)
+    /// carries this `legacyKey` — used to tell "this token isn't CTR-backed
+    /// at all" (safe to fall back to its own direct `set_uuid`) apart from
+    /// "it's CTR-backed but no sibling matches this context" (genuinely
+    /// uncovered; must not fall back to a differently-scoped sibling).
+    pub(crate) fn has_relationship_record(&self, legacy_key: &str) -> bool {
+        self.relationships
+            .iter()
+            .any(|r| r.raw.get("legacyKey").and_then(Value::as_str) == Some(legacy_key))
+    }
+
+    /// Context-aware sibling of [`Self::resolve_relationship_ref`]: picks the
+    /// same-`legacyKey` relationship record whose `scope.options` best
+    /// matches `ctx` (via [`Self::best_relationship_candidate`]) instead of
+    /// the first one found, then resolves its `$ref` through
+    /// [`Self::resolve_alias_in_context`] so a `$ref` to a mode-set
+    /// (`set_uuid`) also lands on the `ctx`-appropriate member.
+    pub fn resolve_relationship_ref_in_context<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        self.resolve_relationship_ref_in_context_inner(legacy_key, ctx, 0)
+    }
+
+    fn resolve_relationship_ref_in_context_inner<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+        depth: usize,
+    ) -> Option<&'a TokenRecord> {
+        if depth > 16 {
+            return None;
+        }
+        let via_ref = self
+            .best_relationship_candidate(legacy_key, ctx)
+            .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
+            .and_then(|target| {
+                self.resolve_alias_in_context(target, ctx).or_else(|| {
+                    let sibling_key = self
+                        .find_relationship_target(target)?
+                        .raw
+                        .get("legacyKey")
+                        .and_then(|v| v.as_str())?;
+                    self.resolve_relationship_ref_in_context_inner(sibling_key, ctx, depth + 1)
+                })
+            });
+        via_ref.or_else(|| self.best_relationship_token_in_context(legacy_key, ctx))
+    }
+
     /// Resolve a set-level UUID to the context-appropriate child record.
     ///
     /// Picks the child from `set_uuid_index` whose name-object fields best match
@@ -1823,6 +2071,32 @@ impl TokenRecord {
             };
             // Use the resolved graph key, not the raw alias string, so that a
             // UUID ref and a name ref to the same token are both detected.
+            if seen.contains(&next.name.as_str()) {
+                break;
+            }
+            seen.push(&next.name);
+            current = next;
+        }
+        current
+    }
+
+    /// Context-aware twin of [`TokenRecord::resolve_leaf`]: walks alias edges via
+    /// [`TokenGraph::resolve_alias_in_context`] instead of `resolve_alias_key`, so a
+    /// hop that lands on a `set_uuid` re-enters the mode-appropriate child instead of
+    /// falling back to an arbitrary (first-indexed) one. Use this when the caller has
+    /// an active mode context (e.g. resolving a `.Color theme` set member's own
+    /// `$ref` chain); use `resolve_leaf` when there is none.
+    pub fn resolve_leaf_in_context<'a>(
+        &'a self,
+        graph: &'a TokenGraph,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> &'a TokenRecord {
+        let mut current = self;
+        let mut seen: Vec<&str> = vec![&self.name];
+        while let Some(target_name) = current.alias_target.as_deref() {
+            let Some(next) = graph.resolve_alias_in_context(target_name, ctx) else {
+                break;
+            };
             if seen.contains(&next.name.as_str()) {
                 break;
             }
@@ -2409,6 +2683,54 @@ mod tests {
     }
 
     #[test]
+    fn from_records_legacy_name_index_is_order_independent() {
+        // `from_records` feeds the cache's `hydrate` path, whose input order
+        // is a `redb` table's lexicographic key order, not the tokens' file/
+        // array order — e.g. "...:10" (dark) sorts before "...:9" (light).
+        // Build the same two color-set members (sharing one legacyKey) in
+        // both orders and confirm `legacy_name_index` picks the "light" one
+        // either way, instead of whichever happened to come first.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+
+        for records in [vec![dark.clone(), light.clone()], vec![light, dark]] {
+            let g = TokenGraph::from_records(records);
+            let key = g
+                .legacy_name_index
+                .get("accent-background-color-key-focus")
+                .expect("legacy key must resolve");
+            assert_eq!(
+                key, "color-aliases.tokens.json:9",
+                "must prefer the light candidate"
+            );
+        }
+    }
+
+    #[test]
     fn resolve_relationship_ref_follows_ctr_ref_to_token() {
         // A leaf token plus a CTR (Component/Token Relationship) whose $ref
         // points at it by UUID, keyed by legacyKey the way
@@ -2656,6 +2978,209 @@ mod tests {
         ]);
 
         assert!(g.resolve_relationship_ref("cycle-a").is_none());
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_picks_matching_option_sibling() {
+        // Real shape: `opacity-checkerboard-square-dark` has three sibling
+        // CTR records sharing one legacyKey, distinguished only by
+        // `scope.options.colorScheme` — light/wireframe `$ref` gray-200's
+        // set, dark `$ref`s gray-800's set. Context-free
+        // `resolve_relationship_ref` picks whichever comes first (light),
+        // which is wrong for Dark. `resolve_relationship_ref_in_context`
+        // must pick the sibling whose own colorScheme option matches ctx.
+        let g = cascade_graph_from(json!([
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 200, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#323232",
+                "uuid": "u-gray-200-dark",
+                "set_uuid": "su-gray-200"
+            },
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 800, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#dbdbdb",
+                "uuid": "u-gray-800-dark",
+                "set_uuid": "su-gray-800"
+            },
+        ]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 0,
+                uuid: Some("44444444-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-200"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 1,
+                uuid: Some("44444444-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-800"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "dark".to_string())]);
+        let rec = g
+            .resolve_relationship_ref_in_context("opacity-checkerboard-square-dark", &ctx)
+            .expect("dark-context resolution must find gray-800's dark member");
+        assert_eq!(rec.raw["value"], "#dbdbdb");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_reports_none_for_uncovered_mode() {
+        // A CTR whose siblings only cover light/dark must NOT fall back to
+        // an arbitrary sibling (e.g. light) when asked for a mode neither
+        // one declares (e.g. wireframe) — that's a genuinely uncovered
+        // mode, not a 0-score tie-break default.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 0,
+                uuid: Some("55555555-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-light"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 1,
+                uuid: Some("55555555-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-dark"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "wireframe".to_string())]);
+        assert!(g
+            .resolve_relationship_ref_in_context("uncovered-mode-token", &ctx)
+            .is_none());
+        assert!(g.has_relationship_record("uncovered-mode-token"));
+        assert!(!g.has_relationship_record("some-other-key"));
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_picks_matching_inline_value_sibling() {
+        // Unlike `opacity-checkerboard-square-dark` above, some CTR siblings
+        // carry no `$ref` at all — just an inline `value` (e.g.
+        // `avatar-size-100`'s dimension) — distinguished by
+        // `scope.options.colorScheme` instead of the `scale` axis
+        // `reindex_relationship_tokens` special-cases via `ctrScaleValues`.
+        // The context-blind `relationship_tokens` default only keeps one
+        // "chosen" candidate (whichever `reindex_relationship_tokens` picked
+        // first), so a naive fallback there would silently return the wrong
+        // sibling's value for a non-default colorScheme.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/inline-value.json"),
+                index: 0,
+                uuid: Some("66666666-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "inline-value-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 4
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/inline-value.json"),
+                index: 1,
+                uuid: Some("66666666-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "inline-value-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 8
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "dark".to_string())]);
+        let rec = g
+            .resolve_relationship_ref_in_context("inline-value-token", &ctx)
+            .expect("dark-context resolution must find the dark inline-value sibling");
+        assert_eq!(rec.raw["value"], 8);
+    }
+
+    #[test]
+    fn best_relationship_candidate_ties_break_on_lexicographically_smallest_uuid() {
+        // Two siblings score equally (1) when the request ctx supplies both
+        // a `colorScheme` and a `scale` key but each sibling only declares
+        // one of those axes: neither conflicts, and both match exactly one
+        // key. Without a deterministic tie-break, whichever loaded first
+        // wins arbitrarily; `best_relationship_candidate` must instead pick
+        // the same sibling every time (smallest uuid), matching
+        // `resolve_set_in_context`'s convention.
+        let g = cascade_graph_from(json!([
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 200},
+                "$schema": "https://example.com/color.json",
+                "value": "#scale-branch",
+                "uuid": "u-scale-branch",
+                "set_uuid": "su-scale-branch"
+            },
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 800},
+                "$schema": "https://example.com/color.json",
+                "value": "#color-branch",
+                "uuid": "u-color-branch",
+                "set_uuid": "su-color-branch"
+            },
+        ]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/tie-break.json"),
+                index: 0,
+                uuid: Some("77777777-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "desktop"}},
+                    "legacyKey": "tie-break-token",
+                    "$ref": "su-scale-branch"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/tie-break.json"),
+                index: 1,
+                uuid: Some("77777777-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "tie-break-token",
+                    "$ref": "su-color-branch"
+                }),
+            },
+        ]);
+
+        let ctx = std::collections::HashMap::from([
+            ("scale".to_string(), "desktop".to_string()),
+            ("colorScheme".to_string(), "dark".to_string()),
+        ]);
+        let first = g
+            .resolve_relationship_ref_in_context("tie-break-token", &ctx)
+            .map(|r| r.raw["value"].clone());
+        for _ in 0..10 {
+            let again = g
+                .resolve_relationship_ref_in_context("tie-break-token", &ctx)
+                .map(|r| r.raw["value"].clone());
+            assert_eq!(first, again, "repeated calls must pick the same sibling");
+        }
+        // Smaller uuid (…0001, the colorScheme sibling) wins the tie.
+        assert_eq!(first, Some(json!("#color-branch")));
     }
 
     #[test]

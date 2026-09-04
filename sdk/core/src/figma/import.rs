@@ -63,6 +63,19 @@ fn canon_font_name(s: &str) -> String {
     }
 }
 
+/// `raw`'s scale/mode-set anchor, checking both the token-side snake_case
+/// `set_uuid` (`tokens/*.tokens.json`) and the CTR-side camelCase `setUuid`
+/// (`relationships/*.json`, see `graph.rs`'s `reindex_relationship_tokens`
+/// doc) — a CTR-only `record`/`leaf` (no owning token, resolved via
+/// `resolve_relationship_ref`) carries its raw straight from the
+/// relationship record, so only checking `set_uuid` silently treats it as
+/// single-mode everywhere this is read.
+fn record_set_uuid(raw: &Value) -> Option<&str> {
+    raw.get("set_uuid")
+        .or_else(|| raw.get("setUuid"))
+        .and_then(Value::as_str)
+}
+
 /// The Figma mode name a scale-set token's `name.scale` field would match
 /// ("Desktop" -> "desktop"), used to align a per-scale-divergent design-data
 /// token to the one Figma mode actually present, instead of an arbitrary
@@ -100,17 +113,192 @@ fn scale_aligned_source_value(
         if let Some(values) = leaf.raw.get("ctrScaleValues").and_then(Value::as_object) {
             return values.get(&scale).cloned();
         }
-        let set_uuid = leaf.raw.get("set_uuid").and_then(Value::as_str)?;
-        let ctx = HashMap::from([("scale".to_string(), scale.clone())]);
-        let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
-        // `resolve_set_in_context` degrades to an arbitrary tie-broken
-        // member when none actually matches `scale` (e.g. a Figma mode
-        // like "Tablet" with no design-data counterpart) — only trust
-        // the alignment when the candidate's own scale really agrees.
-        let candidate_scale = candidate.raw.get("name")?.get("scale")?.as_str()?;
-        (candidate_scale == scale).then(|| candidate.raw.get("value").cloned())?
+        let set_uuid = record_set_uuid(&leaf.raw)?;
+        resolve_set_member_in_context(graph, set_uuid, "scale", &scale)
     });
     scale_source_value.or_else(|| leaf.raw.get("value").cloned())
+}
+
+/// The axis (`scale` or `colorScheme`) `record` was itself disambiguated on,
+/// as a one-entry context map — `None` when `record` carries neither (an
+/// ordinary, unambiguous token). Lets a caller keep an alias chain pinned to
+/// the same scale/scheme `record` was picked for, instead of dropping it the
+/// moment a hop lands on another `set_uuid`.
+fn default_source_context(record: &crate::graph::TokenRecord) -> Option<HashMap<String, String>> {
+    let name = record.raw.get("name")?;
+    if let Some(scale) = name.get("scale").and_then(Value::as_str) {
+        return Some(HashMap::from([("scale".to_string(), scale.to_string())]));
+    }
+    if let Some(scheme) = name.get("colorScheme").and_then(Value::as_str) {
+        return Some(HashMap::from([(
+            "colorScheme".to_string(),
+            scheme.to_string(),
+        )]));
+    }
+    None
+}
+
+/// Resolve `set_uuid`'s member whose `name.<field>` matches `mode_key`,
+/// re-verifying the winner rather than trusting it blindly:
+/// `resolve_set_in_context` degrades to an arbitrary tie-broken member when
+/// none actually matches (e.g. a Figma mode like "Tablet" with no
+/// design-data counterpart), so only a candidate whose own `field` really
+/// agrees is accepted. Resolves through any alias (`resolve_leaf`) before
+/// reading `value`, so an aliased set member is followed rather than
+/// compared as its own raw record.
+fn resolve_set_member_in_context(
+    graph: &TokenGraph,
+    set_uuid: &str,
+    field: &str,
+    mode_key: &str,
+) -> Option<Value> {
+    let ctx = HashMap::from([(field.to_string(), mode_key.to_string())]);
+    let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
+    let candidate_val = candidate.raw.get("name")?.get(field)?.as_str()?;
+    (candidate_val == mode_key).then(|| {
+        candidate
+            .resolve_leaf_in_context(graph, &ctx)
+            .raw
+            .get("value")
+            .cloned()
+    })?
+}
+
+/// The `name` field a genuinely multi-mode variable's design-data set is
+/// discriminated by, keyed by the lowercased Figma mode name it corresponds
+/// to. Looked up from `graph.mode_sets` (e.g. `colorScheme` for
+/// light/dark/wireframe, `scale` for desktop/mobile) so each mode set's own
+/// `name`/`modes` stay the single source of truth — see
+/// [`figma_mode_scale`]/[`scale_aligned_source_value`] for the single-mode
+/// counterpart of scale.
+fn multimode_name_field<'g>(graph: &'g TokenGraph, mode_name: &str) -> Option<&'g str> {
+    graph
+        .mode_sets
+        .iter()
+        .find(|m| m.modes.iter().any(|mode| mode == mode_name))
+        .map(|m| m.name.as_str())
+}
+
+/// Compare a genuinely multi-mode Figma variable (more than one populated
+/// mode, backed by a design-data set) mode-by-mode against the design-data
+/// value resolved for that same named mode, instead of [`collapse_modes`]'
+/// single-value-or-give-up model — the entire point of `.Color theme` is that
+/// its Light/Dark/Wireframe modes diverge, so requiring universal agreement
+/// discards nearly 60% of that collection as `skipped-uncovered` today.
+///
+/// Rolls up to a plain [`DiffClass::Match`] when every mode agrees, else
+/// [`DiffClass::MultiModeMismatch`] listing every mode's own classification
+/// (matches included, for context).
+fn diff_multimode(
+    variable: &FigmaVariable,
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    legacy_key: &str,
+    record: &crate::graph::TokenRecord,
+    leaf: &crate::graph::TokenRecord,
+) -> DiffClass {
+    let collection = meta
+        .variable_collections
+        .get(&variable.variable_collection_id);
+    let is_opacity = record_is_opacity(leaf);
+    let is_font_name = record_is_font_name(leaf);
+    let set_uuid = record_set_uuid(&record.raw);
+
+    let mut mode_ids: Vec<&String> = variable.values_by_mode.keys().collect();
+    mode_ids.sort();
+
+    let mut modes = Vec::with_capacity(mode_ids.len());
+    for mode_id in mode_ids {
+        let mode_name = collection
+            .and_then(|c| c.modes.iter().find(|m| &m.mode_id == mode_id))
+            .map_or_else(|| mode_id.clone(), |m| m.name.clone());
+        let mode_key = mode_name.to_lowercase();
+
+        let figma_value = variable
+            .values_by_mode
+            .get(mode_id)
+            .and_then(|v| resolve_figma_value(meta, v, 0, Some(&mode_name)));
+
+        // The design-data value resolved for this same named mode: align to
+        // the matching set member via `resolve_set_member_in_context` (same
+        // helper `scale_aligned_source_value` uses). A mode field we don't
+        // recognize (or no set_uuid) falls back to `leaf`'s own value, since
+        // that's an ordinary single-valued token, not a real per-mode
+        // divergence. A *recognized* mode field that fails to resolve (no
+        // design-data member matches this Figma mode) is reported
+        // `SkippedUncovered` below instead of being compared against an
+        // unrelated mode's value.
+        let dd_resolution = multimode_name_field(graph, &mode_key).map(|field| {
+            let ctx = HashMap::from([(field.to_string(), mode_key.clone())]);
+            graph
+                .resolve_relationship_ref_in_context(legacy_key, &ctx)
+                .and_then(|rec| {
+                    rec.resolve_leaf_in_context(graph, &ctx)
+                        .raw
+                        .get("value")
+                        .cloned()
+                })
+                .or_else(|| {
+                    // `record`'s own `set_uuid` is only trustworthy as a
+                    // fallback when `legacy_key` isn't CTR-backed at all —
+                    // for a CTR with sibling records, `record` was resolved
+                    // context-free and may be an arbitrary (e.g. Light)
+                    // sibling, so falling back to *its* `set_uuid` here for
+                    // a mode none of the siblings actually cover would
+                    // silently compare against the wrong palette step
+                    // instead of reporting the mode uncovered.
+                    (!graph.has_relationship_record(legacy_key))
+                        .then(|| {
+                            set_uuid.and_then(|set_uuid| {
+                                resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
+                            })
+                        })
+                        .flatten()
+                })
+        });
+
+        let class = if let Some(None) = dd_resolution {
+            DiffClass::SkippedUncovered {
+                reason: "uncovered".to_string(),
+            }
+        } else {
+            let dd_value = dd_resolution
+                .flatten()
+                .or_else(|| leaf.raw.get("value").cloned());
+            match figma_value {
+                None => DiffClass::SkippedUncovered {
+                    reason: "unconvertible".to_string(),
+                },
+                Some(figma_value) => match diff_against_source(
+                    &variable.resolved_type,
+                    &figma_value,
+                    dd_value.as_ref(),
+                    is_opacity,
+                    is_font_name,
+                ) {
+                    Ok(None) => DiffClass::Match,
+                    Ok(Some(_)) if dd_value.is_none() => DiffClass::FigmaOnly,
+                    Ok(Some(figma)) => DiffClass::ValueMismatch {
+                        design_data: dd_value.clone().unwrap_or(Value::Null),
+                        figma,
+                    },
+                    Err(()) => DiffClass::SkippedUncovered {
+                        reason: "unconvertible".to_string(),
+                    },
+                },
+            }
+        };
+        modes.push(ModeDiff {
+            mode: mode_name,
+            class,
+        });
+    }
+
+    if modes.iter().all(|m| matches!(m.class, DiffClass::Match)) {
+        DiffClass::Match
+    } else {
+        DiffClass::MultiModeMismatch { modes }
+    }
 }
 
 /// The unit suffixes recognized on a dimension-like token value, matching the
@@ -221,6 +409,26 @@ pub enum DiffClass {
     /// Covered by neither an override (multi-mode divergent) nor a
     /// convertible value (unresolved alias, or an unhandled resolved type).
     SkippedUncovered { reason: String },
+    /// A genuinely multi-mode variable (e.g. `.Color theme`'s Light/Dark/
+    /// Wireframe) whose modes were compared individually against the
+    /// design-data value resolved for that same named mode, rather than
+    /// collapsed into one value. Present only when at least one mode isn't a
+    /// [`DiffClass::Match`] — full agreement across modes is reported as a
+    /// plain [`DiffClass::Match`] instead.
+    MultiModeMismatch { modes: Vec<ModeDiff> },
+}
+
+/// One Figma mode's classification within a [`DiffClass::MultiModeMismatch`].
+#[derive(Debug, Clone, Serialize)]
+pub struct ModeDiff {
+    /// The Figma mode name (e.g. "Light", "Dark", "Wireframe").
+    pub mode: String,
+    /// Reuses [`DiffClass`] for the per-mode outcome — a mode can only ever
+    /// land on `Match`, `ValueMismatch`, `FigmaOnly`, or `SkippedUncovered`
+    /// (never `DesignDataOnly` or another `MultiModeMismatch`), but a
+    /// dedicated enum for that subset isn't worth the duplication.
+    #[serde(flatten)]
+    pub class: DiffClass,
 }
 
 /// One entry in a [`DiffReport`]: a Figma variable name (or, for
@@ -248,6 +456,7 @@ pub struct DiffCounts {
     pub design_data_only: usize,
     pub renamed: usize,
     pub skipped_uncovered: usize,
+    pub multi_mode_mismatch: usize,
 }
 
 /// Value-level diff report: every Figma variable and every design-data
@@ -315,6 +524,16 @@ pub fn diff_values(
             .resolve_alias_key(&legacy_key)
             .or_else(|| graph.resolve_relationship_ref(&legacy_key))
             .map(|record| (legacy_key.clone(), record))
+            // A naive name inversion can coincidentally land on a real but
+            // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
+            // dragged`'s array of shadow layers) has `value: [...]`, which no
+            // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
+            // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
+            // inverted name happens to equal that composite's own key isn't
+            // actually a match for it. Treat it as unresolved so the
+            // alias-target fallback below can find the real (flat) sibling
+            // token instead (e.g. `drop-shadow-dragged-color`).
+            .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
             .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()))
         else {
             counts.figma_only += 1;
@@ -326,6 +545,30 @@ pub fn diff_values(
             });
             continue;
         };
+
+        let leaf = record.resolve_leaf(graph);
+
+        // A genuinely multi-mode variable backed by a design-data set (e.g.
+        // `.Color theme`'s Light/Dark/Wireframe) diverging across modes is
+        // the normal case, not the `collapse_modes` "give up" case below —
+        // compare each mode against its own named design-data value instead
+        // of requiring universal agreement. Single-mode variables and
+        // tokens with no set to align to (ordinary single-value tokens) fall
+        // through unchanged to the existing collapse-and-compare path.
+        if variable.values_by_mode.len() > 1 && record_set_uuid(&record.raw).is_some() {
+            let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
+            match &class {
+                DiffClass::Match => counts.matched += 1,
+                _ => counts.multi_mode_mismatch += 1,
+            }
+            entries.push(DiffEntry {
+                name: variable.name.clone(),
+                legacy_key: Some(legacy_key),
+                renamed,
+                class,
+            });
+            continue;
+        }
 
         let collapsed = match collapse_modes(variable, meta) {
             Ok(Some(v)) => v,
@@ -355,7 +598,19 @@ pub fn diff_values(
             }
         };
 
-        let leaf = record.resolve_leaf(graph);
+        // `record` may be one of several tokens sharing this legacy_key,
+        // disambiguated only by `name.scale`/`name.colorScheme` (a scale-set's
+        // desktop/mobile members, a color-set's light/dark/wireframe members).
+        // Walking its alias chain context-free (`resolve_leaf`) can drop that
+        // axis the moment a hop lands on another set_uuid, degrading to an
+        // arbitrary (first-indexed) member instead of staying on the same
+        // scale/scheme the top-level record was picked for. Pin the chain to
+        // that same axis, matching how a mode-less Figma variable's own alias
+        // chain stays on one collection mode (its default) throughout.
+        let leaf = default_source_context(record)
+            .map(|ctx| record.resolve_leaf_in_context(graph, &ctx))
+            .unwrap_or(leaf);
+
         let source_value = scale_aligned_source_value(variable, meta, graph, leaf);
         let is_opacity = record_is_opacity(leaf);
         let is_font_name = record_is_font_name(leaf);
@@ -556,9 +811,9 @@ fn collapse_modes(variable: &FigmaVariable, meta: &VariablesMeta) -> Result<Opti
     let Some(first) = values.next() else {
         return Ok(None);
     };
-    let first = resolve_figma_value(meta, first, 0).ok_or(())?;
+    let first = resolve_figma_value(meta, first, 0, None).ok_or(())?;
     for other in values {
-        let other = resolve_figma_value(meta, other, 0).ok_or(())?;
+        let other = resolve_figma_value(meta, other, 0, None).ok_or(())?;
         if !values_agree(&first, &other) {
             return Ok(None);
         }
@@ -576,10 +831,19 @@ fn is_alias(v: &Value) -> bool {
 const MAX_ALIAS_DEPTH: usize = 16;
 
 /// Resolve a variable value to a concrete literal, following `VARIABLE_ALIAS`
-/// chains through `meta.variables` (its own default mode, since Modeless
-/// collections like S2.Color-theme have exactly one). Every S2 value is an
-/// alias — without this, `collapse_modes` always failed them as unconvertible.
-fn resolve_figma_value(meta: &VariablesMeta, value: &Value, depth: usize) -> Option<Value> {
+/// chains through `meta.variables`. `mode_name` (case-insensitive) picks which
+/// of the target's own modes to read when the target has more than one — e.g.
+/// resolving `.Color theme`'s Dark mode through an alias must read the
+/// target's Dark mode too, not its default. Falls back to the target
+/// collection's default mode when `mode_name` is `None` or has no match
+/// there (Modeless collections like S2.Color-theme have exactly one mode, so
+/// "default" is the only choice; `collapse_modes` relies on this fallback).
+fn resolve_figma_value(
+    meta: &VariablesMeta,
+    value: &Value,
+    depth: usize,
+    mode_name: Option<&str>,
+) -> Option<Value> {
     if !is_alias(value) {
         return Some(value.clone());
     }
@@ -591,8 +855,16 @@ fn resolve_figma_value(meta: &VariablesMeta, value: &Value, depth: usize) -> Opt
     let collection = meta
         .variable_collections
         .get(&target.variable_collection_id)?;
-    let next = target.values_by_mode.get(&collection.default_mode_id)?;
-    resolve_figma_value(meta, next, depth + 1)
+    let mode_id = mode_name
+        .and_then(|name| {
+            collection
+                .modes
+                .iter()
+                .find(|m| m.name.eq_ignore_ascii_case(name))
+        })
+        .map_or(&collection.default_mode_id, |m| &m.mode_id);
+    let next = target.values_by_mode.get(mode_id)?;
+    resolve_figma_value(meta, next, depth + 1, mode_name)
 }
 
 fn values_agree(a: &Value, b: &Value) -> bool {
@@ -616,8 +888,18 @@ fn colors_agree(a: &FigmaColor, b: &FigmaColor) -> bool {
     approx_eq(a.r, b.r) && approx_eq(a.g, b.g) && approx_eq(a.b, b.b) && approx_eq(a.a, b.a)
 }
 
+/// Absolute tolerance for numeric agreement between a design-data value and
+/// a Figma-authored one. Wider than float-arithmetic noise (`1e-6`) on
+/// purpose: a manually authored Figma library's FLOAT variables round-trip
+/// through 32-bit float storage on top of being hand-typed to ~3 decimal
+/// places, so an intended `0` or `8/9` can arrive as `0.0010000000474974513`
+/// or `0.8889999985694885` — noise, not a real disagreement. `2e-3` clears
+/// that noise with headroom below the smallest real mismatch seen in
+/// practice (a 2px scale-step drift).
+const VALUE_TOLERANCE: f64 = 2e-3;
+
 fn approx_eq(a: f64, b: f64) -> bool {
-    (a - b).abs() < 1e-6
+    (a - b).abs() < VALUE_TOLERANCE
 }
 
 /// Parse a Spectrum value string's leading number and its unit suffix, e.g.
@@ -1354,7 +1636,7 @@ mod tests {
         );
         let meta = mock_meta_modeless(vec![a, b]);
         let alias_value = json!({"type": "VARIABLE_ALIAS", "id": "var-Alias/a"});
-        assert_eq!(resolve_figma_value(&meta, &alias_value, 0), None);
+        assert_eq!(resolve_figma_value(&meta, &alias_value, 0, None), None);
     }
 
     /// Build a `VariablesMeta` with one Modeless collection ("col-1", the
@@ -1396,6 +1678,20 @@ mod tests {
         assert!(overrides.is_empty());
         assert_eq!(summary.unchanged, 1);
         assert_eq!(summary.overrides_emitted, 0);
+    }
+
+    #[test]
+    fn approx_eq_absorbs_hand_authored_float32_roundtrip_noise() {
+        // A manually authored Figma FLOAT variable round-trips through
+        // 32-bit float storage on top of being hand-typed to ~3 decimals,
+        // so design-data's exact `0` or `8/9` can arrive as
+        // `0.0010000000474974513` or `0.8889999985694885` — not a real
+        // disagreement.
+        assert!(approx_eq(0.0, 0.0010000000474974513));
+        assert!(approx_eq(8.0 / 9.0, 0.8889999985694885));
+        // A genuine scale-step drift (e.g. 18px vs 20px) must still count
+        // as a mismatch.
+        assert!(!approx_eq(18.0, 20.0));
     }
 
     #[test]
@@ -1788,6 +2084,32 @@ mod tests {
         assert_eq!(report.counts.value_mismatch, 0);
     }
 
+    /// Attaches the real color-scheme/scale mode-set records (mirroring
+    /// `packages/design-data/mode-sets/{color-scheme,scale}.json`) to a mock
+    /// graph, since `multimode_name_field` looks up `graph.mode_sets` rather
+    /// than hardcoding mode names.
+    fn with_real_mode_sets(mut graph: TokenGraph) -> TokenGraph {
+        graph.mode_sets = vec![
+            crate::graph::ModeSetRecord {
+                file: PathBuf::from("color-scheme.json"),
+                name: "colorScheme".to_string(),
+                modes: vec![
+                    "light".to_string(),
+                    "dark".to_string(),
+                    "wireframe".to_string(),
+                ],
+                default_mode: "light".to_string(),
+            },
+            crate::graph::ModeSetRecord {
+                file: PathBuf::from("scale.json"),
+                name: "scale".to_string(),
+                modes: vec!["desktop".to_string(), "mobile".to_string()],
+                default_mode: "desktop".to_string(),
+            },
+        ];
+        graph
+    }
+
     /// Two-entry scale-set graph (desktop/mobile sharing `set_uuid`), used to
     /// verify the diff aligns to the Figma variable's own scale instead of an
     /// arbitrary entry.
@@ -1816,7 +2138,557 @@ mod tests {
             ])
         )
         .unwrap();
-        TokenGraph::from_json_dir(dir.path()).unwrap()
+        with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap())
+    }
+
+    /// A three-entry `.Color theme` set (Light/Dark/Wireframe sharing
+    /// `set_uuid`, discriminated by `name.colorScheme`) — the real shape
+    /// (see `packages/design-data/tokens/semantic-color-palette.tokens.json`)
+    /// minus the `$ref`-alias indirection, which is irrelevant to
+    /// `diff_multimode`'s set-lookup/re-verify logic under test here.
+    fn mock_color_set_graph(
+        legacy_key: &str,
+        light: Value,
+        dark: Value,
+        wireframe: Value,
+    ) -> TokenGraph {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": legacy_key},
+                    "value": light,
+                    "uuid": format!("u-{legacy_key}-light"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": legacy_key},
+                    "value": dark,
+                    "uuid": format!("u-{legacy_key}-dark"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "wireframe", "legacyKey": legacy_key},
+                    "value": wireframe,
+                    "uuid": format!("u-{legacy_key}-wireframe"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+            ])
+        )
+        .unwrap();
+        with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap())
+    }
+
+    /// Like [`mock_color_set_graph`], but each semantic member's own value is
+    /// a `$ref` into a second, palette-level color-set (`su-palette`) instead
+    /// of a literal — the real shape of e.g. `accent-background-color-default`
+    /// (`$ref` → `accent-color-800`, itself `set_uuid`-backed by `blue-800`).
+    /// Regression fixture for `resolve_set_member_in_context` dropping mode
+    /// context on this second hop and falling back to the palette's
+    /// first-indexed (Light) member regardless of the requested mode.
+    fn mock_nested_color_set_graph(legacy_key: &str) -> TokenGraph {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": legacy_key},
+                    "$ref": "u-palette-light",
+                    "uuid": format!("u-{legacy_key}-light"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": legacy_key},
+                    "$ref": "u-palette-dark",
+                    "uuid": format!("u-{legacy_key}-dark"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "wireframe", "legacyKey": legacy_key},
+                    "$ref": "u-palette-light",
+                    "uuid": format!("u-{legacy_key}-wireframe"),
+                    "set_uuid": format!("su-{legacy_key}"),
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "palette", "colorScheme": "light", "legacyKey": "blue-800"},
+                    "value": "#4b75ff",
+                    "uuid": "u-palette-light",
+                    "set_uuid": "su-palette",
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "palette", "colorScheme": "dark", "legacyKey": "blue-800"},
+                    "value": "#4069fd",
+                    "uuid": "u-palette-dark",
+                    "set_uuid": "su-palette",
+                },
+            ])
+        )
+        .unwrap();
+        with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap())
+    }
+
+    /// A `.Color theme` collection with all three real modes, for a single
+    /// variable.
+    fn mock_meta_color_theme(variable: FigmaVariable) -> VariablesMeta {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            variable.variable_collection_id.clone(),
+            FigmaVariableCollection {
+                id: variable.variable_collection_id.clone(),
+                name: ".Color theme".to_string(),
+                key: "k".to_string(),
+                modes: vec![
+                    FigmaMode {
+                        mode_id: "m-light".to_string(),
+                        name: "Light".to_string(),
+                    },
+                    FigmaMode {
+                        mode_id: "m-dark".to_string(),
+                        name: "Dark".to_string(),
+                    },
+                    FigmaMode {
+                        mode_id: "m-wireframe".to_string(),
+                        name: "Wireframe".to_string(),
+                    },
+                ],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let mut variables = HashMap::new();
+        variables.insert(variable.id.clone(), variable);
+        VariablesMeta {
+            variables,
+            variable_collections,
+        }
+    }
+
+    /// The bug this fix targets: `.Color theme` modes are *supposed* to
+    /// diverge (Dark genuinely differs from Light/Wireframe here) — the old
+    /// `collapse_modes` model discarded the whole variable as
+    /// `skipped-uncovered/multimode-divergent` the moment any two modes
+    /// disagreed. Each mode must now be compared against design-data's own
+    /// value for that mode, and only the divergent mode reported as a
+    /// mismatch.
+    #[test]
+    fn color_theme_modes_compared_individually_when_one_diverges() {
+        let var = mock_variable(
+            "colorTheme/accent-color-default",
+            "COLOR",
+            vec![
+                (
+                    "m-light",
+                    json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+                ),
+                ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 1.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+        let graph = mock_color_set_graph(
+            "accent-color-default",
+            json!("#ff8000"),
+            json!("#000000"),
+            json!("#ffffff"),
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        assert_eq!(report.counts.skipped_uncovered, 0);
+        assert_eq!(report.counts.matched, 0);
+
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "colorTheme/accent-color-default")
+            .expect("multi-mode variable must be reported");
+        match &entry.class {
+            DiffClass::MultiModeMismatch { modes } => {
+                assert_eq!(modes.len(), 3);
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Light"], DiffClass::Match));
+                assert!(matches!(by_mode["Wireframe"], DiffClass::Match));
+                match by_mode["Dark"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("#000000"));
+                        assert_eq!(figma, &json!("#0000ff"));
+                    }
+                    other => panic!("expected ValueMismatch for Dark, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// The design-data-side twin of the figma-side alias-mode bug fixed in
+    /// `resolve_figma_value`: a set member's own `$ref` chain must stay
+    /// mode-aware when it lands on a second `set_uuid` (chromatic palette
+    /// steps), not silently fall back to that set's first-indexed (Light)
+    /// child via context-free `resolve_leaf`. Regression guard for
+    /// `resolve_set_member_in_context` using `resolve_leaf_in_context`.
+    #[test]
+    fn color_theme_modes_resolve_through_nested_set_alias_per_mode() {
+        let var = mock_variable(
+            "colorTheme/accent-background-color-default",
+            "COLOR",
+            vec![
+                (
+                    "m-light",
+                    json!({"r": 0.29411764705882354, "g": 0.4588235294117647, "b": 1.0, "a": 1.0}),
+                ),
+                (
+                    "m-dark",
+                    json!({"r": 0.25098039215686274, "g": 0.4117647058823529, "b": 0.9921568627450981, "a": 1.0}),
+                ),
+                (
+                    "m-wireframe",
+                    json!({"r": 0.29411764705882354, "g": 0.4588235294117647, "b": 1.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+        let graph = mock_nested_color_set_graph("accent-background-color-default");
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "colorTheme/accent-background-color-default")
+            .expect("multi-mode variable must be reported");
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match (Dark should resolve to blue-800 Dark, not fall back to \
+             Light), got {:?}",
+            entry.class
+        );
+    }
+
+    /// When every mode genuinely agrees, a multi-mode variable reports a
+    /// plain `Match` — the new per-mode path isn't just a rename of
+    /// `skipped-uncovered`.
+    #[test]
+    fn color_theme_modes_all_agree_reports_match() {
+        let var = mock_variable(
+            "colorTheme/accent-color-default",
+            "COLOR",
+            vec![
+                (
+                    "m-light",
+                    json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+                ),
+                (
+                    "m-dark",
+                    json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+                ),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+        let graph = mock_color_set_graph(
+            "accent-color-default",
+            json!("#ff8000"),
+            json!("#ff8000"),
+            json!("#ff8000"),
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.multi_mode_mismatch, 0);
+        assert_eq!(report.counts.skipped_uncovered, 0);
+        assert!(matches!(report.entries[0].class, DiffClass::Match));
+    }
+
+    /// The bug from the real `color-wheel-border-color` report: its Light,
+    /// Dark, and Wireframe values are each a `VARIABLE_ALIAS` to the *same*
+    /// target variable (`colorTheme/gray-1000`) within the same collection.
+    /// Resolving every mode via the target's default (Light) mode collapsed
+    /// Dark and Wireframe to the target's Light value — each alias hop must
+    /// resolve through the target's own same-named mode instead.
+    #[test]
+    fn diff_multimode_resolves_alias_through_same_named_mode() {
+        let target = mock_variable(
+            "colorTheme/gray-1000",
+            "COLOR",
+            vec![
+                ("m-light", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+                ("m-dark", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let alias = json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()});
+        let var = mock_variable(
+            "colorTheme/color-wheel-border-color",
+            "COLOR",
+            vec![
+                ("m-light", alias.clone()),
+                ("m-dark", alias.clone()),
+                ("m-wireframe", alias),
+            ],
+        );
+        let mut meta = mock_meta_color_theme(var);
+        meta.variables.insert(target.id.clone(), target);
+        let graph = mock_color_set_graph(
+            "color-wheel-border-color",
+            json!("#000000"),
+            json!("#ffffff"),
+            json!("#000000"),
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.multi_mode_mismatch, 0);
+        assert!(matches!(report.entries[0].class, DiffClass::Match));
+    }
+
+    /// A `.Platform scale` collection with both Desktop and Mobile modes,
+    /// for a single variable — genuinely multi-mode like `.Color theme`, so
+    /// it must also route through `diff_multimode`.
+    fn mock_meta_platform_scale(variable: FigmaVariable) -> VariablesMeta {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+        let mut variable_collections = HashMap::new();
+        variable_collections.insert(
+            variable.variable_collection_id.clone(),
+            FigmaVariableCollection {
+                id: variable.variable_collection_id.clone(),
+                name: ".Platform scale".to_string(),
+                key: "k".to_string(),
+                modes: vec![
+                    FigmaMode {
+                        mode_id: "m-desktop".to_string(),
+                        name: "Desktop".to_string(),
+                    },
+                    FigmaMode {
+                        mode_id: "m-mobile".to_string(),
+                        name: "Mobile".to_string(),
+                    },
+                ],
+                default_mode_id: "m-desktop".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        let mut variables = HashMap::new();
+        variables.insert(variable.id.clone(), variable);
+        VariablesMeta {
+            variables,
+            variable_collections,
+        }
+    }
+
+    /// Finding #1 from the PR #1416 review: the `diff_multimode` guard
+    /// (`values_by_mode.len() > 1 && set_uuid.is_some()`) also matches
+    /// `.Platform scale` Desktop/Mobile variables, not just `.Color theme`.
+    /// This locks that in as intended — per-mode comparison beats the old
+    /// `skipped-uncovered` collapse — rather than leaving it an untested
+    /// side effect of the guard's shape.
+    #[test]
+    fn platform_scale_modes_compared_individually_when_one_diverges() {
+        let var = mock_variable(
+            "platformScale/line-height-900",
+            "FLOAT",
+            vec![("m-desktop", json!(42.0)), ("m-mobile", json!(55.0))],
+        );
+        let meta = mock_meta_platform_scale(var);
+        let graph = mock_scale_graph("line-height-900", json!("42px"), json!("50px"));
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        assert_eq!(report.counts.matched, 0);
+        assert_eq!(report.counts.skipped_uncovered, 0);
+
+        match &report.entries[0].class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Desktop"], DiffClass::Match));
+                match by_mode["Mobile"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("50px"));
+                        assert_eq!(figma, &json!("55px"));
+                    }
+                    other => panic!("expected ValueMismatch for Mobile, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// A follow-up PR #1416 review finding: the `diff_multimode` routing
+    /// guard checked only the snake_case `set_uuid` field. Relationship
+    /// (CTR) raw uses camelCase `setUuid` instead
+    /// (`reindex_relationship_tokens` clones the relationship's own raw
+    /// as-is) — so a legacy key with no owning token (only a
+    /// `relationships/*.json` entry, resolved via
+    /// `resolve_relationship_ref`) never matched the guard and silently fell
+    /// through to the old collapse-and-give-up path even though it was
+    /// genuinely multi-mode, unlike the token-owned case in
+    /// `platform_scale_modes_compared_individually_when_one_diverges` above.
+    #[test]
+    fn ctr_only_multimode_variable_routes_through_diff_multimode() {
+        use crate::graph::RelationshipRecord;
+
+        let var = mock_variable(
+            "platformScale/ctr-only-line-height-900",
+            "FLOAT",
+            vec![("m-desktop", json!(42.0)), ("m-mobile", json!(55.0))],
+        );
+        let meta = mock_meta_platform_scale(var);
+
+        // No owning token at all — only two inline-value CTR siblings
+        // (the `avatar-size-100` shape), distinguished by
+        // `scope.options.scale`, so `resolve_alias_key` misses entirely and
+        // `diff_values` must fall back to `resolve_relationship_ref`, whose
+        // synthesized `TokenRecord` clones the CTR's own (camelCase
+        // `setUuid`) raw as-is.
+        let graph = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/ctr-only-line-height.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "desktop"}},
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "42px",
+                    "legacyKey": "ctr-only-line-height-900",
+                    "setUuid": "su-ctr-only-line-height-900",
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/ctr-only-line-height.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "mobile"}},
+                    "$schema": "https://example.com/dimension.json",
+                    "value": "50px",
+                    "legacyKey": "ctr-only-line-height-900",
+                    "setUuid": "su-ctr-only-line-height-900",
+                }),
+            },
+        ]);
+        let graph = with_real_mode_sets(graph);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        // Before the fix: `record_set_uuid` only checked `set_uuid`, missed
+        // the CTR's `setUuid`, so this fell through to the old collapse path
+        // instead of `diff_multimode` (multi_mode_mismatch stayed 0).
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        match &report.entries[0].class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Desktop"], DiffClass::Match));
+                match by_mode["Mobile"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("50px"));
+                        assert_eq!(figma, &json!("55px"));
+                    }
+                    other => panic!("expected ValueMismatch for Mobile, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// Finding #2 from the PR #1416 review: a Figma mode that's genuinely
+    /// recognized (has a mode-set discriminator field) but has no matching
+    /// design-data set member must be reported `SkippedUncovered`, not
+    /// silently compared against an unrelated mode's value. Here
+    /// design-data's `.Color theme` set only has Light/Dark members, but
+    /// Figma also has a Wireframe mode.
+    #[test]
+    fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
+        let var = mock_variable(
+            "colorTheme/accent-color-default",
+            "COLOR",
+            vec![
+                (
+                    "m-light",
+                    json!({"r": 1.0, "g": 0.5019607843137255, "b": 0.0, "a": 1.0}),
+                ),
+                ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 1.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": "accent-color-default"},
+                    "value": "#ff8000",
+                    "uuid": "u-accent-color-default-light",
+                    "set_uuid": "su-accent-color-default",
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": "accent-color-default"},
+                    "value": "#0000ff",
+                    "uuid": "u-accent-color-default-dark",
+                    "set_uuid": "su-accent-color-default",
+                },
+            ])
+        )
+        .unwrap();
+        let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        assert_eq!(report.counts.matched, 0);
+
+        match &report.entries[0].class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Light"], DiffClass::Match));
+                assert!(matches!(by_mode["Dark"], DiffClass::Match));
+                match by_mode["Wireframe"] {
+                    DiffClass::SkippedUncovered { reason } => {
+                        assert_eq!(reason, "uncovered");
+                    }
+                    other => panic!("expected SkippedUncovered for Wireframe, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
     }
 
     fn mock_meta_with_single_mode(
@@ -2313,6 +3185,73 @@ mod tests {
         assert_eq!(
             entry.legacy_key.as_deref(),
             Some("standard-dialog-maximum-width-small")
+        );
+    }
+
+    #[test]
+    fn diff_values_rejects_direct_match_onto_composite_shape() {
+        // "Alias/drop-shadow/dragged" (COLOR) is a VARIABLE_ALIAS into a flat
+        // color variable. Naive name inversion of its own name ("Alias/drop-
+        // shadow/dragged" -> "drop-shadow-dragged") coincidentally equals the
+        // key of an unrelated design-data token: a composite, multi-layer
+        // drop-shadow (`value` is an array of shadow-layer objects). A scalar
+        // COLOR variable can never legitimately match that shape, so the
+        // direct hit must be rejected and the alias-target fallback should
+        // find the real (flat-color) sibling, "drop-shadow-dragged-color",
+        // instead. Regression test for the real S2 baseline mismatch this
+        // shape confusion caused (design_data_only in previous test naming).
+        let target = mock_variable(
+            "colorTheme/drop-shadow-dragged-color",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 0.2}),
+            )],
+        );
+        let alias = mock_variable(
+            "Alias/drop-shadow/dragged",
+            "COLOR",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": target.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![target, alias]);
+        let graph = mock_graph_multi(vec![
+            (
+                "drop-shadow-dragged",
+                json!({
+                    "$schema": "https://example.com/drop-shadow.json",
+                    "name": "drop-shadow-dragged",
+                    "value": [{"x": "0px", "y": "12px", "blur": "16px", "spread": "0px", "color": "#000000"}],
+                    "uuid": "u-composite",
+                }),
+            ),
+            (
+                "drop-shadow-dragged-color",
+                json!({
+                    "$schema": "https://example.com/color.json",
+                    "name": "drop-shadow-dragged-color",
+                    "value": "rgba(0, 0, 0, 0.2)",
+                    "uuid": "u-flat",
+                }),
+            ),
+        ]);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Alias/drop-shadow/dragged")
+            .unwrap();
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match against the flat color sibling, got {:?}",
+            entry.class
+        );
+        assert_eq!(
+            entry.legacy_key.as_deref(),
+            Some("drop-shadow-dragged-color")
         );
     }
 
