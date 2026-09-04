@@ -86,3 +86,25 @@ test.serial(
     );
   },
 );
+
+test.serial(
+  "a failed check does not permanently disable future checks (no stuck cache)",
+  async (t) => {
+    // global.fetch rejects by default (see beforeEach) — first call fails.
+    const offlineResult = await getTools()["design-data-primer"].handler({});
+    t.falsy(offlineResult.provenance.datasetStatus);
+
+    // Network "comes back" — a later primer call should retry, not stay stuck
+    // on the memoized failure.
+    global.fetch = () =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ version: "999.0.0" }),
+      });
+    const onlineResult = await getTools()["design-data-primer"].handler({});
+    t.true(
+      onlineResult.provenance.datasetStatus?.isStale,
+      "freshness check should retry after a prior failure, not stay cached as null",
+    );
+  },
+);

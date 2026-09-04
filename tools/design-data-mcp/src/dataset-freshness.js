@@ -38,7 +38,8 @@ export function isBehind(embedded, latest) {
 }
 
 let warned = false;
-let cached; // Promise<status|null>, memoized per process
+let cached; // Promise<status|null>, memoized per process — cleared on failure so a
+// transient network blip doesn't permanently disable the check (see fetchLatest).
 
 /**
  * @param {string} embeddedVersion - provenance.designDataVersion from ds.primer()
@@ -49,7 +50,13 @@ export function checkDatasetFreshness(embeddedVersion) {
     return Promise.resolve(null);
   }
   if (!cached) {
-    cached = fetchLatest(embeddedVersion);
+    cached = fetchLatest(embeddedVersion).then((status) => {
+      // A null result means the check failed (offline/timeout/registry error) —
+      // don't memoize failure, so the next primer call retries instead of being
+      // stuck with no freshness signal for the rest of the process.
+      if (status === null) cached = undefined;
+      return status;
+    });
   }
   return cached;
 }
