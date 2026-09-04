@@ -45,7 +45,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
-import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { loadRegistries, buildUuidToTokenIndex } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
 import { nameToScope } from "../../../tools/token-mapping-analyzer/src/ctr-scope.js";
 import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
 
@@ -95,15 +95,16 @@ function legacyKeyFor(name, registry) {
  * Also returns the parsed tokens keyed by file path, so callers that need to
  * re-walk a subset of files (part B, below) don't re-parse them from disk.
  *
- * Also returns a uuid -> token map covering the same tokens, so a binding that
- * resolves to a deprecated token can be re-pointed at its live replacement via
- * `lifecycle.replacedBy` (resolveReplacementUuid) instead of pinning the
- * deprecated uuid straight through.
+ * Also returns the uuid -> token/CTR map from buildUuidToTokenIndex (covering
+ * both tokens/*.tokens.json and relationships/*.json — a replacement target
+ * can be either), so a binding that resolves to a deprecated token can be
+ * re-pointed at its live replacement via `lifecycle.replacedBy`
+ * (resolveReplacementUuid) instead of pinning the deprecated uuid straight
+ * through.
  */
 function buildFlatKeyIndex(registry) {
   const index = new Map();
   const tokensByFile = new Map();
-  const uuidToToken = new Map();
   for (const file of readdirSync(TOKENS_DIR).filter((f) =>
     f.endsWith(".tokens.json"),
   )) {
@@ -111,7 +112,6 @@ function buildFlatKeyIndex(registry) {
     const tokens = readJson(filePath);
     tokensByFile.set(filePath, tokens);
     tokens.forEach((token, tokenIndex) => {
-      if (token.uuid) uuidToToken.set(token.uuid, token);
       const key = legacyKeyFor(token.name, registry);
       if (!key) return;
       const entry = { file, filePath, tokenIndex, token };
@@ -122,6 +122,7 @@ function buildFlatKeyIndex(registry) {
       }
     });
   }
+  const uuidToToken = buildUuidToTokenIndex(TOKENS_DIR, RELATIONSHIPS_DIR);
   return { index, tokensByFile, uuidToToken };
 }
 

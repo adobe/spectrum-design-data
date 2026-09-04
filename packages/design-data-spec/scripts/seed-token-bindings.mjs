@@ -33,7 +33,7 @@ import { join, dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { homedir } from "os";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
-import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { loadRegistries, buildUuidToTokenIndex } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
 import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -73,22 +73,21 @@ function legacyKeyFor(name, registry) {
 /** Every token across tokens/*.tokens.json, keyed by its computed legacy flat key. */
 function buildFlatKeyIndex(registry) {
   const index = new Map();
-  const uuidToToken = new Map();
   for (const file of readdirSync(tokensDir).filter((f) => f.endsWith(".tokens.json"))) {
     const tokens = JSON.parse(readFileSync(join(tokensDir, file), "utf8"));
     for (const token of tokens) {
-      if (token.uuid) uuidToToken.set(token.uuid, token);
       const key = legacyKeyFor(token.name, registry);
       if (!key) continue;
       if (!index.has(key)) index.set(key, []);
       index.get(key).push(token);
     }
   }
-  return { index, uuidToToken };
+  return index;
 }
 
 const registry = loadRegistries();
-const { index: flatKeyIndex, uuidToToken } = buildFlatKeyIndex(registry);
+const flatKeyIndex = buildFlatKeyIndex(registry);
+const uuidToToken = buildUuidToTokenIndex(tokensDir, relationshipsDir);
 
 let seeded = 0;
 let skipped = 0;

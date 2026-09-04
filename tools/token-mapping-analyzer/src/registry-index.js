@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 import { readFileSync, readdirSync } from "fs";
-import { resolve, dirname } from "path";
+import { resolve, join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { loadFieldCatalog } from "./field-catalog.js";
 
@@ -172,6 +172,41 @@ export function matchLongestTerm(
   }
 
   return bestMatch;
+}
+
+/**
+ * uuid -> token/CTR, covering both cascade tokens (tokens/*.tokens.json) and
+ * value-owning CTRs (relationships/*.json) — both carry `lifecycle`, and a
+ * `lifecycle.replacedBy` chain can terminate at either kind. Used wherever
+ * `resolveReplacementUuid` needs to look up a replacement target; a map built
+ * from tokens alone misses relationship-only replacement targets and silently
+ * breaks the chain.
+ *
+ * @param {string} tokensDir - directory of tokens/*.tokens.json
+ * @param {string} relationshipsDir - directory of relationships/*.json
+ * @returns {Map<string, object>}
+ */
+export function buildUuidToTokenIndex(tokensDir, relationshipsDir) {
+  const uuidToToken = new Map();
+  for (const file of readdirSync(tokensDir).filter((f) =>
+    f.endsWith(".json"),
+  )) {
+    for (const token of JSON.parse(
+      readFileSync(join(tokensDir, file), "utf-8"),
+    )) {
+      if (token.uuid) uuidToToken.set(token.uuid, token);
+    }
+  }
+  for (const file of readdirSync(relationshipsDir).filter((f) =>
+    f.endsWith(".json"),
+  )) {
+    for (const entry of JSON.parse(
+      readFileSync(join(relationshipsDir, file), "utf-8"),
+    )) {
+      if (entry?.uuid) uuidToToken.set(entry.uuid, entry);
+    }
+  }
+  return uuidToToken;
 }
 
 /**

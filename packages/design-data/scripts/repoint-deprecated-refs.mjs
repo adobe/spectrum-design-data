@@ -38,6 +38,7 @@ import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
+import { buildUuidToTokenIndex } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TOKENS_DIR = join(__dirname, "..", "tokens");
@@ -52,28 +53,12 @@ function jsonFiles(dir) {
   return readdirSync(dir).filter((f) => f.endsWith(".json"));
 }
 
-/** uuid -> token, covering cascade tokens and value-owning CTRs (both carry `lifecycle`). */
-function buildUuidIndex() {
-  const uuidToToken = new Map();
-  for (const file of jsonFiles(TOKENS_DIR)) {
-    for (const token of readJson(join(TOKENS_DIR, file))) {
-      if (token.uuid) uuidToToken.set(token.uuid, token);
-    }
-  }
-  for (const file of jsonFiles(RELATIONSHIPS_DIR)) {
-    for (const entry of readJson(join(RELATIONSHIPS_DIR, file))) {
-      if (entry?.uuid) uuidToToken.set(entry.uuid, entry);
-    }
-  }
-  return uuidToToken;
-}
-
 function isRelationshipOnly(entry) {
   return entry?.uuid === undefined && entry?.legacyKey === undefined && entry?.$ref !== undefined;
 }
 
 function main() {
-  const uuidToToken = buildUuidIndex();
+  const uuidToToken = buildUuidToTokenIndex(TOKENS_DIR, RELATIONSHIPS_DIR);
   let repointed = 0;
   let noReplacedBy = 0;
   let ambiguous = 0;
