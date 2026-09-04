@@ -86,7 +86,7 @@
     "extensionsDir": {
       "type": "string",
       "minLength": 1,
-      "description": "Path (relative to the manifest) to the platform's extensions directory, holding platform-local tokens/components/fields/relationships/guidelines/platform-extensions as one file per artifact (see spec/manifest.md#extensions). Default: \"extensions\"."
+      "description": "Path (relative to the manifest) to the platform's extensions directory, holding platform-local tokens/components/fields/relationships/guidelines/platform-extensions as one file per artifact (see spec/manifest.md#extensions-directory). Default: \"extensions\"."
     },
     "namingExceptions": {
       "type": "object",

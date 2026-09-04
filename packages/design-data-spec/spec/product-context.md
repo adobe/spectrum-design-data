@@ -98,7 +98,7 @@ The `extensions` object contains net-new tokens and components that do not exist
 **RECOMMENDED:** Agent tools that create or modify product-layer tokens (`write_token`, `write_component`) **SHOULD** capture a `rationale` from session context and record it in:
 
 1. The token's inline `rationale` field (see [Token format — rationale](token-format.md#lifecycle-and-metadata)).
-2. The product context document's `overrides[].rationale` (for overrides) or an `extensions/tokens/` entry's `rationale` (for new tokens).
+2. The product context document's `overrides[].rationale` (for overrides) or `extensions.tokens[].rationale` (for new tokens).
 
 This makes the product context document self-maintaining during agent-assisted authoring sessions.
 
