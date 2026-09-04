@@ -282,7 +282,7 @@ This ordering is preserved for backward compatibility with the current `@adobe/s
 
 ## Platform formatting configuration
 
-A platform [manifest](manifest.md) **MAY** declare formatting rules in its [`extensions.formatting`](manifest.md#extensionsformatting) section to control concept ordering, casing, delimiters, and abbreviations. The normative contract for these fields is defined in [Manifest — `extensions.formatting`](manifest.md#extensionsformatting).
+A platform [manifest](manifest.md) **MAY** declare formatting rules in its top-level [`formatting`](manifest.md#formatting) field to control concept ordering, casing, delimiters, and abbreviations. The normative contract for these fields is defined in [Manifest — `formatting`](manifest.md#formatting).
 
 When no platform formatting is declared, the default serialization above is used.
 
@@ -338,5 +338,5 @@ node tools/token-corpus-migrate/src/cli.js \
 * [#806 — Token Taxonomy, Vocabulary, and Formatting](https://github.com/adobe/spectrum-design-data/discussions/806)
 * [#661 — Spectrum Design System Glossary](https://github.com/adobe/spectrum-design-data/discussions/661)
 * [#646 — Token Schema Structure and Validation System](https://github.com/adobe/spectrum-design-data/discussions/646)
-* [Manifest — `extensions.formatting`](manifest.md#extensionsformatting) — normative contract for platform formatting rules
+* [Manifest — `formatting`](manifest.md#formatting) — normative contract for platform formatting rules
 * Nate Baldwin, "Naming conventions & shared taxonomy" — Design Data & Platforms onsite, April 1, 2026
