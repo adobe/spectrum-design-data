@@ -45,8 +45,9 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
-import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { loadRegistries, buildUuidToTokenIndex } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
 import { nameToScope } from "../../../tools/token-mapping-analyzer/src/ctr-scope.js";
+import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "../../..");
@@ -93,6 +94,13 @@ function legacyKeyFor(name, registry) {
  *
  * Also returns the parsed tokens keyed by file path, so callers that need to
  * re-walk a subset of files (part B, below) don't re-parse them from disk.
+ *
+ * Also returns the uuid -> token/CTR map from buildUuidToTokenIndex (covering
+ * both tokens/*.tokens.json and relationships/*.json — a replacement target
+ * can be either), so a binding that resolves to a deprecated token can be
+ * re-pointed at its live replacement via `lifecycle.replacedBy`
+ * (resolveReplacementUuid) instead of pinning the deprecated uuid straight
+ * through.
  */
 function buildFlatKeyIndex(registry) {
   const index = new Map();
@@ -114,7 +122,8 @@ function buildFlatKeyIndex(registry) {
       }
     });
   }
-  return { index, tokensByFile };
+  const uuidToToken = buildUuidToTokenIndex(TOKENS_DIR, RELATIONSHIPS_DIR);
+  return { index, tokensByFile, uuidToToken };
 }
 
 /**
@@ -124,7 +133,7 @@ function buildFlatKeyIndex(registry) {
  * mirroring color-aliases.tokens.json's parallel per-mode alias pattern.
  * Returns { ctrs, unresolved } — unresolved bindings are reported, not guessed.
  */
-function convertTokenBindings(componentId, tokenBindings, flatKeyIndex) {
+function convertTokenBindings(componentId, tokenBindings, flatKeyIndex, uuidToToken) {
   const ctrs = [];
   const unresolved = [];
   for (const binding of tokenBindings) {
@@ -143,7 +152,9 @@ function convertTokenBindings(componentId, tokenBindings, flatKeyIndex) {
           ...(property !== undefined ? { property } : {}),
         },
         ...(binding.context ? { context: binding.context } : {}),
-        $ref: match.token.uuid,
+        // Follow replacedBy so a binding never pins a deprecated token's uuid
+        // when a live semantic replacement already exists for it.
+        $ref: resolveReplacementUuid(match.token, uuidToToken),
       });
     }
   }
@@ -183,7 +194,7 @@ function appendRelationships(componentId, ctrs, relationshipsByComponent) {
 function main() {
   mkdirSync(RELATIONSHIPS_DIR, { recursive: true });
   const registry = loadRegistries();
-  const { index: flatKeyIndex, tokensByFile } = buildFlatKeyIndex(registry);
+  const { index: flatKeyIndex, tokensByFile, uuidToToken } = buildFlatKeyIndex(registry);
 
   const relationshipsByComponent = new Map();
   let componentsChanged = 0;
@@ -202,6 +213,7 @@ function main() {
       component.name,
       component.tokenBindings,
       flatKeyIndex,
+      uuidToToken,
     );
     unresolved.forEach((binding) =>
       unresolvedBindings.push({ component: component.name, binding }),

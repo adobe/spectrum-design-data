@@ -690,3 +690,20 @@ rules:
     message: "Relationship '{relationship}' may need a legacyKey to round-trip through the legacy generator"
     spec_ref: spec/relationship-format.md#legacy-fields-interim
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-058
+    name: ctr-ref-not-deprecated
+    severity: warning
+    layer: 2
+    category: naming-consistency
+    note: >
+      Warning, not error: some deprecated targets have no `replacedBy` (or an ambiguous
+      array-form one) and can't be auto-corrected without manual triage, so this can't be
+      a hard gate yet.
+    assert: >
+      A relationship-only CTR's `$ref` (no `uuid`/`legacyKey`) SHOULD NOT resolve to a
+      token whose `lifecycle.deprecatedIn` is set. A value-owning CTR (`uuid`/`legacyKey`
+      present) is exempt — it legitimately *is* the deprecated token record.
+    message: "Relationship $ref {ref} resolves to a token deprecated in {deprecatedIn}"
+    spec_ref: spec/relationship-format.md#legacy-fields-interim
+    introduced_in: "1.0.0-draft"

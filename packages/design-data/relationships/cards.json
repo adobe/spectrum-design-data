@@ -141,7 +141,7 @@
       "property": "edge-to-content-compact-extra-small"
     },
     "context": "Spacing (top/side/bottom edge to content, extra small)",
-    "$ref": "562738ca-ed16-4855-8855-3914b9109408"
+    "$ref": "f0d9117a-5606-4e49-a81f-f89938b34ca4"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "card-edge-to-content-default-extra-small"
     },
     "context": "Spacing (top/side/bottom edge to content, extra small)",
-    "$ref": "9ecb4a76-013a-4952-9646-a5660005b31e"
+    "$ref": "9fcd2823-9a13-44c0-a613-7dbe272b99a9"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "edge-to-content-spacious-extra-small"
     },
     "context": "Spacing (top/side/bottom edge to content, extra small)",
-    "$ref": "91289dd0-0a27-49ef-96c9-3508edecfa44"
+    "$ref": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "edge-to-content-compact-small"
     },
     "context": "Spacing (top/side/bottom edge to content, small)",
-    "$ref": "521df9e4-9c61-4a73-9157-d235a4d04090"
+    "$ref": "9fcd2823-9a13-44c0-a613-7dbe272b99a9"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "card-edge-to-content-default-small"
     },
     "context": "Spacing (top/side/bottom edge to content, small)",
-    "$ref": "569f8d0a-75f3-4743-aa51-9ec6479cdf21"
+    "$ref": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97"
   },
   {
     "scope": {
@@ -181,7 +181,7 @@
       "property": "edge-to-content-spacious-small"
     },
     "context": "Spacing (top/side/bottom edge to content, small)",
-    "$ref": "8ec39e04-de4f-48cf-9c8b-7bb7f76730a0"
+    "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "edge-to-content-compact-medium"
     },
     "context": "Spacing (top/side/bottom edge to content, medium)",
-    "$ref": "f3566ff3-2430-4fdd-a48c-e8c0d3c34adc"
+    "$ref": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97"
   },
   {
     "scope": {
@@ -197,7 +197,7 @@
       "property": "card-edge-to-content-default-medium"
     },
     "context": "Spacing (top/side/bottom edge to content, medium)",
-    "$ref": "04ef066b-4733-4d20-9538-7eefd71e7a1e"
+    "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
   },
   {
     "scope": {
@@ -205,7 +205,7 @@
       "property": "edge-to-content-spacious-medium"
     },
     "context": "Spacing (top/side/bottom edge to content, medium)",
-    "$ref": "98ef0816-ad83-43ec-b976-1169a7ce8540"
+    "$ref": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f"
   },
   {
     "scope": {
@@ -213,7 +213,7 @@
       "property": "edge-to-content-compact-large"
     },
     "context": "Spacing (top/side/bottom edge to content, large)",
-    "$ref": "0b551228-5a6a-403d-bb92-9800835cb3be"
+    "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
   },
   {
     "scope": {
@@ -221,7 +221,7 @@
       "property": "card-edge-to-content-default-large"
     },
     "context": "Spacing (top/side/bottom edge to content, large)",
-    "$ref": "8856270e-65b5-4f81-87c0-5332ffd7459f"
+    "$ref": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f"
   },
   {
     "scope": {
@@ -229,7 +229,7 @@
       "property": "edge-to-content-spacious-large"
     },
     "context": "Spacing (top/side/bottom edge to content, large)",
-    "$ref": "73da978a-bede-439e-97cd-afeb32e87780"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {
@@ -237,7 +237,7 @@
       "property": "edge-to-content-compact-extra-large"
     },
     "context": "Spacing (top/side/bottom edge to content, extra large)",
-    "$ref": "a9f253aa-631e-447a-8335-15b4491a8e9d"
+    "$ref": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f"
   },
   {
     "scope": {
@@ -245,7 +245,7 @@
       "property": "card-edge-to-content-default-extra-large"
     },
     "context": "Spacing (top/side/bottom edge to content, extra large)",
-    "$ref": "7acf60d0-7870-403e-94b9-18e84eff861b"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {
@@ -253,7 +253,7 @@
       "property": "edge-to-content-spacious-extra-large"
     },
     "context": "Spacing (top/side/bottom edge to content, extra large)",
-    "$ref": "c4ee268c-aca6-488f-90db-d3e51a0c5c89"
+    "$ref": "3801295f-e52b-412a-baf4-0b8e20449333"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "gap"
     },
     "context": "Focus indicator",
-    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
   },
   {
     "scope": {
@@ -509,7 +509,7 @@
       "property": "space-between"
     },
     "context": "Spacing (title to action button)",
-    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -517,7 +517,7 @@
       "property": "space-between"
     },
     "context": "Spacing (title to action button)",
-    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -525,7 +525,7 @@
       "property": "space-between"
     },
     "context": "Spacing (header to description)",
-    "$ref": "e874d2cd-6ad6-4d1c-8103-789945f10294"
+    "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee"
   },
   {
     "scope": {
@@ -877,7 +877,7 @@
       "property": "space-between"
     },
     "context": "Spacing (description to footer)",
-    "$ref": "248d1f30-c0d3-49bb-a5b7-0860cc75ee85"
+    "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
   },
   {
     "scope": {
@@ -981,7 +981,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
-    "$ref": "fd732759-52ab-45b7-9949-9d9352091efe"
+    "$ref": "4c8d7d30-f0fb-4306-b78a-09ec0f2ffd97"
   },
   {
     "scope": {
@@ -989,7 +989,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
-    "$ref": "45af5962-8d41-476d-a92d-befa408b47b7"
+    "$ref": "81e5f983-4ca0-4d45-89f0-4accd78d7946"
   },
   {
     "scope": {
@@ -997,7 +997,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/side/bottom edge to content)",
-    "$ref": "104c7b60-387b-4550-b0eb-573915d28f42"
+    "$ref": "4cf528c8-fc7a-447b-ae4d-38b744ec1b0f"
   },
   {
     "scope": {

@@ -1,0 +1,38 @@
+{
+  "tokens": [
+    {
+      "name": {
+        "component": "accordion",
+        "property": "top-to-text-compact-medium"
+      },
+      "value": "5px",
+      "uuid": "aaaaaaaa-0058-4000-8000-000000000001",
+      "lifecycle": {
+        "deprecatedIn": "14.3.0",
+        "replacedBy": "aaaaaaaa-0058-4000-8000-000000000002"
+      }
+    },
+    {
+      "name": { "property": "base-padding-vertical-medium" },
+      "value": "5px",
+      "uuid": "aaaaaaaa-0058-4000-8000-000000000002"
+    }
+  ],
+  "relationships": [
+    {
+      "scope": {
+        "component": "accordion",
+        "property": "top-to-text-compact-medium"
+      },
+      "$ref": "aaaaaaaa-0058-4000-8000-000000000001"
+    }
+  ],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/accordion.json",
+      "name": "accordion",
+      "displayName": "Accordion",
+      "meta": { "category": "actions" }
+    }
+  ]
+}

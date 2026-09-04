@@ -133,7 +133,7 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "ea98b9b0-20b5-4f19-aa4f-375559b1362a"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "752a84f5-cbb7-4d18-85ca-fc913a061bb5"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "d3e53f14-b91e-4d10-8508-17360ae5620e"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "space-between"
     },
     "context": "Spacing (dot to label) ",
-    "$ref": "ee780be7-b32c-4da8-a6bc-fc0897799537"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "ddece3b1-7f85-4c08-b783-5bde8e31f480"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "a4f43adc-1db1-4e2f-a5d1-3ec06c62c9ff"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -181,7 +181,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "e2aa334e-ebb7-4e5f-a735-4f6a43b2d6cf"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "321a462b-8811-4264-ac1f-4608df8f8c53"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -197,7 +197,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "ead22722-10f9-4cfe-a387-65f5d86ca520"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -205,7 +205,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "8d9d872f-7c55-4a94-a80d-c1f2c8834f5d"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -213,7 +213,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "899c7b7c-7405-4e29-8d42-edf41ca2943f"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -221,7 +221,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to dot) ",
-    "$ref": "b351cade-6d69-449e-908a-518793fef5b9"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -229,7 +229,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -237,7 +237,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -245,7 +245,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -253,7 +253,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -261,7 +261,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -269,7 +269,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -285,7 +285,7 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -293,7 +293,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -309,7 +309,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -317,7 +317,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -325,7 +325,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -341,7 +341,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -349,7 +349,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {

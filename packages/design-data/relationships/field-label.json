@@ -69,7 +69,7 @@
       "property": "text-to-asterisk-small"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "4796831f-4d3e-472c-bad8-699d4eb443ea"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
   },
   {
     "scope": {
@@ -77,7 +77,7 @@
       "property": "text-to-asterisk-small"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "4271498d-747c-423d-87cc-761b8a181f7c"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "text-to-asterisk-medium"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "7be280dc-43dc-48c3-bf0c-b53f95e76516"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "text-to-asterisk-medium"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "2fbc4add-e6b4-4dfa-9a7d-0de628b2f63c"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "text-to-asterisk-large"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "997c475e-6ae5-469f-9c8e-9fedafa2b556"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "text-to-asterisk-large"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "87149afe-899b-4fb6-bd7c-d2becf8117fc"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "text-to-asterisk-extra-large"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "4140e899-8a28-4627-a91a-e6526da1bdf5"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "text-to-asterisk-extra-large"
     },
     "context": "Spacing (label to asterisk icon)",
-    "$ref": "17ba788d-da38-455d-9322-16e4f05ea923"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "top-to-asterisk-small"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "7122627b-1906-424d-9cbf-261546ff3774"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "top-to-asterisk-small"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "ec0c072f-50fb-4934-99fc-a2576062e7b4"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "top-to-asterisk-medium"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "eb2b857d-9482-42fb-82f9-bbe7899a22b9"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "top-to-asterisk-medium"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "6f65ad1a-4a65-4b83-af44-5bd893f3b40e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "top-to-asterisk-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "60caa810-5335-4c9f-95a7-0e60d49f43fc"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "top-to-asterisk-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "e410a804-2655-4bbc-9b66-53a5facc92ac"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -181,7 +181,7 @@
       "property": "top-to-asterisk-extra-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "e53ea4a5-bde5-4695-9ab8-50c2ce704019"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "top-to-asterisk-extra-large"
     },
     "context": "Spacing (top edge to asterisk icon)",
-    "$ref": "5227bf07-140a-49c6-88f9-cc454d8a90c1"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -197,7 +197,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -205,7 +205,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -213,7 +213,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -221,7 +221,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -229,7 +229,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -237,7 +237,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -245,7 +245,7 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "9bf3970e-eb76-4be5-82c4-0df2538df753"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -253,7 +253,7 @@
       "property": "component-top-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "e0ae8c97-73ee-4b09-839f-5ebfb6eb0d7a"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -261,7 +261,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -269,7 +269,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -285,7 +285,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -293,7 +293,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -309,7 +309,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "4459554a-d872-4a6a-a620-4a1937605d29"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -317,7 +317,7 @@
       "property": "component-bottom-to-text-300"
     },
     "context": "Spacing (top/bottom edge to label)",
-    "$ref": "a6aac364-d617-4e21-a1db-5523daaa3c6c"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
