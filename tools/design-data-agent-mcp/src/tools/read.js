@@ -32,6 +32,7 @@ import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
 import { config } from "../config.js";
+import { checkDatasetFreshness } from "../dataset-freshness.js";
 
 // Note: this module intentionally never spawns the native binary — primer and
 // describe_component must keep working with no CLI on PATH at all (see the
@@ -107,6 +108,11 @@ export function createReadTools() {
         const wasm = await getWasm();
         const ds = await getDataset();
         const { provenance } = ds.primer();
+        // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
+        // failure, never blocks the primer response.
+        const datasetStatus = await checkDatasetFreshness(
+          provenance.designDataVersion,
+        );
         return {
           // top-level source is the legacy skill-contract field; provenance.source
           // duplicates it intentionally — provenance is the richer metrics object
@@ -124,7 +130,9 @@ export function createReadTools() {
           },
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
-          provenance,
+          provenance: datasetStatus
+            ? { ...provenance, datasetStatus }
+            : provenance,
         };
       },
     },

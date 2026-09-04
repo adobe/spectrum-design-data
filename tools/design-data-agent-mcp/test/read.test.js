@@ -12,6 +12,12 @@ import test from "ava";
 import { config } from "../src/config.js";
 import { createReadTools } from "../src/tools/read.js";
 
+// These tests call the real `primer` handler, which does a best-effort
+// registry.npmjs.org freshness check. Disable it here so this file stays
+// hermetic (no real network call, no flakiness in air-gapped CI) — the check
+// itself is covered by test/dataset-freshness.test.js.
+process.env.DESIGN_DATA_SKIP_VERSION_CHECK = "1";
+
 // ── helpers ────────────────────────────────────────────────────────────────────
 
 function getHandler(name) {

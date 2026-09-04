@@ -22,6 +22,12 @@ import { join } from "node:path";
 import { config } from "../src/config.js";
 import { createReadTools } from "../src/tools/read.js";
 
+// The cascade dataset's provenance has no designDataVersion, so checkDatasetFreshness
+// already short-circuits without a network call — this just guards against that
+// changing later. Keeps this file hermetic; the check itself is covered by
+// test/dataset-freshness.test.js.
+process.env.DESIGN_DATA_SKIP_VERSION_CHECK = "1";
+
 const FIXTURE_TOKEN = {
   name: { property: "test-cascade" },
   $schema:

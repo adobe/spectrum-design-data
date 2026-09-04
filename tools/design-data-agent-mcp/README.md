@@ -38,7 +38,11 @@ package version — there's no separate data update to run. Pin `@latest` (as ab
 fetches the newest published version rather than reusing whatever it last cached; `-y` alone
 only skips the install confirmation, it doesn't force a re-fetch. Already on `/plugin`? Run
 `/plugin update design-data-agent@spectrum-design-data`. Call the primer tool and check
-`provenance.designDataVersion` to see which dataset version is embedded.
+`provenance.designDataVersion` to see which dataset version is embedded. The primer tool
+also does a best-effort check against the latest published `@adobe/spectrum-design-data`
+version — if the embedded dataset is behind, it adds a `provenance.datasetStatus` field and
+logs a one-line warning to stderr. This is silent on any network failure (offline/air-gapped
+use is unaffected); set `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable the check entirely.
 
 ## MCP server
 

@@ -48,7 +48,9 @@ function runBundleSmoke() {
     const child = spawn("node", ["src/cli.js"], {
       cwd: stagingDir,
       // Deliberately minimal env: no NODE_PATH or pnpm store — bundle must be self-contained.
-      env: { PATH: process.env.PATH },
+      // DESIGN_DATA_SKIP_VERSION_CHECK keeps this an offline test even if a future test
+      // here calls the primer tool handler (currently only initialize + tools/list run).
+      env: { PATH: process.env.PATH, DESIGN_DATA_SKIP_VERSION_CHECK: "1" },
       stdio: ["pipe", "pipe", "pipe"],
     });
 
