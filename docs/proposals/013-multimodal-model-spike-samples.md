@@ -1,7 +1,10 @@
 Proposal 013: Multi-Modal Token Data Model — Spike Samples & Comparison Criteria
 
-**Status:** Complete (uo7t.1–uo7t.4 done). Analysis only, no schema or code changes.
-Recommendation posted back to RFC [#1410](https://github.com/adobe/spectrum-design-data/issues/1410).\
+**Status:** Complete (uo7t.1–uo7t.7 done, including Part 7's cross-modal guardrail analysis and
+Sample D's full combinatory matrix). Analysis only, no schema or code changes.
+Recommendation posted back to RFC [#1410](https://github.com/adobe/spectrum-design-data/issues/1410);
+a follow-up reply addressing Nate Baldwin's guardrail and Figma-mapping questions is drafted
+and pending approval to post.\
 **Related:** [Discussion #1410](https://github.com/adobe/spectrum-design-data/discussions/1410)
 (Nate Baldwin, "Token schema"); review bead `spectrum-design-data-57ll`; spike epic
 `spectrum-design-data-uo7t`.
@@ -225,6 +228,100 @@ This is a genuine spec gap the RFC does not address.
 sitting alongside the per-value UUID, not an alias target, so `$ref` mechanics are
 completely unchanged from today.
 
+### Sample D — full combinatory matrix (`colorScheme` × `contrast`)
+
+Nate asked for a concrete combinatory-mode worked example, generalizing Sample B's single
+cell (dark + high-contrast) to the full 2×3 matrix he sketched for
+`accent-background-color-default`:
+
+| contrast \ colorScheme | light       | dark       |
+| ---------------------- | ----------- | ---------- |
+| regular                | accent-900  | accent-800 |
+| low                    | accent-800  | accent-700 |
+| high                   | accent-1000 | accent-900 |
+
+**Data-model validity note:** `packages/design-data/mode-sets/contrast.json` declares
+`modes: ["regular", "high"]` — there is no `low` contrast mode today. The `low` row is
+**illustrative-only**; making this matrix data-model-valid requires first adding `low` to
+`contrast.json`'s `modes` array, a foundation data decision out of scope for this spike
+(tracked alongside `h890`'s contrast-gap work). All four target scale values
+(accent-700/800/900/1000) *do* already exist as real, mode-agnostic semantic aliases in
+`packages/design-data/tokens/semantic-color-palette.tokens.json`, so the sample uses their
+real UUIDs rather than placeholders: accent-700 `a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae`,
+accent-800 `87a2c8f0-54fd-4939-8f42-3124fde1e49e`, accent-900 `90d82778-1cbb-47c0-aab9-b6e38a9cdc54`,
+accent-1000 `9bf3fa2f-75d3-44d3-ae30-d88893665366`. The regular row is not hypothetical at
+all — it's the real `accent-background-color-default` light/dark pair from Sample A1.
+
+Specificity (defaults `colorScheme: light`, `contrast: regular`; only non-default fields
+count, per [`cascade.md` §Semantic specificity](../../packages/design-data-spec/spec/cascade.md#semantic-specificity)):
+light+regular = 0, dark+regular = 1, light+low = 1, light+high = 1, dark+low = 2, dark+high = 2.
+
+**D1 — Current**: six per-value objects. Regular-contrast cells are the real Sample A1
+objects, verbatim; low/high cells are explicit combination tokens (dark ones set both
+`colorScheme` and `contrast` per [`cascade.md` §Cross-mode-set overrides](../../packages/design-data-spec/spec/cascade.md#cross-mode-set-overrides)):
+
+```jsonc
+[
+  { "name": { "colorRole": "accent", "property": "color", "state": ["default"],
+      "colorScheme": "light", "legacyKey": "accent-background-color-default", "object": "background" },
+    "$schema": ".../token-types/alias.json", "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
+    "uuid": "d9d8488d-9b38-47e0-9660-dcad040f3ca8" },                       // regular, light — real (Sample A1), specificity 0
+  { "name": { "…": "…", "colorScheme": "dark" },
+    "$schema": ".../token-types/alias.json", "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
+    "uuid": "f24eb871-6419-4cef-88a2-cca8548ae31e" },                       // regular, dark — real (Sample A1), specificity 1
+  { "name": { "…": "…", "contrast": "low" },
+    "$schema": ".../token-types/alias.json", "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
+    "uuid": "<new-uuid-1>" },                                               // low, light — hypothetical, specificity 1
+  { "name": { "…": "…", "colorScheme": "dark", "contrast": "low" },
+    "$schema": ".../token-types/alias.json", "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae",
+    "uuid": "<new-uuid-2>" },                                               // low, dark — hypothetical combination token, specificity 2
+  { "name": { "…": "…", "contrast": "high" },
+    "$schema": ".../token-types/alias.json", "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366",
+    "uuid": "<new-uuid-3>" },                                               // high, light — hypothetical, specificity 1
+  { "name": { "…": "…", "colorScheme": "dark", "contrast": "high" },
+    "$schema": ".../token-types/alias.json", "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
+    "uuid": "<new-uuid-4>" }                                                // high, dark — hypothetical combination token, specificity 2
+]
+```
+
+**D2 — `valuesByMode`**: one concept object; six `valuesByMode` entries, each a `modes`
+array plus its own `$ref` — the shape's ergonomic high-water mark (criterion 5), since all
+six cells live as array entries on one object instead of six top-level tokens:
+
+```jsonc
+{
+  "uuid": "<new-concept-uuid>",
+  "classification": { "colorRole": "accent", "property": "color", "state": ["default"],
+    "legacyKey": "accent-background-color-default", "object": "background" },
+  "valuesByMode": [
+    { "modes": [{ "colorScheme": "light" }, { "contrast": "regular" }], "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54" },
+    { "modes": [{ "colorScheme": "dark" },  { "contrast": "regular" }], "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e" },
+    { "modes": [{ "colorScheme": "light" }, { "contrast": "low" }],     "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e" },
+    { "modes": [{ "colorScheme": "dark" },  { "contrast": "low" }],     "$ref": "a8fbe39b-db6d-4bb4-a7c5-8a235060d2ae" },
+    { "modes": [{ "colorScheme": "light" }, { "contrast": "high" }],    "$ref": "9bf3fa2f-75d3-44d3-ae30-d88893665366" },
+    { "modes": [{ "colorScheme": "dark" },  { "contrast": "high" }],    "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54" }
+  ]
+}
+```
+
+**D3 — Concept-id middle path**: identical to D1's six per-value objects (cascade-resolved,
+unchanged), plus the shared `conceptId` on every row:
+
+```jsonc
+{ "name": { "…": "…", "colorScheme": "dark", "contrast": "high" },
+  "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54", "uuid": "<new-uuid-4>",
+  "conceptId": "accent-background-color-default" }
+```
+
+**Sample D confirms rather than changes the Part 4/6 finding on criterion 5**: `valuesByMode`
+is genuinely more ergonomic here (D2's one concept object vs. D1/D3's six top-level tokens),
+but current and concept-id both still *work* — just verbosely, via explicit combination
+tokens per `cascade.md` §Cross-mode-set overrides — which is the same trade-off already
+scored in [Part 4](#part-4--manifest--cascade-evaluation-uo7t2). It does not surface any new
+cross-modal `$ref` risk: every `$ref` in D1/D2/D3 targets a mode-agnostic semantic alias
+(accent-700/800/900/1000 carry no `colorScheme`), consistent with the Part 7 finding that
+real aliases in this dataset never target per-mode leaf UUIDs directly.
+
 ## Observations feeding `uo7t.2` / `uo7t.3`
 
 * `valuesByMode` buys concept identity (criterion 7) and combinatory-mode ergonomics
@@ -349,3 +446,110 @@ separate, non-blocking follow-up. Current — baseline; its only real gap is [#7
   it is worth exploring on its own merits once the identity work lands.
 * **`classification` rename and optional `displayName`** — proceed as already agreed in the first
   RFC comment; independent of this recommendation.
+
+## Part 7 — Cross-modal `$ref` guardrail gap (`uo7t.6`, Nate's reply)
+
+Nate Baldwin [replied to the recommendation](https://github.com/adobe/spectrum-design-data/discussions/1410#discussioncomment-18296885)
+with a concrete concern: nothing stops an alias `$ref` from targeting the *wrong mode's*
+value of another multi-mode token — e.g. a light-mode token's `$ref` accidentally pointing
+at blue-800's dark-mode UUID. He argues `$ref` should resolve against the **concept**, with
+the mode determined by the referencing token's own context, not a specific per-value UUID —
+structurally how `valuesByMode` works, and how neither the current shape nor concept-id do.
+
+### The gap is real in the normative target model, not just the legacy bridge
+
+* [`token-format.md` §Alias](../../packages/design-data-spec/spec/token-format.md#alias-ref)'s
+  own normative example is a `colorScheme: dark` token whose `$ref` is a bare per-value UUID
+  (`87a2c8f0…`). Nothing ties the target's mode to the referencing token's mode.
+* [`cascade.md` §Alias resolution](../../packages/design-data-spec/spec/cascade.md#alias-resolution)
+  is explicit that resolution is post-cascade and mode-blind — "Alias resolution MUST occur
+  after cascade selection" and `$ref` is treated as an opaque UUID.
+* `packages/design-data-spec/rules/rules.yaml`'s alias-integrity cluster (SPEC-001
+  alias-target-exists, SPEC-002 alias-type-compatibility, SPEC-003 no-circular-aliases)
+  checks only existence, type, and cycles — no mode-context check exists today.
+* The SDK's context-aware alias path (`TokenGraph::resolve_alias_in_context` →
+  `resolve_set_in_context`, `sdk/core/src/graph.rs:2041`) picks a mode-appropriate child only
+  when the `$ref` targets a `set_uuid` — the legacy object-map bridge. A normative per-value
+  UUID `$ref` falls through to context-free `resolve_alias_key`.
+
+### But it is not live — zero violations in the current corpus
+
+A full scan of `packages/design-data/tokens/*.json` (8 files, 2,374 token objects, 710
+alias tokens with `$ref`, 447 of those carrying their own `name.colorScheme`) found:
+
+| Alias (with `colorScheme`) → target relationship                                  | Count |
+| --------------------------------------------------------------------------------- | ----- |
+| Target is a mode-set (`set_uuid`) with a matching-mode member                     | 366   |
+| Target is a mode-agnostic single alias (no `colorScheme`)                         | 81    |
+| Target is a per-mode leaf UUID, **same** `colorScheme`                            | 0     |
+| Target is a per-mode leaf UUID, **different** `colorScheme` (Nate's failure mode) | 0     |
+| Dangling / unresolved `$ref`                                                      | 0     |
+
+No alias in the corpus `$ref`s an individual per-mode leaf UUID at all — mode
+differentiation is instead done by pointing at a different mode-agnostic semantic alias
+(e.g. `accent-background-color-default` light/wireframe target `accent-900`, dark targets
+`accent-800`), whose own terminal value is a `set_uuid` (color-palette entries sharing one
+`set_uuid` per scale step, with distinct per-mode `uuid`s and rgb values, e.g. blue-900's
+light/dark/wireframe members). The mode-appropriate palette member is selected by context at
+resolution. **Today's data is mode-safe by construction — via the `set_uuid` bridge plus
+context-aware resolution — even though the normative per-value target model doesn't require it.**
+
+### `valuesByMode` is neither necessary nor sufficient for the property Nate wants
+
+* **Not sufficient** — Sample A2 above shows `valuesByMode` entries still carry bare
+  per-value `$ref` UUIDs (`"$ref": "90d82778-…"`). A light-mode entry can still be
+  mis-authored to point at a dark target; collapsing the *referencing* token's three
+  per-mode objects into one concept object does nothing to constrain what its
+  per-mode `$ref` points at.
+* **Not necessary** — the mode-safe resolution Nate wants already exists today via
+  `resolve_set_in_context`: an alias targets a set/concept-level anchor, and the
+  mode-appropriate member is chosen using the referencing token's own context. That
+  mechanism is orthogonal to storage shape (per-value objects vs. `valuesByMode` array). The
+  guarantee comes from *how `$ref` resolves* (context propagation against a concept/set
+  anchor), not from *where per-mode values are stored*.
+
+### The real risk: this rides on fields slated for removal
+
+Current mode-safety depends on `set_uuid`/`set_schema`, which
+[`relationship-format.md` §Transitional fields](../../packages/design-data-spec/spec/relationship-format.md#legacy-fields-interim)
+says are "expected to be removed in a later spec version." If they're retired without
+preserving a concept/set-level alias anchor plus context-aware resolution, authors lose the
+mechanism that makes today's corpus mode-safe and are pushed back toward per-mode leaf
+`$ref`s — at which point Nate's failure mode becomes reachable. `conceptId` is the natural
+post-bridge anchor: an alias `$ref`s the concept, and resolution picks the mode by context,
+exactly replacing the role `set_uuid` plays today.
+
+### A companion validation rule can backstop the residual case
+
+Sketch for **SPEC-059** (`alias-mode-context-compatibility`), the mode analogue of SPEC-002,
+slotting into `rules/rules.yaml` immediately after SPEC-058:
+
+* **assert:** For an alias token whose name object sets a mode-set field to value `M`, if its
+  `$ref` — followed through the `alias_target` chain the way SPEC-042 does — resolves to a
+  specific per-value token whose name object sets the *same* mode-set field to a value other
+  than `M`, that is a mode-context violation. Targets that omit the field (mode-agnostic) or
+  that are sets/concepts resolved in context are exempt.
+* **severity:** warning to start — the scan above found zero current violations, so there's
+  no false-positive surface, matching how SPEC-042/043 were introduced advisory-first;
+  revisit as error once the target model (and the `set_uuid` retirement path) settles.
+* **category:** `reference-integrity`, alongside SPEC-001–003.
+
+A rule like this only *forbids* a bad `$ref`; it doesn't *provide* the positive mode-safe
+resolution property. That property comes from concept/set-level targeting plus context-aware
+resolution (above), which SPEC-059 backstops rather than replaces.
+
+### Decision — recommendation stands, sharpened
+
+`valuesByMode` remains declined. The reply to Nate is stronger than "add a validation rule":
+the current model is *already* mode-safe in practice (0 violations) because real aliases
+resolve against sets in context — the exact property he's asking for, achieved without his
+restructure — and `valuesByMode` doesn't structurally guarantee that property either (its
+`$ref`s are still raw UUIDs). Concept-id, plus (a) normativizing context-aware `$ref`
+resolution against the concept anchor as the `set_uuid`/`set_schema` bridge retires, and (b)
+the SPEC-059 guardrail, delivers Nate's mode-safety guarantee at the same additive cost as
+before. This also refines criterion 8 (`$ref` aliasing granularity, Part 5): the current
+model's per-value granularity is not the liability Nate frames it as, because real aliases
+target mode-agnostic anchors or sets resolved in context, not per-mode leaves directly.
+
+The `set_uuid`/`set_schema` retirement dependency identified here (point 4) is worth a
+dedicated follow-on once the identity work lands, tracked separately from this analysis bead.
