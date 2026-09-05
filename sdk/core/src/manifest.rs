@@ -16,7 +16,7 @@
 //! [`TokenGraph::apply_platform_manifest`](crate::graph::TokenGraph::apply_platform_manifest).
 
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 
 use serde_json::{Map, Value};
 
@@ -27,13 +27,21 @@ use crate::schema::SchemaRegistry;
 use crate::CoreError;
 
 /// Category subdirectories concatenated verbatim (sorted path order) into the
-/// merged `extensions` object, keyed by directory name → manifest JSON key.
+/// merged `extensions` object, keyed by directory name → manifest JSON key →
+/// fields an entry must have (checked here since full fragment-schema
+/// validation is h890.26.3, not yet landed — without this, an entry missing
+/// e.g. "name" would silently vanish in `apply_platform_manifest`'s own
+/// `let Some(name) = ... else { continue }`, instead of failing loudly).
 /// `tokens/` and `relationships/` have their own handling below and aren't here.
-const CONCAT_CATEGORIES: &[(&str, &str)] = &[
-    ("components", "components"),
-    ("fields", "fields"),
-    ("guidelines", "guidelines"),
-    ("platform-extensions", "platformExtensions"),
+const CONCAT_CATEGORIES: &[(&str, &str, &[&str])] = &[
+    ("components", "components", &["name"]),
+    ("fields", "fields", &["name"]),
+    ("guidelines", "guidelines", &["name"]),
+    (
+        "platform-extensions",
+        "platformExtensions",
+        &["platform", "extends"],
+    ),
 ];
 
 /// Locate `packages/design-data-spec/schemas/manifest.schema.json` by walking up
@@ -123,6 +131,16 @@ fn build_extensions_value(
         .get("extensionsDir")
         .and_then(|v| v.as_str())
         .unwrap_or("extensions");
+    if Path::new(dir_name).is_absolute()
+        || Path::new(dir_name)
+            .components()
+            .any(|c| matches!(c, Component::ParentDir))
+    {
+        return Err(CoreError::ParseError(format!(
+            "manifest extensionsDir \"{dir_name}\" must be a relative path inside the \
+             platform directory (no absolute paths or \"..\" components)"
+        )));
+    }
     let ext_root = manifest_path
         .parent()
         .map_or_else(|| PathBuf::from(dir_name), |p| p.join(dir_name));
@@ -141,7 +159,7 @@ fn build_extensions_value(
             .into_iter()
             .filter(|p| p.to_string_lossy().ends_with(".tokens.json"))
             .collect();
-        let tokens = load_and_concat(&files)?;
+        let tokens = load_and_concat(&files, &[])?;
         if !tokens.is_empty() {
             out.insert("tokens".to_string(), Value::Array(tokens));
         }
@@ -150,12 +168,12 @@ fn build_extensions_value(
     // components/, fields/, guidelines/, platform-extensions/ — one artifact per
     // file (though a file holding an array of several is tolerated too), all files
     // in the subdirectory concatenated in sorted path order.
-    for (dir_name, key) in CONCAT_CATEGORIES {
+    for (dir_name, key, required) in CONCAT_CATEGORIES {
         let dir = ext_root.join(dir_name);
         if !dir.is_dir() {
             continue;
         }
-        let items = load_and_concat(&discover_json_files(&dir)?)?;
+        let items = load_and_concat(&discover_json_files(&dir)?, required)?;
         if !items.is_empty() {
             out.insert((*key).to_string(), Value::Array(items));
         }
@@ -167,7 +185,7 @@ fn build_extensions_value(
     // order. Partition is stable: within each group, sorted-path order is kept.
     let rel_dir = ext_root.join("relationships");
     if rel_dir.is_dir() {
-        let items = load_and_concat(&discover_json_files(&rel_dir)?)?;
+        let items = load_and_concat(&discover_json_files(&rel_dir)?, &[])?;
         if !items.is_empty() {
             let (mut adds, ops): (Vec<Value>, Vec<Value>) =
                 items.into_iter().partition(|v| v.get("op").is_none());
@@ -182,20 +200,45 @@ fn build_extensions_value(
 /// Read and parse each file in `files`, flattening top-level arrays (cascade
 /// token files, or a fragment file holding several entries) and pushing bare
 /// objects as-is, preserving `files`' order throughout.
-fn load_and_concat(files: &[PathBuf]) -> Result<Vec<Value>, CoreError> {
+///
+/// `required_fields` names non-empty-string fields every resulting entry must
+/// have; an entry missing one fails loudly here rather than silently vanishing
+/// in `apply_platform_manifest`'s own add-or-replace lookups (full
+/// fragment-schema validation is h890.26.3, not yet landed).
+fn load_and_concat(files: &[PathBuf], required_fields: &[&str]) -> Result<Vec<Value>, CoreError> {
     let mut out = Vec::new();
     for f in files {
-        let text = std::fs::read_to_string(f)?;
+        let text = std::fs::read_to_string(f).map_err(|e| {
+            CoreError::ParseError(format!(
+                "failed to read extension fragment {}: {e}",
+                f.display()
+            ))
+        })?;
         let val: Value = serde_json::from_str(&text).map_err(|e| {
             CoreError::ParseError(format!(
                 "failed to parse extension fragment {}: {e}",
                 f.display()
             ))
         })?;
-        match val {
-            Value::Array(items) => out.extend(items),
-            other => out.push(other),
+        let items: Vec<Value> = match val {
+            Value::Array(items) => items,
+            other => vec![other],
+        };
+        for item in &items {
+            for field in required_fields {
+                let present = item
+                    .get(*field)
+                    .and_then(Value::as_str)
+                    .is_some_and(|s| !s.is_empty());
+                if !present {
+                    return Err(CoreError::ParseError(format!(
+                        "extension fragment {} has an entry missing required field \"{field}\"",
+                        f.display()
+                    )));
+                }
+            }
         }
+        out.extend(items);
     }
     Ok(out)
 }
@@ -839,5 +882,75 @@ mod tests {
         let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         apply_configured(&mut graph, &resolved).unwrap();
         assert!(graph.components.iter().any(|c| c.name == "tab-bar-ios"));
+    }
+
+    #[test]
+    fn component_fragment_missing_name_fails_loudly() {
+        // Regression: with inline `extensions` schema validation gone
+        // (h890.26.1) and fragment-schema validation not yet landed
+        // (h890.26.3), a malformed fragment must not silently vanish via
+        // `apply_platform_manifest`'s own `let Some(name) = ... else continue`.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "components",
+                "broken.json",
+                json!({"displayName": "No name field"}),
+            )],
+        );
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("missing required field \"name\""));
+    }
+
+    #[test]
+    fn extensions_dir_rejects_parent_traversal() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path =
+            write_manifest_with_extensions(dir.path(), json!({"extensionsDir": "../escape"}), &[]);
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("extensionsDir"));
+    }
+
+    #[test]
+    fn extensions_dir_rejects_absolute_path() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path =
+            write_manifest_with_extensions(dir.path(), json!({"extensionsDir": "/etc"}), &[]);
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+        assert!(err.to_string().contains("extensionsDir"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn unreadable_extension_fragment_error_names_the_file() {
+        // Regression: the read-error path must name the file, like the
+        // parse-error path just below it does, so failures are diagnosable
+        // among many `extensions/` files.
+        use std::os::unix::fs::PermissionsExt;
+
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(dir.path(), json!({}), &[]);
+        let components_dir = dir.path().join("extensions").join("components");
+        std::fs::create_dir_all(&components_dir).unwrap();
+        let bogus = components_dir.join("unreadable.json");
+        std::fs::write(&bogus, "{}").unwrap();
+        std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o000)).unwrap();
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let err = apply_configured(&mut graph, &resolved).unwrap_err();
+
+        // Restore permissions so the tempdir can be cleaned up.
+        std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
+
+        assert!(err.to_string().contains("unreadable.json"));
     }
 }
