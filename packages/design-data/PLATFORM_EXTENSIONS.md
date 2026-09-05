@@ -4,6 +4,13 @@ This guide explains how platform teams can extend the Spectrum Design System Reg
 
 ## Overview
 
+> **Not to be confused with:** the manifest-layer `extensions/` directory described in
+> [`packages/design-data-spec/spec/manifest.md`](../design-data-spec/spec/manifest.md). Both
+> mechanisms use the term "platform extension" and both reference a `platform-extension.json`
+> schema, but they are different layers — this file covers only the older JS-side runtime
+> registry-loading mechanism (`{platform}-{registry}.json` files consumed via
+> `loadPlatformExtension`/`getTermForPlatform`) described below.
+
 The Platform Extension system allows platform implementations (iOS, Android, Web Components, Qt, etc.) to:
 
 * Define platform-specific terminology for registry terms

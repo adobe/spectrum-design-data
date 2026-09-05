@@ -1,0 +1,6 @@
+{
+  "errors": [
+    { "message_pattern": "unrecognized subdirectory" },
+    { "message_pattern": "bogus-subdir" }
+  ]
+}

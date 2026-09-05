@@ -112,3 +112,25 @@ Each **query** case lives under `query/<name>/` with:
 | `query/and-or-precedence` | AND binds tighter than OR: `a,b\|c` = `(a AND b) OR c`. |
 
 The Rust SDK drives these fixtures in `sdk/core/src/lib.rs` (`query_conformance` module, closes [#788](https://github.com/adobe/spectrum-design-data/issues/788)).
+
+***
+
+## Manifest extensions conformance fixtures
+
+Each **manifest-extensions** case lives under `manifest-extensions/valid/<name>/`
+or `manifest-extensions/invalid/<name>/` with:
+
+* `manifest.json` — a Layer 2 platform manifest (applied against the shared
+  `manifest-extensions/base/dataset.json` seed graph)
+* an `extensions/` directory tree (or custom-named via `extensionsDir`) with
+  category subdirectories (`tokens/`, `components/`, `fields/`, `guidelines/`,
+  `platform-extensions/`, `relationships/`)
+* `valid/` cases: `expected.json` — optional post-apply graph predicates
+  (relationship `byUuid`/`absent`, component/field/guideline `present`, token
+  `orderByUuid`); `{}` when the case only proves the manifest applies cleanly
+* `invalid/` cases: `expected-errors.json` — `{ "errors": [{ "message_pattern": "..." }] }`,
+  every pattern regex-matched against the single returned error message
+
+See [`manifest-extensions/README.md`](manifest-extensions/README.md) for the
+full case table. The Rust SDK drives these fixtures in `sdk/core/src/lib.rs`
+(`manifest_extensions_conformance` and `manifest_extensions_behavior` modules).

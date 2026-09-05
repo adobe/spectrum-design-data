@@ -1,0 +1,8 @@
+{
+  "name": "hapticStyle",
+  "kind": "semantic",
+  "registry": null,
+  "validation": "none",
+  "serialization": { "position": 9 },
+  "required": false
+}

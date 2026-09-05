@@ -910,6 +910,322 @@ mod dataset_structure_conformance {
     }
 }
 
+/// Manifest extensions conformance — schema/error harness for the Layer 2
+/// platform manifest's `extensions/` directory loader (h890.26.4).
+///
+/// Fixtures live under
+/// `packages/design-data-spec/conformance/manifest-extensions/{valid,invalid}/<case>/`:
+/// each is a `manifest.json` + `extensions/` tree applied (via
+/// [`crate::manifest::apply_configured`]) against the shared
+/// `manifest-extensions/base/dataset.json` seed graph (the same 3-token
+/// button/checkbox shape as `manifest.rs`'s test-only `make_graph`).
+/// `valid/*` must apply cleanly; `invalid/*` must return an `Err` whose
+/// message matches every `message_pattern` in that case's
+/// `expected-errors.json`. See [`manifest_extensions_behavior`] for the
+/// companion post-apply graph-state harness.
+#[cfg(test)]
+mod manifest_extensions_conformance {
+    use std::path::{Path, PathBuf};
+
+    use regex::Regex;
+    use serde_json::Value;
+
+    use crate::data_source::{Provenance, ResolvedData};
+    use crate::graph::TokenGraph;
+    use crate::manifest::apply_configured;
+    use crate::CoreError;
+
+    pub(crate) fn family_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/manifest-extensions")
+    }
+
+    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors
+    /// `manifest.rs`'s test-only `repo_schemas_root`.
+    fn repo_schemas_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+    }
+
+    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...]}`) into a
+    /// [`TokenGraph`] via [`TokenGraph::from_pairs`], using each token's `key`
+    /// field as the graph key.
+    fn base_graph() -> TokenGraph {
+        let path = family_root().join("base/dataset.json");
+        let dataset: Value = serde_json::from_str(
+            &std::fs::read_to_string(&path)
+                .unwrap_or_else(|e| panic!("failed to read {}: {e}", path.display())),
+        )
+        .unwrap_or_else(|e| panic!("invalid {}: {e}", path.display()));
+        let pairs = dataset["tokens"]
+            .as_array()
+            .expect("base dataset.json has a top-level \"tokens\" array")
+            .iter()
+            .map(|t| {
+                let key = t["key"]
+                    .as_str()
+                    .expect("each base token has a \"key\"")
+                    .to_string();
+                (key, PathBuf::from("dataset.json"), t.clone())
+            })
+            .collect();
+        TokenGraph::from_pairs(pairs)
+    }
+
+    /// Build the base graph and resolve+apply `<dir>/manifest.json` against it
+    /// via `apply_configured`, returning the resulting graph on success.
+    pub(crate) fn apply_case(dir: &Path) -> Result<TokenGraph, CoreError> {
+        let mut graph = base_graph();
+        let resolved = ResolvedData {
+            tokens_root: PathBuf::from("tokens"),
+            schemas_root: repo_schemas_root(),
+            mode_sets: None,
+            components: None,
+            fields: None,
+            guidelines: None,
+            relationships: None,
+            exceptions: None,
+            manifest: None,
+            platform_manifest: Some(dir.join("manifest.json")),
+            provenance: Provenance::InRepo,
+        };
+        apply_configured(&mut graph, &resolved).map(|_| graph)
+    }
+
+    fn case_dirs(dir: &Path) -> Vec<PathBuf> {
+        let mut cases: Vec<PathBuf> = std::fs::read_dir(dir)
+            .unwrap_or_else(|e| panic!("{} missing: {e}", dir.display()))
+            .filter_map(|e| e.ok())
+            .map(|e| e.path())
+            .filter(|p| p.is_dir())
+            .collect();
+        cases.sort();
+        cases
+    }
+
+    #[test]
+    fn valid_cases_apply_cleanly() {
+        let mut failures = Vec::new();
+        for dir in case_dirs(&family_root().join("valid")) {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            if let Err(e) = apply_case(&dir) {
+                failures.push(format!("{case}: expected Ok, got Err: {e}"));
+            }
+        }
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+
+    #[test]
+    fn invalid_cases_match_expected_errors() {
+        let mut failures = Vec::new();
+        for dir in case_dirs(&family_root().join("invalid")) {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let expected_path = dir.join("expected-errors.json");
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected-errors.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
+            let patterns: Vec<String> = expected
+                .get("errors")
+                .and_then(|v| v.as_array())
+                .cloned()
+                .unwrap_or_default()
+                .iter()
+                .filter_map(|e| {
+                    e.get("message_pattern")
+                        .and_then(|v| v.as_str())
+                        .map(String::from)
+                })
+                .collect();
+
+            match apply_case(&dir) {
+                Ok(_) => failures.push(format!("{case}: expected Err, got Ok")),
+                Err(e) => {
+                    let msg = e.to_string();
+                    for pattern in &patterns {
+                        let re = Regex::new(pattern).unwrap_or_else(|e| {
+                            panic!("{case}: invalid message_pattern {pattern:?}: {e}")
+                        });
+                        if !re.is_match(&msg) {
+                            failures.push(format!(
+                                "{case}: error message did not match pattern {pattern:?}\n  Got: {msg}"
+                            ));
+                        }
+                    }
+                }
+            }
+        }
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+}
+
+/// Manifest extensions behavior harness — asserts `expected.json` predicates
+/// (relationship `byUuid` count/value, `absent` uuids, component/field/
+/// guideline presence by name, token load order by uuid) against the
+/// post-`apply_configured` graph state for `valid/*`
+/// [`manifest_extensions_conformance`] cases that carry them. Cases whose
+/// `expected.json` is `{}` (loads-clean only) are skipped here — they're
+/// fully covered by `manifest_extensions_conformance::valid_cases_apply_cleanly`.
+#[cfg(test)]
+mod manifest_extensions_behavior {
+    use std::path::PathBuf;
+
+    use serde_json::Value;
+
+    use super::manifest_extensions_conformance::{apply_case, family_root};
+
+    #[test]
+    fn valid_case_predicates_hold() {
+        let base = family_root().join("valid");
+        let mut cases: Vec<PathBuf> = std::fs::read_dir(&base)
+            .unwrap_or_else(|e| panic!("{} missing: {e}", base.display()))
+            .filter_map(|e| e.ok())
+            .map(|e| e.path())
+            .filter(|p| p.is_dir())
+            .collect();
+        cases.sort();
+
+        let mut failures = Vec::new();
+        for dir in cases {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let expected_path = dir.join("expected.json");
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+
+            if expected.as_object().is_none_or(|o| o.is_empty()) {
+                continue; // "loads clean" only — no predicates to check here.
+            }
+
+            let graph = match apply_case(&dir) {
+                Ok(g) => g,
+                Err(e) => {
+                    failures.push(format!("{case}: apply_configured failed: {e}"));
+                    continue;
+                }
+            };
+
+            if let Some(rel) = expected.get("relationships") {
+                if let Some(by_uuid) = rel.get("byUuid").and_then(|v| v.as_object()) {
+                    for (uuid, spec) in by_uuid {
+                        let matching: Vec<_> = graph
+                            .relationships
+                            .iter()
+                            .filter(|r| r.uuid.as_deref() == Some(uuid.as_str()))
+                            .collect();
+                        if let Some(count) = spec.get("count").and_then(|v| v.as_u64()) {
+                            if matching.len() as u64 != count {
+                                failures.push(format!(
+                                    "{case}: relationship {uuid} expected count {count}, got {}",
+                                    matching.len()
+                                ));
+                            }
+                        }
+                        if let Some(value) = spec.get("value") {
+                            match matching.as_slice() {
+                                [only] if only.raw.get("value") == Some(value) => {}
+                                _ => failures.push(format!(
+                                    "{case}: relationship {uuid} expected a single match with value {value}, got {:?}",
+                                    matching.iter().map(|r| &r.raw).collect::<Vec<_>>()
+                                )),
+                            }
+                        }
+                    }
+                }
+                if let Some(absent) = rel.get("absent").and_then(|v| v.as_array()) {
+                    for uuid in absent.iter().filter_map(|v| v.as_str()) {
+                        if graph
+                            .relationships
+                            .iter()
+                            .any(|r| r.uuid.as_deref() == Some(uuid))
+                        {
+                            failures.push(format!(
+                                "{case}: expected relationship {uuid} absent, but present"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            for (key, records_len) in [
+                (
+                    "components",
+                    &graph
+                        .components
+                        .iter()
+                        .map(|c| c.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "fields",
+                    &graph
+                        .fields
+                        .iter()
+                        .map(|f| f.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "guidelines",
+                    &graph
+                        .guidelines
+                        .iter()
+                        .map(|g| g.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+            ] {
+                if let Some(present) = expected
+                    .get(key)
+                    .and_then(|c| c.get("present"))
+                    .and_then(|v| v.as_array())
+                {
+                    for name in present.iter().filter_map(|v| v.as_str()) {
+                        let count = records_len.iter().filter(|n| n.as_str() == name).count();
+                        if count != 1 {
+                            failures.push(format!(
+                                "{case}: expected exactly one {key} named {name:?}, found {count}"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(order) = expected
+                .get("tokens")
+                .and_then(|t| t.get("orderByUuid"))
+                .and_then(|v| v.as_array())
+            {
+                let uuids: Vec<&str> = order.iter().filter_map(|v| v.as_str()).collect();
+                let mut last_file: Option<PathBuf> = None;
+                for uuid in &uuids {
+                    let Some(record) = graph
+                        .tokens
+                        .values()
+                        .find(|t| t.uuid.as_deref() == Some(*uuid))
+                    else {
+                        failures.push(format!(
+                            "{case}: expected token uuid {uuid} present, not found"
+                        ));
+                        continue;
+                    };
+                    if let Some(prev) = &last_file {
+                        if &record.file < prev {
+                            failures.push(format!(
+                                "{case}: token uuid {uuid} loaded out of sorted-path order"
+                            ));
+                        }
+                    }
+                    last_file = Some(record.file.clone());
+                }
+            }
+        }
+
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+}
+
 /// Resolution conformance tests — fixture-driven, closes #768.
 ///
 /// Each test case lives under `packages/design-data-spec/conformance/resolution/<name>/`

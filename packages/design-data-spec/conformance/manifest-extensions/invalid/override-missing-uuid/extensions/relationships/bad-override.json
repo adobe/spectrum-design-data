@@ -1,0 +1,7 @@
+{
+  "op": "override",
+  "value": {
+    "scope": { "component": "button", "property": "corner-radius" },
+    "value": "8px"
+  }
+}

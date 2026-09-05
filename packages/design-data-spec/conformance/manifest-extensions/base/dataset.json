@@ -1,0 +1,22 @@
+{
+  "tokens": [
+    {
+      "key": "btn-bg",
+      "name": { "property": "background-color", "component": "button" },
+      "value": "#aaa",
+      "uuid": "u-btn-bg"
+    },
+    {
+      "key": "btn-fg",
+      "name": { "property": "color", "component": "button" },
+      "value": "#111",
+      "uuid": "u-btn-fg"
+    },
+    {
+      "key": "chk-bg",
+      "name": { "property": "background-color", "component": "checkbox" },
+      "value": "#bbb",
+      "uuid": "u-chk-bg"
+    }
+  ]
+}

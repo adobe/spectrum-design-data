@@ -1,0 +1,7 @@
+{
+  "name": "hapticStyle",
+  "kind": "bogus-kind",
+  "registry": null,
+  "validation": "none",
+  "serialization": { "position": 9 }
+}

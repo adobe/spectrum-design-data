@@ -3,9 +3,8 @@
 ---
 
 Redefine platform-manifest `extensions` as a sibling `extensions/` directory (one file
-per artifact) instead of a single inline object, so per-platform additions can scale
-past a handful of components; the reference SDK loader is not yet updated (tracked
-separately), so this change is spec+schema only in this release.
+per artifact, glob-discovered and merged at load time) instead of a single inline
+object, so per-platform additions can scale past a handful of components.
 
 - **schemas/manifest.schema.json**: removed the inline `extensions` object; a manifest
   using the old inline shape now fails Layer 1 validation. Added optional
@@ -13,4 +12,8 @@ separately), so this change is spec+schema only in this release.
   to top-level manifest fields.
 - **spec/manifest.md**: documents the `extensions/` directory layout, glob discovery,
   and merge/precedence rules (deep-merge for `tokens/`, sorted-path-order/last-wins for
-  the other catalogs, override/remove-by-uuid for `relationships/`).
+  the other catalogs, override/remove-by-uuid for `relationships/`), and the
+  per-fragment schema each subdirectory validates against.
+- **reference SDK loader**: glob-discovers and merges each `extensions/` subdirectory
+  at manifest load time, schema-validating every fragment file against its category's
+  real JSON schema before merging it in.
