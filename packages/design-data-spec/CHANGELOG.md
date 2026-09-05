@@ -1,5 +1,24 @@
 # @adobe/design-data-spec
 
+## 4.0.0
+
+### Major Changes
+
+- [#1420](https://github.com/adobe/spectrum-design-data/pull/1420) [`211d661`](https://github.com/adobe/spectrum-design-data/commit/211d66122892000939944b43427f35e356a5ae51) Thanks [@GarthDB](https://github.com/GarthDB)! - Redefine platform-manifest `extensions` as a sibling `extensions/` directory (one file
+  per artifact, glob-discovered and merged at load time) instead of a single inline
+  object, so per-platform additions can scale past a handful of components.
+  - **schemas/manifest.schema.json**: removed the inline `extensions` object; a manifest
+    using the old inline shape now fails Layer 1 validation. Added optional
+    `extensionsDir` (default `"extensions"`) and promoted `namingExceptions`/`formatting`
+    to top-level manifest fields.
+  - **spec/manifest.md**: documents the `extensions/` directory layout, glob discovery,
+    and merge/precedence rules (deep-merge for `tokens/`, sorted-path-order/last-wins for
+    the other catalogs, override/remove-by-uuid for `relationships/`), and the
+    per-fragment schema each subdirectory validates against.
+  - **reference SDK loader**: glob-discovers and merges each `extensions/` subdirectory
+    at manifest load time, schema-validating every fragment file against its category's
+    real JSON schema before merging it in.
+
 ## 3.5.0
 
 ### Minor Changes
