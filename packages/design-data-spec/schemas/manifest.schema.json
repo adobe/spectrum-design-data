@@ -83,122 +83,64 @@
         "additionalProperties": false
       }
     },
-    "extensions": {
+    "extensionsDir": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path (relative to the manifest) to the platform's extensions directory, holding platform-local tokens/components/fields/relationships/guidelines/platform-extensions as one file per artifact (see spec/manifest.md#extensions-directory). Default: \"extensions\"."
+    },
+    "namingExceptions": {
       "type": "object",
-      "description": "Platform-local tokens, mode sets, and formatting rules.",
+      "description": "Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.",
       "properties": {
-        "tokens": {
-          "$ref": "cascade-file.schema.json",
-          "description": "Platform-local token definitions, in cascade-format (same shape as a cascade token file)."
-        },
-        "components": {
+        "add": {
           "type": "array",
-          "items": { "$ref": "component.schema.json" },
-          "description": "Platform-local component specs, injected into the component catalog (add-or-replace by name)."
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Token names to add to the naming-exceptions set for this platform."
         },
-        "fields": {
+        "remove": {
           "type": "array",
-          "items": { "$ref": "field.schema.json" },
-          "description": "Platform-local field declarations, injected into the field catalog (add-or-replace by name)."
-        },
-        "relationships": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "$ref": "relationship.schema.json#/$defs/relationship" },
-              {
-                "type": "object",
-                "required": ["op", "uuid", "value"],
-                "properties": {
-                  "op": { "const": "override" },
-                  "uuid": { "type": "string", "format": "uuid" },
-                  "value": {
-                    "$ref": "relationship.schema.json#/$defs/relationship"
-                  }
-                },
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "required": ["op", "uuid"],
-                "properties": {
-                  "op": { "const": "remove" },
-                  "uuid": { "type": "string", "format": "uuid" }
-                },
-                "additionalProperties": false
-              }
-            ]
-          },
-          "description": "Platform-local Component/Token Relationship (CTR) add/override/remove. Entries without \"op\" are added positionally; \"override\"/\"remove\" require a \"uuid\" to target an existing relationship."
-        },
-        "platformExtensions": {
-          "type": "array",
-          "items": {
-            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json"
-          },
-          "description": "Platform-local terminology extensions (e.g. iOS state vocabulary), annotating ids in an existing base registry."
-        },
-        "guidelines": {
-          "type": "array",
-          "items": { "$ref": "guideline.schema.json" },
-          "description": "Platform-local guideline docs, injected into the guideline catalog (add-or-replace by name)."
-        },
-        "namingExceptions": {
-          "type": "object",
-          "description": "Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.",
-          "properties": {
-            "add": {
-              "type": "array",
-              "items": { "type": "string", "minLength": 1 },
-              "description": "Token names to add to the naming-exceptions set for this platform."
-            },
-            "remove": {
-              "type": "array",
-              "items": { "type": "string", "minLength": 1 },
-              "description": "Token names to remove from the base naming-exceptions set for this platform."
-            }
-          },
-          "additionalProperties": false
-        },
-        "formatting": {
-          "type": "object",
-          "description": "Rules for serializing structured name objects into platform-specific token name strings.",
-          "properties": {
-            "conceptOrder": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "uniqueItems": true,
-              "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
-            },
-            "casing": {
-              "type": "string",
-              "enum": [
-                "kebab-case",
-                "camelCase",
-                "PascalCase",
-                "SCREAMING_SNAKE_CASE"
-              ],
-              "description": "Casing style for serialized token names. Default: kebab-case."
-            },
-            "delimiter": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Character(s) separating concepts in the serialized string. Default: -."
-            },
-            "abbreviations": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "description": "Map of full term to abbreviated form, applied after ordering and before casing."
-            }
-          },
-          "additionalProperties": false
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Token names to remove from the base naming-exceptions set for this platform."
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
+    },
+    "formatting": {
+      "type": "object",
+      "description": "Rules for serializing structured name objects into platform-specific token name strings.",
+      "properties": {
+        "conceptOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
+        },
+        "casing": {
+          "type": "string",
+          "enum": [
+            "kebab-case",
+            "camelCase",
+            "PascalCase",
+            "SCREAMING_SNAKE_CASE"
+          ],
+          "description": "Casing style for serialized token names. Default: kebab-case."
+        },
+        "delimiter": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Character(s) separating concepts in the serialized string. Default: -."
+        },
+        "abbreviations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
