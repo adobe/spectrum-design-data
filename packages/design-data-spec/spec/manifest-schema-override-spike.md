@@ -24,9 +24,12 @@ schemas for its own data?
 3. **No concrete need surfaced.** Nothing in the h890.22/h890.23 work (iOS
    externalization, or the guidelines/fields/relationships/naming-exceptions cascade
    additions) needed schema relaxation — every platform-local addition validates fine
-   against the existing schemas via `extensions.*`. The `extensions` object is already
-   `additionalProperties: true`, which covers "the platform wants to attach data the
-   schema doesn't know about" without touching the schema itself.
+   against the existing per-artifact schemas via the `extensions/` directory (see
+   [Manifest — `extensions/` directory](manifest.md#extensions-directory)). Each fragment
+   file there is checked against the same `component.schema.json` /
+   `field.schema.json` / `guideline.schema.json` / etc. as the foundation dataset, which
+   already covers "the platform wants to attach data the schema knows how to validate"
+   without touching the schema itself.
 
 ## Decision
 

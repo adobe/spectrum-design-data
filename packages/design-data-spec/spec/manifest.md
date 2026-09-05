@@ -8,23 +8,23 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                          | Supported?                                                   | Field                           | Applies to            |
-| -------------------------------------------------- | ------------------------------------------------------------ | ------------------------------- | --------------------- |
-| Remove / exclude                                   | Yes                                                          | `exclude`                       | Tokens only           |
-| Include / whitelist                                | Yes                                                          | `include`                       | Tokens only           |
-| Override value (type-preserving)                   | Yes                                                          | `overrides[].value`             | Tokens only           |
-| Override → re-alias                                | Yes                                                          | `overrides[].$ref`              | Tokens only           |
-| Add new tokens (may alias via `$ref`)              | Yes                                                          | `extensions.tokens`             | Tokens                |
-| Add / replace components                           | Yes                                                          | `extensions.components`         | Components            |
-| Add / replace field declarations                   | Yes                                                          | `extensions.fields`             | Fields                |
-| Add / replace guideline documents                  | Yes                                                          | `extensions.guidelines`         | Guidelines            |
-| Add relationships/CTRs; override/remove by `uuid`  | Yes                                                          | `extensions.relationships`      | Relationships (CTRs)  |
-| Add / remove naming exceptions                     | Yes                                                          | `extensions.namingExceptions`   | Naming validation     |
-| Annotate existing terminology (cannot add new ids) | Yes                                                          | `extensions.platformExtensions` | Existing registry ids |
-| Restrict allowed mode-set values                   | Yes                                                          | `modeSetRestrictions`           | Mode sets             |
-| Reformat name serialization                        | Schema-declared only, not yet applied by the reference SDK   | `extensions.formatting`         | Token name strings    |
-| Override/remove/alias translations                 | No                                                           | —                               | —                     |
-| Override Layer-1 schemas                           | No (decided; see [spike](manifest-schema-override-spike.md)) | —                               | —                     |
+| Operation                                          | Supported?                                                   | Field                             | Applies to            |
+| -------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | --------------------- |
+| Remove / exclude                                   | Yes                                                          | `exclude`                         | Tokens only           |
+| Include / whitelist                                | Yes                                                          | `include`                         | Tokens only           |
+| Override value (type-preserving)                   | Yes                                                          | `overrides[].value`               | Tokens only           |
+| Override → re-alias                                | Yes                                                          | `overrides[].$ref`                | Tokens only           |
+| Add new tokens (may alias via `$ref`)              | Yes                                                          | `extensions/tokens/`              | Tokens                |
+| Add / replace components                           | Yes                                                          | `extensions/components/`          | Components            |
+| Add / replace field declarations                   | Yes                                                          | `extensions/fields/`              | Fields                |
+| Add / replace guideline documents                  | Yes                                                          | `extensions/guidelines/`          | Guidelines            |
+| Add relationships/CTRs; override/remove by `uuid`  | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)  |
+| Add / remove naming exceptions                     | Yes                                                          | `namingExceptions`                | Naming validation     |
+| Annotate existing terminology (cannot add new ids) | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids |
+| Restrict allowed mode-set values                   | Yes                                                          | `modeSetRestrictions`             | Mode sets             |
+| Reformat name serialization                        | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings    |
+| Override/remove/alias translations                 | No                                                           | —                                 | —                     |
+| Override Layer-1 schemas                           | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                     |
 
 ## Manifest document
 
@@ -39,13 +39,15 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field                 | Type            | Description                                                                                                                                                                                                       |
-| --------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                                                                       |
-| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                                                                    |
-| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                                                                  |
-| `extensions`          | object          | Platform-local additions layered on top of foundation — `tokens`, `components`, `fields`, `guidelines`, `relationships`, `namingExceptions`, `platformExtensions`, `formatting` (see `extensions` section below). |
-| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                                                                             |
+| Field                 | Type            | Description                                                                                                                                                     |
+| --------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                     |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                  |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                |
+| `extensionsDir`       | string          | Path (relative to the manifest) to the platform's `extensions/` directory. Default: `"extensions"`. See [`extensions/` directory](#extensions-directory) below. |
+| `namingExceptions`    | object          | Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.                                     |
+| `formatting`          | object          | Rules for serializing structured name objects into platform-specific token name strings.                                                                        |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                           |
 
 ### `include` / `exclude`
 
@@ -71,41 +73,68 @@ apply `Foundation < Platform < Product` precedence to select a single winner. To
 counts "tokens a platform ships" from `query` output should resolve first, or it will
 double-count overridden tokens.
 
-### `extensions`
+### `extensions/` directory
 
-**RECOMMENDED:** `extensions` follows the same structural conventions as foundation token files (tokens, mode sets) and **SHOULD** be validated with the same Layer 1 and Layer 2 rules.
+**NORMATIVE:** Platform-local additions are declared as a sibling **directory** next to
+`manifest.json` (default name `extensions/`; override with the top-level `extensionsDir`
+field), not as an inline object in the manifest. This mirrors how the foundation dataset
+(`packages/design-data/`) splits its own catalogs into one file per artifact, and lets a
+platform's extension set grow without every addition colliding in one JSON object.
 
-#### `extensions.tokens`
+```
+extensions/
+  tokens/               *.tokens.json          cascade-format token files
+  components/           <component>.json       one component per file
+  fields/                <field>.json          one field declaration per file
+  relationships/         <component>.json      one CTR set per file
+  guidelines/             <topic>.json         one guideline per file
+  platform-extensions/   <platform>-<registry>.json
+```
 
-Platform-local token definitions, in cascade-file format. Inserted at the platform layer alongside (not replacing) foundation tokens; entries **MAY** carry a `$ref` to alias an existing token instead of a literal value.
+**NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
+`tokens/`, `**/*.tokens.json`), with no index file — the same convention used by
+`discover_json_files` in `sdk/core/src/discovery.rs` for the foundation dataset. Matched files
+are processed in **sorted path order**; this is the sole basis for precedence below. A missing
+or empty subdirectory contributes nothing and is not an error.
 
-#### `extensions.components`
+**NORMATIVE:** Merge semantics by subdirectory:
 
-Platform-local component specs, injected into the component catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by component `name` at the platform layer.
+* **`tokens/`** — every `*.tokens.json` file is cascade-format (same shape as a foundation
+  cascade token file). Files are **deep-merged** into one tokens object, in sorted path order.
+  Entries **MAY** carry a `$ref` to alias an existing token instead of a literal value.
+* **`components/`, `fields/`, `guidelines/`, `platform-extensions/`** — one artifact per file.
+  Entries across all files in the subdirectory are concatenated, in sorted path order, and
+  injected into the corresponding catalog **add-or-replace by name** (for
+  `platform-extensions/`, by `termId`; see below). When two files declare the same name,
+  **the entry from the later file (in sorted path order) wins.**
+* **`relationships/`** — Component/Token Relationship (CTR) entries. Relationships have no
+  inherent stable key — only an optional `uuid` — so add and override/remove use different
+  identity rules:
+  * **Add:** an entry with no `op` field is a full relationship object (validated against
+    `relationship.schema.json`), appended at the platform layer, in sorted path order.
+  * **Override / remove:** targeting an existing relationship **MUST** carry a `uuid`.
+    **NORMATIVE:** an entry with `"op": "override"` or `"op": "remove"` that omits `uuid` is a
+    manifest error — the reference SDK rejects it rather than silently skipping it. `"op":
+    "override"` also carries a `value` (the replacement relationship object); `"op": "remove"`
+    drops the matching record. Override/remove ops apply, in sorted path order, against the
+    accumulated set of added relationships (across all files, foundation and platform-local).
 
-#### `extensions.fields`
+#### `extensions/fields/`
 
-Platform-local field declarations, injected into the field catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by field `name` at the platform layer; each entry **MUST** validate against `field.schema.json`. Note: `extensions.formatting.conceptOrder` (if declared) references field names by string — a platform that renames or removes a field it also references there is self-inconsistent; that is a manifest-authoring concern, not enforced by the reference SDK.
+Platform-local field declarations, injected into the field catalog. **NORMATIVE:** each file
+**MUST** validate against `field.schema.json`. Note: a top-level `formatting.conceptOrder` (if
+declared) references field names by string — a platform that renames or removes a field it
+also references there is self-inconsistent; that is a manifest-authoring concern, not enforced
+by the reference SDK.
 
-#### `extensions.guidelines`
+#### `extensions/platform-extensions/`
 
-Platform-local guideline documents, injected into the guideline catalog. **NORMATIVE:** the reference SDK applies these add-or-replace by guideline `name` at the platform layer; each entry **MUST** validate against `guideline.schema.json`.
+Platform terminology annotations layered onto **existing** foundation registry entries (for
+example, platform-specific state names). **NORMATIVE:** every `termId` **MUST** already exist
+in the referenced foundation registry — this mechanism annotates existing ids, it does **NOT**
+introduce new ones.
 
-#### `extensions.relationships`
-
-Platform-local Component/Token Relationship (CTR) entries. Relationships have no inherent
-stable key — only an optional `uuid` — so add and override/remove use different identity
-rules:
-
-* **Add:** an entry with no `op` field is a full relationship object (validated against
-  `relationship.schema.json`), appended at the platform layer.
-* **Override / remove:** relationships have no other stable identity, so targeting one
-  **MUST** carry a `uuid`. **NORMATIVE:** an `extensions.relationships` entry with `"op":
-  "override"` or `"op": "remove"` that omits `uuid` is a manifest error — the reference SDK
-  rejects it rather than silently skipping it. `"op": "override"` also carries a `value` (the
-  replacement relationship object); `"op": "remove"` drops the matching record.
-
-#### `extensions.namingExceptions`
+### `namingExceptions`
 
 Platform-local overlay on the base naming-exceptions set used by naming validation.
 **NORMATIVE:** the reference SDK applies `remove` before `add`, so a name listed in both
@@ -117,11 +146,7 @@ ends up present (add wins) rather than silently dropped. Absent this key, the ba
 | `add`    | array of string | Names to add to the naming-exceptions set for this platform. |
 | `remove` | array of string | Names to remove from the base naming-exceptions set.         |
 
-#### `extensions.platformExtensions`
-
-Platform terminology annotations layered onto **existing** foundation registry entries (for example, platform-specific state names). **NORMATIVE:** every `termId` **MUST** already exist in the referenced foundation registry — this mechanism annotates existing ids, it does **NOT** introduce new ones.
-
-#### `extensions.formatting`
+### `formatting`
 
 A platform **MAY** declare formatting rules that control how structured name objects are serialized into flat token name strings for that platform. See [Taxonomy — Platform formatting configuration](taxonomy.md#platform-formatting-configuration) for motivation and examples.
 
@@ -132,9 +157,9 @@ A platform **MAY** declare formatting rules that control how structured name obj
 | `delimiter`     | string          | Character(s) separating concepts in the serialized string (e.g. `-`, `_`, `.`, `/`). Default: `-`.                                                                                                                                                                                                                                                                                                                                     |
 | `abbreviations` | object          | Map of full term → abbreviated form (e.g. `{ "background": "bg" }`). Abbreviations are applied after concept ordering and before casing.                                                                                                                                                                                                                                                                                               |
 
-**NORMATIVE:** When `extensions.formatting` is absent, the default serialization defined in [Taxonomy](taxonomy.md#default-serialization-legacy-format) is used.
+**NORMATIVE:** When `formatting` is absent, the default serialization defined in [Taxonomy](taxonomy.md#default-serialization-legacy-format) is used.
 
-**NORMATIVE:** A formatter applying `extensions.formatting` **MUST** produce deterministic output — the same name object and formatting configuration **MUST** always yield the same string.
+**NORMATIVE:** A formatter applying `formatting` **MUST** produce deterministic output — the same name object and formatting configuration **MUST** always yield the same string.
 
 ## Validation
 
