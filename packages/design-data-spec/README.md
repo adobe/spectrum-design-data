@@ -4,6 +4,9 @@ Normative **Design Data Specification** artifacts for Spectrum: human-readable s
 
 **Spec version:** `1.0.0-draft` — see [`spec/index.md`](spec/index.md).
 
+See [`spec/manifest.md`](spec/manifest.md) for the platform manifest spec, including the
+`extensions/` directory model.
+
 ## Layers
 
 1. **JSON Schemas** (Draft 2020-12) — structural (per-file) validation; canonical `$id` under `https://opensource.adobe.com/spectrum-design-data/schemas/v0/`.

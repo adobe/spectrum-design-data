@@ -100,13 +100,29 @@ or empty subdirectory contributes nothing and is not an error.
 **NORMATIVE:** Merge semantics by subdirectory:
 
 * **`tokens/`** — every `*.tokens.json` file is cascade-format (same shape as a foundation
-  cascade token file). Files are **deep-merged** into one tokens object, in sorted path order.
-  Entries **MAY** carry a `$ref` to alias an existing token instead of a literal value.
+  cascade token file) and **MUST** validate against `cascade-file.schema.json`. Files are
+  **deep-merged** into one tokens object, in sorted path order. Entries **MAY** carry a `$ref`
+  to alias an existing token instead of a literal value.
 * **`components/`, `fields/`, `guidelines/`, `platform-extensions/`** — one artifact per file.
   Entries across all files in the subdirectory are concatenated, in sorted path order, and
   injected into the corresponding catalog **add-or-replace by name** (for
   `platform-extensions/`, by `termId`; see below). When two files declare the same name,
   **the entry from the later file (in sorted path order) wins.**
+
+**NORMATIVE:** Each fragment file **MUST** validate against its category's real JSON schema at
+load time — this is enforced reference-SDK behavior, not an aspirational goal:
+
+* **`components/`** → `component.schema.json`
+* **`fields/`** → `field.schema.json` (see [`extensions/fields/`](#extensionsfields) below)
+* **`guidelines/`** → `guideline.schema.json`
+* **`relationships/`** → `relationship.schema.json` (see the Add/Override/remove rules above)
+* **`platform-extensions/`** → `platform-extension.json` (see
+  [`extensions/platform-extensions/`](#extensionsplatform-extensions) below)
+* **`tokens/`** → `cascade-file.schema.json` (see above)
+
+A fragment that fails validation against its category schema is a manifest error — the
+reference SDK rejects the load rather than silently skipping the malformed file.
+
 * **`relationships/`** — Component/Token Relationship (CTR) entries. Relationships have no
   inherent stable key — only an optional `uuid` — so add and override/remove use different
   identity rules:
@@ -130,9 +146,10 @@ by the reference SDK.
 #### `extensions/platform-extensions/`
 
 Platform terminology annotations layered onto **existing** foundation registry entries (for
-example, platform-specific state names). **NORMATIVE:** every `termId` **MUST** already exist
-in the referenced foundation registry — this mechanism annotates existing ids, it does **NOT**
-introduce new ones.
+example, platform-specific state names). **NORMATIVE:** each file **MUST** validate against
+`platform-extension.json`, and every `termId` **MUST** already exist in the referenced
+foundation registry — this mechanism annotates existing ids, it does **NOT** introduce new
+ones.
 
 ### `namingExceptions`
 

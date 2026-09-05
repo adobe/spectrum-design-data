@@ -12,8 +12,8 @@
 
 use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
-use std::sync::Arc;
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex, OnceLock};
 
 use jsonschema::{Draft, Registry, Resource, ValidationOptions, Validator};
 use serde_json::Value;
@@ -146,10 +146,7 @@ impl SchemaRegistry {
         value: &Value,
         schema_path: &Path,
     ) -> Result<Vec<String>, CoreError> {
-        let validator = build_schema_validator(
-            schema_path,
-            jsonschema::options().should_validate_formats(true),
-        )?;
+        let validator = cached_validator(schema_path)?;
         Ok(validator
             .iter_errors(value)
             .map(|e| e.to_string())
@@ -170,6 +167,45 @@ impl SchemaRegistry {
             token_file_schema_url: String::new(),
         }
     }
+}
+
+/// Process-wide cache of compiled [`Validator`]s for
+/// [`SchemaRegistry::validate_value_against_schema_file`], keyed by canonicalized
+/// schema path. That function is called once per fragment/entry (e.g. every
+/// `extensions/` fragment item during a manifest load) with a fixed set of
+/// [`ValidationOptions`], so a schema file's compiled validator — including the
+/// disk reads + `$ref` resolution `build_schema_validator` performs for every
+/// sibling schema — only needs to happen once per process, not once per call.
+fn schema_validator_cache() -> &'static Mutex<HashMap<PathBuf, Arc<Validator>>> {
+    static CACHE: OnceLock<Mutex<HashMap<PathBuf, Arc<Validator>>>> = OnceLock::new();
+    CACHE.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+/// Compile (or fetch from [`schema_validator_cache`]) the validator for
+/// `schema_path`, always with `should_validate_formats(true)` and draft
+/// auto-detection — the fixed options `validate_value_against_schema_file` uses.
+fn cached_validator(schema_path: &Path) -> Result<Arc<Validator>, CoreError> {
+    let key = schema_path
+        .canonicalize()
+        .unwrap_or_else(|_| schema_path.to_path_buf());
+
+    if let Some(validator) = schema_validator_cache()
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+        .get(&key)
+    {
+        return Ok(Arc::clone(validator));
+    }
+
+    let validator = Arc::new(build_schema_validator(
+        schema_path,
+        jsonschema::options().should_validate_formats(true),
+    )?);
+    schema_validator_cache()
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+        .insert(key, Arc::clone(&validator));
+    Ok(validator)
 }
 
 /// Read `schema_path`, register sibling `*.json` schemas in its directory (and a

@@ -1,0 +1,9 @@
+{
+  "$id": "https://example.com/components/tab-bar-ios",
+  "name": "tab-bar-ios",
+  "displayName": "First",
+  "meta": {
+    "category": "navigation",
+    "documentationUrl": "https://example.com"
+  }
+}

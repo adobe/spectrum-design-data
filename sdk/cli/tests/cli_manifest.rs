@@ -162,6 +162,39 @@ fn validate_manifest_honors_explicit_flag() {
 }
 
 #[test]
+fn validate_manifest_rejects_bad_fragment() {
+    // A schema-invalid extensions/ fragment (h890.26.3) must fail the same way
+    // an inline `extensions` schema violation used to before h890.26.1, naming
+    // the offending fragment file rather than just "manifest invalid". Drives
+    // the shared manifest-extensions/invalid/component-missing-name
+    // conformance fixture directly rather than hand-writing an equivalent
+    // broken fragment in the temp project.
+    let project = setup_project_without_manifest_key(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0"
+    }));
+
+    let fixture_manifest = repo_root().join(
+        "packages/design-data-spec/conformance/manifest-extensions/invalid/component-missing-name/manifest.json",
+    );
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args([
+            "validate-manifest",
+            "tokens",
+            "--manifest",
+            fixture_manifest
+                .to_str()
+                .expect("fixture path is valid UTF-8"),
+        ])
+        .assert()
+        .code(1)
+        .stderr(contains("broken.json"));
+}
+
+#[test]
 fn query_applies_manifest_include_filter() {
     let project = setup_project(json!({
         "specVersion": "1.0.0-draft",

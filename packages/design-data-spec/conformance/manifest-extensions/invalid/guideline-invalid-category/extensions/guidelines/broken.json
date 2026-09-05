@@ -1,0 +1,7 @@
+{
+  "$id": "https://example.com/guidelines/broken",
+  "name": "broken",
+  "title": "Broken",
+  "category": "not-a-real-category",
+  "documentBlocks": [{ "type": "purpose", "content": "..." }]
+}

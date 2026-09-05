@@ -1,0 +1,7 @@
+{
+  "errors": [
+    { "message_pattern": "broken\\.json" },
+    { "message_pattern": "component\\.schema\\.json" },
+    { "message_pattern": "\"name\"" }
+  ]
+}

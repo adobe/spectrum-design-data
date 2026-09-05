@@ -28,19 +28,19 @@ use crate::CoreError;
 
 /// Category subdirectories concatenated verbatim (sorted path order) into the
 /// merged `extensions` object, keyed by directory name → manifest JSON key →
-/// fields an entry must have (checked here since full fragment-schema
-/// validation is h890.26.3, not yet landed — without this, an entry missing
-/// e.g. "name" would silently vanish in `apply_platform_manifest`'s own
-/// `let Some(name) = ... else { continue }`, instead of failing loudly).
+/// the object schema each entry is validated against (see
+/// [`FragmentValidation::Item`]) — this is what stops an entry missing e.g.
+/// "name" from silently vanishing in `apply_platform_manifest`'s own
+/// `let Some(name) = ... else { continue }`, by failing loudly here instead.
 /// `tokens/` and `relationships/` have their own handling below and aren't here.
-const CONCAT_CATEGORIES: &[(&str, &str, &[&str])] = &[
-    ("components", "components", &["name"]),
-    ("fields", "fields", &["name"]),
-    ("guidelines", "guidelines", &["name"]),
+const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
+    ("components", "components", "component.schema.json"),
+    ("fields", "fields", "field.schema.json"),
+    ("guidelines", "guidelines", "guideline.schema.json"),
     (
         "platform-extensions",
         "platformExtensions",
-        &["platform", "extends"],
+        "platform-extension.json",
     ),
 ];
 
@@ -102,7 +102,12 @@ pub fn apply_configured(
     // inline, then spliced in post-validation — the manifest.json on disk no longer
     // carries `extensions` at all under the 26.1 schema, so validation above runs
     // clean, and `apply_platform_manifest` below is none the wiser.
-    if let Some(ext) = build_extensions_value(manifest_path, &manifest)? {
+    // manifest.schema.json's parent dir is the spec schemas/ dir, holding every
+    // category schema fragments are validated against below.
+    let schema_dir = schema_path
+        .parent()
+        .expect("schema_path is a file path, always has a parent");
+    if let Some(ext) = build_extensions_value(manifest_path, &manifest, schema_dir)? {
         manifest
             .as_object_mut()
             .expect("manifest.json root is a JSON object (enforced by Layer 1 schema)")
@@ -126,6 +131,7 @@ pub fn apply_configured(
 fn build_extensions_value(
     manifest_path: &Path,
     manifest: &Value,
+    schema_dir: &Path,
 ) -> Result<Option<Value>, CoreError> {
     let dir_name = manifest
         .get("extensionsDir")
@@ -148,6 +154,33 @@ fn build_extensions_value(
         return Ok(None);
     }
 
+    // "tokens" and "relationships" have their own handling below (not in
+    // CONCAT_CATEGORIES); every other recognized subdirectory is one of
+    // CONCAT_CATEGORIES's entries, so derive the allowlist from there rather
+    // than duplicating the category list a second time.
+    let known_subdirs: Vec<&str> = std::iter::once("tokens")
+        .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
+        .chain(std::iter::once("relationships"))
+        .collect();
+    for entry in std::fs::read_dir(&ext_root)? {
+        let entry = entry?;
+        let path = entry.path();
+        if !path.is_dir() {
+            // Tolerate stray non-directory files (.DS_Store, README.md, ...).
+            continue;
+        }
+        let name = entry.file_name();
+        let name = name.to_string_lossy();
+        if !known_subdirs.contains(&name.as_ref()) {
+            return Err(CoreError::ParseError(format!(
+                "extensions directory {} contains an unrecognized subdirectory \"{name}\" — \
+                 expected one of: {}",
+                ext_root.display(),
+                known_subdirs.join(", ")
+            )));
+        }
+    }
+
     let mut out = Map::new();
 
     // tokens/ — *.tokens.json cascade-format files, concatenated in sorted path
@@ -159,7 +192,10 @@ fn build_extensions_value(
             .into_iter()
             .filter(|p| p.to_string_lossy().ends_with(".tokens.json"))
             .collect();
-        let tokens = load_and_concat(&files, &[])?;
+        let tokens = load_and_concat(
+            &files,
+            FragmentValidation::TokenFile(&schema_dir.join("cascade-file.schema.json")),
+        )?;
         if !tokens.is_empty() {
             out.insert("tokens".to_string(), Value::Array(tokens));
         }
@@ -168,12 +204,15 @@ fn build_extensions_value(
     // components/, fields/, guidelines/, platform-extensions/ — one artifact per
     // file (though a file holding an array of several is tolerated too), all files
     // in the subdirectory concatenated in sorted path order.
-    for (dir_name, key, required) in CONCAT_CATEGORIES {
+    for (dir_name, key, schema_file) in CONCAT_CATEGORIES {
         let dir = ext_root.join(dir_name);
         if !dir.is_dir() {
             continue;
         }
-        let items = load_and_concat(&discover_json_files(&dir)?, required)?;
+        let items = load_and_concat(
+            &discover_json_files(&dir)?,
+            FragmentValidation::Item(&schema_dir.join(schema_file)),
+        )?;
         if !items.is_empty() {
             out.insert((*key).to_string(), Value::Array(items));
         }
@@ -185,7 +224,10 @@ fn build_extensions_value(
     // order. Partition is stable: within each group, sorted-path order is kept.
     let rel_dir = ext_root.join("relationships");
     if rel_dir.is_dir() {
-        let items = load_and_concat(&discover_json_files(&rel_dir)?, &[])?;
+        let items = load_and_concat(
+            &discover_json_files(&rel_dir)?,
+            FragmentValidation::RelationshipAdds(&schema_dir.join("relationship.schema.json")),
+        )?;
         if !items.is_empty() {
             let (mut adds, ops): (Vec<Value>, Vec<Value>) =
                 items.into_iter().partition(|v| v.get("op").is_none());
@@ -197,15 +239,37 @@ fn build_extensions_value(
     Ok((!out.is_empty()).then_some(Value::Object(out)))
 }
 
+/// How a fragment file (or the entries flattened out of it) is schema-validated
+/// during [`load_and_concat`]. Each variant names the schema file to validate
+/// against; the difference is *what* value gets validated.
+enum FragmentValidation<'a> {
+    /// `tokens/*.tokens.json`: the whole parsed file is itself the cascade array
+    /// `cascade-file.schema.json` describes — validated before flattening.
+    TokenFile(&'a Path),
+    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`: each
+    /// flattened entry is one object validated against the category schema.
+    Item(&'a Path),
+    /// `relationships/`: each flattened entry *without* an `"op"` key (a plain
+    /// add) is validated against `relationship.schema.json`. Entries with `"op"`
+    /// (override/remove) have no schema of their own — `relationship.schema.json`
+    /// only models plain add/ref shapes — and are left to
+    /// `apply_platform_manifest`'s own override/remove structural checks.
+    RelationshipAdds(&'a Path),
+}
+
 /// Read and parse each file in `files`, flattening top-level arrays (cascade
 /// token files, or a fragment file holding several entries) and pushing bare
-/// objects as-is, preserving `files`' order throughout.
-///
-/// `required_fields` names non-empty-string fields every resulting entry must
-/// have; an entry missing one fails loudly here rather than silently vanishing
-/// in `apply_platform_manifest`'s own add-or-replace lookups (full
-/// fragment-schema validation is h890.26.3, not yet landed).
-fn load_and_concat(files: &[PathBuf], required_fields: &[&str]) -> Result<Vec<Value>, CoreError> {
+/// objects as-is, preserving `files`' order throughout. `validation` determines
+/// which values get checked against which category schema (see
+/// [`FragmentValidation`]) via
+/// [`SchemaRegistry::validate_value_against_schema_file`]; a violation fails
+/// loudly here — naming both the offending file and the schema errors — rather
+/// than silently vanishing in `apply_platform_manifest`'s own add-or-replace
+/// lookups.
+fn load_and_concat(
+    files: &[PathBuf],
+    validation: FragmentValidation<'_>,
+) -> Result<Vec<Value>, CoreError> {
     let mut out = Vec::new();
     for f in files {
         let text = std::fs::read_to_string(f).map_err(|e| {
@@ -220,27 +284,58 @@ fn load_and_concat(files: &[PathBuf], required_fields: &[&str]) -> Result<Vec<Va
                 f.display()
             ))
         })?;
+
+        if let FragmentValidation::TokenFile(schema) = validation {
+            check_fragment(f, &val, schema)?;
+        }
+
         let items: Vec<Value> = match val {
             Value::Array(items) => items,
             other => vec![other],
         };
-        for item in &items {
-            for field in required_fields {
-                let present = item
-                    .get(*field)
-                    .and_then(Value::as_str)
-                    .is_some_and(|s| !s.is_empty());
-                if !present {
-                    return Err(CoreError::ParseError(format!(
-                        "extension fragment {} has an entry missing required field \"{field}\"",
-                        f.display()
-                    )));
+
+        match validation {
+            FragmentValidation::Item(schema) => {
+                for item in &items {
+                    check_fragment(f, item, schema)?;
                 }
             }
+            FragmentValidation::RelationshipAdds(schema) => {
+                // relationship.schema.json's top level is an *array* of entries
+                // (its item def lives at `$defs/relationship`, not reachable as
+                // its own schema file), so each plain-add entry is validated by
+                // wrapping it in a single-element array.
+                for item in &items {
+                    if item.get("op").is_none() {
+                        check_fragment(f, &Value::Array(vec![item.clone()]), schema)?;
+                    }
+                }
+            }
+            FragmentValidation::TokenFile(_) => {} // already validated above
         }
+
         out.extend(items);
     }
     Ok(out)
+}
+
+/// Validate `value` (a whole fragment file, or one entry flattened out of it)
+/// against `schema_path`, returning a [`CoreError::ParseError`] naming `file`
+/// and every schema violation when invalid.
+fn check_fragment(file: &Path, value: &Value, schema_path: &Path) -> Result<(), CoreError> {
+    let errors = SchemaRegistry::validate_value_against_schema_file(value, schema_path)?;
+    if errors.is_empty() {
+        return Ok(());
+    }
+    Err(CoreError::ParseError(format!(
+        "extension fragment {} failed schema validation ({}):\n  {}",
+        file.display(),
+        schema_path.file_name().map_or_else(
+            || schema_path.display().to_string(),
+            |n| n.to_string_lossy().into_owned()
+        ),
+        errors.join("\n  ")
+    )))
 }
 
 #[cfg(test)]
@@ -423,338 +518,6 @@ mod tests {
     }
 
     #[test]
-    fn manifest_injects_platform_component() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "components",
-                "tab-bar-ios.json",
-                json!({
-                    "$id": "tab-bar-ios",
-                    "name": "tab-bar-ios",
-                    "displayName": "Tab Bar (iOS)",
-                    "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .components
-            .iter()
-            .find(|c| c.name == "tab-bar-ios")
-            .expect("injected component present");
-        assert_eq!(injected.layer, crate::graph::Layer::Platform);
-    }
-
-    #[test]
-    fn manifest_injects_platform_extension() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "platform-extensions",
-                "ios-states.json",
-                json!({
-                    "platform": "iOS",
-                    "extends": "states",
-                    "extensions": [{"termId": "default", "platformTerm": "normal"}]
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .platform_extensions
-            .iter()
-            .find(|r| r.platform == "iOS" && r.extends == "states")
-            .expect("injected platform extension present");
-        assert_eq!(injected.raw["extensions"][0]["termId"], "default");
-    }
-
-    #[test]
-    fn manifest_injects_platform_field() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "fields",
-                "hapticStyle.json",
-                json!({
-                    "name": "hapticStyle",
-                    "kind": "semantic",
-                    "registry": null,
-                    "validation": "none",
-                    "serialization": {"position": 9},
-                    "required": false
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .fields
-            .iter()
-            .find(|f| f.name == "hapticStyle")
-            .expect("injected field present");
-        assert!(!injected.required);
-    }
-
-    #[test]
-    fn manifest_injects_platform_guideline() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "guidelines",
-                "ios-haptics.json",
-                json!({
-                    "$id": "https://example.com/guidelines/ios-haptics",
-                    "name": "ios-haptics",
-                    "title": "iOS Haptics",
-                    "category": "developing",
-                    "documentBlocks": [
-                        {"type": "purpose", "content": "When to use haptic feedback on iOS."}
-                    ]
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .guidelines
-            .iter()
-            .find(|g| g.name == "ios-haptics")
-            .expect("injected guideline present");
-        assert_eq!(injected.raw["title"], "iOS Haptics");
-    }
-
-    #[test]
-    fn manifest_injects_platform_relationship() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "relationships",
-                "button.json",
-                json!({
-                    "scope": {"component": "button", "property": "corner-radius"},
-                    "value": "4px",
-                    "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .relationships
-            .iter()
-            .find(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
-            .expect("injected relationship present");
-        assert_eq!(injected.raw["value"], "4px");
-    }
-
-    #[test]
-    fn manifest_overrides_relationship_by_uuid() {
-        // The override file sorts *before* the add file alphabetically
-        // ("a-override.json" < "z-add.json"), which would misorder a naive
-        // sorted-path concat — the loader's adds-before-ops partition must
-        // still land the add ahead of its override regardless of file order.
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[
-                (
-                    "relationships",
-                    "a-override.json",
-                    json!({
-                        "op": "override",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a",
-                        "value": {
-                            "scope": {"component": "button", "property": "corner-radius"},
-                            "value": "8px",
-                            "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                        }
-                    }),
-                ),
-                (
-                    "relationships",
-                    "z-add.json",
-                    json!({
-                        "scope": {"component": "button", "property": "corner-radius"},
-                        "value": "4px",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                    }),
-                ),
-            ],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let overridden = graph
-            .relationships
-            .iter()
-            .find(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
-            .expect("overridden relationship present");
-        assert_eq!(overridden.raw["value"], "8px");
-        assert_eq!(graph.relationships.len(), 1);
-    }
-
-    #[test]
-    fn manifest_plain_add_relationship_appends_even_on_uuid_collision() {
-        // A plain add (no "op") must never silently overwrite an existing
-        // relationship, even if its uuid happens to collide — only an explicit
-        // "op": "override" entry may replace. Regression for a bug where
-        // colliding plain adds were routed through upsert-by-uuid.
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[
-                (
-                    "relationships",
-                    "button.json",
-                    json!({
-                        "scope": {"component": "button", "property": "corner-radius"},
-                        "value": "4px",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                    }),
-                ),
-                (
-                    "relationships",
-                    "slider.json",
-                    json!({
-                        "scope": {"component": "slider", "property": "corner-radius"},
-                        "value": "2px",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                    }),
-                ),
-            ],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let matching: Vec<_> = graph
-            .relationships
-            .iter()
-            .filter(|r| r.uuid.as_deref() == Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"))
-            .collect();
-        assert_eq!(
-            matching.len(),
-            2,
-            "both plain adds must be appended, not one overwriting the other"
-        );
-    }
-
-    #[test]
-    fn manifest_removes_relationship_by_uuid() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[
-                (
-                    "relationships",
-                    "button.json",
-                    json!({
-                        "scope": {"component": "button", "property": "corner-radius"},
-                        "value": "4px",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                    }),
-                ),
-                (
-                    "relationships",
-                    "remove-button.json",
-                    json!({
-                        "op": "remove",
-                        "uuid": "9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a"
-                    }),
-                ),
-            ],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        assert!(graph
-            .relationships
-            .iter()
-            .all(|r| r.uuid.as_deref() != Some("9c858f9c-1d90-4f1a-8c1a-1f1a1f1a1f1a")));
-    }
-
-    #[test]
-    fn manifest_rejects_relationship_override_without_uuid() {
-        // Under the extensions/ directory layout, manifest.json itself no longer
-        // carries `extensions` (schema forbids it — see PR #1420), so there's no
-        // more inline-schema rejection path for this. It's now
-        // `apply_platform_manifest` (graph.rs) that rejects an override/remove
-        // entry missing "uuid", once the loader has spliced the fragment in.
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "relationships",
-                "bad-override.json",
-                json!({
-                    "op": "override",
-                    "value": {
-                        "scope": {"component": "button", "property": "corner-radius"},
-                        "value": "8px"
-                    }
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("missing a \"uuid\""));
-    }
-
-    #[test]
-    fn manifest_rejects_unknown_term_id() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "platform-extensions",
-                "ios-states.json",
-                json!({
-                    "platform": "iOS",
-                    "extends": "states",
-                    "extensions": [{"termId": "not-a-real-state"}]
-                }),
-            )],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("not-a-real-state"));
-    }
-
-    #[test]
     fn missing_extensions_dir_is_noop_not_an_error() {
         let dir = tempfile::tempdir().unwrap();
         // No `extensions/` directory at all next to manifest.json.
@@ -765,167 +528,6 @@ mod tests {
         let restrictions = apply_configured(&mut graph, &resolved).unwrap();
         assert!(restrictions.is_empty());
         assert_eq!(graph.tokens.len(), 3, "no extensions injected");
-    }
-
-    #[test]
-    fn tokens_dir_concatenates_multiple_tokens_json_files_in_sorted_order() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[
-                (
-                    "tokens",
-                    "a.tokens.json",
-                    json!([{
-                        "name": {"property": "elevation", "component": "card"},
-                        "value": "4dp",
-                        "uuid": "u-card-elev"
-                    }]),
-                ),
-                (
-                    "tokens",
-                    "b.tokens.json",
-                    json!([{
-                        "name": {"property": "elevation", "component": "sheet"},
-                        "value": "8dp",
-                        "uuid": "u-sheet-elev"
-                    }]),
-                ),
-            ],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let injected: Vec<_> = graph
-            .tokens
-            .values()
-            .filter(|t| t.layer == crate::graph::Layer::Platform)
-            .collect();
-        assert_eq!(injected.len(), 2, "both tokens.json files injected");
-        assert!(injected
-            .iter()
-            .any(|t| t.uuid.as_deref() == Some("u-card-elev")));
-        assert!(injected
-            .iter()
-            .any(|t| t.uuid.as_deref() == Some("u-sheet-elev")));
-    }
-
-    #[test]
-    fn later_file_wins_on_duplicate_component_name() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[
-                (
-                    "components",
-                    "a-tab-bar-ios.json",
-                    json!({
-                        "$id": "tab-bar-ios",
-                        "name": "tab-bar-ios",
-                        "displayName": "First",
-                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                    }),
-                ),
-                (
-                    "components",
-                    "b-tab-bar-ios.json",
-                    json!({
-                        "$id": "tab-bar-ios",
-                        "name": "tab-bar-ios",
-                        "displayName": "Second",
-                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                    }),
-                ),
-            ],
-        );
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        let matching: Vec<_> = graph
-            .components
-            .iter()
-            .filter(|c| c.name == "tab-bar-ios")
-            .collect();
-        assert_eq!(matching.len(), 1, "add-or-replace by name, not two entries");
-        assert_eq!(matching[0].raw["displayName"], "Second");
-    }
-
-    #[test]
-    fn extensions_dir_field_overrides_default_directory_name() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensionsDir": "platform-extras",
-        });
-        let manifest_path = dir.path().join("manifest.json");
-        std::fs::write(&manifest_path, manifest.to_string()).unwrap();
-        let components_dir = dir.path().join("platform-extras").join("components");
-        std::fs::create_dir_all(&components_dir).unwrap();
-        std::fs::write(
-            components_dir.join("tab-bar-ios.json"),
-            json!({
-                "$id": "tab-bar-ios",
-                "name": "tab-bar-ios",
-                "displayName": "Tab Bar (iOS)",
-                "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-            })
-            .to_string(),
-        )
-        .unwrap();
-
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        apply_configured(&mut graph, &resolved).unwrap();
-        assert!(graph.components.iter().any(|c| c.name == "tab-bar-ios"));
-    }
-
-    #[test]
-    fn component_fragment_missing_name_fails_loudly() {
-        // Regression: with inline `extensions` schema validation gone
-        // (h890.26.1) and fragment-schema validation not yet landed
-        // (h890.26.3), a malformed fragment must not silently vanish via
-        // `apply_platform_manifest`'s own `let Some(name) = ... else continue`.
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path = write_manifest_with_extensions(
-            dir.path(),
-            json!({}),
-            &[(
-                "components",
-                "broken.json",
-                json!({"displayName": "No name field"}),
-            )],
-        );
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("missing required field \"name\""));
-    }
-
-    #[test]
-    fn extensions_dir_rejects_parent_traversal() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path =
-            write_manifest_with_extensions(dir.path(), json!({"extensionsDir": "../escape"}), &[]);
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("extensionsDir"));
-    }
-
-    #[test]
-    fn extensions_dir_rejects_absolute_path() {
-        let dir = tempfile::tempdir().unwrap();
-        let manifest_path =
-            write_manifest_with_extensions(dir.path(), json!({"extensionsDir": "/etc"}), &[]);
-        let mut graph = make_graph();
-        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
-        let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("extensionsDir"));
     }
 
     #[cfg(unix)]

@@ -1,0 +1,6 @@
+{
+  "errors": [
+    { "message_pattern": "broken\\.tokens\\.json" },
+    { "message_pattern": "cascade-file\\.schema\\.json" }
+  ]
+}

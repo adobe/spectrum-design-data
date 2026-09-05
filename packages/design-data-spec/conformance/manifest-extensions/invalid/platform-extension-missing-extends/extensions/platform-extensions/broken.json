@@ -1,0 +1,4 @@
+{
+  "platform": "iOS",
+  "extensions": [{ "termId": "default", "platformTerm": "normal" }]
+}
