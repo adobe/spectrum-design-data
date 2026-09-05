@@ -1150,6 +1150,48 @@ mod manifest_extensions_behavior {
                 }
             }
 
+            if let Some(present) = expected
+                .get("platformExtensions")
+                .and_then(|p| p.get("present"))
+                .and_then(|v| v.as_array())
+            {
+                for want in present {
+                    let platform = want.get("platform").and_then(|v| v.as_str());
+                    let extends = want.get("extends").and_then(|v| v.as_str());
+                    let term_id = want.get("termId").and_then(|v| v.as_str());
+                    let platform_term = want.get("platformTerm").and_then(|v| v.as_str());
+
+                    let Some(record) = graph.platform_extensions.iter().find(|r| {
+                        Some(r.platform.as_str()) == platform && Some(r.extends.as_str()) == extends
+                    }) else {
+                        failures.push(format!(
+                            "{case}: expected platform extension {platform:?}/{extends:?}, not found"
+                        ));
+                        continue;
+                    };
+
+                    if let Some(term_id) = term_id {
+                        let matched = record
+                            .raw
+                            .get("extensions")
+                            .and_then(|v| v.as_array())
+                            .is_some_and(|terms| {
+                                terms.iter().any(|t| {
+                                    t.get("termId").and_then(|v| v.as_str()) == Some(term_id)
+                                        && (platform_term.is_none()
+                                            || t.get("platformTerm").and_then(|v| v.as_str())
+                                                == platform_term)
+                                })
+                            });
+                        if !matched {
+                            failures.push(format!(
+                                "{case}: platform extension {platform:?}/{extends:?} missing term {term_id:?} (platformTerm {platform_term:?})"
+                            ));
+                        }
+                    }
+                }
+            }
+
             for (key, records_len) in [
                 (
                     "components",
