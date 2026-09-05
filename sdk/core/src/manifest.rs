@@ -154,14 +154,14 @@ fn build_extensions_value(
         return Ok(None);
     }
 
-    const KNOWN_SUBDIRS: &[&str] = &[
-        "tokens",
-        "components",
-        "fields",
-        "guidelines",
-        "platform-extensions",
-        "relationships",
-    ];
+    // "tokens" and "relationships" have their own handling below (not in
+    // CONCAT_CATEGORIES); every other recognized subdirectory is one of
+    // CONCAT_CATEGORIES's entries, so derive the allowlist from there rather
+    // than duplicating the category list a second time.
+    let known_subdirs: Vec<&str> = std::iter::once("tokens")
+        .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
+        .chain(std::iter::once("relationships"))
+        .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
         let path = entry.path();
@@ -171,12 +171,12 @@ fn build_extensions_value(
         }
         let name = entry.file_name();
         let name = name.to_string_lossy();
-        if !KNOWN_SUBDIRS.contains(&name.as_ref()) {
+        if !known_subdirs.contains(&name.as_ref()) {
             return Err(CoreError::ParseError(format!(
                 "extensions directory {} contains an unrecognized subdirectory \"{name}\" — \
                  expected one of: {}",
                 ext_root.display(),
-                KNOWN_SUBDIRS.join(", ")
+                known_subdirs.join(", ")
             )));
         }
     }
