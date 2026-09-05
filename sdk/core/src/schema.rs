@@ -274,87 +274,18 @@ mod tests {
     }
 
     #[test]
-    fn validate_manifest_accepts_valid_extensions_tokens() {
+    fn validate_manifest_rejects_inline_extensions() {
+        // manifest.schema.json (spec/manifest.md#extensions-directory, h890.26.1)
+        // dropped the inline `extensions` property in favor of the sibling
+        // `extensions/` directory — additionalProperties:false now rejects it at
+        // the top level like any other unknown key. Per-fragment schema
+        // validation of what lives *in* that directory is h890.26.3; the loader
+        // that globs it (h890.26.2) reads fragments directly, not through this
+        // manifest-level schema.
         let manifest = json!({
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
-            "extensions": {
-                "tokens": [
-                    {
-                        "name": {"property": "color"},
-                        "value": "#000"
-                    }
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_extensions_tokens() {
-        // Missing the required `name` and has neither `value` nor `$ref`.
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": {
-                "tokens": [
-                    {"bogus": true}
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(!errors.is_empty());
-    }
-
-    #[test]
-    fn validate_manifest_accepts_valid_extensions_components_and_platform_extensions() {
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": {
-                "components": [
-                    {
-                        "$id": "tab-bar-ios",
-                        "name": "tab-bar-ios",
-                        "displayName": "Tab Bar (iOS)",
-                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                    }
-                ],
-                "platformExtensions": [
-                    {
-                        "platform": "iOS",
-                        "extends": "states",
-                        "extensions": [
-                            {"termId": "hover", "platformTerm": "highlighted"}
-                        ]
-                    }
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_extensions_components() {
-        // Missing the required `name` (and `$id`/`displayName`/`meta`).
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": { "components": [{"bogus": true}] }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(!errors.is_empty());
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_platform_extensions() {
-        // Missing the required `extends`/`extensions`.
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": { "platformExtensions": [{"platform": "iOS"}] }
+            "extensions": { "tokens": [{"name": {"property": "color"}, "value": "#000"}] }
         });
         let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
         assert!(!errors.is_empty());
