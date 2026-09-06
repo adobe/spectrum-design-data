@@ -16,8 +16,7 @@
     "root:test",
     "s2-docs-to-document-blocks:test",
     "design-data:validate-guidelines",
-    "token-mapping-analyzer:test",
-    "ios-override-importer:test"
+    "token-mapping-analyzer:test"
   ],
   "rust": [
     "sdk:fmt-check",
@@ -26,6 +25,7 @@
     "sdk:test-doc",
     "sdk-wasm:ci",
     "tokens:test",
+    "ios-override-importer:test",
     "tokens:validateDesignData",
     "design-data:validate",
     "design-data:roundtrip-verify",
