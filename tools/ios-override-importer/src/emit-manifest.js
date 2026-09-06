@@ -13,8 +13,7 @@ import { resolveTarget, splitAliases } from "./resolve-target.js";
 import { findTokenUuid, loadLegacyKeyIndex } from "./find-token-uuid.js";
 import { isFontSizeValue, parseFontSize } from "./parse-scale.js";
 
-const COLOR_SCHEMA =
-  "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json";
+const COLOR_VALUE_TYPE = "value-types/color.schema.json";
 
 /**
  * Resolve a font-size row directly by uuid existence at the `mobile` scale
@@ -53,10 +52,10 @@ function emitFontSizeRow(row, legacyKeyIndex) {
  *   target, and legacy-key string matching is the only reliable lookup).
  *   A mode whose uuid can't be found is dropped into `unresolved` for the
  *   gap report rather than emitted with a broken target.
- * - `extensionModes` → one `extensions.tokens[]` entry per mode, reusing the
- *   resolved name fields (mirrors the color-set member shape — same
- *   identity, different colorScheme/contrast). These are new records, so no
- *   existence check is needed.
+ * - `extensionModes` → one `extensions/tokens/` fragment entry per mode,
+ *   reusing the resolved name fields (mirrors the color-set member shape —
+ *   same identity, different colorScheme/contrast). These are new records,
+ *   so no existence check is needed.
  * - `out-of-scope` (letter-spacing, non-color/font-size sizing) → no manifest
  *   fragment.
  *
@@ -111,7 +110,7 @@ export function emitRow(row, options) {
       ...(m.variant ? { variant: m.variant } : {}),
       ...(m.contrast ? { contrast: m.contrast } : {}),
     },
-    $schema: COLOR_SCHEMA,
+    $valueType: COLOR_VALUE_TYPE,
     value: m.value,
   }));
 
@@ -124,8 +123,8 @@ export function emitRow(row, options) {
 
 /**
  * Run `emitRow` over every row, merging into one manifest's `overrides`/
- * `extensions.tokens`, sorted for deterministic output (the SDK reads with
- * `serde_json` `preserve_order`, so insertion order is what ships).
+ * `extensions/tokens/` fragment, sorted for deterministic output (the SDK
+ * reads with `serde_json` `preserve_order`, so insertion order is what ships).
  */
 export function emitManifest(rows, options) {
   const overrides = [];

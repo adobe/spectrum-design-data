@@ -69,5 +69,8 @@ function colorToRgba(literal) {
     throw new Error(`not a Color literal: ${literal}`);
   }
   const [r, g, b, a] = args.split(",").map((s) => s.trim());
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
+  // Strip a trailing ".0" (e.g. "1.0" -> "1") — value-types/color.schema.json's
+  // alpha pattern accepts "0" | "1" | "0.x", not "1.0". Non-integer alphas
+  // (e.g. "0.5") pass through unchanged.
+  return `rgba(${r}, ${g}, ${b}, ${String(Number(a))})`;
 }
