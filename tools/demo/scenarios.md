@@ -39,10 +39,10 @@ design-data component button \
 ### A3. Filter the design system by query
 
 ```bash
-design-data query packages/design-data/tokens --filter "component=button"
+design-data query packages/design-data/tokens --filter "property=component-height-100"
 ```
 
-* **Say**: "A designer asks 'what tokens does the button use?' This used to be a code-archaeology task. Now it's one CLI call. Same answer for the engineer."
+* **Say**: "A designer asks 'what token backs the button's minimum height?' The component/token relationship binds it to `component-height-100`. One CLI call resolves it across desktop and mobile scale. Same answer for the engineer."
 
 ### A4. Agent answers a real question
 
