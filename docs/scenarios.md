@@ -30,7 +30,7 @@ design-data component button --components-dir packages/design-data/components
 **Find all tokens used by a component:**
 
 ```bash
-design-data query packages/design-data/tokens --filter "component=button"
+design-data query packages/design-data/tokens --filter "property=component-height-100"
 ```
 
 **Validate a change to the dataset:**
