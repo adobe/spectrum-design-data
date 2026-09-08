@@ -41,7 +41,7 @@ test("true-value-change: base light value replaced", (t) => {
   });
   t.is(category, "true-value-change");
   t.deepEqual(overrideModes, [
-    { colorScheme: "light", value: "rgba(9, 9, 9, 1.0)" },
+    { colorScheme: "light", value: "rgba(9, 9, 9, 1)" },
   ]);
   t.deepEqual(extensionModes, []);
 });
@@ -56,10 +56,10 @@ test("true-value-change row can also add a genuinely new contrast mode", (t) => 
   // light base value changed (override) AND a new light/high slot appeared
   // (extension) — one row, both fragment types.
   t.deepEqual(overrideModes, [
-    { colorScheme: "light", value: "rgba(9, 9, 9, 1.0)" },
+    { colorScheme: "light", value: "rgba(9, 9, 9, 1)" },
   ]);
   t.deepEqual(extensionModes, [
-    { colorScheme: "light", contrast: "high", value: "rgba(3, 3, 3, 1.0)" },
+    { colorScheme: "light", contrast: "high", value: "rgba(3, 3, 3, 1)" },
   ]);
 });
 
@@ -80,13 +80,13 @@ test("elevated slots are extension modes, not mistaken for the plain dark base v
     {
       variant: "elevated",
       colorScheme: "dark",
-      value: "rgba(3, 3, 3, 1.0)",
+      value: "rgba(3, 3, 3, 1)",
     },
     {
       variant: "elevated",
       colorScheme: "dark",
       contrast: "high",
-      value: "rgba(4, 4, 4, 1.0)",
+      value: "rgba(4, 4, 4, 1)",
     },
   ]);
 });

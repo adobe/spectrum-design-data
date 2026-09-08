@@ -9,7 +9,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import {
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  mkdirSync,
+  rmSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 import { parseCsv } from "./parse-csv.js";
 import { emitManifest } from "./emit-manifest.js";
 import { buildGapsReport } from "./gaps-report.js";
@@ -67,14 +74,33 @@ export function run(argv) {
     include: existing.include ?? DEFAULT_INCLUDE,
     exclude: existing.exclude ?? DEFAULT_EXCLUDE,
     overrides,
-    extensions: {
-      tokens: extensionTokens,
-      formatting: { casing: "camelCase" },
-    },
+    formatting: { casing: "camelCase" },
   };
 
   writeFileSync(args.out, `${JSON.stringify(manifest, null, 2)}\n`);
   writeFileSync(args.gaps, buildGapsReport(unresolved));
+
+  // Extension tokens live in a sibling extensions/ directory fragment
+  // (packages/design-data-spec/spec/manifest.md#extensions-directory), not
+  // inline in manifest.json. Skip writing it when there's nothing to emit —
+  // a missing extensions/ dir is a valid no-op for the SDK loader.
+  const importedTokensPath = join(
+    dirname(args.out),
+    "extensions",
+    "tokens",
+    "imported.tokens.json",
+  );
+  if (extensionTokens.length) {
+    mkdirSync(dirname(importedTokensPath), { recursive: true });
+    writeFileSync(
+      importedTokensPath,
+      `${JSON.stringify(extensionTokens, null, 2)}\n`,
+    );
+  } else if (existsSync(importedTokensPath)) {
+    // A prior run may have written this fragment; a re-run with zero
+    // extension tokens must remove it, not leave a stale one behind.
+    rmSync(importedTokensPath);
+  }
 
   console.log(
     `wrote ${args.out} (${overrides.length} overrides, ${extensionTokens.length} extension tokens) ` +

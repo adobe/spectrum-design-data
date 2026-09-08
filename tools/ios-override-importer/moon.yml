@@ -18,3 +18,5 @@ tasks:
     command:
       - pnpm
       - ava
+    deps:
+      - sdk:build
