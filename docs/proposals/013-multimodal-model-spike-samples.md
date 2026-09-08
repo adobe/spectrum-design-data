@@ -2,9 +2,14 @@ Proposal 013: Multi-Modal Token Data Model — Spike Samples & Comparison Criter
 
 **Status:** Complete (uo7t.1–uo7t.7 done, including Part 7's cross-modal guardrail analysis and
 Sample D's full combinatory matrix). Analysis only, no schema or code changes.
-Recommendation posted back to RFC [#1410](https://github.com/adobe/spectrum-design-data/issues/1410);
-a follow-up reply addressing Nate Baldwin's guardrail and Figma-mapping questions is drafted
-and pending approval to post.\
+Recommendation posted back to RFC [#1410](https://github.com/adobe/spectrum-design-data/issues/1410).
+A follow-up reply addressing Nate Baldwin's guardrail and Figma-mapping questions, and a second
+reply settling `conceptId` as a UUID (not the string this doc originally sketched — see Sample
+A3), are both posted. Follow-on work is tracked: `spectrum-design-data-uo7t.8`
+([DNA-1937](https://jira.corp.adobe.com/browse/DNA-1937)) for the concept UUID,
+`spectrum-design-data-uo7t.9` ([DNA-1934](https://jira.corp.adobe.com/browse/DNA-1934)) for
+normativizing context-aware `$ref` resolution, `spectrum-design-data-uo7t.10`
+([DNA-1935](https://jira.corp.adobe.com/browse/DNA-1935)) for the SPEC-059 backstop.\
 **Related:** [Discussion #1410](https://github.com/adobe/spectrum-design-data/discussions/1410)
 (Nate Baldwin, "Token schema"); review bead `spectrum-design-data-57ll`; spike epic
 `spectrum-design-data-uo7t`.
@@ -27,8 +32,10 @@ The three shapes:
    holds per-mode entries, each with a `modes` array and its own `$schema`/`$ref` (or
    value); `set_uuid`/`set_schema` promoted into each mode entry.
 3. **Concept-id middle path** — current per-value objects and cascade, unchanged, plus a
-   stable `conceptId` field so the concept has one canonical identifier (today only the
-   shared, non-canonical `legacyKey` plays that role).
+   stable `conceptId` **UUID** field so the concept has one canonical identifier (today only
+   the shared, non-canonical `legacyKey` plays that role). Minted once per concept and
+   backfilled by grouping today's rows on their shared `legacyKey`; distinct from the
+   per-value `uuid`, which is untouched.
 
 ## Comparison criteria
 
@@ -143,12 +150,22 @@ to target the concept plus a mode discriminator instead.
 { "name": { "…": "…", "colorScheme": "light", "…": "…" },
   "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54",
   "uuid": "d9d8488d-9b38-47e0-9660-dcad040f3ca8",
-  "conceptId": "accent-background-color-default",
+  "conceptId": "<concept-uuid>",
   "set_uuid": "e05251ac-d64a-4157-9b20-224f0392269e", "set_schema": ".../token-types/color-set.json" }
 ```
 
-The dark and wireframe rows carry the **same** `conceptId` and keep their **own** `uuid`
-(`f24eb871…`, `1f4f6c48…`). Nothing else about A1 changes.
+The dark and wireframe rows carry the **same** `conceptId` (`<concept-uuid>`) and keep their
+**own** `uuid` (`f24eb871…`, `1f4f6c48…`). Nothing else about A1 changes.
+
+**Update (2026-09-08):** `conceptId` is a UUID, not the human-readable string
+(`"accent-background-color-default"`) this section originally showed. Settled in the
+[discussion #1410 follow-up](https://github.com/adobe/spectrum-design-data/discussions/1410#discussioncomment-18353331)
+— Nate asked for a singular UUID rather than a string, and a UUID is also what lets
+`conceptId` serve as a `$ref` target once it becomes the post-bridge alias anchor (Part 7,
+point 4: `$ref` resolution is UUID-first, so a string-typed `conceptId` couldn't be targeted
+without a new resolution path). Backfilled the same way regardless of type: one new UUID
+minted per group of rows sharing today's `legacyKey`. Tracked as `spectrum-design-data-uo7t.8`
+/ [DNA-1937](https://jira.corp.adobe.com/browse/DNA-1937).
 
 ### Sample B — combinatory modes (dark + high-contrast)
 
@@ -199,7 +216,7 @@ still resolved by cascade specificity), with the shared `conceptId` added:
 ```jsonc
 { "name": { "…": "…", "colorScheme": "dark", "contrast": "high", "…": "…" },
   "$ref": "<high-contrast-dark-target>", "uuid": "<new-uuid>",
-  "conceptId": "accent-background-color-default",
+  "conceptId": "<concept-uuid>",
   "set_uuid": "e05251ac-d64a-4157-9b20-224f0392269e" }
 ```
 
@@ -310,7 +327,7 @@ unchanged), plus the shared `conceptId` on every row:
 ```jsonc
 { "name": { "…": "…", "colorScheme": "dark", "contrast": "high" },
   "$ref": "90d82778-1cbb-47c0-aab9-b6e38a9cdc54", "uuid": "<new-uuid-4>",
-  "conceptId": "accent-background-color-default" }
+  "conceptId": "<concept-uuid>" }
 ```
 
 **Sample D confirms rather than changes the Part 4/6 finding on criterion 5**: `valuesByMode`
@@ -379,15 +396,15 @@ explicit — "UUID stability is the identity contract that allows `$ref`,
 Collapsing three per-mode UUIDs into one concept UUID changes what every one of those
 mechanisms points at.
 
-| #  | Criterion                         | Current                                                                                                                                          | `valuesByMode`                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Concept-id                                                                                                                                                                            |
-| -- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 7  | Concept identity                  | **no** — only the shared, non-canonical `legacyKey` (itself slated for removal alongside the other legacy bridge fields)                         | **yes** — one UUID per concept                                                                                                                                                                                                                                                                                                                                                                                                                                                | **yes** — added `conceptId` field                                                                                                                                                     |
-| 8  | `$ref` aliasing granularity       | per-mode — an alias targets one mode's value by its own UUID (Sample C1)                                                                         | lost — only a concept UUID exists; pinning one mode's value needs a compound `{$ref, $refMode}` shape the spec doesn't have (Sample C2)                                                                                                                                                                                                                                                                                                                                       | per-mode — unchanged from current (Sample C3)                                                                                                                                         |
-| 9  | Diff continuity / rename tracking | per-value UUID is the diff anchor (UUID-first identity matching)                                                                                 | broken twice — the migration itself collapses 3 UUIDs into 1 (a one-time discontinuity for every existing token), and afterward a single mode's value change has no anchor of its own                                                                                                                                                                                                                                                                                         | intact — per-value UUIDs are untouched; `conceptId` is purely additive                                                                                                                |
-| 10 | Lifecycle `replacedBy` (SPEC-010) | per-mode — points at a specific value's UUID, which MUST resolve to an existing token (`evolution.md` §What `lifecycle.replacedBy` guarantees)   | coarsened — the only available target is the concept UUID; "this mode's value was replaced by that one" becomes inexpressible                                                                                                                                                                                                                                                                                                                                                 | per-mode — unchanged from current                                                                                                                                                     |
-| 11 | Figma / registry sync             | keys off the per-value UUID (`buildUuidToTokenIndex`, `tools/token-mapping-analyzer/src/registry-index.js:189`)                                  | re-key required — the index, and every other per-value-UUID consumer, must move to concept-UUID + mode                                                                                                                                                                                                                                                                                                                                                                        | unchanged — per-value UUID preserved; `conceptId` is optional extra metadata the index can ignore                                                                                     |
-| 12 | Legacy `setUuid`/`setSchema` fate | ride along, explicitly transitional and "expected to be removed in a later spec version" (`relationship-format.md`, transitional-fields section) | **entrenched** — promoted *into* each mode entry as core structure, moving the wrong direction on fields the spec is actively trying to delete                                                                                                                                                                                                                                                                                                                                | unchanged — left exactly where they are today, still just as removable                                                                                                                |
-| 13 | Migration cost / blast radius     | none (baseline)                                                                                                                                  | **high** — schema rewrite, cascade rewrite (specificity/matching have to walk into arrays instead of flat records), aliasing redesign ([#8](https://github.com/adobe/spectrum-design-data/issues/8)), diff/lifecycle/sync re-keying ([#9](https://github.com/adobe/spectrum-design-data/issues/9)–11), a rewrite of every `packages/design-data/tokens/*.json` file, plus the one-time 3→1 UUID identity break ([#9](https://github.com/adobe/spectrum-design-data/issues/9)) | **low** — one additive schema field; backfill `conceptId` per concept (mechanically derivable from the existing shared `legacyKey`); no cascade, aliasing, diff, or sync code changes |
+| #  | Criterion                         | Current                                                                                                                                          | `valuesByMode`                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Concept-id                                                                                                                                                                                     |
+| -- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7  | Concept identity                  | **no** — only the shared, non-canonical `legacyKey` (itself slated for removal alongside the other legacy bridge fields)                         | **yes** — one UUID per concept                                                                                                                                                                                                                                                                                                                                                                                                                                                | **yes** — added `conceptId` UUID field                                                                                                                                                         |
+| 8  | `$ref` aliasing granularity       | per-mode — an alias targets one mode's value by its own UUID (Sample C1)                                                                         | lost — only a concept UUID exists; pinning one mode's value needs a compound `{$ref, $refMode}` shape the spec doesn't have (Sample C2)                                                                                                                                                                                                                                                                                                                                       | per-mode — unchanged from current (Sample C3)                                                                                                                                                  |
+| 9  | Diff continuity / rename tracking | per-value UUID is the diff anchor (UUID-first identity matching)                                                                                 | broken twice — the migration itself collapses 3 UUIDs into 1 (a one-time discontinuity for every existing token), and afterward a single mode's value change has no anchor of its own                                                                                                                                                                                                                                                                                         | intact — per-value UUIDs are untouched; `conceptId` is purely additive                                                                                                                         |
+| 10 | Lifecycle `replacedBy` (SPEC-010) | per-mode — points at a specific value's UUID, which MUST resolve to an existing token (`evolution.md` §What `lifecycle.replacedBy` guarantees)   | coarsened — the only available target is the concept UUID; "this mode's value was replaced by that one" becomes inexpressible                                                                                                                                                                                                                                                                                                                                                 | per-mode — unchanged from current                                                                                                                                                              |
+| 11 | Figma / registry sync             | keys off the per-value UUID (`buildUuidToTokenIndex`, `tools/token-mapping-analyzer/src/registry-index.js:189`)                                  | re-key required — the index, and every other per-value-UUID consumer, must move to concept-UUID + mode                                                                                                                                                                                                                                                                                                                                                                        | unchanged — per-value UUID preserved; `conceptId` is optional extra metadata the index can ignore                                                                                              |
+| 12 | Legacy `setUuid`/`setSchema` fate | ride along, explicitly transitional and "expected to be removed in a later spec version" (`relationship-format.md`, transitional-fields section) | **entrenched** — promoted *into* each mode entry as core structure, moving the wrong direction on fields the spec is actively trying to delete                                                                                                                                                                                                                                                                                                                                | unchanged — left exactly where they are today, still just as removable                                                                                                                         |
+| 13 | Migration cost / blast radius     | none (baseline)                                                                                                                                  | **high** — schema rewrite, cascade rewrite (specificity/matching have to walk into arrays instead of flat records), aliasing redesign ([#8](https://github.com/adobe/spectrum-design-data/issues/8)), diff/lifecycle/sync re-keying ([#9](https://github.com/adobe/spectrum-design-data/issues/9)–11), a rewrite of every `packages/design-data/tokens/*.json` file, plus the one-time 3→1 UUID identity break ([#9](https://github.com/adobe/spectrum-design-data/issues/9)) | **low** — one additive schema field; backfill a UUID `conceptId` per concept, minted once per group of rows sharing the existing `legacyKey`; no cascade, aliasing, diff, or sync code changes |
 
 ### Headline findings
 
@@ -436,7 +453,8 @@ separate, non-blocking follow-up. Current — baseline; its only real gap is [#7
   ([#7](https://github.com/adobe/spectrum-design-data/issues/7)) but pays for it by redesigning cascade resolution, aliasing, diff, lifecycle, and Figma
   sync ([#1](https://github.com/adobe/spectrum-design-data/issues/1)–4, [#6](https://github.com/adobe/spectrum-design-data/issues/6), [#8](https://github.com/adobe/spectrum-design-data/issues/8)–11), and it entrenches the `setUuid`/`setSchema` bridge fields the spec is
   actively trying to retire ([#12](https://github.com/adobe/spectrum-design-data/issues/12)) instead of retiring them.
-* **Concept-id middle path — adopt.** Add a stable `conceptId` (or `groupId`) field to the
+* **Concept-id middle path — adopt.** Add a stable `conceptId` **UUID** field (not the
+  human-readable string first sketched in Sample A3 — see that section's update note) to the
   current per-value token shape. Delivers the RFC's actual identity ask, additive schema change
   only, backfillable from the existing (non-canonical) `legacyKey`, zero change to cascade,
   aliasing, diff, lifecycle, or sync.
@@ -517,7 +535,10 @@ preserving a concept/set-level alias anchor plus context-aware resolution, autho
 mechanism that makes today's corpus mode-safe and are pushed back toward per-mode leaf
 `$ref`s — at which point Nate's failure mode becomes reachable. `conceptId` is the natural
 post-bridge anchor: an alias `$ref`s the concept, and resolution picks the mode by context,
-exactly replacing the role `set_uuid` plays today.
+exactly replacing the role `set_uuid` plays today. This is itself the strongest argument for
+`conceptId` being a UUID rather than a string (see Sample A3's update note): `$ref` resolution
+is UUID-first per `token-format.md`, so a string-typed `conceptId` couldn't serve as a target
+without a new resolution path.
 
 ### A companion validation rule can backstop the residual case
 
