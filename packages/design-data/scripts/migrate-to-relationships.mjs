@@ -24,7 +24,7 @@
  *    ({ scope, value|$ref, legacyKey, uuid, ... }), performing the inverse of
  *    `ctr_to_legacy_token` (sdk/core/src/legacy.rs:582): name.component -> scope.component,
  *    name.anatomy -> scope.part, name.property -> scope.property, remaining name.*
- *    keys -> scope.options.*, set_uuid/set_schema -> setUuid/setSchema. legacyKey is
+ *    keys -> scope.options.*, conceptId/set_schema -> setUuid/setSchema. legacyKey is
  *    always pinned (from name.legacyKey, else the computed flat key) so the legacy
  *    generator continues to reproduce these tokens byte-identically.
  *
@@ -89,7 +89,7 @@ function legacyKeyFor(name, registry) {
  * Load every token across tokens/*.tokens.json, keyed by its computed legacy flat
  * key. A key maps to an ARRAY of matches because mode-set tokens (scale-set,
  * color-set, ...) legitimately share one flat legacy key across several
- * per-mode entries (same set_uuid, distinct uuid) — see color-aliases.tokens.json's
+ * per-mode entries (same conceptId, distinct uuid) — see color-aliases.tokens.json's
  * established convention of parallel per-mode alias entries.
  *
  * Also returns the parsed tokens keyed by file path, so callers that need to
@@ -128,7 +128,7 @@ function buildFlatKeyIndex(registry) {
 
 /**
  * Convert one component's tokenBindings[] entries into relationship-only CTRs.
- * A binding matching multiple mode-variant tokens (shared set_uuid) emits one CTR
+ * A binding matching multiple mode-variant tokens (shared conceptId) emits one CTR
  * per mode, same scope/context, $ref pointing at that mode's specific uuid —
  * mirroring color-aliases.tokens.json's parallel per-mode alias pattern.
  * Returns { ctrs, unresolved } — unresolved bindings are reported, not guessed.
@@ -177,7 +177,7 @@ function convertScopedToken(token, registry) {
     ...("$ref" in token ? { $ref: token.$ref } : {}),
     uuid: token.uuid,
     ...(legacyKey ? { legacyKey } : {}),
-    ...(token.set_uuid ? { setUuid: token.set_uuid } : {}),
+    ...(token.conceptId ? { setUuid: token.conceptId } : {}),
     ...(token.set_schema ? { setSchema: token.set_schema } : {}),
     ...(token.private !== undefined ? { private: token.private } : {}),
     ...(token.lifecycle ? { lifecycle: token.lifecycle } : {}),

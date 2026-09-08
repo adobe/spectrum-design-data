@@ -9,11 +9,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "e2f088b2-1ec4-4fc4-aacd-3ded4f0a239e",
-    "set_uuid": "8fd1aabf-b5e5-4f60-bed2-43c3bec97f7e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "8fd1aabf-b5e5-4f60-bed2-43c3bec97f7e"
   },
   {
     "name": {
@@ -25,11 +25,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "4141f697-72cf-4948-acc7-7aa96035fbe8",
-    "set_uuid": "8fd1aabf-b5e5-4f60-bed2-43c3bec97f7e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "8fd1aabf-b5e5-4f60-bed2-43c3bec97f7e"
   },
   {
     "name": {
@@ -41,11 +41,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "6bc4db4c-ab1a-4c68-bc37-2053b289d982",
-    "set_uuid": "ca31ed73-c382-48a5-a6ae-45cb7648ec2e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ca31ed73-c382-48a5-a6ae-45cb7648ec2e"
   },
   {
     "name": {
@@ -57,11 +57,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "708bfa69-42fb-41cf-b734-ef3736cafc02",
-    "set_uuid": "ca31ed73-c382-48a5-a6ae-45cb7648ec2e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ca31ed73-c382-48a5-a6ae-45cb7648ec2e"
   },
   {
     "name": {
@@ -73,11 +73,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "6f6b3134-6fcc-457d-ae87-43814ccada0f",
-    "set_uuid": "7153703c-7f93-437d-a3fd-19d3712cd008",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7153703c-7f93-437d-a3fd-19d3712cd008"
   },
   {
     "name": {
@@ -89,11 +89,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "6ac66626-4a7b-4880-ba39-6756b30e0872",
-    "set_uuid": "7153703c-7f93-437d-a3fd-19d3712cd008",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7153703c-7f93-437d-a3fd-19d3712cd008"
   },
   {
     "name": {
@@ -105,11 +105,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "d754631a-979d-4dec-b42c-f539421d1c86",
-    "set_uuid": "ebe32780-2683-4112-a31d-a96c83c84d1e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ebe32780-2683-4112-a31d-a96c83c84d1e"
   },
   {
     "name": {
@@ -121,11 +121,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "d74d9dc5-9c20-4c87-bacc-d8898c805aa0",
-    "set_uuid": "ebe32780-2683-4112-a31d-a96c83c84d1e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ebe32780-2683-4112-a31d-a96c83c84d1e"
   },
   {
     "name": {
@@ -137,11 +137,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "1456b16e-09bc-4b63-b3c7-4ecf9a0c3754",
-    "set_uuid": "19aeee29-ee00-483f-9caa-544149aaabae",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "19aeee29-ee00-483f-9caa-544149aaabae"
   },
   {
     "name": {
@@ -153,11 +153,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "cfa5af27-add5-475d-90e4-2bd4fc14fcf1",
-    "set_uuid": "19aeee29-ee00-483f-9caa-544149aaabae",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "19aeee29-ee00-483f-9caa-544149aaabae"
   },
   {
     "name": {
@@ -169,11 +169,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "c22e7427-617d-4f99-bee7-e3fffba07fc2",
-    "set_uuid": "9aa4e6ea-50ee-4a44-b3a5-cab3f7aed7f2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "9aa4e6ea-50ee-4a44-b3a5-cab3f7aed7f2"
   },
   {
     "name": {
@@ -185,11 +185,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "e9b3eb08-2004-4ad3-bb13-a00a6cb536aa",
-    "set_uuid": "9aa4e6ea-50ee-4a44-b3a5-cab3f7aed7f2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "9aa4e6ea-50ee-4a44-b3a5-cab3f7aed7f2"
   },
   {
     "name": {
@@ -201,11 +201,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "645d5384-e3a8-4d97-acf6-7cbce00e6537",
-    "set_uuid": "334c967f-5b41-4fd4-bf75-bd9d405de0d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "334c967f-5b41-4fd4-bf75-bd9d405de0d6"
   },
   {
     "name": {
@@ -217,11 +217,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "c7df43e2-7354-4f53-b453-dc9bf9060e64",
-    "set_uuid": "334c967f-5b41-4fd4-bf75-bd9d405de0d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "334c967f-5b41-4fd4-bf75-bd9d405de0d6"
   },
   {
     "name": {
@@ -233,11 +233,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "d0df9084-c6bf-42e5-b830-82906036e397",
-    "set_uuid": "c2eb8a49-f7aa-49d9-9216-4b3292a9fda8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "c2eb8a49-f7aa-49d9-9216-4b3292a9fda8"
   },
   {
     "name": {
@@ -249,11 +249,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "f6116604-efbe-4c6f-b047-29247d632174",
-    "set_uuid": "c2eb8a49-f7aa-49d9-9216-4b3292a9fda8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "c2eb8a49-f7aa-49d9-9216-4b3292a9fda8"
   },
   {
     "name": {
@@ -265,11 +265,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "4ced8527-31ad-4e48-9491-806ffc57442a",
-    "set_uuid": "0c807977-8951-4dce-a580-ed4b11045d86",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "0c807977-8951-4dce-a580-ed4b11045d86"
   },
   {
     "name": {
@@ -281,11 +281,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "35f055a9-8a33-42b2-a316-7e2ef0a4b99d",
-    "set_uuid": "0c807977-8951-4dce-a580-ed4b11045d86",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "0c807977-8951-4dce-a580-ed4b11045d86"
   },
   {
     "name": {
@@ -297,11 +297,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "31f09728-964b-4598-99a0-d17bf7256e40",
-    "set_uuid": "e8ae5614-5793-46a3-9d5c-bf04b57ef870",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e8ae5614-5793-46a3-9d5c-bf04b57ef870"
   },
   {
     "name": {
@@ -313,11 +313,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
     "uuid": "dcf16e1a-49ea-4888-85b7-012462a60f40",
-    "set_uuid": "e8ae5614-5793-46a3-9d5c-bf04b57ef870",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e8ae5614-5793-46a3-9d5c-bf04b57ef870"
   },
   {
     "name": {
@@ -329,11 +329,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "5ffece39-b8fc-4a40-a051-0d6c8e253f8f",
-    "set_uuid": "54adb815-8e74-498f-a4b9-f647de95d3b5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "54adb815-8e74-498f-a4b9-f647de95d3b5"
   },
   {
     "name": {
@@ -345,11 +345,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "2f5f49e5-9aba-4ea0-a8d9-0f0e4c086b89",
-    "set_uuid": "54adb815-8e74-498f-a4b9-f647de95d3b5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "54adb815-8e74-498f-a4b9-f647de95d3b5"
   },
   {
     "name": {
@@ -361,11 +361,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "b39b3ce3-6a48-4025-96ef-659b0c9ae9e8",
-    "set_uuid": "853a105e-8a45-4588-a173-4a5b8add9730",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "853a105e-8a45-4588-a173-4a5b8add9730"
   },
   {
     "name": {
@@ -377,11 +377,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "6ff35aff-8a9f-466c-bdd3-dda460ccaee5",
-    "set_uuid": "853a105e-8a45-4588-a173-4a5b8add9730",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "853a105e-8a45-4588-a173-4a5b8add9730"
   },
   {
     "name": {
@@ -393,11 +393,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "d04b37cc-2c35-49af-9e92-9993264e405a",
-    "set_uuid": "597db14a-a852-40ac-b4d3-80528dda07d8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "597db14a-a852-40ac-b4d3-80528dda07d8"
   },
   {
     "name": {
@@ -409,11 +409,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "f6f11ca3-b78b-4207-868f-f834c19e8d3d",
-    "set_uuid": "597db14a-a852-40ac-b4d3-80528dda07d8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "597db14a-a852-40ac-b4d3-80528dda07d8"
   },
   {
     "name": {
@@ -425,11 +425,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "49892fb4-a9df-4882-a656-7f9ffb9558bc",
-    "set_uuid": "692207dd-e636-4511-ba54-c24ddf3e4e46",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "692207dd-e636-4511-ba54-c24ddf3e4e46"
   },
   {
     "name": {
@@ -441,11 +441,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "3f1b200b-d341-41e4-ae7b-c981ccb492f7",
-    "set_uuid": "692207dd-e636-4511-ba54-c24ddf3e4e46",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "692207dd-e636-4511-ba54-c24ddf3e4e46"
   },
   {
     "name": {
@@ -457,11 +457,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "93506e7b-f388-4cf8-bd73-e7d96da935d5",
-    "set_uuid": "69685097-066a-4fec-8440-fb51804c06d1",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "69685097-066a-4fec-8440-fb51804c06d1"
   },
   {
     "name": {
@@ -473,11 +473,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "a1cdad1f-6537-4c35-a87b-45d8e161ee46",
-    "set_uuid": "69685097-066a-4fec-8440-fb51804c06d1",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "69685097-066a-4fec-8440-fb51804c06d1"
   },
   {
     "name": {
@@ -490,7 +490,8 @@
     "uuid": "49ea57ee-7b12-4a8b-a9bb-a11cf2c9d72c",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "a70e2d8f-04bc-4c20-9683-6e431f11887e"
   },
   {
     "name": {
@@ -502,11 +503,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "9227a279-09f4-457a-b5b3-894f0d6a00df",
-    "set_uuid": "7dca1bf5-71bc-406d-8df8-98c9e3c443d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7dca1bf5-71bc-406d-8df8-98c9e3c443d6"
   },
   {
     "name": {
@@ -518,11 +519,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "23247915-3cc0-4fdf-b21a-85b97019a219",
-    "set_uuid": "7dca1bf5-71bc-406d-8df8-98c9e3c443d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7dca1bf5-71bc-406d-8df8-98c9e3c443d6"
   },
   {
     "name": {
@@ -534,11 +535,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "342a360b-d58c-4d7a-9a9d-893600b90785",
-    "set_uuid": "51745ca2-1ea0-4648-8b90-26021d8cb24c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "51745ca2-1ea0-4648-8b90-26021d8cb24c"
   },
   {
     "name": {
@@ -550,11 +551,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "d4e3f5ff-91d6-499e-b79e-b1d85c0c597b",
-    "set_uuid": "51745ca2-1ea0-4648-8b90-26021d8cb24c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "51745ca2-1ea0-4648-8b90-26021d8cb24c"
   },
   {
     "name": {
@@ -566,11 +567,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "b5eff9b7-6987-47a1-a673-c47b7e806370",
-    "set_uuid": "ccb1a2b3-4661-4bda-9ccc-aa737e6c3ae1",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ccb1a2b3-4661-4bda-9ccc-aa737e6c3ae1"
   },
   {
     "name": {
@@ -582,11 +583,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "d9b251b2-aa8a-46dc-9a2a-0eb46afea241",
-    "set_uuid": "ccb1a2b3-4661-4bda-9ccc-aa737e6c3ae1",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ccb1a2b3-4661-4bda-9ccc-aa737e6c3ae1"
   },
   {
     "name": {
@@ -598,11 +599,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "1a043355-03e6-4322-a462-7d628c23fd06",
-    "set_uuid": "43c66b3c-ee3d-42dc-94b3-b4e8f24d9a0e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "43c66b3c-ee3d-42dc-94b3-b4e8f24d9a0e"
   },
   {
     "name": {
@@ -614,11 +615,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "c044459e-12a3-4cdd-9f22-db1d14f34164",
-    "set_uuid": "43c66b3c-ee3d-42dc-94b3-b4e8f24d9a0e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "43c66b3c-ee3d-42dc-94b3-b4e8f24d9a0e"
   },
   {
     "name": {
@@ -630,11 +631,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "6335cb3a-6ceb-40e7-b241-ff9b36f1277c",
-    "set_uuid": "4a56fa39-3250-45ee-a13e-885aa51e05d2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "4a56fa39-3250-45ee-a13e-885aa51e05d2"
   },
   {
     "name": {
@@ -646,11 +647,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "ee52f114-1ab6-430b-bd54-62a82bf3600e",
-    "set_uuid": "4a56fa39-3250-45ee-a13e-885aa51e05d2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "4a56fa39-3250-45ee-a13e-885aa51e05d2"
   },
   {
     "name": {
@@ -662,11 +663,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "0bf97a2b-5fe6-46ca-8175-8457e8e37d36",
-    "set_uuid": "e58cc203-6a8d-46a6-a8c6-eeaefbd4a50e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e58cc203-6a8d-46a6-a8c6-eeaefbd4a50e"
   },
   {
     "name": {
@@ -678,11 +679,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "29f107aa-b8a8-4a09-bf55-9c903c1005ed",
-    "set_uuid": "e58cc203-6a8d-46a6-a8c6-eeaefbd4a50e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e58cc203-6a8d-46a6-a8c6-eeaefbd4a50e"
   },
   {
     "name": {
@@ -694,11 +695,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "4bacaeea-2d60-46d2-8c98-288b45a79aaf",
-    "set_uuid": "af33c41e-0824-45bf-a6de-f960deacef46",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "af33c41e-0824-45bf-a6de-f960deacef46"
   },
   {
     "name": {
@@ -710,11 +711,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "b52f4e53-06c2-4746-8063-e2bd99361174",
-    "set_uuid": "af33c41e-0824-45bf-a6de-f960deacef46",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "af33c41e-0824-45bf-a6de-f960deacef46"
   },
   {
     "name": {
@@ -726,11 +727,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "0545a68c-f273-4348-84cd-9cd365bdb474",
-    "set_uuid": "66be8a28-4c91-4418-9589-f9a3114f361b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "66be8a28-4c91-4418-9589-f9a3114f361b"
   },
   {
     "name": {
@@ -742,11 +743,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "99224b4e-751a-49ec-8db4-41c8cc4c7bf5",
-    "set_uuid": "66be8a28-4c91-4418-9589-f9a3114f361b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "66be8a28-4c91-4418-9589-f9a3114f361b"
   },
   {
     "name": {
@@ -758,11 +759,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "fdd4f0b4-3284-4734-b158-ecd5da36d586",
-    "set_uuid": "dea35658-0356-4578-b3b0-f538449ee8f6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "dea35658-0356-4578-b3b0-f538449ee8f6"
   },
   {
     "name": {
@@ -774,11 +775,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "c4d6bea8-61b0-45a4-81e0-1e5dd7429463",
-    "set_uuid": "dea35658-0356-4578-b3b0-f538449ee8f6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "dea35658-0356-4578-b3b0-f538449ee8f6"
   },
   {
     "name": {
@@ -790,11 +791,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "2df0f6e0-5821-4f70-9aa9-1cc61f860b53",
-    "set_uuid": "6a8b4db6-5057-4aac-a548-88b365f8a491",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "6a8b4db6-5057-4aac-a548-88b365f8a491"
   },
   {
     "name": {
@@ -806,11 +807,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "08bbd8dd-bb02-43b9-8e25-7709aee5ff52",
-    "set_uuid": "6a8b4db6-5057-4aac-a548-88b365f8a491",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "6a8b4db6-5057-4aac-a548-88b365f8a491"
   },
   {
     "name": {
@@ -822,11 +823,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "087dcfa2-5bfd-47a4-a67c-dca50e086e7a",
-    "set_uuid": "dc5f5463-25e5-4dd6-a019-422dff279d7a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "dc5f5463-25e5-4dd6-a019-422dff279d7a"
   },
   {
     "name": {
@@ -838,11 +839,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "e6fdcac2-9916-45e2-a479-e87d17ece1f9",
-    "set_uuid": "dc5f5463-25e5-4dd6-a019-422dff279d7a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "dc5f5463-25e5-4dd6-a019-422dff279d7a"
   },
   {
     "name": {
@@ -854,11 +855,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "7fc3ab50-4856-442b-85f7-7f0e5ab3304a",
-    "set_uuid": "f683fc1b-4d90-4165-8f00-59a7be264f3b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "f683fc1b-4d90-4165-8f00-59a7be264f3b"
   },
   {
     "name": {
@@ -870,11 +871,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "ee913eaa-bdaf-44c0-a139-17c5d94b1d4a",
-    "set_uuid": "f683fc1b-4d90-4165-8f00-59a7be264f3b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "f683fc1b-4d90-4165-8f00-59a7be264f3b"
   },
   {
     "name": {
@@ -886,11 +887,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "785a9152-a69b-4164-a8e2-cc201c1f8063",
-    "set_uuid": "ddd17061-8664-4dd4-8b21-45354cd37467",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ddd17061-8664-4dd4-8b21-45354cd37467"
   },
   {
     "name": {
@@ -902,11 +903,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "6d8ce7eb-a2a2-496c-9ce7-847f4da5fc0c",
-    "set_uuid": "ddd17061-8664-4dd4-8b21-45354cd37467",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "ddd17061-8664-4dd4-8b21-45354cd37467"
   },
   {
     "name": {
@@ -918,11 +919,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "2891d3c7-1178-4901-9be9-75efada4a9e7",
-    "set_uuid": "41f34810-35b7-4179-b997-d01fabf70599",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "41f34810-35b7-4179-b997-d01fabf70599"
   },
   {
     "name": {
@@ -934,11 +935,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "95400787-7abb-4cad-830b-8a4042831860",
-    "set_uuid": "41f34810-35b7-4179-b997-d01fabf70599",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "41f34810-35b7-4179-b997-d01fabf70599"
   },
   {
     "name": {
@@ -950,11 +951,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "c1de2d7d-ef83-4a3f-9407-2f512127244f",
-    "set_uuid": "95d55e28-01ee-40df-8a67-a30ccea2d809",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "95d55e28-01ee-40df-8a67-a30ccea2d809"
   },
   {
     "name": {
@@ -966,11 +967,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "350b77ab-6440-49c1-9b1c-a31c5c4f2f5f",
-    "set_uuid": "95d55e28-01ee-40df-8a67-a30ccea2d809",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "95d55e28-01ee-40df-8a67-a30ccea2d809"
   },
   {
     "name": {
@@ -982,11 +983,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "43ef1792-b182-419d-966c-a8a2d77dbe03",
-    "set_uuid": "1ccb5e05-1156-46a9-b2b3-14cc5d815aa5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "1ccb5e05-1156-46a9-b2b3-14cc5d815aa5"
   },
   {
     "name": {
@@ -998,11 +999,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "74dbb8c0-2e65-413d-8b52-7215993b5696",
-    "set_uuid": "1ccb5e05-1156-46a9-b2b3-14cc5d815aa5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "1ccb5e05-1156-46a9-b2b3-14cc5d815aa5"
   },
   {
     "name": {
@@ -1014,11 +1015,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "c9fac273-0c5c-46cd-b774-ad566a540511",
-    "set_uuid": "e8659c2e-f4b7-4732-b23c-16af4a1d79c9",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e8659c2e-f4b7-4732-b23c-16af4a1d79c9"
   },
   {
     "name": {
@@ -1030,11 +1031,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "11f924ca-5542-4864-b153-77363a32d690",
-    "set_uuid": "e8659c2e-f4b7-4732-b23c-16af4a1d79c9",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "e8659c2e-f4b7-4732-b23c-16af4a1d79c9"
   },
   {
     "name": {
@@ -1046,11 +1047,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "5b416331-7910-4d64-9b5f-43fd1832d3a6",
-    "set_uuid": "587977b6-8adf-4b54-b940-6354b0e830fc",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "587977b6-8adf-4b54-b940-6354b0e830fc"
   },
   {
     "name": {
@@ -1062,11 +1063,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "11f65b04-c50d-45bb-86bd-34520aa7db61",
-    "set_uuid": "587977b6-8adf-4b54-b940-6354b0e830fc",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "587977b6-8adf-4b54-b940-6354b0e830fc"
   },
   {
     "name": {
@@ -1078,11 +1079,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "f0a65c80-55e8-4ad3-b68c-8429c2fefcf5",
-    "set_uuid": "8a4ae475-b40f-49dd-bbcc-bd6bc135b0f7",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "8a4ae475-b40f-49dd-bbcc-bd6bc135b0f7"
   },
   {
     "name": {
@@ -1094,11 +1095,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "37867ac1-4101-4553-98e1-c8a94fdd2d66",
-    "set_uuid": "8a4ae475-b40f-49dd-bbcc-bd6bc135b0f7",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "8a4ae475-b40f-49dd-bbcc-bd6bc135b0f7"
   },
   {
     "name": {
@@ -1110,11 +1111,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "b7e0939f-45ef-4250-8138-2bee9dcb2be4",
-    "set_uuid": "b490e81d-f2f0-4857-b2f4-cbea8edb8383",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "b490e81d-f2f0-4857-b2f4-cbea8edb8383"
   },
   {
     "name": {
@@ -1126,11 +1127,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "2fed48b7-dd3d-4c3c-9d5c-3046934f5cfd",
-    "set_uuid": "b490e81d-f2f0-4857-b2f4-cbea8edb8383",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "b490e81d-f2f0-4857-b2f4-cbea8edb8383"
   },
   {
     "name": {
@@ -1142,11 +1143,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "1228762d-8c89-4e04-a097-5001d805877d",
-    "set_uuid": "7029c6a0-dce5-4149-a8fd-c3d28c05d065",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7029c6a0-dce5-4149-a8fd-c3d28c05d065"
   },
   {
     "name": {
@@ -1158,11 +1159,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a865d5f8-4798-4721-ab76-3b51067d6439",
-    "set_uuid": "7029c6a0-dce5-4149-a8fd-c3d28c05d065",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "7029c6a0-dce5-4149-a8fd-c3d28c05d065"
   },
   {
     "name": {
@@ -1174,11 +1175,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "825c1a0a-e6a3-41dc-81bb-0fb9b74c0ca2",
-    "set_uuid": "96e922f2-8178-4961-99e5-f86e08b947b2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "96e922f2-8178-4961-99e5-f86e08b947b2"
   },
   {
     "name": {
@@ -1190,11 +1191,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "e12ac1ec-08f8-4d8b-8c4b-29b74cafe1a1",
-    "set_uuid": "96e922f2-8178-4961-99e5-f86e08b947b2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "96e922f2-8178-4961-99e5-f86e08b947b2"
   },
   {
     "name": {
@@ -1206,11 +1207,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "8e597833-1025-4de4-b34a-2f34201487c3",
-    "set_uuid": "bd1ab7ff-ab35-401f-8f6e-69d986a457c3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "bd1ab7ff-ab35-401f-8f6e-69d986a457c3"
   },
   {
     "name": {
@@ -1222,11 +1223,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "622d259d-b52b-409a-bf58-04705d8423f9",
-    "set_uuid": "bd1ab7ff-ab35-401f-8f6e-69d986a457c3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "bd1ab7ff-ab35-401f-8f6e-69d986a457c3"
   },
   {
     "name": {
@@ -1238,11 +1239,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "67464126-edf0-49db-a07c-8641d4a24cae",
-    "set_uuid": "01c16d60-dd80-4a7b-a55f-24d68a6e88c3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "01c16d60-dd80-4a7b-a55f-24d68a6e88c3"
   },
   {
     "name": {
@@ -1254,11 +1255,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "9dc14737-973d-4f6e-8336-2e119c1f1af7",
-    "set_uuid": "01c16d60-dd80-4a7b-a55f-24d68a6e88c3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "01c16d60-dd80-4a7b-a55f-24d68a6e88c3"
   },
   {
     "name": {
@@ -1270,11 +1271,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "220d2f95-067f-4169-bab7-1b4e202bd1a1",
-    "set_uuid": "fafd0a22-6824-43fc-b348-a4cf287ad4a2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "fafd0a22-6824-43fc-b348-a4cf287ad4a2"
   },
   {
     "name": {
@@ -1286,11 +1287,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "98ebf128-02f1-4d4b-a686-af8713a0f24b",
-    "set_uuid": "fafd0a22-6824-43fc-b348-a4cf287ad4a2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "fafd0a22-6824-43fc-b348-a4cf287ad4a2"
   },
   {
     "name": {
@@ -1302,11 +1303,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "84f3da59-4c41-4e4e-925c-5fda4222361d",
-    "set_uuid": "4d434220-41ef-4ab3-8adc-dabb5e0d799c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "4d434220-41ef-4ab3-8adc-dabb5e0d799c"
   },
   {
     "name": {
@@ -1318,11 +1319,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "ad59353e-3ed1-4e76-af87-020cebfa2664",
-    "set_uuid": "4d434220-41ef-4ab3-8adc-dabb5e0d799c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "4d434220-41ef-4ab3-8adc-dabb5e0d799c"
   },
   {
     "name": {
@@ -1334,11 +1335,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "17540c3a-2f85-4771-a4f8-834c70872abb",
-    "set_uuid": "85ca8298-e55c-4a58-813a-50419d06a0c8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "85ca8298-e55c-4a58-813a-50419d06a0c8"
   },
   {
     "name": {
@@ -1350,11 +1351,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "d2c45711-be18-4c85-8b23-f4d4f3d0b492",
-    "set_uuid": "85ca8298-e55c-4a58-813a-50419d06a0c8",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "85ca8298-e55c-4a58-813a-50419d06a0c8"
   },
   {
     "name": {
@@ -1366,11 +1367,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "59e5a3f7-c1d0-4b76-bb7e-2bcddddb83da",
-    "set_uuid": "2298f2ce-e1b5-4a77-b1e5-180ed32b9711",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "2298f2ce-e1b5-4a77-b1e5-180ed32b9711"
   },
   {
     "name": {
@@ -1382,11 +1383,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "ea331ff6-aa92-4cb4-936a-554a2404152d",
-    "set_uuid": "2298f2ce-e1b5-4a77-b1e5-180ed32b9711",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "2298f2ce-e1b5-4a77-b1e5-180ed32b9711"
   },
   {
     "name": {
@@ -1398,11 +1399,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "08358bbf-3f8d-48fe-bb48-5dadead4170f",
-    "set_uuid": "59582588-d429-4949-9dfc-d2be3eb1963b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "59582588-d429-4949-9dfc-d2be3eb1963b"
   },
   {
     "name": {
@@ -1414,11 +1415,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "20px",
     "uuid": "8d2ad303-095d-4f0c-b0c5-c1ec75b96819",
-    "set_uuid": "59582588-d429-4949-9dfc-d2be3eb1963b",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "59582588-d429-4949-9dfc-d2be3eb1963b"
   },
   {
     "name": {
@@ -1430,11 +1431,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "34316272-7bcd-4b44-af20-07c0e1cb8690",
-    "set_uuid": "002e91f0-f8d7-4c82-983d-9fdeb54c8a27",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "002e91f0-f8d7-4c82-983d-9fdeb54c8a27"
   },
   {
     "name": {
@@ -1446,11 +1447,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "22px",
     "uuid": "2e81ce48-452d-401f-a44d-10ca427f031e",
-    "set_uuid": "002e91f0-f8d7-4c82-983d-9fdeb54c8a27",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "002e91f0-f8d7-4c82-983d-9fdeb54c8a27"
   },
   {
     "name": {
@@ -1462,11 +1463,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "bfd0ad6e-6656-46d6-aa9f-0940b2c2902a",
-    "set_uuid": "b44a2927-7b2e-494c-9f79-ba7ea5eaabd2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "b44a2927-7b2e-494c-9f79-ba7ea5eaabd2"
   },
   {
     "name": {
@@ -1478,11 +1479,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "1b6d0e50-3ba2-43c9-8b8c-c220364f4434",
-    "set_uuid": "b44a2927-7b2e-494c-9f79-ba7ea5eaabd2",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "b44a2927-7b2e-494c-9f79-ba7ea5eaabd2"
   },
   {
     "name": {
@@ -1494,11 +1495,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "85273338-00a6-407d-b5f9-803a732b84fa",
-    "set_uuid": "a0334fc6-e127-43e0-be41-7ecb5ef52b22",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "a0334fc6-e127-43e0-be41-7ecb5ef52b22"
   },
   {
     "name": {
@@ -1510,11 +1511,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "f60c626f-f217-46eb-b2ed-5c56c3f87aa4",
-    "set_uuid": "a0334fc6-e127-43e0-be41-7ecb5ef52b22",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "a0334fc6-e127-43e0-be41-7ecb5ef52b22"
   },
   {
     "name": {
@@ -1526,11 +1527,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "4342319b-d8c4-485b-9b2f-5bd4c702979c",
-    "set_uuid": "79a9ff24-76dd-4d94-aac8-c226e64b88ba",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "79a9ff24-76dd-4d94-aac8-c226e64b88ba"
   },
   {
     "name": {
@@ -1542,11 +1543,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "b8370ec4-5e70-4a53-a98e-a733c86ce065",
-    "set_uuid": "79a9ff24-76dd-4d94-aac8-c226e64b88ba",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "79a9ff24-76dd-4d94-aac8-c226e64b88ba"
   },
   {
     "name": {
@@ -1558,11 +1559,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "91eb8665-5728-468c-a533-1aadf70aeef1",
-    "set_uuid": "42b99d05-5642-4663-8789-c30b9a7439d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "42b99d05-5642-4663-8789-c30b9a7439d6"
   },
   {
     "name": {
@@ -1574,11 +1575,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "93052ad2-8ada-40d8-a046-16e5a91ae826",
-    "set_uuid": "42b99d05-5642-4663-8789-c30b9a7439d6",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "42b99d05-5642-4663-8789-c30b9a7439d6"
   },
   {
     "name": {
@@ -1590,11 +1591,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "c4ae0720-ee2c-41b8-a8ad-a30528a8a967",
-    "set_uuid": "c1efdd8f-29ec-4c77-b750-ca011bd8de1d",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "c1efdd8f-29ec-4c77-b750-ca011bd8de1d"
   },
   {
     "name": {
@@ -1606,11 +1607,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "e2615055-159e-4b87-b7ce-1537f25fcdd4",
-    "set_uuid": "c1efdd8f-29ec-4c77-b750-ca011bd8de1d",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "c1efdd8f-29ec-4c77-b750-ca011bd8de1d"
   },
   {
     "name": {
@@ -1623,7 +1624,8 @@
     "uuid": "e6f95e88-636d-4d3a-8966-8c811dc697d6",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "c9651edd-6744-4018-a585-2a134c675bac"
   },
   {
     "name": {
@@ -1635,11 +1637,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "cc8ad91e-22f2-4f59-ae8c-99d2c1433d6e",
-    "set_uuid": "0722a411-c7c0-4906-8e41-e043b4c245d3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "0722a411-c7c0-4906-8e41-e043b4c245d3"
   },
   {
     "name": {
@@ -1651,11 +1653,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "083c11fe-1e10-46f5-9e71-3fcc2567fe2d",
-    "set_uuid": "0722a411-c7c0-4906-8e41-e043b4c245d3",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "0722a411-c7c0-4906-8e41-e043b4c245d3"
   },
   {
     "name": {
@@ -1667,11 +1669,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "f78418a4-5b55-418b-9c90-7f388d5bb275",
-    "set_uuid": "de0d84cb-14d8-40b3-bae2-8826d4ee03f7",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "de0d84cb-14d8-40b3-bae2-8826d4ee03f7"
   },
   {
     "name": {
@@ -1683,11 +1685,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "0062482b-0339-4632-9b40-89b5f1a440cf",
-    "set_uuid": "de0d84cb-14d8-40b3-bae2-8826d4ee03f7",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "de0d84cb-14d8-40b3-bae2-8826d4ee03f7"
   },
   {
     "name": {
@@ -1699,11 +1701,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "66e386cd-e3b5-424b-b89b-27fe9aaf5ad1",
-    "set_uuid": "bc5fab17-8503-442c-a560-fa7a1f8d99c5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "bc5fab17-8503-442c-a560-fa7a1f8d99c5"
   },
   {
     "name": {
@@ -1715,11 +1717,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a063db0d-81cf-45e0-988e-2224307560ba",
-    "set_uuid": "bc5fab17-8503-442c-a560-fa7a1f8d99c5",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "bc5fab17-8503-442c-a560-fa7a1f8d99c5"
   },
   {
     "name": {
@@ -1731,11 +1733,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "54227cbe-b962-46de-b40a-d1ea759425a7",
-    "set_uuid": "43458e95-45f9-4d0b-8383-6da7a6080a58",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "43458e95-45f9-4d0b-8383-6da7a6080a58"
   },
   {
     "name": {
@@ -1747,11 +1749,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "1bcd281a-38b0-4e83-8667-536351dd14ec",
-    "set_uuid": "43458e95-45f9-4d0b-8383-6da7a6080a58",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "43458e95-45f9-4d0b-8383-6da7a6080a58"
   },
   {
     "name": {
@@ -1763,11 +1765,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "1e41d09e-684e-4f87-ae85-4bc95f958c0e",
-    "set_uuid": "981b8bc8-1914-4406-890f-748efaa1c27c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "981b8bc8-1914-4406-890f-748efaa1c27c"
   },
   {
     "name": {
@@ -1779,11 +1781,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "cb87186b-47aa-4baa-a47d-91b5e9f7965e",
-    "set_uuid": "981b8bc8-1914-4406-890f-748efaa1c27c",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "14.5.0"
-    }
+    },
+    "conceptId": "981b8bc8-1914-4406-890f-748efaa1c27c"
   },
   {
     "name": {
@@ -1796,8 +1798,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "2cc848e3-7990-4235-8cb6-6d246e1bf1df",
-    "set_uuid": "2d1c635e-7273-4a3f-bd23-8a60bcf18cb4",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "2d1c635e-7273-4a3f-bd23-8a60bcf18cb4"
   },
   {
     "name": {
@@ -1810,8 +1812,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "18px",
     "uuid": "d6ab89f2-4d40-413c-ade4-95fb8a010665",
-    "set_uuid": "2d1c635e-7273-4a3f-bd23-8a60bcf18cb4",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "2d1c635e-7273-4a3f-bd23-8a60bcf18cb4"
   },
   {
     "name": {
@@ -1824,8 +1826,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "b0281fdc-b044-45e6-af04-e56913432575",
-    "set_uuid": "df73e942-9fb0-4182-a11d-250007ae7f16",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "df73e942-9fb0-4182-a11d-250007ae7f16"
   },
   {
     "name": {
@@ -1838,8 +1840,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "d7741965-d975-4aee-b0db-93e0d55822fd",
-    "set_uuid": "df73e942-9fb0-4182-a11d-250007ae7f16",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "df73e942-9fb0-4182-a11d-250007ae7f16"
   },
   {
     "name": {
@@ -1852,8 +1854,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "8c4f32d5-746f-4dce-aca3-5e657a03afda",
-    "set_uuid": "c6f1212a-8cee-4174-91ca-499865fc70ed",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c6f1212a-8cee-4174-91ca-499865fc70ed"
   },
   {
     "name": {
@@ -1866,8 +1868,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "d9e04bc9-d510-4bfb-8193-3269f0ed4e7c",
-    "set_uuid": "c6f1212a-8cee-4174-91ca-499865fc70ed",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "c6f1212a-8cee-4174-91ca-499865fc70ed"
   },
   {
     "name": {
@@ -1880,8 +1882,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "7f5f9ac3-2029-4cd2-8a4b-e16c58122487",
-    "set_uuid": "d9eb30d2-60ca-4cd2-b72a-983fce263d9a",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d9eb30d2-60ca-4cd2-b72a-983fce263d9a"
   },
   {
     "name": {
@@ -1894,8 +1896,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "14px",
     "uuid": "9516737f-6855-416e-adc0-f03e08f63259",
-    "set_uuid": "d9eb30d2-60ca-4cd2-b72a-983fce263d9a",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "d9eb30d2-60ca-4cd2-b72a-983fce263d9a"
   },
   {
     "name": {
@@ -1908,8 +1910,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "dba2b2d5-43b9-4e2a-9b45-fbc02d16a84d",
-    "set_uuid": "993349fa-e1d0-47c9-a904-4710ee8ce818",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "993349fa-e1d0-47c9-a904-4710ee8ce818"
   },
   {
     "name": {
@@ -1922,8 +1924,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "17cec018-ae0f-4aaf-ad6d-08b758f94c8c",
-    "set_uuid": "993349fa-e1d0-47c9-a904-4710ee8ce818",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "993349fa-e1d0-47c9-a904-4710ee8ce818"
   },
   {
     "name": {
@@ -1936,8 +1938,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
     "uuid": "0d252df3-59fc-422e-8f47-d4c894660eb9",
-    "set_uuid": "9f043078-0925-4a0c-be46-a3bda4d80f0e",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9f043078-0925-4a0c-be46-a3bda4d80f0e"
   },
   {
     "name": {
@@ -1950,7 +1952,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "2a20e624-976e-4722-bb38-c8d1eeef6e98",
-    "set_uuid": "9f043078-0925-4a0c-be46-a3bda4d80f0e",
-    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "conceptId": "9f043078-0925-4a0c-be46-a3bda4d80f0e"
   }
 ]

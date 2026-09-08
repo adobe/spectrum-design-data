@@ -707,3 +707,20 @@ rules:
     message: "Relationship $ref {ref} resolves to a token deprecated in {deprecatedIn}"
     spec_ref: spec/relationship-format.md#legacy-fields-interim
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-059
+    name: alias-mode-context-compatibility
+    severity: warning
+    layer: 2
+    category: reference-integrity
+    note: >
+      Mode analogue of SPEC-002. A `$ref` target that is a `conceptId` (see
+      token-format.md#concept-identity-conceptid) is context-resolved elsewhere and exempt
+      here; only a direct per-value target is checked.
+    assert: >
+      An alias whose name object sets a mode-set field (e.g. `colorScheme: dark`) SHOULD NOT
+      resolve, via its `$ref` chain, to a per-value token that sets the same field to a
+      different value. Tokens whose name object omits the field (mode-agnostic) are exempt.
+    message: "Alias {token} sets {field}={ownValue} but its $ref chain resolves to a token with {field}={leafValue}"
+    spec_ref: spec/cascade.md#alias-resolution
+    introduced_in: "1.0.0-draft"

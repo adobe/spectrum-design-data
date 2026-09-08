@@ -159,8 +159,8 @@ pub struct TokenGraph {
     /// whenever `relationships` changes; see [`Self::resolve_relationship_ref`].
     ///
     /// These synthetic records live *only* here — they never enter `self.tokens`,
-    /// `uuid_index`, or `set_uuid_index` (built solely from `tokens/*.tokens.json`).
-    /// So context-aware resolution (`Self::resolve_set_in_context`,
+    /// `uuid_index`, or `concept_id_index` (built solely from `tokens/*.tokens.json`).
+    /// So context-aware resolution (`Self::resolve_concept_in_context`,
     /// `Self::resolve_alias_in_context`) can't see CTR-only scale-sets; a future need
     /// for that should follow the `ctrScaleValues` inline-stash pattern used by
     /// `Self::reindex_relationship_tokens` rather than feeding these into the shared
@@ -183,8 +183,8 @@ pub struct TokenGraph {
     /// `"<file>:<index>"` (guaranteed unique) rather than UUIDs, so `$ref`
     /// targets that are UUID strings need this index to resolve.
     ///
-    /// Also contains `set_uuid → first child key` as a context-free fallback
-    /// (see `set_uuid_index` for the full child list used by context-aware
+    /// Also contains `conceptId → first child key` as a context-free fallback
+    /// (see `concept_id_index` for the full child list used by context-aware
     /// resolution).
     uuid_index: HashMap<String, String>,
     /// Tertiary index: legacy human-readable name → primary key in `tokens`.
@@ -195,18 +195,17 @@ pub struct TokenGraph {
     /// against cascade tokens.  Not needed for object-format tokens, which are
     /// already keyed by their legacy slug, but harmlessly populated there too.
     legacy_name_index: HashMap<String, String>,
-    /// Quaternary index: set-level UUID → all child graph keys (in insertion order).
+    /// Quaternary index: concept-level UUID → all child graph keys (in insertion order).
     ///
-    /// When the cascade `migrate convert` command explodes a legacy color-set or
-    /// scale-set token into per-mode records, each child carries a `set_uuid`
-    /// field pointing at the original set-level UUID (which is no longer any
-    /// individual record's `uuid`).  Context-aware callers (e.g.
-    /// [`TokenGraph::resolve_alias_in_context`]) use this index to pick the
-    /// mode-appropriate child rather than always taking the first.
+    /// Every token carries a `conceptId` shared by every mode row of the same
+    /// design concept (see `docs/proposals/013-multimodal-model-spike-samples.md`).
+    /// Context-aware callers (e.g. [`TokenGraph::resolve_alias_in_context`]) use
+    /// this index to pick the mode-appropriate child rather than always taking
+    /// the first.
     ///
-    /// `uuid_index` retains the `set_uuid → first child` mapping as a context-free
+    /// `uuid_index` retains the `conceptId → first child` mapping as a context-free
     /// fallback so non-context callers like `resolve_leaf` continue to terminate.
-    set_uuid_index: HashMap<String, Vec<String>>,
+    concept_id_index: HashMap<String, Vec<String>>,
 }
 
 impl TokenGraph {
@@ -420,17 +419,17 @@ impl TokenGraph {
                     if let Some(u) = &uuid {
                         g.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
                     }
-                    // Register set_uuid → key so that aliases pointing at the
+                    // Register conceptId → key so that aliases pointing at the
                     // set-level UUID (emitted by the forward migration when a
                     // legacy alias targets a color-set or scale-set token) can
                     // resolve.  `or_insert_with` keeps the first mode (stable)
-                    // as a context-free fallback in uuid_index; set_uuid_index
+                    // as a context-free fallback in uuid_index; concept_id_index
                     // accumulates ALL children for context-aware selection.
-                    if let Some(su) = tok_obj.get("set_uuid").and_then(|v| v.as_str()) {
+                    if let Some(su) = tok_obj.get("conceptId").and_then(|v| v.as_str()) {
                         g.uuid_index
                             .entry(su.to_string())
                             .or_insert_with(|| key.clone());
-                        g.set_uuid_index
+                        g.concept_id_index
                             .entry(su.to_string())
                             .or_default()
                             .push(key.clone());
@@ -542,7 +541,7 @@ impl TokenGraph {
     pub fn from_pairs(entries: Vec<(String, PathBuf, Value)>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
-        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
+        let mut concept_id_index: HashMap<String, Vec<String>> = HashMap::new();
         // `from_pairs` uses the entry name as the graph key (object-format style),
         // so no separate legacy_name_index entry is needed — tokens.get(name) works.
         let legacy_name_index = HashMap::new();
@@ -561,13 +560,13 @@ impl TokenGraph {
                 uuid_index.entry(u.clone()).or_insert_with(|| name.clone());
             }
             if let Some(su) = tok_obj
-                .and_then(|o| o.get("set_uuid"))
+                .and_then(|o| o.get("conceptId"))
                 .and_then(|v| v.as_str())
             {
                 uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| name.clone());
-                set_uuid_index
+                concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(name.clone());
@@ -599,7 +598,7 @@ impl TokenGraph {
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
-            set_uuid_index,
+            concept_id_index,
         }
     }
 
@@ -610,18 +609,18 @@ impl TokenGraph {
     pub fn from_records(records: Vec<TokenRecord>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
-        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
+        let mut concept_id_index: HashMap<String, Vec<String>> = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| record.name.clone());
             }
-            if let Some(su) = record.raw.get("set_uuid").and_then(|v| v.as_str()) {
+            if let Some(su) = record.raw.get("conceptId").and_then(|v| v.as_str()) {
                 uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| record.name.clone());
-                set_uuid_index
+                concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(record.name.clone());
@@ -641,7 +640,7 @@ impl TokenGraph {
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index: HashMap::new(),
-            set_uuid_index,
+            concept_id_index,
         };
         // `records`' order is whatever the caller supplied (e.g. the cache's
         // `hydrate` iterates a `redb` table in lexicographic key order, not
@@ -1209,29 +1208,29 @@ impl TokenGraph {
         Ok(Vec::new())
     }
 
-    /// Rebuild `uuid_index` and `set_uuid_index` from the current `tokens` map
+    /// Rebuild `uuid_index` and `concept_id_index` from the current `tokens` map
     /// (after filtering or cache reload).
     ///
     /// This is called whenever the token map is mutated (e.g. after loading from
     /// the redb cache, which only persists `tokens`/`mode_sets`/`fields`).
-    /// Rebuilding here ensures that `set_uuid` → children mappings are restored
+    /// Rebuilding here ensures that `conceptId` → children mappings are restored
     /// even when the graph was not loaded fresh from JSON.
     fn rebuild_uuid_index(&mut self) {
         self.uuid_index.clear();
-        self.set_uuid_index.clear();
+        self.concept_id_index.clear();
         for (key, rec) in &self.tokens {
             if let Some(u) = &rec.uuid {
                 self.uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| key.clone());
             }
-            if let Some(su) = rec.raw.get("set_uuid").and_then(|v| v.as_str()) {
+            if let Some(su) = rec.raw.get("conceptId").and_then(|v| v.as_str()) {
                 // First-child fallback for context-free callers (resolve_leaf, etc.).
                 self.uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| key.clone());
                 // Full child list for context-aware resolution.
-                self.set_uuid_index
+                self.concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(key.clone());
@@ -1499,9 +1498,9 @@ impl TokenGraph {
                 .or_else(|| candidates.first())
                 .expect("candidates is non-empty by construction");
             // CTRs key scale variants under `scope.options.scale` /
-            // `setUuid` (camelCase), not the `name.scale` / `set_uuid`
-            // (snake_case) shape `scale_aligned_source_value` reads off
-            // cascade-token records via `set_uuid_index` — and that index
+            // `setUuid` (camelCase), not the `name.scale` / `conceptId`
+            // shape `scale_aligned_source_value` reads off
+            // cascade-token records via `concept_id_index` — and that index
             // is built only from `self.tokens`, which CTR-only scale-sets
             // never enter. Rather than force these into that pipeline,
             // stash every scale's value directly on the synthetic raw so
@@ -1729,7 +1728,7 @@ fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<M
 
 /// Count the name-object fields in `raw` that match the given context map.
 ///
-/// Used for context-aware candidate selection in [`TokenGraph::resolve_set_in_context`]
+/// Used for context-aware candidate selection in [`TokenGraph::resolve_concept_in_context`]
 /// and `cascade::resolve_reference`: the candidate with the highest score is the
 /// best fit for the requested context.
 pub(crate) fn name_ctx_score(
@@ -1825,7 +1824,7 @@ impl TokenGraph {
     /// into that sibling's own `legacyKey` to follow the chain, which may run
     /// several CTRs deep (e.g. `drop-zone-title-font-size` →
     /// `illustrated-message-medium-title-font-size` → `body-size-s` → a
-    /// token's `set_uuid`) before landing on a token or an inline value.
+    /// token's `conceptId`) before landing on a token or an inline value.
     /// Falls back to the CTR's own inline `value` when it carries one
     /// directly (e.g. `avatar-size-100`'s dimension) — see
     /// [`Self::reindex_relationship_tokens`] for which schemas qualify
@@ -1868,7 +1867,7 @@ impl TokenGraph {
 
     /// Relationship record whose `legacyKey` matches and whose
     /// `scope.options` best fits `ctx` — same tie-break style as
-    /// [`Self::resolve_set_in_context`] (highest match count wins), but
+    /// [`Self::resolve_concept_in_context`] (highest match count wins), but
     /// scored against a CTR's `scope.options` rather than a token's `name`.
     ///
     /// Some CTRs emit multiple sibling records under one `legacyKey`,
@@ -1922,7 +1921,7 @@ impl TokenGraph {
                 .count();
             let cand_uuid = r.uuid.as_deref().unwrap_or("");
             // Higher score wins; equal scores break on uuid lexicographic
-            // ascending — same convention as `resolve_set_in_context`, so
+            // ascending — same convention as `resolve_concept_in_context`, so
             // two siblings scoring equally on disjoint context keys (e.g.
             // one scoped only by `colorScheme`, the other only by `scale`)
             // pick a stable candidate instead of whichever loaded first.
@@ -1941,7 +1940,7 @@ impl TokenGraph {
 
     /// Whether any relationship record (any sibling, regardless of context)
     /// carries this `legacyKey` — used to tell "this token isn't CTR-backed
-    /// at all" (safe to fall back to its own direct `set_uuid`) apart from
+    /// at all" (safe to fall back to its own direct `conceptId`) apart from
     /// "it's CTR-backed but no sibling matches this context" (genuinely
     /// uncovered; must not fall back to a differently-scoped sibling).
     pub(crate) fn has_relationship_record(&self, legacy_key: &str) -> bool {
@@ -1955,7 +1954,7 @@ impl TokenGraph {
     /// matches `ctx` (via [`Self::best_relationship_candidate`]) instead of
     /// the first one found, then resolves its `$ref` through
     /// [`Self::resolve_alias_in_context`] so a `$ref` to a mode-set
-    /// (`set_uuid`) also lands on the `ctx`-appropriate member.
+    /// (`conceptId`) also lands on the `ctx`-appropriate member.
     pub fn resolve_relationship_ref_in_context<'a>(
         &'a self,
         legacy_key: &str,
@@ -1989,20 +1988,20 @@ impl TokenGraph {
         via_ref.or_else(|| self.best_relationship_token_in_context(legacy_key, ctx))
     }
 
-    /// Resolve a set-level UUID to the context-appropriate child record.
+    /// Resolve a concept-level UUID to the context-appropriate child record.
     ///
-    /// Picks the child from `set_uuid_index` whose name-object fields best match
+    /// Picks the child from `concept_id_index` whose name-object fields best match
     /// `ctx` (greatest count of matching key=value pairs).  Tie-breaks are stable:
     /// among equal-score children the one with the lexicographically smallest `uuid`
     /// wins, so repeated calls with the same arguments always return the same token.
     ///
-    /// Returns `None` when no children are registered for `set_uuid`.
-    pub fn resolve_set_in_context<'a>(
+    /// Returns `None` when no children are registered for `concept_id`.
+    pub fn resolve_concept_in_context<'a>(
         &'a self,
-        set_uuid: &str,
+        concept_id: &str,
         ctx: &std::collections::HashMap<String, String>,
     ) -> Option<&'a TokenRecord> {
-        let keys = self.set_uuid_index.get(set_uuid)?;
+        let keys = self.concept_id_index.get(concept_id)?;
         let mut best_score = 0usize;
         let mut best_uuid: Option<&str> = None;
         let mut best: Option<&TokenRecord> = None;
@@ -2029,10 +2028,10 @@ impl TokenGraph {
         best
     }
 
-    /// Context-aware alias resolution: checks `set_uuid_index` first.
+    /// Context-aware alias resolution: checks `concept_id_index` first.
     ///
-    /// When `alias_target` is a set-level UUID, returns the mode-appropriate child
-    /// via [`TokenGraph::resolve_set_in_context`].  Falls back to the standard
+    /// When `alias_target` is a concept-level UUID, returns the mode-appropriate child
+    /// via [`TokenGraph::resolve_concept_in_context`].  Falls back to the standard
     /// [`TokenGraph::resolve_alias_key`] path (uuid_index → direct → legacy name)
     /// for all other alias targets.
     ///
@@ -2043,8 +2042,8 @@ impl TokenGraph {
         alias_target: &str,
         ctx: &std::collections::HashMap<String, String>,
     ) -> Option<&'a TokenRecord> {
-        if self.set_uuid_index.contains_key(alias_target) {
-            return self.resolve_set_in_context(alias_target, ctx);
+        if self.concept_id_index.contains_key(alias_target) {
+            return self.resolve_concept_in_context(alias_target, ctx);
         }
         self.resolve_alias_key(alias_target)
     }
@@ -2082,7 +2081,7 @@ impl TokenRecord {
 
     /// Context-aware twin of [`TokenRecord::resolve_leaf`]: walks alias edges via
     /// [`TokenGraph::resolve_alias_in_context`] instead of `resolve_alias_key`, so a
-    /// hop that lands on a `set_uuid` re-enters the mode-appropriate child instead of
+    /// hop that lands on a `conceptId` re-enters the mode-appropriate child instead of
     /// falling back to an arbitrary (first-indexed) one. Use this when the caller has
     /// an active mode context (e.g. resolving a `.Color theme` set member's own
     /// `$ref` chain); use `resolve_leaf` when there is none.
@@ -2872,13 +2871,13 @@ mod tests {
     #[test]
     fn resolve_relationship_ref_follows_multi_hop_ctr_chain_to_token() {
         // drop-zone-title-font-size's real shape: a 3-hop chain of $refs
-        // across CTRs before landing on a token's set_uuid.
+        // across CTRs before landing on a token's conceptId.
         let uuid = "11111111-0000-0000-0000-000000000099";
         let g = cascade_graph_from(json!([{
             "name": { "property": "font-size", "value": "l" },
             "$schema": "https://example.com/font-size.json",
             "value": "20px",
-            "set_uuid": uuid
+            "conceptId": uuid
         }]))
         .with_relationships(vec![
             RelationshipRecord {
@@ -2995,14 +2994,14 @@ mod tests {
                 "$schema": "https://example.com/color.json",
                 "value": "#323232",
                 "uuid": "u-gray-200-dark",
-                "set_uuid": "su-gray-200"
+                "conceptId": "su-gray-200"
             },
             {
                 "name": {"colorFamily": "gray", "scaleIndex": 800, "colorScheme": "dark"},
                 "$schema": "https://example.com/color.json",
                 "value": "#dbdbdb",
                 "uuid": "u-gray-800-dark",
-                "set_uuid": "su-gray-800"
+                "conceptId": "su-gray-800"
             },
         ]))
         .with_relationships(vec![
@@ -3126,21 +3125,21 @@ mod tests {
         // key. Without a deterministic tie-break, whichever loaded first
         // wins arbitrarily; `best_relationship_candidate` must instead pick
         // the same sibling every time (smallest uuid), matching
-        // `resolve_set_in_context`'s convention.
+        // `resolve_concept_in_context`'s convention.
         let g = cascade_graph_from(json!([
             {
                 "name": {"colorFamily": "gray", "scaleIndex": 200},
                 "$schema": "https://example.com/color.json",
                 "value": "#scale-branch",
                 "uuid": "u-scale-branch",
-                "set_uuid": "su-scale-branch"
+                "conceptId": "su-scale-branch"
             },
             {
                 "name": {"colorFamily": "gray", "scaleIndex": 800},
                 "$schema": "https://example.com/color.json",
                 "value": "#color-branch",
                 "uuid": "u-color-branch",
-                "set_uuid": "su-color-branch"
+                "conceptId": "su-color-branch"
             },
         ]))
         .with_relationships(vec![

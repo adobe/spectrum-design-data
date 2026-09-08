@@ -41,7 +41,7 @@ impl ValidationRule for Rule {
             // A sibling relationship's own `uuid` or `setUuid` is a valid $ref
             // target too — once every member of a mode-set group has been
             // migrated to CTRs, the group id only survives as `setUuid` on
-            // sibling CTRs (see graph.rs's set_uuid_index for the equivalent
+            // sibling CTRs (see graph.rs's concept_id_index for the equivalent
             // token-side precedent).
             let resolves_to_relationship = ctx.graph.relationship_target_exists(target);
             if !resolves_to_token && !resolves_to_relationship {
