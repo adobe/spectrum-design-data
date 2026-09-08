@@ -93,6 +93,38 @@ test("writes an extensions/tokens/ fragment when the run produces extension toke
   ]);
 });
 
+test("removes a stale extensions/tokens/ fragment when a re-run produces zero extension tokens", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "ios-importer-cli-"));
+  const csvPath = join(dir, "override-log.csv");
+  const outPath = join(dir, "manifest.json");
+  const gapsPath = join(dir, "gaps.md");
+  const fragmentPath = join(
+    dir,
+    "extensions",
+    "tokens",
+    "imported.tokens.json",
+  );
+
+  writeFileSync(
+    csvPath,
+    "Token Name,Old Value,New Value,Aliases,Override Source\n" +
+      'blue-100,"Custom token","ColorSet(light: Color(1, 2, 3, 1.0), dark: none)",,palette.json\n',
+  );
+  run(["--csv", csvPath, "--out", outPath, "--gaps", gapsPath]);
+  t.true(existsSync(fragmentPath));
+
+  // Re-run with a CSV that no longer produces any extension tokens — the
+  // prior run's fragment must be removed, not left stale.
+  writeFileSync(
+    csvPath,
+    "Token Name,Old Value,New Value,Aliases,Override Source\n" +
+      'letter-spacing-font-size-10,"Custom token",Measurement(0.433),,letter-spacing.json\n',
+  );
+  run(["--csv", csvPath, "--out", outPath, "--gaps", gapsPath]);
+
+  t.false(existsSync(fragmentPath));
+});
+
 test("rejects missing required flags", (t) => {
   t.throws(() => run(["--csv", "x.csv"]), { message: /usage:/ });
 });

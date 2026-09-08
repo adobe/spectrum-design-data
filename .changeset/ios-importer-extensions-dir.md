@@ -7,6 +7,7 @@ Emit the platform manifest's `extensions/` directory layout instead of an inline
 
 - **src/cli.js**: writes net-new extension tokens to `extensions/tokens/imported.tokens.json`
   instead of an inline `manifest.extensions` object; `formatting` moves to a top-level field.
+  A re-run producing zero extension tokens removes a stale fragment left by a prior run.
 - **src/emit-manifest.js**: extension token records use `$valueType:
   "value-types/color.schema.json"` instead of the now-rejected `$schema` key.
 - **src/parse-colorset.js**: normalizes rgba alpha (`1.0` → `1`) to satisfy the color value-type's
