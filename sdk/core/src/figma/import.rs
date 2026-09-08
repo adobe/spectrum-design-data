@@ -63,15 +63,15 @@ fn canon_font_name(s: &str) -> String {
     }
 }
 
-/// `raw`'s scale/mode-set anchor, checking both the token-side snake_case
-/// `set_uuid` (`tokens/*.tokens.json`) and the CTR-side camelCase `setUuid`
+/// `raw`'s scale/mode-set anchor, checking both the token-side `conceptId`
+/// (`tokens/*.tokens.json`) and the CTR-side camelCase `setUuid`
 /// (`relationships/*.json`, see `graph.rs`'s `reindex_relationship_tokens`
 /// doc) — a CTR-only `record`/`leaf` (no owning token, resolved via
 /// `resolve_relationship_ref`) carries its raw straight from the
-/// relationship record, so only checking `set_uuid` silently treats it as
+/// relationship record, so only checking `conceptId` silently treats it as
 /// single-mode everywhere this is read.
-fn record_set_uuid(raw: &Value) -> Option<&str> {
-    raw.get("set_uuid")
+fn record_concept_id(raw: &Value) -> Option<&str> {
+    raw.get("conceptId")
         .or_else(|| raw.get("setUuid"))
         .and_then(Value::as_str)
 }
@@ -99,7 +99,7 @@ fn figma_mode_scale(variable: &FigmaVariable, meta: &VariablesMeta) -> Option<St
 
 /// The design-data value to compare a Figma variable against: aligned to the
 /// variable's own scale (e.g. Desktop -> "desktop") when `leaf` is a
-/// scale-set token (`set_uuid` present) that diverges per scale — otherwise
+/// scale-set token (`conceptId` present) that diverges per scale — otherwise
 /// an arbitrary scale entry could be compared against a specific Figma mode
 /// and false-positive (or false-negative) the comparison. Falls back to
 /// `leaf`'s own value when there's no scale to align to, or alignment fails.
@@ -113,8 +113,8 @@ fn scale_aligned_source_value(
         if let Some(values) = leaf.raw.get("ctrScaleValues").and_then(Value::as_object) {
             return values.get(&scale).cloned();
         }
-        let set_uuid = record_set_uuid(&leaf.raw)?;
-        resolve_set_member_in_context(graph, set_uuid, "scale", &scale)
+        let concept_id = record_concept_id(&leaf.raw)?;
+        resolve_set_member_in_context(graph, concept_id, "scale", &scale)
     });
     scale_source_value.or_else(|| leaf.raw.get("value").cloned())
 }
@@ -123,7 +123,7 @@ fn scale_aligned_source_value(
 /// as a one-entry context map — `None` when `record` carries neither (an
 /// ordinary, unambiguous token). Lets a caller keep an alias chain pinned to
 /// the same scale/scheme `record` was picked for, instead of dropping it the
-/// moment a hop lands on another `set_uuid`.
+/// moment a hop lands on another `conceptId`.
 fn default_source_context(record: &crate::graph::TokenRecord) -> Option<HashMap<String, String>> {
     let name = record.raw.get("name")?;
     if let Some(scale) = name.get("scale").and_then(Value::as_str) {
@@ -138,9 +138,9 @@ fn default_source_context(record: &crate::graph::TokenRecord) -> Option<HashMap<
     None
 }
 
-/// Resolve `set_uuid`'s member whose `name.<field>` matches `mode_key`,
+/// Resolve `conceptId`'s member whose `name.<field>` matches `mode_key`,
 /// re-verifying the winner rather than trusting it blindly:
-/// `resolve_set_in_context` degrades to an arbitrary tie-broken member when
+/// `resolve_concept_in_context` degrades to an arbitrary tie-broken member when
 /// none actually matches (e.g. a Figma mode like "Tablet" with no
 /// design-data counterpart), so only a candidate whose own `field` really
 /// agrees is accepted. Resolves through any alias (`resolve_leaf`) before
@@ -148,12 +148,12 @@ fn default_source_context(record: &crate::graph::TokenRecord) -> Option<HashMap<
 /// compared as its own raw record.
 fn resolve_set_member_in_context(
     graph: &TokenGraph,
-    set_uuid: &str,
+    concept_id: &str,
     field: &str,
     mode_key: &str,
 ) -> Option<Value> {
     let ctx = HashMap::from([(field.to_string(), mode_key.to_string())]);
-    let candidate = graph.resolve_set_in_context(set_uuid, &ctx)?;
+    let candidate = graph.resolve_concept_in_context(concept_id, &ctx)?;
     let candidate_val = candidate.raw.get("name")?.get(field)?.as_str()?;
     (candidate_val == mode_key).then(|| {
         candidate
@@ -202,7 +202,7 @@ fn diff_multimode(
         .get(&variable.variable_collection_id);
     let is_opacity = record_is_opacity(leaf);
     let is_font_name = record_is_font_name(leaf);
-    let set_uuid = record_set_uuid(&record.raw);
+    let concept_id = record_concept_id(&record.raw);
 
     let mut mode_ids: Vec<&String> = variable.values_by_mode.keys().collect();
     mode_ids.sort();
@@ -222,7 +222,7 @@ fn diff_multimode(
         // The design-data value resolved for this same named mode: align to
         // the matching set member via `resolve_set_member_in_context` (same
         // helper `scale_aligned_source_value` uses). A mode field we don't
-        // recognize (or no set_uuid) falls back to `leaf`'s own value, since
+        // recognize (or no concept_id) falls back to `leaf`'s own value, since
         // that's an ordinary single-valued token, not a real per-mode
         // divergence. A *recognized* mode field that fails to resolve (no
         // design-data member matches this Figma mode) is reported
@@ -239,18 +239,18 @@ fn diff_multimode(
                         .cloned()
                 })
                 .or_else(|| {
-                    // `record`'s own `set_uuid` is only trustworthy as a
+                    // `record`'s own `conceptId` is only trustworthy as a
                     // fallback when `legacy_key` isn't CTR-backed at all —
                     // for a CTR with sibling records, `record` was resolved
                     // context-free and may be an arbitrary (e.g. Light)
-                    // sibling, so falling back to *its* `set_uuid` here for
+                    // sibling, so falling back to *its* `conceptId` here for
                     // a mode none of the siblings actually cover would
                     // silently compare against the wrong palette step
                     // instead of reporting the mode uncovered.
                     (!graph.has_relationship_record(legacy_key))
                         .then(|| {
-                            set_uuid.and_then(|set_uuid| {
-                                resolve_set_member_in_context(graph, set_uuid, field, &mode_key)
+                            concept_id.and_then(|concept_id| {
+                                resolve_set_member_in_context(graph, concept_id, field, &mode_key)
                             })
                         })
                         .flatten()
@@ -555,7 +555,7 @@ pub fn diff_values(
         // of requiring universal agreement. Single-mode variables and
         // tokens with no set to align to (ordinary single-value tokens) fall
         // through unchanged to the existing collapse-and-compare path.
-        if variable.values_by_mode.len() > 1 && record_set_uuid(&record.raw).is_some() {
+        if variable.values_by_mode.len() > 1 && record_concept_id(&record.raw).is_some() {
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
@@ -602,7 +602,7 @@ pub fn diff_values(
         // disambiguated only by `name.scale`/`name.colorScheme` (a scale-set's
         // desktop/mobile members, a color-set's light/dark/wireframe members).
         // Walking its alias chain context-free (`resolve_leaf`) can drop that
-        // axis the moment a hop lands on another set_uuid, degrading to an
+        // axis the moment a hop lands on another concept_id, degrading to an
         // arbitrary (first-indexed) member instead of staying on the same
         // scale/scheme the top-level record was picked for. Pin the chain to
         // that same axis, matching how a mode-less Figma variable's own alias
@@ -2110,7 +2110,7 @@ mod tests {
         graph
     }
 
-    /// Two-entry scale-set graph (desktop/mobile sharing `set_uuid`), used to
+    /// Two-entry scale-set graph (desktop/mobile sharing `conceptId`), used to
     /// verify the diff aligns to the Figma variable's own scale instead of an
     /// arbitrary entry.
     fn mock_scale_graph(legacy_key: &str, desktop: Value, mobile: Value) -> TokenGraph {
@@ -2126,14 +2126,14 @@ mod tests {
                     "name": {"property": "padding", "scale": "desktop", "legacyKey": legacy_key},
                     "value": desktop,
                     "uuid": format!("u-{legacy_key}-desktop"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/dimension.json",
                     "name": {"property": "padding", "scale": "mobile", "legacyKey": legacy_key},
                     "value": mobile,
                     "uuid": format!("u-{legacy_key}-mobile"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
             ])
         )
@@ -2142,7 +2142,7 @@ mod tests {
     }
 
     /// A three-entry `.Color theme` set (Light/Dark/Wireframe sharing
-    /// `set_uuid`, discriminated by `name.colorScheme`) — the real shape
+    /// `conceptId`, discriminated by `name.colorScheme`) — the real shape
     /// (see `packages/design-data/tokens/semantic-color-palette.tokens.json`)
     /// minus the `$ref`-alias indirection, which is irrelevant to
     /// `diff_multimode`'s set-lookup/re-verify logic under test here.
@@ -2164,21 +2164,21 @@ mod tests {
                     "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": legacy_key},
                     "value": light,
                     "uuid": format!("u-{legacy_key}-light"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": legacy_key},
                     "value": dark,
                     "uuid": format!("u-{legacy_key}-dark"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "accent", "colorScheme": "wireframe", "legacyKey": legacy_key},
                     "value": wireframe,
                     "uuid": format!("u-{legacy_key}-wireframe"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
             ])
         )
@@ -2189,7 +2189,7 @@ mod tests {
     /// Like [`mock_color_set_graph`], but each semantic member's own value is
     /// a `$ref` into a second, palette-level color-set (`su-palette`) instead
     /// of a literal — the real shape of e.g. `accent-background-color-default`
-    /// (`$ref` → `accent-color-800`, itself `set_uuid`-backed by `blue-800`).
+    /// (`$ref` → `accent-color-800`, itself `conceptId`-backed by `blue-800`).
     /// Regression fixture for `resolve_set_member_in_context` dropping mode
     /// context on this second hop and falling back to the palette's
     /// first-indexed (Light) member regardless of the requested mode.
@@ -2206,35 +2206,35 @@ mod tests {
                     "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": legacy_key},
                     "$ref": "u-palette-light",
                     "uuid": format!("u-{legacy_key}-light"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": legacy_key},
                     "$ref": "u-palette-dark",
                     "uuid": format!("u-{legacy_key}-dark"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "accent", "colorScheme": "wireframe", "legacyKey": legacy_key},
                     "$ref": "u-palette-light",
                     "uuid": format!("u-{legacy_key}-wireframe"),
-                    "set_uuid": format!("su-{legacy_key}"),
+                    "conceptId": format!("su-{legacy_key}"),
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "palette", "colorScheme": "light", "legacyKey": "blue-800"},
                     "value": "#4b75ff",
                     "uuid": "u-palette-light",
-                    "set_uuid": "su-palette",
+                    "conceptId": "su-palette",
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "palette", "colorScheme": "dark", "legacyKey": "blue-800"},
                     "value": "#4069fd",
                     "uuid": "u-palette-dark",
-                    "set_uuid": "su-palette",
+                    "conceptId": "su-palette",
                 },
             ])
         )
@@ -2344,7 +2344,7 @@ mod tests {
 
     /// The design-data-side twin of the figma-side alias-mode bug fixed in
     /// `resolve_figma_value`: a set member's own `$ref` chain must stay
-    /// mode-aware when it lands on a second `set_uuid` (chromatic palette
+    /// mode-aware when it lands on a second `conceptId` (chromatic palette
     /// steps), not silently fall back to that set's first-indexed (Light)
     /// child via context-free `resolve_leaf`. Regression guard for
     /// `resolve_set_member_in_context` using `resolve_leaf_in_context`.
@@ -2505,7 +2505,7 @@ mod tests {
     }
 
     /// Finding #1 from the PR #1416 review: the `diff_multimode` guard
-    /// (`values_by_mode.len() > 1 && set_uuid.is_some()`) also matches
+    /// (`values_by_mode.len() > 1 && concept_id.is_some()`) also matches
     /// `.Platform scale` Desktop/Mobile variables, not just `.Color theme`.
     /// This locks that in as intended — per-mode comparison beats the old
     /// `skipped-uncovered` collapse — rather than leaving it an untested
@@ -2543,7 +2543,7 @@ mod tests {
     }
 
     /// A follow-up PR #1416 review finding: the `diff_multimode` routing
-    /// guard checked only the snake_case `set_uuid` field. Relationship
+    /// guard checked only the snake_case `conceptId` field. Relationship
     /// (CTR) raw uses camelCase `setUuid` instead
     /// (`reindex_relationship_tokens` clones the relationship's own raw
     /// as-is) — so a legacy key with no owning token (only a
@@ -2598,7 +2598,7 @@ mod tests {
         let graph = with_real_mode_sets(graph);
 
         let report = diff_values(&meta, &graph, &[], None).unwrap();
-        // Before the fix: `record_set_uuid` only checked `set_uuid`, missed
+        // Before the fix: `record_concept_id` only checked `conceptId`, missed
         // the CTR's `setUuid`, so this fell through to the old collapse path
         // instead of `diff_multimode` (multi_mode_mismatch stayed 0).
         assert_eq!(report.counts.multi_mode_mismatch, 1);
@@ -2656,14 +2656,14 @@ mod tests {
                     "name": {"colorRole": "accent", "colorScheme": "light", "legacyKey": "accent-color-default"},
                     "value": "#ff8000",
                     "uuid": "u-accent-color-default-light",
-                    "set_uuid": "su-accent-color-default",
+                    "conceptId": "su-accent-color-default",
                 },
                 {
                     "$schema": "https://example.com/color.json",
                     "name": {"colorRole": "accent", "colorScheme": "dark", "legacyKey": "accent-color-default"},
                     "value": "#0000ff",
                     "uuid": "u-accent-color-default-dark",
-                    "set_uuid": "su-accent-color-default",
+                    "conceptId": "su-accent-color-default",
                 },
             ])
         )
@@ -2771,7 +2771,7 @@ mod tests {
     /// standalone `tokens/*.tokens.json` entry — avatar-size-100's real shape)
     /// instead of a cascade token. Regression test for the bug where
     /// `reindex_relationship_tokens` cloned the CTR's raw as-is: since CTRs
-    /// never enter `set_uuid_index` and use `scope.options.scale` (not
+    /// never enter `concept_id_index` and use `scope.options.scale` (not
     /// `name.scale`), scale alignment silently fell back to the hardcoded
     /// desktop value for every mode, including mobile.
     #[test]

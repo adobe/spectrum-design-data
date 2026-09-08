@@ -79,7 +79,8 @@
     "deprecated_comment": {},
     "description": {},
     "renamed": {},
-    "uuid": {}
+    "uuid": {},
+    "conceptId": {}
   },
   "required": ["sets"]
 }

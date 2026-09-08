@@ -38,20 +38,20 @@ design-data migrate legacy-output <case>/input --output <case>/expected
 | Case               | What it exercises                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `flat-token`       | Basic flat token conversion (property key derivation, field passthrough)                                    |
-| `mode-set-token`   | Color-set reconstruction from per-mode cascade records (`set_uuid`/`set_schema`)                            |
+| `mode-set-token`   | Color-set reconstruction from per-mode cascade records (`conceptId`/`set_schema`)                           |
 | `deprecated-token` | `deprecated: "version"` string → `true` boolean; `deprecated_comment` passthrough; `plannedRemoval` dropped |
 | `renamed-token`    | `replaced_by: "<uuid>"` → `renamed: "<property-name>"` via global UUID→name map                             |
 | `alias-rewire`     | `$ref: "<uuid>"` → `value: "{<property-name>}"` (alias denormalization with UUID resolution)                |
 | `mode-set-edit`    | `deprecated`/`renamed` hoisted to outer set level when consistent across all mode entries                   |
 
-## Cascade grouping fields (`set_uuid` / `set_schema`)
+## Cascade grouping fields (`conceptId` / `set_schema`)
 
 The `mode-set-token` and `mode-set-edit` fixtures use two cascade-internal grouping fields:
 
-| Field        | Type   | Role                                                                                                                                                                                                                                                                             |
-| ------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `set_uuid`   | string | Shared UUID that groups per-mode cascade records into one set-keyed legacy entry. The SDK registers this as `set_uuid → child-key list` in `sdk/core/src/graph.rs` and the legacy generator collapses all records sharing a `set_uuid` into a single `sets`-keyed output object. |
-| `set_schema` | string | The `$schema` URI of the aggregate set token emitted at the outer (non-mode-keyed) level in the legacy output (e.g. `color-set.json`).                                                                                                                                           |
+| Field        | Type   | Role                                                                                                                                                                                                                                                                        |
+| ------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `conceptId`  | string | Canonical concept-level UUID shared by every mode row of a design concept. The SDK registers this as `conceptId → child-key list` in `sdk/core/src/graph.rs` and the legacy generator collapses all records sharing a `conceptId` into a single `sets`-keyed output object. |
+| `set_schema` | string | The `$schema` URI of the aggregate set token emitted at the outer (non-mode-keyed) level in the legacy output (e.g. `color-set.json`).                                                                                                                                      |
 
 These fields are not yet in the normative token-format field table — they are Rust SDK
 implementation fields defined in `sdk/core/src/graph.rs` and emitted by the cascade ingest

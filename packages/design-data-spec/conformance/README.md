@@ -79,14 +79,14 @@ These fixtures verify the field-mapping contract in [Evolution — Legacy format
 | Folder                      | Intent                                                                                             |
 | --------------------------- | -------------------------------------------------------------------------------------------------- |
 | `generation/flat-token`     | A single cascade token with no mode sets maps to a single keyed entry `{ slug: { value, uuid } }`. |
-| `generation/mode-set-token` | Multiple cascade tokens sharing a `set_uuid` merge into a single `sets`-keyed entry.               |
+| `generation/mode-set-token` | Multiple cascade tokens sharing a `conceptId` merge into a single `sets`-keyed entry.              |
 
 The Rust SDK drives these fixtures via `design-data migrate legacy-output` (see `sdk/core/src/legacy.rs`).
 Consumer implementations MUST regenerate each `input/` and diff against `expected/` to claim conformance
 with the output-generator determinism contract.
 
 See [`generation/README.md`](generation/README.md) for the fixture format, the run command, and
-documentation of the `set_uuid`/`set_schema` cascade grouping fields used in `mode-set-token`.
+documentation of the `conceptId`/`set_schema` cascade grouping fields used in `mode-set-token`.
 
 ***
 

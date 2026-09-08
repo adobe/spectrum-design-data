@@ -172,7 +172,7 @@ pub fn convert_records(arr: &[Value]) -> Result<(Map<String, Value>, LegacySumma
     Ok((legacy, summary))
 }
 
-/// Build the UUID/set_uuid → legacy-name index used to resolve `$ref` and
+/// Build the UUID/conceptId → legacy-name index used to resolve `$ref` and
 /// `replaced_by` targets, over every named token or CTR in `arr`.
 ///
 /// Shared by [`convert_dir`]'s cross-file pass-1 (accumulated across files)
@@ -195,8 +195,8 @@ fn index_uuid_names(arr: &[Value]) -> HashMap<String, String> {
             if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                 global_uuid_to_name.insert(uuid.to_string(), name.clone());
             }
-            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                global_uuid_to_name.insert(set_uuid.to_string(), name.clone());
+            if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                global_uuid_to_name.insert(concept_id.to_string(), name.clone());
             }
         }
     }
@@ -602,8 +602,8 @@ fn convert_array(
 /// A CTR has no `name` object — it has `scope` (`component`/`part`/`property`/
 /// `options`) plus a top-level `legacyKey`/`setUuid`/`setSchema` (camelCase,
 /// per `relationship.schema.json`) rather than the cascade token's nested
-/// `name.legacyKey` and snake_case `set_uuid`/`set_schema`. This function
-/// bridges that gap; everything downstream stays untouched.
+/// `name.legacyKey`, `conceptId`, and `set_schema`. This function bridges
+/// that gap; everything downstream stays untouched.
 ///
 /// Returns `None` when the CTR carries no `legacyKey` — relationship-only and
 /// net-new CTRs have no legacy counterpart and are filtered out here.
@@ -644,7 +644,7 @@ fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
         }
     }
     if let Some(v) = rel.get("setUuid") {
-        tok.insert("set_uuid".into(), v.clone());
+        tok.insert("conceptId".into(), v.clone());
     }
     if let Some(v) = rel.get("setSchema") {
         tok.insert("set_schema".into(), v.clone());
@@ -883,11 +883,11 @@ fn build_set_entry(
         outer.insert("component".into(), Value::String(c));
     }
 
-    // Recover the outer set-level UUID from the cascade tokens (stored as set_uuid).
-    if let Some(set_uuid) =
-        consistent_str_field(tokens, |t| t.get("set_uuid").and_then(|v| v.as_str()))
+    // Recover the outer set-level UUID from the cascade tokens (stored as conceptId).
+    if let Some(concept_id) =
+        consistent_str_field(tokens, |t| t.get("conceptId").and_then(|v| v.as_str()))
     {
-        outer.insert("uuid".into(), Value::String(set_uuid.to_string()));
+        outer.insert("uuid".into(), Value::String(concept_id.to_string()));
     }
 
     // Hoist lifecycle fields that are identical across all mode entries.
@@ -1167,7 +1167,7 @@ mod tests {
             "setSchema": "color-set"
         }));
         let tok = ctr_to_legacy_token(&rel).unwrap();
-        assert_eq!(tok["set_uuid"], "set-0001");
+        assert_eq!(tok["conceptId"], "set-0001");
         assert_eq!(tok["set_schema"], "color-set");
         assert!(tok.get("setUuid").is_none());
         assert!(tok.get("setSchema").is_none());
@@ -1468,7 +1468,7 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "new-desktop-uuid-0001",
                 "uuid": "old-desktop-uuid-0001",
-                "set_uuid": "old-set-uuid-0001",
+                "conceptId": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
                 "lifecycle": {
                     "deprecatedIn": "unknown",
@@ -1480,7 +1480,7 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "new-mobile-uuid-0001",
                 "uuid": "old-mobile-uuid-0001",
-                "set_uuid": "old-set-uuid-0001",
+                "conceptId": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
                 "lifecycle": {
                     "deprecatedIn": "unknown",
@@ -1507,8 +1507,8 @@ mod tests {
                 if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                     global.insert(uuid.to_string(), key.clone());
                 }
-                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                    global.insert(set_uuid.to_string(), key);
+                if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                    global.insert(concept_id.to_string(), key);
                 }
             }
         }
@@ -1576,8 +1576,8 @@ mod tests {
                 if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                     global.insert(uuid.to_string(), key.clone());
                 }
-                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                    global.insert(set_uuid.to_string(), key);
+                if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                    global.insert(concept_id.to_string(), key);
                 }
             }
         }
@@ -1649,9 +1649,9 @@ mod tests {
 
     /// Regression: replaced_by pointing at a set token's outer UUID must resolve
     /// to `renamed` in the legacy output. Previously the global uuid_to_name map
-    /// only indexed per-mode UUIDs, so set_uuid entries were invisible.
+    /// only indexed per-mode UUIDs, so conceptId entries were invisible.
     #[test]
-    fn replaced_by_set_uuid_resolves_to_renamed() {
+    fn replaced_by_concept_id_resolves_to_renamed() {
         let arr = json!([
             // old-token: flat, deprecated, replaced_by the outer UUID of new-set.
             {
@@ -1664,29 +1664,29 @@ mod tests {
                     "replacedBy": "set-outer-uuid-0001"
                 }
             },
-            // new-set light mode: carries set_uuid = "set-outer-uuid-0001".
+            // new-set light mode: carries conceptId = "set-outer-uuid-0001".
             {
                 "name": {"property": "new-set", "colorScheme": "light"},
                 "$schema": ".../color.json",
                 "value": "#aaa",
                 "uuid": "new-0001",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             },
-            // new-set dark mode: same set_uuid.
+            // new-set dark mode: same conceptId.
             {
                 "name": {"property": "new-set", "colorScheme": "dark"},
                 "$schema": ".../color.json",
                 "value": "#111",
                 "uuid": "new-0002",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             },
-            // new-set wireframe mode: same set_uuid.
+            // new-set wireframe mode: same conceptId.
             {
                 "name": {"property": "new-set", "colorScheme": "wireframe"},
                 "$schema": ".../color.json",
                 "value": "#888",
                 "uuid": "new-0003",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             }
         ]);
 
@@ -1698,8 +1698,8 @@ mod tests {
             if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                 global.insert(uuid.to_string(), name.to_string());
             }
-            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                global.insert(set_uuid.to_string(), name.to_string());
+            if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                global.insert(concept_id.to_string(), name.to_string());
             }
         }
 
@@ -1710,7 +1710,7 @@ mod tests {
         assert_eq!(
             old.get("renamed").and_then(|v| v.as_str()),
             Some("new-set"),
-            "replaced_by pointing at set_uuid should resolve to renamed"
+            "replaced_by pointing at conceptId should resolve to renamed"
         );
         assert_eq!(old["deprecated"], true);
         // new-set should have its outer UUID reconstructed.
