@@ -14,9 +14,20 @@ bd dolt push          # Push beads data to remote
 
 ## Rules
 
-- Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
-- Run `bd prime` for detailed command reference and session close protocol
-- Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
+* Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
+* Run `bd prime` for detailed command reference and session close protocol
+* Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
+
+## Scout MCP
+
+Scout MCP is configured for this repository and may be exposed through deferred tool discovery rather than the initial tool catalog.
+
+When doing code review, source discovery, architecture tracing, or any work covered by Scout:
+
+* Use Scout MCP tools directly.
+* If a needed `mcp__scout__*` tool is not visible, first use tool discovery with an exact selector such as `select:mcp__scout__review_pr`, `select:mcp__scout__investigate`, or `select:mcp__scout__keyword_search`.
+* After selecting a Scout tool, call that MCP tool as the next tool call.
+* Do not fall back to the Scout CLI unless Scout MCP discovery fails for the needed tool.
 
 ## Non-Interactive Shell Commands
 
@@ -25,6 +36,7 @@ bd dolt push          # Push beads data to remote
 Shell commands like `cp`, `mv`, and `rm` may be aliased to include `-i` (interactive) mode on some systems, causing the agent to hang indefinitely waiting for y/n input.
 
 **Use these forms instead:**
+
 ```bash
 cp -f source dest           # NOT: cp source dest
 mv -f source dest           # NOT: mv source dest
@@ -34,10 +46,11 @@ cp -rf source dest          # NOT: cp -r source dest
 ```
 
 **Other commands that may prompt:**
-- `scp` - use `-o BatchMode=yes` for non-interactive
-- `ssh` - use `-o BatchMode=yes` to fail instead of prompting
-- `apt-get` - use `-y` flag
-- `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
+
+* `scp` - use `-o BatchMode=yes` for non-interactive
+* `ssh` - use `-o BatchMode=yes` to fail instead of prompting
+* `apt-get` - use `-y` flag
+* `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
 ## Session Completion
 
