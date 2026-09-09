@@ -1,5 +1,30 @@
 # @adobe/design-data-wasm
 
+## 0.8.0
+
+### Minor Changes
+
+- [#1432](https://github.com/adobe/spectrum-design-data/pull/1432) [`0c2efe3`](https://github.com/adobe/spectrum-design-data/commit/0c2efe3b039cf5ee59e9dcbaa0c1fa9a59d807ee) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can now declare platform-local mode sets via `extensions/mode-sets/`,
+  scoped to that platform's resolution (declare-or-replace by name, same as
+  `extensions/fields/`).
+  - **sdk/core/src/manifest.rs**: added `mode-sets` to `CONCAT_CATEGORIES`, wiring
+    per-fragment validation against `mode-set.schema.json`.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` now reads `extensions.modeSets`
+    and upserts each into `graph.mode_sets` (cascade and SPEC-005 already operate on it
+    generically).
+  - **design-data-spec**: documented `extensions/mode-sets/` in `manifest.md` and
+    `mode-sets.md` (closes spectrum-design-data-h890.24).
+
+- [#1430](https://github.com/adobe/spectrum-design-data/pull/1430) [`d3ae6e3`](https://github.com/adobe/spectrum-design-data/commit/d3ae6e3e0a5a35223ac687a72e4b7e6580256eea) Thanks [@GarthDB](https://github.com/GarthDB)! - Load platform-manifest extensions from the sibling `extensions/` directory
+  (glob-discovered, per-fragment schema-validated, merged at load time) instead of an
+  inline `extensions` object, matching the Layer 1 format change in design-data-spec@4.0.0
+  (closes spectrum-design-data-h890.26.6).
+  - **sdk/core manifest loader (surfaced via wasm/tui)**: glob-discovers
+    `extensions/{tokens,components,fields,guidelines,relationships,platform-extensions}/`,
+    validates each fragment against its category schema, and merges them at load time
+    (deep-merge for `tokens/`, sorted-path-order/last-wins otherwise); manifests using the
+    old inline `extensions` object are now rejected (#1422, #1423).
+
 ## 0.7.0
 
 ### Minor Changes
