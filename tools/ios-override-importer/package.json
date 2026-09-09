@@ -1,6 +1,6 @@
 {
   "name": "ios-override-importer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "One-time importer converting Spectrum iOS's override-log.csv into a Platform Manifest (manifest.json)",
   "type": "module",
   "private": true,
