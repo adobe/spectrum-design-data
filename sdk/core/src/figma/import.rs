@@ -555,7 +555,10 @@ pub fn diff_values(
         // of requiring universal agreement. Single-mode variables and
         // tokens with no set to align to (ordinary single-value tokens) fall
         // through unchanged to the existing collapse-and-compare path.
-        if variable.values_by_mode.len() > 1 && record_concept_id(&record.raw).is_some() {
+        if variable.values_by_mode.len() > 1
+            && (record_concept_id(&record.raw).is_some()
+                || graph.has_relationship_record(&legacy_key))
+        {
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
@@ -2613,6 +2616,131 @@ mod tests {
                         assert_eq!(figma, &json!("55px"));
                     }
                     other => panic!("expected ValueMismatch for Mobile, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// Bead `spectrum-design-data-2god`: the real `action-bar-border-color`
+    /// shape — a `$ref`-backed CTR (not the inline-value shape covered by
+    /// `ctr_only_multimode_variable_routes_through_diff_multimode` above).
+    /// Each mode's relationship record has no inline `value`, just a `$ref`
+    /// into a plain palette color token (no `conceptId`), so
+    /// `reindex_relationship_tokens` skips it entirely (only inline-value
+    /// CTRs get a synthesized `TokenRecord`) and `resolve_relationship_ref`
+    /// returns the *palette* token's record — which never carries `setUuid`
+    /// (that field lives only on the `RelationshipRecord`, never merged onto
+    /// a resolved `TokenRecord.raw`). Before the fix, `record_concept_id`
+    /// found neither `conceptId` nor `setUuid` and the variable silently
+    /// fell through to the old collapse-and-give-up path even though Dark
+    /// genuinely diverges from Light/Wireframe here.
+    #[test]
+    fn ref_backed_ctr_color_set_routes_through_diff_multimode() {
+        use crate::graph::RelationshipRecord;
+
+        let var = mock_variable(
+            "colorTheme/action-bar-border-color",
+            "COLOR",
+            vec![
+                ("m-light", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.25})),
+                ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.25}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+
+        // Plain palette color tokens — no `conceptId`, no owning set — the
+        // real shape of `transparent-white-25` / `gray-400`, referenced by
+        // `$ref` rather than holding the per-mode value inline.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorFamily": "transparent-white", "scaleIndex": 25},
+                    "value": "#ffffff40",
+                    "uuid": "u-transparent-white-25",
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorFamily": "gray", "scaleIndex": 400},
+                    "value": "#bcbcbc",
+                    "uuid": "u-gray-400",
+                },
+            ])
+        )
+        .unwrap();
+        let graph = TokenGraph::from_json_dir(dir.path())
+            .unwrap()
+            .with_relationships(vec![
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 0,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000001".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "light"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-transparent-white-25",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 1,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000002".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "dark"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-gray-400",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 2,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000003".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "wireframe"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-transparent-white-25",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+            ]);
+        let graph = with_real_mode_sets(graph);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        assert_eq!(report.counts.skipped_uncovered, 0);
+
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "colorTheme/action-bar-border-color")
+            .expect("$ref-backed color-set CTR must be reported");
+        match &entry.class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Light"], DiffClass::Match));
+                assert!(matches!(by_mode["Wireframe"], DiffClass::Match));
+                match by_mode["Dark"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("#bcbcbc"));
+                        assert_eq!(figma, &json!("#000000"));
+                    }
+                    other => panic!("expected ValueMismatch for Dark, got {other:?}"),
                 }
             }
             other => panic!("expected MultiModeMismatch, got {other:?}"),
