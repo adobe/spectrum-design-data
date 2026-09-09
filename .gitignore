@@ -159,6 +159,7 @@ graphify-out/
 .scout/installation-id
 .scout/models/
 .scout/search/
+.scout/memory/
 tools/token-mapping-analyzer/output/
 
 # demo video pipeline rendered artifacts (re-buildable from manifests).
