@@ -13,4 +13,3 @@ variables diff's per-mode comparison instead of reporting them
   (`graph.has_relationship_record`), not only one carrying a `conceptId`/`setUuid`
   directly on its resolved record — the link a `$ref`-backed color-set CTR carries
   only on its `RelationshipRecord`, never on the resolved `TokenRecord`.
-</content>
