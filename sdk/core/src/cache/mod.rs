@@ -1147,12 +1147,12 @@ mod tests {
             "both fields should survive round-trip"
         );
         assert_eq!(graph.fields[0].name, "alignment");
-        assert_eq!(graph.fields[0].required, false);
+        assert!(!graph.fields[0].required);
         assert_eq!(
             graph.fields[0].description.as_deref(),
             Some("Alignment axis")
         );
         assert_eq!(graph.fields[1].name, "component");
-        assert_eq!(graph.fields[1].required, true);
+        assert!(graph.fields[1].required);
     }
 }
