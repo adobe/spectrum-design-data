@@ -173,7 +173,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "18px",
+        "value": "20px",
         "uuid": "1a49e758-b070-4d85-97c5-0f9cc786999b"
       },
       "mobile": {
@@ -190,7 +190,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "16px",
+        "value": "18px",
         "uuid": "b32fb20b-31a7-43da-ba38-b9a177d0cffa"
       },
       "mobile": {
@@ -213,7 +213,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-        "value": "14px",
+        "value": "16px",
         "uuid": "ece70425-e509-45cc-8336-76fc8afdb921"
       },
       "mobile": {
