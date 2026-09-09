@@ -1,5 +1,19 @@
 # @adobe/design-data-tui
 
+## 0.13.0
+
+### Minor Changes
+
+- [#1434](https://github.com/adobe/spectrum-design-data/pull/1434) [`47db5e9`](https://github.com/adobe/spectrum-design-data/commit/47db5e9c8069b90e7377a0096ad18fa72c86fb2c) Thanks [@GarthDB](https://github.com/GarthDB)! - Route `$ref`-backed color-set CTR tokens (e.g. `action-bar-border-color`,
+  `popover-border-color`, `card-selection-background-color`) through the Figma
+  variables diff's per-mode comparison instead of reporting them
+  `skipped-uncovered` (closes spectrum-design-data-2god).
+  - **sdk/core/src/figma/import.rs**: `diff_values`'s multi-mode routing gate
+    now also accepts a variable whose design-data token is CTR/relationship-backed
+    (`graph.has_relationship_record`), not only one carrying a `conceptId`/`setUuid`
+    directly on its resolved record — the link a `$ref`-backed color-set CTR carries
+    only on its `RelationshipRecord`, never on the resolved `TokenRecord`.
+
 ## 0.12.0
 
 ### Minor Changes
