@@ -3270,6 +3270,218 @@ mod tests {
         assert_eq!(first, Some(json!("#color-branch")));
     }
 
+    /// Spike helper (DNA-1953 follow-up / bead cn3v): resolves `legacy_key`
+    /// across every mode of `axis` (other axes held at whatever `base_ctx`
+    /// specifies) and reports whether the resolved value actually differs
+    /// across those modes — i.e. whether this concept belongs in that axis's
+    /// Figma "mode-group" collection under Nate Baldwin's model. Built only
+    /// on the existing context-aware resolver; not part of the public API.
+    fn concept_diverges_on_axis(
+        g: &TokenGraph,
+        legacy_key: &str,
+        axis: &ModeSetRecord,
+        base_ctx: &std::collections::HashMap<String, String>,
+    ) -> bool {
+        let resolved: Vec<Option<Value>> = axis
+            .modes
+            .iter()
+            .map(|mode| {
+                let mut ctx = base_ctx.clone();
+                ctx.insert(axis.name.clone(), mode.clone());
+                g.resolve_relationship_ref_in_context(legacy_key, &ctx)
+                    .map(|r| r.raw["value"].clone())
+            })
+            .collect();
+        resolved.windows(2).any(|w| w[0] != w[1])
+    }
+
+    #[test]
+    fn ctr_resolution_handles_two_axis_cross_product() {
+        // Spike for bead spectrum-design-data-cn3v (Nate Baldwin's mode-group
+        // / modeless Figma model, Slack C0BUQU7JDA7 p1788988579332039):
+        // proves the *existing* CTR resolver — no changes — already resolves
+        // every point of a colorScheme x contrast cross-product correctly,
+        // via best_relationship_candidate's "most matched ctx keys wins"
+        // scoring over an N-key scope.options map.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 1
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 2
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 2,
+                uuid: Some("88888888-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "wireframe"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 3
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 3,
+                uuid: Some("88888888-0000-0000-0000-000000000004".to_string()),
+                raw: json!({
+                    "scope": {"options": {"contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 4
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 4,
+                uuid: Some("88888888-0000-0000-0000-000000000005".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark", "contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 5
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 5,
+                uuid: Some("88888888-0000-0000-0000-000000000006".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "wireframe", "contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 6
+                }),
+            },
+            // Single-axis control: varies only by colorScheme, never mentions
+            // contrast at all.
+            RelationshipRecord {
+                file: PathBuf::from("relationships/single-axis.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000011".to_string()),
+                raw: json!({
+                    "scope": {"options": {}},
+                    "legacyKey": "single-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 100
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/single-axis.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000012".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "single-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 200
+                }),
+            },
+        ]);
+
+        // 1. Cross-product resolution: every one of the six
+        // {light,dark,wireframe} x {regular,high} points must resolve to its
+        // own distinct expected value, via the resolver's existing
+        // most-matched-key scoring — no new tie-break needed.
+        let expected = [
+            (("light", "regular"), 1),
+            (("dark", "regular"), 2),
+            (("wireframe", "regular"), 3),
+            (("light", "high"), 4),
+            (("dark", "high"), 5),
+            (("wireframe", "high"), 6),
+        ];
+        for ((color_scheme, contrast), want) in expected {
+            let ctx = std::collections::HashMap::from([
+                ("colorScheme".to_string(), color_scheme.to_string()),
+                ("contrast".to_string(), contrast.to_string()),
+            ]);
+            let got = g
+                .resolve_relationship_ref_in_context("two-axis-token", &ctx)
+                .unwrap_or_else(|| {
+                    panic!("no resolution for colorScheme={color_scheme} contrast={contrast}")
+                });
+            assert_eq!(
+                got.raw["value"],
+                json!(want),
+                "colorScheme={color_scheme} contrast={contrast}"
+            );
+        }
+
+        // 2. Divergence derivation: the primitive Nate's "mode-group
+        // collection membership" needs is derivable from data the graph
+        // already has — no new resolver logic beyond the helper above.
+        let color_scheme_axis = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec![
+                "light".to_string(),
+                "dark".to_string(),
+                "wireframe".to_string(),
+            ],
+            default_mode: "light".to_string(),
+        };
+        let contrast_axis = ModeSetRecord {
+            file: PathBuf::from("mode-sets/contrast.json"),
+            name: "contrast".to_string(),
+            modes: vec!["regular".to_string(), "high".to_string()],
+            default_mode: "regular".to_string(),
+        };
+
+        // Two-axis token: diverges on both axes (holding the other at its
+        // default mode) -> belongs in both mode-group collections.
+        let base_contrast_default =
+            std::collections::HashMap::from([("contrast".to_string(), "regular".to_string())]);
+        assert!(concept_diverges_on_axis(
+            &g,
+            "two-axis-token",
+            &color_scheme_axis,
+            &base_contrast_default
+        ));
+        let base_color_scheme_default =
+            std::collections::HashMap::from([("colorScheme".to_string(), "light".to_string())]);
+        assert!(concept_diverges_on_axis(
+            &g,
+            "two-axis-token",
+            &contrast_axis,
+            &base_color_scheme_default
+        ));
+
+        // Single-axis control: diverges on colorScheme only -> belongs in
+        // just the colorScheme mode-group collection, matching Nate's "no
+        // reason to have light/dark options that resolve to the same value"
+        // rule for the axis it doesn't vary on.
+        assert!(concept_diverges_on_axis(
+            &g,
+            "single-axis-token",
+            &color_scheme_axis,
+            &base_contrast_default
+        ));
+        assert!(!concept_diverges_on_axis(
+            &g,
+            "single-axis-token",
+            &contrast_axis,
+            &base_color_scheme_default
+        ));
+    }
+
     #[test]
     fn legacy_name_index_resolves_cascade_token_by_name() {
         // Cascade tokens are keyed file:index. resolve_alias_key must still find
