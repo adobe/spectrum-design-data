@@ -197,6 +197,25 @@ mod relational_conformance {
         assert!(!diagnostics_for_rule(&g, "SPEC-005").is_empty());
     }
 
+    /// A manifest-declared mode set (`extensions.modeSets`) is validated by SPEC-005
+    /// the same as a foundation one — the rule just walks `graph.mode_sets`
+    /// regardless of how a record got there.
+    #[test]
+    fn spec005_catches_manifest_declared_mode_set_bad_default() {
+        let mut g = TokenGraph::default();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "raised"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+        assert!(!diagnostics_for_rule(&g, "SPEC-005").is_empty());
+    }
+
     /// Regression for P1 Bug 1: duplicate UUIDs in a cascade file must be detected
     /// by SPEC-004, not silently dropped during graph construction.
     #[test]
@@ -1215,6 +1234,14 @@ mod manifest_extensions_behavior {
                         .guidelines
                         .iter()
                         .map(|g| g.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "modeSets",
+                    &graph
+                        .mode_sets
+                        .iter()
+                        .map(|m| m.name.clone())
                         .collect::<Vec<_>>(),
                 ),
             ] {

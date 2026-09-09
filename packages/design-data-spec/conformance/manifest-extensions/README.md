@@ -4,7 +4,7 @@ Exercises the Layer 2 platform manifest's `extensions/` **directory** loader
 (`packages/design-data-spec/spec/manifest.md#extensions-directory`): a sibling
 `extensions/` tree (or a custom name via the manifest's `extensionsDir` field)
 whose category subdirectories (`tokens/`, `components/`, `fields/`,
-`guidelines/`, `platform-extensions/`, `relationships/`) are discovered,
+`guidelines/`, `mode-sets/`, `platform-extensions/`, `relationships/`) are discovered,
 glob+merged in sorted path order, per-fragment schema-validated, and spliced
 into the manifest before it's applied to the graph.
 
@@ -23,6 +23,7 @@ into the manifest before it's applied to the graph.
     },
     "components": { "present": ["tab-bar-ios"] },
     "fields": { "present": ["hapticStyle"] },
+    "modeSets": { "present": ["interfaceLevel"] },
     "guidelines": { "present": ["ios-haptics"] },
     "tokens": { "orderByUuid": ["<uuid-1>", "<uuid-2>"] }
   }
@@ -42,6 +43,7 @@ Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 | `valid/injects-platform-extension`             | A `platform-extensions/` fragment is injected.                                                                           |
 | `valid/injects-field`                          | A `fields/` fragment is injected.                                                                                        |
 | `valid/injects-guideline`                      | A `guidelines/` fragment is injected.                                                                                    |
+| `valid/injects-mode-set`                       | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                        |
 | `valid/injects-relationship`                   | A `relationships/` plain-add fragment is injected.                                                                       |
 | `valid/override-relationship-by-uuid`          | An `op: "override"` entry replaces a plain add sharing its `uuid`, regardless of file sort order.                        |
 | `valid/plain-add-uuid-collision-append`        | Two plain adds sharing a `uuid` both append rather than one overwriting the other.                                       |
@@ -55,6 +57,7 @@ Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 | `invalid/component-missing-name`               | A `components/` fragment missing `name` fails Layer 1 fragment schema validation.                                        |
 | `invalid/field-invalid-kind`                   | A `fields/` fragment with an invalid `kind` enum value fails schema validation.                                          |
 | `invalid/guideline-invalid-category`           | A `guidelines/` fragment with an invalid `category` enum value fails schema validation.                                  |
+| `invalid/mode-set-missing-default`             | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                   |
 | `invalid/platform-extension-missing-extends`   | A `platform-extensions/` fragment missing `extends` fails schema validation.                                             |
 | `invalid/token-invalid-uuid`                   | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                       |
 | `invalid/relationship-missing-scope`           | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                           |

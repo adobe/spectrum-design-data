@@ -37,6 +37,7 @@ const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
     ("components", "components", "component.schema.json"),
     ("fields", "fields", "field.schema.json"),
     ("guidelines", "guidelines", "guideline.schema.json"),
+    ("mode-sets", "modeSets", "mode-set.schema.json"),
     (
         "platform-extensions",
         "platformExtensions",
@@ -528,6 +529,32 @@ mod tests {
         let restrictions = apply_configured(&mut graph, &resolved).unwrap();
         assert!(restrictions.is_empty());
         assert_eq!(graph.tokens.len(), 3, "no extensions injected");
+    }
+
+    #[test]
+    fn extensions_mode_sets_directory_is_injected_into_graph() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "mode-sets",
+                "interface-level.json",
+                json!({"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "base"}),
+            )],
+        );
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let declared = graph
+            .mode_sets
+            .iter()
+            .find(|m| m.name == "interfaceLevel")
+            .expect("manifest-declared mode set present");
+        assert_eq!(declared.modes, vec!["base", "elevated"]);
+        assert_eq!(declared.default_mode, "base");
     }
 
     #[cfg(unix)]
