@@ -1039,6 +1039,42 @@ impl TokenGraph {
             }
         }
 
+        // 7b. extensions.modeSets — platform-local mode-set declarations,
+        // add-or-replace by name into `self.mode_sets`. New name = a clean new
+        // platform axis; existing name = the platform's version replaces it for
+        // this platform's resolution only (declare-or-replace, mirrors
+        // extensions.fields above). Cascade specificity/matching and SPEC-005
+        // (default ∈ modes) already operate on `graph.mode_sets` generically —
+        // no changes needed there.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("modeSets"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let Some(modes) = entry.get("modes").and_then(|v| v.as_array()) else {
+                    continue;
+                };
+                let Some(default_mode) = entry.get("default").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let modes: Vec<String> = modes
+                    .iter()
+                    .filter_map(|m| m.as_str().map(String::from))
+                    .collect();
+                let record = ModeSetRecord {
+                    file: PathBuf::from("manifest.json"),
+                    name: name.to_string(),
+                    modes,
+                    default_mode: default_mode.to_string(),
+                };
+                upsert_by_key(&mut self.mode_sets, |m| m.name == name, record);
+            }
+        }
+
         // 8. extensions.guidelines — platform-local guideline docs, add-or-replace
         // by name into the guideline catalog.
         if let Some(entries) = manifest
@@ -2550,6 +2586,58 @@ mod tests {
             .find(|t| t.uuid.as_deref() == Some("u-card-elev"))
             .expect("extension token present");
         assert_eq!(ext.layer, Layer::Platform);
+    }
+
+    #[test]
+    fn manifest_mode_set_resolves_via_cascade() {
+        use crate::cascade::{resolve, ResolutionContext};
+
+        // Two same-layer candidates for the same slot, one authored against a
+        // platform-local mode axis (`interfaceLevel`) that isn't a foundation
+        // mode set at all — only `apply_platform_manifest` below teaches the
+        // graph about it.
+        let mut g = TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"}),
+            ),
+            (
+                "btn-bg-elevated".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button", "interfaceLevel": "elevated"}, "value": "#ccc", "uuid": "u-btn-bg-elevated"}),
+            ),
+        ]);
+
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "base"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let declared = g
+            .mode_sets
+            .iter()
+            .find(|m| m.name == "interfaceLevel")
+            .expect("manifest-declared mode set present");
+        assert_eq!(declared.default_mode, "base");
+
+        // With `interfaceLevel: elevated` requested, the elevated-specific
+        // token outranks the base one on specificity.
+        let ctx = ResolutionContext::new().with("interfaceLevel", "elevated");
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        assert_eq!(winner.uuid.as_deref(), Some("u-btn-bg-elevated"));
+
+        // Explicitly requesting `interfaceLevel: base` rules the elevated
+        // candidate out via `matches_context`, so the base token wins.
+        let base_ctx = ResolutionContext::new().with("interfaceLevel", "base");
+        let base_winner = resolve(&g, &base_ctx).expect("should find a winner");
+        assert_eq!(base_winner.uuid.as_deref(), Some("u-btn-bg"));
     }
 
     #[test]

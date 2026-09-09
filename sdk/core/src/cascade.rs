@@ -909,4 +909,21 @@ mod tests {
             "double-specific token (specificity 2) should beat single-specific (specificity 1)"
         );
     }
+
+    // ── parse_resolve_context ───────────────────────────────────────────────
+
+    #[test]
+    fn parse_resolve_context_accepts_arbitrary_mode_set_name() {
+        // parse_resolve_context has no fixed vocabulary of mode-set names — any
+        // `k=v` pair becomes a context entry — so a manifest-declared axis like
+        // `interfaceLevel` (not a foundation mode set) works with zero code
+        // changes, confirming no new CLI entry point is needed for it.
+        let (prop, ctx) =
+            parse_resolve_context("property=background-color,interfaceLevel=elevated").unwrap();
+        assert_eq!(prop, "background-color");
+        assert_eq!(
+            ctx.mode_sets.get("interfaceLevel").map(String::as_str),
+            Some("elevated")
+        );
+    }
 }

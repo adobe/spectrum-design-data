@@ -1,0 +1,7 @@
+{
+  "errors": [
+    { "message_pattern": "broken\\.json" },
+    { "message_pattern": "mode-set\\.schema\\.json" },
+    { "message_pattern": "\"default\"" }
+  ]
+}

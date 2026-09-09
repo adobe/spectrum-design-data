@@ -18,6 +18,7 @@ The manifest supports a fixed, enumerated set of operations against the foundati
 | Add / replace components                           | Yes                                                          | `extensions/components/`          | Components            |
 | Add / replace field declarations                   | Yes                                                          | `extensions/fields/`              | Fields                |
 | Add / replace guideline documents                  | Yes                                                          | `extensions/guidelines/`          | Guidelines            |
+| Declare / replace platform-local mode set          | Yes                                                          | `extensions/mode-sets/`           | Mode sets             |
 | Add relationships/CTRs; override/remove by `uuid`  | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)  |
 | Add / remove naming exceptions                     | Yes                                                          | `namingExceptions`                | Naming validation     |
 | Annotate existing terminology (cannot add new ids) | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids |
@@ -86,6 +87,7 @@ extensions/
   tokens/               *.tokens.json          cascade-format token files
   components/           <component>.json       one component per file
   fields/                <field>.json          one field declaration per file
+  mode-sets/             <mode-set>.json       one mode set per file
   relationships/         <component>.json      one CTR set per file
   guidelines/             <topic>.json         one guideline per file
   platform-extensions/   <platform>-<registry>.json
@@ -103,7 +105,7 @@ or empty subdirectory contributes nothing and is not an error.
   cascade token file) and **MUST** validate against `cascade-file.schema.json`. Files are
   **deep-merged** into one tokens object, in sorted path order. Entries **MAY** carry a `$ref`
   to alias an existing token instead of a literal value.
-* **`components/`, `fields/`, `guidelines/`, `platform-extensions/`** — one artifact per file.
+* **`components/`, `fields/`, `guidelines/`, `mode-sets/`, `platform-extensions/`** — one artifact per file.
   Entries across all files in the subdirectory are concatenated, in sorted path order, and
   injected into the corresponding catalog **add-or-replace by name** (for
   `platform-extensions/`, by `termId`; see below). When two files declare the same name,
@@ -115,6 +117,7 @@ load time — this is enforced reference-SDK behavior, not an aspirational goal:
 * **`components/`** → `component.schema.json`
 * **`fields/`** → `field.schema.json` (see [`extensions/fields/`](#extensionsfields) below)
 * **`guidelines/`** → `guideline.schema.json`
+* **`mode-sets/`** → `mode-set.schema.json` (see [`extensions/mode-sets/`](#extensionsmode-sets) below)
 * **`relationships/`** → `relationship.schema.json` (see the Add/Override/remove rules above)
 * **`platform-extensions/`** → `platform-extension.json` (see
   [`extensions/platform-extensions/`](#extensionsplatform-extensions) below)
@@ -142,6 +145,22 @@ Platform-local field declarations, injected into the field catalog. **NORMATIVE:
 declared) references field names by string — a platform that renames or removes a field it
 also references there is self-inconsistent; that is a manifest-authoring concern, not enforced
 by the reference SDK.
+
+#### `extensions/mode-sets/`
+
+Platform-local mode-set declarations, injected into the mode-set catalog for this platform's
+resolution. **NORMATIVE:** each file **MUST** validate against `mode-set.schema.json` (requiring
+`name`, `modes`, `default`); `default ∈ modes` is a Layer 2 concern, enforced by SPEC-005 against
+whichever mode sets end up in the resolved graph, foundation or platform-declared alike.
+
+Semantics are **declare-or-replace by name**, the same as `extensions/fields/`: a `name` not
+already in the foundation catalog is a clean new platform axis (e.g. `interfaceLevel: [base, elevated]`); a `name` matching a foundation mode set replaces it, for this platform only —
+the foundation catalog is untouched. Contrast with `modeSetRestrictions`
+([Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions)), a top-level manifest
+field that only *narrows* the allowed values of an existing mode set — it cannot add a mode value
+or declare a new axis. Redeclaring the full mode set here to add a value (rather than restricting
+it) means the platform restates the foundation's other values, which can drift from foundation; a
+future `op: "extend"` merge semantic may remove that restatement if a platform needs it.
 
 #### `extensions/platform-extensions/`
 
