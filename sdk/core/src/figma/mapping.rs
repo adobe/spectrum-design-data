@@ -213,11 +213,15 @@ fn build_export_payload_with_specs(
         if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) || schema.ends_with(ALIAS) {
             continue;
         }
-        let kind = if schema.ends_with(COLOR_SET) || schema.ends_with(COLOR) {
+        let kind = if schema.ends_with(COLOR_SET)
+            || schema.ends_with(COLOR)
+            || schema.ends_with(OPACITY)
+        {
+            // Opacity lives in the Color theme collection in the manual
+            // library, not Platform scale, despite being a FLOAT.
             TokenKind::Color
         } else if schema.ends_with(SCALE_SET)
             || schema.ends_with(DIMENSION)
-            || schema.ends_with(OPACITY)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)
@@ -336,8 +340,28 @@ fn build_export_payload_with_specs(
                 &mut mode_values,
                 &mut summary,
             );
+        } else if schema.ends_with(OPACITY) {
+            // Flat opacity token → Color theme collection (matches the manual
+            // library, which files all opacity under .Color theme), default mode.
+            let Some(rc) = pick_collection(&resolved, TokenKind::Color, token_file) else {
+                summary.skipped_unknown_schema.push(token_name.clone());
+                continue;
+            };
+            process_flat_token(
+                token_name,
+                token_entry,
+                rc.collection_id,
+                rc.spec.default_prefix,
+                "FLOAT",
+                rc.default_mode_id,
+                &value_index,
+                &existing_var_index,
+                overrides,
+                &mut variables,
+                &mut mode_values,
+                &mut summary,
+            );
         } else if schema.ends_with(DIMENSION)
-            || schema.ends_with(OPACITY)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)
@@ -756,18 +780,18 @@ fn process_color_set_token(
         None => return,
     };
 
-    // Determine the inner type from first mode entry.
-    let inner_schema = sets
-        .values()
-        .next()
-        .and_then(|v| v.get("$schema"))
-        .and_then(|v| v.as_str())
-        .unwrap_or("");
-    let figma_type = if inner_schema.ends_with(OPACITY) {
-        "FLOAT"
-    } else {
-        "COLOR"
-    };
+    // Determine the inner type from any mode entry — not just the first —
+    // since a set's first member can be an `alias.json` pointer (no
+    // `$schema` of its own) while a sibling member carries the real
+    // `opacity.json`/`color.json` schema. Inferring from the first member
+    // only would misclassify such a set as COLOR, making its opacity
+    // values fail `parse_color` and get silently dropped.
+    let is_opacity = sets.values().any(|v| {
+        v.get("$schema")
+            .and_then(|s| s.as_str())
+            .is_some_and(|s| s.ends_with(OPACITY))
+    });
+    let figma_type = if is_opacity { "FLOAT" } else { "COLOR" };
 
     let desc = entry.get("description").and_then(|v| v.as_str());
     let (va, var_id) = make_variable_action(
@@ -816,9 +840,7 @@ fn process_color_set_token(
         });
 
         if let Some(val_str) = resolved {
-            if let Some(figma_val) =
-                value_to_figma(val_str, figma_type, inner_schema.ends_with(OPACITY))
-            {
+            if let Some(figma_val) = value_to_figma(val_str, figma_type, is_opacity) {
                 mode_values.push(ModeValueAction {
                     variable_id: var_id.clone(),
                     mode_id: mode_id.clone(),
@@ -1302,13 +1324,52 @@ mod tests {
         let tokens = load_all_tokens(dir.path()).unwrap();
         let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
         assert_eq!(summary.variables_created, 1);
-        assert_eq!(
-            body.variables[0].name,
-            "platformScale/background-opacity-down"
-        );
+        // Opacity is a FLOAT, but lives in the Color theme collection in the
+        // manual library, not Platform scale — see COLLECTION_SPECS routing.
+        assert_eq!(body.variables[0].name, "colorTheme/background-opacity-down");
         assert_eq!(body.variables[0].resolved_type, "FLOAT");
         let val = &body.variable_mode_values[0].value;
         assert_eq!(val.as_f64(), Some(10.0));
+    }
+
+    #[test]
+    fn color_set_with_opacity_members_produces_float_not_color() {
+        // Defensive coverage for process_color_set_token's any-member type
+        // inference: even if the alias/first member weren't opacity, any
+        // member being opacity.json must still yield FLOAT, not COLOR.
+        use std::io::Write;
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("opacity-set.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!({
+                "test-opacity-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/opacity.json", "value": "0.1", "uuid": "u1" },
+                        "dark": { "$schema": "https://example.com/opacity.json", "value": "0.2", "uuid": "u2" },
+                        "wireframe": { "$schema": "https://example.com/opacity.json", "value": "0.3", "uuid": "u3" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+        let meta = mock_meta();
+        let tokens = load_all_tokens(dir.path()).unwrap();
+        let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+        assert_eq!(summary.variables_created, 1);
+        assert_eq!(body.variables[0].resolved_type, "FLOAT");
+        assert_eq!(body.variable_mode_values.len(), 3);
+        for mv in &body.variable_mode_values {
+            assert!(
+                mv.value.as_f64().is_some(),
+                "expected flattened FLOAT, got {mv:?}"
+            );
+        }
     }
 
     #[test]

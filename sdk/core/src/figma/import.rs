@@ -510,36 +510,38 @@ pub fn diff_values(
             counts.renamed += 1;
         }
 
-        let Some(legacy_key) = invert_name(&variable.name, reversed.as_ref()) else {
+        // A bare (slash-less) Figma name — e.g. the single-mode
+        // `S2.Color-theme` collection's opacity variables, which are all
+        // `VARIABLE_ALIAS`es into `.Color theme` — never inverts via
+        // `invert_name`'s `{prefix}/{legacyKey}` convention, so it can't
+        // reach the alias-target fallback below unless that fallback runs
+        // even when inversion itself fails outright (not just when it
+        // inverts to something the graph can't resolve).
+        let inverted = invert_name(&variable.name, reversed.as_ref());
+        let resolved = inverted
+            .as_ref()
+            .and_then(|legacy_key| {
+                graph
+                    .resolve_alias_key(legacy_key)
+                    .or_else(|| graph.resolve_relationship_ref(legacy_key))
+                    .map(|record| (legacy_key.clone(), record))
+                    // A naive name inversion can coincidentally land on a real but
+                    // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
+                    // dragged`'s array of shadow layers) has `value: [...]`, which no
+                    // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
+                    // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
+                    // inverted name happens to equal that composite's own key isn't
+                    // actually a match for it. Treat it as unresolved so the
+                    // alias-target fallback below can find the real (flat) sibling
+                    // token instead (e.g. `drop-shadow-dragged-color`).
+                    .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
+            })
+            .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()));
+        let Some((legacy_key, record)) = resolved else {
             counts.figma_only += 1;
             entries.push(DiffEntry {
                 name: variable.name.clone(),
-                legacy_key: None,
-                renamed,
-                class: DiffClass::FigmaOnly,
-            });
-            continue;
-        };
-        let Some((legacy_key, record)) = graph
-            .resolve_alias_key(&legacy_key)
-            .or_else(|| graph.resolve_relationship_ref(&legacy_key))
-            .map(|record| (legacy_key.clone(), record))
-            // A naive name inversion can coincidentally land on a real but
-            // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
-            // dragged`'s array of shadow layers) has `value: [...]`, which no
-            // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
-            // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
-            // inverted name happens to equal that composite's own key isn't
-            // actually a match for it. Treat it as unresolved so the
-            // alias-target fallback below can find the real (flat) sibling
-            // token instead (e.g. `drop-shadow-dragged-color`).
-            .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
-            .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()))
-        else {
-            counts.figma_only += 1;
-            entries.push(DiffEntry {
-                name: variable.name.clone(),
-                legacy_key: Some(legacy_key),
+                legacy_key: inverted,
                 renamed,
                 class: DiffClass::FigmaOnly,
             });
@@ -1773,6 +1775,106 @@ mod tests {
             }
             other => panic!("expected ValueMismatch, got {other:?}"),
         }
+    }
+
+    /// `S2.Color-theme` is a single-mode collection whose variables are bare
+    /// names (no `/`) that are `VARIABLE_ALIAS`es into `.Color theme`.
+    /// `invert_name` can't invert a bare name, so it must not short-circuit
+    /// straight to `FigmaOnly` — the alias-target fallback has to run anyway
+    /// and resolve through the aliased `colorTheme/*` variable.
+    #[test]
+    fn bare_named_alias_variable_resolves_via_target() {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+
+        let target = mock_variable(
+            "colorTheme/background-opacity-default",
+            "FLOAT",
+            vec![("m-light", json!(10.0))],
+        );
+        let target_id = target.id.clone();
+        let alias_var = mock_variable(
+            "background-opacity-default",
+            "FLOAT",
+            vec![(
+                "m-single",
+                json!({"type": "VARIABLE_ALIAS", "id": target_id}),
+            )],
+        );
+
+        let mut meta = mock_meta(vec![target, alias_var]);
+        meta.variable_collections.insert(
+            "col-1".to_string(),
+            FigmaVariableCollection {
+                id: "col-1".to_string(),
+                name: ".Color theme".to_string(),
+                key: "k1".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-light".to_string(),
+                    name: "Light".to_string(),
+                }],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        meta.variable_collections.insert(
+            "col-2".to_string(),
+            FigmaVariableCollection {
+                id: "col-2".to_string(),
+                name: "S2.Color-theme".to_string(),
+                key: "k2".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-single".to_string(),
+                    name: "Mode 1".to_string(),
+                }],
+                default_mode_id: "m-single".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        for v in meta.variables.values_mut() {
+            v.variable_collection_id = if v.name.starts_with("colorTheme/") {
+                "col-1".to_string()
+            } else {
+                "col-2".to_string()
+            };
+        }
+
+        let graph = mock_graph_with_schema(
+            "background-opacity-default",
+            "u-bod",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let tokens = vec![(
+            "background-opacity-default".to_string(),
+            PathBuf::from("test.json"),
+            json!({
+                "$schema": "https://example.com/opacity.json",
+                "name": "background-opacity-default",
+                "value": "0.1",
+                "uuid": "u-bod",
+            }),
+        )];
+
+        let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+        assert_eq!(
+            report.counts.figma_only, 0,
+            "bare-named alias var must not be classified FigmaOnly: {:?}",
+            report.entries
+        );
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "background-opacity-default")
+            .expect("bare-named alias variable must be reported");
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match, got {:?}",
+            entry.class
+        );
     }
 
     /// A design-data-only token that's covered by `--mapping` must report its
