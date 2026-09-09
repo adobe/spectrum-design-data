@@ -626,8 +626,8 @@ mod tests {
             "background-color",
             &[("unknownFoo".into(), "bar".into())],
             None,
-            &catalog,
-            &registry,
+            catalog,
+            registry,
         );
         assert!(result.is_err(), "unknown field key must be rejected");
         let msg = result.unwrap_err();
@@ -651,8 +651,8 @@ mod tests {
             "background-color",
             &[("colorFamily".into(), "not-a-real-family".into())],
             None,
-            &catalog,
-            &registry,
+            catalog,
+            registry,
         );
         assert!(result.is_ok(), "advisory out-of-vocab must not return Err");
         let diags = result.unwrap();
@@ -673,8 +673,8 @@ mod tests {
             "background-color",
             &[("variant".into(), "accent".into())],
             None,
-            &catalog,
-            &registry,
+            catalog,
+            registry,
         );
         assert!(result.is_ok());
         assert!(
@@ -695,8 +695,8 @@ mod tests {
             "background-color",
             &[("colorFamily".into(), "blue".into())],
             Some(typography_schema),
-            &catalog,
-            &registry,
+            catalog,
+            registry,
         );
         assert!(result.is_ok(), "SPEC-042 violation must not return Err");
         let diags = result.unwrap();
@@ -723,8 +723,8 @@ mod tests {
             "background-color",
             &[("colorFamily".into(), "blue".into())],
             Some(color_schema),
-            &catalog,
-            &registry,
+            catalog,
+            registry,
         );
         assert!(result.is_ok());
         let diags = result.unwrap();
@@ -743,7 +743,7 @@ mod tests {
         // An empty name_fields list with a valid property → clean.
         let catalog = FieldCatalog::embedded();
         let registry = RegistryData::embedded();
-        let result = validate_classification("background-color", &[], None, &catalog, &registry);
+        let result = validate_classification("background-color", &[], None, catalog, registry);
         assert!(result.is_ok());
         assert!(result.unwrap().is_empty());
     }

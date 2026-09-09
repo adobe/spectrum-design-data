@@ -236,7 +236,7 @@ mod tests {
         let ctx = ValidationContext {
             graph: &graph,
             naming_exceptions: &exceptions,
-            registry: &registry,
+            registry,
             manifest: None,
         };
         assert!(Rule.validate(&ctx).is_empty());
@@ -248,7 +248,7 @@ mod tests {
         let registry = RegistryData::embedded();
         let exceptions = HashSet::new();
         let manifest = json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0"});
-        let ctx = make_ctx(&graph, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&graph, &manifest, registry, &exceptions);
         assert!(Rule.validate(&ctx).is_empty());
     }
 
@@ -271,7 +271,7 @@ mod tests {
                 "colorScheme": { "allowed": ["light"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         assert!(
             Rule.validate(&ctx).is_empty(),
             "wildcard token covers the restriction"
@@ -303,7 +303,7 @@ mod tests {
                 "colorScheme": { "allowed": ["light"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         // t-light covers the group — no coverage gap even though t-dark is restricted.
         assert!(Rule.validate(&ctx).is_empty());
     }
@@ -327,7 +327,7 @@ mod tests {
                 "colorScheme": { "allowed": ["light"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         let diags = Rule.validate(&ctx);
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Error);
@@ -367,7 +367,7 @@ mod tests {
                 "scale": { "allowed": ["desktop"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         let diags = Rule.validate(&ctx);
         // Must detect the gap even though each restriction individually had a survivor.
         assert_eq!(
@@ -399,7 +399,7 @@ mod tests {
                 "scale": { "allowed": ["desktop"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         assert!(Rule.validate(&ctx).is_empty());
     }
 
@@ -424,7 +424,7 @@ mod tests {
                 "colorScheme": { "allowed": ["dark"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         let diags = Rule.validate(&ctx);
         // Expect both a "default not in allowed" error AND a coverage gap (no wildcard/light token).
         let default_errs: Vec<_> = diags
@@ -450,7 +450,7 @@ mod tests {
                 "typoz": { "allowed": ["a"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         let diags = Rule.validate(&ctx);
         assert_eq!(diags.len(), 1);
         assert_eq!(diags[0].severity, Severity::Warning);
@@ -476,7 +476,7 @@ mod tests {
                 "typoz": { "allowed": ["a"] }
             }
         });
-        let ctx = make_ctx(&g, &manifest, &registry, &exceptions);
+        let ctx = make_ctx(&g, &manifest, registry, &exceptions);
         let diags = Rule.validate(&ctx);
         // Only one warning, no coverage-gap errors.
         assert_eq!(diags.len(), 1);
