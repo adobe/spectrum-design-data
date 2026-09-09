@@ -1,5 +1,5 @@
 ---
-"@adobe/spectrum-tokens": major
+"@adobe/spectrum-tokens": minor
 "@adobe/spectrum-design-data": major
 "@adobe/design-data-spec": minor
 "@adobe/design-data-tui": minor
