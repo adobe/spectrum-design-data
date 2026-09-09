@@ -130,3 +130,5 @@ repo-relative paths):
 * **figma** — Figma desktop plugin bridge (must have the Figma desktop app running).
 
 **Routing rule:** when asking a Rust structural question (impact, callers, dead code), prefer ferrograph's answer over Scout's — it's exact. For everything else (tokens, docs, TS, "what is X"), use Scout. The two cover different ground and complement each other.
+
+**Scout memory discipline:** on any architecture-shaped question ("what is X", "how does Y work", "where does Z live"), run `mcp__scout__memory_search` before `investigate`/`search` — the memory bank often already has the answer at a fraction of the cost. After finishing investigation work that produced a durable finding (a real architectural fact, decision, or gotcha — not session-scoped task state), call `mcp__scout__memory_write` to record it; memory only grows if agents write to it during normal work, not just when `/scout-memory-init` is re-run. Re-run `/scout-memory-init` after a major refactor or domain restructuring (structural memory goes stale as CodeRank domain clustering shifts) — it's not one-and-done.
