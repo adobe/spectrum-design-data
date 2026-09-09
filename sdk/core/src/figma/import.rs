@@ -510,36 +510,38 @@ pub fn diff_values(
             counts.renamed += 1;
         }
 
-        let Some(legacy_key) = invert_name(&variable.name, reversed.as_ref()) else {
+        // A bare (slash-less) Figma name — e.g. the single-mode
+        // `S2.Color-theme` collection's opacity variables, which are all
+        // `VARIABLE_ALIAS`es into `.Color theme` — never inverts via
+        // `invert_name`'s `{prefix}/{legacyKey}` convention, so it can't
+        // reach the alias-target fallback below unless that fallback runs
+        // even when inversion itself fails outright (not just when it
+        // inverts to something the graph can't resolve).
+        let inverted = invert_name(&variable.name, reversed.as_ref());
+        let resolved = inverted
+            .as_ref()
+            .and_then(|legacy_key| {
+                graph
+                    .resolve_alias_key(legacy_key)
+                    .or_else(|| graph.resolve_relationship_ref(legacy_key))
+                    .map(|record| (legacy_key.clone(), record))
+                    // A naive name inversion can coincidentally land on a real but
+                    // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
+                    // dragged`'s array of shadow layers) has `value: [...]`, which no
+                    // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
+                    // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
+                    // inverted name happens to equal that composite's own key isn't
+                    // actually a match for it. Treat it as unresolved so the
+                    // alias-target fallback below can find the real (flat) sibling
+                    // token instead (e.g. `drop-shadow-dragged-color`).
+                    .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
+            })
+            .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()));
+        let Some((legacy_key, record)) = resolved else {
             counts.figma_only += 1;
             entries.push(DiffEntry {
                 name: variable.name.clone(),
-                legacy_key: None,
-                renamed,
-                class: DiffClass::FigmaOnly,
-            });
-            continue;
-        };
-        let Some((legacy_key, record)) = graph
-            .resolve_alias_key(&legacy_key)
-            .or_else(|| graph.resolve_relationship_ref(&legacy_key))
-            .map(|record| (legacy_key.clone(), record))
-            // A naive name inversion can coincidentally land on a real but
-            // wrong-shaped token: a multi-layer composite (e.g. `drop-shadow-
-            // dragged`'s array of shadow layers) has `value: [...]`, which no
-            // scalar Figma variable (COLOR/FLOAT/STRING) can hold — so a
-            // Figma alias named e.g. `Alias/drop-shadow/dragged` whose
-            // inverted name happens to equal that composite's own key isn't
-            // actually a match for it. Treat it as unresolved so the
-            // alias-target fallback below can find the real (flat) sibling
-            // token instead (e.g. `drop-shadow-dragged-color`).
-            .filter(|(_, record)| !record.raw.get("value").is_some_and(Value::is_array))
-            .or_else(|| resolve_alias_target(variable, meta, graph, reversed.as_ref()))
-        else {
-            counts.figma_only += 1;
-            entries.push(DiffEntry {
-                name: variable.name.clone(),
-                legacy_key: Some(legacy_key),
+                legacy_key: inverted,
                 renamed,
                 class: DiffClass::FigmaOnly,
             });
@@ -555,7 +557,10 @@ pub fn diff_values(
         // of requiring universal agreement. Single-mode variables and
         // tokens with no set to align to (ordinary single-value tokens) fall
         // through unchanged to the existing collapse-and-compare path.
-        if variable.values_by_mode.len() > 1 && record_concept_id(&record.raw).is_some() {
+        if variable.values_by_mode.len() > 1
+            && (record_concept_id(&record.raw).is_some()
+                || graph.has_relationship_record(&legacy_key))
+        {
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
@@ -1772,6 +1777,106 @@ mod tests {
         }
     }
 
+    /// `S2.Color-theme` is a single-mode collection whose variables are bare
+    /// names (no `/`) that are `VARIABLE_ALIAS`es into `.Color theme`.
+    /// `invert_name` can't invert a bare name, so it must not short-circuit
+    /// straight to `FigmaOnly` — the alias-target fallback has to run anyway
+    /// and resolve through the aliased `colorTheme/*` variable.
+    #[test]
+    fn bare_named_alias_variable_resolves_via_target() {
+        use super::super::types::{FigmaMode, FigmaVariableCollection};
+
+        let target = mock_variable(
+            "colorTheme/background-opacity-default",
+            "FLOAT",
+            vec![("m-light", json!(10.0))],
+        );
+        let target_id = target.id.clone();
+        let alias_var = mock_variable(
+            "background-opacity-default",
+            "FLOAT",
+            vec![(
+                "m-single",
+                json!({"type": "VARIABLE_ALIAS", "id": target_id}),
+            )],
+        );
+
+        let mut meta = mock_meta(vec![target, alias_var]);
+        meta.variable_collections.insert(
+            "col-1".to_string(),
+            FigmaVariableCollection {
+                id: "col-1".to_string(),
+                name: ".Color theme".to_string(),
+                key: "k1".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-light".to_string(),
+                    name: "Light".to_string(),
+                }],
+                default_mode_id: "m-light".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        meta.variable_collections.insert(
+            "col-2".to_string(),
+            FigmaVariableCollection {
+                id: "col-2".to_string(),
+                name: "S2.Color-theme".to_string(),
+                key: "k2".to_string(),
+                modes: vec![FigmaMode {
+                    mode_id: "m-single".to_string(),
+                    name: "Mode 1".to_string(),
+                }],
+                default_mode_id: "m-single".to_string(),
+                remote: false,
+                hidden_from_publishing: false,
+                variable_ids: vec![],
+            },
+        );
+        for v in meta.variables.values_mut() {
+            v.variable_collection_id = if v.name.starts_with("colorTheme/") {
+                "col-1".to_string()
+            } else {
+                "col-2".to_string()
+            };
+        }
+
+        let graph = mock_graph_with_schema(
+            "background-opacity-default",
+            "u-bod",
+            json!("0.1"),
+            "https://example.com/opacity.json",
+        );
+        let tokens = vec![(
+            "background-opacity-default".to_string(),
+            PathBuf::from("test.json"),
+            json!({
+                "$schema": "https://example.com/opacity.json",
+                "name": "background-opacity-default",
+                "value": "0.1",
+                "uuid": "u-bod",
+            }),
+        )];
+
+        let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+        assert_eq!(
+            report.counts.figma_only, 0,
+            "bare-named alias var must not be classified FigmaOnly: {:?}",
+            report.entries
+        );
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "background-opacity-default")
+            .expect("bare-named alias variable must be reported");
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match, got {:?}",
+            entry.class
+        );
+    }
+
     /// A design-data-only token that's covered by `--mapping` must report its
     /// real legacy key, not whatever comes after the last `/` in the mapped
     /// Figma name (which can differ, e.g. `spacing-100` -> `Layout/spacing-100-real`).
@@ -2613,6 +2718,131 @@ mod tests {
                         assert_eq!(figma, &json!("55px"));
                     }
                     other => panic!("expected ValueMismatch for Mobile, got {other:?}"),
+                }
+            }
+            other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// Bead `spectrum-design-data-2god`: the real `action-bar-border-color`
+    /// shape — a `$ref`-backed CTR (not the inline-value shape covered by
+    /// `ctr_only_multimode_variable_routes_through_diff_multimode` above).
+    /// Each mode's relationship record has no inline `value`, just a `$ref`
+    /// into a plain palette color token (no `conceptId`), so
+    /// `reindex_relationship_tokens` skips it entirely (only inline-value
+    /// CTRs get a synthesized `TokenRecord`) and `resolve_relationship_ref`
+    /// returns the *palette* token's record — which never carries `setUuid`
+    /// (that field lives only on the `RelationshipRecord`, never merged onto
+    /// a resolved `TokenRecord.raw`). Before the fix, `record_concept_id`
+    /// found neither `conceptId` nor `setUuid` and the variable silently
+    /// fell through to the old collapse-and-give-up path even though Dark
+    /// genuinely diverges from Light/Wireframe here.
+    #[test]
+    fn ref_backed_ctr_color_set_routes_through_diff_multimode() {
+        use crate::graph::RelationshipRecord;
+
+        let var = mock_variable(
+            "colorTheme/action-bar-border-color",
+            "COLOR",
+            vec![
+                ("m-light", json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.25})),
+                ("m-dark", json!({"r": 0.0, "g": 0.0, "b": 0.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 1.0, "b": 1.0, "a": 0.25}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+
+        // Plain palette color tokens — no `conceptId`, no owning set — the
+        // real shape of `transparent-white-25` / `gray-400`, referenced by
+        // `$ref` rather than holding the per-mode value inline.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorFamily": "transparent-white", "scaleIndex": 25},
+                    "value": "#ffffff40",
+                    "uuid": "u-transparent-white-25",
+                },
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorFamily": "gray", "scaleIndex": 400},
+                    "value": "#bcbcbc",
+                    "uuid": "u-gray-400",
+                },
+            ])
+        )
+        .unwrap();
+        let graph = TokenGraph::from_json_dir(dir.path())
+            .unwrap()
+            .with_relationships(vec![
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 0,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000001".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "light"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-transparent-white-25",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 1,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000002".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "dark"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-gray-400",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/action-bar.json"),
+                    index: 2,
+                    uuid: Some("e242c2e1-0000-0000-0000-000000000003".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "wireframe"}},
+                        "$schema": "https://example.com/alias.json",
+                        "$ref": "u-transparent-white-25",
+                        "legacyKey": "action-bar-border-color",
+                        "setUuid": "su-action-bar-border-color",
+                    }),
+                },
+            ]);
+        let graph = with_real_mode_sets(graph);
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 1);
+        assert_eq!(report.counts.skipped_uncovered, 0);
+
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "colorTheme/action-bar-border-color")
+            .expect("$ref-backed color-set CTR must be reported");
+        match &entry.class {
+            DiffClass::MultiModeMismatch { modes } => {
+                let by_mode: HashMap<&str, &DiffClass> =
+                    modes.iter().map(|m| (m.mode.as_str(), &m.class)).collect();
+                assert!(matches!(by_mode["Light"], DiffClass::Match));
+                assert!(matches!(by_mode["Wireframe"], DiffClass::Match));
+                match by_mode["Dark"] {
+                    DiffClass::ValueMismatch { design_data, figma } => {
+                        assert_eq!(design_data, &json!("#bcbcbc"));
+                        assert_eq!(figma, &json!("#000000"));
+                    }
+                    other => panic!("expected ValueMismatch for Dark, got {other:?}"),
                 }
             }
             other => panic!("expected MultiModeMismatch, got {other:?}"),
