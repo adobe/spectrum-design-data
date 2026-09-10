@@ -199,6 +199,10 @@
     {
       "token": "corner-radius-button-large",
       "context": "Rounding (with wrapping)"
+    },
+    {
+      "token": "corner-radius-button-extra-large",
+      "context": "Rounding (with wrapping)"
     }
   ],
   "accessibility": {
