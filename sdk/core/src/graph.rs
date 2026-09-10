@@ -1462,9 +1462,10 @@ impl TokenGraph {
     }
 
     /// Schemas whose inline CTR `value` is a plain literal directly comparable
-    /// to a Figma value — unlike `font-family.json`, whose inline CTR value is
-    /// a bare family-name string with no schema-driven comparison rule, so it
-    /// deliberately stays unresolved here (see `resolve_relationship_ref`).
+    /// to a Figma value. `font-family.json`'s inline value is a bare
+    /// family-name string, compared verbatim against a Figma `STRING`
+    /// variable by `diff_against_source`'s `"STRING"` branch — same rule as
+    /// any other literal here, no font-specific normalization.
     ///
     /// Not derived from `figma::import::diff_against_source`'s Figma-side
     /// `resolved_type` match (`COLOR`/`FLOAT`/`STRING`) — that classifies by
@@ -1472,11 +1473,12 @@ impl TokenGraph {
     /// shared enum between them. Adding a schema here that isn't actually
     /// FLOAT/STRING-comparable on the Figma side needs a matching look at
     /// `diff_against_source`.
-    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 4] = [
+    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 5] = [
         "dimension.json",
         "multiplier.json",
         "gradient-stop.json",
         "opacity.json",
+        "font-family.json",
     ];
 
     /// Rebuild `relationship_tokens` from `self.relationships`: for every CTR
@@ -3032,11 +3034,11 @@ mod tests {
     }
 
     #[test]
-    fn resolve_relationship_ref_stays_unresolved_through_font_family_chain() {
+    fn resolve_relationship_ref_resolves_through_font_family_chain() {
         // code-cjk-font-family's real shape: its $ref targets
-        // code-font-family, an inline font-family CTR deliberately excluded
-        // from INLINE_CTR_COMPARABLE_SCHEMAS. The chain must stay unresolved
-        // rather than surfacing that inline value.
+        // code-font-family, an inline font-family CTR in
+        // INLINE_CTR_COMPARABLE_SCHEMAS. The chain must resolve to the
+        // inline value, same as dimension/multiplier/opacity CTR chains.
         let g = TokenGraph::default().with_relationships(vec![
             RelationshipRecord {
                 file: PathBuf::from("relationships/code.json"),
@@ -3044,6 +3046,7 @@ mod tests {
                 uuid: Some("22222222-0000-0000-0000-000000000001".to_string()),
                 raw: json!({
                     "legacyKey": "code-font-family",
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
                     "value": "Source Code Pro",
                     "uuid": "22222222-0000-0000-0000-000000000001"
                 }),
@@ -3060,7 +3063,10 @@ mod tests {
             },
         ]);
 
-        assert!(g.resolve_relationship_ref("code-cjk-font-family").is_none());
+        let rec = g
+            .resolve_relationship_ref("code-cjk-font-family")
+            .expect("font-family CTR chain must resolve");
+        assert_eq!(rec.raw["value"], "Source Code Pro");
     }
 
     #[test]
