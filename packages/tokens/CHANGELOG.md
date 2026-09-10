@@ -1,5 +1,16 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.4.0
+
+### Minor Changes
+
+- [#1440](https://github.com/adobe/spectrum-design-data/pull/1440) [`fab8733`](https://github.com/adobe/spectrum-design-data/commit/fab873306f0798c8a2f3d532e6df4eca4e0b7460) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct desktop `base-padding-horizontal` values for large/extra-large/2x-large
+  to match the design decision confirmed in Figma/Tokens Studio (closes DNA-1926).
+  - **packages/tokens/src/layout.json**: `base-padding-horizontal-large` 14px→16px,
+    `base-padding-horizontal-extra-large` 16px→18px, `base-padding-horizontal-2x-large`
+    18px→20px (desktop scale only; mobile unchanged). Regenerated from the cascade
+    source fixed in #1438, which shipped without a changeset for this package.
+
 ## 15.3.0
 
 ### Minor Changes
