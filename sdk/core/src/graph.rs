@@ -1472,8 +1472,12 @@ impl TokenGraph {
     /// shared enum between them. Adding a schema here that isn't actually
     /// FLOAT/STRING-comparable on the Figma side needs a matching look at
     /// `diff_against_source`.
-    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 3] =
-        ["dimension.json", "multiplier.json", "gradient-stop.json"];
+    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 4] = [
+        "dimension.json",
+        "multiplier.json",
+        "gradient-stop.json",
+        "opacity.json",
+    ];
 
     /// Rebuild `relationship_tokens` from `self.relationships`: for every CTR
     /// `legacyKey` with no `$ref`-backed entry, synthesize a leaf `TokenRecord`
@@ -2915,6 +2919,29 @@ mod tests {
             .resolve_relationship_ref("alert-dialog-maximum-width")
             .expect("scale-less inline dimension CTR must resolve");
         assert_eq!(dialog.raw["value"], "480px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_resolves_inline_opacity_ctrs() {
+        // table-row-hover-opacity's real shape: an inline opacity value (no
+        // $ref), as seen in packages/design-data/relationships/table.json.
+        let g = TokenGraph::default().with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/table.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000001".to_string()),
+            raw: json!({
+                "scope": {"component": "table", "part": "row", "property": "hover-opacity"},
+                "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+                "value": "0.07",
+                "uuid": "dddddddd-0000-0000-0000-000000000001",
+                "legacyKey": "table-row-hover-opacity"
+            }),
+        }]);
+
+        let rec = g
+            .resolve_relationship_ref("table-row-hover-opacity")
+            .expect("inline opacity CTR must resolve");
+        assert_eq!(rec.raw["value"], "0.07");
     }
 
     #[test]
