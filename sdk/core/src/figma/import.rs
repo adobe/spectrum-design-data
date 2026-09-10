@@ -2210,6 +2210,43 @@ mod tests {
     }
 
     #[test]
+    fn font_family_verbatim_value_agrees() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/code-font-family",
+            "STRING",
+            vec![("m-desktop", json!("Source Code Pro"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "code-font-family",
+            "u-code-font-family",
+            json!("Source Code Pro"),
+            "https://example.com/font-family.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.matched, 1);
+        assert_eq!(report.counts.value_mismatch, 0);
+    }
+
+    /// Unlike font-weight/style, family names compare verbatim — no casing or
+    /// punctuation normalization, so a genuinely different family mismatches.
+    #[test]
+    fn font_family_genuine_difference_mismatches() {
+        let meta = mock_meta(vec![mock_variable(
+            "platformScale/code-font-family",
+            "STRING",
+            vec![("m-desktop", json!("Fira Code"))],
+        )]);
+        let graph = mock_graph_with_schema(
+            "code-font-family",
+            "u-code-font-family",
+            json!("Source Code Pro"),
+            "https://example.com/font-family.json",
+        );
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.value_mismatch, 1);
+    }
+
+    #[test]
     fn dp_unit_agrees_with_bare_figma_number() {
         let meta = mock_meta(vec![mock_variable(
             "platformScale/android-elevation",
