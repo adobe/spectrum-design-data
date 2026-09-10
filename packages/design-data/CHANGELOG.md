@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 3.2.2
+
+### Patch Changes
+
+- [#1446](https://github.com/adobe/spectrum-design-data/pull/1446) [`63daf55`](https://github.com/adobe/spectrum-design-data/commit/63daf55e40fe469dc1b30248e57df7664afa005a) Thanks [@GarthDB](https://github.com/GarthDB)! - Resolve the remaining code-font `figma_only` entries in `figma diff` (closes #11k.10.12).
+  - **sdk/core/src/graph.rs**: added `font-family.json` to `INLINE_CTR_COMPARABLE_SCHEMAS`
+    so the inline `code-font-family` CTR resolves, letting `Code/Font family`,
+    `platformScale/code-cjk-font-family`, and `platformScale/code-font-family` match
+    against their Figma STRING values instead of showing as `figma_only`.
+
 ## 3.2.1
 
 ### Patch Changes
