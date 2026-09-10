@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 3.2.1
+
+### Patch Changes
+
+- [#1442](https://github.com/adobe/spectrum-design-data/pull/1442) [`009ccdd`](https://github.com/adobe/spectrum-design-data/commit/009ccdd50f5e73ee7cb2d25658797e6b2e19efd5) Thanks [@GarthDB](https://github.com/GarthDB)! - Resolve inline-value opacity CTRs in `figma diff`.
+  - **sdk/core/src/graph.rs**: added `opacity.json` to `INLINE_CTR_COMPARABLE_SCHEMAS`
+    so component-level opacity CTRs (e.g. `table-row-hover-opacity`) index into
+    `relationship_tokens` and resolve during diff, matching the existing
+    dimension/multiplier/gradient-stop handling.
+
 ## 3.2.0
 
 ### Minor Changes
