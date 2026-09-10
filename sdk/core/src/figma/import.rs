@@ -731,24 +731,28 @@ fn invert_name(figma_name: &str, renames: Option<&HashMap<String, String>>) -> O
 }
 
 /// Resolve a Figma variable that is itself a `VARIABLE_ALIAS` through to the
-/// design-data record its *alias target* maps to. Some collections (Layout,
-/// for one) model every variable as a semantic alias into `.Platform scale`
-/// (e.g. `Alert dialog/Maximum width` -> `platformScale/alert-dialog-maximum-width`)
-/// — the variable's own hierarchical name never inverts to a real legacy key,
-/// but its target's name does via the ordinary [`invert_name`] rules.
+/// design-data record its *alias chain* eventually maps to. Some collections
+/// (Layout, for one) model every variable as a semantic alias into
+/// `.Platform scale` (e.g. `Alert dialog/Maximum width` ->
+/// `platformScale/alert-dialog-maximum-width`) — the variable's own
+/// hierarchical name never inverts to a real legacy key, but a name further
+/// down the chain does via the ordinary [`invert_name`] rules. The
+/// intermediate target itself is sometimes just another alias (e.g. Layout's
+/// `Banner/Gap/Horizontal` -> `platformScale/banner-gap-horizontal` ->
+/// `platformScale/spacing-400`, where only the final hop's name inverts to a
+/// real graph key), so each hop is tried in turn rather than only the first.
 ///
 /// Fallback only: callers try direct name inversion first, so this can only
 /// turn a would-be `figma_only` variable into a match/value-mismatch, never
-/// regress an existing one. Follows a single alias hop — every case observed
-/// against the S2 baseline aliases directly to a resolvable target.
-/// ponytail: one hop, not a chain walk; extend if a deeper chain ever appears.
+/// regress an existing one. Capped at [`MAX_ALIAS_DEPTH`] hops, the same guard
+/// `resolve_figma_value` uses against a cyclic or pathologically deep chain.
 ///
 /// Reads the variable's value from its collection's `default_mode_id` — the
 /// same mode `resolve_figma_value` reads for an alias target — rather than an
 /// arbitrary `HashMap` entry, since a multi-mode variable's iteration order
 /// isn't guaranteed to land on the mode that actually holds the alias.
 /// `renames` is the same reversed name-mapping `diff_values` threads into its
-/// own direct `invert_name` call, applied here to the alias target's name.
+/// own direct `invert_name` call, applied here to each hop's target name.
 fn resolve_alias_target<'a>(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
@@ -758,17 +762,33 @@ fn resolve_alias_target<'a>(
     let collection = meta
         .variable_collections
         .get(&variable.variable_collection_id)?;
-    let value = variable.values_by_mode.get(&collection.default_mode_id)?;
+    let mut value = variable.values_by_mode.get(&collection.default_mode_id)?;
     if !is_alias(value) {
         return None;
     }
-    let target_id = value.get("id").and_then(Value::as_str)?;
-    let target_name = &meta.variables.get(target_id)?.name;
-    let key = invert_name(target_name, renames)?;
-    let record = graph
-        .resolve_alias_key(&key)
-        .or_else(|| graph.resolve_relationship_ref(&key))?;
-    Some((key, record))
+    for _ in 0..MAX_ALIAS_DEPTH {
+        let target_id = value.get("id").and_then(Value::as_str)?;
+        let target = meta.variables.get(target_id)?;
+        if let Some(key) = invert_name(&target.name, renames) {
+            if let Some(record) = graph
+                .resolve_alias_key(&key)
+                .or_else(|| graph.resolve_relationship_ref(&key))
+            {
+                return Some((key, record));
+            }
+        }
+        let target_collection = meta
+            .variable_collections
+            .get(&target.variable_collection_id)?;
+        let next = target
+            .values_by_mode
+            .get(&target_collection.default_mode_id)?;
+        if !is_alias(next) {
+            return None;
+        }
+        value = next;
+    }
+    None
 }
 
 /// Map an atomic Typography-collection Figma name to its exact design-data
@@ -3483,6 +3503,93 @@ mod tests {
             entry.legacy_key.as_deref(),
             Some("standard-dialog-maximum-width-small")
         );
+    }
+
+    #[test]
+    fn diff_values_resolves_alias_two_hops_deep() {
+        // Mirrors the real Layout collection: `Banner/Gap/Horizontal` ->
+        // `platformScale/banner-gap-horizontal` (itself unresolvable — its
+        // structured name has no legacyKey) -> `platformScale/spacing-400`
+        // (resolvable). resolve_alias_target must walk past the first,
+        // unresolvable hop instead of giving up on it.
+        let primitive = mock_variable(
+            "platformScale/spacing-400",
+            "FLOAT",
+            vec![("m-modeless", json!(32.0))],
+        );
+        let intermediate = mock_variable(
+            "platformScale/banner-gap-horizontal",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": primitive.id.clone()}),
+            )],
+        );
+        let alias = mock_variable(
+            "Banner/Gap/Horizontal",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": intermediate.id.clone()}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![primitive, intermediate, alias]);
+        let graph = mock_graph_with_schema(
+            "spacing-400",
+            "u-spacing-400",
+            json!("32px"),
+            "https://example.com/dimension.json",
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        let entry = report
+            .entries
+            .iter()
+            .find(|e| e.name == "Banner/Gap/Horizontal")
+            .unwrap();
+        assert!(
+            matches!(entry.class, DiffClass::Match),
+            "expected Match, got {:?}",
+            entry.class
+        );
+        assert_eq!(entry.legacy_key.as_deref(), Some("spacing-400"));
+    }
+
+    #[test]
+    fn diff_values_alias_chain_cycle_terminates_without_hang() {
+        // Two variables aliasing each other in a loop must not resolve and
+        // must not hang — resolve_alias_target's MAX_ALIAS_DEPTH cap is what
+        // keeps this from spinning forever the way an unbounded chain walk
+        // would on a malformed/cyclic Figma file.
+        let a = mock_variable(
+            "Cycle/A",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Cycle/B"}),
+            )],
+        );
+        let b = mock_variable(
+            "Cycle/B",
+            "FLOAT",
+            vec![(
+                "m-modeless",
+                json!({"type": "VARIABLE_ALIAS", "id": "var-Cycle/A"}),
+            )],
+        );
+        let meta = mock_meta_modeless(vec![a, b]);
+        let graph = mock_graph_with_schema(
+            "unrelated",
+            "u-unrelated",
+            json!("1px"),
+            "https://example.com/dimension.json",
+        );
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        // Neither side of the cycle resolves — both stay figma_only, and the
+        // call returns instead of looping forever.
+        assert_eq!(report.counts.figma_only, 2);
+        assert_eq!(report.counts.matched, 0);
     }
 
     #[test]
