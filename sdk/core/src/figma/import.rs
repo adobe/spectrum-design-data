@@ -186,9 +186,11 @@ fn multimode_name_field<'g>(graph: &'g TokenGraph, mode_name: &str) -> Option<&'
 /// its Light/Dark/Wireframe modes diverge, so requiring universal agreement
 /// discards nearly 60% of that collection as `skipped-uncovered` today.
 ///
-/// Rolls up to a plain [`DiffClass::Match`] when every mode agrees, else
-/// [`DiffClass::MultiModeMismatch`] listing every mode's own classification
-/// (matches included, for context).
+/// Rolls up to a plain [`DiffClass::Match`] when every mode agrees, to
+/// [`DiffClass::SkippedUncovered`] when every mode is uncovered (no
+/// design-data value to compare in any mode — a coverage gap, not a
+/// divergence), else [`DiffClass::MultiModeMismatch`] listing every mode's
+/// own classification (matches included, for context).
 fn diff_multimode(
     variable: &FigmaVariable,
     meta: &VariablesMeta,
@@ -296,6 +298,16 @@ fn diff_multimode(
 
     if modes.iter().all(|m| matches!(m.class, DiffClass::Match)) {
         DiffClass::Match
+    } else if modes
+        .iter()
+        .all(|m| matches!(m.class, DiffClass::SkippedUncovered { .. }))
+    {
+        // No mode resolved to a design-data value at all: the concept isn't
+        // covered per color-scheme, which is a coverage gap, not a per-mode
+        // divergence — don't inflate MultiModeMismatch with it.
+        DiffClass::SkippedUncovered {
+            reason: "multimode-uncovered".to_string(),
+        }
     } else {
         DiffClass::MultiModeMismatch { modes }
     }
@@ -564,6 +576,7 @@ pub fn diff_values(
             let class = diff_multimode(variable, meta, graph, &legacy_key, record, leaf);
             match &class {
                 DiffClass::Match => counts.matched += 1,
+                DiffClass::SkippedUncovered { .. } => counts.skipped_uncovered += 1,
                 _ => counts.multi_mode_mismatch += 1,
             }
             entries.push(DiffEntry {
@@ -2644,6 +2657,60 @@ mod tests {
                 }
             }
             other => panic!("expected MultiModeMismatch, got {other:?}"),
+        }
+    }
+
+    /// The `accent-color-100`-shaped bug: a `.Color theme` variable whose
+    /// design-data concept has no member for *any* of Light/Dark/Wireframe
+    /// (a plain single-scheme alias, not a genuinely per-scheme set) rolls
+    /// up to `SkippedUncovered`, not `MultiModeMismatch` — "nothing to
+    /// compare in any mode" is a coverage gap, not a divergence.
+    #[test]
+    fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
+        let var = mock_variable(
+            "colorTheme/accent-color-100",
+            "COLOR",
+            vec![
+                ("m-light", json!({"r": 1.0, "g": 0.5, "b": 0.0, "a": 1.0})),
+                ("m-dark", json!({"r": 1.0, "g": 0.5, "b": 0.0, "a": 1.0})),
+                (
+                    "m-wireframe",
+                    json!({"r": 1.0, "g": 0.5, "b": 0.0, "a": 1.0}),
+                ),
+            ],
+        );
+        let meta = mock_meta_color_theme(var);
+        // A plain single-scheme alias, not a real per-scheme set: one member,
+        // no `colorScheme` field at all, so a light/dark/wireframe lookup
+        // never finds a match — every mode is genuinely uncovered.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("tokens.json");
+        let mut f = std::fs::File::create(&path).unwrap();
+        write!(
+            f,
+            "{}",
+            json!([
+                {
+                    "$schema": "https://example.com/color.json",
+                    "name": {"colorRole": "accent", "legacyKey": "accent-color-100"},
+                    "value": "#ff8000",
+                    "uuid": "u-accent-color-100",
+                    "conceptId": "su-accent-color-100",
+                },
+            ])
+        )
+        .unwrap();
+        let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
+
+        let report = diff_values(&meta, &graph, &[], None).unwrap();
+        assert_eq!(report.counts.multi_mode_mismatch, 0);
+        assert_eq!(report.counts.skipped_uncovered, 1);
+        assert_eq!(report.counts.matched, 0);
+        match &report.entries[0].class {
+            DiffClass::SkippedUncovered { reason } => {
+                assert_eq!(reason, "multimode-uncovered");
+            }
+            other => panic!("expected SkippedUncovered, got {other:?}"),
         }
     }
 
