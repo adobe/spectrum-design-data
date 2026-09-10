@@ -2030,6 +2030,34 @@ impl TokenGraph {
         via_ref.or_else(|| self.best_relationship_token_in_context(legacy_key, ctx))
     }
 
+    /// Whether `legacy_key`'s resolved value differs across `mode_set`'s
+    /// modes, with every other declared mode set (`self.mode_sets`) held at
+    /// its own `default_mode`. This is the primitive Nate Baldwin's Figma
+    /// "mode-group" collection membership needs (bead `cn3v.2`): a concept
+    /// belongs in `mode_set`'s mode-group collection iff this returns true.
+    /// Built only on [`Self::resolve_relationship_ref_in_context`] — no new
+    /// resolver logic.
+    pub fn diverges_on_axis(&self, legacy_key: &str, mode_set: &ModeSetRecord) -> bool {
+        let base_ctx: std::collections::HashMap<String, String> = self
+            .mode_sets
+            .iter()
+            .filter(|ms| ms.name != mode_set.name)
+            .map(|ms| (ms.name.clone(), ms.default_mode.clone()))
+            .collect();
+
+        let resolved: Vec<Option<Value>> = mode_set
+            .modes
+            .iter()
+            .map(|mode| {
+                let mut ctx = base_ctx.clone();
+                ctx.insert(mode_set.name.clone(), mode.clone());
+                self.resolve_relationship_ref_in_context(legacy_key, &ctx)
+                    .map(|r| r.raw["value"].clone())
+            })
+            .collect();
+        resolved.windows(2).any(|w| w[0] != w[1])
+    }
+
     /// Resolve a concept-level UUID to the context-appropriate child record.
     ///
     /// Picks the child from `concept_id_index` whose name-object fields best match
@@ -3513,6 +3541,77 @@ mod tests {
             &contrast_axis,
             &base_color_scheme_default
         ));
+    }
+
+    #[test]
+    fn diverges_on_axis_reports_mode_group_membership() {
+        // AC: a light!=dark color token reports true on colorScheme, false
+        // on scale; a scale-invariant token reports false on colorScheme.
+        let color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "light".to_string(),
+        };
+        let scale = ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["medium".to_string(), "large".to_string()],
+            default_mode: "medium".to_string(),
+        };
+
+        let g = cascade_graph_from(json!([]))
+            .with_mode_sets(vec![color_scheme.clone(), scale.clone()])
+            .with_relationships(vec![
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/color-token.json"),
+                    index: 0,
+                    uuid: Some("99999999-0000-0000-0000-000000000001".to_string()),
+                    raw: json!({
+                        "scope": {"options": {}},
+                        "legacyKey": "color-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "light-value"
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/color-token.json"),
+                    index: 1,
+                    uuid: Some("99999999-0000-0000-0000-000000000002".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "dark"}},
+                        "legacyKey": "color-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "dark-value"
+                    }),
+                },
+                // scale-invariant: no per-scale relationship sibling exists,
+                // so both scale modes resolve to the same base record.
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/scale-invariant-token.json"),
+                    index: 0,
+                    uuid: Some("99999999-0000-0000-0000-000000000003".to_string()),
+                    raw: json!({
+                        "scope": {"options": {}},
+                        "legacyKey": "scale-invariant-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "same-everywhere"
+                    }),
+                },
+            ]);
+
+        assert!(
+            g.diverges_on_axis("color-token", &color_scheme),
+            "color-token differs light vs dark"
+        );
+        assert!(
+            !g.diverges_on_axis("color-token", &scale),
+            "color-token doesn't vary by scale"
+        );
+        assert!(
+            !g.diverges_on_axis("scale-invariant-token", &color_scheme),
+            "scale-invariant-token resolves the same in light and dark"
+        );
     }
 
     #[test]
