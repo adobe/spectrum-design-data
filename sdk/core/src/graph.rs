@@ -1039,11 +1039,21 @@ impl TokenGraph {
             }
         }
 
-        // 7b. extensions.modeSets — platform-local mode-set declarations,
-        // add-or-replace by name into `self.mode_sets`. New name = a clean new
-        // platform axis; existing name = the platform's version replaces it for
-        // this platform's resolution only (declare-or-replace, mirrors
-        // extensions.fields above). Cascade specificity/matching and SPEC-005
+        // 7b. extensions.modeSets — platform-local mode-set declarations and
+        // edits, keyed by "op" (mirrors extensions.relationships' add/override/
+        // remove grammar):
+        //   - no "op": add-or-replace the whole set by name (unchanged
+        //     behavior). New name = a clean new platform axis; existing name =
+        //     the platform's version replaces it for this platform's
+        //     resolution only — the foundation catalog is untouched.
+        //   - "op": "addMode" / "removeMode" — add or drop a single mode value
+        //     on an existing set, without restating its other modes.
+        //   - "op": "setDefault" — change an existing set's default mode.
+        //   - "op": "remove" — drop the whole set from this platform's
+        //     resolution.
+        // Every op but the plain add targets an existing set by "name" and is
+        // rejected (not silently skipped) when the target, or an op-specific
+        // field, is missing. Cascade specificity/matching and SPEC-005
         // (default ∈ modes) already operate on `graph.mode_sets` generically —
         // no changes needed there.
         if let Some(entries) = manifest
@@ -1052,26 +1062,213 @@ impl TokenGraph {
             .and_then(|v| v.as_array())
         {
             for entry in entries {
-                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
-                    continue;
+                // An "op" key present but not a string (e.g. a number or bool) must
+                // not silently fall through to the plain-add path below — that would
+                // treat a malformed op entry as an untargeted add and drop it via the
+                // add path's own missing-modes/default `continue`, defeating the
+                // "reject rather than silently skip" guarantee for ops.
+                if let Some(op_value) = entry.get("op") {
+                    if op_value.as_str().is_none() {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets entry has a non-string \
+                             \"op\" ({op_value})"
+                        )));
+                    }
+                }
+                let op = entry.get("op").and_then(|v| v.as_str());
+                // Every op (unlike the plain add below) targets an existing set by
+                // "name", so a missing "name" here is a manifest error, not a skip.
+                let name = if op.is_some() {
+                    entry.get("name").and_then(|v| v.as_str()).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets \"{}\" entry is missing \
+                             a \"name\"",
+                            op.unwrap()
+                        ))
+                    })?
+                } else {
+                    let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                        continue;
+                    };
+                    name
                 };
-                let Some(modes) = entry.get("modes").and_then(|v| v.as_array()) else {
-                    continue;
-                };
-                let Some(default_mode) = entry.get("default").and_then(|v| v.as_str()) else {
-                    continue;
-                };
-                let modes: Vec<String> = modes
-                    .iter()
-                    .filter_map(|m| m.as_str().map(String::from))
-                    .collect();
-                let record = ModeSetRecord {
-                    file: PathBuf::from("manifest.json"),
-                    name: name.to_string(),
-                    modes,
-                    default_mode: default_mode.to_string(),
-                };
-                upsert_by_key(&mut self.mode_sets, |m| m.name == name, record);
+                match op {
+                    None => {
+                        let Some(modes) = entry.get("modes").and_then(|v| v.as_array()) else {
+                            continue;
+                        };
+                        let Some(default_mode) = entry.get("default").and_then(|v| v.as_str())
+                        else {
+                            continue;
+                        };
+                        let modes: Vec<String> = modes
+                            .iter()
+                            .filter_map(|m| m.as_str().map(String::from))
+                            .collect();
+                        let record = ModeSetRecord {
+                            file: PathBuf::from("manifest.json"),
+                            name: name.to_string(),
+                            modes,
+                            default_mode: default_mode.to_string(),
+                        };
+                        upsert_by_key(&mut self.mode_sets, |m| m.name == name, record);
+                    }
+                    Some("addMode") => {
+                        let mode = entry.get("mode").and_then(|v| v.as_str()).ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets addMode for \"{name}\" \
+                                 is missing a \"mode\""
+                            ))
+                        })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets addMode targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if target.modes.iter().any(|m| m == mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets addMode for \"{name}\" \
+                                 mode \"{mode}\" already exists"
+                            )));
+                        }
+                        target.modes.push(mode.to_string());
+                    }
+                    Some("removeMode") => {
+                        let mode = entry.get("mode").and_then(|v| v.as_str()).ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 is missing a \"mode\""
+                            ))
+                        })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets removeMode targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if !target.modes.iter().any(|m| m == mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 mode \"{mode}\" does not exist"
+                            )));
+                        }
+                        if target.default_mode == mode {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove \"{mode}\" — it is the current default (use \
+                                 \"setDefault\" first)"
+                            )));
+                        }
+                        if target.modes.len() == 1 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove its only remaining mode \"{mode}\""
+                            )));
+                        }
+                        // Guard against orphaning tokens authored against this mode value:
+                        // cascade matching never validates a token's mode value against the
+                        // set's remaining `modes`, so a stale "mode" reference would keep
+                        // matching (and could even outrank the default by specificity).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .and_then(|o| o.get(name))
+                                    .and_then(|v| v.as_str())
+                                    == Some(mode)
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove \"{mode}\" — still referenced by {referenced} \
+                                 token(s); update or remove those tokens first"
+                            )));
+                        }
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .expect("existence already checked above");
+                        target.modes.retain(|m| m != mode);
+                    }
+                    Some("setDefault") => {
+                        let default_mode = entry
+                            .get("default")
+                            .and_then(|v| v.as_str())
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets setDefault for \
+                                     \"{name}\" is missing a \"default\""
+                                ))
+                            })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets setDefault targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if !target.modes.iter().any(|m| m == default_mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets setDefault for \"{name}\" \
+                                 default \"{default_mode}\" is not in its modes"
+                            )));
+                        }
+                        target.default_mode = default_mode.to_string();
+                    }
+                    Some("remove") => {
+                        if !self.mode_sets.iter().any(|m| m.name == name) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets remove targets mode set \
+                                 \"{name}\" which does not exist"
+                            )));
+                        }
+                        // Same guard as removeMode: dropping the whole set while tokens
+                        // still carry this mode-set key would orphan them for cascade
+                        // matching (which never validates against the mode-set catalog).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .is_some_and(|o| o.contains_key(name))
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets remove targets mode set \
+                                 \"{name}\" which is still referenced by {referenced} token(s); \
+                                 update or remove those tokens first"
+                            )));
+                        }
+                        self.mode_sets.retain(|m| m.name != name);
+                    }
+                    Some(other) => {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets entry has unknown op \
+                             \"{other}\" (expected \"addMode\", \"removeMode\", \"setDefault\", \
+                             or \"remove\", or omit \"op\" to add/replace the whole set)"
+                        )));
+                    }
+                }
             }
         }
 
@@ -2644,6 +2841,302 @@ mod tests {
         let base_ctx = ResolutionContext::new().with("interfaceLevel", "base");
         let base_winner = resolve(&g, &base_ctx).expect("should find a winner");
         assert_eq!(base_winner.uuid.as_deref(), Some("u-btn-bg"));
+    }
+
+    fn scale_mode_set() -> ModeSetRecord {
+        ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            default_mode: "desktop".to_string(),
+        }
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_appends_without_restating_others() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let scale = g.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
+        assert_eq!(scale.default_mode, "desktop");
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_duplicate_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "mobile"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_missing_target_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_drops_a_non_default_value() {
+        let mut g = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec![
+                "light".to_string(),
+                "dark".to_string(),
+                "wireframe".to_string(),
+            ],
+            default_mode: "light".to_string(),
+        }]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "colorScheme", "op": "removeMode", "mode": "wireframe"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let cs = g
+            .mode_sets
+            .iter()
+            .find(|m| m.name == "colorScheme")
+            .unwrap();
+        assert_eq!(cs.modes, vec!["light", "dark"]);
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_of_current_default_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "removeMode", "mode": "desktop"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_last_remaining_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-sets/single.json"),
+            name: "single".to_string(),
+            modes: vec!["only".to_string()],
+            default_mode: "only".to_string(),
+        }]);
+        // Retarget the default first so the "current default" guard doesn't
+        // fire before the "last remaining mode" guard is exercised.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "single", "op": "addMode", "mode": "other"},
+                    {"name": "single", "op": "setDefault", "default": "other"},
+                    {"name": "single", "op": "removeMode", "mode": "only"},
+                    {"name": "single", "op": "removeMode", "mode": "other"}
+                ]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_set_default_retargets() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "scale", "op": "addMode", "mode": "tv"},
+                    {"name": "scale", "op": "setDefault", "default": "tv"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let scale = g.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.default_mode, "tv");
+    }
+
+    #[test]
+    fn manifest_mode_set_set_default_to_nonmember_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "setDefault", "default": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_drops_the_whole_set() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        assert!(!g.mode_sets.iter().any(|m| m.name == "scale"));
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_missing_target_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_unknown_op_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "bogus"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_with_non_string_op_errors() {
+        // A non-string "op" (e.g. a number) must not silently fall through to the
+        // plain add/replace path and be dropped there — it's a manifest error.
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": 1}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_missing_name_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"op": "addMode", "mode": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_still_referenced_errors() {
+        // A token authored against "scale": "mobile" must block removeMode from
+        // dropping "mobile" — cascade matching never checks a token's mode value
+        // against the mode set's remaining `modes`, so an orphaned reference would
+        // keep matching (spectrum-design-data reviewer finding).
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "removeMode", "mode": "mobile"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_still_referenced_errors() {
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_then_resolves_via_cascade() {
+        use crate::cascade::{resolve, ResolutionContext};
+
+        let mut g = TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"}),
+            ),
+            (
+                "btn-bg-tv".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button", "scale": "tv"}, "value": "#ccc", "uuid": "u-btn-bg-tv"}),
+            ),
+        ])
+        .with_mode_sets(vec![scale_mode_set()]);
+
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let tv_ctx = ResolutionContext::new().with("scale", "tv");
+        let tv_winner = resolve(&g, &tv_ctx).expect("should find a winner");
+        assert_eq!(tv_winner.uuid.as_deref(), Some("u-btn-bg-tv"));
+
+        let desktop_ctx = ResolutionContext::new().with("scale", "desktop");
+        let desktop_winner = resolve(&g, &desktop_ctx).expect("should find a winner");
+        assert_eq!(desktop_winner.uuid.as_deref(), Some("u-btn-bg"));
     }
 
     #[test]

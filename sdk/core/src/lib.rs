@@ -1259,6 +1259,50 @@ mod manifest_extensions_behavior {
                         }
                     }
                 }
+                if let Some(absent) = expected
+                    .get(key)
+                    .and_then(|c| c.get("absent"))
+                    .and_then(|v| v.as_array())
+                {
+                    for name in absent.iter().filter_map(|v| v.as_str()) {
+                        if records_len.iter().any(|n| n.as_str() == name) {
+                            failures.push(format!(
+                                "{case}: expected no {key} named {name:?}, but found one"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(mode_sets) = expected.get("modeSets") {
+                if let Some(modes) = mode_sets.get("modes").and_then(|v| v.as_object()) {
+                    for (name, want) in modes {
+                        let Some(record) = graph.mode_sets.iter().find(|m| &m.name == name) else {
+                            failures.push(format!(
+                                "{case}: expected mode set {name:?} present to check modes/default"
+                            ));
+                            continue;
+                        };
+                        if let Some(want_modes) = want.get("modes").and_then(|v| v.as_array()) {
+                            let want_modes: Vec<&str> =
+                                want_modes.iter().filter_map(|v| v.as_str()).collect();
+                            if record.modes != want_modes {
+                                failures.push(format!(
+                                    "{case}: mode set {name:?} expected modes {want_modes:?}, got {:?}",
+                                    record.modes
+                                ));
+                            }
+                        }
+                        if let Some(want_default) = want.get("default").and_then(|v| v.as_str()) {
+                            if record.default_mode != want_default {
+                                failures.push(format!(
+                                    "{case}: mode set {name:?} expected default {want_default:?}, got {:?}",
+                                    record.default_mode
+                                ));
+                            }
+                        }
+                    }
+                }
             }
 
             if let Some(order) = expected
