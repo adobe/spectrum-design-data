@@ -89,10 +89,17 @@ runs:
         set -euo pipefail
         version="${{ inputs.cli-version }}"
         if [[ "$version" == "latest" ]]; then
+          # --limit 1000: other packages in this repo release far more often
+          # than the CLI, so a small limit can scroll design-data-cli's tag
+          # off the window and silently resolve to an empty version.
           version=$(gh release list --repo adobe/spectrum-design-data \
-            --limit 50 --json tagName \
+            --limit 1000 --json tagName \
             --jq '.[].tagName | select(startswith("design-data-cli@"))' \
             | sed 's/^design-data-cli@//' | sort -V | tail -1)
+          if [[ -z "$version" ]]; then
+            echo "::error::could not find a design-data-cli@* release tag" >&2
+            exit 1
+          fi
         fi
         tag="design-data-cli@${version}"
         mkdir -p "$RUNNER_TEMP/design-data-cli"
