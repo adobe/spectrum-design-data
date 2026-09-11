@@ -1,0 +1,8 @@
+{
+  "modeSets": {
+    "present": ["scale"],
+    "modes": {
+      "scale": { "modes": ["desktop", "mobile", "tv"], "default": "desktop" }
+    }
+  }
+}

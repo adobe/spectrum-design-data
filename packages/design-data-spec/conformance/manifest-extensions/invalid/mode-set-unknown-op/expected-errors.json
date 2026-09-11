@@ -1,0 +1,6 @@
+{
+  "errors": [
+    { "message_pattern": "unknown op" },
+    { "message_pattern": "\"bogus\"" }
+  ]
+}

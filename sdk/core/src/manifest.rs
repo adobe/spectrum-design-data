@@ -32,12 +32,12 @@ use crate::CoreError;
 /// [`FragmentValidation::Item`]) — this is what stops an entry missing e.g.
 /// "name" from silently vanishing in `apply_platform_manifest`'s own
 /// `let Some(name) = ... else { continue }`, by failing loudly here instead.
-/// `tokens/` and `relationships/` have their own handling below and aren't here.
+/// `tokens/`, `relationships/`, and `mode-sets/` have their own handling below
+/// and aren't here.
 const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
     ("components", "components", "component.schema.json"),
     ("fields", "fields", "field.schema.json"),
     ("guidelines", "guidelines", "guideline.schema.json"),
-    ("mode-sets", "modeSets", "mode-set.schema.json"),
     (
         "platform-extensions",
         "platformExtensions",
@@ -155,13 +155,14 @@ fn build_extensions_value(
         return Ok(None);
     }
 
-    // "tokens" and "relationships" have their own handling below (not in
-    // CONCAT_CATEGORIES); every other recognized subdirectory is one of
+    // "tokens", "relationships", and "mode-sets" have their own handling below
+    // (not in CONCAT_CATEGORIES); every other recognized subdirectory is one of
     // CONCAT_CATEGORIES's entries, so derive the allowlist from there rather
     // than duplicating the category list a second time.
     let known_subdirs: Vec<&str> = std::iter::once("tokens")
         .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
         .chain(std::iter::once("relationships"))
+        .chain(std::iter::once("mode-sets"))
         .collect();
     for entry in std::fs::read_dir(&ext_root)? {
         let entry = entry?;
@@ -237,6 +238,25 @@ fn build_extensions_value(
         }
     }
 
+    // mode-sets/ — plain adds (no "op") must precede addMode/removeMode/
+    // setDefault/remove ops, so that an op in a later-sorted file can still
+    // target an add from an earlier one; `apply_platform_manifest` processes
+    // this array strictly in order. Partition is stable: within each group,
+    // sorted-path order is kept.
+    let mode_sets_dir = ext_root.join("mode-sets");
+    if mode_sets_dir.is_dir() {
+        let items = load_and_concat(
+            &discover_json_files(&mode_sets_dir)?,
+            FragmentValidation::ModeSetAdds(&schema_dir.join("mode-set.schema.json")),
+        )?;
+        if !items.is_empty() {
+            let (mut adds, ops): (Vec<Value>, Vec<Value>) =
+                items.into_iter().partition(|v| v.get("op").is_none());
+            adds.extend(ops);
+            out.insert("modeSets".to_string(), Value::Array(adds));
+        }
+    }
+
     Ok((!out.is_empty()).then_some(Value::Object(out)))
 }
 
@@ -256,6 +276,12 @@ enum FragmentValidation<'a> {
     /// only models plain add/ref shapes — and are left to
     /// `apply_platform_manifest`'s own override/remove structural checks.
     RelationshipAdds(&'a Path),
+    /// `mode-sets/`: each flattened entry *without* an `"op"` key (a plain
+    /// whole-set add/replace) is validated against `mode-set.schema.json`.
+    /// Entries with `"op"` (`addMode`/`removeMode`/`setDefault`/`remove`) have
+    /// no schema of their own and are left to `apply_platform_manifest`'s own
+    /// op-specific structural checks.
+    ModeSetAdds(&'a Path),
 }
 
 /// Read and parse each file in `files`, flattening top-level arrays (cascade
@@ -309,6 +335,16 @@ fn load_and_concat(
                 for item in &items {
                     if item.get("op").is_none() {
                         check_fragment(f, &Value::Array(vec![item.clone()]), schema)?;
+                    }
+                }
+            }
+            FragmentValidation::ModeSetAdds(schema) => {
+                // mode-set.schema.json's top level is a single object (unlike
+                // relationship.schema.json), so each plain-add entry validates
+                // directly, unwrapped.
+                for item in &items {
+                    if item.get("op").is_none() {
+                        check_fragment(f, item, schema)?;
                     }
                 }
             }
@@ -555,6 +591,68 @@ mod tests {
             .expect("manifest-declared mode set present");
         assert_eq!(declared.modes, vec!["base", "elevated"]);
         assert_eq!(declared.default_mode, "base");
+    }
+
+    #[test]
+    fn extensions_mode_sets_op_only_fragment_is_not_schema_rejected() {
+        // An op entry (no `modes`/`default`) would fail mode-set.schema.json's
+        // `required` check if it were validated like a plain add — it must be
+        // skipped by FragmentValidation::ModeSetAdds, not rejected.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "mode-sets",
+                "scale-tv.json",
+                json!({"name": "scale", "op": "addMode", "mode": "tv"}),
+            )],
+        );
+
+        let mut graph = make_graph();
+        graph = graph.with_mode_sets(vec![crate::graph::ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            default_mode: "desktop".to_string(),
+        }]);
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let scale = graph.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
+    }
+
+    #[test]
+    fn extensions_mode_sets_plain_adds_precede_ops_regardless_of_file_order() {
+        // "addMode.json" sorts before "scale.json" by filename, but the plain
+        // add for "scale" must still be applied before the op targeting it —
+        // load_and_concat's partition (adds before ops) must win over
+        // discovery's sorted-path order.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[
+                (
+                    "mode-sets",
+                    "addMode.json",
+                    json!({"name": "scale", "op": "addMode", "mode": "tv"}),
+                ),
+                (
+                    "mode-sets",
+                    "scale.json",
+                    json!({"name": "scale", "modes": ["desktop", "mobile"], "default": "desktop"}),
+                ),
+            ],
+        );
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let scale = graph.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
     }
 
     #[cfg(unix)]
