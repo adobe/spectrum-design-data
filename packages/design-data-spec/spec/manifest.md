@@ -163,12 +163,15 @@ relationships) — every entry, add or op alike, identifies its target by `name`
   contain `mode`; either condition failing is a manifest error.
 * **`"op": "removeMode"`** — drops one mode value (`mode`) from an existing set. **NORMATIVE:** the
   target MUST exist, MUST contain `mode`, `mode` MUST NOT be the set's current default (retarget the
-  default first with `setDefault`), and the set MUST have more than one mode remaining afterward —
-  each violation is a manifest error.
+  default first with `setDefault`), the set MUST have more than one mode remaining afterward, and no
+  token in the resolved graph MAY still carry `mode` as that mode set's value — each violation is a
+  manifest error. (This mirrors the reference SDK's authoring-time `remove_mode` guard, which checks
+  the same "still referenced" condition against cascade token files.)
 * **`"op": "setDefault"`** — retargets an existing set's default mode (`default`). **NORMATIVE:**
   the target MUST exist and `default` MUST already be one of its modes.
 * **`"op": "remove"`** — drops the whole set (by `name`) from this platform's resolution.
-  **NORMATIVE:** the target MUST exist.
+  **NORMATIVE:** the target MUST exist, and no token in the resolved graph MAY still carry this mode
+  set's `name` as a key — either violation is a manifest error.
 
 Add/replace entries are applied before op entries, regardless of file sort order, so a set declared
 in one file can be edited by an op in another file within the same `extensions/mode-sets/`

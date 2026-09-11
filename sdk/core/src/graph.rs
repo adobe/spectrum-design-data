@@ -1062,10 +1062,37 @@ impl TokenGraph {
             .and_then(|v| v.as_array())
         {
             for entry in entries {
-                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
-                    continue;
+                // An "op" key present but not a string (e.g. a number or bool) must
+                // not silently fall through to the plain-add path below — that would
+                // treat a malformed op entry as an untargeted add and drop it via the
+                // add path's own missing-modes/default `continue`, defeating the
+                // "reject rather than silently skip" guarantee for ops.
+                if let Some(op_value) = entry.get("op") {
+                    if op_value.as_str().is_none() {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets entry has a non-string \
+                             \"op\" ({op_value})"
+                        )));
+                    }
+                }
+                let op = entry.get("op").and_then(|v| v.as_str());
+                // Every op (unlike the plain add below) targets an existing set by
+                // "name", so a missing "name" here is a manifest error, not a skip.
+                let name = if op.is_some() {
+                    entry.get("name").and_then(|v| v.as_str()).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets \"{}\" entry is missing \
+                             a \"name\"",
+                            op.unwrap()
+                        ))
+                    })?
+                } else {
+                    let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                        continue;
+                    };
+                    name
                 };
-                match entry.get("op").and_then(|v| v.as_str()) {
+                match op {
                     None => {
                         let Some(modes) = entry.get("modes").and_then(|v| v.as_array()) else {
                             continue;
@@ -1147,6 +1174,34 @@ impl TokenGraph {
                                  cannot remove its only remaining mode \"{mode}\""
                             )));
                         }
+                        // Guard against orphaning tokens authored against this mode value:
+                        // cascade matching never validates a token's mode value against the
+                        // set's remaining `modes`, so a stale "mode" reference would keep
+                        // matching (and could even outrank the default by specificity).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .and_then(|o| o.get(name))
+                                    .and_then(|v| v.as_str())
+                                    == Some(mode)
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove \"{mode}\" — still referenced by {referenced} \
+                                 token(s); update or remove those tokens first"
+                            )));
+                        }
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .expect("existence already checked above");
                         target.modes.retain(|m| m != mode);
                     }
                     Some("setDefault") => {
@@ -1178,14 +1233,33 @@ impl TokenGraph {
                         target.default_mode = default_mode.to_string();
                     }
                     Some("remove") => {
-                        let before = self.mode_sets.len();
-                        self.mode_sets.retain(|m| m.name != name);
-                        if self.mode_sets.len() == before {
+                        if !self.mode_sets.iter().any(|m| m.name == name) {
                             return Err(CoreError::ParseError(format!(
                                 "platform manifest extensions.modeSets remove targets mode set \
                                  \"{name}\" which does not exist"
                             )));
                         }
+                        // Same guard as removeMode: dropping the whole set while tokens
+                        // still carry this mode-set key would orphan them for cascade
+                        // matching (which never validates against the mode-set catalog).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .is_some_and(|o| o.contains_key(name))
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets remove targets mode set \
+                                 \"{name}\" which is still referenced by {referenced} token(s); \
+                                 update or remove those tokens first"
+                            )));
+                        }
+                        self.mode_sets.retain(|m| m.name != name);
                     }
                     Some(other) => {
                         return Err(CoreError::ParseError(format!(
@@ -2956,6 +3030,74 @@ mod tests {
             "foundationVersion": "1.0.0",
             "extensions": {
                 "modeSets": [{"name": "scale", "op": "bogus"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_with_non_string_op_errors() {
+        // A non-string "op" (e.g. a number) must not silently fall through to the
+        // plain add/replace path and be dropped there — it's a manifest error.
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": 1}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_missing_name_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"op": "addMode", "mode": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_still_referenced_errors() {
+        // A token authored against "scale": "mobile" must block removeMode from
+        // dropping "mobile" — cascade matching never checks a token's mode value
+        // against the mode set's remaining `modes`, so an orphaned reference would
+        // keep matching (spectrum-design-data reviewer finding).
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "removeMode", "mode": "mobile"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_still_referenced_errors() {
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
             }
         });
         assert!(g.apply_platform_manifest(&manifest).is_err());
