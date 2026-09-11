@@ -112,6 +112,23 @@ mod naming {
         .prop_map(|o| o.map(|s| vec![s.to_string()]))
     }
 
+    /// Classify a sampled state word into (interaction_context, interaction),
+    /// mirroring `naming::INTERACTION_CONTEXT_WORDS`'s bucket split.
+    fn classify_state(state: &Option<Vec<String>>) -> (Option<Vec<String>>, Option<Vec<String>>) {
+        const INTERACTION_CONTEXT_WORDS: &[&str] = &["selected", "disabled", "loading"];
+        match state {
+            None => (None, None),
+            Some(v) => {
+                let s = &v[0];
+                if INTERACTION_CONTEXT_WORDS.contains(&s.as_str()) {
+                    (Some(v.clone()), None)
+                } else {
+                    (None, Some(v.clone()))
+                }
+            }
+        }
+    }
+
     // ── Properties ────────────────────────────────────────────────────────────
 
     proptest! {
@@ -133,10 +150,12 @@ mod naming {
                 component.as_ref().is_none_or(|c| !property.starts_with(c.as_str()))
             );
 
+            let (interaction_context, interaction) = classify_state(&state);
             let obj = NameObject {
                 property: property.clone(),
                 component: component.clone(),
-                state: state.clone(),
+                interaction_context: interaction_context.clone(),
+                interaction: interaction.clone(),
                 variant: None,
             };
             let key = generate_legacy_name(&obj);
@@ -151,11 +170,13 @@ mod naming {
                 "component should survive roundtrip"
             );
             prop_assert!(
-                parsed.state == state,
-                "state should survive roundtrip; key={} parsed_state={:?} expected={:?}",
+                parsed.interaction_context == interaction_context && parsed.interaction == interaction,
+                "state should survive roundtrip; key={} parsed={:?}/{:?} expected={:?}/{:?}",
                 key,
-                parsed.state,
-                state
+                parsed.interaction_context,
+                parsed.interaction,
+                interaction_context,
+                interaction
             );
         }
 
@@ -168,14 +189,15 @@ mod naming {
             component in optional_component(),
             state in optional_state(),
         ) {
-            let obj = NameObject { property, component, state, variant: None };
+            let (interaction_context, interaction) = classify_state(&state);
+            let obj = NameObject { property, component, interaction_context, interaction, variant: None };
             prop_assert!(!generate_legacy_name(&obj).is_empty());
         }
 
         /// `generate_legacy_name` output contains the property as a substring.
         #[test]
         fn generated_key_contains_property(property in safe_property()) {
-            let obj = NameObject { property: property.clone(), component: None, state: None, variant: None };
+            let obj = NameObject { property: property.clone(), component: None, interaction_context: None, interaction: None, variant: None };
             let key = generate_legacy_name(&obj);
             prop_assert!(
                 key.contains(&property),
@@ -186,7 +208,7 @@ mod naming {
         /// `generate_legacy_name` with no component or state equals the property.
         #[test]
         fn generate_bare_property_is_identity(property in safe_property()) {
-            let obj = NameObject { property: property.clone(), component: None, state: None, variant: None };
+            let obj = NameObject { property: property.clone(), component: None, interaction_context: None, interaction: None, variant: None };
             prop_assert_eq!(generate_legacy_name(&obj), property);
         }
     }

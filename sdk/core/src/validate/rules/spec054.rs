@@ -10,10 +10,10 @@
 
 //! SPEC-054: ctr-state-valid
 //!
-//! A CTR's `scope.options.state` array elements MUST match the `name` of a
-//! declared state on the referenced component (when state declarations are
-//! present). Mirrors SPEC-022 (component-state-valid) for the CTR scope
-//! object.
+//! A CTR's `scope.options.interaction`/`scope.options.interaction-context` array
+//! elements MUST match the `name` of a declared state on the referenced
+//! component (when state declarations are present). Mirrors SPEC-022
+//! (component-state-valid) for the CTR scope object.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -41,13 +41,17 @@ impl ValidationRule for Rule {
             let Some(component) = scope.get("component").and_then(|v| v.as_str()) else {
                 continue;
             };
-            let Some(states) = scope
-                .get("options")
-                .and_then(|o| o.get("state"))
-                .and_then(|v| v.as_array())
-            else {
+            let Some(options) = scope.get("options").and_then(|o| o.as_object()) else {
                 continue;
             };
+            let states: Vec<&str> = ["interaction", "interaction-context"]
+                .iter()
+                .filter_map(|field| options.get(*field).and_then(|v| v.as_array()))
+                .flat_map(|arr| arr.iter().filter_map(|s| s.as_str()))
+                .collect();
+            if states.is_empty() {
+                continue;
+            }
             let Some(comp) = comp_map.get(component) else {
                 continue; // SPEC-051 covers undeclared component
             };
@@ -68,7 +72,7 @@ impl ValidationRule for Rule {
             }
 
             let rel_label = serde_json::to_string(scope).unwrap_or_default();
-            for state in states.iter().filter_map(|s| s.as_str()) {
+            for state in states {
                 if !declared_states.contains(state) {
                     out.push(Diagnostic {
                         file: rel.file.clone(),
@@ -142,7 +146,7 @@ mod tests {
     #[test]
     fn declared_state_no_error() {
         let diags = run(
-            json!({"scope": {"component": "button", "property": "color", "options": {"state": ["hover"]}}, "value": "#fff"}),
+            json!({"scope": {"component": "button", "property": "color", "options": {"interaction": ["hover"]}}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
@@ -151,7 +155,7 @@ mod tests {
     #[test]
     fn undeclared_state_error() {
         let diags = run(
-            json!({"scope": {"component": "button", "property": "color", "options": {"state": ["jello"]}}, "value": "#fff"}),
+            json!({"scope": {"component": "button", "property": "color", "options": {"interaction": ["jello"]}}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert_eq!(diags.len(), 1);
@@ -163,7 +167,7 @@ mod tests {
     #[test]
     fn no_states_declared_no_error() {
         let diags = run(
-            json!({"scope": {"component": "button", "property": "color", "options": {"state": ["anything"]}}, "value": "#fff"}),
+            json!({"scope": {"component": "button", "property": "color", "options": {"interaction": ["anything"]}}, "value": "#fff"}),
             json!({"name": "button"}),
         );
         assert!(diags.is_empty());
@@ -172,7 +176,7 @@ mod tests {
     #[test]
     fn missing_component_skipped() {
         let diags = run(
-            json!({"scope": {"component": "missing", "property": "color", "options": {"state": ["hover"]}}, "value": "#fff"}),
+            json!({"scope": {"component": "missing", "property": "color", "options": {"interaction": ["hover"]}}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());

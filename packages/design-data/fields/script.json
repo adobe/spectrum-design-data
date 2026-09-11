@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/scripts.json",
   "validation": "advisory",
   "serialization": {
-    "position": 6
+    "position": 9
   },
   "scope": "typography",
   "required": false,

@@ -9,16 +9,6 @@
       "description": "Text or foreground color"
     },
     {
-      "id": "background-color",
-      "label": "Background Color",
-      "description": "Background fill color"
-    },
-    {
-      "id": "border-color",
-      "label": "Border Color",
-      "description": "Border or outline color"
-    },
-    {
       "id": "fill-color",
       "label": "Fill Color",
       "description": "SVG or icon fill color"
@@ -149,11 +139,6 @@
       "description": "Border or stroke thickness"
     },
     {
-      "id": "corner-radius",
-      "label": "Corner Radius",
-      "description": "Corner rounding radius"
-    },
-    {
       "id": "rounding-increment",
       "label": "Rounding Increment",
       "description": "Step size added to a ring or ring-like anatomy's corner rounding per nesting level"
@@ -172,11 +157,6 @@
       "id": "shadow",
       "label": "Shadow",
       "description": "Full box or drop shadow definition"
-    },
-    {
-      "id": "font-size",
-      "label": "Font Size",
-      "description": "Typeface size"
     },
     {
       "id": "font-weight",
@@ -347,6 +327,41 @@
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "length",
+      "label": "Length",
+      "description": "General linear dimension (e.g. dash length)"
+    },
+    {
+      "id": "offset",
+      "label": "Offset",
+      "description": "Positional offset along an axis (e.g. drop-shadow offset)"
+    },
+    {
+      "id": "angle",
+      "label": "Angle",
+      "description": "Rotational or directional angle (e.g. gradient angle)"
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Discrete step or increment value"
+    },
+    {
+      "id": "radius",
+      "label": "Radius",
+      "description": "Corner rounding radius (used with attribute=corner)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Width-to-height ratio constraint"
+    },
+    {
+      "id": "stop",
+      "label": "Stop",
+      "description": "Gradient stop position (used with attribute=gradient)"
     }
   ]
 }

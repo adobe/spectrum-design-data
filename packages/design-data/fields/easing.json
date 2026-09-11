@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/easing-curves.json",
   "validation": "advisory",
   "serialization": {
-    "position": 24
+    "position": 27
   },
   "scope": "motion",
   "required": false,

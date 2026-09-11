@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "interaction",
+  "description": "Transient, runtime interaction states.",
+  "allowCustom": true,
+  "customPattern": "^[a-z][a-z0-9-]*$",
+  "values": [
+    {
+      "id": "default",
+      "label": "Default",
+      "description": "The default, resting state of a component",
+      "default": true
+    },
+    {
+      "id": "hover",
+      "label": "Hover",
+      "description": "Pointer positioned over a component's interactive area without pressing"
+    },
+    {
+      "id": "down",
+      "label": "Down",
+      "description": "Pressed or down state (pointer button down)"
+    },
+    {
+      "id": "drag",
+      "label": "Drag",
+      "description": "Being dragged, or acting as a drag target"
+    },
+    {
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focused state, including keyboard-navigated focus"
+    }
+  ]
+}

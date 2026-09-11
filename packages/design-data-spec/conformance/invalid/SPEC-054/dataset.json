@@ -4,7 +4,7 @@
       "scope": {
         "component": "button",
         "property": "background-color",
-        "options": { "state": ["jello"] }
+        "options": { "interaction": ["jello"] }
       },
       "value": "#ff0000"
     }

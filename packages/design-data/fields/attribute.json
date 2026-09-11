@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "attribute",
+  "description": "Sub-quality of a property being defined (e.g. background/border/corner/overlay in combination with the `color`, `radius`, or `opacity` property). Used together with `property` to express compound style concepts without overloading the property vocabulary.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/attributes.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 8
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

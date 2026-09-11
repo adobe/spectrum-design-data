@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "affordance",
+  "description": "UI affordance that visually distinguishes a specific behavior, used stylistically across multiple components (e.g. a focus ring, a drag handle). Distinct from anatomy, which is a component-specific named part.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/affordances.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 7
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "string"
+}

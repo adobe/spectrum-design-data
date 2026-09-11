@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/structures.json",
   "validation": "advisory",
   "serialization": {
-    "position": 2
+    "position": 4
   },
   "scope": null,
   "required": false,

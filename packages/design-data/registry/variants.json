@@ -201,27 +201,6 @@
       "usedIn": ["tokens"]
     },
     {
-      "id": "subtle",
-      "label": "Subtle",
-      "description": "Reduced emphasis variant for less prominent surfaces",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "subdued",
-      "label": "Subdued",
-      "description": "Lower emphasis variant for quieter backgrounds",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "emphasized",
-      "label": "Emphasized",
-      "description": "Elevated emphasis variant for prominent surfaces (e.g. drop shadows)",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
       "id": "hero",
       "label": "Hero",
       "description": "Large featured-card layout variant with maximized visual prominence",

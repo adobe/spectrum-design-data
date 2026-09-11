@@ -115,7 +115,7 @@ pub struct CachedDataset {
 
 /// Bump when the on-disk schema or value encoding changes, to invalidate caches
 /// written by older binaries (in addition to the tokens-version namespace).
-const CACHE_SCHEMA_VERSION: u32 = 4;
+const CACHE_SCHEMA_VERSION: u32 = 5;
 
 const META: TableDefinition<&str, &[u8]> = TableDefinition::new("meta");
 const TOKENS: TableDefinition<&str, &[u8]> = TableDefinition::new("tokens");
@@ -131,7 +131,10 @@ const IDX_COMPONENT: MultimapTableDefinition<&str, &str> =
     MultimapTableDefinition::new("idx_component");
 const IDX_VARIANT: MultimapTableDefinition<&str, &str> =
     MultimapTableDefinition::new("idx_variant");
-const IDX_STATE: MultimapTableDefinition<&str, &str> = MultimapTableDefinition::new("idx_state");
+const IDX_INTERACTION: MultimapTableDefinition<&str, &str> =
+    MultimapTableDefinition::new("idx_interaction");
+const IDX_INTERACTION_CONTEXT: MultimapTableDefinition<&str, &str> =
+    MultimapTableDefinition::new("idx_interaction-context");
 const IDX_COLOR_SCHEME: MultimapTableDefinition<&str, &str> =
     MultimapTableDefinition::new("idx_colorScheme");
 const IDX_SCALE: MultimapTableDefinition<&str, &str> = MultimapTableDefinition::new("idx_scale");
@@ -148,7 +151,8 @@ fn index_table(
         "property" => IDX_PROPERTY,
         "component" => IDX_COMPONENT,
         "variant" => IDX_VARIANT,
-        "state" => IDX_STATE,
+        "interaction" => IDX_INTERACTION,
+        "interaction-context" => IDX_INTERACTION_CONTEXT,
         "colorScheme" => IDX_COLOR_SCHEME,
         "scale" => IDX_SCALE,
         "contrast" => IDX_CONTRAST,

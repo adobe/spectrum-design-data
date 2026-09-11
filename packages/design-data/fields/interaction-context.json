@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "interaction-context",
+  "description": "Persistent, prop-driven state (e.g. selected, disabled, loading), as an ordered array of atomic ids. Distinct from interaction, which carries transient runtime interaction states.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/interaction-contexts.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 18
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "array"
+}

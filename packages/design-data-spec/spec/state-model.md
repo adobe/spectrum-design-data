@@ -10,7 +10,7 @@ Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.c
 
 A **component state** is a named condition under which a component's visual presentation differs from its baseline. States drive token resolution: when a component is in a given state, the design system selects tokens scoped to that state name rather than (or layered on top of) the baseline tokens.
 
-State names appear in the `state` field of token name objects, an ordered array of one or more atomic state ids (see [Token format — Name object](token-format.md#name-object) and [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md)). A token with `"state": ["hover"]` applies only when the component is in the `hover` state; `"state": ["selected", "hover"]` applies when both states are simultaneously active. For this cross-reference to be machine-enforceable, state declarations **MUST** be present on the component declaration.
+State names appear in one of two token name-object fields, each an ordered array of one or more atomic state ids (see [Token format — Name object](token-format.md#name-object) and [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md)): `interaction` for transient, interaction-triggered state names, and `interaction-context` for persistent, prop-triggered state names. A token with `"interaction": ["hover"]` applies only when the component is in the `hover` state; `"interaction-context": ["selected"], "interaction": ["hover"]` applies when both states are simultaneously active. For this cross-reference to be machine-enforceable, state declarations **MUST** be present on the component declaration. Both fields validate against the same shared `states[]` catalog on the component — the two-field split separates transient interaction from persistent context at the taxonomy level; it does not fork the underlying component vocabulary.
 
 States fall into two trigger types:
 
@@ -27,14 +27,14 @@ A state declaration is a **JSON object** that appears as an element of a compone
 
 ### Fields
 
-| Field         | Type    | Required | Description                                                                                                                                |
-| ------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`        | string  | REQUIRED | Kebab-case state identifier. **MUST** match the pattern `^[a-z][a-z0-9-]*$`. Used as the value of the `state` field in token name objects. |
-| `description` | string  | OPTIONAL | Plain-text description of the state's semantics and the conditions under which it is active.                                               |
-| `trigger`     | string  | OPTIONAL | `"prop"` for persistent prop-driven states; `"interaction"` for runtime interaction states. See [Trigger semantics](#trigger-semantics).   |
-| `precedence`  | integer | OPTIONAL | Resolution precedence; higher value wins when multiple non-layered states are active simultaneously. Defaults to `0` if omitted.           |
-| `layered`     | boolean | OPTIONAL | When `true`, this state composes on top of the winning non-layered state rather than competing with it. Default: `false`.                  |
-| `lifecycle`   | object  | OPTIONAL | Version lifecycle metadata for this state — see [lifecycle](#lifecycle).                                                                   |
+| Field         | Type    | Required | Description                                                                                                                                                                                          |
+| ------------- | ------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | string  | REQUIRED | Kebab-case state identifier. **MUST** match the pattern `^[a-z][a-z0-9-]*$`. Used as a value of the `interaction` or `interaction-context` field in token name objects (per this state's `trigger`). |
+| `description` | string  | OPTIONAL | Plain-text description of the state's semantics and the conditions under which it is active.                                                                                                         |
+| `trigger`     | string  | OPTIONAL | `"prop"` for persistent prop-driven states; `"interaction"` for runtime interaction states. See [Trigger semantics](#trigger-semantics).                                                             |
+| `precedence`  | integer | OPTIONAL | Resolution precedence; higher value wins when multiple non-layered states are active simultaneously. Defaults to `0` if omitted.                                                                     |
+| `layered`     | boolean | OPTIONAL | When `true`, this state composes on top of the winning non-layered state rather than competing with it. Default: `false`.                                                                            |
+| `lifecycle`   | object  | OPTIONAL | Version lifecycle metadata for this state — see [lifecycle](#lifecycle).                                                                                                                             |
 
 **NORMATIVE:** No properties beyond those listed above are permitted in a state declaration object. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -44,7 +44,7 @@ A state declaration is a **JSON object** that appears as an element of a compone
 
 **NORMATIVE:** `name` **MUST** be unique within the `states` array of a single component declaration. No two state declaration objects in the same component may share a `name` value.
 
-**NORMATIVE:** Token name-object `state` field values referencing a component **MUST** match the `name` of a declared state on that component, when state declarations are present (rule SPEC-022). An undeclared `state` value is a validation error.
+**NORMATIVE:** Token name-object `interaction`/`interaction-context` field values referencing a component **MUST** match the `name` of a declared state on that component, when state declarations are present (rule SPEC-022). An undeclared value is a validation error.
 
 ### `description`
 
@@ -87,7 +87,7 @@ Typical use: focus ring states (`focus`, `focus-visible`) that must be visible r
 | `deprecatedComment` | string | Human-readable explanation of the deprecation and migration path (e.g. `"Use active instead."`). |
 | `replacedBy`        | string | `name` of the replacement state.                                                                 |
 
-**ADVISORY:** When a state carries a `lifecycle.deprecated` value, non-deprecated tokens that reference this state via `name.state` **SHOULD** be updated to remove or replace the reference. Rule SPEC-037 fires an advisory warning for such references to prompt migration.
+**ADVISORY:** When a state carries a `lifecycle.deprecated` value, non-deprecated tokens that reference this state via `name.interaction` or `name.interaction-context` **SHOULD** be updated to remove or replace the reference. Rule SPEC-037 fires an advisory warning for such references to prompt migration.
 
 ## Trigger semantics
 
@@ -174,13 +174,13 @@ Custom state names are permitted. When a custom name is used, the state declarat
 
 ## Cross-reference with token name objects
 
-Token name objects use a `state` field to scope a token to a specific component state. The `state` field value must correspond to a state declared in the component's `states` array.
+Token name objects use `interaction` and `interaction-context` fields to scope a token to a specific component state — `interaction` for transient, interaction-triggered state names, `interaction-context` for persistent, prop-triggered state names. Values in either field must correspond to a state declared in the component's `states` array.
 
-**NORMATIVE:** A token name-object `state` field value **MUST** match the `name` of a declared state on the component identified by the token's `component` field, when state declarations are present on that component (rule SPEC-022). A `state` value that does not match any declared state name is a validation error.
+**NORMATIVE:** A token name-object `interaction`/`interaction-context` field value **MUST** match the `name` of a declared state on the component identified by the token's `component` field, when state declarations are present on that component (rule SPEC-022). A value that does not match any declared state name is a validation error.
 
 See [Token format — Name object](token-format.md#name-object) for the full name object field catalog.
 
-**NORMATIVE:** The `state` field in a token name object **MUST NOT** be present unless the token's `component` field is also present. States are always scoped to a component.
+**NORMATIVE:** Neither the `interaction` nor `interaction-context` field in a token name object **MUST** be present unless the token's `component` field is also present. States are always scoped to a component.
 
 ```json
 {
@@ -188,7 +188,7 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
     "component": "checkbox",
     "anatomy": "checkmark",
     "property": "color",
-    "state": ["selected"]
+    "interaction-context": ["selected"]
   },
   "value": "#0265dc"
 }
@@ -198,11 +198,11 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
 
 The following rules in the Layer 2 rule catalog (`rules/rules.yaml`) apply to state declarations. SPEC-022 was introduced in Phase 6.1 (component-format); SPEC-026 is introduced by this chapter.
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                              |
-| -------- | -------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).          |
-| SPEC-026 | `state-custom-name-documented`   | warning  | State declarations with a `name` outside the canonical state vocabulary **SHOULD** include a `description` field documenting the state's semantics. |
-| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated state via `name.state`. Advisory warning prompts migration.                            |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                  |
+| -------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-022 | `component-state-valid`          | error    | Token `interaction`/`interaction-context` field values **MUST** match the `name` of a declared state on the referenced component (when state declarations are present). |
+| SPEC-026 | `state-custom-name-documented`   | warning  | State declarations with a `name` outside the canonical state vocabulary **SHOULD** include a `description` field documenting the state's semantics.                     |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated state via `name.interaction` or `name.interaction-context`. Advisory warning prompts migration.            |
 
 ## Full example
 

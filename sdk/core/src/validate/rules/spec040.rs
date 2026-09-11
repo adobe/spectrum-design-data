@@ -25,21 +25,23 @@ use crate::validate::rule::{ValidationContext, ValidationRule};
 /// Name-object keys owned by other rules or the cascade machinery.
 /// SPEC-040 skips these to avoid double-reporting.
 ///
-/// `state` is validated by SPEC-022 against `component.states[].name`, not
-/// `component.options.state.values[]`. If a future component declared a `state`
-/// option with its own `values[]`, SPEC-040 would still skip it — intentionally
-/// conservative so SPEC-022 remains the sole authority on state values.
+/// `interaction`/`interaction-context` are validated by SPEC-022 against
+/// `component.states[].name`, not `component.options.<key>.values[]`. If a future
+/// component declared an `interaction`/`interaction-context` option with its own
+/// `values[]`, SPEC-040 would still skip it — intentionally conservative so
+/// SPEC-022 remains the sole authority on state values.
 const RESERVED: &[&str] = &[
     "property",
     "component",
-    "variant", // SPEC-019: component-variant-valid (Error)
-    "state",   // SPEC-022: component-state-valid (Error) — validated against states[], not options
-    "anatomy", // SPEC-020: component-anatomy-valid (Error)
+    "variant",             // SPEC-019: component-variant-valid (Error)
+    "interaction", // SPEC-022: component-state-valid (Error) — validated against states[], not options
+    "interaction-context", // SPEC-022: component-state-valid (Error) — validated against states[], not options
+    "anatomy",             // SPEC-020: component-anatomy-valid (Error)
     "colorScheme",
     "scale",
     "contrast",
     "uuid",
-    "object",
+    "element",
     "category",
 ];
 

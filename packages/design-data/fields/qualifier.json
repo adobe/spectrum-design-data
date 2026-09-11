@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/qualifiers.json",
   "validation": "advisory",
   "serialization": {
-    "position": 28
+    "position": 31
   },
   "scope": null,
   "required": false,

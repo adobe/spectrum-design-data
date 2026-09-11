@@ -78,7 +78,7 @@ rules:
     name: name-field-enum-sync
     severity: warning
     category: naming-consistency
-    assert: Recognized name object fields (component, state, variant, etc.) SHOULD use values drawn from the corresponding spectrum-design-data registry when those enums are available.
+    assert: Recognized name object fields (component, interaction, interaction-context, variant, etc.) SHOULD use values drawn from the corresponding spectrum-design-data registry when those enums are available.
     message: "Token name field '{field}' value '{value}' is not in the spectrum-design-data registry for '{field}'"
     spec_ref: spec/token-format.md#name-object
     introduced_in: "1.0.0-draft"
@@ -196,7 +196,7 @@ rules:
     name: component-state-valid
     severity: error
     category: reference-integrity
-    assert: Token name-object 'state' field value MUST match the 'name' of a declared state on the referenced component, when state declarations are present.
+    assert: Token name-object 'interaction'/'interaction-context' field values MUST match the 'name' of a declared state on the referenced component, when state declarations are present.
     message: "Token '{token}' references undeclared state '{state}' on component '{component}'"
     spec_ref: spec/component-format.md#spec-rules
     introduced_in: "1.0.0-draft"
@@ -413,9 +413,10 @@ rules:
     assert: >
       For every token whose name object contains a key that is not a reserved name-object field
       and that matches a declared component.options.<key> with a values[] list, the token's value
-      MUST appear in that values[] list. Reserved fields (component, variant, state, anatomy,
-      property, colorScheme, scale, contrast, uuid, object, category) are excluded; variant is
-      owned by SPEC-019. This rule generalises SPEC-019 to all remaining option-enum fields
+      MUST appear in that values[] list. Reserved fields (component, variant, interaction,
+      interaction-context, anatomy, property, colorScheme, scale, contrast, uuid, element,
+      category) are excluded; variant is owned by SPEC-019. This rule generalises SPEC-019 to
+      all remaining option-enum fields
       (style, size, staticColor, etc.) at advisory severity.
     message: "Token '{token}' has {field} '{value}' which is not declared on component '{component}'"
     spec_ref: spec/component-format.md#options
@@ -586,8 +587,9 @@ rules:
     category: naming-consistency
     assert: >
       A token name-object's `property` value SHOULD be atomic. It MUST NOT fuse a
-      segment that belongs to another structured field (anatomy, object, position,
-      size, state, colorRole, emphasis) -- detected independent of whether the token
+      segment that belongs to another structured field (anatomy, element, attribute,
+      affordance, position, size, interaction, interaction-context, colorRole, emphasis) --
+      detected independent of whether the token
       roundtrips through canonical name generation (SPEC-007) or is listed in
       naming-exceptions.json. Roundtripping cleanly does not mean a property is
       decomposed (spectrum-design-data-284).
@@ -643,9 +645,9 @@ rules:
     layer: 2
     category: reference-integrity
     assert: >
-      Each element of a CTR's `scope.options.state` array MUST match the `name` of a
-      declared state on the referenced component, when state declarations are present.
-      Mirrors SPEC-022 (component-state-valid) for the CTR scope object.
+      Each element of a CTR's `scope.options.interaction` or `scope.options.interaction-context`
+      array MUST match the `name` of a declared state on the referenced component, when state
+      declarations are present. Mirrors SPEC-022 (component-state-valid) for the CTR scope object.
     message: "Relationship '{relationship}' references undeclared state '{state}' on component '{component}'"
     spec_ref: spec/relationship-format.md#scope-fields
     introduced_in: "1.0.0-draft"

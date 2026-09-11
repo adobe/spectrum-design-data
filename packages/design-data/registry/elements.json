@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "element",
+  "description": "Generic, cross-component visual elements to which visual properties are applied. These are abstract targets that exist on any element regardless of component type. Not to be confused with component anatomy (visible, component-specific named parts).",
+  "values": [
+    {
+      "id": "text",
+      "label": "Text",
+      "description": "Text content or label"
+    },
+    {
+      "id": "visual",
+      "label": "Visual",
+      "description": "Visible graphic element area (may be inset from edge)"
+    },
+    {
+      "id": "bar",
+      "label": "Bar",
+      "description": "Linear bar-shaped element"
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control element (e.g. checkbox, radio, switch)"
+    },
+    {
+      "id": "workflow-icon",
+      "label": "Workflow Icon",
+      "description": "Standard workflow icon element, distinct from UI icons"
+    },
+    {
+      "id": "ui-icon",
+      "label": "UI Icon",
+      "description": "System UI icon element (chevrons, checkmarks, close icons)"
+    }
+  ]
+}

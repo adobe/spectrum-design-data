@@ -60,31 +60,35 @@ The following concept categories are defined in Spectrum's foundation field cata
 
 **NORMATIVE:** Each category listed below corresponds to a field on the token [name object](token-format.md). Tokens **MAY** use any subset of these fields. Exception: `property` is REQUIRED on every name object — see [token-format.md](token-format.md#name-object).
 
-| Category      | Name object field | Answers   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ----------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Structure     | `structure`       | What?     | Individual objects or object categories that have shared styling. Distinctly different from "components" in that they represent structures and visual patterns that can or do occur across many varieties of components.                                                                                                                                                                                                                                                                       |
-| Sub-structure | `substructure`    | What?     | A structure within an element that should only exist within the context of its parent structure.                                                                                                                                                                                                                                                                                                                                                                                               |
-| Component     | `component`       | What?     | Component scope when the token is component-scoped.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Anatomy       | `anatomy`         | What?     | A visible, named part of a component as defined by designers.                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| Object        | `object`          | Where?    | The styling surface to which a visual property is applied (e.g. background, border, edge).                                                                                                                                                                                                                                                                                                                                                                                                     |
-| Property      | `property`        | Where?    | The CSS/styling attribute or design-system abstraction being defined (e.g. color, width, padding, gap). REQUIRED — see exception in preamble. Values SHOULD come from [`property-terms.json`](../../packages/design-data/registry/property-terms.json). Anatomy parts and styling surfaces do NOT belong here — they belong in `anatomy` and `object` respectively. See [token-format.md — Name-object migration policy](token-format.md#name-object-migration-policy) for migration guidance. |
-| Orientation   | `orientation`     | When/Why? | The direction or order of structures and elements within a component or pattern.                                                                                                                                                                                                                                                                                                                                                                                                               |
-| Position      | `position`        | When/Why? | The location of an object relative to another, with or without respect to directional order.                                                                                                                                                                                                                                                                                                                                                                                                   |
-| Size          | `size`            | When/Why? | Relative terms used to create relationships and patterns of usage across multiple tokens and token types.                                                                                                                                                                                                                                                                                                                                                                                      |
-| Density       | `density`         | When/Why? | Options that create more or less space within or around the parts of a component.                                                                                                                                                                                                                                                                                                                                                                                                              |
-| Shape         | `shape`           | When/Why? | Relative to the overall shape of a component (e.g. "uniform" creates a 1:1 padding ratio between horizontal and vertical padding).                                                                                                                                                                                                                                                                                                                                                             |
-| Role          | `role`            | When/Why? | An object's role within a nesting relationship (e.g. `container`, `control`), distinct from `size` — e.g. corner-radius tokens where a container and its nested control each need an independently-scaled rounding step.                                                                                                                                                                                                                                                                       |
+| Category    | Name object field | Answers   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------- | ----------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Structure   | `structure`       | What?     | Individual objects or object categories that have shared styling. Distinctly different from "components" in that they represent structures and visual patterns that can or do occur across many varieties of components. Includes composite item structures such as `list-item`, `table-item`, and `accessory-item`.                                                                                                                                                                                                 |
+| Component   | `component`       | What?     | Component scope when the token is component-scoped.                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Anatomy     | `anatomy`         | What?     | A visible, named part of a specific component as defined by designers. Distinct from `element`, which is generic and cross-component.                                                                                                                                                                                                                                                                                                                                                                                |
+| Element     | `element`         | Where?    | A generic, cross-component visual element to which a visual property is applied (e.g. `text`, `visual`, `bar`, `control`, plus the recognized outliers `workflow-icon`, `ui-icon`).                                                                                                                                                                                                                                                                                                                                  |
+| Affordance  | `affordance`      | Where?    | A UI affordance that visually distinguishes a specific behavior, used stylistically across multiple components (e.g. `drop-target`, `focus-ring`, `selection-indicator`, `drag-handle`).                                                                                                                                                                                                                                                                                                                             |
+| Attribute   | `attribute`       | Which?    | A sub-quality of a property, used together with `property` to express a compound style concept (e.g. `property: color` + `attribute: background`).                                                                                                                                                                                                                                                                                                                                                                   |
+| Property    | `property`        | Where?    | The CSS/styling attribute or design-system abstraction being defined (e.g. color, width, padding, gap). REQUIRED — see exception in preamble. Values SHOULD come from [`property-terms.json`](../../packages/design-data/registry/property-terms.json). Anatomy parts, elements, and affordances do NOT belong here — they belong in `anatomy`, `element`, and `affordance` respectively. See [token-format.md — Name-object migration policy](token-format.md#name-object-migration-policy) for migration guidance. |
+| Orientation | `orientation`     | When/Why? | The direction or order of structures and elements within a component or pattern.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Position    | `position`        | When/Why? | The location of an object relative to another, with or without respect to directional order.                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Size        | `size`            | When/Why? | Relative terms used to create relationships and patterns of usage across multiple tokens and token types.                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Density     | `density`         | When/Why? | Options that create more or less space within or around the parts of a component.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Shape       | `shape`           | When/Why? | Relative to the overall shape of a component (e.g. "uniform" creates a 1:1 padding ratio between horizontal and vertical padding).                                                                                                                                                                                                                                                                                                                                                                                   |
+| Visibility  | `visibility`      | When/Why? | Prominence/emphasis level of a token, distinct from its color or semantic role (e.g. `subtle`, `subdued`, `emphasized`).                                                                                                                                                                                                                                                                                                                                                                                             |
 
-Additional categories for variant and state are inherited from the existing name object:
+Additional categories for variant and interaction state are inherited from the existing name object:
 
-| Category | Name object field | Description                                                  |
-| -------- | ----------------- | ------------------------------------------------------------ |
-| Variant  | `variant`         | Variant within a component (e.g. accent, negative, primary). |
-| State    | `state`           | Interactive or semantic state (e.g. hover, focus, disabled). |
+| Category            | Name object field     | Description                                                                             |
+| ------------------- | --------------------- | --------------------------------------------------------------------------------------- |
+| Variant             | `variant`             | Variant within a component (e.g. accent, negative, primary).                            |
+| Interaction         | `interaction`         | Transient runtime interaction state (e.g. `default`, `hover`, `down`, `drag`, `focus`). |
+| Interaction Context | `interaction-context` | Persistent, prop-driven state (e.g. `selected`, `disabled`, `loading`).                 |
+
+**NORMATIVE:** `interaction` and `interaction-context` are both ordered arrays of atomic ids (mirroring the prior `state` field's array shape), so a token may carry simultaneous values in either bucket (e.g. `interaction: ["focus", "hover"]`). A single shared `states[]` catalog is declared per component; both name-object fields validate against that same catalog (see [state-model.md](state-model.md)) — the split exists to separate transient interaction from persistent context at the taxonomy level, not to fork the underlying component vocabulary.
 
 ### Color token taxonomy
 
-Color tokens describe palette entries and semantic color assignments. Their name objects use `scope: "color"` fields alongside the universal `property` and `state` fields.
+Color tokens describe palette entries and semantic color assignments. Their name objects use `scope: "color"` fields alongside the universal `property`, `interaction`, and `interaction-context` fields.
 
 **NORMATIVE:** Color tokens SHOULD include `colorFamily`, `scaleIndex`, or both to allow tooling to group and sort palette entries. Tokens missing both are flagged by rule SPEC-043 (`domain-required-fields`, warning).
 
@@ -186,7 +190,7 @@ from what it ultimately resolves to.
 { "property": "icon-color", "colorFamily": "blue", "variant": "primary" }
 
 // icon-color-primary-default  ($schema=alias.json, $ref → icon-color-blue-primary-default)
-// Valid: no domain-scoped fields used — variant and state are universal.
+// Valid: no domain-scoped fields used — variant, interaction, and interaction-context are universal.
 { "property": "icon-color", "variant": "primary" }
 ```
 
@@ -210,9 +214,12 @@ The same word can validly appear in both fields across the dataset; they are ind
 
 Source: Nate Baldwin, "Naming conventions & shared taxonomy" — Design Data & Platforms onsite, April 1, 2026.
 
-## Component anatomy vs. token objects
+## Component anatomy vs. universal elements, attributes, and affordances
 
-Two concepts that are often conflated but serve different purposes:
+Several concepts are often conflated but serve different purposes — and, critically, differ in
+**who owns the vocabulary**. Anatomy is component-specific (owned by each component's own
+declaration); `element`, `attribute`, and `affordance` are universal (owned by the shared
+foundation taxonomy, meaning the same thing regardless of which component uses them).
 
 ### Component anatomy
 
@@ -228,19 +235,53 @@ Anatomy parts fall into three tiers:
 | Composite          | Another component used as a named part | checkbox, close button, popover, avatar                       |
 | Component-specific | Unique to one component                | loupe, gripper, opacity checkerboard                          |
 
-### Token objects (styling surfaces)
+### Elements (generic styling surfaces)
 
-**Token objects** (or styling surfaces) describe *where* a visual property is applied on a UI element. These are NOT anatomy — they are abstract styling targets that exist on any element regardless of its component type.
+**Elements** describe *where* a visual property is applied on a UI element, in a way that is
+generic and cross-component — the opposite of anatomy. These are abstract styling targets that
+exist on any element regardless of its component type.
 
-| Object       | Description                                           |
-| ------------ | ----------------------------------------------------- |
-| `background` | Background surface or fill                            |
-| `border`     | Border or outline                                     |
-| `edge`       | Outer boundary of component (used in spacing tokens)  |
-| `visual`     | Visible graphic element area (may be inset from edge) |
-| `content`    | Main content area                                     |
+| Element         | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `text`          | Text content or label                                      |
+| `visual`        | Visible graphic element area (may be inset from edge)      |
+| `bar`           | Linear bar-shaped element                                  |
+| `control`       | Interactive control element (e.g. checkbox, radio, switch) |
+| `workflow-icon` | Standard workflow icon element, distinct from UI icons     |
+| `ui-icon`       | System UI icon element (chevrons, checkmarks, close icons) |
 
-Token objects are stored in a separate registry from anatomy parts. Both may appear in the same token name — e.g. a token for the background color of a slider's handle would reference anatomy `handle` and object `background`.
+### Attributes (property sub-qualities)
+
+**Attributes** describe a sub-quality of a property, used together with `property` to express a
+compound style concept without overloading the property vocabulary itself (e.g.
+`property: color` + `attribute: background` instead of a single `background-color` property
+term).
+
+| Attribute    | Description                |
+| ------------ | -------------------------- |
+| `border`     | Border or outline          |
+| `background` | Background surface or fill |
+| `dash`       | Dashed-line styling        |
+| `shadow`     | Drop or box shadow         |
+| `corner`     | Corner rounding            |
+| `overlay`    | Overlay or scrim tint      |
+| `gradient`   | Gradient styling           |
+
+### Affordances (cross-component behavior indicators)
+
+**Affordances** are UI affordances that visually distinguish a specific behavior, used
+stylistically across multiple components rather than owned by any single one.
+
+| Affordance            | Description                                                                    |
+| --------------------- | ------------------------------------------------------------------------------ |
+| `drop-target`         | Drag-and-drop destination affordance                                           |
+| `focus-ring`          | Visible ring or indicator drawn around a focused element for accessibility     |
+| `selection-indicator` | Visual marker indicating which item among several is currently selected/active |
+| `drag-handle`         | A grip affordance for reordering an item via drag                              |
+
+Anatomy, elements, attributes, and affordances are stored in separate registries and may combine
+freely in the same token name — e.g. a token for the background color of a slider's handle would
+reference anatomy `handle` and attribute `background` (with `property: color`).
 
 ## Name object field categories
 
@@ -271,7 +312,7 @@ The **default serialization** produces a kebab-case string from the name object 
 For Spectrum's foundation catalog, this produces the following concept order:
 
 ```
-{variant}-{component}-{structure}-{substructure}-{anatomy}-{object}-{property}-{orientation}-{position}-{size}-{density}-{shape}-{state}
+{variant}-{visibility}-{component}-{structure}-{anatomy}-{element}-{affordance}-{attribute}-{property}-{orientation}-{position}-{size}-{density}-{shape}-{interaction-context}-{interaction}
 ```
 
 All fields are independent — `variant` and `component` **MAY** both appear in the same token name (e.g. a token with `component: "button"` and `variant: "accent"` serializes as `accent-button-...`).

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "attribute",
+  "description": "Sub-qualities of a property, used in combination with the `property` field to express compound style concepts (e.g. property=color + attribute=background).",
+  "values": [
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill"
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Dashed-line styling attribute"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop or box shadow attribute"
+    },
+    {
+      "id": "corner",
+      "label": "Corner",
+      "description": "Corner rounding attribute"
+    },
+    {
+      "id": "overlay",
+      "label": "Overlay",
+      "description": "Overlay or scrim tint attribute"
+    },
+    {
+      "id": "gradient",
+      "label": "Gradient",
+      "description": "Gradient styling attribute"
+    }
+  ]
+}

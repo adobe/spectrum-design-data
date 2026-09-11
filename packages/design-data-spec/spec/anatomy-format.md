@@ -118,8 +118,9 @@ See [Token format — Name object](token-format.md#name-object) for the full nam
   "name": {
     "component": "slider",
     "anatomy": "handle",
-    "property": "background-color",
-    "state": "hover"
+    "attribute": "background",
+    "property": "color",
+    "interaction": ["hover"]
   },
   "value": "#0265dc"
 }

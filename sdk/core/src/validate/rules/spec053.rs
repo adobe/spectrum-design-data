@@ -23,10 +23,11 @@
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
 
-/// `state` is validated by SPEC-054 against `component.states[].name` (an
-/// ordered array), not against `options.state.values[]`. Excluded here to
-/// avoid double-reporting, mirroring SPEC-040's `RESERVED` list.
-const RESERVED: &[&str] = &["state"];
+/// `interaction`/`interaction-context` are validated by SPEC-054 against
+/// `component.states[].name` (an ordered array), not against
+/// `options.<key>.values[]`. Excluded here to avoid double-reporting, mirroring
+/// SPEC-040's `RESERVED` list.
+const RESERVED: &[&str] = &["interaction", "interaction-context"];
 
 pub struct Rule;
 
@@ -187,8 +188,8 @@ mod tests {
     #[test]
     fn state_key_skipped_owned_by_spec054() {
         let diags = run(
-            json!({"scope": {"component": "button", "property": "color", "options": {"state": ["hover"]}}, "value": "#fff"}),
-            json!({"name": "button", "options": {"state": {"values": [{"value": "focus"}]}}}),
+            json!({"scope": {"component": "button", "property": "color", "options": {"interaction": ["hover"]}}, "value": "#fff"}),
+            json!({"name": "button", "options": {"interaction": {"values": [{"value": "focus"}]}}}),
         );
         assert!(diags.is_empty());
     }

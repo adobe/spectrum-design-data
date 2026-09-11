@@ -15,9 +15,9 @@
 //! For tokens with decomposed taxonomy fields the effective order is:
 //!
 //! ```text
-//! {variant?}-{component?}-{structure?}-{substructure?}-{anatomy?}-{object?}
-//! -{script?}-{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}
-//! -{density?}-{shape?}-{state?}-{alignment?}-{qualifier?}-{role?}
+//! {variant?}-{visibility?}-{component?}-{structure?}-{anatomy?}-{element?}-{affordance?}
+//! -{attribute?}-{script?}-{family?}-{emphasis?}-{property}-{orientation?}-{position?}-{size?}
+//! -{density?}-{shape?}-{interaction-context?}-{interaction?}-{alignment?}-{qualifier?}
 //! ```
 //!
 //! Registry ids are expanded to their `tokenName` long-forms before joining
@@ -38,7 +38,19 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
 /// Well-known interactive / semantic state words that may appear as the
-/// trailing segment(s) of a legacy token name.
+/// trailing segment(s) of a legacy token name. Covers both the `interaction`
+/// (transient) and `interaction-context` (persistent) taxonomy fields, plus
+/// historical words that may still appear in previously-published legacy
+/// keys — this set is intentionally a superset used for *string recognition*
+/// only; see [`INTERACTION_CONTEXT_WORDS`] for bucket classification.
+///
+/// Deliberately excludes `drag` and `loading` (present in the `interaction`/
+/// `interaction-context` registries as supported-but-not-yet-used vocabulary):
+/// no token currently produces a derived legacy key ending in `-drag`/
+/// `-loading`, and both words appear as ordinary segments inside unrelated
+/// existing legacy keys (e.g. `drag-handle-icon`, `background-loading-color`)
+/// — adding them here caused false "embedded state" positives on tokens with
+/// no connection to this migration. Add them once a real token needs it.
 static STATE_WORDS: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
     [
         "default",
@@ -61,6 +73,13 @@ static STATE_WORDS: LazyLock<HashSet<&'static str>> = LazyLock::new(|| {
     .collect()
 });
 
+/// Words that belong to the persistent `interaction-context` field (as
+/// opposed to the transient `interaction` field) when classifying a parsed
+/// state word. Any [`STATE_WORDS`] entry not in this set is treated as
+/// `interaction`.
+static INTERACTION_CONTEXT_WORDS: LazyLock<HashSet<&'static str>> =
+    LazyLock::new(|| ["selected", "disabled", "loading"].into_iter().collect());
+
 /// Context variant words (`category: "context"` in `variants.json`) that may appear
 /// as the leading segment of a legacy key, ahead of `component` — e.g.
 /// `inverse-icon-color`. These are the only variants naming-aware since they're the
@@ -80,10 +99,15 @@ pub struct NameObject {
     pub component: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub variant: Option<String>,
-    /// Ordered array of atomic state ids (Proposal 006). A compound state lists
-    /// the mode-state before the interaction-state, e.g. `["selected", "hover"]`.
+    /// Ordered array of atomic persistent, prop-driven state ids (Proposal 006).
+    /// Serializes before `interaction` in a compound legacy key, e.g.
+    /// `["selected"]` + `interaction: ["hover"]` → `-selected-hover`.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub state: Option<Vec<String>>,
+    #[serde(rename = "interaction-context")]
+    pub interaction_context: Option<Vec<String>>,
+    /// Ordered array of atomic transient interaction-state ids (Proposal 006).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub interaction: Option<Vec<String>>,
 }
 
 /// Generate the canonical legacy name from a [`NameObject`].
@@ -93,7 +117,8 @@ pub struct NameObject {
 ///    the field-catalog serialization order in `extract_legacy_key`).
 /// 2. If `component` is present, emit `{component}-`.
 /// 3. Always emit `{property}`.
-/// 4. If `state` is present, append each ordered element as `-{state}`.
+/// 4. If `interaction-context` is present, append each ordered element as `-{state}`.
+/// 5. If `interaction` is present, append each ordered element as `-{state}`.
 pub fn generate_legacy_name(obj: &NameObject) -> String {
     let mut parts: Vec<&str> = Vec::new();
     if let Some(v) = &obj.variant {
@@ -103,7 +128,10 @@ pub fn generate_legacy_name(obj: &NameObject) -> String {
         parts.push(c);
     }
     parts.push(&obj.property);
-    if let Some(states) = &obj.state {
+    if let Some(states) = &obj.interaction_context {
+        parts.extend(states.iter().map(String::as_str));
+    }
+    if let Some(states) = &obj.interaction {
         parts.extend(states.iter().map(String::as_str));
     }
     parts.join("-")
@@ -130,11 +158,18 @@ pub fn parse_legacy_name(key: &str, component_hint: Option<&str>) -> NameObject 
 
     let (property, state) = split_trailing_state(remainder);
 
+    let (interaction_context, interaction) = match state {
+        Some(s) if INTERACTION_CONTEXT_WORDS.contains(s) => (Some(vec![s.to_string()]), None),
+        Some(s) => (None, Some(vec![s.to_string()])),
+        None => (None, None),
+    };
+
     NameObject {
         property: property.to_string(),
         component: component_hint.map(str::to_string),
         variant: variant.map(str::to_string),
-        state: state.map(|s| vec![s.to_string()]),
+        interaction_context,
+        interaction,
     }
 }
 
@@ -181,6 +216,26 @@ fn split_trailing_state(s: &str) -> (&str, Option<&str>) {
     }
 
     (s, None)
+}
+
+/// Append `interaction-context` then `interaction` array elements (in that
+/// compound-key order) from `name` onto `parts`, expanding each through the
+/// registry's `tokenName` long-form. Used by the color-domain and icon
+/// (non-color) branches of [`extract_legacy_key`], which serialize outside
+/// the generic field-catalog position-walk.
+fn append_state_fields(
+    name: &Map<String, Value>,
+    registry: &crate::registry::RegistryData,
+    parts: &mut Vec<String>,
+) {
+    for field in ["interaction-context", "interaction"] {
+        if let Some(states) = name.get(field).and_then(|v| v.as_array()) {
+            for s in states.iter().filter_map(|v| v.as_str()) {
+                let expanded = registry.token_name(field, s).unwrap_or(s);
+                parts.push(expanded.to_string());
+            }
+        }
+    }
 }
 
 /// Resolve the legacy `component` metadata value for a name object.
@@ -323,9 +378,7 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         if let Some(cr) = color_role {
             parts.push(cr.to_string());
         }
-        if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
-            parts.extend(states.iter().filter_map(|s| s.as_str()).map(str::to_string));
-        }
+        append_state_fields(name, crate::registry::RegistryData::embedded(), &mut parts);
         return Some(parts.join("-"));
     }
 
@@ -363,9 +416,7 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
             parts.push(i.to_string());
         }
-        if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
-            parts.extend(states.iter().filter_map(|s| s.as_str()).map(str::to_string));
-        }
+        append_state_fields(name, registry, &mut parts);
         return Some(parts.join("-"));
     }
 
@@ -425,12 +476,14 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
                     parts.push(format!("{f_expanded}-to-{t_expanded}"));
                     continue;
                 }
-                // `state` (Proposal 006) is an ordered array of atomic ids, not a
-                // single string like every other catalog field.
-                if entry.name == "state" {
-                    if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+                // `interaction`/`interaction-context` (Proposal 006) are ordered arrays
+                // of atomic ids, not a single string like every other catalog field —
+                // detected via the catalog's `value_type` rather than a hardcoded name
+                // so this stays correct if the array-valued field set changes again.
+                if entry.value_type == "array" {
+                    if let Some(states) = name.get(entry.name).and_then(|v| v.as_array()) {
                         for s in states.iter().filter_map(|v| v.as_str()) {
-                            let expanded = registry.token_name("state", s).unwrap_or(s);
+                            let expanded = registry.token_name(entry.name, s).unwrap_or(s);
                             parts.push(expanded.to_string());
                         }
                     }
@@ -494,12 +547,14 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
         if entry.exclude_from_legacy_key {
             continue;
         }
-        // `state` (Proposal 006) is an ordered array of atomic ids, not a single
-        // string like every other catalog field — walk its elements in order.
-        if entry.name == "state" {
-            if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+        // `interaction`/`interaction-context` (Proposal 006) are ordered arrays of
+        // atomic ids, not a single string like every other catalog field — walk
+        // their elements in order. Detected via `value_type` rather than a
+        // hardcoded name (mirrors the space-between branch above).
+        if entry.value_type == "array" {
+            if let Some(states) = name.get(entry.name).and_then(|v| v.as_array()) {
                 for s in states.iter().filter_map(|v| v.as_str()) {
-                    let expanded = registry.token_name("state", s).unwrap_or(s);
+                    let expanded = registry.token_name(entry.name, s).unwrap_or(s);
                     parts.push(expanded.to_string());
                 }
             }
@@ -644,7 +699,8 @@ mod tests {
         let obj = parse_legacy_name("checkbox-control-size", Some("checkbox"));
         assert_eq!(obj.component.as_deref(), Some("checkbox"));
         assert_eq!(obj.property, "control-size");
-        assert_eq!(obj.state, None);
+        assert_eq!(obj.interaction, None);
+        assert_eq!(obj.interaction_context, None);
         assert!(roundtrips("checkbox-control-size", Some("checkbox")));
     }
 
@@ -653,7 +709,8 @@ mod tests {
         let obj = parse_legacy_name("menu-item-background-color-hover", Some("menu-item"));
         assert_eq!(obj.component.as_deref(), Some("menu-item"));
         assert_eq!(obj.property, "background-color");
-        assert_eq!(obj.state.as_deref(), Some(&["hover".to_string()][..]));
+        assert_eq!(obj.interaction.as_deref(), Some(&["hover".to_string()][..]));
+        assert_eq!(obj.interaction_context, None);
         assert!(roundtrips(
             "menu-item-background-color-hover",
             Some("menu-item")
@@ -665,7 +722,8 @@ mod tests {
         let obj = parse_legacy_name("corner-radius-100", None);
         assert_eq!(obj.component, None);
         assert_eq!(obj.property, "corner-radius-100");
-        assert_eq!(obj.state, None);
+        assert_eq!(obj.interaction, None);
+        assert_eq!(obj.interaction_context, None);
         assert!(roundtrips("corner-radius-100", None));
     }
 
@@ -675,10 +733,13 @@ mod tests {
             "menu-item-background-color-keyboard-focus",
             Some("menu-item"),
         );
+        // "keyboard-focus" is a recognized state word but not in
+        // INTERACTION_CONTEXT_WORDS, so it classifies as `interaction`.
         assert_eq!(
-            obj.state.as_deref(),
+            obj.interaction.as_deref(),
             Some(&["keyboard-focus".to_string()][..])
         );
+        assert_eq!(obj.interaction_context, None);
         assert_eq!(obj.property, "background-color");
         assert!(roundtrips(
             "menu-item-background-color-keyboard-focus",
@@ -701,7 +762,8 @@ mod tests {
     fn non_decomposable() {
         let obj = parse_legacy_name("white", None);
         assert_eq!(obj.property, "white");
-        assert_eq!(obj.state, None);
+        assert_eq!(obj.interaction, None);
+        assert_eq!(obj.interaction_context, None);
         assert!(roundtrips("white", None));
     }
 
@@ -709,8 +771,26 @@ mod tests {
     fn foundation_with_trailing_state() {
         let obj = parse_legacy_name("accent-background-color-default", None);
         assert_eq!(obj.property, "accent-background-color");
-        assert_eq!(obj.state.as_deref(), Some(&["default".to_string()][..]));
+        assert_eq!(
+            obj.interaction.as_deref(),
+            Some(&["default".to_string()][..])
+        );
+        assert_eq!(obj.interaction_context, None);
         assert!(roundtrips("accent-background-color-default", None));
+    }
+
+    #[test]
+    fn interaction_context_word_classifies_correctly() {
+        let obj = parse_legacy_name("menu-item-background-color-selected", Some("menu-item"));
+        assert_eq!(
+            obj.interaction_context.as_deref(),
+            Some(&["selected".to_string()][..])
+        );
+        assert_eq!(obj.interaction, None);
+        assert!(roundtrips(
+            "menu-item-background-color-selected",
+            Some("menu-item")
+        ));
     }
 
     // ── extract_legacy_key ────────────────────────────────────────────────────
@@ -752,8 +832,7 @@ mod tests {
     #[test]
     fn extract_key_decomposed_component_property_state() {
         // General / decomposed format: generate_legacy_name path.
-        let name =
-            json!({"component": "button", "property": "background-color", "state": ["hover"]});
+        let name = json!({"component": "button", "property": "background-color", "interaction": ["hover"]});
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("button-background-color-hover")
@@ -795,7 +874,7 @@ mod tests {
     #[test]
     fn extract_key_no_property_no_color_family_returns_none() {
         // Object with neither property nor colorFamily → None.
-        let name = json!({"state": ["hover"]});
+        let name = json!({"interaction": ["hover"]});
         assert_eq!(extract_legacy_key(&name), None);
     }
 
@@ -841,7 +920,7 @@ mod tests {
             "component": "accordion",
             "property": "bottom-to-handle",
             "size": "xl",
-            "state": ["hover"]
+            "interaction": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -860,7 +939,7 @@ mod tests {
             "from": "bottom",
             "to": "handle",
             "size": "xl",
-            "state": ["hover"]
+            "interaction": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -1005,7 +1084,7 @@ mod tests {
             "property": "color",
             "colorFamily": "blue",
             "colorRole": "primary",
-            "state": ["default"]
+            "interaction": ["default"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -1034,7 +1113,7 @@ mod tests {
             "component": "icon",
             "property": "color",
             "colorRole": "primary",
-            "state": ["default"]
+            "interaction": ["default"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
@@ -1081,7 +1160,7 @@ mod tests {
 
     #[test]
     fn extract_key_icon_non_color_with_state() {
-        let name = json!({"icon": "checkmark", "property": "size", "state": ["hover"]});
+        let name = json!({"icon": "checkmark", "property": "size", "interaction": ["hover"]});
         assert_eq!(
             extract_legacy_key(&name).as_deref(),
             Some("checkmark-icon-size-hover")
@@ -1130,7 +1209,7 @@ mod tests {
             "icon": "checkmark",
             "property": "size",
             "scaleIndex": 75,
-            "state": ["hover"]
+            "interaction": ["hover"]
         });
         assert_eq!(
             extract_legacy_key(&name).as_deref(),

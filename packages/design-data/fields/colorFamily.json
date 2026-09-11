@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/color-families.json",
   "validation": "advisory",
   "serialization": {
-    "position": 20
+    "position": 23
   },
   "scope": "color",
   "required": false,
