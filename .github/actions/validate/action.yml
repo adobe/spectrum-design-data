@@ -89,10 +89,11 @@ runs:
         set -euo pipefail
         version="${{ inputs.cli-version }}"
         if [[ "$version" == "latest" ]]; then
-          version=$(gh release list --repo adobe/spectrum-design-data \
-            --limit 50 --json tagName \
-            --jq '.[].tagName | select(startswith("design-data-cli@"))' \
-            | sed 's/^design-data-cli@//' | sort -V | tail -1)
+          version=$("$GITHUB_ACTION_PATH/scripts/resolve-latest-cli-version.sh" adobe/spectrum-design-data)
+          if [[ -z "$version" ]]; then
+            echo "::error::could not find a design-data-cli@* release tag" >&2
+            exit 1
+          fi
         fi
         tag="design-data-cli@${version}"
         mkdir -p "$RUNNER_TEMP/design-data-cli"
