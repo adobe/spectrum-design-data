@@ -2052,7 +2052,7 @@ impl TokenGraph {
                 let mut ctx = base_ctx.clone();
                 ctx.insert(mode_set.name.clone(), mode.clone());
                 self.resolve_relationship_ref_in_context(legacy_key, &ctx)
-                    .map(|r| r.raw["value"].clone())
+                    .map(|r| r.resolve_leaf_in_context(self, &ctx).raw["value"].clone())
             })
             .collect();
         resolved.windows(2).any(|w| w[0] != w[1])
@@ -3611,6 +3611,67 @@ mod tests {
         assert!(
             !g.diverges_on_axis("scale-invariant-token", &color_scheme),
             "scale-invariant-token resolves the same in light and dark"
+        );
+    }
+
+    #[test]
+    fn diverges_on_axis_follows_alias_chain_to_leaf_value() {
+        // Regression: a CTR's `$ref` can land on a mode-scoped alias record
+        // (itself a `$ref`, no "value") rather than a leaf. Comparing
+        // `raw["value"]` directly reads `null` for every mode, so a token
+        // that actually diverges was reported as not diverging.
+        let color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "light".to_string(),
+        };
+
+        let g = cascade_graph_from(json!([
+            {
+                "name": { "property": "palette", "variant": "light" },
+                "$schema": "https://example.com/color.json",
+                "value": "light-leaf-value",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000001"
+            },
+            {
+                "name": { "property": "palette", "variant": "dark" },
+                "$schema": "https://example.com/color.json",
+                "value": "dark-leaf-value",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000002"
+            },
+            // Mode-scoped aliases sharing one conceptId: each is itself a
+            // `$ref`, not a leaf value.
+            {
+                "name": { "property": "aliased-color", "colorScheme": "light" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": "eeeeeeee-0000-0000-0000-000000000001",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000003",
+                "conceptId": "su-aliased-color"
+            },
+            {
+                "name": { "property": "aliased-color", "colorScheme": "dark" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": "eeeeeeee-0000-0000-0000-000000000002",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000004",
+                "conceptId": "su-aliased-color"
+            },
+        ]))
+        .with_mode_sets(vec![color_scheme.clone()])
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/aliased-color-token.json"),
+            index: 0,
+            uuid: Some("99999999-0000-0000-0000-000000000010".to_string()),
+            raw: json!({
+                "scope": {"options": {}},
+                "legacyKey": "aliased-color-token",
+                "$ref": "su-aliased-color"
+            }),
+        }]);
+
+        assert!(
+            g.diverges_on_axis("aliased-color-token", &color_scheme),
+            "light and dark resolve to different leaf values through the alias chain"
         );
     }
 
