@@ -1,5 +1,15 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.4.1
+
+### Patch Changes
+
+- [#1452](https://github.com/adobe/spectrum-design-data/pull/1452) [`d88be4e`](https://github.com/adobe/spectrum-design-data/commit/d88be4e0204abb31d9f02ce680acd0fe478057a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct `stack-item-selected-background-color-down` to gray-200 (discussion #1415).
+  - **packages/design-data/relationships/stack-item.json**: rewired selected-down
+    background from gray-300 to gray-200, matching hover/key-focus — S2's down states
+    don't darken further, unlike S1. Regenerated legacy `packages/tokens/src/stack-item.json`
+    follows automatically.
+
 ## 15.4.0
 
 ### Minor Changes

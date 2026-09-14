@@ -1,5 +1,18 @@
 # @adobe/design-data-spec
 
+## 4.2.0
+
+### Minor Changes
+
+- [#1449](https://github.com/adobe/spectrum-design-data/pull/1449) [`57b9a04`](https://github.com/adobe/spectrum-design-data/commit/57b9a04243a13b151931e5b36876b857f6ac5ffe) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can now add, remove, or retarget a single mode value (or remove a whole
+  set) in `extensions/mode-sets/` via an `op` field, instead of only declaring or replacing
+  the entire set.
+  - **spec/manifest.md**: documented the `addMode` / `removeMode` / `setDefault` / `remove`
+    op grammar and updated the capability matrix.
+  - **spec/mode-sets.md**: cross-referenced the new ops alongside the existing
+    declare-or-replace semantics.
+  - **conformance/manifest-extensions/**: added valid and invalid fixtures covering each op.
+
 ## 4.1.0
 
 ### Minor Changes
