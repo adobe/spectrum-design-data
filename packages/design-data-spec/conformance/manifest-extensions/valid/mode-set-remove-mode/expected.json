@@ -1,0 +1,8 @@
+{
+  "modeSets": {
+    "present": ["colorScheme"],
+    "modes": {
+      "colorScheme": { "modes": ["light", "dark"], "default": "light" }
+    }
+  }
+}

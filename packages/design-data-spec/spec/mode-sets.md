@@ -45,8 +45,15 @@ The Spectrum foundation publishes mode set declarations as JSON files under `pac
 
 Additional mode sets (e.g. `language`, `motion`) **MAY** be declared in a dataset's mode set catalog. Token name objects **MAY** include keys matching declared mode set names.
 
-A platform manifest **MAY** also declare mode sets local to that platform, one per file under
-`extensions/mode-sets/` (see [Platform manifest — `extensions/` directory](manifest.md#extensions-directory)). Platform-declared mode sets are scoped to that platform's resolution and use the same **declare-or-replace-by-name** semantics as `extensions/fields/`: a new `name` adds a platform-local axis (e.g. `interfaceLevel`), while a `name` matching a foundation mode set replaces it for that platform only, leaving the foundation catalog untouched. This is distinct from `modeSetRestrictions` (below), which only *narrows* the allowed values of an existing mode set rather than declaring one.
+A platform manifest **MAY** also declare or edit mode sets local to that platform, one entry per
+file under `extensions/mode-sets/` (see [Platform manifest — `extensions/`
+directory](manifest.md#extensions-directory)). An entry with no `op` uses **declare-or-replace-by-name** semantics, same as `extensions/fields/`: a new `name` adds a platform-local axis (e.g.
+`interfaceLevel`), while a `name` matching a foundation mode set replaces it for that platform only,
+leaving the foundation catalog untouched. `op: "addMode"` / `"removeMode"` / `"setDefault"` /
+`"remove"` instead edit an existing set in place — adding or dropping a single mode value,
+retargeting its default, or dropping the whole set — without restating its other modes. This is
+distinct from `modeSetRestrictions` (below), which only *narrows* the allowed values of an existing
+mode set at resolution time rather than editing the declared set itself.
 
 ## Defaults and specificity
 
