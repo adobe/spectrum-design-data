@@ -30,6 +30,12 @@
       "env": {
         "FERROGRAPH_DB": "${PWD}/sdk/.ferrograph"
       }
+    },
+    "corp-jira": {
+      "command": "node",
+      "args": [
+        "/Users/garthdb/Projects/adobe-mcp-servers/src/corp-jira/dist/index.js"
+      ]
     }
   }
 }

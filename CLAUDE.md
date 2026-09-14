@@ -106,6 +106,7 @@ the sync sets this automatically from a bd label.
   * `DNA-1741` — connect Web/iOS/Android to design data
   * `DNA-1747` — Design Data's contribution to AI-authored Spectrum 2 code (shared KR, owned overall by Josh J)
   * `DNA-1748` — Design Data's contribution to documentation (shared OKR, owned overall by Ashley)
+  * `DNA-1796` — Spectrum Design Data Authoring (verified via Jira; used on the `11k` epic)
   * Pick whichever the epic's OKR-level goal matches; leave untagged if none fit
     rather than forcing a guess — a new Initiative may need to be created instead.
 * Non-epic beads (task/feature/bug) don't need the label — only the epic level links
@@ -116,11 +117,21 @@ the sync sets this automatically from a bd label.
   file by hand:
   `node <path-to-adobe-mcp-servers>/src/corp-jira/dist/scripts/import-beads.js --lookup <id> [<id>...]`
   — works with beads ids and Jira keys mixed in the same call.
+* **Other `import-beads.js` flags**: `--discover` (confirm real issue-type/priority/
+  status names for the target project before a first run), `--dry-run --limit N`
+  (preview creates, no network calls), `--project <KEY>` (default `DNA`),
+  `--sync-points <sprintId>` (backfill Story Points onto already-imported issues).
+  Already-imported beads are tracked in a local, gitignored
+  `src/corp-jira/scripts/beads-jira-map.json` and skipped/updated on re-run.
+* **Ad hoc Jira work** (a one-off comment, linking two issues, moving something into
+  an epic, checking an issue's current fields) doesn't need the sync script — use the
+  `corp-jira` MCP server's tools directly (`mcp__corp-jira__*`: search, create, update,
+  comments, issue links incl. `delete_issue_link`, work logs, move-to-epic, bulk ops).
 
 ## Code Intelligence Tools (MCP)
 
-Five MCP servers are configured in `.mcp.json` (committed, portable — uses `${PWD}` for
-repo-relative paths):
+Six MCP servers are configured in `.mcp.json` (committed, portable — uses `${PWD}` for
+repo-relative paths, except `corp-jira` below):
 
 * **Scout** — fuzzy front door for the whole repo. Use for: semantic search over tokens/schemas/docs, cross-package references ("what uses this token?"), doc knowledge graph, "find code about X" across TS/JS/JSON/Rust.
 * **Ferrograph** — precise back end for `sdk/` Rust crates only. Use for: exact call graph, blast radius ("what breaks if I change this?"), dead code, ownership/`&`/`&mut`/`unsafe` edges, raw Datalog queries. Deterministic — no LLM tokens, no approximations.
@@ -128,6 +139,15 @@ repo-relative paths):
 * **tuiwright** — TUI snapshot/headless testing for the product TUI. Requires a one-time install: `cargo install --path <path-to-tuiwright-source>/crates/tuiwright-mcp` (source at <https://github.com/GarthDB/tuiwright>).
 * **design-data** — query token/component data from the local SDK build via `@adobe/design-data-agent-mcp`.
 * **figma** — Figma desktop plugin bridge (must have the Figma desktop app running).
+* **corp-jira** — Adobe Jira (`jira.corp.adobe.com`) access: search/create/update issues,
+  comments, work logs, issue links (incl. `delete_issue_link`), move-to-epic, bulk ops.
+  Use for ad hoc Jira work; for the beads↔Jira backfill/sync see
+  [Jira Initiative Tracking](#jira-initiative-tracking) above.
+  * `.mcp.json` points at an **absolute, machine-specific path**
+    (`~/Projects/adobe-mcp-servers/src/corp-jira/dist/index.js`) since that repo isn't
+    part of this workspace — it only works if you have `adobe-mcp-servers` checked out
+    there. Auth/config (PAT or IMS) comes from that server's own `.env`, not from
+    `.mcp.json`, so no secrets land in this repo.
 
 **Routing rule:** when asking a Rust structural question (impact, callers, dead code), prefer ferrograph's answer over Scout's — it's exact. For everything else (tokens, docs, TS, "what is X"), use Scout. The two cover different ground and complement each other.
 
