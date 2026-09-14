@@ -104,9 +104,10 @@ tasks:
   # 020/022 are clean (downgrade is a no-op for them). SPEC-027's backlog of
   # 134 dangling tokenBindings was triaged in bead spectrum-design-data-vpk:
   # 84 were confident typo/word-order renames or garbage removals (now fixed),
-  # leaving 50 genuinely ambiguous bindings escalated for design-owner sign-off
-  # in child bead spectrum-design-data-vpk.1. Remove this flag once that bead
-  # resolves and the SPEC-027 count reaches 0.
+  # and the CTR migration plus further vpk.1 cleanup resolved all but 3 of the
+  # remaining 50 (see GitHub issue #1269) — only the button corner-radius
+  # bindings still need design-owner sign-off. Remove this flag once that's
+  # resolved and the SPEC-027 count reaches 0.
   validate:
     command: ../../sdk/target/debug/design-data
     args:
