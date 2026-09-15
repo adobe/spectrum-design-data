@@ -113,7 +113,7 @@ The skill is lighter-weight than the MCP server: it loads only when relevant.
 
 **GitHub Copilot** (CLI and desktop app): Copilot CLI reads the same `marketplace.json`
 Claude Code plugins use (it checks `.claude-plugin/` alongside its own `.github/plugin/`),
-so this repo is already a Copilot plugin marketplace — no separate Copilot config needed:
+so this repo is already a Copilot plugin marketplace. No separate Copilot config is needed:
 
 ```
 copilot plugin marketplace add adobe/spectrum-design-data
@@ -123,7 +123,7 @@ copilot plugin install design-data@spectrum-design-data
 Plugins installed via Copilot CLI sync automatically into the desktop app; manage them
 there under Customize → Plugins. (You can also skip the marketplace and copy
 `tools/design-data-skill/skills/design-data/` directly into `~/.copilot/skills/` or a
-repo's `.github/skills/` — Copilot also reads `.claude/skills/`.)
+repo's `.github/skills/`. Copilot also reads `.claude/skills/`.)
 
 **Cursor**: Settings → Rules → **Add Rule** → **Remote Rule (GitHub)**:
 
