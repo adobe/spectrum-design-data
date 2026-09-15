@@ -18,13 +18,47 @@ does this component support" without leaving the conversation.
 
 ## What you can do with it
 
-- **Look up a token:** "what's the token for the default row background?"
-- **Suggest a token from a description:** "I need a background for a selected, hovered row"
-- **Inspect a component's options:** "what sizes and variants does Button support?"
-- **Resolve a value across modes:** "what's this token's hex value in dark mode at high contrast?"
-- **Pull up a guideline:** "what are the accessibility rules for Badge?"
-- **Get oriented in a new session:** a primer with token counts, mode-sets (color scheme,
-  scale, contrast), the component list, and dataset provenance
+Ask in plain language. The assistant answers from the embedded Spectrum dataset instead
+of guessing.
+
+**Look things up**
+
+- **Find a token:** "what's the token for the default row background?"
+- **Suggest a token from a description:** "I need a background for a selected, hovered
+  row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
+  before you invent.
+- **Inspect a component's options:** "what sizes and variants does Button support?" You get
+  the actual schema: variants, sizes, states, and boolean props.
+- **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
+- **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
+  guidance say?"
+- **Get oriented:** a primer with token counts, the mode-sets (color scheme, scale, and
+  contrast), the component list, the registry vocabulary, and where the data came from.
+
+**Use the shared vocabulary (the registry)**
+
+The primer also exposes Spectrum's controlled vocabulary: variants (accent, quiet,
+negative, and so on), t-shirt sizes (xs through xxl, with medium as the default),
+interaction states (default, hover, focus, disabled), and component anatomy terms. Use it
+to name things the Spectrum way and to confirm which size, state, or variant names are real
+before you rely on them.
+
+**Prototype and build custom components**
+
+Working on something that isn't in Spectrum Web Components or React Spectrum yet? The
+dataset won't write the component for you, but it keeps a hand-built one on Spectrum
+foundations:
+
+- Pick real Spectrum tokens for color, spacing, and radius with suggest and query instead
+  of hard-coding values.
+- Borrow the registry vocabulary for prop names (size, variant, state) so your component
+  matches Spectrum conventions.
+- Use an existing component's schema as a model for how Spectrum organizes variants, sizes,
+  and states.
+- Check the relevant guideline before you commit to a pattern.
+
+It answers from the data. It does not generate component code or plug into Spectrum Web
+Components or React Spectrum.
 
 ## Skill vs. MCP server
 
