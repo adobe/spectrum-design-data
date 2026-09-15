@@ -11,10 +11,10 @@ The specification defines:
 
 1. **Token format** — structured token identity (`name`), literal `value` or alias `$ref`, and lifecycle metadata ([Token format](token-format.md)).
 2. **Taxonomy** — concept categories, token term vocabulary, formatting style, and the distinction between component anatomy and token objects ([Taxonomy](taxonomy.md)).
-3. **Registry** — named value collections that supply allowed vocabulary for token name fields and component metadata; three-registry boundary (anatomy-terms, token-objects, categories) and packaging strategy ([Registry](registry.md)).
+3. **Registry** — named value collections that supply allowed vocabulary for token name fields and component metadata; registry boundary (anatomy-terms, elements, attributes, affordances, visibilities, categories) and packaging strategy ([Registry](registry.md)).
 4. **Component format** — component declaration shape: API options, named content slots, anatomy parts, state model, and cross-reference validation rules ([Component format](component-format.md)).
    * **Anatomy format** — anatomy part declaration shape: field constraints, canonical anatomy vocabulary, and cross-reference rules for token `anatomy` field values ([Anatomy format](anatomy-format.md)).
-   * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `state` field values ([State model](state-model.md)).
+   * **State model** — state declaration shape: trigger semantics, precedence and resolution algorithm, canonical state vocabulary, and cross-reference rules for token `interaction`/`interaction-context` field values ([State model](state-model.md)).
 5. **Cascade and resolution** — layered data (foundation, platform, product), specificity, and how a context picks a winning value ([Cascade](cascade.md)).
 6. **Mode Sets** — declared modes, defaults, and coverage expectations ([Mode Sets](mode-sets.md)).
 7. **Platform manifest** — how a platform repo pins foundation data, filters tokens, and applies typed overrides ([Manifest](manifest.md)).

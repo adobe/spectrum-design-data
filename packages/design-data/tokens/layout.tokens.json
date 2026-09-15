@@ -163,8 +163,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "xxs",
       "legacyKey": "accessory-item-padding-2x-small"
@@ -177,8 +176,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "xl",
       "legacyKey": "accessory-item-padding-extra-large"
@@ -191,8 +189,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "xs",
       "legacyKey": "accessory-item-padding-extra-small"
@@ -205,8 +202,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "l",
       "legacyKey": "accessory-item-padding-large"
@@ -219,8 +215,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "m",
       "legacyKey": "accessory-item-padding-medium"
@@ -233,8 +228,7 @@
   },
   {
     "name": {
-      "structure": "accessory",
-      "anatomy": "item",
+      "structure": "accessory-item",
       "property": "padding",
       "size": "s",
       "legacyKey": "accessory-item-padding-small"
@@ -2306,7 +2300,7 @@
   {
     "name": {
       "property": "component-size-difference",
-      "state": ["down"]
+      "interaction": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "-2px",
@@ -2316,7 +2310,7 @@
   {
     "name": {
       "property": "component-size-maximum-perspective",
-      "state": ["down"]
+      "interaction": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "96px",
@@ -2326,7 +2320,7 @@
   {
     "name": {
       "property": "component-size-minimum-perspective",
-      "state": ["down"]
+      "interaction": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
@@ -2336,7 +2330,7 @@
   {
     "name": {
       "property": "component-size-width-ratio",
-      "state": ["down"]
+      "interaction": ["down"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.3333,
@@ -2988,8 +2982,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 0
+      "property": "radius",
+      "scaleIndex": 0,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "0px",
@@ -2998,8 +2993,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 100
+      "property": "radius",
+      "scaleIndex": 100,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -3008,8 +3004,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 1000
+      "property": "radius",
+      "scaleIndex": 1000,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 0.5,
@@ -3018,8 +3015,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 200
+      "property": "radius",
+      "scaleIndex": 200,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "5px",
@@ -3028,8 +3026,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 300
+      "property": "radius",
+      "scaleIndex": 300,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -3038,8 +3037,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 400
+      "property": "radius",
+      "scaleIndex": 400,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
@@ -3048,8 +3048,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 500
+      "property": "radius",
+      "scaleIndex": 500,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -3058,8 +3059,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 600
+      "property": "radius",
+      "scaleIndex": 600,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
@@ -3068,8 +3070,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 700
+      "property": "radius",
+      "scaleIndex": 700,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -3078,8 +3081,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 75
+      "property": "radius",
+      "scaleIndex": 75,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "3px",
@@ -3088,8 +3092,9 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "scaleIndex": 800
+      "property": "radius",
+      "scaleIndex": 800,
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
@@ -3098,9 +3103,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "state": ["default"],
-      "size": "xl"
+      "property": "radius",
+      "size": "xl",
+      "attribute": "corner",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
@@ -3109,9 +3115,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
+      "property": "radius",
       "shape": "full",
-      "legacyKey": "corner-radius-full"
+      "legacyKey": "corner-radius-full",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "e4ad85b2-97bf-48cf-a5a9-3ff3d1fada5b",
@@ -3120,9 +3127,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "state": ["default"],
-      "size": "l"
+      "property": "radius",
+      "size": "l",
+      "attribute": "corner",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
@@ -3131,9 +3139,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "state": ["default"],
-      "size": "m"
+      "property": "radius",
+      "size": "m",
+      "attribute": "corner",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",
@@ -3142,10 +3151,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "container",
+      "property": "radius",
       "size": "xl",
-      "legacyKey": "corner-radius-medium-size-extra-large"
+      "legacyKey": "corner-radius-medium-size-extra-large",
+      "structure": "container",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cb6b72ed-a9a1-4113-b147-1ef369fe6269",
@@ -3154,10 +3164,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "container",
+      "property": "radius",
       "size": "xs",
-      "legacyKey": "corner-radius-medium-size-extra-small"
+      "legacyKey": "corner-radius-medium-size-extra-small",
+      "structure": "container",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
@@ -3166,10 +3177,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "container",
+      "property": "radius",
       "size": "l",
-      "legacyKey": "corner-radius-medium-size-large"
+      "legacyKey": "corner-radius-medium-size-large",
+      "structure": "container",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "abc0f309-3bd2-4800-af12-b27386e86617",
@@ -3178,10 +3190,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "container",
+      "property": "radius",
       "size": "m",
-      "legacyKey": "corner-radius-medium-size-medium"
+      "legacyKey": "corner-radius-medium-size-medium",
+      "structure": "container",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ada2ea1d-1728-411a-8aae-a198ce390a25",
@@ -3190,10 +3203,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "container",
+      "property": "radius",
       "size": "s",
-      "legacyKey": "corner-radius-medium-size-small"
+      "legacyKey": "corner-radius-medium-size-small",
+      "structure": "container",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "690db7ae-cae8-49bb-8777-b4f1829b2f0b",
@@ -3202,9 +3216,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
+      "property": "radius",
       "shape": "none",
-      "legacyKey": "corner-radius-none"
+      "legacyKey": "corner-radius-none",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bb9d8350-b1fb-4496-9c22-6ec9647ff117",
@@ -3213,9 +3228,10 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "state": ["default"],
-      "size": "s"
+      "property": "radius",
+      "size": "s",
+      "attribute": "corner",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
@@ -3224,10 +3240,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "control",
+      "property": "radius",
       "size": "xl",
-      "legacyKey": "corner-radius-small-size-extra-large"
+      "legacyKey": "corner-radius-small-size-extra-large",
+      "element": "control",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "154642d7-c23d-44fd-9d79-b719ef32922e",
@@ -3236,10 +3253,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "control",
+      "property": "radius",
       "size": "l",
-      "legacyKey": "corner-radius-small-size-large"
+      "legacyKey": "corner-radius-small-size-large",
+      "element": "control",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "52ad01be-f512-4fa3-ae67-8c6cef70810c",
@@ -3248,10 +3266,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "control",
+      "property": "radius",
       "size": "m",
-      "legacyKey": "corner-radius-small-size-medium"
+      "legacyKey": "corner-radius-small-size-medium",
+      "element": "control",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf24d15e-ad86-4b6a-a9e0-e8fd49a5ae30",
@@ -3260,10 +3279,11 @@
   },
   {
     "name": {
-      "property": "corner-radius",
-      "role": "control",
+      "property": "radius",
       "size": "s",
-      "legacyKey": "corner-radius-small-size-small"
+      "legacyKey": "corner-radius-small-size-small",
+      "element": "control",
+      "attribute": "corner"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ecb9d03a-7340-4b43-8aa7-f89eef9f3a20",
@@ -3661,8 +3681,8 @@
       "property": "blur",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["default"],
-      "legacyKey": "drop-shadow-emphasized-default-blur"
+      "legacyKey": "drop-shadow-emphasized-default-blur",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "025e39f4-dfe7-4a8a-beb5-bd0577f72eac",
@@ -3674,8 +3694,8 @@
       "property": "x",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["default"],
-      "legacyKey": "drop-shadow-emphasized-default-x"
+      "legacyKey": "drop-shadow-emphasized-default-x",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "751d636e-efb5-411e-a5b8-06b11439cc90",
@@ -3687,8 +3707,8 @@
       "property": "y",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["default"],
-      "legacyKey": "drop-shadow-emphasized-default-y"
+      "legacyKey": "drop-shadow-emphasized-default-y",
+      "interaction": ["default"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ed1f46fd-a586-46a5-8cc1-d843a57e2cc2",
@@ -3700,8 +3720,8 @@
       "property": "blur",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["hover"],
-      "legacyKey": "drop-shadow-emphasized-hover-blur"
+      "legacyKey": "drop-shadow-emphasized-hover-blur",
+      "interaction": ["hover"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "2b08d425-ecf2-4891-83cd-005a2d5e76ce",
@@ -3713,8 +3733,8 @@
       "property": "x",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["hover"],
-      "legacyKey": "drop-shadow-emphasized-hover-x"
+      "legacyKey": "drop-shadow-emphasized-hover-x",
+      "interaction": ["hover"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "0c76c925-4d29-49a3-b882-e946bd7fe9f1",
@@ -3726,8 +3746,8 @@
       "property": "y",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "state": ["hover"],
-      "legacyKey": "drop-shadow-emphasized-hover-y"
+      "legacyKey": "drop-shadow-emphasized-hover-y",
+      "interaction": ["hover"]
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d2d0320a-6984-4b3f-8f5d-ccb88892a26c",
@@ -3836,9 +3856,9 @@
   },
   {
     "name": {
-      "structure": "drop-target",
       "property": "dash-gap",
-      "legacyKey": "drop-target-dash-gap"
+      "legacyKey": "drop-target-dash-gap",
+      "affordance": "drop-target"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "4adbd869-2ead-49b8-bed6-950fb14c695d",
@@ -5670,8 +5690,9 @@
   },
   {
     "name": {
-      "anatomy": "focus-indicator",
-      "property": "gap"
+      "property": "gap",
+      "affordance": "focus-ring",
+      "legacyKey": "focus-indicator-gap"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -5685,8 +5706,9 @@
   },
   {
     "name": {
-      "anatomy": "focus-indicator",
-      "property": "thickness"
+      "property": "thickness",
+      "affordance": "focus-ring",
+      "legacyKey": "focus-indicator-thickness"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
@@ -5695,8 +5717,8 @@
   },
   {
     "name": {
-      "anatomy": "focus-ring",
-      "property": "gap"
+      "property": "gap",
+      "affordance": "focus-ring"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
@@ -5989,8 +6011,7 @@
   },
   {
     "name": {
-      "structure": "list",
-      "anatomy": "item",
+      "structure": "list-item",
       "property": "gap",
       "size": "m",
       "legacyKey": "list-item-gap-medium"
@@ -6003,8 +6024,7 @@
   },
   {
     "name": {
-      "structure": "list",
-      "anatomy": "item",
+      "structure": "list-item",
       "property": "gap",
       "size": "s",
       "legacyKey": "list-item-gap-small"
@@ -6017,8 +6037,7 @@
   },
   {
     "name": {
-      "structure": "list",
-      "anatomy": "item",
+      "structure": "list-item",
       "property": "padding-horizontal",
       "legacyKey": "list-item-padding-horizontal"
     },
@@ -6030,8 +6049,7 @@
   },
   {
     "name": {
-      "structure": "list",
-      "anatomy": "item",
+      "structure": "list-item",
       "property": "padding-vertical",
       "density": "regular",
       "legacyKey": "list-item-padding-vertical-regular"
@@ -6044,8 +6062,7 @@
   },
   {
     "name": {
-      "structure": "list",
-      "anatomy": "item",
+      "structure": "list-item",
       "property": "padding-vertical",
       "density": "spacious",
       "legacyKey": "list-item-padding-vertical-spacious"
@@ -6195,9 +6212,9 @@
   {
     "name": {
       "orientation": "vertical",
-      "anatomy": "focus-indicator",
       "property": "thickness",
-      "legacyKey": "side-focus-indicator"
+      "legacyKey": "side-focus-indicator",
+      "affordance": "focus-ring"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -7396,10 +7413,10 @@
   },
   {
     "name": {
-      "component": "tabs",
-      "anatomy": "indicator",
       "property": "thickness",
-      "legacyKey": "tab-selection-indicator-thickness"
+      "legacyKey": "tab-selection-indicator-thickness",
+      "affordance": "selection-indicator",
+      "component": "tabs"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",

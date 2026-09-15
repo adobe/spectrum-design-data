@@ -1,1 +1,1 @@
-component=button,state=hover|component=checkbox
+component=button,interaction=hover|component=checkbox

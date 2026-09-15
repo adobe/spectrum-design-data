@@ -64,16 +64,25 @@
         },
         "options": {
           "type": "object",
-          "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each key's value MUST validate against the referenced component's options.<key>.values (SPEC-053), except `state`, which is an ordered array of atomic state ids validated against the component's declared states (SPEC-054).",
+          "description": "Option-scoped narrowing (e.g. variant, size, style, arbitrary component option keys). Each key's value MUST validate against the referenced component's options.<key>.values (SPEC-053), except `interaction`/`interaction-context`, which are ordered arrays of atomic state ids validated against the component's declared states (SPEC-054).",
           "properties": {
-            "state": {
+            "interaction": {
               "type": "array",
               "items": {
                 "type": "string",
                 "pattern": "^[a-z][a-z0-9-]*$"
               },
               "minItems": 1,
-              "description": "Ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+              "description": "Ordered array of atomic transient interaction-state ids (e.g. [\"hover\"], [\"focus\", \"hover\"])."
+            },
+            "interaction-context": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "minItems": 1,
+              "description": "Ordered array of atomic persistent state-context ids (e.g. [\"selected\"], [\"disabled\"])."
             }
           },
           "additionalProperties": {

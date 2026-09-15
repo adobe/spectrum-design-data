@@ -5,7 +5,7 @@
         "component": "button",
         "part": "label",
         "property": "background-color",
-        "options": { "style": "fill", "state": ["hover"] }
+        "options": { "style": "fill", "interaction": ["hover"] }
       },
       "value": "#ff0000",
       "uuid": "33333333-3333-3333-3333-333333333333",

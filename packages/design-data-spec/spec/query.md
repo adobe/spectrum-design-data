@@ -20,17 +20,18 @@ A **filter expression** is a string that describes a set of conditions a token m
 
 **NORMATIVE:** Implementations **MUST** support the following keys:
 
-| Key           | Source             | Description                         |
-| ------------- | ------------------ | ----------------------------------- |
-| `property`    | `name.property`    | Token property identifier.          |
-| `component`   | `name.component`   | Associated component name.          |
-| `variant`     | `name.variant`     | Component variant.                  |
-| `state`       | `name.state`       | Component or interaction state.     |
-| `colorScheme` | `name.colorScheme` | Color scheme mode set value.        |
-| `scale`       | `name.scale`       | Scale mode set value.               |
-| `contrast`    | `name.contrast`    | Contrast mode set value.            |
-| `uuid`        | `uuid`             | Token UUID (top-level field).       |
-| `$schema`     | `$schema`          | Token schema URL (top-level field). |
+| Key                   | Source                     | Description                         |
+| --------------------- | -------------------------- | ----------------------------------- |
+| `property`            | `name.property`            | Token property identifier.          |
+| `component`           | `name.component`           | Associated component name.          |
+| `variant`             | `name.variant`             | Component variant.                  |
+| `interaction`         | `name.interaction`         | Transient interaction state.        |
+| `interaction-context` | `name.interaction-context` | Persistent, prop-driven state.      |
+| `colorScheme`         | `name.colorScheme`         | Color scheme mode set value.        |
+| `scale`               | `name.scale`               | Scale mode set value.               |
+| `contrast`            | `name.contrast`            | Contrast mode set value.            |
+| `uuid`                | `uuid`                     | Token UUID (top-level field).       |
+| `$schema`             | `$schema`                  | Token schema URL (top-level field). |
 
 **NORMATIVE:** Implementations **MUST** reject filter expressions containing keys not listed above with a parse error. Future spec versions MAY add keys.
 
@@ -77,7 +78,7 @@ The expression `a=x,b=y|c=z` is equivalent to `(a=x AND b=y) OR (c=z)`.
 
 **RATIONALE:** Negation matching absent fields follows the convention that "not equal to X" includes "does not exist" — the same semantics as label selectors in Kubernetes and CSS attribute selectors.
 
-**NORMATIVE:** `state` (and any future array-valued key) resolves to each element of the array individually. For equality (`=`), a condition matches when **any** element equals the specified value. For negation (`!=`), a condition matches when **no** element equals the specified value (or the field is absent). For example, a token with `name.state: ["selected", "hover"]` matches `state=hover` and does **not** match `state!=hover`.
+**NORMATIVE:** `interaction`/`interaction-context` (and any future array-valued key) resolve to each element of the array individually. For equality (`=`), a condition matches when **any** element equals the specified value. For negation (`!=`), a condition matches when **no** element equals the specified value (or the field is absent). For example, a token with `name.interaction-context: ["selected"], name.interaction: ["hover"]` matches `interaction=hover` and does **not** match `interaction!=hover`.
 
 **RATIONALE:** A compound state (Proposal 006) represents a token that is simultaneously in multiple states; querying for one of those states should find it, consistent with treating the array as a set of active states rather than requiring an exact-array match.
 
@@ -104,10 +105,10 @@ Matches tokens whose `name.component` is `"button"`.
 ### Select tokens matching multiple criteria
 
 ```
-component=button,state=hover
+component=button,interaction=hover
 ```
 
-Matches tokens where `name.component` is `"button"` **AND** `name.state` is `"hover"`.
+Matches tokens where `name.component` is `"button"` **AND** `name.interaction` contains `"hover"`.
 
 ### Select tokens for either of two properties
 

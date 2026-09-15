@@ -242,20 +242,6 @@
       "usedIn": ["tokens", "s2-docs"]
     },
     {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
-      "id": "focus-indicator",
-      "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
       "id": "workflow-icon",
       "label": "Workflow Icon",
       "description": "Standard workflow icon element within a component (distinct from UI icons)",
@@ -538,13 +524,6 @@
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "overlay",
-      "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
-      "usedIn": ["s2-docs"],
-      "standaloneScope": true
-    },
-    {
       "id": "header-area",
       "label": "Header Area",
       "description": "Distinct header region within a dialog or panel component",
@@ -684,12 +663,6 @@
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "item",
-      "label": "Item",
-      "description": "Generic individual item element within a list, navigation, or container component (use a more specific term such as accordion-item, list-item, or tab-item where available)",
-      "usedIn": ["s2-docs"]
-    },
-    {
       "id": "tree-view-item",
       "label": "Tree View Item",
       "description": "Individual node element within a tree-view component",
@@ -801,12 +774,6 @@
       "id": "disclosure-icon",
       "label": "Disclosure icon",
       "description": "An icon affordance showing expand/collapse state",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "drag-handle",
-      "label": "Drag handle",
-      "description": "A grip affordance for reordering an item via drag",
       "usedIn": ["tokens"]
     },
     {

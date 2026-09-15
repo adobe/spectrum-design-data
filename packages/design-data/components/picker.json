@@ -254,7 +254,7 @@
       "trigger": "prop"
     },
     {
-      "name": "keyboard-focus",
+      "name": "focus",
       "trigger": "interaction"
     }
   ],

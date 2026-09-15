@@ -25,7 +25,8 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "property",
     "component",
     "variant",
-    "state",
+    "interaction",
+    "interaction-context",
     "colorScheme",
     "scale",
     "contrast",
@@ -46,7 +47,8 @@ const NAME_OBJECT_KEYS: &[&str] = &[
     "property",
     "component",
     "variant",
-    "state",
+    "interaction",
+    "interaction-context",
     "colorScheme",
     "scale",
     "contrast",
@@ -211,8 +213,8 @@ fn matches_expr(raw: &serde_json::Value, expr: &FilterExpr) -> bool {
 
 /// Evaluate a single condition against a token's raw JSON.
 ///
-/// A field can resolve to more than one value (Proposal 006: `state` is an
-/// ordered array), so `Eq` matches if *any* value matches, and `NotEq` matches
+/// A field can resolve to more than one value (Proposal 006: `interaction`/
+/// `interaction-context` are ordered arrays), so `Eq` matches if *any* value matches, and `NotEq` matches
 /// if *no* value matches — this is also correct for the single-value case, and
 /// for a missing field (empty list): `Eq` → false, `NotEq` → true.
 fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
@@ -227,9 +229,9 @@ fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
 
 /// Resolve a query key to the field's value(s) in a token's raw JSON.
 ///
-/// Most name-object fields are a single string. `state` (Proposal 006) is an
-/// ordered array of atomic ids — handled generically here so any array-valued
-/// field resolves to each of its elements.
+/// Most name-object fields are a single string. `interaction`/`interaction-context`
+/// (Proposal 006) are ordered arrays of atomic ids — handled generically here so
+/// any array-valued field resolves to each of its elements.
 pub(crate) fn resolve_key(raw: &serde_json::Value, key: &str) -> Vec<String> {
     let field = if NAME_OBJECT_KEYS.contains(&key) {
         raw.get("name").and_then(|n| n.get(key))
@@ -522,7 +524,8 @@ mod tests {
             "property",
             "component",
             "variant",
-            "state",
+            "interaction",
+            "interaction-context",
             "colorScheme",
             "scale",
             "contrast",
@@ -559,7 +562,7 @@ mod tests {
 
     #[test]
     fn parse_and_conditions() {
-        let f = parse("component=button,state=hover").unwrap();
+        let f = parse("component=button,interaction=hover").unwrap();
         if let FilterExpr::Or(alts) = &f.expr {
             assert_eq!(alts.len(), 1);
             assert_eq!(alts[0].len(), 2);
@@ -606,11 +609,11 @@ mod tests {
 
     #[test]
     fn parse_whitespace_trimmed() {
-        let f = parse("  component = button , state = hover  ").unwrap();
+        let f = parse("  component = button , interaction = hover  ").unwrap();
         if let FilterExpr::Or(alts) = &f.expr {
             assert_eq!(alts[0][0].key, "component");
             assert_eq!(alts[0][0].value, "button");
-            assert_eq!(alts[0][1].key, "state");
+            assert_eq!(alts[0][1].key, "interaction");
             assert_eq!(alts[0][1].value, "hover");
         } else {
             panic!("expected Or");
@@ -675,7 +678,7 @@ mod tests {
         let g = make_graph(vec![
             (
                 "btn-hover",
-                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction": ["hover"]}, "value": "1"}),
             ),
             (
                 "btn-default",
@@ -683,10 +686,10 @@ mod tests {
             ),
             (
                 "chk-hover",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "interaction": ["hover"]}, "value": "3"}),
             ),
         ]);
-        let f = parse("component=button,state=hover").unwrap();
+        let f = parse("component=button,interaction=hover").unwrap();
         let results = filter(&g, &f);
         assert_eq!(results.len(), 1);
     }
@@ -696,19 +699,19 @@ mod tests {
         let g = make_graph(vec![
             (
                 "btn-selected-hover",
-                json!({"name": {"property": "bg", "component": "button", "state": ["selected", "hover"]}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction-context": ["selected"], "interaction": ["hover"]}, "value": "1"}),
             ),
             (
                 "btn-default",
-                json!({"name": {"property": "bg", "component": "button", "state": ["default"]}, "value": "2"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction": ["default"]}, "value": "2"}),
             ),
         ]);
-        let f = parse("state=hover").unwrap();
+        let f = parse("interaction=hover").unwrap();
         let results = filter(&g, &f);
         assert_eq!(results.len(), 1);
         assert_eq!(results[0].raw["value"], "1");
 
-        let f = parse("state!=hover").unwrap();
+        let f = parse("interaction!=hover").unwrap();
         let results = filter(&g, &f);
         assert_eq!(results.len(), 1);
         assert_eq!(results[0].raw["value"], "2");
@@ -852,15 +855,15 @@ mod tests {
         let g = make_graph(vec![
             (
                 "btn",
-                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction": ["hover"]}, "value": "1"}),
             ),
             (
                 "chk",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "2"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "interaction": ["hover"]}, "value": "2"}),
             ),
             (
                 "slider",
-                json!({"name": {"property": "bg", "component": "slider", "state": ["default"]}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "slider", "interaction": ["default"]}, "value": "3"}),
             ),
             (
                 "light",
@@ -872,7 +875,7 @@ mod tests {
             ),
         ]);
         assert_filter_equivalent(&g, "");
-        assert_filter_equivalent(&g, "component=button,state=hover");
+        assert_filter_equivalent(&g, "component=button,interaction=hover");
         assert_filter_equivalent(&g, "component=button|component=checkbox");
         assert_filter_equivalent(&g, "colorScheme!=light");
         assert_filter_equivalent(&g, "property=*-bg");
@@ -986,20 +989,20 @@ mod tests {
         let g = make_graph(vec![
             (
                 "a",
-                json!({"name": {"property": "bg", "component": "button", "state": ["hover"]}, "value": "1"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction": ["hover"]}, "value": "1"}),
             ),
             (
                 "b",
-                json!({"name": {"property": "bg", "component": "button", "state": ["default"]}, "value": "2"}),
+                json!({"name": {"property": "bg", "component": "button", "interaction": ["default"]}, "value": "2"}),
             ),
             (
                 "c",
-                json!({"name": {"property": "bg", "component": "checkbox", "state": ["hover"]}, "value": "3"}),
+                json!({"name": {"property": "bg", "component": "checkbox", "interaction": ["hover"]}, "value": "3"}),
             ),
         ]);
         let idx = TokenIndex::build(&g);
-        // Constrain to property=bg,state=hover; only "button" and "checkbox" should appear.
-        let filter = parse("property=bg,state=hover").unwrap();
+        // Constrain to property=bg,interaction=hover; only "button" and "checkbox" should appear.
+        let filter = parse("property=bg,interaction=hover").unwrap();
         let counts = facet_counts(&g, &idx, &filter, "component");
         let map: std::collections::HashMap<_, _> = counts.into_iter().collect();
         assert_eq!(map.get("button"), Some(&1));

@@ -648,7 +648,7 @@ mod tests {
         let catalog = FieldCatalog::embedded();
         let registry = RegistryData::embedded();
         let result = validate_classification(
-            "background-color",
+            "color",
             &[("colorFamily".into(), "not-a-real-family".into())],
             None,
             catalog,
@@ -670,7 +670,7 @@ mod tests {
         let catalog = FieldCatalog::embedded();
         let registry = RegistryData::embedded();
         let result = validate_classification(
-            "background-color",
+            "color",
             &[("variant".into(), "accent".into())],
             None,
             catalog,
@@ -743,7 +743,7 @@ mod tests {
         // An empty name_fields list with a valid property → clean.
         let catalog = FieldCatalog::embedded();
         let registry = RegistryData::embedded();
-        let result = validate_classification("background-color", &[], None, catalog, registry);
+        let result = validate_classification("color", &[], None, catalog, registry);
         assert!(result.is_ok());
         assert!(result.unwrap().is_empty());
     }

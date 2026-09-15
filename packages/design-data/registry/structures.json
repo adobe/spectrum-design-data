@@ -59,9 +59,19 @@
       "description": "Elevated shadow effect applied to components and containers"
     },
     {
-      "id": "drop-target",
-      "label": "Drop Target",
-      "description": "Drag-and-drop destination structure"
+      "id": "list-item",
+      "label": "List Item",
+      "description": "Individual row within a list structure"
+    },
+    {
+      "id": "table-item",
+      "label": "Table Item",
+      "description": "Generic item element within a table row; used for item-level padding tokens (e.g. table-item-padding-*)"
+    },
+    {
+      "id": "accessory-item",
+      "label": "Accessory Item",
+      "description": "Individual item within an accessory structure"
     }
   ]
 }

@@ -20,9 +20,10 @@
 //! this check:
 //! - `colorScheme`, `scale`, `contrast` — mode-set fields, validated by SPEC-005/SPEC-008
 //!
-//! Per Proposal 006, `state` is an ordered array of atomic state ids (e.g.
-//! `["selected", "hover"]`) rather than a single string — each element is checked
-//! against the registry independently.
+//! Per Proposal 006, array-valued fields (`interaction`, `interaction-context`) hold
+//! an ordered array of atomic state ids (e.g. `["hover"]`) rather than a single
+//! string — each element is checked against the registry independently. Detected
+//! via the field catalog's `value_type`, not a hardcoded field name.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -40,6 +41,7 @@ impl ValidationRule for Rule {
 
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut diags = Vec::new();
+        let catalog = crate::registry::FieldCatalog::embedded();
 
         for record in ctx.graph.tokens.values() {
             let name_obj = match record.raw.get("name").and_then(|v| v.as_object()) {
@@ -53,9 +55,13 @@ impl ValidationRule for Rule {
                     None => continue,
                 };
 
-                // `state` (Proposal 006) is an ordered array of atomic ids; every
-                // other advisory field is a single string.
-                let values: Vec<&str> = if field == "state" {
+                // Array-valued fields (Proposal 006, e.g. `interaction`,
+                // `interaction-context`) hold an ordered array of atomic ids; every
+                // other advisory field is a single string. Detected via the field
+                // catalog's `value_type` so this stays correct if the array-valued
+                // field set changes again.
+                let is_array = catalog.get(field).is_some_and(|e| e.value_type == "array");
+                let values: Vec<&str> = if is_array {
                     match name_obj.get(field).and_then(|v| v.as_array()) {
                         Some(arr) => arr.iter().filter_map(|v| v.as_str()).collect(),
                         None => continue,
@@ -131,17 +137,17 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": ["hover"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "interaction": ["hover"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
 
     #[test]
-    fn valid_object_no_warning() {
+    fn valid_attribute_no_warning() {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "object": "background"}, "value": "#fff"}),
+            json!({"name": {"property": "color", "attribute": "background"}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
@@ -205,34 +211,35 @@ mod tests {
 
     #[test]
     fn compound_state_of_known_segments_no_warning() {
+        // Interaction-context and interaction are now two separate array fields;
+        // the "compound state" split across them, rather than into one array.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": ["selected", "hover"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "interaction-context": ["selected"], "interaction": ["hover"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
 
     #[test]
     fn compound_state_with_hyphenated_segment_no_warning() {
-        // "keyboard-focus" (aliased as "key-focus") is itself a single registry
-        // value and stays a single array element — not split into "key" + "focus".
+        // "focus" absorbed the former "key-focus"/"keyboard-focus" alias and is
+        // itself a single registry value.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": ["selected", "key-focus"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "interaction-context": ["selected"], "interaction": ["focus"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
 
     #[test]
-    fn compound_state_with_pressed_alias_no_warning() {
-        // "pressed" is a registered alias of the foundation "active" state and
-        // must resolve as a recognized value, not warn as an opaque string.
+    fn compound_state_with_down_no_warning() {
+        // "down" is the canonical transient pressed-state term in the current registry.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": ["selected", "pressed"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "interaction-context": ["selected"], "interaction": ["down"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
     }
@@ -242,7 +249,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "state": ["selected", "nonexistent"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "interaction-context": ["selected"], "interaction": ["nonexistent"]}, "value": "#fff"}),
         )]);
         let diags = diagnostics_for_rule(&g, "SPEC-009");
         assert_eq!(diags.len(), 1);
@@ -254,7 +261,7 @@ mod tests {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "component": "nope", "state": ["nah"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "nope", "interaction": ["nah"]}, "value": "#fff"}),
         )]);
         let diags = diagnostics_for_rule(&g, "SPEC-009");
         assert_eq!(diags.len(), 2);

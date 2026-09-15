@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/anatomy-terms.json",
   "validation": "advisory",
   "serialization": {
-    "position": 4
+    "position": 5
   },
   "scope": null,
   "required": false,

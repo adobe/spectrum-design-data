@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "affordance",
+  "description": "UI affordances that visually distinguish a specific behavior, used stylistically across multiple components rather than owned by a single one.",
+  "values": [
+    {
+      "id": "drop-target",
+      "label": "Drop Target",
+      "description": "Drag-and-drop destination affordance"
+    },
+    {
+      "id": "focus-ring",
+      "label": "Focus Ring",
+      "description": "Visible ring or indicator drawn around a focused element for accessibility"
+    },
+    {
+      "id": "selection-indicator",
+      "label": "Selection Indicator",
+      "description": "Visual marker indicating which item among several is currently selected/active (e.g. tabs, carousels, steppers)"
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag Handle",
+      "description": "A grip affordance for reordering an item via drag"
+    }
+  ]
+}

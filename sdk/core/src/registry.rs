@@ -244,11 +244,16 @@ mod tests {
     fn embedded_registries_load() {
         let r = RegistryData::embedded();
         assert!(r.for_field("component").unwrap().contains("button"));
-        assert!(r.for_field("state").unwrap().contains("hover"));
+        assert!(r.for_field("interaction").unwrap().contains("hover"));
+        assert!(r
+            .for_field("interaction-context")
+            .unwrap()
+            .contains("selected"));
         assert!(r.for_field("variant").unwrap().contains("accent"));
         assert!(r.for_field("size").unwrap().contains("m"));
         assert!(r.for_field("anatomy").unwrap().contains("icon"));
-        assert!(r.for_field("object").unwrap().contains("background"));
+        assert!(r.for_field("element").unwrap().contains("visual"));
+        assert!(r.for_field("attribute").unwrap().contains("background"));
         assert!(r.for_field("structure").unwrap().contains("base"));
         assert!(r.for_field("orientation").unwrap().contains("vertical"));
         assert!(r.for_field("position").unwrap().contains("top"));
@@ -269,7 +274,7 @@ mod tests {
     fn for_field_returns_correct_registry() {
         let r = RegistryData::embedded();
         assert!(r.for_field("component").unwrap().contains("button"));
-        assert!(r.for_field("object").unwrap().contains("background"));
+        assert!(r.for_field("element").unwrap().contains("visual"));
         assert!(r.for_field("property").unwrap().contains("color")); // advisory registry
         assert!(r.for_field("colorScheme").is_none()); // mode-set, validated by SPEC-005/008
     }
@@ -277,10 +282,10 @@ mod tests {
     #[test]
     fn for_field_also_resolves_registry_file_basename() {
         // A caller that only knows the registry file name (e.g. `platform-extension.json`'s
-        // `extends: "states"`) must resolve to the same registry as the field-catalog name.
+        // `extends: "interactions"`) must resolve to the same registry as the field-catalog name.
         let r = RegistryData::embedded();
-        let by_field = r.for_field("state").unwrap();
-        let by_registry_name = r.for_field("states").unwrap();
+        let by_field = r.for_field("interaction").unwrap();
+        let by_registry_name = r.for_field("interactions").unwrap();
         assert_eq!(by_field, by_registry_name);
         assert!(by_registry_name.contains("hover"));
     }
@@ -298,7 +303,8 @@ mod tests {
         }
         // The expected set from the field catalog
         assert!(fields.contains(&"component"));
-        assert!(fields.contains(&"state"));
+        assert!(fields.contains(&"interaction"));
+        assert!(fields.contains(&"interaction-context"));
         assert!(fields.contains(&"variant"));
         assert!(fields.contains(&"size"));
         assert!(fields.contains(&"property")); // advisory registry added in #941
@@ -306,5 +312,51 @@ mod tests {
         assert!(!fields.contains(&"colorScheme"));
         assert!(!fields.contains(&"scale"));
         assert!(!fields.contains(&"contrast"));
+    }
+
+    /// Guards against the exact regression found while auditing the taxonomy
+    /// migration: `packages/design-data/registry/platform-extensions/*.json` isn't
+    /// currently loaded into the graph (it's foundation reference data, not
+    /// manifest-declared), so nothing else catches a stale `extends` target or a
+    /// `termId` that no longer exists after a field is renamed/split/removed.
+    #[test]
+    fn foundation_platform_extensions_extends_live_registries() {
+        let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/registry/platform-extensions");
+        let r = RegistryData::embedded();
+        let mut checked = 0;
+        for entry in std::fs::read_dir(&dir).expect("platform-extensions dir must exist") {
+            let path = entry.expect("readable dir entry").path();
+            if path.extension().and_then(|e| e.to_str()) != Some("json") {
+                continue;
+            }
+            let raw = std::fs::read_to_string(&path).expect("readable extension file");
+            let doc: Value = serde_json::from_str(&raw).expect("valid JSON");
+            let extends = doc
+                .get("extends")
+                .and_then(|v| v.as_str())
+                .unwrap_or_else(|| panic!("{path:?} missing 'extends'"));
+            let registry = r.for_field(extends).unwrap_or_else(|| {
+                panic!("{path:?} declares extends:\"{extends}\" but no such registry exists")
+            });
+            for ext in doc
+                .get("extensions")
+                .and_then(|v| v.as_array())
+                .into_iter()
+                .flatten()
+            {
+                if let Some(term_id) = ext.get("termId").and_then(|v| v.as_str()) {
+                    assert!(
+                        registry.contains(term_id),
+                        "{path:?} references termId \"{term_id}\" which does not exist in the \"{extends}\" registry"
+                    );
+                }
+            }
+            checked += 1;
+        }
+        assert!(
+            checked > 0,
+            "expected at least one platform-extension file to check"
+        );
     }
 }

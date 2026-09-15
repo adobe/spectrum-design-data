@@ -4,7 +4,7 @@
 
 This document defines the normative **component declaration** object: identity (`$id`, `name`, `displayName`), component metadata (`meta`), API options (`options`), named content slots (`slots`), anatomy parts (`anatomy`), state model (`states`), and lifecycle metadata.
 
-Component declarations close the structural gap between the token name-object's `component`, `variant`, `anatomy`, and `state` fields and the declared surface of each component. Before this chapter, a token referencing `component: "button"` with `variant: "foo"` was undetectable as invalid because no machine-readable component contract existed in the same spec. After this chapter, validators enforce cross-reference rules (see [SPEC rules](#spec-rules)).
+Component declarations close the structural gap between the token name-object's `component`, `variant`, `anatomy`, `interaction`, and `interaction-context` fields and the declared surface of each component. Before this chapter, a token referencing `component: "button"` with `variant: "foo"` was undetectable as invalid because no machine-readable component contract existed in the same spec. After this chapter, validators enforce cross-reference rules (see [SPEC rules](#spec-rules)).
 
 Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.com/adobe/spectrum-design-data/discussions/832). See also [rfc-coordination.md](../docs/rfc-coordination.md).
 
@@ -246,7 +246,7 @@ See [`spec/anatomy-format.md`](anatomy-format.md) for constraints, cross-field v
 
 ## States (stub)
 
-The `states` block declares the component's **interactive and semantic states** — the state terms used in token name-object `state` fields. Full normative definition is in [`spec/state-model.md`](state-model.md) (Phase 6.3).
+The `states` block declares the component's **interactive and semantic states** — the state terms used in token name-object `interaction`/`interaction-context` fields. Full normative definition is in [`spec/state-model.md`](state-model.md) (Phase 6.3).
 
 **NORMATIVE:** `states` **MUST** be a JSON array. Each element is a state declaration object.
 
@@ -289,7 +289,7 @@ The `lifecycle` block tracks a component declaration's version history. It mirro
 
 ## Token bindings
 
-The optional `tokenBindings` array declares which tokens a component uses, including foundation and structure tokens that do not carry the component name in their name-object. This is the *component-declares-usage* direction; the *token-declares-scope* direction is expressed via name-object `component`/`anatomy`/`state` fields and validated by SPEC-018–022.
+The optional `tokenBindings` array declares which tokens a component uses, including foundation and structure tokens that do not carry the component name in their name-object. This is the *component-declares-usage* direction; the *token-declares-scope* direction is expressed via name-object `component`/`anatomy`/`interaction`/`interaction-context` fields and validated by SPEC-018–022.
 
 ```json
 "tokenBindings": [
@@ -314,18 +314,18 @@ The `context` field is informative. It is used by `describe_component` (Phase 8 
 
 The following rules are added to the Layer 2 rule catalog (`rules/rules.yaml`) by this chapter. New component cross-reference rules start at SPEC-018 to avoid collision with existing token rules (SPEC-001–SPEC-017).
 
-| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                                                  |
-| -------- | -------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                                         |
-| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option `values` list for the referenced component (when that list exists).                                                                                                                 |
-| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                           |
-| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                                           |
-| SPEC-022 | `component-state-valid`          | error    | Token `state` field value **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                              |
-| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                                              |
-| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                                 |
-| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/state or `lifecycle` on the matching `values` entry on the option descriptor.       |
-| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                    |
-| SPEC-040 | `component-option-field-valid`   | warning  | Token name-object keys that match a declared `options.<key>` with a `values[]` list **SHOULD** use a value drawn from that list. Generalises SPEC-019 to non-`variant` option fields (e.g. `style`, `size`, `staticColor`). Advisory; silent when no `values` declared. |
+| Rule ID  | Name                             | Severity | Assert                                                                                                                                                                                                                                                                                      |
+| -------- | -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-018 | `component-name-exists`          | error    | Token `component` field value **MUST** match the `name` of a declared component in the dataset.                                                                                                                                                                                             |
+| SPEC-019 | `component-variant-valid`        | error    | Token `variant` field value **MUST** match a value in the declared `variant` option `values` list for the referenced component (when that list exists).                                                                                                                                     |
+| SPEC-020 | `component-anatomy-valid`        | error    | Token `anatomy` field value **MUST** match the `name` of a declared anatomy part on the referenced component.                                                                                                                                                                               |
+| SPEC-021 | `component-slot-vocabulary`      | warning  | Component `slots` entries with a `name` outside the canonical vocabulary **SHOULD** include a `description`. Custom slot names without descriptions are surfaced as warnings.                                                                                                               |
+| SPEC-022 | `component-state-valid`          | error    | Token `interaction`/`interaction-context` field values **MUST** match the `name` of a declared state on the referenced component (when state declarations are present).                                                                                                                     |
+| SPEC-027 | `token-binding-token-exists`     | error    | Each `tokenBindings[].token` value **MUST** match the name of a declared token in the dataset (Phase 6.7).                                                                                                                                                                                  |
+| SPEC-036 | `component-deprecation-cascade`  | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated component via `name.component`. Advisory warning prompts updating the component reference or marking the token deprecated.                                                                                                     |
+| SPEC-037 | `sub-entity-deprecation-cascade` | warning  | A non-deprecated token **SHOULD NOT** reference a deprecated anatomy part, state, or option value via `name.*`. Advisory warning prompts migration. Requires `lifecycle` on anatomy/interaction/interaction-context or `lifecycle` on the matching `values` entry on the option descriptor. |
+| SPEC-038 | `option-enum-obsolete`           | warning  | An option descriptor **SHOULD NOT** use the JSON Schema `enum` keyword. `additionalProperties: true` silently accepts `enum` at Layer 1; SPEC-038 flags it at Layer 2 so authors replace it with the `values` array.                                                                        |
+| SPEC-040 | `component-option-field-valid`   | warning  | Token name-object keys that match a declared `options.<key>` with a `values[]` list **SHOULD** use a value drawn from that list. Generalises SPEC-019 to non-`variant` option fields (e.g. `style`, `size`, `staticColor`). Advisory; silent when no `values` declared.                     |
 
 ## Full example
 

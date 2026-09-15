@@ -2,8 +2,7 @@
   "tokens": [
     {
       "name": {
-        "structure": "accessory",
-        "anatomy": "item",
+        "structure": "accessory-item",
         "property": "padding",
         "size": "small",
         "legacyKey": "accessory-item-padding-small"
@@ -12,7 +11,7 @@
     },
     {
       "name": {
-        "anatomy": "focus-ring",
+        "affordance": "focus-ring",
         "property": "gap"
       },
       "value": "2px"

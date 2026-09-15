@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "visibility",
+  "description": "Prominence/emphasis level of a token, independent of its color/semantic role.",
+  "values": [
+    {
+      "id": "subtle",
+      "label": "Subtle",
+      "description": "Reduced emphasis for less prominent surfaces"
+    },
+    {
+      "id": "subdued",
+      "label": "Subdued",
+      "description": "Lower emphasis for quieter backgrounds"
+    },
+    {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Elevated emphasis for prominent surfaces (e.g. drop shadows)"
+    }
+  ]
+}

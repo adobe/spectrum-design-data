@@ -2,7 +2,7 @@
   "icon-color-blue-background": {
     "property": "icon-color",
     "colorFamily": "blue",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-blue-primary-default": {
     "property": "icon-color",
@@ -13,18 +13,18 @@
     "property": "icon-color",
     "colorFamily": "blue",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-blue-primary-hover": {
     "property": "icon-color",
     "colorFamily": "blue",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-brown-background": {
     "property": "icon-color",
     "colorFamily": "brown",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-brown-primary-default": {
     "property": "icon-color",
@@ -35,18 +35,18 @@
     "property": "icon-color",
     "colorFamily": "brown",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-brown-primary-hover": {
     "property": "icon-color",
     "colorFamily": "brown",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-celery-background": {
     "property": "icon-color",
     "colorFamily": "celery",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-celery-primary-default": {
     "property": "icon-color",
@@ -57,18 +57,18 @@
     "property": "icon-color",
     "colorFamily": "celery",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-celery-primary-hover": {
     "property": "icon-color",
     "colorFamily": "celery",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-chartreuse-background": {
     "property": "icon-color",
     "colorFamily": "chartreuse",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-chartreuse-primary-default": {
     "property": "icon-color",
@@ -79,18 +79,18 @@
     "property": "icon-color",
     "colorFamily": "chartreuse",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-chartreuse-primary-hover": {
     "property": "icon-color",
     "colorFamily": "chartreuse",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-cinnamon-background": {
     "property": "icon-color",
     "colorFamily": "cinnamon",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-cinnamon-primary-default": {
     "property": "icon-color",
@@ -101,18 +101,18 @@
     "property": "icon-color",
     "colorFamily": "cinnamon",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-cinnamon-primary-hover": {
     "property": "icon-color",
     "colorFamily": "cinnamon",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-cyan-background": {
     "property": "icon-color",
     "colorFamily": "cyan",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-cyan-primary-default": {
     "property": "icon-color",
@@ -123,23 +123,23 @@
     "property": "icon-color",
     "colorFamily": "cyan",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-cyan-primary-hover": {
     "property": "icon-color",
     "colorFamily": "cyan",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-disabled-primary": {
     "property": "icon-color",
     "variant": "primary",
-    "state": "disabled"
+    "interaction-context": ["disabled"]
   },
   "icon-color-fuchsia-background": {
     "property": "icon-color",
     "colorFamily": "fuchsia",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-fuchsia-primary-default": {
     "property": "icon-color",
@@ -150,18 +150,18 @@
     "property": "icon-color",
     "colorFamily": "fuchsia",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-fuchsia-primary-hover": {
     "property": "icon-color",
     "colorFamily": "fuchsia",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-green-background": {
     "property": "icon-color",
     "colorFamily": "green",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-green-primary-default": {
     "property": "icon-color",
@@ -172,18 +172,18 @@
     "property": "icon-color",
     "colorFamily": "green",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-green-primary-hover": {
     "property": "icon-color",
     "colorFamily": "green",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-indigo-background": {
     "property": "icon-color",
     "colorFamily": "indigo",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-indigo-primary-default": {
     "property": "icon-color",
@@ -194,18 +194,18 @@
     "property": "icon-color",
     "colorFamily": "indigo",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-indigo-primary-hover": {
     "property": "icon-color",
     "colorFamily": "indigo",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-magenta-background": {
     "property": "icon-color",
     "colorFamily": "magenta",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-magenta-primary-default": {
     "property": "icon-color",
@@ -216,18 +216,18 @@
     "property": "icon-color",
     "colorFamily": "magenta",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-magenta-primary-hover": {
     "property": "icon-color",
     "colorFamily": "magenta",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-orange-background": {
     "property": "icon-color",
     "colorFamily": "orange",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-orange-primary-default": {
     "property": "icon-color",
@@ -238,18 +238,18 @@
     "property": "icon-color",
     "colorFamily": "orange",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-orange-primary-hover": {
     "property": "icon-color",
     "colorFamily": "orange",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-pink-background": {
     "property": "icon-color",
     "colorFamily": "pink",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-pink-primary-default": {
     "property": "icon-color",
@@ -260,13 +260,13 @@
     "property": "icon-color",
     "colorFamily": "pink",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-pink-primary-hover": {
     "property": "icon-color",
     "colorFamily": "pink",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-primary-default": {
     "property": "icon-color",
@@ -275,17 +275,17 @@
   "icon-color-primary-down": {
     "property": "icon-color",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-primary-hover": {
     "property": "icon-color",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-purple-background": {
     "property": "icon-color",
     "colorFamily": "purple",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-purple-primary-default": {
     "property": "icon-color",
@@ -296,18 +296,18 @@
     "property": "icon-color",
     "colorFamily": "purple",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-purple-primary-hover": {
     "property": "icon-color",
     "colorFamily": "purple",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-red-background": {
     "property": "icon-color",
     "colorFamily": "red",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-red-primary-default": {
     "property": "icon-color",
@@ -318,18 +318,18 @@
     "property": "icon-color",
     "colorFamily": "red",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-red-primary-hover": {
     "property": "icon-color",
     "colorFamily": "red",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-seafoam-background": {
     "property": "icon-color",
     "colorFamily": "seafoam",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-seafoam-primary-default": {
     "property": "icon-color",
@@ -340,18 +340,18 @@
     "property": "icon-color",
     "colorFamily": "seafoam",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-seafoam-primary-hover": {
     "property": "icon-color",
     "colorFamily": "seafoam",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-silver-background": {
     "property": "icon-color",
     "colorFamily": "silver",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-silver-primary-default": {
     "property": "icon-color",
@@ -362,18 +362,18 @@
     "property": "icon-color",
     "colorFamily": "silver",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-silver-primary-hover": {
     "property": "icon-color",
     "colorFamily": "silver",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-turquoise-background": {
     "property": "icon-color",
     "colorFamily": "turquoise",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-turquoise-primary-default": {
     "property": "icon-color",
@@ -384,18 +384,18 @@
     "property": "icon-color",
     "colorFamily": "turquoise",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-turquoise-primary-hover": {
     "property": "icon-color",
     "colorFamily": "turquoise",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   },
   "icon-color-yellow-background": {
     "property": "icon-color",
     "colorFamily": "yellow",
-    "object": "background"
+    "attribute": "background"
   },
   "icon-color-yellow-primary-default": {
     "property": "icon-color",
@@ -406,12 +406,12 @@
     "property": "icon-color",
     "colorFamily": "yellow",
     "variant": "primary",
-    "state": "down"
+    "interaction": ["down"]
   },
   "icon-color-yellow-primary-hover": {
     "property": "icon-color",
     "colorFamily": "yellow",
     "variant": "primary",
-    "state": "hover"
+    "interaction": ["hover"]
   }
 }

@@ -121,9 +121,9 @@ mod tests {
     #[test]
     fn standalone_scope_registry_term_is_valid() {
         let g = TokenGraph::from_pairs(vec![(
-            "focus-ring-gap".into(),
+            "indicator-color".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "gap", "anatomy": "focus-ring"}, "value": "2px"}),
+            json!({"name": {"property": "color", "anatomy": "indicator"}, "value": "#000"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-025").is_empty());
     }

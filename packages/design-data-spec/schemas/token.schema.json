@@ -29,32 +29,49 @@
         },
         "structure": {
           "type": "string",
-          "description": "Semantic: reusable visual pattern (e.g. base, container, list). Distinct from component."
-        },
-        "substructure": {
-          "type": "string",
-          "description": "Semantic: child within a parent structure (e.g. item in list-item)."
+          "description": "Semantic: reusable visual pattern (e.g. base, container, list, list-item, table-item, accessory-item). Distinct from component."
         },
         "anatomy": {
           "type": "string",
           "description": "Semantic: visible named part of a component (e.g. handle, icon, label)."
         },
-        "object": {
+        "element": {
           "type": "string",
-          "description": "Semantic: styling surface (e.g. background, border, edge, visual)."
+          "description": "Semantic: generic, cross-component visual element being targeted (e.g. text, visual, bar, control, workflow-icon, ui-icon). Distinct from anatomy, which is component-specific."
+        },
+        "attribute": {
+          "type": "string",
+          "description": "Semantic: sub-quality of a property (e.g. border, background, dash, shadow, corner, overlay, gradient), used together with `property` to express compound style concepts."
+        },
+        "affordance": {
+          "type": "string",
+          "description": "Semantic: UI affordance that visually distinguishes a specific behavior, used across multiple components (e.g. drop-target, focus-ring, selection-indicator, drag-handle)."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Semantic: prominence/emphasis level distinct from color or semantic role (e.g. subtle, subdued, emphasized)."
         },
         "variant": {
           "type": "string",
           "description": "Semantic: variant within a component (e.g. accent, negative, primary)."
         },
-        "state": {
+        "interaction": {
           "type": "array",
           "items": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9-]*$"
           },
           "minItems": 1,
-          "description": "Semantic: interactive or semantic state, as an ordered array of atomic state ids (e.g. [\"hover\"], [\"selected\", \"hover\"])."
+          "description": "Semantic: transient runtime interaction state, as an ordered array of atomic ids (e.g. [\"hover\"], [\"focus\", \"hover\"]). Distinct from interaction-context."
+        },
+        "interaction-context": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1,
+          "description": "Semantic: persistent, prop-driven state, as an ordered array of atomic ids (e.g. [\"selected\"], [\"disabled\"]). Distinct from interaction."
         },
         "qualifier": {
           "type": "string",
@@ -79,10 +96,6 @@
         "shape": {
           "type": "string",
           "description": "Semantic: overall component shape (e.g. uniform)."
-        },
-        "role": {
-          "type": "string",
-          "description": "Semantic: an object's role within a nesting relationship (e.g. container, control), distinct from `size`."
         },
         "from": {
           "type": "string",

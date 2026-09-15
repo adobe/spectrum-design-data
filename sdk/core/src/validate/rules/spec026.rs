@@ -11,8 +11,9 @@
 //! SPEC-026: state-custom-name-documented
 //!
 //! State declarations with a name outside the canonical state vocabulary
-//! (spectrum-design-data `registry/states.json`) SHOULD include a `description` field.
-//! Custom state names without documentation make the component contract ambiguous.
+//! (spectrum-design-data `registry/interactions.json` ∪ `registry/interaction-contexts.json`)
+//! SHOULD include a `description` field. Custom state names without documentation
+//! make the component contract ambiguous.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -31,7 +32,13 @@ impl ValidationRule for Rule {
     fn validate(&self, ctx: &ValidationContext<'_>) -> Vec<Diagnostic> {
         let mut diags = Vec::new();
 
-        let canonical_states = ctx.registry.for_field("state");
+        let is_canonical_state = |name: &str| -> bool {
+            ["interaction", "interaction-context"].iter().any(|field| {
+                ctx.registry
+                    .for_field(field)
+                    .is_some_and(|set| set.contains(name))
+            })
+        };
 
         for comp in &ctx.graph.components {
             let states = match comp.raw.get("states").and_then(|v| v.as_array()) {
@@ -45,9 +52,7 @@ impl ValidationRule for Rule {
                     None => continue,
                 };
 
-                let is_canonical = canonical_states
-                    .map(|set| set.contains(name))
-                    .unwrap_or(false);
+                let is_canonical = is_canonical_state(name);
 
                 if is_canonical {
                     continue;

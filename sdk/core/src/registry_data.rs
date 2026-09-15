@@ -205,27 +205,6 @@ const VARIANTS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
-      "id": "subtle",
-      "label": "Subtle",
-      "description": "Reduced emphasis variant for less prominent surfaces",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "subdued",
-      "label": "Subdued",
-      "description": "Lower emphasis variant for quieter backgrounds",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
-      "id": "emphasized",
-      "label": "Emphasized",
-      "description": "Elevated emphasis variant for prominent surfaces (e.g. drop shadows)",
-      "category": "emphasis",
-      "usedIn": ["tokens"]
-    },
-    {
       "id": "hero",
       "label": "Hero",
       "description": "Large featured-card layout variant with maximized visual prominence",
@@ -365,6 +344,77 @@ const VARIANTS_JSON: &str = r##"{
       "description": "Key-light shadow context during drag interaction",
       "category": "context",
       "usedIn": ["tokens"]
+    }
+  ]
+}
+"##;
+const VISIBILITIES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "visibility",
+  "description": "Prominence/emphasis level of a token, independent of its color/semantic role.",
+  "values": [
+    {
+      "id": "subtle",
+      "label": "Subtle",
+      "description": "Reduced emphasis for less prominent surfaces"
+    },
+    {
+      "id": "subdued",
+      "label": "Subdued",
+      "description": "Lower emphasis for quieter backgrounds"
+    },
+    {
+      "id": "emphasized",
+      "label": "Emphasized",
+      "description": "Elevated emphasis for prominent surfaces (e.g. drop shadows)"
+    }
+  ]
+}
+"##;
+const COLOR_ROLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "color-role",
+  "description": "Semantic roles for component-scoped color tokens. Assigned via the `colorRole` name-object field alongside `colorFamily` (e.g. colorFamily=blue + colorRole=primary → the primary blue color for a component).",
+  "values": [
+    {
+      "id": "primary",
+      "label": "Primary",
+      "description": "Primary color role — the main foreground color for an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background color role — fill or surface color behind an element"
+    },
+    {
+      "id": "neutral",
+      "label": "Neutral",
+      "description": "Neutral semantic color role, distinct from a specific hue"
+    },
+    {
+      "id": "accent",
+      "label": "Accent",
+      "description": "Accent semantic color role"
+    },
+    {
+      "id": "informative",
+      "label": "Informative",
+      "description": "Informative semantic color role"
+    },
+    {
+      "id": "negative",
+      "label": "Negative",
+      "description": "Negative/destructive semantic color role"
+    },
+    {
+      "id": "notice",
+      "label": "Notice",
+      "description": "Notice/attention semantic color role"
+    },
+    {
+      "id": "positive",
+      "label": "Positive",
+      "description": "Positive/affirmative semantic color role"
     }
   ]
 }
@@ -903,22 +953,19 @@ const STRUCTURES_JSON: &str = r##"{
       "description": "Elevated shadow effect applied to components and containers"
     },
     {
-      "id": "drop-target",
-      "label": "Drop Target",
-      "description": "Drag-and-drop destination structure"
-    }
-  ]
-}
-"##;
-const SUBSTRUCTURES_JSON: &str = r##"{
-  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "substructure",
-  "description": "Structures that only exist within the context of a parent structure (e.g., item within a list).",
-  "values": [
+      "id": "list-item",
+      "label": "List Item",
+      "description": "Individual row within a list structure"
+    },
     {
-      "id": "item",
-      "label": "Item",
-      "description": "Individual element within a parent structure (e.g., list item)"
+      "id": "table-item",
+      "label": "Table Item",
+      "description": "Generic item element within a table row; used for item-level padding tokens (e.g. table-item-padding-*)"
+    },
+    {
+      "id": "accessory-item",
+      "label": "Accessory Item",
+      "description": "Individual item within an accessory structure"
     }
   ]
 }
@@ -1165,20 +1212,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "label": "Heading",
       "description": "Heading text element within a component section",
       "usedIn": ["tokens", "s2-docs"]
-    },
-    {
-      "id": "focus-ring",
-      "label": "Focus Ring",
-      "description": "Visible ring drawn around a focused component for accessibility",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
-    },
-    {
-      "id": "focus-indicator",
-      "label": "Focus Indicator",
-      "description": "Visual indicator showing keyboard focus state on a component",
-      "usedIn": ["tokens"],
-      "standaloneScope": true
     },
     {
       "id": "workflow-icon",
@@ -1463,13 +1496,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "overlay",
-      "label": "Overlay",
-      "description": "Semi-transparent backdrop element behind modal dialogs (alert-dialog, standard-dialog, takeover-dialog)",
-      "usedIn": ["s2-docs"],
-      "standaloneScope": true
-    },
-    {
       "id": "header-area",
       "label": "Header Area",
       "description": "Distinct header region within a dialog or panel component",
@@ -1609,12 +1635,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["s2-docs"]
     },
     {
-      "id": "item",
-      "label": "Item",
-      "description": "Generic individual item element within a list, navigation, or container component (use a more specific term such as accordion-item, list-item, or tab-item where available)",
-      "usedIn": ["s2-docs"]
-    },
-    {
       "id": "tree-view-item",
       "label": "Tree View Item",
       "description": "Individual node element within a tree-view component",
@@ -1729,12 +1749,6 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "usedIn": ["tokens"]
     },
     {
-      "id": "drag-handle",
-      "label": "Drag handle",
-      "description": "A grip affordance for reordering an item via drag",
-      "usedIn": ["tokens"]
-    },
-    {
       "id": "field-button",
       "label": "Field button",
       "description": "A trigger button embedded within a text field or picker",
@@ -1773,25 +1787,15 @@ const ANATOMY_TERMS_JSON: &str = r##"{
   ]
 }
 "##;
-const TOKEN_OBJECTS_JSON: &str = r##"{
+const ELEMENTS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "token-object",
-  "description": "Styling surfaces to which visual properties are applied. These are abstract targets that exist on any element regardless of component type. Not to be confused with component anatomy (visible named parts).",
+  "type": "element",
+  "description": "Generic, cross-component visual elements to which visual properties are applied. These are abstract targets that exist on any element regardless of component type. Not to be confused with component anatomy (visible, component-specific named parts).",
   "values": [
     {
-      "id": "background",
-      "label": "Background",
-      "description": "Background surface or fill"
-    },
-    {
-      "id": "border",
-      "label": "Border",
-      "description": "Border or outline of a component"
-    },
-    {
-      "id": "edge",
-      "label": "Edge",
-      "description": "Outer boundary of a component (used in spacing tokens)"
+      "id": "text",
+      "label": "Text",
+      "description": "Text content or label"
     },
     {
       "id": "visual",
@@ -1799,9 +1803,95 @@ const TOKEN_OBJECTS_JSON: &str = r##"{
       "description": "Visible graphic element area (may be inset from edge)"
     },
     {
-      "id": "content",
-      "label": "Content",
-      "description": "Main content area"
+      "id": "bar",
+      "label": "Bar",
+      "description": "Linear bar-shaped element"
+    },
+    {
+      "id": "control",
+      "label": "Control",
+      "description": "Interactive control element (e.g. checkbox, radio, switch)"
+    },
+    {
+      "id": "workflow-icon",
+      "label": "Workflow Icon",
+      "description": "Standard workflow icon element, distinct from UI icons"
+    },
+    {
+      "id": "ui-icon",
+      "label": "UI Icon",
+      "description": "System UI icon element (chevrons, checkmarks, close icons)"
+    }
+  ]
+}
+"##;
+const AFFORDANCES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "affordance",
+  "description": "UI affordances that visually distinguish a specific behavior, used stylistically across multiple components rather than owned by a single one.",
+  "values": [
+    {
+      "id": "drop-target",
+      "label": "Drop Target",
+      "description": "Drag-and-drop destination affordance"
+    },
+    {
+      "id": "focus-ring",
+      "label": "Focus Ring",
+      "description": "Visible ring or indicator drawn around a focused element for accessibility"
+    },
+    {
+      "id": "selection-indicator",
+      "label": "Selection Indicator",
+      "description": "Visual marker indicating which item among several is currently selected/active (e.g. tabs, carousels, steppers)"
+    },
+    {
+      "id": "drag-handle",
+      "label": "Drag Handle",
+      "description": "A grip affordance for reordering an item via drag"
+    }
+  ]
+}
+"##;
+const ATTRIBUTES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "attribute",
+  "description": "Sub-qualities of a property, used in combination with the `property` field to express compound style concepts (e.g. property=color + attribute=background).",
+  "values": [
+    {
+      "id": "border",
+      "label": "Border",
+      "description": "Border or outline of an element"
+    },
+    {
+      "id": "background",
+      "label": "Background",
+      "description": "Background surface or fill"
+    },
+    {
+      "id": "dash",
+      "label": "Dash",
+      "description": "Dashed-line styling attribute"
+    },
+    {
+      "id": "shadow",
+      "label": "Shadow",
+      "description": "Drop or box shadow attribute"
+    },
+    {
+      "id": "corner",
+      "label": "Corner",
+      "description": "Corner rounding attribute"
+    },
+    {
+      "id": "overlay",
+      "label": "Overlay",
+      "description": "Overlay or scrim tint attribute"
+    },
+    {
+      "id": "gradient",
+      "label": "Gradient",
+      "description": "Gradient styling attribute"
     }
   ]
 }
@@ -1878,7 +1968,7 @@ const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in elements.json). Sub-qualities of a property (border, background, overlay, shadow, etc.) belong in the paired `attribute` field, not compounded into this one. Examples: color, width, padding.",
   "values": [
     {
       "id": "color",
@@ -1886,49 +1976,9 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Text or foreground color"
     },
     {
-      "id": "background-color",
-      "label": "Background Color",
-      "description": "Background fill color"
-    },
-    {
-      "id": "border-color",
-      "label": "Border Color",
-      "description": "Border or outline color"
-    },
-    {
-      "id": "fill-color",
-      "label": "Fill Color",
-      "description": "SVG or icon fill color"
-    },
-    {
-      "id": "icon-color",
-      "label": "Icon Color",
-      "description": "Foreground color of an icon"
-    },
-    {
       "id": "content-color",
       "label": "Content Color",
       "description": "Color of a component's content area"
-    },
-    {
-      "id": "visual-color",
-      "label": "Visual Color",
-      "description": "Color of a component's visible graphic (visual) area"
-    },
-    {
-      "id": "shadow-color",
-      "label": "Shadow Color",
-      "description": "Drop shadow color component"
-    },
-    {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
-      "id": "outline-color",
-      "label": "Outline Color",
-      "description": "CSS outline color"
     },
     {
       "id": "square-dark",
@@ -1944,16 +1994,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "opacity",
       "label": "Opacity",
       "description": "Element transparency level"
-    },
-    {
-      "id": "border-opacity",
-      "label": "Border Opacity",
-      "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",
@@ -2026,11 +2066,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Border or stroke thickness"
     },
     {
-      "id": "corner-radius",
-      "label": "Corner Radius",
-      "description": "Corner rounding radius"
-    },
-    {
       "id": "rounding-increment",
       "label": "Rounding Increment",
       "description": "Step size added to a ring or ring-like anatomy's corner rounding per nesting level"
@@ -2049,11 +2084,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "shadow",
       "label": "Shadow",
       "description": "Full box or drop shadow definition"
-    },
-    {
-      "id": "font-size",
-      "label": "Font Size",
-      "description": "Typeface size"
     },
     {
       "id": "font-weight",
@@ -2224,6 +2254,41 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "length",
+      "label": "Length",
+      "description": "General linear dimension (e.g. dash length)"
+    },
+    {
+      "id": "offset",
+      "label": "Offset",
+      "description": "Positional offset along an axis (e.g. drop-shadow offset)"
+    },
+    {
+      "id": "angle",
+      "label": "Angle",
+      "description": "Rotational or directional angle (e.g. gradient angle)"
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Discrete step or increment value"
+    },
+    {
+      "id": "radius",
+      "label": "Radius",
+      "description": "Corner rounding radius (used with attribute=corner)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Width-to-height ratio constraint"
+    },
+    {
+      "id": "stop",
+      "label": "Stop",
+      "description": "Gradient stop position (used with attribute=gradient)"
     }
   ]
 }
@@ -2442,10 +2507,35 @@ const SHAPES_JSON: &str = r##"{
   ]
 }
 "##;
-const STATES_JSON: &str = r##"{
+const INTERACTION_CONTEXTS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "state",
-  "description": "Interaction states for components",
+  "type": "interaction-context",
+  "description": "Persistent, prop-driven states.",
+  "allowCustom": true,
+  "customPattern": "^[a-z][a-z0-9-]*$",
+  "values": [
+    {
+      "id": "selected",
+      "label": "Selected",
+      "description": "Selected or chosen state"
+    },
+    {
+      "id": "disabled",
+      "label": "Disabled",
+      "description": "Disabled or inactive state"
+    },
+    {
+      "id": "loading",
+      "label": "Loading",
+      "description": "Busy/loading state"
+    }
+  ]
+}
+"##;
+const INTERACTIONS_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "interaction",
+  "description": "Transient, runtime interaction states.",
   "allowCustom": true,
   "customPattern": "^[a-z][a-z0-9-]*$",
   "values": [
@@ -2453,227 +2543,27 @@ const STATES_JSON: &str = r##"{
       "id": "default",
       "label": "Default",
       "description": "The default, resting state of a component",
-      "default": true,
-      "usedIn": ["tokens", "component-options", "component-schemas"],
-      "definition": {
-        "superordinate": "interaction state",
-        "description": "The initial, resting state of a user interface component before any user interaction occurs",
-        "essentialCharacteristics": [
-          "Represents the component's appearance without user interaction",
-          "The baseline state from which all other states transition",
-          "Should communicate the component's purpose and interactivity at a glance"
-        ]
-      },
-      "terminology": {
-        "conceptType": "term",
-        "namingRationale": "Industry-standard term used consistently across design systems and platforms"
-      },
-      "sources": [
-        {
-          "type": "industry-standard",
-          "reference": "Common UI design terminology",
-          "date": "2025-01-12"
-        }
-      ],
-      "governance": {
-        "owner": "Spectrum Core Team",
-        "reviewDate": "2025-01-12",
-        "status": "approved"
-      },
-      "relatedTerms": ["hover", "focus", "disabled"]
+      "default": true
     },
     {
       "id": "hover",
       "label": "Hover",
-      "description": "Mouse hover state",
-      "usedIn": ["tokens", "component-options", "component-schemas"],
-      "definition": {
-        "superordinate": "interaction state",
-        "description": "The state when a pointer device (such as a mouse cursor) is positioned over a component's interactive area without pressing",
-        "essentialCharacteristics": [
-          "Triggered by pointer positioning, not by clicking or pressing",
-          "Provides visual feedback that the element is interactive",
-          "Should be subtle enough not to distract from the overall interface",
-          "Reversible when the pointer moves away"
-        ]
-      },
-      "platforms": {
-        "web": {
-          "term": "hover",
-          "notes": "CSS :hover pseudo-class",
-          "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/:hover"
-        },
-        "iOS": {
-          "term": "highlighted",
-          "notes": "iOS uses 'highlighted' for similar visual feedback on touch devices with pointer support",
-          "reference": "UIControl.State.highlighted"
-        }
-      },
-      "terminology": {
-        "conceptType": "term",
-        "namingRationale": "Standard interaction design term describing pointer-based feedback"
-      },
-      "sources": [
-        {
-          "type": "industry-standard",
-          "reference": "W3C CSS specification",
-          "url": "https://www.w3.org/TR/selectors-4/#hover-pseudo",
-          "date": "2025-01-12"
-        }
-      ],
-      "governance": {
-        "owner": "Spectrum Core Team",
-        "reviewDate": "2025-01-12",
-        "status": "approved"
-      },
-      "relatedTerms": ["default", "active", "focus"]
-    },
-    {
-      "id": "active",
-      "label": "Active",
-      "aliases": ["pressed"],
-      "description": "Active or pressed state",
-      "usedIn": ["component-options", "component-schemas"],
-      "relatedTerms": ["down"]
-    },
-    {
-      "id": "focus",
-      "label": "Focus",
-      "description": "Focused state (generic)",
-      "usedIn": ["component-options", "component-schemas"]
-    },
-    {
-      "id": "keyboard-focus",
-      "label": "Keyboard Focus",
-      "aliases": ["keyboard focus", "key-focus"],
-      "description": "Focused via keyboard navigation",
-      "usedIn": ["tokens", "component-options", "component-schemas"],
-      "definition": {
-        "superordinate": "interaction state",
-        "description": "The state when a component receives focus through keyboard navigation, indicating it will respond to keyboard input",
-        "essentialCharacteristics": [
-          "Specifically indicates focus achieved through keyboard interaction (Tab, arrow keys)",
-          "Requires prominent visual indicator for accessibility (WCAG 2.4.7)",
-          "Different from generic focus to support :focus-visible patterns",
-          "Critical for keyboard-only users to understand their current position"
-        ]
-      },
-      "platforms": {
-        "web": {
-          "term": "keyboard-focus",
-          "notes": "Often implemented with :focus-visible pseudo-class",
-          "reference": "https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible"
-        },
-        "iOS": {
-          "term": "focused",
-          "notes": "UIFocusSystem for keyboard and pointer navigation",
-          "reference": "UIFocusSystem"
-        }
-      },
-      "terminology": {
-        "conceptType": "term",
-        "namingRationale": "Distinguishes keyboard-based focus from programmatic focus, following modern accessibility standards"
-      },
-      "sources": [
-        {
-          "type": "industry-standard",
-          "reference": "WCAG 2.4.7 Focus Visible",
-          "url": "https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html",
-          "date": "2025-01-12"
-        },
-        {
-          "type": "industry-standard",
-          "reference": "W3C :focus-visible specification",
-          "url": "https://www.w3.org/TR/selectors-4/#the-focus-visible-pseudo",
-          "date": "2025-01-12"
-        }
-      ],
-      "governance": {
-        "owner": "Spectrum Core Team",
-        "reviewDate": "2025-01-12",
-        "status": "approved"
-      },
-      "relatedTerms": ["focus", "default", "hover"]
-    },
-    {
-      "id": "disabled",
-      "label": "Disabled",
-      "description": "Disabled or inactive state",
-      "usedIn": ["component-options", "component-schemas"]
+      "description": "Pointer positioned over a component's interactive area without pressing"
     },
     {
       "id": "down",
       "label": "Down",
-      "description": "Pressed or down state (mouse button down)",
-      "usedIn": ["tokens", "component-schemas"],
-      "relatedTerms": ["active"]
+      "description": "Pressed or down state (pointer button down)"
     },
     {
-      "id": "pending",
-      "label": "Pending",
-      "description": "Loading or pending state",
-      "usedIn": ["tokens"]
+      "id": "drag",
+      "label": "Drag",
+      "description": "Being dragged, or acting as a drag target"
     },
     {
-      "id": "selected",
-      "label": "Selected",
-      "description": "Selected or chosen state",
-      "usedIn": ["component-schemas"]
-    },
-    {
-      "id": "drag-and-drop",
-      "label": "Drag and Drop",
-      "aliases": ["drag and drop"],
-      "description": "Being dragged or drag target state",
-      "usedIn": ["component-schemas"]
-    }
-  ]
-}
-"##;
-const COLOR_ROLES_JSON: &str = r##"{
-  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "color-role",
-  "description": "Semantic roles for component-scoped color tokens. Assigned via the `colorRole` name-object field alongside `colorFamily` (e.g. colorFamily=blue + colorRole=primary → the primary blue color for a component).",
-  "values": [
-    {
-      "id": "primary",
-      "label": "Primary",
-      "description": "Primary color role — the main foreground color for an element"
-    },
-    {
-      "id": "background",
-      "label": "Background",
-      "description": "Background color role — fill or surface color behind an element"
-    },
-    {
-      "id": "neutral",
-      "label": "Neutral",
-      "description": "Neutral semantic color role, distinct from a specific hue"
-    },
-    {
-      "id": "accent",
-      "label": "Accent",
-      "description": "Accent semantic color role"
-    },
-    {
-      "id": "informative",
-      "label": "Informative",
-      "description": "Informative semantic color role"
-    },
-    {
-      "id": "negative",
-      "label": "Negative",
-      "description": "Negative/destructive semantic color role"
-    },
-    {
-      "id": "notice",
-      "label": "Notice",
-      "description": "Notice/attention semantic color role"
-    },
-    {
-      "id": "positive",
-      "label": "Positive",
-      "description": "Positive/affirmative semantic color role"
+      "id": "focus",
+      "label": "Focus",
+      "description": "Focused state, including keyboard-navigated focus"
     }
   ]
 }
@@ -3064,24 +2954,6 @@ const QUALIFIERS_JSON: &str = r##"{
   ]
 }
 "##;
-const ROLES_JSON: &str = r##"{
-  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
-  "type": "role",
-  "description": "Terms describing an object's role within a nesting relationship, distinct from its size. This is a starting vocabulary — new role terms should be added here as design system patterns are identified.",
-  "values": [
-    {
-      "id": "container",
-      "label": "Container",
-      "description": "The outer, container-level object in a nesting relationship (e.g. an action button or picker)"
-    },
-    {
-      "id": "control",
-      "label": "Control",
-      "description": "The inner, nested control object in a nesting relationship (e.g. a checkbox's control box), sized smaller than its container to create a visually balanced gap"
-    }
-  ]
-}
-"##;
 const ICON_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "icon",
@@ -3244,23 +3116,29 @@ const CATEGORIES_JSON: &str = r##"{
 }
 "##;
 
-pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "component", "structure", "substructure", "anatomy", "object", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "state", "colorRole", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "role", "icon"];
+pub(crate) const FIELD_ADVISORY_FIELDS: &[&str] = &["variant", "visibility", "colorRole", "component", "structure", "anatomy", "element", "affordance", "attribute", "script", "family", "emphasis", "property", "orientation", "position", "size", "density", "shape", "interaction-context", "interaction", "colorFamily", "weight", "style", "motionRole", "easing", "alignment", "qualifier", "icon"];
 
 pub(crate) fn build_registry_map(
 ) -> std::collections::HashMap<String, std::collections::HashSet<String>> {
     let mut map = std::collections::HashMap::new();
     map.insert("variant".to_string(), parse_registry(VARIANTS_JSON));
     map.insert("variants".to_string(), parse_registry(VARIANTS_JSON));
+    map.insert("visibility".to_string(), parse_registry(VISIBILITIES_JSON));
+    map.insert("visibilities".to_string(), parse_registry(VISIBILITIES_JSON));
+    map.insert("colorRole".to_string(), parse_registry(COLOR_ROLES_JSON));
+    map.insert("color-roles".to_string(), parse_registry(COLOR_ROLES_JSON));
     map.insert("component".to_string(), parse_registry(COMPONENTS_JSON));
     map.insert("components".to_string(), parse_registry(COMPONENTS_JSON));
     map.insert("structure".to_string(), parse_registry(STRUCTURES_JSON));
     map.insert("structures".to_string(), parse_registry(STRUCTURES_JSON));
-    map.insert("substructure".to_string(), parse_registry(SUBSTRUCTURES_JSON));
-    map.insert("substructures".to_string(), parse_registry(SUBSTRUCTURES_JSON));
     map.insert("anatomy".to_string(), parse_registry(ANATOMY_TERMS_JSON));
     map.insert("anatomy-terms".to_string(), parse_registry(ANATOMY_TERMS_JSON));
-    map.insert("object".to_string(), parse_registry(TOKEN_OBJECTS_JSON));
-    map.insert("token-objects".to_string(), parse_registry(TOKEN_OBJECTS_JSON));
+    map.insert("element".to_string(), parse_registry(ELEMENTS_JSON));
+    map.insert("elements".to_string(), parse_registry(ELEMENTS_JSON));
+    map.insert("affordance".to_string(), parse_registry(AFFORDANCES_JSON));
+    map.insert("affordances".to_string(), parse_registry(AFFORDANCES_JSON));
+    map.insert("attribute".to_string(), parse_registry(ATTRIBUTES_JSON));
+    map.insert("attributes".to_string(), parse_registry(ATTRIBUTES_JSON));
     map.insert("script".to_string(), parse_registry(SCRIPTS_JSON));
     map.insert("scripts".to_string(), parse_registry(SCRIPTS_JSON));
     map.insert("family".to_string(), parse_registry(TYPOGRAPHY_FAMILIES_JSON));
@@ -3279,10 +3157,10 @@ pub(crate) fn build_registry_map(
     map.insert("densities".to_string(), parse_registry(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_registry(SHAPES_JSON));
     map.insert("shapes".to_string(), parse_registry(SHAPES_JSON));
-    map.insert("state".to_string(), parse_registry(STATES_JSON));
-    map.insert("states".to_string(), parse_registry(STATES_JSON));
-    map.insert("colorRole".to_string(), parse_registry(COLOR_ROLES_JSON));
-    map.insert("color-roles".to_string(), parse_registry(COLOR_ROLES_JSON));
+    map.insert("interaction-context".to_string(), parse_registry(INTERACTION_CONTEXTS_JSON));
+    map.insert("interaction-contexts".to_string(), parse_registry(INTERACTION_CONTEXTS_JSON));
+    map.insert("interaction".to_string(), parse_registry(INTERACTIONS_JSON));
+    map.insert("interactions".to_string(), parse_registry(INTERACTIONS_JSON));
     map.insert("colorFamily".to_string(), parse_registry(COLOR_FAMILIES_JSON));
     map.insert("color-families".to_string(), parse_registry(COLOR_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_registry(TYPOGRAPHY_WEIGHTS_JSON));
@@ -3297,8 +3175,6 @@ pub(crate) fn build_registry_map(
     map.insert("alignments".to_string(), parse_registry(ALIGNMENTS_JSON));
     map.insert("qualifier".to_string(), parse_registry(QUALIFIERS_JSON));
     map.insert("qualifiers".to_string(), parse_registry(QUALIFIERS_JSON));
-    map.insert("role".to_string(), parse_registry(ROLES_JSON));
-    map.insert("roles".to_string(), parse_registry(ROLES_JSON));
     map.insert("icon".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("icon-terms".to_string(), parse_registry(ICON_TERMS_JSON));
     map.insert("categories".to_string(), parse_registry(CATEGORIES_JSON));
@@ -3309,11 +3185,14 @@ pub(crate) fn build_token_name_map(
 ) -> std::collections::HashMap<String, std::collections::HashMap<String, String>> {
     let mut map = std::collections::HashMap::new();
     map.insert("variant".to_string(), parse_token_name_map(VARIANTS_JSON));
+    map.insert("visibility".to_string(), parse_token_name_map(VISIBILITIES_JSON));
+    map.insert("colorRole".to_string(), parse_token_name_map(COLOR_ROLES_JSON));
     map.insert("component".to_string(), parse_token_name_map(COMPONENTS_JSON));
     map.insert("structure".to_string(), parse_token_name_map(STRUCTURES_JSON));
-    map.insert("substructure".to_string(), parse_token_name_map(SUBSTRUCTURES_JSON));
     map.insert("anatomy".to_string(), parse_token_name_map(ANATOMY_TERMS_JSON));
-    map.insert("object".to_string(), parse_token_name_map(TOKEN_OBJECTS_JSON));
+    map.insert("element".to_string(), parse_token_name_map(ELEMENTS_JSON));
+    map.insert("affordance".to_string(), parse_token_name_map(AFFORDANCES_JSON));
+    map.insert("attribute".to_string(), parse_token_name_map(ATTRIBUTES_JSON));
     map.insert("script".to_string(), parse_token_name_map(SCRIPTS_JSON));
     map.insert("family".to_string(), parse_token_name_map(TYPOGRAPHY_FAMILIES_JSON));
     map.insert("emphasis".to_string(), parse_token_name_map(TYPOGRAPHY_EMPHASIS_JSON));
@@ -3323,8 +3202,8 @@ pub(crate) fn build_token_name_map(
     map.insert("size".to_string(), parse_token_name_map(SIZES_JSON));
     map.insert("density".to_string(), parse_token_name_map(DENSITIES_JSON));
     map.insert("shape".to_string(), parse_token_name_map(SHAPES_JSON));
-    map.insert("state".to_string(), parse_token_name_map(STATES_JSON));
-    map.insert("colorRole".to_string(), parse_token_name_map(COLOR_ROLES_JSON));
+    map.insert("interaction-context".to_string(), parse_token_name_map(INTERACTION_CONTEXTS_JSON));
+    map.insert("interaction".to_string(), parse_token_name_map(INTERACTIONS_JSON));
     map.insert("colorFamily".to_string(), parse_token_name_map(COLOR_FAMILIES_JSON));
     map.insert("weight".to_string(), parse_token_name_map(TYPOGRAPHY_WEIGHTS_JSON));
     map.insert("style".to_string(), parse_token_name_map(TYPOGRAPHY_STYLES_JSON));
@@ -3332,7 +3211,6 @@ pub(crate) fn build_token_name_map(
     map.insert("easing".to_string(), parse_token_name_map(EASING_CURVES_JSON));
     map.insert("alignment".to_string(), parse_token_name_map(ALIGNMENTS_JSON));
     map.insert("qualifier".to_string(), parse_token_name_map(QUALIFIERS_JSON));
-    map.insert("role".to_string(), parse_token_name_map(ROLES_JSON));
     map.insert("icon".to_string(), parse_token_name_map(ICON_TERMS_JSON));
     map
 }
@@ -3340,35 +3218,37 @@ pub(crate) fn build_token_name_map(
 pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
     vec![
         FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "component", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "script", position: 6, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "family", position: 7, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "emphasis", position: 8, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "property", position: 9, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "orientation", position: 10, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "position", position: 11, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "size", position: 12, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "density", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "shape", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "state", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "colorScheme", position: 16, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "scale", position: 17, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "contrast", position: 18, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorRole", position: 19, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "colorFamily", position: 20, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "weight", position: 21, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "style", position: 22, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "motionRole", position: 23, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "easing", position: 24, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "from", position: 25, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "to", position: 26, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
-        FieldCatalogEntry { name: "alignment", position: 27, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "qualifier", position: 28, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "role", position: 29, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "visibility", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "colorRole", position: 2, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "component", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "structure", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "anatomy", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "element", position: 6, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "affordance", position: 7, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "attribute", position: 8, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "script", position: 9, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "family", position: 10, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "emphasis", position: 11, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "property", position: 12, validation: FieldValidation::Advisory, scope: None, required: true, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "orientation", position: 13, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "position", position: 14, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "size", position: 15, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "density", position: 16, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "shape", position: 17, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "interaction-context", position: 18, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "interaction", position: 19, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "array", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "colorScheme", position: 20, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "scale", position: 21, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "contrast", position: 22, validation: FieldValidation::Strict, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "colorFamily", position: 23, validation: FieldValidation::Advisory, scope: Some("color"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "weight", position: 24, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "style", position: 25, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "motionRole", position: 26, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "easing", position: 27, validation: FieldValidation::Advisory, scope: Some("motion"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "from", position: 28, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "to", position: 29, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: false, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "alignment", position: 30, validation: FieldValidation::Advisory, scope: Some("typography"), required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
+        FieldCatalogEntry { name: "qualifier", position: 31, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "referenceScaleIndex", position: 98, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "scaleIndex", position: 99, validation: FieldValidation::None, scope: None, required: false, has_registry: false, value_type: "integer", exclude_from_legacy_key: true },
         FieldCatalogEntry { name: "icon", position: 100, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },

@@ -84,9 +84,9 @@ mod tests {
     #[test]
     fn structure_scoped_known_anatomy_is_valid() {
         let g = TokenGraph::from_pairs(vec![(
-            "accessory-item-padding-small".into(),
+            "accessory-label-padding-small".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "padding", "structure": "accessory", "anatomy": "item", "size": "small"}, "value": "4px"}),
+            json!({"name": {"property": "padding", "structure": "accessory", "anatomy": "label", "size": "small"}, "value": "4px"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-049").is_empty());
     }
@@ -94,9 +94,9 @@ mod tests {
     #[test]
     fn standalone_known_anatomy_is_valid() {
         let g = TokenGraph::from_pairs(vec![(
-            "focus-ring-gap".into(),
+            "indicator-color".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "gap", "anatomy": "focus-ring"}, "value": "2px"}),
+            json!({"name": {"property": "color", "anatomy": "indicator"}, "value": "#000"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-049").is_empty());
     }

@@ -32,25 +32,78 @@ Anatomy terms fall into three tiers:
 
 **File:** `packages/design-data/registry/anatomy-terms.json`\
 **Validated by:** SPEC-020, SPEC-023, SPEC-024, SPEC-025, SPEC-035 (advisory — anatomy part `name` values SHOULD match the anatomy-terms registry)\
-**See also:** [Taxonomy — Component anatomy vs. token objects](taxonomy.md#component-anatomy-vs-token-objects), [Anatomy format](anatomy-format.md)
+**See also:** [Taxonomy — Component anatomy vs. universal elements, attributes, and affordances](taxonomy.md#component-anatomy-vs-universal-elements-attributes-and-affordances), [Anatomy format](anatomy-format.md)
 
-### Token objects (`token-objects.json`)
+### Elements (`elements.json`)
 
-Validates the `object` field on token name objects.
+Validates the `element` field on token name objects.
 
-**What it contains:** Abstract styling surfaces that describe *where* a visual property is applied. Token objects are not anatomy — they are not visible named parts of a component; they are targets for visual properties that exist on any element regardless of its type.
+**What it contains:** Abstract, cross-component styling surfaces that describe *where* a visual property is applied. Elements are not anatomy — they are not visible named parts of a specific component; they are targets for visual properties that exist on any element regardless of its component type.
 
-| ID           | Description                                           |
-| ------------ | ----------------------------------------------------- |
-| `background` | Background surface or fill                            |
-| `border`     | Border or outline                                     |
-| `edge`       | Outer boundary (used in spacing tokens)               |
-| `visual`     | Visible graphic element area (may be inset from edge) |
-| `content`    | Main content area                                     |
+| ID              | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `text`          | Text content or label                                      |
+| `visual`        | Visible graphic element area (may be inset from edge)      |
+| `bar`           | Linear bar-shaped element                                  |
+| `control`       | Interactive control element (e.g. checkbox, radio, switch) |
+| `workflow-icon` | Standard workflow icon element, distinct from UI icons     |
+| `ui-icon`       | System UI icon element (chevrons, checkmarks, close icons) |
 
-**File:** `packages/design-data/registry/token-objects.json`\
-**Validated by:** SPEC-009 (advisory — `name.object` field values SHOULD match the token-objects registry)\
-**See also:** [Taxonomy — Token objects (styling surfaces)](taxonomy.md#token-objects-styling-surfaces)
+**File:** `packages/design-data/registry/elements.json`\
+**Validated by:** SPEC-009 (advisory — `name.element` field values SHOULD match the elements registry)\
+**See also:** [Taxonomy — Elements (generic styling surfaces)](taxonomy.md#elements-generic-styling-surfaces)
+
+### Attributes (`attributes.json`)
+
+Validates the `attribute` field on token name objects.
+
+**What it contains:** Sub-qualities of a property, used together with `property` to express a compound style concept (e.g. `property: color` + `attribute: background`).
+
+| ID           | Description                |
+| ------------ | -------------------------- |
+| `border`     | Border or outline          |
+| `background` | Background surface or fill |
+| `dash`       | Dashed-line styling        |
+| `shadow`     | Drop or box shadow         |
+| `corner`     | Corner rounding            |
+| `overlay`    | Overlay or scrim tint      |
+| `gradient`   | Gradient styling           |
+
+**File:** `packages/design-data/registry/attributes.json`\
+**Validated by:** SPEC-009 (advisory — `name.attribute` field values SHOULD match the attributes registry)\
+**See also:** [Taxonomy — Attributes (property sub-qualities)](taxonomy.md#attributes-property-sub-qualities)
+
+### Affordances (`affordances.json`)
+
+Validates the `affordance` field on token name objects.
+
+**What it contains:** UI affordances that visually distinguish a specific behavior, used stylistically across multiple components rather than owned by a single one.
+
+| ID                    | Description                                                                    |
+| --------------------- | ------------------------------------------------------------------------------ |
+| `drop-target`         | Drag-and-drop destination affordance                                           |
+| `focus-ring`          | Visible ring or indicator drawn around a focused element for accessibility     |
+| `selection-indicator` | Visual marker indicating which item among several is currently selected/active |
+| `drag-handle`         | A grip affordance for reordering an item via drag                              |
+
+**File:** `packages/design-data/registry/affordances.json`\
+**Validated by:** SPEC-009 (advisory — `name.affordance` field values SHOULD match the affordances registry)\
+**See also:** [Taxonomy — Affordances (cross-component behavior indicators)](taxonomy.md#affordances-cross-component-behavior-indicators)
+
+### Visibilities (`visibilities.json`)
+
+Validates the `visibility` field on token name objects.
+
+**What it contains:** Prominence/emphasis level of a token, independent of its color/semantic role.
+
+| ID           | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| `subtle`     | Reduced emphasis for less prominent surfaces                 |
+| `subdued`    | Lower emphasis for quieter backgrounds                       |
+| `emphasized` | Elevated emphasis for prominent surfaces (e.g. drop shadows) |
+
+**File:** `packages/design-data/registry/visibilities.json`\
+**Validated by:** SPEC-009 (advisory — `name.visibility` field values SHOULD match the visibilities registry)
 
 ### Component categories (`categories.json`)
 
@@ -70,22 +123,22 @@ Registry IDs are scoped to their registry. The same ID **MAY** appear in multipl
 
 ## Other registries in the package
 
-The following registries exist in `@adobe/spectrum-design-data` (under `registry/`) but are not part of the three-registry boundary defined above. They validate other token name fields and component metadata fields:
+The following registries exist in `@adobe/spectrum-design-data` (under `registry/`) but are not part of the registry boundary defined above. They validate other token name fields and component metadata fields:
 
-| Registry          | File                     | Validates                            |
-| ----------------- | ------------------------ | ------------------------------------ |
-| Sizes             | `sizes.json`             | `name.size` field                    |
-| States            | `states.json`            | `name.state` field                   |
-| Variants          | `variants.json`          | `name.variant` field                 |
-| Structures        | `structures.json`        | `name.structure` field               |
-| Substructures     | `substructures.json`     | `name.substructure` field            |
-| Orientations      | `orientations.json`      | `name.orientation` field             |
-| Positions         | `positions.json`         | `name.position` field                |
-| Densities         | `densities.json`         | `name.density` field                 |
-| Shapes            | `shapes.json`            | `name.shape` field                   |
-| Scale values      | `scale-values.json`      | Numeric scale vocabulary             |
-| Platforms         | `platforms.json`         | Platform identifiers in manifests    |
-| Components        | `components.json`        | Component identifiers in token names |
-| Navigation terms  | `navigation-terms.json`  | Navigation vocabulary                |
-| Token terminology | `token-terminology.json` | Human-readable token concept labels  |
-| Glossary          | `glossary.json`          | Design system glossary               |
+| Registry             | File                        | Validates                            |
+| -------------------- | --------------------------- | ------------------------------------ |
+| Sizes                | `sizes.json`                | `name.size` field                    |
+| Interactions         | `interactions.json`         | `name.interaction` field             |
+| Interaction contexts | `interaction-contexts.json` | `name.interaction-context` field     |
+| Variants             | `variants.json`             | `name.variant` field                 |
+| Structures           | `structures.json`           | `name.structure` field               |
+| Orientations         | `orientations.json`         | `name.orientation` field             |
+| Positions            | `positions.json`            | `name.position` field                |
+| Densities            | `densities.json`            | `name.density` field                 |
+| Shapes               | `shapes.json`               | `name.shape` field                   |
+| Scale values         | `scale-values.json`         | Numeric scale vocabulary             |
+| Platforms            | `platforms.json`            | Platform identifiers in manifests    |
+| Components           | `components.json`           | Component identifiers in token names |
+| Navigation terms     | `navigation-terms.json`     | Navigation vocabulary                |
+| Token terminology    | `token-terminology.json`    | Human-readable token concept labels  |
+| Glossary             | `glossary.json`             | Design system glossary               |

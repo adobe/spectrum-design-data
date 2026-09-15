@@ -182,11 +182,11 @@
       "trigger": "interaction"
     },
     {
-      "name": "keyboard-focus",
+      "name": "focus",
       "trigger": "interaction"
     },
     {
-      "name": "drag-and-drop",
+      "name": "drag",
       "trigger": "prop"
     }
   ],

@@ -1,7 +1,7 @@
 {
   "name": {
     "component": "button",
-    "object": "background",
+    "attribute": "background",
     "property": "color",
     "variant": "primary"
   },

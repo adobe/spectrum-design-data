@@ -3,7 +3,7 @@
     "present": [
       {
         "platform": "iOS",
-        "extends": "states",
+        "extends": "interactions",
         "termId": "default",
         "platformTerm": "normal"
       }
