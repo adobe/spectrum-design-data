@@ -139,7 +139,7 @@
     },
     {
       "name": "selected",
-      "trigger": "interaction"
+      "trigger": "prop"
     }
   ],
   "lifecycle": {

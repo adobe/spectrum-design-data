@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in elements.json). Sub-qualities of a property (border, background, overlay, shadow, etc.) belong in the paired `attribute` field, not compounded into this one. Examples: color, width, padding.",
   "values": [
     {
       "id": "color",
@@ -9,39 +9,9 @@
       "description": "Text or foreground color"
     },
     {
-      "id": "fill-color",
-      "label": "Fill Color",
-      "description": "SVG or icon fill color"
-    },
-    {
-      "id": "icon-color",
-      "label": "Icon Color",
-      "description": "Foreground color of an icon"
-    },
-    {
       "id": "content-color",
       "label": "Content Color",
       "description": "Color of a component's content area"
-    },
-    {
-      "id": "visual-color",
-      "label": "Visual Color",
-      "description": "Color of a component's visible graphic (visual) area"
-    },
-    {
-      "id": "shadow-color",
-      "label": "Shadow Color",
-      "description": "Drop shadow color component"
-    },
-    {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
-      "id": "outline-color",
-      "label": "Outline Color",
-      "description": "CSS outline color"
     },
     {
       "id": "square-dark",
@@ -57,16 +27,6 @@
       "id": "opacity",
       "label": "Opacity",
       "description": "Element transparency level"
-    },
-    {
-      "id": "border-opacity",
-      "label": "Border Opacity",
-      "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",

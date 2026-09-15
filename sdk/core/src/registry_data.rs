@@ -12,438 +12,338 @@ const VARIANTS_JSON: &str = r##"{
       "label": "Accent",
       "description": "Primary accent color variant",
       "category": "emphasis",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "negative",
       "label": "Negative",
       "description": "Destructive or negative action variant",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "primary",
       "label": "Primary",
       "description": "Primary emphasis variant",
       "category": "emphasis",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "secondary",
       "label": "Secondary",
       "description": "Secondary emphasis variant",
       "category": "emphasis",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "quiet",
       "label": "Quiet",
       "description": "Reduced-visual-weight emphasis variant (e.g. no visible border/background until interaction)",
       "category": "emphasis",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "positive",
       "label": "Positive",
       "description": "Affirmative or positive action variant",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "notice",
       "label": "Notice",
       "description": "Notice or attention variant",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "informative",
       "label": "Informative",
       "description": "Informational variant",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "neutral",
       "label": "Neutral",
       "description": "Neutral variant",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "gray",
       "label": "Gray",
       "description": "Gray color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "red",
       "label": "Red",
       "description": "Red color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "orange",
       "label": "Orange",
       "description": "Orange color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "yellow",
       "label": "Yellow",
       "description": "Yellow color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "chartreuse",
       "label": "Chartreuse",
       "description": "Chartreuse color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "celery",
       "label": "Celery",
       "description": "Celery color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "green",
       "label": "Green",
       "description": "Green color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "seafoam",
       "label": "Seafoam",
       "description": "Seafoam color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "cyan",
       "label": "Cyan",
       "description": "Cyan color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "blue",
       "label": "Blue",
       "description": "Blue color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "indigo",
       "label": "Indigo",
       "description": "Indigo color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "purple",
       "label": "Purple",
       "description": "Purple color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "fuchsia",
       "label": "Fuchsia",
       "description": "Fuchsia color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "magenta",
       "label": "Magenta",
       "description": "Magenta color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "pink",
       "label": "Pink",
       "description": "Pink color variant",
       "category": "color",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "over-background",
       "label": "Over Background",
-      "aliases": [
-        "over background"
-      ],
+      "aliases": ["over background"],
       "description": "Designed to be used over backgrounds",
       "category": "context",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "brown",
       "label": "Brown",
       "description": "Brown color variant",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "cinnamon",
       "label": "Cinnamon",
       "description": "Cinnamon color variant",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "silver",
       "label": "Silver",
       "description": "Silver color variant",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "hero",
       "label": "Hero",
       "description": "Large featured-card layout variant with maximized visual prominence",
       "category": "emphasis",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "component",
       "label": "Component",
       "description": "Compact in-component typography scale, alongside the page-level body/detail/heading/title roles",
       "category": "typography-role",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "static",
       "label": "Static",
       "description": "Context variant indicating the token does not change with theme",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "inverse",
       "label": "Inverse",
       "description": "Inverted color context variant",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "black",
       "label": "Black",
       "description": "Black color modifier, typically used with static context",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "white",
       "label": "White",
       "description": "White color modifier, typically used with static context",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "turquoise",
       "label": "Turquoise",
       "description": "Turquoise color variant",
       "category": "color",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "confirmation",
       "label": "Confirmation",
       "description": "Confirmation dialog variant requiring user acknowledgement",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "destructive",
       "label": "Destructive",
       "description": "Destructive action dialog variant (stronger than negative)",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "warning",
       "label": "Warning",
       "description": "Warning dialog variant for cautionary alerts",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "error",
       "label": "Error",
       "description": "Error state variant for failed operations",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "information",
       "label": "Information",
-      "aliases": [
-        "info"
-      ],
+      "aliases": ["info"],
       "description": "Informational dialog variant (alias for informative in alert contexts)",
       "category": "semantic",
-      "usedIn": [
-        "component-schemas"
-      ]
+      "usedIn": ["component-schemas"]
     },
     {
       "id": "ambient",
       "label": "Ambient",
       "description": "Ambient/diffuse drop-shadow context",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "dragged",
       "label": "Dragged",
       "description": "Shadow context during drag interaction",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "elevated",
       "label": "Elevated",
       "description": "Elevated surface or shadow context",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "base",
       "label": "Base",
       "description": "Base (lowest) surface context",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "layer",
       "label": "Layer",
       "description": "Stacked surface layer context",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "pasteboard",
       "label": "Pasteboard",
       "description": "Pasteboard surface context",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "elevated-key",
       "label": "Elevated Key",
       "description": "Key-light shadow context on an elevated surface",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "dragged-key",
       "label": "Dragged Key",
       "description": "Key-light shadow context during drag interaction",
       "category": "context",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -1079,583 +979,426 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "text",
       "label": "Text",
       "description": "Text content or labels",
-      "usedIn": [
-        "tokens"
-      ],
+      "usedIn": ["tokens"],
       "standaloneScope": true
     },
     {
       "id": "control",
       "label": "Control",
       "description": "Interactive control elements like checkboxes or radio buttons",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "icon",
       "label": "Icon",
       "description": "Icon elements",
-      "usedIn": [
-        "tokens",
-        "component-schemas"
-      ],
+      "usedIn": ["tokens", "component-schemas"],
       "standaloneScope": true
     },
     {
       "id": "label",
       "label": "Label",
       "description": "Text labels",
-      "usedIn": [
-        "tokens",
-        "component-schemas"
-      ]
+      "usedIn": ["tokens", "component-schemas"]
     },
     {
       "id": "body",
       "label": "Body",
       "description": "Main body or content container",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "header",
       "label": "Header",
       "description": "Header section",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "footer",
       "label": "Footer",
       "description": "Footer section",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "divider",
       "label": "Divider",
       "description": "Dividing line or separator",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "handle",
       "label": "Handle",
       "description": "Draggable handle element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "indicator",
       "label": "Indicator",
       "description": "Visual indicator or marker",
-      "usedIn": [
-        "tokens"
-      ],
+      "usedIn": ["tokens"],
       "standaloneScope": true
     },
     {
       "id": "track",
       "label": "Track",
       "description": "Track or rail element (e.g., in sliders)",
-      "usedIn": [
-        "tokens"
-      ],
+      "usedIn": ["tokens"],
       "standaloneScope": true
     },
     {
       "id": "thumb",
       "label": "Thumb",
       "description": "Draggable thumb element (e.g., in sliders)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "avatar",
       "label": "Avatar",
       "description": "User avatar or profile image",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "badge",
       "label": "Badge",
       "description": "Badge or notification indicator",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "pill",
       "label": "Pill",
       "description": "Pill-shaped element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "title",
       "label": "Title",
       "description": "Title text element within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "description",
       "label": "Description",
       "description": "Descriptive text element within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "row",
       "label": "Row",
       "description": "Table or list row element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "step",
       "label": "Step",
       "description": "Individual step element in a step list or wizard",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "counter",
       "label": "Counter",
       "description": "Numeric counter or badge element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "preview",
       "label": "Preview",
       "description": "Preview area or thumbnail within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "tip",
       "label": "Tip",
       "description": "Tooltip tip or arrow element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "selection",
       "label": "Selection",
       "description": "Selection indicator or highlight element",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "media",
       "label": "Media",
       "description": "Media container (image, video) within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "ring",
       "label": "Ring",
       "description": "Focus ring or outline indicator",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "field",
       "label": "Field",
       "description": "Input container element in form components (text-field, number-field, combo-box, picker, etc.)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "fill",
       "label": "Fill",
       "description": "Active/completed portion of a track-based component (slider, meter, progress-bar, progress-circle)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "value",
       "label": "Value",
       "description": "Displayed data value within a component (numeric readout, selected text, menu item value)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "container",
       "label": "Container",
       "description": "Outer wrapper element of a component (cards, swatch, thumbnail, avatar)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "chevron",
       "label": "Chevron",
       "description": "Directional arrow indicator (disclosure, navigation, drill-in)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "loupe",
       "label": "Loupe",
       "description": "Magnified color preview element in color components (color-area, color-slider, color-wheel)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "dot",
       "label": "Dot",
       "description": "Small circular indicator element (status-light)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "separator",
       "label": "Separator",
       "description": "Visual separator between items (breadcrumbs)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "checkmark",
       "label": "Checkmark",
       "description": "Check or confirmation icon element within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "stepper",
       "label": "Stepper",
       "description": "Increment/decrement control in number-field",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "area",
       "label": "Area",
       "description": "Interactive surface region (color-area gradient surface)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "gripper",
       "label": "Gripper",
       "description": "Draggable resize handle element (standard-panel)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "illustration",
       "label": "Illustration",
       "description": "Decorative or explanatory illustration within a component",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "heading",
       "label": "Heading",
       "description": "Heading text element within a component section",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "workflow-icon",
       "label": "Workflow Icon",
       "description": "Standard workflow icon element within a component (distinct from UI icons)",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ],
+      "usedIn": ["tokens", "s2-docs"],
       "standaloneScope": true
     },
     {
       "id": "ui-icon",
       "label": "UI Icon",
       "description": "System UI icon element (chevrons, checkmarks, close icons) within a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "action-button",
       "label": "Action Button",
       "description": "An action button used as a named part within another component (e.g. tag-group toolbar, tree-view item actions)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "action-menu",
       "label": "Action Menu",
       "description": "Overflow action menu within a component (e.g. action-group overflow)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "button",
       "label": "Button",
       "description": "A button element used as a named anatomy part within another component (e.g. drop-zone CTA, alert-banner action)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "button-group",
       "label": "Button Group",
       "description": "A grouped set of action buttons, typically in dialog footers or coach-mark controls",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "close-button",
       "label": "Close Button",
       "description": "Dismiss or close button element within a component (dialogs, alerts, tags, panels)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "back-button",
       "label": "Back Button",
       "description": "Back-navigation button within a panel or multi-step component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "hold-icon",
       "label": "Hold Icon",
       "description": "Small indicator icon on action-button signaling a hold interaction is available",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "actions",
       "label": "Actions",
       "description": "Group of action controls within a list item or tree node (action buttons, icon buttons)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "list-item",
       "label": "List Item",
       "description": "Individual row within a list-view component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "menu-item",
       "label": "Menu Item",
       "description": "Individual selectable item within a menu",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "section-header",
       "label": "Section Header",
       "description": "Label separating a named group of items within a menu or list-view",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "section-divider",
       "label": "Section Divider",
       "description": "Visual line separating sections within a menu or list",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "section-description",
       "label": "Section Description",
       "description": "Optional descriptive text accompanying a menu or list section header",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "drill-in-chevron",
       "label": "Drill-in Chevron",
       "description": "Chevron icon indicating a sub-menu or drill-in navigation action on a menu item",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "link-out-icon",
       "label": "Link-out Icon",
       "description": "Icon indicating a menu item opens an external link in a new context",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "trailing-icon",
       "label": "Trailing Icon",
       "description": "Icon placed at the trailing (end) edge of a list item or row",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "thumbnail",
       "label": "Thumbnail",
       "description": "Small image preview element used as a named part within list, menu, or card components",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "checkbox",
       "label": "Checkbox",
       "description": "Checkbox control used as a named anatomy part within another component (list-view, cards, tree-view)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "switch",
       "label": "Switch",
       "description": "Toggle switch used as a named anatomy part within another component (e.g. menu item)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "popover",
       "label": "Popover",
       "description": "Popover shell used as a named anatomy part within another component (menu, contextual-help)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "help-text",
       "label": "Help Text",
       "description": "Instructional or error message text displayed below a form field",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "character-count",
       "label": "Character Count",
       "description": "Remaining-character counter shown in text-field and text-area components",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "necessity-indicator",
       "label": "Necessity Indicator",
       "description": "Label or asterisk indicating whether a field is required or optional (field-label, combo-box)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "required-asterisk",
       "label": "Required Asterisk",
       "description": "Asterisk symbol denoting a required form field (text-field, picker, number-field)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "required-text",
       "label": "Required Text",
       "description": "Text label (e.g. 'Required') denoting a required form field",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "validation-marker",
       "label": "Validation Marker",
       "description": "Icon or mark indicating valid input state on a form field",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "error-icon",
       "label": "Error Icon",
       "description": "Icon indicating an error state on a form field (text-field, picker, number-field)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "placeholder",
       "label": "Placeholder",
       "description": "Placeholder text shown in a form field before a value is selected or entered",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "in-field-button",
       "label": "In-field Button",
       "description": "Button rendered inside a field element (e.g. clear button in search-field, calendar trigger in date-picker)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "in-field-progress-circle",
@@ -1666,512 +1409,380 @@ const ANATOMY_TERMS_JSON: &str = r##"{
       "id": "leading-icon",
       "label": "Leading Icon",
       "description": "Icon placed at the leading (start) edge inside a field (e.g. search icon in search-field)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "field-label",
       "label": "Field Label",
       "description": "Field label component used as a named anatomy part within a group component (checkbox-group, radio-group, tag-field)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "input",
       "label": "Input",
       "description": "The actual input control(s) associated with a field-label component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "menu-container",
       "label": "Menu Container",
       "description": "Container element that holds the dropdown menu in picker and combo-box",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "date-field",
       "label": "Date Field",
       "description": "Date input component used as an anatomy part within a date-picker",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "time-field",
       "label": "Time Field",
       "description": "Time input component used as an anatomy part within a date-picker",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "calendar",
       "label": "Calendar",
       "description": "Calendar component used as an anatomy part within a date-picker",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "segmented-control-item",
       "label": "Segmented Control Item",
       "description": "Individual selectable item within a segmented-control component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "color-area",
       "label": "Color Area",
       "description": "The color-area component when used as an embedded anatomy part within another component (e.g. the color gradient area inside a color-wheel)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "color-handle",
       "label": "Color Handle",
       "description": "Draggable handle element in color picker components (color-area, color-slider, color-wheel)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "swatch",
       "label": "Swatch",
       "description": "Individual color swatch element used as an anatomy part within a swatch-group",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "tag",
       "label": "Tag",
       "description": "Tag element used as an anatomy part within tag-group and tag-field",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "text-area",
       "label": "Text Area",
       "description": "Scrollable text input region used as an anatomy part within tag-field",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "image",
       "label": "Image",
       "description": "Image element used as a named anatomy part within thumbnail, avatar, or dialog components",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "link",
       "label": "Link",
       "description": "Inline link element used as a named anatomy part within contextual-help or similar components",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "header-area",
       "label": "Header Area",
       "description": "Distinct header region within a dialog or panel component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "body-area",
       "label": "Body Area",
       "description": "Main content region within a dialog, panel, or in-line-alert component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "footer-area",
       "label": "Footer Area",
       "description": "Distinct footer region within a dialog or card component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "header-content",
       "label": "Header Content",
       "description": "Optional content placed within the header area of a dialog or panel",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "footer-content",
       "label": "Footer Content",
       "description": "Optional content placed within the footer area of a dialog",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "cover-image",
       "label": "Cover Image",
       "description": "Large decorative image at the top of a standard dialog",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "primary-action",
       "label": "Primary Action",
       "description": "Primary call-to-action button within a dialog or alert component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "secondary-action",
       "label": "Secondary Action",
       "description": "Secondary action button within a dialog component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "cancel-action",
       "label": "Cancel Action",
       "description": "Cancel or dismiss action button within a dialog component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "column-header",
       "label": "Column Header",
       "description": "Header cell of a table column, typically containing a label and optional sort control",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "sort-icon",
       "label": "Sort Icon",
       "description": "Icon indicating sort direction on a table column header",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "column-divider",
       "label": "Column Divider",
       "description": "Vertical separator between table columns",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "row-divider",
       "label": "Row Divider",
       "description": "Horizontal separator between table rows",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "cell",
       "label": "Cell",
       "description": "Individual data cell within a table row",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "preview-well",
       "label": "Preview Well",
       "description": "Preview/asset display area within a card component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "metadata",
       "label": "Metadata",
       "description": "Supplemental metadata content area within a card component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "accordion",
       "label": "Accordion",
       "description": "Accordion component used as an anatomy part within a panel (standard-panel)",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "tab-item",
       "label": "Tab Item",
-      "aliases": [
-        "tab"
-      ],
+      "aliases": ["tab"],
       "description": "Individual tab button within a tabs component",
-      "usedIn": [
-        "tokens",
-        "s2-docs"
-      ]
+      "usedIn": ["tokens", "s2-docs"]
     },
     {
       "id": "breadcrumb-item",
       "label": "Breadcrumb Item",
       "description": "Individual item in a breadcrumbs navigation trail",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "breadcrumb-title",
       "label": "Breadcrumb Title",
       "description": "Current-page title element at the end of a breadcrumbs trail",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "truncated-menu",
       "label": "Truncated Menu",
       "description": "Overflow menu replacing collapsed breadcrumb items when space is limited",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "accordion-item",
       "label": "Accordion Item",
       "description": "Individual collapsible section within an accordion component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "small-divider",
       "label": "Small Divider",
       "description": "Thin divider line between accordion items",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "tree-view-item",
       "label": "Tree View Item",
       "description": "Individual node element within a tree-view component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "disclosure-button",
       "label": "Disclosure Button",
       "description": "Collapse/expand toggle button on a tree-view item or accordion item",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "drag-icon",
       "label": "Drag Icon",
       "description": "Drag handle icon on a reorderable tree-view item",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "context-area",
       "label": "Context Area",
       "description": "Optional icon or thumbnail context slot on the leading edge of a tree-view item",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "step-item",
       "label": "Step Item",
       "description": "Individual step node within a steplist component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "user-image",
       "label": "User Image",
       "description": "User profile photo displayed within an avatar component",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "initials",
       "label": "Initials",
       "description": "Text initials displayed in an avatar when no image is available",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "guest-icon",
       "label": "Guest Icon",
       "description": "Icon displayed in an avatar representing an unauthenticated guest user",
-      "usedIn": [
-        "s2-docs"
-      ]
+      "usedIn": ["s2-docs"]
     },
     {
       "id": "disclosure-triangle",
       "label": "Disclosure Triangle",
       "description": "Expand/collapse indicator for accordion, tree, or disclosure components",
-      "usedIn": [
-        "tokens",
-        "component-schemas"
-      ]
+      "usedIn": ["tokens", "component-schemas"]
     },
     {
       "id": "picker",
       "label": "Picker",
       "description": "Dropdown trigger area — the visible affordance, not the overlay",
-      "usedIn": [
-        "tokens",
-        "component-schemas"
-      ]
+      "usedIn": ["tokens", "component-schemas"]
     },
     {
       "id": "progress-bar",
       "label": "Progress Bar",
       "description": "Visual progress fill track indicating completion level",
-      "usedIn": [
-        "tokens",
-        "component-schemas"
-      ]
+      "usedIn": ["tokens", "component-schemas"]
     },
     {
       "id": "content",
       "label": "Content",
       "description": "The main content area of a component",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "visual",
       "label": "Visual",
       "description": "A leading visual element such as an icon or thumbnail",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "action",
       "label": "Action",
       "description": "An interactive action affordance",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "navigation",
       "label": "Navigation",
       "description": "A navigation control or affordance",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "disclosure",
       "label": "Disclosure",
       "description": "An expand/collapse affordance",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "content-area",
       "label": "Content area",
       "description": "The container region that wraps a component's main content",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "disclosure-indicator",
       "label": "Disclosure indicator",
       "description": "A visual affordance showing expand/collapse state",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "disclosure-icon",
       "label": "Disclosure icon",
       "description": "An icon affordance showing expand/collapse state",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "field-button",
       "label": "Field button",
       "description": "A trigger button embedded within a text field or picker",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "in-field-stepper",
       "label": "In-field stepper",
       "description": "A stepper control embedded within a field element (e.g. number-field)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "pagination",
       "label": "Pagination",
       "description": "Paged-navigation indicator element (e.g. coach-mark step dots)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "slash",
       "label": "Slash",
       "description": "Diagonal line element indicating an unavailable or crossed-out state (e.g. swatch)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "square",
       "label": "Square",
       "description": "Square-shaped anatomy element (e.g. checkerboard tile)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     },
     {
       "id": "well",
       "label": "Well",
       "description": "Recessed background area within a component (e.g. card)",
-      "usedIn": [
-        "tokens"
-      ]
+      "usedIn": ["tokens"]
     }
   ]
 }
@@ -2357,7 +1968,7 @@ const TYPOGRAPHY_EMPHASIS_JSON: &str = r##"{
 const PROPERTY_TERMS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in elements.json). Sub-qualities of a property (border, background, overlay, shadow, etc.) belong in the paired `attribute` field, not compounded into this one. Examples: color, width, padding.",
   "values": [
     {
       "id": "color",
@@ -2365,39 +1976,9 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "description": "Text or foreground color"
     },
     {
-      "id": "fill-color",
-      "label": "Fill Color",
-      "description": "SVG or icon fill color"
-    },
-    {
-      "id": "icon-color",
-      "label": "Icon Color",
-      "description": "Foreground color of an icon"
-    },
-    {
       "id": "content-color",
       "label": "Content Color",
       "description": "Color of a component's content area"
-    },
-    {
-      "id": "visual-color",
-      "label": "Visual Color",
-      "description": "Color of a component's visible graphic (visual) area"
-    },
-    {
-      "id": "shadow-color",
-      "label": "Shadow Color",
-      "description": "Drop shadow color component"
-    },
-    {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
-      "id": "outline-color",
-      "label": "Outline Color",
-      "description": "CSS outline color"
     },
     {
       "id": "square-dark",
@@ -2413,16 +1994,6 @@ const PROPERTY_TERMS_JSON: &str = r##"{
       "id": "opacity",
       "label": "Opacity",
       "description": "Element transparency level"
-    },
-    {
-      "id": "border-opacity",
-      "label": "Border Opacity",
-      "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",

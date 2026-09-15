@@ -235,7 +235,7 @@
     },
     {
       "name": "selected",
-      "trigger": "interaction"
+      "trigger": "prop"
     },
     {
       "name": "selected-default",

@@ -313,4 +313,50 @@ mod tests {
         assert!(!fields.contains(&"scale"));
         assert!(!fields.contains(&"contrast"));
     }
+
+    /// Guards against the exact regression found while auditing the taxonomy
+    /// migration: `packages/design-data/registry/platform-extensions/*.json` isn't
+    /// currently loaded into the graph (it's foundation reference data, not
+    /// manifest-declared), so nothing else catches a stale `extends` target or a
+    /// `termId` that no longer exists after a field is renamed/split/removed.
+    #[test]
+    fn foundation_platform_extensions_extends_live_registries() {
+        let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/registry/platform-extensions");
+        let r = RegistryData::embedded();
+        let mut checked = 0;
+        for entry in std::fs::read_dir(&dir).expect("platform-extensions dir must exist") {
+            let path = entry.expect("readable dir entry").path();
+            if path.extension().and_then(|e| e.to_str()) != Some("json") {
+                continue;
+            }
+            let raw = std::fs::read_to_string(&path).expect("readable extension file");
+            let doc: Value = serde_json::from_str(&raw).expect("valid JSON");
+            let extends = doc
+                .get("extends")
+                .and_then(|v| v.as_str())
+                .unwrap_or_else(|| panic!("{path:?} missing 'extends'"));
+            let registry = r.for_field(extends).unwrap_or_else(|| {
+                panic!("{path:?} declares extends:\"{extends}\" but no such registry exists")
+            });
+            for ext in doc
+                .get("extensions")
+                .and_then(|v| v.as_array())
+                .into_iter()
+                .flatten()
+            {
+                if let Some(term_id) = ext.get("termId").and_then(|v| v.as_str()) {
+                    assert!(
+                        registry.contains(term_id),
+                        "{path:?} references termId \"{term_id}\" which does not exist in the \"{extends}\" registry"
+                    );
+                }
+            }
+            checked += 1;
+        }
+        assert!(
+            checked > 0,
+            "expected at least one platform-extension file to check"
+        );
+    }
 }
