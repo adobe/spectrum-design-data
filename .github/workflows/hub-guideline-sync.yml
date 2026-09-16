@@ -1,0 +1,210 @@
+name: Hub Guideline Sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Dry run; skip the commit and PR steps.
+        required: false
+        type: boolean
+        default: false
+      limit:
+        description: Optional fetcher limit used for smoke tests.
+        required: false
+        type: string
+        default: ""
+      base_branch:
+        description: Base branch for the PR. Defaults to the current workflow ref branch.
+        required: false
+        type: string
+        default: ""
+
+# This workflow is intentionally scoped to guideline pages only. Component pages remain out of scope
+# until bead 085.2.2 lands; the fetcher and guideline transform are deliberately not widened here.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: hub-guideline-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-guidelines:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve base branch
+        id: base
+        env:
+          INPUT_BASE: ${{ github.event.inputs.base_branch }}
+        run: |
+          base="${INPUT_BASE:-${GITHUB_REF_NAME}}"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "Using base branch: ${base}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.base.outputs.base }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Node toolchain
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+
+      - name: Install dependencies
+        run: |
+          moon setup
+          pnpm install --frozen-lockfile
+
+      - name: Fetch Spectrum Hub pages
+        run: |
+          args=(--out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            args+=(--limit "${{ github.event.inputs.limit }}")
+          fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            args+=(--dry-run)
+          fi
+          node tools/spectrum-hub-fetcher/src/cli.js "${args[@]}"
+
+      - name: Guard fetch health
+        env:
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('hub-fetch-report.json', 'utf8'));
+          const pages = Array.isArray(report.pages) ? report.pages : [];
+          const written = Number(report.written ?? 0);
+          const selectedRows = Number(report.selectedRows ?? 0);
+          const fragmentsFailed = pages.reduce((sum, page) => sum + Number(page.fragmentsFailed ?? 0), 0);
+          const fragmentsResolved = pages.reduce((sum, page) => sum + Number(page.fragmentsResolved ?? 0), 0);
+          const failureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
+          const hasLimit = Boolean(process.env.LIMIT && process.env.LIMIT.trim() !== '');
+          const weakWriteVolume = !hasLimit && selectedRows > 0 && written < Math.max(1, Math.ceil(selectedRows * 0.5));
+          const invalid = fragmentsFailed > failureThreshold || written === 0 || weakWriteVolume;
+
+          console.log(JSON.stringify({
+            written,
+            selectedRows,
+            fragmentsFailed,
+            fragmentsResolved,
+            failureThreshold,
+            hasLimit,
+            weakWriteVolume,
+            invalid,
+          }, null, 2));
+
+          if (invalid) {
+            console.error('Fetch guard failed: too many fragment failures or too few pages were written.');
+            process.exit(1);
+          }
+          NODE
+
+      - name: Stage docs for the guideline transform
+        run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs
+
+      - name: Transform staged docs into guideline JSON
+        run: node tools/s2-docs-to-document-blocks/src/cli.js guideline --report guideline-review.md
+
+      - name: Check for content changes
+        id: content
+        run: |
+          status="$(git status --porcelain -- docs/s2-docs packages/design-data/guidelines)"
+          if [ -n "$status" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "$status"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No content changes detected under docs/s2-docs or packages/design-data/guidelines."
+          fi
+
+      - name: Skip when content is unchanged
+        if: steps.content.outputs.has_changes != 'true' || github.event.inputs.dry_run == 'true'
+        run: echo "No content changes or dry-run mode; skipping the count bump, changeset, and PR steps."
+
+      - name: Bump embedded guideline count guard
+        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        id: count
+        run: node .github/scripts/bump-embedded-counts.mjs >> "$GITHUB_OUTPUT"
+
+      - name: Write guideline sync changeset
+        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        env:
+          PREV_COUNT: ${{ steps.count.outputs.guideline_count_previous }}
+          NEW_COUNT: ${{ steps.count.outputs.guideline_count_new }}
+        run: |
+          timestamp="$(date -u +%Y%m%d)"
+          cat > ".changeset/hub-guideline-sync-${timestamp}.md" <<EOF
+          ---
+          "@adobe/spectrum-design-data": minor
+          ---
+
+          Sync guideline content from Spectrum Hub (automated).
+
+          - **packages/design-data/guidelines**: ${NEW_COUNT} guideline documents (was ${PREV_COUNT}).
+          - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to ${NEW_COUNT}.
+          EOF
+
+      - name: Lint changeset
+        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        run: node tools/changeset-linter/src/cli.js check --fail-on-warnings
+
+      - name: Create pull request
+        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: hub-guideline-sync
+          base: ${{ steps.base.outputs.base }}
+          title: "feat(design-data): sync guidelines from Spectrum Hub"
+          commit-message: "feat(design-data): sync guidelines from Spectrum Hub"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          add-paths: |
+            docs/s2-docs
+            packages/design-data/guidelines
+            .changeset
+            sdk/core/src/data_source/embedded.rs
+          body: |
+            ## Description
+
+            Automated Spectrum Hub → design-data guideline sync, generated by the Hub Guideline Sync workflow.
+
+            This run refreshes the guideline corpus and updates the embedded guideline-count guard so the Rust regression test stays aligned with the checked-in JSON set.
+
+            ## Related Issue
+
+            spectrum-design-data-085.2.3
+
+            ## Motivation and Context
+
+            This replaces the manual fetch + stage + transform pipeline with a deterministic GitHub Action run. The automation remains intentionally scoped to guideline pages only; component pages are still tracked separately in bead 085.2.2.
+
+            ## How Has This Been Tested?
+
+            This PR will run through the repo's standard CI checks, including the Node and Rust jobs from `.github/workflows/ci.yml`.
+
+            ## Screenshots (if appropriate):
+
+            ## Types of changes
+
+            - [ ] Bug fix (non-breaking change which fixes an issue)
+            - [x] New feature (non-breaking change which adds functionality)
+            - [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+            ## Checklist:
+
+            - [ ] I have signed the Adobe Open Source CLA.
+            - [ ] My code follows the code style of this project.
+            - [ ] My change requires a change to the documentation.
+            - [ ] I have updated the documentation accordingly.
+            - [ ] I have read the CONTRIBUTING document.
+            - [ ] I have added tests to cover my changes.
+            - [ ] All new and existing tests passed.
