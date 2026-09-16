@@ -47,7 +47,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.base.outputs.base }}
-          fetch-depth: 0
+          # Shallow clone is sufficient: the only history-sensitive check downstream is
+          # `git status --porcelain`, and peter-evans/create-pull-request creates its own
+          # branch from the working tree rather than needing prior history.
+          fetch-depth: 1
           # GH_TOKEN (a PAT/app token, same secret release.yml and deploy-docs.yml use for
           # elevated needs) is required so the PR opened below can trigger other workflows
           # (e.g. ci.yml on pull_request) — GitHub's loop-prevention rule blocks that for
@@ -69,12 +72,15 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: Fetch Spectrum Hub pages
+        env:
+          FETCH_LIMIT: ${{ github.event.inputs.limit }}
+          FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
           args=(--out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
-          if [ -n "${{ github.event.inputs.limit }}" ]; then
-            args+=(--limit "${{ github.event.inputs.limit }}")
+          if [ -n "$FETCH_LIMIT" ]; then
+            args+=(--limit "$FETCH_LIMIT")
           fi
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+          if [ "$FETCH_DRY_RUN" = "true" ]; then
             args+=(--dry-run)
           fi
           node tools/spectrum-hub-fetcher/src/cli.js "${args[@]}"
@@ -143,34 +149,41 @@ jobs:
         run: echo "No content changes detected; skipping the count bump, changeset, and PR steps."
 
       - name: Bump embedded guideline count guard
-        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
+        if: steps.content.outputs.has_changes == 'true'
         id: count
         run: node .github/scripts/bump-embedded-counts.mjs
 
       - name: Write guideline sync changeset
-        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
+        if: steps.content.outputs.has_changes == 'true'
         env:
           PREV_COUNT: ${{ steps.count.outputs.guideline_count_previous }}
           NEW_COUNT: ${{ steps.count.outputs.guideline_count_new }}
+          COUNT_CHANGED: ${{ steps.count.outputs.guideline_count_changed }}
         run: |
           timestamp="$(date -u +%Y%m%d)"
-          cat > ".changeset/hub-guideline-sync-${timestamp}.md" <<EOF
-          ---
-          "@adobe/spectrum-design-data": minor
-          ---
-
-          Sync guideline content from Spectrum Hub (automated).
-
-          - **packages/design-data/guidelines**: ${NEW_COUNT} guideline documents (was ${PREV_COUNT}).
-          - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to ${NEW_COUNT}.
-          EOF
+          guard_line=""
+          if [ "$COUNT_CHANGED" = "true" ]; then
+            guard_line="- **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to ${NEW_COUNT}."
+          fi
+          {
+            echo '---'
+            echo '"@adobe/spectrum-design-data": minor'
+            echo '---'
+            echo ''
+            echo 'Sync guideline content from Spectrum Hub (automated).'
+            echo ''
+            echo "- **packages/design-data/guidelines**: ${NEW_COUNT} guideline documents (was ${PREV_COUNT})."
+            if [ -n "$guard_line" ]; then
+              echo "$guard_line"
+            fi
+          } > ".changeset/hub-guideline-sync-${timestamp}.md"
 
       - name: Lint changeset
-        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
-        run: node tools/changeset-linter/src/cli.js check --fail-on-warnings
+        if: steps.content.outputs.has_changes == 'true'
+        run: pnpm changeset-lint check --fail-on-warnings
 
       - name: Create pull request
-        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
+        if: steps.content.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}

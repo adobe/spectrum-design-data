@@ -398,8 +398,14 @@ mod tests {
     fn materialize_guidelines_count() {
         // Regression guard: if a guideline is added to or removed from
         // packages/design-data/guidelines/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_GUIDELINE_COUNT when you've intentionally changed the set.
         // manifest.json is excluded — it is not a guideline document.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_GUIDELINE_COUNT: usize = 58;
+
         let (_tmp, root) = temp_root();
         let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))
             .unwrap()
@@ -411,9 +417,9 @@ mod tests {
             .collect();
         assert_eq!(
             guidelines.len(),
-            58,
-            "expected 58 guideline documents — update this count if you've added/removed \
-             files from packages/design-data/guidelines/"
+            EXPECTED_GUIDELINE_COUNT,
+            "expected {EXPECTED_GUIDELINE_COUNT} guideline documents — update this count if \
+             you've added/removed files from packages/design-data/guidelines/"
         );
     }
 

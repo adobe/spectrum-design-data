@@ -8,6 +8,19 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
+/**
+ * Rewrites the EXPECTED_GUIDELINE_COUNT constant in
+ * sdk/core/src/data_source/embedded.rs's materialize_guidelines_count() regression test to
+ * match the real number of guideline JSON documents (excluding manifest.json) currently in
+ * packages/design-data/guidelines/.
+ *
+ * Refuses to silently lower the count: a decrease usually means the transform step dropped
+ * files it shouldn't have, and a human should confirm that before the guard is relaxed. Set
+ * ALLOW_GUIDELINE_COUNT_DECREASE=true to bypass (e.g. for an intentional guideline removal).
+ *
+ * Usage: node .github/scripts/bump-embedded-counts.mjs
+ */
+
 import { appendFileSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,68 +31,41 @@ const guidelinesDir = resolve(root, 'packages/design-data/guidelines');
 const embeddedPath = resolve(root, 'sdk/core/src/data_source/embedded.rs');
 
 const countFiles = () =>
-  readdirSync(guidelinesDir, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'manifest.json').length;
+  readdirSync(guidelinesDir, { withFileTypes: true }).filter(
+    (entry) => entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'manifest.json',
+  ).length;
 
-const FUNCTION_START_ANCHOR = '    #[test]\n    fn materialize_guidelines_count() {';
-const FUNCTION_END_ANCHOR = '\n    #[test]\n    fn materialize_components_count()';
-
-const locateFunctionBounds = (source) => {
-  const start = source.indexOf(FUNCTION_START_ANCHOR);
-  const end = source.indexOf(FUNCTION_END_ANCHOR);
-
-  if (start === -1 || end === -1 || end <= start) {
-    throw new Error(
-      'Could not locate materialize_guidelines_count() in sdk/core/src/data_source/embedded.rs ' +
-        '(expected it immediately before materialize_components_count(), each preceded by #[test]).',
-    );
-  }
-
-  return { start, end };
-};
-
-const previousCount = (source) => {
-  const { start, end } = locateFunctionBounds(source);
-  const match = source.slice(start, end).match(/assert_eq!\(\s*guidelines\.len\(\),\s*(\d+),/m);
-  if (!match) {
-    throw new Error(
-      'Could not find the guideline count literal in materialize_guidelines_count().',
-    );
-  }
-
-  return Number(match[1]);
-};
+// A single, narrow anchor: the constant declaration line. Unlike matching the whole test
+// function body, this is immune to reordering/refactoring of sibling tests in the same file.
+const COUNT_PATTERN = /(const EXPECTED_GUIDELINE_COUNT: usize = )(\d+)(;)/;
 
 const currentCount = countFiles();
 const source = readFileSync(embeddedPath, 'utf8');
-const prevCount = previousCount(source);
-const template = `${FUNCTION_START_ANCHOR.trimEnd()}
-        // Regression guard: if a guideline is added to or removed from
-        // packages/design-data/guidelines/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
-        // manifest.json is excluded — it is not a guideline document.
-        let (_tmp, root) = temp_root();
-        let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))
-            .unwrap()
-            .flatten()
-            .filter(|e| {
-                e.path().extension().is_some_and(|x| x == "json")
-                    && e.file_name() != "manifest.json"
-            })
-            .collect();
-        assert_eq!(
-            guidelines.len(),
-            ${currentCount},
-            "expected ${currentCount} guideline documents — update this count if you've added/removed \\
-             files from packages/design-data/guidelines/"
-        );
-    }
-`;
+const match = source.match(COUNT_PATTERN);
 
-const { start, end } = locateFunctionBounds(source);
-const nextSource = `${source.slice(0, start)}${template}${source.slice(end)}`;
+if (!match) {
+  throw new Error(
+    'Could not find `const EXPECTED_GUIDELINE_COUNT: usize = <N>;` in ' +
+      'sdk/core/src/data_source/embedded.rs. Has materialize_guidelines_count() been renamed ' +
+      'or restructured?',
+  );
+}
 
-if (source !== nextSource) {
+const prevCount = Number(match[2]);
+
+if (currentCount < prevCount && process.env.ALLOW_GUIDELINE_COUNT_DECREASE !== 'true') {
+  throw new Error(
+    `Refusing to lower the guideline count guard from ${prevCount} to ${currentCount}. ` +
+      'This usually means the transform step silently dropped files rather than an ' +
+      'intentional guideline removal. If this decrease is expected, re-run with ' +
+      'ALLOW_GUIDELINE_COUNT_DECREASE=true.',
+  );
+}
+
+const nextSource = source.replace(COUNT_PATTERN, `$1${currentCount}$3`);
+const changed = nextSource !== source;
+
+if (changed) {
   writeFileSync(embeddedPath, nextSource, 'utf8');
   console.log(`Updated guideline count guard from ${prevCount} to ${currentCount}.`);
 } else {
@@ -89,7 +75,9 @@ if (source !== nextSource) {
 if (process.env.GITHUB_OUTPUT) {
   appendFileSync(
     process.env.GITHUB_OUTPUT,
-    `guideline_count_previous=${prevCount}\nguideline_count_new=${currentCount}\n`,
+    `guideline_count_previous=${prevCount}\n` +
+      `guideline_count_new=${currentCount}\n` +
+      `guideline_count_changed=${changed}\n`,
     'utf8',
   );
 }
