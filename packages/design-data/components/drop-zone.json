@@ -16,27 +16,35 @@
     },
     {
       "type": "guideline",
-      "content": "Drop zones accept dragged and dropped objects. They support upload and file management workflows, and are commonly used to move or add content within an interface."
+      "content": "Dragging file type over drop zone area.\n\nWhen a user drags a file over the drop zone ( onDragOver ), the border and background styling update to reflect an active state. This visual cue helps users understand that the drop zone is ready to accept the file, reducing uncertainty."
     },
     {
       "type": "guideline",
-      "content": "A button is an optional element to prompt the user to take action."
+      "content": "Dropping file type within drop zone area.\n\nWhen a user drops a file into the designated drop zone ( onDrop ), the zone should respond with clear visual feedback—this is typically achieved through displaying a button over the drop zone area informing the user that they may replace their content type. This feedback indicates that the user successfully dropped their file type into the zone and is permitted to replace it."
     },
     {
       "type": "guideline",
-      "content": "Drop zones come in three different sizes: small, medium, and large. The medium size is the default and most frequently used option."
+      "content": "Leaving drop zone area.\n\nWhen a user drags a file outside the designated drop zone ( onDragLeave ), any visual indicators—such as borders or background styling should revert to their default state."
     },
     {
       "type": "guideline",
-      "content": "Indicate to users the accepted file types to let users know what they can upload before interacting. This can be done through helper text or placeholder content."
+      "content": "Clearly communicate accepted file types.\n\nIndicate to users the accepted file types to let users know what they can upload before interacting. This can be done through helper text or placeholder content."
     },
     {
       "type": "guideline",
-      "content": "When a file is dragged over or dropped into the zone, provide the user with visual feedback such as highlighting the border or changing the background, to confirm the interaction is recognized."
+      "content": "Provide immediate visual feedback.\n\nWhen a file is dragged over or dropped into the zone, provide the user with visual feedback such as highlighting the border or changing the background, to confirm the interaction is recognized."
     },
     {
       "type": "guideline",
-      "content": "Visual styling that indicates a user can replace file types within a dropzone should clearly communicate interactivity and the potential for change without disrupting the overall layout. This is typically achieved through subtle but intuitive cues such as displaying a button over the drop zone area informing the user that they may replace their content type."
+      "content": "Allow the user to replace file types.\n\nVisual styling that indicates a user can replace file types within a dropzone should clearly communicate interactivity and the potential for change without disrupting the overall layout. This is typically achieved through subtle but intuitive cues such as displaying a button over the drop zone area informing the user that they may replace their content type."
+    },
+    {
+      "type": "guideline",
+      "content": "Writing the title.\n\nUse the content pattern of \"Drag and drop your {item}\" for the drop zone's title. The \"drag and drop\" phrasing communicates why the UI is appearing in the way that it is, and guides a user for what they need to do in the interaction. Don't use punctuation at the end of the title."
+    },
+    {
+      "type": "guideline",
+      "content": "Writing the description.\n\nThe drop zone's body area elaborates on the title and offers more information about how to complete the interaction. In-line links can offer other ways to accomplish the task, such as launching the user's file browser or taking them to another resource. Write the description using full sentences, and include periods at the end of each sentence."
     }
   ],
   "options": {
@@ -50,17 +58,7 @@
     "size": {
       "type": "string",
       "default": "m",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "actionLabel": {
       "type": "string",
@@ -79,24 +77,14 @@
       "description": "Callback function called when a file is dragged out of the drop zone."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["input"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

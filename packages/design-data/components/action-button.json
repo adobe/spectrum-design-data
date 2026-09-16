@@ -12,7 +12,7 @@
   "documentBlocks": [
     {
       "type": "purpose",
-      "content": "Action buttons perform tasks or mark selections. They're suited for task-based workflows where buttons don't need to draw attention."
+      "content": "Action buttons allow users to perform an action or mark a selection. They're used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren't meant to draw a lot of attention."
     },
     {
       "type": "guideline",
@@ -20,7 +20,7 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard focus.\n\nAn action button can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
+      "content": "Keyboard focus.\n\nAn action button can be navigated using a keyboard. The keyboard focus state takes the button’s visual hover state and adds a blue ring to the button in focus."
     },
     {
       "type": "guideline",
@@ -28,7 +28,7 @@
     },
     {
       "type": "guideline",
-      "content": "Isolated action buttons.\n\nIf you have an icon-only or text-only isolated action button, use the standard style to make sure it's more easily identifiable as a button."
+      "content": "Isolated action buttons.\n\nIf you have an icon-only or text-only isolated action button, use the standard style to make sure it’s more easily identifiable as a button."
     },
     {
       "type": "guideline",
@@ -44,17 +44,28 @@
     },
     {
       "type": "guideline",
-      "content": "Selected state text color.\n\nThe text color on the selected state of the over-background variant can be customized to match the background it's on. Use the background color for selected text when the action button is on a solid color, and is dark enough to meet a 4.5:1 contrast ratio with a white background (or black background, for the static black variant).\n\nUse black text when the button is on top of an image, or if the background is too low-contrast to meet the 4.5:1 contrast ratio."
+      "content": "Selected state text color.\n\nThe text color on the selected state of the over-background variant can be customized to match the background it’s on. Use the background color for selected text when the action button is on a solid color, and is dark enough to meet a 4.5:1 contrast ratio with a white background (or black background, for the static black variant). Use black text when the button is on top of an image, or if the background is too low-contrast to meet the 4.5:1 contrast ratio."
+    },
+    {
+      "type": "guideline",
+      "content": "RTL.\n\nFor RTL (right-to-left) languages, the layout of the action button is mirrored. The icon is placed on the right side of the text and the hold icon is placed on the left side of the icon."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nWhen an action button does not feature a hold icon: Key Interaction Space or EnterExecutes the action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller.TabMoves focus into the action button component and places focus on the selected action item.Shift + TabReturns focus to the previous action within the action button component. When an action button features a hold icon: Key Interaction EnterExecutes the action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller.SpaceOpens the popover menu.Alt + Down ArrowOpens the popover menu.TabMoves focus into the action button component and places focus on the selected action item.Shift + TabReturns focus to the previous action within the action button component."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Usage PointerUse the pointer cursor for all interactive components in every state."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons used in action buttons—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAAction buttons should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized.Text contrast 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size if text is wrapped inside an action button. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
-    "label": {
-      "type": "string"
-    },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
+    "label": { "type": "string" },
+    "hideLabel": { "type": "boolean", "default": false },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon must be present if the label is not defined."
@@ -63,92 +74,41 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "isEmphasized": {
-      "type": "boolean",
-      "default": false
-    },
+    "isQuiet": { "type": "boolean", "default": false },
+    "isSelected": { "type": "boolean", "default": false },
+    "isEmphasized": { "type": "boolean", "default": false },
     "staticColor": {
       "type": "string",
       "description": "Static color must not be set for the default version of this component.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     },
     "selectedTextColor": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     },
-    "hasHoldIcon": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "hasHoldIcon": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "button",
     "intents": ["trigger"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

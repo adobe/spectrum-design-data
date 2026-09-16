@@ -1,114 +1,79 @@
 ---
-title: "Tabs"
-source_url: https://s2.spectrum.corp.adobe.com/page/tabs/
-last_updated: 2026-02-02
-category: components/navigation
-component_type: navigation
+title: Tabs
+source_url: /web/rsp/components/tabs
+last_updated: null
 status: published
-tags:
-
-- components-navigation
-related_components:
-- side-navigation
-- tree-view
-parent_category: navigation
-
+tags: []
+hub_path: /web/rsp/components/tabs
+swc_exists: true
 ---
 
 # Tabs
 
-## Resources
-
-### Design
-
-* **Figma**: S2 Web
-
-### Implementations
-
-| Platform                     | Link                                                                                                                                                                                |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Spectrum CSS (archived) CSS: | [Tabs](https://opensource.adobe.com/spectrum-css/?path=/docs/components-tabs--docs)                                                                                                 |
-| Spectrum Web Components SWC: | \[Tabs]\(<https://opensource.adobe.com/spectrum-web-components/storybook/?path=/docs/tabs--docs&globals=system:spectrum-two;backgrounds.grid:!false;backgrounds.value:!hex(F8F8F8)> |
-| React Spectrum RSP:          | [Tabs](https://react-spectrum.adobe.com/s2/index.html?path=/docs/tabs--docs)                                                                                                        |
-
 ## Anatomy
 
-```
-tabs
-- tab item (selected)
-- tab item
-- selection indicator
-```
+tabs tab item (selected) tab item selection indicator
 
 ## Component options
 
-These options are used in Spectrum's design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-| Property    | Value                            | Default value | Description |
-| ----------- | -------------------------------- | ------------- | ----------- |
-| orientation | horizontal / vertical horizontal | –             |             |
-| items       | array – An array of tab          | items.        |             |
-
-## External links
-
-Tabs organize related content into multiple sections. They allow navigation between views while keeping the content grouped under a single context. Use when content can be divided logically into categories within the same view.
-
-These options are used in Spectrum’s design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-Tabs can be horizontal or vertical. By default, tabs are horizontal and should be used when horizontal space is limited.
-
-Use vertical tabs when horizontal space is more generous or when the list of sections is too long for a horizontal layout. Vertical tabs can also serve as anchor links, providing shortcuts to sections on a single page. In this case, tab items link to on-page anchors rather than opening a new tab view.
-
-When a user selects a tab item, the selection indicator slides along the base to the newly selected tab. The text and icon colors of both tabs fade during the transition. The tab view changes immediately upon selection.
-
-When there are too many tabs to fit horizontally across the viewport, display the tabs component as a quiet picker. When appropriate, you can also use alternative overflow methods such as horizontal scrolling.
-
-When there are too many tabs to fit horizontally across the viewport, you can either allow horizontal scrolling or place all tab items in a quiet picker. Do not truncate multiple tab items just to make them fit horizontally.
-
-Use tabs to organize sections of equal importance. Groups of content under each tab item should not be of different natures. Don't use tabs to replace a flow; use pagination components instead.
-
-Avoid using multiple levels of tabs. Instead, consider other organizational patterns such as side navigation, accordions or collapsible panels. Nesting tabs is acceptable only when there is a clear separation between the two tab experiences or when different orientations are used.
-
-Do not compromise hierarchy by using the same tab variations or orientations.
-
-Don’t mix the use of icons in tabs. Navigation controls require a clear spacial relationship to one another, and mixing the use of icons can dramatically impact the visual balance and presence for each tab item. Keep in mind that if one tab item has an icon, then they all should have an icon.
-
-It can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover.
+orientation Tabs can be horizontal or vertical. By default, tabs are horizontal and should be used when horizontal space is limited. Use vertical tabs when horizontal space is more generous or when the list of sections is too long for a horizontal layout. Vertical tabs can also serve as anchor links, providing shortcuts to sections on a single page. In this case, tab items link to on-page anchors rather than opening a new tab view. items Tab items represent distinct sections of related content within a single view. We recommend using up to five tab items in a single tab component. If more are needed, consider an alternative navigation pattern to maintain clarity and usability.
 
 ## States
 
-Do not compromise hierarchy by using the same tab variations or orientations.
-
-It can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover.
+State Support status DefaultSupportedHoverSupportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
 
 ## Behaviors
 
-Do not compromise hierarchy by using the same tab variations or orientations.
+### Animation
 
-It can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover.
+When a user selects a tab item, the selection indicator slides along the base to the newly selected tab. The text and icon colors of both tabs fade during the transition. The tab view changes immediately upon selection.
+
+### Tab overflow
+
+When there are too many tabs to fit horizontally across the viewport, display the tabs component as a quiet picker. When appropriate, you can also use alternative overflow methods such as horizontal scrolling.
 
 ## Usage guidelines
 
-Do not compromise hierarchy by using the same tab variations or orientations.
+### Too many tabs
+
+When there are too many tabs to fit horizontally across the viewport, you can either allow horizontal scrolling or place all tab items in a quiet picker. Do not truncate multiple tab items just to make them fit horizontally.
+
+### Don't use tabs for varying levels of importance
+
+Use tabs to organize sections of equal importance. Groups of content under each tab item should not be of different natures. Don't use tabs to replace a flow; use pagination components instead.
+
+### Nested tabs
+
+Avoid using multiple levels of tabs. Instead, consider other organizational patterns such as side navigation, accordions or collapsible panels. Nesting tabs is acceptable only when there is a clear separation between the two tab experiences or when different orientations are used. Do not compromise hierarchy by using the same tab variations or orientations.
+
+### Use icons consistently
+
+Don't mix the use of icons in tabs. Navigation controls require a clear spacial relationship to one another, and mixing the use of icons can dramatically impact the visual balance and presence for each tab item. Keep in mind that if one tab item has an icon, then they all should have an icon.
+
+### Use tooltips for icon only tabs
 
 It can often be hard to identify the meaning of icon-only tabs. An icon-only tab should always show a tooltip displaying the label on hover.
 
-## Design tokens
+## Internationalization
 
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
+### RTL horizontal tabs
 
-## Changelog
+For RTL (right-to-left) languages, the layout of the horizontal tabs is mirrored. The tabs are right-aligned and their order is reverse.
 
-| Date               | Number | Notes                                                       |
-| ------------------ | ------ | ----------------------------------------------------------- |
-| November 19, 2025  | 1.1.0  | New guidelines were added to this page.                     |
-| September 15, 2025 | 1.0.0  | This component was added to the Spectrum 2 guidelines site. |
+### RTL vertical tabs
 
-## Questions or feedback?
+For RTL (right-to-left) languages, the layout of the vertical tabs is mirrored. The divider and selection indicator should be placed on the right, as they are meant to visually anchor the text labels.
 
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
+## Accessibility
 
-## Related Components
+### Keyboard interactions
 
-* [Side navigation](/page/side-navigation/)
-* [Tree view](/page/tree-view/)
+There are two possible behaviors for manipulating tabs with the keyboard: manual or automatic activation. Typically, manual activation of tabs is only necessary when content cannot be displayed instantly (i.e., not all the panel content is present in the DOM.) For additional guidance, see Deciding When to Make Selection Automatically Follow Focus. Option 1: Manual activation Key Interaction TabMoves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence.Left ArrowMoves focus to the previous tab item. If focus is on the first tab item, moves focus to the last tab item.Right ArrowMoves focus to the next tab item. If focus is on the last tab item, moves focus to the first tab item.Space or EnterActivates the tab item in focus.Home (optional)Moves focus to the first tab item.End (optional)Moves focus to the last tab item.Delete (optional)When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to the tab item following one that was closed. Option 2: Automatic activation Key Interaction TabMoves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence.Left ArrowMoves focus to the previous tab item and automatically activates it. If focus is on the first tab item, moves focus to the last tab item.Right ArrowMoves focus to the next tab item and automatically activates it. If focus is on the last tab item, moves focus to the first tab item.Home (optional)Moves focus to the first tab item and automatically activates it.End (optional)Moves focus to the last tab item and automatically activates it.Delete (optional)When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to and activates the tab item following one that was closed.
+
+### Cursor guidelines
+
+Cursor Usage PointerUse the pointer cursor for interactive elements including tabs.
+
+### WCAG 2.2 compliance
+
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon-text elements, such as icons used in tabs, must provide a text alternative that communicates the tab's purpose. All tabs, especially icon-only tabs, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAATabs should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized.Orientation 1.3.4 AATabs are available in both vertical and horizontal orientations.Use of color 1.4.1 AColor is not used as a means to convey information or distinguish elements.Contrast 1.4.3 AAThe visual presentation of text has a contrast ratio of at least 4.5:1.Resize text 1.4.4 AATabs should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.

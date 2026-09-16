@@ -16,160 +16,78 @@
     },
     {
       "type": "guideline",
-      "content": "Status lights indicate the state or condition of an item. They convey semantic meaning such as statuses and categories."
+      "content": "Text overflow.\n\nWhen the text is too long for the horizontal space available, it wraps to form another line."
     },
     {
       "type": "guideline",
-      "content": "Status lights should always include a label. Color alone is not enough to communicate the status."
+      "content": "Use the appropriate variation.\n\nSemantic status lights should never be used for color coding categories or labels, and vice versa."
     },
     {
       "type": "guideline",
-      "content": "When status lights have a semantic meaning, they use semantic colors. Use these variants for the following statuses:"
+      "content": "Status light text.\n\nA status light should always include a label with text that clearly communicates about the kind of status being shown. Do not change the text color to match the dot."
     },
     {
       "type": "guideline",
-      "content": "When status lights are used to color code categories and labels that are commonly found in data visualization, they use non-semantic label colors. The ideal usage for these is when there are 8 or fewer categories or labels being color coded."
+      "content": "RTL.\n\nFor RTL (right-to-left) languages, the layout of the status light is mirrored. The dot is placed on the right side of the text."
     },
     {
       "type": "guideline",
-      "content": "Status lights come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+      "content": "Cursor Description Default (Arrow)Use the default cursor for non-interactive components like status light."
     },
     {
       "type": "guideline",
-      "content": "When the text is too long for the horizontal space available, it wraps to form another line."
-    },
-    {
-      "type": "guideline",
-      "content": "Semantic status lights should never be used for color coding categories or labels, and vice versa."
-    },
-    {
-      "type": "guideline",
-      "content": "A status light should always include a label with text that clearly communicates about the kind of status being shown. Do not change the text color to match the dot."
+      "content": "Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAStatus lights should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in status lights. While color is used to reinforce their meaning, every status light also includes a clear text label that communicates the status.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of the status light dot has a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size when wrapped. 2. Operable RequirementCriterionLevel Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component."
     }
   ],
   "options": {
-    "label": {
-      "type": "string"
-    },
+    "label": { "type": "string" },
     "variant": {
       "type": "string",
       "default": "informative",
       "values": [
-        {
-          "value": "informative"
-        },
-        {
-          "value": "neutral"
-        },
-        {
-          "value": "positive"
-        },
-        {
-          "value": "notice"
-        },
-        {
-          "value": "negative"
-        },
-        {
-          "value": "indigo"
-        },
-        {
-          "value": "celery"
-        },
-        {
-          "value": "chartreuse"
-        },
-        {
-          "value": "yellow"
-        },
-        {
-          "value": "magenta"
-        },
-        {
-          "value": "fuchsia"
-        },
-        {
-          "value": "purple"
-        },
-        {
-          "value": "seafoam"
-        },
-        {
-          "value": "pink"
-        },
-        {
-          "value": "turquoise"
-        },
-        {
-          "value": "cinnamon"
-        },
-        {
-          "value": "brown"
-        },
-        {
-          "value": "silver"
-        },
-        {
-          "value": "gray"
-        },
-        {
-          "value": "red"
-        },
-        {
-          "value": "orange"
-        },
-        {
-          "value": "green"
-        },
-        {
-          "value": "cyan"
-        }
+        { "value": "informative" },
+        { "value": "neutral" },
+        { "value": "positive" },
+        { "value": "notice" },
+        { "value": "negative" },
+        { "value": "indigo" },
+        { "value": "celery" },
+        { "value": "chartreuse" },
+        { "value": "yellow" },
+        { "value": "magenta" },
+        { "value": "fuchsia" },
+        { "value": "purple" },
+        { "value": "seafoam" },
+        { "value": "pink" },
+        { "value": "turquoise" },
+        { "value": "cinnamon" },
+        { "value": "brown" },
+        { "value": "silver" },
+        { "value": "gray" },
+        { "value": "red" },
+        { "value": "orange" },
+        { "value": "green" },
+        { "value": "cyan" }
       ]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     }
   },
   "anatomy": [
-    {
-      "name": "visual-75",
-      "description": "Severity dot, 75 size variant."
-    },
-    {
-      "name": "visual-100",
-      "description": "Severity dot, 100 size variant."
-    },
-    {
-      "name": "visual-200",
-      "description": "Severity dot, 200 size variant."
-    },
-    {
-      "name": "visual-300",
-      "description": "Severity dot, 300 size variant."
-    },
-    {
-      "name": "dot"
-    }
+    { "name": "visual-75", "description": "Severity dot, 75 size variant." },
+    { "name": "visual-100", "description": "Severity dot, 100 size variant." },
+    { "name": "visual-200", "description": "Severity dot, 200 size variant." },
+    { "name": "visual-300", "description": "Severity dot, 300 size variant." },
+    { "name": "dot" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

@@ -16,31 +16,27 @@
     },
     {
       "type": "guideline",
-      "content": "The preview shows the sample of the fill that the swatch represents. This property can be a color, gradient, texture, or material. The exact format this property takes will depend on implementation. Some examples of the format include color values, image, canvas, and gradient."
+      "content": "Keyboard focus.\n\nA swatch can be navigated using a keyboard. The keyboard focus state adds a blue ring to the swatch in focus."
     },
     {
       "type": "guideline",
-      "content": "Swatches come in four different sizes: extra-small, small, medium, and large. The medium size is the default and most frequently used option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page."
+      "content": "Mixed value.\n\nWhen a swatch represents multiple values that are not identical, the preview shows a gray fill and a dash UI icon."
     },
     {
       "type": "guideline",
-      "content": "By default, swatches have partial rounding. There are 3 options for a swatch’s rounding: none, partial rounding, and full rounding."
+      "content": "Hide unavailable swatches when possible.\n\nEven though swatches can have a disabled state, hiding unavailable swatches reduces visual clutter and eases cognitive load. Only show disabled swatches if hiding them would cause confusion to your users."
     },
     {
       "type": "guideline",
-      "content": "A swatch can have a selected state to allow for selection. This is often used in a swatch group."
+      "content": "Keyboard interactions.\n\nKeyInteractionTabMoves focus onto or off of the swatch group. Focus moves to the first swatch in the group.Space or EnterTriggers an action or selects the swatch when selection is enabled. The focus remains on the swatch, unless the swatch opens or closes the current container. In this case, the focus moves to the target or back to the caller."
     },
     {
       "type": "guideline",
-      "content": "A swatch in a disabled state shows that the swatch exists, but is not available in that circumstance. This state can be used to maintain layout continuity and to communicate that a swatch may become available later. Disabled swatches should be used with caution."
+      "content": "Cursor guidelines.\n\nCursor Description PointerUse the pointer cursor for all interactive elements in every state."
     },
     {
       "type": "guideline",
-      "content": "A swatch can be navigated using a keyboard. The keyboard focus state adds a blue ring to the swatch in focus."
-    },
-    {
-      "type": "guideline",
-      "content": "Even though swatches can have a disabled state, hiding unavailable swatches reduces visual clutter and eases cognitive load. Only show disabled swatches if hiding them would cause confusion to your users."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAASwatch groups should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized, so the grouping relationship between swatches and the selected state are programmatically conveyed.Use of color 1.4.1 AThis criterion requires that color not be the only method of communicating information. In swatches, the color itself is the content being presented, not a cue that conveys additional meaning. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
@@ -52,102 +48,51 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" }
       ]
     },
     "shape": {
       "type": "string",
       "default": "square",
-      "values": [
-        {
-          "value": "square"
-        },
-        {
-          "value": "rectangle"
-        }
-      ]
+      "values": [{ "value": "square" }, { "value": "rectangle" }]
     },
     "cornerRounding": {
       "type": "string",
       "default": "none",
       "description": "Determines the corner radius of the swatch. Partial refers to corner-radius-75.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "partial"
-        },
-        {
-          "value": "full"
-        }
+        { "value": "none" },
+        { "value": "partial" },
+        { "value": "full" }
       ]
     },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isSelected": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false }
   },
   "anatomy": [
     {
       "name": "slash",
       "description": "Diagonal slash indicating an empty or \"none\" swatch."
     },
-    {
-      "name": "icon"
-    }
+    { "name": "icon" }
   ],
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "disabled",
-      "trigger": "prop"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "disabled", "trigger": "prop" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

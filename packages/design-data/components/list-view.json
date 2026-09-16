@@ -16,67 +16,31 @@
     },
     {
       "type": "guideline",
-      "content": "List views display content in a structured, scrollable list. They support sorting, organizing, and selecting multiple items at once."
+      "content": "Navigation.\n\nIn the highlight selection style for touch interactions, tapping anywhere on the item will navigate to its contents. For mouse-based interactions, double-clicking anywhere on the item or single-clicking the navigation icon will do the same. In the checkbox selection style, clicking or tapping the label area or navigation icon of a list view item will navigate to its contents."
     },
     {
       "type": "guideline",
-      "content": "A list view is a versatile component and can contain many items depending on the use case. These items can be icons, thumbnails, avatars, checkboxes, drag handles, action buttons, and more."
+      "content": "Selection.\n\nSingle-clicking or tapping anywhere on a list view item will select the item, except the label in checkbox selection style. For checkbox selection style, clicking the label will navigate to the item."
     },
     {
       "type": "guideline",
-      "content": "By default a list view is not quiet. If true, the list view uses a quiet visual style meaning there is no background or borders to the component."
+      "content": "Touch navigation and selection.\n\nIn touch experiences, the list view default is navigation only with the highlight selection style. Users enter a selection mode by a touch and hold gesture on any list view item. Selection mode in touch uses the checkbox selection style and suppresses navigation. Users can exit selection mode by pressing the Escape key or deselecting all items."
     },
     {
       "type": "guideline",
-      "content": "The selection mode defines how many items can be selected at once. A list view can use single selection, multiple selection, or none."
+      "content": "Drag and drop.\n\nList view items can be dragged and dropped to reorder or restructure the list. Multiple items can be dragged at a time and shifted from one level of hierarchy to another. List views can also accept dropped items from outside the component, to modify the list. Keyboard-based drag and drop When using this option for a list view, the drag icon receives keyboard focus in order to allow for a keyboard-based drag and drop interaction. Touch-based drag and drop The drag and drop interaction is initiated by a touch and hold gesture, followed by drag gesture. If a user performs a touch and hold gesture without dragging, the list view enters a selection mode."
     },
     {
       "type": "guideline",
-      "content": "In the highlight selection style for touch interactions, tapping anywhere on the item will navigate to its contents. For mouse-based interactions, double-clicking anywhere on the item or single-clicking the navigation icon will do the same."
+      "content": "Text overflow.\n\nA list view item's label or description will truncate if the text is longer than the available horizontal space. Display the full label or description text in a tooltip on hover and focus states."
     },
     {
       "type": "guideline",
-      "content": "In the checkbox selection style, clicking or tapping the label area or navigation icon of a list view item will navigate to its contents."
+      "content": "Actions overflow.\n\nWhen more than two actions are available for a list view item, the actions are nested within an action menu."
     },
     {
       "type": "guideline",
-      "content": "Single-clicking or tapping anywhere on a list view item will select the item, except the label in checkbox selection style. For checkbox selection style, clicking the label will navigate to the item."
-    },
-    {
-      "type": "guideline",
-      "content": "In touch experiences, the list view default is navigation only with the highlight selection style. Users enter a selection mode by a touch and hold gesture on any list view item."
-    },
-    {
-      "type": "guideline",
-      "content": "Selection mode in touch uses the checkbox selection style and suppresses navigation. Users can exit selection mode by pressing the Escape key or deselecting all items."
-    },
-    {
-      "type": "guideline",
-      "content": "List view items can be dragged and dropped to reorder or restructure the list."
-    },
-    {
-      "type": "guideline",
-      "content": "Multiple items can be dragged at a time and shifted from one level of hierarchy to another."
-    },
-    {
-      "type": "guideline",
-      "content": "List views can also accept dropped items from outside the component, to modify the list."
-    },
-    {
-      "type": "guideline",
-      "content": "A list view item's label or description will truncate if the text is longer than the available horizontal space. Display the full label or description text in a tooltip on hover and focus states."
-    },
-    {
-      "type": "guideline",
-      "content": "When more than two actions are available for a list view item, the actions are nested within an action menu."
-    },
-    {
-      "type": "guideline",
-      "content": "List views work best for flat collections of items that share the same hierarchy level."
-    },
-    {
-      "type": "guideline",
-      "content": "Tree views are ideal for displaying nested or hierarchical relationships."
+      "content": "When to use a List view vs. Tree view.\n\nList views work best for flat collections of items that share the same hierarchy level. Tree views are ideal for displaying nested or hierarchical relationships."
     }
   ],
   "options": {
@@ -85,15 +49,9 @@
       "default": "single",
       "description": "Defines how many items can be selected at once.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
+        { "value": "none" },
+        { "value": "single" },
+        { "value": "multiple" }
       ]
     },
     "isQuiet": {
@@ -152,10 +110,7 @@
             "default": "none",
             "description": "Defines the border radius of the list view item."
           },
-          "isEmphasized": {
-            "type": "boolean",
-            "default": false
-          },
+          "isEmphasized": { "type": "boolean", "default": false },
           "state": {
             "type": "string",
             "enum": ["default", "hover", "dragged"],
@@ -185,10 +140,7 @@
       "name": "checkbox",
       "description": "Checkbox control for a list view item in checkbox selection style."
     },
-    {
-      "name": "icon",
-      "description": "Leading icon of a list view item."
-    },
+    { "name": "icon", "description": "Leading icon of a list view item." },
     {
       "name": "thumbnail",
       "description": "Thumbnail image of a list view item."
@@ -210,24 +162,14 @@
       "description": "Icon indicating a list view item navigates to a new context."
     }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["select", "navigate"],
     "focusable": true,
     "keyboardIntents": ["navigate-items", "activate", "select-all"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

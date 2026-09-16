@@ -56,107 +56,44 @@
       "type": "number",
       "default": 500,
       "values": [
-        {
-          "value": 50
-        },
-        {
-          "value": 75
-        },
-        {
-          "value": 100
-        },
-        {
-          "value": 200
-        },
-        {
-          "value": 300
-        },
-        {
-          "value": 400
-        },
-        {
-          "value": 500
-        },
-        {
-          "value": 600
-        },
-        {
-          "value": 700
-        },
-        {
-          "value": 800
-        },
-        {
-          "value": 900
-        },
-        {
-          "value": 1000
-        },
-        {
-          "value": 1100
-        },
-        {
-          "value": 1200
-        },
-        {
-          "value": 1300
-        },
-        {
-          "value": 1400
-        },
-        {
-          "value": 1500
-        }
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 },
+        { "value": 600 },
+        { "value": 700 },
+        { "value": 800 },
+        { "value": 900 },
+        { "value": 1000 },
+        { "value": 1100 },
+        { "value": 1200 },
+        { "value": 1300 },
+        { "value": 1400 },
+        { "value": 1500 }
       ]
     },
     "image": {
       "type": "string",
       "default": "user image",
       "values": [
-        {
-          "value": "user image"
-        },
-        {
-          "value": "gradient image"
-        },
-        {
-          "value": "gradient"
-        },
-        {
-          "value": "guest image"
-        },
-        {
-          "value": "initials"
-        }
+        { "value": "user image" },
+        { "value": "gradient image" },
+        { "value": "gradient" },
+        { "value": "guest image" },
+        { "value": "initials" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "showStroke": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDisabled": { "type": "boolean", "default": false },
+    "showStroke": { "type": "boolean", "default": false }
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "disabled",
-      "trigger": "prop"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "disabled", "trigger": "prop" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

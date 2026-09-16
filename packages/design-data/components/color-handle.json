@@ -12,7 +12,7 @@
   "documentBlocks": [
     {
       "type": "purpose",
-      "content": "Color handles select or adjust a color value along a track or wheel. The outer border is not included in the handle's size."
+      "content": "Color handles allow users to select and adjust colors in a color picker."
     },
     {
       "type": "guideline",
@@ -20,11 +20,23 @@
     },
     {
       "type": "guideline",
-      "content": "Transparent colors.\n\nWhen using transparent colors, the handle displays an opacity checkerboard background to clearly show the level of transparency."
+      "content": "Transparent colors.\n\nWhen using transparent colors, the handle and loupe display an opacity checkerboard background to clearly show the level of transparency."
     },
     {
       "type": "guideline",
-      "content": "Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large."
+      "content": "Color loupe.\n\nThe loupe is a floating element positioned above the handle. It provides a preview that reflects the color currently sampled by its parent color component and disappears when the interaction ends."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."
+    },
+    {
+      "type": "guideline",
+      "content": "Display combined values.\n\nColor selection usually happens using a variety of input methods (color area, color slider, color wheel). The color loupe should display the final output color: the combined values from multiple color inputs. The number of input methods is determined by the color space (or \"mode\"), for example: 2 controls: HSL using color wheel (hue) and color area (saturation and lightness) 3 controls: RGB using unique color sliders for Red, Green, and Blue 4 controls: RGBa using unique color sliders for Red, Green, Blue, and Alpha"
+    },
+    {
+      "type": "guideline",
+      "content": "Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."
     }
   ],
   "options": {
@@ -33,47 +45,22 @@
       "default": "hue",
       "description": "Which channel of the color this handle controls. Use 'alpha' for opacity.",
       "values": [
-        {
-          "value": "hue"
-        },
-        {
-          "value": "saturation"
-        },
-        {
-          "value": "lightness"
-        },
-        {
-          "value": "red"
-        },
-        {
-          "value": "green"
-        },
-        {
-          "value": "blue"
-        },
-        {
-          "value": "alpha"
-        }
+        { "value": "hue" },
+        { "value": "saturation" },
+        { "value": "lightness" },
+        { "value": "red" },
+        { "value": "green" },
+        { "value": "blue" },
+        { "value": "alpha" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    }
+    "isDisabled": { "type": "boolean", "default": false }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["choose"],
     "focusable": true,
     "keyboardIntents": ["increment", "decrement"],
-    "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      }
-    ]
+    "wcag": [{ "criterion": "2.1.1", "level": "A", "title": "Keyboard" }]
   }
 }

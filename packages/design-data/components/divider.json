@@ -22,41 +22,28 @@
       "type": "do-dont",
       "content": "Don't overuse dividers",
       "dont": "Dividers lose their value when overused. Use them sparingly to avoid creating unnecessary noise."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Usage Default (Arrow)Use the default cursor for non-interactive elements like the divider."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 2. Operable Requirement Criterion Level Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component."
     }
   ],
   "options": {
     "size": {
       "type": "string",
       "default": "s",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
     "orientation": {
       "type": "string",
       "default": "horizontal",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

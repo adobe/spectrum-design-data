@@ -16,108 +16,63 @@
     },
     {
       "type": "guideline",
-      "content": "Select boxes allow users to choose options in a workflow. Both single-select and multi-select versions use checkboxes to show selection. Multi-select boxes display unchecked checkboxes by default to signal that multiple choices are allowed. Single-select boxes only show an unchecked checkbox on hover. If showCheckbox is false, selection is only shown using the dark border."
+      "content": "Minimum and maximum size.\n\nMinimum and maximum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."
     },
     {
       "type": "guideline",
-      "content": "A select box in a disabled state shows that the items within the group exist, but are not available in that circumstance. This state can be used to maintain layout continuity and to communicate that an option may become available later. Individual boxes may be disabled or the entire group may be disabled."
+      "content": "Consistent sizing.\n\nAll select boxes should be the same size as one another. Keep metadata concise, and make the size of the box large enough to accommodate longer text when translated to other languages."
     },
     {
       "type": "guideline",
-      "content": "Illustrations are optional but recommended and included by default."
+      "content": "Text overflow.\n\nWhen the title of the select box is too long for the available horizontal space, it wraps to another line. Wrapped text should not affect the size of an individual select box. Each box in a group should have enough space to allow for longer, localized text to fit as necessary."
     },
     {
       "type": "guideline",
-      "content": "A label is required in select boxes. It acts as the title of the select box and explains its action or purpose.. Ideally, the label should be kept concise, even in the horizontal orientation."
+      "content": "Selection.\n\nClicking a select box does not immediately move to the next step in the sequence. After making a selection, the user must initiate the next step by choosing a button or similar component outside the select box group."
     },
     {
       "type": "guideline",
-      "content": "Body is optional in select boxes. If no value is entered for the body, then it will not appear in the component. Body is usually reserved for the horizontal version of select boxes."
+      "content": "Keyboard focus.\n\nA select box group can be navigated using a keyboard. The keyboard focus state takes the button's visual hover state and adds a blue ring to the button in focus."
     },
     {
       "type": "guideline",
-      "content": "A select box is vertical by default, which works best when metadata is limited to a short title, with or without an illustration. The horizontal orientation is recommended when the select box includes longer-form metadata."
+      "content": "Use illustrations only when they have a clear meaning.\n\nIllustrations should be used when they help clarify the content. If the items are too complex to represent visually, it may be better to omit them. For consistency, if one select box includes an illustration, all select boxes in the group should include one."
     },
     {
       "type": "guideline",
-      "content": "Minimum and maximum sizing ensures that the component remains clear, usable, and visually consistent, even in flexible or responsive layouts."
+      "content": "Keep select box groups to 9 items or less.\n\nSelect box groups work best with 3 to 9 items. If your experience needs more than 9 items, consider using a dropdown, checkboxes, or radio button group instead."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use select boxes as actions",
+      "dont": "Select boxes are used to choose an item from a group. If clicking an item is meant to immediately trigger an action, use an action group instead."
     },
     {
       "type": "guideline",
-      "content": "All select boxes should be the same size as one another. Keep metadata concise, and make the size of the box large enough to accommodate longer text when translated to other languages."
+      "content": "Use consistent sizing.\n\nAll select boxes in a group should be the same size to maintain visual consistency and usability."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't use radio buttons in select boxes",
+      "dont": "Select boxes use a checkbox to indicate both single- and multi-selection. Don't use radio buttons for single-selection."
     },
     {
       "type": "guideline",
-      "content": "When the title of the select box is too long for the available horizontal space, it wraps to another line. Wrapped text should not affect the size of an individual select box. Each box in a group should have enough space to allow for longer, localized text to fit as necessary."
-    },
-    {
-      "type": "guideline",
-      "content": "Clicking a select box does not immediately move to the next step in the sequence. After making a selection, the user must initiate the next step by choosing a button or similar component outside the select box group."
-    },
-    {
-      "type": "guideline",
-      "content": "A select box group can be navigated using a keyboard. The keyboard focus state takes the button’s visual hover state and adds a blue ring to the button in focus."
-    },
-    {
-      "type": "guideline",
-      "content": "Illustrations should be used when they help clarify the content. If the items are too complex to represent visually, it may be better to omit them. For consistency, if one select box includes an illustration, all select boxes in the group should include one."
-    },
-    {
-      "type": "guideline",
-      "content": "Select box groups work best with 3 to 9 items. If your experience needs more than 9 items, consider using a dropdown, checkboxes, or radio button group instead."
-    },
-    {
-      "type": "guideline",
-      "content": "Select boxes are used to choose an item from a group. If clicking an item is meant to immediately trigger an action, use an action group instead."
-    },
-    {
-      "type": "guideline",
-      "content": "All select boxes in a group should be the same size to maintain visual consistency and usability."
-    },
-    {
-      "type": "guideline",
-      "content": "Select boxes use a checkbox to indicate both single- and multi-selection. Don’t use radio buttons for single-selection."
-    },
-    {
-      "type": "guideline",
-      "content": "Some cases may make more sense for the user to select one or a few options in a group of select boxes, but if the use case doesn’t make sense to be checking a selection, showCheckbox can be false and the highlight style can be used instead. There is no visual differentiation between single- and multi-select behaviors when checkboxes are not present."
+      "content": "Checkbox vs. highlight selection.\n\nSome cases may make more sense for the user to select one or a few options in a group of select boxes, but if the use case doesn't make sense to be checking a selection, showCheckbox can be false and the highlight style can be used instead. There is no visual differentiation between single- and multi-select behaviors when checkboxes are not present."
     }
   ],
   "options": {
-    "label": {
-      "type": "string"
-    },
+    "label": { "type": "string" },
     "orientation": {
       "type": "string",
       "default": "vertical",
-      "values": [
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "vertical"
-        }
-      ]
+      "values": [{ "value": "horizontal" }, { "value": "vertical" }]
     },
-    "body": {
-      "type": "string"
-    },
-    "isSelected": {
-      "type": "boolean",
-      "default": false
-    },
-    "hideIllustration": {
-      "type": "boolean",
-      "default": false
-    },
-    "showCheckbox": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
+    "body": { "type": "string" },
+    "isSelected": { "type": "boolean", "default": false },
+    "hideIllustration": { "type": "boolean", "default": false },
+    "showCheckbox": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
     "multiple": {
       "type": "boolean",
       "default": false,
@@ -125,41 +80,19 @@
     }
   },
   "states": [
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    },
-    {
-      "name": "selected",
-      "trigger": "interaction"
-    }
+    { "name": "down", "trigger": "interaction" },
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" },
+    { "name": "selected", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }
