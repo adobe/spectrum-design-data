@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - beta
+      # The legacy `beta` branch is retained as the TDIFF Spectrum 2 baseline
+      # (.github/workflows/tdiff-spectrum2.yml), not as a release channel.
+      # Do not add it here.
       # Pre-release channel for the Spectrum Hub guidance content. Publishes to
       # the npm `beta` dist-tag only — `build-binaries` and the GitHub Release
       # steps below are gated to `main`, so no CLI binaries ship from here.
@@ -57,6 +59,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Guard beta-hub pre-release mode
+        if: github.ref == 'refs/heads/beta-hub'
+        shell: bash
+        run: |
+          if [ ! -f .changeset/pre.json ]; then
+            echo "::error::beta-hub must remain in Changesets pre mode until Spectrum Hub replaces s2."
+            echo "::error::Only run 'npx changeset pre exit' in the close-out commit that also removes beta-hub from this release trigger."
+            exit 1
+          fi
 
       - name: Detect CLI release
         id: cli
@@ -388,8 +400,9 @@ jobs:
       # so this opens one from a bot branch and merges it immediately rather
       # than pushing directly — works regardless of whether GH_TOKEN can
       # bypass protection, since 0 approvals/required checks are configured.
-      # Restricted to main: this workflow also runs on beta, and a beta-triggered
-      # run would branch off beta and auto-merge a PR into main with no review gate.
+      # Restricted to main: this workflow also runs on beta-hub, and a beta-hub
+      # triggered run would branch off beta-hub and auto-merge a PR into main
+      # with no review gate.
       - name: Bump Homebrew formula
         if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         shell: bash
