@@ -13,8 +13,14 @@
 /**
  * Sections we skip entirely — structured data already in component JSON,
  * boilerplate, or implementation references.
+ *
+ * Exported (in addition to being used locally below) so that
+ * tools/spectrum-hub-fetcher/test/component-merge.test.js can assert its own,
+ * independently-duplicated non-diffable-headings list stays in sync with this
+ * one — see that module's comment for why it duplicates rather than imports
+ * this at runtime.
  */
-const SKIP_SECTIONS = new Set([
+export const SKIP_SECTIONS = new Set([
   "resources",
   "anatomy",
   "component options",

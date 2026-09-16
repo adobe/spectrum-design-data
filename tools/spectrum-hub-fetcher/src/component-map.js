@@ -39,12 +39,14 @@
  * - RSP: 61 pages. SWC: 18 pages, and all 18 SWC slugs are a strict subset of
  *   RSP's 61 — SWC never has a page RSP lacks. This means "prefer the
  *   more-complete platform page" (spectrum-design-data-085.2.2's stated default)
- *   can never be decided by page/heading presence alone: real per-section content
- *   divergence exists even where both platforms have the same page (e.g. `button`'s
- *   `usage-guidelines` fragment differs in wording between RSP and SWC, while
- *   `accordion`'s is byte-identical). The actual RSP/SWC merge rule is per-section
- *   text diffing and is Phase B's job, not this table's — this table only maps
- *   *which* local file(s) a given hub slug (regardless of platform) targets.
+ *   can never be decided by page/heading presence alone. The actual RSP/SWC merge
+ *   rule — per-section text diffing, not this table's job — is implemented in
+ *   `component-merge.js` (Phase B); this table only maps *which* local file(s) a
+ *   given hub slug (regardless of platform) targets. See `component-merge.js`'s
+ *   module doc for what live per-section diffing across all 18 shared RSP/SWC
+ *   pairs actually found (including a correction of an earlier claim, made while
+ *   planning this table, that `button`'s content diverges between platforms —
+ *   re-verified live for Phase B, it does not).
  * - Local: 97 component JSON files.
  * - 60 RSP slugs match an existing local filename exactly (`COMPONENT_SLUG_MAP`).
  * - 1 RSP slug needs curated fan-out (`COMPONENT_SLUG_FANOUT`): the Hub only
