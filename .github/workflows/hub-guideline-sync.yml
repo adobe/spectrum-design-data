@@ -114,13 +114,16 @@ jobs:
           NODE
 
       - name: Stage docs for the guideline transform
+        if: github.event.inputs.dry_run != 'true'
         run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs
 
       - name: Transform staged docs into guideline JSON
+        if: github.event.inputs.dry_run != 'true'
         run: node tools/s2-docs-to-document-blocks/src/cli.js guideline --report guideline-review.md
 
       - name: Check for content changes
         id: content
+        if: github.event.inputs.dry_run != 'true'
         run: |
           status="$(git status --porcelain -- docs/s2-docs packages/design-data/guidelines)"
           if [ -n "$status" ]; then
@@ -131,17 +134,21 @@ jobs:
             echo "No content changes detected under docs/s2-docs or packages/design-data/guidelines."
           fi
 
+      - name: Dry-run summary
+        if: github.event.inputs.dry_run == 'true'
+        run: echo "Dry run - fetch and fetch-health guard completed successfully; staging, transform, count-bump, changeset, and PR steps are skipped in dry-run mode."
+
       - name: Skip when content is unchanged
-        if: steps.content.outputs.has_changes != 'true' || github.event.inputs.dry_run == 'true'
-        run: echo "No content changes or dry-run mode; skipping the count bump, changeset, and PR steps."
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes != 'true'
+        run: echo "No content changes detected; skipping the count bump, changeset, and PR steps."
 
       - name: Bump embedded guideline count guard
-        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
         id: count
         run: node .github/scripts/bump-embedded-counts.mjs
 
       - name: Write guideline sync changeset
-        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
         env:
           PREV_COUNT: ${{ steps.count.outputs.guideline_count_previous }}
           NEW_COUNT: ${{ steps.count.outputs.guideline_count_new }}
@@ -159,11 +166,11 @@ jobs:
           EOF
 
       - name: Lint changeset
-        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
         run: node tools/changeset-linter/src/cli.js check --fail-on-warnings
 
       - name: Create pull request
-        if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
