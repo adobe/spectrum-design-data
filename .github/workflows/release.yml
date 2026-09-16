@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - beta
+      # Pre-release channel for the Spectrum Hub guidance content. Publishes to
+      # the npm `beta` dist-tag only — `build-binaries` and the GitHub Release
+      # steps below are gated to `main`, so no CLI binaries ship from here.
+      - beta-hub
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
