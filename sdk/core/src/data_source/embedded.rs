@@ -427,7 +427,13 @@ mod tests {
     fn materialize_components_count() {
         // Regression guard: if a component schema is added to or removed from
         // packages/design-data/components/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_COMPONENT_COUNT when you've intentionally changed the set.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_COMPONENT_COUNT: usize = 97;
+
         let (_tmp, root) = temp_root();
         let components: Vec<_> = fs::read_dir(root.join("packages/design-data/components"))
             .unwrap()
@@ -436,9 +442,9 @@ mod tests {
             .collect();
         assert_eq!(
             components.len(),
-            97,
-            "expected 97 component schemas — update this count if you've added/removed \
-             schemas from packages/design-data/components/"
+            EXPECTED_COMPONENT_COUNT,
+            "expected {EXPECTED_COMPONENT_COUNT} component schemas — update this count if \
+             you've added/removed schemas from packages/design-data/components/"
         );
     }
 }
