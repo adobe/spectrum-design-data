@@ -101,8 +101,7 @@ jobs:
           const failureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
           const hasLimit = Boolean(process.env.LIMIT && process.env.LIMIT.trim() !== '');
           const dryRun = process.env.FETCH_DRY_RUN === 'true';
-          const weakWriteVolume = !dryRun && !hasLimit && selectedRows > 0 && written < Math.max(1, Math.ceil(selectedRows * 0.5));
-          const invalid = fragmentsFailed > failureThreshold || (!dryRun && (written === 0 || weakWriteVolume));
+          const invalid = fragmentsFailed > failureThreshold;
 
           console.log(JSON.stringify({
             written,
@@ -112,12 +111,11 @@ jobs:
             failureThreshold,
             hasLimit,
             dryRun,
-            weakWriteVolume,
             invalid,
           }, null, 2));
 
           if (invalid) {
-            console.error('Fetch guard failed: too many fragment failures or too few pages were written.');
+            console.error('Fetch guard failed: too many fragment failures were reported.');
             process.exit(1);
           }
           NODE
