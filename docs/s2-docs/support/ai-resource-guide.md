@@ -19,7 +19,7 @@ hub_path: /support/ai-resource-guide
 
 ### AI engineering at Adobe
 
-Claude is an AI tool by Anthropic available for Adobe employees through Claude Enterprise. While other tooling is supported at Adobe, our main focus is currently on Claude workflows. Learn more at the Claude Enterprise at Adobe page on the wiki.
+Claude is an AI tool by Anthropic TEMP-DRIFT-SPECTRUM-085-2-3 available for Adobe employees through Claude Enterprise. While other tooling is supported at Adobe, our main focus is currently on Claude workflows. Learn more at the Claude Enterprise at Adobe page on the wiki.
 
 ## Design resources
 
