@@ -1,0 +1,304 @@
+name: Hub Component Sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Dry run; skip the commit and PR steps.
+        required: false
+        type: boolean
+        default: false
+      limit:
+        description: Optional slug limit used for smoke tests (first N of the known slug list).
+        required: false
+        type: string
+        default: ""
+      base_branch:
+        description: Base branch for the PR. Defaults to the current workflow ref branch.
+        required: false
+        type: string
+        default: ""
+
+# This workflow is the component-page counterpart to hub-guideline-sync.yml, split out
+# deliberately (bead spectrum-design-data-085.2.5) rather than folded into it: components
+# need an RSP+SWC dual fetch per slug (roughly doubling fetch/failure surface), a different
+# guard shape (unavailable-known-slug tracking, not just fragment-failure rate), and a
+# separate review cadence. It writes to packages/design-data/components/, never touches
+# packages/design-data/guidelines/ or docs/s2-docs's guideline subtrees, and reuses
+# s2-docs-to-document-blocks's existing `transform` command completely unchanged.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: hub-component-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-components:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve base branch
+        id: base
+        env:
+          INPUT_BASE: ${{ github.event.inputs.base_branch }}
+        run: |
+          base="${INPUT_BASE:-${GITHUB_REF_NAME}}"
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+          echo "Using base branch: ${base}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.base.outputs.base }}
+          # Shallow clone is sufficient: the only history-sensitive check downstream is
+          # `git status --porcelain`, and peter-evans/create-pull-request creates its own
+          # branch from the working tree rather than needing prior history.
+          fetch-depth: 1
+          # GH_TOKEN (a PAT/app token, same secret release.yml and hub-guideline-sync.yml use
+          # for elevated needs) is required so the PR opened below can trigger other workflows
+          # (e.g. ci.yml on pull_request) — GitHub's loop-prevention rule blocks that for
+          # PRs opened with the default GITHUB_TOKEN. Falls back to GITHUB_TOKEN if unset,
+          # in which case ci.yml will need a manual re-trigger (push/close-reopen).
+          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Install Node toolchain
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+
+      - name: Install dependencies
+        run: |
+          moon setup
+          pnpm install --frozen-lockfile
+
+      - name: Fetch and merge Spectrum Hub component pages
+        env:
+          FETCH_LIMIT: ${{ github.event.inputs.limit }}
+          FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          args=(--out "$RUNNER_TEMP/hub-component-fetch" --report hub-component-fetch-report.json)
+          if [ -n "$FETCH_LIMIT" ]; then
+            args+=(--limit "$FETCH_LIMIT")
+          fi
+          if [ "$FETCH_DRY_RUN" = "true" ]; then
+            args+=(--dry-run)
+          fi
+          node tools/spectrum-hub-fetcher/src/component-sync-cli.js "${args[@]}"
+
+      - name: Guard fetch health
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('hub-component-fetch-report.json', 'utf8'));
+          const pages = Array.isArray(report.pages) ? report.pages : [];
+          const written = Number(report.written ?? 0);
+          const selectedSlugs = Number(report.selectedSlugs ?? 0);
+          const unavailable = Array.isArray(report.unavailable) ? report.unavailable : [];
+          const unrecognized = Array.isArray(report.unrecognized) ? report.unrecognized : [];
+          const fragmentsFailed = pages.reduce((sum, page) => sum + Number(page.fragmentsFailed ?? 0), 0);
+          const fragmentsResolved = pages.reduce((sum, page) => sum + Number(page.fragmentsResolved ?? 0), 0);
+          const fragmentFailureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
+          // Components can legitimately have no SWC page (18/61 do); an RSP page going
+          // missing that component-map.js's snapshot expected to exist is the real signal
+          // here, not fragment-failure rate alone — a Hub outage or bad deploy could leave
+          // fragments resolving fine on the few reachable pages while most known slugs 404.
+          const unavailableThreshold = Math.max(3, Math.ceil(0.2 * selectedSlugs));
+          const invalid = fragmentsFailed > fragmentFailureThreshold || unavailable.length > unavailableThreshold;
+
+          console.log(JSON.stringify({
+            written,
+            selectedSlugs,
+            fragmentsFailed,
+            fragmentsResolved,
+            fragmentFailureThreshold,
+            unavailableCount: unavailable.length,
+            unavailableThreshold,
+            unrecognizedCount: unrecognized.length,
+            invalid,
+          }, null, 2));
+
+          if (invalid) {
+            console.error('Fetch guard failed: too many fragment failures or unavailable known slugs were reported.');
+            process.exit(1);
+          }
+          NODE
+
+      - name: Stage docs for the component transform
+        if: github.event.inputs.dry_run != 'true'
+        run: node tools/spectrum-hub-fetcher/scripts/stage-components.js --from "$RUNNER_TEMP/hub-component-fetch" --to ./docs/s2-docs/components
+
+      - name: Transform staged docs into component documentBlocks
+        if: github.event.inputs.dry_run != 'true'
+        run: node tools/s2-docs-to-document-blocks/src/cli.js transform --report component-blocks-review.md
+
+      - name: Check for content changes
+        id: content
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          status="$(git status --porcelain -- docs/s2-docs/components packages/design-data/components)"
+          if [ -n "$status" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "$status"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No content changes detected under docs/s2-docs/components or packages/design-data/components."
+          fi
+
+      - name: Dry-run summary
+        if: github.event.inputs.dry_run == 'true'
+        run: echo "Dry run - fetch, merge, and fetch-health guard completed successfully; staging, transform, count-bump, changeset, and PR steps are skipped in dry-run mode."
+
+      - name: Skip when content is unchanged
+        if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes != 'true'
+        run: echo "No content changes detected; skipping the count bump, changeset, and PR steps."
+
+      - name: Bump embedded component count guard
+        if: steps.content.outputs.has_changes == 'true'
+        id: count
+        run: node .github/scripts/bump-embedded-counts.mjs
+
+      - name: Build PR review summary
+        if: steps.content.outputs.has_changes == 'true'
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('hub-component-fetch-report.json', 'utf8'));
+          const flags = Array.isArray(report.flags) ? report.flags : [];
+
+          const byType = { diverged: [], 'swc-only-section': [] };
+          for (const flag of flags) {
+            if (byType[flag.type]) byType[flag.type].push(flag);
+          }
+
+          const lines = [];
+          if (flags.length === 0) {
+            lines.push('_No RSP/SWC divergences or SWC-only sections were flagged in this run — every merged section matched or had only one platform publishing it._');
+          } else {
+            if (byType.diverged.length > 0) {
+              lines.push(`### Diverged sections (${byType.diverged.length}) — RSP kept, SWC text included for review`, '');
+              for (const flag of byType.diverged) {
+                lines.push(`<details><summary><code>${flag.slug}</code> — "${flag.heading}"</summary>`, '');
+                lines.push('**RSP:**', '', '```', flag.rspText ?? '', '```', '');
+                lines.push('**SWC:**', '', '```', flag.swcText ?? '', '```', '');
+                lines.push('</details>', '');
+              }
+            }
+            if (byType['swc-only-section'].length > 0) {
+              lines.push(`### SWC-only sections (${byType['swc-only-section'].length}) — not merged in, review whether it belongs`, '');
+              for (const flag of byType['swc-only-section']) {
+                lines.push(`<details><summary><code>${flag.slug}</code> — "${flag.heading}"</summary>`, '');
+                lines.push('```', flag.swcText ?? '', '```', '');
+                lines.push('</details>', '');
+              }
+            }
+          }
+
+          const unavailable = Array.isArray(report.unavailable) ? report.unavailable : [];
+          const unrecognized = Array.isArray(report.unrecognized) ? report.unrecognized : [];
+          if (unavailable.length > 0) {
+            lines.push('', `### Unavailable known slugs (${unavailable.length})`, '', unavailable.map((s) => `- \`${s}\``).join('\n'));
+          }
+          if (unrecognized.length > 0) {
+            lines.push('', `### Unrecognized slugs (${unrecognized.length}) — not in component-map.js`, '', unrecognized.map((s) => `- \`${s}\``).join('\n'));
+          }
+
+          fs.writeFileSync('component-sync-flags-summary.md', lines.join('\n') + '\n', 'utf8');
+          console.log(`Wrote component-sync-flags-summary.md (${flags.length} flag(s), ${unavailable.length} unavailable, ${unrecognized.length} unrecognized).`);
+          NODE
+
+      - name: Write component sync changeset
+        if: steps.content.outputs.has_changes == 'true'
+        env:
+          PREV_COUNT: ${{ steps.count.outputs.component_count_previous }}
+          NEW_COUNT: ${{ steps.count.outputs.component_count_new }}
+          COUNT_CHANGED: ${{ steps.count.outputs.component_count_changed }}
+        run: |
+          timestamp="$(date -u +%Y%m%d)"
+          guard_line=""
+          if [ "$COUNT_CHANGED" = "true" ]; then
+            guard_line="- **sdk/core/src/data_source/embedded.rs**: component count guard updated to ${NEW_COUNT}."
+          fi
+          {
+            echo '---'
+            echo '"@adobe/spectrum-design-data": minor'
+            echo '---'
+            echo ''
+            echo 'Sync component content from Spectrum Hub (automated).'
+            echo ''
+            echo "- **packages/design-data/components**: ${NEW_COUNT} component schemas refreshed (was ${PREV_COUNT})."
+            if [ -n "$guard_line" ]; then
+              echo "$guard_line"
+            fi
+          } > ".changeset/hub-component-sync-${timestamp}.md"
+
+      - name: Lint changeset
+        if: steps.content.outputs.has_changes == 'true'
+        run: pnpm changeset-lint check --fail-on-warnings
+
+      - name: Build PR body
+        if: steps.content.outputs.has_changes == 'true'
+        run: |
+          {
+            echo '## Description'
+            echo ''
+            echo 'Automated Spectrum Hub → design-data component sync, generated by the Hub Component Sync workflow.'
+            echo ''
+            echo 'For each Hub slug tracked in `component-map.js`, this run fetches the RSP and SWC pages (where both exist), merges them per-section with `mergeComponentSections()` (RSP wins on identical/RSP-only content; genuine divergences and SWC-only sections are flagged below rather than silently resolved), and refreshes the target component'"'"'s `documentBlocks` via the existing `s2-docs-to-document-blocks transform` command. It also updates the embedded component-count guard so the Rust regression test stays aligned with the checked-in JSON set.'
+            echo ''
+            echo '## Related Issue'
+            echo ''
+            echo 'spectrum-design-data-085.2.5'
+            echo ''
+            echo '## Motivation and Context'
+            echo ''
+            echo 'This replaces a manual fetch + merge + stage + transform pass with a deterministic GitHub Action run, mirroring `hub-guideline-sync.yml`'"'"'s already-shipped, live-verified pattern for guideline pages. Component pages need their own workflow (not a `hub-guideline-sync.yml` extension) because of the RSP+SWC dual fetch, different guard math, and different review cadence — see the bead for the full rationale.'
+            echo ''
+            echo '## How Has This Been Tested?'
+            echo ''
+            echo 'This PR was opened with a token that allows `.github/workflows/ci.yml` (Node and Rust jobs, including `moon run sdk:test`) to run automatically on the `pull_request` event. If CI did not start, the repository'"'"'s `GH_TOKEN` secret may be unset — re-trigger manually (push a commit, or close/reopen the PR) in that case.'
+            echo ''
+            echo '## Content flagged for human review'
+            echo ''
+            cat component-sync-flags-summary.md
+            echo ''
+            echo '## Screenshots (if appropriate):'
+            echo ''
+            echo '## Types of changes'
+            echo ''
+            echo '- [ ] Bug fix (non-breaking change which fixes an issue)'
+            echo '- [x] New feature (non-breaking change which adds functionality)'
+            echo '- [ ] Breaking change (fix or feature that would cause existing functionality to change)'
+            echo ''
+            echo '## Checklist:'
+            echo ''
+            echo '- [ ] I have signed the Adobe Open Source CLA.'
+            echo '- [ ] My code follows the code style of this project.'
+            echo '- [ ] My change requires a change to the documentation.'
+            echo '- [ ] I have updated the documentation accordingly.'
+            echo '- [ ] I have read the CONTRIBUTING document.'
+            echo '- [ ] I have added tests to cover my changes.'
+            echo '- [ ] All new and existing tests passed.'
+          } > component-sync-pr-body.md
+
+      - name: Create pull request
+        if: steps.content.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: hub-component-sync
+          base: ${{ steps.base.outputs.base }}
+          title: "feat(design-data): sync components from Spectrum Hub"
+          commit-message: "feat(design-data): sync components from Spectrum Hub"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          add-paths: |
+            docs/s2-docs/components
+            packages/design-data/components
+            .changeset
+            sdk/core/src/data_source/embedded.rs
+          body-path: component-sync-pr-body.md
