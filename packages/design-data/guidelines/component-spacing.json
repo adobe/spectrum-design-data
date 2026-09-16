@@ -12,7 +12,7 @@
     },
     {
       "type": "guideline",
-      "content": "Structural templates.\n\nSpectrum's spacing values are accessed through semantic tokens , which encode the purpose and context of each spacing decision directly into the system. Repeated patterns for how to use these tokens are implemented through structural templates. These are blueprints or recipes for how to design or build a component in a modular, flexible, and scalable way. Working with tokens makes this seamless. A hardcoded 8px is just a number. The token base-gap-large gives you both a number and its context, relationships, size variants, and future system updates. Designers who skip tokens get the spacing that exists today, but they lose future enhancements to the system."
+      "content": "Structural templates.\n\nSpectrum's spacing values are accessed through semantic tokens, which encode the purpose and context of each spacing decision directly into the system. Repeated patterns for how to use these tokens are implemented through structural templates. These are blueprints or recipes for how to design or build a component in a modular, flexible, and scalable way. Working with tokens makes this seamless. A hardcoded 8px is just a number. The token base-gap-large gives you both a number and its context, relationships, size variants, and future system updates. Designers who skip tokens get the spacing that exists today, but they lose future enhancements to the system."
     },
     {
       "type": "guideline",

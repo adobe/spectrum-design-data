@@ -71,11 +71,11 @@ Pages in browsing contexts draw attention to the content, which is the primary f
 
 ### Elevated (highest attention)
 
-Elevated backgrounds create the illusion of depth through the use of a drop shadow , and display content that appears on top of other content. They draw attention and are used sparingly. In browsing contexts, this background layer style is used in components like menus and tooltips.
+Elevated backgrounds create the illusion of depth through the use of a drop shadow, and display content that appears on top of other content. They draw attention and are used sparingly. In browsing contexts, this background layer style is used in components like menus and tooltips.
 
 ### Layer 2
 
-Layer 2 is used to group related content together and to create separation from the primary content on a page, such as in the background of the app frame .
+Layer 2 is used to group related content together and to create separation from the primary content on a page, such as in the background of the app frame.
 
 ### Base
 

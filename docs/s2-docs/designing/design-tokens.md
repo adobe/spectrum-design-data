@@ -87,7 +87,7 @@ Component-specific tokens represent design decisions that apply to a specific co
 
 ## Building interfaces with tokens
 
-Design decisions are most valuable when they can be reused. Rather than organizing decisions around individual components, Spectrum organizes many design decisions around semantic meaning and reusable structures . Together, these concepts help create a shared language that is easier to understand, reuse, and scale across products and platforms.
+Design decisions are most valuable when they can be reused. Rather than organizing decisions around individual components, Spectrum organizes many design decisions around semantic meaning and reusable structures. Together, these concepts help create a shared language that is easier to understand, reuse, and scale across products and platforms.
 
 ### Meaning
 
@@ -97,7 +97,7 @@ Meaning helps people understand not only how an interface looks, but what it is 
 
 ### Reusable structures
 
-While some design decisions communicate meaning, others help define how components are organized and constructed . Examples include: container-padding-medium group-gap-small base-padding-vertical-large banner-gap-horizontal These decisions describe how interfaces are built.
+While some design decisions communicate meaning, others help define how components are organized and constructed. Examples include: container-padding-medium group-gap-small base-padding-vertical-large banner-gap-horizontal These decisions describe how interfaces are built.
 
 To improve reuse and consistency, Spectrum organizes many of these decisions around recurring interface structures. These reusable structures are abstract concepts that describe common UI patterns. They are not specific components or implementation types. Instead, they provide a shared framework for organizing design decisions that can be reused across many different components, products, and technologies. Because these structures represent patterns rather than implementations, they help create design decisions that are more reusable, predictable, and easier to understand. Some structures may closely resemble familiar interface concepts, but they remain independent of any specific platform or implementation. These structures help answer “Where does this design decision apply?” Common structures include: Structure Description BaseThe primary functional element within a structureAccessoryA supporting element associated with another structureGroupA collection of related elementsListA sequence of repeated itemsContainerA structure that organizes contentBannerA structure used for prominent messagingThese structures help answer “Where does this design decision apply?”
 

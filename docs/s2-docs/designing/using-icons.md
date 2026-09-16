@@ -19,7 +19,7 @@ hub_path: /foundations/icons-and-illustrations/using-icons
 
 ## Finding and Requesting icons
 
-The Spectrum 2 icon library is available as a resource in Figma. Find it under Spectrum 2 design resources . Reach out to the Icons team to request product-specific icons, Figma libraries, illustrations, or brand assets by submitting a Workfront request . For questions specific to the Figma icon libraries, post in #figma-icons-libraries on Slack. For general questions about icons, post in #icons . You can also search for icons across our icon libraries using the Icon Finder (VPN required).
+The Spectrum 2 icon library is available as a resource in Figma. Find it under Spectrum 2 design resources. Reach out to the Icons team to request product-specific icons, Figma libraries, illustrations, or brand assets by submitting a Workfront request. For questions specific to the Figma icon libraries, post in #figma-icons-libraries on Slack. For general questions about icons, post in #icons. You can also search for icons across our icon libraries using the Icon Finder (VPN required).
 
 ### Only use approved icons
 
@@ -87,7 +87,7 @@ One SVG asset serves all states in all UI color themes Stable and easy creation 
 
 ### Don't resize icons
 
-All icons are crafted with a specific stroke weight, size, and canvas to match a larger icon set. Resizing or scaling them can change the appearance, creating inconsistency within a product. Ask for more sizes by submitting a request to the Icons team .
+All icons are crafted with a specific stroke weight, size, and canvas to match a larger icon set. Resizing or scaling them can change the appearance, creating inconsistency within a product. Ask for more sizes by submitting a request to the Icons team.
 
 ## Usage guidelines
 
@@ -97,7 +97,7 @@ All icons are crafted with a specific stroke weight, size, and canvas to match a
 
 ### Don't create your own icons
 
-The Icons team works carefully to ensure that icon metaphors and style are consistent across Adobe products. When different product teams each decide to choose their own metaphors or build their own icons, this becomes a complex issue in Adobe's large product portfolio — and it shows our customers that we don't speak with a single brand voice. If you need a new icon for Spectrum 2, request it .
+The Icons team works carefully to ensure that icon metaphors and style are consistent across Adobe products. When different product teams each decide to choose their own metaphors or build their own icons, this becomes a complex issue in Adobe's large product portfolio — and it shows our customers that we don't speak with a single brand voice. If you need a new icon for Spectrum 2, request it.
 
 ### Don't create your own icons
 
@@ -109,8 +109,8 @@ Semantic colors have specific meanings in the design system. Choose icons with m
 
 ### Meeting contrast requirements
 
-Using the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast . If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. The Stark plugin for Figma can help you check your contrast ratio. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background
+Using the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast. If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. The Stark plugin for Figma can help you check your contrast ratio. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background
 
 ### Meeting contrast requirements
 
-Using the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast . If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background
+Using the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast. If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background

@@ -45,4 +45,4 @@ Icons are outlined. They're mostly monochrome to allow for colored accents in ba
 
 ### Characteristics
 
-Adobe products often have complex controls, so our icon metaphors are clear , functional , and additive to experiences . They describe tools and topics as simply and accurately as possible. Icons that attempt to relay too much information often become busy and don't read well at small sizes. The shapes of the icons themselves are based on predefined key shapes to ensure a balanced look and feel across interfaces. Examples of key shapes.
+Adobe products often have complex controls, so our icon metaphors are clear, functional, and additive to experiences. They describe tools and topics as simply and accurately as possible. Icons that attempt to relay too much information often become busy and don't read well at small sizes. The shapes of the icons themselves are based on predefined key shapes to ensure a balanced look and feel across interfaces. Examples of key shapes.

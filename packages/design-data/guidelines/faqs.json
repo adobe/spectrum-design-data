@@ -8,7 +8,7 @@
     { "type": "purpose", "content": "FAQs" },
     {
       "type": "guideline",
-      "content": "Spectrum 2 is a significant version update — for both design and engineering — of the Spectrum design system . For more information, view the Introduction page."
+      "content": "Spectrum 2 is a significant version update — for both design and engineering — of the Spectrum design system. For more information, view the Introduction page."
     },
     {
       "type": "guideline",
@@ -92,11 +92,11 @@
     },
     {
       "type": "guideline",
-      "content": "Review the Spectrum 2 documentation.\n\nRead through this website to understand the changes coming to components, patterns, styles, and usage guidelines. Follow the release notes (posted in #spectrum-bulletin ) for updates ."
+      "content": "Review the Spectrum 2 documentation.\n\nRead through this website to understand the changes coming to components, patterns, styles, and usage guidelines. Follow the release notes (posted in #spectrum-bulletin ) for updates."
     },
     {
       "type": "guideline",
-      "content": "Provide feedback.\n\nWhen collaborating with your design team and product leaders throughout the transition process, share insights from your perspective to help refine Spectrum 2 or report any inconsistencies you may come across. Learn about how to reach out ."
+      "content": "Provide feedback.\n\nWhen collaborating with your design team and product leaders throughout the transition process, share insights from your perspective to help refine Spectrum 2 or report any inconsistencies you may come across. Learn about how to reach out."
     },
     {
       "type": "guideline",
@@ -104,7 +104,7 @@
     },
     {
       "type": "guideline",
-      "content": "For general inquiries, post in #spectrum-general or email the Spectrum team . For specific inquiries, view the Contact page for more information on how to get in touch."
+      "content": "For general inquiries, post in #spectrum-general or email the Spectrum team. For specific inquiries, view the Contact page for more information on how to get in touch."
     }
   ],
   "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/faqs",

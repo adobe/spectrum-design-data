@@ -16,11 +16,11 @@
     },
     {
       "type": "guideline",
-      "content": "Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy ."
+      "content": "Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy."
     },
     {
       "type": "guideline",
-      "content": "A dragged state has a unique drop shadow to draw attention to the dragged object. Learn more about drop shadows ."
+      "content": "A dragged state has a unique drop shadow to draw attention to the dragged object. Learn more about drop shadows."
     }
   ],
   "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/behavior/states",

@@ -61,12 +61,12 @@
     {
       "type": "do-dont",
       "content": "Don't resize icons",
-      "dont": "All icons are crafted with a specific stroke weight, size, and canvas to match a larger icon set. Resizing or scaling them can change the appearance, creating inconsistency within a product. Ask for more sizes by submitting a request to the Icons team ."
+      "dont": "All icons are crafted with a specific stroke weight, size, and canvas to match a larger icon set. Resizing or scaling them can change the appearance, creating inconsistency within a product. Ask for more sizes by submitting a request to the Icons team."
     },
     {
       "type": "do-dont",
       "content": "Don't create your own icons",
-      "dont": "The Icons team works carefully to ensure that icon metaphors and style are consistent across Adobe products. When different product teams each decide to choose their own metaphors or build their own icons, this becomes a complex issue in Adobe's large product portfolio — and it shows our customers that we don't speak with a single brand voice. If you need a new icon for Spectrum 2, request it ."
+      "dont": "The Icons team works carefully to ensure that icon metaphors and style are consistent across Adobe products. When different product teams each decide to choose their own metaphors or build their own icons, this becomes a complex issue in Adobe's large product portfolio — and it shows our customers that we don't speak with a single brand voice. If you need a new icon for Spectrum 2, request it."
     },
     {
       "type": "guideline",
@@ -74,11 +74,11 @@
     },
     {
       "type": "guideline",
-      "content": "Meeting contrast requirements.\n\nUsing the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast . If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. The Stark plugin for Figma can help you check your contrast ratio. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background"
+      "content": "Meeting contrast requirements.\n\nUsing the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast. If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. The Stark plugin for Figma can help you check your contrast ratio. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background"
     },
     {
       "type": "guideline",
-      "content": "Meeting contrast requirements.\n\nUsing the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast . If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background"
+      "content": "Meeting contrast requirements.\n\nUsing the available Spectrum 2 colors with Spectrum 2 icons will ensure that your design is both visually appealing and meets the WCAG minimum contrast ratio of 3:1 for non-text contrast. If you diverge from Spectrum colors, you'll need to make sure that your design has enough contrast between the icon and the background. Use subtle fills in light and dark themes to maintain legibility without overpowering the UI. Make sure that the icons remain legible and distinguishable across varied backgrounds and themes. Consider three color combinations: A dark icon on a color background A light icon on a color background Tinted icons on a color background"
     }
   ],
   "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/icons-and-illustrations/using-icons",

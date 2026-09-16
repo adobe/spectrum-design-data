@@ -30,7 +30,7 @@ Adobe Clean Spectrum is the default font family for Spectrum. It’s based on Ad
 
 ## About Adobe Clean Spectrum VF
 
-Adobe Clean Spectrum VF provides two main benefits over the non-variable versions: Improves alignment with UI elements. Adobe Clean Spectrum VF uses updated baseline metrics, which are the measurements that determine how text is positioned. These updated metrics help text align more consistently with other interface elements, such as icons, components, and avatars. Supports future adjustments. Spectrum currently recommends using the default weights and widths. However, the variable font makes it easier to fine-tune typography in future updates. For example, a slightly thinner weight may improve readability in dark mode. Learn more about Adobe Clean Spectrum VF in the Spectrum 2 typography guide .
+Adobe Clean Spectrum VF provides two main benefits over the non-variable versions: Improves alignment with UI elements. Adobe Clean Spectrum VF uses updated baseline metrics, which are the measurements that determine how text is positioned. These updated metrics help text align more consistently with other interface elements, such as icons, components, and avatars. Supports future adjustments. Spectrum currently recommends using the default weights and widths. However, the variable font makes it easier to fine-tune typography in future updates. For example, a slightly thinner weight may improve readability in dark mode. Learn more about Adobe Clean Spectrum VF in the Spectrum 2 typography guide.
 
 ## About Adobe Clean Spectrum VF
 

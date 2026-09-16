@@ -17,7 +17,7 @@ hub_path: /foundations/app-frame/overview
 
 ## Framework principles
 
-Spectrum 2 treats the app frame as a framework to help product teams make the best decisions for their use cases . This is a resource that combines high-level framing, direction about construction, and specific examples for inspiration. It offers a balance of information that’s strategic and tactical, with the following principles at the forefront:
+Spectrum 2 treats the app frame as a framework to help product teams make the best decisions for their use cases. This is a resource that combines high-level framing, direction about construction, and specific examples for inspiration. It offers a balance of information that’s strategic and tactical, with the following principles at the forefront:
 
 ### Flexible and adaptable
 
@@ -33,11 +33,11 @@ The app frame is the main stage to showcase the Spectrum 2 style, and it reflect
 
 ## What’s here, and what’s to come
 
-Spectrum offers a high-level direction as well as a definition of which parts can be flexible and which parts need to be highly predictable. Product teams are then empowered to apply this direction in ways that make the most sense for their use cases and users. We’re designing the app frame in stages that align to the two main experiences that are shared across all Adobe products: browsing and editing . What’s currently defined here is mainly focused on the browsing context : workflows that draw attention to the content as the primary focus (examples of pages in browsing contexts include a Home or Files experience). This does overlap with the editing context , where the workflow draws attention to the canvas as the primary focus, but we’re still defining the editing context in more detail overall. This framework defines broad information architecture: the general categories of objects, and where they go in the app frame. It does not define the location or ordering of specific objects within those categories. View Spectrum Patterns for more specific information architecture by product group. For guidance on Experience Cloud products, contact the DX Unified Experience team . For guidance on Creative Cloud products, contact the CC Unified Experience team .
+Spectrum offers a high-level direction as well as a definition of which parts can be flexible and which parts need to be highly predictable. Product teams are then empowered to apply this direction in ways that make the most sense for their use cases and users. We’re designing the app frame in stages that align to the two main experiences that are shared across all Adobe products: browsing and editing. What’s currently defined here is mainly focused on the browsing context: workflows that draw attention to the content as the primary focus (examples of pages in browsing contexts include a Home or Files experience). This does overlap with the editing context, where the workflow draws attention to the canvas as the primary focus, but we’re still defining the editing context in more detail overall. This framework defines broad information architecture: the general categories of objects, and where they go in the app frame. It does not define the location or ordering of specific objects within those categories. View Spectrum Patterns for more specific information architecture by product group. For guidance on Experience Cloud products, contact the DX Unified Experience team. For guidance on Creative Cloud products, contact the CC Unified Experience team.
 
 ## What’s here, and what’s to come
 
-Spectrum offers a high-level direction as well as a definition of which parts can be flexible and which parts need to be highly predictable. Product teams are then empowered to apply this direction in ways that make the most sense for their use cases and users. We’re designing the app frame in stages that align to the two main experiences that are shared across all Adobe products: browsing and editing . What’s currently defined here is mainly focused on the browsing context : workflows that draw attention to the content as the primary focus (examples of pages in browsing contexts include a Home or Files experience). This does overlap with the editing context , where the workflow draws attention to the canvas as the primary focus, but we’re still defining the editing context in more detail overall. This framework defines broad information architecture: the general categories of objects, and where they go in the app frame. It does not define the location or ordering of specific objects within those categories.
+Spectrum offers a high-level direction as well as a definition of which parts can be flexible and which parts need to be highly predictable. Product teams are then empowered to apply this direction in ways that make the most sense for their use cases and users. We’re designing the app frame in stages that align to the two main experiences that are shared across all Adobe products: browsing and editing. What’s currently defined here is mainly focused on the browsing context: workflows that draw attention to the content as the primary focus (examples of pages in browsing contexts include a Home or Files experience). This does overlap with the editing context, where the workflow draws attention to the canvas as the primary focus, but we’re still defining the editing context in more detail overall. This framework defines broad information architecture: the general categories of objects, and where they go in the app frame. It does not define the location or ordering of specific objects within those categories.
 
 ## App frame construction
 
@@ -63,29 +63,29 @@ Parts of the anatomy have defined rules and behaviors. The terms used here to de
 
 ### A. App frame header (Navigation, required)
 
-Holds the product brand and global actions, including the universal nav. This area can include top-level navigation, and is suitable for categorizing product segments (e.g., marketing contexts) and for larger fly-outs. If there is an app frame side navigation instead, use this area for global, app-wide actions (e.g., search). View header guidelines and examples in App frame header (browsing context) .
+Holds the product brand and global actions, including the universal nav. This area can include top-level navigation, and is suitable for categorizing product segments (e.g., marketing contexts) and for larger fly-outs. If there is an app frame side navigation instead, use this area for global, app-wide actions (e.g., search). View header guidelines and examples in App frame header (browsing context).
 
 ### B. App frame side navigation (Navigation, optional)
 
-Holds the main categories of product functionality, such as workflow-related navigational items (e.g., home, files, learn, dashboards). This navigation has specific behaviors for showing and minimizing labels. Do not use this for categorizing marketing pages. View side navigation guidelines and examples in App frame side navigation (browsing context) .
+Holds the main categories of product functionality, such as workflow-related navigational items (e.g., home, files, learn, dashboards). This navigation has specific behaviors for showing and minimizing labels. Do not use this for categorizing marketing pages. View side navigation guidelines and examples in App frame side navigation (browsing context).
 
 ### C. Content area (Required)
 
-Modular space that supports multiple layout configurations. The content that goes inside this area is free and not defined by the app frame. More specific guidelines will be defined in Spectrum Patterns . Gradients , when used in this space, are applied with clear intent and strategic purpose. They should contribute to the visual hierarchy, not distract from it. And, their colors are directly tied to product brand color palettes. In the S2 app frame, gradients are only used as backgrounds in content areas — they are not used in the header (A) and navigational areas (B). This allows for greater flexibility between pages where gradients may be calling attention to different kinds of content. View side navigation guidelines and examples in App frame content area (browsing context) .
+Modular space that supports multiple layout configurations. The content that goes inside this area is free and not defined by the app frame. More specific guidelines will be defined in Spectrum Patterns. Gradients, when used in this space, are applied with clear intent and strategic purpose. They should contribute to the visual hierarchy, not distract from it. And, their colors are directly tied to product brand color palettes. In the S2 app frame, gradients are only used as backgrounds in content areas — they are not used in the header (A) and navigational areas (B). This allows for greater flexibility between pages where gradients may be calling attention to different kinds of content. View side navigation guidelines and examples in App frame content area (browsing context).
 
 ### Anatomy examples
 
 ### A. App frame header (Navigation, required)
 
-Holds the product brand and global actions, including the universal nav. This area can include top-level navigation, and is suitable for categorizing product segments (e.g., marketing contexts) and for larger fly-outs. If there is an app frame side navigation instead, use this area for global, app-wide actions (e.g., search). View header guidelines and examples in App frame header (browsing context) .
+Holds the product brand and global actions, including the universal nav. This area can include top-level navigation, and is suitable for categorizing product segments (e.g., marketing contexts) and for larger fly-outs. If there is an app frame side navigation instead, use this area for global, app-wide actions (e.g., search). View header guidelines and examples in App frame header (browsing context).
 
 ### B. App frame side navigation (Navigation, optional)
 
-Holds the main categories of product functionality, such as workflow-related navigational items (e.g., home, files, learn, dashboards). This navigation has specific behaviors for showing and minimizing labels. Do not use this for categorizing marketing pages. View side navigation guidelines and examples in App frame side navigation (browsing context) .
+Holds the main categories of product functionality, such as workflow-related navigational items (e.g., home, files, learn, dashboards). This navigation has specific behaviors for showing and minimizing labels. Do not use this for categorizing marketing pages. View side navigation guidelines and examples in App frame side navigation (browsing context).
 
 ### C. Content area (Required)
 
-Modular space that supports multiple layout configurations. The content that goes inside this area is free and not defined by the app frame. Gradients , when used in this space, are applied with clear intent and strategic purpose. They should contribute to the visual hierarchy, not distract from it. And, their colors are directly tied to product brand color palettes. In the S2 app frame, gradients are only used as backgrounds in content areas — they are not used in the header (A) and navigational areas (B). This allows for greater flexibility between pages where gradients may be calling attention to different kinds of content. View side navigation guidelines and examples in App frame content area (browsing context) .
+Modular space that supports multiple layout configurations. The content that goes inside this area is free and not defined by the app frame. Gradients, when used in this space, are applied with clear intent and strategic purpose. They should contribute to the visual hierarchy, not distract from it. And, their colors are directly tied to product brand color palettes. In the S2 app frame, gradients are only used as backgrounds in content areas — they are not used in the header (A) and navigational areas (B). This allows for greater flexibility between pages where gradients may be calling attention to different kinds of content. View side navigation guidelines and examples in App frame content area (browsing context).
 
 ### Anatomy examples
 
@@ -99,7 +99,7 @@ Interacting with this icon in the header will either fully expand and collapse, 
 
 ### Panel
 
-When hovering on the panel icon, the icon will show an animated preview of what action would be done upon interaction (either expanding or collapsing). This animation offers more context about what to expect. The placement of the panel icon is at the bottom of the app frame side navigation panel. Learn more about the side navigation state control’s user customization and preserve user preferences . App frame variants: Top App Bar (TAB) will go over the use cases of hamburger and panel icons.
+When hovering on the panel icon, the icon will show an animated preview of what action would be done upon interaction (either expanding or collapsing). This animation offers more context about what to expect. The placement of the panel icon is at the bottom of the app frame side navigation panel. Learn more about the side navigation state control’s user customization and preserve user preferences. App frame variants: Top App Bar (TAB) will go over the use cases of hamburger and panel icons.
 
 ## App frame variants: Top App Bar (TAB)
 
@@ -195,11 +195,11 @@ The word panel is acceptable as a user-facing term only when there is no other w
 
 ### “Show” and “Hide”
 
-“Show” and “hide” are the preferred terms to use to describe the open/close actions on the side navigation. This is for several reasons: Globalization readiness . The words “show” and “hide” both have low character counts in U.S. English, and are the most common already-existing terms to express this concept across Adobe products. Plain language . “Hide” is more straightforward and common language than “Minimize,” and is also at the appropriate reading level for UI text. Conceptual accuracy . “Show” and “Hide” better align to their associated actions; items aren’t disappearing completely from view, but are being tucked away or are changing appearance.
+“Show” and “hide” are the preferred terms to use to describe the open/close actions on the side navigation. This is for several reasons: Globalization readiness. The words “show” and “hide” both have low character counts in U.S. English, and are the most common already-existing terms to express this concept across Adobe products. Plain language. “Hide” is more straightforward and common language than “Minimize,” and is also at the appropriate reading level for UI text. Conceptual accuracy. “Show” and “Hide” better align to their associated actions; items aren’t disappearing completely from view, but are being tucked away or are changing appearance.
 
 ### When in doubt, use sentence case
 
-As you’re designing the UI content of your app frame using this framework, follow the Spectrum content standards for all UI text and labels. Most of the writing you’ll be doing for the app frame will be short labels. These, as well as all other UI content, are formatted in sentence case: only the first letter of the first word is capitalized. View the Spectrum Grammar and mechanics page .
+As you’re designing the UI content of your app frame using this framework, follow the Spectrum content standards for all UI text and labels. Most of the writing you’ll be doing for the app frame will be short labels. These, as well as all other UI content, are formatted in sentence case: only the first letter of the first word is capitalized. View the Spectrum Grammar and mechanics page.
 
 ### Refer to Spectrum Patterns
 

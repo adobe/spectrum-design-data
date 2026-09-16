@@ -20,11 +20,11 @@ hub_path: /support/contact-us
 
 ## General inquiries
 
-Post in #spectrum-general or email the Spectrum team .
+Post in #spectrum-general or email the Spectrum team.
 
 ## General inquiries
 
-For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us .
+For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us.
 
 ## Feedback
 
@@ -44,7 +44,7 @@ Creative Cloud #ad-ue-general The Unified Experience effort is helping to define
 
 ### Brand
 
-Brand and illustration #product-branding The Brand design team creates the product logos, file types and folders icons, and any other in-product branded element, such as splash and loading screens, or welcome banners for all Adobe surfaces. The Brand team also creates all in-product illustrations and can advise on how to uplift your product brand throughout the experience. View more information about requesting illustrations or brand elements .
+Brand and illustration #product-branding The Brand design team creates the product logos, file types and folders icons, and any other in-product branded element, such as splash and loading screens, or welcome banners for all Adobe surfaces. The Brand team also creates all in-product illustrations and can advise on how to uplift your product brand throughout the experience. View more information about requesting illustrations or brand elements.
 
 ### DX Unified Experience Team (DXUE)
 
@@ -52,7 +52,7 @@ Experience Cloud #archon DXUE aims to unify the Experience Cloud across a compre
 
 ### Icons
 
-Workflow iconography #icons The Icons team designs delightful and consistent Spectrum iconography for all Adobe surfaces and provides product teams with thorough resources for icon usage and implementation. The team can also assist with vendor work by offering icon reviews, guidelines, and icon creation templates. View more information about requesting icons .
+Workflow iconography #icons The Icons team designs delightful and consistent Spectrum iconography for all Adobe surfaces and provides product teams with thorough resources for icon usage and implementation. The team can also assist with vendor work by offering icon reviews, guidelines, and icon creation templates. View more information about requesting icons.
 
 ### Consonant
 
@@ -60,8 +60,8 @@ Adobe.com #consonant_general Consonant is an extension of Spectrum that both add
 
 ## Questions about engineering
 
-For general questions, post in #spectrum-general . For questions related to a particular implementation, post in its designated Slack channel. If you’re not sure or don’t see the implementation listed here, post in #spectrum-general and the team will assist you. Additionally, view the Developer overview page for more information. React Spectrum #react-spectrum Spectrum Web Components #spectrum-web-components Spectrum iOS #spectrum-ios Spectrum Android #spectrum-android Spectrum Drover #spectrum-desktop Spectrum Tokens #spectrum-tokens
+For general questions, post in #spectrum-general. For questions related to a particular implementation, post in its designated Slack channel. If you’re not sure or don’t see the implementation listed here, post in #spectrum-general and the team will assist you. Additionally, view the Developer overview page for more information. React Spectrum #react-spectrum Spectrum Web Components #spectrum-web-components Spectrum iOS #spectrum-ios Spectrum Android #spectrum-android Spectrum Drover #spectrum-desktop Spectrum Tokens #spectrum-tokens
 
 ## Questions about Figma, resources, and tooling
 
-For questions about Spectrum's Figma libraries and resources, post in #spectrum-design . If you’re part of Adobe Design and have general Figma administrative or access questions, post in #ad-tooling-support . For those in other orgs, reach out to your manager for approval and follow Adobe’s process to request standard software .
+For questions about Spectrum's Figma libraries and resources, post in #spectrum-design. If you’re part of Adobe Design and have general Figma administrative or access questions, post in #ad-tooling-support. For those in other orgs, reach out to your manager for approval and follow Adobe’s process to request standard software.

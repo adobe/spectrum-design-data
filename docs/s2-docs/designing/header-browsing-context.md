@@ -21,11 +21,11 @@ There are several parts of the header that are consistent across all Adobe produ
 
 ### A. Top App Bar (TAB) switcher
 
-TAB is the up-to-date form of the 9-grid app switcher in Adobe Home. While the underlying functionality remains unchanged, the TAB introduces a more prominent visual placement, appearing at the top of the header when active. View more information on TAB usage .
+TAB is the up-to-date form of the 9-grid app switcher in Adobe Home. While the underlying functionality remains unchanged, the TAB introduces a more prominent visual placement, appearing at the top of the header when active. View more information on TAB usage.
 
 ### B. Product lock-up
 
-The lock-up tile is provided by the Brand team. It should be used as-is based on the specs in the Figma library. These items should be shown as-is, in all root-level browsing headers. In a small breakpoint, the product name can be hidden to allow room for additional actions. View more information about Brand assets .
+The lock-up tile is provided by the Brand team. It should be used as-is based on the specs in the Figma library. These items should be shown as-is, in all root-level browsing headers. In a small breakpoint, the product name can be hidden to allow room for additional actions. View more information about Brand assets.
 
 ### C. Navigation
 
@@ -33,23 +33,23 @@ When there isn’t a side navigation present, the header should contain the prim
 
 ### D. Search
 
-The search field is optional, but when used, should be center aligned. Use a minimized search button when there isn’t space for a search field. View specific guidance about Digital Experience products .
+The search field is optional, but when used, should be center aligned. Use a minimized search button when there isn’t space for a search field. View specific guidance about Digital Experience products.
 
 ### E. Universal nav (navigation)
 
-The universal nav provides clear and consistent access to important Adobe-wide actions, regardless of cloud, product, or surface. View details about the Universal nav .
+The universal nav provides clear and consistent access to important Adobe-wide actions, regardless of cloud, product, or surface. View details about the Universal nav.
 
 ### F. Side navigation state control
 
-The side navigation state control (hamburger icon) appears in the header for mobile breakpoints and the Unified Shell . View details about the side navigation state control usage . There are several parts of the header that are consistent across all Adobe products:
+The side navigation state control (hamburger icon) appears in the header for mobile breakpoints and the Unified Shell. View details about the side navigation state control usage. There are several parts of the header that are consistent across all Adobe products:
 
 ### A. Top App Bar (TAB) switcher
 
-TAB is the up-to-date form of the 9-grid app switcher in Adobe Home. While the underlying functionality remains unchanged, the TAB introduces a more prominent visual placement, appearing at the top of the header when active. View more information on TAB usage .
+TAB is the up-to-date form of the 9-grid app switcher in Adobe Home. While the underlying functionality remains unchanged, the TAB introduces a more prominent visual placement, appearing at the top of the header when active. View more information on TAB usage.
 
 ### B. Product lock-up
 
-The lock-up tile is provided by the Brand team. It should be used as-is based on the specs in the Figma library. These items should be shown as-is, in all root-level browsing headers. In a small breakpoint, the product name can be hidden to allow room for additional actions. View more information about Brand assets .
+The lock-up tile is provided by the Brand team. It should be used as-is based on the specs in the Figma library. These items should be shown as-is, in all root-level browsing headers. In a small breakpoint, the product name can be hidden to allow room for additional actions. View more information about Brand assets.
 
 ### C. Navigation
 
@@ -65,7 +65,7 @@ The universal nav provides clear and consistent access to important Adobe-wide a
 
 ### F. Side navigation state control
 
-The side navigation state control (hamburger icon) appears in the header for mobile breakpoints and the Unified Shell. View details about the side navigation state control usage .
+The side navigation state control (hamburger icon) appears in the header for mobile breakpoints and the Unified Shell. View details about the side navigation state control usage.
 
 ## Component options
 
@@ -155,7 +155,7 @@ As a general rule, only use one call-to-action (CTA) button, aside from any butt
 
 ### Keyboard interactions
 
-If a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation . Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item.
+If a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation. Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item.
 
 ### Cursor guidelines
 

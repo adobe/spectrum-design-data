@@ -25,7 +25,7 @@ We use Associated Press (AP) style for in-product UX writing, with any exception
 
 ## Active and passive voice
 
-Use active voice in most cases and use passive voice sparingly. With active voice , sentences are simpler, shorter, clearer, and more conversational. With passive voice , you can soften and provide distance in select situations (e.g., notification of a disabled account).
+Use active voice in most cases and use passive voice sparingly. With active voice, sentences are simpler, shorter, clearer, and more conversational. With passive voice, you can soften and provide distance in select situations (e.g., notification of a disabled account).
 
 ### Active voice
 
@@ -49,7 +49,7 @@ Use commonly understood contractions to keep sentences from feeling out-of-touch
 
 ### Contraction considerations
 
-Avoid contracting nouns with is, does, has, or was . This might make it look like the noun is possessive. Don’t use uncommon or old-fashioned contractions (e.g., would’ve or tweren't ). Don’t use colloquial contractions (e.g., ain't, y'all, yinz ). Be mindful of how many contractions you use in a sentence. Too many contractions can make things difficult to read. Avoid using contractions when dealing with legal concerns, payment processing, and account security. Casual isn’t always the best style when handling sensitive information.
+Avoid contracting nouns with is, does, has, or was. This might make it look like the noun is possessive. Don’t use uncommon or old-fashioned contractions (e.g., would’ve or tweren't ). Don’t use colloquial contractions (e.g., ain't, y'all, yinz ). Be mindful of how many contractions you use in a sentence. Too many contractions can make things difficult to read. Avoid using contractions when dealing with legal concerns, payment processing, and account security. Casual isn’t always the best style when handling sensitive information.
 
 ## Verb tenses
 
@@ -57,7 +57,7 @@ In general, use simple verb tenses: past, present, and future. Simple tenses are
 
 ### Why we use simple verb tenses
 
-There are a number of reasons why we use simple verb tenses for in-product writing: They use fewer words and are more concise. They can make content easier to scan and faster to read. Fewer words and simpler phrases mean better readability. According to the latest U.S. Census , more than 20% of people living in the U.S. speak a language other than English at home. For more people, simple verb tenses are easier to understand. Present tense improves readability scores.
+There are a number of reasons why we use simple verb tenses for in-product writing: They use fewer words and are more concise. They can make content easier to scan and faster to read. Fewer words and simpler phrases mean better readability. According to the latest U.S. Census, more than 20% of people living in the U.S. speak a language other than English at home. For more people, simple verb tenses are easier to understand. Present tense improves readability scores.
 
 ### What's not simple tense
 
@@ -85,7 +85,7 @@ Use title case to reference branded terms, such as names and features. This incl
 
 ### Referring to the user
 
-In UX content, we want to talk about what’s happening rather than who or what is making something happen . We avoid speaking as our users. In nearly all situations, we aim to be conversational and talk to the user — not as them. Any exceptions depend on situational needs for sensitivity and clarity.
+In UX content, we want to talk about what’s happening rather than who or what is making something happen. We avoid speaking as our users. In nearly all situations, we aim to be conversational and talk to the user — not as them. Any exceptions depend on situational needs for sensitivity and clarity.
 
 ### Second person
 
@@ -113,7 +113,7 @@ Don’t use apostrophes (') in place of quotation marks. When pluralizing singul
 
 ### Asterisk
 
-Use asterisks ( * ) or "(required)" to establish form fields as required . Don’t use asterisks to denote anything as optional. Make sure to use the Spectrum asterisk icon that comes built in with the design components — not the text form of an asterisk within the label string. Don’t use asterisks in running text or labels when parentheses or a tooltip would suffice.
+Use asterisks ( * ) or "(required)" to establish form fields as required. Don’t use asterisks to denote anything as optional. Make sure to use the Spectrum asterisk icon that comes built in with the design components — not the text form of an asterisk within the label string. Don’t use asterisks in running text or labels when parentheses or a tooltip would suffice.
 
 ### At sign
 
@@ -133,7 +133,7 @@ When listing things, use the serial comma (also known as the Oxford comma). This
 
 ### Ellipsis
 
-Use ellipses (…) when truncating text in small spaces. Use an ellipsis at the end of the text to communicate the progress of something that is in process, such as a waiting or loading state. In general, avoid using an ellipsis in a button. If a button will take a user to a completely different or more complicated view (such as going from a dialog to a settings panel), it can be acceptable to include an ellipsis at the end of the label text to communicate that there's more action needed beyond the button's initial interaction. For prompt text in a picker, use an ellipsis at the end of the text to communicate that a user can select an option (e.g., “Select category…”). If your product uses a menu pattern native to an operating system (OS), follow the company’s guidelines. If it uses Spectrum’s Menu component, see Ellipses in menu commands . If you need to directly refer to a UI element whose name ends with an ellipsis (e.g., “ Find… “) in running text, drop the ellipsis: “Use Find to search the database.” Use the more icon (not an ellipsis as a string of text) when designing a More menu.
+Use ellipses (…) when truncating text in small spaces. Use an ellipsis at the end of the text to communicate the progress of something that is in process, such as a waiting or loading state. In general, avoid using an ellipsis in a button. If a button will take a user to a completely different or more complicated view (such as going from a dialog to a settings panel), it can be acceptable to include an ellipsis at the end of the label text to communicate that there's more action needed beyond the button's initial interaction. For prompt text in a picker, use an ellipsis at the end of the text to communicate that a user can select an option (e.g., “Select category…”). If your product uses a menu pattern native to an operating system (OS), follow the company’s guidelines. If it uses Spectrum’s Menu component, see Ellipses in menu commands. If you need to directly refer to a UI element whose name ends with an ellipsis (e.g., “ Find… “) in running text, drop the ellipsis: “Use Find to search the database.” Use the more icon (not an ellipsis as a string of text) when designing a More menu.
 
 ### Emoji
 
@@ -149,7 +149,7 @@ Don’t use exclamation marks (!) since they are difficult to localize and easy 
 
 ### Greater than and less than
 
-When communicating navigation, such as in breadcrumbs , use the "chevron" icon built into the component, not the greater than symbol. Don’t use the greater than and less than symbols to communicate steps in a flow — use bulleted or numbered lists instead. Don’t use these symbols to replace the words "greater than" or "less than." And don’t use them to accent or decorate a word.
+When communicating navigation, such as in breadcrumbs, use the "chevron" icon built into the component, not the greater than symbol. Don’t use the greater than and less than symbols to communicate steps in a flow — use bulleted or numbered lists instead. Don’t use these symbols to replace the words "greater than" or "less than." And don’t use them to accent or decorate a word.
 
 ### Hyphen and dash
 
@@ -165,7 +165,7 @@ Use parentheses ( ( ) ) to provide supplementary context. Don’t use parenthese
 
 ### Period
 
-In general, if your text is a full sentence, add a period to the end. If it's a short, direct phrase — either standalone, or within a UI component like a toast or alert banner — don't add a period. In the majority of cases, don’t use periods (.) or any other punctuation on the end of bulleted or numbered lists . If one list item is a complete sentence, then it would end with a period (or question mark). In this case, use periods at the end of all items. Don’t use periods in headers or buttons.
+In general, if your text is a full sentence, add a period to the end. If it's a short, direct phrase — either standalone, or within a UI component like a toast or alert banner — don't add a period. In the majority of cases, don’t use periods (.) or any other punctuation on the end of bulleted or numbered lists. If one list item is a complete sentence, then it would end with a period (or question mark). In this case, use periods at the end of all items. Don’t use periods in headers or buttons.
 
 ### Plus sign
 
@@ -237,11 +237,11 @@ Use the percent symbol (%) instead of spelling out the word "percent."
 
 ### Dates
 
-Date formatting is contextual, and it will depend on your product and use case. Different kinds of date formatting can be used for standalone strings in running text or for strings in more data-rich views. Some experiences might require the full format, where others might require something more compact: Full : Monday, August 21, 2017 at 3:07pm Compact : Mon, Aug 21, 2017, 3:07pm Additionally, dates are often localized. For example, in Europe and the U.K., the previous date example would be written: Full : Monday, 21 August at 15:07 Compact : Mon, 21 Aug, 15:07 For U.S. English, you can also format dates as MM-DD-YYYY, using the numeral for the month instead of the word. Use a 2-digit format (including a 0, even with single digit months and days). The 2-digit format also helps make it easier to parse and compare multiple dates, especially in tables or lists: 02/24/2000 04/01/2015 Work with a localization expert to localize dates and times for your product’s specific cases. Learn more about the formatting for abbreviating dates (months and days) in the Abbreviations section.
+Date formatting is contextual, and it will depend on your product and use case. Different kinds of date formatting can be used for standalone strings in running text or for strings in more data-rich views. Some experiences might require the full format, where others might require something more compact: Full: Monday, August 21, 2017 at 3:07pm Compact: Mon, Aug 21, 2017, 3:07pm Additionally, dates are often localized. For example, in Europe and the U.K., the previous date example would be written: Full: Monday, 21 August at 15:07 Compact: Mon, 21 Aug, 15:07 For U.S. English, you can also format dates as MM-DD-YYYY, using the numeral for the month instead of the word. Use a 2-digit format (including a 0, even with single digit months and days). The 2-digit format also helps make it easier to parse and compare multiple dates, especially in tables or lists: 02/24/2000 04/01/2015 Work with a localization expert to localize dates and times for your product’s specific cases. Learn more about the formatting for abbreviating dates (months and days) in the Abbreviations section.
 
 ### Time
 
-Do not use :00 with whole numbers When presenting a range of time, use an en dash without spaces in between, and do not include am or pm on the first time if it’s the same as the last When translating to 24-hour time, do not include am and pm (e.g., 17:15) Learn more about the formatting for abbreviating time (hours, minutes, seconds, and am and pm indicators) in the Abbreviations section.
+Do not use:00 with whole numbers When presenting a range of time, use an en dash without spaces in between, and do not include am or pm on the first time if it’s the same as the last When translating to 24-hour time, do not include am and pm (e.g., 17:15) Learn more about the formatting for abbreviating time (hours, minutes, seconds, and am and pm indicators) in the Abbreviations section.
 
 ### Relative time
 

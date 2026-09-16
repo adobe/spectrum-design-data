@@ -8,11 +8,11 @@
     { "type": "purpose", "content": "Contact us" },
     {
       "type": "guideline",
-      "content": "Post in #spectrum-general or email the Spectrum team ."
+      "content": "Post in #spectrum-general or email the Spectrum team."
     },
     {
       "type": "guideline",
-      "content": "For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us ."
+      "content": "For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us."
     },
     {
       "type": "guideline",
@@ -28,7 +28,7 @@
     },
     {
       "type": "guideline",
-      "content": "Brand and illustration #product-branding The Brand design team creates the product logos, file types and folders icons, and any other in-product branded element, such as splash and loading screens, or welcome banners for all Adobe surfaces. The Brand team also creates all in-product illustrations and can advise on how to uplift your product brand throughout the experience. View more information about requesting illustrations or brand elements ."
+      "content": "Brand and illustration #product-branding The Brand design team creates the product logos, file types and folders icons, and any other in-product branded element, such as splash and loading screens, or welcome banners for all Adobe surfaces. The Brand team also creates all in-product illustrations and can advise on how to uplift your product brand throughout the experience. View more information about requesting illustrations or brand elements."
     },
     {
       "type": "guideline",
@@ -36,7 +36,7 @@
     },
     {
       "type": "guideline",
-      "content": "Icons.\n\nWorkflow iconography #icons The Icons team designs delightful and consistent Spectrum iconography for all Adobe surfaces and provides product teams with thorough resources for icon usage and implementation. The team can also assist with vendor work by offering icon reviews, guidelines, and icon creation templates. View more information about requesting icons ."
+      "content": "Icons.\n\nWorkflow iconography #icons The Icons team designs delightful and consistent Spectrum iconography for all Adobe surfaces and provides product teams with thorough resources for icon usage and implementation. The team can also assist with vendor work by offering icon reviews, guidelines, and icon creation templates. View more information about requesting icons."
     },
     {
       "type": "guideline",
@@ -44,11 +44,11 @@
     },
     {
       "type": "guideline",
-      "content": "For general questions, post in #spectrum-general . For questions related to a particular implementation, post in its designated Slack channel. If you’re not sure or don’t see the implementation listed here, post in #spectrum-general and the team will assist you. Additionally, view the Developer overview page for more information. React Spectrum #react-spectrum Spectrum Web Components #spectrum-web-components Spectrum iOS #spectrum-ios Spectrum Android #spectrum-android Spectrum Drover #spectrum-desktop Spectrum Tokens #spectrum-tokens"
+      "content": "For general questions, post in #spectrum-general. For questions related to a particular implementation, post in its designated Slack channel. If you’re not sure or don’t see the implementation listed here, post in #spectrum-general and the team will assist you. Additionally, view the Developer overview page for more information. React Spectrum #react-spectrum Spectrum Web Components #spectrum-web-components Spectrum iOS #spectrum-ios Spectrum Android #spectrum-android Spectrum Drover #spectrum-desktop Spectrum Tokens #spectrum-tokens"
     },
     {
       "type": "guideline",
-      "content": "For questions about Spectrum's Figma libraries and resources, post in #spectrum-design . If you’re part of Adobe Design and have general Figma administrative or access questions, post in #ad-tooling-support . For those in other orgs, reach out to your manager for approval and follow Adobe’s process to request standard software ."
+      "content": "For questions about Spectrum's Figma libraries and resources, post in #spectrum-design. If you’re part of Adobe Design and have general Figma administrative or access questions, post in #ad-tooling-support. For those in other orgs, reach out to your manager for approval and follow Adobe’s process to request standard software."
     }
   ],
   "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/contact-us",

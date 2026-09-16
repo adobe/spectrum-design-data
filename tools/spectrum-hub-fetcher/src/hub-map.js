@@ -44,8 +44,12 @@ export const SUPPORTED_PREFIXES = PREFIX_CATEGORIES.map(([prefix]) => prefix);
  * not a dumping ground.
  */
 export const SLUG_OVERRIDES = {
-  // Two genuinely distinct real pages both ending in "contact-us"; the
-  // /support one is canonical, the /foundations one is a secondary entry point.
+  // As of this writing, /foundations/support/contact-us is itself a stub (a
+  // bare heading, no body) and is dropped before this override is ever
+  // consulted — see the stub-page filter in buildPageMap. The entry is kept
+  // as a forward guard: if the hub later populates that page with real
+  // content, it must not collapse into /support/contact-us via near-duplicate
+  // dedup, since the two would then legitimately be distinct entry points.
   "/foundations/support/contact-us": "foundations-contact-us",
 };
 
@@ -133,6 +137,11 @@ function preferred(a, b) {
 /**
  * Collapse pages whose prose is the same content published at two hub paths.
  *
+ * Pages with an explicit SLUG_OVERRIDES entry are exempt: an override exists
+ * specifically to keep a page distinct from a similar sibling (see
+ * "/foundations/support/contact-us" above), so letting dedup run over them
+ * would silently undo that curated decision before assignSlugs ever sees it.
+ *
  * @param {Array<{path: string, text: string, lastModified?: number}>} pages
  * @returns {{ kept: Array, dropped: Array<{path: string, reason: string, duplicateOf: string}> }}
  */
@@ -140,10 +149,14 @@ export function dedupeByContent(
   pages,
   { threshold = NEAR_DUPLICATE_THRESHOLD } = {},
 ) {
+  const overridePaths = new Set(Object.keys(SLUG_OVERRIDES));
+  const protectedPages = pages.filter((page) => overridePaths.has(page.path));
+  const eligible = pages.filter((page) => !overridePaths.has(page.path));
+
   const kept = [];
   const dropped = [];
 
-  for (const page of pages) {
+  for (const page of eligible) {
     const matchIndex = kept.findIndex(
       (candidate) => similarity(candidate.text, page.text) >= threshold,
     );
@@ -165,7 +178,7 @@ export function dedupeByContent(
     });
   }
 
-  return { kept, dropped };
+  return { kept: [...kept, ...protectedPages], dropped };
 }
 
 export function categoryForPath(path) {
@@ -281,8 +294,10 @@ export function assignSlugs(paths) {
  * Build the final page map from fetched pages.
  *
  * Order matters: stubs are removed before near-duplicate detection (an empty
- * shell is trivially "similar" to another empty shell), and slugs are assigned
- * last so they are only spent on pages that actually ship.
+ * shell is trivially "similar" to another empty shell), slugs are assigned
+ * last so they are only spent on pages that actually ship, and dedup itself
+ * exempts any path with a SLUG_OVERRIDES entry so a curated "keep distinct"
+ * decision can never be silently undone by content similarity.
  *
  * @param {Array<{path: string, isStub: boolean, text?: string, lastModified?: number}>} pages
  * @returns {{ mapped: Map<string, {slug: string, category: string}>, dropped: Array<{path: string, reason: string}> }}

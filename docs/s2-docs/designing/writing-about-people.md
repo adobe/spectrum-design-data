@@ -20,7 +20,7 @@ hub_path: /content/language-and-inclusivity/writing-about-people
 
 ## Best practices
 
-The goal of all UX content is to be understandable to all — not just to the people paying for something or for those in a certain industry — and to accommodate the many ways that people use products. When creating content for product experiences, think and write by centering the person you’re writing to or about in a way that’s compassionate, inclusive, and respectful. Work to grasp the perspective of underrepresented groups, and avoid writing in a way that may view or treat someone as intrinsically different from yourself. You can use methods like co-designing and UX research . Keep the following best practices in mind when writing:
+The goal of all UX content is to be understandable to all — not just to the people paying for something or for those in a certain industry — and to accommodate the many ways that people use products. When creating content for product experiences, think and write by centering the person you’re writing to or about in a way that’s compassionate, inclusive, and respectful. Work to grasp the perspective of underrepresented groups, and avoid writing in a way that may view or treat someone as intrinsically different from yourself. You can use methods like co-designing and UX research. Keep the following best practices in mind when writing:
 
 ## Best practices
 
@@ -32,7 +32,7 @@ Only include personal qualities if they’re relevant and important. Write what 
 
 ### Choose words carefully and understand historical significance
 
-Be cautious of appropriating terms from marginalized communities. In this guide, we say “underrepresented groups.” You can also reference 3rd-party sources such as Wikipedia’s list of which words to use and which to avoid .
+Be cautious of appropriating terms from marginalized communities. In this guide, we say “underrepresented groups.” You can also reference 3rd-party sources such as Wikipedia’s list of which words to use and which to avoid.
 
 ### Be clear and avoid stereotypes
 
@@ -46,7 +46,7 @@ When collecting user data in app or web experiences, first think about whether t
 
 ### Use neutral, precise, relevant descriptions
 
-Person-first language centers the person, not their qualities, by using those qualities as modifiers: “Design Adobe apps for people who use assistive technology.” But for identity-first language , which some communities and individuals prefer instead, language highlights the disability: “Design Adobe apps for deaf people.” No group unilaterally chooses one over the other, so when you’re writing about someone, ask them how they want to be identified. Avoid euphemisms like “differently abled,” which are regarded as condescending, and descriptors used as nouns, like “the disabled” or “the blind.” These tend to present a group of individuals as a monolith and suggests a lack of individual diversity within the group. Preferred Avoid Disabled person or person with disabilities Differently abled or the disabled Blind person or person who is blind The blind Some phrases in common parlance that imply negativity are based on slurs against people with disabilities, such as “crazy” or “lame.” Never imply that a person is “suffering” from a disability or is a “victim” of a condition. Avoid appropriating terms from the disability community. Preferred Avoid Ridiculous or unpredictable Crazy Inconsiderate Tone-deaf Incompetent or bad Dumb or lame Keyanna has autism .Keyanna is suffering from autism . Placeholder variable Dummy variableAmir uses a wheelchair .Amir is confined to a wheelchair .
+Person-first language centers the person, not their qualities, by using those qualities as modifiers: “Design Adobe apps for people who use assistive technology.” But for identity-first language, which some communities and individuals prefer instead, language highlights the disability: “Design Adobe apps for deaf people.” No group unilaterally chooses one over the other, so when you’re writing about someone, ask them how they want to be identified. Avoid euphemisms like “differently abled,” which are regarded as condescending, and descriptors used as nouns, like “the disabled” or “the blind.” These tend to present a group of individuals as a monolith and suggests a lack of individual diversity within the group. Preferred Avoid Disabled person or person with disabilities Differently abled or the disabled Blind person or person who is blind The blind Some phrases in common parlance that imply negativity are based on slurs against people with disabilities, such as “crazy” or “lame.” Never imply that a person is “suffering” from a disability or is a “victim” of a condition. Avoid appropriating terms from the disability community. Preferred Avoid Ridiculous or unpredictable Crazy Inconsiderate Tone-deaf Incompetent or bad Dumb or lame Keyanna has autism.Keyanna is suffering from autism. Placeholder variable Dummy variableAmir uses a wheelchair.Amir is confined to a wheelchair.
 
 ### Be clear and avoid stereotypes
 
@@ -72,7 +72,7 @@ Adobe’s Inclusive Engineering Terminology Standard covers a set of established
 
 ### Choose words carefully and understand historical significance
 
-Adobe avoids using software terms such as “whitelist,” “blacklist,” “master,” and “slave.” Don’t use terms assigning value to racial characteristics, such as “dark pattern.” (Terms like "dark mode," "light theme," or "black screen" literally refer to color and brightness and don't assign good or bad values, so continue using them.) Preferred Avoid Use this format to provide contextual clarity: ( Result in past participle form ) ( object ) Examples: Shared domains , approved people , targeted sites For coding constructs: Allowlist Whitelist Use this format to provide contextual clarity: ( Result in past participle form ) ( object ) For coding constructs: Blocklist Blacklist Legacy Grandfather clause Futile undertaking or a project destined to fail Death march Primary or main or source (e.g., “ main track ”)“ Master ” descriptors Primary / secondary Master / slave
+Adobe avoids using software terms such as “whitelist,” “blacklist,” “master,” and “slave.” Don’t use terms assigning value to racial characteristics, such as “dark pattern.” (Terms like "dark mode," "light theme," or "black screen" literally refer to color and brightness and don't assign good or bad values, so continue using them.) Preferred Avoid Use this format to provide contextual clarity: ( Result in past participle form ) ( object ) Examples: Shared domains, approved people, targeted sites For coding constructs: Allowlist Whitelist Use this format to provide contextual clarity: ( Result in past participle form ) ( object ) For coding constructs: Blocklist Blacklist Legacy Grandfather clause Futile undertaking or a project destined to fail Death march Primary or main or source (e.g., “ main track ”)“ Master ” descriptors Primary / secondary Master / slave
 
 ### Be clear and avoid stereotypes
 
@@ -84,7 +84,7 @@ Since English isn’t everyone’s first language, it’s best to write using cl
 
 ### Depict more types of people as typical
 
-We must focus on building successful experiences for all users. That means writing and designing in a way that depicts all skin types, names, and cultures as typical. We cannot keep centering white-skinned, Western cultures in our designs. Preferred Avoid Dark brown or beige or tan or peach , etc. Skin or flesh or nude (referring to color swatch) Critics Peanut gallery A broad range of name examples within a product experience (e.g., Ayesha, Ibrahim, Vignesh, Quynh) Only culturally white name examples within a product experience (e.g., John, Bill, Karen, Amy)
+We must focus on building successful experiences for all users. That means writing and designing in a way that depicts all skin types, names, and cultures as typical. We cannot keep centering white-skinned, Western cultures in our designs. Preferred Avoid Dark brown or beige or tan or peach, etc. Skin or flesh or nude (referring to color swatch) Critics Peanut gallery A broad range of name examples within a product experience (e.g., Ayesha, Ibrahim, Vignesh, Quynh) Only culturally white name examples within a product experience (e.g., John, Bill, Karen, Amy)
 
 ### Be cautious of appropriating terms from underrepresented groups
 
@@ -94,11 +94,11 @@ Here’s a list of preferred words that are alternatives to common technology in
 
 ### Be clear and avoid gendered language and stereotypes
 
-Rather than “he” or “she,” if you don’t know a person’s pronouns, make the phrase plural and use “they” instead . Use of “they” to describe one person is also accepted, although the syntax remains plural (e.g., “they are” = “that person is”). It’s also best to avoid using roles or stereotypes that have gendered roots (e.g., “businessman" or “waitress”). Preferred Avoid Server Waitress Businessperson Businessman Flight attendant Stewardess They He/she or (S)he A group of people or a group of women Guys or girls or ladies Parents Moms
+Rather than “he” or “she,” if you don’t know a person’s pronouns, make the phrase plural and use “they” instead. Use of “they” to describe one person is also accepted, although the syntax remains plural (e.g., “they are” = “that person is”). It’s also best to avoid using roles or stereotypes that have gendered roots (e.g., “businessman" or “waitress”). Preferred Avoid Server Waitress Businessperson Businessman Flight attendant Stewardess They He/she or (S)he A group of people or a group of women Guys or girls or ladies Parents Moms
 
 ### Choose words carefully and understand historical significance
 
-Use gender and sexuality descriptors as modifiers, not nouns (e.g., “transgender woman” rather than “a transgender,” “bisexual person” rather than “a bisexual”). A person’s pronouns are not opinion or preference, even if they may change over time (view Spectrum’s guidelines on pronouns ). All of this helps us emphasize every person’s humanity, and keeps us from alienating people who aren’t cisgender and heterosexual. Preferred Avoid Transgender people or trans people Transgendered people or transgenders or the transgendered or transexuals Trans women Trans-women A transgender man A transman Alejandra, a lesbian woman Alejandra is a lesbian Jing, a non-binary person Jing is a non-binary Saadi is cis Saadi is CIS What are your pronouns ?What are your preferred pronouns ?Jamal’s pronouns are he/him/his . Jamal prefers he/him pronouns . Wholehearted or impassioned Hysterical
+Use gender and sexuality descriptors as modifiers, not nouns (e.g., “transgender woman” rather than “a transgender,” “bisexual person” rather than “a bisexual”). A person’s pronouns are not opinion or preference, even if they may change over time (view Spectrum’s guidelines on pronouns ). All of this helps us emphasize every person’s humanity, and keeps us from alienating people who aren’t cisgender and heterosexual. Preferred Avoid Transgender people or trans people Transgendered people or transgenders or the transgendered or transexuals Trans women Trans-women A transgender man A transman Alejandra, a lesbian woman Alejandra is a lesbian Jing, a non-binary person Jing is a non-binary Saadi is cis Saadi is CIS What are your pronouns?What are your preferred pronouns?Jamal’s pronouns are he/him/his. Jamal prefers he/him pronouns. Wholehearted or impassioned Hysterical
 
 ### Be specific and kind
 

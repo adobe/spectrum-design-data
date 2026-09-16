@@ -28,8 +28,8 @@ Disabled states generally stay the same from Spectrum 1, but there have been som
 
 ## Selected state
 
-Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy .
+Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy.
 
 ## Dragged state
 
-A dragged state has a unique drop shadow to draw attention to the dragged object. Learn more about drop shadows .
+A dragged state has a unique drop shadow to draw attention to the dragged object. Learn more about drop shadows.

@@ -8,7 +8,7 @@
     { "type": "purpose", "content": "Writing for errors" },
     {
       "type": "guideline",
-      "content": "An error occurs when users expect one thing to happen, but either something else — or nothing — happens. Errors can cause frustration, confusion, a loss of data, or more labor for users. These moments make it harder for people to get things done. At Adobe, the audiences for error messages span a wide variety of people. The language we use can vary depending on the audience and the context. But ultimately, these kinds of messages need to be in service of the end user, regardless of their skill sets or technical familiarity. These messages often bring frustrating news, and can be highly visible and memorable, so they need to be relevant, useful, and clear. We show users error messages to let them know what happened , what the cause of the error was, and what (if anything) they can do to resolve it ."
+      "content": "An error occurs when users expect one thing to happen, but either something else — or nothing — happens. Errors can cause frustration, confusion, a loss of data, or more labor for users. These moments make it harder for people to get things done. At Adobe, the audiences for error messages span a wide variety of people. The language we use can vary depending on the audience and the context. But ultimately, these kinds of messages need to be in service of the end user, regardless of their skill sets or technical familiarity. These messages often bring frustrating news, and can be highly visible and memorable, so they need to be relevant, useful, and clear. We show users error messages to let them know what happened, what the cause of the error was, and what (if anything) they can do to resolve it."
     },
     {
       "type": "guideline",
@@ -20,7 +20,7 @@
     },
     {
       "type": "guideline",
-      "content": "Choose the message first, then the component.\n\nError messages appear in the wrong UI components all too often. A complex message is usually too long and too complicated for a toast , and a short and straightforward message is far too much for an alert dialog . Errors that are lower in signal or consequence shouldn’t warrant a dialog that blocks the entire experience, and errors that are high priority shouldn’t appear in a toast with a timeout of only a few seconds. Write out what the message should say, free of any UI constraints, to understand how you should say it. Then, determine the right component for the message. Learn which component to use, when ."
+      "content": "Choose the message first, then the component.\n\nError messages appear in the wrong UI components all too often. A complex message is usually too long and too complicated for a toast, and a short and straightforward message is far too much for an alert dialog. Errors that are lower in signal or consequence shouldn’t warrant a dialog that blocks the entire experience, and errors that are high priority shouldn’t appear in a toast with a timeout of only a few seconds. Write out what the message should say, free of any UI constraints, to understand how you should say it. Then, determine the right component for the message. Learn which component to use, when."
     },
     {
       "type": "guideline",
@@ -64,7 +64,7 @@
     },
     {
       "type": "guideline",
-      "content": "Using voice.\n\nAs with all other in-product writing, error messaging should follow Spectrum’s in-product voice principles : Rational (clear and understandable), Human (friendly, honest, and responsible), and Focused (concise and simple)."
+      "content": "Using voice.\n\nAs with all other in-product writing, error messaging should follow Spectrum’s in-product voice principles: Rational (clear and understandable), Human (friendly, honest, and responsible), and Focused (concise and simple)."
     },
     {
       "type": "guideline",
@@ -76,7 +76,7 @@
     },
     {
       "type": "guideline",
-      "content": "Use passive voice sparingly.\n\nTry to write in active voice , which is quicker and easier to parse. Passive voice is useful to soften a message that might otherwise come across as blunt or terse, especially when the error was caused through user action or inaction."
+      "content": "Use passive voice sparingly.\n\nTry to write in active voice, which is quicker and easier to parse. Passive voice is useful to soften a message that might otherwise come across as blunt or terse, especially when the error was caused through user action or inaction."
     },
     {
       "type": "guideline",
@@ -84,23 +84,23 @@
     },
     {
       "type": "guideline",
-      "content": "Alert dialog.\n\nConsequence : High Complication : High Action : High Alert dialogs appear over the interface to show important information that a user needs to acknowledge or make a decision about before moving forward. This is a common error message component for letting someone know about a change or action they took or need to take, but it’s often more disruptive than it needs to be. Use alert dialogs consciously; even if the message is important, they are still highly interruptive to an experience. Alert dialogs are associated with task-level (rather than system-level) errors. Use these for consequential, complicated, timely, actionable errors that block a user from moving forward. Some examples of scenarios where an alert dialog may be appropriate are: A message telling the user that a file can’t be shared because of an invalid email address A user can’t sign on because their account has been compromised A CSV with a list of email addresses for a bulk upload couldn’t be processed because it was formatted incorrectly"
+      "content": "Alert dialog.\n\nConsequence: High Complication: High Action: High Alert dialogs appear over the interface to show important information that a user needs to acknowledge or make a decision about before moving forward. This is a common error message component for letting someone know about a change or action they took or need to take, but it’s often more disruptive than it needs to be. Use alert dialogs consciously; even if the message is important, they are still highly interruptive to an experience. Alert dialogs are associated with task-level (rather than system-level) errors. Use these for consequential, complicated, timely, actionable errors that block a user from moving forward. Some examples of scenarios where an alert dialog may be appropriate are: A message telling the user that a file can’t be shared because of an invalid email address A user can’t sign on because their account has been compromised A CSV with a list of email addresses for a bulk upload couldn’t be processed because it was formatted incorrectly"
     },
     {
       "type": "guideline",
-      "content": "Alert banner.\n\nConsequence : Low Complication : Low Action : High Alert banners show system-level, pressing, and high-signal messages. They’re meant to be noticed and prompt users to take an action. The red (negative) and grey (neutral) semantic variants are both associated with error messages. Use an alert banner for a message that isn’t directly related to an action that a user would have just taken, but is still high-signal and needs attention. It's also ideal for communicating connectivity errors."
+      "content": "Alert banner.\n\nConsequence: Low Complication: Low Action: High Alert banners show system-level, pressing, and high-signal messages. They’re meant to be noticed and prompt users to take an action. The red (negative) and grey (neutral) semantic variants are both associated with error messages. Use an alert banner for a message that isn’t directly related to an action that a user would have just taken, but is still high-signal and needs attention. It's also ideal for communicating connectivity errors."
     },
     {
       "type": "guideline",
-      "content": "Help text.\n\nConsequence : Low Complication : Low Action : High Help text provides an in-line error message that’s associated with an input, giving more context and guidance to help a user successfully complete an interaction. These kinds of error messages communicate what to input or select, or sometimes how to do it. The message can include information such as hints for what kind of information needs to be input or selected to move forward in a flow, or share specific formatting examples or requirements. Multiple instances of help text showing in-line validation errors can be aggregated into an in-line alert . View the guidelines for writing error messages using help text ."
+      "content": "Help text.\n\nConsequence: Low Complication: Low Action: High Help text provides an in-line error message that’s associated with an input, giving more context and guidance to help a user successfully complete an interaction. These kinds of error messages communicate what to input or select, or sometimes how to do it. The message can include information such as hints for what kind of information needs to be input or selected to move forward in a flow, or share specific formatting examples or requirements. Multiple instances of help text showing in-line validation errors can be aggregated into an in-line alert. View the guidelines for writing error messages using help text."
     },
     {
       "type": "guideline",
-      "content": "In-line alert.\n\nConsequence : Any Complication : High Action : High In-line alerts display a non-modal message associated with objects in a view. These are often used in form validation, providing a place to aggregate feedback related to multiple fields into a single message for higher visibility. The red (negative) and orange (notice) semantic variants are for use with error messages. Use in-line alerts to combine multiple input errors into a single error message, or for cases when a dialog would be too interruptive to an experience but an error message still needs to be shown in order for a user to proceed with a task."
+      "content": "In-line alert.\n\nConsequence: Any Complication: High Action: High In-line alerts display a non-modal message associated with objects in a view. These are often used in form validation, providing a place to aggregate feedback related to multiple fields into a single message for higher visibility. The red (negative) and orange (notice) semantic variants are for use with error messages. Use in-line alerts to combine multiple input errors into a single error message, or for cases when a dialog would be too interruptive to an experience but an error message still needs to be shown in order for a user to proceed with a task."
     },
     {
       "type": "guideline",
-      "content": "Toast.\n\nConsequence : Low Complication : Low Action : Low Toasts display brief, temporary notifications. They’re noticeable but don’t disrupt the user experience, and they don’t require an action to be taken in response to the message. The red (negative) semantic variant is associated with an error message. Use toasts to communicate error messages that are contextual or triggered by a user action (e.g., moving an item, taking an action on something in a canvas). Whenever possible, include an in-line action on a toast with an error message so that a user can readily address it."
+      "content": "Toast.\n\nConsequence: Low Complication: Low Action: Low Toasts display brief, temporary notifications. They’re noticeable but don’t disrupt the user experience, and they don’t require an action to be taken in response to the message. The red (negative) semantic variant is associated with an error message. Use toasts to communicate error messages that are contextual or triggered by a user action (e.g., moving an item, taking an action on something in a canvas). Whenever possible, include an in-line action on a toast with an error message so that a user can readily address it."
     }
   ],
   "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/writing-for-errors",

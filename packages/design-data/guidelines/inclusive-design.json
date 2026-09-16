@@ -8,7 +8,7 @@
     { "type": "purpose", "content": "Inclusive design" },
     {
       "type": "guideline",
-      "content": "Inclusive design is part of Adobe’s mission. Designers, engineers, and product builders are invested in learning how to think more broadly, seeking out more voices, and working together to make better experiences. Spectrum also builds for the widest audience possible. Our system is designed to be clearly readable, intuitive to use, and mindful of those who use assistive technology. From how components function to language and internationalization , we consider inclusion to be a top priority."
+      "content": "Inclusive design is part of Adobe’s mission. Designers, engineers, and product builders are invested in learning how to think more broadly, seeking out more voices, and working together to make better experiences. Spectrum also builds for the widest audience possible. Our system is designed to be clearly readable, intuitive to use, and mindful of those who use assistive technology. From how components function to language and internationalization, we consider inclusion to be a top priority."
     },
     {
       "type": "guideline",
@@ -60,7 +60,7 @@
     },
     {
       "type": "guideline",
-      "content": "Text alternatives.\n\nInclude a textual label for all elements. There may be a few exceptions, when the context is sufficient (e.g., document zoom level “100%”). Use the label element in HTML where possible. If not, use ARIA to set the label (depending on the context, “aria-label” or “aria-labelledby”). Make sure labels are concise and have a clear association with objects. For objects in a table or a list, make sure that they can be identified by the structure around them (e.g., using a table header). Label all images when possible, and in all cases, include a short, meaningful text alternative . Exceptions are for decorative images as outlined in Guideline 1.1 Text Alternatives in the WCAG 2.1 standards. Provide a long description for any object that requires more information for understanding or operating it (e.g., tooltips and coach marks ), so that those using assistive technology can read it in context. Learn more about creating text alternatives in Spectrum’s Inclusive UX writing guide."
+      "content": "Text alternatives.\n\nInclude a textual label for all elements. There may be a few exceptions, when the context is sufficient (e.g., document zoom level “100%”). Use the label element in HTML where possible. If not, use ARIA to set the label (depending on the context, “aria-label” or “aria-labelledby”). Make sure labels are concise and have a clear association with objects. For objects in a table or a list, make sure that they can be identified by the structure around them (e.g., using a table header). Label all images when possible, and in all cases, include a short, meaningful text alternative. Exceptions are for decorative images as outlined in Guideline 1.1 Text Alternatives in the WCAG 2.1 standards. Provide a long description for any object that requires more information for understanding or operating it (e.g., tooltips and coach marks ), so that those using assistive technology can read it in context. Learn more about creating text alternatives in Spectrum’s Inclusive UX writing guide."
     },
     {
       "type": "guideline",
@@ -68,7 +68,7 @@
     },
     {
       "type": "guideline",
-      "content": "Error prevention and correction.\n\nAvoid the need for error messages by designing workflows that prevent an error state from even happening in the first place. When there is an error, associate it with the field or element that needs to be corrected or addressed. Make errors visually and semantically different from other messages (e.g., including icons, colors, placement), and write error messaging in a helpful and guiding way . Use appropriate click/touch zones to leave enough space between elements. Doing this minimizes click/touch target errors. Anticipate spelling mistakes in search queries, and accommodate multiple spellings of words in search results."
+      "content": "Error prevention and correction.\n\nAvoid the need for error messages by designing workflows that prevent an error state from even happening in the first place. When there is an error, associate it with the field or element that needs to be corrected or addressed. Make errors visually and semantically different from other messages (e.g., including icons, colors, placement), and write error messaging in a helpful and guiding way. Use appropriate click/touch zones to leave enough space between elements. Doing this minimizes click/touch target errors. Anticipate spelling mistakes in search queries, and accommodate multiple spellings of words in search results."
     },
     {
       "type": "guideline",

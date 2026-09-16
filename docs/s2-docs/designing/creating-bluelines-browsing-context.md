@@ -20,7 +20,7 @@ hub_path: /foundations/app-frame/creating-bluelines-browsing-context
 
 ## Accessible names
 
-The accessible name is the text that software uses to identify a component, and communicates it to the user. Assistive technologies like screen readers and voice control require an accessible name to read aloud content to screen reader users, or to accept speech input from voice control users to interact with digital content. Learn more about accessible names . Accessible names vary depending on the content. Accessible names must be defined for controls that don’t have visible text labels.
+The accessible name is the text that software uses to identify a component, and communicates it to the user. Assistive technologies like screen readers and voice control require an accessible name to read aloud content to screen reader users, or to accept speech input from voice control users to interact with digital content. Learn more about accessible names. Accessible names vary depending on the content. Accessible names must be defined for controls that don’t have visible text labels.
 
 ## Accessible names
 
@@ -28,7 +28,7 @@ The accessible name is the text that software uses to identify a component, and 
 
 ### A. Side navigation state control
 
-The default accessible name are Show menu labels and Hide menu labels. In general, the names should be as specific as possible and are up to individual product teams to define, based on the content inside. View more details about side navigation state control .
+The default accessible name are Show menu labels and Hide menu labels. In general, the names should be as specific as possible and are up to individual product teams to define, based on the content inside. View more details about side navigation state control.
 
 ### B. Product lock-up
 
@@ -44,7 +44,7 @@ If using the universal navigation pattern, follow guidance defined in the design
 
 ### A. Side navigation state control
 
-The default accessible name are Show menu labels and Hide menu labels. In general, the names should be as specific as possible and are up to individual product teams to define, based on the content inside. View more details about side navigation state control .
+The default accessible name are Show menu labels and Hide menu labels. In general, the names should be as specific as possible and are up to individual product teams to define, based on the content inside. View more details about side navigation state control.
 
 ### B. Product lock-up
 
@@ -60,7 +60,7 @@ If using the universal navigation pattern, follow guidance defined in the design
 
 ## Landmark regions
 
-Landmark regions create a programmatic identification of the visual areas or sections of web applications, which represent the spatial layout of the user interface. The purpose of annotating landmark regions is to ensure developers code the page structure correctly, include the correct content in the defined grouping, and apply an accessible name to the landmark regions that require them. Learn more about landmark regions . Any non-text element in a digital interface with a text label must have a text alternative. Here’s an example of how you might name landmark regions in an app frame:
+Landmark regions create a programmatic identification of the visual areas or sections of web applications, which represent the spatial layout of the user interface. The purpose of annotating landmark regions is to ensure developers code the page structure correctly, include the correct content in the defined grouping, and apply an accessible name to the landmark regions that require them. Learn more about landmark regions. Any non-text element in a digital interface with a text label must have a text alternative. Here’s an example of how you might name landmark regions in an app frame:
 
 ## Landmark regions
 
@@ -68,15 +68,15 @@ Landmark regions create a programmatic identification of the visual areas or sec
 
 ## Heading annotations
 
-Heading annotations describe the heading structure of a digital interface and are helpful for all users. Screen reader users in particular rely on them to navigate an interface. They organize information, help create an information hierarchy, and build a mental map of the content available. Learn more about heading annotations . There must be one &#x3C;h1> heading, and any text that serves the purpose of a heading must be marked accordingly from &#x3C;h1> to &#x3C;h6> . Because headings rely greatly on structure and content, they will likely vary depending on the page. As a general rule, the &#x3C;h1> should live in the main landmark region . Here’s an example of how you might structure heading annotations for this screen:
+Heading annotations describe the heading structure of a digital interface and are helpful for all users. Screen reader users in particular rely on them to navigate an interface. They organize information, help create an information hierarchy, and build a mental map of the content available. Learn more about heading annotations. There must be one &#x3C;h1> heading, and any text that serves the purpose of a heading must be marked accordingly from &#x3C;h1> to &#x3C;h6>. Because headings rely greatly on structure and content, they will likely vary depending on the page. As a general rule, the &#x3C;h1> should live in the main landmark region. Here’s an example of how you might structure heading annotations for this screen:
 
 ## Heading annotations
 
-Heading annotations describe the heading structure of a digital interface and are helpful for all users. Screen reader users in particular rely on them to navigate an interface. They organize information, help create an information hierarchy, and build a mental map of the content available. There must be one &#x3C;h1> heading, and any text that serves the purpose of a heading must be marked accordingly from &#x3C;h1> to &#x3C;h6> . Because headings rely greatly on structure and content, they will likely vary depending on the page. As a general rule, the &#x3C;h1> should live in the main landmark region . Here’s an example of how you might structure heading annotations for this screen:
+Heading annotations describe the heading structure of a digital interface and are helpful for all users. Screen reader users in particular rely on them to navigate an interface. They organize information, help create an information hierarchy, and build a mental map of the content available. There must be one &#x3C;h1> heading, and any text that serves the purpose of a heading must be marked accordingly from &#x3C;h1> to &#x3C;h6>. Because headings rely greatly on structure and content, they will likely vary depending on the page. As a general rule, the &#x3C;h1> should live in the main landmark region. Here’s an example of how you might structure heading annotations for this screen:
 
 ## Keyboard focus order
 
-The keyboard focus order describes how someone who uses a keyboard to operate the interface (instead of a pointing device like a mouse), would interact with an interface. Learn more about keyboard focus order . Keyboard focus order will depend on what controls are available on the page. Here’s an example of how you might define the order in the app frame:
+The keyboard focus order describes how someone who uses a keyboard to operate the interface (instead of a pointing device like a mouse), would interact with an interface. Learn more about keyboard focus order. Keyboard focus order will depend on what controls are available on the page. Here’s an example of how you might define the order in the app frame:
 
 ## Keyboard focus order
 
@@ -94,7 +94,7 @@ Example of correct usage, inclusion of a Skip to main content button within the 
 
 ### Support F6 key navigation
 
-When properly supported, the F6 key allows keyboard users to navigate through different regions of an application efficiently. Without this support, keyboard-only users have no means to jump to specific areas of the application, resulting in an excessive number of keystrokes to reach their desired goal. Here are some key quality factors to consider: A keyboard focus indicator should be present to show keyboard-only users their current location within the interface. Ideally, the focus of the F6 key should move in accordance with the landmark regions defined in the HTML of the application. Major sections of the app should be accessible through the F6 key, including main navigation, toolbars, contextual toolbars, and the canvas. Each of these regions must have an accessible name assigned to them, allowing screen reader users to understand which area of the user interface they are currently navigating. For more information about F6 key navigation, please refer to the Digital Accessibility Guide: Design a11y checklist .
+When properly supported, the F6 key allows keyboard users to navigate through different regions of an application efficiently. Without this support, keyboard-only users have no means to jump to specific areas of the application, resulting in an excessive number of keystrokes to reach their desired goal. Here are some key quality factors to consider: A keyboard focus indicator should be present to show keyboard-only users their current location within the interface. Ideally, the focus of the F6 key should move in accordance with the landmark regions defined in the HTML of the application. Major sections of the app should be accessible through the F6 key, including main navigation, toolbars, contextual toolbars, and the canvas. Each of these regions must have an accessible name assigned to them, allowing screen reader users to understand which area of the user interface they are currently navigating. For more information about F6 key navigation, please refer to the Digital Accessibility Guide: Design a11y checklist.
 
 ### Support F6 key navigation
 

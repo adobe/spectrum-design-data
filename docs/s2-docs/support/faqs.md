@@ -19,7 +19,7 @@ hub_path: /support/faqs
 
 ## What is Spectrum 2?
 
-Spectrum 2 is a significant version update — for both design and engineering — of the Spectrum design system . For more information, view the Introduction page.
+Spectrum 2 is a significant version update — for both design and engineering — of the Spectrum design system. For more information, view the Introduction page.
 
 ## When can I start to use Spectrum 2?
 
@@ -113,11 +113,11 @@ Review your current marketing materials, banners, or social media graphics to id
 
 ### Review the Spectrum 2 documentation
 
-Read through this website to understand the changes coming to components, patterns, styles, and usage guidelines. Follow the release notes (posted in #spectrum-bulletin ) for updates .
+Read through this website to understand the changes coming to components, patterns, styles, and usage guidelines. Follow the release notes (posted in #spectrum-bulletin ) for updates.
 
 ### Provide feedback
 
-When collaborating with your design team and product leaders throughout the transition process, share insights from your perspective to help refine Spectrum 2 or report any inconsistencies you may come across. Learn about how to reach out .
+When collaborating with your design team and product leaders throughout the transition process, share insights from your perspective to help refine Spectrum 2 or report any inconsistencies you may come across. Learn about how to reach out.
 
 ## Where can I find Spectrum 2 components and styles in Figma?
 
@@ -125,4 +125,4 @@ The Spectrum team manages Spectrum 2 components and styles as Figma libraries. T
 
 ## Who should I reach out to if I have questions?
 
-For general inquiries, post in #spectrum-general or email the Spectrum team . For specific inquiries, view the Contact page for more information on how to get in touch.
+For general inquiries, post in #spectrum-general or email the Spectrum team. For specific inquiries, view the Contact page for more information on how to get in touch.

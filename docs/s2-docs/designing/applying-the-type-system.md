@@ -44,7 +44,7 @@ Choose from Spectrum's defined font sizes. By using unique font sizes, you risk 
 
 ### Respect capitalization rules
 
-Use sentence case for all UX content. For more on capitalization guidelines, go to Grammar and mechanics .
+Use sentence case for all UX content. For more on capitalization guidelines, go to Grammar and mechanics.
 
 ### Use tabular numbers for numerical data
 

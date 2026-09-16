@@ -23,7 +23,7 @@ hub_path: /content/language-and-inclusivity/writing-for-readability
 
 ## Write for a 6th-grade reading level
 
-Writing for a 6th-grade reading level on the Flesch-Kincaid readability scale includes more people, not just those with disabilities that affect comprehension. Write with short sentences. Avoid adverbs and adjectives. Use simple verb tenses (past, present, future) and active voice . The Hemingway app is a useful tool for checking readability; Adobe Design’s Content Strategy team also uses Readable . Preferred Avoid Why We exported the file. Now you can open it in Illustrator.This file has been exported successfully to be opened in one of our other awesome products, Adobe Illustrator. Sentence length: 2 sentences at 4 and 7 words vs. 1 sentence at 18 words. “Exported” is simple past tense. “Has been exported” is past perfect tense. “Can open” is active voice. “To be opened” is passive voice. “Successfully” is an unnecessary adverb. “Awesome” is an unnecessary adjective. Flesch-Kincaid grade level: 4.8 vs. 13.1 (Readability scores from Readable) People using screen readers can hear 25 syllables per second, while folks at a 6th-grade reading level can read 3 words per second. Use this to estimate the amount of time it would take someone to read a piece of text.
+Writing for a 6th-grade reading level on the Flesch-Kincaid readability scale includes more people, not just those with disabilities that affect comprehension. Write with short sentences. Avoid adverbs and adjectives. Use simple verb tenses (past, present, future) and active voice. The Hemingway app is a useful tool for checking readability; Adobe Design’s Content Strategy team also uses Readable. Preferred Avoid Why We exported the file. Now you can open it in Illustrator.This file has been exported successfully to be opened in one of our other awesome products, Adobe Illustrator. Sentence length: 2 sentences at 4 and 7 words vs. 1 sentence at 18 words. “Exported” is simple past tense. “Has been exported” is past perfect tense. “Can open” is active voice. “To be opened” is passive voice. “Successfully” is an unnecessary adverb. “Awesome” is an unnecessary adjective. Flesch-Kincaid grade level: 4.8 vs. 13.1 (Readability scores from Readable) People using screen readers can hear 25 syllables per second, while folks at a 6th-grade reading level can read 3 words per second. Use this to estimate the amount of time it would take someone to read a piece of text.
 
 ### Choose words consciously
 
@@ -51,7 +51,7 @@ Left-align running text (this will be mirrored along with the UI for right-to-le
 
 ### Grammar and mechanics
 
-Use sentence case . Sentence case is easier to read and is more natural and approachable. Never use all caps except for an acronym. Use camel case for hashtags to help screen readers parse the words correctly (e.g., “#CamelCase”).
+Use sentence case. Sentence case is easier to read and is more natural and approachable. Never use all caps except for an acronym. Use camel case for hashtags to help screen readers parse the words correctly (e.g., “#CamelCase”).
 
 ### Interactions
 

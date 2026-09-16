@@ -28,7 +28,7 @@ There are roughly 200 countries and 6500 spoken languages in the world. Culture 
 
 ## Localization and text expansion
 
-One of the biggest challenges of designing for a global audience is to create interfaces that can efficiently adapt to different languages that have different writing and reading systems, different grammar rules, different typographic convention, and translating content leads to textual content that can differ drastically in length. When translating content to different languages, the length of the translated text is likely going to be very different — sometimes up to 300% longer than the original one. Text expansion is one of the main challenges of designing effective global user interfaces. IBM Globalization Guidelines reported an interesting correlation between the number of characters in a text field and the amount of text expansion. These experimental values clearly indicate that shorter text fields are more susceptible to text expansion, and these values can help us predict the effect on our user interfaces. To read further, visit W3's Internationalization article . CharactersMax. estimated expansionLikely mapping to:Up to 10300%Buttons, pickers, tabs11 to 20200%Labels, input fields21 to 30180%Large headers31 to 50160%Small headers, tooltips51 to 70140%Short paragraphs70+130%Longer paragraphs
+One of the biggest challenges of designing for a global audience is to create interfaces that can efficiently adapt to different languages that have different writing and reading systems, different grammar rules, different typographic convention, and translating content leads to textual content that can differ drastically in length. When translating content to different languages, the length of the translated text is likely going to be very different — sometimes up to 300% longer than the original one. Text expansion is one of the main challenges of designing effective global user interfaces. IBM Globalization Guidelines reported an interesting correlation between the number of characters in a text field and the amount of text expansion. These experimental values clearly indicate that shorter text fields are more susceptible to text expansion, and these values can help us predict the effect on our user interfaces. To read further, visit W3's Internationalization article. CharactersMax. estimated expansionLikely mapping to:Up to 10300%Buttons, pickers, tabs11 to 20200%Labels, input fields21 to 30180%Large headers31 to 50160%Small headers, tooltips51 to 70140%Short paragraphs70+130%Longer paragraphs
 
 ### Localization-ready design
 
@@ -36,7 +36,7 @@ Localized content and text expansion have a substantial impact on how user inter
 
 ## Iconography and metaphors
 
-There are a few things to keep in mind in terms of how visual metaphors are being perceived differently country by country. To learn more, visit the Icon fundamentals page .
+There are a few things to keep in mind in terms of how visual metaphors are being perceived differently country by country. To learn more, visit the Icon fundamentals page.
 
 ### Correct or incorrect
 
@@ -76,7 +76,7 @@ It’s often said that the best way to experience a country is to learn and resp
 
 ## Colors
 
-As mentioned in the Inclusive Design page , it’s important to not refer to objects by color, as users across countries perceive colors in different ways. Similarly, colors are perceived differently around the globe and carry different emotional, political, and cultural meanings.
+As mentioned in the Inclusive Design page, it’s important to not refer to objects by color, as users across countries perceive colors in different ways. Similarly, colors are perceived differently around the globe and carry different emotional, political, and cultural meanings.
 
 ### The meaning of color is rooted in culture
 

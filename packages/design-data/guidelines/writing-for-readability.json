@@ -24,7 +24,7 @@
     },
     {
       "type": "guideline",
-      "content": "Grammar and mechanics.\n\nUse sentence case . Sentence case is easier to read and is more natural and approachable. Never use all caps except for an acronym. Use camel case for hashtags to help screen readers parse the words correctly (e.g., “#CamelCase”)."
+      "content": "Grammar and mechanics.\n\nUse sentence case. Sentence case is easier to read and is more natural and approachable. Never use all caps except for an acronym. Use camel case for hashtags to help screen readers parse the words correctly (e.g., “#CamelCase”)."
     },
     {
       "type": "guideline",

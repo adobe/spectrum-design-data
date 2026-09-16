@@ -26,7 +26,7 @@ This button is optional, but when shown, should appear at the very top of the si
 
 ### C. App frame side navigation state control
 
-The panel icon side navigation state control is located at the bottom of the side navigation. This is used when products are using the Top App Bar (TAB). Learn more about the usage of the TAB in the app frame .
+The panel icon side navigation state control is located at the bottom of the side navigation. This is used when products are using the Top App Bar (TAB). Learn more about the usage of the TAB in the app frame.
 
 ## Component options
 
@@ -104,7 +104,7 @@ State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSu
 
 ### Mobile overlay guidance
 
-Use the overlay variant of the app frame: side navigation (browsing) component for smaller breakpoints. The overlay is triggered via the hamburger menu in the header (rather than a touchpoint at the bottom). Although 768 px is the recommended breakpoint to begin displaying the overlay designs, each product team should determine which breakpoint best suits their needs. View the keyboard focus order of mobile overlays .
+Use the overlay variant of the app frame: side navigation (browsing) component for smaller breakpoints. The overlay is triggered via the hamburger menu in the header (rather than a touchpoint at the bottom). Although 768 px is the recommended breakpoint to begin displaying the overlay designs, each product team should determine which breakpoint best suits their needs. View the keyboard focus order of mobile overlays.
 
 ### End section divider
 
@@ -138,7 +138,7 @@ When navigation items are shown in both the side navigation and header at the sa
 
 ### Support user customization and preserve user preferences
 
-Supporting multiple states (default, and partial or fully minimized style) provides users with the option to choose their preferred layout based on their own preferences. In user studies, individual preference is the biggest factor when it comes to whether or not people want to view labels by default. If supporting multiple states, consider showing the side navigation in the expanded state by default, and preserve user preferences across pages and sessions. If minimizing the side navigation is not supported, show the side navigation in the expanded state. Showing labels by default increases recognition and familiarity. Learn more about using the hamburger and panel side navigation state controls .
+Supporting multiple states (default, and partial or fully minimized style) provides users with the option to choose their preferred layout based on their own preferences. In user studies, individual preference is the biggest factor when it comes to whether or not people want to view labels by default. If supporting multiple states, consider showing the side navigation in the expanded state by default, and preserve user preferences across pages and sessions. If minimizing the side navigation is not supported, show the side navigation in the expanded state. Showing labels by default increases recognition and familiarity. Learn more about using the hamburger and panel side navigation state controls.
 
 ### Always use icons in first level of the app frame side navigation
 

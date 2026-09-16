@@ -13,7 +13,7 @@
     { "type": "guideline", "content": "Examples" },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nIf a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation . Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item."
+      "content": "Keyboard interactions.\n\nIf a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation. Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item."
     },
     {
       "type": "guideline",

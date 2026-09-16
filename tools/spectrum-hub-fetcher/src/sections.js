@@ -15,7 +15,10 @@ const TEXT_NODE = 3;
 const ELEMENT_NODE = 1;
 
 function normalize(value) {
-  return value.replace(/\s+/g, " ").trim();
+  return value
+    .replace(/\s+/g, " ")
+    .replace(/\s+([.,;:!?])/g, "$1")
+    .trim();
 }
 
 export function stripNoise(root) {

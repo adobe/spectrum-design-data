@@ -64,7 +64,7 @@ Neurodivergent people often have intense and enduring fascinations with specific
 
 ### The importance of novelty & stimulation
 
-While finding patterns and building deep knowledge of special interests is a strength for many neurodivergent people, it can also be difficult for neurodivergent users to maintain focus on task completion. Neurodivergent brains often seek novelty due to differences in how their nervous systems process stimuli and regulate dopamine . For some, like individuals with ADHD, the brain may have lower baseline dopamine levels, making new or exciting experiences more rewarding and necessary to sustain interest and focus. Novelty can help reduce monotony and provide stimulation, which some neurodivergent individuals need to maintain engagement and regulate emotions. This drive for newness isn't universal, but reflects how diverse brains may seek balance, learning, and growth through fresh and varied experiences.
+While finding patterns and building deep knowledge of special interests is a strength for many neurodivergent people, it can also be difficult for neurodivergent users to maintain focus on task completion. Neurodivergent brains often seek novelty due to differences in how their nervous systems process stimuli and regulate dopamine. For some, like individuals with ADHD, the brain may have lower baseline dopamine levels, making new or exciting experiences more rewarding and necessary to sustain interest and focus. Novelty can help reduce monotony and provide stimulation, which some neurodivergent individuals need to maintain engagement and regulate emotions. This drive for newness isn't universal, but reflects how diverse brains may seek balance, learning, and growth through fresh and varied experiences.
 
 ## Decision making
 
@@ -120,11 +120,11 @@ Breaking down tasks into steps requires linear thinking, which isn’t natural f
 
 ### Streamlining workflows
 
-Going from step to step requires users to remember a sequence of steps, which can be very challenging for neurodivergent users with diminished working memory . Moving through steps in a workflow also requires decision-making, which is especially difficult for maximizers and users with ambiguity sensitivity . Repeating this process until the task is complete requires immense focus and motivation, which is difficult to sustain when the task is no longer novel or interesting to neurodivergent brains.
+Going from step to step requires users to remember a sequence of steps, which can be very challenging for neurodivergent users with diminished working memory. Moving through steps in a workflow also requires decision-making, which is especially difficult for maximizers and users with ambiguity sensitivity. Repeating this process until the task is complete requires immense focus and motivation, which is difficult to sustain when the task is no longer novel or interesting to neurodivergent brains.
 
 ### Transitions
 
-Moving between steps can become especially difficult for neurodivergent users when they also have to transition between containers (like multiple browser tabs, panels, or products). The space between screens is where neurodivergent users get lost, largely due to gapped working memory . Transitions can make or break an experience for neurodivergent users, so it’s important to identify and minimize transition time, ambiguity, and the number of containers .
+Moving between steps can become especially difficult for neurodivergent users when they also have to transition between containers (like multiple browser tabs, panels, or products). The space between screens is where neurodivergent users get lost, largely due to gapped working memory. Transitions can make or break an experience for neurodivergent users, so it’s important to identify and minimize transition time, ambiguity, and the number of containers.
 
 ## Task management
 
@@ -136,11 +136,11 @@ Agentic AI can help users to identify and complete tasks, and navigate complex w
 
 ### Timing is everything
 
-Task reminders usually aren’t helpful for neurodivergent users. Reminders show up at inconvenient times and can be distractions. As a result, neurodivergent users typically ignore reminders so that they can stay focused on their work, since maintaining focus already requires significant effort. Instead, neurodivergent users rely on calendar blocking to plan and execute tasks. This provides them with a designated time to complete the task instead of relying on reminders or working memory .
+Task reminders usually aren’t helpful for neurodivergent users. Reminders show up at inconvenient times and can be distractions. As a result, neurodivergent users typically ignore reminders so that they can stay focused on their work, since maintaining focus already requires significant effort. Instead, neurodivergent users rely on calendar blocking to plan and execute tasks. This provides them with a designated time to complete the task instead of relying on reminders or working memory.
 
 ## Customization
 
-Content layout and stylistic preferences depend on cognitive processing abilities and needs. Since these needs can vary significantly between neurodivergent users, it’s important to give users tools to customize their spaces. Supportive customization tools can allow users to (un)hide content. User-customized spaces can improve efficiency, reduce cognitive load , and build product confidence, trust, and loyalty.
+Content layout and stylistic preferences depend on cognitive processing abilities and needs. Since these needs can vary significantly between neurodivergent users, it’s important to give users tools to customize their spaces. Supportive customization tools can allow users to (un)hide content. User-customized spaces can improve efficiency, reduce cognitive load, and build product confidence, trust, and loyalty.
 
 ## AI assistance
 
@@ -148,7 +148,7 @@ Neurodivergent users often welcome proactive AI interventions, recognizing their
 
 ### Supporting different communication needs
 
-AI can be a valuable tool to support neurodiverse communication needs by customizing language and tone. Reassuring and encouraging AI tone and voice can provide content accessibility across different reading levels. Options for formal or casual tones can support neurodivergent users with RSD and ambiguity sensitivity , and “read aloud” options can support users who have difficulty processing written information.
+AI can be a valuable tool to support neurodiverse communication needs by customizing language and tone. Reassuring and encouraging AI tone and voice can provide content accessibility across different reading levels. Options for formal or casual tones can support neurodivergent users with RSD and ambiguity sensitivity, and “read aloud” options can support users who have difficulty processing written information.
 
 ### Task support for increased user confidence
 

@@ -161,6 +161,27 @@ test("dedupeByContent keeps the most recently modified of a duplicate pair", (t)
   t.is(dropped[0].duplicateOf, "/foundations/color/colors");
 });
 
+test("dedupeByContent exempts a path with a SLUG_OVERRIDES entry, even if near-identical to another page", (t) => {
+  // /foundations/support/contact-us has an explicit SLUG_OVERRIDES entry
+  // precisely because it must survive as a distinct page even though its
+  // content overlaps heavily with the canonical /support/contact-us.
+  const shared =
+    "Contact the Spectrum design systems team for support with adoption questions.";
+  const { kept, dropped } = dedupeByContent([
+    { path: "/support/contact-us", text: shared, lastModified: 100 },
+    {
+      path: "/foundations/support/contact-us",
+      text: shared,
+      lastModified: 1,
+    },
+  ]);
+
+  const keptPaths = kept.map((page) => page.path);
+  t.true(keptPaths.includes("/support/contact-us"));
+  t.true(keptPaths.includes("/foundations/support/contact-us"));
+  t.is(dropped.length, 0);
+});
+
 test("dedupeByContent leaves genuinely distinct pages alone", (t) => {
   const { kept, dropped } = dedupeByContent([
     {
@@ -180,6 +201,37 @@ test("dedupeByContent leaves genuinely distinct pages alone", (t) => {
 });
 
 // ── end-to-end mapping ──────────────────────────────────────────────────────
+
+test("buildPageMap keeps the SLUG_OVERRIDES contact-us page distinct from its near-duplicate sibling", (t) => {
+  // End-to-end regression for the dedupe/override ordering bug: a
+  // SLUG_OVERRIDES entry must survive buildPageMap's full pipeline, not just
+  // a direct assignSlugs() call.
+  const shared =
+    "Contact the Spectrum design systems team for support with adoption questions.";
+  const { mapped, dropped } = buildPageMap([
+    {
+      path: "/support/contact-us",
+      isStub: false,
+      text: shared,
+      lastModified: 100,
+    },
+    {
+      path: "/foundations/support/contact-us",
+      isStub: false,
+      text: shared,
+      lastModified: 1,
+    },
+  ]);
+
+  t.true(mapped.has("/support/contact-us"));
+  t.true(mapped.has("/foundations/support/contact-us"));
+  t.is(mapped.get("/support/contact-us").slug, "contact-us");
+  t.is(
+    mapped.get("/foundations/support/contact-us").slug,
+    "foundations-contact-us",
+  );
+  t.is(dropped.length, 0);
+});
 
 test("buildPageMap drops stubs and duplicates, then maps the survivors", (t) => {
   const prose =

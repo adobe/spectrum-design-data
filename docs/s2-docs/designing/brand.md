@@ -23,7 +23,7 @@ There are a number of key assets that are used systematically across interfaces.
 
 ### Product logos, app icons, and lockups
 
-A product logo or tile color does not change, even if the background is dark. One-color product logos are for usage as workflow icons. You can find app icons within the App Icons library .
+A product logo or tile color does not change, even if the background is dark. One-color product logos are for usage as workflow icons. You can find app icons within the App Icons library.
 
 ### Product logos, app icons, and lockups
 
@@ -31,7 +31,7 @@ A product logo or tile color does not change, even if the background is dark. On
 
 ### Loading screens
 
-Loading screens include desktop splash screens, mobile loading screens, and web loaders. Desktop splash screens celebrate artwork from the Adobe community and are updated at least once a year. All desktop products that have a loading time of longer than 2 seconds, or don’t open instantaneously, are required to have a splash screen. This is so a user can understand that there’s a loading process happening. Follow OS-specific conventions for mobile loading screens. View more information about using Android loading screens .
+Loading screens include desktop splash screens, mobile loading screens, and web loaders. Desktop splash screens celebrate artwork from the Adobe community and are updated at least once a year. All desktop products that have a loading time of longer than 2 seconds, or don’t open instantaneously, are required to have a splash screen. This is so a user can understand that there’s a loading process happening. Follow OS-specific conventions for mobile loading screens. View more information about using Android loading screens.
 
 ### Loading screens
 
@@ -39,7 +39,7 @@ Loading screens include desktop splash screens, mobile loading screens, and web 
 
 ### File type and folder illustrations
 
-On desktop, product folder icons are branded to help users find any product-related settings. For web and mobile, folders use Spectrum colors to fit better in the experience. Primary file types always utilize brand colors, since they’re often file formats proprietary to the product (for example, PSD to Photoshop, or AEP to AE). Secondary filetypes are shared across many products, so they take a neutral palette using Spectrum 1 colors. The Brand team creates desktop versions of these icons in ICNS (for Mac) and ICO (for Windows) files, while web versions are delivered most often as SVGs. Desktop folders and file types can be found on the Brand wiki under individual product delivery pages. View web folders and file types .
+On desktop, product folder icons are branded to help users find any product-related settings. For web and mobile, folders use Spectrum colors to fit better in the experience. Primary file types always utilize brand colors, since they’re often file formats proprietary to the product (for example, PSD to Photoshop, or AEP to AE). Secondary filetypes are shared across many products, so they take a neutral palette using Spectrum 1 colors. The Brand team creates desktop versions of these icons in ICNS (for Mac) and ICO (for Windows) files, while web versions are delivered most often as SVGs. Desktop folders and file types can be found on the Brand wiki under individual product delivery pages. View web folders and file types.
 
 ### File type and folder illustrations
 
@@ -73,4 +73,4 @@ Gradients are a significant characteristic of Spectrum 2 and a very noticeable p
 
 ### Request assets from the Brand team
 
-Brand considerations are highly strategic, and coherence is a priority. Don’t make your own illustrations, colors, gradients, logos, or other assets. The Brand team will work with you to create assets that align to your product’s strategy and timing. Any new Spectrum 2 assets must be requested directly from the Brand team. It’s very important that you do not create your own. To view existing S2 Illustrations, visit the S2 / Illustrations library in Figma. If you need a new illustration, make a request using Workfront .
+Brand considerations are highly strategic, and coherence is a priority. Don’t make your own illustrations, colors, gradients, logos, or other assets. The Brand team will work with you to create assets that align to your product’s strategy and timing. Any new Spectrum 2 assets must be requested directly from the Brand team. It’s very important that you do not create your own. To view existing S2 Illustrations, visit the S2 / Illustrations library in Figma. If you need a new illustration, make a request using Workfront.

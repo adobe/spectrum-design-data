@@ -63,7 +63,7 @@ Use Apple’s continuous corner style for rounded shapes, such as rounded rectan
 
 ### Concentric corners
 
-Use Apple’s concentric rectangle APIs when working with nested shapes. Concentric corners automatically adapt to their container’s shape and spacing, helping maintain consistent curvature and visual alignment across layered interface elements. Learn more in Apple’s Developer Documentation: ConcentricRectangle .
+Use Apple’s concentric rectangle APIs when working with nested shapes. Concentric corners automatically adapt to their container’s shape and spacing, helping maintain consistent curvature and visual alignment across layered interface elements. Learn more in Apple’s Developer Documentation: ConcentricRectangle.
 
 ## Tokens
 

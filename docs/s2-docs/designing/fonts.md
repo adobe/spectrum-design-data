@@ -67,12 +67,12 @@ Adobe Clean Devanagari supports the Devanagari script, which is used for Hindi a
 
 ## Brand fonts
 
-These resources are restricted fonts for the exclusive use of Adobe products and software. They should only be used through Adobe Fonts (not self-hosted). For instructions, view Using Adobe Fonts at Adobe .
+These resources are restricted fonts for the exclusive use of Adobe products and software. They should only be used through Adobe Fonts (not self-hosted). For instructions, view Using Adobe Fonts at Adobe.
 
 ### Adobe Clean Display
 
-Adobe Clean Display is a companion typeface to Adobe Clean, and is mostly used for branding and marketing experiences. It is available only for Latin-based languages. For more information about using Clean Display in Marketing applications, view Usage guidelines in the RED Brand book . Adobe Clean Display is available through Adobe Fonts. For instructions, view Using Adobe Fonts at Adobe .
+Adobe Clean Display is a companion typeface to Adobe Clean, and is mostly used for branding and marketing experiences. It is available only for Latin-based languages. For more information about using Clean Display in Marketing applications, view Usage guidelines in the RED Brand book. Adobe Clean Display is available through Adobe Fonts. For instructions, view Using Adobe Fonts at Adobe.
 
 ## Using restricted Adobe fonts
 
-These resources are restricted fonts for the exclusive use of Adobe products and software. They should only be used through Adobe Fonts (not self-hosted). For instructions, view Using Adobe Fonts at Adobe .
+These resources are restricted fonts for the exclusive use of Adobe products and software. They should only be used through Adobe Fonts (not self-hosted). For instructions, view Using Adobe Fonts at Adobe.
