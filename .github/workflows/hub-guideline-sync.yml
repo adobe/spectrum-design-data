@@ -48,7 +48,12 @@ jobs:
         with:
           ref: ${{ steps.base.outputs.base }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # GH_TOKEN (a PAT/app token, same secret release.yml and deploy-docs.yml use for
+          # elevated needs) is required so the PR opened below can trigger other workflows
+          # (e.g. ci.yml on pull_request) — GitHub's loop-prevention rule blocks that for
+          # PRs opened with the default GITHUB_TOKEN. Falls back to GITHUB_TOKEN if unset,
+          # in which case ci.yml will need a manual re-trigger (push/close-reopen).
+          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Install Node toolchain
         uses: moonrepo/setup-toolchain@v0
@@ -133,7 +138,7 @@ jobs:
       - name: Bump embedded guideline count guard
         if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
         id: count
-        run: node .github/scripts/bump-embedded-counts.mjs >> "$GITHUB_OUTPUT"
+        run: node .github/scripts/bump-embedded-counts.mjs
 
       - name: Write guideline sync changeset
         if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
@@ -161,6 +166,7 @@ jobs:
         if: steps.content.outputs.has_changes == 'true' && github.event.inputs.dry_run != 'true'
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
           branch: hub-guideline-sync
           base: ${{ steps.base.outputs.base }}
           title: "feat(design-data): sync guidelines from Spectrum Hub"
@@ -189,7 +195,7 @@ jobs:
 
             ## How Has This Been Tested?
 
-            This PR will run through the repo's standard CI checks, including the Node and Rust jobs from `.github/workflows/ci.yml`.
+            This PR was opened with a token that allows `.github/workflows/ci.yml` (Node and Rust jobs, including `moon run sdk:test`) to run automatically on the `pull_request` event. If CI did not start, the repository's `GH_TOKEN` secret may be unset — re-trigger manually (push a commit, or close/reopen the PR) in that case.
 
             ## Screenshots (if appropriate):
 

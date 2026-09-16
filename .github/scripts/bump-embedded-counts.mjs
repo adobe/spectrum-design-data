@@ -21,17 +21,25 @@ const countFiles = () =>
   readdirSync(guidelinesDir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'manifest.json').length;
 
-const previousCount = () => {
-  const source = readFileSync(embeddedPath, 'utf8');
-  const start = source.indexOf('fn materialize_guidelines_count()');
-  const end = source.indexOf('\n    #[test]\n    fn materialize_components_count()');
+const FUNCTION_START_ANCHOR = '    #[test]\n    fn materialize_guidelines_count() {';
+const FUNCTION_END_ANCHOR = '\n    #[test]\n    fn materialize_components_count()';
+
+const locateFunctionBounds = (source) => {
+  const start = source.indexOf(FUNCTION_START_ANCHOR);
+  const end = source.indexOf(FUNCTION_END_ANCHOR);
 
   if (start === -1 || end === -1 || end <= start) {
     throw new Error(
-      'Could not locate materialize_guidelines_count() in sdk/core/src/data_source/embedded.rs.',
+      'Could not locate materialize_guidelines_count() in sdk/core/src/data_source/embedded.rs ' +
+        '(expected it immediately before materialize_components_count(), each preceded by #[test]).',
     );
   }
 
+  return { start, end };
+};
+
+const previousCount = (source) => {
+  const { start, end } = locateFunctionBounds(source);
   const match = source.slice(start, end).match(/assert_eq!\(\s*guidelines\.len\(\),\s*(\d+),/m);
   if (!match) {
     throw new Error(
@@ -43,9 +51,9 @@ const previousCount = () => {
 };
 
 const currentCount = countFiles();
-const prevCount = previousCount();
-const template = `    #[test]
-    fn materialize_guidelines_count() {
+const source = readFileSync(embeddedPath, 'utf8');
+const prevCount = previousCount(source);
+const template = `${FUNCTION_START_ANCHOR.trimEnd()}
         // Regression guard: if a guideline is added to or removed from
         // packages/design-data/guidelines/, this test fails deliberately.
         // Update the expected count when you've intentionally changed the set.
@@ -68,17 +76,7 @@ const template = `    #[test]
     }
 `;
 
-const source = readFileSync(embeddedPath, 'utf8');
-const attributeIndex = source.indexOf('    #[test]\n    fn materialize_guidelines_count()');
-const start = attributeIndex === -1 ? source.indexOf('fn materialize_guidelines_count()') : attributeIndex;
-const end = source.indexOf('\n    #[test]\n    fn materialize_components_count()');
-
-if (start === -1 || end === -1 || end <= start) {
-  throw new Error(
-    'Could not locate the start and end boundaries for materialize_guidelines_count() in embedded.rs.',
-  );
-}
-
+const { start, end } = locateFunctionBounds(source);
 const nextSource = `${source.slice(0, start)}${template}${source.slice(end)}`;
 
 if (source !== nextSource) {
