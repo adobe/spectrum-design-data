@@ -1,5 +1,18 @@
 # @adobe/spectrum-design-data
 
+## 3.3.0-beta.0
+
+### Minor Changes
+
+- [#1457](https://github.com/adobe/spectrum-design-data/pull/1457) [`627374f`](https://github.com/adobe/spectrum-design-data/commit/627374fbcf306cbe9040d6ec4e7d53ce374ecc12) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum Hub guidance content to the guideline corpus.
+  - **packages/design-data/guidelines**: 47 guidelines now sourced from the
+    Spectrum Hub, replacing 14 frozen copies and adding 33 new documents; the
+    corpus grows from 25 to 58.
+  - **tools/spectrum-hub-fetcher**: maps hub paths to guideline categories and
+    slugs, drops navigation stubs and duplicate pages, and stages Markdown into
+    `docs/s2-docs/`.
+  - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to 58.
+
 ## 3.2.3
 
 ### Patch Changes
