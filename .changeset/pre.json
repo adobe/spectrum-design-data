@@ -40,5 +40,5 @@
     "@adobe/token-naming-audit": "0.1.56",
     "transform-tokens-json": "0.0.1"
   },
-  "changesets": []
+  "changesets": ["hub-guidelines-beta"]
 }
