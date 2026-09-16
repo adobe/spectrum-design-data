@@ -1,6 +1,14 @@
 {
   "guidelines": [
     {
+      "slug": "ai-resource-guide",
+      "title": "AI resource guide",
+      "category": "support",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/ai-resource-guide",
+      "file": "guidelines/ai-resource-guide.json"
+    },
+    {
       "slug": "app-frame-content-area",
       "title": "App frame content area (browsing context)",
       "category": "designing",
@@ -29,7 +37,7 @@
       "title": "App frame",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-overview/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/overview",
       "file": "guidelines/app-frame-overview.json"
     },
     {
@@ -41,11 +49,19 @@
       "file": "guidelines/app-frame-side-navigation.json"
     },
     {
+      "slug": "applying-the-type-system",
+      "title": "Applying the type system",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/typography/applying-the-type-system",
+      "file": "guidelines/applying-the-type-system.json"
+    },
+    {
       "slug": "attention-hierarchy",
       "title": "Attention hierarchy",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/attention-hierarchy/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/attention-hierarchy",
       "file": "guidelines/attention-hierarchy.json"
     },
     {
@@ -53,24 +69,64 @@
       "title": "Background layers",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/background-layers/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/color/background-layers",
       "file": "guidelines/background-layers.json"
+    },
+    {
+      "slug": "bi-directionality",
+      "title": "Bi-directionality",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/bi-directionality",
+      "file": "guidelines/bi-directionality.json"
+    },
+    {
+      "slug": "border-width",
+      "title": "Border width",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/border-width",
+      "file": "guidelines/border-width.json"
     },
     {
       "slug": "brand",
       "title": "Brand",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/brand/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/brand",
       "file": "guidelines/brand.json"
+    },
+    {
+      "slug": "cognitive",
+      "title": "Cognitive",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/cognitive",
+      "file": "guidelines/cognitive.json"
     },
     {
       "slug": "colors",
       "title": "Colors",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/colors/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/color/colors",
       "file": "guidelines/colors.json"
+    },
+    {
+      "slug": "component-spacing",
+      "title": "Component spacing",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/component-spacing",
+      "file": "guidelines/component-spacing.json"
+    },
+    {
+      "slug": "contact-us",
+      "title": "Contact us",
+      "category": "support",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/contact-us",
+      "file": "guidelines/contact-us.json"
     },
     {
       "slug": "containers",
@@ -81,19 +137,51 @@
       "file": "guidelines/containers.json"
     },
     {
+      "slug": "content-area-browsing-context",
+      "title": "Browsing context: Content area",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/content-area-browsing-context",
+      "file": "guidelines/content-area-browsing-context.json"
+    },
+    {
+      "slug": "creating-bluelines-browsing-context",
+      "title": "Creating bluelines",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/creating-bluelines-browsing-context",
+      "file": "guidelines/creating-bluelines-browsing-context.json"
+    },
+    {
+      "slug": "design-tokens",
+      "title": "Design tokens",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/design-data/design-tokens",
+      "file": "guidelines/design-tokens.json"
+    },
+    {
       "slug": "developer-overview",
       "title": "Developer overview",
       "category": "developing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/developer-overview/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/developer-overview",
       "file": "guidelines/developer-overview.json"
+    },
+    {
+      "slug": "drop-shadow",
+      "title": "Drop shadow",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/drop-shadow",
+      "file": "guidelines/drop-shadow.json"
     },
     {
       "slug": "faqs",
       "title": "FAQs",
       "category": "support",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/faqs/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/faqs",
       "file": "guidelines/faqs.json"
     },
     {
@@ -101,24 +189,48 @@
       "title": "Fonts",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/fonts/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/typography/fonts",
       "file": "guidelines/fonts.json"
+    },
+    {
+      "slug": "grammar-and-mechanics",
+      "title": "Grammar and mechanics",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/grammar-and-mechanics",
+      "file": "guidelines/grammar-and-mechanics.json"
     },
     {
       "slug": "grays",
       "title": "Grays",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/grays/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/color/grays",
       "file": "guidelines/grays.json"
+    },
+    {
+      "slug": "header-browsing-context",
+      "title": "Browsing context: Header",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/header-browsing-context",
+      "file": "guidelines/header-browsing-context.json"
     },
     {
       "slug": "icon-fundamentals",
       "title": "Icon fundamentals",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/icon-fundamentals/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/icons-and-illustrations/icon-fundamentals",
       "file": "guidelines/icon-fundamentals.json"
+    },
+    {
+      "slug": "illustration",
+      "title": "Illustration",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/visual-language/illustration",
+      "file": "guidelines/illustration.json"
     },
     {
       "slug": "illustrations",
@@ -129,6 +241,38 @@
       "file": "guidelines/illustrations.json"
     },
     {
+      "slug": "in-product-word-list",
+      "title": "In-product word list",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/in-product-word-list",
+      "file": "guidelines/in-product-word-list.json"
+    },
+    {
+      "slug": "inclusive-design",
+      "title": "Inclusive design",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/inclusive-design",
+      "file": "guidelines/inclusive-design.json"
+    },
+    {
+      "slug": "inclusive-ux-writing",
+      "title": "Inclusive UX writing",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/inclusive-ux-writing",
+      "file": "guidelines/inclusive-ux-writing.json"
+    },
+    {
+      "slug": "internationalization",
+      "title": "Internationalization",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/internationalization",
+      "file": "guidelines/internationalization.json"
+    },
+    {
       "slug": "introduction",
       "title": "Introduction",
       "category": "fundamentals",
@@ -137,11 +281,27 @@
       "file": "guidelines/introduction.json"
     },
     {
+      "slug": "layout-and-structure-containers",
+      "title": "Containers",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/containers",
+      "file": "guidelines/layout-and-structure-containers.json"
+    },
+    {
+      "slug": "layout-spacing",
+      "title": "Layout spacing",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/layout-spacing",
+      "file": "guidelines/layout-spacing.json"
+    },
+    {
       "slug": "motion",
       "title": "Motion",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/motion/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/behavior/motion",
       "file": "guidelines/motion.json"
     },
     {
@@ -151,6 +311,14 @@
       "status": "published",
       "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/object-styles/",
       "file": "guidelines/object-styles.json"
+    },
+    {
+      "slug": "object-styles-overview",
+      "title": "Object styles",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/overview",
+      "file": "guidelines/object-styles-overview.json"
     },
     {
       "slug": "principles",
@@ -165,8 +333,24 @@
       "title": "Resources",
       "category": "support",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/resources/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/resources",
       "file": "guidelines/resources.json"
+    },
+    {
+      "slug": "rounding",
+      "title": "Rounding",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/rounding",
+      "file": "guidelines/rounding.json"
+    },
+    {
+      "slug": "side-navigation-browsing-context",
+      "title": "Browsing context: Side nav",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/side-navigation-browsing-context",
+      "file": "guidelines/side-navigation-browsing-context.json"
     },
     {
       "slug": "spacing",
@@ -177,11 +361,19 @@
       "file": "guidelines/spacing.json"
     },
     {
+      "slug": "spacing-overview",
+      "title": "Spacing overview",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/spacing-overview",
+      "file": "guidelines/spacing-overview.json"
+    },
+    {
       "slug": "states",
       "title": "States",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/states/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/behavior/states",
       "file": "guidelines/states.json"
     },
     {
@@ -193,12 +385,84 @@
       "file": "guidelines/typography-fundamentals.json"
     },
     {
+      "slug": "typography-overview",
+      "title": "Typography",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/typography/overview",
+      "file": "guidelines/typography-overview.json"
+    },
+    {
+      "slug": "typography-system",
+      "title": "Typography system",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/typography/typography-system",
+      "file": "guidelines/typography-system.json"
+    },
+    {
       "slug": "using-icons",
       "title": "Using icons",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/using-icons/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/icons-and-illustrations/using-icons",
       "file": "guidelines/using-icons.json"
+    },
+    {
+      "slug": "visual-language-containers",
+      "title": "Containers",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/visual-language/containers",
+      "file": "guidelines/visual-language-containers.json"
+    },
+    {
+      "slug": "voice-and-tone",
+      "title": "Voice and tone",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/voice-and-tone",
+      "file": "guidelines/voice-and-tone.json"
+    },
+    {
+      "slug": "writing-about-people",
+      "title": "Writing about people",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-about-people",
+      "file": "guidelines/writing-about-people.json"
+    },
+    {
+      "slug": "writing-for-errors",
+      "title": "Writing for errors",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/writing-for-errors",
+      "file": "guidelines/writing-for-errors.json"
+    },
+    {
+      "slug": "writing-for-onboarding",
+      "title": "Writing for onboarding",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/writing-for-onboarding",
+      "file": "guidelines/writing-for-onboarding.json"
+    },
+    {
+      "slug": "writing-for-readability",
+      "title": "Writing for readability",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-for-readability",
+      "file": "guidelines/writing-for-readability.json"
+    },
+    {
+      "slug": "writing-with-visuals",
+      "title": "Writing with visuals",
+      "category": "designing",
+      "status": "published",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-with-visuals",
+      "file": "guidelines/writing-with-visuals.json"
     }
   ]
 }

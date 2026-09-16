@@ -1,0 +1,56 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/drop-shadow.json",
+  "name": "drop-shadow",
+  "title": "Drop shadow",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Drop shadow" },
+    {
+      "type": "guideline",
+      "content": "Create elevation.\n\nUse drop shadows to indicate when content appears above other content. Shadows help establish spatial relationships between interface elements and reinforce the visual hierarchy of the interface."
+    },
+    {
+      "type": "guideline",
+      "content": "Support emphasis.\n\nDrop shadows can also be used to emphasize important interface elements. When applied sparingly, they help guide attention while maintaining a clear and consistent visual hierarchy."
+    },
+    { "type": "guideline", "content": "Drop shadow details" },
+    {
+      "type": "guideline",
+      "content": "Composition.\n\nSpectrum drop shadows are composed of three layers that work together to create a natural sense of depth while preserving the shape of the component. Key shadow Defines the edge of the component against the background. Transition shadow Softens the transition between the key and ambient shadows to create a smoother appearance. Ambient shadow Creates the overall sense of depth and determines the total size of the shadow."
+    },
+    {
+      "type": "guideline",
+      "content": "Dark theme.\n\nDrop shadows continue to communicate elevation in dark theme, but their appearance is adjusted to maintain sufficient contrast against darker surfaces. Dark theme shadows use three times the opacity of their light theme equivalents. Components that appear above other content, such as popovers, also use a border in dark theme to provide additional separation from the background."
+    },
+    {
+      "type": "guideline",
+      "content": "Overlay.\n\nAn overlay communicates elevation by visually separating foreground content from the rest of the interface. When an overlay is used, such as behind a dialog, an additional drop shadow isn't needed because the overlay already establishes the elevated relationship."
+    },
+    {
+      "type": "guideline",
+      "content": "Platform availability.\n\nThese tokens are currently available on web. Guidance for additional platforms will be added in a future release."
+    },
+    {
+      "type": "guideline",
+      "content": "Shadow styles.\n\nEach shadow style is represented by a single composite token that defines the key, transition, and ambient shadow layers used to create the final drop shadow. The table below lists the values for each shadow layer: X: Horizontal offset. 0 px for all layers. Y: Vertical offset. The ambient shadow uses the largest offset. Blur: Blur radius. Each layer uses a different value to create a smooth transition between the shadow layers. Spread: Spread value. 0 px for all layers. Shadow styleTokenKey valuesTransition valuesAmbient valuesEmphasized, defaultdrop-shadow-emphasizedX = 0 Y = 0 Blur = 1 Spread = 0X = 0 Y = 1 Blur = 4 Spread = 0X = 0 Y = 2 Blur = 8 Spread = 0Emphasized, hoverdrop-shadow-emphasized-hoverX = 0 Y = 0 Blur = 2 Spread = 0X = 0 Y = 2 Blur = 6 Spread = 0X = 0 Y = 4 Blur = 12 Spread = 0Elevateddrop-shadow-elevatedX = 0 Y = 0 Blur = 2 Spread = 0X = 0 Y = 2 Blur = 6 Spread = 0X = 0 Y = 4 Blur = 12 Spread = 0Draggeddrop-shadow-draggedX = 0 Y = 0 Blur = 6 Spread = 0X = 0 Y = 6 Blur = 8 Spread = 0X = 0 Y = 12 Blur = 16 Spread = 0"
+    },
+    {
+      "type": "guideline",
+      "content": "Shadow colors.\n\nSpectrum drop shadows use black (#000000) as their base color. The perceived appearance of each shadow is created by varying its opacity and layering. In dark theme, the opacity value is 3× the opacity value of light theme. Shadow colorTokenOpacity valuesEmphasized (Key shadow) drop-shadow-emphasized-key-color 8% (light) 24% (dark)Emphasized, hover (Key shadow) drop-shadow-emphasized-hover-key-color 12% (light) 36% (dark)Elevated (Key shadow) drop-shadow-elevated-key-color 12% (light) 36% (dark)Dragged (Key shadow) drop-shadow-dragged-key-color 16% (light) 48% (dark)All styles (Ambient shadow) drop-shadow-ambient-color 8% (light) 24% (dark)All styles (Transition shadow) drop-shadow-transition-color 4% (light) 12% (dark)"
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/drop-shadow",
+  "lastUpdated": "2026-08-14",
+  "status": "published",
+  "tags": [
+    "drop shadow",
+    "elevation",
+    "ambient shadow",
+    "transition shadow",
+    "key shadow",
+    "dark theme",
+    "overlay",
+    "shadow tokens"
+  ]
+}

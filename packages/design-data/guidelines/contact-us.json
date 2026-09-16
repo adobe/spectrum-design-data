@@ -1,0 +1,67 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/contact-us.json",
+  "name": "contact-us",
+  "title": "Contact us",
+  "category": "support",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Contact us" },
+    {
+      "type": "guideline",
+      "content": "Post in #spectrum-general or email the Spectrum team ."
+    },
+    {
+      "type": "guideline",
+      "content": "For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us ."
+    },
+    {
+      "type": "guideline",
+      "content": "For feature requests, bug reports, or other general feedback on the Spectrum website or designs, please visit the #spectrum-design Slack channel and fill out the embedded Slack form. Your input is important and helps us prioritize updates accordingly. We review submissions regularly and will create Jira tickets as needed, depending on the details of the request, our team's bandwidth, and current priorities."
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum Design.\n\nCore components, styles, and resources, as well as general design questions #spectrum-design"
+    },
+    {
+      "type": "guideline",
+      "content": "CC Unified Experience Team (CCUE).\n\nCreative Cloud #ad-ue-general The Unified Experience effort is helping to define Adobe's shared experience standards. This is done through defining and documenting principles, patterns, and UI components to help product teams deliver modern, unified, cross-platform experiences through Spectrum components and guidelines."
+    },
+    {
+      "type": "guideline",
+      "content": "Brand and illustration #product-branding The Brand design team creates the product logos, file types and folders icons, and any other in-product branded element, such as splash and loading screens, or welcome banners for all Adobe surfaces. The Brand team also creates all in-product illustrations and can advise on how to uplift your product brand throughout the experience. View more information about requesting illustrations or brand elements ."
+    },
+    {
+      "type": "guideline",
+      "content": "DX Unified Experience Team (DXUE).\n\nExperience Cloud #archon DXUE aims to unify the Experience Cloud across a comprehensive product stack of composable services to provide a user experience that is performant, scalable, and continuous, to serve the needs of enterprise to mid-market organizations through Spectrum components and patterns."
+    },
+    {
+      "type": "guideline",
+      "content": "Icons.\n\nWorkflow iconography #icons The Icons team designs delightful and consistent Spectrum iconography for all Adobe surfaces and provides product teams with thorough resources for icon usage and implementation. The team can also assist with vendor work by offering icon reviews, guidelines, and icon creation templates. View more information about requesting icons ."
+    },
+    {
+      "type": "guideline",
+      "content": "Consonant.\n\nAdobe.com #consonant_general Consonant is an extension of Spectrum that both adds to and complements it by documenting everything you need to design and write for all Adobe marketing web experiences."
+    },
+    {
+      "type": "guideline",
+      "content": "For general questions, post in #spectrum-general . For questions related to a particular implementation, post in its designated Slack channel. If you’re not sure or don’t see the implementation listed here, post in #spectrum-general and the team will assist you. Additionally, view the Developer overview page for more information. React Spectrum #react-spectrum Spectrum Web Components #spectrum-web-components Spectrum iOS #spectrum-ios Spectrum Android #spectrum-android Spectrum Drover #spectrum-desktop Spectrum Tokens #spectrum-tokens"
+    },
+    {
+      "type": "guideline",
+      "content": "For questions about Spectrum's Figma libraries and resources, post in #spectrum-design . If you’re part of Adobe Design and have general Figma administrative or access questions, post in #ad-tooling-support . For those in other orgs, reach out to your manager for approval and follow Adobe’s process to request standard software ."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/contact-us",
+  "lastUpdated": "2026-09-08",
+  "status": "published",
+  "tags": [
+    "Contact",
+    "Slack",
+    "Jira",
+    "Figma",
+    "CCUE",
+    "DXUE",
+    "Brand",
+    "Icons"
+  ]
+}

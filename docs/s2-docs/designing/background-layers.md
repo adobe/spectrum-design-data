@@ -1,59 +1,86 @@
 ---
-title: "Background layers"
-source_url: https://s2.spectrum.corp.adobe.com/page/background-layers/
-last_updated: 2026-02-02
+title: Background layers
 category: designing
+source_url: https://main--spectrum-hub--adobe.aem.live/foundations/color/background-layers
+last_updated: '2026-08-13'
 status: published
 tags:
-
-- designing
-related_components:
-- colors
-- typography-fundamentals
-
+  - background layers
+  - elevated background
+  - editing contexts
+  - browsing contexts
+  - canvas
+  - Layer 1
+  - Layer 2
+  - Pasteboard
+  - artboard
+hub_path: /foundations/color/background-layers
 ---
 
 # Background layers
 
-## Resources
+## Layering system
 
-### Design
-
-* **Figma**: S2 Web
-
-## External links
-
-Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content.
-
-Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation.
-
-The pasteboard has a dedicated background layer. This is because no components are placed directly on top of it, with the exception of an artboard (which uses a white background color). Other components should be placed on a layer 1, layer 2, or elevated background.
-
-This example shows an editing application using background layer 2 for both the artboard and the app frame. An elevated background is used for a floating toolbar, which appears on top of the canvas.
-
-Spectrum 2 uses gray-25 as the base background color to draw attention to the primary content of a page. Using gray-25 allows for higher contrast between the background and content, and it provides a blank canvas for more vibrant colors.
-
-In dark theme, the primary background (using the background base layer) is the darkest color. This allows for more flexibility for the grays that are layered on top of it, and provides contrast for more vibrant user-created content.
-
-## Overview
-
-Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation.
+In Spectrum, background layers are used differently depending on the primary context of the page. For pages where the primary purpose is the canvas and related actions for editing, view Editing contexts. For pages where the primary focus is browsing content, such as a Home or Files experience, view Browsing contexts. If you’re not sure whether a page is in an editing or browsing context, contact the Spectrum design team. In addition to the three existing background layer options — background layer 1, background layer 2, and background base — Spectrum includes an elevated option. Elevated background layers create depth and emphasize content floating on top of a canvas. Background layer Light theme Dark theme Elevatedgray-25 (with drop shadow)gray-75 (with drop shadow)Layer 2gray-25gray-75Layer 1gray-50gray-50Pasteboardgray-100gray-25
 
 ## Editing contexts
 
+### Overview
+
+In Spectrum, background layers are used differently depending on the primary context of the page. For pages where the primary purpose is the canvas and related actions for editing, view Editing contexts. For pages where the primary focus is browsing content, such as a Home or Files experience, view Browsing contexts. If you’re not sure whether a page is in an editing or browsing context, contact the Spectrum design team.
+
+### Editing application
+
+Pages in editing contexts draw attention to the canvas, which is the primary focus.
+
+### Elevated (highest attention)
+
+Elevated backgrounds create the illusion of depth through the use of a drop shadow, and display content that appears on top of other content. They draw attention and are used sparingly. In an editing application, this background option works well for parts of the app frame that appear on top of the canvas, such as a floating toolbar, panel, or popover.
+
+### Layer 2
+
+Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content.
+
+### Pasteboard
+
+The pasteboard has a dedicated background layer. This is because no components are placed directly on top of it, with the exception of an artboard (which uses a white background color). Other components should be placed on a layer 1, layer 2, or elevated background.
+
+## Professional application
+
+This example shows an editing application using background layer 2 for both the artboard and the app frame. An elevated background is used for a floating toolbar, which appears on top of the canvas.
+
+### Elevated (highest attention)
+
+Elevated backgrounds create the illusion of depth through the use of a drop shadow, and display content that appears on top of other content. They draw attention and are used sparingly. In an editing application, this background option works well for parts of the app frame that appear on top of the canvas, such as a floating toolbar, panel, or popover.
+
+### Layer 2
+
+Layer 2 is the color of the canvas. This background layer color can also be used in both professional and lightweight editing applications, in the app frame, to put it on the same dimension as the primary content.
+
+### Layer 1
+
 Layer 1 can be used as the app frame color in professional editing applications, which require additional depth differentiation.
+
+### Pasteboard
+
+The pasteboard has a dedicated background layer. This is because no components are placed directly on top of it, with the exception of an artboard (which uses a white background color).
 
 ## Browsing contexts
 
-## Design tokens
+Pages in browsing contexts draw attention to the content, which is the primary focus. Examples of pages in browsing contexts include a Home or Files experience.
 
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
+### Elevated (highest attention)
 
-## Questions or feedback?
+Elevated backgrounds create the illusion of depth through the use of a drop shadow , and display content that appears on top of other content. They draw attention and are used sparingly. In browsing contexts, this background layer style is used in components like menus and tooltips.
 
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
+### Layer 2
 
-## Related Components
+Layer 2 is used to group related content together and to create separation from the primary content on a page, such as in the background of the app frame .
 
-* [Colors](/page/colors/)
-* [Fundamentals](/page/typography-fundamentals/)
+### Base
+
+Spectrum 2 uses gray-25 as the base background color to draw attention to the primary content of a page. Using gray-25 allows for higher contrast between the background and content, and it provides a blank canvas for more vibrant colors. For using a drop shadow to draw emphasis to a container that isn’t elevated, view container emphasis. Background layer Light theme Dark theme Elevatedgray-25 (with drop shadow)gray-75 (with drop shadow)Layer 2gray-25gray-75Layer 1gray-50gray-50Pasteboardgray-100gray-25
+
+## Examples in browsing context
+
+Professional editing applications have the option to use background layer 1 for the app frame in order to create additional depth differentiation. To create separation for toolbars and panels that meet at the edges, include a border in size medium that matches the pasteboard color. In dark theme, the primary background (using the background base layer) is the darkest color. This allows for more flexibility for the grays that are layered on top of it, and provides contrast for more vibrant user-created content. This example shows containers that are emphasized to draw attention. They don’t use the elevated background because they don’t appear on top of other content. View container emphasis for more context.This example shows an editing application using background layer 2 for both the artboard and the app frame. An elevated background is used for a floating toolbar, which appears above the canvas.

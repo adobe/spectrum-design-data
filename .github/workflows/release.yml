@@ -172,7 +172,10 @@ jobs:
   build-binaries:
     name: Build binary (${{ matrix.platform }})
     needs: changesets
+    # Restricted to main: beta pre-releases publish npm only and must not burn
+    # the 4-platform native CLI binary matrix.
     if: >-
+      github.ref == 'refs/heads/main' &&
       needs.changesets.outputs.hasChangesets == 'false' &&
       needs.changesets.outputs.cliReleaseNeeded == 'true'
     runs-on: ${{ matrix.runner }}
@@ -336,15 +339,19 @@ jobs:
       # GitHub Release tagged by the design-data-cli Cargo.toml version.
       # Skipped when build-binaries did not run (cliReleaseNeeded==false for
       # npm-only releases) or when it failed.
+      # Restricted to main: beta pre-releases should not download native CLI
+      # binaries for a public GitHub Release.
       - name: Download binary artifacts
-        if: needs.build-binaries.result == 'success'
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         uses: actions/download-artifact@v4
         with:
           pattern: design-data-*
           merge-multiple: false
 
+      # Restricted to main: beta pre-releases publish npm only and must not
+      # create a public design-data-cli@X.Y.Z-beta.N GitHub Release.
       - name: Attach binaries to GitHub Release
-        if: needs.build-binaries.result == 'success'
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')

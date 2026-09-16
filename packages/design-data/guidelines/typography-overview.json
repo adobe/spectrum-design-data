@@ -1,0 +1,39 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/typography-overview.json",
+  "name": "typography-overview",
+  "title": "Typography",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Typography" },
+    {
+      "type": "guideline",
+      "content": "Adobe Clean Spectrum is the default font family for Spectrum. It’s based on Adobe Clean, Adobe’s corporate typeface. The Adobe Clean font family includes over 10 typefaces for specific use cases, such as longer reading experiences, displaying code, and supporting a wide range of languages and writing systems. View all Spectrum fonts on the Fonts page. Adobe Clean Spectrum VF is the default typeface for Spectrum on web, iOS, Android, and other supported platforms. It’s a variable font, which means a single font file can support a range of weights and widths."
+    },
+    {
+      "type": "guideline",
+      "content": "Adobe Clean Spectrum is the default font family for Spectrum. It’s based on Adobe Clean, Adobe’s corporate typeface. The Adobe Clean font family includes over 10 typefaces for specific use cases, such as longer reading experiences, displaying code, and supporting a wide range of languages and writing systems. Adobe Clean Spectrum VF is the default typeface for Spectrum on web, iOS, Android, and other supported platforms. It’s a variable font, which means a single font file can support a range of weights and widths."
+    },
+    {
+      "type": "guideline",
+      "content": "Adobe Clean Spectrum VF provides two main benefits over the non-variable versions: Improves alignment with UI elements. Adobe Clean Spectrum VF uses updated baseline metrics, which are the measurements that determine how text is positioned. These updated metrics help text align more consistently with other interface elements, such as icons, components, and avatars. Supports future adjustments. Spectrum currently recommends using the default weights and widths. However, the variable font makes it easier to fine-tune typography in future updates. For example, a slightly thinner weight may improve readability in dark mode. Learn more about Adobe Clean Spectrum VF in the Spectrum 2 typography guide ."
+    },
+    {
+      "type": "guideline",
+      "content": "Jump to.\n\nTypography system Typography system Applying the type system Applying the type system Fonts Fonts"
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/typography/overview",
+  "lastUpdated": "2026-08-13",
+  "status": "published",
+  "tags": [
+    "Typography",
+    "Adobe Clean Spectrum",
+    "Spectrum VF",
+    "variable font",
+    "baseline metrics",
+    "UI alignment",
+    "font family",
+    "readability"
+  ]
+}

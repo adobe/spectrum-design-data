@@ -1,0 +1,45 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/spacing-overview.json",
+  "name": "spacing-overview",
+  "title": "Spacing overview",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Spacing overview" },
+    {
+      "type": "guideline",
+      "content": "Rational.\n\nEvery spacing decision carries meaning. Proximity communicates what belongs together, what is separate, and how an interface is organized."
+    },
+    {
+      "type": "guideline",
+      "content": "Proportional.\n\nNot all elements grow at the same rate. Spectrum uses distinct spacing scales, each tuned to the elements they serve. This keeps values consistent and harmonious across all sizes and contexts."
+    },
+    {
+      "type": "guideline",
+      "content": "Perceptual.\n\nSpectrum's spacing values are based on visual perception. They are designed to support accurate visual interpretation and maintain consistent relationships between interface elements across different contexts."
+    },
+    {
+      "type": "guideline",
+      "content": "Spacing tells people what belongs together, what is separate, and how content is organized. It works because of how the visual system perceives proximity: elements placed close together are seen as related. As the distance between them increases, that relationship weakens. With enough separation, elements read as completely independent."
+    },
+    {
+      "type": "guideline",
+      "content": "Relationships.\n\nCloser elements are more associated. Distant elements are more independent."
+    },
+    {
+      "type": "guideline",
+      "content": "Boundaries.\n\nConsistent proximity within a group signals that all members are equally related."
+    },
+    {
+      "type": "guideline",
+      "content": "Structure.\n\nThe overall distribution of space shows how content is organized within a layout.. These three things are connected. Change one, and the others shift too. Spacing decisions are not visual alone, but rather they are structural and meaningful. Spacing also shapes how an interface feels . Negative space (the open areas between and around elements) creates a sense of calm and helps people focus on what matters. It's one of the most effective ways to create visual balance and direct user attention within a layout. Less negative space creates clutter and increases cognitive load. More negative space creates a calm, focused experience."
+    },
+    {
+      "type": "guideline",
+      "content": "Jump to.\n\nLayout spacing Layout spacing Component spacing Component spacing"
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/spacing-overview",
+  "lastUpdated": "2026-08-19",
+  "status": "published"
+}

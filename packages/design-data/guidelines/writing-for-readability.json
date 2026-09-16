@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/writing-for-readability.json",
+  "name": "writing-for-readability",
+  "title": "Writing for readability",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Writing for readability" },
+    {
+      "type": "guideline",
+      "content": "Choose words consciously.\n\nMost common nouns and actions have synonyms that can add unnecessary complexity. Use words that would be at a 6th-grade reading level. Preferred Avoid BuyPurchaseHelpAssistAboutApproximatelyLikeSuch as"
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid internal jargon without explaining what it means.\n\nPut yourself in the mindset of someone who's new to our products, and new to the industry where our products are used. Do they understand the jargon we use every day? Are we giving enough context for them to understand? Preferred Avoid Creative Cloud FilesCC FilesXD cloud documents, a new way to collaborate on any deviceIntroducing XD cloud docs!Please accept the Terms of Service before continuing.There was a RAISE without a handler."
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid colloquial language and slang.\n\nSlang and colloquialisms don’t make sense to all generations. Avoid ageism by using plain, clear language. Preferred Avoid Select any that applyChoose whatever blows your hair backAgree to terms and conditionsIt be like that sometimesLearn moreGet the deetz"
+    },
+    {
+      "type": "guideline",
+      "content": "Layout.\n\nLeft-align running text (this will be mirrored along with the UI for right-to-left languages). Full justification of text creates text rivers, or alignment of spaces that creates running gaps through the text. This makes text especially difficult for readers with dyslexia. Avoid switching alignments in a single view. Have line lengths at a maximum of 50-75 characters. Use one column per page."
+    },
+    {
+      "type": "guideline",
+      "content": "Grammar and mechanics.\n\nUse sentence case . Sentence case is easier to read and is more natural and approachable. Never use all caps except for an acronym. Use camel case for hashtags to help screen readers parse the words correctly (e.g., “#CamelCase”)."
+    },
+    {
+      "type": "guideline",
+      "content": "Interactions.\n\nAvoid “clear” and ”reset” actions on forms. Someone could select these by accident and erase a lot of painstaking work. Let people save forms so that they can leave and come back. Provide keywords before or inside links."
+    },
+    {
+      "type": "guideline",
+      "content": "Localization.\n\nExplain branded or technical terms before using them. When using an uncommon abbreviation or acronym, write out the full term on first use and follow it with the shortened version in parentheses. You can also use &#x3C;abbr> or &#x3C;acronym> in HTML. Avoid using homonyms (e.g., “bow before the king” vs. “put a bow on it”), or make their meaning clear via context."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-for-readability",
+  "lastUpdated": "2026-09-04",
+  "status": "published",
+  "tags": [
+    "writing",
+    "readability",
+    "plain language",
+    "localization",
+    "internationalization",
+    "UX writing",
+    "jargon",
+    "passive voice",
+    "active voice",
+    "dyslexia accessibility",
+    "Flesch-Kincaid"
+  ]
+}

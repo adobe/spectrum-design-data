@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/header-browsing-context.json",
+  "name": "header-browsing-context",
+  "title": "Browsing context: Header",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Browsing context: Header" },
+    {
+      "type": "guideline",
+      "content": "Limit the number of call-to-action (CTA) buttons.\n\nAs a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy. If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs."
+    },
+    { "type": "guideline", "content": "Examples" },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nIf a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation . Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nState Cursor Description HoverPointer Product icon and name is a link and should use a pointer.HoverArrowEverything else that is not a link."
+    },
+    {
+      "type": "guideline",
+      "content": "Diagram with notes about the app frame header in the editing context. If there’s a menu represented by a hamburger icon, such as the application menu in Creative Cloud, it should be shown to the left of the product logo for continuity with the browsing context. The product name can be hidden in the editing context in order to provide more room for other actions. The height of the header should be the same as in the browsing context (56 px)."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/header-browsing-context",
+  "lastUpdated": "2026-09-04",
+  "status": "published",
+  "tags": [
+    "App frame header",
+    "Top App Bar (TAB)",
+    "Product lock-up",
+    "Navigation",
+    "Universal nav"
+  ]
+}

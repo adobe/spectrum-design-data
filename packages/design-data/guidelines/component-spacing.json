@@ -1,0 +1,49 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/component-spacing.json",
+  "name": "component-spacing",
+  "title": "Component spacing",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Component spacing" },
+    {
+      "type": "guideline",
+      "content": "Internal component spacing governs the space within components. It follows its own geometric scales, each designed to reconcile the type scale and component sizes as needed. This is why some values are less round than you might expect. They are calculated to produce balanced proportional relationships for their specific context at every size."
+    },
+    {
+      "type": "guideline",
+      "content": "Structural templates.\n\nSpectrum's spacing values are accessed through semantic tokens , which encode the purpose and context of each spacing decision directly into the system. Repeated patterns for how to use these tokens are implemented through structural templates. These are blueprints or recipes for how to design or build a component in a modular, flexible, and scalable way. Working with tokens makes this seamless. A hardcoded 8px is just a number. The token base-gap-large gives you both a number and its context, relationships, size variants, and future system updates. Designers who skip tokens get the spacing that exists today, but they lose future enhancements to the system."
+    },
+    {
+      "type": "guideline",
+      "content": "Collections.\n\nFor most collections, density affects only the gap between items. An action group, for example, adjusts the gap between its buttons; a list adjusts the gap between its items."
+    },
+    {
+      "type": "guideline",
+      "content": "Containers.\n\nDensity affects all padding, both vertical and horizontal. Containers such as cards may appear in full grids or unidirectional lists, so both axes need to respond to density changes."
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum's internal component spacing is defined by a comprehensive set of semantic tokens. Each of these tokens corresponds to a specific structural context. These tokens are built into every Spectrum component, and available to designers in the S2 / Variables Figma library. A full token reference will be available on this site in the future. If you do need to inspect or access them, please reach out to the Spectrum team."
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum's internal component spacing is defined by a comprehensive set of semantic tokens. Each of these tokens corresponds to a specific structural context. These tokens are built into every Spectrum component, and available to designers in the S2 / Variables Figma library. A full token reference will be available on this site in the future."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/component-spacing",
+  "lastUpdated": "2026-08-13",
+  "status": "published",
+  "tags": [
+    "component spacing",
+    "semantic tokens",
+    "structural templates",
+    "density",
+    "spacing tokens",
+    "collections",
+    "containers",
+    "base-level tokens",
+    "list-level tokens",
+    "container-level tokens"
+  ]
+}

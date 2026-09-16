@@ -1,0 +1,119 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/writing-for-onboarding.json",
+  "name": "writing-for-onboarding",
+  "title": "Writing for onboarding",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Writing for onboarding" },
+    {
+      "type": "guideline",
+      "content": "Onboarding is often used interchangeably with “new user experience,” but this term also refers to the process of introducing information for more experienced users about new products, new features, or new elements. Ongoing user education also falls under onboarding, since every time you teach a person something, you’re onboarding them onto that new concept. A product’s overall onboarding strategy becomes increasingly important over time and is the biggest factor in sustaining its growth and retention. When a product first launches, early adopters are more likely to engage with it and are invested in figuring out how it works. But later in that product’s life when other user groups with different motivations are trying it out, onboarding is a crucial way to maintain interest and ensure continued usage. Ultimately, onboarding is how a promised user experience bridges what is actually delivered. Creating valuable onboarding experiences within a product connects to even earlier communication moments about that product, such as marketing material. Writing for these experiences involves thinking systematically across messaging channels, writing content that accounts for levels of experience and goals, and ensuring that the information complexity of the message fits an appropriate design component. The result shows consistent value through \"a-ha\" moments that retain user interest."
+    },
+    {
+      "type": "guideline",
+      "content": "First Mile is a gateway to in-app learning. It encompasses the in-app Home screen and the Learn tab in Creative Cloud apps, and its components extend deeper into those products to more educational content. These screens are intended to be dynamic as people interact with a product more and more. According to Adobe research, onboarding experiences address the following user goal hierarchy (adapted from Experience Design: Technology for All the Right Reasons by Marc Hassenzahl): Goal User question Characteristics Motor How should I do something? Feature names, how features work, where features are Be Why should I do something in this app? User-defined; reflecting elements of authorship, creativity, and specificity Do What should I do here? Why to use a skill and/or a certain tool at a certain time, in what meaningful order; if there are any alternatives For first-time users, it’s important to prioritize experiences that can give people a basic understanding of what’s possible in a product and how the product is laid out (motor goals). It’s also essential to consider teaching foundational concepts early on, and what people need to know before they start using an app. For example, you wouldn’t want to direct people into tutorials that are talking about Photoshop layers without first establishing what a layer is and how it works. Learn is a framework for the planning, creation, and improvement of educational content. Tutorials from Learn can show up on any Creative Cloud surface, and these help people complete their self-defined goals through the mastery of tasks, skills, and features. Here's how this breaks down more specifically: A goal is a user-generated, in-app outcome. It results from a real-world user context that can consist of any combination of tasks, skills, and features. A task is an Adobe-generated, in-app outcome that consists of one or more skills in a particular order. A skill is one or more ways of using a feature, with each tutorial or tooltip focusing on a single way. A feature is contextual information on using one in-app tool or product feature. Other Adobe surfaces that use onboarding frameworks include web hubs like Creative Cloud Home, web-based tools like Spark, and Creative Cloud services like Stock and storage. Visit the Learn and First Mile team Wiki for more (in-progress) guidelines on writing, design, and research for onboarding experiences in Creative Cloud apps."
+    },
+    {
+      "type": "guideline",
+      "content": "Reflect what your users already know.\n\nAre your target users beginners? Advanced? What do they want to know? How much information can they handle at once?"
+    },
+    {
+      "type": "guideline",
+      "content": "Remember why your users are there.\n\nKeep onboarding top-of-mind as part of a user’s broader goals and experience. For example, the journey for someone using Photoshop to design is different than someone using Photoshop for photography."
+    },
+    {
+      "type": "guideline",
+      "content": "Sequence topics.\n\nChoose a logical order for the steps that will help a user master the subject. This makes it easier to trim or divide educational content when needed. Also, be sure to mention any prerequisites that people may need to know before they begin."
+    },
+    {
+      "type": "guideline",
+      "content": "Focus each tutorial on one tool or technique.\n\nDon’t try to combine too many skills or concepts into a single tutorial. Each tutorial should ideally focus on only one tool or technique. If there are multiple ways to accomplish a task, choose one way to highlight per tutorial."
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t overload your users with steps.\n\nThe longer a tutorial is, the more likely a user will begin to disengage. Try to keep tutorials and product tours under 10 steps. If more steps are needed, consider splitting the subject matter into separate units."
+    },
+    {
+      "type": "guideline",
+      "content": "Set accurate expectations.\n\nUse the first step of a tutorial to clarify what a person will leave knowing how to do, how many steps it will take, how much time it usually takes, the actual output, and so on."
+    },
+    {
+      "type": "guideline",
+      "content": "Use lightweight language for learning.\n\nPeople are unlikely to engage with educational topics if they sound stuffy or unappealing. Adobe research has shown that people tend to think of educational content as either only geared toward beginners and/or too “heavy,” requiring a lot of brainpower and investment. Writing in a lightweight way to talk about the activity of learning can help bridge these two and create a more inclusive experience for different levels of expertise with a product. Words and phrases like the following are too heavy: learning, course, class, training, lesson, teaching, instruction, education, homework, exercise Words and phrases like these still accurately portray the content and its intent, but are lighter in tone: tutorial, try it out, explore, practice, do {something}, guided, guidance, session, video, developing skills, going deeper, show how, walk through, grow/develop skills Frame educational content in a lightweight way using language like “try” and “shows you how.”Avoid using heavy words such as “course.”"
+    },
+    {
+      "type": "guideline",
+      "content": "Use jargon with caution.\n\n“Jargon” is words or expressions that specific technical or professional groups use that would be difficult for others to understand. When introducing new words and expressions, it’s important to do so in an inclusive way that makes people feel empowered, not lost. Jargon can be used in a product, but it must be taught judiciously and carefully. Avoid jargon that doesn’t pertain to a product or its industry Jargon is acceptable so long as it’s relevant. For example, a brand-new Photoshop user would likely want to learn jargon common in the photography industry in addition to the names of tools and parts of the app. Don't assume that they already know these things. Avoid buzzwords that a common reader wouldn’t understand, and don’t create new jargon. Use one piece of jargon per sentence It’s sometimes necessary to use jargon to communicate a technical detail. A good way to use technical terms while avoiding a heavy tone is to only use one of those terms per sentence. Explain, then name When you do need to use jargon — for example, “crop tool” (the name of a tool in Photoshop), “aperture” (a photography term), or “Learn” (the name for Adobe’s collection of educational videos and in-app tutorials) — define upon first reference, then give the name. Define jargon like “Learn,” then explain what it’s called.Don’t speak abstractly about jargon, especially without explaining why it’s important."
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid directly referring to the interface.\n\nUnless it’s absolutely necessary for user comprehension, don’t directly refer to interface elements . Directly referencing the UI is not accessible, and doing so also creates issues for scalability and future-proofing in a product. After all, the UI doesn’t look and act the same to all people. For example, Adobe uses the word “Learn” by itself to refer to a concept, content, and location — not “Learn tab” or “Learn section.” We ensure that our translation team has enough context about what the associated UI element is with the string so that it can be properly translated. We avoid saying things such as: tab, panel, menu, page, section (e.g., Learn tab, Learn panel, Learn menu, Learn page, Learn section) Instead, we use “Learn” by itself as a standalone proper noun: Go to Learn, find it in Learn, Learn has more tutorials Use as a standalone proper noun to refer to a UI element, place, and/or collection of content.Don’t refer to UI elements, such as “tab.”"
+    },
+    {
+      "type": "guideline",
+      "content": "Frame educational content as personalized and specific.\n\nEven if it may not be possible to personalize onboarding, a user still needs to feel like they're being shown content that matches their interests and skills — not a random assortment of topics. Try to feature specific material that would be directly relevant to someone, rather than describing everything available in a collection of educational content. Avoid catch-all words and phrases such as: collection, complete set, playlist, all tutorials Imply personalization with additive language like: this tutorial and others, this and many more videos, this and other subjects, advanced, beginner Highlight relevant content or a unique angle before mentioning there’s more available.Don’t speak generically about collections of assorted content."
+    },
+    {
+      "type": "guideline",
+      "content": "Set positive expectations.\n\nUsing a button label of “Open in browser” sets the expectation that linked content will not be shown in the same view, in-app. But, research has shown that going to a browser window from an app — as well as that button label phrasing — is demotivating and reduces engagement. When it’s necessary to send someone away from an app, tell them as much without explicitly talking about the medium of where the content will appear. When someone completes a tour or tutorial, prioritize the next actions that will take them back to the home view to try more tutorials on another subject, or to the next one in the series. Avoid explicit web- or browser-based language such as: open in browser, view on the web, view online Instead, try subtler approaches: go to, play video, check it out, find out more, back to Learn, back to in-app tutorials, all tutorials on {subject} Use “go to” to imply that a user will be leaving their current experience.Don’t use “open in browser” as a call-to-action."
+    },
+    {
+      "type": "guideline",
+      "content": "Prioritize in-app learning.\n\nIf possible, avoid highlighting any experiences in a “home” screen that would take anyone out of the product. Building in-app experiences increases the likelihood that someone will find value and therefore return again and again. Use words that call out an in-app experience such as: in-app, inside the app, in-app tutorial, alongside your work in the app, right here, without leaving the app Emphasize what someone can do without leaving their current experience.Don’t hide the fact that a tutorial is in-app."
+    },
+    {
+      "type": "guideline",
+      "content": "Banner.\n\nA banner shows a top or highly-ranked suggestion for someone. It includes bounded, actionable content that can be a hybrid of instructional and marketing language. A banner explains why someone should explore the suggested content and what they should expect from it. Use banners to drive people to experiences that correlate to either confirmed or hypothesized “a-ha” moments, or to just generally inform or educate about an onboarding experience."
+    },
+    {
+      "type": "guideline",
+      "content": "Card.\n\nA card directs people to content experiences which may be related to the current view. It presents onboarding content that is contextual and useful, but may not be as crucial to provoking an “a-ha” moment as what may be shown in a banner. Use cards to promote other beneficial experiences that are lower in hierarchy than banner destinations, or to just generally inform or educate about an onboarding experience."
+    },
+    {
+      "type": "guideline",
+      "content": "Coach marks are temporary messages that engage users to interact with the UI. They can be chained into a sequence to form a tour or tutorial. Use coach marks to educate about new or unfamiliar experiences that may be unique to the interface, or to guide users to other places in a product."
+    },
+    {
+      "type": "guideline",
+      "content": "Empty state.\n\nAn empty state describes what people can do to add things to a view. Someone would see an empty state when they’ve either never added anything to this view, or if they’ve deleted all of what used to be there. Use an empty state to remind users how to add objects or data, and to reinforce or echo one of the more detailed onboarding mechanisms listed here."
+    },
+    {
+      "type": "guideline",
+      "content": "Modal.\n\nThere are two different kinds of modals. An informational modal is a popover window similar to a dialog that contains brief copy and an optional image or two. A rich modal is a popover window that contains a more in-depth content experience, such as an image carousel, video, or GIF. Use an informational model to let people know about a positive, minor change, such as a feature redesign. Use a rich modal to consolidate suggested content into one spot, to help people get to know a subject more deeply, or to show someone why they may want to try any minor benefits that may feel optional to the basic experience or workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "Tooltip.\n\nA tooltip gives contextual help or information about a specific component on hover or focus. These can be text-only or rich content (accompanied by an animated GIF, related information, and/or calls-to-action to learn more). Use tooltips to encourage discovery and learning through UI interaction. They can also be used as lightweight catch-alls for information when no other onboarding technique may be appropriate for the message."
+    },
+    {
+      "type": "guideline",
+      "content": "Tour.\n\nA tour is a type of tutorial that introduces the UI. It can take the form of a series of coach marks or a video. Tours differ from other tutorials in that they are specifically used for orienting a user to the interface and helping them understand a basic workflow. Use a tour to show where things are in an experience. Use another onboarding method to show how to do something."
+    },
+    {
+      "type": "guideline",
+      "content": "Triggered element.\n\nA triggered element is content that surfaces in response to an action. This usually takes the form of a toast or other dismissible pop-up, but it needs to explain where the content can be found again once dismissed. Use triggered elements to respond to repeated actions or activity such as frequent (or infrequent) usage of a feature."
+    },
+    {
+      "type": "guideline",
+      "content": "Tutorial.\n\nA tutorial provides practical information about a specific subject, tool, or technique. It builds on other onboarding experiences through written or video instructions. Use tutorials to help people reach a specific outcome after they’ve become familiar with where things are in a product."
+    },
+    {
+      "type": "guideline",
+      "content": "Video demo.\n\nA video demo shows a person completing a task. Use video demos to inspire people by portraying the experience of a workflow or product."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/writing-for-onboarding",
+  "lastUpdated": "2026-09-04",
+  "status": "published",
+  "tags": [
+    "onboarding",
+    "new user experience",
+    "in-app learning",
+    "first mile",
+    "Adobe Creative Cloud",
+    "Learn framework",
+    "user goals",
+    "tutorials"
+  ]
+}

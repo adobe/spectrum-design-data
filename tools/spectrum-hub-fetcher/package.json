@@ -1,0 +1,34 @@
+{
+  "name": "@adobe/spectrum-hub-fetcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fetch public spectrum-hub pages and emit s2-docs markdown files.",
+  "type": "module",
+  "bin": {
+    "spectrum-hub-fetcher": "./src/cli.js"
+  },
+  "scripts": {
+    "fetch": "node src/cli.js",
+    "test": "ava"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1",
+    "node-html-parser": "^9.0.1",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2"
+  },
+  "devDependencies": {
+    "ava": "^6.0.0"
+  },
+  "keywords": [
+    "spectrum",
+    "hub",
+    "design-data",
+    "s2-docs"
+  ],
+  "author": "Adobe",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0"
+  }
+}

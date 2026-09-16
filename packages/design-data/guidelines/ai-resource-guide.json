@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/ai-resource-guide.json",
+  "name": "ai-resource-guide",
+  "title": "AI resource guide",
+  "category": "support",
+  "documentBlocks": [
+    { "type": "purpose", "content": "AI resource guide" },
+    {
+      "type": "guideline",
+      "content": "For component specs, anatomy, usage guidelines, design tokens, and Figma resources. View the Spectrum 2 Design Data website View the Figma MCP (connects Claude to Figma libraries)"
+    },
+    {
+      "type": "guideline",
+      "content": "Protopack is the Design Technology team's streamlined prototyping foundation. Protopack simplifies setup, includes production-ready Spectrum components, integrates with Adobe services, and supports easy deployment. It removes much of the configuration overhead so you can focus on designing, iterating, and exploring ideas.\" View the AD AI Prototyping Quick Start wiki View the Awesome Deployment Platform wiki Join the Protopack Slack channel"
+    },
+    {
+      "type": "guideline",
+      "content": "Protopack for React Spectrum.\n\nDownload Protopack and view the RSP template View the React Spectrum Starter template in the Protopack app View the React Spectrum AI integration overview View the React Spectrum website"
+    },
+    {
+      "type": "guideline",
+      "content": "Protopack for Spectrum Web Components.\n\nDownload Protopack and view the SWC template View the Spectrum 2 Web Components Starter template in the Protopack app View the Spectrum Web Components AI documentation View the Spectrum Web Components website"
+    },
+    {
+      "type": "guideline",
+      "content": "React Spectrum.\n\nView the React Spectrum AI integration overview View the React Spectrum website View the React Spectrum GitHub repository"
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum Web Components.\n\nView the Spectrum Web Components AI documentation View the Spectrum Web Components website View the Spectrum Web Components GitHub repository"
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum design data.\n\nView the Spectrum 2 Design Data AI resources View the Spectrum 2 Design Data website View the Spectrum 2 Design Data tools overview View the Spectrum 2 Design Data GitHub repository"
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/ai-resource-guide",
+  "lastUpdated": "2026-08-27",
+  "status": "published",
+  "tags": [
+    "AI tooling",
+    "Protopack",
+    "Design data",
+    "Figma",
+    "Claude Enterprise",
+    "Prototyping",
+    "design-to-code"
+  ]
+}

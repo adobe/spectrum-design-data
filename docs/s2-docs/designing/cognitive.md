@@ -1,0 +1,233 @@
+---
+title: Cognitive
+category: designing
+source_url: https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/cognitive
+last_updated: '2026-09-03'
+status: published
+tags:
+  - neurodivergence
+  - neuroinclusion
+  - cognition
+  - ADHD
+  - autism
+  - dyslexia
+  - pattern recognition
+  - lateral thinking
+  - working memory
+  - Rejection Sensitive Dysphoria (RSD)
+hub_path: /foundations/inclusivity/cognitive
+---
+
+# Cognitive
+
+## Overview
+
+Neurodivergence encompasses a wide range of cognitive, behavioral, and developmental differences. It includes medical diagnoses like ADHD, Autism Spectrum Disorder, Dyslexia, Anxiety, Tourette Syndrome, and more. Approximately 1 in 5 humans have neurodivergent diagnoses, although rates are significantly higher in tech workers, marketers, entrepreneurs, creatives, and younger generations. Neurodivergence is not directly related to a level of intelligence or physical ability, but sometimes overlaps with other disabilities. Every neurodivergent person experiences neurodivergence differently. While all people enter and exit disability throughout their lives, and may require special support temporarily, neurodivergent people live with their disabilities and cognitive experiences every day. For them, it’s not about finding a cure but adapting to their challenges to make the most of their abilities. They can’t change who they are or how they think, so it’s our duty to adapt to our products to suit their unique cognitive needs.
+
+### Opportunities from neuroinclusion
+
+Neurotypical users often feel frustrated by overly complex workflows and product inconsistencies. Neurodivergent users also find these things frustrating, but may become so overwhelmed by these challenges that they choose not to use these products at all. This shared frustration across different user types can negatively impact customer retention and potential loss of custom acquisition.
+
+## Neurodivergence traits
+
+Neurodivergent users process information in a variety of ways. While every lived experience is unique, these are some common traits that can be used to understand challenges and decision-making processes.
+
+### Maximizing (not Satisficing)
+
+Compelled to understand and compare all options to find the best opposed to selecting the first option that seems reasonable.
+
+### Lateral thinking (over linear)
+
+Divergent, holistic, and tangential thinking as opposed to convergent, sequential thought processes.
+
+### Gapped working memory
+
+Struggles to filter out “noise” and focus on the information at hand, creating gaps in working memory.
+
+### Ambiguity sensitivity
+
+Finds ambiguity everywhere and sees many possible interpretations and conclusions.
+
+### RSD (Rejection Sensitive Dysphoria)
+
+Avoids starting tasks where there is a chance of failure and compensates for their fear by striving for perfection.
+
+## Unique skills and needs
+
+### Pattern recognition
+
+Because neurodivergent brains often see the “bigger picture”, they are excellent at pattern recognition and finding new strategies that others can’t. They may have an easier time than neurotypical peers when problem solving, identifying opportunities, and drawing connections across seemingly disparate things.
+
+### Deep subject matter interest
+
+Neurodivergent people often have intense and enduring fascinations with specific topics, activities, or subjects. Unlike casual hobbies, special interests are pursued with extraordinary depth and enthusiasm, leading to detailed knowledge or exceptional skill. When these interests are aligned with professional tasks, neurodivergent users may have enhanced focus, motivation, and productivity, and are often relied on as subject matter experts.
+
+### The importance of novelty & stimulation
+
+While finding patterns and building deep knowledge of special interests is a strength for many neurodivergent people, it can also be difficult for neurodivergent users to maintain focus on task completion. Neurodivergent brains often seek novelty due to differences in how their nervous systems process stimuli and regulate dopamine . For some, like individuals with ADHD, the brain may have lower baseline dopamine levels, making new or exciting experiences more rewarding and necessary to sustain interest and focus. Novelty can help reduce monotony and provide stimulation, which some neurodivergent individuals need to maintain engagement and regulate emotions. This drive for newness isn't universal, but reflects how diverse brains may seek balance, learning, and growth through fresh and varied experiences.
+
+## Decision making
+
+While it is often assumed that more choices create more flexibility and control, the opposite is true - especially for neurodivergent users. Too many options make it difficult for users to compare them and make a satisfactory choice.
+
+### Options can create a negative experience
+
+More options can make it harder to choose the right one. Deciding between many options requires more time and effort to weigh each one, especially since neurodivergent users often need to consider all details to proceed. This process leads to overwhelm and reduces user confidence.
+
+### Inability to decide
+
+The inability to make a choice from multiple options can lead to anxiety, stress, unhappiness, high expectations, regret, and self-blame. This is especially true if a poor choice is made. Users can‘t easily make choices when overwhelmed with information and options; the cognitive effort to compare all the options is too great. Instead of risking making a poor choice from too many options, users choose not to make a choice at all.
+
+### Increased impact on neurodivergent users
+
+While all users are affected by choice-paralysis, neurodivergent users have a lower tolerance due to the increased volume of daily decisions (as compared to neurotypical peers) and risk aversion to failure. Neurodivergent users are more likely to quit a workflow if they feel overwhelmed by choices.
+
+## Layout
+
+Consistent and intentional UI layout can provide neurodivergent users the support they need to complete challenging tasks.
+
+### Content volume
+
+Neurodivergent users need to see the whole picture, but showing too much content can be demotivating. While extensive content may initially look more appealing, it can actually damage users’ motivation when they experience choice paralysis. Instead of trying to satisfy all of the users’ different needs in one space, offer more flexible tools to organize content.
+
+### Transparency
+
+To make decisions confidently, neurodivergent users need to see all relevant information at once. It’s critical to keep important content within the same field of view so that it can be viewed and considered as part of a whole. If important content is hidden, neurodivergent people can struggle to make the correct decision and proceed.
+
+### Consistency is key
+
+Users subconsciously learn the layout of apps as they use them. They come to expect side menus, containers, and other elements to appear in the same places. Users even expect this consistency across tools when multiple apps are part of the same workflow. When the layout within and across tools is inconsistent, users get confused and become frustrated. This can impact product adoption and even customer retention.
+
+## Container relationships
+
+It can be even more challenging for neurodivergent users to complete tasks within workflows that move across multiple products, product features, or tools. They can easily become stuck when relevant information is missing or hidden, or located in an unexpected place. They’re more likely to quit a workflow if a clear path forward is not obvious.
+
+### Containers within a single screen
+
+Containing editing tools within a single screen is a great way to reduce cognitive load and help neurodivergent users complete tasks. Editing tools should be placed in the same container or adjacent container to reduce transition time and distance. It’s best to avoid extraneous editing containers and switching context to access editing tools.
+
+### Containers across screens
+
+Many neurodivergent users leverage split screens and window tiling to improve cognition when multiple browsers are required. When there is no feedback between windows, or when a task requires multiple large transitions, task completion becomes difficult.
+
+## Workflows
+
+Complex or ambiguous workflows can cause major challenges for neurodivergent users. Too many options can easily overwhelm, and fear of failure can shatter user confidence. When designing product workflows, it’s important to continuously evaluate and consider supportive measures to help users complete their tasks.
+
+### Task breakdown
+
+Breaking down tasks into steps requires linear thinking, which isn’t natural for neurodivergent brains. They need help identifying the correct steps to take and support to make sure tasks are prioritized in the correct order.
+
+### Streamlining workflows
+
+Going from step to step requires users to remember a sequence of steps, which can be very challenging for neurodivergent users with diminished working memory . Moving through steps in a workflow also requires decision-making, which is especially difficult for maximizers and users with ambiguity sensitivity . Repeating this process until the task is complete requires immense focus and motivation, which is difficult to sustain when the task is no longer novel or interesting to neurodivergent brains.
+
+### Transitions
+
+Moving between steps can become especially difficult for neurodivergent users when they also have to transition between containers (like multiple browser tabs, panels, or products). The space between screens is where neurodivergent users get lost, largely due to gapped working memory . Transitions can make or break an experience for neurodivergent users, so it’s important to identify and minimize transition time, ambiguity, and the number of containers .
+
+## Task management
+
+Task management is especially important for neurodivergent users to stay focused on the work they should be doing rather than all the work they could be doing. But task management can be challenging because neurodivergent brains struggle to organize, focus on, and break down large tasks.
+
+### Task support for increased user confidence
+
+Agentic AI can help users to identify and complete tasks, and navigate complex workflows. This is especially impactful for neurodivergent users who may become more easily overwhelmed by decision-making and task completion. As AI continues to support neurodivergent users, it can become a reliable tool to maintain motivation and increase task completion, which in turn leads to improved product loyalty.The challenge of task lists While task lists can remove the burden of remembering tasks, and act as a safety net for anxious users, they aren’t sufficient tools for continued task management support. Neurodivergent users need help planning and prioritizing tasks by clearly seeing when the task is due and how long it will take. Transparency is key to maintaining focus on the most important tasks and driving task execution. Even if the task list has sufficient details to be helpful, most task lists exist outside of the users’ workspace. It’s also common for users to have multiple task lists in different tools. Users often need to add a task reminder quickly in the most convenient tool, out of fear that they will forget the task due.
+
+### Timing is everything
+
+Task reminders usually aren’t helpful for neurodivergent users. Reminders show up at inconvenient times and can be distractions. As a result, neurodivergent users typically ignore reminders so that they can stay focused on their work, since maintaining focus already requires significant effort. Instead, neurodivergent users rely on calendar blocking to plan and execute tasks. This provides them with a designated time to complete the task instead of relying on reminders or working memory .
+
+## Customization
+
+Content layout and stylistic preferences depend on cognitive processing abilities and needs. Since these needs can vary significantly between neurodivergent users, it’s important to give users tools to customize their spaces. Supportive customization tools can allow users to (un)hide content. User-customized spaces can improve efficiency, reduce cognitive load , and build product confidence, trust, and loyalty.
+
+## AI assistance
+
+Neurodivergent users often welcome proactive AI interventions, recognizing their potential to enhance working memory, offer a judgment-free collaborator, and serve as a motivating presence. These tools can bridge gaps in memory, provide support without fear of rejection, and act as a body-double to help maintain focus and motivation.
+
+### Supporting different communication needs
+
+AI can be a valuable tool to support neurodiverse communication needs by customizing language and tone. Reassuring and encouraging AI tone and voice can provide content accessibility across different reading levels. Options for formal or casual tones can support neurodivergent users with RSD and ambiguity sensitivity , and “read aloud” options can support users who have difficulty processing written information.
+
+### Task support for increased user confidence
+
+Agentic AI can help users to identify and complete tasks, and navigate complex workflows. This is especially impactful for neurodivergent users who may become more easily overwhelmed by decision-making and task completion. As AI continues to support neurodivergent users, it can become a reliable tool to maintain motivation and increase task completion, which in turn leads to improved product loyalty.
+
+## Usage guidelines
+
+### Offer a single path to complete a task
+
+Use linear workflow paths for the user to move forward and backwards. Minimize branching workflows.
+
+### Avoid using multiple browser tabs and windows in a single workflow
+
+If multiple tabs or windows are required, system information should pass easily between them.
+
+### Use inline customization options
+
+Allow users to modify content without having to navigate to a separate menu. Support in-place editing.
+
+### Limit amount of options
+
+Reduce choices in a workflow or task to limit decision paralysis and overwhelm.
+
+### Notify user of transitions between containers
+
+If a context switch is necessary, prime users for it. Don’t hide transition information.
+
+### Offer a persistent frame of reference
+
+Provide tools to orient users, even if the context seems obvious.
+
+### Enable customization with dynamic containers
+
+Reduce cognitive load by allowing for multiple views or “tiles” within our tools. Enable resizing and rearranging of tiles to support user customization.
+
+### Support user agency
+
+Don’t override user customizations with automated personalization.
+
+### Promote transparent content layout
+
+Avoid hiding relevant content or dispersing it across multiple containers.
+
+### Use supportive AI voice and tone
+
+Some users may become overwhelmed when they perceive rejection or a demand. Words can either encourage or discourage users to take action.
+
+## Product feature opportunities
+
+If you’re new to neuroinclusive design, it can be difficult to know what product features can best support neurodiverse users. Here are some ideas to try:
+
+### Workflows
+
+Show users what other people in similar situations chose Show users which choice they have selected in the past Offer templates as visual examples or to provide quick start options Show users a preview of the outcome of their choice so they can better gauge which choice is best Consider streamlined, in-product experiences that allow users to share decision making responsibilities with coworkers in similar roles Use judgement-free content strategy tactics to support and encourage decision making
+
+### Content
+
+Integrate or mimic window tiling capabilities, like those found in operating systems or screen organizing plugins
+
+### Task management
+
+Provide or integrate with time management tools to improve user efficiency and promote task completion. Integrate with 3rd party calendar tools to help users plan tasks and re-enter workflows more easily and quickly Leverage progress bars to help block sufficient time and provide any easy tool for users to manage their time
+
+### AI
+
+Consider AI-generated reports like an “end-of-day summary” to boost user confidence and offer a starting point for the next day Provide AI Assistant reminders to help users complete unfinished tasks. Extend AI’s role to help users with task execution. Users don’t want to be responsible for creating tasks. Consider AI agents as a pro-active support
+
+## What's next?
+
+Project Doombox is currently building a set of use cases with various product teams, and design tools for neuroinclusion. These will be published here in a future update.
+
+## Glossary of terms
+
+Term Definition CognitionThe mental processes involved in acquiring knowledge and understanding through thought, experience, and the senses.Cognitive loadThe amount of mental effort being used in the working memory.ContainersCompartments within a UI layout or multi-layout workflow which are used to separate information or tools. (Example: browser windows, panels, toolbars, dialogs, etc.)DopamineA neurotransmitter that plays a key role in motivation, reward, and learning.HyperfocusA state of intense concentration on a specific task, interest, or activity, often to the exclusion of other stimuli or responsibilities.NeurodivergenceThe variation in neurological functioning that is seen as part of the normal spectrum of human diversity.NeurotypicalDescribes individuals whose neurological development and functioning are typical and not characterized by neurodivergence.Special interestsIntense and passionate interests in specific topics or activities, often seen in neurodivergent individuals.CustomizationUser-initiated modifications to suit individual needs or preferences.PersonalizationSystem-initiated modifications which assume preferences of an individual user or specific group of users.
+
+## Related links
+
+Project Doombox wiki Project Doombox Goldmine research readout #project-doombox Slack channel
+
+## Questions and feedback?
+
+Please post questions, feedback, or suggestions in the #project-doombox Slack channel.

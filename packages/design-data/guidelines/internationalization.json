@@ -1,0 +1,87 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/internationalization.json",
+  "name": "internationalization",
+  "title": "Internationalization",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Internationalization" },
+    {
+      "type": "guideline",
+      "content": "There are roughly 200 countries and 6500 spoken languages in the world. Culture is deeply rooted in our thinking patterns, and it affects how users interact with and benefit from digital experiences. International design is a complex challenge that goes beyond translation. Acknowledging cultural characteristics and differences is the first step to create richer, world-ready digital experiences. Here, you'll find recommendations and guardrails for how to start creating user experiences that are scalable globally, and concepts to better understand how varied our user landscape is. Designing for a global audience is not an exact science, but by acknowledging the following issues, we take an important first step to develop more empathy towards our international users and build globally relevant user interfaces. For questions, feel free to reach out to the International Design team to collaborate and make our products equally effective in all regions. International Design Wiki"
+    },
+    {
+      "type": "guideline",
+      "content": "There are roughly 200 countries and 6500 spoken languages in the world. Culture is deeply rooted in our thinking patterns, and it affects how users interact with and benefit from digital experiences. International design is a complex challenge that goes beyond translation. Acknowledging cultural characteristics and differences is the first step to create richer, world-ready digital experiences. Here, you'll find recommendations and guardrails for how to start creating user experiences that are scalable globally, and concepts to better understand how varied our user landscape is. Designing for a global audience is not an exact science, but by acknowledging the following issues, we take an important first step to develop more empathy towards our international users and build globally relevant user interfaces."
+    },
+    {
+      "type": "guideline",
+      "content": "Localization-ready design.\n\nLocalized content and text expansion have a substantial impact on how user interfaces look and perform across different countries. It’s vital to create layouts that can efficiently flow with the textual content of different length and nature."
+    },
+    {
+      "type": "guideline",
+      "content": "Correct or incorrect.\n\nCheckmarks and “X” glyphs are commonly used in Western cultures to represent affirmation. However, in some countries such as Japan, these symbols are mostly used to indicate that something is not correct. At the same time, in Japan the “O” mark is the common way to express positive feedback to an action instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Artifacts.\n\nWe often use icons to represent real life objects that are familiar to the human eye and use everyday. However, some of these objects take different shapes in different countries. A common example is the mailbox icon; familiar to North American users, it doesn’t translate well for users in other countries."
+    },
+    {
+      "type": "guideline",
+      "content": "Hands and animals.\n\nHands gestures are, generally speaking, tricky to use. Even gestures that we frequently use such as thumbs up and thumbs down can be perceived in an offensive way in certain countries. Animals can lead to misunderstandings as well. An example is the owl, which is a symbol of wisdom in the United States, carries the opposite meaning in some Asian countries."
+    },
+    {
+      "type": "guideline",
+      "content": "Embedded text.\n\nAs a rule of thumb, embedding text within icons, illustrations, and images can potentially lead to headaches when the content needs to be localized, as the content is not easy to translate and as the icons are not meant to adapt to text expansion. As a workaround, it’s reasonable to use lines instead of real text."
+    },
+    {
+      "type": "guideline",
+      "content": "People and portraits.\n\nIt’s important to pick models who are dressed appropriately for the region. Editing of portraits also differs with facial manipulation and skin smoothing being popular in many Asian countries such as China and Korea. The amount of skin shown can also be considered too suggestive in some cultures. Similarly, political, inspirational figures that are celebrated and extremely popular in the United States are likely to be unknown in some regions."
+    },
+    {
+      "type": "guideline",
+      "content": "Religion and politics.\n\nIn general, it’s best practice to avoid religious symbolism, hand gestures, and political imagery, as regions may perceive them differently. Photos of Tibetan monks are perceived in Western cultures as deeply spiritual. In China, on the other hand, Tibetan Buddhist monasteries are a symbol of a long religious and political dispute."
+    },
+    {
+      "type": "guideline",
+      "content": "Seasonal content is greatly different country by country, and photography should reflect it accordingly. For example, there is a variety of celebrations, such as Thanksgiving, that are not meaningful in Asian countries, or interpreted in different ways. Valentine’s day in Japan is quite unique from a western standpoint. The common roles are reversed and it’s the women who present gifts to significant others, usually chocolate or sweets."
+    },
+    {
+      "type": "guideline",
+      "content": "Traditions and manners.\n\nIt’s often said that the best way to experience a country is to learn and respect its customs. Similarly, when choosing imagery across different cultures, we need to be respectful and aware of different traditions and manners across different regions, and act accordingly. Pictures like this one would likely represent “relaxation” in the United States, but are inappropriate in countries like Thailand, where you are not supposed to show the soles of your feet."
+    },
+    {
+      "type": "guideline",
+      "content": "The meaning of color is rooted in culture.\n\nLet’s consider an example: the design for a finance application. To display how certain stock options are performing, designers from the United States or Europe would likely use the color green to depict good performance and red to display stocks performing poorly. On the other hand, surprisingly, designers in China or Japan would likely take an opposite approach, and reverse the usage of these two colors. While in the United States and most western countries the color red is often associated with the idea of error or danger. However, in eastern countries the color is tied to the concept of good luck and happiness. White is a color tied to the concept of purity in western countries, but can be seen as a mourning color in countries like China. In Japan, purple is a color that expresses luxury and financial success, while in Italian popular culture is seen as a color that attracts bad luck. The list goes on."
+    },
+    {
+      "type": "guideline",
+      "content": "Best practices.\n\nIn general, no color can be assumed to have a consistent meaning across cultures. When approaching the design of user interfaces for a global audience, colors should not be the only indicator of a specific status or use case. It's always better to integrate with textual or other visual clues. When designing promotional content, capturing the right tone and emotions from the local audience is key, and colors can have a big impact. It’s important to research specific markets from a cultural standpoint to choose the right creative decision."
+    },
+    {
+      "type": "guideline",
+      "content": "Readability across languages.\n\nLanguages like Chinese, Japanese, and Thai use characters that are visually complex compared to the Latin ones. The peculiar nature of these writing systems has an impact on the character size, which is usually slightly bigger than western typography. To ensure good readability, it’s important to adjust the line-height value of paragraphs to create some extra breathing room between lines, and when necessary, increase interline spacing between characters. Similarly to text expansion, these differences can have an impact on the width and height of localized paragraphs."
+    },
+    {
+      "type": "guideline",
+      "content": "Content volume expectation.\n\nDifferent cultures have varying expectations around volume of content. Japanese users generally prefer larger amounts of content and greater detail compared to North Americans, so content-heavy interface designers should consider the volume of content expected by these users. We recommend a modular design that allows for additional content. This is both for usability and user satisfaction of our products."
+    },
+    {
+      "type": "guideline",
+      "content": "Emphasis.\n\nUsing bold and italics to emphasize words or phrases is common in Western typography, but for certain languages it might not be the right way of highlighting content. For example, languages like Chinese, Korean, and Japanese do not commonly rely on italicization because they lack oblique faces, and use alternatives like emphasis dots."
+    }
+  ],
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/inclusivity/internationalization",
+  "lastUpdated": "2026-09-03",
+  "status": "published",
+  "tags": [
+    "international design",
+    "localization",
+    "text expansion",
+    "globalization",
+    "cultural differences",
+    "iconography",
+    "metaphors",
+    "user interface localization"
+  ]
+}

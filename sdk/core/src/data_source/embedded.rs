@@ -71,7 +71,7 @@ static COMPONENTS: Dir<'_> =
 /// Taxonomy field JSONs (`packages/design-data/fields/`, 24 files, ~96 KB).
 static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/fields");
 
-/// Guideline documents (`packages/design-data/guidelines/`, 25 files + manifest.json).
+/// Guideline documents (`packages/design-data/guidelines/`, 58 files + manifest.json).
 static GUIDELINES: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
 
@@ -411,8 +411,8 @@ mod tests {
             .collect();
         assert_eq!(
             guidelines.len(),
-            25,
-            "expected 25 guideline documents — update this count if you've added/removed \
+            58,
+            "expected 58 guideline documents — update this count if you've added/removed \
              files from packages/design-data/guidelines/"
         );
     }

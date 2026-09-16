@@ -155,6 +155,9 @@ graphify-out/
 .ferrograph
 **/.ferrograph
 
+# Spectrum Hub scratch fetch output
+_hub-fetch/
+
 # Scout: commit scout.config.yaml only; ignore per-machine runtime/index state
 .scout/installation-id
 .scout/models/
