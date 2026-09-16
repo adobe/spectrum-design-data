@@ -121,10 +121,12 @@ copilot plugin marketplace add adobe/spectrum-design-data
 copilot plugin install design-data@spectrum-design-data
 ```
 
-Plugins installed via Copilot CLI sync automatically into the desktop app; manage them
-there under Customize → Plugins. (You can also skip the marketplace and copy
-`tools/design-data-skill/skills/design-data/` directly into `~/.copilot/skills/` or a
-repo's `.github/skills/`. Copilot also reads `.claude/skills/`.)
+Installing the plugin adds its skill. Skills configured for a repo or via Copilot CLI are
+automatically available in the GitHub Copilot app; manage them there under Customize →
+Skills. (Plugin installs themselves are tracked per client, so if you also want it listed
+under Customize → Plugins in the desktop app, install it there too. You can also skip the
+marketplace and copy `tools/design-data-skill/skills/design-data/` directly into
+`~/.copilot/skills/` or a repo's `.github/skills/`. Copilot also reads `.claude/skills/`.)
 
 **Cursor**: Settings → Rules → **Add Rule** → **Remote Rule (GitHub)**:
 
