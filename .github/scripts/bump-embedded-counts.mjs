@@ -9,14 +9,16 @@
 // governing permissions and limitations under the License.
 
 /**
- * Rewrites the EXPECTED_GUIDELINE_COUNT constant in
- * sdk/core/src/data_source/embedded.rs's materialize_guidelines_count() regression test to
- * match the real number of guideline JSON documents (excluding manifest.json) currently in
- * packages/design-data/guidelines/.
+ * Rewrites the EXPECTED_GUIDELINE_COUNT and/or EXPECTED_COMPONENT_COUNT constants in
+ * sdk/core/src/data_source/embedded.rs's materialize_guidelines_count() /
+ * materialize_components_count() regression tests to match the real number of JSON documents
+ * currently in packages/design-data/guidelines/ (excluding manifest.json) and
+ * packages/design-data/components/ (no manifest.json there) respectively.
  *
- * Refuses to silently lower the count: a decrease usually means the transform step dropped
- * files it shouldn't have, and a human should confirm that before the guard is relaxed. Set
- * ALLOW_GUIDELINE_COUNT_DECREASE=true to bypass (e.g. for an intentional guideline removal).
+ * Refuses to silently lower either count: a decrease usually means a fetch/transform step
+ * dropped files it shouldn't have, and a human should confirm that before the guard is
+ * relaxed. Set ALLOW_GUIDELINE_COUNT_DECREASE=true / ALLOW_COMPONENT_COUNT_DECREASE=true to
+ * bypass (e.g. for an intentional removal).
  *
  * Usage: node .github/scripts/bump-embedded-counts.mjs
  */
@@ -27,57 +29,93 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '../..');
-const guidelinesDir = resolve(root, 'packages/design-data/guidelines');
 const embeddedPath = resolve(root, 'sdk/core/src/data_source/embedded.rs');
 
-const countFiles = () =>
-  readdirSync(guidelinesDir, { withFileTypes: true }).filter(
-    (entry) => entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'manifest.json',
+const countJsonFiles = (dir, { excludeManifest = false } = {}) =>
+  readdirSync(dir, { withFileTypes: true }).filter(
+    (entry) =>
+      entry.isFile() &&
+      entry.name.endsWith('.json') &&
+      !(excludeManifest && entry.name === 'manifest.json'),
   ).length;
 
-// A single, narrow anchor: the constant declaration line. Unlike matching the whole test
-// function body, this is immune to reordering/refactoring of sibling tests in the same file.
-const COUNT_PATTERN = /(const EXPECTED_GUIDELINE_COUNT: usize = )(\d+)(;)/;
+/**
+ * Rewrite a single `const EXPECTED_..._COUNT: usize = <N>;` anchor line in embedded.rs and
+ * report the before/after via GITHUB_OUTPUT (if set), reusing one narrow, single-anchor
+ * regex-replace strategy for both guards rather than matching the whole test function body —
+ * that stays immune to reordering/refactoring of sibling tests in the same file.
+ *
+ * @param {{
+ *   constName: string,
+ *   dir: string,
+ *   excludeManifest?: boolean,
+ *   allowDecreaseEnvVar: string,
+ *   outputPrefix: string,
+ *   label: string,
+ * }} config
+ * @returns {{ prevCount: number, currentCount: number, changed: boolean }}
+ */
+function bumpCount({ constName, dir, excludeManifest = false, allowDecreaseEnvVar, outputPrefix, label }) {
+  const countPattern = new RegExp(`(const ${constName}: usize = )(\\d+)(;)`);
 
-const currentCount = countFiles();
-const source = readFileSync(embeddedPath, 'utf8');
-const match = source.match(COUNT_PATTERN);
+  const currentCount = countJsonFiles(dir, { excludeManifest });
+  const source = readFileSync(embeddedPath, 'utf8');
+  const match = source.match(countPattern);
 
-if (!match) {
-  throw new Error(
-    'Could not find `const EXPECTED_GUIDELINE_COUNT: usize = <N>;` in ' +
-      'sdk/core/src/data_source/embedded.rs. Has materialize_guidelines_count() been renamed ' +
-      'or restructured?',
-  );
+  if (!match) {
+    throw new Error(
+      `Could not find const ${constName}: usize = <N>; in ` +
+        'sdk/core/src/data_source/embedded.rs. Has the corresponding regression test been ' +
+        'renamed or restructured?',
+    );
+  }
+
+  const prevCount = Number(match[2]);
+
+  if (currentCount < prevCount && process.env[allowDecreaseEnvVar] !== 'true') {
+    throw new Error(
+      `Refusing to lower the ${label} count guard from ${prevCount} to ${currentCount}. ` +
+        'This usually means a fetch/transform step silently dropped files rather than an ' +
+        `intentional removal. If this decrease is expected, re-run with ${allowDecreaseEnvVar}=true.`,
+    );
+  }
+
+  const nextSource = source.replace(countPattern, `$1${currentCount}$3`);
+  const changed = nextSource !== source;
+
+  if (changed) {
+    writeFileSync(embeddedPath, nextSource, 'utf8');
+    console.log(`Updated ${label} count guard from ${prevCount} to ${currentCount}.`);
+  } else {
+    console.log(`${label[0].toUpperCase()}${label.slice(1)} count guard already matches ${currentCount}.`);
+  }
+
+  if (process.env.GITHUB_OUTPUT) {
+    appendFileSync(
+      process.env.GITHUB_OUTPUT,
+      `${outputPrefix}_previous=${prevCount}\n` +
+        `${outputPrefix}_new=${currentCount}\n` +
+        `${outputPrefix}_changed=${changed}\n`,
+      'utf8',
+    );
+  }
+
+  return { prevCount, currentCount, changed };
 }
 
-const prevCount = Number(match[2]);
+bumpCount({
+  constName: 'EXPECTED_GUIDELINE_COUNT',
+  dir: resolve(root, 'packages/design-data/guidelines'),
+  excludeManifest: true,
+  allowDecreaseEnvVar: 'ALLOW_GUIDELINE_COUNT_DECREASE',
+  outputPrefix: 'guideline_count',
+  label: 'guideline',
+});
 
-if (currentCount < prevCount && process.env.ALLOW_GUIDELINE_COUNT_DECREASE !== 'true') {
-  throw new Error(
-    `Refusing to lower the guideline count guard from ${prevCount} to ${currentCount}. ` +
-      'This usually means the transform step silently dropped files rather than an ' +
-      'intentional guideline removal. If this decrease is expected, re-run with ' +
-      'ALLOW_GUIDELINE_COUNT_DECREASE=true.',
-  );
-}
-
-const nextSource = source.replace(COUNT_PATTERN, `$1${currentCount}$3`);
-const changed = nextSource !== source;
-
-if (changed) {
-  writeFileSync(embeddedPath, nextSource, 'utf8');
-  console.log(`Updated guideline count guard from ${prevCount} to ${currentCount}.`);
-} else {
-  console.log(`Guideline count guard already matches ${currentCount}.`);
-}
-
-if (process.env.GITHUB_OUTPUT) {
-  appendFileSync(
-    process.env.GITHUB_OUTPUT,
-    `guideline_count_previous=${prevCount}\n` +
-      `guideline_count_new=${currentCount}\n` +
-      `guideline_count_changed=${changed}\n`,
-    'utf8',
-  );
-}
+bumpCount({
+  constName: 'EXPECTED_COMPONENT_COUNT',
+  dir: resolve(root, 'packages/design-data/components'),
+  allowDecreaseEnvVar: 'ALLOW_COMPONENT_COUNT_DECREASE',
+  outputPrefix: 'component_count',
+  label: 'component',
+});
