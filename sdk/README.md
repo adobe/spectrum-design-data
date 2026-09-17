@@ -66,13 +66,31 @@ design-data validate packages/design-data/tokens \
 
 ### resolve
 
-Resolve a single token property to its final value for a given mode context.
+Resolve a single token property to its final value for a given mode context. `PROPERTY`
+is a token's `name.property` value (e.g. `color`, `size`, `typography`) — not a full
+legacy token slug.
 
 ```bash
-design-data resolve background-color-default packages/design-data/tokens \
+design-data resolve color packages/design-data/tokens \
   --color-scheme light \
   --scale desktop \
   --contrast regular
+```
+
+Use `--format dtcg` to emit a [W3C DTCG](https://tr.designtokens.org/format/)-conformant
+`$value`/`$type`/`$description` document from the resolved token, for consumption by
+Style Dictionary, Terrazzo, and similar tooling. The resolved leaf's `$schema` token-type
+drives `$type` (color, dimension, typography, shadow, ...); inline `{alias}` references
+inside composite values (typography, drop-shadow) are resolved to literal values:
+
+```bash
+design-data resolve color packages/design-data/tokens --color-scheme light --format dtcg
+# {
+#   "accent-background-color-default": {
+#     "$value": "#3b63fb",
+#     "$type": "color"
+#   }
+# }
 ```
 
 ### diff
