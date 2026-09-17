@@ -93,6 +93,24 @@ design-data resolve color packages/design-data/tokens --color-scheme light --for
 # }
 ```
 
+### export
+
+Export the whole resolved dataset — every distinct token property resolved to its
+cascade winner in a given mode context — as one flat document.
+
+```bash
+design-data export packages/design-data/tokens --color-scheme dark --format dtcg
+# {
+#   "accent-background-color-default": { "$value": "#4069fd", "$type": "color" },
+#   "font-size-200": { "$value": { "value": 16.0, "unit": "px" }, "$type": "dimension" },
+#   ...
+# }
+design-data export packages/design-data/tokens --format json  # raw cascade-winner records
+```
+
+Like `resolve --format dtcg`, inline `{alias}` references inside composite values
+(typography, drop-shadow) are resolved in the active mode context.
+
 ### diff
 
 Compare two token datasets and report additions, removals, and changes.
@@ -111,6 +129,15 @@ List tokens matching a filter expression.
 design-data query packages/design-data/tokens --filter "component=button,state=hover"
 design-data query packages/design-data/tokens --filter "component=button" --count
 design-data query packages/design-data/tokens --filter "component=button" --format json
+```
+
+Use `--format dtcg` to merge only the matched properties' cascade winners into one
+DTCG document (accepts the same `--color-scheme/--scale/--contrast` mode flags as
+`resolve`/`export`):
+
+```bash
+design-data query packages/design-data/tokens --filter "component=button" \
+  --format dtcg --color-scheme dark
 ```
 
 ### migrate

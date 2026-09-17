@@ -271,6 +271,60 @@ pub fn resolve_property(
         .collect()
 }
 
+// ── Dataset-wide resolution ────────────────────────────────────────────────────
+
+/// Stable identity key for a token's name object with mode-set fields removed —
+/// two tokens sharing this key are cascade siblings: the same logical token slot,
+/// differing only by mode-set values (and cascade layer). Used by
+/// [`resolve_dataset`] to group candidates, instead of grouping by `property`
+/// alone (too coarse — many distinct tokens, e.g. differing `state`/`variant`/
+/// `colorRole`, share a property name).
+pub fn token_identity_key(
+    name_obj: &serde_json::Map<String, serde_json::Value>,
+    mode_sets: &[ModeSetRecord],
+) -> String {
+    let mode_set_names: std::collections::HashSet<&str> =
+        mode_sets.iter().map(|m| m.name.as_str()).collect();
+    let mut entries: Vec<(&str, String)> = name_obj
+        .iter()
+        .filter(|(k, _)| !mode_set_names.contains(k.as_str()))
+        .map(|(k, v)| (k.as_str(), v.to_string()))
+        .collect();
+    entries.sort();
+    entries
+        .into_iter()
+        .map(|(k, v)| format!("{k}={v}"))
+        .collect::<Vec<_>>()
+        .join("&")
+}
+
+/// Resolve every distinct token in the dataset for a given context: group tokens
+/// into cascade-sibling sets via [`token_identity_key`], then resolve the winner
+/// of each group with [`resolve`]. Unlike [`resolve_property`] (grouped by
+/// `property` alone), this yields exactly one winner per distinct token identity,
+/// so tokens sharing a property but differing by state/variant/colorRole are not
+/// collapsed into one arbitrary winner.
+pub fn resolve_dataset(graph: &TokenGraph, ctx: &ResolutionContext) -> Vec<TokenRecord> {
+    let mut groups: HashMap<String, Vec<TokenRecord>> = HashMap::new();
+    for t in graph.tokens.values() {
+        let key = t
+            .raw
+            .get("name")
+            .and_then(|v| v.as_object())
+            .map(|n| token_identity_key(n, &graph.mode_sets))
+            .unwrap_or_default();
+        groups.entry(key).or_default().push(t.clone());
+    }
+
+    groups
+        .into_values()
+        .filter_map(|candidates| {
+            let sub = TokenGraph::from_records(candidates).with_mode_sets(graph.mode_sets.clone());
+            resolve(&sub, ctx).cloned()
+        })
+        .collect()
+}
+
 // ── Resolve context helpers ───────────────────────────────────────────────────
 
 /// Parse a comma-separated `property=<name>,<modeSet>=<mode>,...` expression into a
@@ -773,6 +827,57 @@ mod tests {
             winner.record.raw["name"]["colorScheme"].as_str(),
             Some("light")
         );
+    }
+
+    // ── resolve_dataset ────────────────────────────────────────────────────────
+
+    #[test]
+    fn resolve_dataset_keeps_distinct_tokens_sharing_a_property() {
+        // Two tokens share `property: "background-color"` but differ by `state` —
+        // not a mode-set field. resolve_property alone would collapse these into
+        // one winner; resolve_dataset must keep both as distinct identities.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "bg-default".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color", "state": "default"}, "value": "#fff"}),
+            ),
+            (
+                "bg-hover".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color", "state": "hover"}, "value": "#eee"}),
+            ),
+        ]);
+        let ctx = ResolutionContext::new();
+        let mut winners = resolve_dataset(&g, &ctx);
+        winners.sort_by(|a, b| a.name.cmp(&b.name));
+        assert_eq!(winners.len(), 2);
+        assert_eq!(winners[0].name, "bg-default");
+        assert_eq!(winners[1].name, "bg-hover");
+    }
+
+    #[test]
+    fn resolve_dataset_picks_mode_context_winner_per_identity() {
+        // Same identity (property, no other distinguishing name fields) with two
+        // colorScheme siblings — resolve_dataset should pick the context-matching one.
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "t-light".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "light"}, "value": "#fff"}),
+            ),
+            (
+                "t-dark".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "bg", "colorScheme": "dark"}, "value": "#000"}),
+            ),
+        ])
+        .with_mode_sets(vec![color_scheme_mode_set()]);
+
+        let ctx = ResolutionContext::new().with("colorScheme", "dark");
+        let winners = resolve_dataset(&g, &ctx);
+        assert_eq!(winners.len(), 1);
+        assert_eq!(winners[0].name, "t-dark");
     }
 
     // ── Layer ordering: Platform > Foundation ────────────────────────────────
