@@ -16,55 +16,62 @@
     },
     {
       "type": "guideline",
-      "content": "Cards group related content and actions into flexible containers for browsing. They preview key information and reveal more detail on interaction."
+      "content": "Card component Purpose / use case Interaction type Common visual elements FlexGeneral-purpose, flexible content containerVaries (Static or Clickable)Title, preview, checkboxAssetDisplay assets like images, text documents, files, videos, materials, etc.Clickable (navigates to 1-up view), selectablePreview, filename, metadata, checkboxGalleryShow multiple images or videos in a river grid.Clickable (navigates to 1-up view), selectablePreview, badge, checkboxCollectionGroup related items such as assets or products in a library of items.Clickable (drill-in), selectablemulti or hero multi previews, collection title, checkboxProductDisplay product details for interactionClickable (drill-in), selectableCover image, thumbnail (logo), product title, checkboxHorizontalDisplaying mostly text, possibly with a cropped cover image or icon.Clickable (drill-in)Optional cropped preview, icon, or thumbnail, title, metadata"
     },
     {
       "type": "guideline",
-      "content": "Card preview areas have a maximum image height aspect ratio of 3:4, and a minimum height aspect ratio of of 4:1."
+      "content": "Preview minimum and maximum.\n\nCard preview areas have a maximum image height aspect ratio of 3:4, and a minimum height aspect ratio of of 4:1."
     },
     {
       "type": "guideline",
-      "content": "If the card has a fixed height, such as in a tile grid, long titles will be truncated. Use short titles to avoid this. In layouts with variable height, like a waterfall grid, titles will wrap to fit."
+      "content": "Text overflow.\n\nIf the card has a fixed height, such as in a tile grid, long titles will be truncated. Use short titles to avoid this. In layouts with variable height, like a waterfall grid, titles will wrap to fit."
     },
     {
       "type": "guideline",
-      "content": "Cards, by definition, should have some form of interaction such as viewing, editing, purchasing, etc. Some actions are exposed in buttons, and others simply occur by clicking the card."
+      "content": "Clickable cards.\n\nCards, by definition, should have some form of interaction such as viewing, editing, purchasing, etc. Some actions are exposed in buttons, and others simply occur by clicking the card. If a card only has an ability to be opened or viewed in more detail, do not include a button. Clicking anywhere on the card should perform that action. If a card has other interactive elements such as a hidden actions menu or an avatar, but no buttons, the whole card (outside of those elements) should be clickable."
     },
     {
       "type": "guideline",
-      "content": "If a card only has an ability to be opened or viewed in more detail, do not include a button. Clicking anywhere on the card should perform that action."
+      "content": "Buttons in cards.\n\nIf there's only one action (that's not opening or viewing the card), use a button to communicate that action. If there are two or more available actions, and one of those actions is to open or view the card, use a button to communicate \"View\" or \"Open,\" instead of relying on clicking on the card. If a standard card has a footer with a button, only the button is clickable. If a card has a preview, clicking the preview will open that card. When a preview is purely decorative, it is not clickable."
     },
     {
       "type": "guideline",
-      "content": "If a card has other interactive elements such as a hidden actions menu or an avatar, but no buttons, the whole card (outside of those elements) should be clickable."
+      "content": "Ghost loading.\n\nWhen a group of cards are loading, they follow the ghost loading convention. There are 5 phases for ghost loading: Card group (including metadata) ghost loads. If metadata for all cards is loaded before all preview images are loaded, the metadata is displayed for all cards as soon as the last piece of metadata loads. Previews continue to ghost load. If all preview images load within the x period (a period of time, usually measured in seconds, that you need to specify depending on the use case), they are shown as soon as the last preview loads. If all previews have not finished loading at the end of the x period, the loaded previews are shown, and the pending previews receive individual circle loaders. The group is no longer in a ghost loading state. If the preview load times out, an error is shown along with a mechanism to retry loading."
     },
     {
       "type": "guideline",
-      "content": "If there’s only one action (that’s not opening or viewing the card), use a button to communicate that action. If there are two or more available actions, and one of those actions is to open or view the card, use a button to communicate “View” or “Open,” instead of relying on clicking on the card."
+      "content": "Keep cards simple.\n\nCards are meant to just show a taste of the available information. Don't overload cards with more information than necessary."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't add buttons to quiet cards",
+      "dont": "Only standard cards can have a footer, and buttons can only appear inside a footer."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't align individual cards to the column grid",
+      "dont": "Individual cards are not aligned to individual columns in the page's responsive column grid. Instead, groups of cards are aligned to the column grid in a layout region."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't auto-play videos",
+      "dont": "If the preview is a video clip or other moving item, do not automatically play the clip or motion. Save the movement for either when a user hovers on the card or when they click on a play button."
     },
     {
       "type": "guideline",
-      "content": "If a standard card has a footer with a button, only the button is clickable. If a card has a preview, clicking the preview will open that card. When a preview is purely decorative, it is not clickable."
+      "content": "RTL.\n\nCards in RTL languages mirror their horizontal layout and directional cues, while their interaction behavior stays the same. Any element with a left‑right relationship flips. Thumbnails or avatars that appear on the left in LTR move to the right in RTL. Metadata stacks reverse order, such as an icon followed by text becoming text followed by an icon. Action areas, including overflow menus, shift from the top right of the card to the top left. Vertical layout and center‑aligned elements do not change. Most icons remain the same, but directional icons, such as arrows and chevrons, flip to match reading direction."
     },
     {
       "type": "guideline",
-      "content": "When a group of cards are loading, they follow the ghost loading convention. There are 5 phases for ghost loading:"
+      "content": "Keyboard interactions.\n\nKey Interaction TabMoves focus forward to the next card.Arrow keysMoves focus within the card to focusable items within the card. If a button is included on the cards, the button should receive focus first. If there are multiple buttons, the primary or CTA button should receive focus first.Shift + TabMoves focus backward to the previous card.Return or EnterIf the card itself is clickable, Return or Enter will open the card. If the card is not clickable but has buttons, and the buttons or another item within the card is focused, that action is performed.SpaceIf the card is selectable, the space bar will toggle selection.Ctrl / Command + Arrow keysNon-contiguous selection of cards."
     },
     {
       "type": "guideline",
-      "content": "Cards are meant to just show a taste of the available information. Don’t overload cards with more information than necessary."
+      "content": "Cursor guidelines.\n\nNon-interactive cards Cursor Description Default (Arrow)Use the default cursor for non-interactive cards. Cards with interactive elements Cursor Description Default (Arrow)Use the default cursor for the non-interactive portions of the card.PointerUse the pointer cursor for the interactive elements.Grab handUse the grab hand cursor when hovering over cards that are draggable. Cards that have other interactive elements that are also draggable should first enter a drag mode before showing the grab cursors and allowing a drag action.Grab fistUse the grab fist cursor when actively dragging a card. Fully interactive cards Cursor Description PointerUse the pointer cursor for the entire card surface when the card is interactive, for example, if clicking the card will navigate to a one-up view.Grab handUse the grab hand cursor when hovering over cards that are draggable.Grab fistUse the grab fist cursor when actively dragging a card."
     },
     {
       "type": "guideline",
-      "content": "Only standard cards can have a footer, and buttons can only appear inside a footer."
-    },
-    {
-      "type": "guideline",
-      "content": "Individual cards are not aligned to individual columns in the page's responsive column grid. Instead, groups of cards are aligned to the column grid in a layout region."
-    },
-    {
-      "type": "guideline",
-      "content": "If the preview is a video clip or other moving item, do not automatically play the clip or motion. Save the movement for either when a user hovers on the card or when they click on a play button."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons or illustrations used in cards—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 AACards should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized.Orientation 1.3.4 AACards are available in both vertical and horizontal orientations.Use of color 1.4.1 AColor is not used as a means to convey information or distinguish elements, indicate an action, or prompt a response. Color is always paired with text or icons, and is only used to enhance the meaning of the text.Text contrast 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of illustrations, icons, and component states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
@@ -73,45 +80,23 @@
       "default": "asset",
       "description": "Determines which card layout variant is used.",
       "values": [
-        {
-          "value": "asset"
-        },
-        {
-          "value": "collection"
-        },
-        {
-          "value": "flex"
-        },
-        {
-          "value": "gallery"
-        },
-        {
-          "value": "horizontal"
-        },
-        {
-          "value": "product"
-        }
+        { "value": "asset" },
+        { "value": "collection" },
+        { "value": "flex" },
+        { "value": "gallery" },
+        { "value": "horizontal" },
+        { "value": "product" }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["select"],
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

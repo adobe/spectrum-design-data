@@ -12,7 +12,7 @@
   "documentBlocks": [
     {
       "type": "purpose",
-      "content": "Buttons enable actions or navigation between views. They come in multiple styles to support different levels of emphasis, and are commonly used to guide progression through a flow."
+      "content": "Buttons allow users to perform an action or to navigate to another page."
     },
     {
       "type": "guideline",
@@ -49,7 +49,7 @@
     {
       "type": "do-dont",
       "content": "Don't override color",
-      "dont": "Do not use custom colors for buttons. The colors of different button variations have been designed to be consistent and accessible."
+      "dont": "Do not use custom colors for buttons. The colors of different button variations have been designed to be consistent and accessible"
     },
     {
       "type": "guideline",
@@ -58,15 +58,51 @@
     {
       "type": "do-dont",
       "content": "Don't use the pending state for long progress",
-      "dont": "The pending state should be reserved for indeterminate actions that are expected to take 5 seconds or less. For determinate or longer actions, use a [progress bar](https://spectrum.adobe.com/page/progress-bar/) or [progress circle](https://spectrum.adobe.com/page/progress-circle/) outside of the button."
+      "dont": "The pending state should be reserved for indeterminate actions that are expected to take 5 seconds or less. For determinate or longer actions, use a progress bar or progress circle outside of the button."
     },
     {
       "type": "guideline",
-      "content": "Use a button group to show additional actions.\n\nInstead of a single split button (now a deprecated component), use a [button group](https://spectrum.adobe.com/page/button-group/) to show any additional actions related to the most critical action."
+      "content": "Use a button group to show additional actions.\n\nInstead of a single split button (now a deprecated component), use a button group to show any additional actions related to the most critical action."
     },
     {
       "type": "guideline",
       "content": "Display a popover when featuring subsequent options.\n\nIn some instances, it's possible to have a call to action button display a popover (or tray) to feature subsequent options. These options should extend and parallel the action of the button. Do not include arbitrary or unrelated options."
+    },
+    {
+      "type": "guideline",
+      "content": "Be concise.\n\nButton text should be concise: 1 or 2 words, no longer than 4 words, with fewer than 20 characters including spaces. Don't use punctuation marks such as periods or exclamation points."
+    },
+    {
+      "type": "guideline",
+      "content": "Write labels as verbs.\n\nA button represents an action, so its label needs to reflect the action that a user is taking — which is a verb. Labels written as nouns or adjectives tend to be unclear and disorienting."
+    },
+    {
+      "type": "guideline",
+      "content": "Clearly state the action.\n\nMake sure that a button's label clearly states the outcome of the action. Use the same word or phrase as found elsewhere in the experience. For example, when designing a form for people to sign up for a trial offer, use \"Sign up\" as the call to action for completing the form. Phrases like \"Start trial\" skip the sign up step. Words like \"Submit\" or \"Enter,\" while technically correct, focus on the action of finishing filling out the form itself, rather than what the user is actually doing by filling it out (signing up for something)."
+    },
+    {
+      "type": "guideline",
+      "content": "Use sentence case.\n\nButton text should always be in sentence case. Never use capitalization to emphasize a specific button."
+    },
+    {
+      "type": "guideline",
+      "content": "Be aware of tone.\n\nEmoji and exclamation points aren't appropriate for the functional, utilitarian nature of buttons. Keep the label to just text, with no punctuation or extra decoration."
+    },
+    {
+      "type": "guideline",
+      "content": "RTL.\n\nFor RTL (right-to-left) languages, the layout of the button is mirrored. The icon is placed on the right side of the text."
+    },
+    {
+      "type": "guideline",
+      "content": "Keyboard interactions.\n\nKey Interaction TabMoves focus onto or off of the button.Space or EnterExecutes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."
+    },
+    {
+      "type": "guideline",
+      "content": "Cursor guidelines.\n\nCursor Usage PointerUse the pointer cursor for all interactive components."
+    },
+    {
+      "type": "guideline",
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAButtons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Resize text 1.4.4 AAButtons should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
@@ -75,62 +111,30 @@
       "default": "accent",
       "description": "Visual emphasis level.",
       "values": [
-        {
-          "value": "accent"
-        },
-        {
-          "value": "negative"
-        },
-        {
-          "value": "primary"
-        },
-        {
-          "value": "secondary"
-        }
+        { "value": "accent" },
+        { "value": "negative" },
+        { "value": "primary" },
+        { "value": "secondary" }
       ]
     },
     "style": {
       "type": "string",
       "default": "fill",
-      "values": [
-        {
-          "value": "fill"
-        },
-        {
-          "value": "outline"
-        }
-      ]
+      "values": [{ "value": "fill" }, { "value": "outline" }]
     },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
-    "isPending": {
-      "type": "boolean",
-      "default": false
-    },
-    "isLabelHidden": {
-      "type": "boolean",
-      "default": false
-    },
+    "isDisabled": { "type": "boolean", "default": false },
+    "isPending": { "type": "boolean", "default": false },
+    "isLabelHidden": { "type": "boolean", "default": false },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."
@@ -138,14 +142,7 @@
     "staticColor": {
       "type": "string",
       "description": "Static color for use on colored backgrounds.",
-      "values": [
-        {
-          "value": "white"
-        },
-        {
-          "value": "black"
-        }
-      ]
+      "values": [{ "value": "white" }, { "value": "black" }]
     }
   },
   "slots": [
@@ -154,43 +151,23 @@
       "description": "Text label of the button.",
       "required": false
     },
-    {
-      "name": "icon",
-      "description": "Icon placed at the start of the button."
-    }
+    { "name": "icon", "description": "Icon placed at the start of the button." }
   ],
   "anatomy": [
-    {
-      "name": "icon",
-      "description": "Leading icon."
-    },
-    {
-      "name": "label",
-      "description": "Button text.",
-      "required": true
-    }
+    { "name": "icon", "description": "Leading icon." },
+    { "name": "label", "description": "Button text.", "required": true }
   ],
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction",
-      "precedence": 50
-    },
+    { "name": "hover", "trigger": "interaction", "precedence": 50 },
     {
       "name": "focus",
       "trigger": "interaction",
       "precedence": 60,
       "layered": true
     },
-    {
-      "name": "disabled",
-      "trigger": "prop",
-      "precedence": 100
-    }
+    { "name": "disabled", "trigger": "prop", "precedence": 100 }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "tokenBindings": [
     {
       "token": "corner-radius-button-small",
@@ -211,16 +188,8 @@
     "focusable": true,
     "keyboardIntents": ["activate"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

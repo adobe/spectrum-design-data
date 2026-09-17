@@ -16,39 +16,35 @@
     },
     {
       "type": "guideline",
-      "content": "A meter can include help text below it to explain what the value means and how to reach the target. This text may include units, value ranges, thresholds like targets or warnings, and actions that affect the meter."
+      "content": "Text overflow.\n\nWhen the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."
     },
     {
       "type": "guideline",
-      "content": "The value represents a user-driven quantity or achievement, such as tutorials completed or storage used. Unlike a progress bar, it reflects user actions, not system activity."
+      "content": "Progress bar vs. meter.\n\nA progress bar fills automatically as the system loads either determinately or indeterminately. A user's actions do not affect the progress bar; it just indicates how long they must wait for the process to finish. A meter indicates how much the user has completed or how far they are in a continuum."
     },
     {
       "type": "guideline",
-      "content": "Meters come in four different sizes: small, medium, large, and extra-large. By default, meters use medium size. Use the small size when there are multiple meters shown at the same time in a more confined space, such as in tables or cards."
+      "content": "Labels.\n\nUse the built-in style for showing a label associated with the meter. By default, the label is start-aligned and an optional value is end-aligned above the track. (In left-to-right languages, this means the label appears on the left and the value on the right; in right-to-left languages, this flips.) The label should be written in sentence case. When meters appear in a table, you may use the column header as the label. In this case, set labelPosition=\"side\" or use hideLabel if the column header fully describes what each meter represents."
     },
     {
       "type": "guideline",
-      "content": "Meters can include a value label to show details like “60%” or “2 of 8.” It should only appear if the main label is shown and is always placed above the track."
+      "content": "Representing semantic values.\n\nMeter variants can be used to represent semantic values by switching variants as the value changes, from positive, to notice, and then to negative. This kind of variant switching should be handled appropriately within the context of your product so that you're setting accurate expectations for your users about the semantic meaning."
     },
     {
       "type": "guideline",
-      "content": "Meters should always have a label placed above the track. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These meters without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”)."
+      "content": "RTL.\n\nFor RTL (right-to-left) languages, the layout of the meter is mirrored. The label is right-aligned, the value is left-aligned, and the fill progresses from right to left. Beware that the placement of the percent sign differs depending on the locale."
     },
     {
       "type": "guideline",
-      "content": "Meter has four variants: informative, positive, notice, and negative."
+      "content": "Keyboard interactions.\n\nKey Interaction TabMoves focus onto or off of the button.Space or EnterExecutes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller."
     },
     {
       "type": "guideline",
-      "content": "When the label is too long for the available horizontal space, it wraps to form another line. The value is always shown in full and never wraps or truncates."
+      "content": "Cursor guidelines.\n\nCursor Usage PointerUse the pointer cursor for all interactive components."
     },
     {
       "type": "guideline",
-      "content": "Use the built-in style for showing a label associated with the meter. By default, the label is start-aligned and an optional value is end-aligned above the track. (In left-to-right languages, this means the label appears on the left and the value on the right; in right-to-left languages, this flips.) The label should be written in sentence case."
-    },
-    {
-      "type": "guideline",
-      "content": "Meter variants can be used to represent semantic values by switching variants as the value changes, from positive, to notice, and then to negative. This kind of variant switching should be handled appropriately within the context of your product so that you’re setting accurate expectations for your users about the semantic meaning."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAButtons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Resize text 1.4.4 AAButtons should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
@@ -56,72 +52,35 @@
       "type": "string",
       "default": "informative",
       "values": [
-        {
-          "value": "informative"
-        },
-        {
-          "value": "positive"
-        },
-        {
-          "value": "notice"
-        },
-        {
-          "value": "negative"
-        }
+        { "value": "informative" },
+        { "value": "positive" },
+        { "value": "notice" },
+        { "value": "negative" }
       ]
     },
-    "label": {
-      "type": "string"
-    },
-    "hideLabel": {
-      "type": "boolean",
-      "default": false
-    },
-    "valueLabel": {
-      "type": "string"
-    },
-    "width": {
-      "type": "number"
-    },
+    "label": { "type": "string" },
+    "hideLabel": { "type": "boolean", "default": false },
+    "valueLabel": { "type": "string" },
+    "width": { "type": "number" },
     "size": {
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "value": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1
-    },
-    "helpText": {
-      "type": "string"
-    }
+    "value": { "type": "number", "minimum": 0, "maximum": 1 },
+    "helpText": { "type": "string" }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "meter",
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

@@ -40,10 +40,6 @@
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

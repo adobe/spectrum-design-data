@@ -1,115 +1,71 @@
 ---
-title: "Field label"
-source_url: https://s2.spectrum.corp.adobe.com/page/field-label/
-last_updated: 2026-02-02
-category: components/inputs
-component_type: input
+title: Field label
+source_url: /web/rsp/components/field-label
+last_updated: null
 status: published
-tags:
-
-- components-inputs
-- input
-- form
-related_components:
-- drop-zone
-- help-text
-parent_category: inputs
-
+tags: []
+hub_path: /web/rsp/components/field-label
+swc_exists: false
 ---
 
 # Field label
 
-## Resources
-
-### Design
-
-* **Figma**: S2 Web
-
-### Implementations
-
-| Platform                           | Link                                                                                                                                                                                        |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Spectrum CSS (archived) CSS: Field | [label](https://opensource.adobe.com/spectrum-css/?path=/docs/components-field-label--docs)                                                                                                 |
-| Spectrum Web Components SWC: Field | \[Label]\(<https://opensource.adobe.com/spectrum-web-components/storybook/?path=/docs/field-label--docs&globals=system:spectrum-two;backgrounds.grid:!false;backgrounds.value:!hex(F8F8F8)> |
-
 ## Anatomy
 
-```
-field label
-- label
-- necessity indicator
-- input(s)
-```
+field label label necessity indicator input(s)
 
 ## Component options
 
-These options are used in Spectrum's design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-| Property           | Value            | Default value | Description |
-| ------------------ | ---------------- | ------------- | ----------- |
-| label              | string           | –             |             |
-| labelPosition      | top / side top   | –             |             |
-| size               | s / m / l / xl m | –             |             |
-| necessityIndicator | text / icon icon | –             |             |
-| isRequired         | boolean          | false         |             |
-| isDisabled         | boolean          | false         |             |
-
-## External links
-
-Field labels provide context for associated input fields. They describe the expected content or data type.
-
-These options are used in Spectrum’s design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-A field label in a disabled state shows that an input field exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an input field may become available later.
-
-"Inputs can be marked as required or optional, depending on the situation, using a necessity indicator. There are two styles for the necessity indicator: icon or text."
-
-By default, the necessity indicator is shown with an asterisk icon. Required inputs are marked with this at the end of the label. If you use this icon, be sure to include hint text to explain what it means. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself. Optional inputs do not have an icon.
-
-Alternatively, the necessity indicator can be shown with text. This appends text that reads either “(required)” or “(optional)” at the end of the label.
-
-"Field labels come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option with medium-sized inputs. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page. Both small and medium field labels have the same font size, but different paddings when used as side labels."
-
-A label can be placed either on top or on the side of an input. This option affects the bounding box of the component to ensure proper alignment. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited.
-
-When the field label is too long for the available horizontal space, it wraps to form another line.
-
-In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form.
-
-If most of the input fields are optional, only the required fields should be given an asterisk icon or have labels appended with “(required).” If most of the input fields are required, only the optional fields should be appended with “(optional).” An asterisk icon should never be used to note that a field is optional.
+isDisabled A field label in a disabled state shows that an input field exists, but is not available in that circumstance. This can be used to maintain layout continuity and communicate that an input field may become available later. label Inputs ( text field, checkbox, slider, etc.) should always have a label. In rare cases where context is sufficient and an accessibility expert has reviewed the design, the label could be undefined. These inputs without a visible label should still include an aria-label in HTML (depending on the context, “aria-label” or “aria-labelledby”). size Field labels come in four different sizes: small, medium, large, and extra-large. The medium size is the default and most frequently used option with medium-sized inputs. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page. Both small and medium field labels have the same font size, but different paddings when used as side labels. labelPosition A label can be placed either on top or on the side of an input. This option affects the bounding box of the component to ensure proper alignment. Top labels are the default and are recommended because they work better with long copy, localization, and responsive layouts. Side labels are most useful when vertical space is limited. necessityIndicator and isRequired Inputs can be marked as required or optional, depending on the situation, using a necessity indicator. There are two styles for the necessity indicator: icon or text. By default, the necessity indicator is shown with an asterisk icon. Required inputs are marked with this at the end of the label. If you use this icon, be sure to include hint text to explain what it means. The asterisk used in this component is an icon that has specific spacing from the label text — not part of the label text itself. Optional inputs do not have an icon. Alternatively, the necessity indicator can be shown with text. This appends text that reads either “(required)” or “(optional)” at the end of the label.
 
 ## States
 
-When the field label is too long for the available horizontal space, it wraps to form another line.
-
-In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form.
+State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
 
 ## Behaviors
 
-When the field label is too long for the available horizontal space, it wraps to form another line.
+### Text overflow
 
-In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form.
+When the field label is too long for the available horizontal space, it wraps to form another line.
 
 ## Usage guidelines
 
-In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form.
+### Mark the minority of inputs in a form as required or optional
 
-## Design tokens
+In a single form, mark only the required fields or only the optional fields, depending on whichever is less frequent in the entire form. If most of the input fields are optional, only the required fields should be given an asterisk icon or have labels appended with "(required)." If most of the input fields are required, only the optional fields should be appended with "(optional)." An asterisk icon should never be used to note that a field is optional.
 
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
+## Content standards
 
-## Changelog
+For field label text, use a short, catch-all description (1-3 words) of the information that a user needs to provide. Field label text that gets too long can be overwhelming and distracting, especially in complex interactions and long forms. Supplementary information or requirements about what to input can be shown in help text below the field, or in a tooltip.
 
-| Date               | Number | Notes                                                       |
-| ------------------ | ------ | ----------------------------------------------------------- |
-| November 19, 2025  | 1.1.0  | New guidelines were added to this page.                     |
-| September 15, 2025 | 1.0.0  | This component was added to the Spectrum 2 guidelines site. |
+### Use verbs like "enter," "add," or "input" in a field label sparingly
 
-## Questions or feedback?
+Field labels generally communicate what a user should input, rather than direct them as to how to do it. The component design of fields and other inputs already implies that a user needs to enter, add, or input information in order to move forward with a task or workflow. If the interaction may be new or unfamiliar it can be helpful to guide a user with action prompts using these verbs, but for more common patterns (such as forms), this can get redundant and clutter an interface.
 
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
+### Don't add a colon at the end of a field label
 
-## Related Components
+Don't add a colon (:) at the end of a field label to imply that the label text applies to the field it accompanies. The design of the component already communicates the relationship between the label and the input field.
 
-* [Drop zone](/page/drop-zone/)
-* [Help text](/page/help-text/)
+### Use sentence case
+
+Following Adobe's UX writing style, field labels are written in sentence case unless they contain words that are branded terms.
+
+## Internationalization
+
+### RTL
+
+For RTL (right-to-left) languages, the layout of the button is mirrored. The icon is placed on the right side of the text.
+
+## Accessibility
+
+### Keyboard interactions
+
+Key Interaction TabMoves focus onto or off of the button.Space or EnterExecutes the button action. The focus remains on the button except if the button opens or closes the current container. In this case, the focus moves to the target or back to the caller.
+
+### Cursor guidelines
+
+Cursor Usage PointerUse the pointer cursor for all interactive components.
+
+### WCAG 2.2 compliance
+
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons used in buttons—must provide a text alternative that communicates the button’s purpose. All buttons, especially icon‑only buttons, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAButtons should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role of buttons should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in buttons. While negative buttons do use red to reinforce their purpose, every button also includes a clear text label that communicates the action it performs.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Resize text 1.4.4 AAButtons should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.
