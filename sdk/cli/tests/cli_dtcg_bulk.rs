@@ -41,7 +41,14 @@ fn export_format_dtcg_emits_one_flat_document_for_the_whole_dataset() {
 
     let doc: serde_json::Value = serde_json::from_slice(&output).expect("valid JSON");
     let obj = doc.as_object().expect("document is a JSON object");
-    assert!(obj.len() > 1, "expected many distinct properties exported");
+    // Distinct token *identities* (not just distinct property names) should survive —
+    // regression guard for collapsing state/variant siblings into one arbitrary winner.
+    assert!(
+        obj.len() > 1000,
+        "expected close to the full ~2374-token dataset (minus mode-variant siblings \
+         collapsed per context), got only {} entries",
+        obj.len()
+    );
 
     // Every entry is a flat DTCG token with $value/$type, not a raw cascade record.
     let (_key, token) = obj.iter().next().expect("at least one token");
@@ -50,16 +57,21 @@ fn export_format_dtcg_emits_one_flat_document_for_the_whole_dataset() {
 }
 
 #[test]
-fn query_format_dtcg_only_includes_matched_properties() {
+fn query_format_dtcg_preserves_distinct_state_variants_sharing_a_property() {
+    // `background-color` has multiple tokens sharing that property, differing only by
+    // interaction `state` (default/hover/down/key-focus) — none of them mode-set fields.
+    // Regression guard: these must NOT collapse into a single arbitrary winner.
     let output = Command::cargo_bin("design-data")
         .expect("binary design-data")
         .args([
             "query",
             tokens_dir().to_str().expect("utf8 path"),
             "--filter",
-            "property=opacity",
+            "property=background-color",
             "--format",
             "dtcg",
+            "--color-scheme",
+            "light",
         ])
         .assert()
         .success()
@@ -69,13 +81,14 @@ fn query_format_dtcg_only_includes_matched_properties() {
 
     let doc: serde_json::Value = serde_json::from_slice(&output).expect("valid JSON");
     let obj = doc.as_object().expect("document is a JSON object");
-    assert_eq!(
-        obj.len(),
-        1,
-        "expected exactly one resolved property, got {obj:?}"
+    assert!(
+        obj.len() > 1,
+        "expected multiple distinct background-color tokens (by state/variant), got {obj:?}"
     );
-    let (_key, token) = obj.iter().next().expect("one token");
-    assert_eq!(token["$type"], "number");
+
+    let has_suffix = |suffix: &str| obj.keys().any(|k| k.ends_with(suffix));
+    assert!(has_suffix("-default"), "expected a -default state token");
+    assert!(has_suffix("-hover"), "expected a -hover state token");
 }
 
 #[test]

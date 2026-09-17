@@ -22,7 +22,7 @@ use std::collections::{HashMap, HashSet};
 
 use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
 use design_data_core::cache;
-use design_data_core::cascade::{resolve_property, ResolutionContext};
+use design_data_core::cascade::{self, resolve_property, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
@@ -765,35 +765,26 @@ fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode
     Ok(ExitCode::SUCCESS)
 }
 
-/// Enumerate distinct `name.property` values across the graph (optionally restricted
-/// to `only_properties`), resolve the cascade winner for each in `ctx`, and return the
-/// winning records. Shared by `export --format dtcg`/`--format json` and
-/// `query --format dtcg`.
+/// Resolve every distinct token in the dataset in `ctx` (see
+/// `cascade::resolve_dataset`), optionally restricted to the token identities in
+/// `only_identities` (as computed by `cascade::token_identity_key`). Shared by
+/// `export --format dtcg`/`--format json` and `query --format dtcg`.
 fn resolve_dataset_winners(
     graph: &TokenGraph,
     ctx: &ResolutionContext,
-    only_properties: Option<&HashSet<&str>>,
+    only_identities: Option<&HashSet<String>>,
 ) -> Vec<TokenRecord> {
-    let properties: HashSet<&str> = graph
-        .tokens
-        .values()
-        .filter_map(|t| {
-            t.raw
+    cascade::resolve_dataset(graph, ctx)
+        .into_iter()
+        .filter(|winner| {
+            let Some(only) = only_identities else {
+                return true;
+            };
+            winner
+                .raw
                 .get("name")
                 .and_then(|v| v.as_object())
-                .and_then(|n| n.get("property"))
-                .and_then(|v| v.as_str())
-        })
-        .filter(|p| only_properties.is_none_or(|only| only.contains(p)))
-        .collect();
-
-    properties
-        .into_iter()
-        .filter_map(|property| {
-            resolve_property(graph, property, ctx)
-                .into_iter()
-                .find(|c| c.is_winner)
-                .map(|c| c.record)
+                .is_some_and(|n| only.contains(&cascade::token_identity_key(n, &graph.mode_sets)))
         })
         .collect()
 }
@@ -1569,18 +1560,13 @@ fn run_query(
                 resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
             }
 
-            let matched_properties: HashSet<&str> = results
+            let matched_identities: HashSet<String> = results
                 .iter()
-                .filter_map(|t| {
-                    t.raw
-                        .get("name")
-                        .and_then(|v| v.as_object())
-                        .and_then(|n| n.get("property"))
-                        .and_then(|v| v.as_str())
-                })
+                .filter_map(|t| t.raw.get("name").and_then(|v| v.as_object()))
+                .map(|n| cascade::token_identity_key(n, &graph.mode_sets))
                 .collect();
 
-            let winners = resolve_dataset_winners(&graph, &resolve_ctx, Some(&matched_properties));
+            let winners = resolve_dataset_winners(&graph, &resolve_ctx, Some(&matched_identities));
             let doc = winners_to_dtcg_doc(&graph, &winners, &resolve_ctx.mode_sets);
             println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
         }
