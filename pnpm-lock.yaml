@@ -592,6 +592,9 @@ importers:
 
   tools/design-data-mcp:
     dependencies:
+      '@adobe/design-data':
+        specifier: workspace:*
+        version: link:../design-data
       '@adobe/design-data-wasm':
         specifier: workspace:*
         version: link:../../sdk/wasm
