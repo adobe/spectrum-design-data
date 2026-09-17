@@ -88,7 +88,6 @@ jobs:
       - name: Guard fetch health
         env:
           LIMIT: ${{ github.event.inputs.limit }}
-          FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
           node <<'NODE'
           const fs = require('node:fs');
@@ -100,8 +99,8 @@ jobs:
           const fragmentsResolved = pages.reduce((sum, page) => sum + Number(page.fragmentsResolved ?? 0), 0);
           const failureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
           const hasLimit = Boolean(process.env.LIMIT && process.env.LIMIT.trim() !== '');
-          const dryRun = process.env.FETCH_DRY_RUN === 'true';
-          const invalid = fragmentsFailed > failureThreshold;
+          const weakWriteVolume = !hasLimit && selectedRows > 0 && written < Math.max(1, Math.ceil(selectedRows * 0.5));
+          const invalid = fragmentsFailed > failureThreshold || written === 0 || weakWriteVolume;
 
           console.log(JSON.stringify({
             written,
@@ -110,12 +109,12 @@ jobs:
             fragmentsResolved,
             failureThreshold,
             hasLimit,
-            dryRun,
+            weakWriteVolume,
             invalid,
           }, null, 2));
 
           if (invalid) {
-            console.error('Fetch guard failed: too many fragment failures were reported.');
+            console.error('Fetch guard failed: too many fragment failures or too few pages were written.');
             process.exit(1);
           }
           NODE
