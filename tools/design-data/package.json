@@ -9,7 +9,8 @@
     "./load": "./src/load.js",
     "./write": "./src/write.js",
     "./session": "./src/session.js",
-    "./validate": "./src/validate.js"
+    "./validate": "./src/validate.js",
+    "./guideline": "./src/guideline.js"
   },
   "files": [
     "src/",

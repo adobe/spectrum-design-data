@@ -148,6 +148,71 @@ test("describe_component throws helpful error when componentsDir is null", async
   );
 });
 
+// ── describe_guideline ───────────────────────────────────────────────────────────
+
+test("describe_guideline returns a guideline document with documentBlocks", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const result = await describe({ id: "colors" });
+  t.is(typeof result, "object", "result should be an object");
+  t.truthy(result, "result should be non-null");
+  t.true(
+    Array.isArray(result.documentBlocks),
+    "result.documentBlocks should be an array",
+  );
+});
+
+test("describe_guideline rejects path-traversal ID (../foo)", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "../foo" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects ID with uppercase letters", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "Colors" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects empty ID", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects ID with path separator", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "a/b" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline not-found error lists available guideline IDs", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() =>
+    describe({ id: "zzz-nonexistent-xyz" }),
+  );
+  t.true(err.message.includes("not found"), `got: ${err.message}`);
+  t.true(
+    err.message.includes("colors") || err.message.includes("manifest.json"),
+    `error should list available guidelines or point at manifest.json, got: ${err.message}`,
+  );
+});
+
+test("describe_guideline throws helpful error when guidelinesDir is null", async (t) => {
+  // Simulates a zero-config install where @adobe/spectrum-design-data is absent.
+  const saved = config.guidelinesDir;
+  t.teardown(() => {
+    config.guidelinesDir = saved;
+  });
+  config.guidelinesDir = null;
+
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "colors" }));
+  t.true(
+    err.message.includes("not installed"),
+    `expected 'not installed', got: ${err.message}`,
+  );
+});
+
 test("primer shape contract: SKILL.md fields are all present", async (t) => {
   // Guards the contract described in SKILL.md: "returns the active dimensions,
   // component list, taxonomy fields, and token count". If this shape changes,
