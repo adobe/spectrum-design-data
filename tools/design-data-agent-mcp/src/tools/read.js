@@ -79,27 +79,25 @@ async function getDataset() {
 }
 
 /**
- * Validate a component ID against the same rule as the Rust SDK.
+ * Validate a kebab-case ID against the same rule as the Rust SDK.
  * See sdk/core/src/component.rs:validate_id — prevents path traversal.
  */
-const COMPONENT_ID_RE = /^[a-z][a-z0-9-]*$/;
-function validateComponentId(id) {
-  if (!COMPONENT_ID_RE.test(id)) {
+const KEBAB_ID_RE = /^[a-z][a-z0-9-]*$/;
+function validateKebabId(id, kind) {
+  if (!KEBAB_ID_RE.test(id)) {
     throw new Error(
-      `Invalid component ID "${id}". IDs must be kebab-case: start with a lowercase ` +
+      `Invalid ${kind} ID "${id}". IDs must be kebab-case: start with a lowercase ` +
         `letter and contain only lowercase letters, digits, and hyphens.`,
     );
   }
 }
 
-/** Same kebab-case rule as component IDs (see sdk/core/src/component.rs:validate_id). */
+function validateComponentId(id) {
+  validateKebabId(id, "component");
+}
+
 function validateGuidelineId(id) {
-  if (!COMPONENT_ID_RE.test(id)) {
-    throw new Error(
-      `Invalid guideline ID "${id}". IDs must be kebab-case: start with a lowercase ` +
-        `letter and contain only lowercase letters, digits, and hyphens.`,
-    );
-  }
+  validateKebabId(id, "guideline");
 }
 
 export function createReadTools() {

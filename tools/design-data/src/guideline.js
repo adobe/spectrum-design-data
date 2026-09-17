@@ -31,6 +31,9 @@ import { resolve, sep } from "node:path";
  * @returns {object} the parsed guideline JSON document.
  */
 export function loadGuideline(guidelinesDir, id) {
+  if (id === "manifest") {
+    throw new Error(`Not found: "${id}" in guidelines/.`);
+  }
   const baseDir = resolve(guidelinesDir);
   const filePath = resolve(baseDir, `${id}.json`);
   if (!filePath.startsWith(baseDir + sep)) {

@@ -45,6 +45,11 @@ test("loadGuideline throws a Not-found error for an unknown id", (t) => {
   t.true(err.message.startsWith("Not found:"), `got: ${err.message}`);
 });
 
+test("loadGuideline rejects the manifest id", (t) => {
+  const err = t.throws(() => loadGuideline(TMP, "manifest"));
+  t.true(err.message.startsWith("Not found:"), `got: ${err.message}`);
+});
+
 test("loadGuideline rejects a path-traversal id", (t) => {
   const err = t.throws(() => loadGuideline(TMP, "../../etc/passwd"));
   t.true(err.message.includes("Invalid guideline id"), `got: ${err.message}`);
