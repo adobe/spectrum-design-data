@@ -13,6 +13,12 @@
  *
  * All read tools run fully in-process via @adobe/design-data-wasm — no CLI binary
  * required. primer and describe_component were migrated in issue m1r.
+ * describe_guideline (spectrum-design-data-9fe.7) is the read-back counterpart to
+ * data_create/data_edit's "guidelines" category, closing the same read/write
+ * asymmetry describe_component already closes for components. Its guideline-loading
+ * logic (including the path-traversal guard) is shared with the sibling
+ * @adobe/design-data-mcp package's `design-data-guideline` tool via the
+ * `@adobe/design-data/guideline` module, rather than duplicated here.
  *
  * Note: authoring_session_step_intent in authoring.js still uses the CLI because
  * the NLP suggest ranking is not yet on the wasm surface.
@@ -20,17 +26,19 @@
  * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
  * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
  * validate_usage all reflect it (they read config.cascadeDataPath instead of
- * config.dataPath when config.cascadeActive). describe_component
- * does not — components/relationships still come from config.componentsDir /
- * config.relationshipsDir, which resolve from the embedded @adobe/spectrum-design-data
- * package regardless of cascade state. A platform source repo generally carries a
- * token cascade only, not its own component schemas, so this is left out of scope
- * rather than guessed at; revisit if a platform manifest starts declaring components.
+ * config.dataPath when config.cascadeActive). describe_component/describe_guideline
+ * do not — components/relationships/guidelines still come from config.componentsDir /
+ * config.relationshipsDir / config.guidelinesDir, which resolve from the embedded
+ * @adobe/spectrum-design-data package regardless of cascade state. A platform source
+ * repo generally carries a token cascade only, not its own component/guideline
+ * schemas, so this is left out of scope rather than guessed at; revisit if a platform
+ * manifest starts declaring components or guidelines.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
+import { loadGuideline } from "@adobe/design-data/guideline";
 import { config } from "../config.js";
 import { checkDatasetFreshness } from "../dataset-freshness.js";
 
@@ -71,17 +79,25 @@ async function getDataset() {
 }
 
 /**
- * Validate a component ID against the same rule as the Rust SDK.
+ * Validate a kebab-case ID against the same rule as the Rust SDK.
  * See sdk/core/src/component.rs:validate_id — prevents path traversal.
  */
-const COMPONENT_ID_RE = /^[a-z][a-z0-9-]*$/;
-function validateComponentId(id) {
-  if (!COMPONENT_ID_RE.test(id)) {
+const KEBAB_ID_RE = /^[a-z][a-z0-9-]*$/;
+function validateKebabId(id, kind) {
+  if (!KEBAB_ID_RE.test(id)) {
     throw new Error(
-      `Invalid component ID "${id}". IDs must be kebab-case: start with a lowercase ` +
+      `Invalid ${kind} ID "${id}". IDs must be kebab-case: start with a lowercase ` +
         `letter and contain only lowercase letters, digits, and hyphens.`,
     );
   }
+}
+
+function validateComponentId(id) {
+  validateKebabId(id, "component");
+}
+
+function validateGuidelineId(id) {
+  validateKebabId(id, "guideline");
 }
 
 export function createReadTools() {
@@ -263,6 +279,57 @@ export function createReadTools() {
         }
 
         return component;
+      },
+    },
+
+    {
+      name: "describe_guideline",
+      description:
+        "Return the full documentBlocks content and metadata for a Spectrum design " +
+        "guideline by its slug ID — the read-back counterpart to data_create/data_edit " +
+        "for the guidelines category. Guideline IDs are kebab-case, e.g. colors, motion, " +
+        "typography-fundamentals.",
+      inputSchema: {
+        type: "object",
+        required: ["id"],
+        properties: {
+          id: {
+            type: "string",
+            description: "Guideline ID (kebab-case slug), e.g. colors, motion",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ id }) {
+        validateGuidelineId(id);
+        const guidelinesDir = config.guidelinesDir;
+        if (!guidelinesDir) {
+          throw new Error(
+            `@adobe/spectrum-design-data is not installed — cannot load guideline "${id}". ` +
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
+          );
+        }
+        try {
+          return loadGuideline(guidelinesDir, id);
+        } catch (err) {
+          if (err.message.startsWith("Not found:")) {
+            let available;
+            try {
+              available = readdirSync(guidelinesDir)
+                .filter((f) => f.endsWith(".json") && f !== "manifest.json")
+                .map((f) => f.replace(/\.json$/, ""))
+                .sort()
+                .join(", ");
+            } catch {
+              available = null;
+            }
+            const hint = available
+              ? `Available guidelines: ${available}`
+              : `Check packages/design-data/guidelines/manifest.json for available IDs.`;
+            throw new Error(`Guideline not found: "${id}". ${hint}`);
+          }
+          throw err;
+        }
       },
     },
   ];
