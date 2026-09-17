@@ -29,6 +29,7 @@ use design_data_core::compat::{
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
+use design_data_core::dtcg;
 use design_data_core::figma;
 use design_data_core::graph::TokenGraph;
 use design_data_core::legacy;
@@ -190,9 +191,11 @@ enum Commands {
         /// Contrast mode (e.g. regular, high)
         #[arg(long, value_name = "MODE")]
         contrast: Option<String>,
-        /// Output format
-        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
-        format: OutputFormat,
+        /// Output format: `pretty` (human-readable), `json` (raw resolved token
+        /// record), or `dtcg` (W3C Design Tokens Community Group `$value`/`$type`
+        /// document, for Style Dictionary/Terrazzo/etc. consumption)
+        #[arg(long, value_enum, default_value_t = ResolveFormat::Pretty)]
+        format: ResolveFormat,
     },
     /// Decompose a legacy kebab-case token slug into its structured name-object
     /// fields (property/component/variant/state), verifying the roundtrip.
@@ -622,6 +625,17 @@ enum DiffFormat {
     Markdown,
 }
 
+/// Output format for the `resolve` command (superset of `OutputFormat` — adds `dtcg`,
+/// a W3C DTCG-conformant `$value`/`$type`/`$description` document derived from the
+/// resolved token's leaf value; see `design_data_core::dtcg`).
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum ResolveFormat {
+    #[default]
+    Pretty,
+    Json,
+    Dtcg,
+}
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
@@ -704,7 +718,7 @@ fn run_resolve(
     color_scheme: Option<String>,
     scale: Option<String>,
     contrast: Option<String>,
-    format: OutputFormat,
+    format: ResolveFormat,
 ) -> miette::Result<ExitCode> {
     // Build resolution context from flags.
     let mut resolve_ctx = ResolutionContext::new();
@@ -760,13 +774,17 @@ fn run_resolve(
         Some(winner) => {
             let winner = &winner.record;
             match format {
-                OutputFormat::Json => {
+                ResolveFormat::Json => {
                     println!(
                         "{}",
                         serde_json::to_string_pretty(&winner.raw).into_diagnostic()?
                     );
                 }
-                OutputFormat::Pretty => {
+                ResolveFormat::Dtcg => {
+                    let doc = dtcg::token_to_dtcg_document(&graph, winner);
+                    println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+                }
+                ResolveFormat::Pretty => {
                     println!("Property:  {property}");
                     if let Some(val) = winner.raw.get("value") {
                         println!("Value:     {val}");
