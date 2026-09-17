@@ -74,6 +74,10 @@ export const config = {
     anchorPath(process.env.DESIGN_DATA_RELATIONSHIPS) ??
     resolveDataPackageDir("relationships") ??
     null,
+  guidelinesDir:
+    anchorPath(process.env.DESIGN_DATA_GUIDELINES) ??
+    resolveDataPackageDir("guidelines") ??
+    null,
   fieldsDir:
     anchorPath(process.env.DESIGN_DATA_FIELDS) ??
     resolveDataPackageDir("fields") ??

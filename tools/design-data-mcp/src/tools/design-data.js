@@ -20,6 +20,8 @@ import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname, resolve, sep } from "path";
 
+import { loadGuideline } from "@adobe/design-data/guideline";
+
 import { checkDatasetFreshness } from "../dataset-freshness.js";
 
 let _wasm;
@@ -73,6 +75,24 @@ function loadDataFile(subdir, id) {
         `Install it with: pnpm add @adobe/spectrum-design-data`,
     );
   }
+
+  // Guideline loading (path-traversal guard included) is shared with
+  // @adobe/design-data-agent-mcp's describe_guideline tool via
+  // @adobe/design-data/guideline — reuse it here instead of duplicating the
+  // same containment check.
+  if (subdir === "guidelines") {
+    try {
+      return loadGuideline(resolve(pkgRoot, subdir), id);
+    } catch (err) {
+      if (err.message.startsWith("Not found:")) {
+        throw new Error(
+          `${err.message} Call design-data-guideline-list to see available guideline IDs.`,
+        );
+      }
+      throw err;
+    }
+  }
+
   const baseDir = resolve(pkgRoot, subdir);
   const filePath = resolve(baseDir, `${id}.json`);
   // Containment check: reject any path that escapes the intended subdirectory.
@@ -82,9 +102,7 @@ function loadDataFile(subdir, id) {
   if (!existsSync(filePath)) {
     throw new Error(
       `Not found: "${id}" in ${subdir}/. ` +
-        (subdir === "components"
-          ? `Call design-data-primer to see available component IDs.`
-          : `Call design-data-guideline-list to see available guideline IDs.`),
+        `Call design-data-primer to see available component IDs.`,
     );
   }
   return JSON.parse(readFileSync(filePath, "utf-8"));

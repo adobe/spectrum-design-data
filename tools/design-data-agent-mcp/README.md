@@ -1,6 +1,6 @@
 # `@adobe/design-data-agent-mcp`
 
-MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `describe_component`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. Only `authoring_session_step_intent` still invokes the native binary (for NLP suggest ranking, not yet on the wasm surface).
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `describe_component`, `describe_guideline`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. Only `authoring_session_step_intent` still invokes the native binary (for NLP suggest ranking, not yet on the wasm surface).
 
 ## Install
 
@@ -66,6 +66,7 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to                              |
 | `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                                              |
 | `DESIGN_DATA_COMPONENTS` | —             | Override components directory                                                  |
+| `DESIGN_DATA_GUIDELINES` | —             | Override guidelines directory                                                  |
 | `DESIGN_DATA_FIELDS`     | —             | Override fields directory                                                      |
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)                                          |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)                                      |
@@ -77,8 +78,9 @@ node tools/design-data-agent-mcp/src/index.js
 > source (path/npm/github/git) and any top-level `manifest` cascade, then
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
 > `query_tokens` / `validate_usage` at it instead of the embedded Spectrum
-> snapshot. `describe_component` is unaffected — it always reads components from
-> `@adobe/spectrum-design-data` regardless of cascade state. If resolution fails
+> snapshot. `describe_component` / `describe_guideline` are unaffected — they always
+> read components/guidelines from `@adobe/spectrum-design-data` regardless of
+> cascade state. If resolution fails
 > (e.g. no network for a github source), the server logs a warning and falls
 > back to the embedded/local dataset rather than crashing.
 
@@ -100,8 +102,8 @@ node tools/design-data-agent-mcp/src/index.js
 >    is independent of the working directory.
 > 3. **Fallback.** `dataPath` falls back to the (anchored) current directory; the
 >    component/field overrides fall back to `null` (not supplied), which means
->    `describe_component` will throw an error if `@adobe/spectrum-design-data` is
->    not resolvable.
+>    `describe_component` / `describe_guideline` will throw an error if
+>    `@adobe/spectrum-design-data` is not resolvable.
 >
 > In a monorepo checkout you typically need no `DESIGN_DATA_*` env vars at all —
 > resolution via the workspace package handles it.
@@ -150,6 +152,7 @@ node tools/design-data-agent-mcp/src/index.js
 | `resolve_token`      | Resolve a token property to its literal value                   |
 | `query_tokens`       | Filter tokens by expression                                     |
 | `describe_component` | Fetch component schema and token bindings                       |
+| `describe_guideline` | Fetch guideline documentBlocks content and metadata             |
 | `validate_usage`     | Validate token usage and return a diagnostic report             |
 | `diff_datasets`      | Compare two datasets and return a semantic diff                 |
 | `write`              | Write agent-generated product context to the dataset            |
