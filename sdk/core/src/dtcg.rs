@@ -55,15 +55,17 @@
 //!
 //! ## Known v1 limitations
 //!
-//! * Inline `{alias}` references inside composite values (typography, drop-shadow) are
-//!   resolved to literals via [`crate::graph::TokenGraph::resolve_alias_key`], which is
-//!   **not** mode-context-aware — a composite sub-value that varies by mode set picks
-//!   the default-context sibling. Acceptable for a single-token export; the bulk exporter
-//!   follow-up should reconsider this once mode context is meaningful across many tokens.
 //! * Color is normalized to a CSS hex string rather than the DTCG draft's
 //!   `{colorSpace, components, alpha}` object form. This is a deliberate deviation for
 //!   compatibility with the ecosystem tools this format targets (Style Dictionary,
 //!   Terrazzo), which consume CSS color strings, not the draft object form.
+//!
+//! Inline `{alias}` references inside composite values (typography, drop-shadow) used
+//! to always resolve to the default-context sibling regardless of mode — fine for a
+//! single-token export, wrong for a bulk export spanning many mode combinations. See
+//! [`token_to_dtcg_document_in_context`], which fixes this for bulk/dataset exporters.
+
+use std::collections::HashMap;
 
 use serde_json::{Map, Value};
 
@@ -74,8 +76,39 @@ use crate::naming::extract_legacy_key;
 ///
 /// `record` is the cascade winner (may be an alias); this function follows
 /// [`TokenRecord::resolve_leaf`] internally to find the actual value and its type.
+/// Composite sub-value inline aliases resolve to their default-context sibling — use
+/// [`token_to_dtcg_document_in_context`] when resolving many tokens across mode
+/// combinations, where that would be wrong.
 pub fn token_to_dtcg_document(graph: &TokenGraph, record: &TokenRecord) -> Value {
     let leaf = record.resolve_leaf(graph);
+    build_document(graph, record, leaf, None)
+}
+
+/// Context-aware sibling of [`token_to_dtcg_document`], for bulk/dataset exporters.
+///
+/// Resolves the leaf and every composite sub-value's inline `{alias}` reference via
+/// [`TokenRecord::resolve_leaf_in_context`]/[`TokenGraph::resolve_alias_in_context`]
+/// instead of their mode-agnostic counterparts, so a composite whose sub-value alias
+/// varies by mode (e.g. a typography token's `fontSize` pointing at a scale-set concept)
+/// picks the member matching `ctx`, not an arbitrary default-context one.
+pub fn token_to_dtcg_document_in_context(
+    graph: &TokenGraph,
+    record: &TokenRecord,
+    ctx: &HashMap<String, String>,
+) -> Value {
+    let leaf = record.resolve_leaf_in_context(graph, ctx);
+    build_document(graph, record, leaf, Some(ctx))
+}
+
+/// Shared body for [`token_to_dtcg_document`] and [`token_to_dtcg_document_in_context`]:
+/// `leaf` is the already-resolved leaf (mode-agnostic or mode-aware, per caller); `ctx`
+/// (when present) threads through composite sub-value resolution the same way.
+fn build_document(
+    graph: &TokenGraph,
+    record: &TokenRecord,
+    leaf: &TokenRecord,
+    ctx: Option<&HashMap<String, String>>,
+) -> Value {
     let key = extract_legacy_key(&record.raw.get("name").cloned().unwrap_or(Value::Null))
         .unwrap_or_else(|| record.name.clone());
 
@@ -83,7 +116,10 @@ pub fn token_to_dtcg_document(graph: &TokenGraph, record: &TokenRecord) -> Value
     let dtcg_type = schema_to_dtcg_type(leaf.schema_url.as_deref());
 
     if let Some(value) = leaf.raw.get("value") {
-        token.insert("$value".to_string(), convert_value(value, dtcg_type, graph));
+        token.insert(
+            "$value".to_string(),
+            convert_value(value, dtcg_type, graph, ctx),
+        );
     }
     if let Some(t) = dtcg_type {
         token.insert("$type".to_string(), Value::String(t.to_string()));
@@ -155,7 +191,15 @@ fn schema_to_dtcg_type(schema_url: Option<&str>) -> Option<DtcgType> {
 }
 
 /// Convert a raw cascade value to its DTCG-conformant JSON shape for `dtcg_type`.
-fn convert_value(value: &Value, dtcg_type: Option<DtcgType>, graph: &TokenGraph) -> Value {
+///
+/// `ctx`, when present, threads mode-aware alias resolution through composite
+/// sub-values — see [`resolve_inline`].
+fn convert_value(
+    value: &Value,
+    dtcg_type: Option<DtcgType>,
+    graph: &TokenGraph,
+    ctx: Option<&HashMap<String, String>>,
+) -> Value {
     match dtcg_type {
         Some(DtcgType::Color) => value
             .as_str()
@@ -172,8 +216,8 @@ fn convert_value(value: &Value, dtcg_type: Option<DtcgType>, graph: &TokenGraph)
             .unwrap_or_else(|| value.clone()),
         Some(DtcgType::FontWeight) => value.clone(),
         Some(DtcgType::FontFamily) => value.clone(),
-        Some(DtcgType::Typography) => convert_typography(value, graph),
-        Some(DtcgType::Shadow) => convert_shadow(value, graph),
+        Some(DtcgType::Typography) => convert_typography(value, graph, ctx),
+        Some(DtcgType::Shadow) => convert_shadow(value, graph, ctx),
         None => value.clone(),
     }
 }
@@ -181,35 +225,54 @@ fn convert_value(value: &Value, dtcg_type: Option<DtcgType>, graph: &TokenGraph)
 /// Resolve an inline `{alias}` string to its target's literal value, following the chain
 /// to a leaf. Non-alias strings (and non-string values) pass through unchanged.
 ///
-/// Not mode-context-aware — see module docs.
-fn resolve_inline(value: &Value, graph: &TokenGraph) -> Value {
+/// `ctx: None` uses the mode-agnostic [`TokenGraph::resolve_alias_key`]/
+/// [`TokenRecord::resolve_leaf`] path (a composite sub-value alias that varies by mode
+/// picks the default-context sibling). `ctx: Some(_)` uses
+/// [`TokenGraph::resolve_alias_in_context`]/[`TokenRecord::resolve_leaf_in_context`]
+/// instead, so it picks the member matching `ctx`.
+fn resolve_inline(
+    value: &Value,
+    graph: &TokenGraph,
+    ctx: Option<&HashMap<String, String>>,
+) -> Value {
     let Some(s) = value.as_str() else {
         return value.clone();
     };
     let Some(inner) = s.strip_prefix('{').and_then(|s| s.strip_suffix('}')) else {
         return value.clone();
     };
-    let Some(target) = graph.resolve_alias_key(inner) else {
+    let target = match ctx {
+        Some(c) => graph.resolve_alias_in_context(inner, c),
+        None => graph.resolve_alias_key(inner),
+    };
+    let Some(target) = target else {
         return value.clone();
     };
-    let leaf = target.resolve_leaf(graph);
+    let leaf = match ctx {
+        Some(c) => target.resolve_leaf_in_context(graph, c),
+        None => target.resolve_leaf(graph),
+    };
     let leaf_type = schema_to_dtcg_type(leaf.schema_url.as_deref());
     leaf.raw
         .get("value")
-        .map(|v| convert_value(v, leaf_type, graph))
+        .map(|v| convert_value(v, leaf_type, graph, ctx))
         .unwrap_or_else(|| value.clone())
 }
 
 /// Convert a typography composite: resolve each sub-value's inline alias, then convert
 /// dimension-shaped sub-values (`fontSize`, `lineHeight`, `letterSpacing`) to DTCG
 /// dimension objects.
-fn convert_typography(value: &Value, graph: &TokenGraph) -> Value {
+fn convert_typography(
+    value: &Value,
+    graph: &TokenGraph,
+    ctx: Option<&HashMap<String, String>>,
+) -> Value {
     let Some(obj) = value.as_object() else {
         return value.clone();
     };
     let mut out = Map::new();
     for (k, v) in obj {
-        let resolved = resolve_inline(v, graph);
+        let resolved = resolve_inline(v, graph, ctx);
         let converted = match k.as_str() {
             "fontSize" | "lineHeight" | "letterSpacing" => resolved
                 .as_str()
@@ -224,7 +287,11 @@ fn convert_typography(value: &Value, graph: &TokenGraph) -> Value {
 
 /// Convert a drop-shadow composite (array of shadow layers): resolve inline aliases,
 /// convert dimension sub-values, and rename `x`/`y` to DTCG's `offsetX`/`offsetY`.
-fn convert_shadow(value: &Value, graph: &TokenGraph) -> Value {
+fn convert_shadow(
+    value: &Value,
+    graph: &TokenGraph,
+    ctx: Option<&HashMap<String, String>>,
+) -> Value {
     let Some(layers) = value.as_array() else {
         return value.clone();
     };
@@ -237,7 +304,7 @@ fn convert_shadow(value: &Value, graph: &TokenGraph) -> Value {
                 };
                 let mut out = Map::new();
                 for (k, v) in obj {
-                    let resolved = resolve_inline(v, graph);
+                    let resolved = resolve_inline(v, graph, ctx);
                     let dtcg_key = match k.as_str() {
                         "x" => "offsetX",
                         "y" => "offsetY",
@@ -459,6 +526,75 @@ mod tests {
         assert_eq!(value["fontSize"]["unit"], "px");
         assert_eq!(value["fontWeight"], "bold");
         assert_eq!(doc["component-l-bold"]["$type"], "typography");
+    }
+
+    #[test]
+    fn in_context_composite_picks_mode_matching_sub_value_alias() {
+        // Two scale-set members of the same concept: mode-agnostic resolution
+        // (`resolve_alias_key`) can only ever land on one of them (whichever the
+        // concept-id index registered first), so this proves the `_in_context` path
+        // picks the member matching `ctx`, not a fixed default.
+        let font_size_desktop = record(
+            "font-size-200-desktop",
+            "font-size.json",
+            serde_json::json!({
+                "name": {"property": "font-size", "legacyKey": "font-size-200", "scale": "desktop"},
+                "value": "16px",
+                "conceptId": "font-size-200-concept",
+            }),
+        );
+        let font_size_mobile = record(
+            "font-size-200-mobile",
+            "font-size.json",
+            serde_json::json!({
+                "name": {"property": "font-size", "legacyKey": "font-size-200", "scale": "mobile"},
+                "value": "14px",
+                "conceptId": "font-size-200-concept",
+            }),
+        );
+        let typography = record(
+            "component-l-bold",
+            "typography.json",
+            serde_json::json!({
+                "name": {"property": "typography", "legacyKey": "component-l-bold"},
+                "value": {
+                    "fontFamily": "Adobe Clean",
+                    "fontSize": "{font-size-200-concept}",
+                    "fontWeight": "bold",
+                },
+            }),
+        );
+        let graph = TokenGraph::from_pairs(vec![
+            (
+                font_size_desktop.name.clone(),
+                font_size_desktop.file.clone(),
+                font_size_desktop.raw.clone(),
+            ),
+            (
+                font_size_mobile.name.clone(),
+                font_size_mobile.file.clone(),
+                font_size_mobile.raw.clone(),
+            ),
+            (
+                typography.name.clone(),
+                typography.file.clone(),
+                typography.raw.clone(),
+            ),
+        ]);
+
+        let mobile_ctx = HashMap::from([("scale".to_string(), "mobile".to_string())]);
+        let mobile_doc = token_to_dtcg_document_in_context(&graph, &typography, &mobile_ctx);
+        assert_eq!(
+            mobile_doc["component-l-bold"]["$value"]["fontSize"]["value"],
+            14.0
+        );
+
+        let desktop_ctx = HashMap::from([("scale".to_string(), "desktop".to_string())]);
+        let desktop_doc = token_to_dtcg_document_in_context(&graph, &typography, &desktop_ctx);
+        assert_eq!(
+            desktop_doc["component-l-bold"]["$value"]["fontSize"]["value"],
+            16.0
+        );
     }
 
     #[test]

@@ -31,7 +31,7 @@ use design_data_core::diff;
 use design_data_core::diff::display_name;
 use design_data_core::dtcg;
 use design_data_core::figma;
-use design_data_core::graph::TokenGraph;
+use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
@@ -244,12 +244,47 @@ enum Commands {
         /// Filter expression (e.g. "component=button,state=hover")
         #[arg(long, value_name = "EXPR")]
         filter: String,
-        /// Output format
-        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
-        format: OutputFormat,
+        /// Output format: `pretty`, `json` (raw matching records), or `dtcg` (resolved
+        /// cascade winner per matched property, as a merged W3C DTCG document)
+        #[arg(long, value_enum, default_value_t = QueryFormat::Pretty)]
+        format: QueryFormat,
         /// Output only the match count
         #[arg(long)]
         count: bool,
+        /// Color scheme mode for `--format dtcg` resolution (e.g. light, dark, wireframe)
+        #[arg(long, value_name = "MODE")]
+        color_scheme: Option<String>,
+        /// Scale mode for `--format dtcg` resolution (e.g. desktop, mobile)
+        #[arg(long, value_name = "MODE")]
+        scale: Option<String>,
+        /// Contrast mode for `--format dtcg` resolution (e.g. regular, high)
+        #[arg(long, value_name = "MODE")]
+        contrast: Option<String>,
+    },
+    /// Export a whole resolved dataset as a single W3C DTCG document: every distinct
+    /// token property resolved to its cascade winner in the given mode context, merged
+    /// into one flat document (see `design_data_core::dtcg`). Reuses the same mode flags
+    /// and manifest handling as `resolve`; unlike `resolve`, it emits every property, not
+    /// one.
+    Export {
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Directory containing spec-format mode set declaration JSON files
+        #[arg(long, value_name = "DIR")]
+        mode_sets_path: Option<PathBuf>,
+        /// Color scheme mode (e.g. light, dark, wireframe)
+        #[arg(long, value_name = "MODE")]
+        color_scheme: Option<String>,
+        /// Scale mode (e.g. desktop, mobile)
+        #[arg(long, value_name = "MODE")]
+        scale: Option<String>,
+        /// Contrast mode (e.g. regular, high)
+        #[arg(long, value_name = "MODE")]
+        contrast: Option<String>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = ExportFormat::Dtcg)]
+        format: ExportFormat,
     },
     /// Snapshot and backward-compat verification helpers
     Migrate {
@@ -636,6 +671,25 @@ enum ResolveFormat {
     Dtcg,
 }
 
+/// Output format for the `export` command.
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum ExportFormat {
+    #[default]
+    Dtcg,
+    Json,
+}
+
+/// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
+/// which resolves the cascade winner for each distinct property among the matched
+/// tokens and merges them into one W3C DTCG document; see `design_data_core::dtcg`).
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum QueryFormat {
+    #[default]
+    Pretty,
+    Json,
+    Dtcg,
+}
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
@@ -709,6 +763,56 @@ fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode
     }
     println!("{}", serde_json::to_string_pretty(&out).into_diagnostic()?);
     Ok(ExitCode::SUCCESS)
+}
+
+/// Enumerate distinct `name.property` values across the graph (optionally restricted
+/// to `only_properties`), resolve the cascade winner for each in `ctx`, and return the
+/// winning records. Shared by `export --format dtcg`/`--format json` and
+/// `query --format dtcg`.
+fn resolve_dataset_winners(
+    graph: &TokenGraph,
+    ctx: &ResolutionContext,
+    only_properties: Option<&HashSet<&str>>,
+) -> Vec<TokenRecord> {
+    let properties: HashSet<&str> = graph
+        .tokens
+        .values()
+        .filter_map(|t| {
+            t.raw
+                .get("name")
+                .and_then(|v| v.as_object())
+                .and_then(|n| n.get("property"))
+                .and_then(|v| v.as_str())
+        })
+        .filter(|p| only_properties.is_none_or(|only| only.contains(p)))
+        .collect();
+
+    properties
+        .into_iter()
+        .filter_map(|property| {
+            resolve_property(graph, property, ctx)
+                .into_iter()
+                .find(|c| c.is_winner)
+                .map(|c| c.record)
+        })
+        .collect()
+}
+
+/// Merge each winner's single-key DTCG document into one flat DTCG document.
+fn winners_to_dtcg_doc(
+    graph: &TokenGraph,
+    winners: &[TokenRecord],
+    ctx: &HashMap<String, String>,
+) -> serde_json::Value {
+    let mut doc = serde_json::Map::new();
+    for winner in winners {
+        if let serde_json::Value::Object(entry) =
+            dtcg::token_to_dtcg_document_in_context(graph, winner, ctx)
+        {
+            doc.extend(entry);
+        }
+    }
+    serde_json::Value::Object(doc)
 }
 
 fn run_resolve(
@@ -1405,8 +1509,11 @@ fn run_diff(
 fn run_query(
     explicit_path: Option<&Path>,
     filter_expr: &str,
-    format: OutputFormat,
+    format: QueryFormat,
     count_only: bool,
+    color_scheme: Option<String>,
+    scale: Option<String>,
+    contrast: Option<String>,
 ) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: explicit_path.map(Path::to_path_buf),
@@ -1423,7 +1530,7 @@ fn run_query(
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (filters/overrides/extensions) before querying.
-    manifest::apply_configured(&mut graph, &resolved)
+    let restrictions = manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
     // Manifest overlays change the token set — rebuild the index when one is configured.
@@ -1447,14 +1554,44 @@ fn run_query(
     }
 
     match format {
-        OutputFormat::Json => {
+        QueryFormat::Dtcg => {
+            let mut resolve_ctx = ResolutionContext::new();
+            if let Some(m) = color_scheme {
+                resolve_ctx = resolve_ctx.with("colorScheme", m);
+            }
+            if let Some(m) = scale {
+                resolve_ctx = resolve_ctx.with("scale", m);
+            }
+            if let Some(m) = contrast {
+                resolve_ctx = resolve_ctx.with("contrast", m);
+            }
+            for (mode_set, allowed) in &restrictions {
+                resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
+            }
+
+            let matched_properties: HashSet<&str> = results
+                .iter()
+                .filter_map(|t| {
+                    t.raw
+                        .get("name")
+                        .and_then(|v| v.as_object())
+                        .and_then(|n| n.get("property"))
+                        .and_then(|v| v.as_str())
+                })
+                .collect();
+
+            let winners = resolve_dataset_winners(&graph, &resolve_ctx, Some(&matched_properties));
+            let doc = winners_to_dtcg_doc(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
+        QueryFormat::Json => {
             let raw_values: Vec<&serde_json::Value> = results.iter().map(|t| &t.raw).collect();
             println!(
                 "{}",
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
         }
-        OutputFormat::Pretty => {
+        QueryFormat::Pretty => {
             if results.is_empty() {
                 println!("No matching tokens.");
             } else {
@@ -1478,6 +1615,70 @@ fn run_query(
     } else {
         Ok(ExitCode::SUCCESS)
     }
+}
+
+/// `design-data export [PATH]` — export the whole resolved dataset: every distinct
+/// token property resolved to its cascade winner in the given mode context, merged
+/// into one flat document. Mirrors `run_resolve`'s data-loading/mode-context setup,
+/// but emits every property instead of one.
+fn run_export(
+    explicit_path: Option<&Path>,
+    mode_sets_path: Option<PathBuf>,
+    color_scheme: Option<String>,
+    scale: Option<String>,
+    contrast: Option<String>,
+    format: ExportFormat,
+) -> miette::Result<ExitCode> {
+    let mut resolve_ctx = ResolutionContext::new();
+    if let Some(m) = color_scheme {
+        resolve_ctx = resolve_ctx.with("colorScheme", m);
+    }
+    if let Some(m) = scale {
+        resolve_ctx = resolve_ctx.with("scale", m);
+    }
+    if let Some(m) = contrast {
+        resolve_ctx = resolve_ctx.with("contrast", m);
+    }
+
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        mode_sets: mode_sets_path,
+        ..Default::default()
+    })?;
+    let path = &resolved.tokens_root;
+
+    let mut graph = TokenGraph::open_cached_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    let restrictions = manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    for (mode_set, allowed) in &restrictions {
+        resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
+    }
+
+    let winners = resolve_dataset_winners(&graph, &resolve_ctx, None);
+
+    match format {
+        ExportFormat::Dtcg => {
+            let doc = winners_to_dtcg_doc(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
+        ExportFormat::Json => {
+            let raw_values: Vec<&serde_json::Value> = winners.iter().map(|t| &t.raw).collect();
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&raw_values).into_diagnostic()?
+            );
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
 }
 
 /// Load a legacyKey → Figma-name override map from a `figma audit` artifact
@@ -2498,7 +2699,33 @@ fn main() -> ExitCode {
             filter,
             format,
             count,
-        } => run_query(path.as_deref(), &filter, format, count),
+            color_scheme,
+            scale,
+            contrast,
+        } => run_query(
+            path.as_deref(),
+            &filter,
+            format,
+            count,
+            color_scheme,
+            scale,
+            contrast,
+        ),
+        Commands::Export {
+            path,
+            mode_sets_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        } => run_export(
+            path.as_deref(),
+            mode_sets_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        ),
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {
                 path,
