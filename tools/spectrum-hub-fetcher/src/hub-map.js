@@ -34,6 +34,10 @@ const PREFIX_CATEGORIES = [
   ["/foundations/", "designing"],
   ["/content/", "designing"],
   ["/support/", "support"],
+  // Meta/orientation pages (introduction, principles) already file under
+  // "fundamentals" in the existing corpus — see the note above about that
+  // category being reserved for exactly this kind of page.
+  ["/getting-started/", "fundamentals"],
 ];
 
 export const SUPPORTED_PREFIXES = PREFIX_CATEGORIES.map(([prefix]) => prefix);

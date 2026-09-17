@@ -57,7 +57,13 @@ test("categoryForPath honours the curated category override table", (t) => {
 
 test("categoryForPath returns null for out-of-scope prefixes", (t) => {
   t.is(categoryForPath("/web/swc/components/accordion"), null);
-  t.is(categoryForPath("/getting-started/intro"), null);
+  t.is(categoryForPath("/docs/x"), null);
+});
+
+test("categoryForPath maps /getting-started/ to fundamentals", (t) => {
+  // introduction/principles already file under "fundamentals" in the
+  // existing corpus — see spectrum-design-data-085.2.4.
+  t.is(categoryForPath("/getting-started/intro"), "fundamentals");
 });
 
 // ── stub detection ──────────────────────────────────────────────────────────
