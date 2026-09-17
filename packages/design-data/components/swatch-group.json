@@ -16,23 +16,23 @@
     },
     {
       "type": "guideline",
-      "content": "Swatch groups organize related swatches into a single container. They’re used to display collections of colors, gradients, textures, or materials for comparison or selection."
+      "content": "Border only for low-contrast swatches.\n\nIt's important for users to compare colors when they're displayed in a swatch group. Because of this, swatches within a swatch group with low contrast (below 3:1 contrast with the background) have a less prominent border compared to the swatch component when used by itself. This reduces the likelihood of the UI interfering with color perception and comparisons."
     },
     {
       "type": "guideline",
-      "content": "Swatch groups come in 3 densities: regular (default), compact, and spacious. Compact and spacious densities retain the same swatch size as regular density but have less or more padding between each swatch, respectively."
+      "content": "Corner rounding in swatch groups.\n\nA corner rounding of none should be used in a swatch group in order to help minimize the Hermann grid illusion that happens at the intersections of the white space within the group. The only exception is when a swatch group only takes up a single row. In that case, use any of the rounding options: none, partial rounding, or full rounding."
     },
     {
       "type": "guideline",
-      "content": "By default, selection is not enabled in a swatch group. Selection can be enabled for a swatch group to allow for toggling. This is often used inside of swatch panels."
+      "content": "Keyboard interactions.\n\nKey Interaction TabMoves focus onto the swatch or swatch group.Arrow keysMoves focus through the swatches in the group."
     },
     {
       "type": "guideline",
-      "content": "When selection is enabled, a swatch group can allow for either single or multiple selection of swatches. This is often used inside of swatch panels to allow for bulk operations, such as deleting multiple swatches at once."
+      "content": "Cursor guidelines.\n\nCursor Description PointerUse the pointer cursor for all interactive elements in every state."
     },
     {
       "type": "guideline",
-      "content": "It’s important for users to compare colors when they’re displayed in a swatch group. Because of this, swatches within a swatch group with low contrast (below 3:1 contrast with the background) have a less prominent border compared to the swatch component when used by itself. This reduces the likelihood of the UI interfering with color perception and comparisons."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAASwatch groups should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized, so the grouping relationship between swatches and the selected state are programmatically conveyed.Use of color 1.4.1 AThis criterion requires that color not be the only method of communicating information. In swatches, the color itself is the content being presented, not a cue that conveys additional meaning. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
     }
   ],
   "options": {
@@ -40,51 +40,27 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "xs"
-        },
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
+        { "value": "xs" },
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" }
       ]
     },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        {
-          "value": "compact"
-        },
-        {
-          "value": "regular"
-        },
-        {
-          "value": "spacious"
-        }
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" }
       ]
     },
-    "enableSelection": {
-      "type": "boolean",
-      "default": false
-    },
+    "enableSelection": { "type": "boolean", "default": false },
     "selectionMode": {
       "type": "string",
       "description": "Only applicable if selection is enabled.",
       "default": "single",
-      "values": [
-        {
-          "value": "single"
-        },
-        {
-          "value": "multiple"
-        }
-      ]
+      "values": [{ "value": "single" }, { "value": "multiple" }]
     },
     "allowsEmptySelection": {
       "type": "boolean",
@@ -96,31 +72,19 @@
       "default": "none",
       "description": "Determines the corner radius of each swatch in the group. Partial refers to corner-radius-75.",
       "values": [
-        {
-          "value": "none"
-        },
-        {
-          "value": "full"
-        },
-        {
-          "value": "partial"
-        }
+        { "value": "none" },
+        { "value": "full" },
+        { "value": "partial" }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "group",
     "intents": ["choose"],
     "focusable": false,
     "wcag": [
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

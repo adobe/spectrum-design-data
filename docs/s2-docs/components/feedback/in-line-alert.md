@@ -1,96 +1,35 @@
 ---
-title: "In-line alert"
-source_url: https://s2.spectrum.corp.adobe.com/page/in-line-alert/
-last_updated: 2026-02-02
-category: components/feedback
-component_type: feedback
+title: In-line alert
+source_url: /web/rsp/components/in-line-alert
+last_updated: null
 status: published
-tags:
-
-- components-feedback
-- feedback
-- overlay
-related_components:
-- illustrated-message
-- standard-dialog
-parent_category: feedback
-
+tags: []
+hub_path: /web/rsp/components/in-line-alert
+swc_exists: false
 ---
 
 # In-line alert
 
-## Resources
-
-### Design
-
-* **Figma**: S2 Web
-
-### Implementations
-
-| Platform                             | Link                                                                                          |
-| ------------------------------------ | --------------------------------------------------------------------------------------------- |
-| Spectrum CSS (archived) CSS: In-line | [alert](https://opensource.adobe.com/spectrum-css/?path=/docs/components-in-line-alert--docs) |
-| Spectrum Web Components Not          | [available](https://react-spectrum.adobe.com/s2/index.html?path=/docs/inlinealert--docs)      |
-| React Spectrum RSP:                  | [InlineAlert](https://react-spectrum.adobe.com/s2/index.html?path=/docs/inlinealert--docs)    |
-
 ## Anatomy
 
-```
-in-line alert
-- background
-- title (optional)
-- icon
-- body area
-```
+in-line alert background title (optional) icon body area
 
 ## Component options
 
-These options are used in Spectrum's design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-| Property    | Value                                                                 | Default value | Description                                                         |
-| ----------- | --------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------- |
-| variant     | neutral / informative / positive / notice / negative / accent neutral | –             |                                                                     |
-| style       | bold / subtle / outline outline                                       | The           | visual style of the alert.                                          |
-| href        | string                                                                | –             | Optional URL within in-line alert content like a 'Learn more' link. |
-| heading     | string                                                                | –             | Optional heading text displayed at the top of the alert.            |
-| actionLabel | string                                                                | –             | If undefined, this button does not appear.                          |
-
-## External links
-
-In-line alerts display non-modal messages connected to elements in a view. They’re often used in forms to show validation feedback across multiple fields.
-
-These options are used in Spectrum’s design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-An in-line alert can have up to one button. This label should be kept concise, and it should only be used when there’s a direct action available that is related to the in-line alert text.
-
-Heading is optional for in-line alerts.
-
-The outline style is the default for in-line alerts.
-
-"There are five semantic variants:"
-
-When the title of an in-line alert is too long for the available horizontal space, it wraps to form another line. The optional icon in the top-right corner stays aligned to the top.
+actionLabel An in-line alert can have up to one button. This label should be kept concise, and it should only be used when there's a direct action available that is related to the in-line alert text. heading Heading is optional for in-line alerts. href An in-line alert can have up to one link. style The outline style is the default for in-line alerts. variant There are five semantic variants: The neutral variant is the default for in-line alerts. It is gray and does not have an icon. This is used for when the message is neutral in tone or when its semantics do not fit any of the other variants. The informative variant uses the informative semantic color (blue) and has an "information" icon to help those with color vision deficiency discern the message tone. This should be used when the message needs to call extra attention, as compared to the neutral variant. The positive variant uses the positive semantic color (green) and has a "checkmark" icon to help those with color vision deficiency discern the message tone. This should be used to inform someone of a successful function or result of an action they took. The notice variant uses the notice semantic color (orange) and has a diamond "alert" icon to help those with color vision deficiency to discern the message tone. This can be used to warn about a situation that may need to be addressed soon. The negative variant uses the negative semantic color (red) and has a triangle "alert" icon to help those with color vision deficiency to discern the message tone. This can be used to show an error or a failure, or to convey something that needs to be immediately acknowledged or addressed.
 
 ## States
 
+State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+
 ## Behaviors
 
-## Design tokens
+### Text overflow
 
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
+When the title of an in-line alert is too long for the available horizontal space, it wraps to form another line. The optional icon in the top-right corner stays aligned to the top.
 
-## Changelog
+## Internationalization
 
-| Date               | Number | Notes                                                       |
-| ------------------ | ------ | ----------------------------------------------------------- |
-| November 19, 2025  | 1.1.0  | New guidelines were added to this page.                     |
-| September 15, 2025 | 1.0.0  | This component was added to the Spectrum 2 guidelines site. |
+### RTL
 
-## Questions or feedback?
-
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
-
-## Related Components
-
-* [Illustrated message](/page/illustrated-message/)
-* [Standard dialog](/page/standard-dialog/)
+For RTL (right-to-left) languages, the layout of the in-line alert is mirrored. The icon and dismiss button are both left-aligned.

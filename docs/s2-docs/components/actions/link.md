@@ -1,93 +1,73 @@
 ---
-title: "Link"
-source_url: https://s2.spectrum.corp.adobe.com/page/link/
-last_updated: 2026-02-02
-category: components/actions
-component_type: action
+title: Link
+source_url: /web/rsp/components/link
+last_updated: null
 status: published
-tags:
-
-- components-actions
-related_components:
-- close-button
-- list-view
-parent_category: actions
-
+tags: []
+hub_path: /web/rsp/components/link
+swc_exists: true
 ---
 
 # Link
 
-## Resources
-
-### Design
-
-* **Figma**: S2 Web
-
-### Implementations
-
-| Platform                     | Link                                                                                |
-| ---------------------------- | ----------------------------------------------------------------------------------- |
-| Spectrum CSS (archived) CSS: | [Link](https://opensource.adobe.com/spectrum-css/?path=/docs/components-link--docs) |
-| Spectrum Web Components SWC: | [Link](https://opensource.adobe.com/spectrum-css/?path=/docs/components-link--docs) |
-| React Spectrum RSP:          | [Link](https://react-spectrum.adobe.com/s2/index.html?path=/docs/link--docs)        |
-
 ## Component options
 
-These options are used in Spectrum's design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-| Property    | Value                                           | Default value | Description                                                             |
-| ----------- | ----------------------------------------------- | ------------- | ----------------------------------------------------------------------- |
-| variant     | primary / secondary primary                     | –             |                                                                         |
-| isQuiet     | boolean                                         | false         |                                                                         |
-| staticColor | white / black                                   | –             | Static color must not be set for the default version of this component. |
-| state       | default / hover / down / keyboard focus default | –             |                                                                         |
-
-## External links
-
-Links provide navigation to a different location. They can appear within a paragraph or as standalone text.
-
-These options are used in Spectrum’s design data JSON. There may be additional or slightly different options that are available for this component in Figma and in Spectrum implementations. This is being continuously updated.
-
-Use the static color option when a link needs to be placed on top of a color background or visual. Static color links are available in black or white, regardless of color theme. They can also be placed on top of a custom background that isn’t part of a Spectrum color theme.
-
-Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the link color meet the minimum color contrast ratio.
-
-All links can have a quiet style, without an underline. This style should only be used when the placement and context of the link is explicit enough that a visible underline isn’t necessary.
-
-"The variant property defines the visual style of a link and includes two options: primary and secondary."
-
-The primary variant is the default style and displays the link in Spectrum blue. It is intended to draw attention to the link and is suitable when the blue color complements the surrounding content without being overwhelming.
-
-The secondary variant uses the same gray color as the surrounding paragraph text. Its subdued appearance is ideal for scenarios where multiple links are present in a block of text and the primary variant would be too visually dominant.
-
-Links are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button.
-
-Be mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page.
-
-People using screen readers may tab between links without getting the text in between, so very generic link wording like “learn more” or “click here” doesn’t communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go.
-
-Quiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages.
+staticColor Use the static color option when a link needs to be placed on top of a color background or visual. Static color links are available in black or white, regardless of color theme. They can also be placed on top of a custom background that isn't part of a Spectrum color theme. Use static black on light color or image backgrounds, and static white on dark color or image backgrounds, regardless of color theme. Make sure that the background and the link color meet the minimum color contrast ratio. isQuiet All links can have a quiet style, without an underline. This style should only be used when the placement and context of the link is explicit enough that a visible underline isn't necessary. variant The variant property defines the visual style of a link and includes two options: primary and secondary. The primary variant is the default style and displays the link in Spectrum blue. It is intended to draw attention to the link and is suitable when the blue color complements the surrounding content without being overwhelming. The secondary variant uses the same gray color as the surrounding paragraph text. Its subdued appearance is ideal for scenarios where multiple links are present in a block of text and the primary variant would be too visually dominant.
 
 ## States
 
+State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+
 ## Usage guidelines
 
-## Design tokens
+### Use links in body copy
 
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
+Links are for usage in body copy and are not appropriate in titles. Consider using a different component if you're looking for a larger or more prominent call to action, such as a button.
 
-## Changelog
+### Support screen readers
 
-| Date               | Number | Notes                                                       |
-| ------------------ | ------ | ----------------------------------------------------------- |
-| November 19, 2025  | 1.1.0  | New guidelines were added to this page.                     |
-| September 15, 2025 | 1.0.0  | This component was added to the Spectrum 2 guidelines site. |
+Be mindful of link placement and language, and create experiences that are inclusive of users navigating with screen readers. Screen readers pull a list of links — only the link text, and not including other surrounding language — to determine the content of the page. People using screen readers may tab between links without getting the text in between, so very generic link wording like "learn more" or "click here" doesn't communicate any context from elsewhere in the experience. Identify the target of each link directly in the link text to communicate context and set clear expectations about where the link will go.
 
-## Questions or feedback?
+### When to use quiet links
 
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
+Quiet links are less accessible, so don't use them for links that are critical to an experience. Quiet links are commonly used in website footers, where there are several lists of links that are shortcuts to other pages.
 
-## Related Components
+## Content standards
 
-* [Close button](/page/close-button/)
-* [List view](/page/list-view/)
+### Standalone links
+
+Standalone links are not full sentences, and do not have punctuation at the end. Treat these like calls-to-action by writing them as short verb phrases. Since standalone links are at the end of a sentence or paragraph, they're often perceived by users as optional or supplementary to surrounding content.
+
+### Links within sentences
+
+Links within — or as — sentences are written just like they're part of a paragraph. Make sure you include enough context in the link text to communicate the value and expectation of the landing experience. This approach can draw a user's focus to the linked text, such as for need-to-know updates or high-signal information. If the link leads to more content, it can be helpful to write it as a descriptive noun (e.g., "survey feedback"). If the link launches a task or action, start it with a verb (e.g., "Share your feedback"). Keep in mind that it's easier to localize links that are entire sentences, rather than sentence fragments. This is because, depending on which part of a sentence is included as a link, the word and link order may be re-arranged when translated.
+
+### Avoid generic language
+
+Avoid overly generic link language like "learn more," "click here," "more information," or "continue reading." It's more accessible and inclusive to write link text as unique descriptions of the navigational target or function. Links need to be descriptive enough that they make sense without any other context. Generic links don't make sense out of context, and don't communicate where they go or what happens if a user interacts with them. Unique link language is essential for screen reader and magnification users who may not have the supplementary language around a link, or may not follow the content order of an experience. Try to avoid using a series of generic, standalone links that say "learn more" at the end of multiple sentences or paragraphs as a truncation strategy.
+
+### Write specific and descriptive link text
+
+Links act as wayfinding tools that offer contextual clues about how to navigate an experience. Write link text so that, even if someone were not able to view any surrounding context, they could still understand a link's purpose and what they should expect by interacting with it. Try to front load the link with the most important word(s).
+
+### Be conscious about repetition
+
+Don't use the same link text to link to different information in the same view. If link text needs to be duplicated within a single page or view, find ways to make each link unique, such as using accessibility labels or other text alternatives. It's OK to incorporate multiple links into the same sentence as long as the links are contextual and relevant. Do not overload sentences and pages with links purely for SEO purposes.
+
+### Create intuitive landing experiences
+
+Don't place a generic "Learn more" link in design specs without thinking through what happens when a user interacts with that link. The landing experience needs to work in partnership with how the link text is written. Identify exactly where that link will go or what it will do, then ensure the link text reflects that. Use anchor links whenever possible to ensure that users can quickly find the most helpful next steps after interacting with a link. Collaborate with help content writers or customer service representatives to determine the most natural and intuitive content to supplement your experience.
+
+## Accessibility
+
+### Keyboard interactions
+
+Key Interaction TabMoves focus onto or off of the link component.EnterExecutes the link and moves the focus to the link target.
+
+### Cursor guidelines
+
+Cursor Usage PointerUse the pointer cursor for interactive components like links.
+
+### WCAG 2.2 compliance
+
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAALinks should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey that text is a link. Links are paired with an additional visual indicator, such as an underline, so the link purpose is communicated without relying on color alone.Text contrast 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of link states has a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.
