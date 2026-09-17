@@ -40,5 +40,11 @@
     "@adobe/token-naming-audit": "0.1.56",
     "transform-tokens-json": "0.0.1"
   },
-  "changesets": ["hub-guidelines-beta"]
+  "changesets": [
+    "design-data-agent-mcp-describe-guideline",
+    "hub-component-sync-20260916",
+    "hub-guideline-sourceurl-repoint",
+    "hub-guideline-sync-20260916",
+    "hub-guidelines-beta"
+  ]
 }
