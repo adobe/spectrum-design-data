@@ -87,7 +87,7 @@ components:
 | Group | A collection of related elements | `group-gap-small` → `{spacing-85}` |
 | List | A sequence of repeated items | `list-gap-compact` |
 | Container | A structure that organizes content | `container-padding-medium` → `{spacing-300}` |
-| Banner | A structure used for prominent messaging | `banner-gap-horizontal` → `{spacing-400}` |
+| Banner | A structure used for prominent messaging | `banner-padding-horizontal-compact` → `{spacing-100}` |
 
 These aren't aspirational. Every prefix above already ships in the legacy
 token format. Components are compositions of these structures rather than
@@ -113,10 +113,11 @@ in the [Specification](/spec/):
 - Token names get a formal taxonomy, so "what does this token mean" is
   answerable by structure, not convention alone. See
   [Taxonomy](/spec/taxonomy/).
-- The token format itself becomes versioned, with explicit lifecycle fields
-  (`introduced`, `deprecated`, `replaced_by`) and minimum migration windows,
-  replacing today's more ad hoc deprecation notices. See
-  [Token format](/spec/token-format/) and [Evolution](/spec/evolution/).
+- The token format itself becomes versioned, with an explicit nested
+  `lifecycle` object (`lifecycle.introduced`, `lifecycle.deprecatedIn`,
+  `lifecycle.replacedBy`) and minimum migration windows, replacing today's
+  more ad hoc deprecation notices. See [Token format](/spec/token-format/)
+  and [Evolution](/spec/evolution/).
 
 None of this changes how you use tokens today. The legacy format keeps
 shipping, and the migration path is deliberately incremental. But if you're
