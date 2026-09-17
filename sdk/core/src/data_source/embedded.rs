@@ -404,7 +404,7 @@ mod tests {
         // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
         // numeric literal below — keep it isolated on its own line, undisturbed by
         // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
-        const EXPECTED_GUIDELINE_COUNT: usize = 58;
+        const EXPECTED_GUIDELINE_COUNT: usize = 49;
 
         let (_tmp, root) = temp_root();
         let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))

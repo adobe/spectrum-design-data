@@ -23,8 +23,8 @@
       "content": "Spectrum is Adobe's design system. It belongs to all of us, and is shaped according to our customers' needs. We'd like to thank everyone who participated in shaping and testing Spectrum 2 for their hard and thoughtful work."
     }
   ],
-  "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/introduction/",
-  "lastUpdated": "2026-02-02",
+  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/getting-started/introduction",
+  "lastUpdated": "2026-09-17",
   "status": "published",
   "tags": ["fundamentals"],
   "related": [{ "ref": "home" }, { "ref": "principles" }]

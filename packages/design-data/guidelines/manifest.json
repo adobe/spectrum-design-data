@@ -9,44 +9,12 @@
       "file": "guidelines/ai-resource-guide.json"
     },
     {
-      "slug": "app-frame-content-area",
-      "title": "App frame content area (browsing context)",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-content-area/",
-      "file": "guidelines/app-frame-content-area.json"
-    },
-    {
-      "slug": "app-frame-creating-bluelines",
-      "title": "Creating bluelines (browsing context)",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-creating-bluelines/",
-      "file": "guidelines/app-frame-creating-bluelines.json"
-    },
-    {
-      "slug": "app-frame-header",
-      "title": "App frame header (browsing context)",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-header/",
-      "file": "guidelines/app-frame-header.json"
-    },
-    {
       "slug": "app-frame-overview",
       "title": "App frame",
       "category": "designing",
       "status": "published",
       "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/overview",
       "file": "guidelines/app-frame-overview.json"
-    },
-    {
-      "slug": "app-frame-side-navigation",
-      "title": "App frame side navigation (browsing context)",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/app-frame-side-navigation/",
-      "file": "guidelines/app-frame-side-navigation.json"
     },
     {
       "slug": "applying-the-type-system",
@@ -127,14 +95,6 @@
       "status": "published",
       "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/contact-us",
       "file": "guidelines/contact-us.json"
-    },
-    {
-      "slug": "containers",
-      "title": "Containers",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/containers/",
-      "file": "guidelines/containers.json"
     },
     {
       "slug": "content-area-browsing-context",
@@ -233,14 +193,6 @@
       "file": "guidelines/illustration.json"
     },
     {
-      "slug": "illustrations",
-      "title": "Illustrations",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/illustrations/",
-      "file": "guidelines/illustrations.json"
-    },
-    {
       "slug": "in-product-word-list",
       "title": "In-product word list",
       "category": "designing",
@@ -277,7 +229,7 @@
       "title": "Introduction",
       "category": "fundamentals",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/introduction/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/getting-started/introduction",
       "file": "guidelines/introduction.json"
     },
     {
@@ -305,14 +257,6 @@
       "file": "guidelines/motion.json"
     },
     {
-      "slug": "object-styles",
-      "title": "Object styles",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/object-styles/",
-      "file": "guidelines/object-styles.json"
-    },
-    {
       "slug": "object-styles-overview",
       "title": "Object styles",
       "category": "designing",
@@ -325,7 +269,7 @@
       "title": "Principles",
       "category": "fundamentals",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/principles/",
+      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/getting-started/principles",
       "file": "guidelines/principles.json"
     },
     {
@@ -353,14 +297,6 @@
       "file": "guidelines/side-navigation-browsing-context.json"
     },
     {
-      "slug": "spacing",
-      "title": "Spacing",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/spacing/",
-      "file": "guidelines/spacing.json"
-    },
-    {
       "slug": "spacing-overview",
       "title": "Spacing overview",
       "category": "designing",
@@ -375,14 +311,6 @@
       "status": "published",
       "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/behavior/states",
       "file": "guidelines/states.json"
-    },
-    {
-      "slug": "typography-fundamentals",
-      "title": "Typography fundamentals",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/typography-fundamentals/",
-      "file": "guidelines/typography-fundamentals.json"
     },
     {
       "slug": "typography-overview",
