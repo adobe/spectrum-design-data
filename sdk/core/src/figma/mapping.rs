@@ -170,7 +170,80 @@ pub fn build_export_payload(
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)
+    build_export_payload_with_platform_formats(tokens, existing, overrides, &[])
+}
+
+/// Same as [`build_export_payload`], but also populates `codeSyntax` for the
+/// given platforms (Figma's `"ANDROID" | "iOS"` keys — `"WEB"` is always
+/// populated from the legacy key) by running each manifest's `formatting`
+/// config (`packages/design-data-spec/spec/manifest.md`) through
+/// [`crate::naming::format_name`]. An empty slice reproduces
+/// [`build_export_payload`] exactly.
+pub fn build_export_payload_with_platform_formats(
+    tokens: &[(String, PathBuf, Value)],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    platform_formats: &[(String, crate::naming::FormattingConfig)],
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    let (mut body, summary) =
+        build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)?;
+    if !platform_formats.is_empty() {
+        augment_code_syntax_with_platform_formats(&mut body.variables, platform_formats);
+    }
+    Ok((body, summary))
+}
+
+/// Best-effort per-platform code name for an already-exported variable, keyed
+/// off the `WEB` `codeSyntax` entry [`make_variable_action`] always sets
+/// (`--spectrum-{legacyKey}`) — cheaper than threading a new parameter through
+/// every `process_*_token` call site, since the legacy key is fully recoverable
+/// from it. Inverts the flat legacy key back into a structured name object via
+/// [`crate::naming::parse_legacy_name`] (best-effort — see its docs) and runs
+/// that through the manifest `formatting` engine.
+///
+/// ponytail: `component_hint` is passed as `None` here — there's no reliable way
+/// to recover *which* leading segment of an already-flattened key was the
+/// `component` without guessing (and `parse_legacy_name`'s hint is documented as
+/// trusted, not inferred, since component ids can be ambiguous prefixes). So for
+/// a component-scoped token, `formatting.conceptOrder`/`abbreviations` entries
+/// for `"component"` have no effect through this path — the component segment
+/// stays fused into `property` and only whole-token casing/delimiter conversion
+/// applies. Upgrade path: thread the structured name (or just its `component`)
+/// through the export call graph instead of reconstructing from the flat key.
+fn platform_code_name(
+    token_name: &str,
+    config: &crate::naming::FormattingConfig,
+) -> Option<String> {
+    let name_obj = crate::naming::parse_legacy_name(token_name, None);
+    let value = serde_json::to_value(&name_obj).ok()?;
+    crate::naming::format_name(&value, config)
+}
+
+/// Add ANDROID/iOS (or any other platform key) `codeSyntax` entries to every
+/// already-built variable, derived from its `WEB` entry. See
+/// [`platform_code_name`] for why this is a post-pass rather than threading a
+/// new parameter through the export call graph.
+fn augment_code_syntax_with_platform_formats(
+    variables: &mut [VariableAction],
+    platform_formats: &[(String, crate::naming::FormattingConfig)],
+) {
+    for var in variables.iter_mut() {
+        let Some(code_syntax) = var.code_syntax.as_mut() else {
+            continue;
+        };
+        let Some(token_name) = code_syntax
+            .get("WEB")
+            .and_then(|web| web.strip_prefix("--spectrum-"))
+            .map(str::to_string)
+        else {
+            continue;
+        };
+        for (platform, config) in platform_formats {
+            if let Some(name) = platform_code_name(&token_name, config) {
+                code_syntax.insert(platform.clone(), name);
+            }
+        }
+    }
 }
 
 /// Same as [`build_export_payload`], but with an explicit collection-spec
@@ -746,6 +819,11 @@ fn make_variable_action(
     };
     let id = Some(var_id.clone());
 
+    // Dev Mode reads this to show engineers the real code name for a
+    // variable. `token_name` is already the legacy key 1:1 with the CSS
+    // custom property Web engineers paste (see module doc).
+    let code_syntax = HashMap::from([("WEB".to_string(), format!("--spectrum-{token_name}"))]);
+
     let va = VariableAction {
         action,
         id,
@@ -755,7 +833,7 @@ fn make_variable_action(
         description: description.map(String::from),
         hidden_from_publishing: None,
         scopes: None,
-        code_syntax: None,
+        code_syntax: Some(code_syntax),
     };
     (va, var_id)
 }
@@ -1879,6 +1957,102 @@ mod tests {
             build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+    }
+
+    #[test]
+    fn exported_variable_carries_web_code_syntax_for_dev_mode() {
+        let tokens = vec![(
+            "spacing-100".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let (body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        let code_syntax = body.variables[0]
+            .code_syntax
+            .as_ref()
+            .expect("codeSyntax should be populated so Dev Mode shows the real token name");
+        assert_eq!(
+            code_syntax.get("WEB").map(String::as_str),
+            Some("--spectrum-spacing-100")
+        );
+    }
+
+    #[test]
+    fn platform_formats_add_extra_code_syntax_entries_from_web() {
+        let tokens = vec![(
+            "avatar-group-size-100".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let android_format = crate::naming::FormattingConfig {
+            casing: Some(crate::naming::Casing::CamelCase),
+            ..Default::default()
+        };
+        let platform_formats = vec![("ANDROID".to_string(), android_format)];
+        let (mut body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+        let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+        assert_eq!(
+            code_syntax.get("WEB").map(String::as_str),
+            Some("--spectrum-avatar-group-size-100")
+        );
+        assert_eq!(
+            code_syntax.get("ANDROID").map(String::as_str),
+            Some("avatarGroupSize100")
+        );
+    }
+
+    /// Locks in the documented ceiling on `platform_code_name`: for a
+    /// component-prefixed legacy key, `conceptOrder` placing `"component"` last
+    /// has no effect, because the flat-key reconstruction never recovers a
+    /// `component` value to move (see the `ponytail:` note on
+    /// `platform_code_name`). The component segment stays fused to the front of
+    /// `property` regardless of where `"component"` appears in `conceptOrder`.
+    #[test]
+    fn platform_formats_component_concept_order_is_a_no_op() {
+        let tokens = vec![(
+            "button-background-color-default".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let android_format = crate::naming::FormattingConfig {
+            concept_order: Some(vec![
+                "state".to_string(),
+                "property".to_string(),
+                "component".to_string(),
+            ]),
+            casing: Some(crate::naming::Casing::CamelCase),
+            ..Default::default()
+        };
+        let platform_formats = vec![("ANDROID".to_string(), android_format)];
+        let (mut body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+        let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+        // If `component` were actually recovered and moved per `conceptOrder`,
+        // this would read "defaultBackgroundColorButton". It doesn't — the
+        // "button" prefix stays glued to the front of `property`.
+        assert_eq!(
+            code_syntax.get("ANDROID").map(String::as_str),
+            Some("defaultButtonBackgroundColor")
+        );
     }
 
     #[test]
