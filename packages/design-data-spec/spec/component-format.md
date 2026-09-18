@@ -2,7 +2,7 @@
 
 **Spec version:** `1.0.0-draft` (see [Overview](index.md))
 
-This document defines the normative **component declaration** object: identity (`$id`, `name`, `displayName`), component metadata (`meta`), API options (`options`), named content slots (`slots`), anatomy parts (`anatomy`), state model (`states`), and lifecycle metadata.
+This document defines the normative **component declaration** object: identity (`$id`, `name`, `displayName`), component metadata (`meta`), platform implementations (`implementations`), API options (`options`), named content slots (`slots`), anatomy parts (`anatomy`), state model (`states`), and lifecycle metadata.
 
 Component declarations close the structural gap between the token name-object's `component`, `variant`, `anatomy`, and `state` fields and the declared surface of each component. Before this chapter, a token referencing `component: "button"` with `variant: "foo"` was undetectable as invalid because no machine-readable component contract existed in the same spec. After this chapter, validators enforce cross-reference rules (see [SPEC rules](#spec-rules)).
 
@@ -29,18 +29,19 @@ A component declaration **MUST** contain:
 
 ### Optional fields
 
-| Field            | Type   | Description                                                                                                                                |
-| ---------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `specVersion`    | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
-| `description`    | string | Plain-text description of the component's purpose.                                                                                         |
-| `options`        | object | Component API options — see [Options](#options).                                                                                           |
-| `slots`          | array  | Named content injection points — see [Slots](#slots).                                                                                      |
-| `anatomy`        | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
-| `states`         | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
-| `lifecycle`      | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
-| `tokenBindings`  | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
-| `documentBlocks` | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
-| `accessibility`  | object | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
+| Field             | Type   | Description                                                                                                                                |
+| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `specVersion`     | string | Declares which spec version this document targets. Currently `"1.0.0-draft"`; future stable releases will accept their own version string. |
+| `description`     | string | Plain-text description of the component's purpose.                                                                                         |
+| `implementations` | array  | Known platform implementations — see [Implementations](#implementations).                                                                  |
+| `options`         | object | Component API options — see [Options](#options).                                                                                           |
+| `slots`           | array  | Named content injection points — see [Slots](#slots).                                                                                      |
+| `anatomy`         | array  | Named anatomy parts — see [Anatomy (stub)](#anatomy-stub).                                                                                 |
+| `states`          | array  | Per-component state declarations — see [States (stub)](#states-stub).                                                                      |
+| `lifecycle`       | object | Version lifecycle metadata — see [Lifecycle](#lifecycle).                                                                                  |
+| `tokenBindings`   | array  | Tokens this component uses — see [Token bindings](#token-bindings) (Phase 6.7).                                                            |
+| `documentBlocks`  | array  | Typed prose blocks for this component — see [Document blocks](#document-blocks) (Phase 9).                                                 |
+| `accessibility`   | object | Semantic accessibility vocabulary — see [Accessibility](accessibility.md) (Phase 7).                                                       |
 
 **NORMATIVE:** No properties beyond those listed above are permitted at the top level of a component declaration. Additional fields **MUST** cause a Layer 1 schema error.
 
@@ -77,6 +78,34 @@ where `{name}` matches the component's `name` field.
   "documentationUrl": "https://spectrum.adobe.com/page/button/"
 }
 ```
+
+## Implementations
+
+`implementations` declares the published platform implementations corresponding
+to this design-system component. It is foundation-owned canonical data so
+consumers, including Code Connect generators, can resolve an implementation
+without platform-specific configuration.
+
+Each entry **MUST** contain `platform` and `componentName`, plus exactly one
+implementation reference: `package` for a published package or `importPath`
+for an importable module/source path. `notes` is optional context for consumers.
+Multiple entries MAY use the same `platform` when their packages distinguish
+different implementations for that platform.
+
+```json
+"implementations": [
+  {
+    "platform": "web",
+    "componentName": "Button",
+    "package": "@spectrum-web-components/button"
+  }
+]
+```
+
+Platform manifests do not override `implementations` in this version. A future
+extension may add platform-owned overrides after consumers need them; until
+then, component declarations remain the canonical source of implementation
+names and references.
 
 ## Options
 

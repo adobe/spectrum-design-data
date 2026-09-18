@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/button/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@spectrum-web-components/button",
+      "notes": "Spectrum Web Components custom element: sp-button."
+    },
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/button"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",
