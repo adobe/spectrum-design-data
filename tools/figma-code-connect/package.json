@@ -1,0 +1,25 @@
+{
+  "name": "figma-code-connect",
+  "version": "0.1.0",
+  "description": "Builds and applies Figma Code Connect mappings from Spectrum component data",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "ava",
+    "plan": "node src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/figma-code-connect"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "ava": "^6.1.1"
+  }
+}

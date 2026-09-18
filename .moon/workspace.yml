@@ -32,5 +32,6 @@ projects:
   design-data-skill: "tools/design-data-skill"
   s2-docs-to-document-blocks: "tools/s2-docs-to-document-blocks"
   ios-override-importer: "tools/ios-override-importer"
+  figma-code-connect: "tools/figma-code-connect"
 vcs:
   defaultBranch: "main"
