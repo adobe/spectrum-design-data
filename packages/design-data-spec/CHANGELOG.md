@@ -1,5 +1,15 @@
 # @adobe/design-data-spec
 
+## 4.2.1
+
+### Patch Changes
+
+- [#1476](https://github.com/adobe/spectrum-design-data/pull/1476) [`046e4e6`](https://github.com/adobe/spectrum-design-data/commit/046e4e65930d5fd17b55ee2c9ce880e1e049f99a) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the `export` CLI subcommand and `--format dtcg` output in the
+  agent-readable surface spec.
+  - **spec/agent-surface.md**: list `export` alongside the existing
+    reference-CLI subcommands and note `--format dtcg` support on
+    `resolve`/`query`/`export`.
+
 ## 4.2.0
 
 ### Minor Changes
