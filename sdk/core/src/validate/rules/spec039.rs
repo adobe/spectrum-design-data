@@ -110,7 +110,7 @@ mod tests {
         let diags = run(Some(json!({
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
-            "include": ["component=button", "component=button,state=hover"],
+            "include": ["component=button", "component=button,interaction=hover"],
             "exclude": ["component=button,colorScheme!=light"]
         })));
         assert!(diags.is_empty());

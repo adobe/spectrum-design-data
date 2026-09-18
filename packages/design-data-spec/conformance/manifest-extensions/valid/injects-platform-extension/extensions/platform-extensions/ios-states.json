@@ -1,5 +1,5 @@
 {
   "platform": "iOS",
-  "extends": "states",
+  "extends": "interactions",
   "extensions": [{ "termId": "default", "platformTerm": "normal" }]
 }

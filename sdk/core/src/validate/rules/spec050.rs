@@ -71,10 +71,13 @@ const COMPOUND_PROPERTIES: &[&str] = &[
 /// non-taxonomy fields (component, variant, icon, ...).
 const STRUCTURAL_FIELDS: &[&str] = &[
     "anatomy",
-    "object",
+    "element",
+    "attribute",
+    "affordance",
     "position",
     "size",
-    "state",
+    "interaction",
+    "interaction-context",
     "colorRole",
     "emphasis",
 ];
@@ -219,12 +222,12 @@ mod tests {
 
     #[test]
     fn already_decomposed_property_no_warning() {
-        // Property is atomic once object/colorRole/state are split into their
-        // own fields -- nothing left inside `property` to flag.
+        // Property is atomic once attribute/colorRole/interaction-context are
+        // split into their own fields -- nothing left inside `property` to flag.
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),
             PathBuf::from("a.tokens.json"),
-            json!({"name": {"property": "color", "object": "background", "state": ["selected"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "attribute": "background", "interaction-context": ["selected"]}, "value": "#fff"}),
         )]);
         assert!(diagnostics_for_rule(&g, "SPEC-050").is_empty());
     }

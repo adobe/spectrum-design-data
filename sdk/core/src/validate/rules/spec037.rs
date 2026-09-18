@@ -92,9 +92,12 @@ impl ValidationRule for Rule {
             }
 
             // --- state cascade ---
-            // Proposal 006: `state` is an ordered array of atomic ids — check each
-            // element independently.
-            if let Some(states) = name_obj.get("state").and_then(|v| v.as_array()) {
+            // Proposal 006: `interaction`/`interaction-context` are ordered arrays
+            // of atomic ids — check each element independently, across both fields.
+            for field in ["interaction", "interaction-context"] {
+                let Some(states) = name_obj.get(field).and_then(|v| v.as_array()) else {
+                    continue;
+                };
                 for state_name in states.iter().filter_map(|v| v.as_str()) {
                     let dep_version = comp
                         .raw
@@ -121,7 +124,7 @@ impl ValidationRule for Rule {
                                  update the reference or mark the token deprecated",
                                 t.name
                             ),
-                            instance_path: Some("/name/state".to_string()),
+                            instance_path: Some(format!("/name/{field}")),
                             schema_path: None,
                         });
                     }
@@ -268,7 +271,7 @@ mod tests {
     #[test]
     fn non_deprecated_state_no_warning() {
         let diags = run(
-            json!({"name": {"component": "button", "state": ["hover"], "property": "background-color"}, "value": "#eee"}),
+            json!({"name": {"component": "button", "interaction": ["hover"], "property": "background-color"}, "value": "#eee"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
@@ -277,7 +280,7 @@ mod tests {
     #[test]
     fn deprecated_state_warns() {
         let diags = run(
-            json!({"name": {"component": "button", "state": ["pressed"], "property": "background-color"}, "value": "#ccc"}),
+            json!({"name": {"component": "button", "interaction": ["pressed"], "property": "background-color"}, "value": "#ccc"}),
             json!({"name": "button", "states": [{"name": "pressed", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}]}),
         );
         assert_eq!(diags.len(), 1);
@@ -286,7 +289,7 @@ mod tests {
         assert!(diags[0].message.contains("state"));
         assert!(diags[0].message.contains("pressed"));
         assert!(diags[0].message.contains("1.0.0-draft"));
-        assert_eq!(diags[0].instance_path.as_deref(), Some("/name/state"));
+        assert_eq!(diags[0].instance_path.as_deref(), Some("/name/interaction"));
     }
 
     // --- option-enum tests ---
@@ -347,7 +350,7 @@ mod tests {
         // deprecated: false is not a string — must NOT suppress the warning.
         let diags = run(
             json!({
-                "name": {"component": "button", "state": ["pressed"], "property": "background-color"},
+                "name": {"component": "button", "interaction": ["pressed"], "property": "background-color"},
                 "value": "#ccc",
                 "lifecycle": {"deprecatedIn": false}
             }),
@@ -373,7 +376,7 @@ mod tests {
     fn multiple_cascades_in_one_token() {
         // Token references both a deprecated anatomy part and a deprecated state — two warnings.
         let diags = run(
-            json!({"name": {"component": "slider", "anatomy": "handle", "state": ["pressed"], "property": "color"}, "value": "#000"}),
+            json!({"name": {"component": "slider", "anatomy": "handle", "interaction": ["pressed"], "property": "color"}, "value": "#000"}),
             json!({
                 "name": "slider",
                 "anatomy": [{"name": "handle", "lifecycle": {"deprecatedIn": "1.0.0-draft"}}],
@@ -390,6 +393,6 @@ mod tests {
             .filter_map(|d| d.instance_path.as_deref())
             .collect();
         assert!(paths.contains("/name/anatomy"));
-        assert!(paths.contains("/name/state"));
+        assert!(paths.contains("/name/interaction"));
     }
 }

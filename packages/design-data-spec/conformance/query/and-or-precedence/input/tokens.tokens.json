@@ -1,21 +1,37 @@
 [
   {
-    "name": { "property": "bg", "component": "button", "state": ["hover"] },
+    "name": {
+      "property": "bg",
+      "component": "button",
+      "interaction": ["hover"]
+    },
     "value": "#aaaaaa",
     "uuid": "aaaaaaaa-0001-4000-8000-000000000001"
   },
   {
-    "name": { "property": "bg", "component": "button", "state": ["default"] },
+    "name": {
+      "property": "bg",
+      "component": "button",
+      "interaction": ["default"]
+    },
     "value": "#bbbbbb",
     "uuid": "aaaaaaaa-0002-4000-8000-000000000001"
   },
   {
-    "name": { "property": "bg", "component": "checkbox", "state": ["default"] },
+    "name": {
+      "property": "bg",
+      "component": "checkbox",
+      "interaction": ["default"]
+    },
     "value": "#cccccc",
     "uuid": "aaaaaaaa-0003-4000-8000-000000000001"
   },
   {
-    "name": { "property": "bg", "component": "slider", "state": ["hover"] },
+    "name": {
+      "property": "bg",
+      "component": "slider",
+      "interaction": ["hover"]
+    },
     "value": "#dddddd",
     "uuid": "aaaaaaaa-0004-4000-8000-000000000001"
   }

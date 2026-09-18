@@ -1,7 +1,7 @@
 {
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "property-term",
-  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, overlay-color, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in token-objects.json). Examples: color, width, padding, font-size.",
+  "description": "CSS/styling attributes or design-system abstractions thereof, assigned to token name objects via the `property` field. Not all entries are valid CSS property identifiers — some (e.g. padding-horizontal, size) are design-system-level abstractions. Not anatomy parts (which belong in anatomy-terms.json) and not styling surfaces (which belong in elements.json). Sub-qualities of a property (border, background, overlay, shadow, etc.) belong in the paired `attribute` field, not compounded into this one. Examples: color, width, padding.",
   "values": [
     {
       "id": "color",
@@ -9,49 +9,9 @@
       "description": "Text or foreground color"
     },
     {
-      "id": "background-color",
-      "label": "Background Color",
-      "description": "Background fill color"
-    },
-    {
-      "id": "border-color",
-      "label": "Border Color",
-      "description": "Border or outline color"
-    },
-    {
-      "id": "fill-color",
-      "label": "Fill Color",
-      "description": "SVG or icon fill color"
-    },
-    {
-      "id": "icon-color",
-      "label": "Icon Color",
-      "description": "Foreground color of an icon"
-    },
-    {
       "id": "content-color",
       "label": "Content Color",
       "description": "Color of a component's content area"
-    },
-    {
-      "id": "visual-color",
-      "label": "Visual Color",
-      "description": "Color of a component's visible graphic (visual) area"
-    },
-    {
-      "id": "shadow-color",
-      "label": "Shadow Color",
-      "description": "Drop shadow color component"
-    },
-    {
-      "id": "overlay-color",
-      "label": "Overlay Color",
-      "description": "Overlay or scrim tint color"
-    },
-    {
-      "id": "outline-color",
-      "label": "Outline Color",
-      "description": "CSS outline color"
     },
     {
       "id": "square-dark",
@@ -67,16 +27,6 @@
       "id": "opacity",
       "label": "Opacity",
       "description": "Element transparency level"
-    },
-    {
-      "id": "border-opacity",
-      "label": "Border Opacity",
-      "description": "Border transparency level"
-    },
-    {
-      "id": "overlay-opacity",
-      "label": "Overlay Opacity",
-      "description": "Overlay or scrim transparency level"
     },
     {
       "id": "width",
@@ -149,11 +99,6 @@
       "description": "Border or stroke thickness"
     },
     {
-      "id": "corner-radius",
-      "label": "Corner Radius",
-      "description": "Corner rounding radius"
-    },
-    {
       "id": "rounding-increment",
       "label": "Rounding Increment",
       "description": "Step size added to a ring or ring-like anatomy's corner rounding per nesting level"
@@ -172,11 +117,6 @@
       "id": "shadow",
       "label": "Shadow",
       "description": "Full box or drop shadow definition"
-    },
-    {
-      "id": "font-size",
-      "label": "Font Size",
-      "description": "Typeface size"
     },
     {
       "id": "font-weight",
@@ -347,6 +287,41 @@
       "id": "component-size-width-ratio",
       "label": "Component Size Width Ratio",
       "description": "Width ratio used to calculate the CSS perspective transform for a component's S2 pressed/'down'-state scale-down effect (not applicable to all components)"
+    },
+    {
+      "id": "length",
+      "label": "Length",
+      "description": "General linear dimension (e.g. dash length)"
+    },
+    {
+      "id": "offset",
+      "label": "Offset",
+      "description": "Positional offset along an axis (e.g. drop-shadow offset)"
+    },
+    {
+      "id": "angle",
+      "label": "Angle",
+      "description": "Rotational or directional angle (e.g. gradient angle)"
+    },
+    {
+      "id": "step",
+      "label": "Step",
+      "description": "Discrete step or increment value"
+    },
+    {
+      "id": "radius",
+      "label": "Radius",
+      "description": "Corner rounding radius (used with attribute=corner)"
+    },
+    {
+      "id": "aspect-ratio",
+      "label": "Aspect Ratio",
+      "description": "Width-to-height ratio constraint"
+    },
+    {
+      "id": "stop",
+      "label": "Stop",
+      "description": "Gradient stop position (used with attribute=gradient)"
     }
   ]
 }

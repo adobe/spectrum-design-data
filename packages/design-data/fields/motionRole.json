@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/motion-roles.json",
   "validation": "advisory",
   "serialization": {
-    "position": 23
+    "position": 26
   },
   "scope": "motion",
   "required": false,

@@ -134,12 +134,12 @@
       "trigger": "interaction"
     },
     {
-      "name": "keyboard-focus",
+      "name": "focus",
       "trigger": "interaction"
     },
     {
       "name": "selected",
-      "trigger": "interaction"
+      "trigger": "prop"
     }
   ],
   "lifecycle": {

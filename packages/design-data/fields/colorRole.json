@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/color-roles.json",
   "validation": "advisory",
   "serialization": {
-    "position": 19
+    "position": 2
   },
   "scope": "color",
   "required": false,

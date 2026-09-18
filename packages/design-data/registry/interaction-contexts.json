@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "interaction-context",
+  "description": "Persistent, prop-driven states.",
+  "allowCustom": true,
+  "customPattern": "^[a-z][a-z0-9-]*$",
+  "values": [
+    {
+      "id": "selected",
+      "label": "Selected",
+      "description": "Selected or chosen state"
+    },
+    {
+      "id": "disabled",
+      "label": "Disabled",
+      "description": "Disabled or inactive state"
+    },
+    {
+      "id": "loading",
+      "label": "Loading",
+      "description": "Busy/loading state"
+    }
+  ]
+}

@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/alignments.json",
   "validation": "advisory",
   "serialization": {
-    "position": 27
+    "position": 30
   },
   "scope": "typography",
   "required": false,

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/field.schema.json",
+  "specVersion": "1.0.0-draft",
+  "name": "interaction",
+  "description": "Transient, runtime interaction state (e.g. default, hover, down, drag, focus), as an ordered array of atomic ids. Distinct from interaction-context, which carries persistent, prop-driven states. Compound simultaneous interactions (e.g. focus while hovering) are expressed as multiple array elements.",
+  "kind": "semantic",
+  "registry": "packages/design-data/registry/interactions.json",
+  "validation": "advisory",
+  "serialization": {
+    "position": 19
+  },
+  "scope": null,
+  "required": false,
+  "valueType": "array"
+}

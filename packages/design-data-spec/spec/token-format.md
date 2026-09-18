@@ -55,25 +55,27 @@ The table below lists all semantic fields. Fields marked with a scope are domain
 
 **Universal semantic fields** (`scope: null` — apply to all token types):
 
-| Field          | Status   | Taxonomy category | Description                                                                                                                                                                           |
-| -------------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `property`     | REQUIRED | Property          | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                                      |
-| `component`    | OPTIONAL | Component         | Component name when the token is component-scoped.                                                                                                                                    |
-| `structure`    | OPTIONAL | Structure         | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`). Distinct from `component`.                                                                |
-| `substructure` | OPTIONAL | Sub-structure     | A structure that only exists within its parent structure (e.g. `item` in `list-item`).                                                                                                |
-| `anatomy`      | OPTIONAL | Anatomy           | A visible, named part of a component as defined by designers (e.g. `handle`, `icon`, `label`). See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy).                     |
-| `object`       | OPTIONAL | Object            | Styling surface to which a visual property is applied (e.g. `background`, `border`, `edge`). See [Taxonomy — Token objects](taxonomy.md#token-objects-styling-surfaces).              |
-| `variant`      | OPTIONAL | Variant           | Variant within a component (e.g. `accent`, `negative`, `primary`).                                                                                                                    |
-| `state`        | OPTIONAL | State             | Ordered array of one or more interactive or semantic states (e.g. `["hover"]`, `["selected", "hover"]`). See [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md). |
-| `orientation`  | OPTIONAL | Orientation       | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                                                                                                        |
-| `position`     | OPTIONAL | Position          | Location of an object relative to another (e.g. `affixed`).                                                                                                                           |
-| `size`         | OPTIONAL | Size              | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                                            |
-| `density`      | OPTIONAL | Density           | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                                  |
-| `shape`        | OPTIONAL | Shape             | Relative to overall component shape (e.g. `uniform`).                                                                                                                                 |
-| `role`         | OPTIONAL | Role              | An object's role within a nesting relationship (e.g. `container`, `control`), distinct from `size`.                                                                                   |
-| `scaleIndex`   | OPTIONAL | —                 | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.                     |
-| `from`         | OPTIONAL | —                 | Starting endpoint of a `space-between` measurement (e.g. `top`, `edge`, `text`). See [Space-between endpoints](#space-between-endpoints).                                             |
-| `to`           | OPTIONAL | —                 | Ending endpoint of a `space-between` measurement (e.g. `text`, `visual`, `control`). See [Space-between endpoints](#space-between-endpoints).                                         |
+| Field                 | Status   | Taxonomy category   | Description                                                                                                                                                                                                                                      |
+| --------------------- | -------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `property`            | REQUIRED | Property            | The stylistic attribute being defined (e.g. `color`, `width`, `padding`, `gap`).                                                                                                                                                                 |
+| `component`           | OPTIONAL | Component           | Component name when the token is component-scoped.                                                                                                                                                                                               |
+| `structure`           | OPTIONAL | Structure           | Reusable visual pattern or object category (e.g. `base`, `container`, `list`, `accessory`, `list-item`, `table-item`, `accessory-item`). Distinct from `component`.                                                                              |
+| `anatomy`             | OPTIONAL | Anatomy             | A visible, named part of a specific component as defined by designers (e.g. `handle`, `icon`, `label`). Distinct from `element`, which is generic. See [Taxonomy — Component anatomy](taxonomy.md#component-anatomy).                            |
+| `element`             | OPTIONAL | Element             | Generic, cross-component visual element being targeted (e.g. `text`, `visual`, `bar`, `control`, `workflow-icon`, `ui-icon`). See [Taxonomy — Elements](taxonomy.md#elements-generic-styling-surfaces).                                          |
+| `attribute`           | OPTIONAL | Attribute           | Sub-quality of a property, used together with `property` (e.g. `border`, `background`, `dash`, `shadow`, `corner`, `overlay`, `gradient`). See [Taxonomy — Attributes](taxonomy.md#attributes-property-sub-qualities).                           |
+| `affordance`          | OPTIONAL | Affordance          | UI affordance visually distinguishing a specific behavior across components (e.g. `drop-target`, `focus-ring`, `selection-indicator`, `drag-handle`). See [Taxonomy — Affordances](taxonomy.md#affordances-cross-component-behavior-indicators). |
+| `variant`             | OPTIONAL | Variant             | Variant within a component (e.g. `accent`, `negative`, `primary`).                                                                                                                                                                               |
+| `visibility`          | OPTIONAL | Visibility          | Prominence/emphasis level distinct from color or semantic role (e.g. `subtle`, `subdued`, `emphasized`).                                                                                                                                         |
+| `interaction`         | OPTIONAL | Interaction         | Ordered array of one or more transient interaction states (e.g. `["hover"]`, `["focus", "hover"]`). See [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md).                                                                 |
+| `interaction-context` | OPTIONAL | Interaction Context | Ordered array of one or more persistent, prop-driven states (e.g. `["selected"]`, `["disabled"]`). See [Proposal 006](../../../docs/proposals/006-compound-states-as-array.md).                                                                  |
+| `orientation`         | OPTIONAL | Orientation         | Direction or order of structures and elements (e.g. `vertical`, `horizontal`).                                                                                                                                                                   |
+| `position`            | OPTIONAL | Position            | Location of an object relative to another (e.g. `affixed`).                                                                                                                                                                                      |
+| `size`                | OPTIONAL | Size                | Relative t-shirt sizing for relationships across tokens (e.g. `small`, `medium`, `large`).                                                                                                                                                       |
+| `density`             | OPTIONAL | Density             | Space within or around component parts (e.g. `spacious`, `compact`).                                                                                                                                                                             |
+| `shape`               | OPTIONAL | Shape               | Relative to overall component shape (e.g. `uniform`).                                                                                                                                                                                            |
+| `scaleIndex`          | OPTIONAL | —                   | Numeric scale index appended at the end of the serialized name (e.g. `100`, `200`, `900`). Used by color palette, spacing, font-size, and motion duration tokens.                                                                                |
+| `from`                | OPTIONAL | —                   | Starting endpoint of a `space-between` measurement (e.g. `top`, `edge`, `text`). See [Space-between endpoints](#space-between-endpoints).                                                                                                        |
+| `to`                  | OPTIONAL | —                   | Ending endpoint of a `space-between` measurement (e.g. `text`, `visual`, `control`). See [Space-between endpoints](#space-between-endpoints).                                                                                                    |
 
 #### Space-between endpoints
 
@@ -122,7 +124,7 @@ When **`$ref`** is present, the token is an **alias**. The value **MUST** be a n
 
 ```json
 // Cascade canonical form (recommended) — the UUID is stable across renames.
-{ "name": { "property": "accent-background-color", "state": ["default"], "colorScheme": "dark" },
+{ "name": { "property": "accent-background-color", "interaction": ["default"], "colorScheme": "dark" },
   "$schema": "…/alias.json",
   "$ref": "87a2c8f0-54fd-4939-8f42-3124fde1e49e",
   "uuid": "f24eb871-6419-4cef-88a2-cca8548ae31e" }
@@ -186,7 +188,7 @@ OpenAPI 3.3's deprecation model.
 
 ```json
 {
-  "name": { "component": "button", "object": "background", "property": "color", "variant": "primary" },
+  "name": { "component": "button", "attribute": "background", "property": "color", "variant": "primary" },
   "value": "#0265dc",
   "uuid": "aaaaaaaa-0001-4000-8000-000000000001",
   "lifecycle": {
@@ -254,8 +256,9 @@ Examples of **valid** `property` values: `color`, `background-color`, `border-ra
 Examples of **invalid** `property` values (migration debt):
 
 * Anatomy parts — use the `anatomy` field instead (`handle`, `icon`, `label`).
-* Styling surfaces — use the `object` field instead (`background`, `border`, `edge`).
-* Legacy compound names — split into structured fields (`focus-ring-color-key-focus` → `component + anatomy + object + property + state`).
+* Generic styling surfaces — use the `element` field instead (`text`, `visual`, `bar`, `control`).
+* Property sub-qualities — use the `attribute` field instead (`background`, `border`, `corner`, `overlay`).
+* Legacy compound names — split into structured fields (`focus-ring-color-key-focus` → `component + affordance + property + interaction`).
 
 #### Author migration guidance
 
@@ -264,8 +267,8 @@ When converting a string-named token to a structured name object:
 1. Parse the legacy name string into its constituent segments using the [default serialization order](taxonomy.md#default-serialization-legacy-format).
 2. Place the CSS/styling attribute in `property` (SHOULD be in `property-terms.json`).
 3. Route anatomy parts to `anatomy` (validated against `anatomy-terms.json`).
-4. Route styling surfaces (background, border, edge) to `object` (validated against `token-objects.json`).
-5. Retain component, variant, state, and other structural fields as-is.
+4. Route generic styling surfaces (text, visual, bar, control) to `element` (validated against `elements.json`), and sub-qualities like background/border/corner/overlay to `attribute` (validated against `attributes.json`).
+5. Retain component, variant, interaction, interaction-context, and other structural fields as-is.
 6. Remove the token from `naming-exceptions.json` after conversion.
 
 ## Document shape
@@ -282,8 +285,8 @@ Example:
 
 ```json
 [
-  { "name": { "object": "background", "property": "color" }, "value": "#f5f5f5", "uuid": "..." },
-  { "name": { "object": "background", "property": "color", "colorScheme": "dark" }, "value": "#1e1e1e", "uuid": "..." }
+  { "name": { "attribute": "background", "property": "color" }, "value": "#f5f5f5", "uuid": "..." },
+  { "name": { "attribute": "background", "property": "color", "colorScheme": "dark" }, "value": "#1e1e1e", "uuid": "..." }
 ]
 ```
 

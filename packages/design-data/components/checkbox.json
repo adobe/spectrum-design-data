@@ -138,7 +138,7 @@
       "trigger": "interaction"
     },
     {
-      "name": "keyboard-focus",
+      "name": "focus",
       "trigger": "interaction"
     }
   ],

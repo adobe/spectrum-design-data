@@ -343,13 +343,13 @@ mod tests {
 
     #[test]
     fn display_name_derives_readable_name_from_component_name_object() {
-        // Cascade token with property/component/state name object.
+        // Cascade token with property/component/interaction name object.
         let s = make_suggestion(
             "tokens/layout.tokens.json:7",
             Some(json!({
                 "property": "background-color",
                 "component": "button",
-                "state": ["hover"]
+                "interaction": ["hover"]
             })),
         );
         assert_eq!(s.display_name(), "button-background-color-hover");

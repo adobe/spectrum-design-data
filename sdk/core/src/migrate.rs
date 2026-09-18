@@ -234,8 +234,9 @@ fn resolve_name(
 }
 
 /// Build the cascade `name` value for a successfully-decomposed [`naming::NameObject`]
-/// (variant/component/property/state, in that order — mirrors the field-catalog
-/// serialization order used by `naming::extract_legacy_key`'s general path).
+/// (variant/component/property/interaction-context/interaction, in that order —
+/// mirrors the field-catalog serialization order used by
+/// `naming::extract_legacy_key`'s general path).
 fn decomposed_name_val(parsed: &naming::NameObject) -> Value {
     let mut name = Map::new();
     if let Some(v) = &parsed.variant {
@@ -245,9 +246,15 @@ fn decomposed_name_val(parsed: &naming::NameObject) -> Value {
         name.insert("component".into(), Value::String(c.clone()));
     }
     name.insert("property".into(), Value::String(parsed.property.clone()));
-    if let Some(states) = &parsed.state {
+    if let Some(states) = &parsed.interaction_context {
         name.insert(
-            "state".into(),
+            "interaction-context".into(),
+            Value::Array(states.iter().cloned().map(Value::String).collect()),
+        );
+    }
+    if let Some(states) = &parsed.interaction {
+        name.insert(
+            "interaction".into(),
             Value::Array(states.iter().cloned().map(Value::String).collect()),
         );
     }
@@ -1253,7 +1260,7 @@ mod tests {
         let forced = HashSet::new();
         let ctx = empty_ctx(&sidecar, &forced);
         let tok = obj(json!({
-            "name": {"component": "button", "property": "background-color", "state": ["hover"]},
+            "name": {"component": "button", "property": "background-color", "interaction": ["hover"]},
             "uuid": "0000"
         }));
         let (name, kind) = resolve_name("button-background-color-hover", &tok, &ctx);
@@ -1305,7 +1312,7 @@ mod tests {
         assert_eq!(kind, NameKind::Decomposed);
         assert_eq!(name["component"], "button");
         assert_eq!(name["property"], "background-color");
-        assert_eq!(name["state"], json!(["hover"]));
+        assert_eq!(name["interaction"], json!(["hover"]));
     }
 
     #[test]

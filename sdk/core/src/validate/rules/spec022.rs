@@ -10,8 +10,9 @@
 
 //! SPEC-022: component-state-valid
 //!
-//! Token name-object `state` field MUST match a declared state on the referenced
-//! component when state declarations are present.
+//! Token name-object `interaction`/`interaction-context` field values MUST match
+//! a declared state on the referenced component when state declarations are
+//! present.
 
 use crate::report::{Diagnostic, Severity};
 use crate::validate::rule::{ValidationContext, ValidationRule};
@@ -44,11 +45,17 @@ impl ValidationRule for Rule {
             let Some(component) = name_obj.get("component").and_then(|v| v.as_str()) else {
                 continue;
             };
-            // Proposal 006: `state` is an ordered array of atomic ids. Every
-            // element must be a declared state on the referenced component.
-            let Some(states) = name_obj.get("state").and_then(|v| v.as_array()) else {
+            // Proposal 006: `interaction`/`interaction-context` are ordered arrays
+            // of atomic ids. Every element must be a declared state on the
+            // referenced component.
+            let states: Vec<&str> = ["interaction", "interaction-context"]
+                .iter()
+                .filter_map(|field| name_obj.get(*field).and_then(|v| v.as_array()))
+                .flat_map(|arr| arr.iter().filter_map(|s| s.as_str()))
+                .collect();
+            if states.is_empty() {
                 continue;
-            };
+            }
             let Some(comp) = comp_map.get(component) else {
                 continue; // SPEC-018 covers undeclared component
             };
@@ -68,7 +75,7 @@ impl ValidationRule for Rule {
                 continue;
             }
 
-            for state in states.iter().filter_map(|s| s.as_str()) {
+            for state in states {
                 if !declared_states.contains(state) {
                     let token_label = serde_json::to_string(name_obj).unwrap_or_default();
                     out.push(Diagnostic {
@@ -150,7 +157,7 @@ mod tests {
     #[test]
     fn declared_state_no_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": ["hover"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "interaction": ["hover"]}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert!(diags.is_empty());
@@ -159,7 +166,7 @@ mod tests {
     #[test]
     fn undeclared_state_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": ["jello"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "interaction": ["jello"]}, "value": "#fff"}),
             json!({"name": "button", "states": [{"name": "hover"}]}),
         );
         assert_eq!(diags.len(), 1);
@@ -171,7 +178,7 @@ mod tests {
     #[test]
     fn no_states_declared_no_error() {
         let diags = run(
-            json!({"name": {"property": "color", "component": "button", "state": ["anything"]}, "value": "#fff"}),
+            json!({"name": {"property": "color", "component": "button", "interaction": ["anything"]}, "value": "#fff"}),
             json!({"name": "button"}),
         );
         assert!(diags.is_empty());

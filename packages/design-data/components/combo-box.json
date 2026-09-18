@@ -286,7 +286,7 @@
       "description": "Focus without hover, when the field is focused but the pointer is not over it."
     },
     {
-      "name": "keyboard-focus",
+      "name": "focus",
       "trigger": "interaction"
     }
   ],

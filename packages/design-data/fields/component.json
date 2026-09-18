@@ -7,7 +7,7 @@
   "registry": "packages/design-data/registry/components.json",
   "validation": "advisory",
   "serialization": {
-    "position": 1
+    "position": 3
   },
   "scope": null,
   "required": false,
