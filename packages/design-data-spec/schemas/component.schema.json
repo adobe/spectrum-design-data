@@ -37,6 +37,13 @@
     "meta": {
       "$ref": "#/$defs/meta"
     },
+    "implementations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/implementation"
+      },
+      "description": "Known platform implementations of this component. Foundation-owned canonical mappings; platform-specific overrides are not supported yet. See spec/component-format.md#implementations."
+    },
     "options": {
       "$ref": "#/$defs/optionsMap"
     },
@@ -97,6 +104,45 @@
           "description": "URL of the component's documentation page."
         }
       },
+      "additionalProperties": false
+    },
+    "implementation": {
+      "type": "object",
+      "required": ["platform", "componentName"],
+      "properties": {
+        "platform": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target platform identifier (for example, 'web', 'ios', or 'android'). Multiple implementations may target the same platform when they have distinct packages."
+        },
+        "componentName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exported class, element, or component name used by the platform implementation."
+        },
+        "importPath": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Importable module or source path for a platform implementation."
+        },
+        "package": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Published package containing the platform implementation."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional implementation-specific usage or mapping notes."
+        }
+      },
+      "oneOf": [
+        {
+          "required": ["importPath"]
+        },
+        {
+          "required": ["package"]
+        }
+      ],
       "additionalProperties": false
     },
     "optionsMap": {
