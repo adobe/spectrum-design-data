@@ -559,7 +559,10 @@ enum FigmaSub {
         /// a platform manifest's `formatting` block, as `PLATFORM=PATH` (Figma
         /// platform key, e.g. `ANDROID` or `iOS`, `=` a manifest.json path).
         /// Repeatable. Independent of `--manifest` — this only reads
-        /// `formatting`, not the value cascade. Known limitation: for a
+        /// `formatting`, not the value cascade. `WEB` is rejected as a
+        /// platform key — its `codeSyntax` entry is already the authoritative
+        /// `--spectrum-{legacyKey}` name and a `formatting`-derived one would
+        /// only be lossier. Known limitation: for a
         /// component-scoped token, `conceptOrder`/`abbreviations` entries for
         /// `"component"` have no effect — the component prefix stays fused to
         /// `property` and only casing/delimiter conversion applies.
@@ -1718,12 +1721,21 @@ fn run_figma_export(
     let overrides = mapping.map(load_overrides).transpose()?;
 
     // 0b. Load per-platform `formatting` configs for extra `codeSyntax` entries
-    // (`--code-syntax-manifest WEB=path/to/web.manifest.json`, repeatable).
+    // (`--code-syntax-manifest ANDROID=path/to/android.manifest.json`, repeatable).
     let mut platform_formats = Vec::with_capacity(code_syntax_manifests.len());
     for entry in code_syntax_manifests {
         let (platform, manifest_path) = entry.split_once('=').ok_or_else(|| {
             miette::miette!("--code-syntax-manifest expects PLATFORM=PATH, got {entry:?}")
         })?;
+        // `WEB` already carries the authoritative `--spectrum-{legacyKey}` name
+        // (set unconditionally in `make_variable_action`); a `formatting`-derived
+        // reconstruction is strictly lossier, so reject it here rather than let
+        // `augment_code_syntax_with_platform_formats` silently overwrite it.
+        if platform.eq_ignore_ascii_case("WEB") {
+            return Err(miette::miette!(
+                "--code-syntax-manifest WEB is not supported: WEB's codeSyntax is already set to the authoritative --spectrum-{{legacyKey}} name"
+            ));
+        }
         let config = manifest::load_formatting_config(Path::new(manifest_path))
             .into_diagnostic()
             .wrap_err_with(|| format!("failed to load platform manifest {manifest_path}"))?
