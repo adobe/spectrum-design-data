@@ -19,9 +19,11 @@ governing permissions and limitations under the License.
   buttons.forEach(function (button) {
     button.addEventListener("click", function () {
       buttons.forEach(function (b) {
-        b.classList.remove("is-active");
+        b.classList.remove("is-selected");
+        b.setAttribute("aria-pressed", "false");
       });
-      button.classList.add("is-active");
+      button.classList.add("is-selected");
+      button.setAttribute("aria-pressed", "true");
 
       var filter = button.dataset.filter;
       cards.forEach(function (card) {

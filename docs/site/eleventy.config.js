@@ -85,7 +85,20 @@ export default async function (eleventyConfig) {
     return content.replace(
       /<article[^>]*>([\s\S]*?)<\/article>/g,
       (articleBlock) =>
-        articleBlock.replace(/<a(\s)/g, '<a class="spectrum-Link"$1'),
+        articleBlock.replace(/<a\s+[^>]*>/g, (tag) => {
+          const classMatch = tag.match(/\sclass="([^"]*)"/);
+          if (classMatch) {
+            const existing = classMatch[1].split(/\s+/);
+            const merged = existing.includes("spectrum-Link")
+              ? existing
+              : ["spectrum-Link", ...existing];
+            return tag.replace(
+              /\sclass="[^"]*"/,
+              ` class="${merged.join(" ")}"`,
+            );
+          }
+          return tag.replace(/^<a\s/, '<a class="spectrum-Link" ');
+        }),
     );
   });
 
