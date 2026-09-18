@@ -200,6 +200,16 @@ pub fn build_export_payload_with_platform_formats(
 /// from it. Inverts the flat legacy key back into a structured name object via
 /// [`crate::naming::parse_legacy_name`] (best-effort — see its docs) and runs
 /// that through the manifest `formatting` engine.
+///
+/// ponytail: `component_hint` is passed as `None` here — there's no reliable way
+/// to recover *which* leading segment of an already-flattened key was the
+/// `component` without guessing (and `parse_legacy_name`'s hint is documented as
+/// trusted, not inferred, since component ids can be ambiguous prefixes). So for
+/// a component-scoped token, `formatting.conceptOrder`/`abbreviations` entries
+/// for `"component"` have no effect through this path — the component segment
+/// stays fused into `property` and only whole-token casing/delimiter conversion
+/// applies. Upgrade path: thread the structured name (or just its `component`)
+/// through the export call graph instead of reconstructing from the flat key.
 fn platform_code_name(
     token_name: &str,
     config: &crate::naming::FormattingConfig,
@@ -2001,6 +2011,47 @@ mod tests {
         assert_eq!(
             code_syntax.get("ANDROID").map(String::as_str),
             Some("avatarGroupSize100")
+        );
+    }
+
+    /// Locks in the documented ceiling on `platform_code_name`: for a
+    /// component-prefixed legacy key, `conceptOrder` placing `"component"` last
+    /// has no effect, because the flat-key reconstruction never recovers a
+    /// `component` value to move (see the `ponytail:` note on
+    /// `platform_code_name`). The component segment stays fused to the front of
+    /// `property` regardless of where `"component"` appears in `conceptOrder`.
+    #[test]
+    fn platform_formats_component_concept_order_is_a_no_op() {
+        let tokens = vec![(
+            "button-background-color-default".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let android_format = crate::naming::FormattingConfig {
+            concept_order: Some(vec![
+                "state".to_string(),
+                "property".to_string(),
+                "component".to_string(),
+            ]),
+            casing: Some(crate::naming::Casing::CamelCase),
+            ..Default::default()
+        };
+        let platform_formats = vec![("ANDROID".to_string(), android_format)];
+        let (mut body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+        let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+        // If `component` were actually recovered and moved per `conceptOrder`,
+        // this would read "defaultBackgroundColorButton". It doesn't — the
+        // "button" prefix stays glued to the front of `property`.
+        assert_eq!(
+            code_syntax.get("ANDROID").map(String::as_str),
+            Some("defaultButtonBackgroundColor")
         );
     }
 

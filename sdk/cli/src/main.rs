@@ -559,7 +559,10 @@ enum FigmaSub {
         /// a platform manifest's `formatting` block, as `PLATFORM=PATH` (Figma
         /// platform key, e.g. `ANDROID` or `iOS`, `=` a manifest.json path).
         /// Repeatable. Independent of `--manifest` — this only reads
-        /// `formatting`, not the value cascade.
+        /// `formatting`, not the value cascade. Known limitation: for a
+        /// component-scoped token, `conceptOrder`/`abbreviations` entries for
+        /// `"component"` have no effect — the component prefix stays fused to
+        /// `property` and only casing/delimiter conversion applies.
         #[arg(long = "code-syntax-manifest", value_name = "PLATFORM=PATH")]
         code_syntax_manifests: Vec<String>,
     },
