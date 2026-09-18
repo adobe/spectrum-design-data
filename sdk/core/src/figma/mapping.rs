@@ -170,7 +170,70 @@ pub fn build_export_payload(
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)
+    build_export_payload_with_platform_formats(tokens, existing, overrides, &[])
+}
+
+/// Same as [`build_export_payload`], but also populates `codeSyntax` for the
+/// given platforms (Figma's `"ANDROID" | "iOS"` keys — `"WEB"` is always
+/// populated from the legacy key) by running each manifest's `formatting`
+/// config (`packages/design-data-spec/spec/manifest.md`) through
+/// [`crate::naming::format_name`]. An empty slice reproduces
+/// [`build_export_payload`] exactly.
+pub fn build_export_payload_with_platform_formats(
+    tokens: &[(String, PathBuf, Value)],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    platform_formats: &[(String, crate::naming::FormattingConfig)],
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    let (mut body, summary) =
+        build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)?;
+    if !platform_formats.is_empty() {
+        augment_code_syntax_with_platform_formats(&mut body.variables, platform_formats);
+    }
+    Ok((body, summary))
+}
+
+/// Best-effort per-platform code name for an already-exported variable, keyed
+/// off the `WEB` `codeSyntax` entry [`make_variable_action`] always sets
+/// (`--spectrum-{legacyKey}`) — cheaper than threading a new parameter through
+/// every `process_*_token` call site, since the legacy key is fully recoverable
+/// from it. Inverts the flat legacy key back into a structured name object via
+/// [`crate::naming::parse_legacy_name`] (best-effort — see its docs) and runs
+/// that through the manifest `formatting` engine.
+fn platform_code_name(
+    token_name: &str,
+    config: &crate::naming::FormattingConfig,
+) -> Option<String> {
+    let name_obj = crate::naming::parse_legacy_name(token_name, None);
+    let value = serde_json::to_value(&name_obj).ok()?;
+    crate::naming::format_name(&value, config)
+}
+
+/// Add ANDROID/iOS (or any other platform key) `codeSyntax` entries to every
+/// already-built variable, derived from its `WEB` entry. See
+/// [`platform_code_name`] for why this is a post-pass rather than threading a
+/// new parameter through the export call graph.
+fn augment_code_syntax_with_platform_formats(
+    variables: &mut [VariableAction],
+    platform_formats: &[(String, crate::naming::FormattingConfig)],
+) {
+    for var in variables.iter_mut() {
+        let Some(code_syntax) = var.code_syntax.as_mut() else {
+            continue;
+        };
+        let Some(token_name) = code_syntax
+            .get("WEB")
+            .and_then(|web| web.strip_prefix("--spectrum-"))
+            .map(str::to_string)
+        else {
+            continue;
+        };
+        for (platform, config) in platform_formats {
+            if let Some(name) = platform_code_name(&token_name, config) {
+                code_syntax.insert(platform.clone(), name);
+            }
+        }
+    }
 }
 
 /// Same as [`build_export_payload`], but with an explicit collection-spec
@@ -1907,6 +1970,37 @@ mod tests {
         assert_eq!(
             code_syntax.get("WEB").map(String::as_str),
             Some("--spectrum-spacing-100")
+        );
+    }
+
+    #[test]
+    fn platform_formats_add_extra_code_syntax_entries_from_web() {
+        let tokens = vec![(
+            "avatar-group-size-100".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let android_format = crate::naming::FormattingConfig {
+            casing: Some(crate::naming::Casing::CamelCase),
+            ..Default::default()
+        };
+        let platform_formats = vec![("ANDROID".to_string(), android_format)];
+        let (mut body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+        let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+        assert_eq!(
+            code_syntax.get("WEB").map(String::as_str),
+            Some("--spectrum-avatar-group-size-100")
+        );
+        assert_eq!(
+            code_syntax.get("ANDROID").map(String::as_str),
+            Some("avatarGroupSize100")
         );
     }
 

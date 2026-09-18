@@ -30,7 +30,7 @@
 //! `weight`/`style` (CSS font-weight/font-style values) remain excluded pending their
 //! own decomposition pass — only `script`/`family`/`emphasis` are enabled so far.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
 use std::sync::LazyLock;
 
@@ -486,51 +486,201 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     // e.g. cjk-strong-font-weight serializes as family:"cjk" + emphasis:"strong" +
     // property:"font-weight") were enabled for the pur/typography decomposition pass.
 
+    general_domain_key(name, None)
+}
+
+/// Manifest `formatting` config (`manifest.schema.json#/properties/formatting`) —
+/// rules for serializing a structured name object into a platform-specific token
+/// name string. `None` fields fall back to the legacy-key defaults (catalog
+/// position order, kebab-case, `-` delimiter, no abbreviations).
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+pub struct FormattingConfig {
+    #[serde(
+        default,
+        rename = "conceptOrder",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub concept_order: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub casing: Option<Casing>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub delimiter: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub abbreviations: Option<HashMap<String, String>>,
+}
+
+/// Casing style for a manifest-formatted token name (`manifest.schema.json`
+/// `formatting.casing` enum — values match the schema strings verbatim).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
+pub enum Casing {
+    #[serde(rename = "kebab-case")]
+    KebabCase,
+    #[serde(rename = "camelCase")]
+    CamelCase,
+    #[serde(rename = "PascalCase")]
+    PascalCase,
+    #[serde(rename = "SCREAMING_SNAKE_CASE")]
+    ScreamingSnakeCase,
+}
+
+/// Format a name object into a platform-specific token name string per a manifest
+/// `formatting` config (SPEC formatting; `packages/design-data-spec/spec/manifest.md`).
+///
+/// ponytail: only reformats the general/decomposed domain (the same branch
+/// `extract_legacy_key` falls through to below) — a token whose name hits an
+/// earlier special-cased branch (color-domain, icon, space-between, thin-format,
+/// or an explicit `legacyKey` pin) has no defined per-platform reformatting and is
+/// returned via its ordinary legacy key unchanged. Upgrade path: give those
+/// branches conceptOrder-aware handling if a platform needs it.
+pub fn format_name(name_val: &Value, config: &FormattingConfig) -> Option<String> {
+    let Value::Object(name) = name_val else {
+        return extract_legacy_key(name_val);
+    };
+    // Re-run the same early special-case detection extract_legacy_key uses: if it
+    // wouldn't fall through to the general-domain branch for this name, formatting
+    // has no defined behavior here — reuse its unformatted result.
+    let general = general_domain_key(name, None);
+    let legacy = extract_legacy_key(name_val);
+    if general != legacy {
+        return legacy;
+    }
+    general_domain_key(name, Some(config))
+}
+
+/// The decomposed/general-domain legacy-key walk, optionally reformatted per a
+/// manifest `formatting` config. `config: None` reproduces `extract_legacy_key`'s
+/// exact historical output (catalog position order, kebab-case, `-` delimiter).
+fn general_domain_key(
+    name: &Map<String, Value>,
+    config: Option<&FormattingConfig>,
+) -> Option<String> {
     let registry = crate::registry::RegistryData::embedded();
     let catalog = crate::registry::FieldCatalog::embedded();
-    let mut parts: Vec<String> = Vec::new();
+    let abbreviations = config.and_then(|c| c.abbreviations.as_ref());
+    let abbreviate = |value: &str| -> String {
+        abbreviations
+            .and_then(|m| m.get(value))
+            .cloned()
+            .unwrap_or_else(|| value.to_string())
+    };
+
+    let mut segments: Vec<String> = Vec::new();
+    for field in ordered_field_names(catalog, config) {
+        // `state` (Proposal 006) is an ordered array of atomic ids, not a single
+        // string like every other catalog field — walk its elements in order.
+        if field == "state" {
+            if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
+                for s in states.iter().filter_map(|v| v.as_str()) {
+                    let expanded = registry.token_name("state", s).unwrap_or(s);
+                    segments.push(abbreviate(expanded));
+                }
+            }
+            continue;
+        }
+        // dsi.6: general-domain tokens (e.g. avatar-group-size-100, spacing-100,
+        // border-width-100) can also have scaleIndex split out of `property`.
+        // scaleIndex has no catalog position of its own — `ordered_field_names`
+        // appends it last unless a `formatting.conceptOrder` places it explicitly.
+        if field == "scaleIndex" {
+            if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
+                segments.push(i.to_string());
+            }
+            continue;
+        }
+        if let Some(v) = name.get(field.as_str()).and_then(|v| v.as_str()) {
+            // Expand short id to long-form tokenName (e.g. "xl" → "extra-large");
+            // fall back to the raw value when no expansion is defined.
+            let expanded = registry.token_name(&field, v).unwrap_or(v);
+            segments.push(abbreviate(expanded));
+        }
+    }
+
+    if segments.is_empty() {
+        return None;
+    }
+
+    match config {
+        None => Some(segments.join("-")),
+        Some(cfg) => {
+            let delimiter = cfg.delimiter.as_deref().unwrap_or("-");
+            let casing = cfg.casing.unwrap_or(Casing::KebabCase);
+            // Abbreviations and registry expansions can themselves be multi-word
+            // (e.g. "extra-large"); flatten to individual words before casing so
+            // camelCase/PascalCase capitalize every word, not just each segment.
+            let words: Vec<String> = segments
+                .iter()
+                .flat_map(|s| s.split('-').map(str::to_string))
+                .collect();
+            Some(apply_casing(&words, casing, delimiter))
+        }
+    }
+}
+
+/// Build the field-name walk order: `conceptOrder` first (deduplicated), then any
+/// remaining non-excluded catalog fields in `serialization.position` order, then
+/// `scaleIndex` last unless `conceptOrder` already placed it.
+fn ordered_field_names(
+    catalog: &crate::registry::FieldCatalog,
+    config: Option<&FormattingConfig>,
+) -> Vec<String> {
+    let mut order: Vec<String> = Vec::new();
+    let mut seen: HashSet<String> = HashSet::new();
+
+    if let Some(concept_order) = config.and_then(|c| c.concept_order.as_ref()) {
+        for field in concept_order {
+            if seen.insert(field.clone()) {
+                order.push(field.clone());
+            }
+        }
+    }
 
     for entry in catalog.entries_by_position() {
         if entry.exclude_from_legacy_key {
             continue;
         }
-        // `state` (Proposal 006) is an ordered array of atomic ids, not a single
-        // string like every other catalog field — walk its elements in order.
-        if entry.name == "state" {
-            if let Some(states) = name.get("state").and_then(|v| v.as_array()) {
-                for s in states.iter().filter_map(|v| v.as_str()) {
-                    let expanded = registry.token_name("state", s).unwrap_or(s);
-                    parts.push(expanded.to_string());
+        if seen.insert(entry.name.to_string()) {
+            order.push(entry.name.to_string());
+        }
+    }
+
+    if seen.insert("scaleIndex".to_string()) {
+        order.push("scaleIndex".to_string());
+    }
+
+    order
+}
+
+/// Apply a casing style to an already-tokenized word list.
+fn apply_casing(words: &[String], casing: Casing, delimiter: &str) -> String {
+    match casing {
+        Casing::KebabCase => words.join(delimiter),
+        Casing::ScreamingSnakeCase => words
+            .iter()
+            .map(|w| w.to_uppercase())
+            .collect::<Vec<_>>()
+            .join(delimiter),
+        Casing::CamelCase => words
+            .iter()
+            .enumerate()
+            .map(|(i, w)| {
+                if i == 0 {
+                    w.to_lowercase()
+                } else {
+                    capitalize(w)
                 }
-            }
-            continue;
-        }
-        if let Some(v) = name.get(entry.name).and_then(|v| v.as_str()) {
-            // Expand short id to long-form tokenName (e.g. "xl" → "extra-large");
-            // fall back to the raw value when no expansion is defined.
-            let expanded = registry.token_name(entry.name, v).unwrap_or(v);
-            parts.push(expanded.to_string());
-        }
+            })
+            .collect(),
+        Casing::PascalCase => words.iter().map(|w| capitalize(w)).collect(),
     }
+}
 
-    // dsi.6: general-domain tokens (e.g. avatar-group-size-100, spacing-100,
-    // border-width-100) can also have scaleIndex split out of `property`. Append
-    // it at the end, mirroring the JS decomposer.js general path — non-standard
-    // placement (scaleIndex has no catalog position of its own), but matches how
-    // these tokens' fused property strings always trailed with the numeric index.
-    // Correctness relies on the convention that any token whose `property` is
-    // still a fused string (e.g. "font-size-100") alongside a populated
-    // scaleIndex pins an explicit legacyKey instead of relying on this
-    // reconstruction — nothing here structurally prevents a double-emit if
-    // that convention were ever violated.
-    if let Some(i) = name.get("scaleIndex").and_then(|v| v.as_i64()) {
-        parts.push(i.to_string());
+/// Uppercase a word's first character, lowercase the rest.
+fn capitalize(word: &str) -> String {
+    let mut chars = word.chars();
+    match chars.next() {
+        Some(first) => first.to_uppercase().collect::<String>() + &chars.as_str().to_lowercase(),
+        None => String::new(),
     }
-
-    if parts.is_empty() {
-        return None;
-    }
-    Some(parts.join("-"))
 }
 
 /// An entry in the naming-exceptions.json allowlist.
@@ -772,6 +922,76 @@ mod tests {
 
         let name = json!({"property": "spacing", "scaleIndex": 200});
         assert_eq!(extract_legacy_key(&name).as_deref(), Some("spacing-200"));
+    }
+
+    #[test]
+    fn format_name_default_config_matches_legacy_key() {
+        let name =
+            json!({"component": "button", "property": "background-color", "state": ["hover"]});
+        let config = FormattingConfig::default();
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            extract_legacy_key(&name).as_deref()
+        );
+    }
+
+    #[test]
+    fn format_name_camel_case_reorders_and_capitalizes() {
+        let name =
+            json!({"component": "button", "property": "background-color", "state": ["hover"]});
+        let config = FormattingConfig {
+            concept_order: Some(vec![
+                "property".to_string(),
+                "component".to_string(),
+                "state".to_string(),
+            ]),
+            casing: Some(Casing::CamelCase),
+            ..Default::default()
+        };
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            Some("backgroundColorButtonHover")
+        );
+    }
+
+    #[test]
+    fn format_name_screaming_snake_case_with_delimiter_and_abbreviation() {
+        let name = json!({"component": "avatar-group", "property": "size", "scaleIndex": 100});
+        let config = FormattingConfig {
+            casing: Some(Casing::ScreamingSnakeCase),
+            delimiter: Some("_".to_string()),
+            abbreviations: Some(HashMap::from([(
+                "avatar-group".to_string(),
+                "ag".to_string(),
+            )])),
+            ..Default::default()
+        };
+        assert_eq!(format_name(&name, &config).as_deref(), Some("AG_SIZE_100"));
+    }
+
+    #[test]
+    fn format_name_pascal_case() {
+        let name = json!({"property": "spacing", "scaleIndex": 200});
+        let config = FormattingConfig {
+            casing: Some(Casing::PascalCase),
+            ..Default::default()
+        };
+        assert_eq!(format_name(&name, &config).as_deref(), Some("Spacing200"));
+    }
+
+    #[test]
+    fn format_name_falls_back_unchanged_for_special_cased_domains() {
+        // Thin format tokens have no defined per-platform reformatting — the
+        // manifest-formatted result should equal the plain legacy key.
+        let name = json!({"property": "swatch-disabled-icon-border-color", "component": "swatch"});
+        let config = FormattingConfig {
+            casing: Some(Casing::CamelCase),
+            ..Default::default()
+        };
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            extract_legacy_key(&name).as_deref()
+        );
     }
 
     #[test]

@@ -54,6 +54,39 @@ pub fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
     })
 }
 
+/// Read a platform manifest.json's optional `formatting` block
+/// (`manifest.schema.json#/properties/formatting`) as a
+/// [`crate::naming::FormattingConfig`], for callers (e.g. `figma export
+/// --code-syntax-manifest`) that only need per-platform token-name
+/// serialization rules, not the full include/exclude/overrides cascade.
+/// Returns `Ok(None)` when the manifest has no `formatting` block.
+pub fn load_formatting_config(
+    manifest_path: &Path,
+) -> Result<Option<crate::naming::FormattingConfig>, CoreError> {
+    let text = std::fs::read_to_string(manifest_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let manifest: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let Some(formatting) = manifest.get("formatting") else {
+        return Ok(None);
+    };
+    let config = serde_json::from_value(formatting.clone()).map_err(|e| {
+        CoreError::ParseError(format!(
+            "platform manifest {} has an invalid `formatting` block: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    Ok(Some(config))
+}
+
 /// Apply the Layer 2 platform manifest declared in `.design-data.toml`
 /// (top-level `manifest` key) to `graph`, returning mode-set restrictions to feed
 /// into a [`ResolutionContext`](crate::cascade::ResolutionContext).

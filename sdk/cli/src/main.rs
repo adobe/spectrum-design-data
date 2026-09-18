@@ -555,6 +555,13 @@ enum FigmaSub {
         /// before export instead of reading `path` as a raw token directory
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
+        /// Add per-platform `codeSyntax` entries (shown in Figma Dev Mode) from
+        /// a platform manifest's `formatting` block, as `PLATFORM=PATH` (Figma
+        /// platform key, e.g. `ANDROID` or `iOS`, `=` a manifest.json path).
+        /// Repeatable. Independent of `--manifest` — this only reads
+        /// `formatting`, not the value cascade.
+        #[arg(long = "code-syntax-manifest", value_name = "PLATFORM=PATH")]
+        code_syntax_manifests: Vec<String>,
     },
     /// Import Figma Variable edits back into manifest `overrides` entries
     Import {
@@ -1699,12 +1706,29 @@ fn run_figma_export(
     dry_run: bool,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
+    code_syntax_manifests: &[String],
 ) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
 
     // 0. Load name-mapping overrides, if given.
     let overrides = mapping.map(load_overrides).transpose()?;
+
+    // 0b. Load per-platform `formatting` configs for extra `codeSyntax` entries
+    // (`--code-syntax-manifest WEB=path/to/web.manifest.json`, repeatable).
+    let mut platform_formats = Vec::with_capacity(code_syntax_manifests.len());
+    for entry in code_syntax_manifests {
+        let (platform, manifest_path) = entry.split_once('=').ok_or_else(|| {
+            miette::miette!("--code-syntax-manifest expects PLATFORM=PATH, got {entry:?}")
+        })?;
+        let config = manifest::load_formatting_config(Path::new(manifest_path))
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load platform manifest {manifest_path}"))?
+            .ok_or_else(|| {
+                miette::miette!("platform manifest {manifest_path} has no `formatting` block")
+            })?;
+        platform_formats.push((platform.to_string(), config));
+    }
 
     // 1. Load tokens — either straight from the source directory, or resolved
     // through the platform manifest cascade (include/exclude, overrides,
@@ -1743,9 +1767,13 @@ fn run_figma_export(
 
     // 3. Build the export payload.
     eprintln!("Building export payload from {}...", path.display());
-    let (body, summary) =
-        figma::mapping::build_export_payload(&tokens, &response.meta, overrides.as_ref())
-            .map_err(|e| miette::miette!("{e}"))?;
+    let (body, summary) = figma::mapping::build_export_payload_with_platform_formats(
+        &tokens,
+        &response.meta,
+        overrides.as_ref(),
+        &platform_formats,
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
 
     // 4. Output or post.
     if dry_run {
@@ -2757,6 +2785,7 @@ fn main() -> ExitCode {
                 dry_run,
                 mapping,
                 manifest,
+                code_syntax_manifests,
             } => run_figma_export(
                 &path,
                 &file_key,
@@ -2764,6 +2793,7 @@ fn main() -> ExitCode {
                 dry_run,
                 mapping.as_deref(),
                 manifest.as_deref(),
+                &code_syntax_manifests,
             ),
             FigmaSub::Import {
                 path,
