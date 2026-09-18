@@ -26,9 +26,9 @@ pnpm --filter figma-code-connect plan --label ios=SwiftUI
 ## Applying mappings
 
 `--apply` connects to the local Figma Dev Mode MCP endpoint configured in
-`.mcp.json`. It first requests suggestions and existing mappings for every
-matched Figma component, skips existing label mappings, and submits only the
-remaining mappings in batches of ten.
+`.mcp.json`. It checks existing mappings for every matched Figma component,
+skips existing label mappings, and submits only the remaining mappings in
+batches of ten. Existing-map checks are parallelized within each batch.
 
 ```sh
 pnpm --filter figma-code-connect plan --apply \

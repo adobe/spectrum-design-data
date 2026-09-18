@@ -19,6 +19,9 @@
     "pnpm": ">=10.17.1"
   },
   "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1"
+  },
   "devDependencies": {
     "ava": "^6.1.1"
   }

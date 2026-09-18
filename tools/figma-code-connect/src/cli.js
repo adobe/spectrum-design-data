@@ -24,11 +24,7 @@ import {
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const DEFAULT_COMPONENTS_DIR = resolve(ROOT, "packages/design-data/components");
 const DEFAULT_MCP_URL = "http://127.0.0.1:3845/mcp";
-const REQUIRED_TOOLS = [
-  "get_code_connect_map",
-  "get_code_connect_suggestions",
-  "send_code_connect_mappings",
-];
+const REQUIRED_TOOLS = ["get_code_connect_map", "send_code_connect_mappings"];
 
 function parseArgs(args) {
   const options = {
@@ -48,10 +44,10 @@ function parseArgs(args) {
     else if (arg === "--mcp-url") options.mcpUrl = value;
     else if (arg === "--batch-size") options.batchSize = Number(value);
     else if (arg === "--label") {
-      const [platform, label] = value.split("=");
-      if (!platform || !label)
+      const labelParts = value.split("=");
+      if (labelParts.length !== 2 || !labelParts[0] || !labelParts[1])
         throw new Error("--label must be PLATFORM=LABEL.");
-      options.labels[platform] = label;
+      options.labels[labelParts[0]] = labelParts[1];
     } else {
       throw new Error(`Unknown argument: ${arg}`);
     }
@@ -104,46 +100,63 @@ function hasCodeConnectMap(result) {
   });
 }
 
-async function applyPlan(options, plan) {
-  const client = new McpHttpClient(options.mcpUrl);
-  await client.connect();
-  const tools = await client.listTools();
-  const toolNames = new Set(tools.map(({ name }) => name));
-  const missing = REQUIRED_TOOLS.filter((name) => !toolNames.has(name));
-  if (missing.length) {
-    throw new Error(
-      `Connected Figma MCP server is missing: ${missing.join(", ")}.`,
+async function filterExistingMappings(client, mappings, batchSize) {
+  const pending = [];
+  for (const mappingsBatch of chunk(mappings, batchSize)) {
+    const results = await Promise.all(
+      mappingsBatch.map(async (mapping) => ({
+        mapping,
+        existing: await client.callTool("get_code_connect_map", {
+          nodeId: mapping.nodeId,
+          codeConnectLabel: mapping.label,
+        }),
+      })),
+    );
+    pending.push(
+      ...results
+        .filter(({ existing }) => !hasCodeConnectMap(existing))
+        .map(({ mapping }) => toMcpMapping(mapping)),
     );
   }
+  return pending;
+}
 
-  const mappings = attachFigmaNodes(
-    plan,
-    await enumerateFigmaComponents(options, client, toolNames),
-  );
-  const pending = [];
-  for (const mapping of mappings) {
-    await client.callTool("get_code_connect_suggestions", {
-      nodeId: mapping.nodeId,
-    });
-    const existing = await client.callTool("get_code_connect_map", {
-      nodeId: mapping.nodeId,
-      codeConnectLabel: mapping.label,
-    });
-    if (!hasCodeConnectMap(existing)) {
-      pending.push(toMcpMapping(mapping));
+async function applyPlan(options, plan) {
+  const client = new McpHttpClient(options.mcpUrl);
+  try {
+    await client.connect();
+    const tools = await client.listTools();
+    const toolNames = new Set(tools.map(({ name }) => name));
+    const missing = REQUIRED_TOOLS.filter((name) => !toolNames.has(name));
+    if (missing.length) {
+      throw new Error(
+        `Connected Figma MCP server is missing: ${missing.join(", ")}.`,
+      );
     }
+
+    const mappings = attachFigmaNodes(
+      plan,
+      await enumerateFigmaComponents(options, client, toolNames),
+    );
+    const pending = await filterExistingMappings(
+      client,
+      mappings,
+      options.batchSize,
+    );
+    for (const mappingsBatch of chunk(pending, options.batchSize)) {
+      await client.callTool("send_code_connect_mappings", {
+        mappings: mappingsBatch,
+      });
+    }
+    return {
+      planned: plan.length,
+      matched: mappings.length,
+      submitted: pending.length,
+      skipped: mappings.length - pending.length,
+    };
+  } finally {
+    await client.close();
   }
-  for (const mappingsBatch of chunk(pending, options.batchSize)) {
-    await client.callTool("send_code_connect_mappings", {
-      mappings: mappingsBatch,
-    });
-  }
-  return {
-    planned: plan.length,
-    matched: mappings.length,
-    submitted: pending.length,
-    skipped: mappings.length - pending.length,
-  };
 }
 
 async function main() {

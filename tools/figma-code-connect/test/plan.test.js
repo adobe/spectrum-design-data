@@ -129,3 +129,32 @@ test("requires an explicit Code Connect label for unknown platform implementatio
     message: /Pass --label ios=LABEL/,
   });
 });
+
+test("rejects missing implementation sources before deriving a Code Connect label", (t) => {
+  const missingSource = {
+    ...button,
+    implementations: [{ platform: "web", componentName: "Button" }],
+  };
+
+  t.throws(() => createMappingPlan([missingSource]), {
+    message: "Implementation for web must define package or importPath.",
+  });
+});
+
+test("rejects ambiguous Figma component names instead of choosing one arbitrarily", (t) => {
+  const [mapping] = createMappingPlan([button]);
+
+  t.throws(
+    () =>
+      attachFigmaNodes(
+        [mapping],
+        compactFigmaComponents([
+          { id: "1:2", name: "Button" },
+          { id: "3:4", name: "Button" },
+        ]),
+      ),
+    {
+      message: 'Figma component name "Button" is ambiguous: 1:2, 3:4.',
+    },
+  );
+});

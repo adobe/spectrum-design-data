@@ -8,75 +8,32 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function parseResponse(text) {
-  const data = text
-    .split("\n")
-    .find((line) => line.startsWith("data: "))
-    ?.slice("data: ".length);
-  if (!data) {
-    throw new Error("Figma MCP returned no JSON-RPC response.");
-  }
-  const response = JSON.parse(data);
-  if (response.error) {
-    throw new Error(`Figma MCP error: ${response.error.message}`);
-  }
-  return response.result;
-}
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 
 export class McpHttpClient {
   constructor(url) {
-    this.url = url;
-    this.sessionId = undefined;
-    this.requestId = 0;
-  }
-
-  async request(method, params) {
-    const headers = {
-      Accept: "application/json, text/event-stream",
-      "Content-Type": "application/json",
-    };
-    if (this.sessionId) {
-      headers["mcp-session-id"] = this.sessionId;
-    }
-    const response = await fetch(this.url, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: ++this.requestId,
-        method,
-        params,
-      }),
+    this.client = new Client({
+      name: "figma-code-connect",
+      version: "0.1.0",
     });
-    if (!response.ok) {
-      throw new Error(
-        `Figma MCP request ${method} failed with HTTP ${response.status}.`,
-      );
-    }
-    const sessionId = response.headers.get("mcp-session-id");
-    if (sessionId) {
-      this.sessionId = sessionId;
-    }
-    return parseResponse(await response.text());
+    this.transport = new StreamableHTTPClientTransport(new URL(url));
   }
 
   async connect() {
-    await this.request("initialize", {
-      protocolVersion: "2025-03-26",
-      capabilities: {},
-      clientInfo: {
-        name: "figma-code-connect",
-        version: "0.1.0",
-      },
-    });
+    await this.client.connect(this.transport);
   }
 
   async listTools() {
-    return (await this.request("tools/list")).tools;
+    return (await this.client.listTools()).tools;
   }
 
   async callTool(name, args = {}) {
-    return this.request("tools/call", { name, arguments: args });
+    return this.client.callTool({ name, arguments: args });
+  }
+
+  async close() {
+    await this.transport.close();
   }
 }
 

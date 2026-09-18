@@ -52,6 +52,11 @@ export function codeConnectLabel(implementation, labels = {}) {
     return labels[implementation.platform];
   }
   const source = implementation.package ?? implementation.importPath;
+  if (typeof source !== "string" || !source) {
+    throw new Error(
+      `Implementation for ${implementation.platform} must define package or importPath.`,
+    );
+  }
   const packageLabel = PACKAGE_LABELS.find(([prefix]) =>
     source.startsWith(prefix),
   );
@@ -99,15 +104,21 @@ function normalize(value) {
 }
 
 export function attachFigmaNodes(plan, figmaComponents) {
-  const byName = new Map(
-    figmaComponents.map((component) => [
-      normalize(component.name),
-      component.nodeId,
-    ]),
-  );
+  const byName = new Map();
+  for (const component of figmaComponents) {
+    const name = normalize(component.name);
+    const matches = byName.get(name) ?? [];
+    matches.push(component.nodeId);
+    byName.set(name, matches);
+  }
   return plan.flatMap((mapping) => {
-    const nodeId = byName.get(normalize(mapping.figmaName));
-    return nodeId ? [{ ...mapping, nodeId }] : [];
+    const nodeIds = byName.get(normalize(mapping.figmaName)) ?? [];
+    if (nodeIds.length > 1) {
+      throw new Error(
+        `Figma component name ${JSON.stringify(mapping.figmaName)} is ambiguous: ${nodeIds.join(", ")}.`,
+      );
+    }
+    return nodeIds[0] ? [{ ...mapping, nodeId: nodeIds[0] }] : [];
   });
 }
 
