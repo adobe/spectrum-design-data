@@ -746,6 +746,11 @@ fn make_variable_action(
     };
     let id = Some(var_id.clone());
 
+    // Dev Mode reads this to show engineers the real code name for a
+    // variable. `token_name` is already the legacy key 1:1 with the CSS
+    // custom property Web engineers paste (see module doc).
+    let code_syntax = HashMap::from([("WEB".to_string(), format!("--spectrum-{token_name}"))]);
+
     let va = VariableAction {
         action,
         id,
@@ -755,7 +760,7 @@ fn make_variable_action(
         description: description.map(String::from),
         hidden_from_publishing: None,
         scopes: None,
-        code_syntax: None,
+        code_syntax: Some(code_syntax),
     };
     (va, var_id)
 }
@@ -1879,6 +1884,30 @@ mod tests {
             build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
         assert_eq!(summary.variables_created, 1);
         assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+    }
+
+    #[test]
+    fn exported_variable_carries_web_code_syntax_for_dev_mode() {
+        let tokens = vec![(
+            "spacing-100".to_string(),
+            PathBuf::from("some-other-file.json"),
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }),
+        )];
+        let meta = mock_meta_with_extra_collection();
+        let (body, _summary) =
+            build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        let code_syntax = body.variables[0]
+            .code_syntax
+            .as_ref()
+            .expect("codeSyntax should be populated so Dev Mode shows the real token name");
+        assert_eq!(
+            code_syntax.get("WEB").map(String::as_str),
+            Some("--spectrum-spacing-100")
+        );
     }
 
     #[test]
