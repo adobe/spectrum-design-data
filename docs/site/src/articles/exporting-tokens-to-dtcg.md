@@ -47,7 +47,7 @@ design-data query packages/design-data/tokens --filter "component=button" \
 design-data export packages/design-data/tokens --color-scheme dark --format dtcg
 # {
 #   "accent-background-color-default": { "$value": "#4069fd", "$type": "color" },
-#   "font-size-200": { "$value": { "value": 16.0, "unit": "px" }, "$type": "dimension" },
+#   "font-size-200": { "$value": { "value": 19.0, "unit": "px" }, "$type": "dimension" },
 #   ...
 # }
 ```

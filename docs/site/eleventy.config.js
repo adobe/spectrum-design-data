@@ -30,6 +30,8 @@ export default async function (eleventyConfig) {
   // Generated .md in src/components, tokens, registry are in .gitignore; we still want 11ty to process them
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setLiquidOptions({ jsTruthy: true });
+  // Contributor-facing doc, not a post — keep it out of the articles collection/output.
+  eleventyConfig.ignores.add("src/articles/README.md");
   eleventyConfig.addPlugin(HtmlBasePlugin, { pathPrefix });
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(cssConfig, {

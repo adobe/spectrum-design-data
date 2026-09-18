@@ -5,7 +5,7 @@ layout: base.liquid
 <article>
   <h1 class="spectrum-Heading spectrum-Heading--sizeXL">{{ title }}</h1>
   <p class="spectrum-Body spectrum-Body--sizeS">
-    {% if category %}<span class="spectrum-Badge spectrum-Badge--sizeS">{{ category }}</span>{% endif %}
+    {% if category %}<span class="spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--neutral"><span class="spectrum-Badge-label">{{ category }}</span></span>{% endif %}
     {% if date %} · {{ date | date: "%B %-d, %Y" }}{% endif %}
     {% if author %} · {{ author }}{% endif %}
   </p>

@@ -43,7 +43,10 @@ governing permissions and limitations under the License.
 
 .article-card-title {
   display: inline-block;
-  font-family: var(--mod-heading-sans-serif-font-family, var(--spectrum-heading-sans-serif-font-family));
+  font-family: var(
+    --mod-heading-sans-serif-font-family,
+    var(--spectrum-heading-sans-serif-font-family)
+  );
   font-weight: var(--spectrum-bold-font-weight);
   font-size: var(--spectrum-heading-size-xs);
   line-height: var(--spectrum-heading-line-height);
