@@ -628,6 +628,20 @@ fn ordered_field_names(
 
     if let Some(concept_order) = config.and_then(|c| c.concept_order.as_ref()) {
         for field in concept_order {
+            // A manifest can't reintroduce a field the catalog marks
+            // `excludeFromLegacyKey` (e.g. `colorFamily`, `scale`, `structure`) —
+            // same exclusion the fallback loop below and the `space-between`
+            // branch in `extract_legacy_key` already honor. `scaleIndex` is
+            // exempt: it carries that flag too, but has no catalog position of
+            // its own and is deliberately placeable via `conceptOrder` (see the
+            // `field == "scaleIndex"` special case in `general_domain_key`).
+            if field != "scaleIndex"
+                && catalog
+                    .get(field)
+                    .is_some_and(|e| e.exclude_from_legacy_key)
+            {
+                continue;
+            }
             if seen.insert(field.clone()) {
                 order.push(field.clone());
             }
@@ -977,6 +991,36 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(format_name(&name, &config).as_deref(), Some("Spacing200"));
+    }
+
+    #[test]
+    fn format_name_concept_order_cannot_reintroduce_excluded_fields() {
+        // Regression for a bug found reviewing PR #1479: conceptOrder previously
+        // bypassed FieldCatalog's excludeFromLegacyKey flag, so a manifest naming
+        // "scale"/"contrast" (mode-set dimension selectors — see
+        // extract_key_mode_set_fields_excluded_from_key) would leak their values
+        // into the formatted name even though the default/legacy path always
+        // omits them.
+        let name = json!({
+            "component": "button",
+            "property": "background-color",
+            "scale": "desktop",
+            "contrast": "high"
+        });
+        let config = FormattingConfig {
+            concept_order: Some(vec![
+                "scale".to_string(),
+                "property".to_string(),
+                "component".to_string(),
+                "contrast".to_string(),
+            ]),
+            casing: Some(Casing::CamelCase),
+            ..Default::default()
+        };
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            Some("backgroundColorButton")
+        );
     }
 
     #[test]
