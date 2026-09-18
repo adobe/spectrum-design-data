@@ -147,6 +147,9 @@ importers:
       '@spectrum-css/actionbutton':
         specifier: ^7.2.0
         version: 7.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)
+      '@spectrum-css/badge':
+        specifier: ^6.2.0
+        version: 6.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)
       '@spectrum-css/icon':
         specifier: ^9.2.0
         version: 9.2.0(@spectrum-css/tokens@16.0.2)
@@ -1908,6 +1911,17 @@ packages:
 
   '@spectrum-css/actionbutton@7.2.0':
     resolution: {integrity: sha512-uz6/TTQS05ZHwvKSKUE21WBLKcsl3JvVPTGEnwrNm88DO6ZFXwNyAK770oKWlCv1HHB/M0q0F0sKhXKA18mJFA==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=9.0.0 <10.0.0'
+      '@spectrum-css/tokens': '>=16.0.0 <17.0.0'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+      '@spectrum-css/tokens':
+        optional: true
+
+  '@spectrum-css/badge@6.2.0':
+    resolution: {integrity: sha512-XqnX6p/T0YDw63F8kRReGJ0Dd//G6eRLHWidq6KuzxbvLw2/YZSe8r2jyiOXoecK44hYsL8+LDb9J+fuNakRIg==}
     peerDependencies:
       '@spectrum-css/icon': '>=9.0.0 <10.0.0'
       '@spectrum-css/tokens': '>=16.0.0 <17.0.0'
@@ -7297,6 +7311,11 @@ snapshots:
       escape-string-regexp: 5.0.0
 
   '@spectrum-css/actionbutton@7.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)':
+    optionalDependencies:
+      '@spectrum-css/icon': 9.2.0(@spectrum-css/tokens@16.0.2)
+      '@spectrum-css/tokens': 16.0.2
+
+  '@spectrum-css/badge@6.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)':
     optionalDependencies:
       '@spectrum-css/icon': 9.2.0(@spectrum-css/tokens@16.0.2)
       '@spectrum-css/tokens': 16.0.2
