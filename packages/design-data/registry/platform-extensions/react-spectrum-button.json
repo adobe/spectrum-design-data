@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "platform": "React Spectrum",
+  "platformVersion": "@react-spectrum/button (S2)",
+  "description": "Button option/prop naming for @react-spectrum/button, verified against packages/@react-spectrum/s2/src/Button.tsx's ButtonStyleProps.",
+  "componentOptions": [
+    {
+      "component": "button",
+      "option": "style",
+      "platformProp": "fillStyle",
+      "notes": "React's ButtonStyleProps names this fillStyle, not style."
+    },
+    {
+      "component": "button",
+      "option": "variant",
+      "platformProp": "variant",
+      "platformOnlyValues": [
+        {
+          "platformValue": "premium",
+          "notes": "React-only visual variant; no canonical option value and no Figma Variant option represents it as of this writing."
+        },
+        {
+          "platformValue": "genai",
+          "notes": "React-only visual variant; no canonical option value and no Figma Variant option represents it as of this writing."
+        }
+      ]
+    },
+    {
+      "component": "button",
+      "option": "size",
+      "platformProp": "size",
+      "values": [
+        { "value": "s", "platformValue": "S" },
+        { "value": "m", "platformValue": "M" },
+        { "value": "l", "platformValue": "L" },
+        { "value": "xl", "platformValue": "XL" }
+      ],
+      "notes": "Canonical values are lowercase; React's size union is uppercase ('S'|'M'|'L'|'XL')."
+    },
+    {
+      "component": "button",
+      "option": "isDisabled",
+      "platformProp": "isDisabled"
+    },
+    {
+      "component": "button",
+      "option": "isPending",
+      "platformProp": "isPending"
+    },
+    {
+      "component": "button",
+      "option": "isLabelHidden",
+      "notes": "No direct prop equivalent found on ButtonProps/ButtonStyleProps. Icon-only usage is a caller-side composition choice (omit the <Text> child), not a boolean prop. Left without a platformProp intentionally."
+    },
+    {
+      "component": "button",
+      "option": "staticColor",
+      "platformProp": "staticColor"
+    }
+  ]
+}

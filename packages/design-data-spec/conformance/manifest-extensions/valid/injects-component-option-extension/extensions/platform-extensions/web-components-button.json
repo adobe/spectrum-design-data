@@ -1,0 +1,11 @@
+{
+  "platform": "Web Components",
+  "componentOptions": [
+    {
+      "component": "button",
+      "option": "style",
+      "platformProp": "fillStyle",
+      "platformAttribute": "fill-style"
+    }
+  ]
+}

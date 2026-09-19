@@ -1,0 +1,4 @@
+{
+  "platform": "iOS",
+  "componentOptions": [{ "option": "style", "platformProp": "fillStyle" }]
+}
