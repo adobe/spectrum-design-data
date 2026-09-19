@@ -92,6 +92,21 @@ pub struct PlatformExtensionRecord {
     pub raw: Value,
 }
 
+/// One component-option extension (spec-format JSON, `platform-extension.json`
+/// `componentOptions[]` shape), aliasing one component's own `options` entry to
+/// this platform's prop/attribute/value names. Unlike [`PlatformExtensionRecord`],
+/// this isn't backed by a shared base registry — `component`+`option` scope it to
+/// one component declaration instead of a registry `termId`. Populated only via a
+/// platform manifest's `extensions.platformExtensions` entries that carry
+/// `componentOptions` (the same fragment files `PlatformExtensionRecord` reads).
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ComponentOptionExtensionRecord {
+    pub platform: String,
+    pub component: String,
+    pub option: String,
+    pub raw: Value,
+}
+
 /// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct GuidelineRecord {
@@ -146,6 +161,10 @@ pub struct TokenGraph {
     /// Platform-extension declarations, populated only via a platform manifest's
     /// `extensions.platformExtensions` (see [`PlatformExtensionRecord`]).
     pub platform_extensions: Vec<PlatformExtensionRecord>,
+    /// Component-option extension declarations, populated from the same
+    /// `extensions.platformExtensions` entries when they carry `componentOptions`
+    /// (see [`ComponentOptionExtensionRecord`]).
+    pub component_option_extensions: Vec<ComponentOptionExtensionRecord>,
     /// Guideline documents from the spec `guidelines/` catalog.
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
@@ -590,6 +609,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -632,6 +652,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -964,45 +985,75 @@ impl TokenGraph {
             .and_then(|v| v.as_array())
         {
             for entry in entries {
-                let (Some(platform), Some(extends)) = (
-                    entry.get("platform").and_then(|v| v.as_str()),
-                    entry.get("extends").and_then(|v| v.as_str()),
-                ) else {
+                let Some(platform) = entry.get("platform").and_then(|v| v.as_str()) else {
                     continue;
                 };
-                // `extends` names a registry by its field-catalog field name
-                // ("state") or its registry-file basename ("states") — both keys
-                // resolve to the same registry (see `build_registry_map`).
-                let registries = RegistryData::embedded();
-                let registry = registries.for_field(extends).ok_or_else(|| {
-                    CoreError::ParseError(format!(
-                        "platform manifest extensions.platformExtensions declares \
-                         extends:\"{extends}\" but no such base registry exists"
-                    ))
-                })?;
-                if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
-                    for term in terms {
-                        if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
-                            if !registry.contains(term_id) {
-                                return Err(CoreError::ParseError(format!(
-                                    "platform manifest extensions.platformExtensions \
-                                     ({platform}/{extends}) references termId \"{term_id}\" \
-                                     which does not exist in the \"{extends}\" registry"
-                                )));
+                if let Some(extends) = entry.get("extends").and_then(|v| v.as_str()) {
+                    // `extends` names a registry by its field-catalog field name
+                    // ("state") or its registry-file basename ("states") — both keys
+                    // resolve to the same registry (see `build_registry_map`).
+                    let registries = RegistryData::embedded();
+                    let registry = registries.for_field(extends).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.platformExtensions declares \
+                             extends:\"{extends}\" but no such base registry exists"
+                        ))
+                    })?;
+                    if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
+                        for term in terms {
+                            if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
+                                if !registry.contains(term_id) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}/{extends}) references termId \"{term_id}\" \
+                                         which does not exist in the \"{extends}\" registry"
+                                    )));
+                                }
                             }
                         }
                     }
+                    let record = PlatformExtensionRecord {
+                        platform: platform.to_string(),
+                        extends: extends.to_string(),
+                        raw: entry.clone(),
+                    };
+                    upsert_by_key(
+                        &mut self.platform_extensions,
+                        |r| r.platform == platform && r.extends == extends,
+                        record,
+                    );
                 }
-                let record = PlatformExtensionRecord {
-                    platform: platform.to_string(),
-                    extends: extends.to_string(),
-                    raw: entry.clone(),
-                };
-                upsert_by_key(
-                    &mut self.platform_extensions,
-                    |r| r.platform == platform && r.extends == extends,
-                    record,
-                );
+                // `componentOptions` — per-component option/prop aliasing, not backed
+                // by a shared registry (see `ComponentOptionExtensionRecord`). Not
+                // mutually exclusive with `extends` above; the schema's `anyOf` only
+                // requires an entry to carry at least one of the two.
+                if let Some(component_options) =
+                    entry.get("componentOptions").and_then(|v| v.as_array())
+                {
+                    for opt in component_options {
+                        let (Some(component), Some(option)) = (
+                            opt.get("component").and_then(|v| v.as_str()),
+                            opt.get("option").and_then(|v| v.as_str()),
+                        ) else {
+                            continue;
+                        };
+                        let record = ComponentOptionExtensionRecord {
+                            platform: platform.to_string(),
+                            component: component.to_string(),
+                            option: option.to_string(),
+                            raw: opt.clone(),
+                        };
+                        upsert_by_key(
+                            &mut self.component_option_extensions,
+                            |r| {
+                                r.platform == platform
+                                    && r.component == component
+                                    && r.option == option
+                            },
+                            record,
+                        );
+                    }
+                }
             }
         }
 
