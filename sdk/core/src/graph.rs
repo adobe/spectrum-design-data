@@ -1037,6 +1037,32 @@ impl TokenGraph {
                         ) else {
                             continue;
                         };
+                        // Mirrors the extends/termId check above: a typo'd component or
+                        // option name must fail loudly here, not silently produce a
+                        // dangling alias no component declaration ever resolves.
+                        let component_record = self
+                            .components
+                            .iter()
+                            .find(|c| c.name == component)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions references component \
+                                         \"{component}\" which does not exist"
+                                ))
+                            })?;
+                        if !component_record
+                            .raw
+                            .get("options")
+                            .and_then(|o| o.get(option))
+                            .is_some()
+                        {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.platformExtensions \
+                                 ({platform}) componentOptions references option \
+                                 \"{option}\" which does not exist on component \"{component}\""
+                            )));
+                        }
                         let record = ComponentOptionExtensionRecord {
                             platform: platform.to_string(),
                             component: component.to_string(),

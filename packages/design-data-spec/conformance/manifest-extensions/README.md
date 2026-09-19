@@ -61,6 +61,8 @@ Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 | `invalid/mode-set-missing-default`                     | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                   |
 | `invalid/platform-extension-missing-extends`           | A `platform-extensions/` fragment missing `extends` fails schema validation.                                             |
 | `invalid/component-option-extension-missing-component` | A `componentOptions[]` entry missing the required `component` field fails schema validation.                             |
+| `invalid/component-option-extension-unknown-component` | A `componentOptions[]` entry referencing a component that doesn't exist fails loudly.                                    |
+| `invalid/component-option-extension-unknown-option`    | A `componentOptions[]` entry referencing an option that doesn't exist on an existing component fails loudly.             |
 | `invalid/token-invalid-uuid`                           | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                       |
 | `invalid/relationship-missing-scope`                   | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                           |
 | `invalid/extensions-dir-parent-traversal`              | `extensionsDir` containing a `..` component is rejected.                                                                 |
