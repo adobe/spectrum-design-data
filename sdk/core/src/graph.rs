@@ -1051,11 +1051,11 @@ impl TokenGraph {
                                          \"{component}\" which does not exist"
                                 ))
                             })?;
-                        if !component_record
+                        if component_record
                             .raw
                             .get("options")
                             .and_then(|o| o.get(option))
-                            .is_some()
+                            .is_none()
                         {
                             return Err(CoreError::ParseError(format!(
                                 "platform manifest extensions.platformExtensions \
