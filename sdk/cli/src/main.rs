@@ -803,7 +803,6 @@ fn resolve_dataset_winners(
         .collect()
 }
 
-/// Merge each winner's single-key DTCG document into one flat DTCG document.
 /// Pure graph -> document exporters, looked up by `--format <id>`. Figma is
 /// deliberately not here — it's bidirectional/network-coupled, not a one-shot
 /// transform, so it keeps its own subcommands instead of this trait (see
@@ -812,6 +811,7 @@ fn exporters() -> Vec<Box<dyn TokenExporter>> {
     vec![Box::new(dtcg::DtcgExporter)]
 }
 
+/// Merge each winner's single-key DTCG document into one flat DTCG document.
 fn winners_to_dtcg_doc(
     graph: &TokenGraph,
     winners: &[TokenRecord],
