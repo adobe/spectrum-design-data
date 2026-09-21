@@ -32,6 +32,11 @@ All three accept the same mode flags (`--color-scheme`, `--scale`,
 `--contrast`), so the DTCG output reflects a specific, resolved context rather
 than an unresolved cascade.
 
+<figure>
+  <img src="/assets/images/exporting-tokens-to-dtcg-scopes.png" alt="Three nested scopes: export (the whole dataset) contains query (a filtered subset), which contains resolve (one property).">
+  <figcaption>The three commands differ only in scope — each is a narrower view onto the same resolved data.</figcaption>
+</figure>
+
 ```bash
 design-data resolve color packages/design-data/tokens --color-scheme light --format dtcg
 # {
@@ -77,6 +82,11 @@ sub-values, and those resolve in the same mode context you passed on the
 command line: a typography token's `font-size` alias resolves to the
 `dark`/`desktop`/whatever value you asked for, not to some default-context
 sibling.
+
+<figure>
+  <img src="/assets/images/exporting-tokens-to-dtcg-alias-resolution.png" alt="An alias record ($ref) points to a target token ($ref), which resolves to a leaf value ($value).">
+  <figcaption>An alias chain always resolves down to a leaf value — DTCG's $value never holds an unresolved $ref.</figcaption>
+</figure>
 
 ## Known limitation: color format
 
