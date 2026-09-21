@@ -260,6 +260,63 @@ fn pair_by_value_leaves_true_word_tie_ambiguous() {
     assert_eq!(report.ambiguous, vec!["Alias/accent/default".to_string()]);
 }
 
+/// Bead `spectrum-design-data-11k.10.13`: `Heading/small` inverts (via
+/// `normalize_typography_grouping`) to the CTR-only legacy key
+/// `heading-small`, which lives only in `relationships/*.json`, not in
+/// `graph.tokens`. Before the fix, the "already resolved" skip gate
+/// checked only `by_key` (direct tokens), missed it, and let the
+/// variable fall through to value-matching — where it collides in value
+/// with two unrelated design-data tokens and lands in `ambiguous`, even
+/// though `figma diff` already resolves it cleanly via
+/// `resolve_relationship_ref` (same as `diff`/`naming`'s skip check).
+#[test]
+fn pair_by_value_skips_ctr_only_resolvable_name() {
+    use design_data_core::graph::RelationshipRecord;
+
+    let variable = mock_variable("Heading/small", "FLOAT", vec![("m-modeless", json!(16.0))]);
+    let meta = mock_meta_modeless(vec![variable]);
+
+    // Two unrelated design-data tokens happen to share the same value —
+    // if the CTR gate didn't fire, `Heading/small` would collide with
+    // both and (per `pair_by_value_leaves_true_word_tie_ambiguous`'s
+    // tie logic) land in `ambiguous` instead of being skipped outright.
+    let graph = mock_graph_multi(vec![
+        (
+            "some-other-dimension",
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "name": {"legacyKey": "some-other-dimension"},
+                "value": 16.0,
+                "uuid": "u1",
+            }),
+        ),
+        (
+            "yet-another-dimension",
+            json!({
+                "$schema": "https://example.com/dimension.json",
+                "name": {"legacyKey": "yet-another-dimension"},
+                "value": 16.0,
+                "uuid": "u2",
+            }),
+        ),
+    ])
+    .with_relationships(vec![RelationshipRecord {
+        file: PathBuf::from("relationships/heading.json"),
+        index: 0,
+        uuid: Some("99999999-0000-0000-0000-000000000001".to_string()),
+        raw: json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": 16.0,
+            "legacyKey": "heading-small",
+        }),
+    }]);
+
+    let report = pair_by_value(&meta, &graph, &["Heading/", "Body/", "Title/"], None);
+    assert!(report.candidates.is_empty());
+    assert!(report.ambiguous.is_empty());
+    assert!(report.unmatched.is_empty());
+}
+
 #[test]
 fn pair_by_value_demotes_cross_variable_legacy_key_collision() {
     // Two different Figma variables both uniquely tiebreak to the same

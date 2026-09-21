@@ -139,8 +139,10 @@ pub fn pair_by_value(
         if !name_prefixes.iter().any(|p| variable.name.starts_with(p)) {
             continue;
         }
-        if invert_name(&variable.name, reversed.as_ref()).is_some_and(|k| by_key.contains_key(&k)) {
-            continue; // already resolves by name — nothing to pair
+        if invert_name(&variable.name, reversed.as_ref()).is_some_and(|k| {
+            by_key.contains_key(&k) || graph.resolve_relationship_ref(&k).is_some()
+        }) {
+            continue; // already resolves by name (direct token or CTR) — nothing to pair
         }
 
         // `collapse_modes` (not a raw `values_by_mode.values().next()` pick)
