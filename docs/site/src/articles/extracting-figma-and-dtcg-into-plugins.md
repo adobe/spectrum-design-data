@@ -22,6 +22,11 @@ where ownership actually changes hands: what design-data owns and versions
 stays in core, and what someone else owns moves to a crate that depends on
 core's public API instead of living inside it.
 
+<figure>
+  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-ownership.png" alt="design-data-core owns the token graph, cascade, and manifest model behind a Public API; the dtcg exporter and figma plugin sit outside core and depend on that API rather than being owned by it.">
+  <figcaption>The boundary is the public API — plugins depend on it from outside, core never depends on them.</figcaption>
+</figure>
+
 ## Two shapes, matching what actually exists
 
 - **Pure exporters** are a one-shot `TokenGraph` + resolved winners →
@@ -67,11 +72,10 @@ shared foundation table couldn't hold on its own.
 Every plugin, pure exporter or bidirectional, sits strictly downstream of
 that cascade:
 
-```
-open graph → manifest::apply_configured (mutates graph in place)
-           → cascade::resolve_dataset (winners + mode_ctx)
-           → exporter.export(graph, winners, mode_ctx)
-```
+<figure>
+  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-pipeline.png" alt="Open graph flows into manifest::apply_configured, then cascade::resolve_dataset, then exporter.export.">
+  <figcaption>A plugin's own code starts at the last step — everything upstream of exporter.export is already resolved for it.</figcaption>
+</figure>
 
 A plugin never touches the manifest or the source config, and it doesn't
 need to know an iOS-flavored dataset exists at all. It gets the same
