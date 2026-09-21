@@ -18,7 +18,7 @@
 //!
 //! ## Why the leaf, not the cascade winner
 //!
-//! [`resolve_property`](crate::cascade::resolve_property)'s winner is frequently an
+//! [`resolve_property`](design_data_core::cascade::resolve_property)'s winner is frequently an
 //! *alias* record (`$ref` pointing at a UUID, no `value` of its own; `$schema` is
 //! `alias.json`). DTCG's `$type`/`$value` describe the *actual value*, so this module
 //! always follows [`TokenRecord::resolve_leaf`] first and derives both from the leaf.
@@ -35,7 +35,7 @@
 //! ## Document shape
 //!
 //! The document is a **flat** single-token document keyed by the token's canonical
-//! legacy kebab-case key (via [`crate::naming::extract_legacy_key`]), e.g.:
+//! legacy kebab-case key (via [`design_data_core::naming::extract_legacy_key`]), e.g.:
 //!
 //! ```json
 //! {
@@ -69,8 +69,8 @@ use std::collections::HashMap;
 
 use serde_json::{Map, Value};
 
-use crate::graph::{TokenGraph, TokenRecord};
-use crate::naming::extract_legacy_key;
+use design_data_core::graph::{TokenGraph, TokenRecord};
+use design_data_core::naming::extract_legacy_key;
 
 /// Build a flat, single-token DTCG document from a resolved token.
 ///
@@ -391,7 +391,7 @@ fn css_color_to_hex(s: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph::Layer;
+    use design_data_core::graph::Layer;
     use std::path::PathBuf;
 
     /// Build a `TokenRecord` for a fixture, stamping `raw["$schema"]` with the given

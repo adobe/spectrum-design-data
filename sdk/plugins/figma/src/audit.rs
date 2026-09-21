@@ -14,7 +14,7 @@
 //! targets the `.Color theme` and `.Platform scale` collections. This module
 //! compares what it *would* generate (from a legacy token directory) against
 //! the real names/collections captured in a Figma [`VariablesMeta`] snapshot
-//! (see `sdk/core/tests/fixtures/figma/README.md`), producing the divergence
+//! (see `sdk/plugins/figma/tests/fixtures/figma/README.md`), producing the divergence
 //! classes and coverage gaps that feed the name-mapping override artifact
 //! (`spectrum-design-data-11k.4`).
 
@@ -62,7 +62,7 @@ pub struct AuditReport {
 ///
 /// `existing` is the captured `VariablesMeta` (e.g. the 11k.3 baseline
 /// fixture); `token_dir` is a legacy-format token directory — the shape
-/// [`crate::legacy::convert_dir`] produces from cascade `.tokens.json` files,
+/// [`design_data_core::legacy::convert_dir`] produces from cascade `.tokens.json` files,
 /// not the cascade format itself.
 pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditReport, FigmaError> {
     let tokens = load_all_tokens(token_dir)?;
@@ -150,7 +150,7 @@ pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditRe
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::figma::types::{FigmaMode, FigmaVariable, FigmaVariableCollection};
+    use crate::types::{FigmaMode, FigmaVariable, FigmaVariableCollection};
     use serde_json::json;
     use std::collections::HashMap;
     use std::io::Write;

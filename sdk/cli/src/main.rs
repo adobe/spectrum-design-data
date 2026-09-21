@@ -29,8 +29,6 @@ use design_data_core::compat::{
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
-use design_data_core::dtcg;
-use design_data_core::figma;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::legacy;
 use design_data_core::manifest;
@@ -43,6 +41,8 @@ use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
 use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
+use design_data_dtcg as dtcg;
+use design_data_figma as figma;
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -263,7 +263,7 @@ enum Commands {
     },
     /// Export a whole resolved dataset as a single W3C DTCG document: every distinct
     /// token property resolved to its cascade winner in the given mode context, merged
-    /// into one flat document (see `design_data_core::dtcg`). Reuses the same mode flags
+    /// into one flat document (see `design_data_dtcg`). Reuses the same mode flags
     /// and manifest handling as `resolve`; unlike `resolve`, it emits every property, not
     /// one.
     Export {
@@ -675,7 +675,7 @@ enum DiffFormat {
 
 /// Output format for the `resolve` command (superset of `OutputFormat` — adds `dtcg`,
 /// a W3C DTCG-conformant `$value`/`$type`/`$description` document derived from the
-/// resolved token's leaf value; see `design_data_core::dtcg`).
+/// resolved token's leaf value; see `design_data_dtcg`).
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
 enum ResolveFormat {
     #[default]
@@ -694,7 +694,7 @@ enum ExportFormat {
 
 /// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
 /// which resolves the cascade winner for each distinct property among the matched
-/// tokens and merges them into one W3C DTCG document; see `design_data_core::dtcg`).
+/// tokens and merges them into one W3C DTCG document; see `design_data_dtcg`).
 #[derive(Clone, Copy, Debug, Default, ValueEnum)]
 enum QueryFormat {
     #[default]

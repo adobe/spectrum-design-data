@@ -200,7 +200,7 @@ fn jaccard(a: &HashSet<String>, b: &HashSet<String>) -> f32 {
 }
 
 /// Split a string into lowercase words, splitting on any non-alphanumeric character.
-pub(crate) fn tokenize(s: &str) -> HashSet<String> {
+pub fn tokenize(s: &str) -> HashSet<String> {
     s.split(|c: char| !c.is_alphanumeric())
         .filter(|w| !w.is_empty() && w.len() > 1)
         .map(|w| w.to_lowercase())

@@ -19,9 +19,6 @@ pub mod component;
 pub mod data_source;
 pub mod diff;
 pub mod discovery;
-pub mod dtcg;
-#[cfg(feature = "figma")]
-pub mod figma;
 pub mod graph;
 pub mod legacy;
 pub mod manifest;
