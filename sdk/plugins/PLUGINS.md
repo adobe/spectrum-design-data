@@ -57,16 +57,41 @@ in this repo. For that case, the plan is a subprocess protocol rather than
 dynamic loading (FFI/`cdylib`/hot-reload) — a batch CLI never hot-reloads
 anything, so paying for a runtime plugin loader buys nothing here.
 
+Same rule as the in-process case: a plugin sits strictly downstream of the
+manifest cascade (`manifest::apply_configured` mutates the graph in place,
+then `cascade::resolve_dataset` produces winners + mode context — see
+`TokenExporter` above). A consumer with its own platform manifest, like
+`spectrum-ios-design-data` layering overrides on a foundation dataset, still
+gets its real resolved values; the subprocess never sees the manifest or the
+foundation source, only the result.
+
 * `design-data export --format <name>` looks for `design-data-export-<name>`
   on `PATH` when `<name>` isn't a built-in format.
-* **stdin**: the resolved graph as the same neutral dataset JSON shape the
-  conformance fixtures already use — `{ tokens, components, modeSets,
-  relationships, guidelines }`. This reuses an existing contract rather than
-  inventing a new one, and asks nothing of core beyond emitting that JSON.
+* **stdin**: the *resolved* dataset — the graph state and winners a
+  `TokenExporter` would receive, after `apply_configured` and
+  `resolve_dataset`, serialized to JSON. This is **not** the neutral
+  `{ tokens, components, modeSets, relationships, guidelines }` shape the
+  conformance fixtures use — that shape is raw, pre-manifest foundation
+  input with no production emitter (only a `#[cfg(test)]` reader,
+  `build_graph`). A resolved-graph JSON serializer doesn't exist yet either;
+  building it is part of building this protocol, not a reused contract.
+* stdin must also carry **mode context**: the manifest's mode-set
+  restrictions live in the resolution's `mode_ctx` / `ResolutionContext`,
+  not in the graph, and `TokenExporter::export` takes it as a separate
+  argument. Dropping it from the payload would silently lose a consumer's
+  platform mode restrictions.
 * **stdout**: the target-format bytes, written verbatim to the CLI's normal
   export output.
 * Non-zero exit or anything on stderr is a hard failure — no partial/degraded
   output.
+
+**Open question — mode coverage**: `TokenExporter::export` hands the plugin
+one resolved winner per identity for one mode context. A target that needs
+every mode in one output (e.g. an iOS asset catalog with light/dark/increased
+contrast) needs more than that single slice. Whether the subprocess protocol
+invokes the plugin once per mode context or bundles all modes into one
+payload is unresolved — settle it when the protocol, or the first
+multi-mode in-process exporter, actually gets built.
 
 This is a specification, not an implementation. Build it when a genuine
 external plugin author shows up, not speculatively.
