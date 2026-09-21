@@ -100,6 +100,35 @@ pub fn token_to_dtcg_document_in_context(
     build_document(graph, record, leaf, Some(ctx))
 }
 
+/// [`design_data_core::export::TokenExporter`] impl: merges each of `winners`'
+/// single-key document (via [`token_to_dtcg_document_in_context`]) into one flat
+/// DTCG document. This is the same shape the CLI's `export --format dtcg` and
+/// `query --format dtcg` paths already produce by hand — implementing the trait
+/// here just gives that shape a name plugin dispatch can look up by `format_id()`.
+pub struct DtcgExporter;
+
+impl design_data_core::export::TokenExporter for DtcgExporter {
+    fn format_id(&self) -> &'static str {
+        "dtcg"
+    }
+
+    fn export(
+        &self,
+        graph: &TokenGraph,
+        winners: &[TokenRecord],
+        mode_ctx: &HashMap<String, String>,
+    ) -> Value {
+        let mut doc = Map::new();
+        for winner in winners {
+            if let Value::Object(entry) = token_to_dtcg_document_in_context(graph, winner, mode_ctx)
+            {
+                doc.extend(entry);
+            }
+        }
+        Value::Object(doc)
+    }
+}
+
 /// Shared body for [`token_to_dtcg_document`] and [`token_to_dtcg_document_in_context`]:
 /// `leaf` is the already-resolved leaf (mode-agnostic or mode-aware, per caller); `ctx`
 /// (when present) threads through composite sub-value resolution the same way.

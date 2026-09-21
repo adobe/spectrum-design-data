@@ -29,6 +29,7 @@ use design_data_core::compat::{
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
+use design_data_core::export::TokenExporter;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::legacy;
 use design_data_core::manifest;
@@ -803,20 +804,24 @@ fn resolve_dataset_winners(
 }
 
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
+/// Pure graph -> document exporters, looked up by `--format <id>`. Figma is
+/// deliberately not here — it's bidirectional/network-coupled, not a one-shot
+/// transform, so it keeps its own subcommands instead of this trait (see
+/// `design_data_core::export::TokenExporter`).
+fn exporters() -> Vec<Box<dyn TokenExporter>> {
+    vec![Box::new(dtcg::DtcgExporter)]
+}
+
 fn winners_to_dtcg_doc(
     graph: &TokenGraph,
     winners: &[TokenRecord],
     ctx: &HashMap<String, String>,
 ) -> serde_json::Value {
-    let mut doc = serde_json::Map::new();
-    for winner in winners {
-        if let serde_json::Value::Object(entry) =
-            dtcg::token_to_dtcg_document_in_context(graph, winner, ctx)
-        {
-            doc.extend(entry);
-        }
-    }
-    serde_json::Value::Object(doc)
+    exporters()
+        .into_iter()
+        .find(|e| e.format_id() == "dtcg")
+        .expect("dtcg exporter always registered")
+        .export(graph, winners, ctx)
 }
 
 fn run_resolve(
