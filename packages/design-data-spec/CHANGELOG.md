@@ -1,5 +1,13 @@
 # @adobe/design-data-spec
 
+## 4.3.0
+
+### Minor Changes
+
+- [#1479](https://github.com/adobe/spectrum-design-data/pull/1479) [`e483c9c`](https://github.com/adobe/spectrum-design-data/commit/e483c9cf74acf463c9a3d2be4caba7689e3dc27c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add foundation-owned component platform implementation metadata.
+  - **schemas/component.schema.json**: support implementation names and package or
+    import-path references for component consumers.
+
 ## 4.2.1
 
 ### Patch Changes
