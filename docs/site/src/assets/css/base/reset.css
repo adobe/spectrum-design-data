@@ -84,7 +84,7 @@ governing permissions and limitations under the License.
 }
 
 :where(ul, ol) {
-  list-style-position: inside;
+  list-style-position: outside;
 }
 
 :where(img, svg, video, canvas, audio, iframe, embed, object) {
