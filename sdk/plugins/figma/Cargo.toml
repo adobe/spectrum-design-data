@@ -1,0 +1,21 @@
+[package]
+name = "design-data-figma"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Figma Variables REST API integration for design-data — not owned/maintained by Adobe"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+design-data-core = { path = "../../core" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+thiserror = "2.0"
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+
+[dev-dependencies]
+tempfile = "3.14"
