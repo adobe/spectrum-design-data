@@ -30,6 +30,8 @@ The specification defines:
 16. **Authoring workflow** — normative contract for authoring design data via tooling: authoritative source location, lifecycle operations (create / edit / deprecate / rename / alias-rewire / mode-set management), taxonomy-aware decomposition requirement, and output-generation obligations ([Authoring workflow](authoring-workflow.md)).
 17. **Relationship format** — Component/Token Relationship (CTR): the anonymous-token entity unifying `tokenBindings` and token name-object scope fields, explicit relationship context, options validation, and interim legacy-compatibility fields ([Relationship format](relationship-format.md)).
 
+This specification intentionally defines the Design Data-owned contract and links to external standards for platform-native implementation semantics instead of restating those contracts as normative local rules. The repository owns taxonomy, validation, lifecycle, and schema rules; the authoritative source for native format behavior remains the external standard it describes.
+
 ## Conformance
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **OPTIONAL** in this specification are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) \[[RFC2119](https://www.rfc-editor.org/rfc/rfc2119.html)] \[[RFC8174](https://www.rfc-editor.org/rfc/rfc8174.html)] when, and only when, they appear in all capitals, as shown here.
