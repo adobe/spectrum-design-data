@@ -260,19 +260,17 @@ fn primer_emits_json_with_required_fields() {
         "tokenCount must be positive"
     );
     assert!(
-        doc["modeSets"].as_array().map_or(false, |a| !a.is_empty()),
+        doc["modeSets"].as_array().is_some_and(|a| !a.is_empty()),
         "modeSets must be non-empty"
     );
     assert!(
-        doc["components"]
-            .as_array()
-            .map_or(false, |a| !a.is_empty()),
+        doc["components"].as_array().is_some_and(|a| !a.is_empty()),
         "components must be non-empty"
     );
     assert!(
         doc["taxonomyFields"]
             .as_array()
-            .map_or(false, |a| !a.is_empty()),
+            .is_some_and(|a| !a.is_empty()),
         "taxonomyFields must be non-empty"
     );
 }

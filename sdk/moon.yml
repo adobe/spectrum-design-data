@@ -20,6 +20,9 @@ fileGroups:
     - "core/tests/**/*.rs"
     - "cli/tests/**/*.rs"
     - "tui/tests/**/*.rs"
+    - "wasm/src/**/*.rs"
+    - "plugins/*/src/**/*.rs"
+    - "plugins/*/tests/**/*.rs"
     # Glob patterns, not literal filenames: moon's changed-file matching
     # doesn't register literal entries like "Cargo.toml" (only actual globs),
     # so the previous per-crate Cargo.toml/rust-toolchain.toml literals here
@@ -130,6 +133,7 @@ tasks:
     args:
       - clippy
       - --workspace
+      - --all-targets
       - --
       - -D
       - warnings

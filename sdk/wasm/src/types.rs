@@ -323,52 +323,6 @@ impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
     }
 }
 
-#[cfg(test)]
-mod suggest_result_tests {
-    use super::*;
-    use design_data_core::graph::Layer;
-    use design_data_core::suggest::SuggestionResult;
-    use serde_json::json;
-    use std::path::PathBuf;
-
-    #[test]
-    fn conversion_uses_display_name_for_cascade_token() {
-        let result = SuggestionResult {
-            token_uuid: Some("uuid-1".to_string()),
-            token_name: "color-aliases.tokens.json:24".to_string(),
-            file: PathBuf::from("color-aliases.tokens.json"),
-            layer: Layer::Foundation,
-            confidence: 0.5,
-            name_object: Some(json!({
-                "colorRole": "accent",
-                "property": "background-color",
-                "state": "default",
-                "legacyKey": "accent-background-color-default",
-            })),
-            value: None,
-        };
-
-        let converted = SuggestResult::from(result);
-        assert_eq!(converted.token_name, "accent-background-color-default");
-    }
-
-    #[test]
-    fn conversion_falls_back_to_graph_key_without_name_object() {
-        let result = SuggestionResult {
-            token_uuid: None,
-            token_name: "some-legacy-string-key".to_string(),
-            file: PathBuf::from("legacy.tokens.json"),
-            layer: Layer::Foundation,
-            confidence: 0.5,
-            name_object: None,
-            value: None,
-        };
-
-        let converted = SuggestResult::from(result);
-        assert_eq!(converted.token_name, "some-legacy-string-key");
-    }
-}
-
 impl From<&design_data_core::graph::TokenRecord> for TokenResult {
     fn from(r: &design_data_core::graph::TokenRecord) -> Self {
         Self {
@@ -432,5 +386,51 @@ impl From<design_data_core::report::ValidationReport> for ValidationResult {
             errors,
             warnings,
         }
+    }
+}
+
+#[cfg(test)]
+mod suggest_result_tests {
+    use super::*;
+    use design_data_core::graph::Layer;
+    use design_data_core::suggest::SuggestionResult;
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    #[test]
+    fn conversion_uses_display_name_for_cascade_token() {
+        let result = SuggestionResult {
+            token_uuid: Some("uuid-1".to_string()),
+            token_name: "color-aliases.tokens.json:24".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: Some(json!({
+                "colorRole": "accent",
+                "property": "background-color",
+                "state": "default",
+                "legacyKey": "accent-background-color-default",
+            })),
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "accent-background-color-default");
+    }
+
+    #[test]
+    fn conversion_falls_back_to_graph_key_without_name_object() {
+        let result = SuggestionResult {
+            token_uuid: None,
+            token_name: "some-legacy-string-key".to_string(),
+            file: PathBuf::from("legacy.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: None,
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "some-legacy-string-key");
     }
 }

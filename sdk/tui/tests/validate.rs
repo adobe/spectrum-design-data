@@ -124,7 +124,7 @@ fn validate_bad_tokens_produces_findings() {
     submit_validate(&mut model, &ctx);
     if let ActiveView::Validate(ref vv) = model.active_view {
         assert!(
-            vv.rows.len() >= 1,
+            !vv.rows.is_empty(),
             "expected at least 1 finding for bad tokens"
         );
     } else {
