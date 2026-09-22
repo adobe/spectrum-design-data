@@ -282,6 +282,11 @@ impl TokenGraph {
         if let Some(dir) = mode_sets_dir {
             if dir.is_dir() {
                 graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
+                // Rebuild now that mode_sets is complete: legacy_name_index's
+                // scale/colorScheme tie-break (see rebuild_legacy_name_index)
+                // reads mode_sets for its defaults, and it was already built
+                // once, with none, inside from_json_dir_with_names above.
+                graph.rebuild_legacy_name_index();
             }
         }
         if let Some(dir) = components_dir {
@@ -1478,11 +1483,28 @@ impl TokenGraph {
     /// When several tokens share one `legacyKey` (a scale-set's desktop/mobile
     /// members, or a color-set's light/dark/wireframe members — both legitimate:
     /// the legacy flat-key format has no room for the mode axis), prefer the
-    /// canonical/base member deterministically: `name.scale == "desktop"`, else
-    /// `name.colorScheme == "light"`, else the lexicographically-first graph key.
+    /// canonical/base member deterministically: `name.scale` matching the
+    /// `scale` mode set's declared `default_mode`, else `name.colorScheme`
+    /// matching `colorScheme`'s, else the lexicographically-first graph key.
+    /// Defaults are read from `self.mode_sets` (see [`Self::with_mode_sets`])
+    /// when that axis is declared there, falling back to the historical
+    /// `"desktop"`/`"light"` literals otherwise — e.g. a caller (the redb
+    /// cache's `hydrate`, or any two-step "tokens then mode sets" builder
+    /// path) that hasn't rebuilt the index again since attaching mode sets.
     /// Same "desktop is base" convention as [`Self::reindex_relationship_tokens`]'s
     /// CTR-side scale tie-break.
     fn rebuild_legacy_name_index(&mut self) {
+        let scale_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "scale")
+            .map_or("desktop", |ms| ms.default_mode.as_str());
+        let color_scheme_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "colorScheme")
+            .map_or("light", |ms| ms.default_mode.as_str());
+
         self.legacy_name_index.clear();
         let mut candidates: HashMap<String, Vec<&str>> = HashMap::new();
         for (key, rec) in &self.tokens {
@@ -1501,7 +1523,8 @@ impl TokenGraph {
                         .raw
                         .get("name")
                         .and_then(|n| n.get("scale"))
-                        == Some(&Value::String("desktop".to_string()))
+                        .and_then(Value::as_str)
+                        == Some(scale_default)
                 })
                 .or_else(|| {
                     keys.iter().find(|k| {
@@ -1509,7 +1532,8 @@ impl TokenGraph {
                             .raw
                             .get("name")
                             .and_then(|n| n.get("colorScheme"))
-                            == Some(&Value::String("light".to_string()))
+                            .and_then(Value::as_str)
+                            == Some(color_scheme_default)
                     })
                 })
                 .or_else(|| keys.first())
@@ -1520,8 +1544,16 @@ impl TokenGraph {
     }
 
     /// Attach mode set records (e.g. from conformance fixtures).
+    ///
+    /// Rebuilds `legacy_name_index` afterward: every call site attaches mode
+    /// sets after tokens are already loaded, and the index's scale/colorScheme
+    /// tie-break (see [`Self::rebuild_legacy_name_index`]) reads
+    /// `self.mode_sets` for its defaults, so a stale index built before this
+    /// call would silently keep using the `"desktop"`/`"light"` fallback
+    /// instead of the now-attached schema's declared defaults.
     pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
         self.mode_sets = mode_sets;
+        self.rebuild_legacy_name_index();
         self
     }
 
@@ -3342,6 +3374,58 @@ mod tests {
                 "must prefer the light candidate"
             );
         }
+    }
+
+    #[test]
+    fn legacy_name_index_tie_break_honors_declared_mode_set_default() {
+        // The desktop/light tie-break in rebuild_legacy_name_index reads its
+        // defaults from graph.mode_sets when that axis is declared there,
+        // rather than always the hardcoded "desktop"/"light" literals — a
+        // colorScheme mode set declaring "dark" as default must make the
+        // dark candidate win, not light.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let dark_default_color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "dark".to_string(),
+        };
+
+        let g = TokenGraph::from_records(vec![dark, light])
+            .with_mode_sets(vec![dark_default_color_scheme]);
+        let key = g
+            .legacy_name_index
+            .get("accent-background-color-key-focus")
+            .expect("legacy key must resolve");
+        assert_eq!(
+            key, "color-aliases.tokens.json:10",
+            "must prefer the declared-default (dark) candidate, not the hardcoded light literal"
+        );
     }
 
     #[test]
