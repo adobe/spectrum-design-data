@@ -16,10 +16,14 @@ sdk/
 │       ├── query/      # filter expressions
 │       ├── cache/      # derived redb cache over canonical JSON (default-on)
 │       ├── migrate/    # snapshot, convert, legacy helpers
-│       ├── figma/      # Figma Variables bridge (feature-gated)
 │       ├── schema/     # JSON Schema registry
 │       └── registry/   # design-system registry data
 ├── cli/                # design-data-cli binary (design-data)
+├── tui/                # design-data-tui: terminal UI (also has a package.json for the pnpm workspace)
+├── wasm/               # design-data-wasm: WASM bindings
+├── plugins/
+│   ├── dtcg/           # DTCG (Design Tokens Community Group) format plugin
+│   └── figma/          # Figma Variables bridge (import/export/mapping)
 ├── scripts/            # Node helpers (codegen, version sync)
 ├── moon.yml            # moonrepo task definitions
 └── rust-toolchain.toml # pinned toolchain (Rust 1.85.0)
@@ -277,9 +281,9 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 Integration tests live in `sdk/cli/tests/` and use [`assert_cmd`](https://docs.rs/assert_cmd) to exercise the binary end-to-end.
 
-### Figma feature flag
+### Figma and DTCG plugin crates
 
-The `figma` module in `design-data-core` is gated behind the optional `figma` feature. The CLI enables it by default. Library consumers that don't need Figma can omit the feature to avoid the `reqwest`/`tokio` dependencies.
+The Figma Variables bridge and DTCG format support live in their own crates — `design-data-figma` (`plugins/figma/`) and `design-data-dtcg` (`plugins/dtcg/`) — rather than as feature-gated modules inside `design-data-core`. `design-data-cli` depends on both unconditionally. Library consumers that only need `design-data-core` (token resolution, validation, caching, etc.) don't pull in either crate's dependencies (e.g. `reqwest`/`tokio` for Figma) unless they add the plugin crate themselves.
 
 ## Versioning
 
