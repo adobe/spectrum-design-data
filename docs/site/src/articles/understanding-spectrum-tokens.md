@@ -95,12 +95,12 @@ one-off decisions per component, which is why reusing a structure token is
 almost always preferable to inventing a component-specific one.
 
 <figure>
-  <img src="/assets/images/understanding-spectrum-tokens-structures.png" alt="Six structure tokens — Banner, Base, Accessory, Group, List, and Container — each feeding into a single Component, showing that a component is a composition of reusable structures rather than a one-off decision.">
+  <img src="/assets/images/understanding-spectrum-tokens-structures.svg" alt="Six structure tokens — Banner, Base, Accessory, Group, List, and Container — each feeding into a single Component, showing that a component is a composition of reusable structures rather than a one-off decision.">
   <figcaption>A component is composed from this small, repeating vocabulary of structures, not designed from scratch each time.</figcaption>
 </figure>
 
 <figure>
-  <img src="/assets/images/understanding-spectrum-tokens-tiers.png" alt="Two parallel chains: primitive tokens blue-900 and spacing-300 each resolve through a semantic tier (accent-color-900, container-padding-medium) to a final component or structure token.">
+  <img src="/assets/images/understanding-spectrum-tokens-tiers.svg" alt="Two parallel chains: primitive tokens blue-900 and spacing-300 each resolve through a semantic tier (accent-color-900, container-padding-medium) to a final component or structure token.">
   <figcaption>Semantic tokens are the tier every consumer should be resolving through — primitives feed them, components consume them.</figcaption>
 </figure>
 
@@ -134,7 +134,7 @@ tokens, the Specification is the place to see where the format is headed
 before it lands.
 
 <figure>
-  <img src="/assets/images/understanding-spectrum-tokens-platform-cascade.png" alt="Foundation, resolved unless overridden by Platform (Web, iOS, Android), resolved unless overridden by Product, producing a Resolved token value.">
+  <img src="/assets/images/understanding-spectrum-tokens-platform-cascade.svg" alt="Foundation, resolved unless overridden by Platform (Web, iOS, Android), resolved unless overridden by Product, producing a Resolved token value.">
   <figcaption>Precedence increases left to right; what the cascade produces — the resolved value — is the point of the diagram.</figcaption>
 </figure>
 

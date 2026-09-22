@@ -23,7 +23,7 @@ stays in core, and what someone else owns moves to a crate that depends on
 core's public API instead of living inside it.
 
 <figure>
-  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-ownership.png" alt="design-data-core owns the token graph, cascade, and manifest model behind a Public API; the dtcg exporter and figma plugin sit outside core and depend on that API rather than being owned by it.">
+  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-ownership.svg" alt="design-data-core owns the token graph, cascade, and manifest model behind a Public API; the dtcg exporter and figma plugin sit outside core and depend on that API rather than being owned by it.">
   <figcaption>The boundary is the public API — plugins depend on it from outside, core never depends on them.</figcaption>
 </figure>
 
@@ -73,7 +73,7 @@ Every plugin, pure exporter or bidirectional, sits strictly downstream of
 that cascade:
 
 <figure>
-  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-pipeline.png" alt="Open graph flows into manifest::apply_configured, then cascade::resolve_dataset, then exporter.export.">
+  <img src="/assets/images/extracting-figma-and-dtcg-into-plugins-pipeline.svg" alt="Open graph flows into manifest::apply_configured, then cascade::resolve_dataset, then exporter.export.">
   <figcaption>A plugin's own code starts at the last step — everything upstream of exporter.export is already resolved for it.</figcaption>
 </figure>
 
