@@ -20,7 +20,7 @@ import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname, resolve, sep } from "path";
 
-import { loadGuideline } from "@adobe/design-data/guideline";
+import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 
 import { checkDatasetFreshness } from "../dataset-freshness.js";
 
@@ -110,14 +110,14 @@ function loadDataFile(subdir, id) {
 
 /**
  * Load the guidelines/manifest.json catalog.
- * Returns null when the file does not exist (guidelines not yet generated).
+ * Returns null when the package or manifest does not exist.
  */
 function loadGuidelineManifest() {
   const pkgRoot = resolveSpectrumDataPackage();
   if (!pkgRoot) return null;
-  const manifestPath = join(pkgRoot, "guidelines", "manifest.json");
-  if (!existsSync(manifestPath)) return null;
-  return JSON.parse(readFileSync(manifestPath, "utf-8"));
+  const guidelinesDir = join(pkgRoot, "guidelines");
+  if (!existsSync(guidelinesDir)) return null;
+  return { guidelines: listGuidelines(guidelinesDir) };
 }
 
 export function createDesignDataTools() {
@@ -148,7 +148,9 @@ export function createDesignDataTools() {
           ? {
               count: manifest.guidelines.length,
               categories: [
-                ...new Set(manifest.guidelines.map((g) => g.category)),
+                ...new Set(
+                  manifest.guidelines.map((g) => g.category).filter(Boolean),
+                ),
               ].sort(),
             }
           : null;

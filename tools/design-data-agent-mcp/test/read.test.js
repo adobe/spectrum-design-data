@@ -200,18 +200,56 @@ test("describe_guideline not-found error lists available guideline IDs", async (
 test("describe_guideline throws helpful error when guidelinesDir is null", async (t) => {
   // Simulates a zero-config install where @adobe/spectrum-design-data is absent.
   const saved = config.guidelinesDir;
-  t.teardown(() => {
-    config.guidelinesDir = saved;
-  });
   config.guidelinesDir = null;
 
   const describe = getHandler("describe_guideline");
-  const err = await t.throwsAsync(() => describe({ id: "colors" }));
+  const promise = describe({ id: "colors" });
+  config.guidelinesDir = saved;
+  const err = await t.throwsAsync(promise);
   t.true(
     err.message.includes("not installed"),
     `expected 'not installed', got: ${err.message}`,
   );
 });
+
+// ── list_guidelines ─────────────────────────────────────────────────────────────
+
+test.serial(
+  "list_guidelines returns available guideline metadata",
+  async (t) => {
+    const list = getHandler("list_guidelines");
+    const result = await list();
+    t.true(Array.isArray(result));
+    t.is(result.length, 25);
+    t.is(result[0].slug, "app-frame-content-area");
+    t.truthy(result[0].title);
+    t.truthy(result[0].category);
+  },
+);
+
+test.serial("list_guidelines filters by category", async (t) => {
+  const list = getHandler("list_guidelines");
+  const result = await list({ category: "designing" });
+  t.true(result.length > 0);
+  t.true(result.every((guideline) => guideline.category === "designing"));
+});
+
+test.serial(
+  "list_guidelines throws helpful error when guidelinesDir is null",
+  async (t) => {
+    const saved = config.guidelinesDir;
+    config.guidelinesDir = null;
+
+    const list = getHandler("list_guidelines");
+    const promise = list();
+    config.guidelinesDir = saved;
+    const err = await t.throwsAsync(promise);
+    t.true(
+      err.message.includes("not installed"),
+      `expected 'not installed', got: ${err.message}`,
+    );
+  },
+);
 
 test("primer shape contract: SKILL.md fields are all present", async (t) => {
   // Guards the contract described in SKILL.md: "returns the active dimensions,

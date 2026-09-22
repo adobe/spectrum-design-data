@@ -54,9 +54,9 @@ test("server initializes", (t) => {
   t.truthy(server);
 });
 
-test("server exposes 28 tools", (t) => {
+test("server exposes 29 tools", (t) => {
   const tools = createAllTools();
-  t.is(tools.length, 28);
+  t.is(tools.length, 29);
 });
 
 test("starts when launched via the real file path", async (t) => {

@@ -15,7 +15,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { randomUUID } from "node:crypto";
 import test from "ava";
-import { loadGuideline } from "../src/guideline.js";
+import { listGuidelines, loadGuideline } from "../src/guideline.js";
 
 const TMP = join(
   tmpdir(),
@@ -27,6 +27,10 @@ test.before(() => {
   writeFileSync(
     join(TMP, "colors.json"),
     JSON.stringify({ name: "colors", documentBlocks: [{ type: "purpose" }] }),
+  );
+  writeFileSync(
+    join(TMP, "motion.json"),
+    JSON.stringify({ name: "motion", documentBlocks: [] }),
   );
 });
 
@@ -58,3 +62,46 @@ test("loadGuideline rejects a path-traversal id", (t) => {
     "should reject before reaching the filesystem not-found check",
   );
 });
+
+test.serial(
+  "listGuidelines returns manifest entries when a manifest exists",
+  (t) => {
+    writeFileSync(
+      join(TMP, "manifest.json"),
+      JSON.stringify({
+        guidelines: [
+          { slug: "colors", title: "Colors", category: "designing" },
+          { slug: "motion", title: "Motion", category: "implementing" },
+        ],
+      }),
+    );
+    t.deepEqual(listGuidelines(TMP), [
+      { slug: "colors", title: "Colors", category: "designing" },
+      { slug: "motion", title: "Motion", category: "implementing" },
+    ]);
+  },
+);
+
+test.serial(
+  "listGuidelines falls back to sorted JSON files without a manifest",
+  (t) => {
+    rmSync(join(TMP, "manifest.json"), { force: true });
+    writeFileSync(join(TMP, "zeta.json"), "{}");
+    writeFileSync(join(TMP, "alpha.json"), "{}");
+    t.deepEqual(listGuidelines(TMP), [
+      { slug: "alpha" },
+      { slug: "colors" },
+      { slug: "motion" },
+      { slug: "zeta" },
+    ]);
+  },
+);
+
+test.serial(
+  "listGuidelines excludes manifest.json from fallback results",
+  (t) => {
+    t.false(
+      listGuidelines(TMP).some((guideline) => guideline.slug === "manifest"),
+    );
+  },
+);
