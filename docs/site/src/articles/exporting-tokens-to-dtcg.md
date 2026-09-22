@@ -33,8 +33,8 @@ All three accept the same mode flags (`--color-scheme`, `--scale`,
 than an unresolved cascade.
 
 <figure>
-  <img src="/assets/images/exporting-tokens-to-dtcg-scopes.png" alt="Three nested scopes: export (the whole dataset) contains query (a filtered subset), which contains resolve (one property).">
-  <figcaption>The three commands differ only in scope — each is a narrower view onto the same resolved data.</figcaption>
+  <img src="/assets/images/exporting-tokens-to-dtcg-scopes.png" alt="query takes a --filter expression and outputs a filtered subset document; export takes no filter and outputs the full dataset document; resolve takes one property and outputs a single $value plus $type, not a document.">
+  <figcaption>Each command's real input and output shape is what differs — not just relative scope size.</figcaption>
 </figure>
 
 ```bash
