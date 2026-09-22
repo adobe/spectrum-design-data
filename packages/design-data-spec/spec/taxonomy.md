@@ -4,6 +4,8 @@
 
 This document defines the **token taxonomy**: a hierarchical system of concept categories that classify design tokens, the **token term vocabulary** of allowed words within each category, and the **formatting style** rules that control serialization of structured token names into platform-consumable strings.
 
+This chapter defines the Design Data-owned taxonomy contract. It intentionally does not restate platform-native naming semantics or external standards already owned elsewhere; when a platform or implementation standard defines those behaviors, this spec links to that authority instead of copying its normative rules.
+
 ## Motivation
 
 "Naming convention" is too broad a term when discussing malleability across platform teams. A token name like `accent-background-color-hover` embeds multiple independent decisions:
