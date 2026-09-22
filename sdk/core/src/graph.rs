@@ -2259,7 +2259,7 @@ impl TokenGraph {
     /// at all" (safe to fall back to its own direct `conceptId`) apart from
     /// "it's CTR-backed but no sibling matches this context" (genuinely
     /// uncovered; must not fall back to a differently-scoped sibling).
-    pub(crate) fn has_relationship_record(&self, legacy_key: &str) -> bool {
+    pub fn has_relationship_record(&self, legacy_key: &str) -> bool {
         self.relationships
             .iter()
             .any(|r| r.raw.get("legacyKey").and_then(Value::as_str) == Some(legacy_key))
@@ -2381,7 +2381,7 @@ impl TokenGraph {
     ///
     /// Use this in chain-walking code that has an active resolution context; use
     /// `resolve_alias_key` for context-free alias resolution (e.g. `resolve_leaf`).
-    pub(crate) fn resolve_alias_in_context<'a>(
+    pub fn resolve_alias_in_context<'a>(
         &'a self,
         alias_target: &str,
         ctx: &std::collections::HashMap<String, String>,

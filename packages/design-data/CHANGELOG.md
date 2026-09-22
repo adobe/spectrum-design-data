@@ -1,5 +1,16 @@
 # @adobe/spectrum-design-data
 
+## 3.2.4
+
+### Patch Changes
+
+- [#1484](https://github.com/adobe/spectrum-design-data/pull/1484) [`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `figma pair` to consult CTR resolution before value-matching (closes #11k.10.13).
+  - **sdk/plugins/figma/src/import/pair.rs**: `pair_by_value`'s already-resolved
+    skip gate now also checks `resolve_relationship_ref`, matching `figma
+diff`'s resolution order, so Typography-grouping and other CTR-only names
+    (`Heading/`, `Body/`, `Title/`, `Detail/`, `Code/`, some `Alias/`) no longer
+    wrongly fall through to the value-matching path and land in `ambiguous`.
+
 ## 3.2.3
 
 ### Patch Changes

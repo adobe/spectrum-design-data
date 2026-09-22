@@ -18,7 +18,7 @@
 //!
 //! ## Why the leaf, not the cascade winner
 //!
-//! [`resolve_property`](crate::cascade::resolve_property)'s winner is frequently an
+//! [`resolve_property`](design_data_core::cascade::resolve_property)'s winner is frequently an
 //! *alias* record (`$ref` pointing at a UUID, no `value` of its own; `$schema` is
 //! `alias.json`). DTCG's `$type`/`$value` describe the *actual value*, so this module
 //! always follows [`TokenRecord::resolve_leaf`] first and derives both from the leaf.
@@ -35,7 +35,7 @@
 //! ## Document shape
 //!
 //! The document is a **flat** single-token document keyed by the token's canonical
-//! legacy kebab-case key (via [`crate::naming::extract_legacy_key`]), e.g.:
+//! legacy kebab-case key (via [`design_data_core::naming::extract_legacy_key`]), e.g.:
 //!
 //! ```json
 //! {
@@ -69,8 +69,8 @@ use std::collections::HashMap;
 
 use serde_json::{Map, Value};
 
-use crate::graph::{TokenGraph, TokenRecord};
-use crate::naming::extract_legacy_key;
+use design_data_core::graph::{TokenGraph, TokenRecord};
+use design_data_core::naming::extract_legacy_key;
 
 /// Build a flat, single-token DTCG document from a resolved token.
 ///
@@ -98,6 +98,35 @@ pub fn token_to_dtcg_document_in_context(
 ) -> Value {
     let leaf = record.resolve_leaf_in_context(graph, ctx);
     build_document(graph, record, leaf, Some(ctx))
+}
+
+/// [`design_data_core::export::TokenExporter`] impl: merges each of `winners`'
+/// single-key document (via [`token_to_dtcg_document_in_context`]) into one flat
+/// DTCG document. This is the same shape the CLI's `export --format dtcg` and
+/// `query --format dtcg` paths already produce by hand — implementing the trait
+/// here just gives that shape a name plugin dispatch can look up by `format_id()`.
+pub struct DtcgExporter;
+
+impl design_data_core::export::TokenExporter for DtcgExporter {
+    fn format_id(&self) -> &'static str {
+        "dtcg"
+    }
+
+    fn export(
+        &self,
+        graph: &TokenGraph,
+        winners: &[TokenRecord],
+        mode_ctx: &HashMap<String, String>,
+    ) -> Value {
+        let mut doc = Map::new();
+        for winner in winners {
+            if let Value::Object(entry) = token_to_dtcg_document_in_context(graph, winner, mode_ctx)
+            {
+                doc.extend(entry);
+            }
+        }
+        Value::Object(doc)
+    }
 }
 
 /// Shared body for [`token_to_dtcg_document`] and [`token_to_dtcg_document_in_context`]:
@@ -391,7 +420,7 @@ fn css_color_to_hex(s: &str) -> Option<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph::Layer;
+    use design_data_core::graph::Layer;
     use std::path::PathBuf;
 
     /// Build a `TokenRecord` for a fixture, stamping `raw["$schema"]` with the given

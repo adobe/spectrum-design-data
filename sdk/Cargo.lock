@@ -650,6 +650,8 @@ dependencies = [
  "chrono",
  "clap",
  "design-data-core",
+ "design-data-dtcg",
+ "design-data-figma",
  "design-data-tui",
  "miette",
  "predicates",
@@ -686,8 +688,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "design-data-dtcg"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
+ "serde_json",
+]
+
+[[package]]
+name = "design-data-figma"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
 name = "design-data-tui"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "clap",
  "crossterm",

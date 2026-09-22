@@ -1,5 +1,14 @@
 # @adobe/design-data-tui
 
+## 0.14.0
+
+### Minor Changes
+
+- [#1484](https://github.com/adobe/spectrum-design-data/pull/1484) [`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c) Thanks [@GarthDB](https://github.com/GarthDB)! - Extract Figma and DTCG into plugin crates and add a `TokenExporter` trait (closes #1484).
+  - **sdk/core**: adds `export::TokenExporter`, the compiled-in seam for pure graph -> document
+    exporters, and widens `suggest::tokenize`, `TokenGraph::has_relationship_record`, and
+    `TokenGraph::resolve_alias_in_context` to `pub` so the new plugin crates can use them.
+
 ## 0.13.0
 
 ### Minor Changes
