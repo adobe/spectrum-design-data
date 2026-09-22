@@ -99,6 +99,15 @@ function validateGuidelineId(id) {
   validateKebabId(id, "guideline");
 }
 
+function getCascadeAwareDir(baseDir, subdir) {
+  if (!baseDir || !config.cascadeActive || !config.cascadeDataPath) {
+    return baseDir;
+  }
+
+  const cascadeDir = join(config.cascadeDataPath, subdir);
+  return existsSync(cascadeDir) ? cascadeDir : baseDir;
+}
+
 export function createReadTools() {
   return [
     {
@@ -237,7 +246,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateComponentId(id);
-        const componentsDir = config.componentsDir;
+        const componentsDir = getCascadeAwareDir(
+          config.componentsDir,
+          "components",
+        );
         if (!componentsDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
@@ -267,7 +279,10 @@ export function createReadTools() {
         // of the component file into relationships/<id>.json — merge them back
         // in so callers relying on this tool for a component's token bindings
         // still see them (see spectrum-design-data-x29.4).
-        const relationshipsDir = config.relationshipsDir;
+        const relationshipsDir = getCascadeAwareDir(
+          config.relationshipsDir,
+          "relationships",
+        );
         const relationshipFile = relationshipsDir
           ? join(relationshipsDir, `${id}.json`)
           : null;
@@ -301,7 +316,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateGuidelineId(id);
-        const guidelinesDir = config.guidelinesDir;
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
         if (!guidelinesDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load guideline "${id}". ` +
@@ -348,7 +366,10 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ category } = {}) {
-        const guidelinesDir = config.guidelinesDir;
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
         if (!guidelinesDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot list guidelines. ` +

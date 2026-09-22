@@ -16,7 +16,7 @@
 // cross-file interference, but same-file tests still need `test.serial`).
 
 import test from "ava";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { config } from "../src/config.js";
@@ -42,18 +42,56 @@ test.before((t) => {
     join(dir, "resolved.tokens.json"),
     JSON.stringify([FIXTURE_TOKEN]),
   );
+
+  const componentsDir = join(dir, "components");
+  const relationshipsDir = join(dir, "relationships");
+  const guidelinesDir = join(dir, "guidelines");
+  mkdirSync(componentsDir, { recursive: true });
+  mkdirSync(relationshipsDir, { recursive: true });
+  mkdirSync(guidelinesDir, { recursive: true });
+
+  writeFileSync(
+    join(componentsDir, "button.json"),
+    JSON.stringify({ id: "button", name: "Button", type: "component" }),
+  );
+  writeFileSync(
+    join(relationshipsDir, "button.json"),
+    JSON.stringify({ tokens: ["button-background-color"] }),
+  );
+  writeFileSync(
+    join(guidelinesDir, "manifest.json"),
+    JSON.stringify({ guidelines: [{ slug: "colors" }] }),
+  );
+  writeFileSync(
+    join(guidelinesDir, "colors.json"),
+    JSON.stringify({
+      id: "colors",
+      documentBlocks: [{ type: "section", heading: "Colors" }],
+    }),
+  );
+
   t.context.dir = dir;
   t.context.originalDataPath = config.dataPath;
   t.context.originalDataRoot = config.dataRoot;
   t.context.savedCascadeDataPath = config.cascadeDataPath;
   t.context.savedCascadeActive = config.cascadeActive;
+  t.context.savedComponentsDir = config.componentsDir;
+  t.context.savedRelationshipsDir = config.relationshipsDir;
+  t.context.savedGuidelinesDir = config.guidelinesDir;
+
   config.cascadeDataPath = dir;
   config.cascadeActive = true;
+  config.componentsDir = join(dir, "embedded-components");
+  config.relationshipsDir = join(dir, "embedded-relationships");
+  config.guidelinesDir = join(dir, "embedded-guidelines");
 });
 
 test.after.always((t) => {
   config.cascadeDataPath = t.context.savedCascadeDataPath;
   config.cascadeActive = t.context.savedCascadeActive;
+  config.componentsDir = t.context.savedComponentsDir;
+  config.relationshipsDir = t.context.savedRelationshipsDir;
+  config.guidelinesDir = t.context.savedGuidelinesDir;
   rmSync(t.context.dir, { recursive: true, force: true });
 });
 
@@ -85,6 +123,26 @@ test.serial(
     const result = await getHandler("query_tokens")({ filter: "" });
     t.is(result.length, 1);
     t.is(result[0].raw.value, "#ff00ff");
+  },
+);
+
+test.serial(
+  "describe_component resolves from the active cascade dataset",
+  async (t) => {
+    const result = await getHandler("describe_component")({ id: "button" });
+    t.is(result.id, "button");
+    t.deepEqual(result.relationships.tokens, ["button-background-color"]);
+  },
+);
+
+test.serial(
+  "describe_guideline and list_guidelines resolve from the active cascade dataset",
+  async (t) => {
+    const listResult = await getHandler("list_guidelines")();
+    t.true(listResult.some((guideline) => guideline.slug === "colors"));
+
+    const detail = await getHandler("describe_guideline")({ id: "colors" });
+    t.is(detail.documentBlocks[0].heading, "Colors");
   },
 );
 
