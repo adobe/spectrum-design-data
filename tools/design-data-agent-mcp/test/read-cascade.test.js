@@ -20,6 +20,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { config } from "../src/config.js";
+import { bootstrapCascade } from "../src/cascade-bootstrap.js";
 import { createReadTools } from "../src/tools/read.js";
 
 // The cascade dataset's provenance has no designDataVersion, so checkDatasetFreshness
@@ -49,6 +50,10 @@ test.before((t) => {
   mkdirSync(componentsDir, { recursive: true });
   mkdirSync(relationshipsDir, { recursive: true });
   mkdirSync(guidelinesDir, { recursive: true });
+  const extensionsDir = join(dir, "extensions");
+  mkdirSync(join(extensionsDir, "components"), { recursive: true });
+  mkdirSync(join(extensionsDir, "relationships"), { recursive: true });
+  mkdirSync(join(extensionsDir, "guidelines"), { recursive: true });
 
   writeFileSync(
     join(componentsDir, "button.json"),
@@ -69,6 +74,26 @@ test.before((t) => {
       documentBlocks: [{ type: "section", heading: "Colors" }],
     }),
   );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "extensions" }),
+  );
+  writeFileSync(join(dir, ".design-data.toml"), 'manifest = "manifest.json"\n');
+  writeFileSync(
+    join(extensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Cascade Button", type: "component" }),
+  );
+  writeFileSync(
+    join(extensionsDir, "relationships", "button.json"),
+    JSON.stringify({ tokens: ["cascade-button-background-color"] }),
+  );
+  writeFileSync(
+    join(extensionsDir, "guidelines", "colors.json"),
+    JSON.stringify({
+      id: "colors",
+      documentBlocks: [{ type: "section", heading: "Cascade Colors" }],
+    }),
+  );
 
   t.context.dir = dir;
   t.context.originalDataPath = config.dataPath;
@@ -78,12 +103,20 @@ test.before((t) => {
   t.context.savedComponentsDir = config.componentsDir;
   t.context.savedRelationshipsDir = config.relationshipsDir;
   t.context.savedGuidelinesDir = config.guidelinesDir;
+  t.context.savedDesignDataConfig = config.designDataConfig;
 
-  config.cascadeDataPath = dir;
-  config.cascadeActive = true;
-  config.componentsDir = join(dir, "embedded-components");
-  config.relationshipsDir = join(dir, "embedded-relationships");
-  config.guidelinesDir = join(dir, "embedded-guidelines");
+  config.designDataConfig = dir;
+});
+
+test.before(async (t) => {
+  await bootstrapCascade(config, {
+    run: async () => ({
+      exitCode: 0,
+      stdout: JSON.stringify([FIXTURE_TOKEN]),
+      stderr: "",
+    }),
+  });
+  t.true(config.cascadeActive);
 });
 
 test.after.always((t) => {
@@ -92,6 +125,7 @@ test.after.always((t) => {
   config.componentsDir = t.context.savedComponentsDir;
   config.relationshipsDir = t.context.savedRelationshipsDir;
   config.guidelinesDir = t.context.savedGuidelinesDir;
+  config.designDataConfig = t.context.savedDesignDataConfig;
   rmSync(t.context.dir, { recursive: true, force: true });
 });
 
@@ -131,7 +165,9 @@ test.serial(
   async (t) => {
     const result = await getHandler("describe_component")({ id: "button" });
     t.is(result.id, "button");
-    t.deepEqual(result.relationships.tokens, ["button-background-color"]);
+    t.deepEqual(result.relationships.tokens, [
+      "cascade-button-background-color",
+    ]);
   },
 );
 
@@ -140,9 +176,10 @@ test.serial(
   async (t) => {
     const listResult = await getHandler("list_guidelines")();
     t.true(listResult.some((guideline) => guideline.slug === "colors"));
+    t.true(listResult.some((guideline) => guideline.slug === "motion"));
 
     const detail = await getHandler("describe_guideline")({ id: "colors" });
-    t.is(detail.documentBlocks[0].heading, "Colors");
+    t.is(detail.documentBlocks[0].heading, "Cascade Colors");
   },
 );
 

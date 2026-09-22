@@ -9,7 +9,14 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { bootstrapCascade } from "../src/cascade-bootstrap.js";
@@ -27,6 +34,9 @@ function freshConfig(overrides = {}) {
     designDataConfig: null,
     cascadeDataPath: null,
     cascadeActive: false,
+    componentsDir: null,
+    relationshipsDir: null,
+    guidelinesDir: null,
     ...overrides,
   };
 }
@@ -125,6 +135,62 @@ test("materializes resolved tokens into cascadeDataPath on success, without touc
     ),
     tokens,
   );
+});
+
+test("materializes fallback catalogs and manifest extensions into cascadeDataPath", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+  const fallbackDir = join(dir, "fallback");
+  const componentsDir = join(fallbackDir, "components");
+  const relationshipsDir = join(fallbackDir, "relationships");
+  const guidelinesDir = join(fallbackDir, "guidelines");
+  const extensionsDir = join(dir, "extensions");
+  mkdirSync(componentsDir, { recursive: true });
+  mkdirSync(relationshipsDir, { recursive: true });
+  mkdirSync(guidelinesDir, { recursive: true });
+  mkdirSync(join(extensionsDir, "components"), { recursive: true });
+  mkdirSync(join(extensionsDir, "guidelines"), { recursive: true });
+  writeFileSync(
+    join(componentsDir, "button.json"),
+    JSON.stringify({ id: "button", name: "Fallback Button" }),
+  );
+  writeFileSync(
+    join(guidelinesDir, "colors.json"),
+    JSON.stringify({ id: "colors", documentBlocks: [] }),
+  );
+  writeFileSync(
+    join(extensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Cascade Button" }),
+  );
+  writeFileSync(
+    join(extensionsDir, "guidelines", "motion.json"),
+    JSON.stringify({ id: "motion", documentBlocks: [] }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "extensions" }),
+  );
+  writeFileSync(join(dir, ".design-data.toml"), 'manifest = "manifest.json"\n');
+
+  const config = freshConfig({
+    designDataConfig: dir,
+    componentsDir,
+    relationshipsDir,
+    guidelinesDir,
+  });
+
+  await bootstrapCascade(config, {
+    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
+  });
+
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Cascade Button",
+  );
+  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "colors.json")));
+  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "motion.json")));
 });
 
 test("accepts a path to the .design-data.toml file itself, not just its directory", async (t) => {

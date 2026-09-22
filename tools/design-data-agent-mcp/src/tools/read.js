@@ -26,12 +26,11 @@
  * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
  * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
  * validate_usage all reflect it (they read config.cascadeDataPath instead of
- * config.dataPath when config.cascadeActive). describe_component/describe_guideline
- * do not — components/relationships/guidelines still come from config.componentsDir /
- * config.relationshipsDir / config.guidelinesDir, which resolve from the embedded
- * @adobe/spectrum-design-data package regardless of cascade state. Cascade manifests
- * can declare guidelines in the Rust graph, but bootstrap currently materializes tokens
- * only; cascade-aware component/guideline reads remain a separate follow-up.
+ * config.dataPath when config.cascadeActive). Cascade bootstrap copies the
+ * fallback component/relationship/guideline catalogs into that snapshot and
+ * overlays manifest extensions, so describe_component/describe_guideline/list_guidelines
+ * read the same active cascade while preserving the embedded fallback for inactive
+ * cascades.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
