@@ -15,8 +15,8 @@
  * required. primer and describe_component were migrated in issue m1r.
  * describe_guideline (spectrum-design-data-9fe.7) is the read-back counterpart to
  * data_create/data_edit's "guidelines" category, closing the same read/write
- * asymmetry describe_component already closes for components. Its guideline-loading
- * logic (including the path-traversal guard) is shared with the sibling
+ * asymmetry describe_component already closes for components. Its guideline
+ * loading and listing logic is shared with the sibling
  * @adobe/design-data-mcp package's `design-data-guideline` tool via the
  * `@adobe/design-data/guideline` module, rather than duplicated here.
  *
@@ -29,16 +29,15 @@
  * config.dataPath when config.cascadeActive). describe_component/describe_guideline
  * do not — components/relationships/guidelines still come from config.componentsDir /
  * config.relationshipsDir / config.guidelinesDir, which resolve from the embedded
- * @adobe/spectrum-design-data package regardless of cascade state. A platform source
- * repo generally carries a token cascade only, not its own component/guideline
- * schemas, so this is left out of scope rather than guessed at; revisit if a platform
- * manifest starts declaring components or guidelines.
+ * @adobe/spectrum-design-data package regardless of cascade state. Cascade manifests
+ * can declare guidelines in the Rust graph, but bootstrap currently materializes tokens
+ * only; cascade-aware component/guideline reads remain a separate follow-up.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
-import { loadGuideline } from "@adobe/design-data/guideline";
+import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 import { config } from "../config.js";
 import { checkDatasetFreshness } from "../dataset-freshness.js";
 
@@ -315,9 +314,8 @@ export function createReadTools() {
           if (err.message.startsWith("Not found:")) {
             let available;
             try {
-              available = readdirSync(guidelinesDir)
-                .filter((f) => f.endsWith(".json") && f !== "manifest.json")
-                .map((f) => f.replace(/\.json$/, ""))
+              available = listGuidelines(guidelinesDir)
+                .map((guideline) => guideline.slug)
                 .sort()
                 .join(", ");
             } catch {
@@ -330,6 +328,37 @@ export function createReadTools() {
           }
           throw err;
         }
+      },
+    },
+
+    {
+      name: "list_guidelines",
+      description:
+        "List available Spectrum design guidelines and their metadata. Optionally " +
+        "filter the catalog by category before calling describe_guideline.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            description:
+              "Optional guideline category, e.g. designing or implementing",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ category } = {}) {
+        const guidelinesDir = config.guidelinesDir;
+        if (!guidelinesDir) {
+          throw new Error(
+            `@adobe/spectrum-design-data is not installed — cannot list guidelines. ` +
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
+          );
+        }
+        const guidelines = listGuidelines(guidelinesDir);
+        return category
+          ? guidelines.filter((guideline) => guideline.category === category)
+          : guidelines;
       },
     },
   ];
