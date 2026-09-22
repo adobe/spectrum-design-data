@@ -1105,6 +1105,32 @@ fn with_real_mode_sets(mut graph: TokenGraph) -> TokenGraph {
     graph
 }
 
+#[test]
+fn default_source_context_recognizes_any_declared_mode_set_axis() {
+    // Before this fix, `default_source_context` only recognized hardcoded
+    // "scale"/"colorScheme" fields; a token disambiguated by a newer axis
+    // declared in `graph.mode_sets` (e.g. `contrast`, added after this
+    // function was written — see packages/design-data/mode-sets/contrast.json)
+    // fell through to `None`, silently losing its axis pin. Deriving the
+    // checked fields from `graph.mode_sets` instead fixes that.
+    let contrast_mode_set = design_data_core::graph::ModeSetRecord {
+        file: PathBuf::from("contrast.json"),
+        name: "contrast".to_string(),
+        modes: vec!["regular".to_string(), "high".to_string()],
+        default_mode: "regular".to_string(),
+    };
+    let mut graph = TokenGraph::from_pairs(vec![(
+        "high-contrast-token".to_string(),
+        PathBuf::from("tokens.json"),
+        json!({"name": {"property": "border-width", "contrast": "high"}, "value": "2px"}),
+    )]);
+    graph.mode_sets = vec![contrast_mode_set];
+    let record = graph.tokens.get("high-contrast-token").unwrap();
+
+    let ctx = default_source_context(&graph, record).expect("contrast axis should be recognized");
+    assert_eq!(ctx.get("contrast").map(String::as_str), Some("high"));
+}
+
 /// Two-entry scale-set graph (desktop/mobile sharing `conceptId`), used to
 /// verify the diff aligns to the Figma variable's own scale instead of an
 /// arbitrary entry.

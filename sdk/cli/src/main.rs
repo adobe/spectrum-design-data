@@ -2118,7 +2118,7 @@ fn run_figma_diff(
             let c = &report.counts;
             // `renamed` is an orthogonal flag (a variable can be renamed *and*
             // matched, mismatched, etc.), not a sibling partition — print it
-            // separately so the other five don't look like they should sum
+            // separately so the other six don't look like they should sum
             // to the total entry count.
             println!(
                 "match={} value-mismatch={} figma-only={} design-data-only={} skipped-uncovered={} multi-mode-mismatch={} (renamed={})",
