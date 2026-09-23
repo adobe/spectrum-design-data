@@ -8,7 +8,7 @@
     { "type": "purpose", "content": "Component spacing" },
     {
       "type": "guideline",
-      "content": "Internal component spacing governs the space within components. It follows its own geometric scales, each designed to reconcile the type scale and component sizes as needed. This is why some values are less round than you might expect. They are calculated to produce balanced proportional relationships for their specific context at every size."
+      "content": "Internal component spacing governs the space within components. It follows its own geometric scales, each designed to reconcile the type scale and component sizes as needed. This is why some values are less round than you might expect. They are calculated to produce balanced proportional relationships for their specific context at every size. Image: Diagram showing how \"Base gap medium\" spacing between a layer thumbnail and its label combines with an \"Action group\" of eye and lock icons to form a \"List item\" component, which uses \"List gap medium\" spacing between its elements. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1093862bea5fe456337910a0401c4d9f316872067.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -16,11 +16,23 @@
     },
     {
       "type": "guideline",
+      "content": "Image: Diagram showing three UI structure types stacked vertically: a \"Base\" element with an icon, radio circle, label, and description text; an empty \"Container\" box; and a \"List item\" row combining a folder icon, label, and two radio circles. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_14597f05908fb1ba90ed338d764edb72e40c79d04.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
       "content": "Collections.\n\nFor most collections, density affects only the gap between items. An action group, for example, adjusts the gap between its buttons; a list adjusts the gap between its items."
     },
     {
       "type": "guideline",
+      "content": "Image: Two labeled radio button groupings compared side by side: \"Compact\" and \"Regular,\" each showing a vertical pair and a horizontal pair of radio labels with a thin pink divider indicating the different spacing between them. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1aa4656d804e67121b98c5b95cc78fdadf5367904.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
       "content": "Containers.\n\nDensity affects all padding, both vertical and horizontal. Containers such as cards may appear in full grids or unidirectional lists, so both axes need to respond to density changes."
+    },
+    {
+      "type": "guideline",
+      "content": "Image: Three versions of the same gradient card component (purple-to-red-to-pink with \"Card title\" and \"Card description\") labeled \"Compact,\" \"Regular,\" and \"Spacious,\" showing progressively larger card sizes and spacing. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1932de08aa0bbe4a7e377ac9ff72e954dc9bd9f08.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -31,7 +43,7 @@
       "content": "Spectrum's internal component spacing is defined by a comprehensive set of semantic tokens. Each of these tokens corresponds to a specific structural context. These tokens are built into every Spectrum component, and available to designers in the S2 / Variables Figma library. A full token reference will be available on this site in the future."
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/spacing/component-spacing",
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/component-spacing",
   "lastUpdated": "2026-08-13",
   "status": "published",
   "tags": [

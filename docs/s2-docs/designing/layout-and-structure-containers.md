@@ -1,7 +1,7 @@
 ---
 title: Containers
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/layout-and-structure/containers
+source_url: https://preview.spectrum.adobe.com/foundations/layout-and-structure/containers
 last_updated: '2026-09-11'
 status: published
 tags:
@@ -25,19 +25,19 @@ In Spectrum 2, containers have more defined rules to help guide in the creation 
 
 ### Example
 
-Cards and select boxes share container styles. In this example, both use the emphasized style. Cards also have additional options that select boxes do not, like t-shirt size and layout. Examples of containers: two cards with different sizes and layout options, and a select box.
+Cards and select boxes share container styles. In this example, both use the emphasized style. Cards also have additional options that select boxes do not, like t-shirt size and layout. Image: UI components showing examples of card layouts for a Photoshop photo editing course on the left with multiple card variations, and a select box component example on the right featuring a checkbox and favorites heart icon. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_1daffa98ca15b1299210db1dd829d7377de85e65a.png?width=750&format=png&optimize=medium)Examples of containers: two cards with different sizes and layout options, and a select box.
 
 ## Styles
 
-All containers share a set of defined styles. Background color By default, containers are visually distinguished through a change in background color. Learn more about this in background layers. Emphasized In some situations, drop shadows are used to provide emphasis to a container or group of containers, like in a set of related cards. Emphasized containers should be used sparingly. View more about container emphasis. Border Borders can also be used around objects as an alternate style to a background color, and should be used without a fill. Vertical, full-width dividers can also be used to create separation for larger sections of content, like in a panel. View more about border width. Spacing This is the container style with the least emphasis. Instead of using a visible border, spacing is used to create separation between concepts. View more about spacing.
+All containers share a set of defined styles. Image: Unlabeled image (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_130061659941d2e3f73cf5a50fb9df8aeb95ca596.png?width=750&format=png&optimize=medium) Background color By default, containers are visually distinguished through a change in background color. Learn more about this in background layers. Emphasized In some situations, drop shadows are used to provide emphasis to a container or group of containers, like in a set of related cards. Emphasized containers should be used sparingly. View more about container emphasis. Border Borders can also be used around objects as an alternate style to a background color, and should be used without a fill. Vertical, full-width dividers can also be used to create separation for larger sections of content, like in a panel. View more about border width. Spacing This is the container style with the least emphasis. Instead of using a visible border, spacing is used to create separation between concepts. View more about spacing.
 
 ## Padding
 
-Internal padding is dependent on component size, density, and platform scale, all of which vary for specific components and patterns. The following chart is a point of reference for how padding values are used in Spectrum 2 containers. The spacing values themselves remain unchanged from Spectrum 1. View more about spacing. Spacing token Value Example usage in Spectrum spacing-100 8 pxExtra-small cards spacing-200 12 pxHigh density panels, small cards spacing-300 16 pxMedium density panels, medium cards spacing-400 24 pxLow density panels, large cards, mobile standard and alert dialogs spacing-500 32 pxDesktop standard and alert dialogs spacing-600 40 pxTakeover dialog
+Internal padding is dependent on component size, density, and platform scale, all of which vary for specific components and patterns. The following chart is a point of reference for how padding values are used in Spectrum 2 containers. The spacing values themselves remain unchanged from Spectrum 1. View more about spacing. Image: Container spacing examples, each shown in a square from smallest to largest, with labels spacing-100, spacing-200, spacing-300, spacing-400, spacing-500, spacing-600. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_1bac253ef640094fbbe2ea80a63cc3875690b424b.png?width=750&format=png&optimize=medium) Spacing token Value Example usage in Spectrum spacing-100 8 pxExtra-small cards spacing-200 12 pxHigh density panels, small cards spacing-300 16 pxMedium density panels, medium cards spacing-400 24 pxLow density panels, large cards, mobile standard and alert dialogs spacing-500 32 pxDesktop standard and alert dialogs spacing-600 40 pxTakeover dialog
 
 ### Example
 
-This medium card uses spacing-300 for internal padding.
+This medium card uses spacing-300 for internal padding. Image: Card component example with checkbox, abstract wavy image, title and description text, showing spacing-300 (16px) padding measurement indicated by dotted line on the left. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_13224b595dae476332958fef768371a29adbc1572.png?width=750&format=png&optimize=medium)
 
 ## Emphasis
 
@@ -45,12 +45,12 @@ An emphasized container has a drop shadow to draw attention. When deciding wheth
 
 ### Example
 
-In this group of containers — each representing a product — different container styles can be used to draw attention to a specific item. In this case, the emphasized container is paired with a badge, and contrasts against the more subdued containers with filled (gray) backgrounds.
+In this group of containers — each representing a product — different container styles can be used to draw attention to a specific item. In this case, the emphasized container is paired with a badge, and contrasts against the more subdued containers with filled (gray) backgrounds. Image: Three app product cards displaying Acrobat, Photography, and All apps with icons, pricing placeholders, and Buy now buttons, with the All apps card highlighted by a "Best value" badge. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_18c340f95534d724d0566c68fa959d8cc3bf5668e.png?width=750&format=png&optimize=medium)
 
 ### States of interactive, emphasized containers
 
-If the whole container is interactive, hover is shown through a slightly more prominent drop shadow. When dragged, a much more prominent shadow is shown in order to bring focus to the dragged item and show elevation above the rest of the UI. Note that specific components might have different options and states. Emphasized, default Emphasized, hover Dragged
+If the whole container is interactive, hover is shown through a slightly more prominent drop shadow. When dragged, a much more prominent shadow is shown in order to bring focus to the dragged item and show elevation above the rest of the UI. Note that specific components might have different options and states. Image: Unlabeled image (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_1d5c23228ef95a1f5def853200c19be7fd89b487e.png?width=750&format=png&optimize=medium) Emphasized, default Emphasized, hover Dragged
 
 ## App frame
 
-A consistent app frame helps create a sense of brand unity and helps users feel comfortable and familiar with our products. Predictable navigation is also especially helpful for users who work across multiple applications, and it makes it easier to learn how to use new products. The Spectrum 2 app frame framework provides a consistent visual style and navigation. It offers foundational structures and guidelines that product teams can adapt to their own contexts. View more details about the S2 app frame. The main content area is defined by a unique container style that's used only in the app frame. It has a subtle drop shadow to provide separation from the navigation. View more about using container styles to divide content within content areas. Example of an app frame with a side navigation.
+A consistent app frame helps create a sense of brand unity and helps users feel comfortable and familiar with our products. Predictable navigation is also especially helpful for users who work across multiple applications, and it makes it easier to learn how to use new products. The Spectrum 2 app frame framework provides a consistent visual style and navigation. It offers foundational structures and guidelines that product teams can adapt to their own contexts. View more details about the S2 app frame. The main content area is defined by a unique container style that's used only in the app frame. It has a subtle drop shadow to provide separation from the navigation. View more about using container styles to divide content within content areas. Image: Adobe Firefly app interface showing left sidebar with navigation menu items (Home, Files, Brands, Discover, Schedule, Learn, Plugins) and a Create button, plus top header with search bar and utility icons. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/media_16b19bf7867ae4d830240dad00019054f87d38fb8.png?width=750&format=png&optimize=medium)Example of an app frame with a side navigation.

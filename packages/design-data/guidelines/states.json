@@ -8,22 +8,22 @@
     { "type": "purpose", "content": "States" },
     {
       "type": "guideline",
-      "content": "In Spectrum 2, some components use a change in size instead of color to communicate a down state. This gives the illusion of objects being pressed-in, and makes interactions more dynamic and responsive."
+      "content": "In Spectrum 2, some components use a change in size instead of color to communicate a down state. This gives the illusion of objects being pressed-in, and makes interactions more dynamic and responsive. Image: Disabled UI components shown in muted gray, including a circular avatar photo, a labeled button, a toggle switch with label, and a checkbox with label. (source: https://preview.spectrum.adobe.com/foundations/behavior/media_1044bea29bf18bd21503482c8c8fafb0102e36a22.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Disabled states generally stay the same from Spectrum 1, but there have been some minor updates to specific components. For example, a text field retains the outline style when disabled, to more closely match its default state."
+      "content": "Disabled states generally stay the same from Spectrum 1, but there have been some minor updates to specific components. For example, a text field retains the outline style when disabled, to more closely match its default state. Image: Two checkboxes with 'Label' text: the top one unchecked, the bottom one checked with a black background and white checkmark. (source: https://preview.spectrum.adobe.com/foundations/behavior/media_1517894bfa23af029ad8122c0add356281be4bc2e.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy."
+      "content": "Selected states use a primary style by default, generally through a gray-800 fill. Some have an accent color option that can be used to draw emphasis. This is primarily helpful in contexts with a specific and narrowly-scoped goal (for example, in a dialog), or when there’s a single, clear call to action within a page (for example, a “Create” button). When there’s many groups of controls that require the same amount of attention (such as in a panel) the not emphasized option works best. For more details about this concept, view Attention hierarchy. Image: A list view row being dragged, indicated by a grabbing-hand cursor above it, containing a checked checkbox, a circular avatar placeholder, truncated title text 'List view value with a longer la...', description text, two circular icons, and a chevron. (source: https://preview.spectrum.adobe.com/foundations/behavior/media_133f5d48851a7df5c96e90ea3d60494813467c2bb.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
       "content": "A dragged state has a unique drop shadow to draw attention to the dragged object. Learn more about drop shadows."
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/behavior/states",
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/behavior/states",
   "lastUpdated": "2026-08-13",
   "status": "published",
   "tags": [

@@ -1,7 +1,7 @@
 ---
 title: Colors
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/color/colors
+source_url: https://preview.spectrum.adobe.com/foundations/color/colors
 last_updated: '2026-08-13'
 status: published
 tags:
@@ -21,6 +21,12 @@ hub_path: /foundations/color/colors
 
 ## Principles
 
+### Image: A green gradient circle icon, half outlined and half filled, representing accessibility. (source: https://preview.spectrum.adobe.com/foundations/color/media_1dbe049a5fb02f75fecb2595d69e3ab96b582b953.png?width=750&format=png&optimize=medium)
+
+### Image: A blue gradient icon of two diagonal arrows pointing away from each other, representing scalability. (source: https://preview.spectrum.adobe.com/foundations/color/media_1c1aafd6782c73e32c3bb9f17bcc1d159a8338b32.png?width=750&format=png&optimize=medium)
+
+### Image: A purple-to-pink gradient icon of three interlocking rings, representing intentional or purposeful design. (source: https://preview.spectrum.adobe.com/foundations/color/media_1030263b0b0e21eaa2317fc71f938da71ffa84f03.png?width=750&format=png&optimize=medium)
+
 ### Accessible
 
 Spectrum colors are purposefully chosen and combined with one another to create accessible experiences that work for all users across different products, devices, and settings.
@@ -35,7 +41,7 @@ Color is used to create hierarchy, signal meaning, and guide attention. Spectrum
 
 ## What color does
 
-Spectrum’s color system helps you apply color to your UI in a consistent and visually harmonious way. Spectrum’s color system is based on a foundation of visual perception, inclusive design, and accessibility. Spectrum uses the relationships between colors and their properties to create a scalable foundation for color in the design system. Dark and light variants of each color can then be applied to your UI in different ways. Spectrum colors are generated using the Leonardo color tool, by plugging in hues and hue ranges through key colors and combined with target contrast ratios for each color.
+Spectrum’s color system helps you apply color to your UI in a consistent and visually harmonious way. Spectrum’s color system is based on a foundation of visual perception, inclusive design, and accessibility. Spectrum uses the relationships between colors and their properties to create a scalable foundation for color in the design system. Dark and light variants of each color can then be applied to your UI in different ways. Spectrum colors are generated using the Leonardo color tool, by plugging in hues and hue ranges through key colors and combined with target contrast ratios for each color. Image: A large grid of color swatches showing 15 hue rows (red, orange, yellow, brown, chartreuse, green, teal, cyan, blue, indigo, purple, magenta, fuchsia, pink, and crimson) each with 16 columns transitioning from light to dark. (source: https://preview.spectrum.adobe.com/foundations/color/media_1b61b63c16d0c1bd67be971ead2447f6a4fb87a03.png?width=750&format=png&optimize=medium)
 
 ## Application of brand color
 
@@ -43,9 +49,11 @@ Spectrum’s color system helps you apply color to your UI in a consistent and v
 
 ### Brand colors may differ from Spectrum colors
 
+Image: Six vertical color ramps labeled with Adobe app icons (Ai, Sg, Ps, Ae, Xd, Id), each transitioning from a light tint at top to a dark shade at bottom in the app's brand color: orange, green, blue, indigo, magenta, and pink/red. (source: https://preview.spectrum.adobe.com/foundations/color/media_11dbaa344681e410a0abb24a800f8f99770341781.png?width=750&format=png&optimize=medium)
+
 ### Key colors (shown in hue)
 
-The Leonardo tool generates the color palette by using several key colors, including brand colors. Most color scales are not a single hue key color. Leonardo tends to darken and lighten on either end of the gradient by adding black and white to the key colors, so some are included to ensure a high degree of saturation in the palette. In other cases, some key colors shift the actual hue in order to keep colors bright or recognizable, or shift them to help most users avoid confusion with adjacent colors. Once the color scale is determined, lightness stops are input for each color in order to get aliased colors.
+Image: Six horizontal gradient bars in Adobe app brand colors (orange/Ai, green/Sg, blue/Ps, indigo/Ae, magenta/Xd, pink/Xd), each labeled with numeric hue values marking key color stops along the gradient. (source: https://preview.spectrum.adobe.com/foundations/color/media_1628ff4ce8ffc018fd2e2943fa27cb27302f9102f.png?width=750&format=png&optimize=medium)The Leonardo tool generates the color palette by using several key colors, including brand colors. Most color scales are not a single hue key color. Leonardo tends to darken and lighten on either end of the gradient by adding black and white to the key colors, so some are included to ensure a high degree of saturation in the palette. In other cases, some key colors shift the actual hue in order to keep colors bright or recognizable, or shift them to help most users avoid confusion with adjacent colors. Once the color scale is determined, lightness stops are input for each color in order to get aliased colors.Image: A blue gradient scale from light to dark with contrast ratio labels ranging from 1.06:1 to 19.5:1 at each stop, paired below with a matching swatch row numbered 100 through 1600 showing the corresponding blue shades. (source: https://preview.spectrum.adobe.com/foundations/color/media_1b3856ffb32cd28a1427b18829e04a3ea760d4f74.png?width=750&format=png&optimize=medium)
 
 ## Color backgrounds
 
@@ -53,34 +61,34 @@ Sometimes it’s necessary to use color for the background or fill of an object 
 
 ### Solid color background with black or white
 
-For these scenarios, color must adhere to WCAG contrast minimums with the color of the text. Most colors have white text placed over the color. To maintain the identifiability of yellow, orange, chartreuse, and celery while still meeting these requirements, these colors must be used with black text. They must be fully opaque and should be referenced from the static color palette. Do not use these colors without a text label representation of the color’s meaning in your application (e.g., “drafts,” “reviewed,” “new”). When using multiple colors and text labels cannot readily clarify color meaning — which is a common case in data visualization — use the categorical color palette.
+For these scenarios, color must adhere to WCAG contrast minimums with the color of the text. Most colors have white text placed over the color. To maintain the identifiability of yellow, orange, chartreuse, and celery while still meeting these requirements, these colors must be used with black text. They must be fully opaque and should be referenced from the static color palette. Image: Two rows of solid-colored button-like labels grouped by text contrast: a top section 'Use with white text' showing red, brown, olive, green, teal, blue, indigo, purple, magenta, pink, dark gray, and gray backgrounds with white 'Label' text, and a bottom section 'Use with black text' showing orange, yellow, green, and lime backgrounds with black 'Label' text. (source: https://preview.spectrum.adobe.com/foundations/color/media_130355598009d093c7bd1e12e42df413fee995fbe.png?width=750&format=png&optimize=medium)Do not use these colors without a text label representation of the color’s meaning in your application (e.g., “drafts,” “reviewed,” “new”). When using multiple colors and text labels cannot readily clarify color meaning — which is a common case in data visualization — use the categorical color palette.
 
 ### Two-tone color pairing
 
-To create two-tone color pairs, use the 100 index of your color for the background (e.g., magenta-100). The icon or illustration should use the 900 index in light theme (e.g., magenta-900). In dark themes, the 700-1200 indices can be chosen based on the desired lightness or saturation levels of the color. For example, yellow is better represented with yellow-1200, and red is better represented with red-700. Do not use these colors without a text label representation of the color’s significance in your application. These colors are not color vision deficiency safe, and could be confusing to some users.
+To create two-tone color pairs, use the 100 index of your color for the background (e.g., magenta-100). The icon or illustration should use the 900 index in light theme (e.g., magenta-900). In dark themes, the 700-1200 indices can be chosen based on the desired lightness or saturation levels of the color. For example, yellow is better represented with yellow-1200, and red is better represented with red-700. Do not use these colors without a text label representation of the color’s significance in your application. These colors are not color vision deficiency safe, and could be confusing to some users. Image: Three pairs of icon swatches (a crop/sparkle tool, a PDF document stack, and a camera) shown first on light tinted backgrounds in purple, red, and green, then on matching dark backgrounds grouped within a black container. (source: https://preview.spectrum.adobe.com/foundations/color/media_1000f1eb95187ddf34fbfdb0dd0a7b6c6d840aa28.png?width=750&format=png&optimize=medium)
 
 ## Usage guidelines
 
 ### Don’t create your own colors
 
-Every part of the interface should use a color defined by Spectrum to ensure consistency across products. Spectrum’s colors are carefully chosen and tested to ensure they meet accessibility standards.
+Every part of the interface should use a color defined by Spectrum to ensure consistency across products. Spectrum’s colors are carefully chosen and tested to ensure they meet accessibility standards. Image: Example of a correct usage. A purple pill-shaped 'Label' button next to a checklist labeled 'Interests' with a checked orange 'Travel' checkbox and unchecked 'Music' and 'Shopping' options, plus a helper text reading 'Select at least one interest.' (source: https://preview.spectrum.adobe.com/foundations/color/media_13c6937cd9b5481376c50a5b6f4b418421f5e9253.png?width=750&format=png&optimize=medium)
 
 ### Communicating with color
 
-In order to be accessible for as many users as possible, do not use color alone as a method of communication. For every usage of color as a feedback method, there should be an accompanying label and/or icon to communicate meaning.
+In order to be accessible for as many users as possible, do not use color alone as a method of communication. For every usage of color as a feedback method, there should be an accompanying label and/or icon to communicate meaning. Image: Example of a correct usage. A text field with a red border and warning triangle icon, showing an error message 'Enter a valid email address.' (source: https://preview.spectrum.adobe.com/foundations/color/media_130cdd17e3ef910ccab2221c2169bfd2b24189153.png?width=750&format=png&optimize=medium)Image: Example of a incorrect usage. The same text field with only a red border and no icon or error message, showing color alone without an accompanying explanation. (source: https://preview.spectrum.adobe.com/foundations/color/media_1c9cefe91435c778a9966713132ffeb845940fbf7.png?width=750&format=png&optimize=medium)
 
 ### Create hierarchy with background layer colors
 
-Use background layers for creating application hierarchy. This will ensure that dimensionality and visual/structural hierarchy is appropriately translated between light and dark themes.
+Use background layers for creating application hierarchy. This will ensure that dimensionality and visual/structural hierarchy is appropriately translated between light and dark themes. Image: Example of a correct usage. Two stacked panels, one light and one dark, each showing three layers labeled gray-200, gray-100, and gray-75 with minimal visual distinction between them. (source: https://preview.spectrum.adobe.com/foundations/color/media_178653b2587e927b8a6e5c0b44d137af96530e4da.png?width=750&format=png&optimize=medium)Image: Example of a incorrect usage. Two stacked panels, one light and one dark, each showing three layers labeled Base, Layer 1, and Layer 2 with clear visual separation indicating hierarchy. (source: https://preview.spectrum.adobe.com/foundations/color/media_1f9b9739c5896b12daf20a89b108ee81f1f3f8d9b.png?width=750&format=png&optimize=medium)
 
 ### Provide sufficient contrast
 
-Use the appropriate gray tokens and color tokens for text, icons, and illustrations. These tokens are guaranteed to meet or exceed WCAG contrast minimums when placed on background layer colors for each supported color theme. Choosing lower indexed color tokens, or using other colors for backgrounds, could result in insufficient contrast. When in doubt, check the contrast for text, icons, and UI components for all color themes supported by your product.
+Use the appropriate gray tokens and color tokens for text, icons, and illustrations. These tokens are guaranteed to meet or exceed WCAG contrast minimums when placed on background layer colors for each supported color theme. Choosing lower indexed color tokens, or using other colors for backgrounds, could result in insufficient contrast. When in doubt, check the contrast for text, icons, and UI components for all color themes supported by your product. Image: Example of a correct usage. Two cards, one light gray-200 and one black, each showing four lines of colored text (gray-600/700, red-800/900, blue-800/900, green-800/900) marked with a red 'Fail' warning icon, indicating insufficient contrast. (source: https://preview.spectrum.adobe.com/foundations/color/media_15110077c3e594f9d8c9e58063e962e5108d0d62e.png?width=750&format=png&optimize=medium)Image: Example of a incorrect usage. Two cards, one white and one black, each labeled 'Layer 1' and showing four lines of colored text (gray-700, red-900, blue-900, green-900) marked with a green 'Pass' checkmark icon, indicating sufficient contrast. (source: https://preview.spectrum.adobe.com/foundations/color/media_1cf6f2433a57f6e0819eab3ddaf38308bf05dab80.png?width=750&format=png&optimize=medium)
 
 ### Hue and Saturation contrast
 
-Avoid placing colors directly on top of or adjacent to other colors that have a high degree of hue contrast with near-equal saturation or lightness. These scenarios create a visual illusion of depth or vibration (chromostereopsis) which can result in a poor user experience. If colors have near equal lightness, they will also cause lightness contrast issues since the colors may be indistinguishable to some users. Use static white or static black components instead of colored components on top of color or image backgrounds.
+Avoid placing colors directly on top of or adjacent to other colors that have a high degree of hue contrast with near-equal saturation or lightness. These scenarios create a visual illusion of depth or vibration (chromostereopsis) which can result in a poor user experience. If colors have near equal lightness, they will also cause lightness contrast issues since the colors may be indistinguishable to some users. Use static white or static black components instead of colored components on top of color or image backgrounds. Image: Example of a correct usage. Two colored squares, one red and one light gray, each containing a pill-shaped 'Label' button in a matching or complementary hue with adequate contrast. (source: https://preview.spectrum.adobe.com/foundations/color/media_15ca4c13d88e11dd08b4786512aa49253f1159101.png?width=750&format=png&optimize=medium)Image: Example of a incorrect usage. A red rectangle containing a blue pill-shaped 'Label' button, showing a jarring hue and saturation clash between the background and button. (source: https://preview.spectrum.adobe.com/foundations/color/media_1e8d1753ca0cb27e0406771145711cc317fd99e3a.png?width=750&format=png&optimize=medium)
 
 ### Programmatic color changes
 
-Do not use color functions to modify Spectrum colors. The specific tints and shades of Spectrum’s themes were designed to be perceptually uniform. Modifying colors in the product or framework could result in undesirable colors.
+Do not use color functions to modify Spectrum colors. The specific tints and shades of Spectrum’s themes were designed to be perceptually uniform. Modifying colors in the product or framework could result in undesirable colors. Image: Example of a correct usage. A code snippet reading 'color: $blue-300;' showing direct use of a color token variable. (source: https://preview.spectrum.adobe.com/foundations/color/media_19ba20ccdb3e3fc3e9c9a566869ab3fff8945b562.png?width=750&format=png&optimize=medium)Image: Example of a incorrect usage. A code snippet reading 'color: lighten($blue-300, 15%);' showing a color token being programmatically modified rather than used as-is. (source: https://preview.spectrum.adobe.com/foundations/color/media_1175eb8974edd034d8ed87844041434397f19af31.png?width=750&format=png&optimize=medium)

@@ -1,7 +1,7 @@
 ---
 title: Drop shadow
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/drop-shadow
+source_url: https://preview.spectrum.adobe.com/foundations/styles/object-styles/drop-shadow
 last_updated: '2026-08-14'
 status: published
 tags:
@@ -20,6 +20,8 @@ hub_path: /foundations/styles/object-styles/drop-shadow
 
 ## Principles
 
+Image: An orange rounded diamond outline with a faint reflection beneath it, illustrating how drop shadow creates a sense of elevation above the surface. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1fd2551bf64f7d1ba1e4a78bccbfab61dfe691906.png?width=750&format=png&optimize=medium)Image: A 2x2 grid of rounded square icons where the bottom-left square is highlighted with a purple gradient and stronger shadow, illustrating how drop shadow supports visual emphasis. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_15bd648d872cc9d7f466b226213858ea74155a8e0.png?width=750&format=png&optimize=medium)
+
 ### Create elevation
 
 Use drop shadows to indicate when content appears above other content. Shadows help establish spatial relationships between interface elements and reinforce the visual hierarchy of the interface.
@@ -30,17 +32,23 @@ Drop shadows can also be used to emphasize important interface elements. When ap
 
 ## Drop shadow system
 
-Drop shadows are most commonly used when content appears above other content, such as popovers and floating panels. They can also emphasize important interface elements, helping maintain a clear visual hierarchy and consistent sense of depth. Each shadow style is intended for a specific visual purpose. Emphasized, default In certain situations, drop shadows can also be used to provide emphasis to containers within a page. When used appropriately, content that requires more attention will visually stand out, as if it’s slightly elevated or above other content. Emphasized, hover If a whole container is interactive, such as in a select box, the drop shadow becomes emphasized-hover on hover. Elevated Containers that appear on top of content, such as menus and tooltips, have drop shadows to show elevation. Dragged Containers don't use drop shadows by default. When a container is dragged, a drop shadow is applied to indicate that it has been lifted above the interface. This behavior applies to both default and emphasized containers.
+Drop shadows are most commonly used when content appears above other content, such as popovers and floating panels. They can also emphasize important interface elements, helping maintain a clear visual hierarchy and consistent sense of depth. Each shadow style is intended for a specific visual purpose. Image: Four rounded white squares numbered 1 through 4 with progressively larger and softer drop shadows, illustrating a scale of shadow depth values. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1eb322c7f4517cac9f255fac8142ee3406aaa4637.png?width=750&format=png&optimize=medium) Emphasized, default In certain situations, drop shadows can also be used to provide emphasis to containers within a page. When used appropriately, content that requires more attention will visually stand out, as if it’s slightly elevated or above other content. Emphasized, hover If a whole container is interactive, such as in a select box, the drop shadow becomes emphasized-hover on hover. Elevated Containers that appear on top of content, such as menus and tooltips, have drop shadows to show elevation. Dragged Containers don't use drop shadows by default. When a container is dragged, a drop shadow is applied to indicate that it has been lifted above the interface. This behavior applies to both default and emphasized containers.
 
 ### Drop shadow details
+
+### Image: A stack of three rounded diamond shapes labeled 1, 2, and 3, illustrating the layered composition of a drop shadow effect. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1e55ad9fc6b8cfceff097a32b46183149d33d9353.png?width=750&format=png&optimize=medium)
 
 ### Composition
 
 Spectrum drop shadows are composed of three layers that work together to create a natural sense of depth while preserving the shape of the component. Key shadow Defines the edge of the component against the background. Transition shadow Softens the transition between the key and ambient shadows to create a smoother appearance. Ambient shadow Creates the overall sense of depth and determines the total size of the shadow.
 
+### Image: A dark-theme context menu titled "Publish and export" with options for Quick export, Open a copy, and Share link, showing a submenu with Illustrator for iPad and Illustrator desktop, each panel using shadow to convey layering. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1a3fef3a1425a17547ec0a976a66ac1b4fbf475bd.png?width=750&format=png&optimize=medium)
+
 ### Dark theme
 
 Drop shadows continue to communicate elevation in dark theme, but their appearance is adjusted to maintain sufficient contrast against darker surfaces. Dark theme shadows use three times the opacity of their light theme equivalents. Components that appear above other content, such as popovers, also use a border in dark theme to provide additional separation from the background.
+
+### Image: A card UI with an image header and placeholder text lines, shown with a drop shadow against a gray background to illustrate shadow overlay on a light surface. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_16e79c0908d8d8b02aeb26adfa231019beaac6661.png?width=750&format=png&optimize=medium)
 
 ### Overlay
 

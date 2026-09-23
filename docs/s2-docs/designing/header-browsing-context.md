@@ -1,7 +1,7 @@
 ---
 title: 'Browsing context: Header'
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/header-browsing-context
+source_url: https://preview.spectrum.adobe.com/foundations/app-frame/header-browsing-context
 last_updated: '2026-09-04'
 status: published
 tags:
@@ -17,7 +17,7 @@ hub_path: /foundations/app-frame/header-browsing-context
 
 ## Anatomy
 
-There are several parts of the header that are consistent across all Adobe products:
+Image: Diagram showing the parts of the browsing context header. From first to last in appearance in the UI: A, Top App Bar (TAB) switcher, B, product lock-up, C, navigation, D, search, E, universal nav, also known as universal navigation, F, side navigation state control for mobile. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1c71c5357eee621c996771acd76a82787239342c7.png?width=750&format=png&optimize=medium) There are several parts of the header that are consistent across all Adobe products:
 
 ### A. Top App Bar (TAB) switcher
 
@@ -147,9 +147,11 @@ State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSu
 
 ### Limit the number of call-to-action (CTA) buttons
 
-As a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy. If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs.
+As a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy. If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs. Image: Example of correct usage of using limited call-to-action buttons. One button, label Get desktop app. An icon-only button appears to the right, visible label on hover, Join the Discord. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_16fd8edfc024330c607cbc6d5c94ca4c187ed6276.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of including too many call to action buttons. First button, label Get desktop app. Second button, label Join the Discord. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1bdd7c92cc1e26fcf2c5d56a39f4c284c077d040c.png?width=750&format=png&optimize=medium)
 
 ### Examples
+
+Image: Diagram showing various examples of the app frame header. First example, side navigation with a search field. Second example, side navigation with a minimized search field. Third example, header navigation without search. Fourth example, header navigation with a minimized search field. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1d6bc2d88c41f9828a0793f7d75b219f595af6868.png?width=750&format=png&optimize=medium)
 
 ## Accessibility
 
@@ -163,4 +165,4 @@ State Cursor Description HoverPointer Product icon and name is a link and should
 
 ## Notes on the editing context
 
-Diagram with notes about the app frame header in the editing context. If there’s a menu represented by a hamburger icon, such as the application menu in Creative Cloud, it should be shown to the left of the product logo for continuity with the browsing context. The product name can be hidden in the editing context in order to provide more room for other actions. The height of the header should be the same as in the browsing context (56 px).
+Diagram with notes about the app frame header in the editing context. If there’s a menu represented by a hamburger icon, such as the application menu in Creative Cloud, it should be shown to the left of the product logo for continuity with the browsing context. The product name can be hidden in the editing context in order to provide more room for other actions. The height of the header should be the same as in the browsing context (56 px). Image: Diagram with notes about the app frame header in the editing context. If there’s a menu represented by a hamburger icon, such as the application menu in Creative Cloud, it should be shown to the left of the product logo for continuity with the browsing context. The product name can be hidden in the editing context in order to provide more room for other actions. The height of the header should be the same as in the browsing context (56 px). (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_14ef38e0e7935f59101fd8204c21d2ea38023bc05.png?width=750&format=png&optimize=medium)

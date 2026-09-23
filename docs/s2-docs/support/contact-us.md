@@ -1,7 +1,7 @@
 ---
 title: Contact us
 category: support
-source_url: https://main--spectrum-hub--adobe.aem.live/support/contact-us
+source_url: https://preview.spectrum.adobe.com/support/contact-us
 last_updated: '2026-09-08'
 status: published
 tags:

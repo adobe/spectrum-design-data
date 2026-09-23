@@ -16,7 +16,15 @@
     },
     {
       "type": "guideline",
+      "content": "Image: UI examples showing medium border widths: a radio button, checkbox, and toggle switch outline, a focused pill-shaped button with a blue border, an unfocused pill button, and a bordered text input field with label and value. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1a088c65b63f7e399bb131a44ff80e74953321fff.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
       "content": "Medium borders (2 px) are the default size for most contexts. Components with border options use the default medium size, as well as focus rings which appear on keyboard focus."
+    },
+    {
+      "type": "guideline",
+      "content": "Image: A list UI with two collapsible \"Title\" sections separated by thin hairline borders, and a checklist titled \"Fruits\" with thin-bordered rows for Apples, Oranges, and Pears. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1435bfbbdbca2c110617d050031937775d717f036.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -24,7 +32,15 @@
     },
     {
       "type": "guideline",
+      "content": "Image: Adobe GenStudio interface with two magnified callouts comparing a rounded corner border end cap against a squared-off border end cap on a sidebar element. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_149631f31e7ffca6e95f54f0128c7dadc81cc445b.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
       "content": "Context-dependent end caps.\n\nThe rounding of divider end caps changes depending on how the divider is used. When a divider extends to both edges of a container, it uses square ends so it meets each edge cleanly. When a divider has visible gaps at both ends, it uses fully rounded end caps."
+    },
+    {
+      "type": "guideline",
+      "content": "Image: Close-up of an app toolbar with a bordered rounded container grouping a percentage dropdown, share icon, upload icon, and blue Download button, next to ungrouped icon buttons. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1fd7f0c9ddbc8acc442c352f72f2f9f1888c96383.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -35,7 +51,7 @@
       "content": "Platform availability.\n\nThese tokens are currently available on web. Guidance for additional platforms will be added in a future release. StyleTokenValueSmall border-width-100 1 pxMedium border-width-200 2 pxLarge border-width-400 4 px"
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/border-width",
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/border-width",
   "lastUpdated": "2026-08-14",
   "status": "published",
   "tags": ["border width", "divider"]

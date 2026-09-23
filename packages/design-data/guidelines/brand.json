@@ -12,7 +12,7 @@
     },
     {
       "type": "guideline",
-      "content": "Product logos, app icons, and lockups.\n\nA product logo or tile color does not change, even if the background is dark. One-color product logos are for usage as workflow icons."
+      "content": "Product logos, app icons, and lockups.\n\nA product logo or tile color does not change, even if the background is dark. One-color product logos are for usage as workflow icons. Image: \"Adobe Express branding with colorful 'A' app icon and text lockups shown in horizontal and vertical orientations.\" (source: https://preview.spectrum.adobe.com/foundations/media_1b535db2549466c3c1f81290211e8cb97e3b0277c.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -32,19 +32,19 @@
     },
     {
       "type": "guideline",
-      "content": "Creative Cloud uses Adobe red and six product-specific colors, each with corresponding light and dark values."
+      "content": "Creative Cloud uses Adobe red and six product-specific colors, each with corresponding light and dark values. Image: Color palette grid with Adobe app icons (Ai, Dn, Ps, Ae, Xd, Id) above corresponding color swatches and hex codes. (source: https://preview.spectrum.adobe.com/foundations/media_1fc8580f8a8ad1855ad6d91b5e412d1323e574af9.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Document Cloud’s colors align to Spectrum. There’s three primary product colors plus Adobe red, as well as six secondary colors."
+      "content": "Document Cloud’s colors align to Spectrum. There’s three primary product colors plus Adobe red, as well as six secondary colors. Image: Grid of color swatches with hex codes, featuring Adobe Acrobat icons in red, purple, and teal at the top row. (source: https://preview.spectrum.adobe.com/foundations/media_1e553a0a604bb2734012ea65f4a3545209e9749b7.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Experience Cloud’s colors align to Spectrum. The foundational apps use cool colors, while the functional apps use warm colors."
+      "content": "Experience Cloud’s colors align to Spectrum. The foundational apps use cool colors, while the functional apps use warm colors. Image: Diagram categorizing \"Foundational\" and \"Functional\" elements with labeled colored squares: Insights, Content, Data, Setup, Marketing, Ads, Commerce. (source: https://preview.spectrum.adobe.com/foundations/media_18af562eadd246ad3934851d77fca39cfca07bed5.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Adobe Express uses three colors. Indigo is used for a fill accent color and for highlighting main metaphors. Spectrum gray is the main stroke color."
+      "content": "Adobe Express uses three colors. Indigo is used for a fill accent color and for highlighting main metaphors. Spectrum gray is the main stroke color. Image: Three colored squares with hex codes: light purple (#DEDEF9), blue (#5C5CE0), and black (#242424) displayed in a row. (source: https://preview.spectrum.adobe.com/foundations/media_1704be25c74bac41af593635d0107205d2d97aec0.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -55,7 +55,7 @@
       "content": "Request assets from the Brand team.\n\nBrand considerations are highly strategic, and coherence is a priority. Don’t make your own illustrations, colors, gradients, logos, or other assets. The Brand team will work with you to create assets that align to your product’s strategy and timing. Any new Spectrum 2 assets must be requested directly from the Brand team. It’s very important that you do not create your own. To view existing S2 Illustrations, visit the S2 / Illustrations library in Figma. If you need a new illustration, make a request using Workfront."
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/brand",
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/brand",
   "lastUpdated": "2026-09-10",
   "status": "published",
   "tags": [

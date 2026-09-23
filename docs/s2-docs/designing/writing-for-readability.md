@@ -1,7 +1,7 @@
 ---
 title: Writing for readability
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-for-readability
+source_url: https://preview.spectrum.adobe.com/content/language-and-inclusivity/writing-for-readability
 last_updated: '2026-09-04'
 status: published
 tags:
@@ -27,7 +27,7 @@ Writing for a 6th-grade reading level on the Flesch-Kincaid readability scale in
 
 ### Choose words consciously
 
-Most common nouns and actions have synonyms that can add unnecessary complexity. Use words that would be at a 6th-grade reading level. Preferred Avoid BuyPurchaseHelpAssistAboutApproximatelyLikeSuch as
+Most common nouns and actions have synonyms that can add unnecessary complexity. Use words that would be at a 6th-grade reading level. Image: An example showing the correct usage. Help. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1844b8b156b2f87131aae2d756bceb3ffe1cf0837.png?width=750&format=png&optimize=medium)Image: An example showing the incorrect usage. Assist. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_16067fca3f35f7faad8d77ba7015cfde586c2a7fc.png?width=750&format=png&optimize=medium) Preferred Avoid BuyPurchaseHelpAssistAboutApproximatelyLikeSuch as
 
 ## Write universally
 
@@ -35,11 +35,11 @@ Imagine that you are having a friendly conversation with your audience to provid
 
 ### Avoid internal jargon without explaining what it means
 
-Put yourself in the mindset of someone who's new to our products, and new to the industry where our products are used. Do they understand the jargon we use every day? Are we giving enough context for them to understand? Preferred Avoid Creative Cloud FilesCC FilesXD cloud documents, a new way to collaborate on any deviceIntroducing XD cloud docs!Please accept the Terms of Service before continuing.There was a RAISE without a handler.
+Put yourself in the mindset of someone who's new to our products, and new to the industry where our products are used. Do they understand the jargon we use every day? Are we giving enough context for them to understand? Image: An example showing the correct usage. Please accept the Terms of Service before continuing. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1af0b6d0d56faae5d7362957f0a00ef3c496364fe.png?width=750&format=png&optimize=medium)Image: An example showing the incorrect usage. There was a RAISE without a handler. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_184c1f97b56242ff6177372a5393d55756084dc77.png?width=750&format=png&optimize=medium) Preferred Avoid Creative Cloud FilesCC FilesXD cloud documents, a new way to collaborate on any deviceIntroducing XD cloud docs!Please accept the Terms of Service before continuing.There was a RAISE without a handler.
 
 ### Avoid colloquial language and slang
 
-Slang and colloquialisms don’t make sense to all generations. Avoid ageism by using plain, clear language. Preferred Avoid Select any that applyChoose whatever blows your hair backAgree to terms and conditionsIt be like that sometimesLearn moreGet the deetz
+Slang and colloquialisms don’t make sense to all generations. Avoid ageism by using plain, clear language. Image: An example showing the correct usage. Learn more. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_11fde3bc1f3c1c5efff6dc951b5f248247ccd60de.png?width=750&format=png&optimize=medium)Image: An example showing the incorrect usage. Get the deetz. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1d554b7ba72764b3114ab6b0e3007bf466ae485ca.png?width=750&format=png&optimize=medium) Preferred Avoid Select any that applyChoose whatever blows your hair backAgree to terms and conditionsIt be like that sometimesLearn moreGet the deetz
 
 ## Organize your writing for comprehension
 

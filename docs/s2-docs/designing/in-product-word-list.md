@@ -1,7 +1,7 @@
 ---
 title: In-product word list
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/content/in-product-word-list
+source_url: https://preview.spectrum.adobe.com/content/in-product-word-list
 last_updated: '2026-09-04'
 status: published
 tags:

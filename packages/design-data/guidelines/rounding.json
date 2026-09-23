@@ -24,11 +24,15 @@
     },
     {
       "type": "guideline",
-      "content": "Focus rings use an outer stroke separated from the component by a consistent gap. To maintain visually balanced spacing around every corner radius, Spectrum calculates the focus ring radius using the following formula: &#x3C;outer radius> - &#x3C;gap> = &#x3C;inner radius>"
+      "content": "Image: Diagram of a rounded card with a blue focus ring, labeling outer radius, inner radius, and the gap between the component edge and the focus ring. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1580eaee52110544895d8754b90e30a99e0d27767.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
-      "content": "Nested components.\n\nSpectrum components are designed so that smaller objects use smaller corner radii and larger objects use larger corner radii. When components are nested, this creates optically balanced corners and spacing while maintaining consistent relationships throughout the design system."
+      "content": "Focus rings use an outer stroke separated from the component by a consistent gap. To maintain visually balanced spacing around every corner radius, Spectrum calculates the focus ring radius using the following formula: &#x3C;outer radius> - &#x3C;gap> = &#x3C;inner radius> Image: Diagram of a rounded card containing a small checkbox and heart icon, labeling the large container radius and the small nested component radius. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1238596e6de27dfab676345a245d99aca9c0a01c0.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
+      "content": "Nested components.\n\nSpectrum components are designed so that smaller objects use smaller corner radii and larger objects use larger corner radii. When components are nested, this creates optically balanced corners and spacing while maintaining consistent relationships throughout the design system. Image: Diagram of a dropdown input field, labeling the medium radius of the field and the small radius of the nested chevron button. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_117277faee1a1249b79388f9456db5a94d180aa4b.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -37,7 +41,15 @@
     { "type": "guideline", "content": "Spectrum iOS" },
     {
       "type": "guideline",
+      "content": "Image: Two pink rounded squares labeled \"Off\" and \"On,\" comparing a standard rounded corner to a smoothed squircle-style corner, used as the reduced-motion alternative to the corner smoothing animation. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1daec0c3ae55113ee136895ff6e8c32f68c1a0c74.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
       "content": "Corner smoothing.\n\nUse Apple’s continuous corner style for rounded shapes, such as rounded rectangles and capsules. Continuous corners create a smooth transition between curved and straight edges and align with the corner treatment used throughout iOS system interfaces. Learn more in Apple’s Developer Documentation: RoundedCornerStyle"
+    },
+    {
+      "type": "guideline",
+      "content": "Image: Static illustration of a pink rounded square with a black outline highlighting the nested outer and inner corner curves, used as the reduced-motion alternative to the concentric corners animation. (source: https://preview.spectrum.adobe.com/foundations/styles/object-styles/media_1f932489f41beb1e5357ccf616be1e590f096f48b.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",
@@ -48,7 +60,7 @@
       "content": "Platform availability.\n\nThese tokens are currently available on web. Guidance for additional platforms will be added in a future release. StyleTokenValueSmall corner-radius-small-default 4 pxMedium corner-radius-medium-default 8 pxLarge corner-radius-large-default 10 pxExtra-large corner-radius-extra-large-default 16 pxFull no token, calculated with formula: height ÷ 2 --"
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/foundations/styles/object-styles/rounding",
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/rounding",
   "lastUpdated": "2026-08-14",
   "status": "published",
   "tags": [

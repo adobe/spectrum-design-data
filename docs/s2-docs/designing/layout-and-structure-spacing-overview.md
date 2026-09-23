@@ -1,0 +1,73 @@
+---
+title: Spacing
+category: designing
+source_url: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/overview
+last_updated: '2026-08-13'
+status: published
+tags:
+  - Spacing
+  - Proximity
+  - Negative space
+  - Layout spacing
+  - Component spacing
+  - Relational
+  - Perceptual
+  - Boundaries
+  - Structure
+  - Cognitive load
+hub_path: /foundations/layout-and-structure/spacing/overview
+---
+
+# Spacing
+
+## Principles
+
+Spectrum's spacing system is built on three principles, which are grounded in how the visual system perceives and interprets proximity.
+
+### Image: Stylized 3D icon of a pentagon shape made of glowing green connected nodes and lines, like a graph or network diagram, on a soft white background. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1c4326bd9edb77f5d2a52d5aa0e940ddcc9550aa8.png?width=750&format=png&optimize=medium)
+
+### Image: Stylized 3D icon of four rounded outline squares of varying sizes arranged in a 2x2 grid, in a blue-purple gradient, resembling an app grid or dashboard icon. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_184d3e0ac92561baea450f5c37769314753e05828.png?width=750&format=png&optimize=medium)
+
+### Image: Stylized 3D icon of an eye with a purple-to-pink gradient, featuring a simplified almond-shaped outline and a comma-shaped iris, on a soft white background. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1235ef29d70ad3b98566f79b372b39bd4dc8cf5e7.png?width=750&format=png&optimize=medium)
+
+### Relational
+
+Every spacing decision carries meaning. Proximity communicates what belongs together, what is separate, and how an interface is organized.
+
+### Proportional
+
+Not all elements grow at the same rate. Spectrum uses distinct spacing scales, each tuned to the elements they serve. This keeps values consistent and harmonious across all sizes and contexts.
+
+### Perceptual
+
+Spectrum's spacing values are based on visual perception. They are designed to support accurate visual interpretation and maintain consistent relationships between interface elements across different contexts.
+
+## What spacing does
+
+Spacing tells people what belongs together, what is separate, and how content is organized. It works because of how the visual system perceives proximity: elements placed close together are seen as related. As the distance between them increases, that relationship weakens. With enough separation, elements read as completely independent.
+
+### Relationships
+
+### Relationships
+
+Closer elements are more associated. Distant elements are more independent. Image: Diagram showing a list of content cards grouped by relevance: the top two cards are bracketed and labeled "More related," while all three cards together are bracketed and labeled "Less related" on the right side. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_160a34223f929bf2e94eee1cb1d58d7ec90ec86a8.png?width=750&format=png&optimize=medium)
+
+### Boundaries
+
+Consistent proximity within a group signals that all members are equally related. Image: Diagram showing two identical pairs of content cards, each pair enclosed in a dashed pink box, illustrating a repeated grouping structure. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1201af3d7c478557df34557c19dab71dc46fd9ad8.png?width=750&format=png&optimize=medium)
+
+### Structure
+
+The overall distribution of space shows how content is organized within a layout. Image: Grayscale wireframe mockup of an application interface showing a top navigation bar with tabs, a left sidebar with icon buttons, and a right panel with four labeled sliders and a dropdown menu. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_17a7999c3c47bf695711fccc10e0799cbd6b1957a.png?width=750&format=png&optimize=medium) These three things are connected. Change one, and the others shift too. Spacing decisions are not visual alone, but rather they are structural and meaningful. Spacing also shapes how an interface feels. Negative space (the open areas between and around elements) creates a sense of calm and helps people focus on what matters. It's one of the most effective ways to create visual balance and direct user attention within a layout. Image: Grayscale wireframe mockup of a webpage or app interface with a top navigation bar, a profile icon and menu tabs, a left sidebar list, and a highlighted content panel with text lines and two buttons. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_11265bfff799dcff670349049460f288b6195ee05.png?width=750&format=png&optimize=medium)Less negative space creates clutter and increases cognitive load. Image: Diagram showing two identical pairs of content cards, each pair enclosed in a dashed pink box, illustrating a repeated grouping structure. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1770c6aefbbcb0ef043022106ea246562c4382558.png?width=750&format=png&optimize=medium)More negative space creates a calm, focused experience.
+
+## Types of spacing
+
+Every spacing decision falls into one of two tracks. Layout spacing is for anything above the component level, such as the relationships between components, patterns, and regions of a product UI. Component spacing is for anything within a component. Layout spacing and component spacing scale at different rates and serve different purposes. Within a single component, different spacings may be present at the same time, each scaling according to its own role.
+
+### Jump to
+
+Image: Stylized 3D icon of a rounded square divided into three panels—one wide top panel and two smaller bottom panels—in a purple gradient, representing a dashboard or layout structure. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1caf3f715f3bcde815b184c56914ddf0808a00ffd.png?width=750&format=png&optimize=medium) Layout spacing Layout spacing Image: Stylized 3D icon of two toggle switches stacked vertically in a blue gradient—the top toggle shown in the off position and the bottom toggle shown in the on position. (source: https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/media_164937f2c0285c78dd62f96e1e82519a58de2a3e6.png?width=750&format=png&optimize=medium) Component spacing Component spacing
+
+## Resources
+
+Gestalt Psychology, Wikipedia Weber-Fechner Law, Wikipedia Stevens' Power Law, Wikipedia
