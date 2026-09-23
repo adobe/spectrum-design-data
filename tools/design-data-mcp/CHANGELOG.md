@@ -1,5 +1,18 @@
 # @adobe/design-data-mcp
 
+## 1.8.2
+
+### Patch Changes
+
+- [#1492](https://github.com/adobe/spectrum-design-data/pull/1492) [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add guideline discovery to the agent MCP server.
+  - **tools/design-data-agent-mcp**: add the `list_guidelines` read tool and shared catalog loading.
+  - **tools/design-data**: expose manifest-backed guideline catalog loading.
+  - **tools/design-data-mcp**: reuse the shared guideline catalog loader.
+
+- Updated dependencies [[`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56), [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3)]:
+  - @adobe/spectrum-design-data@3.2.5
+  - @adobe/design-data@3.2.0
+
 ## 1.8.1
 
 ### Patch Changes
