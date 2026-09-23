@@ -72,6 +72,7 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: Fetch Spectrum Hub pages
+        continue-on-error: true
         env:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
           FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
@@ -95,6 +96,7 @@ jobs:
           const pages = Array.isArray(report.pages) ? report.pages : [];
           const written = Number(report.written ?? 0);
           const selectedRows = Number(report.selectedRows ?? 0);
+          const fetchError = typeof report.error === 'string' ? report.error : null;
           const fragmentsFailed = pages.reduce((sum, page) => sum + Number(page.fragmentsFailed ?? 0), 0);
           const fragmentsResolved = pages.reduce((sum, page) => sum + Number(page.fragmentsResolved ?? 0), 0);
           const failureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
@@ -110,10 +112,14 @@ jobs:
             failureThreshold,
             hasLimit,
             weakWriteVolume,
+            fetchError,
             invalid,
           }, null, 2));
 
           if (invalid) {
+            if (fetchError) {
+              console.error(`Fetch guard failed: fetcher reported ${fetchError}`);
+            }
             console.error('Fetch guard failed: too many fragment failures or too few pages were written.');
             process.exit(1);
           }
