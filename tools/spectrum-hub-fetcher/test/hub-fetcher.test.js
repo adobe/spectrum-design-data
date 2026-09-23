@@ -11,8 +11,12 @@
  */
 
 import test from "ava";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { parse } from "node-html-parser";
+
+import { main } from "../src/cli.js";
 
 import { inlineFragments } from "../src/fragments.js";
 import { stripNoise, splitSections } from "../src/sections.js";
@@ -73,4 +77,44 @@ test("hub fetcher emits schema-compatible markdown from live-page HTML fixtures"
     parsed.sections.slice(0, 3).map((section) => section.heading),
     ["Anatomy", "Component options", "States"],
   );
+});
+
+test("hub fetcher writes a failure report when the query index is unreachable", async (t) => {
+  const tempDir = mkdtempSync(join(tmpdir(), "spectrum-hub-fetcher-"));
+  const reportPath = join(tempDir, "hub-fetch-report.json");
+  const failure = new Error("connect ECONNREFUSED 127.0.0.1:1");
+
+  try {
+    await t.throwsAsync(
+      main(
+        [
+          "node",
+          "src/cli.js",
+          "--origin",
+          "http://127.0.0.1:1",
+          "--report",
+          reportPath,
+        ],
+        {
+          clientFactory: () => ({
+            fetchQueryIndex: async () => {
+              throw failure;
+            },
+          }),
+        },
+      ),
+      { is: failure },
+    );
+
+    const report = JSON.parse(readFileSync(reportPath, "utf8"));
+    t.is(report.origin, "http://127.0.0.1:1");
+    t.is(report.totalRows, 0);
+    t.is(report.selectedRows, 0);
+    t.is(report.written, 0);
+    t.deepEqual(report.dropped, []);
+    t.deepEqual(report.pages, []);
+    t.is(report.error, failure.message);
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
 });
