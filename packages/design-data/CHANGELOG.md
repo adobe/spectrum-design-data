@@ -1,5 +1,13 @@
 # @adobe/spectrum-design-data
 
+## 3.3.0-beta.2
+
+### Minor Changes
+
+- [#1497](https://github.com/adobe/spectrum-design-data/pull/1497) [`f826ac2`](https://github.com/adobe/spectrum-design-data/commit/f826ac2262876cbbd8d949a45b3b471e9515d7d8) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync guideline content from Spectrum Hub preview.
+  - **packages/design-data/guidelines**: 69 guideline documents (was 49).
+  - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to 69.
+
 ## 3.3.0-beta.1
 
 ### Minor Changes
