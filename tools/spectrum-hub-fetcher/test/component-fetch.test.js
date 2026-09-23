@@ -105,3 +105,30 @@ test("fetchComponentPair fetches both platforms when both exist", async (t) => {
   t.true(swc.exists);
   t.deepEqual(rsp.sections, swc.sections);
 });
+
+test("fetchComponentPage resolves image sources against the component page URL", async (t) => {
+  const client = createFakeClient({
+    [`${RSP_COMPONENT_PREFIX}/accordion`]: `
+      <main>
+        <h1>Accordion</h1>
+        <h2>Anatomy</h2>
+        <img src="../assets/anatomy.png" alt="Accordion anatomy" />
+      </main>
+    `,
+  });
+
+  const result = await fetchComponentPage(
+    client,
+    RSP_COMPONENT_PREFIX,
+    "accordion",
+    { siteOrigin: "https://main--spectrum-hub--adobe.aem.live" },
+  );
+
+  const text = result.sections.map((section) => section.text).join(" ");
+  t.true(text.includes("Image: Accordion anatomy"));
+  t.true(
+    text.includes(
+      "source: https://main--spectrum-hub--adobe.aem.live/web/rsp/assets/anatomy.png",
+    ),
+  );
+});

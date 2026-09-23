@@ -88,6 +88,7 @@ export function resolveTargetCategory(componentsDir, targetSlug) {
  *   client: { fetchPage: (path: string) => Promise<{html:string}|null> },
  *   slug: string,
  *   componentsDir: string,
+ *   siteOrigin?: string,
  * }} args
  * @returns {Promise<{
  *   slug: string,
@@ -99,8 +100,13 @@ export function resolveTargetCategory(componentsDir, targetSlug) {
  *   fragmentsFailed: number,
  * }>}
  */
-export async function syncSlug({ client, slug, componentsDir }) {
-  const { rsp, swc } = await fetchComponentPair(client, slug);
+export async function syncSlug({
+  client,
+  slug,
+  componentsDir,
+  siteOrigin = "https://spectrum.adobe.com",
+}) {
+  const { rsp, swc } = await fetchComponentPair(client, slug, { siteOrigin });
 
   if (!rsp.exists) {
     // A slug component-map.js's snapshot expected to exist no longer does — the

@@ -123,7 +123,13 @@ async function main() {
   const results = await mapWithConcurrency(
     selectedSlugs,
     args.concurrency,
-    (slug) => syncSlug({ client, slug, componentsDir: args.componentsDir }),
+    (slug) =>
+      syncSlug({
+        client,
+        slug,
+        componentsDir: args.componentsDir,
+        siteOrigin: args.origin,
+      }),
   );
 
   let written = 0;

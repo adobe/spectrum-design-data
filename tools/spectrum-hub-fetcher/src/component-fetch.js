@@ -44,7 +44,7 @@ export const SWC_COMPONENT_PREFIX = "/web/swc/components";
  * @param {{ fetchPage: (path: string) => Promise<{html:string}|null> }} client
  * @param {string} prefix - `RSP_COMPONENT_PREFIX` or `SWC_COMPONENT_PREFIX`
  * @param {string} slug
- * @param {{ warn?: (message: string) => void }} [options]
+ * @param {{ warn?: (message: string) => void, siteOrigin?: string }} [options]
  * @returns {Promise<{
  *   path: string,
  *   exists: boolean,
@@ -58,7 +58,7 @@ export async function fetchComponentPage(
   client,
   prefix,
   slug,
-  { warn = () => {} } = {},
+  { warn = () => {}, siteOrigin = "https://spectrum.adobe.com" } = {},
 ) {
   const path = `${prefix}/${slug}`;
   const page = await client.fetchPage(path);
@@ -76,7 +76,7 @@ export async function fetchComponentPage(
 
   const root = parse(page.html);
   const fragments = await inlineFragments(root, client.fetchPage, { warn });
-  stripNoise(root);
+  stripNoise(root, { baseUrl: `${siteOrigin}${path}` });
 
   const sections = splitSections(root);
   const title = root.querySelector("h1")?.text.trim() || slug;
@@ -102,7 +102,7 @@ export async function fetchComponentPage(
  *
  * @param {{ fetchPage: (path: string) => Promise<{html:string}|null> }} client
  * @param {string} slug
- * @param {{ warn?: (message: string) => void }} [options]
+ * @param {{ warn?: (message: string) => void, siteOrigin?: string }} [options]
  * @returns {Promise<{ slug: string, rsp: object, swc: object }>}
  */
 export async function fetchComponentPair(client, slug, options = {}) {
