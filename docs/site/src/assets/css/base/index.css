@@ -138,7 +138,10 @@ menu .active:active {
 
 @media screen and (max-width: 768px) {
   menu {
+    width: 100%;
     margin-top: var(--spacing-default);
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
