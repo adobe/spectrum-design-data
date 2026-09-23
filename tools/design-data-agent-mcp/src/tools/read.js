@@ -26,12 +26,11 @@
  * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
  * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
  * validate_usage all reflect it (they read config.cascadeDataPath instead of
- * config.dataPath when config.cascadeActive). describe_component/describe_guideline
- * do not — components/relationships/guidelines still come from config.componentsDir /
- * config.relationshipsDir / config.guidelinesDir, which resolve from the embedded
- * @adobe/spectrum-design-data package regardless of cascade state. Cascade manifests
- * can declare guidelines in the Rust graph, but bootstrap currently materializes tokens
- * only; cascade-aware component/guideline reads remain a separate follow-up.
+ * config.dataPath when config.cascadeActive). Cascade bootstrap copies the
+ * fallback component/relationship/guideline catalogs into that snapshot and
+ * overlays manifest extensions, so describe_component/describe_guideline/list_guidelines
+ * read the same active cascade while preserving the embedded fallback for inactive
+ * cascades.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
@@ -97,6 +96,15 @@ function validateComponentId(id) {
 
 function validateGuidelineId(id) {
   validateKebabId(id, "guideline");
+}
+
+function getCascadeAwareDir(baseDir, subdir) {
+  if (!baseDir || !config.cascadeActive || !config.cascadeDataPath) {
+    return baseDir;
+  }
+
+  const cascadeDir = join(config.cascadeDataPath, subdir);
+  return existsSync(cascadeDir) ? cascadeDir : baseDir;
 }
 
 export function createReadTools() {
@@ -237,7 +245,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateComponentId(id);
-        const componentsDir = config.componentsDir;
+        const componentsDir = getCascadeAwareDir(
+          config.componentsDir,
+          "components",
+        );
         if (!componentsDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
@@ -267,7 +278,10 @@ export function createReadTools() {
         // of the component file into relationships/<id>.json — merge them back
         // in so callers relying on this tool for a component's token bindings
         // still see them (see spectrum-design-data-x29.4).
-        const relationshipsDir = config.relationshipsDir;
+        const relationshipsDir = getCascadeAwareDir(
+          config.relationshipsDir,
+          "relationships",
+        );
         const relationshipFile = relationshipsDir
           ? join(relationshipsDir, `${id}.json`)
           : null;
@@ -301,7 +315,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateGuidelineId(id);
-        const guidelinesDir = config.guidelinesDir;
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
         if (!guidelinesDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load guideline "${id}". ` +
@@ -348,7 +365,10 @@ export function createReadTools() {
         additionalProperties: false,
       },
       async handler({ category } = {}) {
-        const guidelinesDir = config.guidelinesDir;
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
         if (!guidelinesDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot list guidelines. ` +

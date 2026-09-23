@@ -17,11 +17,22 @@
  * The CLI already does config discovery, github fetch/cache, and manifest-cascade
  * application on every data-touching subcommand — this just shells out to it once
  * (`design-data query --filter "" --format json`, cwd = the config's directory)
- * and materializes the result as a single `*.tokens.json` cascade-array file in a
- * temp dir, which loadDataset()/validateDataset() already know how to read.
+ * and materializes the result as a cascade dataset in a temp dir, which
+ * loadDataset()/validateDataset() already know how to read. Catalog directories
+ * are copied from the configured fallback dataset and then overlaid with any
+ * manifest extensions so component/guideline reads see the same cascade.
  */
 
-import { existsSync, mkdtempSync, statSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { runCli } from "./cli.js";
@@ -30,6 +41,80 @@ import { runCli } from "./cli.js";
 function resolveConfigDir(configPath) {
   if (!existsSync(configPath)) return null;
   return statSync(configPath).isDirectory() ? configPath : dirname(configPath);
+}
+
+function resolveManifestPath(configDir) {
+  const configPath = join(configDir, ".design-data.toml");
+  if (!existsSync(configPath)) return null;
+
+  const configText = readFileSync(configPath, "utf-8");
+  const match = configText.match(/^\s*manifest\s*=\s*["']([^"']+)["']\s*$/m);
+  const manifestPath = join(configDir, match?.[1] ?? "manifest.json");
+  return existsSync(manifestPath) ? manifestPath : null;
+}
+
+function materializeCatalogs(config, cascadeDir, configDir) {
+  const manifestPath = resolveManifestPath(configDir);
+  let extensionsDir = null;
+  if (manifestPath) {
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+    extensionsDir = join(
+      dirname(manifestPath),
+      manifest.extensionsDir ?? "extensions",
+    );
+  }
+
+  for (const [key, subdir] of [
+    ["componentsDir", "components"],
+    ["relationshipsDir", "relationships"],
+    ["guidelinesDir", "guidelines"],
+  ]) {
+    const targetDir = join(cascadeDir, subdir);
+    mkdirSync(targetDir, { recursive: true });
+    const fallbackDir = config[key];
+    if (fallbackDir && existsSync(fallbackDir)) {
+      cpSync(fallbackDir, targetDir, { recursive: true, force: true });
+    }
+    const extensionDir = extensionsDir && join(extensionsDir, subdir);
+    if (extensionDir && existsSync(extensionDir)) {
+      cpSync(extensionDir, targetDir, { recursive: true, force: true });
+      if (subdir === "guidelines") {
+        mergeGuidelineManifest(targetDir, extensionDir);
+      }
+    }
+  }
+}
+
+function mergeGuidelineManifest(targetDir, extensionDir) {
+  const manifestPath = join(targetDir, "manifest.json");
+  const manifest = existsSync(manifestPath)
+    ? JSON.parse(readFileSync(manifestPath, "utf-8"))
+    : { guidelines: [] };
+  const entries = new Map(
+    (manifest.guidelines ?? []).map((entry) => [entry.slug, entry]),
+  );
+
+  for (const file of readdirSync(extensionDir)) {
+    if (!file.endsWith(".json") || file === "manifest.json") continue;
+    const document = JSON.parse(
+      readFileSync(join(extensionDir, file), "utf-8"),
+    );
+    const slug = document.name ?? file.replace(/\.json$/, "");
+    entries.set(slug, {
+      slug,
+      ...(document.title && { title: document.title }),
+      ...(document.category && { category: document.category }),
+      ...(document.status && { status: document.status }),
+      ...(document.sourceUrl && { sourceUrl: document.sourceUrl }),
+      file: `guidelines/${file}`,
+    });
+  }
+
+  writeFileSync(
+    manifestPath,
+    JSON.stringify({ ...manifest, guidelines: [...entries.values()] }),
+    "utf-8",
+  );
 }
 
 /**
@@ -74,6 +159,7 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
       JSON.stringify(tokens),
       "utf-8",
     );
+    materializeCatalogs(config, dir, configDir);
 
     config.cascadeDataPath = dir;
     config.cascadeActive = true;

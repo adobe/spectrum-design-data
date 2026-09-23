@@ -77,12 +77,11 @@ node tools/design-data-agent-mcp/src/index.js
 > json`, run from the config's directory) to resolve its `.design-data.toml`
 > source (path/npm/github/git) and any top-level `manifest` cascade, then
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
-> `query_tokens` / `validate_usage` at it instead of the embedded Spectrum
-> snapshot. `describe_component` / `describe_guideline` / `list_guidelines` currently
-> read components/guidelines from `@adobe/spectrum-design-data` regardless of
-> cascade state. Platform manifests can declare guideline extensions, but cascade
-> bootstrap currently materializes tokens only; cascade-aware component/guideline
-> reads are tracked separately. If resolution fails
+> `query_tokens` / `validate_usage` / `describe_component` /
+> `describe_guideline` / `list_guidelines` at it instead of the embedded
+> Spectrum snapshot. Component, relationship, and guideline catalogs are copied
+> from the fallback dataset and overlaid with platform manifest extensions. If
+> resolution fails
 > (e.g. no network for a github source), the server logs a warning and falls
 > back to the embedded/local dataset rather than crashing.
 
