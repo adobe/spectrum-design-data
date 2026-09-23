@@ -139,7 +139,7 @@ function filterRows(rows, prefixes) {
   });
 }
 
-async function fetchPageSections({ row, client }) {
+async function fetchPageSections({ row, client, imageBaseUrl }) {
   const page = await client.fetchPage(row.path);
   if (!page?.html) {
     return {
@@ -155,7 +155,7 @@ async function fetchPageSections({ row, client }) {
   const fragments = await inlineFragments(root, client.fetchPage, {
     warn: console.warn,
   });
-  stripNoise(root);
+  stripNoise(root, { baseUrl: `${imageBaseUrl}${row.path}` });
 
   const sections = splitSections(root);
   const title =
@@ -167,11 +167,52 @@ async function fetchPageSections({ row, client }) {
   return { row, sections, isStub: isStubSections(sections), fragments, title };
 }
 
-async function main() {
-  const args = parseArgs(process.argv);
+function reportPathFor(args) {
+  return args.report
+    ? args.report
+    : join(process.cwd(), "hub-fetch-report.json");
+}
 
-  const client = createClient({ siteOrigin: args.origin });
-  const rows = filterRows(await client.fetchQueryIndex(), args.prefixes);
+function writeFailureReport(args, error) {
+  const report = {
+    generatedAt: new Date().toISOString(),
+    origin: args.origin,
+    prefixes: args.prefixes,
+    totalRows: 0,
+    selectedRows: 0,
+    written: 0,
+    dropped: [],
+    pages: [],
+    error: error instanceof Error ? error.message : String(error),
+  };
+  const reportPath = reportPathFor(args);
+
+  try {
+    writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  } catch (reportError) {
+    throw new Error(
+      `Could not write fetch failure report to ${reportPath}: ${reportError instanceof Error ? reportError.message : String(reportError)}`,
+      { cause: error },
+    );
+  }
+
+  console.error(`Fetch failed; report written to ${reportPath}`);
+}
+
+export async function main(
+  argv = process.argv,
+  { clientFactory = createClient } = {},
+) {
+  const args = parseArgs(argv);
+
+  const client = clientFactory({ siteOrigin: args.origin });
+  let rows;
+  try {
+    rows = filterRows(await client.fetchQueryIndex(), args.prefixes);
+  } catch (error) {
+    writeFailureReport(args, error);
+    throw error;
+  }
   const selectedRows = Number.isFinite(args.limit)
     ? rows.slice(0, args.limit)
     : rows;
@@ -183,7 +224,7 @@ async function main() {
   const fetched = await mapWithConcurrency(
     selectedRows,
     args.concurrency,
-    (row) => fetchPageSections({ row, client }),
+    (row) => fetchPageSections({ row, client, imageBaseUrl: args.origin }),
   );
 
   // Pass 2 — drop stubs/non-canonical duplicates and assign unique slugs.
@@ -246,9 +287,7 @@ async function main() {
     });
   }
 
-  const reportPath = args.report
-    ? args.report
-    : join(process.cwd(), "hub-fetch-report.json");
+  const reportPath = reportPathFor(args);
   writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
   const byReason = dropped.reduce((acc, entry) => {
@@ -265,7 +304,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

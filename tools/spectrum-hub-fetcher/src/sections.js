@@ -21,11 +21,58 @@ function normalize(value) {
     .trim();
 }
 
-export function stripNoise(root) {
+function imageSource(image) {
+  const directSource = ["src", "data-src", "data-lazy-src"]
+    .map((attribute) => image.getAttribute(attribute))
+    .find((value) => value?.trim());
+  if (directSource) {
+    return directSource.trim();
+  }
+
+  const srcset =
+    image.getAttribute("srcset") || image.getAttribute("data-srcset");
+  return srcset?.split(",")[0]?.trim().split(/\s+/)[0] || null;
+}
+
+function imageReference(image, baseUrl) {
+  const alt = (image.getAttribute("alt") || "").trim() || "Unlabeled image";
+  const source = imageSource(image);
+  const caption = image.parentNode?.querySelector?.("figcaption")?.text.trim();
+  let reference = `Image: ${alt}`;
+
+  if (caption) {
+    reference += ` — ${caption}`;
+  }
+
+  if (source) {
+    try {
+      reference += ` (source: ${new URL(source, baseUrl).href})`;
+    } catch {
+      reference += ` (source: ${source})`;
+    }
+  }
+
+  return reference;
+}
+
+export function stripNoise(
+  root,
+  { baseUrl = "https://spectrum.adobe.com/" } = {},
+) {
+  root.querySelectorAll("figure, picture, img").forEach((element) => {
+    const image =
+      element.rawTagName?.toLowerCase() === "img"
+        ? element
+        : element.querySelector("img");
+    if (image) {
+      element.replaceWith(imageReference(image, baseUrl));
+    } else {
+      element.remove();
+    }
+  });
+
   root
-    .querySelectorAll(
-      ".playground, .section-metadata, picture, img, figure, video, style, script",
-    )
+    .querySelectorAll(".playground, .section-metadata, video, style, script")
     .forEach((element) => {
       element.remove();
     });
@@ -55,6 +102,7 @@ export function stripNoise(root) {
  * mirrors the downstream contract: tools/s2-docs-to-document-blocks keys its
  * document blocks off h2 headings, so an h2-less page yields nothing either way.
  */
+
 export function isStubSections(sections) {
   const hasBody = sections.some(
     (section) => section.text || section.level >= 2,
