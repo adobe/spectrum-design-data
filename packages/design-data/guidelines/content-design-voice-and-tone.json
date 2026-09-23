@@ -1,0 +1,37 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/content-design-voice-and-tone.json",
+  "name": "content-design-voice-and-tone",
+  "title": "Voice and tone",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Voice and tone" },
+    {
+      "type": "guideline",
+      "content": "Rational.\n\nClear and understandable Ensure decisions about grammar and mechanics are research-informed and tested. Avoid language that’s overly opinionated, funny, or trendy."
+    },
+    {
+      "type": "guideline",
+      "content": "Human.\n\nFriendly, honest, and responsible Vary sentence style and structure for readability and relatability. Acknowledge and account for users’ emotions."
+    },
+    {
+      "type": "guideline",
+      "content": "Focused.\n\nConcise and simple Describe only what’s needed, without unnecessary decoration. Avoid creating new concepts and only name things when necessary."
+    },
+    {
+      "type": "guideline",
+      "content": "Brand guidelines.\n\nThe Adobe Style Guide's \"Voice\" section defines the principles of our brand voice. This guide also contains a glossary with branded terms and information about applying branding guidelines in a variety of different customer-facing situations."
+    },
+    {
+      "type": "guideline",
+      "content": "Tone Spectrum.\n\nThe right tone depends on a user’s contextual needs and corresponding emotions for that experience, as well as how involved and emotional we need to be in the process. Think of the tone for any given experience as being on a spectrum: Image: Tone can fall on a spectrum going from motivational to helpful, helpful to instructive, instructive to reassuring, reassuring to supportive. (source: https://preview.spectrum.adobe.com/foundations/content-design/media_12f84ec54da70f6105c953de2d8d0e1ab408de467.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
+      "content": "Tone guide.\n\nThe tone spectrum acts as a sliding scale for considering which of our attitudes and expressions are appropriate for different experiences. ToneAttitudeFrequency Motivational Positive and encouraging We're looking out for you and cheering you on. You've got this!Rarely Helpful Polite and respectful We know you're busy, so we'll make this brief.Occasionally Instructive Neutral and direct Here is the information you need.Often Reassuring Professional and reliable We know you're worried about this issue, and we're here to help.Occasionally Supportive Concerned and empathetic Something bad has happened and we understand how you feel. We want to inform, guide, and support you through this.RarelyThe points on this spectrum aren't necessarily binary. For example, the right tone for an experience could be either motivational or helpful, or it could exist somewhere between those points."
+    }
+  ],
+  "sourceUrl": "https://preview.spectrum.adobe.com/foundations/content-design/voice-and-tone",
+  "lastUpdated": "2026-08-19",
+  "status": "published"
+}

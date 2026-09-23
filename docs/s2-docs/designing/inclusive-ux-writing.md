@@ -1,7 +1,7 @@
 ---
 title: Inclusive UX writing
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/inclusive-ux-writing
+source_url: https://preview.spectrum.adobe.com/content/language-and-inclusivity/inclusive-ux-writing
 last_updated: '2026-09-04'
 status: published
 tags:

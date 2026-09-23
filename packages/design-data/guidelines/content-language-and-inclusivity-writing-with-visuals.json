@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/content-language-and-inclusivity-writing-with-visuals.json",
+  "name": "content-language-and-inclusivity-writing-with-visuals",
+  "title": "Writing with visuals",
+  "category": "designing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Writing with visuals" },
+    {
+      "type": "guideline",
+      "content": "Try different ways of organizing information.\n\nOrganize thoughts chronologically, not spatially. If interfaces are organized around time instead of position (e.g., “before” and “after” instead of “above” and “below”), it alleviates a major pain point for people with visual impairments who rely on screen readers (audio or braille devices) or magnifiers (for example, an interface may be too zoomed-in for it to be apparent that person is in a modal). Doing this also avoids confusion for people with learning disabilities that make it hard to understand directional language. Create content that can be presented in different ways without losing information or structure, sometimes called “modular content.” Perhaps the layout can be simplified, or the order of content can be switched around. Image: Key example showing the correct usage of organizing your writing for comprehension. Heading, Learn how to crop images. Description, take this hands-on tutorial now. Call-to-action button, label Start. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1c1dc4df379f4d4000b519df4a8df3be19adff5d4.png?width=750&format=png&optimize=medium)Image: Key example showing the incorrect usage of organizing your writing for comprehension. Heading, Ready to learn? Description, Or are you ready to dig in? How about both? Call-to-action button, label Start tutorial. Secondary button, label Go back. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1f6fc9881e0884994e76ad4b606dced6c500a3f89.png?width=750&format=png&optimize=medium) Preferred Avoid This article describes linking in more detail.Click here to learn more about linking. Learn how to crop images Take this hands-on tutorial now. [ Start ] This is modular content; all the content pieces could stand alone or be rearranged. Ready to learn? Or are you ready to dig in? How about both? [ Start tutorial / Go back ] This is more traditional content; the content pieces depend on each other in a certain order to make sense. Update your information (step 1 of 3)Confirm your information"
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid directional language.\n\nOrganize interfaces around time (chronologically) instead of position (spatially) to ensure that you don’t use directional language to describe how to accomplish a task. Image: An example of correct usage. In the menu bar. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_110ca6da0114667ec40138d1c6ae7ba8c33b69950.png?width=750&format=png&optimize=medium)Image: An example of correct usage. On the left. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_162ff93be0b03bb073e96c26e715cf375769de4ce.png?width=750&format=png&optimize=medium) Preferred Avoid FirstAboveNextBelowIn the menu barOn the leftFinallyAt the bottom"
+    },
+    {
+      "type": "guideline",
+      "content": "Prevent errors before correcting them.\n\nHelp people avoid and correct mistakes by writing in a predictable and consistent way, and make screens look and act the way people expect. Consistent navigation and identification of components across products and surfaces will aid in this. Especially in forms, label and instruct sufficiently. If an error occurs, describe the problem in text without relying on icons or colors alone. Image: Key example of correctly preventing errors. Required text field showing help text. Label, Password. Help text description, Password must be at least 8 characters. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_11376671b0abc29eb2039aa53218afc5aa9b279c4.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
+      "content": "Avoid naming things.\n\nEvery new name is a new concept that a person must learn, which increases cognitive load. But when naming is unavoidable, be consistent. Name actions across experiences and products the same, or at least predictably. Describe and define the name before mentioning it in UI content."
+    },
+    {
+      "type": "guideline",
+      "content": "Describe what’s happening.\n\nProvide titles to describe a situation, such as in coach marks or a stepped flow, and keep them consistent within the same situation. This helps all people navigate, find content, and determine where they are. If visual content is time-based media, like a tutorial video, text provides descriptive identification and ideally offers an alternative to the visual, such as a transcript, closed captioning, or a step-by-step written guide."
+    },
+    {
+      "type": "guideline",
+      "content": "Write about actions and their effects.\n\nTake a step back to think about the interaction you’re writing about. Then, write about what controls and buttons do, not what they look like, in the interaction. Control type (e.g., “button” or “slider”) is coded separately, so screen readers will already pick up what it’s called. Give each a name that describes its purpose. Focus your attention on results and UI words, not how people should physically interact with a control. Each person’s accessibility tech will describe the correct interaction for them. Image: Key example of writing about an action and its effect. Correct usage in a coach mark. Title, Edit. Step 1 of 14. Description, You can make changes to your post at any time with the Edit tool. Primary button, label Next. Secondary button, label Skip tour. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_191b4e8a624329ecde87f67128da614a530e691f4.png?width=750&format=png&optimize=medium)Image: Key example of writing about an action and its effect. Incorrect usage in a coach mark. Title, Edit. Step 1 of 14. Description, Click to edit. Primary button, label Next. Secondary button, label Skip tour. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_128dece0b359eaaed84cdf64e529620307e27c8ff.png?width=750&format=png&optimize=medium) Preferred Avoid Enter emailType email addressSaveThe \"Save\" buttonZoom inPinch the trackpadCancelCloseOn/offSwitch/toggle, activateMenuSide drawerEditThe pencil iconSelect, go toClick, tap"
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t rely only on color or icons.\n\nAdding words to an interface is better than relying on color or icons as the only way of conveying information, indicating an action, prompting a response, or distinguishing a visual element. If you use links in text, make the purpose of each link clear from the link text alone. Screen readers usually inform the reader if a word is a hyperlink, so the words “click here” or “link” get in the way. Additionally, screen readers can’t differentiate between the many times “click here” can appear in one view. Image: Key example of correct usage of adding words to an interface to supplement color and icons. Required text field in an error state with red outline and error icon, label Password. Error message, Create a password with at least 8 characters. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_12b83bac79712fd24e6b1888a6fcd5f6ebd6a1bb6.png?width=750&format=png&optimize=medium)Image: Key example of incorrect usage of adding words to an interface to supplement color and icons. Required text field in an error state with red outline and error icon, label Password. No error message text. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1e2ca96cc7adf7e30732122a616f952c3acfd8f5f.png?width=750&format=png&optimize=medium)"
+    },
+    {
+      "type": "guideline",
+      "content": "Don’t rely on visuals alone to communicate.\n\nThe visual metaphors of emoji and icons can have a wide variety of interpretations, especially across cultures. Describe the interface in terms of actions and tasks, not component color or visual design. Image: An example of correct usage. Secure site. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_17c3e920a6440c98e2cb7c5e4b31f20f3cac0b7df.png?width=750&format=png&optimize=medium)Image: An example of incorrect usage. A lock icon. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1731ab8abc7bbac6a3f64aef590d145e560ff877f.png?width=750&format=png&optimize=medium) Preferred Avoid Secure site🔒Saved to the cloud☁️The number you entered isn’t in our system.❌The Go buttonThe green button"
+    },
+    {
+      "type": "guideline",
+      "content": "Provide alt text.\n\nAlt text — short strings that describe the function of interface elements and describe images — improves understanding and clarity for everybody using a product, not only people using assistive technology. For example, if you were to hover your mouse over the “search” magnifying glass icon on Adobe.com, it would reveal the alt text “Search Adobe.com.” This provides more context about the available action. Alt text for any non-text content allows it to be changed into other forms that people need, such as large print, braille, speech, symbols, or simpler language. It makes visual cues, like icons and images, legible to people with low vision using assisted services (e.g., Voiceover on iOS, Talkback on Android ). Talk with engineers about providing alt text, hints, and traits for components. For example, an icon-only button that doesn’t have a text label needs to still communicate its purpose using text. Spectrum’s documentation has detailed guidance about building accessible interfaces, and the W3C also has a list of resources and tutorials about alt text that offer a more comprehensive introduction. For alt text for images, view our writing guide. Preferred Avoid alt=”Chicago Bulls player Michael Jordan making his first of 38 points against the Utah Jazz on their home court, despite widespread speculation that he had the flu.”alt=”Basketball player making a basket at an arena”alt=”Animation showing how to use the touch shortcut. Take the tutorial for more info.”alt=”Animation showing the touch shortcut used with the shape tool to create a shape with a constrained aspect ratio”"
+    },
+    {
+      "type": "guideline",
+      "content": "Photographs and stock images.\n\nIn general, just speak to what something is. One way to approach this is to imagine that you’re describing the image to someone over the phone. Image: Tibetan monk wearing a red robe walking across a bridge covered with multicolor prayer flags. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_136dd5563938c3103ef68fb95063e79458395957e.png?width=750&format=png&optimize=medium)Tibetan monk wearing a red robe walking across a wooden bridge covered with multicolor prayer flags."
+    },
+    {
+      "type": "guideline",
+      "content": "Images that show or function as UI.\n\nMention all parts of the UI and what the content is for each part, if applicable. Write in the order of how a screen reader would read the components in the actual UI. When an image functions as a UI component — for example, an icon-only button or an image being used as a button — use verbs to describe the action instead of the appearance of the iconography. Image: Two examples of images of UI from the Spectrum website. Meters and an icon-only button. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_1a22871ce2657f1384c883cbc027b73ecbf320c7c.png?width=750&format=png&optimize=medium)First example: 2 meters showing positive status. First meter labeled Tutorials completed, 2 of 8. Second meter labeled Storage space, 15%. Second example: Send message (Not: “paper airplane in motion”)."
+    },
+    {
+      "type": "guideline",
+      "content": "Images that describe usage notes or guidelines.\n\nDescribe any specific examples of how to apply (or not to apply) a concept or guideline that has been outlined in other text. Be sure to include any text that’s part of the image. Image: Key example showing how to use simple tenses. Three examples of correct usage. She ran for president. He writes great poetry. Carmen will make the poster. (source: https://preview.spectrum.adobe.com/content/language-and-inclusivity/media_10dd8f51f80783ba79e4642cea18ff806d07ced9e.png?width=750&format=png&optimize=medium)3 key examples showing correct usage of writing in simple tense. She ran for president. He writes great poetry. Carmen will make the poster."
+    }
+  ],
+  "sourceUrl": "https://preview.spectrum.adobe.com/content/language-and-inclusivity/writing-with-visuals",
+  "lastUpdated": "2026-09-04",
+  "status": "published",
+  "tags": [
+    "writing",
+    "inclusive imagery",
+    "modular content",
+    "directional language",
+    "screen readers",
+    "consistent navigation",
+    "error prevention"
+  ]
+}

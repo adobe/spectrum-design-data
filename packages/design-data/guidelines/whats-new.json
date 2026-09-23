@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/whats-new.json",
+  "name": "whats-new",
+  "title": "Great design systems evolve alongside the people who use them",
+  "category": "fundamentals",
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Great design systems evolve alongside the people who use them"
+    },
+    {
+      "type": "guideline",
+      "content": "Available now.\n\nWeb platform status table of component availability Component design guidelines Live component playgrounds RSP and SWC implementation API information Foundations fully migrated with updated content Content fully migrated with updated content FAQs, Contact us, Resources, Developer overview, AI resource guide"
+    },
+    {
+      "type": "guideline",
+      "content": "Coming soon.\n\nMobile (iOS + Android) component documentation Conversational AI chat experience Unified pattern guidance and principles Release 1.0"
+    },
+    {
+      "type": "guideline",
+      "content": "Available now.\n\nFoundations and content guidance Updated guidance for the principles and building blocks of Spectrum Component design and implementation guidance Design guidance with component availability and React Spectrum and Spectrum Web Components resources for building with Spectrum Live component playgrounds Explore and interact with components in real implementations Support Contact us to provide feedback, report bugs, or send general inquiries"
+    },
+    {
+      "type": "guideline",
+      "content": "What's next.\n\nSpectrum Hub will continue to expand as the central experience for Spectrum. Future releases will bring mobile documentation, unified experience guidance, patterns and principles, new ways to explore Spectrum, and resources that support emerging ways of designing and building. Over time, the Hub will connect Spectrum’s offerings across platforms and make it easier to discover not only what exists today, but what’s possible with Spectrum."
+    }
+  ],
+  "sourceUrl": "https://preview.spectrum.adobe.com/getting-started/whats-new",
+  "lastUpdated": "2026-09-09",
+  "status": "published"
+}

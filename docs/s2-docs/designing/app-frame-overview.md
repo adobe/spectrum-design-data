@@ -1,7 +1,7 @@
 ---
 title: App frame
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/overview
+source_url: https://preview.spectrum.adobe.com/foundations/app-frame/overview
 last_updated: '2026-09-04'
 status: published
 tags:
@@ -17,7 +17,7 @@ hub_path: /foundations/app-frame/overview
 
 ## Framework principles
 
-Spectrum 2 treats the app frame as a framework to help product teams make the best decisions for their use cases. This is a resource that combines high-level framing, direction about construction, and specific examples for inspiration. It offers a balance of information that’s strategic and tactical, with the following principles at the forefront:
+Spectrum 2 treats the app frame as a framework to help product teams make the best decisions for their use cases. This is a resource that combines high-level framing, direction about construction, and specific examples for inspiration. It offers a balance of information that’s strategic and tactical, with the following principles at the forefront: Image: A stylized handshake icon in a red-to-purple-to-blue gradient, representing partnership and collaboration. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_11cfce068432aba2f9060cc149b32c2e004fa8f56.png?width=750&format=png&optimize=medium)Image: Gradient circular icon with a white branching outline pattern, in red-to-purple tones. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_17f5b288d52a84b5be39e3828f378d4b58ca3849d.png?width=750&format=png&optimize=medium)Image: Heart icon in a red-to-purple gradient with a blue wave accent. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1eed72408776ec432363d78bca1e17a23ff6d0819.png?width=750&format=png&optimize=medium)
 
 ### Flexible and adaptable
 
@@ -43,7 +43,7 @@ Spectrum offers a high-level direction as well as a definition of which parts ca
 
 ### Browsing context: Zones
 
-Zones are the general areas into which certain types of actions should go. They’re not specific to components.
+Zones are the general areas into which certain types of actions should go. They’re not specific to components. Image: Diagram showing the three zones of the construction of the Spectrum 2 app frame: A, navigation zone, B, global action zone, and C, contextual action zone. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_19aef995718b2fb929aef522835b8af9a752400ed.png?width=750&format=png&optimize=medium)
 
 ### A. Navigation zone
 
@@ -59,7 +59,7 @@ This area is reserved for transient actions that are contextual to content on th
 
 ### Browsing context: Anatomy
 
-Parts of the anatomy have defined rules and behaviors. The terms used here to describe the anatomy of the app framework are for internal alignment only, and are not representative of how these parts of the app frame should be described to end users.
+Parts of the anatomy have defined rules and behaviors. The terms used here to describe the anatomy of the app framework are for internal alignment only, and are not representative of how these parts of the app frame should be described to end users. Image: Diagram showing the three parts of the anatomy of the Spectrum 2 app frame: A, header, B, side navigation, and C, content area. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_187bd949ffe1f05a278b9a306eabdb7516805dc19.png?width=750&format=png&optimize=medium)
 
 ### A. App frame header (Navigation, required)
 
@@ -89,9 +89,11 @@ Modular space that supports multiple layout configurations. The content that goe
 
 ### Anatomy examples
 
+Image: Two examples of Spectrum 2 app frame anatomy. Example one: Header only. Header contains the primary navigation and global actions. Example two: Header plus side navigation. Because the side navigation is present, the header is used for global, app-wide actions instead. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1b47658c35e18eead92d82cc540f886a57b6ee84f.png?width=750&format=png&optimize=medium)
+
 ## Side navigation state control
 
-There are two variants of the side navigation state control: hamburger and panel. They should never be used at the same time. Interacting with the side navigation state control (an icon-only button) will expand and collapse the width of the panel. This allows for the labels of the side navigational items to be shown or hidden. When used to expand the panel, the accessible name (optionally shown as a tooltip) changes to “Show menu labels.” When used to collapse the panel, the accessible name changes to “Hide menu labels.”
+There are two variants of the side navigation state control: hamburger and panel. They should never be used at the same time. Interacting with the side navigation state control (an icon-only button) will expand and collapse the width of the panel. This allows for the labels of the side navigational items to be shown or hidden. When used to expand the panel, the accessible name (optionally shown as a tooltip) changes to “Show menu labels.” When used to collapse the panel, the accessible name changes to “Hide menu labels.” Image: Two diagrams showing the difference between the side navigation state control. One is of panel icon and the other is of the hamburger icon. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_128e76de99bdbfd9d2c9744699ee6fcd678f5f85f.png?width=750&format=png&optimize=medium)
 
 ### Hamburger
 
@@ -137,13 +139,15 @@ For products that use the TAB, the side navigation state control (panel icon) wi
 
 ### Anatomy examples
 
+Image: Examples of the product switcher in different places. One example of the Top App Bar (TAB) active at the top of the viewport with the panel icon state switcher at the end of the side navigation section. Another example is the mobile experience with the hamburger icon state switcher and the product switcher in the header. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_19bf4524cadbd94da0231a7cce0d587f0be0ac845.png?width=750&format=png&optimize=medium)
+
 ### Non-TAB products (Digital Experience and Unified Shell)
 
 For products that don’t use the TAB, the side navigation state control will always be the hamburger icon. View the Unified Shell component (Shell Frame) in the Spectrum 2 Experience Cloud Patterns library for more information.
 
 ### Non-TAB products (Digital Experience and Unified Shell)
 
-For products that don’t use the TAB, the side navigation state control will always be the hamburger icon.
+For products that don’t use the TAB, the side navigation state control will always be the hamburger icon. Image: Diagrams of the hamburger side navigation state control in a web and mobile breakpoint. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1ba4d3297356f4f73b02b4fb05bed4596a9fcd706.png?width=750&format=png&optimize=medium)
 
 ## Terminology and content standards
 
@@ -151,7 +155,7 @@ It’s ultimately up to product teams to decide how to translate the terms used 
 
 ### Some common Adobe terms for describing the UI
 
-The following are some common terms used at Adobe for describing the core UI elements that make up the app frame, along with some notable usage considerations. Consider this as a starting point for you to take and develop into working language that may need to be more contextual for your product. Work with your Content Strategy partners to adapt it to your needs.
+The following are some common terms used at Adobe for describing the core UI elements that make up the app frame, along with some notable usage considerations. Consider this as a starting point for you to take and develop into working language that may need to be more contextual for your product. Work with your Content Strategy partners to adapt it to your needs. Image: Illustration of where panels or rails appear in the app frame layout: to either the left or right side of the UI. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1c4e8402f034d1e4c9737e42b72fad58518c38c1f.png?width=750&format=png&optimize=medium)Image: Illustration of one example where a content area can appear in the app frame layout: as the main focus or work area. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1600fc2e5b4260da2d3f688f8b0c9d7c4604016f1.png?width=750&format=png&optimize=medium)Image: Illustration of an example of where a well can appear in the app frame layout: in the middle of a content area. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1a80cabda2a52fad2708546441c70773dd8942506.png?width=750&format=png&optimize=medium)
 
 ### Panel, Rail
 
@@ -167,7 +171,7 @@ A well is a type of container that is used to show non-user-editable content. It
 
 ### Identifying user-facing terms vs. internal-only terms
 
-Internal jargon is important and we want to be aligned across teams, but we also need to be careful about using internal terms, externally. By “user-facing term,” we mean that user to be the “end user”: the person who encounters the UI of an Adobe experience. In general, if you’re creating resources for internal usage (such as design guidelines or specs), you can safely use internal jargon. If you’re creating actual product UI, you will need to ensure that you’re using the appropriate terms that will help your user best understand and navigate the interface. Use the following steps to decide on terms:
+Internal jargon is important and we want to be aligned across teams, but we also need to be careful about using internal terms, externally. By “user-facing term,” we mean that user to be the “end user”: the person who encounters the UI of an Adobe experience. In general, if you’re creating resources for internal usage (such as design guidelines or specs), you can safely use internal jargon. If you’re creating actual product UI, you will need to ensure that you’re using the appropriate terms that will help your user best understand and navigate the interface. Use the following steps to decide on terms: Image: A black-and-white line icon of a browser window with a top toolbar and a single dot. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_15b3b3fb77bc097c8d306652754e50f38e16cb7fb.png?width=750&format=png&optimize=medium)Image: A black-and-white line icon of a magnifying glass, representing search. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_12ac292a56a7ce97b0042216244922f5d9e32f56f.png?width=750&format=png&optimize=medium)Image: A black-and-white line icon of two overlapping user silhouettes, representing a group of people. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_150f01f672f95313815260ac49144b5023d36ae5e.png?width=750&format=png&optimize=medium)
 
 ### Note your context
 
@@ -187,19 +191,19 @@ The main focus for most users is on the content — the information being shown,
 
 ### Avoid terms of relative direction or appearance
 
-To create more inclusive products, describe parts of the UI in terms of function (what something does, or what something is) rather than appearance or position (such as relative direction: left, right, top, bottom). Talk about the actions available or the names of the features inside of a part of the interface, rather than how the interface itself looks. View the Spectrum Inclusive UX writing guide for more guidelines and examples. Describe the actions or items available.Avoid describing where to find specific items or actions in relation to UI construction.
+To create more inclusive products, describe parts of the UI in terms of function (what something does, or what something is) rather than appearance or position (such as relative direction: left, right, top, bottom). Talk about the actions available or the names of the features inside of a part of the interface, rather than how the interface itself looks. View the Spectrum Inclusive UX writing guide for more guidelines and examples. Image: Example of correct usage. Approvals. Colors. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_114c85b714942bddf4a0baaac51146c4e1755a454.png?width=750&format=png&optimize=medium)Describe the actions or items available.Image: Example of incorrect usage. Approvals rail. Colors panel. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_16927fb5340c20e1bd0dbaf651eb68d4c4d76032e.png?width=750&format=png&optimize=medium)Avoid describing where to find specific items or actions in relation to UI construction.
 
 ### Using “panel” and “rail” as user-facing terms
 
-The word panel is acceptable as a user-facing term only when there is no other way to describe the interface. The word rail is acceptable to use as internal jargon, but it should never be used as a user-facing term. This is because the word is about how something looks: a long, straight divider, like a slide rule or a railroad track. View the Spectrum in-product word list for more details and usage notes about these and other terms to refer to parts of the interface. Describe the action to take on the UI.Don’t describe the UI itself.
+The word panel is acceptable as a user-facing term only when there is no other way to describe the interface. The word rail is acceptable to use as internal jargon, but it should never be used as a user-facing term. This is because the word is about how something looks: a long, straight divider, like a slide rule or a railroad track. View the Spectrum in-product word list for more details and usage notes about these and other terms to refer to parts of the interface. Image: Example of correct usage. Show more options. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1bc5bf7de9abaf2318532d97026370f9d9be0fa1e.png?width=750&format=png&optimize=medium)Describe the action to take on the UI.Image: Example of incorrect usage. Hide navigation rail. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_17fc6b06737dfff7420c77dd28a9df09d1715610d.png?width=750&format=png&optimize=medium)Don’t describe the UI itself.
 
 ### “Show” and “Hide”
 
-“Show” and “hide” are the preferred terms to use to describe the open/close actions on the side navigation. This is for several reasons: Globalization readiness. The words “show” and “hide” both have low character counts in U.S. English, and are the most common already-existing terms to express this concept across Adobe products. Plain language. “Hide” is more straightforward and common language than “Minimize,” and is also at the appropriate reading level for UI text. Conceptual accuracy. “Show” and “Hide” better align to their associated actions; items aren’t disappearing completely from view, but are being tucked away or are changing appearance.
+“Show” and “hide” are the preferred terms to use to describe the open/close actions on the side navigation. This is for several reasons: Globalization readiness. The words “show” and “hide” both have low character counts in U.S. English, and are the most common already-existing terms to express this concept across Adobe products. Plain language. “Hide” is more straightforward and common language than “Minimize,” and is also at the appropriate reading level for UI text. Conceptual accuracy. “Show” and “Hide” better align to their associated actions; items aren’t disappearing completely from view, but are being tucked away or are changing appearance. Image: Example of correct usage. Show menu labels. Hide navigation. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_18c67799a786aa0e8335712032da5e43b57fdc230.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage. Expand menu labels. Minimize navigation. Collapse side bar. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1ab30756ab3323c279063b24ab1950d5ecd12b932.png?width=750&format=png&optimize=medium)
 
 ### When in doubt, use sentence case
 
-As you’re designing the UI content of your app frame using this framework, follow the Spectrum content standards for all UI text and labels. Most of the writing you’ll be doing for the app frame will be short labels. These, as well as all other UI content, are formatted in sentence case: only the first letter of the first word is capitalized. View the Spectrum Grammar and mechanics page.
+As you’re designing the UI content of your app frame using this framework, follow the Spectrum content standards for all UI text and labels. Most of the writing you’ll be doing for the app frame will be short labels. These, as well as all other UI content, are formatted in sentence case: only the first letter of the first word is capitalized. View the Spectrum Grammar and mechanics page. Image: Example of correct usage. All templates. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1f4aca7a576edf2610ac55b033fa6c32b0ce79736.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage. All Templates. ALL TEMPLATES. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1d2fe39e9e168e4a5493e212e36a31d36e765060d.png?width=750&format=png&optimize=medium)
 
 ### Refer to Spectrum Patterns
 

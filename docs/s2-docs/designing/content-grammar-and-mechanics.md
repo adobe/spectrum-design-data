@@ -1,0 +1,280 @@
+---
+title: Grammar and mechanics
+category: designing
+source_url: https://preview.spectrum.adobe.com/content/grammar-and-mechanics
+last_updated: '2026-09-04'
+status: published
+tags:
+  - UX writing
+  - AP style
+  - Active voice
+  - Passive voice
+  - Contractions
+  - Contraction considerations
+  - Verb tenses
+  - Readability
+  - Localization
+hub_path: /content/grammar-and-mechanics
+---
+
+# Grammar and mechanics
+
+## AP style
+
+We use Associated Press (AP) style for in-product UX writing, with any exceptions noted on this page.
+
+## Active and passive voice
+
+Use active voice in most cases and use passive voice sparingly. With active voice, sentences are simpler, shorter, clearer, and more conversational. With passive voice, you can soften and provide distance in select situations (e.g., notification of a disabled account).
+
+### Active voice
+
+In an active sentence, it's clear who's doing what. The actor is the subject, and the subject of the sentence is doing something. Image: Key example showing how to use active voice. Correct usage, Jess Williams resolved your comment. (source: https://preview.spectrum.adobe.com/content/media_1706dddea38f8c312f12545b5ca2a6358dd83a798.png?width=750&format=png&optimize=medium)Image: Key example showing how not to use active voice. Incorrect usage, Your comment was resolved by Jess Williams. (source: https://preview.spectrum.adobe.com/content/media_1ac444d294f9e2ddb048aab9557e311a70dcd0d18.png?width=750&format=png&optimize=medium)
+
+### Passive voice
+
+At times, active voice can come across too harshly. In these cases, use passive voice. This separates the actor from the action enough to soften a sentence. In a passive sentence, action is being taken upon the subject. Image: Key example showing how to use passive voice. Correct usage, Your payment was declined. (source: https://preview.spectrum.adobe.com/content/media_1b0d4b46a20c1877e4c1884a7407eaa36d9517b2a.png?width=750&format=png&optimize=medium)Image: Key example showing how not to use active voice. Incorrect usage, We declined your payment. (source: https://preview.spectrum.adobe.com/content/media_110f3220fa9e7440932803c083d749da5b7e5516f.png?width=750&format=png&optimize=medium)
+
+### Avoid passive voice by reframing the focus
+
+You can usually reframe a message to focus on the object, or on the actions someone could take, as another way to avoid passive voice. Image: Key example showing how to reframe a message to avoid passive voice. Two examples of correct usage. Something went wrong. No search results. (source: https://preview.spectrum.adobe.com/content/media_124406739d24c1aa7b19e1b76ca60d27d2c2944a2.png?width=750&format=png&optimize=medium)Image: Key example showing how to reframe a message to avoid passive voice. Two examples of incorrect usage. An error was made. We couldn’t find any search results. (source: https://preview.spectrum.adobe.com/content/media_1c9b028d5db7f69150c78221ca0236f07b90fe2be.png?width=750&format=png&optimize=medium)
+
+## Contractions
+
+Use contractions to sound more conversational and natural.
+
+### Common contractions
+
+Use commonly understood contractions to keep sentences from feeling out-of-touch, robotic, or overly formal. Some common contractions: What's We'll You'll You're You've We're They're Doesn't Didn't Isn't Aren't Can't Image: Key example showing how to use contractions. Three examples of correct usage. If you can’t. You aren’t connected. This app isn’t available. (source: https://preview.spectrum.adobe.com/content/media_186dcdf3fa9bd8e1f666a888a6dd89282ab8d8f4f.png?width=750&format=png&optimize=medium)Image: Key example showing how not to write, using no contractions. Three examples of incorrect usage. If you cannot. You are not connected. This app is not available. (source: https://preview.spectrum.adobe.com/content/media_1e584a4972cfbb29879c538988a5323046aa8a1a0.png?width=750&format=png&optimize=medium)
+
+### Contraction considerations
+
+Avoid contracting nouns with is, does, has, or was. This might make it look like the noun is possessive. Don’t use uncommon or old-fashioned contractions (e.g., would’ve or tweren't ). Don’t use colloquial contractions (e.g., ain't, y'all, yinz ). Be mindful of how many contractions you use in a sentence. Too many contractions can make things difficult to read. Avoid using contractions when dealing with legal concerns, payment processing, and account security. Casual isn’t always the best style when handling sensitive information. Image: Key example showing how to avoid colloquial contractions. Two examples of correct usage. Your account has been disabled. Your document is ready to view. (source: https://preview.spectrum.adobe.com/content/media_1599b52e4acd4ca3509e203f06bc4584e909b9e15.png?width=750&format=png&optimize=medium)Image: Key example showing how to avoid colloquial contractions. Two examples of incorrect usage. Ya’lls account has been disabled. Your document’s ready to view. (source: https://preview.spectrum.adobe.com/content/media_1832965ca906ede089b09a21e1985531d132d5d18.png?width=750&format=png&optimize=medium)
+
+## Verb tenses
+
+In general, use simple verb tenses: past, present, and future. Simple tenses are used to describe actions without specifically stating whether the actions are completed (perfect tenses) or ongoing (progressive tenses). Use simple future tense to describe the result of an action or instant process that’s happening now, or to describe something that will occur in the actual future (i.e., not at the time someone encounters the message). Tense Simple Not simple Past You updated this app to version 13.1. You entered an incorrect password.You entered an incorrect password.You’re updating this app to version 13.1. You’ve entered an incorrect password. Present Here are all of the spaces you can access. You can't undo this action.Here are all of the spaces you’ve accessed. You’re not undoing this action. Future If you turn off snapping, you won’t be able to use the relative spacing feature. Your credit card will be charged at the end of your trial.If you turn off snapping, you won’t be using the relative spacing feature. Your credit card will have been charged at the end of your trial.
+
+### Why we use simple verb tenses
+
+There are a number of reasons why we use simple verb tenses for in-product writing: They use fewer words and are more concise. They can make content easier to scan and faster to read. Fewer words and simpler phrases mean better readability. According to the latest U.S. Census, more than 20% of people living in the U.S. speak a language other than English at home. For more people, simple verb tenses are easier to understand. Present tense improves readability scores.
+
+### What's not simple tense
+
+If any of the following comes before the verb in a sentence, it’s not simple tense: Was/wasn’t, were, weren’t Has/hasn’t, have/haven’t Is/isn’t, are/aren’t Be If the verb in a sentence ends in “-ing,” it’s not simple tense. Image: Key example showing how to use simple tenses. Three examples of correct usage. She ran for president. He writes great poetry. Carmen will make the poster. (source: https://preview.spectrum.adobe.com/content/media_10dd8f51f80783ba79e4642cea18ff806d07ced9e.png?width=750&format=png&optimize=medium)Image: Key example showing how to use simple tenses. Three examples of incorrect usage. She was running for president. He is writing great poetry. Carmen will be making the poster. (source: https://preview.spectrum.adobe.com/content/media_11900f31e90557dad3a0a4487fc0acfbd61015192.png?width=750&format=png&optimize=medium)
+
+## Capitalization
+
+### Sentence case
+
+Use sentence case for all aspects of designing or re-designing Adobe product experiences, including titles and UI elements (e.g., tooltips, tabs, menu items). This transition will take time for older products, and temporary inconsistency is fine. Writing in sentence case has been proven to be easier for users to read and comprehend, it sounds more friendly and less formal, and it helps better identify proper nouns and branded terms that need to be capitalized. When to use sentence case: Only capitalize the first word in a phrase, title, or UI reference (e.g., Adjust borders tool) Always capitalize proper nouns and branded terms (e.g., Adobe Help Center) Capitalize acronyms (e.g., XD, AEM) Image: Key example of writing in sentence case. Two examples of correct usage. Edit your contact information, with only “Edit” capitalized. First, select the Brush tool, with “First” and “Brush” capitalized, and &quot;brush&quot; bolded. (source: https://preview.spectrum.adobe.com/content/media_1ac64435c1910d7366b0a2ba56a729ec6cf77129b.png?width=750&format=png&optimize=medium)Image: Key example of writing in sentence case. Two examples of incorrect usage. Edit Your Contact Information, with all words capitalized. First, select the Brush Tool, with “First” capitalized, and both words in “Brush Tool” capitalized, and &quot;Brush Tool&quot; bolded. (source: https://preview.spectrum.adobe.com/content/media_1e8d01dc2f63b500517fa2b26e771a1b28e00d12f.png?width=750&format=png&optimize=medium)
+
+### Title case
+
+Use title case only when it clarifies that we’re speaking about a specific, official entity (such as a title or name). Title case is often a marker of formality in English, and overuse can cause users stress by implying formality or officialness where it doesn’t exist.
+
+### All caps
+
+Use all caps sparingly. When to use all caps: Acronyms, such as accepted product names on second attribution (e.g., Adobe Experience Manager (AEM)) Names of file extensions (e.g., TIF, ZIP, or PSD files) All caps should never be used to emphasize a point. Image: Key example of when to use all caps. Two examples of correct usage. AEM offers a full set of features, with the acronym “AEM” in all caps. Always save your PSD file, with the acronym “PSD: in all caps. (source: https://preview.spectrum.adobe.com/content/media_13a504ca6181f861b5fccea54a8af9e7f722d72fa.png?width=750&format=png&optimize=medium)Image: Key example of when to use all caps. Two examples of incorrect usage. Aem offers a full set of features, with only the “A” in “AEM” capitalized. ALWAYS save your psd file, with “always” in all caps and “psd” with no capitalization. (source: https://preview.spectrum.adobe.com/content/media_147d6a07176419ea2afd747b311b0ccc45a5c38e0.png?width=750&format=png&optimize=medium)
+
+### Branded terms
+
+Use title case to reference branded terms, such as names and features. This includes the names of Adobe products, like Adobe Photoshop or Advertising Cloud. Here are some common branded terms: Creative Cloud Photoshop Lightroom Illustrator Premiere Pro XD Adobe Stock Document Cloud Fill &#x26; Sign Magic Heal Adobe Sensei Experience Cloud Advertising Cloud Analytics Audience Manager Campaign Experience Manager Commerce Cloud Marketo Engage Adobe Acrobat Adobe Sign
+
+## Pronouns
+
+### Referring to the user
+
+In UX content, we want to talk about what’s happening rather than who or what is making something happen. We avoid speaking as our users. In nearly all situations, we aim to be conversational and talk to the user — not as them. Any exceptions depend on situational needs for sensitivity and clarity.
+
+### Second person
+
+Most of the time, use second person ( you, your, you’re ) to address users and services. Image: Key example of using second person language. Three examples of correct usage. You can export your data here. Your profile. Your work. (source: https://preview.spectrum.adobe.com/content/media_1a1dc86d2d85ecbf8cc583a8e7212636def850398.png?width=750&format=png&optimize=medium)Image: Key example of using second person language. Three examples of incorrect usage. I can export my data here. My profile. My work. (source: https://preview.spectrum.adobe.com/content/media_1745352841a7f2a892b86443e923e34c6524a6dd0.png?width=750&format=png&optimize=medium)
+
+### First person
+
+Use first person ( me, I, my ) only in these situations: Someone responds to the interface or answers a question they've been asked directly When additional sensitivity is necessary, or to indicate privacy When there's a legal need to use first person to ask for consent (e.g., “I agree to these terms and conditions”) On rare occasions, it can be appropriate to use we or us to mean “Adobe”: "We're sorry" (for a critical error) "Help us improve this feature" (requesting feedback) Image: Key example of using first person language. One example of correct usage. Yes, I agree to these terms of service. (source: https://preview.spectrum.adobe.com/content/media_12a6956f484c81be0f0f659169779b43d3e522fb8.png?width=750&format=png&optimize=medium)Image: Key example of using first person language. One example of incorrect usage. You agree to these terms of service. (source: https://preview.spectrum.adobe.com/content/media_12d8e4d2705b316213bd66333312781ed260e0fc0.png?width=750&format=png&optimize=medium)
+
+### Singular they
+
+In most situations, Adobe doesn't need to know or assume the gender of our users. So when we refer to users, we use singular they. We don’t use “he/she” or “(s)he” — those are clunky and they exclude users who identify outside of the male/female binary. Use any of these variants of they in their proper grammatical contexts: They Them Their Theirs Themselves Themself Image: Key example of using a singular they. Two examples of correct usage. Assign them a role. Chris has commented on your post. Read what they wrote. (source: https://preview.spectrum.adobe.com/content/media_1d07b096d6ca8c5c529541b60186e2aadd79e7c66.png?width=750&format=png&optimize=medium)Image: Key example of using a singular they. Two examples of incorrect usage. Assign him/her a role. Chris has commented on your post. Read what (s)he wrote. (source: https://preview.spectrum.adobe.com/content/media_149d6701b4acd4c7da234c3c54d45ea8acf9cd299.png?width=750&format=png&optimize=medium)
+
+## Punctuation
+
+Punctuation marks are an essential part of language, and they extend beyond running text. They appear in code, mathematical equations, keyboard shortcuts, file names, and more. When there are established conventions for such contexts, punctuation marks should follow those conventions. In general, don’t use punctuation marks in place of words (e.g., "&#x26;" instead of "and" or "@" instead of "at"). And, don’t use them as design elements, or for anything purely stylistic in purpose. For punctuation within blocks of code, use the Code typography to differentiate the code from other written text.
+
+### Ampersand
+
+Don’t use ampersands (&#x26;) in UI copy. Instead, spell out the word “and.” Using the word “and” is more inclusive, localizable, and readable: It’s more widely known and understood for people who are non-fluent English speakers It translates more easily into many languages Spelled-out words require less mental and cognitive effort to read Ampersands bring attention to the conjunction in a phrase which is the least important part of the sentence The ampersand symbol can be distracting, since it’s taller than many letters and is an unusual shape Image: Key example of using ampersands. Two examples of correct usage. Digital video and audio, with “and” spelled out. Save your work and restart the app, with “and” spelled out. (source: https://preview.spectrum.adobe.com/content/media_16e93faff4d358502f2a81b0121109f1779d254d1.png?width=750&format=png&optimize=medium)Image: Key example of using ampersands. Two examples of incorrect usage. Digital video & audio, using an ampersand. Save your work & restart the app, using an ampersand. (source: https://preview.spectrum.adobe.com/content/media_101c473ae23d45956b0054753573b5d4767a11ae2.png?width=750&format=png&optimize=medium)
+
+### Apostrophe
+
+Don’t use apostrophes (') in place of quotation marks. When pluralizing singular and plural words, add apostrophe-"s" when there’s no "s" at the end. For plural nouns that end with "s," add only an apostrophe. For any other specifics on possessive apostrophes, refer to the AP style handbook. Image: Key example of using apostrophes. Two examples of correct usage. Get everything with Creative Cloud’s “All Apps” plan, with an apostrophe s after the word cloud. Check out our plans pricing, with an apostrophe after the word plans. (source: https://preview.spectrum.adobe.com/content/media_10dd992ca36130e60c95322eb7ec819489539bbcd.png?width=750&format=png&optimize=medium)Image: Key example of using apostrophes. Two examples of incorrect usage. Get everything with Creative Cloud’s All Apps plan, with apostrophes surrounding the phrase All Apps instead of quotation marks. Check out our plans pricing, with an apostrophe s after the word plans. (source: https://preview.spectrum.adobe.com/content/media_1b9d2ede60cc2fc221d8359395c709ec670793434.png?width=750&format=png&optimize=medium)
+
+### Asterisk
+
+Use asterisks ( * ) or "(required)" to establish form fields as required. Don’t use asterisks to denote anything as optional. Make sure to use the Spectrum asterisk icon that comes built in with the design components — not the text form of an asterisk within the label string. Don’t use asterisks in running text or labels when parentheses or a tooltip would suffice. Image: Key example of using asterisks. Two examples of correct usage. A form field shows a required field using an asterisk, field label Name, entered text Sarah Williams. Written instructions, text Insert a blank keyframe (Insert > Timeline > Blank Keyframe) using the directions in-line, no footnote. (source: https://preview.spectrum.adobe.com/content/media_18f04600a63178654b7870f4a40017544c2ed59c0.png?width=750&format=png&optimize=medium)Image: Key example of using asterisks. Two examples of incorrect usage. A form field shows an optional field using an asterisk, field label Address 2 (optional), entered text Apartment 100,. Written instructions, text Insert a blank keyframe with an asterisk at the end, marking a footnote with directions reading (Insert > Timeline > Blank Keyframe). (source: https://preview.spectrum.adobe.com/content/media_1970a5ddf6840732e69f319eda6b180e56d23df3d.png?width=750&format=png&optimize=medium)
+
+### At sign
+
+Don’t use the at sign (@) in place of the word "at." Image: Key example of using the at sign. Correct usage. Adobe MAX is at the Los Angeles Convention Center, with the word &quot;and&quot; spelled out, no at symbol. (source: https://preview.spectrum.adobe.com/content/media_15b150ce8660db2d8cb5adc0534d576e6584d3c84.png?width=750&format=png&optimize=medium)Image: Key example of using the at sign. Incorrect usage. Adobe MAX is @ the Los Angeles Convention Center, with an at sign used in place of the word &quot;and.&quot; (source: https://preview.spectrum.adobe.com/content/media_1262436afaae40ad4ab22a1831e3b4d4dde6f271f.png?width=750&format=png&optimize=medium)
+
+### Brackets
+
+Don’t use brackets ([] {}) in UI copy or running sentences. Instead, use parentheses ( ( ) ). Image: Key example of using parentheses instead of brackets. Correct usage. Downloading… (1 of 2), with parentheses instead of brackets surrounding the “1 of 2” count. (source: https://preview.spectrum.adobe.com/content/media_15afbfa219643ced85ce919989e8ed47eab03a5a1.png?width=750&format=png&optimize=medium)Image: Key example of using parentheses instead of brackets. Incorrect usage. Downloading… [1 of 2], with brackets instead of parentheses surrounding the “1 of 2” count. (source: https://preview.spectrum.adobe.com/content/media_1b3974803e5b3747213962fbd3f1504f786f0cf7c.png?width=750&format=png&optimize=medium)
+
+### Colon
+
+Try to simplify a complex sentence into multiple sentences first, but if you can’t, try a colon (:). Colons are helpful when introducing lists of items or steps in a workflow. The lists and steps should be introduced on new lines. They’re also useful for high-level headlines or marketing-sounding UI content. Don’t use a colon at the end of a label for a form field. The design component should already communicate the relationship between the label and the input. Image: Key example of using a colon. Two examples of correct usage. Bulleted list, title To merge PDF documents, with a colon at the end of the title. 2 list items, Select the Tools tab, Select Combine Files. Form field, label Name, no colon at the end. Entered text Marta Rodriguez. (source: https://preview.spectrum.adobe.com/content/media_134f0aa53b106bbd6fa820f99f02153e6099d72bf.png?width=750&format=png&optimize=medium)Image: Key example of using a colon. Two examples of inorrect usage. Bulleted list, title To merge PDF documents, with no colon at the end of the title. 2 list items, Select the Tools tab, Select Combine Files. Form field, label Name, colon at the end. Entered text Marta Rodriguez. (source: https://preview.spectrum.adobe.com/content/media_1ca0e1c85a712fd95f22e4d1746da91501c606089.png?width=750&format=png&optimize=medium)
+
+### Comma
+
+When listing things, use the serial comma (also known as the Oxford comma). This means providing a comma before the word “and” when listing multiple items in a sentence. If you’re having to use a lot of commas in a sentence, consider whether you can split the sentence up with periods or em dashes. Image: Key example of using commas. Two examples of correct usage. Save file as a JPEG, PNG, or GIF. Export this file as a vector in SVG or AI formats. Or, export as a rasterized image in JPEG, PNG, or GIF formats. (source: https://preview.spectrum.adobe.com/content/media_1a9a113d92ffeaf264ff9775f2d27291e372f48f1.png?width=750&format=png&optimize=medium)Image: Key example of using commas. Two examples of incorrect usage. Save file as a JPEG, PNG or GIF. You can export this file as a vector, in SVG, AI, or other formats, or you can export as a rasterized image in JPEG, PNG, or GIF. (source: https://preview.spectrum.adobe.com/content/media_1a2fcbcdd8de2dc186395cf15efc1f288f4e41fe1.png?width=750&format=png&optimize=medium)
+
+### Ellipsis
+
+Use ellipses (…) when truncating text in small spaces. Use an ellipsis at the end of the text to communicate the progress of something that is in process, such as a waiting or loading state. In general, avoid using an ellipsis in a button. If a button will take a user to a completely different or more complicated view (such as going from a dialog to a settings panel), it can be acceptable to include an ellipsis at the end of the label text to communicate that there's more action needed beyond the button's initial interaction. For prompt text in a picker, use an ellipsis at the end of the text to communicate that a user can select an option (e.g., “Select category…”). If your product uses a menu pattern native to an operating system (OS), follow the company’s guidelines. If it uses Spectrum’s Menu component, see Ellipses in menu commands. If you need to directly refer to a UI element whose name ends with an ellipsis (e.g., “ Find… “) in running text, drop the ellipsis: “Use Find to search the database.” Use the more icon (not an ellipsis as a string of text) when designing a More menu. Image: Key example of using ellipsis. An example of correct usage. UI mockup showing a 'Signing out...' heading above a divider line, a 'More actions' button with an ellipsis icon, and an expanded menu below it with three options: Rename (pencil icon), Delete (trash icon), and Share with... (share icon). (source: https://preview.spectrum.adobe.com/content/media_1c710147f2f3f41b5f977dab0de1f9dbf2151d7e5.png?width=750&format=png&optimize=medium)Image: Key example of using ellipsis. An example of incorrect usage. UI mockup showing a 'Go to website...' heading above a divider line, a 'More actions...' button, and an expanded menu below it with three options: Rename (pencil icon), Delete (trash icon), and Share with... (share icon). (source: https://preview.spectrum.adobe.com/content/media_110fd0c4724c98a3ad6b0e79ce89b31db17586b19.png?width=750&format=png&optimize=medium)
+
+### Emoji
+
+Don’t use emoji in any interface language. Emoji often convey tones that may be inappropriate in certain contexts. They’re also difficult to localize, and tend to diminish readability and comprehension. When writing about emoji, you can have one emoji or multiple emoji. The spelling is the same for both the singular and plural noun forms. Image: Key example of using emoji. Correct usage, text with no emoji included. Welcome to Creative Cloud, Marisa — we’re glad you’re here. (source: https://preview.spectrum.adobe.com/content/media_1cf42549f465ae5403cbb7c203a5f74d8fa680f79.png?width=750&format=png&optimize=medium)Image: Key example of using emoji. Incorrect usage, text including 3 emoji. Waving hand Welcome to Creative Cloud, Marisa! Start exploring below hand pointing down to begin. Party popper. (source: https://preview.spectrum.adobe.com/content/media_1fd3facd815ebabf2d968607ffbddb641779151fd.png?width=750&format=png&optimize=medium)
+
+### Equals sign
+
+Don’t use an equals sign (=) in place of the word "equals," and don’t use this as shorthand for "meaning," "means,” or "is." Image: Key example of using equals sign. Correct usage. Campaigns are made up of targeted audiences and the ads we show to them. (source: https://preview.spectrum.adobe.com/content/media_153383389ccf9ec20540a5b290705174dbcf716b8.png?width=750&format=png&optimize=medium)Image: Key example of using equals sign. Incorrect usage. Targeted audiences plus sign ads we show them equals sign campaigns. (source: https://preview.spectrum.adobe.com/content/media_1a61cab2cd0c6004f8e8919ecd583025bd86f86e8.png?width=750&format=png&optimize=medium)
+
+### Exclamation mark
+
+Don’t use exclamation marks (!) since they are difficult to localize and easy to overuse. Image: Key example of using exclamation marks. Correct usage, no exclamation mark at the end of the sentence. Welcome to Creative Cloud, Marisa — we’re glad you’re here. (source: https://preview.spectrum.adobe.com/content/media_1cf42549f465ae5403cbb7c203a5f74d8fa680f79.png?width=750&format=png&optimize=medium)Image: Key example of using exclamation marks. Incorrect usage, two exclamation marks at the end of two sentences. Welcome to Creative Cloud, Marisa! We’re glad you’re here! (source: https://preview.spectrum.adobe.com/content/media_1c331cd643764317e2438ffff9fdc857c55d3c902.png?width=750&format=png&optimize=medium)
+
+### Greater than and less than
+
+When communicating navigation, such as in breadcrumbs, use the "chevron" icon built into the component, not the greater than symbol. Don’t use the greater than and less than symbols to communicate steps in a flow — use bulleted or numbered lists instead. Don’t use these symbols to replace the words "greater than" or "less than." And don’t use them to accent or decorate a word. Image: Key example of using greater than and less than symbols. Three examples of correct usage, no greater than or less than symbols in any text. Bulleted list, 3 items, Go to File, Choose Save as, Rename the file. Use less than the amount you used already. Learn more. (source: https://preview.spectrum.adobe.com/content/media_1d1411fb6e4156c927d6b3f773397f998103e771f.png?width=750&format=png&optimize=medium)Image: Key example of using greater than and less than symbols. Three examples of incorrect usage, with greater than or less than symbols in the text. Go to File greater than symbol choose Save as greater than symbol rename the file. Use less than symbol the amount you used already. Learn more greater than symbol. (source: https://preview.spectrum.adobe.com/content/media_1f5ada9d814f392764bb332dc701b5b93819cb4dd.png?width=750&format=png&optimize=medium)
+
+### Hyphen and dash
+
+Use em dashes (—) to separate distinct but related thoughts. Include spaces before and after the em dash. Use en dashes (–) for number ranges and lengths of time, with no spaces before or after the en dash. Don’t use them when paired with the words “from” or “between.” When needing to show gaps in data in a table, use an en dash to represent null, unavailable, or inapplicable values. Use hyphens (-) between words, and with no spaces before or after the hyphen. Image: Key example of using hyphens and dashes. 4 examples of correct usage. Never miss a comment — turn on notifications in Acrobat. Repeat steps 1-4. Campaign was active between 03/01/2020 and 03/31/2020. Turn on auto-update in the Settings panel. (source: https://preview.spectrum.adobe.com/content/media_1eb50e4bbbe68e6a76d3f7b69ee90d7de4d49128c.png?width=750&format=png&optimize=medium)Image: Key example of using hyphens and dashes. 4 examples of incorrect usage. Never miss a comment; turn on notifications in Acrobat. Repeat steps 1 - 4. Campaign was active 03/01/2020-03/31/2020. Turn on auto - update in the Settings panel. (source: https://preview.spectrum.adobe.com/content/media_14278b1f05592b369f25f9772991b096fa70ff3ba.png?width=750&format=png&optimize=medium)
+
+### Minus sign
+
+Don’t use the minus sign (-) in place of the word “minus,” “without,” “less,” “negative,” or other words related to subtraction. Image: Key example of using minus sign. Correct usage, no minus sign and using the full word instead. Enter the budgeted amount, minus the insertion fee. (source: https://preview.spectrum.adobe.com/content/media_1ce3af052f06885272825237f2b3f9202586ec7e0.png?width=750&format=png&optimize=medium)Image: Key example of using minus sign. Incorrect usage, with minus sign instead of using the full word. Enter the budgeted amount minus sign the insertion fee. (source: https://preview.spectrum.adobe.com/content/media_16bf4aa2730bed2334b5d373575857fcadab9cc18.png?width=750&format=png&optimize=medium)
+
+### Parentheses
+
+Use parentheses ( ( ) ) to provide supplementary context. Don’t use parentheses in simple tooltips. In rich tooltips, they can indicate keyboard shortcuts. Don’t use brackets in place of parentheses. Image: Key example of using parentheses. Three examples of correct usage, with parentheses to indicate supplemental information. Command-C (Mac) / Control-C (Windows). Insert a blank keyframe (directions, Insert > Timeline > Blank keyframe). Clone Stamp tool (shortcut, S). (source: https://preview.spectrum.adobe.com/content/media_1279b4021a741ec75c2661177ec1d2f8d2b6aacf3.png?width=750&format=png&optimize=medium)Image: Key example of using parentheses. Two examples of incorrect usage, with parentheses not needed or brackets used instead of parentheses. Cloud documents are saved online to Adobe's cloud (collaboration and other features are on the way). Clone Stamp tool [keyboard shortcut, S]. (source: https://preview.spectrum.adobe.com/content/media_1e8e996e2cc9e225730b4279a5ad9dc15ea8c53e5.png?width=750&format=png&optimize=medium)
+
+### Period
+
+In general, if your text is a full sentence, add a period to the end. If it's a short, direct phrase — either standalone, or within a UI component like a toast or alert banner — don't add a period. In the majority of cases, don’t use periods (.) or any other punctuation on the end of bulleted or numbered lists. If one list item is a complete sentence, then it would end with a period (or question mark). In this case, use periods at the end of all items. Don’t use periods in headers or buttons. Image: Key example of using periods. Correct usage, no periods at the end of items in a bulleted list. Bulleted list, 3 items, Legal name, Mailing address, Birthdate. (source: https://preview.spectrum.adobe.com/content/media_1e581e453d8679a15afb5a553de8de59ff321f6ed.png?width=750&format=png&optimize=medium)Image: Key example of using periods. Incorrect usage, periods at the end of items in a bulleted list. Bulleted list, 3 items, Legal name. Mailing address. Birthdate. (source: https://preview.spectrum.adobe.com/content/media_174942c10ff6c52106e7c4b6385e5d765a127f764.png?width=750&format=png&optimize=medium)
+
+### Plus sign
+
+Don’t use plus signs (+) in place of the word "and," bullet points, or as any other design elements. Don’t use plus signs when indicating there is more of something available. Image: Key example of using a plus sign. Correct usage, using the full word &quot;and.&quot; Use this app for photography and illustration. (source: https://preview.spectrum.adobe.com/content/media_13dd1cc5a599683e2dbed652914877252a8611df5.png?width=750&format=png&optimize=medium)Image: Key example of using a plus sign. Incorrect usage, using a plus sign instead of the full word &quot;and.&quot; Use this app for photography plus sign illustration. (source: https://preview.spectrum.adobe.com/content/media_12db667a2caec37b5160ade9f6ff0d0fb2d42b6be.png?width=750&format=png&optimize=medium)
+
+### Question mark
+
+When writing titles, questions marks (?) are the only acceptable punctuation mark to include. Avoid using question marks to ask rhetorical questions. Image: Key example of using a question mark. Correct usage, question mark at the end of a sentence asking a direct question. What are your skillsets? (source: https://preview.spectrum.adobe.com/content/media_160ec7f3e4f5519cc333d7d72556ecd7e88feb0ac.png?width=750&format=png&optimize=medium)Image: Key example of using a question mark. Incorrect usage, question mark at the end of a sentence asking a rhetorical question. What can't you do with Creative Cloud? (source: https://preview.spectrum.adobe.com/content/media_1f2846a15e1d76ac5255db6ef783845f2b9703646.png?width=750&format=png&optimize=medium)
+
+### Quotation mark
+
+In UI copy, only use quotation marks (“”) when quoting someone’s words or when referring to a file or asset name. Always use smart quotation marks (also called “curly” or “directional”), except when showing code. Smart quotation marks are easier to read because they better match the other characters in a typeface. Straight quotes may also be confused with prime symbols, which are used for measurements. Don’t use quotation marks when directly referring to interface elements. View the Typography page for guidance on using bold text to do so. Image: Key example of using quotation marks. Correct usage, bold the name of an interface element when referring to it directly instead of using quotation marks around the word. Select the Lasso tool to draw a boundary around what you want to move. (source: https://preview.spectrum.adobe.com/content/media_1ddb44a7b91e1a81c81e7ca3a0c96a1475d293c94.png?width=750&format=png&optimize=medium)Image: Key example of using quotation marks. Incorrect usage, putting quotation marks around the name of an interface element instead of bold text. Select the &quot;Lasso tool&quot; to draw a boundary around what you want to move. (source: https://preview.spectrum.adobe.com/content/media_1ada897bb41df80cfa8383d458b8cf5daade0b748.png?width=750&format=png&optimize=medium)
+
+### Semicolon
+
+Don’t use semicolons (;). If you need a break in a sentence, use periods, commas, or occasionally em dashes. While semicolons are useful for connecting two related thoughts, they add a formal and academic tone to text and have shown to negatively affect user comprehension in UX writing. Image: Key example of using semicolons. Correct usage, no semicolon in a sentence but using an em dash to indicate a related thought instead. Never miss a comment — turn on notifications in Acrobat. (source: https://preview.spectrum.adobe.com/content/media_1691ab7e4c0ba2b956e3cf57ccbe19d5fa400084e.png?width=750&format=png&optimize=medium)Image: Key example of using semicolons. Incorrect usage, semicolon in a sentence to indicate a related thought. Never miss a comment; turn on notifications in Acrobat. (source: https://preview.spectrum.adobe.com/content/media_14f5caca9184f4c0daa5b9bfeb684a895af630b05.png?width=750&format=png&optimize=medium)
+
+### Slash
+
+Don’t use backward slashes, and don’t use a forward slash ( / ) to combine words or ideas. This comes across as noncommittal, and affects comprehension and clarity. Instead, use the words “and” or “or.” Don’t use “and/or.” Image: Key example of using slashes. Correct usage, no forward slash used to combine words or ideas. This document shows guidances and frameworks for your consideration. (source: https://preview.spectrum.adobe.com/content/media_1072a08fcf03d79f48fe875e40859c1b19effffba.png?width=750&format=png&optimize=medium)Image: Key example of using slashes. Incorrect usage, forward slash used to combine words or ideas. This document shows guidances/frameworks for your consideration. (source: https://preview.spectrum.adobe.com/content/media_1b56a4bf2e61d027f28056b61010d139d7cae30d9.png?width=750&format=png&optimize=medium)
+
+### Vertical bar
+
+Don’t use the vertical bar (|) in running text. Avoid using it to divide information in places other than webpage titles tags and footer info. It shouldn’t be used for purely stylistic or decorative purposes when blank space between items is sufficient. When you use the vertical bar, use an icon and not its text form. Additionally, make sure you change its name in JAWS to “Pause” for proper accessibility. Image: Key example of using a vertical bar. Correct usage, no vertical bar used in running text when blank space is acceptable. Title Share your prototypes. Description XD now lets you create share links to send to stakeholders for feedback. Two links with no vertical bar in between, labels Learn more and Download XD. (source: https://preview.spectrum.adobe.com/content/media_1c21f39d5f9eef60e9b44a5e9fcda53211e58d245.png?width=750&format=png&optimize=medium)Image: Key example of using a vertical bar. Incorrect usage, with vertical bar used in running text when blank space would have been acceptable. Title Share your prototypes. Description XD now lets you create share links to send to stakeholders for feedback. Two links with vertical bar in between, labels Learn more and Download XD. (source: https://preview.spectrum.adobe.com/content/media_111ec27ddb9f5e144baed1c3194728792b9df0161.png?width=750&format=png&optimize=medium)
+
+## Abbreviations
+
+Use abbreviations consistently throughout your experience to help with predictability and usability. When writing string descriptions or alt text, be sure to write the full word so that the content can be properly localized and so screenreaders will read the actual word instead of spelling out the abbreviation.
+
+### Amounts
+
+Use K for thousands, M for millions, B for billions, capitalized, no periods. Include a space between the number and the unit of measurement (e.g., "71 M records found").
+
+### Measurements and dimensions
+
+For full sentences where measurements or other numbers are present, use AP style and spell out the unit of measurement (e.g., 2 points, 2 picas, 2 pixels, 2 megabytes). Similarly, use AP style when abbreviating measurements or time. Make sure there’s a space between the number and the unit of measurement (e.g., 2 pt, 2 MB, 2 min, 2 hr).
+
+### Months
+
+Use Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec (no periods).
+
+### Days
+
+Use Sun, Mon, Tue, Wed, Thu, Fri, Sat (no periods).
+
+### Time
+
+Use sec, min, hr as singular, no periods, no comma, and with a space in between the number and the unit of time (e.g., 1 hr 21 min). Use lowercase am and pm indicators without a preceding space, unless you’re describing 24-hour time (e.g., 17:15).
+
+## Numbers
+
+### Currency
+
+Use the numerical form of $1.00 when formality is needed, or when the number is dynamic and might include cents. Use the number form of $1 when you need a more casual, neutral tone or if there is a space constraint and you can round off to the nearest dollar. Use the international abbreviation for the currency when you need to disambiguate types of currency (e.g., "$100 USD equals $138.21 SGD"). Image: Key example of writing about currency. Two examples of correct usage. Total ad spend: $150.21 USD using the acronym for US dollars. They spend about $10 per month, omitting the cents decimal. (source: https://preview.spectrum.adobe.com/content/media_1f86646f84a9e0a0745a4b32681da8c4064294723.png?width=750&format=png&optimize=medium)Image: Key example of writing about currency. Two examples of incorrect usage. Total ad spend: $150 in US dollars, with “US dollars” spelled out. They spend about $10.00 a month, with the cents decimal included. (source: https://preview.spectrum.adobe.com/content/media_1960880fbf82b1ac76cf0408d32012ab572f49e84.png?width=750&format=png&optimize=medium)
+
+### Large numbers
+
+Use a comma to offset groups of three digits, for readability: 10 100 1,000 10,000 100,000 1,000,000 But for the best readability, when citing large, round numbers, spell out the word: 4 thousand 81 million 2.5 billion
+
+### Numerals
+
+In running text, write out the words zero through nine, then start using the number for 10 and higher. When telling time, presenting a series or range, or providing a timestamp, use the number forms: 0 through 9. You can adjust how you format numerals if you feel it’s appropriate for your situation. Using a number adds more emphasis than spelling out the word. For example, if you were to say “Compare two files and see the changes,” the emphasis is on the comparison, not on the number of files. "Read all eight comments" focuses on the availability of comments; "Read all 8 comments" focuses on the number of comments. If you’re mentioning currency or time alongside other types of numbers, spell out the number to make the currency or time more prominent. Image: Key example of using numbers in headlines and text. Two examples of correct usage. 1 – 10 possible results, with an en dash used to indicate range. Sign up for two months and save 20% for a year, with “two” spelled out. (source: https://preview.spectrum.adobe.com/content/media_1feb308f24883d0247d0d208d4261d6d898ab8d41.png?width=750&format=png&optimize=medium)Image: Key example of using numbers in headlines and text. Two examples of incorrect usage. One to 10 possible results, with “one” spelled out and “to” used to indicate range. Sign up for 2 months and save $20 for a year, with the numeral “2” used. (source: https://preview.spectrum.adobe.com/content/media_147182676495465433239e1114245af27cda0a986.png?width=750&format=png&optimize=medium)
+
+### Percentages
+
+Use the percent symbol (%) instead of spelling out the word "percent."
+
+## Dates and time
+
+### Dates
+
+Date formatting is contextual, and it will depend on your product and use case. Different kinds of date formatting can be used for standalone strings in running text or for strings in more data-rich views. Some experiences might require the full format, where others might require something more compact: Full: Monday, August 21, 2017 at 3:07pm Compact: Mon, Aug 21, 2017, 3:07pm Additionally, dates are often localized. For example, in Europe and the U.K., the previous date example would be written: Full: Monday, 21 August at 15:07 Compact: Mon, 21 Aug, 15:07 For U.S. English, you can also format dates as MM-DD-YYYY, using the numeral for the month instead of the word. Use a 2-digit format (including a 0, even with single digit months and days). The 2-digit format also helps make it easier to parse and compare multiple dates, especially in tables or lists: 02/24/2000 04/01/2015 Work with a localization expert to localize dates and times for your product’s specific cases. Learn more about the formatting for abbreviating dates (months and days) in the Abbreviations section.
+
+### Time
+
+Do not use:00 with whole numbers When presenting a range of time, use an en dash without spaces in between, and do not include am or pm on the first time if it’s the same as the last When translating to 24-hour time, do not include am and pm (e.g., 17:15) Learn more about the formatting for abbreviating time (hours, minutes, seconds, and am and pm indicators) in the Abbreviations section. Image: Key example of writing about time. Four examples of correct usage. Posted at 12:45pm, with “pm” lowercase and without a preceding space. Schedule for 1pm, without the colon. Meeting is at 1:30–2pm, using an en dash to separate the ranges. Seen at 17:16 (source: https://preview.spectrum.adobe.com/content/media_12eaeb13f15c6d8e0959bacffdda4ab64e1e8bcf1.png?width=750&format=png&optimize=medium)Image: Key example of writing about time. Four examples of incorrect usage. Posted at 12:45 PM, with PM in all caps and with a preceding space. Schedule for 1:00pm, indicating the colon. Meeting is from 1:30pm to 2pm, with the word “to” separating the ranges. Seen at 17:16pm, with a “pm” being used for a 24-hour time. (source: https://preview.spectrum.adobe.com/content/media_19149e23f089566ad82635b8923c74c0bd16f4f75.png?width=750&format=png&optimize=medium)
+
+### Relative time
+
+Relative time is either used to convey the amount of time elapsed since an event (such as how long since a project was last saved or edited), or the amount of time remaining in an ongoing process (such as how much longer an asset will take to render or download). Use words like “hour,” “day,” and “month” and their respective abbreviations once the time has reached that threshold for measurement. Such as: 1 hour (rather than 60 minutes) 1 day (rather than 24 hours) 1 month (rather than 30 days) 1 year (rather than 365 days) The usage of relative time is contextual, and will depend on your product and use case (for example, timestamps and locale style or standards). If you’re not building in U.S. English, partner with a localization expert for your product’s specific considerations.
+
+### Elapsed time
+
+When describing elapsed time, break it down as follows: Just now 1 minute ago X minutes ago 1 hour ago X hours ago 1 day ago X days ago 1 month ago X months ago 1 year ago X years ago Image: Key example of elapsed time. Three examples of correct usage.1 hour ago, 1 day ago, 3 yrs ago. (source: https://preview.spectrum.adobe.com/content/media_19eafde27d2f935b4ac941b341ba337de5b58cfe3.png?width=750&format=png&optimize=medium)Image: Key example of elapsed time. Three examples of incorrect usage. 60 minutes ago, 1 days ago, 3y ago. (source: https://preview.spectrum.adobe.com/content/media_105eb9ef6d43745267d3814c290f75d2bee858cfe.png?width=750&format=png&optimize=medium)
+
+### Remaining time
+
+When showing remaining time, use the following pattern: X hours remaining X minutes remaining X seconds remaining For describing an estimated or uncertain amount of remaining time, use the word "about" at the beginning of the string. Image: Key example of remaining time. Three examples of correct usage. About 1 hour remaining, 1 minute remaining, 2 hrs remaining. (source: https://preview.spectrum.adobe.com/content/media_1c2af24ae24b7568c9787fc801651d69e8a4c4ff9.png?width=750&format=png&optimize=medium)Image: Key example of remaining time. Three examples of incorrect usage. About 60 minutes remaining, 1 minutes remaining, 2h remaining. (source: https://preview.spectrum.adobe.com/content/media_18852f54901c425e6d2196a900ed14b2597829290.png?width=750&format=png&optimize=medium)
+
+### Timestamps
+
+For a timestamp in a video editor where precision is needed, go by hour, then minute, then second, following this formula: HHSS. In a tutorial playlist, for example, less detail is needed. If the video is less than an hour long, omit the hours. Image: Key example of timestamps. Two examples of correct usage. Insert marker at 01:12:34.55, skip to 12:51 for instructions. (source: https://preview.spectrum.adobe.com/content/media_126ac3109a2426a7c19ff67332542a00c5ab79d98.png?width=750&format=png&optimize=medium)Image: Key example of timestamps. Two examples of incorrect usage. Insert marker: 1hr 12 min 34.55sec, skip to 12 min and 51 sec. (source: https://preview.spectrum.adobe.com/content/media_19b093d1a3cdf95a3173121dde0ac6e49d3153135.png?width=750&format=png&optimize=medium)
+
+### Time zones
+
+Avoid time zones unless absolutely necessary — if possible, dynamically convert to the user’s time zone. If the time zone is absolute, use the common name, like Pacific Time, or India Standard Time. Don’t use UTC formulas. If space is constrained, use a time zone's acronym (e.g., PST, EST), but make sure you provide extra context to your localization team if doing so. For relative time and clarity, say “in your time zone.” Image: Key example of time zones. An example of correct usage. Yesterday at 4:58pm Eastern. (source: https://preview.spectrum.adobe.com/content/media_1ace27ed4c9fa99fc2ef035e56cf4a32f2bb622ba.png?width=750&format=png&optimize=medium)Image: Key example of time zones. An example of incorrect usage. Yesterday at 4:58pm UTC-5. (source: https://preview.spectrum.adobe.com/content/media_12e4731e9a747b9f29901ab0f5fd9c01178517a21.png?width=750&format=png&optimize=medium)
+
+## Lists
+
+Use lists to break down complex ideas and make them more readable and scannable. You can also use them to make parallel choices easy to compare. Use bulleted (unordered) lists to present two or more concepts of equal weight Use numbered (ordered) lists to present a series of sequential steps
+
+### Introductory phrases
+
+Use an introductory phrase with a colon to lead into the list, and write each list item so it works with that phrase. Image: Key example of introductory phrases. An example of correct usage. You can choose: small, medium, large. (source: https://preview.spectrum.adobe.com/content/media_19e17dd8af3d33ef152a281adb96aa9334d3f1789.png?width=750&format=png&optimize=medium)Image: Key example of introductory phrases. An example of incorrect usage. Choose one. Small, medium, large. (source: https://preview.spectrum.adobe.com/content/media_1d962dd0655205855f33493c60ac60c51d50f8175.png?width=750&format=png&optimize=medium)
+
+### Be consistent and use parallel construction
+
+Phrase your list items to be consistent with each other as much as possible. This helps with comprehension and readability. Some things to keep in mind when writing lists: Capitalize the first letter of each list item. Generally, don’t use terminal punctuation in list items, unless it’s a complete sentence or sentences. If the list includes action items (as in a series of instructions), the entire list should follow the same format, with the verb first. If it’s a list of nouns, all items on the list should include nouns. Image: Key example of be consistent and use parallel construction. An example of correct usage. It's happening in cities in: Indiana, Illinois, Ohio. (source: https://preview.spectrum.adobe.com/content/media_171f288bc5d803d0e060960d43c79d41ec368b5a3.png?width=750&format=png&optimize=medium)Image: Key example of be consistent and use parallel construction. An example of incorrect usage. It's happening in: Cities in Indiana, Illinois, and in Ohio, too. (source: https://preview.spectrum.adobe.com/content/media_15d026fc4a1781007a820ace2c0307b66d46d6b72.png?width=750&format=png&optimize=medium)
+
+### Capitalize each list item
+
+Capitalize the first letter of each list item and use sentence case. Image: Key example of capitalize each list item. An example of correct usage. Ice cream flavors: Vanilla bean, Mint chocolate chip, Mocha. (source: https://preview.spectrum.adobe.com/content/media_1806caaa5d1e4fde15502475caaae41720614c02e.png?width=750&format=png&optimize=medium)Image: Key example of capitalize each list item. An example of incorrect usage. Ice cream flavors: Vanilla Bean, mint chocolate chip, Mocha. (source: https://preview.spectrum.adobe.com/content/media_13b10371af23c120417abc5ea57795a801aec3289.png?width=750&format=png&optimize=medium)

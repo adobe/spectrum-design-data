@@ -1,7 +1,7 @@
 ---
 title: 'Browsing context: Content area'
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/foundations/app-frame/content-area-browsing-context
+source_url: https://preview.spectrum.adobe.com/foundations/app-frame/content-area-browsing-context
 last_updated: '2026-09-04'
 status: published
 tags:
@@ -18,31 +18,31 @@ hub_path: /foundations/app-frame/content-area-browsing-context
 
 ## Single section
 
-This layout is suitable when all content is related and unified by the primary purpose of the page. This single section can be subdivided using full-width dividers, or by creating visual groupings of content using proximity and spacing. View more about spacing in Spectrum 2.
+This layout is suitable when all content is related and unified by the primary purpose of the page. This single section can be subdivided using full-width dividers, or by creating visual groupings of content using proximity and spacing. View more about spacing in Spectrum 2. Image: Example of a generic product, single section content area layout. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1bd6570c3132e00c1dc765b1c52515dff97b92e39.png?width=750&format=png&optimize=medium)
 
 ### Use dividers to separate related content
 
-Dividers are useful to separate content when using spacing alone wouldn’t be clear enough to mark the boundaries of distinct areas. Generally, more complex content with a varying alignment of objects will benefit the most from using a divider. For example, showing the contents from a selected folder, or a commenting panel of a selected file, would benefit from a divider. If showing content that’s unrelated, like an AI assistant that’s available across multiple pages, use the vertical layout. View more about border width in Spectrum 2.
+Dividers are useful to separate content when using spacing alone wouldn’t be clear enough to mark the boundaries of distinct areas. Generally, more complex content with a varying alignment of objects will benefit the most from using a divider. For example, showing the contents from a selected folder, or a commenting panel of a selected file, would benefit from a divider. If showing content that’s unrelated, like an AI assistant that’s available across multiple pages, use the vertical layout. View more about border width in Spectrum 2. Image: Example of correct usage of including dividers to separate related content. Two sections, the first labeled Folders and the second labeled Filters, are separated by a divider. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_13a4d342533bda0badc4f9a0bf0e9a9b645daa6b3.png?width=750&format=png&optimize=medium)
 
 ## Horizontal sections
 
-The top section can also be useful to visually indicate that the content is separate and has additional affordances, such as the ability to be minimized. For example, “welcome” type content might be shown in the top section, and recent files might be shown below.
+The top section can also be useful to visually indicate that the content is separate and has additional affordances, such as the ability to be minimized. For example, “welcome” type content might be shown in the top section, and recent files might be shown below. Image: Example of a generic product, using horizontal sections for the content area layout, with a top section and a bottom section. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_15affee1906cbe98362d056855b92c441786caf97.png?width=750&format=png&optimize=medium)
 
 ### Don't enable scrolling on multiple areas
 
-When using horizontal sections, the page should scroll as a single unit. Consider other ways to minimize the top section if needed, such as through an additional control to show and hide content.
+When using horizontal sections, the page should scroll as a single unit. Consider other ways to minimize the top section if needed, such as through an additional control to show and hide content. Image: Example of correct usage of scrolling, where the page scrolls as a single unit. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_13e801bea2744743556446c567b59c4132ebdc6b6.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of scrolling in multiple areas, where the page does not scroll as a single unit. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_11957be8791ecefb17c39550d0b4c5d3df575d008.png?width=750&format=png&optimize=medium)
 
 ### Put scrollable content in the bottom section of a horizontal layout
 
-The top section of a horizontal layout should be reserved for high-attention marketing messages or quick actions, and it should not be scrollable. Put infinite scrolling and longer content in the bottom section.
+The top section of a horizontal layout should be reserved for high-attention marketing messages or quick actions, and it should not be scrollable. Put infinite scrolling and longer content in the bottom section. Image: Example of correct usage of including scrollable content in the bottom section of a horizontal layout. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1f53df0119f8b3554e0d92c237c081855521a5224.png?width=750&format=png&optimize=medium)
 
 ## Vertical sections
 
-This layout is suitable to separate content that’s not semantically related, and if one of the content areas can be minimized. For example, this might apply for onboarding tutorials, or to include an AI assistant.
+This layout is suitable to separate content that’s not semantically related, and if one of the content areas can be minimized. For example, this might apply for onboarding tutorials, or to include an AI assistant. Image: Example of an app frame layout that uses vertical sections. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1fb36b6057fa86021dea6212212cf5af06755c5e1.png?width=750&format=png&optimize=medium)
 
 ## Multiple sections in a grid layout
 
-This layout is suitable to separate multiple groups of content that aren’t semantically related. For example, this could show several widgets and distinct marketing messages. This layout can also be useful if a user is able to customize the page. Make sure to consider smaller breakpoints and decide how content areas should reflow, hide, or combine. In general, show the most important information at the top, and if possible, then progressively disclose the not-as-important information.
+This layout is suitable to separate multiple groups of content that aren’t semantically related. For example, this could show several widgets and distinct marketing messages. This layout can also be useful if a user is able to customize the page. Make sure to consider smaller breakpoints and decide how content areas should reflow, hide, or combine. In general, show the most important information at the top, and if possible, then progressively disclose the not-as-important information. Image: Example of an app frame layout that uses multiple sections in a grid. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_17f472a9fb791f6f6b4bf32f6e85b75acff1e92ab.png?width=750&format=png&optimize=medium)
 
 ## App frame usage of gradients
 
@@ -50,15 +50,15 @@ Backgrounds that use gradients are always placed within the app frame intentiona
 
 ### Creating attention hierarchy with gradients in the app frame
 
-Containers in Spectrum share styles that draw different levels of attention, and the kind of container should be chosen based on the content within. Gradient backgrounds draw the most attention on a page; when used correctly, they help users better navigate the interface by drawing their attention to the most relevant, high-signal, and meaningful items at the given point in their workflow. For example, on a Home screen, gradient backgrounds might call attention to new AI features in the product. On a Learn screen, gradient backgrounds might call attention to tutorials from new creators. On a Files screen, gradient backgrounds might not be used at all in order to focus attention on asset previews. In any context, consider where you want to draw attention and what you want to highlight for the user, what the user’s intentions might be, and how gradient backgrounds may add or detract from the goals of the page. In general, less is more. The more gradients on a page, the more attention is diluted and no longer effective at communicating hierarchy of information. View more about attention hierarchy in Spectrum. While there isn’t an objective scale for each style, it can be helpful to think about backgrounds in terms of how much attention they draw, on a scale of low-to-high.
+Containers in Spectrum share styles that draw different levels of attention, and the kind of container should be chosen based on the content within. Gradient backgrounds draw the most attention on a page; when used correctly, they help users better navigate the interface by drawing their attention to the most relevant, high-signal, and meaningful items at the given point in their workflow. For example, on a Home screen, gradient backgrounds might call attention to new AI features in the product. On a Learn screen, gradient backgrounds might call attention to tutorials from new creators. On a Files screen, gradient backgrounds might not be used at all in order to focus attention on asset previews. In any context, consider where you want to draw attention and what you want to highlight for the user, what the user’s intentions might be, and how gradient backgrounds may add or detract from the goals of the page. In general, less is more. The more gradients on a page, the more attention is diluted and no longer effective at communicating hierarchy of information. View more about attention hierarchy in Spectrum. While there isn’t an objective scale for each style, it can be helpful to think about backgrounds in terms of how much attention they draw, on a scale of low-to-high. Image: Diagram showing a scale of high attention to low attention elements in Spectrum 2. From low attention to high attention: spacing, lowest. Background. Emphasized background. Gradient background, highest. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1c946f08e2a2aa802108e7a62f87e16cd71066f0b.png?width=750&format=png&optimize=medium)
 
 ### Don’t use gradients as the background in navigational areas
 
-While you may have seen past Spectrum 2 explorations showing gradients as the background in header and navigational areas, they should not be used in that context. This is because gradients that appear in the navigation of every page distract from more important information on the page, clash with other imagery, and might not work for some product segments. By using gradients in the content areas as backgrounds instead, there’s more flexibility to direct attention to different content and messages, depending on what’s important in the context of that page or workflow.
+While you may have seen past Spectrum 2 explorations showing gradients as the background in header and navigational areas, they should not be used in that context. This is because gradients that appear in the navigation of every page distract from more important information on the page, clash with other imagery, and might not work for some product segments. By using gradients in the content areas as backgrounds instead, there’s more flexibility to direct attention to different content and messages, depending on what’s important in the context of that page or workflow. Image: Example of correct usage of a gradient as a background within a content area. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1a39c1a5c36012f84ae0cce926569e9706f8e31a6.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of a gradient as a background in the header and side navigation. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_10fe927048d7a8f4137f7acdc9c866a55ed5b58b0.png?width=750&format=png&optimize=medium)
 
 ### Use gradient backgrounds to draw attention to one area
 
-Gradients are used to draw attention to important content and features. They can be used in the background of content areas. Using gradients in more than one content area results in multiple areas competing for attention. This is distracting from the task-at-hand workflows on the page.
+Gradients are used to draw attention to important content and features. They can be used in the background of content areas. Using gradients in more than one content area results in multiple areas competing for attention. This is distracting from the task-at-hand workflows on the page. Image: Example of correct usage of using a gradient background in a single content area, with no other gradients included on the page. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1f583c9fa811c6e7a6ed8249469807b605e7238fa.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of multiple gradient backgrounds in multiple content areas, in a single page. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_1b5652087df9967978ce99a53e23c600ec454f706.png?width=750&format=png&optimize=medium)
 
 ### Use gradient backgrounds that reflect the colors of the product brand or feature
 
@@ -66,8 +66,8 @@ Gradient colors are directly tied to product brand color palettes. Please reach 
 
 ### Use gradient backgrounds that reflect the colors of the product brand or feature
 
-Gradient colors are directly tied to product brand color palettes.
+Gradient colors are directly tied to product brand color palettes. Image: Example of correct usage of gradient backgrounds that reflect the colors of their associated product. First example, Illustrator uses the brand color palette, mainly orange, in its gradient. Second example, Premiere Pro uses the brand color palette, mainly purple, in its gradient. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_10930db5f8be0a15da9ae43aae5937eb33b494687.png?width=750&format=png&optimize=medium)Image: Example of correct usage of gradient backgrounds that reflect the colors of their associated product. First example, Photoshop uses the brand color palette, mainly blue, in its gradient. Second example, Illustrator uses the brand color palette, mainly orange, in its gradient. Third example, Aero uses the brand color palette, mainly green, in its gradient. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_10fda315a0553ad584dbf6968c1b9e3d6ddf53913.png?width=750&format=png&optimize=medium)
 
 ### Don't create your own gradients or customize them
 
-Gradients should always be delivered directly from the Spectrum Brand team and used as-is. Do not modify them.
+Gradients should always be delivered directly from the Spectrum Brand team and used as-is. Do not modify them. Image: Example of incorrect application of a gradient as a background in a content area. A modified gradient blending orange and green, that does not follow the Brand gradient system and standards. (source: https://preview.spectrum.adobe.com/foundations/app-frame/media_10a7448b827211c8ece643e26ebbd16ded2359004.png?width=750&format=png&optimize=medium)
