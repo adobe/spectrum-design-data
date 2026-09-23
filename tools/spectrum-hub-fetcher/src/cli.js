@@ -139,7 +139,7 @@ function filterRows(rows, prefixes) {
   });
 }
 
-async function fetchPageSections({ row, client }) {
+async function fetchPageSections({ row, client, imageBaseUrl }) {
   const page = await client.fetchPage(row.path);
   if (!page?.html) {
     return {
@@ -155,7 +155,7 @@ async function fetchPageSections({ row, client }) {
   const fragments = await inlineFragments(root, client.fetchPage, {
     warn: console.warn,
   });
-  stripNoise(root);
+  stripNoise(root, { baseUrl: `${imageBaseUrl}${row.path}` });
 
   const sections = splitSections(root);
   const title =
@@ -224,7 +224,7 @@ export async function main(
   const fetched = await mapWithConcurrency(
     selectedRows,
     args.concurrency,
-    (row) => fetchPageSections({ row, client }),
+    (row) => fetchPageSections({ row, client, imageBaseUrl: args.origin }),
   );
 
   // Pass 2 — drop stubs/non-canonical duplicates and assign unique slugs.

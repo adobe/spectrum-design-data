@@ -118,3 +118,56 @@ test("hub fetcher writes a failure report when the query index is unreachable", 
     rmSync(tempDir, { recursive: true, force: true });
   }
 });
+
+test("hub fetcher preserves image alt text and source context", (t) => {
+  const root = parse(`
+    <main>
+      <h1>Image guidance</h1>
+      <h2>Visual example</h2>
+      <figure>
+        <img src="../assets/example.png" alt="Example component anatomy" />
+        <figcaption>Annotated anatomy example</figcaption>
+      </figure>
+      <picture>
+        <source srcset="wide.png 2x, fallback.png" />
+        <img src="fallback.png" alt="Responsive example" />
+      </picture>
+      <img src="https://cdn.example.com/unlabeled.png" />
+    </main>
+  `);
+
+  stripNoise(root, {
+    baseUrl: "https://main--spectrum-hub--adobe.aem.live/guides/page",
+  });
+
+  const sections = splitSections(root);
+  const markdown = renderPage({
+    title: "Image guidance",
+    category: "guidelines",
+    sections,
+    sourceUrl: "https://main--spectrum-hub--adobe.aem.live/guides/page",
+    lastUpdated: "2026-09-23",
+  });
+  const text = sections.map((section) => section.text).join(" ");
+  t.true(markdown.includes("Image: Example component anatomy"));
+  t.true(
+    markdown.includes(
+      "source: https://main--spectrum-hub--adobe.aem.live/assets/example.png",
+    ),
+  );
+  t.true(text.includes("Image: Example component anatomy"));
+  t.true(text.includes("Annotated anatomy example"));
+  t.true(
+    text.includes(
+      "source: https://main--spectrum-hub--adobe.aem.live/assets/example.png",
+    ),
+  );
+  t.true(text.includes("Image: Responsive example"));
+  t.true(
+    text.includes(
+      "source: https://main--spectrum-hub--adobe.aem.live/guides/fallback.png",
+    ),
+  );
+  t.true(text.includes("Image: Unlabeled image"));
+  t.true(text.includes("source: https://cdn.example.com/unlabeled.png"));
+});
