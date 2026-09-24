@@ -163,7 +163,9 @@ export function createReadTools() {
     {
       name: "resolve_token",
       description:
-        "Resolve a design token property to its final value for a given color scheme, scale, and contrast level.",
+        "Resolve a design token property to its final value for a given context. " +
+        "Use component, variant, state, or colorRole to disambiguate shared properties; " +
+        "inspect ambiguous and deprecated in the result.",
       inputSchema: {
         type: "object",
         required: ["property"],
@@ -171,7 +173,9 @@ export function createReadTools() {
           property: {
             type: "string",
             description:
-              "Token property name, e.g. accent-background-color-default",
+              "Bare token property name (the name.property segment, e.g. " +
+              '"background-color", "corner-radius" — see primer().properties for ' +
+              "the full list). Not a flattened legacyKey.",
           },
           colorScheme: {
             type: "string",
@@ -187,10 +191,46 @@ export function createReadTools() {
             enum: ["regular", "high"],
             description: "Contrast: regular or high",
           },
+          component: {
+            type: "string",
+            description:
+              "Optional component name-object field. It is sparsely populated; " +
+              "prefer variant, state, or colorRole when available.",
+          },
+          variant: {
+            type: "string",
+            description:
+              "Optional token variant used to narrow shared properties.",
+          },
+          state: {
+            type: "string",
+            description:
+              "Optional token state used to narrow shared properties (including array-valued state).",
+          },
+          colorRole: {
+            type: "string",
+            description:
+              "Optional color role such as accent, negative, or positive.",
+          },
+          excludeDeprecated: {
+            type: "boolean",
+            description:
+              "Exclude tokens with lifecycle.deprecatedIn from candidate resolution.",
+          },
         },
         additionalProperties: false,
       },
-      async handler({ property, colorScheme, scale, contrast }) {
+      async handler({
+        property,
+        colorScheme,
+        scale,
+        contrast,
+        component,
+        variant,
+        state,
+        colorRole,
+        excludeDeprecated,
+      }) {
         const ds = await loadDataset(
           config.cascadeActive ? config.cascadeDataPath : config.dataPath,
         );
@@ -198,10 +238,19 @@ export function createReadTools() {
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
         if (contrast) context.contrast = contrast;
-        const result = ds.resolve(property, context);
+        const result = ds.resolve(property, context, {
+          component,
+          variant,
+          state,
+          colorRole,
+          excludeDeprecated: excludeDeprecated ?? false,
+        });
         if (!result) {
+          const deprecatedHint = excludeDeprecated
+            ? " Only deprecated matches may exist; retry without excludeDeprecated to inspect them."
+            : "";
           throw new Error(
-            `No token found for property "${property}" in context ${JSON.stringify(context)}`,
+            `No token found for property "${property}" in context ${JSON.stringify(context)}.${deprecatedHint}`,
           );
         }
         return result;
@@ -218,7 +267,11 @@ export function createReadTools() {
         properties: {
           filter: {
             type: "string",
-            description: 'Filter expression, e.g. "category=color"',
+            description:
+              'Filter expression, e.g. "property=background-color". Valid keys: ' +
+              "property, component, variant, state, colorScheme, scale, contrast, " +
+              'uuid, $schema. Note: "component" is not currently populated on ' +
+              "tokens — component=<id> always returns []; use describe_component instead.",
           },
         },
         additionalProperties: false,

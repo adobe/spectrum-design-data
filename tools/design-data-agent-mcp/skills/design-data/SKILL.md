@@ -67,9 +67,18 @@ all subsequent lookups. No inputs required.
 
 ### Resolve a token to its literal value — `resolve_token`
 
-Required: `property` (string) — e.g. `"accent-background-color-default"`
-Optional: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
-`contrast` (`"regular"` or `"high"`)
+Required: `property` (string) — the bare `name.property` segment, e.g. `"background-color"`
+or `"corner-radius"` (see `primer().properties` for the full list). **Not** a flattened
+legacyKey like `"accent-background-color-default"` — that form never resolves.
+Optional context: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
+`contrast` (`"regular"` or `"high"`). Optional narrowing: `component`, `variant`, `state`, and
+`colorRole`. Set `excludeDeprecated` to omit tokens with `lifecycle.deprecatedIn`.
+
+> **Gotcha:** when several tokens share a property, use `variant`, `state`, or `colorRole` to
+> narrow the match, then check `ambiguous` and `deprecated` on the result. `component` is
+> sparsely populated in the current dataset, so prefer the other fields when available.
+> `resolve_token` still uses cascade ranking when multiple candidates remain; use `query_tokens`
+> to inspect the full candidate set.
 
 ### Query tokens by filter expression — `query_tokens`
 
@@ -83,11 +92,13 @@ Filter syntax examples:
 ```
 property=background-color
 property=*background*
-component=button
-component=button,state=hover
 property=background-color|property=border-color
 $schema=https://spectrum.adobe.com/page/design-token/
 ```
+
+> **Gotcha:** `component=<id>` currently always returns `[]` — tokens aren't
+> component-indexed in this dataset. Use `describe_component` to see a component's known
+> token bindings instead.
 
 > **Exit codes:** `0` = matches found; empty array = no matches (not an error).
 

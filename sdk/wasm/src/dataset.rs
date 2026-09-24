@@ -23,7 +23,9 @@ use std::sync::OnceLock;
 
 #[cfg(feature = "embedded")]
 use design_data_core::cache;
-use design_data_core::cascade::{resolve_property, ResolutionContext};
+use design_data_core::cascade::{
+    matches_context, resolve_property_narrowed, PropertyNarrowing, ResolutionContext,
+};
 use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::primer;
@@ -35,8 +37,9 @@ use wasm_bindgen::prelude::*;
 use crate::error::{js_err, to_js_error};
 use crate::types::{
     AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolutionContext as WasmContext, ResolveResult, RevertedToken, SuggestResult,
-    SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken, ValidationResult,
+    ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing, ResolveResult,
+    RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken,
+    ValidationResult,
 };
 
 // ---------------------------------------------------------------------------
@@ -284,7 +287,10 @@ impl Dataset {
     /// no token matches the property+context combination.
     ///
     /// ```js
-    /// const result = ds.resolve("background", { colorScheme: "dark", scale: "medium" });
+    /// const result = ds.resolve("background", { colorScheme: "dark", scale: "medium" }, {
+    ///   variant: "accent",
+    ///   state: "hover",
+    /// });
     /// if (result) console.log(result.token.raw.value);
     /// ```
     #[wasm_bindgen]
@@ -292,6 +298,7 @@ impl Dataset {
         &self,
         property: &str,
         context: WasmContext,
+        narrowing: Option<ResolveNarrowing>,
     ) -> Result<Option<ResolveResult>, JsValue> {
         let ctx_map = context.into_inner();
 
@@ -300,19 +307,65 @@ impl Dataset {
             ctx = ctx.with(k, v);
         }
 
-        // Delegate to cascade::resolve_property — the same path used by cli and tui.
+        let narrowing = narrowing.unwrap_or_default();
+        let core_narrowing = PropertyNarrowing {
+            component: narrowing.component,
+            variant: narrowing.variant,
+            state: narrowing.state,
+            color_role: narrowing.color_role,
+            exclude_deprecated: narrowing.exclude_deprecated,
+        };
+        let candidates = resolve_property_narrowed(&self.graph, property, &ctx, &core_narrowing);
+        // Delegate to cascade::resolve_property_narrowed — the same cascade ranking
+        // path used by cli and tui, with the additional name-object filters applied.
         // This correctly applies layer-ordering (Platform wins over Foundation) that
         // the previous inline subgraph construction did not preserve.
-        match resolve_property(&self.graph, property, &ctx)
-            .into_iter()
-            .find(|c| c.is_winner)
-        {
-            Some(winner) => Ok(Some(ResolveResult {
-                token: TokenResult::from(&winner.record),
-                specificity: winner.specificity,
-            })),
-            None => Ok(None),
-        }
+        let Some(winner_index) = candidates.iter().position(|c| c.is_winner) else {
+            return Ok(None);
+        };
+        let winner = &candidates[winner_index];
+        let context_candidate = |candidate: &&design_data_core::cascade::ResolvedCandidate| {
+            candidate
+                .record
+                .raw
+                .get("name")
+                .and_then(|value| value.as_object())
+                .is_some_and(|name| matches_context(name, &ctx))
+        };
+        let candidate_count = candidates.iter().filter(context_candidate).count();
+        let alternatives = candidates
+            .iter()
+            .enumerate()
+            .filter(|(index, candidate)| *index != winner_index && context_candidate(candidate))
+            .take(5)
+            .map(|(_, candidate)| ResolveAlternative {
+                name: candidate.record.name.clone(),
+                uuid: candidate.record.uuid.clone(),
+                deprecated: candidate.deprecated,
+                deprecated_in: candidate
+                    .record
+                    .raw
+                    .get("lifecycle")
+                    .and_then(|v| v.get("deprecatedIn"))
+                    .and_then(|v| v.as_str())
+                    .map(String::from),
+            })
+            .collect();
+        Ok(Some(ResolveResult {
+            token: TokenResult::from(&winner.record),
+            specificity: winner.specificity,
+            deprecated: winner.deprecated,
+            deprecated_in: winner
+                .record
+                .raw
+                .get("lifecycle")
+                .and_then(|v| v.get("deprecatedIn"))
+                .and_then(|v| v.as_str())
+                .map(String::from),
+            candidate_count,
+            ambiguous: candidate_count > 1,
+            alternatives,
+        }))
     }
 
     // -----------------------------------------------------------------------

@@ -20,6 +20,7 @@
 use std::collections::HashMap;
 
 use crate::graph::{ModeSetRecord, TokenGraph, TokenRecord};
+use crate::query::matches_name_field;
 
 // ── Resolution context ────────────────────────────────────────────────────────
 
@@ -202,6 +203,31 @@ pub struct ResolvedCandidate {
     pub record: TokenRecord,
     pub specificity: u32,
     pub is_winner: bool,
+    pub deprecated: bool,
+}
+
+/// Optional non-mode-set fields used to narrow property resolution.
+#[derive(Debug, Clone, Default)]
+pub struct PropertyNarrowing {
+    pub component: Option<String>,
+    pub variant: Option<String>,
+    pub state: Option<String>,
+    pub color_role: Option<String>,
+    pub exclude_deprecated: bool,
+}
+
+impl PropertyNarrowing {
+    fn matches(&self, record: &TokenRecord) -> bool {
+        let fields = [
+            ("component", self.component.as_deref()),
+            ("variant", self.variant.as_deref()),
+            ("state", self.state.as_deref()),
+            ("colorRole", self.color_role.as_deref()),
+        ];
+        fields.into_iter().all(|(key, value)| {
+            value.is_none_or(|value| matches_name_field(&record.raw, key, value))
+        })
+    }
 }
 
 /// Resolve all tokens whose `name.property` equals `property`, ranked by cascade
@@ -216,6 +242,16 @@ pub fn resolve_property(
     property: &str,
     ctx: &ResolutionContext,
 ) -> Vec<ResolvedCandidate> {
+    resolve_property_narrowed(graph, property, ctx, &PropertyNarrowing::default())
+}
+
+/// Resolve property candidates with optional name-object narrowing.
+pub fn resolve_property_narrowed(
+    graph: &TokenGraph,
+    property: &str,
+    ctx: &ResolutionContext,
+    narrowing: &PropertyNarrowing,
+) -> Vec<ResolvedCandidate> {
     let candidates: Vec<TokenRecord> = graph
         .tokens
         .values()
@@ -226,6 +262,14 @@ pub fn resolve_property(
                 .and_then(|n| n.get("property"))
                 .and_then(|v| v.as_str())
                 == Some(property)
+        })
+        .filter(|t| narrowing.matches(t))
+        .filter(|t| {
+            !narrowing.exclude_deprecated
+                || t.raw
+                    .get("lifecycle")
+                    .and_then(|v| v.get("deprecatedIn"))
+                    .is_none()
         })
         .cloned()
         .collect();
@@ -267,6 +311,11 @@ pub fn resolve_property(
             record: t.clone(),
             specificity: spec,
             is_winner: winner.map(|w| w.name == t.name).unwrap_or(false),
+            deprecated: t
+                .raw
+                .get("lifecycle")
+                .and_then(|v| v.get("deprecatedIn"))
+                .is_some(),
         })
         .collect()
 }
@@ -799,6 +848,56 @@ mod tests {
         assert_eq!(results.len(), 1);
         assert!(results[0].is_winner);
         assert_eq!(results[0].record.name, "btn-bg");
+        assert!(!results[0].deprecated);
+    }
+
+    #[test]
+    fn resolve_property_narrowed_matches_scalar_and_array_name_fields() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "default".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "background-color", "variant": "accent", "state": ["hover"]}, "value": "#aaa"}),
+            ),
+            (
+                "subdued".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "background-color", "variant": "subdued", "state": ["down"]}, "value": "#bbb"}),
+            ),
+        ]);
+        let ctx = ResolutionContext::new();
+        let narrowing = PropertyNarrowing {
+            variant: Some("subdued".into()),
+            state: Some("down".into()),
+            ..Default::default()
+        };
+        let results = resolve_property_narrowed(&g, "background-color", &ctx, &narrowing);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].record.name, "subdued");
+    }
+
+    #[test]
+    fn resolve_property_narrowed_can_exclude_deprecated_candidates() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "old".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "color"}, "lifecycle": {"deprecatedIn": "1.0.0"}, "value": "#aaa"}),
+            ),
+            (
+                "new".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "color"}, "value": "#bbb"}),
+            ),
+        ]);
+        let ctx = ResolutionContext::new();
+        let narrowing = PropertyNarrowing {
+            exclude_deprecated: true,
+            ..Default::default()
+        };
+        let results = resolve_property_narrowed(&g, "color", &ctx, &narrowing);
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].record.name, "new");
     }
 
     #[test]
