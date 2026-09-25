@@ -16,7 +16,7 @@ governing permissions and limitations under the License.
 Spectrum design-data MCP. This file is the live-verified scenario matrix behind that
 marketing copy: every row was actually run against the tools wired into this repo's
 `.mcp.json` (the **agent** server, `@adobe/design-data-agent-mcp`, embedded dataset
-`3.1.0`), grouped by the persona who'd run it.
+`3.2.5`), grouped by the persona who'd run it.
 
 Re-run with `node tools/design-data-agent-mcp/scripts/verify-demos.mjs` after any change to
 `src/tools/read.js` or the embedded dataset — it asserts the ✅ rows stay green and the ❌
@@ -57,12 +57,12 @@ Legend: ✅ pass · ⚠️ partial/misleading · ❌ fails as documented
 
 ## PM / prototyper
 
-| Intent                                                      | Tool + args                                                | Surface | Status | Note                                                                                                                    |
-| ----------------------------------------------------------- | ---------------------------------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Get oriented: token counts, components, registry vocabulary | `primer`                                                   | agent   | ✅      | Also surfaces `provenance.datasetStatus` — flags when the embedded snapshot is stale.                                   |
-| Check the embedded data is current                          | `primer` → `provenance.datasetStatus`                      | agent   | ⚠️     | Self-reporting works; it currently reports **stale** (`3.1.0` vs published `3.2.5`). (bead `spectrum-design-data-16cn`) |
-| Enumerate a component's options for a spec doc              | `describe_component id="<any>"`                            | agent   | ✅      | Verified on `button`; same shape for every component listed in `primer.components`.                                     |
-| Browse guideline categories                                 | `list_guidelines` / `list_guidelines category="designing"` | agent   | ✅      | 25 guidelines returned; category filter is a plain equality match.                                                      |
+| Intent                                                      | Tool + args                                                | Surface | Status | Note                                                                                                                                           |
+| ----------------------------------------------------------- | ---------------------------------------------------------- | ------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Get oriented: token counts, components, registry vocabulary | `primer`                                                   | agent   | ✅      | Also surfaces `provenance.datasetStatus` — flags when the embedded snapshot is stale.                                                          |
+| Check the embedded data is current                          | `primer` → `provenance.datasetStatus`                      | agent   | ✅      | Self-reporting works; it reports the live embedded version and current npm publication, and `isStale` is `false` when the snapshot is current. |
+| Enumerate a component's options for a spec doc              | `describe_component id="<any>"`                            | agent   | ✅      | Verified on `button`; same shape for every component listed in `primer.components`.                                                            |
+| Browse guideline categories                                 | `list_guidelines` / `list_guidelines category="designing"` | agent   | ✅      | 25 guidelines returned; category filter is a plain equality match.                                                                             |
 
 ## Contributor / PR reviewer
 
