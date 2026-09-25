@@ -330,10 +330,24 @@ export function requireWasmBumpForDataChanges(changedFiles, changesetContents) {
   const bumpPattern = new RegExp(
     `"${WASM_PACKAGE}"\\s*:\\s*(major|minor|patch)`,
   );
+  // Only the frontmatter counts — a body example/discussion mentioning the package
+  // must not be able to satisfy the check (see findFrontmatterEnd below).
   const satisfied = changesetContents.some((content) =>
-    bumpPattern.test(content),
+    bumpPattern.test(extractFrontmatter(content)),
   );
   return { required: true, satisfied };
+}
+
+/**
+ * Extract just the YAML frontmatter block from a changeset's raw content, excluding
+ * the prose body. Returns "" if no closed frontmatter block is found.
+ * @param {string} content - Raw changeset file content
+ * @returns {string}
+ */
+function extractFrontmatter(content) {
+  const lines = content.split("\n");
+  const frontmatterEnd = findFrontmatterEnd(lines);
+  return frontmatterEnd === 0 ? "" : lines.slice(0, frontmatterEnd).join("\n");
 }
 
 /**

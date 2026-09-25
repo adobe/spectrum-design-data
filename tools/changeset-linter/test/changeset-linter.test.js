@@ -367,3 +367,15 @@ test("requireWasmBumpForDataChanges: passes when a wasm changeset is pending", (
   );
   t.deepEqual(result, { required: true, satisfied: true });
 });
+
+test("requireWasmBumpForDataChanges: a body-only mention does not satisfy the check", (t) => {
+  // The package name appears only in prose (e.g. an example or discussion), not in the
+  // frontmatter that changesets actually reads to decide what to bump.
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    [
+      `---\n"@adobe/some-other-package": patch\n---\n\nSee also "${WASM_PACKAGE}": patch for context.\n`,
+    ],
+  );
+  t.deepEqual(result, { required: true, satisfied: false });
+});
