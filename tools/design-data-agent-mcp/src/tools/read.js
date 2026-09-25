@@ -121,16 +121,16 @@ export function createReadTools() {
       async handler() {
         // Shape note: this response intentionally diverges from the CLI PrimerData
         // struct (sdk/core/src/primer.rs). The CLI emits modeSets as an array of
-        // {name, values} objects and taxonomyFields as a flat array. This in-process
-        // shape uses keyed objects (matching the sibling design-data-mcp), which agents
-        // and the SKILL.md skill prompt consume by key name. Skill contract:
-        // tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
+        // {name, modes, defaultMode} objects and taxonomyFields as a flat array. This
+        // in-process shape uses keyed objects (matching the sibling design-data-mcp),
+        // which agents and the SKILL.md skill prompt consume by key name. Skill
+        // contract: tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
         // taxonomyFields.{indexed,advisory}. provenance is included for metrics:
         // for the embedded dataset it carries designDataVersion (@adobe/spectrum-design-data
         // version baked in at wasm build time); for custom datasets the source differs.
         const wasm = await getWasm();
         const ds = await getDataset();
-        const { provenance } = ds.primer();
+        const { provenance, modeSets: rawModeSets } = ds.primer();
         // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
         // failure, never blocks the primer response.
         const datasetStatus = await checkDatasetFreshness(
@@ -142,11 +142,13 @@ export function createReadTools() {
           // and consumers should prefer it going forward.
           source: config.cascadeActive ? "cascade" : "embedded",
           tokenCount: ds.tokenCount(),
-          modeSets: {
-            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
-            scale: wasm.getFieldValues("scale") ?? [],
-            contrast: wasm.getFieldValues("contrast") ?? [],
-          },
+          // Mode-set dimensions (colorScheme, scale, contrast) live in
+          // graph.mode_sets, not the field-catalog registry, so they're read from
+          // ds.primer()'s modeSets array rather than wasm.getFieldValues()
+          // (spectrum-design-data-v9bb).
+          modeSets: Object.fromEntries(
+            rawModeSets.map((ms) => [ms.name, ms.modes]),
+          ),
           taxonomyFields: {
             indexed: wasm.getIndexedFields(),
             advisory: wasm.getAdvisoryFields() ?? [],
