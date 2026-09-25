@@ -1,5 +1,12 @@
 # @adobe/design-data-agent-mcp
 
+## 1.13.0
+
+### Minor Changes
+
+- [#1505](https://github.com/adobe/spectrum-design-data/pull/1505) [`03f76ad`](https://github.com/adobe/spectrum-design-data/commit/03f76ad686fc99954c7fde05017280a874150654) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a standalone natural-language token suggestion tool to the agent MCP.
+  - **tools/design-data-agent-mcp**: expose ranked `suggest_token` results from user intent.
+
 ## 1.12.0
 
 ### Minor Changes
