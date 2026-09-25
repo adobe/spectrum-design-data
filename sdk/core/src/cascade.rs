@@ -877,6 +877,52 @@ mod tests {
     }
 
     #[test]
+    fn resolve_property_narrowed_matches_color_role_and_component() {
+        let g = TokenGraph::from_pairs(vec![
+            (
+                "accent".into(),
+                PathBuf::from("a.json"),
+                json!({"name": {"property": "color", "colorRole": "accent"}, "value": "#aaa"}),
+            ),
+            (
+                "tabs".into(),
+                PathBuf::from("b.json"),
+                json!({"name": {"property": "thickness", "component": "tabs"}, "value": "1px"}),
+            ),
+            (
+                "other".into(),
+                PathBuf::from("c.json"),
+                json!({"name": {"property": "thickness", "component": "slider"}, "value": "2px"}),
+            ),
+        ]);
+        let ctx = ResolutionContext::new();
+
+        let role_results = resolve_property_narrowed(
+            &g,
+            "color",
+            &ctx,
+            &PropertyNarrowing {
+                color_role: Some("accent".into()),
+                ..Default::default()
+            },
+        );
+        assert_eq!(role_results.len(), 1);
+        assert_eq!(role_results[0].record.name, "accent");
+
+        let component_results = resolve_property_narrowed(
+            &g,
+            "thickness",
+            &ctx,
+            &PropertyNarrowing {
+                component: Some("tabs".into()),
+                ..Default::default()
+            },
+        );
+        assert_eq!(component_results.len(), 1);
+        assert_eq!(component_results[0].record.name, "tabs");
+    }
+
+    #[test]
     fn resolve_property_narrowed_can_exclude_deprecated_candidates() {
         let g = TokenGraph::from_pairs(vec![
             (

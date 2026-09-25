@@ -47,6 +47,7 @@ const NAME_OBJECT_KEYS: &[&str] = &[
     "component",
     "variant",
     "state",
+    "colorRole",
     "colorScheme",
     "scale",
     "contrast",

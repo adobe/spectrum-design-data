@@ -108,6 +108,27 @@ const SCENARIOS = [
       !threw && r.ambiguous === false && r.candidateCount === 1,
   },
   {
+    name: "resolve_token: colorRole narrows a shared property",
+    tool: "resolve_token",
+    args: {
+      property: "color",
+      colorRole: "accent",
+      state: "down",
+      colorScheme: "light",
+    },
+    status: "green",
+    verify: (r, threw) =>
+      !threw && r.ambiguous === false && r.candidateCount === 1,
+  },
+  {
+    name: "resolve_token: component narrows a component token",
+    tool: "resolve_token",
+    args: { property: "thickness", component: "tabs" },
+    status: "green",
+    verify: (r, threw) =>
+      !threw && r.ambiguous === false && r.candidateCount === 1,
+  },
+  {
     name: "resolve_token: deprecated candidates can be excluded",
     tool: "resolve_token",
     args: { property: "background-color", excludeDeprecated: true },
@@ -116,7 +137,7 @@ const SCENARIOS = [
       threw && /No token found/.test(err.message) && /deprecated/i.test(err.message),
   },
   {
-    name: "resolve_token: legacyKey-shaped example fails (bead spectrum-design-data-mhg5)",
+    name: "resolve_token: legacyKey-shaped example fails (bead spectrum-design-data-58iv)",
     tool: "resolve_token",
     args: { property: "accent-background-color-default" },
     status: "known-bug",
