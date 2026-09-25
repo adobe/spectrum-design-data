@@ -14,7 +14,13 @@
     "uuid": "23090def-780a-48cb-b644-8edd55189d46",
     "legacyKey": "field-default-width-extra-large",
     "setUuid": "5ab58f4b-2493-499a-ab97-f7533de2c5fa",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "4c09da43-93d3-46ed-8302-dc685d099097"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 188 of the mapping sheet."
   },
   {
     "scope": {
@@ -48,7 +54,13 @@
     "uuid": "c6d08f8b-4e8c-478a-8b08-5b69d2da1a5e",
     "legacyKey": "field-default-width-large",
     "setUuid": "4b7418ca-2384-4470-bfca-d8f742681740",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "0fb38ac8-dbfb-442a-b142-3435102fe879"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 189 of the mapping sheet."
   },
   {
     "scope": {
@@ -82,7 +94,13 @@
     "uuid": "f35ec29c-b8ee-46c9-9c8c-c40171a15920",
     "legacyKey": "field-default-width-medium",
     "setUuid": "7e5eb477-85b4-46c3-a5eb-ac986b3298e2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "7f0d2bf8-2dda-4413-893e-1b1003e9c77d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 190 of the mapping sheet."
   },
   {
     "scope": {
@@ -116,7 +134,13 @@
     "uuid": "39c39c14-0500-4bf6-a542-967697aaff41",
     "legacyKey": "field-default-width-small",
     "setUuid": "2fe6f129-a722-46ca-9f87-2cebcd2faa38",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "188453d2-7e27-414d-b5a2-680653844526"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 191 of the mapping sheet."
   },
   {
     "scope": {

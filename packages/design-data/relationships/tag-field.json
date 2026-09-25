@@ -534,7 +534,13 @@
     "uuid": "ebea4627-12b5-4f51-9bda-be4f9dca213b",
     "legacyKey": "tag-field-default-width-large",
     "setUuid": "59ccc726-108b-46ab-8d59-1cf9c16d6972",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "fc046594-4492-4613-9202-5331be3f0c10"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 350 of the mapping sheet."
   },
   {
     "scope": {
@@ -568,7 +574,13 @@
     "uuid": "7afa2c15-4eae-42af-b323-5dfde15a68cc",
     "legacyKey": "tag-field-default-width-medium",
     "setUuid": "04a7da36-00b6-4f2a-b2f6-92715f134ae0",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "4c09da43-93d3-46ed-8302-dc685d099097"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 351 of the mapping sheet."
   },
   {
     "scope": {
@@ -602,7 +614,13 @@
     "uuid": "65194439-66b2-4f47-9096-80e018f2708a",
     "legacyKey": "tag-field-default-width-small",
     "setUuid": "05fe2653-edc9-45a6-ace5-e3d1879b79c4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-width-* scale.",
+      "replacedBy": "0fb38ac8-dbfb-442a-b142-3435102fe879"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 352 of the mapping sheet."
   },
   {
     "scope": {
@@ -773,7 +791,13 @@
     "uuid": "09f85b07-baa8-4f51-9067-cf41749e4214",
     "legacyKey": "tag-field-minimum-height-large",
     "setUuid": "513b90e1-d8b9-48bb-9592-bed8a27dfe98",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-height-* scale.",
+      "replacedBy": "a4f7e555-c980-4164-ae1f-6a19d680b24a"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 353 of the mapping sheet."
   },
   {
     "scope": {
@@ -805,7 +829,13 @@
     "uuid": "12d9d6b6-1621-433a-bc94-4a47843153b9",
     "legacyKey": "tag-field-minimum-height-medium",
     "setUuid": "e228d447-a32e-4afb-88a6-2e336d60aa41",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-height-* scale.",
+      "replacedBy": "f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 354 of the mapping sheet."
   },
   {
     "scope": {
@@ -837,7 +867,13 @@
     "uuid": "b45ded81-85da-4c0d-abfe-3ff51c7e9c70",
     "legacyKey": "tag-field-minimum-height-small",
     "setUuid": "8bd7af69-6696-4b58-9494-13e323598ac1",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-height-* scale.",
+      "replacedBy": "6c798793-070a-442d-804f-198c583fcab3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 355 of the mapping sheet."
   },
   {
     "scope": {
@@ -868,7 +904,13 @@
     "uuid": "be7ccb7a-5eba-4104-91cf-f24121648b76",
     "legacyKey": "tag-field-minimum-width",
     "setUuid": "a9c942a5-eff0-4e72-aa32-84075eca856c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-width-* scale.",
+      "replacedBy": "b7ec8b9b-92bd-4770-becf-31948d8b00b5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 356 of the mapping sheet."
   },
   {
     "scope": {

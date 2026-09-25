@@ -662,7 +662,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "78px",
     "uuid": "201dc21b-a416-443c-afca-6801cabf31a5",
-    "legacyKey": "steplist-step-default-height-extra-large"
+    "legacyKey": "steplist-step-default-height-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 283 of the mapping sheet."
   },
   {
     "scope": {
@@ -677,7 +682,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "912f3b78-d09e-4700-a637-5fefc71960c2",
-    "legacyKey": "steplist-step-default-height-large"
+    "legacyKey": "steplist-step-default-height-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 284 of the mapping sheet."
   },
   {
     "scope": {
@@ -692,7 +702,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "54px",
     "uuid": "732ea53c-5929-4d31-beef-4ffd60f79c0e",
-    "legacyKey": "steplist-step-default-height-medium"
+    "legacyKey": "steplist-step-default-height-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 285 of the mapping sheet."
   },
   {
     "scope": {
@@ -707,7 +722,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "46px",
     "uuid": "205e9849-ecb4-4df6-8f59-a6d9b1458a72",
-    "legacyKey": "steplist-step-default-height-small"
+    "legacyKey": "steplist-step-default-height-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 286 of the mapping sheet."
   },
   {
     "scope": {
@@ -722,7 +742,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "78px",
     "uuid": "0b435546-8368-4fb1-a8a1-c50b14b26ae2",
-    "legacyKey": "steplist-step-default-width-extra-large"
+    "legacyKey": "steplist-step-default-width-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 287 of the mapping sheet."
   },
   {
     "scope": {
@@ -737,7 +762,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "70px",
     "uuid": "f4bae4c5-208e-45d7-94ac-6c9355087224",
-    "legacyKey": "steplist-step-default-width-large"
+    "legacyKey": "steplist-step-default-width-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 288 of the mapping sheet."
   },
   {
     "scope": {
@@ -752,7 +782,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "54px",
     "uuid": "8606a7f5-fa38-4081-b0a6-4633e7442bd1",
-    "legacyKey": "steplist-step-default-width-medium"
+    "legacyKey": "steplist-step-default-width-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 289 of the mapping sheet."
   },
   {
     "scope": {
@@ -767,7 +802,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "46px",
     "uuid": "5fe717d5-b262-46d8-8386-5a94070337c2",
-    "legacyKey": "steplist-step-default-width-small"
+    "legacyKey": "steplist-step-default-width-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 290 of the mapping sheet."
   },
   {
     "scope": {
@@ -782,7 +822,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "9px",
     "uuid": "bbff5dad-42bf-44f0-a34d-b6733360d28b",
-    "legacyKey": "steplist-step-to-track-size-extra-large"
+    "legacyKey": "steplist-step-to-track-size-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 291 of the mapping sheet."
   },
   {
     "scope": {
@@ -797,7 +842,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "e8d064e4-3bdb-4fef-97e8-db596d5d2fab",
-    "legacyKey": "steplist-step-to-track-size-large"
+    "legacyKey": "steplist-step-to-track-size-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 292 of the mapping sheet."
   },
   {
     "scope": {
@@ -812,7 +862,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "7px",
     "uuid": "3a6f8cf2-d250-4af6-8641-f0ffd4c789b3",
-    "legacyKey": "steplist-step-to-track-size-medium"
+    "legacyKey": "steplist-step-to-track-size-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 293 of the mapping sheet."
   },
   {
     "scope": {
@@ -827,7 +882,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "80d29ff2-a2ca-4987-9fa2-6799ba6aa416",
-    "legacyKey": "steplist-step-to-track-size-small"
+    "legacyKey": "steplist-step-to-track-size-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Component-specific value; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 294 of the mapping sheet."
   },
   {
     "scope": {
@@ -841,7 +901,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "d4db995b-1eff-44cc-8abc-93324a3af119",
-    "legacyKey": "steplist-track-thickness-medium"
+    "legacyKey": "steplist-track-thickness-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-size-* scale.",
+      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 295 of the mapping sheet."
   },
   {
     "scope": {
@@ -855,7 +921,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e",
-    "legacyKey": "steplist-visual-size-extra-large"
+    "legacyKey": "steplist-visual-size-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 296 of the mapping sheet."
   },
   {
     "scope": {
@@ -869,7 +940,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630",
-    "legacyKey": "steplist-visual-size-large"
+    "legacyKey": "steplist-visual-size-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 297 of the mapping sheet."
   },
   {
     "scope": {
@@ -883,7 +959,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40",
-    "legacyKey": "steplist-visual-size-medium"
+    "legacyKey": "steplist-visual-size-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 298 of the mapping sheet."
   },
   {
     "scope": {
@@ -897,6 +978,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d",
-    "legacyKey": "steplist-visual-size-small"
+    "legacyKey": "steplist-visual-size-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 299 of the mapping sheet."
   }
 ]

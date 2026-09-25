@@ -846,7 +846,13 @@
     "uuid": "2372d602-78ce-45a7-9dff-152152e55117",
     "legacyKey": "switch-control-height-extra-large",
     "setUuid": "49d5c54a-8aeb-4cd2-9499-9cb05a3ab599",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 309 of the mapping sheet."
   },
   {
     "scope": {
@@ -880,7 +886,13 @@
     "uuid": "8301bfca-a086-4efd-a22f-1d348cbd6dcf",
     "legacyKey": "switch-control-height-large",
     "setUuid": "3253cbd9-6ba1-494b-b464-2109db29381a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 310 of the mapping sheet."
   },
   {
     "scope": {
@@ -914,7 +926,13 @@
     "uuid": "f97f0f1b-c0c2-410f-b116-86d30f4d52cf",
     "legacyKey": "switch-control-height-medium",
     "setUuid": "db115429-09a3-4a6f-b05c-a89d7349a554",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 311 of the mapping sheet."
   },
   {
     "scope": {
@@ -948,7 +966,13 @@
     "uuid": "3bf75a24-5e95-4c18-9da2-b7088377fe21",
     "legacyKey": "switch-control-height-small",
     "setUuid": "d4af5ddb-949f-41c1-87eb-d8298b7b1f74",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 312 of the mapping sheet."
   },
   {
     "scope": {
@@ -982,7 +1006,12 @@
     "uuid": "f3102afd-e5df-4912-9203-8226ce37fed5",
     "legacyKey": "switch-control-width-extra-large",
     "setUuid": "588dd683-2e48-4f76-9e6f-56f266b94e83",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 313 of the mapping sheet."
   },
   {
     "scope": {
@@ -1016,7 +1045,12 @@
     "uuid": "cef839a5-2ba7-4e47-9a85-d94260a8ff10",
     "legacyKey": "switch-control-width-large",
     "setUuid": "96ab7508-15ea-4910-bed7-51d9dc6af3a2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 314 of the mapping sheet."
   },
   {
     "scope": {
@@ -1050,7 +1084,12 @@
     "uuid": "d329eda6-f13d-4a44-b962-ff06c371ed93",
     "legacyKey": "switch-control-width-medium",
     "setUuid": "fe075ee5-298a-458b-b8fd-0dbb7ef4534b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 315 of the mapping sheet."
   },
   {
     "scope": {
@@ -1084,7 +1123,12 @@
     "uuid": "f4d6fe1a-70bd-473a-9fa5-477865ea898e",
     "legacyKey": "switch-control-width-small",
     "setUuid": "2451e056-68d0-4cb1-b046-2ccb989f8909",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula-derived from control-size-* (handle × 2 + gap + border); platform-specific, not a fixed constant."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 316 of the mapping sheet."
   },
   {
     "scope": {

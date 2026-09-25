@@ -231,7 +231,13 @@
     "uuid": "ef5f40e8-d6e9-45a7-b8cf-1689e44e713c",
     "legacyKey": "in-field-progress-circle-size-100",
     "setUuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "54a8eb69-a730-4871-b1eb-2958a2d9a8c5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 200 of the mapping sheet."
   },
   {
     "scope": {
@@ -263,7 +269,13 @@
     "uuid": "86567889-978e-4dfe-8412-42c8f33c3f44",
     "legacyKey": "in-field-progress-circle-size-200",
     "setUuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "dc8b54c5-d70c-46ff-838f-9e64e1877cc0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 201 of the mapping sheet."
   },
   {
     "scope": {
@@ -295,7 +307,13 @@
     "uuid": "32d0a47d-c4bb-4955-aef0-28e07f429b92",
     "legacyKey": "in-field-progress-circle-size-300",
     "setUuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "e12d9f17-3ddf-4fbc-ba06-79a92208c6b4"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 202 of the mapping sheet."
   },
   {
     "scope": {
@@ -327,7 +345,13 @@
     "uuid": "dbb4f6bf-ddfb-4184-babe-63815cad7202",
     "legacyKey": "in-field-progress-circle-size-75",
     "setUuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared workflow-icon-* scale.",
+      "replacedBy": "f7d9ca4c-6d3f-4053-962a-152a19531389"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 203 of the mapping sheet."
   },
   {
     "scope": {

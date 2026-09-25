@@ -7,7 +7,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "152px",
     "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b",
-    "legacyKey": "date-field-minimum-width"
+    "legacyKey": "date-field-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Fixed input pattern (mm/dd/yyyy) is component-specific; platform-specific token, not foundational."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 168 of the mapping sheet."
   },
   {
     "scope": {

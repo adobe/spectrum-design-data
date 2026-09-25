@@ -1308,7 +1308,13 @@
     "uuid": "71bc5e67-900e-4e32-8109-a4c18da89348",
     "legacyKey": "text-area-minimum-height",
     "setUuid": "17297951-3d82-4fef-95d5-8ca43f644b7f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-height-* scale.",
+      "replacedBy": "f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 363 of the mapping sheet."
   },
   {
     "scope": {
@@ -1338,7 +1344,13 @@
     "uuid": "69694a85-5f31-43b4-8044-c0f08c83d618",
     "legacyKey": "text-area-minimum-width",
     "setUuid": "047fdfe2-3692-4713-93b3-83984ccce345",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared field-minimum-width-* scale.",
+      "replacedBy": "83b01fb3-ddcd-4421-8b28-5240a2a1ab54"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 364 of the mapping sheet."
   },
   {
     "scope": {

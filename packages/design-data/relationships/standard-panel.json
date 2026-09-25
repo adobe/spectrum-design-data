@@ -92,7 +92,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "400px",
     "uuid": "11400ef3-c995-41bc-8a9d-eb389d95f360",
-    "legacyKey": "standard-panel-maximum-width"
+    "legacyKey": "standard-panel-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 276 of the mapping sheet."
   },
   {
     "scope": {
@@ -102,7 +108,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "200px",
     "uuid": "37ab7428-8175-409f-8e74-55e51a962139",
-    "legacyKey": "standard-panel-minimum-width"
+    "legacyKey": "standard-panel-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 277 of the mapping sheet."
   },
   {
     "scope": {
@@ -183,6 +195,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "260px",
     "uuid": "41cd9d92-4d69-4aaa-9c95-e980aa5eb992",
-    "legacyKey": "standard-panel-width"
+    "legacyKey": "standard-panel-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Manually adjusted per t-shirt size, bounded by separate min/max tokens; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 278 of the mapping sheet."
   }
 ]

@@ -661,7 +661,13 @@
     "uuid": "3d6fc9f4-1f22-4e1d-a602-e00079dd2057",
     "legacyKey": "select-box-horizontal-minimum-height",
     "setUuid": "dddfd124-708d-4f7a-b9ba-196ba2019c47",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "50a7fb55-51f5-43e1-b931-16834a1f641e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 254 of the mapping sheet."
   },
   {
     "scope": {
@@ -691,7 +697,13 @@
     "uuid": "b2104b40-4b34-4d98-a564-1688900de75d",
     "legacyKey": "select-box-horizontal-minimum-width",
     "setUuid": "df8589d3-7c0f-4c4a-9b7a-9fb1b885d98a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale.",
+      "replacedBy": "21fbb997-609d-44f2-a3ac-44c8fd2b3d3d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 255 of the mapping sheet."
   },
   {
     "scope": {
@@ -801,7 +813,13 @@
     "uuid": "04fcbf2f-ffe1-4f26-99d1-59a3deb053ed",
     "legacyKey": "select-box-horizontal-width",
     "setUuid": "b1e398f1-86a7-4d3d-a424-7164a3f726e9",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-width-* scale.",
+      "replacedBy": "d24e6f8e-4af2-4c4a-8a4a-f2cd06d8edb5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 256 of the mapping sheet."
   },
   {
     "scope": {
@@ -915,7 +933,13 @@
     "uuid": "fe57d82a-5365-441a-9bd5-8f2c71c2ba83",
     "legacyKey": "select-box-vertical-height",
     "setUuid": "c5d2bdb6-e266-4883-b6e2-e81b88630c67",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-height-* scale.",
+      "replacedBy": "c039a7cf-4fff-4550-a985-b87b8ac7f64f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 257 of the mapping sheet."
   },
   {
     "scope": {

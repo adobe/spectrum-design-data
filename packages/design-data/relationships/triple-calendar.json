@@ -8,7 +8,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "320px",
     "uuid": "19c4d5a5-6ccb-407e-afa7-79f19286837b",
-    "legacyKey": "triple-calendar-popover-minimum-height"
+    "legacyKey": "triple-calendar-popover-minimum-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Fixed regardless of panel count; component-specific formula, not foundational."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 405 of the mapping sheet."
   },
   {
     "scope": {
@@ -19,6 +24,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "912px",
     "uuid": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6",
-    "legacyKey": "triple-calendar-popover-minimum-width"
+    "legacyKey": "triple-calendar-popover-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Scales linearly by panel count; component-specific formula, not foundational."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 406 of the mapping sheet."
   }
 ]

@@ -137,7 +137,13 @@
     "uuid": "647244c3-b071-45c1-94f7-3be32cfebabe",
     "legacyKey": "color-wheel-minimum-width",
     "setUuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
+      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 442 of the mapping sheet."
   },
   {
     "scope": {
@@ -167,7 +173,13 @@
     "uuid": "d4cdb77e-54b8-4bcf-97b1-992287af2690",
     "legacyKey": "color-wheel-width",
     "setUuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
+      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 443 of the mapping sheet."
   },
   {
     "scope": {

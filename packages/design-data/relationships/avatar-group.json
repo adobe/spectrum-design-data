@@ -354,7 +354,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "6f799e9e-1e37-4d9d-b88d-3969ca707213",
     "uuid": "1c869018-8c56-4c10-acea-7fc6e838aa09",
-    "legacyKey": "avatar-group-size-100"
+    "legacyKey": "avatar-group-size-100",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "cae804bb-ebef-480b-a98f-15452dff5650"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 26 of the mapping sheet."
   },
   {
     "scope": {
@@ -367,7 +373,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ad82e875-4243-4665-93b9-91aef258b164",
     "uuid": "590ef940-55ea-4690-a403-e4b47a185a64",
-    "legacyKey": "avatar-group-size-200"
+    "legacyKey": "avatar-group-size-200",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 27 of the mapping sheet."
   },
   {
     "scope": {
@@ -380,7 +392,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "3c458169-051a-473d-9b68-af84803a74e6",
     "uuid": "5e60d980-21db-4bbd-b321-a20808571411",
-    "legacyKey": "avatar-group-size-300"
+    "legacyKey": "avatar-group-size-300",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 28 of the mapping sheet."
   },
   {
     "scope": {
@@ -393,7 +411,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "f1ebef6a-9cf7-4aa6-9dcf-2bfd6387a97e",
     "uuid": "80e446ee-0091-4c6e-9158-e15fbc6207a4",
-    "legacyKey": "avatar-group-size-400"
+    "legacyKey": "avatar-group-size-400",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 29 of the mapping sheet."
   },
   {
     "scope": {
@@ -406,7 +430,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "bf2b8540-8b70-4c36-8e02-7deeb66d532e",
     "uuid": "d55ab204-ee6c-47e3-a21b-25543c8fc36b",
-    "legacyKey": "avatar-group-size-50"
+    "legacyKey": "avatar-group-size-50",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 30 of the mapping sheet."
   },
   {
     "scope": {
@@ -419,7 +449,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b05bc8a7-3937-4e31-97eb-4514bdb31f9f",
     "uuid": "4bf63b03-931b-47ce-bb1a-4bd4e2cd82c1",
-    "legacyKey": "avatar-group-size-500"
+    "legacyKey": "avatar-group-size-500",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 31 of the mapping sheet."
   },
   {
     "scope": {
@@ -432,6 +468,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "88990423-8f5c-486b-9c7d-969db3d82cbb",
     "uuid": "420c8327-fa41-4919-9e01-4d58178d739b",
-    "legacyKey": "avatar-group-size-75"
+    "legacyKey": "avatar-group-size-75",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
+      "replacedBy": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 32 of the mapping sheet."
   }
 ]

@@ -2118,7 +2118,13 @@
     "uuid": "0b83b5fd-117d-4257-bf77-fce39bfa8e3b",
     "legacyKey": "slider-handle-extra-large",
     "setUuid": "20b237d5-bc48-444b-af9f-262fca263017",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 422 of the mapping sheet."
   },
   {
     "scope": {
@@ -2167,7 +2173,13 @@
     "uuid": "1aa8c3a6-29ff-44ec-9b11-51c041ef44f1",
     "legacyKey": "slider-handle-height-precision-extra-large",
     "setUuid": "09bfdc82-d00d-4ccd-aa0e-50165eb25b86",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 264 of the mapping sheet."
   },
   {
     "scope": {
@@ -2203,7 +2215,13 @@
     "uuid": "2305cfb2-f26d-44e0-90ef-3258b8f46e0d",
     "legacyKey": "slider-handle-height-precision-large",
     "setUuid": "ebeccac6-b463-430e-bbdb-35bc6df037c4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 265 of the mapping sheet."
   },
   {
     "scope": {
@@ -2239,7 +2257,13 @@
     "uuid": "0d211640-08bf-4a09-98d8-1398ba70b072",
     "legacyKey": "slider-handle-height-precision-medium",
     "setUuid": "cd14d5d1-8002-444b-9f61-8067a8a4bc42",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 266 of the mapping sheet."
   },
   {
     "scope": {
@@ -2275,7 +2299,13 @@
     "uuid": "c2e986a2-2b56-4a82-b4a2-87850ca90d8c",
     "legacyKey": "slider-handle-height-precision-small",
     "setUuid": "6350ac7a-e459-43c7-bc3b-19665cd14dab",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 267 of the mapping sheet."
   },
   {
     "scope": {
@@ -2310,7 +2340,13 @@
     "uuid": "920a0f76-d61d-4362-8b50-fb6a98e62229",
     "legacyKey": "slider-handle-large",
     "setUuid": "5996b0a0-c3a0-4b3e-9d11-207af0956ce7",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 423 of the mapping sheet."
   },
   {
     "scope": {
@@ -2344,7 +2380,13 @@
     "uuid": "404ce1f8-593c-4738-b9a6-d1969a95b20e",
     "legacyKey": "slider-handle-medium",
     "setUuid": "33313db4-702e-4730-af46-2c7b419e5b39",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 424 of the mapping sheet."
   },
   {
     "scope": {
@@ -2375,7 +2417,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
     "uuid": "94045357-9bb7-4d16-b035-342465834a92",
-    "legacyKey": "slider-handle-precision-width"
+    "legacyKey": "slider-handle-precision-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 268 of the mapping sheet."
   },
   {
     "scope": {
@@ -2552,7 +2600,13 @@
     "uuid": "688b473d-84bc-4964-b985-63cf5fdbf7d4",
     "legacyKey": "slider-handle-small",
     "setUuid": "20a6802a-e741-47a7-9279-4bf7e2f024df",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "The slider handles could and should appear similar to other controls in the system. They seem too large in context next to Checkbox or Radio or Switch.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 425 of the mapping sheet."
   },
   {
     "scope": {
@@ -2583,7 +2637,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "211a95ca-f83e-4711-83ed-a723258d8336",
-    "legacyKey": "slider-track-height-large"
+    "legacyKey": "slider-track-height-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "da5eceb3-895f-4a83-a4da-069972670880"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 269 of the mapping sheet."
   },
   {
     "scope": {
@@ -2597,7 +2657,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "c2eb2949-9471-4dc5-b02b-384627dbdea2",
-    "legacyKey": "slider-track-height-medium"
+    "legacyKey": "slider-track-height-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "should this be 6 like the other \"medium\" Bars ??",
+      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 270 of the mapping sheet."
   },
   {
     "scope": {

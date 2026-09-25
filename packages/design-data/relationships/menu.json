@@ -2077,7 +2077,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
     "uuid": "dac5c077-b948-434b-91bd-0759c2414007",
-    "legacyKey": "menu-item-section-divider-height"
+    "legacyKey": "menu-item-section-divider-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "2518d769-abfb-4ad6-9374-a4b3bb7d61db"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 212 of the mapping sheet."
   },
   {
     "scope": {

@@ -1614,7 +1614,13 @@
     "value": "32px",
     "uuid": "3d7afc6a-f66b-4033-9ed4-e60cde661a18",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e"
+    "conceptId": "965c85ea-398f-4a75-8014-91b86061f33e",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 128 of the mapping sheet."
   },
   {
     "name": {
@@ -1636,7 +1642,13 @@
     "value": "40px",
     "uuid": "8bf70f40-b282-4c5d-98f0-329245bdb6f9",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42"
+    "conceptId": "a8f083cd-131e-4375-b948-3ef5c520cb42",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "865f1ee3-4e60-433f-9685-1bf0ea9403de"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 129 of the mapping sheet."
   },
   {
     "name": {
@@ -1658,7 +1670,13 @@
     "value": "48px",
     "uuid": "f4aaa7bb-e724-42ad-8ddf-934cc972995a",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c"
+    "conceptId": "0cc8906e-a9a2-4995-a6c2-920cb5f2b83c",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "7b41adba-a18a-41c8-841f-b199f807e0a9"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 130 of the mapping sheet."
   },
   {
     "name": {
@@ -1680,7 +1698,13 @@
     "value": "56px",
     "uuid": "e146c28f-3349-48fc-8281-6997ab9da222",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2"
+    "conceptId": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "2f79ea86-7400-464a-a04e-af2a156c87c3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 131 of the mapping sheet."
   },
   {
     "name": {
@@ -1702,7 +1726,13 @@
     "value": "20px",
     "uuid": "81ebf2b1-01fd-45a3-a099-72048e7d7991",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba"
+    "conceptId": "693fb390-cc46-40cf-b99a-f8c80bbcfcba",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "053e6718-fedb-4944-8e17-ea49f263dd25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 132 of the mapping sheet."
   },
   {
     "name": {
@@ -1724,7 +1754,13 @@
     "value": "64px",
     "uuid": "b5211351-b7df-430a-93bf-906ac66ebf2e",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377"
+    "conceptId": "752a9a44-712b-429b-8161-91f7eaad8377",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "a3c39fe1-9f46-4e76-9176-c589f28aa39f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 133 of the mapping sheet."
   },
   {
     "name": {
@@ -1746,7 +1782,13 @@
     "value": "24px",
     "uuid": "f70d4c16-f588-4fa9-9318-b7184a739193",
     "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
-    "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526"
+    "conceptId": "fbdf2291-b332-4436-9e57-430c0a81d526",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 134 of the mapping sheet."
   },
   {
     "name": {
@@ -6202,7 +6244,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "d33433fd-6430-4769-a0b8-6d8c32a64803",
-    "conceptId": "8ebdf862-2ff5-4fa5-a2e6-1d6d9b21ab24"
+    "conceptId": "8ebdf862-2ff5-4fa5-a2e6-1d6d9b21ab24",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 258 of the mapping sheet."
   },
   {
     "name": {
@@ -7405,7 +7453,12 @@
     "value": "2px",
     "uuid": "181806e5-0216-4b11-a775-9ed4bb8832fc",
     "description": "Thickness of the tab selection indicator (underline)",
-    "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d"
+    "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 448 of the mapping sheet."
   },
   {
     "name": {
@@ -7419,7 +7472,12 @@
     "value": "2px",
     "uuid": "c4e4695b-3838-4bd4-b045-8219c77f6786",
     "description": "Thickness of the strikethrough line on an unavailable calendar day",
-    "conceptId": "b432568c-7621-4ca4-ba23-385c332a9a37"
+    "conceptId": "b432568c-7621-4ca4-ba23-385c332a9a37",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 447 of the mapping sheet."
   },
   {
     "name": {

@@ -2451,7 +2451,13 @@
     "uuid": "47ae1059-6b16-4823-866d-11be0c0e0e8a",
     "legacyKey": "accordion-minimum-width",
     "setUuid": "14ac9b12-ce29-4714-baee-084e72e93edd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 2 of the mapping sheet."
   },
   {
     "scope": {

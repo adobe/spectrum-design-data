@@ -13,7 +13,13 @@
     "uuid": "424db2a9-5795-400b-a98a-58081d311bff",
     "legacyKey": "color-control-track-width",
     "setUuid": "03a7d531-c294-4a41-bd51-38c77a20317e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-400 (24px); component-specific to the Color track, not a shared category.",
+      "replacedBy": "bb4894cd-5fab-4d17-aea3-7e43c650a1db"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 430 of the mapping sheet."
   },
   {
     "scope": {

@@ -909,7 +909,13 @@
     "uuid": "07262bb6-4b57-4848-b45d-bbf808bdf257",
     "legacyKey": "side-navigation-indicator-height",
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
+      "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 420 of the mapping sheet."
   },
   {
     "scope": {
@@ -936,7 +942,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "2px",
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
-    "legacyKey": "side-navigation-indicator-thickness"
+    "legacyKey": "side-navigation-indicator-thickness",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 421 of the mapping sheet."
   },
   {
     "scope": {
@@ -1119,7 +1131,13 @@
     "uuid": "998bb752-7826-4437-ac18-14e08644e226",
     "legacyKey": "side-navigation-minimum-width",
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 260 of the mapping sheet."
   },
   {
     "scope": {
@@ -1513,7 +1531,13 @@
     "uuid": "d087f995-da55-4c96-89c4-69a9a83e2f05",
     "legacyKey": "side-navigation-width",
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
+      "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 261 of the mapping sheet."
   },
   {
     "scope": {

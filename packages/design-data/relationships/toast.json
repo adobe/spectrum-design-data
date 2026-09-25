@@ -376,7 +376,13 @@
     "uuid": "a6267318-c8b1-43d4-99b6-ca2a55e9dff4",
     "legacyKey": "toast-height",
     "setUuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly.",
+      "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 396 of the mapping sheet."
   },
   {
     "scope": {
@@ -406,7 +412,13 @@
     "uuid": "9ac252c8-06dd-48a9-a3d3-ca8ccfb355dd",
     "legacyKey": "toast-maximum-width",
     "setUuid": "e8dc3919-27bb-4fec-9c7c-7842ca1e6946",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared banner-maximum-width token.",
+      "replacedBy": "b377dd74-b519-4a29-bba1-870b1861915a"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 397 of the mapping sheet."
   },
   {
     "scope": {

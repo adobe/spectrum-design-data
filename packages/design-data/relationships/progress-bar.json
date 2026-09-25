@@ -327,7 +327,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "768px",
     "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784",
-    "legacyKey": "progress-bar-maximum-width"
+    "legacyKey": "progress-bar-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 229 of the mapping sheet."
   },
   {
     "scope": {
@@ -337,7 +342,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7",
-    "legacyKey": "progress-bar-minimum-width"
+    "legacyKey": "progress-bar-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "3f50af14-ea93-4819-a04f-49b17139b0a0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 230 of the mapping sheet."
   },
   {
     "scope": {
@@ -353,7 +364,13 @@
     "uuid": "71229a29-a2cf-46bc-84d4-d324bffad26b",
     "legacyKey": "progress-bar-thickness-extra-large",
     "setUuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "e5932015-2533-4c08-b177-8324876db35d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 231 of the mapping sheet."
   },
   {
     "scope": {
@@ -385,7 +402,13 @@
     "uuid": "f8dfa5e7-efb8-409f-8ab3-6bf3adf2199b",
     "legacyKey": "progress-bar-thickness-large",
     "setUuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "33dafd8e-a4d3-408d-946e-4a81847c8b39"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 232 of the mapping sheet."
   },
   {
     "scope": {
@@ -417,7 +440,13 @@
     "uuid": "0d9f1945-262b-48d0-b584-ff78ec28e012",
     "legacyKey": "progress-bar-thickness-medium",
     "setUuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 233 of the mapping sheet."
   },
   {
     "scope": {
@@ -449,7 +478,13 @@
     "uuid": "f8881a13-70fb-4797-a3ec-08c3c8432b5a",
     "legacyKey": "progress-bar-thickness-small",
     "setUuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 234 of the mapping sheet."
   },
   {
     "scope": {

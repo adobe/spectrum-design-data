@@ -490,7 +490,13 @@
     "uuid": "9fa676c9-ccfb-47db-9ae4-348884b9b120",
     "legacyKey": "swatch-size-extra-small",
     "setUuid": "2c8536c7-5a08-4516-b253-e38239923cf2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 301 of the mapping sheet."
   },
   {
     "scope": {
@@ -522,7 +528,13 @@
     "uuid": "91e7d7f2-a34d-4d03-831c-75574d1b7bee",
     "legacyKey": "swatch-size-large",
     "setUuid": "700b9bd6-a462-4d9d-a573-ac9faafc3c43",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "d2b6af19-0151-4203-89da-6f61f88358ae"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 302 of the mapping sheet."
   },
   {
     "scope": {
@@ -554,7 +566,13 @@
     "uuid": "2e29b29f-b8b7-430a-8720-31422c6ad243",
     "legacyKey": "swatch-size-medium",
     "setUuid": "daa2f451-5297-4ed2-9926-e1cb25b06b30",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 303 of the mapping sheet."
   },
   {
     "scope": {
@@ -586,7 +604,13 @@
     "uuid": "33789b22-7d2c-4620-8f45-973e734ef5b6",
     "legacyKey": "swatch-size-small",
     "setUuid": "0bf0f836-51dd-455c-a152-e841c4cff582",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "cae804bb-ebef-480b-a98f-15452dff5650"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 304 of the mapping sheet."
   },
   {
     "scope": {
