@@ -30,8 +30,9 @@ of guessing.
 - **Inspect a component's options:** "what sizes and variants does Button support?" You get
   the actual schema: variants, sizes, states, and boolean props.
 - **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
-  Works best for single-purpose properties (spacing, radius); a property shared across many
-  variants/states can't yet be narrowed beyond the color-scheme/scale/contrast context.
+  When a property is shared across many tokens, narrow by component, variant, state, or color
+  role. If it still matches more than one token, the result marks it `ambiguous`; it also
+  identifies deprecated tokens.
 - **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
 - **Get oriented:** a primer with token counts, the component list, the registry
