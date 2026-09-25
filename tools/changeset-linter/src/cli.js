@@ -18,6 +18,10 @@ import {
   lintChangeset,
   lintAllChangesets,
   getWorkspacePackageNames,
+  requireWasmBumpForDataChanges,
+  getChangedFiles,
+  readPendingChangesetContents,
+  WASM_PACKAGE,
 } from "./index.js";
 
 const program = new Command();
@@ -107,6 +111,57 @@ program
       } else {
         console.log(chalk.green(`✓ ${fileName}`));
       }
+    } catch (error) {
+      console.error(chalk.red(`Error: ${error.message}`));
+      process.exit(1);
+    }
+  });
+
+program
+  .command("check-data-bump")
+  .description(
+    `Require a pending changeset bumping ${WASM_PACKAGE} when dataset content changes`,
+  )
+  .option("-b, --base <ref>", "Base git ref to diff against", "main")
+  .option("-d, --dir <directory>", "Changeset directory", ".changeset")
+  .action((options) => {
+    try {
+      const changedFiles = getChangedFiles(options.base);
+      const changesetContents = readPendingChangesetContents(options.dir);
+      const { required, satisfied } = requireWasmBumpForDataChanges(
+        changedFiles,
+        changesetContents,
+      );
+
+      if (!required) {
+        console.log(chalk.green("✓ No dataset content changes detected"));
+        return;
+      }
+
+      if (satisfied) {
+        console.log(
+          chalk.green(
+            `✓ Dataset content changed — ${WASM_PACKAGE} changeset present`,
+          ),
+        );
+        return;
+      }
+
+      console.log(
+        chalk.red(
+          `✗ Files under packages/design-data/** changed, but no pending changeset bumps ${WASM_PACKAGE}.`,
+        ),
+      );
+      console.log(chalk.red("  Add a changeset with frontmatter like:"));
+      console.log(
+        chalk.yellow(`    ---\n    "${WASM_PACKAGE}": patch\n    ---`),
+      );
+      console.log(
+        chalk.red(
+          '  (updateInternalDependencies: "patch" in .changeset/config.json cascades this to dependents.)',
+        ),
+      );
+      process.exit(1);
     } catch (error) {
       console.error(chalk.red(`Error: ${error.message}`));
       process.exit(1);
