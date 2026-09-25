@@ -1210,6 +1210,39 @@ mod manifest_extensions_behavior {
                 }
             }
 
+            if let Some(present) = expected
+                .get("componentOptionExtensions")
+                .and_then(|p| p.get("present"))
+                .and_then(|v| v.as_array())
+            {
+                for want in present {
+                    let platform = want.get("platform").and_then(|v| v.as_str());
+                    let component = want.get("component").and_then(|v| v.as_str());
+                    let option = want.get("option").and_then(|v| v.as_str());
+                    let platform_prop = want.get("platformProp").and_then(|v| v.as_str());
+
+                    let Some(record) = graph.component_option_extensions.iter().find(|r| {
+                        Some(r.platform.as_str()) == platform
+                            && Some(r.component.as_str()) == component
+                            && Some(r.option.as_str()) == option
+                    }) else {
+                        failures.push(format!(
+                            "{case}: expected component option extension {platform:?}/{component:?}/{option:?}, not found"
+                        ));
+                        continue;
+                    };
+
+                    if let Some(platform_prop) = platform_prop {
+                        let actual = record.raw.get("platformProp").and_then(|v| v.as_str());
+                        if actual != Some(platform_prop) {
+                            failures.push(format!(
+                                "{case}: component option extension {platform:?}/{component:?}/{option:?} expected platformProp {platform_prop:?}, got {actual:?}"
+                            ));
+                        }
+                    }
+                }
+            }
+
             for (key, records_len) in [
                 (
                     "components",

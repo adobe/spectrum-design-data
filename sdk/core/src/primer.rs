@@ -59,9 +59,10 @@ pub struct PrimerData {
     pub token_count: usize,
     pub mode_sets: Vec<PrimerModeSet>,
     pub components: Vec<String>,
-    /// `"{platform}:{extends}"` per platform-extension record injected via a
-    /// platform manifest's `extensions.platformExtensions`. Empty unless a
-    /// manifest supplied them.
+    /// `"{platform}:{extends}"` per registry-scoped platform-extension record,
+    /// plus `"{platform}:{component}.{option}"` per component-option extension
+    /// record — both injected via a platform manifest's
+    /// `extensions.platformExtensions`. Empty unless a manifest supplied them.
     pub platform_extensions: Vec<String>,
     pub taxonomy_fields: Vec<PrimerField>,
     pub manifest: serde_json::Value,
@@ -92,6 +93,12 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
         .platform_extensions
         .iter()
         .map(|pe| format!("{}:{}", pe.platform, pe.extends))
+        .chain(
+            graph
+                .component_option_extensions
+                .iter()
+                .map(|coe| format!("{}:{}.{}", coe.platform, coe.component, coe.option)),
+        )
         .collect();
     platform_extensions.sort();
 
@@ -121,7 +128,7 @@ pub fn build(graph: &TokenGraph, provenance: serde_json::Value) -> PrimerData {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph::PlatformExtensionRecord;
+    use crate::graph::{ComponentOptionExtensionRecord, PlatformExtensionRecord};
     use serde_json::json;
 
     #[test]
@@ -135,5 +142,24 @@ mod tests {
 
         let payload = build(&graph, json!({"source": "embedded"}));
         assert_eq!(payload.platform_extensions, vec!["iOS:states".to_string()]);
+    }
+
+    #[test]
+    fn build_surfaces_component_option_extensions() {
+        let mut graph = TokenGraph::default();
+        graph
+            .component_option_extensions
+            .push(ComponentOptionExtensionRecord {
+                platform: "Web Components".into(),
+                component: "button".into(),
+                option: "style".into(),
+                raw: json!({"component": "button", "option": "style", "platformProp": "fillStyle"}),
+            });
+
+        let payload = build(&graph, json!({"source": "embedded"}));
+        assert_eq!(
+            payload.platform_extensions,
+            vec!["Web Components:button.style".to_string()]
+        );
     }
 }

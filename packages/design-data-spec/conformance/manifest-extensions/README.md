@@ -37,30 +37,34 @@ Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 `manifest_extensions_conformance` (pass/fail + error message matching) and
 `manifest_extensions_behavior` (post-apply graph predicates) test modules.
 
-| Case                                           | Intent                                                                                                                   |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `valid/injects-component`                      | A `components/` fragment is injected as a Platform-layer component.                                                      |
-| `valid/injects-platform-extension`             | A `platform-extensions/` fragment is injected.                                                                           |
-| `valid/injects-field`                          | A `fields/` fragment is injected.                                                                                        |
-| `valid/injects-guideline`                      | A `guidelines/` fragment is injected.                                                                                    |
-| `valid/injects-mode-set`                       | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                        |
-| `valid/injects-relationship`                   | A `relationships/` plain-add fragment is injected.                                                                       |
-| `valid/override-relationship-by-uuid`          | An `op: "override"` entry replaces a plain add sharing its `uuid`, regardless of file sort order.                        |
-| `valid/plain-add-uuid-collision-append`        | Two plain adds sharing a `uuid` both append rather than one overwriting the other.                                       |
-| `valid/remove-relationship-by-uuid`            | An `op: "remove"` entry deletes the matching relationship.                                                               |
-| `valid/tokens-sorted-order`                    | Multiple `tokens/*.tokens.json` files concatenate in sorted path order.                                                  |
-| `valid/later-file-wins`                        | Two `components/` fragments declaring the same component name dedupe to one, later file wins.                            |
-| `valid/custom-extensions-dir`                  | The manifest's `extensionsDir` field is honored in place of the default `extensions/` name.                              |
-| `valid/override-entry-skips-schema-validation` | An `op: "override"` relationship entry is not schema-validated against `relationship.schema.json` (only plain adds are). |
-| `invalid/override-missing-uuid`                | An `op: "override"` relationship entry missing `uuid` fails loudly.                                                      |
-| `invalid/unknown-term-id`                      | A `platform-extensions/` fragment referencing a non-existent `termId` fails loudly.                                      |
-| `invalid/component-missing-name`               | A `components/` fragment missing `name` fails Layer 1 fragment schema validation.                                        |
-| `invalid/field-invalid-kind`                   | A `fields/` fragment with an invalid `kind` enum value fails schema validation.                                          |
-| `invalid/guideline-invalid-category`           | A `guidelines/` fragment with an invalid `category` enum value fails schema validation.                                  |
-| `invalid/mode-set-missing-default`             | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                   |
-| `invalid/platform-extension-missing-extends`   | A `platform-extensions/` fragment missing `extends` fails schema validation.                                             |
-| `invalid/token-invalid-uuid`                   | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                       |
-| `invalid/relationship-missing-scope`           | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                           |
-| `invalid/extensions-dir-parent-traversal`      | `extensionsDir` containing a `..` component is rejected.                                                                 |
-| `invalid/extensions-dir-absolute-path`         | An absolute `extensionsDir` path is rejected.                                                                            |
-| `invalid/unknown-subdir-name`                  | An unrecognized subdirectory directly under `extensions/` (not one of the six known categories) is rejected by name.     |
+| Case                                                   | Intent                                                                                                                   |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `valid/injects-component`                              | A `components/` fragment is injected as a Platform-layer component.                                                      |
+| `valid/injects-platform-extension`                     | A `platform-extensions/` fragment is injected.                                                                           |
+| `valid/injects-component-option-extension`             | A `platform-extensions/` fragment using `componentOptions` (no `extends`/`extensions`) is injected.                      |
+| `valid/injects-field`                                  | A `fields/` fragment is injected.                                                                                        |
+| `valid/injects-guideline`                              | A `guidelines/` fragment is injected.                                                                                    |
+| `valid/injects-mode-set`                               | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                        |
+| `valid/injects-relationship`                           | A `relationships/` plain-add fragment is injected.                                                                       |
+| `valid/override-relationship-by-uuid`                  | An `op: "override"` entry replaces a plain add sharing its `uuid`, regardless of file sort order.                        |
+| `valid/plain-add-uuid-collision-append`                | Two plain adds sharing a `uuid` both append rather than one overwriting the other.                                       |
+| `valid/remove-relationship-by-uuid`                    | An `op: "remove"` entry deletes the matching relationship.                                                               |
+| `valid/tokens-sorted-order`                            | Multiple `tokens/*.tokens.json` files concatenate in sorted path order.                                                  |
+| `valid/later-file-wins`                                | Two `components/` fragments declaring the same component name dedupe to one, later file wins.                            |
+| `valid/custom-extensions-dir`                          | The manifest's `extensionsDir` field is honored in place of the default `extensions/` name.                              |
+| `valid/override-entry-skips-schema-validation`         | An `op: "override"` relationship entry is not schema-validated against `relationship.schema.json` (only plain adds are). |
+| `invalid/override-missing-uuid`                        | An `op: "override"` relationship entry missing `uuid` fails loudly.                                                      |
+| `invalid/unknown-term-id`                              | A `platform-extensions/` fragment referencing a non-existent `termId` fails loudly.                                      |
+| `invalid/component-missing-name`                       | A `components/` fragment missing `name` fails Layer 1 fragment schema validation.                                        |
+| `invalid/field-invalid-kind`                           | A `fields/` fragment with an invalid `kind` enum value fails schema validation.                                          |
+| `invalid/guideline-invalid-category`                   | A `guidelines/` fragment with an invalid `category` enum value fails schema validation.                                  |
+| `invalid/mode-set-missing-default`                     | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                   |
+| `invalid/platform-extension-missing-extends`           | A `platform-extensions/` fragment missing `extends` fails schema validation.                                             |
+| `invalid/component-option-extension-missing-component` | A `componentOptions[]` entry missing the required `component` field fails schema validation.                             |
+| `invalid/component-option-extension-unknown-component` | A `componentOptions[]` entry referencing a component that doesn't exist fails loudly.                                    |
+| `invalid/component-option-extension-unknown-option`    | A `componentOptions[]` entry referencing an option that doesn't exist on an existing component fails loudly.             |
+| `invalid/token-invalid-uuid`                           | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                       |
+| `invalid/relationship-missing-scope`                   | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                           |
+| `invalid/extensions-dir-parent-traversal`              | `extensionsDir` containing a `..` component is rejected.                                                                 |
+| `invalid/extensions-dir-absolute-path`                 | An absolute `extensionsDir` path is rejected.                                                                            |
+| `invalid/unknown-subdir-name`                          | An unrecognized subdirectory directly under `extensions/` (not one of the six known categories) is rejected by name.     |
