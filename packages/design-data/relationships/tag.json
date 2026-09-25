@@ -1411,7 +1411,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 7,
     "uuid": "8771f506-a491-4222-be86-0e666ea2c711",
-    "legacyKey": "tag-maximum-width-multiplier"
+    "legacyKey": "tag-maximum-width-multiplier",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Outlier value with no equivalent on the aspect-ratio scale; platforms can define their own token if still needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 357 of the mapping sheet."
   },
   {
     "scope": {
@@ -1427,7 +1432,12 @@
     "uuid": "234b3886-77eb-4ad5-9d19-40d801a54617",
     "legacyKey": "tag-minimum-width-large",
     "setUuid": "c160e0a6-c19c-4fb5-af16-49ffea4b9b56",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 358 of the mapping sheet."
   },
   {
     "scope": {
@@ -1459,7 +1469,12 @@
     "uuid": "9b373ba1-7381-4360-8730-bd91afacbfa7",
     "legacyKey": "tag-minimum-width-medium",
     "setUuid": "33cfd1f4-12a3-4cd8-a621-d67868424511",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 359 of the mapping sheet."
   },
   {
     "scope": {
@@ -1504,7 +1519,12 @@
     "uuid": "d3327dae-cc93-4099-ad75-b5a4193af8e4",
     "legacyKey": "tag-minimum-width-small",
     "setUuid": "3d401849-853a-4920-8a94-ac001432d63c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 360 of the mapping sheet."
   },
   {
     "scope": {

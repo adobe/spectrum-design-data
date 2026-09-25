@@ -302,7 +302,12 @@
     "uuid": "6880260b-1d48-4bfc-9745-3e7c506c40fb",
     "legacyKey": "stack-item-header-minimum-width",
     "setUuid": "1748229e-c8e2-40fb-8932-a8d094cf5689",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Value is bound by the container it sits inside; not an independent measurement, so no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 271 of the mapping sheet."
   },
   {
     "scope": {

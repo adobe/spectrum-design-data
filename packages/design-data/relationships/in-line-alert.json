@@ -583,6 +583,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "240px",
     "uuid": "8007ebd8-fd67-4dc2-8444-9e6a50c88675",
-    "legacyKey": "in-line-alert-minimum-width"
+    "legacyKey": "in-line-alert-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared banner-* scale.",
+      "replacedBy": "3e2c5e59-3167-453e-b484-ad0d6d6506da"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 204 of the mapping sheet."
   }
 ]

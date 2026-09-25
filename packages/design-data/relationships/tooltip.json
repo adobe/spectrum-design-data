@@ -292,7 +292,13 @@
     "uuid": "e5ba234a-afdd-451e-84e7-51314446cdae",
     "legacyKey": "tooltip-maximum-width",
     "setUuid": "e606fea0-3540-4461-96b5-c57e9d9b39ef",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "36428496-404a-4cc4-b11d-1cca9ead303c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 398 of the mapping sheet."
   },
   {
     "scope": {
@@ -334,7 +340,13 @@
     "uuid": "481757aa-c6b5-4281-9a63-feeb1c88aec6",
     "legacyKey": "tooltip-tip-height",
     "setUuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "These can stay component-specific tokens, but the values should be updated to reference sizes that map to the primitive size scale",
+      "replacedBy": "cd8c0d5f-5796-4d89-9c89-3285abde6930"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 399 of the mapping sheet."
   },
   {
     "scope": {
@@ -366,7 +378,13 @@
     "uuid": "0732bd0e-c5c0-4e58-8fee-2015c1753237",
     "legacyKey": "tooltip-tip-width",
     "setUuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "These can stay component-specific tokens, but the values should be updated to reference sizes that map to the primitive size scale",
+      "replacedBy": "d0703b1d-57f0-4601-9353-e1807cd966a3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 400 of the mapping sheet."
   },
   {
     "scope": {

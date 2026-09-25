@@ -398,7 +398,13 @@
     "uuid": "07cdeb95-d368-4ed1-ba29-6b9ddeae1396",
     "legacyKey": "coach-mark-maximum-width",
     "setUuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 107 of the mapping sheet."
   },
   {
     "scope": {
@@ -492,7 +498,13 @@
     "uuid": "9f413341-5ed5-4cd0-8348-1c7141dcab8d",
     "legacyKey": "coach-mark-minimum-width",
     "setUuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 110 of the mapping sheet."
   },
   {
     "scope": {
@@ -669,7 +681,13 @@
     "uuid": "49d1e2be-3aa2-4515-ba54-7f6cf3ab007c",
     "legacyKey": "coach-mark-width",
     "setUuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own.",
+      "replacedBy": "bf7f7ce5-d007-4a0b-991a-9df8ee692d49"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 111 of the mapping sheet."
   },
   {
     "scope": {

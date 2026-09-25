@@ -345,7 +345,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "768px",
     "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
-    "legacyKey": "meter-maximum-width"
+    "legacyKey": "meter-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 213 of the mapping sheet."
   },
   {
     "scope": {
@@ -355,7 +360,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295",
-    "legacyKey": "meter-minimum-width"
+    "legacyKey": "meter-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared bar-minimum-width-* scale.",
+      "replacedBy": "3f50af14-ea93-4819-a04f-49b17139b0a0"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 214 of the mapping sheet."
   },
   {
     "scope": {
@@ -371,7 +382,13 @@
     "uuid": "e5ac2b35-da1d-4936-baa8-498705c9529c",
     "legacyKey": "meter-thickness-extra-large",
     "setUuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "e5932015-2533-4c08-b177-8324876db35d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 215 of the mapping sheet."
   },
   {
     "scope": {
@@ -403,7 +420,13 @@
     "uuid": "06751674-2222-433d-9dc6-40f14b2add6c",
     "legacyKey": "meter-thickness-large",
     "setUuid": "13344afb-aeba-4871-82c6-13275b3aa535",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "33dafd8e-a4d3-408d-946e-4a81847c8b39"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 216 of the mapping sheet."
   },
   {
     "scope": {
@@ -435,7 +458,13 @@
     "uuid": "6e404f16-900e-4dd2-8705-3c9077f52240",
     "legacyKey": "meter-thickness-medium",
     "setUuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 217 of the mapping sheet."
   },
   {
     "scope": {
@@ -467,7 +496,13 @@
     "uuid": "0013e354-3f26-41a5-8486-2577045872f6",
     "legacyKey": "meter-thickness-small",
     "setUuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 218 of the mapping sheet."
   },
   {
     "scope": {
@@ -498,7 +533,13 @@
     "uuid": "ceeda4da-026b-496c-8abd-7081aceae262",
     "legacyKey": "meter-width",
     "setUuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 219 of the mapping sheet."
   },
   {
     "scope": {

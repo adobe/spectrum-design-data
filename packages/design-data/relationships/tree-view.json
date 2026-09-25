@@ -814,7 +814,12 @@
     "uuid": "f9fcb5e0-d8aa-4077-bb8d-dd487ba9d7de",
     "legacyKey": "tree-view-disclosure-indicator-height",
     "setUuid": "65d6c69e-0d00-4d31-8e18-a27cb4ddd464",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "This is a UI icon + padding determined by the semantic layout values."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 401 of the mapping sheet."
   },
   {
     "scope": {
@@ -846,7 +851,12 @@
     "uuid": "824d592b-c305-4c56-81db-c6566e6ebb2f",
     "legacyKey": "tree-view-disclosure-indicator-width",
     "setUuid": "a9a4a8fe-327f-4c81-9c86-8d824e159de4",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "This is a UI icon + padding determined by the semantic layout values."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 402 of the mapping sheet."
   },
   {
     "scope": {
@@ -1252,7 +1262,13 @@
     "uuid": "de8ed8b3-aee4-4d18-8728-01e6807bec7d",
     "legacyKey": "tree-view-minimum-height",
     "setUuid": "b8dc040f-e26d-4d80-b27b-8af4381d24da",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-height-* scale.",
+      "replacedBy": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 403 of the mapping sheet."
   },
   {
     "scope": {
@@ -1322,7 +1338,13 @@
     "uuid": "2ab54eb5-8f32-4a01-b4ff-d5dc7a70f827",
     "legacyKey": "tree-view-minimum-width",
     "setUuid": "85b826d7-84dc-4843-9df4-b8385e7ce133",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "cf6d396e-e889-4269-9c0f-d97fe977939f"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 404 of the mapping sheet."
   },
   {
     "scope": {

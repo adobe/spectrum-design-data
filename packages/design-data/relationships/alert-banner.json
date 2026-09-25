@@ -320,7 +320,13 @@
     "uuid": "450405f8-4f08-4151-85dd-730b669a7ed0",
     "legacyKey": "alert-banner-minimum-height",
     "setUuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly, no change.",
+      "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 10 of the mapping sheet."
   },
   {
     "scope": {
@@ -536,7 +542,13 @@
     "uuid": "713e9ae2-e226-45ab-bce9-869533253ee7",
     "legacyKey": "alert-banner-width",
     "setUuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared banner-width-* scale.",
+      "replacedBy": "1236fe9c-ea39-415c-94b6-e35333bbfe39"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 11 of the mapping sheet."
   },
   {
     "scope": {

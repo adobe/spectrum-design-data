@@ -734,7 +734,13 @@
     "uuid": "4ba47ba1-c9bd-447e-8948-009d5b424e0d",
     "legacyKey": "checkbox-control-size-extra-large",
     "setUuid": "05686950-e677-4bc0-90c2-0addbe401d17",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 85 of the mapping sheet."
   },
   {
     "scope": {
@@ -768,7 +774,13 @@
     "uuid": "839a52bc-b9ee-473f-acde-0799b4f55ded",
     "legacyKey": "checkbox-control-size-large",
     "setUuid": "71f3577d-e685-41e9-9443-c498fd0125ba",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 86 of the mapping sheet."
   },
   {
     "scope": {
@@ -802,7 +814,13 @@
     "uuid": "86288454-7192-4e4c-b55f-fc509fc58c01",
     "legacyKey": "checkbox-control-size-medium",
     "setUuid": "04a220ef-907c-433a-b040-fe421cdaf930",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 87 of the mapping sheet."
   },
   {
     "scope": {
@@ -836,7 +854,13 @@
     "uuid": "460e8170-de69-4f8e-8420-6c87a1f6f5cd",
     "legacyKey": "checkbox-control-size-small",
     "setUuid": "39090c90-aa5a-448f-8dd5-01e0c0a5fa2a",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 88 of the mapping sheet."
   },
   {
     "scope": {

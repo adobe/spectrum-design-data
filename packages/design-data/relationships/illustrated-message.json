@@ -316,7 +316,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "535px",
     "uuid": "4413ee4d-86b1-4d88-b2ee-64c0939698b9",
-    "legacyKey": "illustrated-message-horizontal-maximum-width"
+    "legacyKey": "illustrated-message-horizontal-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 194 of the mapping sheet."
   },
   {
     "scope": {
@@ -644,6 +650,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "380px",
     "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd",
-    "legacyKey": "illustrated-message-vertical-maximum-width"
+    "legacyKey": "illustrated-message-vertical-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
+      "replacedBy": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 195 of the mapping sheet."
   }
 ]

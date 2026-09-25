@@ -197,7 +197,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "268px",
     "uuid": "83be73fe-50bc-4be8-969c-0361a816225b",
-    "legacyKey": "contextual-help-minimum-width"
+    "legacyKey": "contextual-help-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-width-* scale.",
+      "replacedBy": "b02c1b90-6023-4d20-a93a-ca0772806880"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 139 of the mapping sheet."
   },
   {
     "scope": {

@@ -710,7 +710,13 @@
     "uuid": "f8f1d29b-4093-40ed-b73c-7a27e27a63a4",
     "legacyKey": "radio-button-control-size-extra-large",
     "setUuid": "5c7699c2-dc1c-49aa-87ee-55b888c32689",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "1139d209-51e9-4020-9a76-4fa0f4e7c868"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 241 of the mapping sheet."
   },
   {
     "scope": {
@@ -744,7 +750,13 @@
     "uuid": "cadf4b9e-b4d4-4ff5-808b-557864cf7dc8",
     "legacyKey": "radio-button-control-size-large",
     "setUuid": "bfe838ca-b2a9-4b1d-ad1b-a27822a78bda",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "55405d1e-7512-4e74-b6b8-4cc1d9bd6a20"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 242 of the mapping sheet."
   },
   {
     "scope": {
@@ -778,7 +790,13 @@
     "uuid": "9de5b045-532c-48ef-872e-bd3c22f89a41",
     "legacyKey": "radio-button-control-size-medium",
     "setUuid": "e6de4bc6-29a8-41c8-89d3-05aa7d89e660",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "2ddb0c1a-4bd0-458c-8619-8263c06ed7d5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 243 of the mapping sheet."
   },
   {
     "scope": {
@@ -812,7 +830,13 @@
     "uuid": "407304fc-7c74-4427-9032-b44ab03c07ce",
     "legacyKey": "radio-button-control-size-small",
     "setUuid": "e10044fc-687d-4354-afc9-39d9210fc6db",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared control-size-* scale.",
+      "replacedBy": "95da353d-54f0-4a42-bc7d-4b1e99571f96"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 244 of the mapping sheet."
   },
   {
     "scope": {

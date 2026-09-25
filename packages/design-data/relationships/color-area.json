@@ -162,7 +162,13 @@
     "uuid": "993f90f6-22a6-49ec-a8e6-7a8b904d42a7",
     "legacyKey": "color-area-height",
     "setUuid": "4915f362-d8f1-4c87-b45f-f4c99266ba1f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
+      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 429 of the mapping sheet."
   },
   {
     "scope": {
@@ -192,7 +198,13 @@
     "uuid": "73c558f3-2a1c-4c1d-9b17-cfb49f510070",
     "legacyKey": "color-area-minimum-height",
     "setUuid": "3ecf36e7-fbcd-4f8b-8c8b-ef51c0424cd2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
+      "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 426 of the mapping sheet."
   },
   {
     "scope": {
@@ -222,7 +234,13 @@
     "uuid": "19ff1ba5-a351-4427-bf2e-4e212dde3d3c",
     "legacyKey": "color-area-minimum-width",
     "setUuid": "28afd99b-0227-41e5-91b6-87da309d7ed7",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color area, not a container concept.",
+      "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 427 of the mapping sheet."
   },
   {
     "scope": {
@@ -252,7 +270,13 @@
     "uuid": "8fcf30ee-73e1-4f54-8975-5467dedade29",
     "legacyKey": "color-area-width",
     "setUuid": "26e77fb6-d62e-492b-b2b6-3fba9fb62fb5",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color area, not a container concept.",
+      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 428 of the mapping sheet."
   },
   {
     "scope": {
