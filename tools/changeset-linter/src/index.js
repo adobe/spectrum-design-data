@@ -367,16 +367,34 @@ export function getChangedFiles(base) {
 }
 
 /**
- * Raw contents of pending changeset files (excludes README.md/config.json).
+ * Contents of changeset files added or modified by this diff (vs. `base`) — deliberately
+ * excludes changesets already sitting on the base branch, unrelated to this change. An
+ * unrelated pre-existing changeset that happens to bump WASM_PACKAGE must not be able to
+ * satisfy requireWasmBumpForDataChanges for a change it has nothing to do with; it will be
+ * consumed by the next release regardless, leaving this change unversioned.
+ * @param {string} base - Base git ref (e.g. a PR's base branch)
  * @param {string} changesetDir - Path to .changeset directory
+ * @param {{ cwd?: string }} [options] - `cwd` to run git in (defaults to process.cwd();
+ *   exposed for testing against a scratch repo)
  * @returns {string[]}
  */
-export function readPendingChangesetContents(changesetDir = ".changeset") {
-  const pattern = join(changesetDir, "*.md").replaceAll(sep, "/");
-  const files = globSync(pattern).filter(
-    (file) => file.split("/").pop() !== "README.md",
+export function getChangedChangesetContents(
+  base,
+  changesetDir = ".changeset",
+  { cwd } = {},
+) {
+  const output = execFileSync(
+    "git",
+    ["diff", "--name-only", "--diff-filter=ACMR", `${base}...HEAD`],
+    { encoding: "utf8", cwd },
   );
-  return files.map((file) => readFileSync(file, "utf8"));
+  const prefix = `${changesetDir}/`;
+  return output
+    .split("\n")
+    .filter(Boolean)
+    .filter((file) => file.startsWith(prefix) && file.endsWith(".md"))
+    .filter((file) => file.split("/").pop() !== "README.md")
+    .map((file) => readFileSync(cwd ? join(cwd, file) : file, "utf8"));
 }
 
 export { LINT_RULES, WASM_PACKAGE };
