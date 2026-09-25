@@ -98,6 +98,47 @@ test("primer does not require a CLI binary (no runCli import)", async (t) => {
   t.false(src.includes('../cli.js"'), "read.js must not import cli.js");
 });
 
+// ── suggest_token ─────────────────────────────────────────────────────────────
+
+test("suggest_token returns ranked results", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({
+    intent: "accent background color",
+    limit: 5,
+  });
+  t.true(Array.isArray(results));
+  t.true(results.length > 0);
+  for (const result of results) {
+    t.true(Object.hasOwn(result, "tokenName"), "result has tokenName");
+    t.true(Object.hasOwn(result, "confidence"), "result has confidence");
+    t.true(Object.hasOwn(result, "layer"), "result has layer");
+    t.is(typeof result.confidence, "number");
+    t.true(
+      result.confidence > 0 && result.confidence <= 1,
+      "confidence is between 0 and 1",
+    );
+    t.false(
+      /\.json:\d+$/.test(result.tokenName),
+      `tokenName "${result.tokenName}" is not a raw graph key`,
+    );
+  }
+});
+
+test("suggest_token respects limit", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({ intent: "color", limit: 3 });
+  t.true(results.length <= 3);
+});
+
+test("suggest_token returns an empty array for unrecognized intent", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({
+    intent: "zzz-no-match-xyzzy",
+    limit: 5,
+  });
+  t.deepEqual(results, []);
+});
+
 // ── describe_component ─────────────────────────────────────────────────────────
 
 test("describe_component returns component data for a known ID", async (t) => {
