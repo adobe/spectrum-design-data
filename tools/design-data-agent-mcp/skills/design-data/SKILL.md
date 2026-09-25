@@ -11,7 +11,7 @@ when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
   design-data write, product-context.json.
-allowed-tools: mcp__design-data-agent__primer, mcp__design-data-agent__query_tokens, mcp__design-data-agent__resolve_token, mcp__design-data-agent__describe_component, mcp__design-data-agent__validate_usage, mcp__design-data-agent__diff_datasets, mcp__design-data-agent__write, mcp__design-data-agent__start_authoring_session, mcp__design-data-agent__authoring_session_step_intent, mcp__design-data-agent__authoring_session_step_classification, mcp__design-data-agent__authoring_session_step_values, mcp__design-data-agent__authoring_session_commit, mcp__design-data-agent__authoring_session_cancel, mcp__design-data-agent__authoring_session_get, mcp__design-data-agent__authoring_session_list
+allowed-tools: mcp__design-data-agent__primer, mcp__design-data-agent__query_tokens, mcp__design-data-agent__suggest_token, mcp__design-data-agent__resolve_token, mcp__design-data-agent__describe_component, mcp__design-data-agent__validate_usage, mcp__design-data-agent__diff_datasets, mcp__design-data-agent__write, mcp__design-data-agent__start_authoring_session, mcp__design-data-agent__authoring_session_step_intent, mcp__design-data-agent__authoring_session_step_classification, mcp__design-data-agent__authoring_session_step_values, mcp__design-data-agent__authoring_session_commit, mcp__design-data-agent__authoring_session_cancel, mcp__design-data-agent__authoring_session_get, mcp__design-data-agent__authoring_session_list
 ---
 
 # design-data agent skill
@@ -102,6 +102,15 @@ $schema=https://spectrum.adobe.com/page/design-token/
 
 > **Exit codes:** `0` = matches found; empty array = no matches (not an error).
 
+### Suggest a token from a description — `suggest_token`
+
+Required: `intent` (string) — a natural-language description of the design need,
+such as `"primary CTA button background color"`.
+
+Optional: `limit` (number, default `5`) — the maximum number of suggestions to return.
+Results are ranked by confidence using token names, name-object fields, and description
+text. Use this when the user describes what they need rather than knowing a token name.
+
 ***
 
 ## Component info — `describe_component`
@@ -163,8 +172,9 @@ Helper tools: `authoring_session_get` (inspect state), `authoring_session_list` 
 `authoring_session_commit` accepts an optional `schema_path` to override the schemas directory
 for Layer-1 JSON-Schema validation before writing.
 
-> **Note:** `authoring_session_step_intent` (NLP suggestion ranking) still delegates to the
-> `design-data` CLI because the NLP `suggest` API is not yet on the wasm surface.
+> **Note:** The standalone `suggest_token` tool calls the wasm `suggest` API directly.
+> `authoring_session_step_intent` still delegates to the `design-data` CLI for
+> session-state-aware ranking within an authoring flow.
 
 ***
 
