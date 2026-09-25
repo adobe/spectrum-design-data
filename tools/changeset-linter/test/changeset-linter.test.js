@@ -11,16 +11,31 @@
  */
 
 import test from "ava";
-import { writeFileSync, mkdirSync, rmSync } from "fs";
+import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from "fs";
+import { execFileSync } from "child_process";
 import { join } from "path";
+import { tmpdir } from "os";
 import {
   lintChangeset,
   getWorkspacePackageNames,
   isDatasetContentFile,
   requireWasmBumpForDataChanges,
+  getChangedChangesetContents,
   LINT_RULES,
   WASM_PACKAGE,
 } from "../src/index.js";
+
+// Minimal scratch git repo for exercising getChangedChangesetContents' actual git diff
+// behavior, not just the pure functions it feeds.
+function initScratchRepo(dir) {
+  mkdirSync(join(dir, ".changeset"), { recursive: true });
+  const git = (...args) =>
+    execFileSync("git", args, { cwd: dir, encoding: "utf8" });
+  git("init", "-q");
+  git("config", "user.email", "test@test.com");
+  git("config", "user.name", "test");
+  return git;
+}
 
 // Test directory setup
 const testDir = "./test-changesets";
@@ -378,4 +393,57 @@ test("requireWasmBumpForDataChanges: a body-only mention does not satisfy the ch
     ],
   );
   t.deepEqual(result, { required: true, satisfied: false });
+});
+
+test("getChangedChangesetContents: ignores a changeset already present on base", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "changeset-lint-scratch-"));
+  try {
+    const git = initScratchRepo(dir);
+    writeFileSync(
+      join(dir, ".changeset", "pre-existing.md"),
+      `---\n"${WASM_PACKAGE}": patch\n---\n\nUnrelated bump already on base.\n`,
+    );
+    git("add", "-A");
+    git("commit", "-q", "-m", "base: pre-existing wasm changeset");
+    git("branch", "base");
+
+    // A follow-on commit that changes nothing under .changeset/ — the pre-existing
+    // changeset above must not be reported as "changed" relative to base.
+    writeFileSync(join(dir, "unrelated.txt"), "noise\n");
+    git("add", "-A");
+    git("commit", "-q", "-m", "unrelated change, no new changeset");
+
+    const contents = getChangedChangesetContents("base", ".changeset", {
+      cwd: dir,
+    });
+    t.deepEqual(contents, []);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("getChangedChangesetContents: includes a changeset newly added in the diff", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "changeset-lint-scratch-"));
+  try {
+    const git = initScratchRepo(dir);
+    writeFileSync(join(dir, "README.md"), "seed\n");
+    git("add", "-A");
+    git("commit", "-q", "-m", "base: seed commit");
+    git("branch", "base");
+
+    writeFileSync(
+      join(dir, ".changeset", "new-bump.md"),
+      `---\n"${WASM_PACKAGE}": patch\n---\n\nNew changeset added by this change.\n`,
+    );
+    git("add", "-A");
+    git("commit", "-q", "-m", "add the required changeset");
+
+    const contents = getChangedChangesetContents("base", ".changeset", {
+      cwd: dir,
+    });
+    t.is(contents.length, 1);
+    t.true(contents[0].includes(WASM_PACKAGE));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

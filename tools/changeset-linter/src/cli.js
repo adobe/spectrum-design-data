@@ -20,7 +20,7 @@ import {
   getWorkspacePackageNames,
   requireWasmBumpForDataChanges,
   getChangedFiles,
-  readPendingChangesetContents,
+  getChangedChangesetContents,
   WASM_PACKAGE,
 } from "./index.js";
 
@@ -127,7 +127,10 @@ program
   .action((options) => {
     try {
       const changedFiles = getChangedFiles(options.base);
-      const changesetContents = readPendingChangesetContents(options.dir);
+      const changesetContents = getChangedChangesetContents(
+        options.base,
+        options.dir,
+      );
       const { required, satisfied } = requireWasmBumpForDataChanges(
         changedFiles,
         changesetContents,
