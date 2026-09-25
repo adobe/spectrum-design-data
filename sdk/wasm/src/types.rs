@@ -70,6 +70,35 @@ pub struct TokenResult {
 pub struct ResolveResult {
     pub token: TokenResult,
     pub specificity: u32,
+    pub deprecated: bool,
+    pub deprecated_in: Option<String>,
+    pub candidate_count: usize,
+    pub ambiguous: bool,
+    pub alternatives: Vec<ResolveAlternative>,
+}
+
+/// A non-winning candidate returned with a property resolution.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct ResolveAlternative {
+    pub name: String,
+    pub uuid: Option<String>,
+    pub deprecated: bool,
+    pub deprecated_in: Option<String>,
+}
+
+/// Optional name-object fields used to narrow property resolution.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Tsify)]
+#[tsify(from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct ResolveNarrowing {
+    pub component: Option<String>,
+    pub variant: Option<String>,
+    pub state: Option<String>,
+    pub color_role: Option<String>,
+    #[serde(default)]
+    pub exclude_deprecated: bool,
 }
 
 /// Severity level of a validation diagnostic.

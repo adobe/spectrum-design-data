@@ -47,6 +47,7 @@ const NAME_OBJECT_KEYS: &[&str] = &[
     "component",
     "variant",
     "state",
+    "colorRole",
     "colorScheme",
     "scale",
     "contrast",
@@ -223,6 +224,14 @@ fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
         Operator::Eq => any_match,
         Operator::NotEq => !any_match,
     }
+}
+
+/// Match a name-object field using the same scalar/array and glob semantics as
+/// query filters.
+pub fn matches_name_field(raw: &serde_json::Value, key: &str, pattern: &str) -> bool {
+    resolve_key(raw, key)
+        .iter()
+        .any(|value| glob_match(pattern, value))
 }
 
 /// Resolve a query key to the field's value(s) in a token's raw JSON.
