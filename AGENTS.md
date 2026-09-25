@@ -25,8 +25,11 @@ Scout MCP is configured for this repository and may be exposed through deferred 
 When doing code review, source discovery, architecture tracing, or any work covered by Scout:
 
 * Use Scout MCP tools directly.
-* If a needed `mcp__scout__*` tool is not visible, first use tool discovery with an exact selector such as `select:mcp__scout__review_pr`, `select:mcp__scout__investigate`, or `select:mcp__scout__keyword_search`.
-* After selecting a Scout tool, call that MCP tool as the next tool call.
+* If a needed Scout tool is not visible, use your harness's own deferred/tool-discovery mechanism first — the selector syntax differs by agent:
+  * Claude Code: an exact selector such as `select:mcp__scout__review_pr`, `select:mcp__scout__investigate`, or `select:mcp__scout__keyword_search`.
+  * Copilot CLI: the `tool_search_tool` with a `pattern` matching the tool, e.g. `scout-investigate` or `scout-keyword_search` (Scout tools are prefixed `scout-*`, not `mcp__scout__*`, in this harness).
+  * If your harness's discovery convention differs from both, use whatever mechanism it documents for deferred/hidden tools before concluding Scout is unavailable.
+* After discovering a Scout tool, call that MCP tool as the next tool call.
 * Do not fall back to the Scout CLI unless Scout MCP discovery fails for the needed tool.
 
 ## Non-Interactive Shell Commands

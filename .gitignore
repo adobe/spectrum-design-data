@@ -166,6 +166,9 @@ tools/token-mapping-analyzer/output/
 # Commit only curated, published assets under tools/demo/videos/published/.
 tools/demo/videos/out/
 
+# figma-code-connect generator output (re-buildable from design data)
+tools/figma-code-connect/codeconnect/
+
 # Beads / Dolt files (added by bd init)
 .dolt/
 *.db
