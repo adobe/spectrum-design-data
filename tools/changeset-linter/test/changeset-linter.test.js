@@ -16,7 +16,10 @@ import { join } from "path";
 import {
   lintChangeset,
   getWorkspacePackageNames,
+  isDatasetContentFile,
+  requireWasmBumpForDataChanges,
   LINT_RULES,
+  WASM_PACKAGE,
 } from "../src/index.js";
 
 // Test directory setup
@@ -323,4 +326,44 @@ test("LINT_RULES configuration", (t) => {
       p.test("**Original Branch:** main"),
     ),
   );
+});
+
+test("isDatasetContentFile matches dataset content globs", (t) => {
+  t.true(isDatasetContentFile("packages/design-data/tokens/color.tokens.json"));
+  t.true(isDatasetContentFile("packages/design-data/mode-sets/contrast.json"));
+  t.true(isDatasetContentFile("packages/design-data/components/button.json"));
+  t.true(isDatasetContentFile("packages/design-data/fields/emphasis.json"));
+});
+
+test("isDatasetContentFile ignores non-dataset files", (t) => {
+  t.false(isDatasetContentFile("packages/design-data/README.md"));
+  t.false(isDatasetContentFile("packages/design-data/tokens/color.json")); // wrong extension
+  t.false(isDatasetContentFile("tools/changeset-linter/src/index.js"));
+  t.false(
+    isDatasetContentFile("packages/design-data-spec/conformance/foo.json"),
+  );
+});
+
+test("requireWasmBumpForDataChanges: no-op when no data files changed", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["tools/changeset-linter/src/index.js"],
+    [],
+  );
+  t.deepEqual(result, { required: false, satisfied: true });
+});
+
+test("requireWasmBumpForDataChanges: fails when data changed with no wasm changeset", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    ['---\n"@adobe/some-other-package": patch\n---\n\nUnrelated change.\n'],
+  );
+  t.deepEqual(result, { required: true, satisfied: false });
+});
+
+test("requireWasmBumpForDataChanges: passes when a wasm changeset is pending", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    [`---\n"${WASM_PACKAGE}": patch\n---\n\nRefresh embedded dataset.\n`],
+  );
+  t.deepEqual(result, { required: true, satisfied: true });
 });

@@ -11,8 +11,23 @@
  */
 
 import { readFileSync } from "fs";
+import { execFileSync } from "child_process";
 import { join, dirname, sep } from "path";
 import { globSync } from "glob";
+
+// Dataset-content globs that feed sdk/wasm's `cache-build` task (see sdk/wasm/moon.yml).
+// A change to any of these regenerates the embedded dataset at release time, so it must
+// be accompanied by a changeset that bumps WASM_PACKAGE — changesets' cascade
+// (updateInternalDependencies: "patch" in .changeset/config.json) then carries the bump
+// to every workspace:* dependent, including @adobe/design-data-agent-mcp.
+const DATASET_CONTENT_PATTERNS = [
+  /^packages\/design-data\/tokens\/[^/]+\.tokens\.json$/,
+  /^packages\/design-data\/mode-sets\/[^/]+\.json$/,
+  /^packages\/design-data\/components\/[^/]+\.json$/,
+  /^packages\/design-data\/fields\/[^/]+\.json$/,
+];
+
+const WASM_PACKAGE = "@adobe/design-data-wasm";
 
 /**
  * Configuration for changeset linting rules
@@ -288,4 +303,66 @@ export async function lintAllChangesets(changesetDir = ".changeset") {
   return changesetFiles.map((f) => lintChangeset(f, validPackageNames));
 }
 
-export { LINT_RULES };
+/**
+ * Check whether a repo-relative path is dataset content that feeds the embedded
+ * wasm cache (see DATASET_CONTENT_PATTERNS above).
+ * @param {string} filePath - Repo-relative path (forward or platform-native slashes)
+ * @returns {boolean}
+ */
+export function isDatasetContentFile(filePath) {
+  const normalized = filePath.replaceAll(sep, "/");
+  return DATASET_CONTENT_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
+/**
+ * Pure check: does this set of changed files require a pending changeset that bumps
+ * WASM_PACKAGE? Takes changeset file contents directly so it's testable without touching
+ * the filesystem or git.
+ * @param {string[]} changedFiles - Repo-relative paths from a git diff
+ * @param {string[]} changesetContents - Raw contents of pending .changeset/*.md files
+ * @returns {{ required: boolean, satisfied: boolean }}
+ */
+export function requireWasmBumpForDataChanges(changedFiles, changesetContents) {
+  const required = changedFiles.some(isDatasetContentFile);
+  if (!required) {
+    return { required: false, satisfied: true };
+  }
+  const bumpPattern = new RegExp(
+    `"${WASM_PACKAGE}"\\s*:\\s*(major|minor|patch)`,
+  );
+  const satisfied = changesetContents.some((content) =>
+    bumpPattern.test(content),
+  );
+  return { required: true, satisfied };
+}
+
+/**
+ * Repo-relative paths changed between `base` and HEAD.
+ * @param {string} base - Base git ref (e.g. a PR's base branch)
+ * @returns {string[]}
+ */
+export function getChangedFiles(base) {
+  const output = execFileSync(
+    "git",
+    ["diff", "--name-only", `${base}...HEAD`],
+    {
+      encoding: "utf8",
+    },
+  );
+  return output.split("\n").filter(Boolean);
+}
+
+/**
+ * Raw contents of pending changeset files (excludes README.md/config.json).
+ * @param {string} changesetDir - Path to .changeset directory
+ * @returns {string[]}
+ */
+export function readPendingChangesetContents(changesetDir = ".changeset") {
+  const pattern = join(changesetDir, "*.md").replaceAll(sep, "/");
+  const files = globSync(pattern).filter(
+    (file) => file.split("/").pop() !== "README.md",
+  );
+  return files.map((file) => readFileSync(file, "utf8"));
+}
+
+export { LINT_RULES, WASM_PACKAGE };
