@@ -213,8 +213,13 @@ impl Dataset {
     ///
     /// **Syntax:** `key=value` pairs separated by `,` (AND) or `|` (OR).
     /// Use `!=` for negation and `*` as a wildcard suffix or prefix.
-    /// Valid keys: `property`, `component`, `variant`, `state`, `colorScheme`,
-    /// `scale`, `contrast`, `uuid`, `$schema`.
+    /// Valid parser keys: `property`, `component`, `variant`, `state`,
+    /// `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`.
+    ///
+    /// `component` remains accepted for compatibility, but it is not a
+    /// meaningfully indexed field in the embedded dataset and usually returns no
+    /// matches. Prefer `describe_component` and `tokenBindings` metadata for
+    /// component-aware discovery.
     ///
     /// ```js
     /// const results = ds.query("property=color,colorScheme=dark");
