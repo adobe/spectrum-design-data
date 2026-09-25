@@ -44,6 +44,7 @@ use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_dtcg as dtcg;
 use design_data_figma as figma;
+use design_data_shadcn as shadcn;
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -691,6 +692,9 @@ enum ExportFormat {
     #[default]
     Dtcg,
     Json,
+    /// shadcn `registry:theme` item (`cssVars.light`/`cssVars.dark`); see
+    /// `design_data_shadcn`.
+    ShadcnTheme,
 }
 
 /// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
@@ -808,7 +812,10 @@ fn resolve_dataset_winners(
 /// transform, so it keeps its own subcommands instead of this trait (see
 /// `design_data_core::export::TokenExporter`).
 fn exporters() -> Vec<Box<dyn TokenExporter>> {
-    vec![Box::new(dtcg::DtcgExporter)]
+    vec![
+        Box::new(dtcg::DtcgExporter),
+        Box::new(shadcn::ShadcnThemeExporter),
+    ]
 }
 
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
@@ -1679,6 +1686,14 @@ fn run_export(
                 "{}",
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
+        }
+        ExportFormat::ShadcnTheme => {
+            let doc = exporters()
+                .into_iter()
+                .find(|e| e.format_id() == "shadcn-theme")
+                .expect("shadcn-theme exporter always registered")
+                .export(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
         }
     }
 
