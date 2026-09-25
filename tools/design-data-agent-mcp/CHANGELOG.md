@@ -1,5 +1,34 @@
 # @adobe/design-data-agent-mcp
 
+## 1.12.0
+
+### Minor Changes
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add narrowing and ambiguity metadata to property-based token resolution.
+  - **resolve_token**: support component, variant, state, and colorRole narrowing while reporting
+    deprecated and ambiguous matches.
+
+### Patch Changes
+
+- [#1504](https://github.com/adobe/spectrum-design-data/pull/1504) [`814f84e`](https://github.com/adobe/spectrum-design-data/commit/814f84ede4d207e5e24c40a1b6f054fb58462b70) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `primer` returning empty `modeSets` arrays (closes spectrum-design-data-v9bb).
+  - **tools/design-data-agent-mcp/src/tools/read.js**: build `modeSets` from the
+    `modeSets` array already returned by `ds.primer()` instead of the
+    field-catalog-only `getFieldValues("colorScheme"|"scale"|"contrast")`, which
+    never had entries for mode-set dimensions.
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix broken example calls in read-tool docstrings and the design-data skill.
+  - **tools/design-data-agent-mcp/src/tools/read.js**: `query_tokens`'s docstring example
+    (`category=color`) never worked — replaced with a real filter and a note that
+    `component=<id>` is currently unindexed. `resolve_token`'s docstring example
+    (`accent-background-color-default`) was a legacyKey-shaped name that never resolves —
+    replaced with guidance on the accepted bare-property format and its disambiguation limits.
+  - **tools/design-data-agent-mcp/skills/design-data/SKILL.md**: same two examples corrected,
+    with gotcha notes for both tools.
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.10.0
+  - @adobe/design-data@3.2.1
+
 ## 1.11.0
 
 ### Minor Changes
