@@ -44,6 +44,23 @@ test("primer returns expected top-level keys", async (t) => {
     Array.isArray(result.modeSets.contrast),
     "modeSets.contrast is an array",
   );
+  // Mode-set dimensions are sourced from ds.primer()'s modeSets array (graph.mode_sets),
+  // not the field-catalog registry — regression coverage for spectrum-design-data-v9bb.
+  t.deepEqual(
+    [...result.modeSets.colorScheme].sort(),
+    ["dark", "light", "wireframe"],
+    "modeSets.colorScheme is populated",
+  );
+  t.deepEqual(
+    [...result.modeSets.scale].sort(),
+    ["desktop", "mobile"],
+    "modeSets.scale is populated",
+  );
+  t.deepEqual(
+    [...result.modeSets.contrast].sort(),
+    ["high", "regular"],
+    "modeSets.contrast is populated",
+  );
   t.truthy(result.taxonomyFields, "taxonomyFields should be present");
   t.true(Array.isArray(result.components), "components is an array");
   t.true(result.components.length > 0, "components should be non-empty");
