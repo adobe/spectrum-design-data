@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-slider/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorSlider",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -9,6 +9,14 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-handle/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorHandle",
+      "importPath": "@adobe/spectrum-wc/components/color-handle",
+      "notes": "Spectrum 2 web component custom element: swc-color-handle."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

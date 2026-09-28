@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/drop-zone/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "DropZone",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

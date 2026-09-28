@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-area/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorArea",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

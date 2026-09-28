@@ -9,6 +9,13 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/tree-view/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "TreeView",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

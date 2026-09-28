@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/tag-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "TagGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",
