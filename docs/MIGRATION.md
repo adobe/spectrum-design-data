@@ -93,7 +93,9 @@ from a local path to a `Remote` entry (`PlatformManifestEntry::Remote` in
 repo = "adobe/<id>-design-data"   # or wherever the team placed it
 tag = "v1.0.0"                    # exactly one of tag / branch / sha
 # manifest_path defaults to "manifest.json" at the tree root; set it if the
-# manifest lives in a subdirectory of the destination repo.
+# manifest lives in a subdirectory of the destination repo. Must be a
+# relative path that stays within the fetched tree — an absolute path or a
+# `..` escape is rejected.
 ```
 
 Verify locally before committing this change:

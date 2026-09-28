@@ -479,7 +479,9 @@ enum PlatformSub {
         /// remote/`github`-sourced entry is already external and can't be
         /// ejected from here)
         id: String,
-        /// Output directory (default: `./<id>-design-data` in the CWD)
+        /// Output directory (default: `./<id>-design-data` in the CWD).
+        /// Rejected if it resolves inside the platform's own `extensions/`
+        /// dir, which would make the recursive copy walk into its own output.
         #[arg(long)]
         out: Option<PathBuf>,
     },
