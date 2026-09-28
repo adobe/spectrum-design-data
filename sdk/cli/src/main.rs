@@ -468,6 +468,21 @@ enum PlatformSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
+    /// Emit a standalone, publishable repo for a local `[platforms.<id>]` entry
+    /// (manifest.json, extensions/, README, LICENSE, `.design-data.toml` pinned
+    /// at the entry's `foundationVersion`, and a CI validation workflow), plus
+    /// printed `git subtree split` instructions for history-preserving
+    /// extraction — see `platforms/README.md`'s ejection contract and
+    /// `docs/MIGRATION.md` for the full runbook
+    Eject {
+        /// Platform id (must be a local `[platforms.<id>]` path entry — a
+        /// remote/`github`-sourced entry is already external and can't be
+        /// ejected from here)
+        id: String,
+        /// Output directory (default: `./<id>-design-data` in the CWD)
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -1320,6 +1335,236 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
             }
         }
     }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Recursively copy a directory tree (used by `platform eject` to duplicate a
+/// platform's `extensions/` dir into the ejected repo). Creates `dst` and any
+/// nested subdirectories as needed.
+fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
+    std::fs::create_dir_all(dst)?;
+    for entry in std::fs::read_dir(src)? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
+        let dst_path = dst.join(entry.file_name());
+        if file_type.is_dir() {
+            copy_dir_all(&entry.path(), &dst_path)?;
+        } else {
+            std::fs::copy(entry.path(), &dst_path)?;
+        }
+    }
+    Ok(())
+}
+
+/// `design-data platform eject <id>` (h890.27.11): package a local
+/// `[platforms.<id>]` entry as a standalone, publishable repo — the first half
+/// of the incubate-here → team-owned-repo migration path (`platforms/README.md`).
+/// Does not touch git history; pair with the printed `git subtree split`
+/// instructions to preserve it.
+fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let Some((config_path, config)) = data_source::find_config(&cwd).into_diagnostic()? else {
+        eprintln!(
+            "design-data: error: no `.design-data.toml` found from {}",
+            cwd.display()
+        );
+        return Ok(ExitCode::from(2));
+    };
+    let config_dir = config_path
+        .parent()
+        .expect("config file path always has a parent")
+        .to_path_buf();
+
+    let entry = config.platforms.as_ref().and_then(|p| p.get(id));
+    let manifest_path = match entry {
+        Some(data_source::PlatformManifestEntry::Path(path)) => {
+            if path.is_absolute() {
+                path.clone()
+            } else {
+                config_dir.join(path)
+            }
+        }
+        Some(data_source::PlatformManifestEntry::Remote { .. }) => {
+            eprintln!(
+                "design-data: error: platform \"{id}\" is a remote entry — it's already \
+                 external and has nothing to eject; point consumers at its `repo`/`tag` \
+                 directly instead"
+            );
+            return Ok(ExitCode::from(2));
+        }
+        None => {
+            let available = config
+                .platforms
+                .as_ref()
+                .map(|p| {
+                    let mut ids: Vec<String> = p.keys().cloned().collect();
+                    ids.sort();
+                    ids
+                })
+                .unwrap_or_default();
+            eprintln!(
+                "design-data: error: unknown platform id \"{id}\" — configured ids: {}",
+                if available.is_empty() {
+                    "(none)".to_string()
+                } else {
+                    available.join(", ")
+                }
+            );
+            return Ok(ExitCode::from(2));
+        }
+    };
+    let Some(platform_dir) = manifest_path.parent() else {
+        eprintln!(
+            "design-data: error: manifest path {} has no parent directory",
+            manifest_path.display()
+        );
+        return Ok(ExitCode::from(2));
+    };
+
+    let manifest_text = std::fs::read_to_string(&manifest_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read {}", manifest_path.display()))?;
+    let manifest_json: serde_json::Value =
+        serde_json::from_str(&manifest_text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to parse {}", manifest_path.display()))?;
+    let foundation_version = manifest_json
+        .get("foundationVersion")
+        .and_then(|v| v.as_str())
+        .map(str::to_string);
+
+    let out_dir = out.unwrap_or_else(|| PathBuf::from(format!("{id}-design-data")));
+    std::fs::create_dir_all(&out_dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to create {}", out_dir.display()))?;
+
+    // manifest.json — verbatim; the on-disk Layer 2 manifest never carries an
+    // inline `extensions` object (that's glob+merged from the sibling
+    // `extensions/` dir at apply time), so no rewriting is needed.
+    std::fs::copy(&manifest_path, out_dir.join("manifest.json"))
+        .into_diagnostic()
+        .wrap_err("failed to copy manifest.json")?;
+
+    // extensions/ — copied verbatim if present; a platform with no overlay
+    // content yet (e.g. seeded-but-empty) simply has nothing to copy.
+    let extensions_src = platform_dir.join("extensions");
+    if extensions_src.is_dir() {
+        copy_dir_all(&extensions_src, &out_dir.join("extensions"))
+            .into_diagnostic()
+            .wrap_err("failed to copy extensions/")?;
+    }
+
+    // README.md — copy the in-repo one if present (it documents this
+    // platform's real naming/formatting rationale), else a minimal generated
+    // stub.
+    let readme_src = platform_dir.join("README.md");
+    let readme_dst = out_dir.join("README.md");
+    if readme_src.is_file() {
+        std::fs::copy(&readme_src, &readme_dst)
+            .into_diagnostic()
+            .wrap_err("failed to copy README.md")?;
+    } else {
+        std::fs::write(
+            &readme_dst,
+            format!(
+                "# {id} design data\n\nEjected from `adobe/spectrum-design-data`'s \
+                 `platforms/{id}/` — see `.design-data.toml` for the pinned foundation \
+                 source.\n"
+            ),
+        )
+        .into_diagnostic()
+        .wrap_err("failed to write README.md")?;
+    }
+
+    // LICENSE — copy the monorepo's Apache-2.0 LICENSE verbatim, when locatable
+    // (best-effort: an ejected repo built from a non-standard checkout layout
+    // should still get everything else).
+    let resolved_for_schemas = resolve_data_source(CliPathOverrides {
+        platform_id: Some(id.to_string()),
+        ..Default::default()
+    })
+    .ok();
+    if let Some(schema_path) = resolved_for_schemas
+        .as_ref()
+        .and_then(|r| manifest::locate_manifest_schema(&r.schemas_root))
+    {
+        // schema_path = <repo>/packages/design-data-spec/schemas/manifest.schema.json
+        if let Some(repo_root) = schema_path.ancestors().nth(4) {
+            let license_src = repo_root.join("LICENSE");
+            if license_src.is_file() {
+                let _ = std::fs::copy(&license_src, out_dir.join("LICENSE"));
+            }
+        }
+    }
+
+    // .design-data.toml — pin the foundation via the same [source] github
+    // mechanism a remote `[platforms.<id>]` entry already uses, at the
+    // manifest's own foundationVersion tag.
+    let tag_line = foundation_version
+        .as_deref()
+        .map(|fv| format!("tag = \"{fv}\"\n"))
+        .unwrap_or_else(|| {
+            "# foundationVersion missing from manifest.json — set `tag` manually\n\
+             tag = \"@adobe/spectrum-tokens@0.0.0\"\n"
+                .to_string()
+        });
+    std::fs::write(
+        out_dir.join(".design-data.toml"),
+        format!(
+            "# Ejected from adobe/spectrum-design-data's platforms/{id}/ — see\n\
+             # https://github.com/adobe/spectrum-design-data/blob/main/docs/MIGRATION.md\n\
+             manifest = \"manifest.json\"\n\
+             \n\
+             [source]\n\
+             type = \"github\"\n\
+             repo = \"adobe/spectrum-design-data\"\n\
+             {tag_line}"
+        ),
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .design-data.toml")?;
+
+    // .github/workflows/validate.yml — the composite action's own documented
+    // usage (.github/actions/validate/README.md), with skip-dataset-validation
+    // set since an ejected manifest-only repo has no local tokens/ dir.
+    let workflows_dir = out_dir.join(".github").join("workflows");
+    std::fs::create_dir_all(&workflows_dir)
+        .into_diagnostic()
+        .wrap_err("failed to create .github/workflows")?;
+    std::fs::write(
+        workflows_dir.join("validate.yml"),
+        "name: Validate\n\
+         \n\
+         on:\n\
+         \x20\x20pull_request:\n\
+         \n\
+         jobs:\n\
+         \x20\x20validate:\n\
+         \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+         \x20\x20\x20\x20steps:\n\
+         \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+         \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20dataset-path: .\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20manifest: manifest.json\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20skip-dataset-validation: true\n",
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .github/workflows/validate.yml")?;
+
+    println!("design-data: ejected \"{id}\" to {}", out_dir.display());
+    println!();
+    println!("This does not carry git history. To preserve it:");
+    println!("  git subtree split --prefix=platforms/{id} -b eject/{id}");
+    println!("  # then, in a fresh clone of the destination repo (or as a new remote):");
+    println!("  git push <destination-repo-url> eject/{id}:main");
+    println!();
+    println!(
+        "Once pushed, flip `[platforms.{id}]` in this repo's `.design-data.toml` from a \
+         path to a `github` entry pointing at the destination repo (see \
+         docs/MIGRATION.md)."
+    );
+
     Ok(ExitCode::SUCCESS)
 }
 
@@ -2893,6 +3138,7 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Eject { id, out } => run_platform_eject(&id, out),
         },
         Commands::Validate {
             path,

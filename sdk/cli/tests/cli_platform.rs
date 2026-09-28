@@ -168,3 +168,91 @@ fn platform_show_unknown_id_errors_listing_available_ids() {
         .stderr(contains("no platform \"nope\" configured"))
         .stderr(contains("rsp"));
 }
+
+/// spectrum-design-data-h890.27.11: `platform eject` packages a local
+/// `[platforms.<id>]` entry (manifest, sibling `extensions/`, README) as a
+/// standalone repo, plus a generated `.design-data.toml`/CI workflow/LICENSE.
+#[test]
+fn platform_eject_local_entry_creates_standalone_repo() {
+    let project = setup_project_with_named_platform();
+    // Give `rsp` a README and an extensions/ dir to confirm both get copied.
+    fs::write(project.path().join("README.md"), "# RSP manifest\n").expect("write readme");
+    let ext_dir = project
+        .path()
+        .join("extensions")
+        .join("platform-extensions");
+    fs::create_dir_all(&ext_dir).expect("create extensions dir");
+    fs::write(
+        ext_dir.join("foo.json"),
+        json!({
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+            "platform": "React Spectrum",
+            "extends": "states",
+            "extensions": []
+        })
+        .to_string(),
+    )
+    .expect("write extension fragment");
+
+    let out_dir = project.path().join("ejected");
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["platform", "eject", "rsp", "--out"])
+        .arg(&out_dir)
+        .assert()
+        .success()
+        .stdout(contains("ejected \"rsp\""))
+        .stdout(contains("git subtree split --prefix=platforms/rsp"));
+
+    assert!(out_dir.join("manifest.json").is_file());
+    assert!(out_dir.join("README.md").is_file());
+    assert!(out_dir
+        .join("extensions/platform-extensions/foo.json")
+        .is_file());
+    assert!(out_dir.join(".github/workflows/validate.yml").is_file());
+
+    let config = fs::read_to_string(out_dir.join(".design-data.toml")).expect("read config");
+    assert!(config.contains("manifest = \"manifest.json\""));
+    assert!(config.contains("type = \"github\""));
+    assert!(config.contains("tag = \"1.0.0\""));
+
+    // The generated config must itself be valid TOML with `manifest` correctly
+    // ordered before `[source]` (a root key after a table header is a parse
+    // error in TOML).
+    config
+        .parse::<toml::Value>()
+        .expect("ejected .design-data.toml must be valid TOML");
+}
+
+#[test]
+fn platform_eject_remote_entry_errors_clearly() {
+    let project = tempfile::tempdir().expect("temp project dir");
+    fs::write(
+        project.path().join(".design-data.toml"),
+        "[platforms.remote-x]\nrepo = \"adobe/spectrum-ios-design-data\"\ntag = \"v1.0.0\"\n",
+    )
+    .expect("write config");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["platform", "eject", "remote-x"])
+        .assert()
+        .failure()
+        .stderr(contains("already external"));
+}
+
+#[test]
+fn platform_eject_unknown_id_errors_listing_available_ids() {
+    let project = setup_project_with_named_platform();
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["platform", "eject", "nope"])
+        .assert()
+        .failure()
+        .stderr(contains("unknown platform id \"nope\""))
+        .stderr(contains("rsp"));
+}
