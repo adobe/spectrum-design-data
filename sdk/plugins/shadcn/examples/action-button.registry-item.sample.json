@@ -56,6 +56,20 @@
       }
     },
     "states": ["hover", "down", "keyboard-focus"],
+    "stateDetails": [
+      {
+        "name": "hover",
+        "trigger": "interaction"
+      },
+      {
+        "name": "down",
+        "trigger": "interaction"
+      },
+      {
+        "name": "keyboard-focus",
+        "trigger": "interaction"
+      }
+    ],
     "accessibility": {
       "role": "button",
       "intents": ["trigger"],

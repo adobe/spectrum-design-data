@@ -9,6 +9,13 @@
     "category": "typography",
     "documentationUrl": "https://spectrum.adobe.com/page/heading/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Heading",
+      "package": "@react-spectrum/text"
+    }
+  ],
   "options": {
     "script": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/typography-script.json"

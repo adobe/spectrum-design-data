@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ComboBox",
+      "package": "@react-spectrum/combobox"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -9,6 +9,19 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/divider/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Divider",
+      "package": "@spectrum-web-components/divider",
+      "notes": "Spectrum Web Components custom element: sp-divider."
+    },
+    {
+      "platform": "web",
+      "componentName": "Divider",
+      "package": "@react-spectrum/divider"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

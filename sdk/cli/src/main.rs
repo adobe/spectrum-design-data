@@ -325,6 +325,11 @@ enum Commands {
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
     },
+    /// Generate shadcn registry artifacts from Spectrum design data
+    Shadcn {
+        #[command(subcommand)]
+        sub: ShadcnSub,
+    },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
         /// Natural-language intent (e.g. "accent background hover")
@@ -431,6 +436,22 @@ enum Commands {
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
+}
+
+#[derive(Subcommand)]
+enum ShadcnSub {
+    /// Generate metadata-only component registry items and a registry index
+    Registry {
+        /// Output directory (contains registry.json and items/)
+        #[arg(long, value_name = "DIR")]
+        output: PathBuf,
+        /// Generate only this component (default: all components)
+        #[arg(long, value_name = "ID")]
+        component: Option<String>,
+        /// Override components directory
+        #[arg(long, value_name = "DIR")]
+        components_dir: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -2411,6 +2432,27 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
+fn run_shadcn_registry(
+    output_dir: &Path,
+    component: Option<&str>,
+    components_dir: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        components: components_dir,
+        ..Default::default()
+    })?;
+    let components_dir = resolved
+        .components
+        .ok_or_else(|| miette::miette!("could not locate components directory"))?;
+    let count = shadcn::write_component_registry(&components_dir, output_dir, component)
+        .map_err(|error| miette::miette!("{error}"))?;
+    println!(
+        "Wrote {count} component registry item(s) to {}",
+        output_dir.display()
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_suggest(
     intent: &str,
     path: Option<&Path>,
@@ -2895,6 +2937,13 @@ fn main() -> ExitCode {
             mode_sets_dir,
         ),
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Shadcn { sub } => match sub {
+            ShadcnSub::Registry {
+                output,
+                component,
+                components_dir,
+            } => run_shadcn_registry(&output, component.as_deref(), components_dir),
+        },
         Commands::Suggest {
             intent,
             path,

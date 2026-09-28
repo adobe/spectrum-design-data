@@ -9,6 +9,14 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/toast/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Toast",
+      "package": "@spectrum-web-components/toast",
+      "notes": "Spectrum Web Components custom element: sp-toast."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

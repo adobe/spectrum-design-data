@@ -9,6 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/switch/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Switch",
+      "package": "@spectrum-web-components/switch",
+      "notes": "Spectrum Web Components custom element: sp-switch."
+    },
+    {
+      "platform": "web",
+      "componentName": "Switch",
+      "package": "@react-spectrum/switch"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

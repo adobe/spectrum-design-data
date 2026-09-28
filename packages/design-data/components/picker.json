@@ -9,6 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/picker/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Picker",
+      "package": "@spectrum-web-components/picker",
+      "notes": "Spectrum Web Components custom element: sp-picker."
+    },
+    {
+      "platform": "web",
+      "componentName": "Picker",
+      "package": "@react-spectrum/picker"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

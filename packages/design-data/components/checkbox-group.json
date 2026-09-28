@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/checkbox-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "CheckboxGroup",
+      "package": "@react-spectrum/checkbox"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

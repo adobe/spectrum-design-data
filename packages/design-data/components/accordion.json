@@ -9,6 +9,14 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/accordion/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Accordion",
+      "package": "@spectrum-web-components/accordion",
+      "notes": "Spectrum Web Components custom element: sp-accordion."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

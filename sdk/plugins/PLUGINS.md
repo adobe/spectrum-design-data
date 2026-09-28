@@ -16,8 +16,8 @@ accurate as the code evolves.
 ## Today: compiled-in, in-monorepo plugins
 
 A plugin is a crate under `sdk/plugins/` that depends on `design-data-core`
-through its public API. There are two shapes, matching the two kinds of
-export target that actually exist:
+through its public API. There are three shapes, matching the kinds of export
+target that actually exist:
 
 * **Pure exporters** — a one-shot `TokenGraph` + resolved winners -> document
   transform, with no I/O or protocol of its own. These implement
@@ -31,10 +31,16 @@ export target that actually exist:
   }
   ```
 
-  `design-data-dtcg`'s `DtcgExporter` is the only implementor today. The CLI
-  looks it up by `format_id()` from a small static registry
-  (`cli/src/main.rs::exporters()`) instead of hardcoding a match arm — the
-  seam a second pure exporter would plug into.
+  `design-data-dtcg`'s `DtcgExporter` and `design-data-shadcn`'s
+  `ShadcnThemeExporter` implement this trait. The CLI looks them up by
+  `format_id()` from a small static registry (`cli/src/main.rs::exporters()`)
+  instead of hardcoding a match arm.
+
+* **Data-specific one-shot exports** — a pure transform that does not consume a
+  resolved token graph. `design-data-shadcn` also maps component declarations
+  into metadata-only `registry:component` items. This uses a dedicated
+  `shadcn registry` subcommand and the component lookup path; it intentionally
+  does not implement `TokenExporter`, whose inputs are token-only.
 
 * **Bidirectional / network-coupled plugins** — anything that isn't a
   one-shot transform. `design-data-figma` is this shape: it fetches live
@@ -45,10 +51,10 @@ export target that actually exist:
   instead.
 
 **Adding a new in-monorepo plugin**: create `sdk/plugins/<name>/`, depend on
-`design-data-core` by path, implement `TokenExporter` if it fits (register it
-in the CLI's `exporters()`) or add its own subcommands if it doesn't. No new
-abstraction is owed until a second exporter actually needs one — one
-`match`/`Vec` entry is cheap at N=2.
+`design-data-core` by path, implement `TokenExporter` if it accepts resolved
+token graph inputs (register it in the CLI's `exporters()`), or add a
+data-specific subcommand if its input shape differs. No new abstraction is
+owed until a second plugin needs one.
 
 ## Later: a third-party subprocess protocol (not yet built)
 
@@ -85,13 +91,15 @@ foundation source, only the result.
 * Non-zero exit or anything on stderr is a hard failure — no partial/degraded
   output.
 
-**Open question — mode coverage**: `TokenExporter::export` hands the plugin
-one resolved winner per identity for one mode context. A target that needs
-every mode in one output (e.g. an iOS asset catalog with light/dark/increased
-contrast) needs more than that single slice. Whether the subprocess protocol
-invokes the plugin once per mode context or bundles all modes into one
-payload is unresolved — settle it when the protocol, or the first
-multi-mode in-process exporter, actually gets built.
+**Open question — mode coverage for subprocess plugins**:
+`TokenExporter::export` hands the plugin one resolved winner per identity for
+one mode context. An in-process exporter can re-resolve additional contexts
+from the graph (as `ShadcnThemeExporter` does for light/dark); a subprocess
+plugin receives only the serialized winners. A target needing every mode in
+one output (e.g. an iOS asset catalog with light/dark/increased contrast)
+therefore needs a protocol that supplies multiple contexts. Whether that
+protocol invokes the plugin once per context or bundles all contexts into one
+payload remains unresolved.
 
 This is a specification, not an implementation. Build it when a genuine
 external plugin author shows up, not speculatively.

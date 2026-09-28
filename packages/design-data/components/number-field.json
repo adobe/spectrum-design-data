@@ -9,6 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "NumberField",
+      "package": "@spectrum-web-components/number-field",
+      "notes": "Spectrum Web Components custom element: sp-number-field."
+    },
+    {
+      "platform": "web",
+      "componentName": "NumberField",
+      "package": "@react-spectrum/numberfield"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

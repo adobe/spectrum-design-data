@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/button-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ButtonGroup",
+      "package": "@spectrum-web-components/button-group",
+      "notes": "Spectrum Web Components custom element: sp-button-group."
+    },
+    {
+      "platform": "web",
+      "componentName": "ButtonGroup",
+      "package": "@react-spectrum/buttongroup"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

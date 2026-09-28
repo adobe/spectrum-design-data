@@ -9,6 +9,19 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/tray/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tray",
+      "package": "@spectrum-web-components/tray",
+      "notes": "Spectrum Web Components custom element: sp-tray."
+    },
+    {
+      "platform": "web",
+      "componentName": "Tray",
+      "package": "@react-spectrum/overlays"
+    }
+  ],
   "options": {
     "height": {
       "type": "string",

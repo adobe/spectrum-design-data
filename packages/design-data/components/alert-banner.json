@@ -9,6 +9,14 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/alert-banner/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "AlertBanner",
+      "package": "@spectrum-web-components/alert-banner",
+      "notes": "Spectrum Web Components custom element: sp-alert-banner."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

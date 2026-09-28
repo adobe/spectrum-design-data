@@ -9,6 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/help-text/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "HelpText",
+      "package": "@spectrum-web-components/help-text",
+      "notes": "Spectrum Web Components custom element: sp-help-text."
+    },
+    {
+      "platform": "web",
+      "componentName": "HelpText",
+      "package": "@react-spectrum/label"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

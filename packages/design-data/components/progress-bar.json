@@ -9,6 +9,19 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/progress-bar/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ProgressBar",
+      "package": "@spectrum-web-components/progress-bar",
+      "notes": "Spectrum Web Components custom element: sp-progress-bar."
+    },
+    {
+      "platform": "web",
+      "componentName": "ProgressBar",
+      "package": "@react-spectrum/progress"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

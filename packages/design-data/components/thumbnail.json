@@ -9,6 +9,14 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/thumbnail/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Thumbnail",
+      "package": "@spectrum-web-components/thumbnail",
+      "notes": "Spectrum Web Components custom element: sp-thumbnail."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

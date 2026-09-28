@@ -9,6 +9,14 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/field-label/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "FieldLabel",
+      "package": "@spectrum-web-components/field-label",
+      "notes": "Spectrum Web Components custom element: sp-field-label."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

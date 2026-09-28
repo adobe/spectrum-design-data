@@ -9,6 +9,19 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/checkbox/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Checkbox",
+      "package": "@spectrum-web-components/checkbox",
+      "notes": "Spectrum Web Components custom element: sp-checkbox."
+    },
+    {
+      "platform": "web",
+      "componentName": "Checkbox",
+      "package": "@react-spectrum/checkbox"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -9,6 +9,19 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "IllustratedMessage",
+      "package": "@spectrum-web-components/illustrated-message",
+      "notes": "Spectrum Web Components custom element: sp-illustrated-message."
+    },
+    {
+      "platform": "web",
+      "componentName": "IllustratedMessage",
+      "package": "@react-spectrum/illustratedmessage"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -9,6 +9,19 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/status-light/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "StatusLight",
+      "package": "@spectrum-web-components/status-light",
+      "notes": "Spectrum Web Components custom element: sp-status-light."
+    },
+    {
+      "platform": "web",
+      "componentName": "StatusLight",
+      "package": "@react-spectrum/statuslight"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

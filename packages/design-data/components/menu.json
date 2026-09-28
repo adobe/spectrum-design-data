@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/menu/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Menu",
+      "package": "@spectrum-web-components/menu",
+      "notes": "Spectrum Web Components custom element: sp-menu."
+    },
+    {
+      "platform": "web",
+      "componentName": "Menu",
+      "package": "@react-spectrum/menu"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

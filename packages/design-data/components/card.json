@@ -9,6 +9,19 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/card/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "package": "@spectrum-web-components/card",
+      "notes": "Spectrum Web Components custom element: sp-card."
+    },
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "package": "@react-spectrum/card"
+    }
+  ],
   "anatomy": [
     { "name": "selection" },
     { "name": "well" },

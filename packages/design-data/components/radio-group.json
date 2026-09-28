@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/radio-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "RadioGroup",
+      "package": "@react-spectrum/radio"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

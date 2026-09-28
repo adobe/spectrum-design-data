@@ -8,10 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Validation spike: export resolved Spectrum tokens as a shadcn
-//! [`registry:theme`](https://ui.shadcn.com/docs/registry/registry-item-json) item
-//! (`cssVars.light` / `cssVars.dark`), reusing the existing `TokenExporter` plugin
-//! seam (`sdk/plugins/PLUGINS.md`) rather than inventing a new one.
+//! Export Spectrum tokens and component declarations as shadcn registry items.
 //!
 //! ## Why this leans on `design-data-dtcg` instead of re-deriving values
 //!
@@ -21,21 +18,29 @@
 //! than duplicate that leaf-resolution logic, this exporter calls it per winner and
 //! lifts `$value` straight into a `--spectrum-{legacyKey}` custom property.
 //!
-//! ## The one-mode-per-call limitation (`PLUGINS.md`, "Open question — mode coverage")
+//! ## Theme mode coverage
 //!
 //! `export` only receives winners for the single `mode_ctx` the CLI resolved. shadcn's
 //! `cssVars` wants `light` *and* `dark` in one document, so this exporter re-resolves
 //! the `dark` side itself from `graph` via [`design_data_core::cascade::resolve_dataset`],
-//! using whatever `mode_ctx` the light side arrived with, colorScheme flipped. This
-//! settles the open question for the spike: re-resolve per scheme inside `export`,
-//! not at the CLI call site.
+//! using the light side's `mode_ctx` with `colorScheme` flipped.
+//!
+//! CSS variables are emitted only for tokens with a legacy key and a scalar
+//! DTCG value that can be represented as CSS. Tokens without a legacy key and
+//! composite values such as typography or shadow objects are skipped rather
+//! than assigned an invented property name or serialized as invalid CSS.
 use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
 
 use design_data_core::cascade::{resolve_dataset, ResolutionContext};
 use design_data_core::export::TokenExporter;
 use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::naming::extract_legacy_key;
 use serde_json::{json, Map, Value};
+
+const REGISTRY_ITEM_SCHEMA: &str = "https://ui.shadcn.com/schema/registry-item.json";
+const REGISTRY_SCHEMA: &str = "https://ui.shadcn.com/schema/registry.json";
 
 /// Exports resolved tokens as a shadcn `registry:theme` registry item.
 pub struct ShadcnThemeExporter;
@@ -132,6 +137,283 @@ fn dtcg_value_to_css(dtcg_type: Option<&Value>, value: &Value) -> Option<String>
     }
 }
 
+/// Convert one Design Data component declaration into a metadata-only
+/// `registry:component` item. Source files are intentionally not fabricated.
+pub fn component_registry_item(component: &Value) -> Result<Value, String> {
+    let name = required_string(component, "name", "component")?;
+    design_data_core::component::validate_id(name)
+        .map_err(|error| format!("invalid component name '{name}': {error}"))?;
+    let title = required_string(component, "displayName", name)?;
+    let source_meta = component
+        .get("meta")
+        .and_then(Value::as_object)
+        .ok_or_else(|| format!("component '{name}' is missing an object 'meta'"))?;
+    let source = component
+        .as_object()
+        .ok_or_else(|| format!("component '{name}' must be an object"))?;
+
+    let mut meta = Map::new();
+    copy_if_present(source_meta, &mut meta, "category");
+    copy_if_present(source_meta, &mut meta, "documentationUrl");
+
+    if let Some(options) = component.get("options") {
+        meta.insert("props".to_string(), component_props(name, options)?);
+    }
+    if let Some(states) = component.get("states") {
+        let states = states
+            .as_array()
+            .ok_or_else(|| format!("component '{name}' has a non-array 'states' field"))?;
+        let mut state_names = Vec::with_capacity(states.len());
+        for state in states {
+            state_names.push(
+                state
+                    .get("name")
+                    .and_then(Value::as_str)
+                    .ok_or_else(|| format!("component '{name}' has a state without a name"))?,
+            );
+        }
+        meta.insert("states".to_string(), json!(state_names));
+        if states.iter().any(|state| {
+            state
+                .as_object()
+                .is_some_and(|object| object.keys().any(|key| key != "name"))
+        }) {
+            meta.insert("stateDetails".to_string(), json!(states));
+        }
+    }
+    for key in [
+        "accessibility",
+        "implementations",
+        "anatomy",
+        "slots",
+        "tokenBindings",
+    ] {
+        copy_if_present(source, &mut meta, key);
+    }
+
+    let mut item = Map::new();
+    item.insert("$schema".to_string(), json!(REGISTRY_ITEM_SCHEMA));
+    item.insert("name".to_string(), json!(name));
+    item.insert("type".to_string(), json!("registry:component"));
+    item.insert("title".to_string(), json!(title));
+    if let Some(description) = component.get("description") {
+        item.insert("description".to_string(), description.clone());
+    }
+    item.insert(
+        "registryDependencies".to_string(),
+        json!(["spectrum-theme"]),
+    );
+    if let Some(docs) = component_docs(name, component.get("documentBlocks"))? {
+        item.insert("docs".to_string(), json!(docs));
+    }
+    item.insert("meta".to_string(), Value::Object(meta));
+    Ok(Value::Object(item))
+}
+
+/// Build the root shadcn registry document from component registry items.
+pub fn component_registry_document(items: Vec<Value>) -> Value {
+    json!({
+        "$schema": REGISTRY_SCHEMA,
+        "name": "spectrum",
+        "homepage": "https://spectrum.adobe.com/",
+        "items": items,
+    })
+}
+
+/// Read component declarations, generate registry items, and write an item file
+/// per component plus the root `registry.json` index.
+pub fn write_component_registry(
+    components_dir: &Path,
+    output_dir: &Path,
+    selected_component: Option<&str>,
+) -> Result<usize, String> {
+    let components = read_component_declarations(components_dir, selected_component)?;
+    let items = components
+        .iter()
+        .map(component_registry_item)
+        .collect::<Result<Vec<_>, _>>()?;
+    let items_dir = output_dir.join("items");
+    fs::create_dir_all(&items_dir)
+        .map_err(|error| format!("creating {}: {error}", items_dir.display()))?;
+    for item in &items {
+        let name = item["name"]
+            .as_str()
+            .expect("component_registry_item always emits a string name");
+        write_json(&items_dir.join(format!("{name}.json")), item)?;
+    }
+    write_json(
+        &output_dir.join("registry.json"),
+        &component_registry_document(items),
+    )?;
+    Ok(components.len())
+}
+
+fn read_component_declarations(
+    components_dir: &Path,
+    selected_component: Option<&str>,
+) -> Result<Vec<Value>, String> {
+    if let Some(name) = selected_component {
+        design_data_core::component::validate_id(name)
+            .map_err(|error| format!("invalid component id '{name}': {error}"))?;
+        let path = components_dir.join(format!("{name}.json"));
+        let component = read_component(&path)?;
+        let declared_name = required_string(&component, "name", &path.display().to_string())?;
+        if declared_name != name {
+            return Err(format!(
+                "component file {} declares name '{declared_name}', expected '{name}'",
+                path.display()
+            ));
+        }
+        return Ok(vec![component]);
+    }
+
+    let entries = fs::read_dir(components_dir).map_err(|error| {
+        format!(
+            "reading components directory {}: {error}",
+            components_dir.display()
+        )
+    })?;
+    let mut paths = entries
+        .map(|entry| entry.map(|entry| entry.path()))
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|error| {
+            format!(
+                "listing components directory {}: {error}",
+                components_dir.display()
+            )
+        })?;
+    paths.retain(|path| {
+        path.extension()
+            .is_some_and(|extension| extension == "json")
+    });
+    paths.sort();
+
+    let mut components = Vec::with_capacity(paths.len());
+    let mut names = std::collections::HashSet::new();
+    for path in paths {
+        let component = read_component(&path)?;
+        let name = required_string(&component, "name", &path.display().to_string())?;
+        design_data_core::component::validate_id(name)
+            .map_err(|error| format!("invalid component name in {}: {error}", path.display()))?;
+        if path.file_stem().and_then(|stem| stem.to_str()) != Some(name) {
+            return Err(format!(
+                "component file {} does not match declared name '{name}'",
+                path.display()
+            ));
+        }
+        if !names.insert(name.to_string()) {
+            return Err(format!("duplicate component name '{name}'"));
+        }
+        components.push(component);
+    }
+    if components.is_empty() {
+        return Err(format!(
+            "no component JSON files found in {}",
+            components_dir.display()
+        ));
+    }
+    components.sort_by(|left, right| left["name"].as_str().cmp(&right["name"].as_str()));
+    Ok(components)
+}
+
+fn read_component(path: &Path) -> Result<Value, String> {
+    let text = fs::read_to_string(path)
+        .map_err(|error| format!("reading component {}: {error}", path.display()))?;
+    serde_json::from_str(&text)
+        .map_err(|error| format!("parsing component {}: {error}", path.display()))
+}
+
+fn component_props(name: &str, options: &Value) -> Result<Value, String> {
+    let options = options
+        .as_object()
+        .ok_or_else(|| format!("component '{name}' has a non-object 'options' field"))?;
+    let mut props = Map::new();
+    for (option_name, descriptor) in options {
+        let descriptor = descriptor
+            .as_object()
+            .ok_or_else(|| format!("component '{name}' option '{option_name}' is not an object"))?;
+        let mut prop = Map::new();
+        for (key, value) in descriptor {
+            match key.as_str() {
+                "$ref" => {
+                    prop.insert("type".to_string(), value.clone());
+                }
+                "values" => {
+                    let values = value.as_array().ok_or_else(|| {
+                        format!("component '{name}' option '{option_name}' has non-array 'values'")
+                    })?;
+                    let mut enum_values = Vec::with_capacity(values.len());
+                    for entry in values {
+                        enum_values.push(entry.get("value").cloned().ok_or_else(|| {
+                            format!(
+                                "component '{name}' option '{option_name}' has a value without 'value'"
+                            )
+                        })?);
+                    }
+                    prop.insert("enum".to_string(), json!(enum_values));
+                    if values.iter().any(|entry| {
+                        entry
+                            .as_object()
+                            .is_some_and(|object| object.keys().any(|key| key != "value"))
+                    }) {
+                        prop.insert("valueDetails".to_string(), json!(values));
+                    }
+                }
+                _ => {
+                    prop.insert(key.clone(), value.clone());
+                }
+            }
+        }
+        props.insert(option_name.clone(), Value::Object(prop));
+    }
+    Ok(Value::Object(props))
+}
+
+fn component_docs(name: &str, blocks: Option<&Value>) -> Result<Option<String>, String> {
+    let Some(blocks) = blocks else {
+        return Ok(None);
+    };
+    let blocks = blocks
+        .as_array()
+        .ok_or_else(|| format!("component '{name}' has a non-array 'documentBlocks' field"))?;
+    let mut contents = Vec::with_capacity(blocks.len());
+    for block in blocks {
+        contents.push(
+            block
+                .get("content")
+                .and_then(Value::as_str)
+                .ok_or_else(|| {
+                    format!("component '{name}' has a document block without string content")
+                })?,
+        );
+    }
+    if contents.is_empty() {
+        Ok(None)
+    } else {
+        Ok(Some(contents.join("\n\n")))
+    }
+}
+
+fn required_string<'a>(value: &'a Value, key: &str, context: &str) -> Result<&'a str, String> {
+    value
+        .get(key)
+        .and_then(Value::as_str)
+        .ok_or_else(|| format!("{context} is missing string '{key}'"))
+}
+
+fn copy_if_present(source: &Map<String, Value>, target: &mut Map<String, Value>, key: &str) {
+    if let Some(value) = source.get(key) {
+        target.insert(key.to_string(), value.clone());
+    }
+}
+
+fn write_json(path: &Path, value: &Value) -> Result<(), String> {
+    let contents = serde_json::to_string_pretty(value)
+        .map_err(|error| format!("serializing {}: {error}", path.display()))?;
+    fs::write(path, format!("{contents}\n"))
+        .map_err(|error| format!("writing {}: {error}", path.display()))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -210,5 +492,75 @@ mod tests {
         let dtcg_type = json!("typography");
         let value = json!({"fontFamily": "adobe-clean"});
         assert_eq!(dtcg_value_to_css(Some(&dtcg_type), &value), None);
+    }
+
+    #[test]
+    fn action_button_component_matches_registry_item_sample() {
+        let component: Value = serde_json::from_str(include_str!(
+            "../../../../packages/design-data/components/action-button.json"
+        ))
+        .unwrap();
+        let expected: Value = serde_json::from_str(include_str!(
+            "../examples/action-button.registry-item.sample.json"
+        ))
+        .unwrap();
+        assert_eq!(component_registry_item(&component).unwrap(), expected);
+    }
+
+    #[test]
+    fn component_item_omits_missing_optional_sections() {
+        let component = json!({
+            "name": "minimal",
+            "displayName": "Minimal",
+            "meta": {
+                "category": "actions",
+                "documentationUrl": "https://example.com/minimal"
+            }
+        });
+        let item = component_registry_item(&component).unwrap();
+        assert!(item.get("docs").is_none());
+        assert!(item["meta"].get("props").is_none());
+        assert!(item["meta"].get("states").is_none());
+        assert!(item["meta"].get("implementations").is_none());
+    }
+
+    #[test]
+    fn component_item_preserves_state_details_and_maps_options() {
+        let component = json!({
+            "name": "example",
+            "displayName": "Example",
+            "meta": {"category": "actions", "documentationUrl": "https://example.com"},
+            "options": {
+                "size": {
+                    "type": "string",
+                    "values": [{"value": "s"}, {"value": "m"}]
+                },
+                "icon": {"$ref": "https://example.com/icon.json"}
+            },
+            "states": [{"name": "hover", "trigger": "interaction"}]
+        });
+        let item = component_registry_item(&component).unwrap();
+        assert_eq!(item["meta"]["props"]["size"]["enum"], json!(["s", "m"]));
+        assert_eq!(
+            item["meta"]["props"]["icon"]["type"],
+            "https://example.com/icon.json"
+        );
+        assert_eq!(item["meta"]["states"], json!(["hover"]));
+        assert_eq!(item["meta"]["stateDetails"][0]["trigger"], "interaction");
+    }
+
+    #[test]
+    fn component_item_rejects_malformed_option_values() {
+        let component = json!({
+            "name": "example",
+            "displayName": "Example",
+            "meta": {"category": "actions", "documentationUrl": "https://example.com"},
+            "options": {
+                "size": {"values": [{"description": "missing value"}]}
+            }
+        });
+        assert!(component_registry_item(&component)
+            .unwrap_err()
+            .contains("without 'value'"));
     }
 }

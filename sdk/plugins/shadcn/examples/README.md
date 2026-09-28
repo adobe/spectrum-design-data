@@ -1,14 +1,18 @@
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-# Sample output (validation spike)
+# shadcn registry output
 
-Not built by CI, not consumed by any code — sample artifacts for the shadcn-registry
-discussion, checked in so they have a stable link to share.
+The checked-in files are generated from the embedded Spectrum dataset and serve as
+golden examples for the exporter tests.
 
-* `shadcn-theme.sample.json` — real output of
+* `shadcn-theme.sample.json` — output of
   `cargo run -p design-data-cli -- export --format shadcn-theme` against the embedded
-  dataset (`ShadcnThemeExporter`, this crate).
-* `action-button.registry-item.sample.json` — hand-transformed from
-  `packages/design-data/components/action-button.json` to prove the component-data
-  mapping holds. There's no Layer 2 subcommand yet (see the crate's module docs); this
-  file shows the target shape that subcommand would produce.
+  dataset (`ShadcnThemeExporter`, this crate); the checked-in snapshot contains 1,189
+  CSS variables for each color scheme.
+* `action-button.registry-item.sample.json` — output of
+  `cargo run -p design-data-cli -- shadcn registry --component action-button --output DIR`
+  from `packages/design-data/components/action-button.json`.
+
+Component items contain SDD metadata only; no component source files are synthesized.
+The `spectrum-theme` dependency is generated separately by `export --format shadcn-theme`
+and must be published with the component catalog.

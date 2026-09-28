@@ -9,6 +9,19 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tooltip",
+      "package": "@spectrum-web-components/tooltip",
+      "notes": "Spectrum Web Components custom element: sp-tooltip."
+    },
+    {
+      "platform": "web",
+      "componentName": "Tooltip",
+      "package": "@react-spectrum/tooltip"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",
