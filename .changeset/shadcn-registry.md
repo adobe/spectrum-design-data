@@ -1,4 +1,5 @@
 ---
+"@adobe/design-data-wasm": patch
 "@adobe/design-data-tui": minor
 "@adobe/spectrum-design-data": minor
 ---
