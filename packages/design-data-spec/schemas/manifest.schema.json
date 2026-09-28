@@ -153,6 +153,11 @@
             "type": "string"
           },
           "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+        },
+        "prefix": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Literal string prepended to the fully-formatted token name (after casing/delimiter are applied), unaffected by `casing` itself. For platform naming conventions that wrap the token name rather than reshape it, e.g. CSS custom properties (`--spectrum-`) or other namespaced identifier prefixes."
         }
       },
       "additionalProperties": false

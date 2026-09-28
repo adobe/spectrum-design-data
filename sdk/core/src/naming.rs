@@ -507,6 +507,11 @@ pub struct FormattingConfig {
     pub delimiter: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub abbreviations: Option<HashMap<String, String>>,
+    /// Literal string prepended to the fully-formatted name, after casing/
+    /// delimiter are applied and unaffected by either (e.g. CSS custom
+    /// property conventions like `--spectrum-`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub prefix: Option<String>,
 }
 
 /// Casing style for a manifest-formatted token name (`manifest.schema.json`
@@ -611,7 +616,11 @@ fn general_domain_key(
                 .iter()
                 .flat_map(|s| s.split('-').map(str::to_string))
                 .collect();
-            Some(apply_casing(&words, casing, delimiter))
+            let formatted = apply_casing(&words, casing, delimiter);
+            Some(match &cfg.prefix {
+                Some(prefix) => format!("{prefix}{formatted}"),
+                None => formatted,
+            })
         }
     }
 }
@@ -981,6 +990,21 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(format_name(&name, &config).as_deref(), Some("AG_SIZE_100"));
+    }
+
+    #[test]
+    fn format_name_prefix_is_prepended_after_casing_unaffected_by_it() {
+        // SWC's `--spectrum-` CSS custom-property convention (h890.27.9): the
+        // prefix is a literal wrapper, not itself subject to `casing`.
+        let name = json!({"component": "button", "property": "background-color"});
+        let config = FormattingConfig {
+            prefix: Some("--spectrum-".to_string()),
+            ..Default::default()
+        };
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            Some("--spectrum-button-background-color")
+        );
     }
 
     #[test]
