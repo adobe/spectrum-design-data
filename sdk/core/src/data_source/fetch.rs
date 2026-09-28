@@ -145,6 +145,24 @@ pub fn ensure_cached(
     }
 }
 
+/// Ensure a **platform-manifest** repo is fetched/cached (h890.27.5), and return
+/// its root path. Unlike [`ensure_cached`] (foundation datasets, filtered to
+/// `packages/**`), this extracts the entire tree — see [`fetch_platform_repo`].
+///
+/// `cache_dir_override` comes from `[cache].dir` in `.design-data.toml`; pass
+/// `None` to fall back to the env var / OS cache dir.
+pub fn ensure_cached_platform_repo(
+    repo: &str,
+    tag: Option<&str>,
+    branch: Option<&str>,
+    sha: Option<&str>,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, FetchError> {
+    let base = resolve_cache_base(cache_dir_override)?;
+    let git_ref = GithubRef::from_fields(tag, branch, sha)?;
+    fetch_platform_repo(&base, repo, &git_ref)
+}
+
 // ---------------------------------------------------------------------------
 // Cache-base resolution
 // ---------------------------------------------------------------------------
@@ -219,6 +237,43 @@ impl GithubRef {
     }
 }
 
+/// Fetch/cache a **platform-manifest** repo (h890.27.5) — an incubating or
+/// already-ejected `[platforms.<id>]` remote, e.g. a future
+/// `adobe/react-spectrum-design-data`. Unlike [`fetch_github`] (which only
+/// extracts the fixed `packages/tokens/**` foundation-dataset shape), this
+/// extracts the **entire** tree, since a platform-manifest repo has no fixed
+/// layout — it may be just `manifest.json` + `extensions/**` at the tree root,
+/// exactly as `design-data platform eject` would produce.
+///
+/// Cached under a distinct `platform/` key namespace (vs. `github/` for
+/// foundation sources) so a platform-manifest fetch and a foundation fetch of
+/// the *same* repo (unlikely, but possible during incubation) never collide.
+fn fetch_platform_repo(
+    base: &Path,
+    repo: &str,
+    git_ref: &GithubRef,
+) -> Result<PathBuf, FetchError> {
+    let safe_repo = repo.replace('/', "-");
+    let key = format!("platform/{safe_repo}@{}", git_ref.cache_segment());
+    let root = base.join(&key);
+    let sentinel = root.join(".complete");
+
+    if sentinel.exists() && !git_ref.is_mutable() {
+        return Ok(root);
+    }
+
+    let url = format!(
+        "https://github.com/{repo}/archive/{}.tar.gz",
+        git_ref.archive_path()
+    );
+
+    let bytes = download_bytes(&url)?;
+    extract_github_tarball(&bytes, &url, &root, |_rel: &Path| true)?;
+    evict_stale_versions(&root, &base.join("platform"), &format!("{safe_repo}@"));
+
+    Ok(root)
+}
+
 fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf, FetchError> {
     // Sanitize repo for use as a filesystem path component. Keep an `@` separator
     // between the repo slug and the kind-prefixed ref segment so that distinct
@@ -241,7 +296,7 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
     );
 
     let bytes = download_bytes(&url)?;
-    extract_github_tarball(&bytes, &url, &root)?;
+    extract_github_tarball(&bytes, &url, &root, should_extract)?;
     // Entries are flat under `github/` as `{safe_repo}@{segment}`, so scan that dir
     // and prune only *this repo's* other refs — the `{safe_repo}@` prefix keeps a
     // fetch of one repo from evicting another repo's cache.
@@ -295,17 +350,26 @@ fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
     })
 }
 
-/// Extract a GitHub release tarball (`.tar.gz`) into `dest`.
+/// Extract a GitHub release tarball (`.tar.gz`) into `dest`, keeping only entries
+/// for which `filter` returns `true`.
 ///
 /// GitHub tarballs have a single top-level directory whose name is derived from
 /// the repo name and tag (e.g. `spectrum-design-data--adobe-spectrum-tokens-14.11.0/`).
-/// This function strips that prefix dynamically by reading the first path component,
-/// and only extracts entries under `packages/tokens/` and
-/// `packages/design-data/{tokens,components,fields,mode-sets}/`.
+/// This function strips that prefix dynamically by reading the first path component.
+/// The foundation-dataset fetch path ([`fetch_github`]) passes [`should_extract`]
+/// (only `packages/tokens/**` etc.); a platform-manifest repo fetch
+/// ([`fetch_platform_repo`]) passes `|_| true` since an incubating/ejected platform
+/// repo has no fixed monorepo shape — it may be just `manifest.json` + `extensions/`
+/// at the tree root.
 ///
 /// Uses the same atomic tmp-rename + `.complete`-sentinel pattern as
 /// [`super::embedded::materialize_to`].
-fn extract_github_tarball(bytes: &[u8], url: &str, dest: &Path) -> Result<(), FetchError> {
+fn extract_github_tarball(
+    bytes: &[u8],
+    url: &str,
+    dest: &Path,
+    filter: impl Fn(&Path) -> bool,
+) -> Result<(), FetchError> {
     // Ensure the parent directory exists before creating the tmp dir.
     if let Some(parent) = dest.parent() {
         std::fs::create_dir_all(parent).map_err(FetchError::Io)?;
@@ -316,7 +380,7 @@ fn extract_github_tarball(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fe
         std::fs::remove_dir_all(&tmp).map_err(FetchError::Io)?;
     }
 
-    extract_tarball_inner(bytes, url, &tmp)?;
+    extract_tarball_inner(bytes, url, &tmp, filter)?;
 
     if dest.exists() {
         std::fs::remove_dir_all(dest).map_err(FetchError::Io)?;
@@ -327,7 +391,12 @@ fn extract_github_tarball(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fe
     Ok(())
 }
 
-fn extract_tarball_inner(bytes: &[u8], url: &str, dest: &Path) -> Result<(), FetchError> {
+fn extract_tarball_inner(
+    bytes: &[u8],
+    url: &str,
+    dest: &Path,
+    filter: impl Fn(&Path) -> bool,
+) -> Result<(), FetchError> {
     use flate2::read::GzDecoder;
     use tar::Archive;
 
@@ -389,7 +458,7 @@ fn extract_tarball_inner(bytes: &[u8], url: &str, dest: &Path) -> Result<(), Fet
         //   packages/design-data/mode-sets/**
         //   packages/design-data/components/**
         //   packages/design-data/fields/**
-        if !should_extract(&rel) {
+        if !filter(&rel) {
             continue;
         }
 

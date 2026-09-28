@@ -17,10 +17,13 @@
 //!    `Some` values are used directly; `None` falls through to the next tier.
 //! 2. **`.design-data.toml` config file** — discovered by walking up from `cwd`.
 //!    `path` and `github` sources fetch/resolve data; `npm`/`git` still
-//!    return [`DataSourceError::NotYetImplemented`] until `#1050` lands. The
-//!    `github` source pins by `tag`, `branch`, or `sha`. A Layer 2 platform
-//!    manifest is configured via the **top-level `manifest` key** (not per
-//!    source), so it cascades over any source or the embedded/probed default.
+//!    return [`DataSourceError::NotYetImplemented`] until `#1050` lands. A
+//!    Layer 2 platform manifest is configured top-level (not per source), so it
+//!    cascades over any source or the embedded/probed default — either the
+//!    legacy single `manifest` key, or (h890.27.3) several named
+//!    `[platforms.<id>]` entries selected via `--platform`/`DESIGN_DATA_PLATFORM`/
+//!    `default_platform`; see [`resolve_platform_manifest`] for the full
+//!    precedence between those forms.
 //! 3. **CWD-relative probing** — tries `packages/tokens/…` and
 //!    `packages/design-data-spec/…` relative to `cwd`.  Preserves the original
 //!    in-monorepo behaviour when run from inside a checkout.
@@ -32,11 +35,16 @@
 //! location the CLI needs.
 
 pub(crate) mod embedded;
+/// Version of the embedded design-data snapshot baked into this build (h890.27.6:
+/// `platform show`'s advisory foundationVersion-drift check compares a manifest's
+/// declared `foundationVersion` against this).
+pub use embedded::EMBEDDED_DATA_VERSION;
 #[cfg(feature = "fetch")]
 pub(crate) mod fetch;
 #[cfg(test)]
 pub(crate) mod test_support;
 
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
@@ -56,7 +64,7 @@ pub struct DesignDataConfig {
     pub source: Option<SourceConfig>,
     /// Cache location overrides.
     pub cache: Option<CacheConfig>,
-    /// Optional path to a Layer 2 platform `manifest.json` (absolute, or relative
+    /// Explicit path to a Layer 2 platform `manifest.json` (absolute, or relative
     /// to the directory containing `.design-data.toml`).
     ///
     /// Top-level and **source-independent**: the platform manifest is a local,
@@ -66,7 +74,25 @@ pub struct DesignDataConfig {
     /// caller can apply the cascade
     /// ([`crate::graph::TokenGraph::apply_platform_manifest`]) over whatever source
     /// is configured (`path`, `github`, or the embedded/probed default).
+    ///
+    /// Legacy single-manifest form. A repo with exactly one platform manifest may
+    /// keep using this key indefinitely — it is not deprecated by [`Self::platforms`]
+    /// and continues to work unchanged (e.g. the external `spectrum-ios-design-data`
+    /// repo). Superseded, for repos with more than one platform manifest, by named
+    /// [`Self::platforms`] profiles; `--manifest`/[`CliPathOverrides::platform_manifest`]
+    /// always wins over both.
     pub manifest: Option<PathBuf>,
+    /// Named platform-manifest profiles (h890.27.3), keyed by platform id
+    /// (e.g. `"react-spectrum"`, `"web-components"`) — lets one `.design-data.toml`
+    /// carry several platform manifests side by side, each either a local path or
+    /// a remote `github` pin (h890.27.5, see [`PlatformManifestEntry`]). Select one
+    /// with `--platform <id>`, `DESIGN_DATA_PLATFORM`, or [`Self::default_platform`]
+    /// — see [`resolve_platform_manifest`] for the full precedence order.
+    pub platforms: Option<HashMap<String, PlatformManifestEntry>>,
+    /// Which [`Self::platforms`] entry to use when no `--platform` flag or
+    /// `DESIGN_DATA_PLATFORM` env var is given. Has no effect unless `platforms`
+    /// is also set.
+    pub default_platform: Option<String>,
 }
 
 /// Describes where to obtain or locate the design data.
@@ -132,6 +158,38 @@ pub struct CacheConfig {
     pub dir: Option<PathBuf>,
 }
 
+/// A single `[platforms.<id>]` entry (h890.27.3/h890.27.5): either a local
+/// `manifest.json` path, or a remote `github`-hosted one fetched the same way
+/// as a top-level `[source] type = "github"` (tag/branch/sha pin, cached under
+/// `.../sources/github/<repo>@<kind>-<ref>/`, see [`fetch::ensure_cached`]).
+///
+/// Serde picks the variant from shape alone (no `type` tag): a bare TOML string
+/// is [`Self::Path`]; a table with a `repo` key is [`Self::Remote`]. This keeps
+/// the common local case a one-liner (`rsp = "platforms/rsp/manifest.json"`)
+/// while still allowing `[platforms.rsp]` tables for the remote case.
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+pub enum PlatformManifestEntry {
+    /// Path to `manifest.json`, resolved relative to the directory containing
+    /// `.design-data.toml` unless absolute.
+    Path(PathBuf),
+    /// A manifest fetched from a GitHub repo, pinned to exactly one of
+    /// `tag` / `branch` / `sha` (same constraint as `SourceConfig::Github`).
+    Remote {
+        /// `owner/repo` slug, e.g. `adobe/react-spectrum-design-data`.
+        repo: String,
+        /// Release/annotated tag to download (`refs/tags/{tag}`).
+        tag: Option<String>,
+        /// Branch to download (`refs/heads/{branch}`). Mutable — refetched each run.
+        branch: Option<String>,
+        /// Exact commit SHA to download.
+        sha: Option<String>,
+        /// Path to `manifest.json` within the fetched tree. Defaults to
+        /// `"manifest.json"` at the tree root when omitted.
+        manifest_path: Option<PathBuf>,
+    },
+}
+
 // ---------------------------------------------------------------------------
 // Resolver input / output types
 // ---------------------------------------------------------------------------
@@ -158,6 +216,11 @@ pub struct CliPathOverrides {
     /// Explicit platform manifest.json (`--manifest`), overriding the
     /// `.design-data.toml` top-level `manifest` key.
     pub platform_manifest: Option<PathBuf>,
+    /// `--platform <id>` — selects a named entry from `.design-data.toml`'s
+    /// `[platforms.<id>]` table. Outranked by `platform_manifest`; outranks the
+    /// `DESIGN_DATA_PLATFORM` env var and the config's `default_platform`. See
+    /// [`resolve_platform_manifest`] for the full precedence order.
+    pub platform_id: Option<String>,
 }
 
 /// Records how the paths were determined so callers and diagnostics can report it.
@@ -254,6 +317,16 @@ pub enum DataSourceError {
     #[cfg(feature = "fetch")]
     #[error("fetch failed: {0}")]
     Fetch(#[from] fetch::FetchError),
+    /// `--platform <id>` / `DESIGN_DATA_PLATFORM` / `default_platform` named an id
+    /// not present in `.design-data.toml`'s `[platforms.<id>]` table.
+    #[error("no platform \"{id}\" configured in `.design-data.toml` — available platforms: {}",
+        if available.is_empty() { "(none configured)".to_string() } else { available.join(", ") })]
+    UnknownPlatform {
+        /// The id that was requested.
+        id: String,
+        /// Every id actually configured under `[platforms.*]`, for the error message.
+        available: Vec<String>,
+    },
 }
 
 // ---------------------------------------------------------------------------
@@ -297,13 +370,7 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
         // Resolve the optional platform manifest relative to the config file's
         // directory, up front, before `config_path` is moved into a provenance record.
         let config_dir = config_path.parent().unwrap_or(cwd).to_path_buf();
-        let platform_manifest = config.manifest.as_ref().map(|m| {
-            if m.is_absolute() {
-                m.clone()
-            } else {
-                config_dir.join(m)
-            }
-        });
+        let platform_manifest = resolve_platform_manifest(&config, &config_dir, overrides)?;
 
         if let Some(source) = &config.source {
             return match source {
@@ -386,6 +453,121 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
 // Private helpers
 // ---------------------------------------------------------------------------
 
+/// Resolve the platform manifest to apply, choosing between `config`'s named
+/// `[platforms.<id>]` table and its legacy single `manifest` key.
+///
+/// Precedence (highest first) — note `--manifest`
+/// ([`CliPathOverrides::platform_manifest`]) is handled by the caller, one level
+/// up, and always wins over everything here:
+/// 1. `--platform <id>` ([`CliPathOverrides::platform_id`])
+/// 2. `DESIGN_DATA_PLATFORM` env var
+/// 3. `config.default_platform`
+/// 4. `config.manifest` (legacy single-manifest key) — unaffected by `platforms`
+///    being configured at all, so an existing single-platform repo (e.g. the
+///    external `spectrum-ios-design-data`) keeps working with zero edits.
+///
+/// A [`PlatformManifestEntry::Path`] (from either `platforms` or `manifest`) is
+/// resolved relative to `config_dir` (the directory containing
+/// `.design-data.toml`) unless absolute. A [`PlatformManifestEntry::Remote`] entry
+/// is fetched/cached via [`fetch::ensure_cached`] (h890.27.5) and resolved to
+/// `manifest_path` (default `manifest.json`) within the fetched tree — requiring
+/// the `fetch` cargo feature, same as a top-level `[source] type = "github"`.
+///
+/// Naming an id that isn't in `config.platforms` is a [`DataSourceError::UnknownPlatform`].
+fn resolve_platform_manifest(
+    config: &DesignDataConfig,
+    config_dir: &Path,
+    overrides: &CliPathOverrides,
+) -> Result<Option<PathBuf>, DataSourceError> {
+    let selected_id = overrides
+        .platform_id
+        .clone()
+        .or_else(|| std::env::var("DESIGN_DATA_PLATFORM").ok())
+        .or_else(|| config.default_platform.clone());
+
+    if let Some(id) = selected_id {
+        let entry = config.platforms.as_ref().and_then(|p| p.get(&id));
+        return match entry {
+            Some(PlatformManifestEntry::Path(path)) => Ok(Some(if path.is_absolute() {
+                path.clone()
+            } else {
+                config_dir.join(path)
+            })),
+            Some(PlatformManifestEntry::Remote {
+                repo,
+                tag,
+                branch,
+                sha,
+                manifest_path,
+            }) => {
+                let cache_root = fetch_platform_manifest_source(
+                    repo,
+                    tag.as_deref(),
+                    branch.as_deref(),
+                    sha.as_deref(),
+                    config.cache.as_ref().and_then(|c| c.dir.as_deref()),
+                )?;
+                let relative = manifest_path
+                    .clone()
+                    .unwrap_or_else(|| PathBuf::from("manifest.json"));
+                Ok(Some(cache_root.join(relative)))
+            }
+            None => Err(DataSourceError::UnknownPlatform {
+                id,
+                available: config
+                    .platforms
+                    .as_ref()
+                    .map(|p| {
+                        let mut ids: Vec<String> = p.keys().cloned().collect();
+                        ids.sort();
+                        ids
+                    })
+                    .unwrap_or_default(),
+            }),
+        };
+    }
+
+    Ok(config.manifest.as_ref().map(|m| {
+        if m.is_absolute() {
+            m.clone()
+        } else {
+            config_dir.join(m)
+        }
+    }))
+}
+
+/// Fetch/cache a remote [`PlatformManifestEntry::Remote`] source, reusing the
+/// same `github` fetch engine as `[source] type = "github"`. Returns the local
+/// cache root the manifest (and its `extensions/` dir) should be resolved from.
+///
+/// When the `fetch` cargo feature is disabled this always errors, matching
+/// [`fetch_source`]'s behaviour for a top-level `[source] type = "github"`.
+fn fetch_platform_manifest_source(
+    repo: &str,
+    tag: Option<&str>,
+    branch: Option<&str>,
+    sha: Option<&str>,
+    cache_dir_override: Option<&Path>,
+) -> Result<PathBuf, DataSourceError> {
+    #[cfg(feature = "fetch")]
+    {
+        Ok(fetch::ensure_cached_platform_repo(
+            repo,
+            tag,
+            branch,
+            sha,
+            cache_dir_override,
+        )?)
+    }
+    #[cfg(not(feature = "fetch"))]
+    {
+        let _ = (repo, tag, branch, sha, cache_dir_override);
+        Err(DataSourceError::NotYetImplemented {
+            source_type: "fetch feature not enabled in this build".into(),
+        })
+    }
+}
+
 /// Returns `true` when `cwd` is inside a monorepo checkout.
 ///
 /// Walks up the ancestor chain from `cwd` looking for a directory that contains
@@ -399,10 +581,15 @@ fn is_in_repo(cwd: &Path) -> bool {
         .any(|dir| dir.join("packages/tokens/schemas/token-types").is_dir())
 }
 
-/// Walk ancestors of `start` looking for `.design-data.toml`.
+/// Walk ancestors of `start` looking for `.design-data.toml` and parse it.
 ///
-/// Returns `Ok(None)` when no file is found — that is not an error.
-fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, DataSourceError> {
+/// Returns `Ok(None)` when no file is found — that is not an error. Public so
+/// callers that need the full parsed config (not just a resolved single
+/// dataset/manifest) — e.g. `design-data platform list`/`show` (h890.27.6),
+/// which enumerate every `[platforms.<id>]` entry rather than just the
+/// currently-selected one — can read it directly instead of duplicating the
+/// ancestor-walk + TOML-parse logic.
+pub fn find_config(start: &Path) -> Result<Option<(PathBuf, DesignDataConfig)>, DataSourceError> {
     for dir in start.ancestors() {
         let candidate = dir.join(".design-data.toml");
         if candidate.is_file() {
@@ -834,6 +1021,251 @@ mod tests {
             resolved.platform_manifest,
             Some(tmp.path().join("platform.json"))
         );
+    }
+
+    #[test]
+    fn platform_id_override_selects_named_platform_entry() {
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"platforms/react-spectrum/manifest.json\"\nweb-components = \"platforms/web-components/manifest.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("web-components".to_string()),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("platforms/web-components/manifest.json"))
+        );
+    }
+
+    #[test]
+    fn platform_env_var_selects_named_platform_entry_when_no_cli_flag() {
+        let _guard = env_lock();
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"platforms/react-spectrum/manifest.json\"\n",
+        )
+        .unwrap();
+
+        std::env::set_var("DESIGN_DATA_PLATFORM", "react-spectrum");
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default());
+        std::env::remove_var("DESIGN_DATA_PLATFORM");
+
+        assert_eq!(
+            resolved.unwrap().platform_manifest,
+            Some(tmp.path().join("platforms/react-spectrum/manifest.json"))
+        );
+    }
+
+    #[test]
+    fn platform_cli_flag_outranks_env_var() {
+        let _guard = env_lock();
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"rs.json\"\nweb-components = \"swc.json\"\n",
+        )
+        .unwrap();
+
+        std::env::set_var("DESIGN_DATA_PLATFORM", "web-components");
+        let overrides = CliPathOverrides {
+            platform_id: Some("react-spectrum".to_string()),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides);
+        std::env::remove_var("DESIGN_DATA_PLATFORM");
+
+        assert_eq!(
+            resolved.unwrap().platform_manifest,
+            Some(tmp.path().join("rs.json"))
+        );
+    }
+
+    #[test]
+    fn default_platform_selects_when_no_flag_or_env() {
+        let _guard = env_lock();
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "default_platform = \"web-components\"\n[platforms]\nreact-spectrum = \"rs.json\"\nweb-components = \"swc.json\"\n",
+        )
+        .unwrap();
+
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("swc.json"))
+        );
+    }
+
+    #[test]
+    fn unknown_platform_id_errors_listing_available_ids() {
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"rs.json\"\nweb-components = \"swc.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("bogus".to_string()),
+            ..Default::default()
+        };
+        let err = resolve(tmp.path(), &overrides).unwrap_err();
+        match err {
+            DataSourceError::UnknownPlatform { id, available } => {
+                assert_eq!(id, "bogus");
+                assert_eq!(available, vec!["react-spectrum", "web-components"]);
+            }
+            other => panic!("expected UnknownPlatform, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn explicit_manifest_override_wins_over_platform_id() {
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"rs.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("react-spectrum".to_string()),
+            platform_manifest: Some(PathBuf::from("explicit.json")),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("explicit.json"))
+        );
+    }
+
+    #[test]
+    fn legacy_manifest_key_unaffected_by_absent_platforms_table() {
+        // The external spectrum-ios-design-data repo's config shape: a bare
+        // top-level `manifest` key, no `[platforms]` table at all. Must keep
+        // resolving exactly as before named profiles were added.
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "manifest = \"manifest.json\"\n",
+        )
+        .unwrap();
+
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("manifest.json"))
+        );
+    }
+
+    #[test]
+    fn remote_platform_entry_parses_as_github_table() {
+        // A `[platforms.<id>]` *table* (not a bare string) with a `repo` key
+        // must deserialize to `PlatformManifestEntry::Remote`, not `Path`.
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.react-spectrum]\n\
+             repo = \"adobe/react-spectrum-design-data\"\n\
+             tag = \"v1.0.0\"\n\
+             manifest_path = \"manifest.json\"\n",
+        )
+        .unwrap();
+
+        let (_, config) = find_config(tmp.path()).unwrap().unwrap();
+        match config.platforms.unwrap().get("react-spectrum").unwrap() {
+            PlatformManifestEntry::Remote { repo, tag, .. } => {
+                assert_eq!(repo, "adobe/react-spectrum-design-data");
+                assert_eq!(tag.as_deref(), Some("v1.0.0"));
+            }
+            other => panic!("expected Remote entry, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn remote_platform_entry_errors_without_fetch_feature() {
+        // Without the `fetch` cargo feature (the default for plain `cargo test`),
+        // selecting a remote platform entry must fail clearly rather than panic
+        // or silently no-op.
+        if cfg!(feature = "fetch") {
+            return;
+        }
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.react-spectrum]\n\
+             repo = \"adobe/react-spectrum-design-data\"\n\
+             tag = \"v1.0.0\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("react-spectrum".to_string()),
+            ..Default::default()
+        };
+        let err = resolve(tmp.path(), &overrides).unwrap_err();
+        assert!(
+            matches!(err, DataSourceError::NotYetImplemented { .. }),
+            "expected NotYetImplemented, got {err:?}"
+        );
+    }
+
+    // Integration test — requires network and the `fetch` cargo feature;
+    // mirrors `fetch::tests::fetch_github_downloads_and_caches` but exercises the
+    // full `resolve()` path for a *remote* `[platforms.<id>]` entry end to end.
+    // Run with: cargo test -p design-data-core --features fetch remote_platform_entry_resolves -- --ignored
+    #[cfg(feature = "fetch")]
+    #[test]
+    #[ignore = "requires network access"]
+    fn remote_platform_entry_resolves_manifest_from_fetched_tree() {
+        let _guard = env_lock();
+        let cache_tmp = TempDir::new().unwrap();
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.ios]\n\
+             repo = \"GarthDB/spectrum-ios-design-data\"\n\
+             branch = \"main\"\n\
+             manifest_path = \"manifest.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("ios".to_string()),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides).expect("remote platform resolve failed");
+        let manifest = resolved
+            .platform_manifest
+            .expect("expected a resolved platform_manifest path");
+        assert!(
+            manifest.is_file(),
+            "expected fetched manifest.json at {}",
+            manifest.display()
+        );
+
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
     }
 
     #[test]

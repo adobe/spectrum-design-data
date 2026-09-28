@@ -54,6 +54,71 @@ pub fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
     })
 }
 
+/// Locate `packages/design-data/registry/platform-implementations.json` by walking
+/// up from `schemas_root` — the registry of known platform-manifest implementation
+/// ids (see `spec/manifest.md#identity-fields`), distinct from the token-level
+/// `platforms.json` device-target registry.
+fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathBuf> {
+    schemas_root.ancestors().find_map(|p| {
+        let candidate = p.join("packages/design-data/registry/platform-implementations.json");
+        candidate.is_file().then_some(candidate)
+    })
+}
+
+/// Check a manifest's optional `platform` field against the
+/// platform-implementations registry, returning an advisory message when the id
+/// isn't recognized. `platform` is a SHOULD, not a MUST (`manifest.schema.json`
+/// places no `enum` constraint on it) — an unrecognized id is not a schema
+/// violation, just something the caller may want to surface to the platform team
+/// (e.g. `validate-manifest`'s pretty output, or `platform show`).
+///
+/// Returns `Ok(None)` when `platform` is absent, or present and recognized.
+/// Returns `Err` only for I/O/parse failures reading the registry file — a
+/// missing/malformed registry does not fail the manifest.
+pub fn check_platform_identity(
+    manifest: &Value,
+    schemas_root: &Path,
+) -> Result<Option<String>, CoreError> {
+    let Some(platform) = manifest.get("platform").and_then(|v| v.as_str()) else {
+        return Ok(None);
+    };
+    let Some(registry_path) = locate_platform_implementations_registry(schemas_root) else {
+        return Ok(None);
+    };
+    let text = std::fs::read_to_string(&registry_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let registry: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let known = registry
+        .get("values")
+        .and_then(|v| v.as_array())
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(|v| v.get("id").and_then(|id| id.as_str()))
+                .any(|id| id == platform)
+        })
+        .unwrap_or(false);
+    if known {
+        Ok(None)
+    } else {
+        Ok(Some(format!(
+            "manifest declares platform \"{platform}\" which is not in the \
+             platform-implementations registry ({}) — this is advisory only, not a \
+             validation failure",
+            registry_path.display()
+        )))
+    }
+}
+
 /// Read a platform manifest.json's optional `formatting` block
 /// (`manifest.schema.json#/properties/formatting`) as a
 /// [`crate::naming::FormattingConfig`], for callers (e.g. `figma export
@@ -712,5 +777,36 @@ mod tests {
         std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
 
         assert!(err.to_string().contains("unreadable.json"));
+    }
+
+    #[test]
+    fn check_platform_identity_absent_field_is_noop() {
+        let manifest = json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0"});
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn check_platform_identity_known_id_is_noop() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "react-spectrum"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none(), "expected no warning, got: {result:?}");
+    }
+
+    #[test]
+    fn check_platform_identity_unknown_id_returns_advisory() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "totally-not-a-real-platform"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        let message = result.expect("expected an advisory message");
+        assert!(message.contains("totally-not-a-real-platform"));
+        assert!(message.contains("advisory only"));
     }
 }

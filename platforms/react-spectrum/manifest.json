@@ -1,0 +1,7 @@
+{
+  "specVersion": "1.0.0-draft",
+  "foundationVersion": "@adobe/spectrum-tokens@15.4.1",
+  "platform": "react-spectrum",
+  "platformVersion": "React Spectrum (Spectrum 2 / S2)",
+  "repository": "https://github.com/adobe/react-spectrum"
+}

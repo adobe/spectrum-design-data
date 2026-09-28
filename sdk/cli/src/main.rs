@@ -10,6 +10,7 @@
 
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
+use std::sync::OnceLock;
 
 use chrono::Utc;
 
@@ -65,6 +66,17 @@ struct Cli {
     /// TUI launch options (used when no subcommand is given).
     #[command(flatten)]
     tui: TuiArgs,
+    /// Select a named `[platforms.<id>]` entry from `.design-data.toml` (h890.27.3).
+    /// Available on every subcommand. Outranked only by a subcommand's own
+    /// `--manifest`; outranks `DESIGN_DATA_PLATFORM` and `default_platform`.
+    ///
+    /// Known limitation: place `--platform` *after* the subcommand name
+    /// (e.g. `design-data validate-manifest --platform foo`). Putting it
+    /// *before* the subcommand can be misparsed as the bare-invocation TUI
+    /// positional `DATASET` argument, since this top-level `Cli` also has an
+    /// optional positional flattened in via `TuiArgs`.
+    #[arg(long, global = true)]
+    platform: Option<String>,
 }
 
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
@@ -101,6 +113,11 @@ struct TuiArgs {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
+    Platform {
+        #[command(subcommand)]
+        sub: PlatformSub,
+    },
     /// Validate design data against JSON Schemas (Layer 1) and catalog rules (Layer 2)
     Validate {
         /// Path to a JSON file or directory to validate
@@ -433,6 +450,27 @@ enum Commands {
 }
 
 #[derive(Subcommand)]
+enum PlatformSub {
+    /// List every configured platform-manifest entry (named `[platforms.<id>]`
+    /// profiles, plus the legacy single `manifest` key if present)
+    List {
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
+    /// Show details for one named `[platforms.<id>]` entry: resolved manifest
+    /// location (local path, or remote repo + pin), identity fields, and
+    /// foundation-version drift vs. this build (advisory only)
+    Show {
+        /// Platform id (as configured under `[platforms.<id>]`)
+        id: String,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
+}
+
+#[derive(Subcommand)]
 enum MigrateSub {
     /// Run validation and compare to a golden snapshot JSON
     Verify {
@@ -704,10 +742,22 @@ enum QueryFormat {
     Dtcg,
 }
 
+/// The `--platform <id>` value from the top-level [`Cli`] flag (h890.27.4), set
+/// once in `main` before any command handler runs. Read by [`resolve_data_source`]
+/// so every call site picks it up automatically without threading it through 16+
+/// individual `CliPathOverrides` constructions. `DESIGN_DATA_PLATFORM` needs no
+/// equivalent — [`data_source::resolve`] already reads that env var directly.
+static GLOBAL_PLATFORM_ID: OnceLock<Option<String>> = OnceLock::new();
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
-fn resolve_data_source(overrides: CliPathOverrides) -> miette::Result<data_source::ResolvedData> {
+fn resolve_data_source(
+    mut overrides: CliPathOverrides,
+) -> miette::Result<data_source::ResolvedData> {
+    if overrides.platform_id.is_none() {
+        overrides.platform_id = GLOBAL_PLATFORM_ID.get().cloned().flatten();
+    }
     let cwd = std::env::current_dir().into_diagnostic()?;
     data_source::resolve(&cwd, &overrides).into_diagnostic()
 }
@@ -1101,6 +1151,178 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
 /// configured Layer 2 platform manifest directly, without running a query. Loads the
 /// foundation token graph and runs the same cascade `manifest::apply_configured` applies
 /// during `query`/`resolve`/`convert`: Layer 1 schema-shape validation plus apply-time
+/// Describe one `[platforms.<id>]` entry as `(location, detail)` for
+/// `platform list`/`show` (h890.27.6): `location` is `"local"` or `"remote"`;
+/// `detail` is a human-readable path, or `repo@pin (manifest_path)`.
+fn describe_platform_entry(entry: &data_source::PlatformManifestEntry) -> (&'static str, String) {
+    match entry {
+        data_source::PlatformManifestEntry::Path(path) => ("local", path.display().to_string()),
+        data_source::PlatformManifestEntry::Remote {
+            repo,
+            tag,
+            branch,
+            sha,
+            manifest_path,
+        } => {
+            let pin = tag
+                .as_deref()
+                .map(|t| format!("tag:{t}"))
+                .or_else(|| branch.as_deref().map(|b| format!("branch:{b}")))
+                .or_else(|| sha.as_deref().map(|s| format!("sha:{s}")))
+                .unwrap_or_else(|| "unpinned".to_string());
+            let manifest_path = manifest_path
+                .clone()
+                .unwrap_or_else(|| PathBuf::from("manifest.json"));
+            (
+                "remote",
+                format!("{repo}@{pin} ({})", manifest_path.display()),
+            )
+        }
+    }
+}
+
+/// `design-data platform list` (h890.27.6): enumerate every configured
+/// `[platforms.<id>]` entry (or the legacy single `manifest` key, if that's all
+/// a repo has), marking which one `default_platform` selects.
+fn run_platform_list(format: OutputFormat) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let found = data_source::find_config(&cwd).into_diagnostic()?;
+
+    let mut rows: Vec<(String, &'static str, String, bool)> = Vec::new();
+    if let Some((_, config)) = &found {
+        if let Some(platforms) = &config.platforms {
+            let mut ids: Vec<String> = platforms.keys().cloned().collect();
+            ids.sort();
+            for id in ids {
+                let entry = &platforms[&id];
+                let (location, detail) = describe_platform_entry(entry);
+                let is_default = config.default_platform.as_deref() == Some(id.as_str());
+                rows.push((id, location, detail, is_default));
+            }
+        } else if let Some(manifest) = &config.manifest {
+            rows.push((
+                "(default)".to_string(),
+                "local",
+                manifest.display().to_string(),
+                true,
+            ));
+        }
+    }
+
+    match format {
+        OutputFormat::Json => {
+            let json: Vec<_> = rows
+                .iter()
+                .map(|(id, location, detail, is_default)| {
+                    serde_json::json!({
+                        "id": id,
+                        "location": location,
+                        "detail": detail,
+                        "default": is_default,
+                    })
+                })
+                .collect();
+            println!("{}", serde_json::to_string(&json).into_diagnostic()?);
+        }
+        OutputFormat::Pretty => {
+            if rows.is_empty() {
+                println!("design-data: no platform manifests configured");
+            } else {
+                for (id, location, detail, is_default) in &rows {
+                    let marker = if *is_default { "*" } else { " " };
+                    println!("{marker} {id:<20} {location:<8} {detail}");
+                }
+            }
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data platform show <id>` (h890.27.6): resolve one named platform
+/// entry (fetching it if remote), and report its location, identity fields,
+/// and an advisory `foundationVersion`-vs-this-build drift check.
+fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_id: Some(id.to_string()),
+        ..Default::default()
+    })?;
+    let Some(manifest_path) = resolved.platform_manifest.clone() else {
+        eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
+        return Ok(ExitCode::from(2));
+    };
+
+    let manifest_json: Option<serde_json::Value> = std::fs::read_to_string(&manifest_path)
+        .ok()
+        .and_then(|text| serde_json::from_str(&text).ok());
+    let str_field = |key: &str| {
+        manifest_json
+            .as_ref()
+            .and_then(|m| m.get(key))
+            .and_then(|v| v.as_str())
+            .map(str::to_string)
+    };
+    let platform = str_field("platform");
+    let platform_version = str_field("platformVersion");
+    let repository = str_field("repository");
+    let foundation_version = str_field("foundationVersion");
+    let drift = foundation_version.as_deref().map(|fv| {
+        if fv == data_source::EMBEDDED_DATA_VERSION {
+            format!("in sync (matches this build's embedded foundation {fv})")
+        } else {
+            format!(
+                "manifest declares foundationVersion \"{fv}\"; this build's embedded \
+                 foundation is \"{}\" — may be drifted",
+                data_source::EMBEDDED_DATA_VERSION
+            )
+        }
+    });
+
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let entry_detail = data_source::find_config(&cwd)
+        .into_diagnostic()?
+        .and_then(|(_, config)| config.platforms)
+        .and_then(|platforms| platforms.get(id).map(describe_platform_entry));
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::json!({
+                    "id": id,
+                    "manifest": manifest_path.display().to_string(),
+                    "location": entry_detail.as_ref().map(|(l, _)| *l),
+                    "detail": entry_detail.as_ref().map(|(_, d)| d.clone()),
+                    "platform": platform,
+                    "platformVersion": platform_version,
+                    "repository": repository,
+                    "foundationVersion": foundation_version,
+                    "drift": drift,
+                })
+            );
+        }
+        OutputFormat::Pretty => {
+            println!("design-data: platform \"{id}\"");
+            println!("  manifest:  {}", manifest_path.display());
+            if let Some((location, detail)) = &entry_detail {
+                println!("  source:    {location} — {detail}");
+            }
+            if let Some(p) = &platform {
+                println!("  platform:  {p}");
+            }
+            if let Some(v) = &platform_version {
+                println!("  version:   {v}");
+            }
+            if let Some(r) = &repository {
+                println!("  repository:{r}");
+            }
+            if let Some(d) = &drift {
+                println!("  foundation: {d}");
+            }
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
 /// checks (include/exclude query parse, override-target resolution).
 ///
 /// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
@@ -1140,6 +1362,17 @@ fn run_validate_manifest(
 
     match manifest::apply_configured(&mut graph, &resolved) {
         Ok(_) => {
+            // Advisory-only: does the manifest's optional `platform` identity field
+            // (h890.27.1) match a known id in the platform-implementations registry?
+            // Never affects the exit code — `platform` is a SHOULD, not a MUST.
+            let identity_warning = std::fs::read_to_string(&manifest_path)
+                .ok()
+                .and_then(|text| serde_json::from_str(&text).ok())
+                .and_then(|manifest_json| {
+                    manifest::check_platform_identity(&manifest_json, &resolved.schemas_root)
+                        .ok()
+                        .flatten()
+                });
             match format {
                 OutputFormat::Json => {
                     println!(
@@ -1147,11 +1380,15 @@ fn run_validate_manifest(
                         serde_json::json!({
                             "valid": true,
                             "manifest": manifest_path.display().to_string(),
+                            "warning": identity_warning,
                         })
                     );
                 }
                 OutputFormat::Pretty => {
                     println!("design-data: {} is valid", manifest_path.display());
+                    if let Some(warning) = &identity_warning {
+                        eprintln!("design-data: warning: {warning}");
+                    }
                 }
             }
             Ok(ExitCode::SUCCESS)
@@ -2641,6 +2878,9 @@ fn run_tui(args: TuiArgs) -> ExitCode {
 
 fn main() -> ExitCode {
     let cli = Cli::parse();
+    GLOBAL_PLATFORM_ID
+        .set(cli.platform.clone())
+        .expect("main runs exactly once; GLOBAL_PLATFORM_ID is set exactly once here");
 
     // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
     let command = match cli.command {
@@ -2650,6 +2890,10 @@ fn main() -> ExitCode {
     };
 
     let result = match command {
+        Commands::Platform { sub } => match sub {
+            PlatformSub::List { format } => run_platform_list(format),
+            PlatformSub::Show { id, format } => run_platform_show(&id, format),
+        },
         Commands::Validate {
             path,
             format,
