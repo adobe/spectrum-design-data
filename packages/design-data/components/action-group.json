@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionGroup",
+      "package": "@spectrum-web-components/action-group",
+      "notes": "Spectrum Web Components custom element: sp-action-group."
+    },
+    {
+      "platform": "web",
+      "componentName": "ActionGroup",
+      "package": "@react-spectrum/actiongroup"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

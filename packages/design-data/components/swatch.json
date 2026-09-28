@@ -9,6 +9,14 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/swatch/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Swatch",
+      "package": "@spectrum-web-components/swatch",
+      "notes": "Spectrum Web Components custom element: sp-swatch."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

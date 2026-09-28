@@ -9,6 +9,14 @@
     "category": "data-visualization",
     "documentationUrl": "https://spectrum.adobe.com/page/table/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Table",
+      "package": "@spectrum-web-components/table",
+      "notes": "Spectrum Web Components custom element: sp-table."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

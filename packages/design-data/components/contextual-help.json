@@ -9,6 +9,13 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/contextual-help/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ContextualHelp",
+      "package": "@react-spectrum/contextualhelp"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

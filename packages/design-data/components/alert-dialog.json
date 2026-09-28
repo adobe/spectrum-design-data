@@ -9,6 +9,19 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/alert-dialog/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "AlertDialog",
+      "package": "@spectrum-web-components/alert-dialog",
+      "notes": "Spectrum Web Components custom element: sp-alert-dialog."
+    },
+    {
+      "platform": "web",
+      "componentName": "AlertDialog",
+      "package": "@react-spectrum/dialog"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

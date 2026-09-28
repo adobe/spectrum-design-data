@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/link/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Link",
+      "package": "@spectrum-web-components/link",
+      "notes": "Spectrum Web Components custom element: sp-link."
+    },
+    {
+      "platform": "web",
+      "componentName": "Link",
+      "package": "@react-spectrum/link"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

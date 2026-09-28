@@ -9,6 +9,19 @@
     "category": "containers",
     "documentationUrl": "https://spectrum.adobe.com/page/popover/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Popover",
+      "package": "@spectrum-web-components/popover",
+      "notes": "Spectrum Web Components custom element: sp-popover."
+    },
+    {
+      "platform": "web",
+      "componentName": "Popover",
+      "package": "@react-spectrum/overlays"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

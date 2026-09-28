@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionBar",
+      "package": "@spectrum-web-components/action-bar",
+      "notes": "Spectrum Web Components custom element: sp-action-bar."
+    },
+    {
+      "platform": "web",
+      "componentName": "ActionBar",
+      "package": "@react-spectrum/actionbar"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

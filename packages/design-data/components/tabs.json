@@ -9,6 +9,19 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tabs",
+      "package": "@spectrum-web-components/tabs",
+      "notes": "Spectrum Web Components custom element: sp-tabs."
+    },
+    {
+      "platform": "web",
+      "componentName": "Tabs",
+      "package": "@react-spectrum/tabs"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

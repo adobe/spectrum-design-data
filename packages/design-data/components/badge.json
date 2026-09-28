@@ -9,6 +9,19 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/badge/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Badge",
+      "package": "@spectrum-web-components/badge",
+      "notes": "Spectrum Web Components custom element: sp-badge."
+    },
+    {
+      "platform": "web",
+      "componentName": "Badge",
+      "package": "@react-spectrum/badge"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

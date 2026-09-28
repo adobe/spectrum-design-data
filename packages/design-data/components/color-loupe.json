@@ -9,6 +9,14 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/color-loupe/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorLoupe",
+      "package": "@spectrum-web-components/color-loupe",
+      "notes": "Spectrum Web Components custom element: sp-color-loupe."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

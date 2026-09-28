@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/search-field/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SearchField",
+      "package": "@react-spectrum/searchfield"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

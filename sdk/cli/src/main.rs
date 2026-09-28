@@ -44,6 +44,7 @@ use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_dtcg as dtcg;
 use design_data_figma as figma;
+use design_data_shadcn as shadcn;
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -324,6 +325,11 @@ enum Commands {
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
     },
+    /// Generate shadcn registry artifacts from Spectrum design data
+    Shadcn {
+        #[command(subcommand)]
+        sub: ShadcnSub,
+    },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
         /// Natural-language intent (e.g. "accent background hover")
@@ -430,6 +436,22 @@ enum Commands {
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
+}
+
+#[derive(Subcommand)]
+enum ShadcnSub {
+    /// Generate metadata-only component registry items and a registry index
+    Registry {
+        /// Output directory (contains registry.json and items/)
+        #[arg(long, value_name = "DIR")]
+        output: PathBuf,
+        /// Generate only this component (default: all components)
+        #[arg(long, value_name = "ID")]
+        component: Option<String>,
+        /// Override components directory
+        #[arg(long, value_name = "DIR")]
+        components_dir: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -691,6 +713,9 @@ enum ExportFormat {
     #[default]
     Dtcg,
     Json,
+    /// shadcn `registry:theme` item (`cssVars.light`/`cssVars.dark`); see
+    /// `design_data_shadcn`.
+    ShadcnTheme,
 }
 
 /// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
@@ -808,7 +833,10 @@ fn resolve_dataset_winners(
 /// transform, so it keeps its own subcommands instead of this trait (see
 /// `design_data_core::export::TokenExporter`).
 fn exporters() -> Vec<Box<dyn TokenExporter>> {
-    vec![Box::new(dtcg::DtcgExporter)]
+    vec![
+        Box::new(dtcg::DtcgExporter),
+        Box::new(shadcn::ShadcnThemeExporter),
+    ]
 }
 
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
@@ -1680,6 +1708,14 @@ fn run_export(
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
         }
+        ExportFormat::ShadcnTheme => {
+            let doc = exporters()
+                .into_iter()
+                .find(|e| e.format_id() == "shadcn-theme")
+                .expect("shadcn-theme exporter always registered")
+                .export(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
     }
 
     Ok(ExitCode::SUCCESS)
@@ -2396,6 +2432,27 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
+fn run_shadcn_registry(
+    output_dir: &Path,
+    component: Option<&str>,
+    components_dir: Option<PathBuf>,
+) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        components: components_dir,
+        ..Default::default()
+    })?;
+    let components_dir = resolved
+        .components
+        .ok_or_else(|| miette::miette!("could not locate components directory"))?;
+    let count = shadcn::write_component_registry(&components_dir, output_dir, component)
+        .map_err(|error| miette::miette!("{error}"))?;
+    println!(
+        "Wrote {count} component registry item(s) to {}",
+        output_dir.display()
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
 fn run_suggest(
     intent: &str,
     path: Option<&Path>,
@@ -2880,6 +2937,13 @@ fn main() -> ExitCode {
             mode_sets_dir,
         ),
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Shadcn { sub } => match sub {
+            ShadcnSub::Registry {
+                output,
+                component,
+                components_dir,
+            } => run_shadcn_registry(&output, component.as_deref(), components_dir),
+        },
         Commands::Suggest {
             intent,
             path,

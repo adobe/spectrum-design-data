@@ -652,6 +652,7 @@ dependencies = [
  "design-data-core",
  "design-data-dtcg",
  "design-data-figma",
+ "design-data-shadcn",
  "design-data-tui",
  "miette",
  "predicates",
@@ -706,6 +707,15 @@ dependencies = [
  "tempfile",
  "thiserror 2.0.18",
  "tokio",
+]
+
+[[package]]
+name = "design-data-shadcn"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
+ "design-data-dtcg",
+ "serde_json",
 ]
 
 [[package]]
