@@ -77,7 +77,7 @@ After the team's new repo is live and green in CI, flip this repo's
 `[platforms.<id>]` entry from a `path` to a `github` remote (pinned to that
 repo's release tag/branch/sha — see `packages/design-data-spec/spec/manifest.md`),
 delete `platforms/<id>/`, and update `CODEOWNERS`. See
-`packages/design-data-spec/spec/migration-runbook.md` (h890.27.13) for the full
+[`docs/MIGRATION.md`](../docs/MIGRATION.md) (h890.27.13) for the full
 step-by-step, using the iOS POC as the worked example.
 
 ## Status
