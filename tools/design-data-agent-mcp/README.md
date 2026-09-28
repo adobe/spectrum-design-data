@@ -71,11 +71,14 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)                                          |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)                                      |
 | `DESIGN_DATA_CONFIG`     | —             | Path to a `.design-data.toml` (or its directory) to resolve a platform cascade |
+| `DESIGN_DATA_PLATFORM`   | —             | Select a named `[platforms.<id>]` entry (needs `DESIGN_DATA_CONFIG`)           |
 
 > **Platform cascade.** If `DESIGN_DATA_CONFIG` is set, the server shells out to
 > the `design-data` CLI once at startup (`design-data query --filter "" --format
 > json`, run from the config's directory) to resolve its `.design-data.toml`
-> source (path/npm/github/git) and any top-level `manifest` cascade, then
+> source (path/npm/github/git) and either its top-level `manifest` cascade or,
+> if `DESIGN_DATA_PLATFORM` is also set, that named `[platforms.<id>]` entry's
+> manifest — mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`, then
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
 > `query_tokens` / `validate_usage` / `describe_component` /
 > `describe_guideline` / `list_guidelines` at it instead of the embedded
