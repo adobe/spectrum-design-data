@@ -43,18 +43,36 @@ function resolveConfigDir(configPath) {
   return statSync(configPath).isDirectory() ? configPath : dirname(configPath);
 }
 
-function resolveManifestPath(configDir) {
+function resolveManifestPath(configDir, platformId) {
   const configPath = join(configDir, ".design-data.toml");
   if (!existsSync(configPath)) return null;
 
   const configText = readFileSync(configPath, "utf-8");
+
+  if (platformId) {
+    // Named `[platforms.<id>]` entries (spectrum-design-data-h890.27.3) are
+    // either a bare local path (`id = "platforms/id/manifest.json"`, matched
+    // here) or a remote `github`-sourced table. This regex only resolves the
+    // local-path shape — a remote platform entry's extensions/ catalogs still
+    // need fetching, which the CLI's `query` shell-out below does not surface
+    // to this file; local-path is the shape every platform incubating in this
+    // monorepo uses today (see platforms/README.md).
+    const idPattern = platformId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const match = configText.match(
+      new RegExp(`^\\s*${idPattern}\\s*=\\s*["']([^"']+)["']\\s*$`, "m"),
+    );
+    if (!match) return null;
+    const manifestPath = join(configDir, match[1]);
+    return existsSync(manifestPath) ? manifestPath : null;
+  }
+
   const match = configText.match(/^\s*manifest\s*=\s*["']([^"']+)["']\s*$/m);
   const manifestPath = join(configDir, match?.[1] ?? "manifest.json");
   return existsSync(manifestPath) ? manifestPath : null;
 }
 
 function materializeCatalogs(config, cascadeDir, configDir) {
-  const manifestPath = resolveManifestPath(configDir);
+  const manifestPath = resolveManifestPath(configDir, config.platformId);
   let extensionsDir = null;
   if (manifestPath) {
     const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
@@ -119,7 +137,11 @@ function mergeGuidelineManifest(targetDir, extensionDir) {
 
 /**
  * Resolve `config.designDataConfig`'s cascade and populate
- * `config.cascadeDataPath` / `config.cascadeActive` with the result.
+ * `config.cascadeDataPath` / `config.cascadeActive` with the result. If
+ * `config.platformId` is set, selects that named `[platforms.<id>]` entry
+ * (spectrum-design-data-h890.27.14) — both for the CLI query shell-out and
+ * for materializing that platform's `extensions/` catalogs, instead of the
+ * legacy top-level `manifest` key.
  * Deliberately does not touch `config.dataPath`/`config.dataRoot` — those
  * remain the fallback anchors for unrelated write/authoring/data tools,
  * which must keep targeting the real dataset root, not the cascade's
@@ -144,10 +166,16 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
   }
 
   try {
-    const { exitCode, stdout, stderr } = await run(
-      ["query", "--filter", "", "--format", "json"],
-      { timeout: 60_000, cwd: configDir },
-    );
+    const queryArgs = ["query", "--filter", "", "--format", "json"];
+    if (config.platformId) {
+      // Must follow the subcommand — see the CLI's own --platform help text
+      // on this ordering limitation.
+      queryArgs.push("--platform", config.platformId);
+    }
+    const { exitCode, stdout, stderr } = await run(queryArgs, {
+      timeout: 60_000,
+      cwd: configDir,
+    });
     if (exitCode !== 0) {
       throw new Error(stderr || `design-data exited with code ${exitCode}`);
     }

@@ -3111,6 +3111,7 @@ fn run_tui(args: TuiArgs) -> ExitCode {
         record: args.record,
         replay: args.replay,
         snapshot_ansi: args.snapshot_ansi,
+        platform_id: GLOBAL_PLATFORM_ID.get().cloned().flatten(),
     };
     match design_data_tui::launch(opts) {
         Ok(()) => ExitCode::SUCCESS,

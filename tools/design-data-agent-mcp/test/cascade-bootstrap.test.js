@@ -213,3 +213,80 @@ test("accepts a path to the .design-data.toml file itself, not just its director
   t.is(seenCwd, dir, "cwd should be the directory containing the toml file");
   t.true(config.cascadeActive);
 });
+
+test("passes --platform to the CLI query shell-out when platformId is set", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+  const config = freshConfig({
+    designDataConfig: dir,
+    platformId: "web-components",
+  });
+
+  let seenArgs;
+  await bootstrapCascade(config, {
+    run: async (args) => {
+      seenArgs = args;
+      return { exitCode: 0, stdout: "[]", stderr: "" };
+    },
+  });
+
+  t.deepEqual(seenArgs, [
+    "query",
+    "--filter",
+    "",
+    "--format",
+    "json",
+    "--platform",
+    "web-components",
+  ]);
+});
+
+test("materializes a named platform's extensions instead of the legacy manifest key", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+
+  // Legacy manifest — must be ignored once platformId selects a named entry.
+  const legacyExtensionsDir = join(dir, "legacy-extensions");
+  mkdirSync(join(legacyExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(legacyExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Legacy Button" }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "legacy-extensions" }),
+  );
+
+  // Named platform entry.
+  const platformDir = join(dir, "platforms", "web-components");
+  const platformExtensionsDir = join(platformDir, "extensions");
+  mkdirSync(join(platformExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(platformExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Platform Button" }),
+  );
+  writeFileSync(join(platformDir, "manifest.json"), JSON.stringify({}));
+
+  writeFileSync(
+    join(dir, ".design-data.toml"),
+    'manifest = "manifest.json"\n\n' +
+      "[platforms]\n" +
+      'web-components = "platforms/web-components/manifest.json"\n',
+  );
+
+  const config = freshConfig({
+    designDataConfig: dir,
+    platformId: "web-components",
+  });
+
+  await bootstrapCascade(config, {
+    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
+  });
+
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Platform Button",
+  );
+});
