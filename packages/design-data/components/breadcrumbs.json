@@ -9,6 +9,13 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Breadcrumbs",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SelectBox",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",
