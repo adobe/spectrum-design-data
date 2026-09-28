@@ -225,6 +225,45 @@ fn platform_eject_local_entry_creates_standalone_repo() {
         .expect("ejected .design-data.toml must be valid TOML");
 }
 
+/// An `--out` nested inside the platform's own `extensions/` dir must be
+/// rejected up front, rather than letting `copy_dir_all` walk into a
+/// destination it's actively creating inside its own source tree.
+#[test]
+fn platform_eject_rejects_out_nested_inside_extensions_dir() {
+    let project = setup_project_with_named_platform();
+    let ext_dir = project
+        .path()
+        .join("extensions")
+        .join("platform-extensions");
+    fs::create_dir_all(&ext_dir).expect("create extensions dir");
+    fs::write(
+        ext_dir.join("foo.json"),
+        json!({
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+            "platform": "React Spectrum",
+            "extends": "states",
+            "extensions": []
+        })
+        .to_string(),
+    )
+    .expect("write extension fragment");
+
+    // Nested inside the source extensions/ dir being copied.
+    let out_dir = project.path().join("extensions").join("nested-out");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["platform", "eject", "rsp", "--out"])
+        .arg(&out_dir)
+        .assert()
+        .failure()
+        .stderr(contains("is inside platform \"rsp\"'s extensions/ dir"));
+
+    // Must fail before creating anything, and must not have recursed.
+    assert!(!out_dir.exists());
+}
+
 #[test]
 fn platform_eject_remote_entry_errors_clearly() {
     let project = tempfile::tempdir().expect("temp project dir");

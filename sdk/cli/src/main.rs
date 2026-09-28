@@ -1338,6 +1338,64 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     Ok(ExitCode::SUCCESS)
 }
 
+/// Lexically absolutize and normalize a path (join with cwd if relative,
+/// then collapse `.`/`..` components) without touching the filesystem or
+/// resolving symlinks, so two paths — one of which may not exist yet, like an
+/// eject `--out` dir — can be compared for containment. `std::path::absolute`
+/// alone isn't enough: it leaves `..` components in place, which would let a
+/// crafted `--out` path (e.g. `platforms/x/extensions/../../../out`) dodge a
+/// naive `starts_with` check.
+fn absolutize(path: &Path) -> std::io::Result<PathBuf> {
+    use std::path::Component;
+    let absolute = std::path::absolute(path)?;
+    let mut normalized = PathBuf::new();
+    for component in absolute.components() {
+        match component {
+            Component::ParentDir => {
+                normalized.pop();
+            }
+            Component::CurDir => {}
+            other => normalized.push(other),
+        }
+    }
+    Ok(normalized)
+}
+
+/// Resolve `path` (lexically absolutized/normalized via [`absolutize`]) as
+/// close to a true canonical path as possible without requiring it to exist:
+/// canonicalizes the nearest existing ancestor (resolving any symlinks in
+/// it — e.g. macOS's `/tmp` -> `/private/tmp`) and re-joins the remaining,
+/// not-yet-created path segments onto that. Needed because a config-derived
+/// path (resolved from `std::env::current_dir()`, which most OSes already
+/// report fully resolved) and a literal, unresolved CLI `--out` argument can
+/// otherwise disagree on containment purely due to a symlinked ancestor.
+fn resolve_as_far_as_possible(path: &Path) -> std::io::Result<PathBuf> {
+    let lexical = absolutize(path)?;
+    for ancestor in lexical.ancestors() {
+        if ancestor.exists() {
+            let canonical_ancestor = ancestor.canonicalize()?;
+            let suffix = lexical
+                .strip_prefix(ancestor)
+                .expect("ancestor is a prefix of lexical by construction");
+            return Ok(canonical_ancestor.join(suffix));
+        }
+    }
+    // No ancestor exists (e.g. an absolute root that isn't mounted) — fall
+    // back to the lexical form.
+    Ok(lexical)
+}
+
+/// True if `candidate` is `ancestor` itself or nested anywhere under it,
+/// resolved via [`resolve_as_far_as_possible`] so this works even when
+/// `candidate` doesn't exist on disk yet (e.g. an eject `--out` dir) and even
+/// when a symlinked ancestor (e.g. macOS's `/tmp`) would otherwise make a
+/// purely lexical comparison disagree.
+fn path_is_within(ancestor: &Path, candidate: &Path) -> std::io::Result<bool> {
+    let ancestor = resolve_as_far_as_possible(ancestor)?;
+    let candidate = resolve_as_far_as_possible(candidate)?;
+    Ok(candidate.starts_with(&ancestor))
+}
+
 /// Recursively copy a directory tree (used by `platform eject` to duplicate a
 /// platform's `extensions/` dir into the ejected repo). Creates `dst` and any
 /// nested subdirectories as needed.
@@ -1434,6 +1492,26 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
         .map(str::to_string);
 
     let out_dir = out.unwrap_or_else(|| PathBuf::from(format!("{id}-design-data")));
+
+    // Reject an --out nested inside (or equal to) the platform's `extensions/`
+    // dir *before* creating it. `copy_dir_all` below walks `extensions_src`
+    // recursively; if `out_dir` (and the `extensions/` it creates inside
+    // itself) lives inside that same tree, the walk would encounter its own
+    // in-progress destination and recurse until the OS refuses
+    // (ELOOP/too-many-open-files) or disk fills up. The reverse nesting
+    // (extensions/ living inside --out) is harmless — the destination
+    // subtree is a distinct path — so only this direction is rejected.
+    let extensions_src = platform_dir.join("extensions");
+    if extensions_src.is_dir() && path_is_within(&extensions_src, &out_dir).into_diagnostic()? {
+        eprintln!(
+            "design-data: error: --out {} is inside platform \"{id}\"'s extensions/ dir \
+             ({}) — choose an output path outside it",
+            out_dir.display(),
+            extensions_src.display()
+        );
+        return Ok(ExitCode::from(2));
+    }
+
     std::fs::create_dir_all(&out_dir)
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to create {}", out_dir.display()))?;
@@ -1447,7 +1525,6 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
 
     // extensions/ — copied verbatim if present; a platform with no overlay
     // content yet (e.g. seeded-but-empty) simply has nothing to copy.
-    let extensions_src = platform_dir.join("extensions");
     if extensions_src.is_dir() {
         copy_dir_all(&extensions_src, &out_dir.join("extensions"))
             .into_diagnostic()

@@ -241,6 +241,83 @@ test("passes --platform to the CLI query shell-out when platformId is set", asyn
   ]);
 });
 
+test("resolves default_platform from the CLI when platformId is unset, keeping tokens and catalogs in agreement", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+
+  // Legacy manifest — must be ignored once `default_platform` selects a
+  // named entry, exactly as it would be if `platformId` were set explicitly.
+  const legacyExtensionsDir = join(dir, "legacy-extensions");
+  mkdirSync(join(legacyExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(legacyExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Legacy Button" }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "legacy-extensions" }),
+  );
+
+  const platformDir = join(dir, "platforms", "web-components");
+  const platformExtensionsDir = join(platformDir, "extensions");
+  mkdirSync(join(platformExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(platformExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Platform Button" }),
+  );
+  writeFileSync(join(platformDir, "manifest.json"), JSON.stringify({}));
+
+  writeFileSync(
+    join(dir, ".design-data.toml"),
+    'manifest = "manifest.json"\n' +
+      'default_platform = "web-components"\n\n' +
+      "[platforms]\n" +
+      'web-components = "platforms/web-components/manifest.json"\n',
+  );
+
+  // No platformId set — only `default_platform` in the config selects it.
+  const config = freshConfig({ designDataConfig: dir });
+
+  const seenArgs = [];
+  await bootstrapCascade(config, {
+    run: async (args) => {
+      seenArgs.push(args);
+      if (args[0] === "platform" && args[1] === "list") {
+        return {
+          exitCode: 0,
+          stdout: JSON.stringify([
+            {
+              id: "web-components",
+              location: "local",
+              detail: "platforms/web-components/manifest.json",
+              default: true,
+            },
+          ]),
+          stderr: "",
+        };
+      }
+      return { exitCode: 0, stdout: "[]", stderr: "" };
+    },
+  });
+
+  t.deepEqual(seenArgs.at(-1), [
+    "query",
+    "--filter",
+    "",
+    "--format",
+    "json",
+    "--platform",
+    "web-components",
+  ]);
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Platform Button",
+    "catalogs must match the same platform the token query resolved, not the legacy manifest",
+  );
+});
+
 test("materializes a named platform's extensions instead of the legacy manifest key", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
   t.teardown(() => rmSync(dir, { recursive: true, force: true }));

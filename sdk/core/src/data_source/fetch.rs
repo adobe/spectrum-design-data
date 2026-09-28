@@ -96,7 +96,41 @@ pub enum FetchError {
     /// Could not determine the OS cache directory.
     #[error("cannot determine cache directory (no home directory?)")]
     NoCacheDir,
+    /// The downloaded archive body exceeded [`MAX_DOWNLOAD_BYTES`].
+    #[error(
+        "downloaded archive from {url} exceeds the {} MB size limit — refusing to buffer it \
+         in memory",
+        MAX_DOWNLOAD_BYTES / 1_000_000
+    )]
+    DownloadTooLarge { url: String },
+    /// The archive, once decompressed, exceeded [`MAX_EXTRACTED_BYTES`] or
+    /// [`MAX_EXTRACTED_ENTRIES`] — a likely decompression-bomb / runaway
+    /// remote repo, rather than a legitimate platform-manifest tree.
+    #[error(
+        "archive from {url} exceeds extraction limits ({} MB / {} entries) — refusing to \
+         extract further",
+        MAX_EXTRACTED_BYTES / 1_000_000,
+        MAX_EXTRACTED_ENTRIES
+    )]
+    ExtractTooLarge { url: String },
 }
+
+/// Hard cap on a downloaded archive's response body, before it's buffered in
+/// memory. A legitimate Spectrum release tarball or platform-manifest repo
+/// archive is single-digit MB; this is a generous but finite ceiling against a
+/// misconfigured or hostile `[platforms.<id>]` remote entry (`fetch_platform_repo`
+/// extracts a whole, filter-less tree, unlike the foundation fetch path's
+/// fixed `packages/**` filter).
+const MAX_DOWNLOAD_BYTES: u64 = 200 * 1_000_000; // 200 MB
+
+/// Hard cap on total bytes written during tarball extraction — guards against
+/// a gzip decompression bomb (a small download expanding to a huge tree).
+const MAX_EXTRACTED_BYTES: u64 = 500 * 1_000_000; // 500 MB
+
+/// Hard cap on the number of extracted entries — guards against a tarball
+/// with an enormous number of tiny files exhausting inodes/handles even while
+/// staying under the byte cap.
+const MAX_EXTRACTED_ENTRIES: usize = 50_000;
 
 // ---------------------------------------------------------------------------
 // Public entry point
@@ -314,7 +348,10 @@ fn fetch_github(base: &Path, repo: &str, git_ref: &GithubRef) -> Result<PathBuf,
 /// The body is buffered in memory before returning (~2 MB for a Spectrum release
 /// tarball).  This is a deliberate tradeoff: streaming directly into a `tar`
 /// decoder would complicate the API and error paths, and the current tarball size
-/// is well within typical memory budgets.
+/// is well within typical memory budgets. [`MAX_DOWNLOAD_BYTES`] still bounds it:
+/// an advertised `Content-Length` over the cap is rejected up front, and the
+/// body is otherwise read chunk-by-chunk so a response that lies about its
+/// length (or omits the header) can't buffer past the cap either.
 fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
     let rt = tokio::runtime::Runtime::new().map_err(FetchError::Io)?;
     rt.block_on(async {
@@ -342,11 +379,29 @@ fn download_bytes(url: &str) -> Result<Vec<u8>, FetchError> {
                     .expect_err("non-success status confirmed"),
             });
         }
-        let bytes = resp.bytes().await.map_err(|e| FetchError::Network {
+        if resp
+            .content_length()
+            .is_some_and(|len| len > MAX_DOWNLOAD_BYTES)
+        {
+            return Err(FetchError::DownloadTooLarge {
+                url: url.to_string(),
+            });
+        }
+
+        let mut body = resp;
+        let mut buf = Vec::new();
+        while let Some(chunk) = body.chunk().await.map_err(|e| FetchError::Network {
             url: url.to_string(),
             source: e,
-        })?;
-        Ok(bytes.to_vec())
+        })? {
+            buf.extend_from_slice(&chunk);
+            if buf.len() as u64 > MAX_DOWNLOAD_BYTES {
+                return Err(FetchError::DownloadTooLarge {
+                    url: url.to_string(),
+                });
+            }
+        }
+        Ok(buf)
     })
 }
 
@@ -397,6 +452,27 @@ fn extract_tarball_inner(
     dest: &Path,
     filter: impl Fn(&Path) -> bool,
 ) -> Result<(), FetchError> {
+    extract_tarball_inner_with_limits(
+        bytes,
+        url,
+        dest,
+        filter,
+        MAX_EXTRACTED_BYTES,
+        MAX_EXTRACTED_ENTRIES,
+    )
+}
+
+/// Same as [`extract_tarball_inner`] but with injectable limits, so tests can
+/// exercise the `ExtractTooLarge` path with a small, fast fixture instead of
+/// needing to actually build a multi-hundred-MB tarball.
+fn extract_tarball_inner_with_limits(
+    bytes: &[u8],
+    url: &str,
+    dest: &Path,
+    filter: impl Fn(&Path) -> bool,
+    max_extracted_bytes: u64,
+    max_extracted_entries: usize,
+) -> Result<(), FetchError> {
     use flate2::read::GzDecoder;
     use tar::Archive;
 
@@ -407,6 +483,12 @@ fn extract_tarball_inner(
     // Determine the top-level prefix by peeking at the first entry.
     // We'll strip it from every path before writing.
     let mut prefix: Option<String> = None;
+    // Runs against max_extracted_bytes/max_extracted_entries to guard against a
+    // gzip decompression bomb or a tarball with an enormous entry count —
+    // most relevant to fetch_platform_repo's filter-less `|_| true` extraction
+    // of an arbitrary `[platforms.<id>]` remote repo.
+    let mut extracted_bytes: u64 = 0;
+    let mut extracted_entries: usize = 0;
 
     let entries = archive.entries().map_err(|e| FetchError::Extract {
         url: url.to_string(),
@@ -460,6 +542,14 @@ fn extract_tarball_inner(
         //   packages/design-data/fields/**
         if !filter(&rel) {
             continue;
+        }
+
+        extracted_entries += 1;
+        extracted_bytes = extracted_bytes.saturating_add(entry.header().size().unwrap_or(0));
+        if extracted_entries > max_extracted_entries || extracted_bytes > max_extracted_bytes {
+            return Err(FetchError::ExtractTooLarge {
+                url: url.to_string(),
+            });
         }
 
         let target = dest.join(&rel);
@@ -731,6 +821,91 @@ mod tests {
                 ..
             }
         ));
+    }
+
+    /// Build an in-memory `.tar.gz` with `entry_count` tiny entries (each
+    /// `content` bytes), all nested under a single top-level `prefix/` dir
+    /// the way GitHub-generated release/source tarballs are shaped —
+    /// [`extract_tarball_inner`] strips that prefix dynamically.
+    fn make_test_tarball(prefix: &str, entry_count: usize, content: &[u8]) -> Vec<u8> {
+        use flate2::write::GzEncoder;
+        use flate2::Compression;
+        use tar::{Builder, Header};
+
+        let mut builder = Builder::new(GzEncoder::new(Vec::new(), Compression::fast()));
+        for i in 0..entry_count {
+            let mut header = Header::new_gnu();
+            header.set_size(content.len() as u64);
+            header.set_mode(0o644);
+            header.set_cksum();
+            builder
+                .append_data(&mut header, format!("{prefix}/file-{i}.txt"), content)
+                .unwrap();
+        }
+        builder.into_inner().unwrap().finish().unwrap()
+    }
+
+    #[test]
+    fn extract_rejects_too_many_entries() {
+        let bytes = make_test_tarball("repo-v1", 5, b"hi");
+        let dest = tempfile::TempDir::new().unwrap();
+
+        let err = extract_tarball_inner_with_limits(
+            &bytes,
+            "https://example.test/archive.tar.gz",
+            &dest.path().join("out"),
+            |_rel: &Path| true,
+            u64::MAX,
+            3, // cap below the 5 entries in the fixture
+        )
+        .unwrap_err();
+
+        assert!(
+            matches!(err, FetchError::ExtractTooLarge { .. }),
+            "expected ExtractTooLarge, got {err:?}"
+        );
+    }
+
+    #[test]
+    fn extract_rejects_too_many_bytes() {
+        // 5 entries of 100 bytes each declared size, but a 200-byte cap.
+        let bytes = make_test_tarball("repo-v1", 5, &[0u8; 100]);
+        let dest = tempfile::TempDir::new().unwrap();
+
+        let err = extract_tarball_inner_with_limits(
+            &bytes,
+            "https://example.test/archive.tar.gz",
+            &dest.path().join("out"),
+            |_rel: &Path| true,
+            200,
+            usize::MAX,
+        )
+        .unwrap_err();
+
+        assert!(
+            matches!(err, FetchError::ExtractTooLarge { .. }),
+            "expected ExtractTooLarge, got {err:?}"
+        );
+    }
+
+    #[test]
+    fn extract_succeeds_within_limits() {
+        let bytes = make_test_tarball("repo-v1", 3, b"hello");
+        let dest = tempfile::TempDir::new().unwrap();
+        let out = dest.path().join("out");
+
+        extract_tarball_inner_with_limits(
+            &bytes,
+            "https://example.test/archive.tar.gz",
+            &out,
+            |_rel: &Path| true,
+            u64::MAX,
+            usize::MAX,
+        )
+        .unwrap();
+
+        assert!(out.join("file-0.txt").is_file());
+        assert!(out.join("file-2.txt").is_file());
     }
 
     // Integration test — requires network; skipped in offline/CI environments.

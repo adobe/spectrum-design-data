@@ -71,8 +71,36 @@ function resolveManifestPath(configDir, platformId) {
   return existsSync(manifestPath) ? manifestPath : null;
 }
 
-function materializeCatalogs(config, cascadeDir, configDir) {
-  const manifestPath = resolveManifestPath(configDir, config.platformId);
+/**
+ * Determine which named `[platforms.<id>]` entry, if any, the CLI would pick
+ * for the *tokens* cascade so catalog materialization can match it exactly.
+ * `config.platformId` (from `DESIGN_DATA_PLATFORM`) always wins; otherwise
+ * this asks the CLI which id `default_platform` resolves to, via
+ * `platform list --format json`, rather than re-implementing the CLI's own
+ * precedence rules (`--manifest` > `--platform` > `DESIGN_DATA_PLATFORM` >
+ * `default_platform` > legacy `manifest` key) in a second, drifting regex.
+ * Returns `null` on any failure (no platforms configured, CLI error,
+ * unparsable output) so callers fall back to the legacy `manifest` key.
+ */
+async function resolveActivePlatformId(configDir, config, run) {
+  if (config.platformId) return config.platformId;
+  try {
+    const { exitCode, stdout } = await run(
+      ["platform", "list", "--format", "json"],
+      { timeout: 10_000, cwd: configDir },
+    );
+    if (exitCode !== 0) return null;
+    const rows = JSON.parse(stdout);
+    const defaultRow = rows.find((row) => row.default);
+    if (!defaultRow || defaultRow.id === "(default)") return null;
+    return defaultRow.id;
+  } catch {
+    return null;
+  }
+}
+
+function materializeCatalogs(config, cascadeDir, configDir, activePlatformId) {
+  const manifestPath = resolveManifestPath(configDir, activePlatformId);
   let extensionsDir = null;
   if (manifestPath) {
     const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
@@ -141,7 +169,9 @@ function mergeGuidelineManifest(targetDir, extensionDir) {
  * `config.platformId` is set, selects that named `[platforms.<id>]` entry
  * (spectrum-design-data-h890.27.14) — both for the CLI query shell-out and
  * for materializing that platform's `extensions/` catalogs, instead of the
- * legacy top-level `manifest` key.
+ * legacy top-level `manifest` key. If `platformId` is unset but the config
+ * has a `default_platform`, `resolveActivePlatformId` discovers that id from
+ * the CLI itself so both halves still agree on the same platform.
  * Deliberately does not touch `config.dataPath`/`config.dataRoot` — those
  * remain the fallback anchors for unrelated write/authoring/data tools,
  * which must keep targeting the real dataset root, not the cascade's
@@ -166,11 +196,20 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
   }
 
   try {
+    const activePlatformId = await resolveActivePlatformId(
+      configDir,
+      config,
+      run,
+    );
     const queryArgs = ["query", "--filter", "", "--format", "json"];
-    if (config.platformId) {
+    if (activePlatformId) {
       // Must follow the subcommand — see the CLI's own --platform help text
-      // on this ordering limitation.
-      queryArgs.push("--platform", config.platformId);
+      // on this ordering limitation. Passing this explicitly (even when it
+      // only came from `default_platform`, not an explicit selection) keeps
+      // the token query and the catalog materialization below looking at
+      // the exact same platform, instead of letting the CLI's own default
+      // resolution and this file's manifest-path regex potentially disagree.
+      queryArgs.push("--platform", activePlatformId);
     }
     const { exitCode, stdout, stderr } = await run(queryArgs, {
       timeout: 60_000,
@@ -187,7 +226,7 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
       JSON.stringify(tokens),
       "utf-8",
     );
-    materializeCatalogs(config, dir, configDir);
+    materializeCatalogs(config, dir, configDir, activePlatformId);
 
     config.cascadeDataPath = dir;
     config.cascadeActive = true;

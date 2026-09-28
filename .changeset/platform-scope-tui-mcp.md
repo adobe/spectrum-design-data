@@ -10,4 +10,6 @@ top-level `manifest` key (closes DNA-1741).
 - **src/cascade-bootstrap.js**: passes `--platform <id>` to the CLI query
   shell-out and materializes that named entry's `extensions/` catalogs when
   `platformId` is set, instead of always resolving the legacy `manifest` key.
+  Also resolves `default_platform` via the CLI when `platformId` is unset, so
+  catalogs stay consistent with the token query in that case too.
 - **README.md**: documents `DESIGN_DATA_PLATFORM`.

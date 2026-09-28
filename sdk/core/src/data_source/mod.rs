@@ -327,6 +327,25 @@ pub enum DataSourceError {
         /// Every id actually configured under `[platforms.*]`, for the error message.
         available: Vec<String>,
     },
+    /// A remote `[platforms.<id>]` entry's `manifest_path` resolved (after
+    /// joining onto the fetched-repo cache root) to a location outside that
+    /// cache root — either because it was an absolute path (which `Path::join`
+    /// treats as a full replacement, discarding `cache_root` entirely) or
+    /// because it used `..` to climb out. Rejected rather than silently
+    /// reading an arbitrary path on disk.
+    #[error(
+        "platform \"{id}\"'s manifest_path \"{manifest_path}\" resolves outside its fetched \
+         cache root ({cache_root}) — manifest_path must be a relative path inside the fetched \
+         repository"
+    )]
+    ManifestPathEscapesCache {
+        /// The id of the offending `[platforms.<id>]` entry.
+        id: String,
+        /// The configured `manifest_path` string, as written in `.design-data.toml`.
+        manifest_path: String,
+        /// The cache root it was supposed to resolve inside of.
+        cache_root: PathBuf,
+    },
 }
 
 // ---------------------------------------------------------------------------
@@ -370,7 +389,16 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
         // Resolve the optional platform manifest relative to the config file's
         // directory, up front, before `config_path` is moved into a provenance record.
         let config_dir = config_path.parent().unwrap_or(cwd).to_path_buf();
-        let platform_manifest = resolve_platform_manifest(&config, &config_dir, overrides)?;
+        // `--manifest` always wins (see `override_manifest` above), so an invalid
+        // `--platform` / `DESIGN_DATA_PLATFORM` / `default_platform` selection must
+        // not fail the whole resolve when an explicit `--manifest` already makes it
+        // moot — skip resolving (and thus skip erroring on) the named-platform
+        // entry entirely in that case.
+        let platform_manifest = if override_manifest.is_some() {
+            None
+        } else {
+            resolve_platform_manifest(&config, &config_dir, overrides)?
+        };
 
         if let Some(source) = &config.source {
             return match source {
@@ -474,6 +502,24 @@ pub fn resolve(cwd: &Path, overrides: &CliPathOverrides) -> Result<ResolvedData,
 /// the `fetch` cargo feature, same as a top-level `[source] type = "github"`.
 ///
 /// Naming an id that isn't in `config.platforms` is a [`DataSourceError::UnknownPlatform`].
+/// Collapse `.`/`..` components lexically, without touching the filesystem or
+/// resolving symlinks — used to confine a remote platform entry's
+/// `manifest_path` to its fetched cache root (see [`resolve_platform_manifest`]).
+fn normalize_lexically(path: &Path) -> PathBuf {
+    use std::path::Component;
+    let mut normalized = PathBuf::new();
+    for component in path.components() {
+        match component {
+            Component::ParentDir => {
+                normalized.pop();
+            }
+            Component::CurDir => {}
+            other => normalized.push(other),
+        }
+    }
+    normalized
+}
+
 fn resolve_platform_manifest(
     config: &DesignDataConfig,
     config_dir: &Path,
@@ -510,7 +556,30 @@ fn resolve_platform_manifest(
                 let relative = manifest_path
                     .clone()
                     .unwrap_or_else(|| PathBuf::from("manifest.json"));
-                Ok(Some(cache_root.join(relative)))
+                // `manifest_path` is untrusted-ish config content (it travels with
+                // the repo, but a compromised/careless remote config could still
+                // set it to an absolute path or use `..` to climb out). Confine it
+                // to the fetched tree: `Path::join` treats an absolute `relative`
+                // as a full replacement (silently discarding `cache_root`
+                // entirely), so reject that up front, then lexically normalize the
+                // joined path and verify it's still inside `cache_root`.
+                if relative.is_absolute() {
+                    return Err(DataSourceError::ManifestPathEscapesCache {
+                        id,
+                        manifest_path: relative.display().to_string(),
+                        cache_root,
+                    });
+                }
+                let joined = normalize_lexically(&cache_root.join(&relative));
+                let normalized_cache_root = normalize_lexically(&cache_root);
+                if !joined.starts_with(&normalized_cache_root) {
+                    return Err(DataSourceError::ManifestPathEscapesCache {
+                        id,
+                        manifest_path: relative.display().to_string(),
+                        cache_root,
+                    });
+                }
+                Ok(Some(joined))
             }
             None => Err(DataSourceError::UnknownPlatform {
                 id,
@@ -1155,6 +1224,33 @@ mod tests {
     }
 
     #[test]
+    fn explicit_manifest_override_wins_even_over_an_unknown_platform_id() {
+        // `--manifest` outranks `--platform`/`DESIGN_DATA_PLATFORM`/
+        // `default_platform` in the documented precedence order, so an
+        // invalid/unknown platform selection alongside an explicit
+        // `--manifest` must not fail the whole resolve — the named-platform
+        // lookup (and its UnknownPlatform error) should never even run.
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms]\nreact-spectrum = \"rs.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("bogus-unknown-id".to_string()),
+            platform_manifest: Some(PathBuf::from("explicit.json")),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides).unwrap();
+        assert_eq!(
+            resolved.platform_manifest,
+            Some(tmp.path().join("explicit.json"))
+        );
+    }
+
+    #[test]
     fn legacy_manifest_key_unaffected_by_absent_platforms_table() {
         // The external spectrum-ios-design-data repo's config shape: a bare
         // top-level `manifest` key, no `[platforms]` table at all. Must keep
@@ -1226,6 +1322,135 @@ mod tests {
             matches!(err, DataSourceError::NotYetImplemented { .. }),
             "expected NotYetImplemented, got {err:?}"
         );
+    }
+
+    /// Pre-seed a `platform/<safe_repo>@tag-<tag>` cache entry with the
+    /// `.complete` sentinel already present, so `fetch_platform_manifest_source`
+    /// takes the cache-hit fast path (tag refs are immutable) and no network
+    /// call happens — lets the `manifest_path` confinement check below be
+    /// tested without `#[ignore = "requires network access"]`.
+    #[cfg(feature = "fetch")]
+    fn seed_platform_cache(cache_dir: &Path, repo: &str, tag: &str) -> PathBuf {
+        let safe_repo = repo.replace('/', "-");
+        let root = cache_dir
+            .join("sources")
+            .join("platform")
+            .join(format!("{safe_repo}@tag-{tag}"));
+        fs::create_dir_all(&root).unwrap();
+        fs::write(root.join(".complete"), "").unwrap();
+        root
+    }
+
+    #[cfg(feature = "fetch")]
+    #[test]
+    fn remote_platform_manifest_path_absolute_is_rejected() {
+        let _guard = env_lock();
+        let cache_tmp = TempDir::new().unwrap();
+        seed_platform_cache(
+            cache_tmp.path(),
+            "adobe/react-spectrum-design-data",
+            "v1.0.0",
+        );
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.rs]\n\
+             repo = \"adobe/react-spectrum-design-data\"\n\
+             tag = \"v1.0.0\"\n\
+             manifest_path = \"/etc/passwd\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("rs".to_string()),
+            ..Default::default()
+        };
+        let err = resolve(tmp.path(), &overrides).unwrap_err();
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
+        assert!(
+            matches!(err, DataSourceError::ManifestPathEscapesCache { .. }),
+            "expected ManifestPathEscapesCache, got {err:?}"
+        );
+    }
+
+    #[cfg(feature = "fetch")]
+    #[test]
+    fn remote_platform_manifest_path_parent_dir_traversal_is_rejected() {
+        let _guard = env_lock();
+        let cache_tmp = TempDir::new().unwrap();
+        seed_platform_cache(
+            cache_tmp.path(),
+            "adobe/react-spectrum-design-data",
+            "v1.0.0",
+        );
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.rs]\n\
+             repo = \"adobe/react-spectrum-design-data\"\n\
+             tag = \"v1.0.0\"\n\
+             manifest_path = \"../../../../etc/passwd\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("rs".to_string()),
+            ..Default::default()
+        };
+        let err = resolve(tmp.path(), &overrides).unwrap_err();
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
+        assert!(
+            matches!(err, DataSourceError::ManifestPathEscapesCache { .. }),
+            "expected ManifestPathEscapesCache, got {err:?}"
+        );
+    }
+
+    #[cfg(feature = "fetch")]
+    #[test]
+    fn remote_platform_manifest_path_within_cache_root_still_resolves() {
+        // A well-behaved relative manifest_path (the common case) must keep
+        // working — the confinement check must not be overly strict.
+        let _guard = env_lock();
+        let cache_tmp = TempDir::new().unwrap();
+        let root = seed_platform_cache(
+            cache_tmp.path(),
+            "adobe/react-spectrum-design-data",
+            "v1.0.0",
+        );
+        fs::write(
+            root.join("manifest.json"),
+            "{\"specVersion\":\"1.0.0-draft\",\"foundationVersion\":\"1.0.0\"}",
+        )
+        .unwrap();
+        std::env::set_var("DESIGN_DATA_CACHE_DIR", cache_tmp.path());
+
+        let tmp = TempDir::new().unwrap();
+        make_monorepo(tmp.path());
+        fs::write(
+            tmp.path().join(".design-data.toml"),
+            "[platforms.rs]\n\
+             repo = \"adobe/react-spectrum-design-data\"\n\
+             tag = \"v1.0.0\"\n\
+             manifest_path = \"manifest.json\"\n",
+        )
+        .unwrap();
+
+        let overrides = CliPathOverrides {
+            platform_id: Some("rs".to_string()),
+            ..Default::default()
+        };
+        let resolved = resolve(tmp.path(), &overrides).expect("resolve should succeed");
+        std::env::remove_var("DESIGN_DATA_CACHE_DIR");
+
+        assert_eq!(resolved.platform_manifest, Some(root.join("manifest.json")));
     }
 
     // Integration test — requires network and the `fetch` cargo feature;
