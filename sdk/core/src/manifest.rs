@@ -809,4 +809,36 @@ mod tests {
         assert!(message.contains("totally-not-a-real-platform"));
         assert!(message.contains("advisory only"));
     }
+
+    /// spectrum-design-data-h890.27.10: `web-components-states.json` was moved out
+    /// of the foundation registry (`packages/design-data/registry/platform-extensions/`)
+    /// into `platforms/web-components/extensions/platform-extensions/` — confirm the
+    /// real, migrated file is still discovered, schema-validated, and merged into the
+    /// graph via the same cascade every other platform-extensions fragment uses.
+    #[test]
+    fn swc_web_components_states_extension_is_loaded_via_cascade() {
+        let manifest_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../platforms/web-components/manifest.json");
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let record = graph
+            .platform_extensions
+            .iter()
+            .find(|r| r.platform == "Web Components" && r.extends == "states")
+            .expect("web-components-states.json extension present after migration");
+        let term_ids: Vec<&str> = record
+            .raw
+            .get("extensions")
+            .and_then(|v| v.as_array())
+            .unwrap()
+            .iter()
+            .filter_map(|t| t.get("termId").and_then(|v| v.as_str()))
+            .collect();
+        assert!(term_ids.contains(&"hover"));
+        assert!(term_ids.contains(&"focus"));
+        assert!(term_ids.contains(&"disabled"));
+        assert!(term_ids.contains(&"keyboard-focus"));
+    }
 }

@@ -15,7 +15,6 @@ Foundation→Platform cascade before it's applied to the graph:
 | `relationships/`       | Platform-local token relationships (plain-add or `op: "override"`/`"remove"`)     |
 | `mode-sets/`           | Platform-local mode-set declarations                                              |
 
-No Spectrum Web Components-specific content exists yet, but
-`platform-extensions/` is expected to gain a `web-components-states.json`
-migrated out of the shared foundation registry in a follow-up task — see
-`platforms/web-components/README.md`.
+No Spectrum Web Components-specific content exists yet, aside from
+`platform-extensions/web-components-states.json` (migrated from the shared
+foundation registry — see `platforms/web-components/README.md`).

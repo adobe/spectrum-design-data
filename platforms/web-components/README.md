@@ -27,11 +27,13 @@ only wraps the existing name.
 
 ## Extensions
 
-`extensions/` is currently empty (see its own README). SWC-specific overlay
-content — most notably the state-set terminology in
-`packages/design-data/registry/platform-extensions/web-components-states.json`,
-which lives in the shared foundation registry today — is planned to move here
-in a follow-up task, mirroring the completed iOS `ios-states.json` migration.
+`extensions/platform-extensions/web-components-states.json` holds SWC-specific
+terminology for interaction states (`hover`, `focus`, `disabled`,
+`keyboard-focus`), migrated out of the shared foundation registry
+(`packages/design-data/registry/platform-extensions/`) — the exact parallel of
+the completed iOS `ios-states.json` migration. It's reachable through the
+Foundation→Platform cascade whenever `web-components` is the selected
+platform (`design-data validate-manifest --platform web-components`, etc.).
 
 ## Ejection
 
