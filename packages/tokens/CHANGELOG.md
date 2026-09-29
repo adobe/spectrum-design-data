@@ -1,5 +1,13 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 0.0.0-size-token-taxonomy-20260929225107
+
+### Minor Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Propagate size taxonomy refinements from the cascade source into the legacy token package.
+  - **tokens/src**: Regenerated from `packages/design-data` to add shared `banner-*` layout
+    tokens and mark consolidated size tokens `deprecated` with a `renamed` migration target.
+
 ## 15.4.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @adobe/token-naming-audit
 
+## 0.0.0-size-token-taxonomy-20260929225107
+
+### Patch Changes
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5), [`0ecfcd1`](https://github.com/adobe/spectrum-design-data/commit/0ecfcd1944ae01da2888333580e4c68641f73238), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.0.0-size-token-taxonomy-20260929225107
+  - @adobe/spectrum-design-data@0.0.0-size-token-taxonomy-20260929225107
+
 ## 0.1.58
 
 ### Patch Changes

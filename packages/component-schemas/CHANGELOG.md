@@ -1,5 +1,12 @@
 # [**@adobe/spectrum-component-api-schemas**](https://github.com/adobe/spectrum-component-api-schemas)
 
+## 0.0.0-size-token-taxonomy-20260929225107
+
+### Patch Changes
+
+- Updated dependencies [[`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5), [`0ecfcd1`](https://github.com/adobe/spectrum-design-data/commit/0ecfcd1944ae01da2888333580e4c68641f73238)]:
+  - @adobe/spectrum-design-data@0.0.0-size-token-taxonomy-20260929225107
+
 ## 6.1.60
 
 ### Patch Changes

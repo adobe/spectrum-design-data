@@ -1,5 +1,29 @@
 # @adobe/design-data-agent-mcp
 
+## 0.0.0-size-token-taxonomy-20260929225107
+
+### Minor Changes
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add narrowing and ambiguity metadata to property-based token resolution.
+  - **resolve_token**: support component, variant, state, and colorRole narrowing while reporting
+    deprecated and ambiguous matches.
+
+### Patch Changes
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix broken example calls in read-tool docstrings and the design-data skill.
+  - **tools/design-data-agent-mcp/src/tools/read.js**: `query_tokens`'s docstring example
+    (`category=color`) never worked — replaced with a real filter and a note that
+    `component=<id>` is currently unindexed. `resolve_token`'s docstring example
+    (`accent-background-color-default`) was a legacyKey-shaped name that never resolves —
+    replaced with guidance on the accepted bare-property format and its disambiguation limits.
+  - **tools/design-data-agent-mcp/skills/design-data/SKILL.md**: same two examples corrected,
+    with gotcha notes for both tools.
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5), [`0ecfcd1`](https://github.com/adobe/spectrum-design-data/commit/0ecfcd1944ae01da2888333580e4c68641f73238), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.0.0-size-token-taxonomy-20260929225107
+  - @adobe/spectrum-design-data@0.0.0-size-token-taxonomy-20260929225107
+  - @adobe/design-data@0.0.0-size-token-taxonomy-20260929225107
+
 ## 1.11.0
 
 ### Minor Changes
