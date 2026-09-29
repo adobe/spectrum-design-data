@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": patch
+"@adobe/design-data-wasm": patch
 ---
 
 Fix legacy-output regressions surfaced by the size token taxonomy refinements.
@@ -13,3 +14,4 @@ Fix legacy-output regressions surfaced by the size token taxonomy refinements.
 - **relationships, tokens**: Added the missing `lifecycle` deprecation to 149 scale-set
 	sibling entries (mobile variants) that were left inconsistent with their deprecated
 	desktop counterpart.
+- **design-data-wasm**: bump so the embedded dataset snapshot picks up these fixes.
