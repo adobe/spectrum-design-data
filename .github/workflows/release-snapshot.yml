@@ -35,10 +35,18 @@ jobs:
         uses: ./.github/actions/cache-pnpm-store
       - run: moon setup
       - run: moon run :build --query "projectSource~packages/*"
+      # moon/proto's toolchain shims put a non-OIDC-capable npm/pnpm on PATH
+      # (see release.yml's build-wasm/release job split for the same issue).
+      # Re-install real Node/npm/pnpm here so the publish step below can use
+      # npm's native OIDC trusted-publishing flow instead of a static token.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+      - run: npm install -g npm@11.6.2 # npm 11.6.2 required for OIDC trusted publishing
+      - run: npm install -g pnpm@10.17.1
       - name: Snapshot release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           SNAPSHOT_TAG: ${{ inputs.tag || steps.split.outputs.fragment }}
           USERNAME: ${{ steps.author.outputs.authorName }}
           EMAIL: ${{ steps.author.outputs.authorEmail }}
@@ -48,7 +56,6 @@ jobs:
           git config --global user.email "$EMAIL"
           git add .
           git commit -m "chore: snapshot release $SNAPSHOT_TAG"
-          npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
           pnpm changeset publish --tag $SNAPSHOT_TAG
           git push origin HEAD
           git push --tags
