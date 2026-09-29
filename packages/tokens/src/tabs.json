@@ -497,7 +497,7 @@
         "uuid": "ea902ec1-25d5-47c3-896a-a95d9ca5bd62"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -517,7 +517,7 @@
         "uuid": "c193b2ee-a584-41dc-9ef8-3aebb38fb832"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -537,7 +537,7 @@
         "uuid": "6b6c960f-adcf-48b0-8310-ba12b47f4d9a"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "tab-item-to-tab-item-vertical-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -557,7 +557,7 @@
         "uuid": "d51a6c05-67d0-425f-becf-86e783ab3305"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "tab-item-top-to-text-compact-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
