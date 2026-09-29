@@ -9,5 +9,12 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/date-field/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "DateField",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

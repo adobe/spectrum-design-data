@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "DatePicker",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

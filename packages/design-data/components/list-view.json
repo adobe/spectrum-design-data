@@ -9,6 +9,13 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ListView",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

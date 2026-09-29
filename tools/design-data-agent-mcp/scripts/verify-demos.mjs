@@ -52,13 +52,25 @@ const SCENARIOS = [
     name: "primer.modeSets are populated (bead spectrum-design-data-v9bb)",
     tool: "primer",
     args: {},
-    status: "known-bug",
-    verify: (r, threw) => !threw && r.modeSets.colorScheme.length === 0,
+    status: "green",
+    verify: (r, threw) =>
+      !threw &&
+      r.modeSets.colorScheme.includes("light") &&
+      r.modeSets.colorScheme.includes("dark") &&
+      r.modeSets.scale.includes("desktop") &&
+      r.modeSets.contrast.includes("regular"),
   },
   {
     name: "query_tokens: filter by bare property",
     tool: "query_tokens",
     args: { filter: "property=corner-radius" },
+    status: "green",
+    verify: (r, threw) => !threw && Array.isArray(r) && r.length > 0,
+  },
+  {
+    name: "suggest_token: plain-language intent ranks tokens",
+    tool: "suggest_token",
+    args: { intent: "primary button background color", limit: 5 },
     status: "green",
     verify: (r, threw) => !threw && Array.isArray(r) && r.length > 0,
   },

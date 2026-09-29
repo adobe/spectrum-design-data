@@ -9,6 +9,13 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/link/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Link",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

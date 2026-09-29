@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - ".changeset/*.md"
+      - "packages/design-data/tokens/*.tokens.json"
+      - "packages/design-data/mode-sets/*.json"
+      - "packages/design-data/components/*.json"
+      - "packages/design-data/fields/*.json"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: moonrepo/setup-toolchain@v0
         with:
@@ -31,3 +37,6 @@ jobs:
 
       - name: Lint changeset files
         run: pnpm changeset-lint check --fail-on-warnings
+
+      - name: Require design-data-wasm bump on dataset content changes
+        run: pnpm changeset-lint check-data-bump --base origin/${{ github.base_ref }}
