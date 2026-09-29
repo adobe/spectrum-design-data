@@ -41,15 +41,18 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Optional fields
 
-| Field                 | Type            | Description                                                                                                                                                     |
-| --------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                     |
-| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                  |
-| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                |
-| `extensionsDir`       | string          | Path (relative to the manifest) to the platform's `extensions/` directory. Default: `"extensions"`. See [`extensions/` directory](#extensions-directory) below. |
-| `namingExceptions`    | object          | Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.                                     |
-| `formatting`          | object          | Rules for serializing structured name objects into platform-specific token name strings.                                                                        |
-| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                           |
+| Field                 | Type            | Description                                                                                                                                                                                                 |
+| --------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `platform`            | string          | Machine-readable platform implementation id (e.g. `"react-spectrum"`, `"web-components"`, `"ios"`), matching an id in the platform-implementations registry. See [Identity fields](#identity-fields) below. |
+| `platformVersion`     | string          | Human-readable description of the platform implementation, e.g. `"React Spectrum 3.x"`. Distinct from `foundationVersion`.                                                                                  |
+| `repository`          | string          | URL of the repository that owns (or will eventually own) this platform manifest.                                                                                                                            |
+| `include`             | array of string | Semantic **queries** selecting subsets of foundation tokens to materialize.                                                                                                                                 |
+| `exclude`             | array of string | Queries removing tokens from the included set.                                                                                                                                                              |
+| `overrides`           | array of object | Typed overrides; each entry **MUST** preserve the target token’s **value type**.                                                                                                                            |
+| `extensionsDir`       | string          | Path (relative to the manifest) to the platform's `extensions/` directory. Default: `"extensions"`. See [`extensions/` directory](#extensions-directory) below.                                             |
+| `namingExceptions`    | object          | Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.                                                                                 |
+| `formatting`          | object          | Rules for serializing structured name objects into platform-specific token name strings.                                                                                                                    |
+| `modeSetRestrictions` | object          | Mode set restrictions for this platform; see [Mode Sets — Platform restrictions](mode-sets.md#platform-restrictions).                                                                                       |
 
 ### `include` / `exclude`
 
@@ -74,6 +77,23 @@ rather than replacing an existing match). Only [`resolve` / `resolve_property`](
 apply `Foundation < Platform < Product` precedence to select a single winner. Tooling that
 counts "tokens a platform ships" from `query` output should resolve first, or it will
 double-count overridden tokens.
+
+### Identity fields
+
+`platform`, `platformVersion`, and `repository` are optional and have no effect on the
+Foundation→Platform cascade — they exist so a manifest is self-describing wherever it
+lives. This matters once a manifest is one of several configured in the same repo (via named
+`[platforms.<id>]` profiles — see the SDK's `.design-data.toml` reference) or is fetched
+from a remote repository: without `platform`, a manifest fetched by URL has no stable
+identity of its own.
+
+A single-platform repo with exactly one manifest **MAY** omit all three; the pattern
+becomes worth adopting the moment a manifest is expected to move (incubating in a
+monorepo ahead of a hand-off to its owning team) or coexist with siblings.
+
+`platform`, when present, **SHOULD** match an id in the platform-implementations registry
+(distinct from the token-level `platforms.json` registry, which enumerates *device
+targets* like `desktop`/`mobile`, not *implementations* like `react-spectrum`).
 
 ### `extensions/` directory
 
@@ -216,6 +236,7 @@ A platform **MAY** declare formatting rules that control how structured name obj
 | `casing`        | string          | One of: `kebab-case`, `camelCase`, `PascalCase`, `SCREAMING_SNAKE_CASE`. Default: `kebab-case`.                                                                                                                                                                                                                                                                                                                                        |
 | `delimiter`     | string          | Character(s) separating concepts in the serialized string (e.g. `-`, `_`, `.`, `/`). Default: `-`.                                                                                                                                                                                                                                                                                                                                     |
 | `abbreviations` | object          | Map of full term → abbreviated form (e.g. `{ "background": "bg" }`). Abbreviations are applied after concept ordering and before casing.                                                                                                                                                                                                                                                                                               |
+| `prefix`        | string          | Literal string prepended to the fully-formatted token name, applied after `casing`/`delimiter` and unaffected by either — for platform naming conventions that wrap the token name rather than reshape it (e.g. CSS custom properties like `--spectrum-`).                                                                                                                                                                             |
 
 **NORMATIVE:** When `formatting` is absent, the default serialization defined in [Taxonomy](taxonomy.md#default-serialization-legacy-format) is used.
 
