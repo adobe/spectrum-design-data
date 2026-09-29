@@ -23,6 +23,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "alert-banner",
     "uuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
+    "deprecated": true,
+    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly, no change.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -34,7 +36,8 @@
         "value": "64px",
         "uuid": "6d313800-3020-45f8-969d-63e81057ff97"
       }
-    }
+    },
+    "renamed": "banner-height-medium"
   },
   "alert-banner-to-bottom-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -127,6 +130,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "alert-banner",
     "uuid": "c0dc5d73-a689-41c1-a99c-ec3ac6c92760",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared banner-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -138,6 +143,7 @@
         "value": "680px",
         "uuid": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca"
       }
-    }
+    },
+    "renamed": "banner-width-medium"
   }
 }

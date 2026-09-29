@@ -23,6 +23,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "toast",
     "uuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
+    "deprecated": true,
+    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -34,12 +36,15 @@
         "value": "60px",
         "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
       }
-    }
+    },
+    "renamed": "banner-height-medium"
   },
   "toast-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "toast",
     "uuid": "e8dc3919-27bb-4fec-9c7c-7842ca1e6946",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared banner-maximum-width token.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -51,7 +56,8 @@
         "value": "420px",
         "uuid": "a4de5997-1eb1-430f-9a9f-cf2637d02d34"
       }
-    }
+    },
+    "renamed": "banner-maximum-width"
   },
   "toast-top-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

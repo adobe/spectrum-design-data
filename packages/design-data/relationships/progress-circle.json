@@ -187,7 +187,13 @@
     "uuid": "c7719369-7d3d-4446-ade2-08abb472a985",
     "legacyKey": "progress-circle-size-large",
     "setUuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "cbd0511f-c73d-40fa-9dfa-619ee5a38472"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 235 of the mapping sheet."
   },
   {
     "scope": {
@@ -225,7 +231,13 @@
     "uuid": "c380cf9b-cb59-465c-9b56-41654d3239f1",
     "legacyKey": "progress-circle-size-medium",
     "setUuid": "f275f342-c396-4781-944e-07cb302f5241",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "9d50a6bc-7194-47f5-aef0-7b37446618ff"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 236 of the mapping sheet."
   },
   {
     "scope": {
@@ -263,7 +275,13 @@
     "uuid": "a7fafd60-dc38-425a-b6b6-952a06d30ab4",
     "legacyKey": "progress-circle-size-small",
     "setUuid": "ab2492f4-18ef-471b-94f7-9998be139116",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
+      "replacedBy": "c95dc6f0-3784-4367-86ea-bcccd6123a88"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 237 of the mapping sheet."
   },
   {
     "scope": {

@@ -1453,7 +1453,12 @@
     "uuid": "b2788159-dd2d-4f94-9282-d8cdbba41807",
     "legacyKey": "tag-minimum-width-large",
     "setUuid": "c160e0a6-c19c-4fb5-af16-49ffea4b9b56",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 358 of the mapping sheet."
   },
   {
     "scope": {
@@ -1490,7 +1495,12 @@
     "uuid": "40485b19-e1ac-4981-a17c-bb6e264c730d",
     "legacyKey": "tag-minimum-width-medium",
     "setUuid": "33cfd1f4-12a3-4cd8-a621-d67868424511",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 359 of the mapping sheet."
   },
   {
     "scope": {
@@ -1540,7 +1550,12 @@
     "uuid": "3b9e5d81-e49a-4080-ac53-094e0f7eb151",
     "legacyKey": "tag-minimum-width-small",
     "setUuid": "3d401849-853a-4920-8a94-ac001432d63c",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Formula specific to tag's padding-plus-character-allowance; doesn't generalize, platform-specific token instead."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 360 of the mapping sheet."
   },
   {
     "scope": {

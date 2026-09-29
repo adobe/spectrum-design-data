@@ -698,7 +698,12 @@
     "uuid": "5e7426da-1a1e-4d37-8c96-4fdac06bfad5",
     "legacyKey": "breadcrumbs-height-multiline",
     "setUuid": "060266b1-4ac4-4392-8554-fc1304bd3572",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Fully derived from content + gap; not an independent value, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 56 of the mapping sheet."
   },
   {
     "scope": {

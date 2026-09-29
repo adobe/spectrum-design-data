@@ -191,7 +191,13 @@
     "uuid": "c42de1ce-088a-4918-a7dc-36507c8acedf",
     "legacyKey": "color-slider-length",
     "setUuid": "eac87a1b-2b93-4501-8d9f-90eae1cce3bd",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared bar-width-* scale.",
+      "replacedBy": "f7cb09c8-a44c-4455-bffd-199b76fd1c25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 439 of the mapping sheet."
   },
   {
     "scope": {
@@ -227,6 +233,12 @@
     "uuid": "120308f7-4220-420e-b836-20176a8184b7",
     "legacyKey": "color-slider-minimum-length",
     "setUuid": "8b687fbe-e7dd-449a-8356-6bbaf0537d18",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-900 directly, no change.",
+      "replacedBy": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 440 of the mapping sheet."
   }
 ]

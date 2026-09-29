@@ -22,6 +22,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "in-field-progress-circle",
     "uuid": "f065dfac-d6f2-4b7e-9a3d-b4808cd3ef55",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared workflow-icon-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -33,12 +35,15 @@
         "value": "24px",
         "uuid": "c522b33c-93b8-491f-b4df-c241f5b5ade8"
       }
-    }
+    },
+    "renamed": "workflow-icon-medium"
   },
   "in-field-progress-circle-size-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "in-field-progress-circle",
     "uuid": "444565d9-c91a-40f5-a0a8-0829f29060ad",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared workflow-icon-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -50,12 +55,15 @@
         "value": "28px",
         "uuid": "85377238-7488-42e0-99ce-f4fd73316d24"
       }
-    }
+    },
+    "renamed": "workflow-icon-large"
   },
   "in-field-progress-circle-size-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "in-field-progress-circle",
     "uuid": "8cb3472c-d320-42bb-b29e-527b6298bb4a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared workflow-icon-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -67,12 +75,15 @@
         "value": "30px",
         "uuid": "9e740bd1-b98a-416a-be82-20e222cab3b1"
       }
-    }
+    },
+    "renamed": "workflow-icon-extra-large"
   },
   "in-field-progress-circle-size-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "in-field-progress-circle",
     "uuid": "a25ad27d-24c6-4332-838b-5c0605ec38bb",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared workflow-icon-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -84,6 +95,7 @@
         "value": "18px",
         "uuid": "c43c89a6-2ae5-4d29-99ab-2c64e153d4e7"
       }
-    }
+    },
+    "renamed": "workflow-icon-small"
   }
 }

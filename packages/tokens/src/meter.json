@@ -12,18 +12,25 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "meter",
     "value": "768px",
-    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9"
+    "uuid": "63bfb4da-4aaf-49c6-9328-16c636cf0bf9",
+    "deprecated": true,
+    "deprecated_comment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
   },
   "meter-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "meter",
     "value": "48px",
-    "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295"
+    "uuid": "fd4f6ef0-bab2-4405-9eea-8a9b8a7dd295",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared bar-minimum-width-* scale.",
+    "renamed": "bar-minimum-width-extra-large"
   },
   "meter-thickness-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "meter",
     "uuid": "8f4f9f56-a748-4d92-93ff-7afe0297463a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -35,12 +42,15 @@
         "value": "13px",
         "uuid": "272738b2-a274-4e2e-8582-9c2cc7962a85"
       }
-    }
+    },
+    "renamed": "thickness-size-extra-large"
   },
   "meter-thickness-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "meter",
     "uuid": "13344afb-aeba-4871-82c6-13275b3aa535",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -52,12 +62,15 @@
         "value": "10px",
         "uuid": "c9052808-918e-4368-b113-28f928104eda"
       }
-    }
+    },
+    "renamed": "thickness-size-large"
   },
   "meter-thickness-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "meter",
     "uuid": "bf21b888-de2b-4e42-9cb2-6a0e10e9d37b",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -69,12 +82,15 @@
         "value": "8px",
         "uuid": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca"
       }
-    }
+    },
+    "renamed": "thickness-size-medium"
   },
   "meter-thickness-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "meter",
     "uuid": "7df8ad06-5524-48ca-946b-0e7a37002422",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -86,12 +102,15 @@
         "value": "5px",
         "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37"
       }
-    }
+    },
+    "renamed": "thickness-size-small"
   },
   "meter-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "meter",
     "uuid": "986cf4b8-bb3b-4752-83b9-3001d6d6ffac",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared bar-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -103,6 +122,7 @@
         "value": "240px",
         "uuid": "dc5f4966-4ddd-4e9a-a748-370d8eaae568"
       }
-    }
+    },
+    "renamed": "bar-width-large"
   }
 }

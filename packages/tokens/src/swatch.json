@@ -33,6 +33,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "swatch",
     "uuid": "2c8536c7-5a08-4516-b253-e38239923cf2",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -44,12 +46,15 @@
         "value": "20px",
         "uuid": "0d926e1a-080a-41ba-8bb9-ef6d0847cb77"
       }
-    }
+    },
+    "renamed": "visual-size-50"
   },
   "swatch-size-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "swatch",
     "uuid": "700b9bd6-a462-4d9d-a573-ac9faafc3c43",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -61,12 +66,15 @@
         "value": "50px",
         "uuid": "162c1233-3420-44a2-a270-97d0a7c23df1"
       }
-    }
+    },
+    "renamed": "visual-size-500"
   },
   "swatch-size-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "swatch",
     "uuid": "daa2f451-5297-4ed2-9926-e1cb25b06b30",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -78,12 +86,15 @@
         "value": "40px",
         "uuid": "77be7e79-a589-4f32-9e42-ea45ed7763aa"
       }
-    }
+    },
+    "renamed": "visual-size-300"
   },
   "swatch-size-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "swatch",
     "uuid": "0bf0f836-51dd-455c-a152-e841c4cff582",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -95,7 +106,8 @@
         "value": "30px",
         "uuid": "c8d8e379-1e3f-4f5e-bce3-df3fc05ff16e"
       }
-    }
+    },
+    "renamed": "visual-size-100"
   },
   "swatch-slash-thickness-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

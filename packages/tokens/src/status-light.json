@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "status-light",
     "uuid": "f9e72a05-af00-42b8-a8d8-072e48f1eb76",
+    "deprecated": true,
+    "deprecated_comment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "16px",
         "uuid": "38b8d9c8-d340-4123-88bc-f739cfde91e9"
       }
-    }
+    },
+    "renamed": "ui-icon-extra-large"
   },
   "status-light-dot-size-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "status-light",
     "uuid": "b9201338-95e8-46d3-a786-7f2a2cca767a",
+    "deprecated": true,
+    "deprecated_comment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "14px",
         "uuid": "6554dae9-18b6-4c90-b2f4-8aeaab0724ad"
       }
-    }
+    },
+    "renamed": "ui-icon-large"
   },
   "status-light-dot-size-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "status-light",
     "uuid": "08ed6bf4-5759-4bfb-98fe-1562032b59fe",
+    "deprecated": true,
+    "deprecated_comment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,12 +56,15 @@
         "value": "12px",
         "uuid": "a7fc9ca1-ad6d-47cb-8798-4a18ba4acc79"
       }
-    }
+    },
+    "renamed": "ui-icon-medium"
   },
   "status-light-dot-size-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "status-light",
     "uuid": "17b26aa3-b67b-45cc-8653-6cf8adc63b45",
+    "deprecated": true,
+    "deprecated_comment": "Status light dot’s will be updated to match the UI icon size. These status dots are not provided via the UI Icon library, but their size & usage are aligned.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -65,7 +76,8 @@
         "value": "10px",
         "uuid": "5945e9fe-311a-4d2c-8052-ca4eae4c7c63"
       }
-    }
+    },
+    "renamed": "ui-icon-small"
   },
   "status-light-text-to-visual-100": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

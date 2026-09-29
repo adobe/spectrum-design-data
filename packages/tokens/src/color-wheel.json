@@ -21,6 +21,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-wheel",
     "uuid": "8a42148e-0b8f-42cb-9693-e1a2bf42222e",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -32,12 +34,15 @@
         "value": "219px",
         "uuid": "6733cd28-a949-40f7-bd36-034af9c0261f"
       }
-    }
+    },
+    "renamed": "size-1300"
   },
   "color-wheel-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "color-wheel",
     "uuid": "f3ef148b-28ca-4bb2-9d13-a525bcbe03dc",
+    "deprecated": true,
+    "deprecated_comment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -49,6 +54,7 @@
         "value": "240px",
         "uuid": "81d866f0-e2a6-4f27-bb22-6675cce4e937"
       }
-    }
+    },
+    "renamed": "size-1300"
   }
 }

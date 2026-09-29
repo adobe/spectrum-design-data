@@ -931,7 +931,13 @@
     "uuid": "dfae987d-8f6c-4b2c-a01b-3a010581488d",
     "legacyKey": "side-navigation-indicator-height",
     "setUuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
+      "replacedBy": "89766302-b727-438e-bf4b-7549b98569cf"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 420 of the mapping sheet."
   },
   {
     "scope": {
@@ -1152,7 +1158,13 @@
     "uuid": "ad835d79-64d9-4183-ace0-912c87fc2241",
     "legacyKey": "side-navigation-minimum-width",
     "setUuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-item-minimum-width-* scale.",
+      "replacedBy": "d2eb3062-0839-435a-aad6-309ece18ca25"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 260 of the mapping sheet."
   },
   {
     "scope": {
@@ -1552,7 +1564,13 @@
     "uuid": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2",
     "legacyKey": "side-navigation-width",
     "setUuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
+      "replacedBy": "ef6d6538-212a-45ff-9fbc-f9276af09c27"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 261 of the mapping sheet."
   },
   {
     "scope": {
