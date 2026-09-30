@@ -1,5 +1,27 @@
 # @adobe/design-data-agent-mcp
 
+## 1.14.0
+
+### Minor Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Make the MCP honor named `[platforms.<id>]` entries, not just the legacy
+  top-level `manifest` key (closes DNA-1741).
+  - **src/config.js**: adds `platformId`, read from a new `DESIGN_DATA_PLATFORM`
+    env var, mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`.
+  - **src/cascade-bootstrap.js**: passes `--platform <id>` to the CLI query
+    shell-out and materializes that named entry's `extensions/` catalogs when
+    `platformId` is set, instead of always resolving the legacy `manifest` key.
+    Also resolves `default_platform` via the CLI when `platformId` is unset, so
+    catalogs stay consistent with the token query in that case too.
+  - **README.md**: documents `DESIGN_DATA_PLATFORM`.
+
+### Patch Changes
+
+- Updated dependencies [[`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d), [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5)]:
+  - @adobe/design-data-wasm@0.10.1
+  - @adobe/spectrum-design-data@3.3.0
+  - @adobe/design-data@3.2.2
+
 ## 1.13.0
 
 ### Minor Changes

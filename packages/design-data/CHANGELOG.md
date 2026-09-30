@@ -1,5 +1,21 @@
 # @adobe/spectrum-design-data
 
+## 3.3.0
+
+### Minor Changes
+
+- [#1513](https://github.com/adobe/spectrum-design-data/pull/1513) [`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum 2 implementation metadata for components with exact verified exports.
+  - **spectrum-design-data**: replace S1 mappings with verified Spectrum 2 exports.
+  - **design-data-wasm**: include the updated component data in the WASM package.
+
+### Patch Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove `web-components-states.json` from the foundation registry (closes DNA-1741).
+  - **registry/platform-extensions/web-components-states.json**: removed — the
+    canonical copy now lives in `platforms/web-components/extensions/platform-extensions/`
+    and is reachable via the manifest cascade, mirroring the earlier
+    `ios-states.json` migration.
+
 ## 3.2.5
 
 ### Patch Changes
