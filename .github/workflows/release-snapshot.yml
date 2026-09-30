@@ -1,5 +1,15 @@
 name: Release Snapshot
 
+# Snapshot branches (snapshot-* or snapshot/*) are disposable publishing branches.
+# Never merge their snapshot release commits into main, beta, or a source PR.
+# Create a separate snapshot branch from the source PR; discard it after testing.
+# changeset version --snapshot intentionally consumes pending changesets and
+# commits snapshot versions. Keep the original changesets on the source branch.
+# Land source changes, not snapshot release commits, through the normal PR flow.
+# Stable releases use release.yml (main/beta -> Version Packages PR).
+# The guard enforces the naming convention; the prefix alone is not proof that
+# a branch is disposable. Do not rename a merge-bound branch to bypass it.
+
 on:
   workflow_dispatch:
     inputs:
@@ -15,11 +25,32 @@ jobs:
       contents: write
       id-token: write
     steps:
+      - name: Validate snapshot branch
+        env:
+          BRANCH: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          if [[ "$REF_TYPE" != "branch" ]]; then
+            echo "::error::Snapshot releases require a disposable snapshot branch, not a tag."
+            exit 1
+          fi
+          case "$BRANCH" in
+            snapshot-?*|snapshot/?*) ;;
+            *)
+              echo "::error::Use a disposable snapshot-* or snapshot/* branch. This workflow consumes changesets and pushes snapshot versions; never run it on a merge-bound branch."
+              exit 1
+              ;;
+          esac
       - name: Split branch name
         id: split
         env:
           BRANCH: ${{ github.ref_name }}
-        run: echo "fragment=${BRANCH##*snapshot-}" >> $GITHUB_OUTPUT
+        run: |
+          case "$BRANCH" in
+            snapshot-*) fragment="${BRANCH#snapshot-}" ;;
+            snapshot/*) fragment="${BRANCH#snapshot/}" ;;
+          esac
+          echo "fragment=$fragment" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
