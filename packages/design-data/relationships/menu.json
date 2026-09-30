@@ -2080,7 +2080,7 @@
     "legacyKey": "menu-item-section-divider-height",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Derived from a divider plus padding; no fixed height token needed.",
+      "deprecatedComment": "Derived from a divider plus padding; no fixed height token needed."
     },
     "rationale": "Deprecated via refine-from-sheets from row 212 of the mapping sheet."
   },

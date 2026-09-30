@@ -87,6 +87,8 @@ tasks:
       - "@globs(tokens)"
       - "@globs(catalogs)"
       - "@globs(registry)"
+      # Relationship edits must invalidate cached dataset validation.
+      - "@globs(relationships)"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/design-data-spec/schemas/**/*.json"
 
@@ -128,6 +130,8 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"
+      # --relationships-path reads this directory independently of tokens.
+      - "@globs(relationships)"
       - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
