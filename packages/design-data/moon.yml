@@ -154,8 +154,8 @@ tasks:
     outputs:
       - "/packages/tokens/src/**/*.json"
 
-  # CI guard: verify that packages/tokens/src/ is in sync with the cascade
-  # source. Fails if a PR updates cascade tokens without re-running legacy-output.
+  # Verify that legacy -> cascade -> legacy conversion preserves tokens/src.
+  # tokens:verifyLegacyOutput checks parity with the current cascade source.
   roundtrip-verify:
     command: ../../sdk/target/debug/design-data
     args:

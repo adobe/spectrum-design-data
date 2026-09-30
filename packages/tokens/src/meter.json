@@ -42,8 +42,7 @@
         "value": "13px",
         "uuid": "272738b2-a274-4e2e-8582-9c2cc7962a85"
       }
-    },
-    "renamed": "thickness-size-extra-large"
+    }
   },
   "meter-thickness-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -62,8 +61,7 @@
         "value": "10px",
         "uuid": "c9052808-918e-4368-b113-28f928104eda"
       }
-    },
-    "renamed": "thickness-size-large"
+    }
   },
   "meter-thickness-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -82,8 +80,7 @@
         "value": "8px",
         "uuid": "f9a81245-4bcb-4fca-8a4b-04ac78d9d1ca"
       }
-    },
-    "renamed": "thickness-size-medium"
+    }
   },
   "meter-thickness-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -102,8 +99,7 @@
         "value": "5px",
         "uuid": "eb9c3cff-5a1a-4832-a623-6ab258b81d37"
       }
-    },
-    "renamed": "thickness-size-small"
+    }
   },
   "meter-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

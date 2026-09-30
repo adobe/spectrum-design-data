@@ -680,8 +680,7 @@
     "value": "6px",
     "uuid": "94045357-9bb7-4d16-b035-342465834a92",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
-    "renamed": "thickness-size-medium"
+    "deprecated_comment": "Consolidated into the shared thickness-* scale."
   },
   "slider-handle-size-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -781,8 +780,7 @@
     "value": "16px",
     "uuid": "211a95ca-f83e-4711-83ed-a723258d8336",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
-    "renamed": "thickness-size-3x-large"
+    "deprecated_comment": "Consolidated into the shared thickness-* scale."
   },
   "slider-track-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -790,8 +788,7 @@
     "value": "4px",
     "uuid": "c2eb2949-9471-4dc5-b02b-384627dbdea2",
     "deprecated": true,
-    "deprecated_comment": "should this be 6 like the other \"medium\" Bars ??",
-    "renamed": "thickness-size-small"
+    "deprecated_comment": "should this be 6 like the other \"medium\" Bars ??"
   },
   "slider-track-thickness": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

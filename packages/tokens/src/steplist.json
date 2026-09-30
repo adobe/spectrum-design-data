@@ -109,39 +109,30 @@
     "value": "2px",
     "uuid": "d4db995b-1eff-44cc-8abc-93324a3af119",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-size-* scale.",
-    "renamed": "thickness-size-extra-small"
+    "deprecated_comment": "Consolidated into the shared thickness-size-* scale."
   },
   "steplist-visual-size-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "steplist",
     "value": "32px",
-    "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e",
-    "deprecated": true,
-    "deprecated_comment": "Pending resolution of open visual-size/indicator taxonomy question"
+    "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e"
   },
   "steplist-visual-size-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "steplist",
     "value": "24px",
-    "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630",
-    "deprecated": true,
-    "deprecated_comment": "Pending resolution of open visual-size/indicator taxonomy question"
+    "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630"
   },
   "steplist-visual-size-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "steplist",
     "value": "16px",
-    "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40",
-    "deprecated": true,
-    "deprecated_comment": "Pending resolution of open visual-size/indicator taxonomy question"
+    "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40"
   },
   "steplist-visual-size-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "steplist",
     "value": "8px",
-    "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d",
-    "deprecated": true,
-    "deprecated_comment": "Pending resolution of open visual-size/indicator taxonomy question"
+    "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d"
   }
 }

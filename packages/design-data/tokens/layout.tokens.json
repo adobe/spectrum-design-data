@@ -6289,8 +6289,7 @@
     "conceptId": "8ebdf862-2ff5-4fa5-a2e6-1d6d9b21ab24",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+      "deprecatedComment": "Consolidated into the shared thickness-* scale."
     },
     "rationale": "Deprecated via refine-from-sheets from row 258 of the mapping sheet."
   },
@@ -7497,8 +7496,7 @@
     "description": "Thickness of the tab selection indicator (underline)",
     "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+      "deprecatedIn": "15.4.1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 448 of the mapping sheet."
   },
@@ -7516,8 +7514,7 @@
     "description": "Thickness of the strikethrough line on an unavailable calendar day",
     "conceptId": "b432568c-7621-4ca4-ba23-385c332a9a37",
     "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+      "deprecatedIn": "15.4.1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 447 of the mapping sheet."
   },

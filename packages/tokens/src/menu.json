@@ -240,8 +240,7 @@
     "value": "12px",
     "uuid": "dac5c077-b948-434b-91bd-0759c2414007",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
-    "renamed": "thickness-size-2x-large"
+    "deprecated_comment": "Derived from a divider plus padding; no fixed height token needed."
   },
   "menu-item-top-to-disclosure-icon-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

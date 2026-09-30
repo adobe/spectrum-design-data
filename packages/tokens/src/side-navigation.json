@@ -105,8 +105,7 @@
     "value": "2px",
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
-    "renamed": "thickness-size-extra-small"
+    "deprecated_comment": "Consolidated into the shared thickness-* scale."
   },
   "side-navigation-indicator-to-content": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
