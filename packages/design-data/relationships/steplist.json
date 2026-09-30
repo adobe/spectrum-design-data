@@ -921,12 +921,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "32px",
     "uuid": "1b147315-b106-4d2a-80cb-9be0eed84b7e",
-    "legacyKey": "steplist-visual-size-extra-large",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 296 of the mapping sheet."
+    "legacyKey": "steplist-visual-size-extra-large"
   },
   {
     "scope": {
@@ -940,12 +935,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "24px",
     "uuid": "7f7539e6-5d8f-4f24-99a7-9338a3a3c630",
-    "legacyKey": "steplist-visual-size-large",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 297 of the mapping sheet."
+    "legacyKey": "steplist-visual-size-large"
   },
   {
     "scope": {
@@ -959,12 +949,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "16px",
     "uuid": "a94843d0-9ef6-423f-b963-7b9ad658ce40",
-    "legacyKey": "steplist-visual-size-medium",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 298 of the mapping sheet."
+    "legacyKey": "steplist-visual-size-medium"
   },
   {
     "scope": {
@@ -978,11 +963,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
     "uuid": "a65898ec-6a5a-4e4a-8a75-358e78a8345d",
-    "legacyKey": "steplist-visual-size-small",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Pending resolution of open visual-size/indicator taxonomy question"
-    },
-    "rationale": "Deprecated via refine-from-sheets from row 299 of the mapping sheet."
+    "legacyKey": "steplist-visual-size-small"
   }
 ]
