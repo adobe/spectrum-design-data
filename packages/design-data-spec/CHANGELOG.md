@@ -1,5 +1,16 @@
 # @adobe/design-data-spec
 
+## 4.4.0
+
+### Minor Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `prefix` property to manifest `formatting` (closes DNA-1741).
+  - **manifest.schema.json**: `formatting.prefix` (string) is prepended to a
+    formatted name, after casing/delimiter, unaffected by them — for wrapping
+    conventions like CSS custom properties (`--spectrum-`).
+  - **spec/manifest.md**: documents the new field alongside `conceptOrder`,
+    `casing`, `delimiter`, `abbreviations`.
+
 ## 4.3.0
 
 ### Minor Changes
