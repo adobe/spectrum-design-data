@@ -22,8 +22,9 @@ jobs:
   get-snapshot-tag:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      id-token: write
+      contents: read
+    outputs:
+      fragment: ${{ steps.split.outputs.fragment }}
     steps:
       - name: Validate snapshot branch
         env:
@@ -51,6 +52,53 @@ jobs:
             snapshot/*) fragment="${BRANCH#snapshot/}" ;;
           esac
           echo "fragment=$fragment" >> "$GITHUB_OUTPUT"
+
+  build-wasm:
+    needs: get-snapshot-tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.88.0"
+          targets: wasm32-unknown-unknown
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+          key: wasm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+      - run: npm install -g pnpm@10.17.1
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+      - run: pnpm install --frozen-lockfile
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - name: Build wasm package
+        run: moon run sdk-wasm:build
+      - name: Upload wasm package build
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm-pkg-build
+          path: sdk/wasm/pkg
+          retention-days: 1
+          if-no-files-found: error
+
+  release:
+    needs: [get-snapshot-tag, build-wasm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -59,30 +107,34 @@ jobs:
         run: |
           echo "authorName=$(git log -1 --pretty=format:'%an')" >> $GITHUB_OUTPUT
           echo "authorEmail=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_OUTPUT
-      - uses: moonrepo/setup-toolchain@v0
-        with:
-          auto-install: true
-      - name: Cache pnpm store
-        uses: ./.github/actions/cache-pnpm-store
-      - run: moon setup
-      - run: moon run :build --query "projectSource~packages/*"
-      # moon/proto's toolchain shims put a non-OIDC-capable npm/pnpm on PATH
-      # (see release.yml's build-wasm/release job split for the same issue).
-      # Re-install real Node/npm/pnpm here so the publish step below can use
-      # npm's native OIDC trusted-publishing flow instead of a static token.
+      # Keep Moon/proto shims in build-wasm, outside the OIDC publishing job.
       - uses: actions/setup-node@v4
         with:
           node-version: "20.17.0"
       - run: npm install -g npm@11.6.2 # npm 11.6.2 required for OIDC trusted publishing
       - run: npm install -g pnpm@10.17.1
+      - name: Cache pnpm store
+        uses: ./.github/actions/cache-pnpm-store
+      - run: pnpm install --frozen-lockfile
+      - name: Build tokens package
+        run: |
+          cd packages/tokens
+          node tasks/buildSpectrumTokens.js
+          node tasks/buildManifest.js
+      - name: Download wasm package build
+        uses: actions/download-artifact@v4
+        with:
+          name: wasm-pkg-build
+          path: sdk/wasm/pkg
       - name: Snapshot release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          SNAPSHOT_TAG: ${{ inputs.tag || steps.split.outputs.fragment }}
+          SNAPSHOT_TAG: ${{ inputs.tag || needs.get-snapshot-tag.outputs.fragment }}
           USERNAME: ${{ steps.author.outputs.authorName }}
           EMAIL: ${{ steps.author.outputs.authorEmail }}
         run: |
           pnpm changeset version --snapshot $SNAPSHOT_TAG
+          node sdk/wasm/scripts/verify-package.mjs
           git config --global user.name "$USERNAME"
           git config --global user.email "$EMAIL"
           git add .

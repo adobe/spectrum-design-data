@@ -108,6 +108,60 @@ test("snapshot policy documents disposal and preserves consuming versioning", (t
   t.regex(release, /pnpm changeset version --snapshot \$SNAPSHOT_TAG/);
   t.true(release.indexOf("git commit") > release.indexOf("changeset version"));
   t.true(
+    release.indexOf("verify-package.mjs") >
+      release.indexOf("changeset version"),
+  );
+  t.true(release.indexOf("git commit") > release.indexOf("verify-package.mjs"));
+  t.true(
     release.indexOf("git push origin HEAD") > release.indexOf("git commit"),
   );
+});
+
+test("snapshot wasm build is gated and transferred before publishing", (t) => {
+  const build = workflow.slice(
+    workflow.indexOf("\n  build-wasm:"),
+    workflow.indexOf("\n  release:"),
+  );
+  const publish = workflow.slice(workflow.indexOf("\n  release:"));
+  t.regex(build, /needs: get-snapshot-tag/);
+  t.regex(build, /targets: wasm32-unknown-unknown/);
+  t.regex(build, /run: moon run sdk-wasm:build/);
+  t.regex(build, /uses: actions\/upload-artifact@v4/);
+  t.regex(build, /name: wasm-pkg-build\n\s+path: sdk\/wasm\/pkg/);
+  t.regex(build, /if-no-files-found: error/);
+  t.regex(publish, /needs: \[get-snapshot-tag, build-wasm\]/);
+  t.regex(publish, /uses: actions\/download-artifact@v4/);
+  t.regex(publish, /name: wasm-pkg-build\n\s+path: sdk\/wasm\/pkg/);
+  t.false(publish.includes("moonrepo/setup-toolchain"));
+  t.false(publish.includes("moon run"));
+  t.true(
+    publish.indexOf("Download wasm package build") <
+      publish.indexOf("Snapshot release"),
+  );
+  const release = stepScript("Snapshot release");
+  t.true(
+    release.indexOf("verify-package.mjs") <
+      release.indexOf("changeset publish"),
+  );
+  t.regex(
+    publish,
+    /inputs\.tag \|\| needs\.get-snapshot-tag\.outputs\.fragment/,
+  );
+});
+
+test("stable publishing requires wasm build and tarball verification", (t) => {
+  const stable = readFileSync(".github/workflows/release.yml", "utf8");
+  const build = stable.slice(
+    stable.indexOf("\n  build-wasm:"),
+    stable.indexOf("\n  build-binaries:"),
+  );
+  const publish = stable.slice(stable.indexOf("\n  release:"));
+  t.regex(build, /if-no-files-found: error/);
+  t.regex(publish, /needs: \[changesets, build-binaries, build-wasm\]/);
+  t.regex(publish, /needs\.build-wasm\.result == 'success'/);
+  const verify = publish.indexOf(
+    "run: node sdk/wasm/scripts/verify-package.mjs",
+  );
+  t.true(verify > publish.indexOf("Download wasm package build"));
+  t.true(verify < publish.indexOf("- name: Publish packages"));
 });

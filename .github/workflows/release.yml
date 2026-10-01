@@ -168,6 +168,7 @@ jobs:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
           retention-days: 1
+          if-no-files-found: error
 
   build-binaries:
     name: Build binary (${{ matrix.platform }})
@@ -322,6 +323,9 @@ jobs:
         with:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
+
+      - name: Verify wasm package tarball
+        run: node sdk/wasm/scripts/verify-package.mjs
 
       - name: Publish packages
         id: cs
