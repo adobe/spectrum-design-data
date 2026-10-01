@@ -35,6 +35,7 @@
     "design-data-glue:ci",
     "demo:ci",
     "design-data-mcp:test",
+    "design-data-mcp-eval:test",
     "design-data-agent-mcp:test",
     "design-data-skill:test",
     "s2-docs-mcp:test",

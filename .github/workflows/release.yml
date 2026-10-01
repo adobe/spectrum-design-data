@@ -165,7 +165,7 @@ jobs:
         run: moon run sdk-wasm:build
 
       - name: Verify MCP content before publishing
-        run: moon run spectrum-hub-fetcher:test design-data-mcp:test design-data-agent-mcp:test
+        run: moon run spectrum-hub-fetcher:test design-data-mcp:test design-data-agent-mcp:test design-data-mcp-eval:test
 
       - name: Upload wasm package build
         uses: actions/upload-artifact@v4

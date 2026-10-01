@@ -1,0 +1,78 @@
+# Copyright 2026 Adobe. All rights reserved.
+# Licensed under the Apache License, Version 2.0.
+name: Hub MCP agent evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum scenarios (1-15)"
+        type: number
+        default: 13
+      scenario:
+        description: "Optional single scenario ID"
+        type: string
+        default: ""
+  schedule:
+    - cron: "0 12 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hub-mcp-eval
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    # Never execute arbitrary PR/ref code with provider credentials.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' || vars.EVAL_SCHEDULE_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@1.88.0
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "sdk -> sdk/target"
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - uses: ./.github/actions/cache-pnpm-store
+      - run: pnpm install --frozen-lockfile
+      - name: Build and verify the evaluation artifact offline
+        run: moon run design-data-mcp-eval:test
+      - name: Run agent scenarios
+        id: agent
+        continue-on-error: true
+        env:
+          EVAL_ENDPOINT: ${{ vars.EVAL_ENDPOINT }}
+          EVAL_MODEL: ${{ vars.EVAL_MODEL }}
+          EVAL_API_KEY: ${{ secrets.EVAL_API_KEY }}
+          SCENARIO_LIMIT: ${{ github.event_name == 'workflow_dispatch' && format('{0}', inputs.limit) || '13' }}
+          SCENARIO_ID: ${{ inputs.scenario }}
+        run: |
+          args=(--limit "$SCENARIO_LIMIT" --output reports)
+          if [ -n "$SCENARIO_ID" ]; then args+=(--scenario "$SCENARIO_ID"); fi
+          pnpm --filter @adobe/design-data-mcp-eval evaluate "${args[@]}"
+      - name: Upload answers and tool traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-mcp-agent-evaluation
+          path: tools/design-data-mcp-eval/reports
+          retention-days: 14
+          if-no-files-found: warn
+      - name: Surface a failed evaluation
+        if: always() && steps.agent.outcome == 'failure'
+        run: |
+          echo "::warning::Agent evaluation failed. Inspect the log and report: execution errors are not content regressions."
+          exit 1
