@@ -14,6 +14,17 @@ parallel type surface.
 pnpm add @adobe/design-data-wasm
 ```
 
+## Release verification
+
+Run `moon run sdk-wasm:verify-package` to build both targets and check the
+packed package before publishing. The check installs the tarball in a temporary
+consumer outside the workspace and runs embedded-data queries through the Node
+and web entrypoints. It also checks that the bindings, types, and wasm binaries
+are present and valid. It does not publish packages.
+
+Snapshot and stable release workflows run the same check after downloading
+their wasm build artifacts.
+
 ## Usage
 
 ### Node.js (synchronous — no `init()` required)
