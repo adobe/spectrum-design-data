@@ -22,8 +22,8 @@ use super::convert::{
 };
 use super::routing::{
     resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
-    COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, OPACITY, SCALE_SET,
-    SKIP_SCHEMAS,
+    COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY,
+    SCALE_SET, SKIP_SCHEMAS,
 };
 use crate::types::{
     FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
@@ -77,6 +77,7 @@ pub struct ExportSummary {
     pub mode_warnings: Vec<String>,
     pub skipped_composite: Vec<String>,
     pub skipped_alias_unresolved: Vec<String>,
+    pub skipped_alias_unsupported: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
     pub skipped_unparseable_value: Vec<String>,
     pub skipped_unsupported_unit: Vec<String>,
@@ -231,6 +232,7 @@ pub(super) fn build_export_payload_with_specs(
         } else if schema.ends_with(SCALE_SET)
             || schema.ends_with(DIMENSION)
             || schema.ends_with(ANGLE)
+            || schema.ends_with(MULTIPLIER)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)
@@ -346,6 +348,7 @@ pub(super) fn build_export_payload_with_specs(
                 scale_rc.default_mode_id,
                 &value_index,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
@@ -375,6 +378,7 @@ pub(super) fn build_export_payload_with_specs(
             );
         } else if schema.ends_with(DIMENSION)
             || schema.ends_with(ANGLE)
+            || schema.ends_with(MULTIPLIER)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)

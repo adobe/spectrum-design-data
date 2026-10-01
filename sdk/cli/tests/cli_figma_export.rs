@@ -34,6 +34,22 @@ fn audit_reports_unsupported_units_in_json_and_pretty_output() {
                 "$schema": "https://example.com/font-weight.json",
                 "value": "bold",
             },
+            "line-height-100": {
+                "$schema": "https://example.com/multiplier.json",
+                "value": 1.3,
+            },
+            "heading-line-height": {
+                "$schema": "https://example.com/alias.json",
+                "value": "{line-height-100}",
+            },
+            "shadow": {
+                "$schema": "https://example.com/drop-shadow.json",
+                "value": [],
+            },
+            "shadow-alias": {
+                "$schema": "https://example.com/alias.json",
+                "value": "{shadow}",
+            },
         }))
         .unwrap(),
     )
@@ -78,6 +94,15 @@ fn audit_reports_unsupported_units_in_json_and_pretty_output() {
     );
     assert_eq!(report["skipped_unparseable_value"], serde_json::json!([]));
     assert_eq!(report["skipped_unknown_schema"], serde_json::json!([]));
+    assert_eq!(report["skipped_alias_unresolved"], serde_json::json!([]));
+    assert_eq!(report["skipped_composite"], serde_json::json!(["shadow"]));
+    let reasons = report["skipped_alias_unsupported"].as_array().unwrap();
+    assert_eq!(reasons.len(), 1);
+    assert!(reasons[0]
+        .as_str()
+        .unwrap()
+        .contains("shadow-alias: target 'shadow'"));
+    assert!(reasons[0].as_str().unwrap().contains("drop-shadow.json"));
     let scale = report["collections"]
         .as_array()
         .unwrap()
@@ -88,6 +113,8 @@ fn audit_reports_unsupported_units_in_json_and_pretty_output() {
         scale["generated_only"],
         serde_json::json!([
             "platformScale/bold-font-weight",
+            "platformScale/heading-line-height",
+            "platformScale/line-height-100",
             "platformScale/strikethrough-day-orientation",
         ])
     );
@@ -101,7 +128,12 @@ fn audit_reports_unsupported_units_in_json_and_pretty_output() {
         .args(["--format", "pretty"])
         .assert()
         .success()
-        .stdout(contains("unparseable=0 unsupported_unit=1"));
+        .stdout(contains(
+            "unparseable=0 unsupported_unit=1 unsupported_alias=1",
+        ))
+        .stdout(contains(
+            "Unsupported alias target: shadow-alias: target 'shadow'",
+        ));
 }
 
 /// Regression for a bug found reviewing PR #1479: `--code-syntax-manifest WEB=...`

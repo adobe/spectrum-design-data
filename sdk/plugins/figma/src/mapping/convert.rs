@@ -18,8 +18,9 @@ use std::path::{Path, PathBuf};
 use serde_json::Value;
 
 use super::routing::{
-    ALIAS, ANGLE, COLOR, COLOR_MODES, COLOR_THEME_COLLECTION, DIMENSION, FONT_SIZE, FONT_WEIGHT,
-    OPACITY, PLATFORM_SCALE_COLLECTION, SCALE_MODES,
+    ALIAS, ANGLE, COLOR, COLOR_MODES, COLOR_SET, COLOR_THEME_COLLECTION, DIMENSION, FONT_FAMILY,
+    FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, PLATFORM_SCALE_COLLECTION,
+    SCALE_MODES, SCALE_SET,
 };
 use crate::color::parse_color;
 use crate::types::{FigmaVariableAlias, ModeValueAction, VariableAction};
@@ -63,6 +64,31 @@ pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, PathBuf, Value)>, Figm
 pub(super) struct ResolvedValue {
     value: String,
     schema: String,
+    target: String,
+}
+
+pub(super) enum ResolutionError {
+    Unresolved(String),
+    UnsupportedSchema { target: String, schema: String },
+    Unparseable,
+}
+
+pub(super) type ValueIndex = HashMap<String, Result<ResolvedValue, ResolutionError>>;
+
+fn scalar_schema_supported(schema: &str) -> bool {
+    [
+        COLOR,
+        DIMENSION,
+        ANGLE,
+        MULTIPLIER,
+        OPACITY,
+        FONT_FAMILY,
+        FONT_SIZE,
+        FONT_STYLE,
+        FONT_WEIGHT,
+    ]
+    .iter()
+    .any(|s| schema.ends_with(s))
 }
 
 fn scalar_value(entry: &Value) -> Option<String> {
@@ -72,7 +98,7 @@ fn scalar_value(entry: &Value) -> Option<String> {
             if entry
                 .get("$schema")
                 .and_then(Value::as_str)
-                .is_some_and(|schema| schema.ends_with(ANGLE)) =>
+                .is_some_and(|schema| schema.ends_with(ANGLE) || schema.ends_with(MULTIPLIER)) =>
         {
             Some(n.to_string())
         }
@@ -82,30 +108,40 @@ fn scalar_value(entry: &Value) -> Option<String> {
 
 /// Build a lookup from token name → resolved value and leaf schema.
 /// Follows alias chains up to 10 levels deep.
-pub(super) fn build_value_index(
-    tokens: &[(String, PathBuf, Value)],
-) -> HashMap<String, ResolvedValue> {
+pub(super) fn build_value_index(tokens: &[(String, PathBuf, Value)]) -> ValueIndex {
     let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, _, v)| (n.as_str(), v)).collect();
     let mut index = HashMap::new();
 
     for (name, _file, entry) in tokens {
-        if let Some(resolved) = resolve_value(name, entry, &by_name, 0) {
-            index.insert(name.clone(), resolved);
-        }
+        index.insert(name.clone(), resolve_value(name, entry, &by_name, 0));
     }
     index
 }
 
 /// Resolve a token's value, following alias chains.
-/// For set tokens (no top-level `value`), picks the first mode's value.
+/// For set tokens, prefers Light/Desktop when determining the leaf schema.
 fn resolve_value(
-    _name: &str,
+    name: &str,
     entry: &Value,
     by_name: &HashMap<&str, &Value>,
     depth: usize,
-) -> Option<ResolvedValue> {
+) -> Result<ResolvedValue, ResolutionError> {
     if depth > 10 {
-        return None;
+        return Err(ResolutionError::Unresolved(format!(
+            "alias chain exceeds 10 levels at '{name}' (possible cycle)"
+        )));
+    }
+
+    let schema = entry.get("$schema").and_then(Value::as_str).unwrap_or("");
+    if ![ALIAS, COLOR_SET, SCALE_SET]
+        .iter()
+        .any(|s| schema.ends_with(s))
+        && !scalar_schema_supported(schema)
+    {
+        return Err(ResolutionError::UnsupportedSchema {
+            target: name.to_string(),
+            schema: schema.to_string(),
+        });
     }
 
     // Try top-level value first; fall back to a set mode's value.
@@ -122,26 +158,48 @@ fn resolve_value(
                 sets.get("light")
                     .or_else(|| sets.get("desktop"))
                     .or_else(|| sets.values().next())
-            })?
+            })
+            .ok_or(ResolutionError::Unparseable)?
     };
-    let value_str = scalar_value(leaf)?;
+    let leaf_schema = leaf.get("$schema").and_then(Value::as_str).unwrap_or("");
+    if !leaf_schema.is_empty()
+        && !leaf_schema.ends_with(ALIAS)
+        && !scalar_schema_supported(leaf_schema)
+    {
+        return Err(ResolutionError::UnsupportedSchema {
+            target: name.to_string(),
+            schema: leaf_schema.to_string(),
+        });
+    }
+    let value_str = scalar_value(leaf).ok_or(ResolutionError::Unparseable)?;
 
     // Check if it's an alias reference: {token-name}
     if value_str.starts_with('{') && value_str.ends_with('}') {
         let target_name = &value_str[1..value_str.len() - 1];
         if let Some(target_entry) = by_name.get(target_name) {
-            return resolve_value(target_name, target_entry, by_name, depth + 1);
+            let mut resolved = resolve_value(target_name, target_entry, by_name, depth + 1)?;
+            // Keep a set as the reference target, not its selected mode's leaf.
+            if !schema.ends_with(ALIAS) {
+                resolved.target = name.to_string();
+            }
+            return Ok(resolved);
         }
-        return None;
+        return Err(ResolutionError::Unresolved(format!(
+            "missing alias target '{target_name}'"
+        )));
     }
 
-    Some(ResolvedValue {
+    if !scalar_schema_supported(leaf_schema) {
+        return Err(ResolutionError::UnsupportedSchema {
+            target: name.to_string(),
+            schema: leaf_schema.to_string(),
+        });
+    }
+
+    Ok(ResolvedValue {
         value: value_str,
-        schema: leaf
-            .get("$schema")
-            .and_then(Value::as_str)
-            .unwrap_or("")
-            .to_string(),
+        schema: leaf_schema.to_string(),
+        target: name.to_string(),
     })
 }
 
@@ -150,6 +208,7 @@ pub(super) fn schema_to_figma_type(schema: &str) -> &'static str {
         "COLOR"
     } else if schema.ends_with(DIMENSION)
         || schema.ends_with(ANGLE)
+        || schema.ends_with(MULTIPLIER)
         || schema.ends_with(OPACITY)
         || schema.ends_with(FONT_SIZE)
     {
@@ -185,6 +244,42 @@ fn record_value_error(summary: &mut ExportSummary, token_name: &str, error: Valu
     };
     if !skipped.iter().any(|name| name == token_name) {
         skipped.push(token_name.to_string());
+    }
+}
+
+fn record_resolution_error(
+    summary: &mut ExportSummary,
+    token_name: &str,
+    error: Option<&ResolutionError>,
+) {
+    match error {
+        Some(ResolutionError::UnsupportedSchema { target, schema }) => {
+            let reason = format!(
+                "{token_name}: target '{target}' uses unsupported schema '{schema}'; no supported Figma Variable mapping"
+            );
+            if !summary.skipped_alias_unsupported.contains(&reason) {
+                summary.skipped_alias_unsupported.push(reason);
+            }
+        }
+        Some(ResolutionError::Unparseable) => {
+            record_value_error(summary, token_name, ValueError::Unparseable);
+        }
+        _ => {
+            if !summary
+                .skipped_alias_unresolved
+                .iter()
+                .any(|n| n == token_name)
+            {
+                summary
+                    .skipped_alias_unresolved
+                    .push(token_name.to_string());
+            }
+            if let Some(ResolutionError::Unresolved(reason)) = error {
+                summary
+                    .mode_warnings
+                    .push(format!("{token_name}: {reason}"));
+            }
+        }
     }
 }
 
@@ -328,7 +423,7 @@ pub(super) fn process_color_set_token(
     collection_id: &str,
     prefix: &str,
     mode_ids: &HashMap<String, String>,
-    value_index: &HashMap<String, ResolvedValue>,
+    value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
@@ -403,6 +498,7 @@ pub(super) fn process_color_set_token(
                 let target = &v[1..v.len() - 1];
                 value_index
                     .get(target)
+                    .and_then(|r| r.as_ref().ok())
                     .map(|r| (r.value.as_str(), r.schema.as_str()))
             } else {
                 Some((v, mode_schema))
@@ -421,16 +517,14 @@ pub(super) fn process_color_set_token(
                 }
                 Err(error) => record_value_error(summary, token_name, error),
             }
-        } else if alias_target.is_some() {
-            if !summary
-                .skipped_alias_unresolved
-                .iter()
-                .any(|name| name == token_name)
-            {
-                summary
-                    .skipped_alias_unresolved
-                    .push(token_name.to_string());
-            }
+        } else if let Some(target) = alias_target {
+            record_resolution_error(
+                summary,
+                token_name,
+                value_index
+                    .get(&target[1..target.len() - 1])
+                    .and_then(|r| r.as_ref().err()),
+            );
         } else {
             record_value_error(summary, token_name, ValueError::Unparseable);
         }
@@ -448,7 +542,7 @@ pub(super) fn process_scale_set_token(
     collection_id: &str,
     prefix: &str,
     mode_ids: &HashMap<String, String>,
-    value_index: &HashMap<String, ResolvedValue>,
+    value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
@@ -465,7 +559,12 @@ pub(super) fn process_scale_set_token(
         .values()
         .filter_map(|v| v.get("$schema").and_then(Value::as_str))
         .find(|schema| !schema.ends_with(ALIAS))
-        .or_else(|| value_index.get(token_name).map(|r| r.schema.as_str()))
+        .or_else(|| {
+            value_index
+                .get(token_name)
+                .and_then(|r| r.as_ref().ok())
+                .map(|r| r.schema.as_str())
+        })
         .unwrap_or("");
     let figma_type = schema_to_figma_type(inner_schema);
 
@@ -502,6 +601,7 @@ pub(super) fn process_scale_set_token(
             if v.starts_with('{') && v.ends_with('}') {
                 value_index
                     .get(&v[1..v.len() - 1])
+                    .and_then(|r| r.as_ref().ok())
                     .map(|r| (r.value.as_str(), r.schema.as_str()))
             } else {
                 Some((v, inner_schema))
@@ -535,16 +635,14 @@ pub(super) fn process_scale_set_token(
                 value: figma_val,
             });
             summary.mode_values_set += 1;
-        } else if alias_target.is_some() {
-            if !summary
-                .skipped_alias_unresolved
-                .iter()
-                .any(|name| name == token_name)
-            {
-                summary
-                    .skipped_alias_unresolved
-                    .push(token_name.to_string());
-            }
+        } else if let Some(target) = alias_target {
+            record_resolution_error(
+                summary,
+                token_name,
+                value_index
+                    .get(&target[1..target.len() - 1])
+                    .and_then(|r| r.as_ref().err()),
+            );
         } else {
             record_value_error(summary, token_name, ValueError::Unparseable);
         }
@@ -563,7 +661,7 @@ pub(super) fn process_flat_token(
     prefix: &str,
     figma_type: &str,
     default_mode_id: &str,
-    value_index: &HashMap<String, ResolvedValue>,
+    value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -582,11 +680,9 @@ pub(super) fn process_flat_token(
     let resolved = if raw_value.starts_with('{') && raw_value.ends_with('}') {
         let target = &raw_value[1..raw_value.len() - 1];
         match value_index.get(target) {
-            Some(v) => v.value.as_str(),
-            None => {
-                summary
-                    .skipped_alias_unresolved
-                    .push(token_name.to_string());
+            Some(Ok(v)) => v.value.as_str(),
+            result => {
+                record_resolution_error(summary, token_name, result.and_then(|r| r.as_ref().err()));
                 return;
             }
         }
@@ -635,8 +731,9 @@ pub(super) fn process_alias_token(
     scale_prefix: &str,
     color_default_mode_id: &str,
     scale_default_mode_id: &str,
-    value_index: &HashMap<String, ResolvedValue>,
+    value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
+    alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -653,11 +750,9 @@ pub(super) fn process_alias_token(
     }
 
     let resolved = match value_index.get(token_name) {
-        Some(v) => v,
-        None => {
-            summary
-                .skipped_alias_unresolved
-                .push(token_name.to_string());
+        Some(Ok(v)) => v,
+        result => {
+            record_resolution_error(summary, token_name, result.and_then(|r| r.as_ref().err()));
             return;
         }
     };
@@ -694,10 +789,20 @@ pub(super) fn process_alias_token(
     variables.push(va);
     summary.variables_created += 1;
 
+    let target_name = &raw_value[1..raw_value.len() - 1];
+    let alias_id = alias_target_ids
+        .get(target_name)
+        .or_else(|| alias_target_ids.get(&resolved.target));
+    let value = if let Some(id) = alias_id {
+        summary.mode_values_aliased += 1;
+        serde_json::to_value(FigmaVariableAlias::new(id.clone())).unwrap()
+    } else {
+        summary.mode_values_set += 1;
+        figma_val
+    };
     mode_values.push(ModeValueAction {
         variable_id: var_id,
         mode_id: default_mode_id.to_string(),
-        value: figma_val,
+        value,
     });
-    summary.mode_values_set += 1;
 }

@@ -216,10 +216,34 @@ the other supported weights), not numeric CSS weights. Numeric angle tokens
 export as FLOAT values in degrees. These conversions also apply to aliases
 and scale-set members; canonical token values are unchanged.
 
+Unitless `multiplier.json` tokens export as FLOAT values without conversion.
+Top-level aliases use `VARIABLE_ALIAS` references when their targets are exported;
+alias chains can reference the terminal scalar or mode-set variable. A reference
+to a mode set keeps its mode-dependent values rather than copying one default
+value. Existing variable IDs and name-mapping overrides apply to these targets.
+
+The size-taxonomy snapshot's 11 line-height and radius aliases are supported:
+
+| Aliases                                                                      | Target                | Unitless value |
+| ---------------------------------------------------------------------------- | --------------------- | -------------- |
+| `body-line-height`, `code-line-height`                                       | `line-height-200`     | 1.5            |
+| `detail-line-height`, `heading-line-height`, `title-line-height`             | `line-height-100`     | 1.3            |
+| `body-cjk-line-height`, `code-cjk-line-height`                               | `cjk-line-height-200` | 1.7            |
+| `detail-cjk-line-height`, `heading-cjk-line-height`, `title-cjk-line-height` | `cjk-line-height-100` | 1.5            |
+| `corner-radius-full`                                                         | `corner-radius-1000`  | 0.5            |
+
 Android `dp` dimensions remain excluded from export because Figma has no `dp`
 unit. The export summary lists them as unsupported units. Audit JSON reports
 their token names in `skipped_unsupported_unit`, separately from
 `skipped_unparseable_value` for malformed values.
+
+Aliases to excluded schemas (`typography`, `drop-shadow`, `gradient-stop`,
+`alignment`, and `text-transform`) or unknown schemas appear in
+`skipped_alias_unsupported`, with the terminal target name, schema URL, and
+reason. The exporter has no supported Figma Variable mapping for these schemas.
+Missing targets and cycles remain in `skipped_alias_unresolved`; malformed
+terminal values appear in `skipped_unparseable_value`. The exporter drops
+references to targets that failed to export, so the payload has no dangling aliases.
 
 Audit the generator's output against a saved snapshot without an API call:
 
