@@ -94,8 +94,9 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_PLATFORM`   | —             | Select a named `[platforms.<id>]` entry (needs `DESIGN_DATA_CONFIG`)           |
 
 > **Platform cascade.** If `DESIGN_DATA_CONFIG` is set, the server shells out to
-> the `design-data` CLI once at startup (`design-data query --filter "" --format
-> json`, run from the config's directory) to resolve its `.design-data.toml`
+> the `design-data` CLI once at startup
+> (`design-data query --filter "" --format json`, run from the config's directory)
+> to resolve its `.design-data.toml`
 > source (path/npm/github/git) and either its top-level `manifest` cascade or,
 > if `DESIGN_DATA_PLATFORM` is also set, that named `[platforms.<id>]` entry's
 > manifest — mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`, then
