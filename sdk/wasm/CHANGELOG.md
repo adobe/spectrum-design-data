@@ -1,5 +1,13 @@
 # @adobe/design-data-wasm
 
+## 0.10.2
+
+### Patch Changes
+
+- [#1519](https://github.com/adobe/spectrum-design-data/pull/1519) [`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b) Thanks [@GarthDB](https://github.com/GarthDB)! - Build and verify wasm artifacts before snapshot and stable publication.
+  - **sdk/wasm**: check packed artifacts and isolated Node and web runtimes.
+  - **release workflows**: build snapshot wasm separately and verify packages before publishing.
+
 ## 0.10.1
 
 ### Patch Changes
