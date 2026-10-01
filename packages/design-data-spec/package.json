@@ -27,6 +27,7 @@
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",
     "./schemas/value-types/color.schema.json": "./schemas/value-types/color.schema.json",
     "./schemas/component.schema.json": "./schemas/component.schema.json",
+    "./schemas/implementation-mapping.schema.json": "./schemas/implementation-mapping.schema.json",
     "./schemas/anatomy-part.schema.json": "./schemas/anatomy-part.schema.json",
     "./schemas/state-declaration.schema.json": "./schemas/state-declaration.schema.json",
     "./rules/rules.yaml": "./rules/rules.yaml",

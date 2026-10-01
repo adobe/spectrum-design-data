@@ -12,7 +12,7 @@
 //!
 //! The design-data binary carries a pinned copy of `@adobe/spectrum-design-data` (the
 //! canonical cascade-format token corpus), its `packages/tokens/schemas` JSON Schemas, and
-//! the single `packages/design-data-spec/schemas/manifest.schema.json` Layer 1 schema, all
+//! the `packages/design-data-spec/schemas` Layer 1 schema catalog, all
 //! baked in at build time via [`include_dir!`] / `include_str!`.  On first use outside a
 //! monorepo checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
 //! the OS cache dir so the disk-based loaders in `graph.rs`, `schema.rs`, and
@@ -36,12 +36,13 @@
 //!       manifest.json
 //!     design-data-spec/
 //!       schemas/
-//!         manifest.schema.json  ← Layer 1 platform-manifest schema (only file embedded)
+//!         *.json          ← platform-manifest and extension fragment schemas
+//!         value-types/    ← referenced value schemas
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!
-//! [`materialize`] is idempotent: if `.complete` already exists the function returns
-//! immediately without touching the filesystem.
+//! [`materialize`] is idempotent: a matching `.complete` marker returns immediately.
+//! Older snapshot layouts are re-extracted even when the data version is unchanged.
 
 use std::io;
 use std::path::{Path, PathBuf};
@@ -88,14 +89,9 @@ static TOKENS_MANIFEST: &str = include_str!(concat!(
     "/../../packages/tokens/manifest.json"
 ));
 
-/// Layer 1 platform-manifest JSON Schema, used by `manifest::apply_configured` to
-/// validate a configured platform manifest (`packages/design-data-spec/schemas/manifest.schema.json`).
-/// Embedded as a single file (it has no `$ref`s to sibling schemas) rather than the whole
-/// `design-data-spec` catalog, which is source-authoring tooling not needed at runtime.
-static MANIFEST_SCHEMA: &str = include_str!(concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/design-data-spec/schemas/manifest.schema.json"
-));
+/// Layer 1 manifest and fragment schemas, including their offline `$ref` dependencies.
+static SPEC_SCHEMAS: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/schemas");
 
 // ---------------------------------------------------------------------------
 // Version provenance
@@ -105,6 +101,8 @@ static MANIFEST_SCHEMA: &str = include_str!(concat!(
 ///
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
+
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":spec-schemas-v1");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -177,9 +175,9 @@ fn evict_stale_versions(current: &Path) {
 
 /// Write the embedded snapshot into `root` and return when complete.
 ///
-/// Idempotent: if `<root>/.complete` already exists, returns immediately without
-/// touching the filesystem.  The sentinel is written **last** so a killed first
-/// run cannot leave a partial tree that later invocations trust.
+/// Idempotent: if `<root>/.complete` matches the data version and snapshot layout,
+/// returns immediately. Older layouts are re-extracted. The sentinel is written
+/// **last** so a killed first run cannot leave a partial tree that later invocations trust.
 ///
 /// Layout after a successful call (see module-level doc for the full tree):
 /// - `<root>/packages/design-data/tokens/` — cascade-format token JSON (`*.tokens.json`)
@@ -190,6 +188,7 @@ fn evict_stale_versions(current: &Path) {
 /// - `<root>/packages/design-data/components/`
 /// - `<root>/packages/design-data/fields/`
 /// - `<root>/packages/design-data/guidelines/`
+/// - `<root>/packages/design-data-spec/schemas/` — manifest and fragment schemas
 /// - `<root>/.complete`
 ///
 /// # Errors
@@ -197,8 +196,11 @@ fn evict_stale_versions(current: &Path) {
 /// Returns an `io::Error` if the cache dir cannot be created or any write fails.
 pub fn materialize_to(root: &Path) -> io::Result<()> {
     let sentinel = root.join(".complete");
-    if sentinel.exists() {
-        return Ok(());
+    match std::fs::read_to_string(&sentinel) {
+        Ok(marker) if marker == SNAPSHOT_MARKER => return Ok(()),
+        Ok(_) => {}
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
     }
 
     // Extract into a sibling tmp dir, then rename to avoid a half-written state
@@ -221,6 +223,10 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     extract(&COMPONENTS, &tmp.join("packages/design-data/components"))?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
     extract(&GUIDELINES, &tmp.join("packages/design-data/guidelines"))?;
+    extract(
+        &SPEC_SCHEMAS,
+        &tmp.join("packages/design-data-spec/schemas"),
+    )?;
 
     write_file(
         &tmp.join("packages/tokens/naming-exceptions.json"),
@@ -229,10 +235,6 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     write_file(
         &tmp.join("packages/tokens/manifest.json"),
         TOKENS_MANIFEST.as_bytes(),
-    )?;
-    write_file(
-        &tmp.join("packages/design-data-spec/schemas/manifest.schema.json"),
-        MANIFEST_SCHEMA.as_bytes(),
     )?;
 
     // Rename tmp → root.  Atomic on POSIX (same filesystem); non-atomic on Windows
@@ -250,7 +252,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     std::fs::rename(&tmp, root)?;
 
     // Write sentinel last.
-    std::fs::write(&sentinel, EMBEDDED_DATA_VERSION.as_bytes())?;
+    std::fs::write(&sentinel, SNAPSHOT_MARKER.as_bytes())?;
 
     Ok(())
 }
@@ -333,18 +335,53 @@ mod tests {
     fn materialize_is_idempotent() {
         let (_tmp, root) = temp_root();
 
-        // Corrupt the sentinel; a second call should return immediately (sentinel
-        // exists) without re-extracting, so the corruption persists.
-        let sentinel = root.join(".complete");
-        fs::write(&sentinel, "DIRTY").unwrap();
+        let extra_file = root.join("unchanged");
+        fs::write(&extra_file, "unchanged").unwrap();
 
         materialize_to(&root).expect("second materialize_to failed");
 
         assert_eq!(
-            fs::read_to_string(&sentinel).unwrap(),
-            "DIRTY",
-            "second call should not have overwritten the sentinel"
+            fs::read_to_string(&extra_file).unwrap(),
+            "unchanged",
+            "second call should not have re-extracted the snapshot"
         );
+        assert_eq!(
+            fs::read_to_string(root.join(".complete")).unwrap(),
+            SNAPSHOT_MARKER
+        );
+    }
+
+    #[test]
+    fn materialize_refreshes_legacy_snapshot_layout() {
+        let (_tmp, root) = temp_root();
+        let schemas = root.join("packages/design-data-spec/schemas");
+        fs::remove_dir_all(&schemas).unwrap();
+        fs::create_dir_all(&schemas).unwrap();
+        fs::write(schemas.join("manifest.schema.json"), "{}").unwrap();
+        fs::write(root.join(".complete"), EMBEDDED_DATA_VERSION).unwrap();
+
+        materialize_to(&root).unwrap();
+
+        assert_eq!(
+            fs::read_to_string(root.join(".complete")).unwrap(),
+            SNAPSHOT_MARKER
+        );
+        assert!(schemas.join("implementation-mapping.schema.json").is_file());
+        assert!(schemas.join("component.schema.json").is_file());
+        assert!(schemas.join("value-types").is_dir());
+        let schema: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(schemas.join("manifest.schema.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(schema["type"], "object");
+    }
+
+    #[test]
+    fn materialize_propagates_sentinel_read_errors() {
+        let tmp = TempDir::new().unwrap();
+        let root = tmp.path().join("embedded");
+        fs::create_dir_all(root.join(".complete")).unwrap();
+        assert!(materialize_to(&root).is_err());
     }
 
     #[test]

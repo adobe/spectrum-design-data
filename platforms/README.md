@@ -33,7 +33,8 @@ platforms/<id>/
                             (platform/platformVersion/repository), include/
                             exclude filters, overrides, formatting rules
   extensions/             — platform-local tokens/components/fields/guidelines/
-                            platform-extensions/relationships/mode-sets, one
+                            platform-extensions/relationships/mode-sets/
+                            implementations, one
                             file per artifact (see manifest.md#extensions-directory)
   README.md               — what this platform is, current incubation status,
                             and a pointer to the team that owns the content

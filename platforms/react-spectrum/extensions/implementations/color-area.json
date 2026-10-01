@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "color-area",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorArea",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

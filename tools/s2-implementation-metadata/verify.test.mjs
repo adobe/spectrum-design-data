@@ -15,6 +15,7 @@ import path from "node:path";
 import test from "node:test";
 import {
   createImplementationMappings,
+  createPlatformFragments,
   readReactSpectrumS2,
   readSpectrumWcGen2,
   removeImplementations,
@@ -224,4 +225,44 @@ test("removes an empty implementations field without changing other fields", () 
 
   assert.equal("implementations" in parsed, false);
   assert.deepEqual(parsed.documentBlocks, []);
+});
+
+test("emits platform-owned fragments carrying only that platform's rows", () => {
+  const rsS2 = {
+    packageName: "@react-spectrum/s2",
+    names: new Set(["Button", "Picker"]),
+  };
+  const spectrumWc = {
+    packageName: "@adobe/spectrum-wc",
+    components: new Map([
+      [
+        "Button",
+        {
+          componentName: "Button",
+          importPath: "@adobe/spectrum-wc/components/button",
+          notes: "Spectrum 2 web component custom element: swc-button.",
+        },
+      ],
+    ]),
+  };
+  const ids = ["button", "picker", "rating"];
+
+  const rs = createPlatformFragments(ids, "react-spectrum", rsS2, spectrumWc);
+  assert.deepEqual([...rs.keys()], ["button", "picker"]);
+  assert.deepEqual(rs.get("picker").implementations, [
+    { platform: "web", componentName: "Picker", package: "@react-spectrum/s2" },
+  ]);
+
+  const wc = createPlatformFragments(ids, "web-components", rsS2, spectrumWc);
+  assert.deepEqual([...wc.keys()], ["button"]);
+  assert.equal(wc.get("button").component, "button");
+  assert.deepEqual(wc.get("button").implementations, [
+    {
+      platform: "web",
+      componentName: "Button",
+      package: "@adobe/spectrum-wc",
+      importPath: "@adobe/spectrum-wc/components/button",
+      notes: "Spectrum 2 web component custom element: swc-button.",
+    },
+  ]);
 });
