@@ -908,4 +908,53 @@ mod tests {
         assert_eq!(rows[0]["package"], "@react-spectrum/s2");
         assert!(rows[1].get("implementation").is_none());
     }
+
+    #[test]
+    fn embedded_snapshot_validates_ejected_implementation_fragments() {
+        let project = tempfile::tempdir().unwrap();
+        let root = project.path().join("embedded");
+        crate::data_source::embedded::materialize_to(&root).unwrap();
+
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms/react-spectrum");
+        let manifest_path = project.path().join("manifest.json");
+        std::fs::copy(source.join("manifest.json"), &manifest_path).unwrap();
+        let fragments = project.path().join("extensions/implementations");
+        std::fs::create_dir_all(&fragments).unwrap();
+        for entry in std::fs::read_dir(source.join("extensions/implementations")).unwrap() {
+            let entry = entry.unwrap();
+            std::fs::copy(entry.path(), fragments.join(entry.file_name())).unwrap();
+        }
+
+        let components =
+            TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
+                .unwrap();
+        let mut graph = make_graph().with_components(components);
+        let resolved = resolved_with_manifest(manifest_path, root.join("packages/tokens/schemas"));
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+
+        let invalid_fragment = fragments.join("invalid.json");
+        std::fs::write(
+            &invalid_fragment,
+            json!({
+                "component": "button",
+                "implementations": [{"platform": "web", "package": "@react-spectrum/s2"}]
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let error = apply_configured(&mut graph, &resolved)
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains(&invalid_fragment.display().to_string()),
+            "{error}"
+        );
+        assert!(error.contains("failed schema validation"), "{error}");
+        assert!(error.contains("componentName"), "{error}");
+    }
 }
