@@ -20,7 +20,7 @@ days An array of days that are displayed in the current calendar view. This incl
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorSupported
+State Support status Default Supported Hover Supported Down Not supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Supported
 
 ## Behaviors
 

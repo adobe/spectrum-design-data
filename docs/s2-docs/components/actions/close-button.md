@@ -20,7 +20,7 @@ isDisabled A close button in a disabled state shows that an action exists, but i
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 
@@ -38,12 +38,12 @@ A close button is only for dismissing or closing its parent component, not for t
 
 ### Keyboard interactions
 
-Key Interaction TabMoves focus onto or off of the close button.Space or EnterExecutes the button (closes or dismisses the parent component). Focus moves to the target or back to the caller.
+Key Interaction Tab Moves focus onto or off of the close button. Space or Enter Executes the button (closes or dismisses the parent component). Focus moves to the target or back to the caller.
 
 ### Cursor guidelines
 
-Cursor Description PointerUse the pointer cursor for all interactive components in every state.
+Cursor Description Pointer Use the pointer cursor for all interactive components in every state.
 
 ### WCAG 2.2 compliance
 
-Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—including the close icon—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAClose buttons should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role of buttons should be utilized.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—including the close icon—must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Close buttons should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role of buttons should be utilized. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast.

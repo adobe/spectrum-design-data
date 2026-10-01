@@ -9,19 +9,6 @@
     "category": "status",
     "documentationUrl": "https://spectrum.adobe.com/page/badge/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "Badge",
-      "package": "@react-spectrum/s2"
-    },
-    {
-      "platform": "web",
-      "componentName": "Badge",
-      "importPath": "@adobe/spectrum-wc/components/badge",
-      "notes": "Spectrum 2 web component custom element: swc-badge."
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -64,11 +51,24 @@
     },
     {
       "type": "guideline",
-      "content": "Cursor guidelines.\n\nCursor Usage Default (Arrow)Use the default cursor for non-interactive components like the badge."
+      "content": "Cursor guidelines.\n\nCursor Usage Default (Arrow) Use the default cursor for non-interactive components like the badge."
     },
     {
       "type": "guideline",
-      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements—such as icons used in badges—must provide a text alternative that communicates the badge’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAABadges should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in buttons. Badges use color to reinforce their meaning, but every badge also includes a clear text label that communicates purpose.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Non-text contrast 1.4.11 AAThe visual presentation of icons have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size when wrapped. 2. Operable Requirement Criterion Level Compliance Seizures and physical feactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements—such as icons used in badges—must provide a text alternative that communicates the badge’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Badges should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in buttons. Badges use color to reinforce their meaning, but every badge also includes a clear text label that communicates purpose. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Non-text contrast 1.4.11 AA The visual presentation of icons have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size when wrapped. 2. Operable Requirement Criterion Level Compliance Seizures and physical feactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Badge",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "Badge",
+      "importPath": "@adobe/spectrum-wc/components/badge",
+      "notes": "Spectrum 2 web component custom element: swc-badge."
     }
   ],
   "options": {

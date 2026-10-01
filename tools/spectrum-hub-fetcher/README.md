@@ -80,6 +80,16 @@ decreases only when staging actually removes superseded JSON files.
 
 ## Verification
 
+Staging reconciles moved component categories by filename and migrated guideline
+slugs by canonical Hub source path. It preserves pages omitted from a limited
+fetch. Dry runs report superseded paths without removing them. The component
+transformer rejects duplicate slugs rather than choosing a copy by directory order.
+
+Text extraction decodes HTML entities and separates adjacent blocks and table
+cells without splitting inline words. Regression tests follow category migrations
+and extracted text through to the published component and guideline JSON. The
+converter retains section introductions when subsections follow them.
+
 `test/component-map.test.js` asserts: no duplicate/overlapping slugs across the
 three tables, every mapped/fan-out/no-hub-page slug corresponds to a real file
 under `packages/design-data/components/`, and — the strongest invariant — the union

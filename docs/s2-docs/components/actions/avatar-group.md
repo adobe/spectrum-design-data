@@ -20,7 +20,7 @@ size Avatar sizes scale exponentially, based on the Spectrum type scale. Avatar 
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Not supported Disabled Supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

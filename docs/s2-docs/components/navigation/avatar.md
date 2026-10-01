@@ -20,7 +20,7 @@ isDisabled An avatar in a disabled state shows that an avatar exists, but is not
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

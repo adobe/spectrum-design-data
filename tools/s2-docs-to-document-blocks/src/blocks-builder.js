@@ -209,6 +209,13 @@ export function buildBlocks(parsedDoc, { description = "" } = {}) {
       continue;
     }
 
+    if (section.subsections.length > 0 && headingKey !== "component options") {
+      const introduction = section.content.split(/^### .+$/m, 1)[0];
+      for (const para of extractParagraphs(rewriteLinks(introduction))) {
+        blocks.push({ type: "guideline", content: normalize(para) });
+      }
+    }
+
     // ── External links (scraper artifact) → guideline blocks ─────────────
     // On ~64 pages the scraper mislabels a catch-all section "## External links"
     // that actually contains the real prose (Overview, Behaviors, Usage guidelines

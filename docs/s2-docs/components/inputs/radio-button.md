@@ -20,7 +20,7 @@ label Radio button should always have a label for accessibility and clear compre
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

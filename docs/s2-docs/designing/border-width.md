@@ -14,7 +14,7 @@ hub_path: /foundations/styles/object-styles/border-width
 
 ## Principles
 
-Image: Faint blue icon of a rounded square containing a small toggle switch and rounded rectangle, illustrating minimal border use where borders aren't needed. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_17c3007ebae0f53d3422c819976245b9093c4f4f4.png?width=750&format=png&optimize=medium)Image: Three horizontal pink gradient bars of consistent border width, illustrating consistent border styling across elements. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1e8f2ff262e3c29774ba33c7130140c6fb22bf3a1.png?width=750&format=png&optimize=medium)
+Image: Faint blue icon of a rounded square containing a small toggle switch and rounded rectangle, illustrating minimal border use where borders aren't needed. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_17c3007ebae0f53d3422c819976245b9093c4f4f4.png?width=750&format=png&optimize=medium) Image: Three horizontal pink gradient bars of consistent border width, illustrating consistent border styling across elements. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1e8f2ff262e3c29774ba33c7130140c6fb22bf3a1.png?width=750&format=png&optimize=medium)
 
 ### Borders when necessary only
 
@@ -60,4 +60,4 @@ Use a divider to separate groups of related actions in a header. This helps dist
 
 ### Platform availability
 
-These tokens are currently available on web. Guidance for additional platforms will be added in a future release. StyleTokenValueSmall border-width-100 1 pxMedium border-width-200 2 pxLarge border-width-400 4 px
+These tokens are currently available on web. Guidance for additional platforms will be added in a future release. Style Token Value Small border-width-100 1 px Medium border-width-200 2 px Large border-width-400 4 px

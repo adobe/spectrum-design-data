@@ -20,7 +20,7 @@ size Thumbnail sizes scale exponentially. The opacity checkerboard responsively 
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Not supported Disabled Supported Selected Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

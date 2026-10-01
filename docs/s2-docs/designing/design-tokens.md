@@ -29,7 +29,7 @@ Design tokens enable alignment, automation, learnability, and multi-platform fid
 
 ## Principles of Spectrum tokens
 
-Spectrum design tokens follow three core principles. Image: Stylized 3D icon of an eye with a peach-orange gradient, featuring a simplified almond-shaped outline and a comma-shaped iris, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_140076ee4f57925def9ca2b4328ba49def5e3262b.png?width=750&format=png&optimize=medium)Image: Stylized 3D icon of a curved S-shaped ribbon with rounded, flared ends, in a pink-to-purple gradient, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_1a708190100c5bb32bfcf5424787034563655c4bd.png?width=750&format=png&optimize=medium)Image: Stylized 3D icon of a graduation cap with a blue gradient, rendered with soft rounded edges and a tassel hanging from one corner, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_16d9fc083f6378798d3114f10f579387c88e02000.png?width=750&format=png&optimize=medium)
+Spectrum design tokens follow three core principles. Image: Stylized 3D icon of an eye with a peach-orange gradient, featuring a simplified almond-shaped outline and a comma-shaped iris, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_140076ee4f57925def9ca2b4328ba49def5e3262b.png?width=750&format=png&optimize=medium) Image: Stylized 3D icon of a curved S-shaped ribbon with rounded, flared ends, in a pink-to-purple gradient, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_1a708190100c5bb32bfcf5424787034563655c4bd.png?width=750&format=png&optimize=medium) Image: Stylized 3D icon of a graduation cap with a blue gradient, rendered with soft rounded edges and a tassel hanging from one corner, on a soft white background. (source: https://spectrum.adobe.com/foundations/design-data/media_16d9fc083f6378798d3114f10f579387c88e02000.png?width=750&format=png&optimize=medium)
 
 ### Clear
 
@@ -69,7 +69,7 @@ The data associated with a token. A value may be a final implementation value su
 
 ### Image: Three tokens—"blue-900" (rgb(59, 99, 251)), "base-padding-vertical-large" (10px), and "sans-serif-font-family" (Adobe Clean Spectrum VF)—each with their resolved output highlighted and labeled "Value." (source: https://spectrum.adobe.com/foundations/design-data/media_18b43d82026c0f02530b5ce62978951a800a60d4c.png?width=750&format=png&optimize=medium)
 
-Token nameValue blue-900 rgb(59, 99, 251) spacing-100 8px container-padding-medium spacing-300
+Token name Value blue-900 rgb(59, 99, 251) spacing-100 8px container-padding-medium spacing-300
 
 ### Alias
 
@@ -77,7 +77,7 @@ A token that references another token instead of a final value. Aliasing allows 
 
 ### Image: Diagram showing a token aliasing chain: the base color token "blue-900" ( #3B63FB) flows down through an alias called "accent-color-900," which in turn flows into a further alias called "accent-content-color-default." (source: https://spectrum.adobe.com/foundations/design-data/media_11cea602f9ef5940fc07648edb357982ec8e90c5f.png?width=750&format=png&optimize=medium)
 
-Token nameValue (alias) accent-content-color-default accent-color-900
+Token name Value (alias) accent-content-color-default accent-color-900
 
 ## Token tiers
 
@@ -119,7 +119,7 @@ While some design decisions communicate meaning, others help define how componen
 
 ### Image: Diagram grouping UI components by structure type: "Base" links to individual elements like an "Approved" tag, a value field, a delete button, a list item, and a stepper; "Group" links to sets of related elements like paired radio buttons, toggles, and stacked checkboxes. (source: https://spectrum.adobe.com/foundations/design-data/media_129333dbe5f3c9919f4aa947c23a26c2453169a48.png?width=750&format=png&optimize=medium)
 
-To improve reuse and consistency, Spectrum organizes many of these decisions around recurring interface structures. These reusable structures are abstract concepts that describe common UI patterns. They are not specific components or implementation types. Instead, they provide a shared framework for organizing design decisions that can be reused across many different components, products, and technologies. Because these structures represent patterns rather than implementations, they help create design decisions that are more reusable, predictable, and easier to understand. Some structures may closely resemble familiar interface concepts, but they remain independent of any specific platform or implementation. These structures help answer “Where does this design decision apply?” Common structures include: Structure Description BaseThe primary functional element within a structureAccessoryA supporting element associated with another structureGroupA collection of related elementsListA sequence of repeated itemsContainerA structure that organizes contentBannerA structure used for prominent messagingThese structures help answer “Where does this design decision apply?”
+To improve reuse and consistency, Spectrum organizes many of these decisions around recurring interface structures. These reusable structures are abstract concepts that describe common UI patterns. They are not specific components or implementation types. Instead, they provide a shared framework for organizing design decisions that can be reused across many different components, products, and technologies. Because these structures represent patterns rather than implementations, they help create design decisions that are more reusable, predictable, and easier to understand. Some structures may closely resemble familiar interface concepts, but they remain independent of any specific platform or implementation. These structures help answer “Where does this design decision apply?” Common structures include: Structure Description Base The primary functional element within a structure Accessory A supporting element associated with another structure Group A collection of related elements List A sequence of repeated items Container A structure that organizes content Banner A structure used for prominent messaging These structures help answer “Where does this design decision apply?”
 
 ## Components as compositions
 
@@ -151,7 +151,7 @@ Whenever possible, use your platform's Spectrum components before working direct
 
 ### Prioritize semantic tokens
 
-Start with semantic tokens whenever possible. They communicate intent and context, making design decisions easier to understand, reuse, and maintain over time. Image: Diagram connecting the token "background-layer-2-color" to the light gray toolbar background of a Photoshop-style document window, showing a hamburger menu, the Photoshop app icon, "Document" text, and a cloud icon. (source: https://spectrum.adobe.com/foundations/design-data/media_1b62af86b141ebe7a61e41687f36c25c542915749.png?width=750&format=png&optimize=medium)Image: Diagram connecting the token "gray-25" to the light gray toolbar background of a Photoshop-style document window, showing a hamburger menu, the Photoshop app icon, "Document" text, and a cloud icon. (source: https://spectrum.adobe.com/foundations/design-data/media_1c851b0861fdf571ce6a19a98cbca1ef0be7c5f48.png?width=750&format=png&optimize=medium)
+Start with semantic tokens whenever possible. They communicate intent and context, making design decisions easier to understand, reuse, and maintain over time. Image: Diagram connecting the token "background-layer-2-color" to the light gray toolbar background of a Photoshop-style document window, showing a hamburger menu, the Photoshop app icon, "Document" text, and a cloud icon. (source: https://spectrum.adobe.com/foundations/design-data/media_1b62af86b141ebe7a61e41687f36c25c542915749.png?width=750&format=png&optimize=medium) Image: Diagram connecting the token "gray-25" to the light gray toolbar background of a Photoshop-style document window, showing a hamburger menu, the Photoshop app icon, "Document" text, and a cloud icon. (source: https://spectrum.adobe.com/foundations/design-data/media_1c851b0861fdf571ce6a19a98cbca1ef0be7c5f48.png?width=750&format=png&optimize=medium)
 
 ### Use primitive tokens only when necessary
 
@@ -159,7 +159,7 @@ Primitive tokens define important building blocks of the design language but con
 
 ### Use component-specific tokens only for their intended component
 
-Component-specific tokens are intentionally limited. Use them only for their intended component or implementation and avoid reusing them as general-purpose design decisions. Image: Diagram showing the token "tab-gap-horizontal-medium" pointing to the pink-highlighted gap between two radio button labels in a UI example. (source: https://spectrum.adobe.com/foundations/design-data/media_1de0d50e78fdc61dfc5ba6ac5e78ab4db2ea9bbdf.png?width=750&format=png&optimize=medium)Image: Diagram showing the token "tab-gap-horizontal-medium" pointing to the pink-highlighted gap between two colorful gradient card components, each with a card title and description. (source: https://spectrum.adobe.com/foundations/design-data/media_111549edcd66a118c25888112eb46457758a1d42d.png?width=750&format=png&optimize=medium)
+Component-specific tokens are intentionally limited. Use them only for their intended component or implementation and avoid reusing them as general-purpose design decisions. Image: Diagram showing the token "tab-gap-horizontal-medium" pointing to the pink-highlighted gap between two radio button labels in a UI example. (source: https://spectrum.adobe.com/foundations/design-data/media_1de0d50e78fdc61dfc5ba6ac5e78ab4db2ea9bbdf.png?width=750&format=png&optimize=medium) Image: Diagram showing the token "tab-gap-horizontal-medium" pointing to the pink-highlighted gap between two colorful gradient card components, each with a card title and description. (source: https://spectrum.adobe.com/foundations/design-data/media_111549edcd66a118c25888112eb46457758a1d42d.png?width=750&format=png&optimize=medium)
 
 ## Platform adaptability
 
@@ -175,11 +175,7 @@ Platform tokens support the unique requirements of a specific platform implement
 
 ### Shared language, flexible implementation
 
-Not every platform needs every foundational token, and token values may differ between platforms to support differences in sizing, density, theming, or platform capabilities. Even when implementations differ, they remain rooted in the same taxonomy, terminology, and design language. Image: Diagram illustrating a design system's flexible structure: a purple diamond labeled "Spectrum Foundations" and a green pentagon labeled "Platform" combine under "Flexible implementation," where the shapes overlap with dashed red gaps highlighted, resulting in "Spectrum Platform" — a purple pentagon that fully fills the green pentagon's shape. (source: https://spectrum.adobe.com/foundations/design-data/media_1098f8070212b263e4d2aaeae48257cb8a3c74623.png?width=750&format=png&optimize=medium)Design data can be re-shaped to fit platform needs while maintaining system cohesion.
-
-## Resources
-
-Spectrum design data Spectrum iOS tokens Spectrum Android tokens
+Not every platform needs every foundational token, and token values may differ between platforms to support differences in sizing, density, theming, or platform capabilities. Even when implementations differ, they remain rooted in the same taxonomy, terminology, and design language. Image: Diagram illustrating a design system's flexible structure: a purple diamond labeled "Spectrum Foundations" and a green pentagon labeled "Platform" combine under "Flexible implementation," where the shapes overlap with dashed red gaps highlighted, resulting in "Spectrum Platform" — a purple pentagon that fully fills the green pentagon's shape. (source: https://spectrum.adobe.com/foundations/design-data/media_1098f8070212b263e4d2aaeae48257cb8a3c74623.png?width=750&format=png&optimize=medium) Design data can be re-shaped to fit platform needs while maintaining system cohesion.
 
 ## Resources
 

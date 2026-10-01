@@ -13,6 +13,38 @@
 const HEADING_TAGS = new Set(["h1", "h2", "h3", "h4", "h5", "h6"]);
 const TEXT_NODE = 3;
 const ELEMENT_NODE = 1;
+const TEXT_BOUNDARIES = new Set([
+  "p",
+  "div",
+  "section",
+  "article",
+  "blockquote",
+  "pre",
+  "ul",
+  "ol",
+  "li",
+  "dl",
+  "dt",
+  "dd",
+  "table",
+  "thead",
+  "tbody",
+  "tfoot",
+  "tr",
+  "th",
+  "td",
+  "figure",
+  "figcaption",
+]);
+
+function textContent(node) {
+  if (node.nodeType === TEXT_NODE) return node.text;
+  if (node.nodeType !== ELEMENT_NODE) return "";
+  const tag = (node.rawTagName || "").toLowerCase();
+  if (tag === "br" || tag === "hr") return " ";
+  const text = node.childNodes.map(textContent).join("");
+  return TEXT_BOUNDARIES.has(tag) ? ` ${text} ` : text;
+}
 
 function normalize(value) {
   return value
@@ -186,12 +218,11 @@ export function splitSections(root) {
 
   return collected
     .map((section) => {
-      const html = section.nodes.map((node) => node.toString()).join("");
       return {
         heading: section.heading,
         level: section.level,
         anchor: section.anchor,
-        text: normalize(html.replace(/<[^>]+>/g, " ")),
+        text: normalize(section.nodes.map(textContent).join(" ")),
       };
     })
     .filter((section) => section.heading || section.text);

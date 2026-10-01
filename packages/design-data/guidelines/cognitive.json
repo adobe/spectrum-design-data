@@ -11,6 +11,10 @@
     },
     {
       "type": "guideline",
+      "content": "Neurodivergent users process information in a variety of ways. While every lived experience is unique, these are some common traits that can be used to understand challenges and decision-making processes."
+    },
+    {
+      "type": "guideline",
       "content": "Maximizing (not Satisficing).\n\nCompelled to understand and compare all options to find the best opposed to selecting the first option that seems reasonable."
     },
     {
@@ -43,6 +47,10 @@
     },
     {
       "type": "guideline",
+      "content": "While it is often assumed that more choices create more flexibility and control, the opposite is true - especially for neurodivergent users. Too many options make it difficult for users to compare them and make a satisfactory choice."
+    },
+    {
+      "type": "guideline",
       "content": "Options can create a negative experience.\n\nMore options can make it harder to choose the right one. Deciding between many options requires more time and effort to weigh each one, especially since neurodivergent users often need to consider all details to proceed. This process leads to overwhelm and reduces user confidence."
     },
     {
@@ -52,6 +60,10 @@
     {
       "type": "guideline",
       "content": "Increased impact on neurodivergent users.\n\nWhile all users are affected by choice-paralysis, neurodivergent users have a lower tolerance due to the increased volume of daily decisions (as compared to neurotypical peers) and risk aversion to failure. Neurodivergent users are more likely to quit a workflow if they feel overwhelmed by choices."
+    },
+    {
+      "type": "guideline",
+      "content": "Consistent and intentional UI layout can provide neurodivergent users the support they need to complete challenging tasks."
     },
     {
       "type": "guideline",
@@ -67,11 +79,19 @@
     },
     {
       "type": "guideline",
+      "content": "It can be even more challenging for neurodivergent users to complete tasks within workflows that move across multiple products, product features, or tools. They can easily become stuck when relevant information is missing or hidden, or located in an unexpected place. They’re more likely to quit a workflow if a clear path forward is not obvious."
+    },
+    {
+      "type": "guideline",
       "content": "Containers within a single screen.\n\nContaining editing tools within a single screen is a great way to reduce cognitive load and help neurodivergent users complete tasks. Editing tools should be placed in the same container or adjacent container to reduce transition time and distance. It’s best to avoid extraneous editing containers and switching context to access editing tools."
     },
     {
       "type": "guideline",
       "content": "Containers across screens.\n\nMany neurodivergent users leverage split screens and window tiling to improve cognition when multiple browsers are required. When there is no feedback between windows, or when a task requires multiple large transitions, task completion becomes difficult."
+    },
+    {
+      "type": "guideline",
+      "content": "Complex or ambiguous workflows can cause major challenges for neurodivergent users. Too many options can easily overwhelm, and fear of failure can shatter user confidence. When designing product workflows, it’s important to continuously evaluate and consider supportive measures to help users complete their tasks."
     },
     {
       "type": "guideline",
@@ -87,6 +107,10 @@
     },
     {
       "type": "guideline",
+      "content": "Task management is especially important for neurodivergent users to stay focused on the work they should be doing rather than all the work they could be doing. But task management can be challenging because neurodivergent brains struggle to organize, focus on, and break down large tasks."
+    },
+    {
+      "type": "guideline",
       "content": "Task support for increased user confidence.\n\nAgentic AI can help users to identify and complete tasks, and navigate complex workflows. This is especially impactful for neurodivergent users who may become more easily overwhelmed by decision-making and task completion. As AI continues to support neurodivergent users, it can become a reliable tool to maintain motivation and increase task completion, which in turn leads to improved product loyalty.The challenge of task lists While task lists can remove the burden of remembering tasks, and act as a safety net for anxious users, they aren’t sufficient tools for continued task management support. Neurodivergent users need help planning and prioritizing tasks by clearly seeing when the task is due and how long it will take. Transparency is key to maintaining focus on the most important tasks and driving task execution. Even if the task list has sufficient details to be helpful, most task lists exist outside of the users’ workspace. It’s also common for users to have multiple task lists in different tools. Users often need to add a task reminder quickly in the most convenient tool, out of fear that they will forget the task due."
     },
     {
@@ -96,6 +120,10 @@
     {
       "type": "guideline",
       "content": "Content layout and stylistic preferences depend on cognitive processing abilities and needs. Since these needs can vary significantly between neurodivergent users, it’s important to give users tools to customize their spaces. Supportive customization tools can allow users to (un)hide content. User-customized spaces can improve efficiency, reduce cognitive load, and build product confidence, trust, and loyalty."
+    },
+    {
+      "type": "guideline",
+      "content": "Neurodivergent users often welcome proactive AI interventions, recognizing their potential to enhance working memory, offer a judgment-free collaborator, and serve as a motivating presence. These tools can bridge gaps in memory, provide support without fear of rejection, and act as a body-double to help maintain focus and motivation."
     },
     {
       "type": "guideline",
@@ -145,6 +173,10 @@
     {
       "type": "guideline",
       "content": "Use supportive AI voice and tone.\n\nSome users may become overwhelmed when they perceive rejection or a demand. Words can either encourage or discourage users to take action."
+    },
+    {
+      "type": "guideline",
+      "content": "If you’re new to neuroinclusive design, it can be difficult to know what product features can best support neurodiverse users. Here are some ideas to try:"
     },
     {
       "type": "guideline",

@@ -20,7 +20,7 @@ isMultiple By default, only one accordion item can be expanded at a time. Use th
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

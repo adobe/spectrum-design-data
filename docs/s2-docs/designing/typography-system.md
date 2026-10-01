@@ -79,7 +79,7 @@ Emphasis can be used for placing emphasis on part of a sentence, rendering the t
 
 ## Font size
 
-Spectrum ensures that different sizes of text can work together harmoniously, on both desktop and mobile. All font sizes follow the Major Second type scale, which has a ratio of 1.125. This means that each size is multiplied or divided by 1.125 from the previous size, starting with the base size (font-size-100), and rounded to the nearest whole number. Custom text (any non-existing typography styles) or modifications to existing type styles should use a font size from this list. When selecting font sizes to ensure readability, keep in mind that Adobe Clean does not match 1:1 with system font size definitions. It's generally a size smaller than system fonts such as SF Pro, Segoe UI, Roboto, and others. Font sizeValue font-size-25 10 px font-size-50 11 px font-size-75 12 px font-size-100 14 px font-size-200 16 px font-size-300 18 px font-size-400 20 px font-size-500 22 px font-size-600 25 px font-size-700 28 px font-size-800 32 px font-size-900 36 px font-size-1000 40 px font-size-1100 45 px font-size-1200 51 px font-size-1300 58 px font-size-1400 65 px font-size-1500 73 px
+Spectrum ensures that different sizes of text can work together harmoniously, on both desktop and mobile. All font sizes follow the Major Second type scale, which has a ratio of 1.125. This means that each size is multiplied or divided by 1.125 from the previous size, starting with the base size (font-size-100), and rounded to the nearest whole number. Custom text (any non-existing typography styles) or modifications to existing type styles should use a font size from this list. When selecting font sizes to ensure readability, keep in mind that Adobe Clean does not match 1:1 with system font size definitions. It's generally a size smaller than system fonts such as SF Pro, Segoe UI, Roboto, and others. Font size Value font-size-25 10 px font-size-50 11 px font-size-75 12 px font-size-100 14 px font-size-200 16 px font-size-300 18 px font-size-400 20 px font-size-500 22 px font-size-600 25 px font-size-700 28 px font-size-800 32 px font-size-900 36 px font-size-1000 40 px font-size-1100 45 px font-size-1200 51 px font-size-1300 58 px font-size-1400 65 px font-size-1500 73 px
 
 ## Line height
 
@@ -87,11 +87,7 @@ Line height controls the vertical space between lines of text and plays an impor
 
 ### Spectrum Web
 
-Spectrum Web defines default line height values for each font size in the type scale. Heading, Title, Detail, and Component type styles use these values to maintain balanced spacing across a range of text sizes. The default line height gradually decreases from approximately 130% at smaller font sizes to 115% at larger sizes, then rounds to whole even pixel values. This helps maintain consistent visual spacing while avoiding half-pixel rendering within components. Body and Code type styles use a more spacious line height of 1.5× the font size to improve readability for longer passages of text. For Chinese, Japanese, and Korean (CJK) languages, Spectrum uses a 1.7× multiplier to accommodate the visual characteristics of those writing systems. Learn more about the line height calculations, interpolation, and rounding methodology in the Adobe Clean Spectrum Wiki.
-
-### Spectrum Web
-
-Spectrum Web defines default line height values for each font size in the type scale. Heading, Title, Detail, and Component type styles use these values to maintain balanced spacing across a range of text sizes. The default line height gradually decreases from approximately 130% at smaller font sizes to 115% at larger sizes, then rounds to whole even pixel values. This helps maintain consistent visual spacing while avoiding half-pixel rendering within components. Body and Code type styles use a more spacious line height of 1.5× the font size to improve readability for longer passages of text. For Chinese, Japanese, and Korean (CJK) languages, Spectrum uses a 1.7× multiplier to accommodate the visual characteristics of those writing systems. Line heightUsed forTokenValueCJK valueDefaultHeading, Title, Detail, Component line-height-font-size-# ~115–130% (varies by size, even values only)150%SpaciousBody, Code line-height-200 150%170%
+Spectrum Web defines default line height values for each font size in the type scale. Heading, Title, Detail, and Component type styles use these values to maintain balanced spacing across a range of text sizes. The default line height gradually decreases from approximately 130% at smaller font sizes to 115% at larger sizes, then rounds to whole even pixel values. This helps maintain consistent visual spacing while avoiding half-pixel rendering within components. Body and Code type styles use a more spacious line height of 1.5× the font size to improve readability for longer passages of text. For Chinese, Japanese, and Korean (CJK) languages, Spectrum uses a 1.7× multiplier to accommodate the visual characteristics of those writing systems. Line height Used for Token Value CJK value Default Heading, Title, Detail, Component line-height-font-size-# ~115–130% (varies by size, even values only) 150% Spacious Body, Code line-height-200 150% 170%
 
 ### Spectrum iOS
 
@@ -103,10 +99,6 @@ Spectrum Android defines line height using scale-independent pixels (sp), allowi
 
 ## Type styles
 
-Also known as text styles in Figma, Spectrum uses type styles to help maintain a consistent semantic meaning and create accessible, legible, and on-brand experiences across platforms. The type styles include Heading, Title, Body, Detail, Component, Code, and Monospace numbers. These styles come in a range of t-shirt sizes (such as Small, Medium, and Large) and encompass typography elements like font family, font size, line height, weight, and color. This ensures that all Adobe interfaces can maintain a predictable sense of information hierarchy. Keep in mind that a single product won't need all of these sizes, and especially at the same time. Spectrum's type styles are intentionally comprehensive to allow platform and product teams to selectively choose type styles that accommodate their unique needs. As a starting point, use a t-shirt size from each of the type styles. For example: pair Heading Medium with Title Medium, Body Medium, and Medium t-shirt sized components. If you'd like to override these styles, there's some flexibility for you to define your own typography and hierarchy as long as any customization follows Spectrum guidance for font size and color usage. Use what best fits your context and best supports your users. Explore platform-specific type styles in each platform's Figma library: Spectrum Web typography Spectrum iOS typography Spectrum Android typography
-
-## Type styles
-
 Also known as text styles in Figma, Spectrum uses type styles to help maintain a consistent semantic meaning and create accessible, legible, and on-brand experiences across platforms. The type styles include Heading, Title, Body, Detail, Component, Code, and Monospace numbers. These styles come in a range of t-shirt sizes (such as Small, Medium, and Large) and encompass typography elements like font family, font size, line height, weight, and color. This ensures that all Adobe interfaces can maintain a predictable sense of information hierarchy. Keep in mind that a single product won't need all of these sizes, and especially at the same time. Spectrum's type styles are intentionally comprehensive to allow platform and product teams to selectively choose type styles that accommodate their unique needs. As a starting point, use a t-shirt size from each of the type styles. For example: pair Heading Medium with Title Medium, Body Medium, and Medium t-shirt sized components. If you'd like to override these styles, there's some flexibility for you to define your own typography and hierarchy as long as any customization follows Spectrum guidance for font size and color usage. Use what best fits your context and best supports your users.
 
 ### Heading
@@ -115,15 +107,15 @@ Heading text represents the biggest and boldest text on a page, and it draws the
 
 ### Spectrum Web
 
-Image: Web heading text style scale showing Heading XXXXL down to Heading XS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_12067c10839bec0388b50ac26cabcd5f866e2550f.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingHeading XXXXL15001500ExtraBoldNoneHeading XXXL13001300ExtraBoldNoneHeading XXL11001100ExtraBoldNoneHeading XL900900ExtraBoldNoneHeading L700700ExtraBoldNoneHeading M500500ExtraBoldNoneHeading S400400ExtraBoldNoneHeading XS300300ExtraBoldNone
+Image: Web heading text style scale showing Heading XXXXL down to Heading XS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_12067c10839bec0388b50ac26cabcd5f866e2550f.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Heading XXXXL 1500 1500 ExtraBold None Heading XXXL 1300 1300 ExtraBold None Heading XXL 1100 1100 ExtraBold None Heading XL 900 900 ExtraBold None Heading L 700 700 ExtraBold None Heading M 500 500 ExtraBold None Heading S 400 400 ExtraBold None Heading XS 300 300 ExtraBold None
 
 ### Spectrum iOS
 
-Image: iOS heading text style scale showing Heading XL, Heading L, and Heading M in bold weight. (source: https://spectrum.adobe.com/foundations/typography/media_15a03f87ea190cedc9b8264e2071454df77cc44a6.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingHeading XL900AutoExtraBold900Heading L700AutoExtraBold700Heading M500AutoExtraBold500
+Image: iOS heading text style scale showing Heading XL, Heading L, and Heading M in bold weight. (source: https://spectrum.adobe.com/foundations/typography/media_15a03f87ea190cedc9b8264e2071454df77cc44a6.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Heading XL 900 Auto ExtraBold 900 Heading L 700 Auto ExtraBold 700 Heading M 500 Auto ExtraBold 500
 
 ### Spectrum Android
 
-Image: Android heading text style scale showing Heading XL, Heading L, and Heading M. (source: https://spectrum.adobe.com/foundations/typography/media_184a97041a07d8ce67b5b77624c370281df268248.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingHeading XL900900BoldNoneHeading L700700BoldNoneHeading M500500BoldNone
+Image: Android heading text style scale showing Heading XL, Heading L, and Heading M. (source: https://spectrum.adobe.com/foundations/typography/media_184a97041a07d8ce67b5b77624c370281df268248.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Heading XL 900 900 Bold None Heading L 700 700 Bold None Heading M 500 500 Bold None
 
 ### Title
 
@@ -131,15 +123,15 @@ While the Heading style is for the loudest, most broad message, there are still 
 
 ### Spectrum Web
 
-Image: Web title text style scale showing Title XXXL down to Title XS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_17d39d3df837c18abea0e3d34678f7d2e94637108.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingTitle XXXL600600BoldNoneTitle XXL500500BoldNoneTitle XL400400BoldNoneTitle L300300BoldNoneTitle M200200BoldNoneTitle S100100BoldNoneTitle XS7575BoldNone
+Image: Web title text style scale showing Title XXXL down to Title XS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_17d39d3df837c18abea0e3d34678f7d2e94637108.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Title XXXL 600 600 Bold None Title XXL 500 500 Bold None Title XL 400 400 Bold None Title L 300 300 Bold None Title M 200 200 Bold None Title S 100 100 Bold None Title XS 75 75 Bold None
 
 ### Spectrum iOS
 
-Image: iOS title text style scale showing Title XL, Title L, and Title M in bold weight. (source: https://spectrum.adobe.com/foundations/typography/media_1b6e505c9be86bedb527396bf4fc8d03c0e01de17.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingTitle XL400AutoBold400Title L300AutoBold300Title M200AutoBold200
+Image: iOS title text style scale showing Title XL, Title L, and Title M in bold weight. (source: https://spectrum.adobe.com/foundations/typography/media_1b6e505c9be86bedb527396bf4fc8d03c0e01de17.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Title XL 400 Auto Bold 400 Title L 300 Auto Bold 300 Title M 200 Auto Bold 200
 
 ### Spectrum Android
 
-Image: Android title text style scale showing Title XL, Title L, and Title M in regular weight. (source: https://spectrum.adobe.com/foundations/typography/media_1a163f0812c65f011712c31984d072c81b8141752.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingTitle XL400AutoSemiBoldNoneTitle L300AutoSemiBold0.0075 emTitle M200AutoSemiBold0.015 em
+Image: Android title text style scale showing Title XL, Title L, and Title M in regular weight. (source: https://spectrum.adobe.com/foundations/typography/media_1a163f0812c65f011712c31984d072c81b8141752.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Title XL 400 Auto SemiBold None Title L 300 Auto SemiBold 0.0075 em Title M 200 Auto SemiBold 0.015 em
 
 ### Body
 
@@ -147,15 +139,15 @@ Body is the type style that's primarily used for longer-form text that may exten
 
 ### Spectrum Web
 
-Image: Web body text style scale showing Body XXXL down to Body XXS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_133057cb102a794cc993b3da0a5b487d88541b031.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingBody XXXL600150%RegularNoneBody XXL500150%RegularNoneBody XL400150%RegularNoneBody L300150%RegularNoneBody M200150%RegularNoneBody S100150%RegularNoneBody XS75150%RegularNoneBody XXS50150%RegularNone
+Image: Web body text style scale showing Body XXXL down to Body XXS in decreasing sizes. (source: https://spectrum.adobe.com/foundations/typography/media_133057cb102a794cc993b3da0a5b487d88541b031.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Body XXXL 600 150% Regular None Body XXL 500 150% Regular None Body XL 400 150% Regular None Body L 300 150% Regular None Body M 200 150% Regular None Body S 100 150% Regular None Body XS 75 150% Regular None Body XXS 50 150% Regular None
 
 ### Spectrum iOS
 
-Image: iOS body text style scale showing Body L, M, S, XS, and XXS in regular weight. (source: https://spectrum.adobe.com/foundations/typography/media_1b8c885ef2ec58ae0ca096e4650210e86bc634116.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingBody L300AutoRegular300Body M200AutoRegular200Body S100AutoRegular100Body XS75AutoRegular75Body XXS50AutoRegular50
+Image: iOS body text style scale showing Body L, M, S, XS, and XXS in regular weight. (source: https://spectrum.adobe.com/foundations/typography/media_1b8c885ef2ec58ae0ca096e4650210e86bc634116.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Body L 300 Auto Regular 300 Body M 200 Auto Regular 200 Body S 100 Auto Regular 100 Body XS 75 Auto Regular 75 Body XXS 50 Auto Regular 50
 
 ### Spectrum Android
 
-Image: Android body text style scale showing Body L through Body XXS, each with a Regular and Emphasized (bold) variant. (source: https://spectrum.adobe.com/foundations/typography/media_13a342114f88d58532ad36978f238bcc6343b8a6d.png?width=750&format=png&optimize=medium)StyleFont sizeLine heightDefault weightLetter spacingBody L300300Regular0.0075 emBody L Emphasized300300SemiBold0.0075 emBody M200200Regular0.015 emBody M Emphasized200200Semibold0.015 emBody S100100Regular0.0225 emBody S Emphasized100100Semibold0.0225 emBody XS7575Regular0.03 emBody XS Emphasized7575Semibold0.03 emBody XXS5050Regular0.03 emBody XXS Emphasized5050Semibold0.03 em
+Image: Android body text style scale showing Body L through Body XXS, each with a Regular and Emphasized (bold) variant. (source: https://spectrum.adobe.com/foundations/typography/media_13a342114f88d58532ad36978f238bcc6343b8a6d.png?width=750&format=png&optimize=medium) Style Font size Line height Default weight Letter spacing Body L 300 300 Regular 0.0075 em Body L Emphasized 300 300 SemiBold 0.0075 em Body M 200 200 Regular 0.015 em Body M Emphasized 200 200 Semibold 0.015 em Body S 100 100 Regular 0.0225 em Body S Emphasized 100 100 Semibold 0.0225 em Body XS 75 75 Regular 0.03 em Body XS Emphasized 75 75 Semibold 0.03 em Body XXS 50 50 Regular 0.03 em Body XXS Emphasized 50 50 Semibold 0.03 em
 
 ### Detail
 
@@ -179,7 +171,7 @@ The differences between Body text, Component text, and Detail text are nuanced a
 
 ## Fallback fonts
 
-Spectrum defines fallback fonts for situations where Adobe Clean Spectrum isn't available. These fonts are selected to provide a consistent experience across operating systems while maintaining similar typographic characteristics. TypefaceWeb (listed by priority)iOSAndroidAdobe Clean Spectrum VFAdobe Clean, Source Sans Pro, San Francisco, Roboto, Segoe UI, Trebuchet MS, Lucida GrandeSystem defaultsSystem defaults (may vary by device)
+Spectrum defines fallback fonts for situations where Adobe Clean Spectrum isn't available. These fonts are selected to provide a consistent experience across operating systems while maintaining similar typographic characteristics. Typeface Web (listed by priority) iOS Android Adobe Clean Spectrum VF Adobe Clean, Source Sans Pro, San Francisco, Roboto, Segoe UI, Trebuchet MS, Lucida Grande System defaults System defaults (may vary by device)
 
 ## Non-Latin scripts
 
@@ -196,12 +188,6 @@ Spectrum supports a wide range of non-Latin writing systems. On the web, Spectru
 Spectrum typography on iOS supports Dynamic Type, Apple's system for scaling text based on a user's preferred reading size. When a user adjusts their text size in accessibility settings, Spectrum typography scales automatically to match. Learn more in Apple's Developer Documentation: Get started with Dynamic Type and WWDC24: Scaling fonts automatically.
 
 ### Spectrum Android
-
-### Image: Comparison of the word "36 sp" and "72" scaling up in size on a pink gradient background, illustrating Android font scaling. (source: https://spectrum.adobe.com/foundations/typography/media_10dff602704ed933744be8de9b3cd1035fb63a04c.png?width=750&format=png&optimize=medium)
-
-### Font scaling
-
-Spectrum typography on Android uses scale-independent pixels (sp), which automatically respond to a user's font size preferences. This allows text to scale with Android accessibility settings without additional configuration. Learn more in Android Accessibility: Text scaling and Android 14: Font scaling. Download the Spectrum Android Catalog app to explore available type sizes and see how they respond to accessibility settings. Refer to the installation guide for setup instructions.
 
 ### Image: Comparison of the word "36 sp" and "72" scaling up in size on a pink gradient background, illustrating Android font scaling. (source: https://spectrum.adobe.com/foundations/typography/media_10dff602704ed933744be8de9b3cd1035fb63a04c.png?width=750&format=png&optimize=medium)
 

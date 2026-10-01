@@ -9,13 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/combo-box/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "ComboBox",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -100,15 +93,22 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nKey Interaction TypingInitiates autocomplete or popover (unless suppressed).Down ArrowIf the popover is unsuppressed and not already open, the down arrow opens the popover menu.Up or Down ArrowsMove through selection of options in popover or autocomplete.EscIf the popover is open, close the popover.EnterAccept highlighted suggestion.TabCommit current value and move focus.Alt + Down Arrow (optional)Open popup without moving focus.Alt + Up Arrow (optional)Close popup and return to input."
+      "content": "Keyboard interactions.\n\nKey Interaction Typing Initiates autocomplete or popover (unless suppressed). Down Arrow If the popover is unsuppressed and not already open, the down arrow opens the popover menu. Up or Down Arrows Move through selection of options in popover or autocomplete. Esc If the popover is open, close the popover. Enter Accept highlighted suggestion. Tab Commit current value and move focus. Alt + Down Arrow (optional) Open popup without moving focus. Alt + Up Arrow (optional) Close popup and return to input."
     },
     {
       "type": "guideline",
-      "content": "Cursor guidelines.\n\nCursor Description TextUse text cursor over editable fields in all states.PointerAny interactive control that is part of the field (e.g., clear/reveal/help icon) uses the pointer cursor."
+      "content": "Cursor guidelines.\n\nCursor Description Text Use text cursor over editable fields in all states. Pointer Any interactive control that is part of the field (e.g., clear/reveal/help icon) uses the pointer cursor."
     },
     {
       "type": "guideline",
-      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon-text elements, such as icons paired with a combo box (validation icons, clear-input icons), must provide a text alternative. All combo boxes need an accessible name (via a visible label, title, aria-label, or associated text) so screen readers can announce their purpose.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAACombo boxes should be understandable by assistive technologies. The label, help text, error message, and required state must be programmatically associated with the field using semantic HTML or ARIA.Contrast 1.4.3 AAThe visual presentation of text has a contrast ratio of at least 4.5:1.Resize text 1.4.4 AACombo boxes can be resized up to 200% without loss of content or functionality and without assistive technology.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of illustrations, icons, and component states have a contrast ratio of at least 3:1. Not applicable for empty fields.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons paired with a combo box (validation icons, clear-input icons), must provide a text alternative. All combo boxes need an accessible name (via a visible label, title, aria-label, or associated text) so screen readers can announce their purpose. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Combo boxes should be understandable by assistive technologies. The label, help text, error message, and required state must be programmatically associated with the field using semantic HTML or ARIA. Contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Resize text 1.4.4 AA Combo boxes can be resized up to 200% without loss of content or functionality and without assistive technology. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of illustrations, icons, and component states have a contrast ratio of at least 3:1. Not applicable for empty fields. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ComboBox",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

@@ -20,7 +20,7 @@ items A list view is a versatile component and can contain many items depending 
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedSupportedErrorNot supported
+State Support status Default Supported Hover Supported Down Not supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Supported Error Not supported
 
 ## Behaviors
 

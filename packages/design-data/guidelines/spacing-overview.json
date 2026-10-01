@@ -8,6 +8,10 @@
     { "type": "purpose", "content": "Spacing" },
     {
       "type": "guideline",
+      "content": "Spectrum's spacing system is built on three principles, which are grounded in how the visual system perceives and interprets proximity."
+    },
+    {
+      "type": "guideline",
       "content": "Image: Stylized 3D icon of a pentagon shape made of glowing green connected nodes and lines, like a graph or network diagram, on a soft white background. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1b5cd74dbefda747e6a81db55b46195e41632efca.png?width=750&format=png&optimize=medium)"
     },
     {
@@ -30,6 +34,10 @@
       "type": "guideline",
       "content": "Perceptual.\n\nSpectrum's spacing values are based on visual perception. They are designed to support accurate visual interpretation and maintain consistent relationships between interface elements across different contexts."
     },
+    {
+      "type": "guideline",
+      "content": "Spacing tells people what belongs together, what is separate, and how content is organized. It works because of how the visual system perceives proximity: elements placed close together are seen as related. As the distance between them increases, that relationship weakens. With enough separation, elements read as completely independent."
+    },
     { "type": "guideline", "content": "Relationships" },
     {
       "type": "guideline",
@@ -41,7 +49,11 @@
     },
     {
       "type": "guideline",
-      "content": "Structure.\n\nThe overall distribution of space shows how content is organized within a layout. Image: Grayscale wireframe mockup of an application interface showing a top navigation bar with tabs, a left sidebar with icon buttons, and a right panel with four labeled sliders and a dropdown menu. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_17a7999c3c47bf695711fccc10e0799cbd6b1957a.png?width=750&format=png&optimize=medium) These three things are connected. Change one, and the others shift too. Spacing decisions are not visual alone, but rather they are structural and meaningful. Spacing also shapes how an interface feels. Negative space (the open areas between and around elements) creates a sense of calm and helps people focus on what matters. It's one of the most effective ways to create visual balance and direct user attention within a layout. Image: Grayscale wireframe mockup of a webpage or app interface with a top navigation bar, a profile icon and menu tabs, a left sidebar list, and a highlighted content panel with text lines and two buttons. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_11265bfff799dcff670349049460f288b6195ee05.png?width=750&format=png&optimize=medium)Less negative space creates clutter and increases cognitive load. Image: Diagram showing two identical pairs of content cards, each pair enclosed in a dashed pink box, illustrating a repeated grouping structure. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1770c6aefbbcb0ef043022106ea246562c4382558.png?width=750&format=png&optimize=medium)More negative space creates a calm, focused experience."
+      "content": "Structure.\n\nThe overall distribution of space shows how content is organized within a layout. Image: Grayscale wireframe mockup of an application interface showing a top navigation bar with tabs, a left sidebar with icon buttons, and a right panel with four labeled sliders and a dropdown menu. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_17a7999c3c47bf695711fccc10e0799cbd6b1957a.png?width=750&format=png&optimize=medium) These three things are connected. Change one, and the others shift too. Spacing decisions are not visual alone, but rather they are structural and meaningful. Spacing also shapes how an interface feels. Negative space (the open areas between and around elements) creates a sense of calm and helps people focus on what matters. It's one of the most effective ways to create visual balance and direct user attention within a layout. Image: Grayscale wireframe mockup of a webpage or app interface with a top navigation bar, a profile icon and menu tabs, a left sidebar list, and a highlighted content panel with text lines and two buttons. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_11265bfff799dcff670349049460f288b6195ee05.png?width=750&format=png&optimize=medium) Less negative space creates clutter and increases cognitive load. Image: Diagram showing two identical pairs of content cards, each pair enclosed in a dashed pink box, illustrating a repeated grouping structure. (source: https://spectrum.adobe.com/foundations/layout-and-structure/spacing/media_1770c6aefbbcb0ef043022106ea246562c4382558.png?width=750&format=png&optimize=medium) More negative space creates a calm, focused experience."
+    },
+    {
+      "type": "guideline",
+      "content": "Every spacing decision falls into one of two tracks. Layout spacing is for anything above the component level, such as the relationships between components, patterns, and regions of a product UI. Component spacing is for anything within a component. Layout spacing and component spacing scale at different rates and serve different purposes. Within a single component, different spacings may be present at the same time, each scaling according to its own role."
     },
     {
       "type": "guideline",

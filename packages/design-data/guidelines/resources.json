@@ -20,11 +20,19 @@
     },
     {
       "type": "guideline",
+      "content": "As the design of Spectrum 2 is finalized, the existing design data will be updated and released incrementally. For more information, view our Developer overview page."
+    },
+    {
+      "type": "guideline",
       "content": "Spectrum Tokens repository.\n\nThis GitHub repository houses Spectrum’s design tokens, which are primarily name-value pairs used to store design decisions and distributed in a way that platforms, implementations, and products can use across design tools and coding languages. View Spectrum Tokens on GitHub"
     },
     {
       "type": "guideline",
       "content": "Spectrum Token Visualizer tool.\n\nThis tool allows you to search for token names or values, filter values by scale and theme, and explore the relationship between Spectrum’s tokens by selecting tokens to see their connections. View the Spectrum 2 Token Visualizer"
+    },
+    {
+      "type": "guideline",
+      "content": "For teams developing with an implementation of Spectrum, reference that implementation’s documentation for information regarding component availability, specific usage guidelines, and other developer resources. More information is also available on the Developer overview page."
     },
     {
       "type": "guideline",

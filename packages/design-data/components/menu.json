@@ -9,13 +9,6 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/menu/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "Menu",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -75,15 +68,22 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nKey Interaction Enter or SpaceOpens menu and moves focus to first item.Down Arrow (on trigger)Opens menu and moves focus to first item.Up Arrow (on trigger, optional)Opens menu and moves focus to last item.Up Arrow / Down Arrow (in menu)Moves focus to previous/next item at the current menu level (wrapping behavior may be implementation-defined).Right Arrow / Left ArrowIn submenu hierarchies: opens child submenu or returns to parent menu item (direction follows hierarchy and orientation).Home / EndMoves focus to first/last item in current menu level.Printable character keysMoves focus to the next item whose label begins with typed character(s) (typeahead).Enter or Space (on item)Activates item. For checkbox/radio/switch items, may toggle state and optionally keep menu open based on selection behavior.EscCloses current submenu/menu and returns focus to parent item or menu trigger.Tab / Shift + TabExits menu, closes open menus, and moves focus to next/previous focusable element."
+      "content": "Keyboard interactions.\n\nKey Interaction Enter or Space Opens menu and moves focus to first item. Down Arrow (on trigger) Opens menu and moves focus to first item. Up Arrow (on trigger, optional) Opens menu and moves focus to last item. Up Arrow / Down Arrow (in menu) Moves focus to previous/next item at the current menu level (wrapping behavior may be implementation-defined). Right Arrow / Left Arrow In submenu hierarchies: opens child submenu or returns to parent menu item (direction follows hierarchy and orientation). Home / End Moves focus to first/last item in current menu level. Printable character keys Moves focus to the next item whose label begins with typed character(s) (typeahead). Enter or Space (on item) Activates item. For checkbox/radio/switch items, may toggle state and optionally keep menu open based on selection behavior. Esc Closes current submenu/menu and returns focus to parent item or menu trigger. Tab / Shift + Tab Exits menu, closes open menus, and moves focus to next/previous focusable element."
     },
     {
       "type": "guideline",
-      "content": "Cursor guidelines.\n\nCursor Description PointerUse the pointer cursor for all interactive components in every state."
+      "content": "Cursor guidelines.\n\nCursor Description Pointer Use the pointer cursor for all interactive components in every state."
     },
     {
       "type": "guideline",
-      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon-text elements, such as icons used in menu items, must provide a text alternative that communicates the item's purpose. All menu items, especially icon-only items, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAMenus must be understandable to assistive technologies, such as screen readers. Use proper semantic HTML or the appropriate ARIA roles to ensure accessibility.Text contrast 1.4.3 AAThe visual presentation of text has a contrast ratio of at least 4.5:1.Resize text 1.4.4 AAMenus should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of illustrations and component states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons used in menu items, must provide a text alternative that communicates the item's purpose. All menu items, especially icon-only items, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Menus must be understandable to assistive technologies, such as screen readers. Use proper semantic HTML or the appropriate ARIA roles to ensure accessibility. Text contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Resize text 1.4.4 AA Menus should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of illustrations and component states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Menu",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

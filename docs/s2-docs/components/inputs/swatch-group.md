@@ -20,7 +20,7 @@ size Just like swatches, swatch groups come in four different sizes: extra-small
 
 ## States
 
-State Support status DefaultSupportedHoverNot SupportedDownNot SupportedKeyboard focusNot SupportedDisabledNot SupportedSelectedNot SupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not Supported Down Not Supported Keyboard focus Not Supported Disabled Not Supported Selected Not Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 
@@ -38,12 +38,12 @@ A corner rounding of none should be used in a swatch group in order to help mini
 
 ### Keyboard interactions
 
-Key Interaction TabMoves focus onto the swatch or swatch group.Arrow keysMoves focus through the swatches in the group.
+Key Interaction Tab Moves focus onto the swatch or swatch group. Arrow keys Moves focus through the swatches in the group.
 
 ### Cursor guidelines
 
-Cursor Description PointerUse the pointer cursor for all interactive elements in every state.
+Cursor Description Pointer Use the pointer cursor for all interactive elements in every state.
 
 ### WCAG 2.2 compliance
 
-Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon‑text elements must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAASwatch groups should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized, so the grouping relationship between swatches and the selected state are programmatically conveyed.Use of color 1.4.1 AThis criterion requires that color not be the only method of communicating information. In swatches, the color itself is the content being presented, not a cue that conveys additional meaning. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non‑text elements must provide a text alternative that communicates the control’s purpose. All controls, especially icon‑only controls, need an accessible name (for example, via a title, aria‑label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Swatch groups should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized, so the grouping relationship between swatches and the selected state are programmatically conveyed. Use of color 1.4.1 A This criterion requires that color not be the only method of communicating information. In swatches, the color itself is the content being presented, not a cue that conveys additional meaning. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast.

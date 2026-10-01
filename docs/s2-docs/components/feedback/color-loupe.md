@@ -20,7 +20,7 @@ isDisabled In the disabled state, the color handle indicates that input exists b
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedSupportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Supported Error Not supported
 
 ## Behaviors
 

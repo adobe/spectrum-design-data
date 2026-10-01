@@ -20,21 +20,21 @@ actionLabel A button is an optional element to prompt the user to take action. s
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownNot supportedKeyboard focusNot supportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Not supported Keyboard focus Not supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 
 ### Dragging file type over drop zone area
 
-When a user drags a file over the drop zone ( onDragOver ), the border and background styling update to reflect an active state. This visual cue helps users understand that the drop zone is ready to accept the file, reducing uncertainty.
+When a user drags a file over the drop zone (onDragOver), the border and background styling update to reflect an active state. This visual cue helps users understand that the drop zone is ready to accept the file, reducing uncertainty.
 
 ### Dropping file type within drop zone area
 
-When a user drops a file into the designated drop zone ( onDrop ), the zone should respond with clear visual feedback—this is typically achieved through displaying a button over the drop zone area informing the user that they may replace their content type. This feedback indicates that the user successfully dropped their file type into the zone and is permitted to replace it.
+When a user drops a file into the designated drop zone (onDrop), the zone should respond with clear visual feedback—this is typically achieved through displaying a button over the drop zone area informing the user that they may replace their content type. This feedback indicates that the user successfully dropped their file type into the zone and is permitted to replace it.
 
 ### Leaving drop zone area
 
-When a user drags a file outside the designated drop zone ( onDragLeave ), any visual indicators—such as borders or background styling should revert to their default state.
+When a user drags a file outside the designated drop zone (onDragLeave), any visual indicators—such as borders or background styling should revert to their default state.
 
 ## Usage guidelines
 

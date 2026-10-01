@@ -9,19 +9,6 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/tabs/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "Tabs",
-      "package": "@react-spectrum/s2"
-    },
-    {
-      "platform": "web",
-      "componentName": "Tabs",
-      "importPath": "@adobe/spectrum-wc/components/tabs",
-      "notes": "Spectrum 2 web component custom element: swc-tabs."
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -66,15 +53,28 @@
     },
     {
       "type": "guideline",
-      "content": "Keyboard interactions.\n\nThere are two possible behaviors for manipulating tabs with the keyboard: manual or automatic activation. Typically, manual activation of tabs is only necessary when content cannot be displayed instantly (i.e., not all the panel content is present in the DOM.) For additional guidance, see Deciding When to Make Selection Automatically Follow Focus. Option 1: Manual activation Key Interaction TabMoves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence.Left ArrowMoves focus to the previous tab item. If focus is on the first tab item, moves focus to the last tab item.Right ArrowMoves focus to the next tab item. If focus is on the last tab item, moves focus to the first tab item.Space or EnterActivates the tab item in focus.Home (optional)Moves focus to the first tab item.End (optional)Moves focus to the last tab item.Delete (optional)When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to the tab item following one that was closed. Option 2: Automatic activation Key Interaction TabMoves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence.Left ArrowMoves focus to the previous tab item and automatically activates it. If focus is on the first tab item, moves focus to the last tab item.Right ArrowMoves focus to the next tab item and automatically activates it. If focus is on the last tab item, moves focus to the first tab item.Home (optional)Moves focus to the first tab item and automatically activates it.End (optional)Moves focus to the last tab item and automatically activates it.Delete (optional)When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to and activates the tab item following one that was closed."
+      "content": "Keyboard interactions.\n\nThere are two possible behaviors for manipulating tabs with the keyboard: manual or automatic activation. Typically, manual activation of tabs is only necessary when content cannot be displayed instantly (i.e., not all the panel content is present in the DOM.) For additional guidance, see Deciding When to Make Selection Automatically Follow Focus. Option 1: Manual activation Key Interaction Tab Moves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence. Left Arrow Moves focus to the previous tab item. If focus is on the first tab item, moves focus to the last tab item. Right Arrow Moves focus to the next tab item. If focus is on the last tab item, moves focus to the first tab item. Space or Enter Activates the tab item in focus. Home (optional) Moves focus to the first tab item. End (optional) Moves focus to the last tab item. Delete (optional) When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to the tab item following one that was closed. Option 2: Automatic activation Key Interaction Tab Moves focus into the tabs component and places focus on the selected tab item. If the tabs component is already in focus, moves focus to the next element in the page tab sequence. Left Arrow Moves focus to the previous tab item and automatically activates it. If focus is on the first tab item, moves focus to the last tab item. Right Arrow Moves focus to the next tab item and automatically activates it. If focus is on the last tab item, moves focus to the first tab item. Home (optional) Moves focus to the first tab item and automatically activates it. End (optional) Moves focus to the last tab item and automatically activates it. Delete (optional) When deletion is allowed, Delete closes the currently activated tab item. If any tab items remain, moves focus to and activates the tab item following one that was closed."
     },
     {
       "type": "guideline",
-      "content": "Cursor guidelines.\n\nCursor Usage PointerUse the pointer cursor for interactive elements including tabs."
+      "content": "Cursor guidelines.\n\nCursor Usage Pointer Use the pointer cursor for interactive elements including tabs."
     },
     {
       "type": "guideline",
-      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 ANon-text elements, such as icons used in tabs, must provide a text alternative that communicates the tab's purpose. All tabs, especially icon-only tabs, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function.Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAATabs should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized.Orientation 1.3.4 AATabs are available in both vertical and horizontal orientations.Use of color 1.4.1 AColor is not used as a means to convey information or distinguish elements.Contrast 1.4.3 AAThe visual presentation of text has a contrast ratio of at least 4.5:1.Resize text 1.4.4 AATabs should be built in such a way that they can be resized without assistive technology up to 200%.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of icons and various states have a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast."
+      "content": "WCAG 2.2 compliance.\n\nAny criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Non-text content 1.1.1 A Non-text elements, such as icons used in tabs, must provide a text alternative that communicates the tab's purpose. All tabs, especially icon-only tabs, need an accessible name (for example, via a title, aria-label, or associated text) so screen readers can announce their function. Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Tabs should be understandable by assistive technologies like screen readers. This means the proper semantic HTML or ARIA role should be utilized. Orientation 1.3.4 AA Tabs are available in both vertical and horizontal orientations. Use of color 1.4.1 A Color is not used as a means to convey information or distinguish elements. Contrast 1.4.3 AA The visual presentation of text has a contrast ratio of at least 4.5:1. Resize text 1.4.4 AA Tabs should be built in such a way that they can be resized without assistive technology up to 200%. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of icons and various states have a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tabs",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "Tabs",
+      "importPath": "@adobe/spectrum-wc/components/tabs",
+      "notes": "Spectrum 2 web component custom element: swc-tabs."
     }
   ],
   "options": {

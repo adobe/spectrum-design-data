@@ -11,7 +11,13 @@
  * governing permissions and limitations under the License.
  */
 
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  realpathSync,
+  writeFileSync,
+} from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transformComponent } from "./transformer.js";
@@ -37,14 +43,20 @@ const GUIDELINE_SUBTREES = [
 const GUIDELINES_OUT_DIR = join(ROOT, "packages/design-data/guidelines");
 
 /** Map component slug → absolute path to s2-docs Markdown file */
-function buildDocIndex() {
+export function buildDocIndex(docsDir = DOCS_DIR) {
   const index = new Map();
-  for (const category of readdirSync(DOCS_DIR)) {
-    const catDir = join(DOCS_DIR, category);
+  for (const category of readdirSync(docsDir)) {
+    const catDir = join(docsDir, category);
     for (const file of readdirSync(catDir)) {
       if (!file.endsWith(".md")) continue;
       const slug = file.replace(".md", "");
-      index.set(slug, join(catDir, file));
+      const path = join(catDir, file);
+      if (index.has(slug)) {
+        throw new Error(
+          `Duplicate component slug "${slug}" in ${index.get(slug)} and ${path}. Reconcile staged component paths before transforming.`,
+        );
+      }
+      index.set(slug, path);
     }
   }
   return index;
@@ -452,7 +464,13 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (
+  process.argv[1] &&
+  existsSync(process.argv[1]) &&
+  realpathSync(process.argv[1]) === realpathSync(__filename)
+) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

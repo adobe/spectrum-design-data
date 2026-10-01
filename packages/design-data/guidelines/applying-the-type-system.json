@@ -8,6 +8,10 @@
     { "type": "purpose", "content": "Applying the type system" },
     {
       "type": "guideline",
+      "content": "The following are some general examples to show how the Spectrum 2 typography system all comes together, and how type styles can be used together to create visual hierarchy."
+    },
+    {
+      "type": "guideline",
       "content": "Image: Card example with numbered callouts: 1) \"Card title\" labeled as the Title style, and 2) \"Card description\" labeled as the Body style, over a colorful gradient image. (source: https://spectrum.adobe.com/foundations/typography/media_18dd0601a7059dd3b917ba5cc09fa50cfc5e3786e.png?width=750&format=png&optimize=medium)"
     },
     {
@@ -28,7 +32,7 @@
     },
     {
       "type": "guideline",
-      "content": "Use Spectrum font sizes.\n\nChoose from Spectrum's defined font sizes. By using unique font sizes, you risk upsetting the hierarchy and balance of typography in your product. Image: Text reading \"Spectrum delivers what's needed, when it's needed.\" labeled with a custom value of 17 px instead of a Spectrum font size token, shown as a don't example. (source: https://spectrum.adobe.com/foundations/typography/media_1280ff1daf36ac669b43bcc3e021b8a6774c4cbb6.png?width=750&format=png&optimize=medium)Image: Text reading \"Spectrum delivers what's needed, when it's needed.\" labeled with the token font-size-200, shown as a do example. (source: https://spectrum.adobe.com/foundations/typography/media_17c4dbbf625e3b2e743e6a75e591d7f5991b5cfbc.png?width=750&format=png&optimize=medium)"
+      "content": "Use Spectrum font sizes.\n\nChoose from Spectrum's defined font sizes. By using unique font sizes, you risk upsetting the hierarchy and balance of typography in your product. Image: Text reading \"Spectrum delivers what's needed, when it's needed.\" labeled with a custom value of 17 px instead of a Spectrum font size token, shown as a don't example. (source: https://spectrum.adobe.com/foundations/typography/media_1280ff1daf36ac669b43bcc3e021b8a6774c4cbb6.png?width=750&format=png&optimize=medium) Image: Text reading \"Spectrum delivers what's needed, when it's needed.\" labeled with the token font-size-200, shown as a do example. (source: https://spectrum.adobe.com/foundations/typography/media_17c4dbbf625e3b2e743e6a75e591d7f5991b5cfbc.png?width=750&format=png&optimize=medium)"
     },
     {
       "type": "guideline",

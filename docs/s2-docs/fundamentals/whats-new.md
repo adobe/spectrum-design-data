@@ -1,5 +1,5 @@
 ---
-title: Great design systems evolve alongside the people who use them
+title: A new home for Spectrum
 category: fundamentals
 source_url: https://spectrum.adobe.com/getting-started/whats-new
 last_updated: '2026-09-29'
@@ -8,25 +8,11 @@ tags: []
 hub_path: /getting-started/whats-new
 ---
 
-# Great design systems evolve alongside the people who use them
-
-## September 30, 2026
-
-Release 1.0
-
-### Available now
-
-Web platform status table of component availability Component design guidelines Live component playgrounds RSP and SWC implementation API information Foundations fully migrated with updated content Content fully migrated with updated content FAQs, Contact us, Resources, Developer overview, AI resource guide
-
-### Coming soon
-
-Mobile (iOS + Android) component documentation Conversational AI chat experience Unified pattern guidance and principles Release 1.0
-
-## September 30, 2026
-
 # A new home for Spectrum
 
-Spectrum Hub is the central home for Spectrum bringing together the foundations, guidance, resources, tools, and offerings that help teams create with Spectrum. This first release establishes a new experience for exploring Spectrum across platforms. It brings together foundational guidance, design and component resources, live implementations, and support in one connected place, creating a foundation for Spectrum to grow beyond documentation. As the Hub evolves, it will become the place to understand what Spectrum is, what it offers, how to use it, and where it’s going.
+## September 30, 2026
+
+<code>Release 1.0 </code>
 
 ### Available now
 

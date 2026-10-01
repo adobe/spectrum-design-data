@@ -33,30 +33,6 @@ When there isn’t a side navigation present, the header should contain the prim
 
 ### D. Search
 
-The search field is optional, but when used, should be center aligned. Use a minimized search button when there isn’t space for a search field. View specific guidance about Digital Experience products.
-
-### E. Universal nav (navigation)
-
-The universal nav provides clear and consistent access to important Adobe-wide actions, regardless of cloud, product, or surface. View details about the Universal nav.
-
-### F. Side navigation state control
-
-The side navigation state control (hamburger icon) appears in the header for mobile breakpoints and the Unified Shell. View details about the side navigation state control usage. There are several parts of the header that are consistent across all Adobe products:
-
-### A. Top App Bar (TAB) switcher
-
-TAB is the up-to-date form of the 9-grid app switcher in Adobe Home. While the underlying functionality remains unchanged, the TAB introduces a more prominent visual placement, appearing at the top of the header when active. View more information on TAB usage.
-
-### B. Product lock-up
-
-The lock-up tile is provided by the Brand team. It should be used as-is based on the specs in the Figma library. These items should be shown as-is, in all root-level browsing headers. In a small breakpoint, the product name can be hidden to allow room for additional actions. View more information about Brand assets.
-
-### C. Navigation
-
-When there isn’t a side navigation present, the header should contain the primary, top-level navigation that represents the main categories of the product.
-
-### D. Search
-
 The search field is optional, but when used, should be center aligned. Use a minimized search button when there isn’t space for a search field.
 
 ### E. Universal nav (navigation)
@@ -71,7 +47,7 @@ The side navigation state control (hamburger icon) appears in the header for mob
 
 ### App frame header
 
-Property Value Default value Description hasSideNavigationStateControlbooleanfalseThis is required when the side navigation is draggable for accessibility.hasNavigationItemsbooleanfalseIf a side nav is present, there should be no navigation items in the header.hasSearchbooleanfalse-searchStyledefault / minimizeddefaultSearch can be shown in the default style (expanded) or minimized when there isn't enough space.hasSkipToMainContentButtonbooleanfalseIf using this, it appears only on keyboard focus, as the first item in the focus order.
+Property Value Default value Description hasSideNavigationStateControl boolean false This is required when the side navigation is draggable for accessibility. hasNavigationItems boolean false If a side nav is present, there should be no navigation items in the header. hasSearch boolean false - searchStyle default / minimized default Search can be shown in the default style (expanded) or minimized when there isn't enough space. hasSkipToMainContentButton boolean false If using this, it appears only on keyboard focus, as the first item in the focus order.
 
 ### hasSideNavigationStateControl
 
@@ -95,7 +71,7 @@ The “skip to main content” button helps improve keyboard navigation by creat
 
 ### App frame header navigation item
 
-Property Value Default value Description hasIconbooleanfalse-iconicon--labeltext-A label is required and is also used as the accessible name.isSelectedbooleanfalseSelected items have a different visual style (inverted) in order to sufficiently differentiate from items that are not selected.isDisabledbooleanfalseIndividual header navigation items can be disabled.hasPopoverbooleanfalseInstead of clicking to select the item, a popover is shown instead with additional navigation items.
+Property Value Default value Description hasIcon boolean false - icon icon - - label text - A label is required and is also used as the accessible name. isSelected boolean false Selected items have a different visual style (inverted) in order to sufficiently differentiate from items that are not selected. isDisabled boolean false Individual header navigation items can be disabled. hasPopover boolean false Instead of clicking to select the item, a popover is shown instead with additional navigation items.
 
 ### showIcon
 
@@ -123,7 +99,7 @@ Shows a chevron next to the label that indicates an additional menu.
 
 ### App frame side navigation state control
 
-Property Value Default value Description labeltextShow menu labels / Hide menu labelsThe label (optional) should be the same as the accessible name (required).
+Property Value Default value Description label text Show menu labels / Hide menu labels The label (optional) should be the same as the accessible name (required).
 
 ### label
 
@@ -133,21 +109,21 @@ The text that is displayed as the label of the tooltip.
 
 ### App frame header
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Not supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ### App frame header navigation item
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Not supported
 
 ### App frame side navigation state control
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Usage guidelines
 
 ### Limit the number of call-to-action (CTA) buttons
 
-As a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy. If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs. Image: Example of correct usage of using limited call-to-action buttons. One button, label Get desktop app. An icon-only button appears to the right, visible label on hover, Join the Discord. (source: https://spectrum.adobe.com/foundations/app-frame/media_16fd8edfc024330c607cbc6d5c94ca4c187ed6276.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of including too many call to action buttons. First button, label Get desktop app. Second button, label Join the Discord. (source: https://spectrum.adobe.com/foundations/app-frame/media_1bdd7c92cc1e26fcf2c5d56a39f4c284c077d040c.png?width=750&format=png&optimize=medium)
+As a general rule, only use one call-to-action (CTA) button, aside from any buttons used to log in or log out, as defined in the universal nav. When too many CTAs are shown at once, the messages compete for attention and dilute the ability for a focused attention hierarchy. If there are multiple actions, consider combining them into a single menu or use other button types. The button should represent the most important CTA across the product; for example, “Share” and “Get desktop app” are common CTAs. Image: Example of correct usage of using limited call-to-action buttons. One button, label Get desktop app. An icon-only button appears to the right, visible label on hover, Join the Discord. (source: https://spectrum.adobe.com/foundations/app-frame/media_16fd8edfc024330c607cbc6d5c94ca4c187ed6276.png?width=750&format=png&optimize=medium) Image: Example of incorrect usage of including too many call to action buttons. First button, label Get desktop app. Second button, label Join the Discord. (source: https://spectrum.adobe.com/foundations/app-frame/media_1bdd7c92cc1e26fcf2c5d56a39f4c284c077d040c.png?width=750&format=png&optimize=medium)
 
 ### Examples
 
@@ -157,11 +133,11 @@ Image: Diagram showing various examples of the app frame header. First example, 
 
 ### Keyboard interactions
 
-If a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation. Key Interactions TabFocuses onto or off of the header.Arrow keysMoves between header navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item.
+If a “skip to main content” button is enabled, it appears only on keyboard focus as the first item in the focus order. View details and examples of keyboard interactions documentation. Key Interactions Tab Focuses onto or off of the header. Arrow keys Moves between header navigation items. Space/enter Executes selection of the item and changes the view of the page in the content area. The focus remains on the selected header item.
 
 ### Cursor guidelines
 
-State Cursor Description HoverPointer Product icon and name is a link and should use a pointer.HoverArrowEverything else that is not a link.
+State Cursor Description Hover Pointer Product icon and name is a link and should use a pointer. Hover Arrow Everything else that is not a link.
 
 ## Notes on the editing context
 

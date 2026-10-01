@@ -16,7 +16,7 @@ staticColor Use the static color option when a link needs to be placed on top of
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Usage guidelines
 
@@ -62,12 +62,12 @@ Don't place a generic "Learn more" link in design specs without thinking through
 
 ### Keyboard interactions
 
-Key Interaction TabMoves focus onto or off of the link component.EnterExecutes the link and moves the focus to the link target.
+Key Interaction Tab Moves focus onto or off of the link component. Enter Executes the link and moves the focus to the link target.
 
 ### Cursor guidelines
 
-Cursor Usage PointerUse the pointer cursor for interactive components like links.
+Cursor Usage Pointer Use the pointer cursor for interactive components like links.
 
 ### WCAG 2.2 compliance
 
-Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAALinks should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey that text is a link. Links are paired with an additional visual indicator, such as an underline, so the link purpose is communicated without relying on color alone.Text contrast 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of link states has a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size. 2. Operable RequirementCriterionLevel Compliance Keyboard 2.1.1, 2.1.3 A, AAAAll functionality of the component is operable through a keyboard without specific timing for keystrokes.Keyboard traps 2.1.2 AFocus can be moved away from the component using only a keyboard.Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.Focus order 2.4.3 ANavigation sequences receive focus in an order that preserves meaning and operability.Focus visible 2.4.7 AAKeyboard states use an indicator that is visible with at least 3:1 contrast.
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Links should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey that text is a link. Links are paired with an additional visual indicator, such as an underline, so the link purpose is communicated without relying on color alone. Text contrast 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of link states has a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size. 2. Operable Requirement Criterion Level Compliance Keyboard 2.1.1, 2.1.3 A, AAA All functionality of the component is operable through a keyboard without specific timing for keystrokes. Keyboard traps 2.1.2 A Focus can be moved away from the component using only a keyboard. Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component. Focus order 2.4.3 A Navigation sequences receive focus in an order that preserves meaning and operability. Focus visible 2.4.7 AA Keyboard states use an indicator that is visible with at least 3:1 contrast.

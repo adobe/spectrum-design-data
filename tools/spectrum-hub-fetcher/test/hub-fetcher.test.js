@@ -23,10 +23,63 @@ import { inlineFragments } from "../src/fragments.js";
 import { stripNoise, splitSections } from "../src/sections.js";
 import { renderPage } from "../src/markdown.js";
 import { parseDoc } from "../../s2-docs-to-document-blocks/src/md-parser.js";
+import { buildGuideline } from "../../s2-docs-to-document-blocks/src/guideline-builder.js";
 
 function loadFixture(pathname) {
   return readFileSync(new URL(pathname, import.meta.url), "utf8");
 }
+
+test("text boundaries and decoded punctuation survive extraction and guideline publication", (t) => {
+  const root = parse(loadFixture("./fixtures/text-boundaries.plain.html"));
+  stripNoise(root);
+  const sections = splitSections(root);
+  const text = sections.map((section) => section.text).join(" ");
+  t.true(text.includes("Up to 10 300%"));
+  t.true(text.includes("First paragraph. Second paragraph."));
+  t.true(text.includes("paragraphs Image:"));
+  t.true(text.includes('Use "quoted" text & punctuation <like this>.'));
+  t.true(text.includes("Don't break inline words."));
+  t.false(text.includes("&quot;"));
+  t.false(text.includes("10300%"));
+  t.false(text.includes("Hidden internal guidance"));
+  const markdown = renderPage({
+    title: "Text boundaries",
+    category: "designing",
+    sourceUrl: "https://spectrum.adobe.com/guides/text-boundaries",
+    sections,
+  });
+  const { doc } = buildGuideline(parseDoc(markdown), "text-boundaries");
+  const published = JSON.stringify(doc.documentBlocks);
+  t.true(published.includes("Up to 10 300%"));
+  t.true(published.includes("First paragraph. Second paragraph."));
+  t.false(published.includes("&quot;"));
+  t.false(published.includes("paragraphsImage:"));
+});
+
+test("published internationalization and grammar guidance retains readable text", (t) => {
+  for (const slug of ["internationalization", "grammar-and-mechanics"]) {
+    const markdown = readFileSync(
+      new URL(`../../../docs/s2-docs/designing/${slug}.md`, import.meta.url),
+      "utf8",
+    );
+    const json = readFileSync(
+      new URL(
+        `../../../packages/design-data/guidelines/${slug}.json`,
+        import.meta.url,
+      ),
+      "utf8",
+    );
+    for (const text of [markdown, json]) {
+      t.false(text.includes("&quot;"), slug);
+      if (slug === "internationalization") {
+        t.true(text.includes("Up to 10 300%"));
+        t.true(text.includes("paragraphs Image:"));
+        t.false(text.includes("10300%"));
+        t.false(text.includes("paragraphsImage:"));
+      }
+    }
+  }
+});
 
 function createFixtureFetch() {
   return async function fetchFixture(path) {

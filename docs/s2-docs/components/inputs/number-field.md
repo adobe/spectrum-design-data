@@ -20,7 +20,7 @@ hideStepper Number fields can have optional stepper buttons to the side of the f
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownNot supportedFocus hoverSupportedFocus not hoverSupportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorSupported
+State Support status Default Supported Hover Supported Down Not supported Focus hover Supported Focus not hover Supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Not supported Error Supported
 
 ## Behaviors
 

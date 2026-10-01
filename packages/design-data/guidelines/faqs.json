@@ -44,6 +44,10 @@
     },
     {
       "type": "guideline",
+      "content": "Review our Developer overview page for detailed information about developing with Spectrum 2."
+    },
+    {
+      "type": "guideline",
       "content": "Breaking changes ahead.\n\nThe update to Spectrum 2 may cause breaking changes. Changes will include updates to colors, renamed tokens in the gray system, updates to corner rounding, and increased padding."
     },
     {

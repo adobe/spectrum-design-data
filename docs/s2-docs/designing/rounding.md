@@ -17,7 +17,7 @@ hub_path: /foundations/styles/object-styles/rounding
 
 ## Principles
 
-Image: A rounded triangle icon with softened corners on a light gradient background, illustrating the principle of avoiding sharp corners. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1679863e98a51e7b0ee74efe42d30c2a60c9eb9a2.png?width=750&format=png&optimize=medium)Image: Four corner bracket shapes forming a square outline, with the top-right corner highlighted in green, illustrating visually balanced corner treatment. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_15d9fe99db8308191713c76cbdf0cbc1d99a99a8a.png?width=750&format=png&optimize=medium)
+Image: A rounded triangle icon with softened corners on a light gradient background, illustrating the principle of avoiding sharp corners. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1679863e98a51e7b0ee74efe42d30c2a60c9eb9a2.png?width=750&format=png&optimize=medium) Image: Four corner bracket shapes forming a square outline, with the top-right corner highlighted in green, illustrating visually balanced corner treatment. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_15d9fe99db8308191713c76cbdf0cbc1d99a99a8a.png?width=750&format=png&optimize=medium)
 
 ### No sharp corners
 
@@ -43,7 +43,7 @@ Spectrum uses different approaches to create visually balanced nested corners, d
 
 ### Focus rings
 
-Focus rings use an outer stroke separated from the component by a consistent gap. To maintain visually balanced spacing around every corner radius, Spectrum calculates the focus ring radius using the following formula: &#x3C;outer radius> - &#x3C;gap> = &#x3C;inner radius> Image: Diagram of a rounded card containing a small checkbox and heart icon, labeling the large container radius and the small nested component radius. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1238596e6de27dfab676345a245d99aca9c0a01c0.png?width=750&format=png&optimize=medium)
+Focus rings use an outer stroke separated from the component by a consistent gap. To maintain visually balanced spacing around every corner radius, Spectrum calculates the focus ring radius using the following formula: <outer radius> - <gap> = <inner radius> Image: Diagram of a rounded card containing a small checkbox and heart icon, labeling the large container radius and the small nested component radius. (source: https://spectrum.adobe.com/foundations/styles/object-styles/media_1238596e6de27dfab676345a245d99aca9c0a01c0.png?width=750&format=png&optimize=medium)
 
 ### Nested components
 
@@ -77,4 +77,4 @@ Use Apple’s concentric rectangle APIs when working with nested shapes. Concent
 
 ### Platform availability
 
-These tokens are currently available on web. Guidance for additional platforms will be added in a future release. StyleTokenValueSmall corner-radius-small-default 4 pxMedium corner-radius-medium-default 8 pxLarge corner-radius-large-default 10 pxExtra-large corner-radius-extra-large-default 16 pxFull no token, calculated with formula: height ÷ 2 --
+These tokens are currently available on web. Guidance for additional platforms will be added in a future release. Style Token Value Small corner-radius-small-default 4 px Medium corner-radius-medium-default 8 px Large corner-radius-large-default 10 px Extra-large corner-radius-extra-large-default 16 px Full no token, calculated with formula: height ÷ 2 --

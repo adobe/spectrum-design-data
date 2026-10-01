@@ -20,7 +20,7 @@ slots The takeover dialog supports two slots—one in the header and one in the 
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Not supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

@@ -20,7 +20,7 @@ orientation By default, dividers are horizontal and should be used for separatin
 
 ## States
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusNot supportedDisabledNot supportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Not supported Disabled Not supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Usage guidelines
 
@@ -36,8 +36,8 @@ Dividers lose their value when overused. Use them sparingly to avoid creating un
 
 ### Cursor guidelines
 
-Cursor Usage Default (Arrow)Use the default cursor for non-interactive elements like the divider.
+Cursor Usage Default (Arrow) Use the default cursor for non-interactive elements like the divider.
 
 ### WCAG 2.2 compliance
 
-Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 2. Operable Requirement Criterion Level Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 2. Operable Requirement Criterion Level Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component.

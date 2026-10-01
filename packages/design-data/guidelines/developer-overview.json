@@ -8,6 +8,10 @@
     { "type": "purpose", "content": "Developer overview" },
     {
       "type": "guideline",
+      "content": "Spectrum 2 is available for web-based Spectrum implementations before other platforms like desktop or mobile. There are two primary implementations of Spectrum for web: React Spectrum (RSP) and Spectrum Web Components (SWC). Both of these implementations currently support Spectrum 2 in some form."
+    },
+    {
+      "type": "guideline",
       "content": "React Spectrum (RSP).\n\nSpectrum 2 for React Spectrum is now Generally Available. Over 70 components matching the Spectrum 2 Figma designs are now production-ready and available in the new @react-spectrum/s2 package. The Spectrum 2 package supports both new projects and those already on React Spectrum v3, with the ability to migrate portions of an application independently. Migration support is available through the upgrade migration tool as well as documentation on the website. See our guides to learn how to use Spectrum tokens via the style macros and ways to build using AI agents. React Spectrum components are built on React Aria Components and Spectrum Tokens, and will continue to be added incrementally as designs become available. For a full list of currently available components, see the Status section of the Spectrum 2 for React Spectrum page. Visit the React Spectrum website for component documentation, examples, latest updates, and release information. Join #react-spectrum and #rsp-announcements on Slack for announcements and support."
     },
     {
@@ -17,6 +21,10 @@
     {
       "type": "guideline",
       "content": "The first phase of Spectrum 2 has been focused on the web. Though Spectrum has always made cross-platform design a priority, the majority of emerging products at Adobe have been web-first in recent years. As such, we’re not ready to share any detailed plans for updates to desktop component libraries such as Qt or Drover. Learn more about desktop and mobile platforms in the FAQs."
+    },
+    {
+      "type": "guideline",
+      "content": "Mobile support for Spectrum 2 is currently in progress on both Spectrum iOS and Spectrum Android."
     },
     {
       "type": "guideline",

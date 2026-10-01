@@ -20,7 +20,7 @@ sizeOverride Overrides the default size of breadcrumb items when isMultiline is 
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownNot supportedKeyboard focusSupportedDisabledSupportedSelectedNot supportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Not supported Keyboard focus Supported Disabled Supported Selected Not supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

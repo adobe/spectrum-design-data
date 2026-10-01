@@ -42,7 +42,7 @@ All-caps styles are not recommended for usage within UI components because it do
 
 ### Use Spectrum font sizes
 
-Choose from Spectrum's defined font sizes. By using unique font sizes, you risk upsetting the hierarchy and balance of typography in your product. Image: Text reading "Spectrum delivers what's needed, when it's needed." labeled with a custom value of 17 px instead of a Spectrum font size token, shown as a don't example. (source: https://spectrum.adobe.com/foundations/typography/media_1280ff1daf36ac669b43bcc3e021b8a6774c4cbb6.png?width=750&format=png&optimize=medium)Image: Text reading "Spectrum delivers what's needed, when it's needed." labeled with the token font-size-200, shown as a do example. (source: https://spectrum.adobe.com/foundations/typography/media_17c4dbbf625e3b2e743e6a75e591d7f5991b5cfbc.png?width=750&format=png&optimize=medium)
+Choose from Spectrum's defined font sizes. By using unique font sizes, you risk upsetting the hierarchy and balance of typography in your product. Image: Text reading "Spectrum delivers what's needed, when it's needed." labeled with a custom value of 17 px instead of a Spectrum font size token, shown as a don't example. (source: https://spectrum.adobe.com/foundations/typography/media_1280ff1daf36ac669b43bcc3e021b8a6774c4cbb6.png?width=750&format=png&optimize=medium) Image: Text reading "Spectrum delivers what's needed, when it's needed." labeled with the token font-size-200, shown as a do example. (source: https://spectrum.adobe.com/foundations/typography/media_17c4dbbf625e3b2e743e6a75e591d7f5991b5cfbc.png?width=750&format=png&optimize=medium)
 
 ### Respect capitalization rules
 

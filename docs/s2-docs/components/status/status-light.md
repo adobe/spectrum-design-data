@@ -20,7 +20,7 @@ label Status lights should always include a label. Color alone is not enough to 
 
 ## States
 
-State Support status DefaultSupportedHoverNot SupportedDownNot SupportedKeyboard focusNot SupportedDisabledNot SupportedSelectedNot SupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Not Supported Down Not Supported Keyboard focus Not Supported Disabled Not Supported Selected Not Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 
@@ -48,8 +48,8 @@ For RTL (right-to-left) languages, the layout of the status light is mirrored. T
 
 ## Cursor guidelines
 
-Cursor Description Default (Arrow)Use the default cursor for non-interactive components like status light.
+Cursor Description Default (Arrow) Use the default cursor for non-interactive components like status light.
 
 ## WCAG 2.2 compliance
 
-Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAAStatus lights should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized.Use of color 1.4.1 AColor is never used as the sole way to convey meaning in status lights. While color is used to reinforce their meaning, every status light also includes a clear text label that communicates the status.Text contrast minimums 1.4.3 AALarge text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement.Visual presentation 1.4.8 AAAThe width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified.Non-text contrast 1.4.11 AAThe visual presentation of the status light dot has a contrast ratio of at least 3:1.Text spacing 1.4.12 AALine height of text is at least 1.5x the font size when wrapped. 2. Operable RequirementCriterionLevel Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAAThere is no flashing content or unnecessary motion or animation in this component.
+Any criterion not mention in the below table are not applicable to this component or are resolved with underlying requirements, engineering, and styles of the entire system. 1. Perceivable Requirement Criterion Level Compliance Info and relationships, Identify purpose 1.3.1, 1.3.6 A, AAA Status lights should be understandable by assistive technologies like screen readers. This means using the proper semantic HTML or ARIA role should be utilized. Use of color 1.4.1 A Color is never used as the sole way to convey meaning in status lights. While color is used to reinforce their meaning, every status light also includes a clear text label that communicates the status. Text contrast minimums 1.4.3 AA Large text has a contrast ratio of at least 3:1, and small text has a contrast ratio of at least 4.5:1. Incidental text such as disabled, hidden, or decorative text has no contrast requirement. Visual presentation 1.4.8 AAA The width of text blocks is no more than 80 characters (40 for CJK languages), and text is never justified. Non-text contrast 1.4.11 AA The visual presentation of the status light dot has a contrast ratio of at least 3:1. Text spacing 1.4.12 AA Line height of text is at least 1.5x the font size when wrapped. 2. Operable Requirement Criterion Level Compliance Seizures and physical reactions 2.3.1, 2.3.2, 2.3.3 A, AAA, AAA There is no flashing content or unnecessary motion or animation in this component.

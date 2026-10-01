@@ -15,9 +15,8 @@
  * docs/s2-docs/components tree that tools/s2-docs-to-document-blocks's
  * `transform` command reads.
  *
- * Deliberately additive, mirroring scripts/stage-docs.js's "hub wins" policy:
- * files already in docs/s2-docs/components that this run has no counterpart
- * for are left untouched. Unlike stage-docs.js, category subdirectories are
+ * Reconciles category migrations by component filename. Components omitted
+ * from this run are left untouched. Unlike stage-docs.js, subdirectories are
  * discovered from the source tree rather than a hardcoded list — component
  * categories (actions/containers/data-visualization/feedback/inputs/
  * navigation/status) come from each target's own `meta.category` field (see
@@ -34,6 +33,7 @@ import {
   readFileSync,
   writeFileSync,
   existsSync,
+  unlinkSync,
 } from "node:fs";
 import { join } from "node:path";
 
@@ -61,11 +61,16 @@ function collect(from) {
     return files;
   }
 
-  for (const category of readdirSync(from)) {
-    const dir = join(from, category);
-    for (const name of readdirSync(dir)) {
-      if (name.endsWith(".md")) {
-        files.push({ category, name, source: join(dir, name) });
+  for (const category of readdirSync(from, { withFileTypes: true })) {
+    if (!category.isDirectory()) continue;
+    const dir = join(from, category.name);
+    for (const file of readdirSync(dir, { withFileTypes: true })) {
+      if (file.isFile() && file.name.endsWith(".md")) {
+        files.push({
+          category: category.name,
+          name: file.name,
+          source: join(dir, file.name),
+        });
       }
     }
   }
@@ -88,6 +93,17 @@ function main() {
   let added = 0;
   let updated = 0;
   let unchanged = 0;
+  let removed = 0;
+  const incoming = new Map();
+  for (const file of files) {
+    if (incoming.has(file.name)) {
+      throw new Error(
+        `Duplicate component "${file.name}" in ${incoming.get(file.name)} and ${file.source}`,
+      );
+    }
+    incoming.set(file.name, file.source);
+  }
+  const existing = collect(options.to);
 
   for (const file of files) {
     const targetDir = join(options.to, file.category);
@@ -102,12 +118,17 @@ function main() {
       mkdirSync(targetDir, { recursive: true });
       writeFileSync(target, contents);
     }
+    for (const old of existing) {
+      if (old.name !== file.name || old.category === file.category) continue;
+      removed += 1;
+      if (!options.dryRun) unlinkSync(old.source);
+    }
   }
 
   const prefix = options.dryRun ? "[dry-run] " : "";
   console.log(`${prefix}${files.length} component page(s) -> ${options.to}`);
   console.log(
-    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}`,
+    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}, removed ${removed} superseded path(s)`,
   );
 }
 

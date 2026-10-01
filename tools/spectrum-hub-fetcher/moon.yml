@@ -18,6 +18,13 @@ tasks:
     command:
       - pnpm
       - ava
+    inputs:
+      - "**/*"
+      - "/tools/s2-docs-to-document-blocks/src/**/*"
+      - "/docs/s2-docs/components/**/*.md"
+      - "/packages/design-data/components/**/*.json"
+      - "/docs/s2-docs/{designing,fundamentals,developing,support}/**/*.md"
+      - "/packages/design-data/guidelines/**/*.json"
     options:
       runInCI: true
 

@@ -20,7 +20,7 @@ isSelected, multiple, and showCheckbox Select boxes allow users to choose option
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 

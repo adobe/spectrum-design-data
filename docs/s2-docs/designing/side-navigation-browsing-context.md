@@ -32,7 +32,7 @@ The panel icon side navigation state control is located at the bottom of the sid
 
 ### App frame side navigation panel
 
-Property Value Default value Description minimizedbooleanfalseIf the side navigation can be minimized, the app frame side navigation control must be present.minimizedStylepartial / fullpartialUse a partial style when users still need access to navigation items when the navigation is minimized. The panel supports expanded and partially minimized, or expanded and fully minimized states, not all three.hasCreateButtonbooleanfalseThis is an instance of the button component specific to only app frame.isResizablebooleanfalseResizing is primarily useful when there is user-generated content in the side navigation. Otherwise, the default expanded and minimized states are sufficient.dragToMinimizebooleanfalse-minWidth (expanded)number160pxIf drag to collapse is enabled, this is the minimum width at which the side navigation will be minimized.defaultWdth (expanded)auto / numberautoThe default panel width should auto-adjust to the longest string in the navigation in order to accommodate all translations.
+Property Value Default value Description minimized boolean false If the side navigation can be minimized, the app frame side navigation control must be present. minimizedStyle partial / full partial Use a partial style when users still need access to navigation items when the navigation is minimized. The panel supports expanded and partially minimized, or expanded and fully minimized states, not all three. hasCreateButton boolean false This is an instance of the button component specific to only app frame. isResizable boolean false Resizing is primarily useful when there is user-generated content in the side navigation. Otherwise, the default expanded and minimized states are sufficient. dragToMinimize boolean false - minWidth (expanded) number 160px If drag to collapse is enabled, this is the minimum width at which the side navigation will be minimized. defaultWdth (expanded) auto / number auto The default panel width should auto-adjust to the longest string in the navigation in order to accommodate all translations.
 
 ### minimized
 
@@ -56,7 +56,7 @@ If the side navigation panel can be minimized (Can be minimized: true), dragging
 
 ### App frame side navigation item
 
-Property Value Default value Description iconicon-An icon is required in order to identify the side navigation item for the first level.labeltext-A label is required and is also used as the accessible name.hideLabelbooleanfalseIf the label is hidden, the label will appear in the tooltip on hover. If the side navigation panel supports behavior to minimize and expand, it will override this option.labelTruncationone line / two lines / nonetwo linesThe default value works for most cases based on Spectrum's recommended string length in English (in U.S. English, which is the source locale). However, this should be validated on a case-by-case basis, depending on the label. In general, labels should not be so long that they require truncation.isSelectedbooleanfalseSelected items have a different visual style (inverted) in order to sufficiently differentiate from items that are not selected.isDisabledbooleanfalseIndividual side navigation items can be disabled.
+Property Value Default value Description icon icon - An icon is required in order to identify the side navigation item for the first level. label text - A label is required and is also used as the accessible name. hideLabel boolean false If the label is hidden, the label will appear in the tooltip on hover. If the side navigation panel supports behavior to minimize and expand, it will override this option. labelTruncation one line / two lines / none two lines The default value works for most cases based on Spectrum's recommended string length in English (in U.S. English, which is the source locale). However, this should be validated on a case-by-case basis, depending on the label. In general, labels should not be so long that they require truncation. isSelected boolean false Selected items have a different visual style (inverted) in order to sufficiently differentiate from items that are not selected. isDisabled boolean false Individual side navigation items can be disabled.
 
 ### label
 
@@ -80,7 +80,7 @@ Changes the side navigation item to the disabled state.
 
 ### App frame side navigation state control
 
-Property Value Default value Description labeltextShow menu labels / Hide menu labelsThe label (optional) should be the same as the accessible name (required).
+Property Value Default value Description label text Show menu labels / Hide menu labels The label (optional) should be the same as the accessible name (required).
 
 ### label
 
@@ -90,15 +90,15 @@ The text that is displayed as the label of the tooltip.
 
 ### App frame side navigation panel
 
-State Support status DefaultSupportedHoverNot supportedDownNot supportedKeyboard focusSupportedDisabledNot supportedSelectedNot supportedDraggedSupportedErrorNot supported
+State Support status Default Supported Hover Not supported Down Not supported Keyboard focus Supported Disabled Not supported Selected Not supported Dragged Supported Error Not supported
 
 ### App frame side navigation item
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Not supported
 
 ### App frame side navigation state control
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledNot supportedSelectedSupportedDraggedNot supportedErrorNot supported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Not supported Selected Supported Dragged Not supported Error Not supported
 
 ## Behaviors
 
@@ -122,7 +122,7 @@ If the side navigation contains user-generated content (like shortcuts to folder
 
 ### If drag to resize is enabled, support alternate methods for resizing
 
-Spectrum is committed to complying with WCAG standards, and dragging interactions require alternate methods. The side navigation width can be dragged to resize the side navigation state control ( hamburger icon in the header or panel icon at the bottom of the app frame side navigation panel). This control serves as an equivalent function for dragging interactions and enables the drag area to have a smaller touch target, only when necessary (for example, when a scroll bar is present). Resize behavior should also support keyboard interactions and preserve the user’s preferred width. Image: Example of correct usage of side navigation. When drag to resize is enabled, an affordance appears on the edge of the side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_176dab674bd0fcf87df1713de702298636af68e99.png?width=750&format=png&optimize=medium)
+Spectrum is committed to complying with WCAG standards, and dragging interactions require alternate methods. The side navigation width can be dragged to resize the side navigation state control (hamburger icon in the header or panel icon at the bottom of the app frame side navigation panel). This control serves as an equivalent function for dragging interactions and enables the drag area to have a smaller touch target, only when necessary (for example, when a scroll bar is present). Resize behavior should also support keyboard interactions and preserve the user’s preferred width. Image: Example of correct usage of side navigation. When drag to resize is enabled, an affordance appears on the edge of the side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_176dab674bd0fcf87df1713de702298636af68e99.png?width=750&format=png&optimize=medium)
 
 ### Be concise
 
@@ -130,7 +130,7 @@ Along with being descriptive, the labels of navigation items should be succinct.
 
 ### Be cautious with line breaks
 
-If possible, the default width should auto-adjust to the longest string in the navigation in order to accommodate all translations. As a last resort for long strings, specific line breaks can be built into the implementation. These line breaks depend on the content, and requires manual handling by Globalization engineers. Image: Example of correct usage of auto-adjusting the side navigation width to the longest navigation item name, so the word or phrase is all on a single line. (source: https://spectrum.adobe.com/foundations/app-frame/media_1bc3a06d6f0c348a8d0038878b140a0b7752a3508.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of using line breaks in the side navigation, where a word or phrase wraps to more than one line. (source: https://spectrum.adobe.com/foundations/app-frame/media_1836da01bc7e95b32a6c6978ac515d4efbb27e369.png?width=750&format=png&optimize=medium)
+If possible, the default width should auto-adjust to the longest string in the navigation in order to accommodate all translations. As a last resort for long strings, specific line breaks can be built into the implementation. These line breaks depend on the content, and requires manual handling by Globalization engineers. Image: Example of correct usage of auto-adjusting the side navigation width to the longest navigation item name, so the word or phrase is all on a single line. (source: https://spectrum.adobe.com/foundations/app-frame/media_1bc3a06d6f0c348a8d0038878b140a0b7752a3508.png?width=750&format=png&optimize=medium) Image: Example of incorrect usage of using line breaks in the side navigation, where a word or phrase wraps to more than one line. (source: https://spectrum.adobe.com/foundations/app-frame/media_1836da01bc7e95b32a6c6978ac515d4efbb27e369.png?width=750&format=png&optimize=medium)
 
 ### Put navigation in either the side navigation or the header, not both
 
@@ -138,11 +138,11 @@ When navigation items are shown in both the side navigation and header at the sa
 
 ### Support user customization and preserve user preferences
 
-Supporting multiple states (default, and partial or fully minimized style) provides users with the option to choose their preferred layout based on their own preferences. In user studies, individual preference is the biggest factor when it comes to whether or not people want to view labels by default. If supporting multiple states, consider showing the side navigation in the expanded state by default, and preserve user preferences across pages and sessions. If minimizing the side navigation is not supported, show the side navigation in the expanded state. Showing labels by default increases recognition and familiarity. Learn more about using the hamburger and panel side navigation state controls. Image: Example of correct usage of supporting user customization and preserving user preferences. Do: support partially minimized (icon-only) and expanded side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1a30c5e39027f0b033923ed20442c2b3eac050c75.png?width=750&format=png&optimize=medium)Image: Example of correct usage of supporting user customization and preserving user preferences. Do: Support fully minimized and expanded side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1aac42ed54f1cd2a44f85a42dcdf4c34d2078bd66.png?width=750&format=png&optimize=medium)
+Supporting multiple states (default, and partial or fully minimized style) provides users with the option to choose their preferred layout based on their own preferences. In user studies, individual preference is the biggest factor when it comes to whether or not people want to view labels by default. If supporting multiple states, consider showing the side navigation in the expanded state by default, and preserve user preferences across pages and sessions. If minimizing the side navigation is not supported, show the side navigation in the expanded state. Showing labels by default increases recognition and familiarity. Learn more about using the hamburger and panel side navigation state controls. Image: Example of correct usage of supporting user customization and preserving user preferences. Do: support partially minimized (icon-only) and expanded side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1a30c5e39027f0b033923ed20442c2b3eac050c75.png?width=750&format=png&optimize=medium) Image: Example of correct usage of supporting user customization and preserving user preferences. Do: Support fully minimized and expanded side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1aac42ed54f1cd2a44f85a42dcdf4c34d2078bd66.png?width=750&format=png&optimize=medium)
 
 ### Always use icons in first level of the app frame side navigation
 
-There are some app frame-specific constraints for the side navigation. Icons are required at the parent level. Nested items can have no icon, but the parent level must have an icon. Image: Example of correct usage of icons where all levels have icons. (source: https://spectrum.adobe.com/foundations/app-frame/media_1fbfbce2a07eae1517fe98f347652b3b90a08aa2e.png?width=750&format=png&optimize=medium)Image: Example of correct usage of icons in the first level and no icons in the second level of the app frame side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_19c20431d6acf0d34b7b4dfcc5ffbf315e24580e6.png?width=750&format=png&optimize=medium)Image: Example of incorrect usage of no icons in the first level of the app frame side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1706d549610144e763f4b5ca5886e2c55ac4ba71b.png?width=750&format=png&optimize=medium)
+There are some app frame-specific constraints for the side navigation. Icons are required at the parent level. Nested items can have no icon, but the parent level must have an icon. Image: Example of correct usage of icons where all levels have icons. (source: https://spectrum.adobe.com/foundations/app-frame/media_1fbfbce2a07eae1517fe98f347652b3b90a08aa2e.png?width=750&format=png&optimize=medium) Image: Example of correct usage of icons in the first level and no icons in the second level of the app frame side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_19c20431d6acf0d34b7b4dfcc5ffbf315e24580e6.png?width=750&format=png&optimize=medium) Image: Example of incorrect usage of no icons in the first level of the app frame side navigation. (source: https://spectrum.adobe.com/foundations/app-frame/media_1706d549610144e763f4b5ca5886e2c55ac4ba71b.png?width=750&format=png&optimize=medium)
 
 ### Side navigation examples
 
@@ -152,15 +152,15 @@ Image: Diagram of two examples of the side navigation for the app frame, browsin
 
 ### Keyboard interactions (App frame side navigation panel)
 
-Key Interactions TabFocuses onto or off of the drag area, if enabled.Arrow keysResizes the drag area incrementally.
+Key Interactions Tab Focuses onto or off of the drag area, if enabled. Arrow keys Resizes the drag area incrementally.
 
 ### Keyboard interactions (App frame side navigation)
 
-Key Interactions TabFocuses onto or off of the side navigation.Arrow keysMoves between side navigation items.Space/enterExecutes selection of the item and changes the view of the page in the content area. The focus remains on the selected side navigation item.
+Key Interactions Tab Focuses onto or off of the side navigation. Arrow keys Moves between side navigation items. Space/enter Executes selection of the item and changes the view of the page in the content area. The focus remains on the selected side navigation item.
 
 ### Cursor guidelines
 
-State Cursor Description HoverArrowEverything else that is not a link.
+State Cursor Description Hover Arrow Everything else that is not a link.
 
 ## Notes on the editing context
 

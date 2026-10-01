@@ -20,7 +20,7 @@ calendarPopover Calendar popover displays a grid of days spanning one, two, or t
 
 ## States
 
-State Support status DefaultSupportedHoverSupportedDownSupportedKeyboard focusSupportedDisabledSupportedSelectedSupportedDraggedNot supportedErrorSupported
+State Support status Default Supported Hover Supported Down Supported Keyboard focus Supported Disabled Supported Selected Supported Dragged Not supported Error Supported
 
 ## Behaviors
 
