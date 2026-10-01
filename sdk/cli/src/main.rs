@@ -2395,6 +2395,9 @@ fn run_figma_export(
             summary.skipped_unknown_schema.len()
         );
     }
+    for reason in &summary.skipped_alias_unsupported {
+        eprintln!("  Skipped (unsupported alias target): {reason}");
+    }
     if !summary.skipped_unparseable_value.is_empty() {
         eprintln!(
             "  Skipped (unparseable value): {} — {:?}",
@@ -2402,8 +2405,15 @@ fn run_figma_export(
             summary.skipped_unparseable_value,
         );
     }
+    if !summary.skipped_unsupported_unit.is_empty() {
+        eprintln!(
+            "  Skipped (unsupported unit): {} — {:?}",
+            summary.skipped_unsupported_unit.len(),
+            summary.skipped_unsupported_unit,
+        );
+    }
     if !summary.mode_warnings.is_empty() {
-        eprintln!("  Warnings (missing mode): {}", summary.mode_warnings.len());
+        eprintln!("  Warnings: {}", summary.mode_warnings.len());
         for w in &summary.mode_warnings {
             eprintln!("    {w}");
         }
@@ -2551,12 +2561,17 @@ fn run_figma_audit(
                 );
             }
             println!(
-                "\nSkipped: composite={} unresolved_alias={} unknown_schema={} unparseable={}",
+                "\nSkipped: composite={} unresolved_alias={} unknown_schema={} unparseable={} unsupported_unit={} unsupported_alias={}",
                 report.skipped_composite.len(),
                 report.skipped_alias_unresolved.len(),
                 report.skipped_unknown_schema.len(),
                 report.skipped_unparseable_value.len(),
+                report.skipped_unsupported_unit.len(),
+                report.skipped_alias_unsupported.len(),
             );
+            for reason in &report.skipped_alias_unsupported {
+                println!("  Unsupported alias target: {reason}");
+            }
             println!("Overrides needing a decision: {}", report.overrides.len());
         }
     }

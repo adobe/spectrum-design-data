@@ -21,8 +21,9 @@ use super::convert::{
     process_scale_set_token, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
 };
 use super::routing::{
-    resolve_collections, CollectionSpec, TokenKind, ALIAS, COLLECTION_SPECS, COLOR, COLOR_SET,
-    DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, OPACITY, SCALE_SET, SKIP_SCHEMAS,
+    resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
+    COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY,
+    SCALE_SET, SKIP_SCHEMAS,
 };
 use crate::types::{
     FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
@@ -76,8 +77,10 @@ pub struct ExportSummary {
     pub mode_warnings: Vec<String>,
     pub skipped_composite: Vec<String>,
     pub skipped_alias_unresolved: Vec<String>,
+    pub skipped_alias_unsupported: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
     pub skipped_unparseable_value: Vec<String>,
+    pub skipped_unsupported_unit: Vec<String>,
 }
 
 /// Build a Figma POST payload from a flat set of legacy-shaped token entries.
@@ -228,6 +231,8 @@ pub(super) fn build_export_payload_with_specs(
             TokenKind::Color
         } else if schema.ends_with(SCALE_SET)
             || schema.ends_with(DIMENSION)
+            || schema.ends_with(ANGLE)
+            || schema.ends_with(MULTIPLIER)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)
@@ -342,8 +347,8 @@ pub(super) fn build_export_payload_with_specs(
                 color_rc.default_mode_id,
                 scale_rc.default_mode_id,
                 &value_index,
-                tokens,
                 &existing_var_index,
+                &alias_target_ids,
                 overrides,
                 &mut variables,
                 &mut mode_values,
@@ -372,6 +377,8 @@ pub(super) fn build_export_payload_with_specs(
                 &mut summary,
             );
         } else if schema.ends_with(DIMENSION)
+            || schema.ends_with(ANGLE)
+            || schema.ends_with(MULTIPLIER)
             || schema.ends_with(FONT_FAMILY)
             || schema.ends_with(FONT_SIZE)
             || schema.ends_with(FONT_STYLE)

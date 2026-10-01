@@ -18,6 +18,547 @@ use super::payload::*;
 use super::routing::*;
 use crate::types::*;
 
+fn resolved_mode_value(
+    body: &PostVariablesBody,
+    mode_value: &ModeValueAction,
+) -> serde_json::Value {
+    if let Some(target) = variable_alias_target_id(&mode_value.value) {
+        let target_value = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == target && mv.mode_id == mode_value.mode_id)
+            .expect("alias target must be emitted in the same mode");
+        resolved_mode_value(body, target_value)
+    } else {
+        mode_value.value.clone()
+    }
+}
+
+#[test]
+fn multiplier_aliases_reuse_ids_and_preserve_unitless_values() {
+    let aliases = [
+        ("body-cjk-line-height", "cjk-line-height-200"),
+        ("body-line-height", "line-height-200"),
+        ("code-cjk-line-height", "cjk-line-height-200"),
+        ("code-line-height", "line-height-200"),
+        ("detail-cjk-line-height", "cjk-line-height-100"),
+        ("detail-line-height", "line-height-100"),
+        ("heading-cjk-line-height", "cjk-line-height-100"),
+        ("heading-line-height", "line-height-100"),
+        ("corner-radius-full", "corner-radius-1000"),
+        ("title-cjk-line-height", "cjk-line-height-100"),
+        ("title-line-height", "line-height-100"),
+    ];
+    let targets = [
+        ("line-height-100", 1.3),
+        ("line-height-200", 1.5),
+        ("cjk-line-height-100", 1.5),
+        ("cjk-line-height-200", 1.7),
+        ("corner-radius-1000", 0.5),
+    ];
+    let mut tokens = Vec::new();
+    let mut meta = mock_meta();
+    for (name, target) in aliases {
+        tokens.push((name.into(), PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": format!("{{{target}}}") })));
+    }
+    for (name, value) in targets {
+        tokens.push((
+            name.into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/multiplier.json", "value": value }),
+        ));
+    }
+    for (name, _, _) in &tokens {
+        let id = format!("existing-{name}");
+        meta.variables.insert(
+            id.clone(),
+            serde_json::from_value(json!({
+                "id": id, "key": name, "name": format!("platformScale/{name}"),
+                "variableCollectionId": "col-2", "resolvedType": "FLOAT",
+                "valuesByMode": { "m-desktop": 0 },
+            }))
+            .unwrap(),
+        );
+    }
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 16);
+    assert_eq!(summary.mode_values_set, 5);
+    assert_eq!(summary.mode_values_aliased, 11);
+    assert!(summary.skipped_alias_unresolved.is_empty());
+    assert!(summary.skipped_alias_unsupported.is_empty());
+    assert!(summary.skipped_composite.is_empty());
+    assert!(body.variable_modes.is_empty());
+    assert!(body
+        .variables
+        .iter()
+        .all(|v| v.action == "UPDATE" && v.resolved_type == "FLOAT"));
+    for (name, target) in aliases {
+        let value = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == format!("existing-{name}"))
+            .unwrap();
+        assert_eq!(value.mode_id, "m-desktop");
+        assert_eq!(
+            variable_alias_target_id(&value.value),
+            Some(format!("existing-{target}").as_str())
+        );
+        let expected = targets.iter().find(|(n, _)| *n == target).unwrap().1;
+        assert_eq!(resolved_mode_value(&body, value), json!(expected));
+    }
+}
+
+#[test]
+fn multiplier_alias_chains_keep_mode_set_references_and_overrides() {
+    let tokens = vec![
+        (
+            "base".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/multiplier.json", "value": 1.3 }),
+        ),
+        (
+            "ratio".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "mobile": { "$schema": "https://example.com/multiplier.json", "value": 2 },
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{base}" },
+                },
+            }),
+        ),
+        (
+            "direct".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{ratio}",
+            }),
+        ),
+        (
+            "chain".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{direct}",
+            }),
+        ),
+    ];
+    let overrides = HashMap::from([("ratio".into(), "custom/ratio".into())]);
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&tokens, &meta, Some(&overrides)).unwrap();
+    assert_eq!(summary.mode_values_aliased, 3);
+    for name in ["direct", "chain"] {
+        let mv = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == format!("platformScale__{name}"))
+            .unwrap();
+        assert_eq!(variable_alias_target_id(&mv.value), Some("custom__ratio"));
+        assert_eq!(resolved_mode_value(&body, mv), json!(1.3));
+    }
+    let mobile = body
+        .variable_mode_values
+        .iter()
+        .find(|mv| mv.variable_id == "custom__ratio" && mv.mode_id == "m-mobile")
+        .unwrap();
+    assert_eq!(mobile.value, json!(2.0));
+}
+
+#[test]
+fn alias_diagnostics_distinguish_unsupported_missing_cycles_and_malformed() {
+    let entries = json!({
+        "shadow": { "$schema": "https://example.com/drop-shadow.json", "value": [] },
+        "shadow-alias": { "$schema": "https://example.com/alias.json", "value": "{shadow}" },
+        "shadow-chain": { "$schema": "https://example.com/alias.json", "value": "{shadow-alias}" },
+        "unknown": { "$schema": "https://example.com/unknown.json", "value": 2 },
+        "unknown-alias": { "$schema": "https://example.com/alias.json", "value": "{unknown}" },
+        "missing": { "$schema": "https://example.com/alias.json", "value": "{absent}" },
+        "cycle": { "$schema": "https://example.com/alias.json", "value": "{cycle}" },
+        "bad": { "$schema": "https://example.com/multiplier.json", "value": false },
+        "bad-alias": { "$schema": "https://example.com/alias.json", "value": "{bad}" },
+        "unsupported-set": { "$schema": "https://example.com/scale-set.json", "sets": {
+            "desktop": { "$schema": "https://example.com/alias.json", "value": "{shadow}" },
+        }},
+    });
+    let mut tokens: Vec<_> = entries
+        .as_object()
+        .unwrap()
+        .iter()
+        .map(|(name, value)| (name.clone(), PathBuf::from("tokens.json"), value.clone()))
+        .collect();
+    tokens.sort_by(|a, b| a.0.cmp(&b.0));
+    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    assert!(body.variables.is_empty());
+    assert_eq!(summary.skipped_alias_unresolved, ["cycle", "missing"]);
+    assert_eq!(summary.skipped_unparseable_value, ["bad", "bad-alias"]);
+    assert_eq!(summary.skipped_alias_unsupported.len(), 4);
+    assert!(summary
+        .skipped_alias_unsupported
+        .iter()
+        .any(|r| r.contains("shadow-chain: target 'shadow'") && r.contains("drop-shadow.json")));
+    assert!(summary
+        .skipped_alias_unsupported
+        .iter()
+        .any(|r| r.contains("unknown-alias") && r.contains("unknown.json")));
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("missing alias target 'absent'")));
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("possible cycle")));
+}
+
+#[test]
+fn flat_alias_chains_to_unexported_mode_sets_cannot_leave_dangling_references() {
+    let tokens = vec![
+        (
+            "target".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "unsupported-mode": { "$schema": "https://example.com/multiplier.json", "value": 1.3 },
+                },
+            }),
+        ),
+        (
+            "direct".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{target}",
+            }),
+        ),
+        (
+            "chain".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{direct}",
+            }),
+        ),
+    ];
+    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    assert!(body.variables.is_empty());
+    assert!(body.variable_mode_values.is_empty());
+    assert_eq!(summary.mode_values_aliased, 0);
+    assert_eq!(summary.variables_created, 0);
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("dangling VARIABLE_ALIAS")));
+}
+
+#[test]
+fn named_font_weights_update_existing_string_variables() {
+    let weights = [
+        ("light", "Light"),
+        ("regular", "Regular"),
+        ("medium", "Medium"),
+        ("bold", "Bold"),
+        ("extra-bold", "ExtraBold"),
+        ("black", "Black"),
+    ];
+    let mut meta = mock_meta();
+    let mut tokens = Vec::new();
+    for (weight, style) in weights {
+        let name = format!("{weight}-font-weight");
+        let id = format!("existing-{weight}");
+        meta.variables.insert(
+            id.clone(),
+            serde_json::from_value(json!({
+                "id": id,
+                "key": name,
+                "name": format!("platformScale/{name}"),
+                "variableCollectionId": "col-2",
+                "resolvedType": "STRING",
+                "valuesByMode": { "m-desktop": style },
+            }))
+            .unwrap(),
+        );
+        tokens.push((
+            name,
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": weight }),
+        ));
+    }
+
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 6);
+    assert_eq!(summary.mode_values_set, 6);
+    assert!(summary.skipped_unparseable_value.is_empty());
+    for (weight, style) in weights {
+        let id = format!("existing-{weight}");
+        let variable = body
+            .variables
+            .iter()
+            .find(|v| v.id.as_deref() == Some(id.as_str()))
+            .unwrap();
+        assert_eq!(variable.action, "UPDATE");
+        assert_eq!(variable.resolved_type, "STRING");
+        assert_eq!(
+            variable.code_syntax.as_ref().unwrap()["WEB"],
+            format!("--spectrum-{weight}-font-weight"),
+        );
+        let value = body
+            .variable_mode_values
+            .iter()
+            .find(|v| v.variable_id == id)
+            .unwrap();
+        assert_eq!(value.value, json!(style));
+    }
+}
+
+#[test]
+fn font_weight_alias_chains_and_scale_modes_keep_style_strings() {
+    let tokens = vec![
+        (
+            "bold".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": "bold" }),
+        ),
+        (
+            "alias".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{bold}" }),
+        ),
+        (
+            "alias-chain".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{alias}" }),
+        ),
+        (
+            "weight-set".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{alias-chain}" },
+                    "mobile": { "$schema": "https://example.com/font-weight.json", "value": "extra-bold" },
+                },
+            }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 4);
+    assert!(summary.skipped_unparseable_value.is_empty());
+    assert!(body.variables.iter().all(|v| v.resolved_type == "STRING"));
+    for value in &body.variable_mode_values {
+        assert_eq!(
+            resolved_mode_value(&body, value),
+            json!(if value.mode_id == "m-mobile" {
+                "ExtraBold"
+            } else {
+                "Bold"
+            }),
+        );
+    }
+}
+
+#[test]
+fn numeric_angles_export_through_aliases_and_scale_modes() {
+    let tokens = vec![
+        (
+            "strikethrough-day-orientation".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/angle.json", "value": -25 }),
+        ),
+        (
+            "angle-alias".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{strikethrough-day-orientation}" }),
+        ),
+        (
+            "angle-chain".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{angle-alias}" }),
+        ),
+        (
+            "angle-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/angle.json", "value": "{strikethrough-day-orientation}" },
+                    "mobile": { "$schema": "https://example.com/angle.json", "value": 25.5 },
+                },
+            }),
+        ),
+        (
+            "angle-fallback-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{angle-chain}" },
+                },
+            }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 5);
+    assert_eq!(summary.mode_values_set, 3);
+    assert_eq!(summary.mode_values_aliased, 3);
+    assert!(summary.skipped_unknown_schema.is_empty());
+    assert!(summary.skipped_unparseable_value.is_empty());
+    assert!(body
+        .variables
+        .iter()
+        .all(|v| v.resolved_type == "FLOAT" && v.variable_collection_id == "col-2"));
+    let alias = body
+        .variable_mode_values
+        .iter()
+        .find(|v| v.variable_id == "platformScale__angle-set" && v.mode_id == "m-desktop")
+        .unwrap();
+    assert_eq!(
+        alias.value,
+        json!({ "type": "VARIABLE_ALIAS", "id": "platformScale__strikethrough-day-orientation" }),
+    );
+    for value in body
+        .variable_mode_values
+        .iter()
+        .filter(|v| v.variable_id != alias.variable_id || v.mode_id != alias.mode_id)
+    {
+        assert_eq!(
+            resolved_mode_value(&body, value).as_f64(),
+            Some(if value.mode_id == "m-mobile" {
+                25.5
+            } else {
+                -25.0
+            })
+        );
+    }
+}
+
+#[test]
+fn dp_units_are_reported_separately_in_flat_alias_and_set_tokens() {
+    let tokens = vec![
+        (
+            "android-elevation".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": "2dp" }),
+        ),
+        (
+            "elevation-alias".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{android-elevation}" }),
+        ),
+        (
+            "elevation-chain".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{elevation-alias}" }),
+        ),
+        (
+            "elevation-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/dimension.json", "value": "{android-elevation}" },
+                    "mobile": { "$schema": "https://example.com/dimension.json", "value": "4dp" },
+                },
+            }),
+        ),
+        (
+            "bad-dp".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": "invaliddp" }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert!(body.variables.is_empty());
+    assert!(body.variable_mode_values.is_empty());
+    assert_eq!(summary.variables_created, 0);
+    assert_eq!(
+        summary.skipped_unsupported_unit,
+        [
+            "android-elevation",
+            "elevation-alias",
+            "elevation-chain",
+            "elevation-set",
+        ]
+    );
+    assert_eq!(summary.skipped_unparseable_value, ["bad-dp"]);
+}
+
+#[test]
+fn invalid_scalar_values_are_reported_without_changing_font_family_strings() {
+    let tokens = vec![
+        (
+            "invalid-angle".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/angle.json", "value": true }),
+        ),
+        (
+            "invalid-weight".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": "unknown" }),
+        ),
+        (
+            "invalid-font-family".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-family.json", "value": 300 }),
+        ),
+        (
+            "invalid-dimension".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": 2 }),
+        ),
+        (
+            "font-family".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-family.json", "value": "medium" }),
+        ),
+    ];
+    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    assert_eq!(
+        summary.skipped_unparseable_value,
+        [
+            "invalid-angle",
+            "invalid-weight",
+            "invalid-font-family",
+            "invalid-dimension",
+        ]
+    );
+    assert_eq!(body.variables.len(), 1);
+    assert_eq!(body.variable_mode_values[0].value, json!("medium"));
+}
+
 fn mock_meta() -> VariablesMeta {
     VariablesMeta {
         variables: HashMap::new(),
@@ -401,8 +942,13 @@ fn alias_to_set_token_resolves_to_light_mode_not_first_in_file() {
         .find(|v| v.variable_id == alias_id)
         .expect("alias-to-set should have a mode value");
 
-    let r = mv.value.get("r").and_then(|v| v.as_f64()).unwrap_or(0.0);
-    let b = mv.value.get("b").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    assert_eq!(
+        variable_alias_target_id(&mv.value),
+        Some("colorTheme__base-color-set")
+    );
+    let resolved = resolved_mode_value(&body, mv);
+    let r = resolved.get("r").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let b = resolved.get("b").and_then(|v| v.as_f64()).unwrap_or(0.0);
     assert!(
         r > 0.9,
         "expected light value (r≈1), got r={r} — dark value was used instead"
@@ -641,7 +1187,7 @@ fn alias_to_non_prepassed_target_falls_back_to_literal() {
     // pre-pass (its own Figma routing isn't known up front), so aliasing it
     // still flattens through value_index instead of emitting a VARIABLE_ALIAS
     // pointing at something that isn't a Figma variable.
-    assert_eq!(summary.mode_values_aliased, 0);
+    assert_eq!(summary.mode_values_aliased, 1);
 
     let test_set_id = body
         .variables
