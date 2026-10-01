@@ -9,6 +9,8 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { config } from "../src/config.js";
 import { createReadTools } from "../src/tools/read.js";
 
@@ -277,9 +279,12 @@ test.serial(
   async (t) => {
     const list = getHandler("list_guidelines");
     const result = await list();
+    const manifest = JSON.parse(
+      readFileSync(join(config.guidelinesDir, "manifest.json"), "utf8"),
+    );
     t.true(Array.isArray(result));
-    t.is(result.length, 25);
-    t.is(result[0].slug, "app-frame-content-area");
+    t.true(result.length > 0);
+    t.deepEqual(result, manifest.guidelines);
     t.truthy(result[0].title);
     t.truthy(result[0].category);
   },

@@ -15,6 +15,7 @@
     "component-options-editor:validate",
     "root:test",
     "s2-docs-to-document-blocks:test",
+    "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
     "token-mapping-analyzer:test"
   ],
