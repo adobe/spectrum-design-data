@@ -104,10 +104,18 @@
     },
     {
       "type": "guideline",
+      "content": "The Spectrum 1 is retired and is no longer supported. The related websites have been in maintenance mode since April 21, 2025. For now, we offer available archived web content for Adobe-internal reference only. Spectrum 1 design documentation archive (VPN required) Spectrum 1 Contributions documentation archive (VPN required)"
+    },
+    {
+      "type": "guideline",
+      "content": "The migration of Spectrum Patterns to the new website is underway. In the meanwhile, the original Spectrum Patterns website remains accessible for reference. If you have questions regarding the content, please contact the corresponding design team that represents your product area or focus."
+    },
+    {
+      "type": "guideline",
       "content": "For general inquiries, post in #spectrum-general or email the Spectrum team. For specific inquiries, view the Contact page for more information on how to get in touch."
     }
   ],
-  "sourceUrl": "https://preview.spectrum.adobe.com/support",
+  "sourceUrl": "https://spectrum.adobe.com/support",
   "lastUpdated": "2026-08-19",
   "status": "published"
 }

@@ -5,7 +5,7 @@
       "title": "AI resource guide",
       "category": "support",
       "status": "published",
-      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/ai-resource-guide",
+      "sourceUrl": "https://spectrum.adobe.com/support/ai-resource-guide",
       "file": "guidelines/ai-resource-guide.json"
     },
     {
@@ -37,7 +37,7 @@
       "title": "App frame",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/app-frame/overview",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/app-frame/overview",
       "file": "guidelines/app-frame-overview.json"
     },
     {
@@ -53,7 +53,7 @@
       "title": "Applying the type system",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/typography/applying-the-type-system",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/typography/applying-the-type-system",
       "file": "guidelines/applying-the-type-system.json"
     },
     {
@@ -61,7 +61,7 @@
       "title": "Attention hierarchy",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/attention-hierarchy",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/attention-hierarchy",
       "file": "guidelines/attention-hierarchy.json"
     },
     {
@@ -69,7 +69,7 @@
       "title": "Background layers",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/color/background-layers",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/color/background-layers",
       "file": "guidelines/background-layers.json"
     },
     {
@@ -77,7 +77,7 @@
       "title": "Bi-directionality",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/inclusivity/bi-directionality",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/inclusivity/bi-directionality",
       "file": "guidelines/bi-directionality.json"
     },
     {
@@ -85,7 +85,7 @@
       "title": "Border width",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/border-width",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/styles/object-styles/border-width",
       "file": "guidelines/border-width.json"
     },
     {
@@ -93,7 +93,7 @@
       "title": "Brand",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/brand",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/brand",
       "file": "guidelines/brand.json"
     },
     {
@@ -109,7 +109,7 @@
       "title": "Colors",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/color/colors",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/color/colors",
       "file": "guidelines/colors.json"
     },
     {
@@ -117,7 +117,7 @@
       "title": "Component spacing",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/component-spacing",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/layout-and-structure/spacing/component-spacing",
       "file": "guidelines/component-spacing.json"
     },
     {
@@ -125,7 +125,7 @@
       "title": "Contact us",
       "category": "support",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/support/contact-us",
+      "sourceUrl": "https://spectrum.adobe.com/support/contact-us",
       "file": "guidelines/contact-us.json"
     },
     {
@@ -133,7 +133,7 @@
       "title": "Containers",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://s2.spectrum.corp.adobe.com/page/containers/",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/layout-and-structure/containers",
       "file": "guidelines/containers.json"
     },
     {
@@ -141,7 +141,7 @@
       "title": "Browsing context: Content area",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/app-frame/content-area-browsing-context",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/app-frame/content-area-browsing-context",
       "file": "guidelines/content-area-browsing-context.json"
     },
     {
@@ -197,7 +197,7 @@
       "title": "Creating bluelines",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/app-frame/creating-bluelines-browsing-context",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/app-frame/creating-bluelines-browsing-context",
       "file": "guidelines/creating-bluelines-browsing-context.json"
     },
     {
@@ -205,7 +205,7 @@
       "title": "Design tokens",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/design-data/design-tokens",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/design-data/design-tokens",
       "file": "guidelines/design-tokens.json"
     },
     {
@@ -221,7 +221,7 @@
       "title": "Drop shadow",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/drop-shadow",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/styles/object-styles/drop-shadow",
       "file": "guidelines/drop-shadow.json"
     },
     {
@@ -245,7 +245,7 @@
       "title": "Grammar and mechanics",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/grammar-and-mechanics",
+      "sourceUrl": "https://spectrum.adobe.com/content/grammar-and-mechanics",
       "file": "guidelines/grammar-and-mechanics.json"
     },
     {
@@ -253,7 +253,7 @@
       "title": "Grays",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/color/grays",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/color/grays",
       "file": "guidelines/grays.json"
     },
     {
@@ -261,7 +261,7 @@
       "title": "Browsing context: Header",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/app-frame/header-browsing-context",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/app-frame/header-browsing-context",
       "file": "guidelines/header-browsing-context.json"
     },
     {
@@ -269,7 +269,7 @@
       "title": "Icon fundamentals",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/icons-and-illustrations/icon-fundamentals",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/icons-and-illustrations/icon-fundamentals",
       "file": "guidelines/icon-fundamentals.json"
     },
     {
@@ -277,7 +277,7 @@
       "title": "Illustration",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/visual-language/illustration",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/icons-and-illustrations/illustration",
       "file": "guidelines/illustration.json"
     },
     {
@@ -293,7 +293,7 @@
       "title": "In-product word list",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/in-product-word-list",
+      "sourceUrl": "https://spectrum.adobe.com/content/in-product-word-list",
       "file": "guidelines/in-product-word-list.json"
     },
     {
@@ -301,7 +301,7 @@
       "title": "Inclusive design",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/inclusivity/inclusive-design",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/inclusivity/inclusive-design",
       "file": "guidelines/inclusive-design.json"
     },
     {
@@ -309,7 +309,7 @@
       "title": "Inclusive UX writing",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/language-and-inclusivity/inclusive-ux-writing",
+      "sourceUrl": "https://spectrum.adobe.com/content/language-and-inclusivity/inclusive-ux-writing",
       "file": "guidelines/inclusive-ux-writing.json"
     },
     {
@@ -317,7 +317,7 @@
       "title": "Internationalization",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/inclusivity/internationalization",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/inclusivity/internationalization",
       "file": "guidelines/internationalization.json"
     },
     {
@@ -365,7 +365,7 @@
       "title": "Layout spacing",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/layout-spacing",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/layout-and-structure/spacing/layout-spacing",
       "file": "guidelines/layout-spacing.json"
     },
     {
@@ -373,7 +373,7 @@
       "title": "Motion",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/behavior/motion",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/behavior/motion",
       "file": "guidelines/motion.json"
     },
     {
@@ -389,7 +389,7 @@
       "title": "Object styles",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/overview",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/styles/object-styles/overview",
       "file": "guidelines/object-styles-overview.json"
     },
     {
@@ -397,7 +397,7 @@
       "title": "Principles",
       "category": "fundamentals",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/getting-started/principles",
+      "sourceUrl": "https://spectrum.adobe.com/getting-started/principles",
       "file": "guidelines/principles.json"
     },
     {
@@ -413,7 +413,7 @@
       "title": "Rounding",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/styles/object-styles/rounding",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/styles/object-styles/rounding",
       "file": "guidelines/rounding.json"
     },
     {
@@ -421,7 +421,7 @@
       "title": "Browsing context: Side nav",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/app-frame/side-navigation-browsing-context",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/app-frame/side-navigation-browsing-context",
       "file": "guidelines/side-navigation-browsing-context.json"
     },
     {
@@ -434,10 +434,10 @@
     },
     {
       "slug": "spacing-overview",
-      "title": "Spacing overview",
+      "title": "Spacing",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/spacing-overview",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/layout-and-structure/spacing/overview",
       "file": "guidelines/spacing-overview.json"
     },
     {
@@ -445,7 +445,7 @@
       "title": "States",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/behavior/states",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/behavior/states",
       "file": "guidelines/states.json"
     },
     {
@@ -453,7 +453,7 @@
       "title": "FAQs",
       "category": "support",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/support",
+      "sourceUrl": "https://spectrum.adobe.com/support",
       "file": "guidelines/support.json"
     },
     {
@@ -469,7 +469,7 @@
       "title": "Typography",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/typography/overview",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/typography/overview",
       "file": "guidelines/typography-overview.json"
     },
     {
@@ -477,7 +477,7 @@
       "title": "Typography system",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/typography/typography-system",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/typography/typography-system",
       "file": "guidelines/typography-system.json"
     },
     {
@@ -485,7 +485,7 @@
       "title": "Using icons",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/icons-and-illustrations/using-icons",
+      "sourceUrl": "https://spectrum.adobe.com/foundations/icons-and-illustrations/using-icons",
       "file": "guidelines/using-icons.json"
     },
     {
@@ -501,7 +501,7 @@
       "title": "Voice and tone",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/voice-and-tone",
+      "sourceUrl": "https://spectrum.adobe.com/content/voice-and-tone",
       "file": "guidelines/voice-and-tone.json"
     },
     {
@@ -509,7 +509,7 @@
       "title": "Great design systems evolve alongside the people who use them",
       "category": "fundamentals",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/getting-started/whats-new",
+      "sourceUrl": "https://spectrum.adobe.com/getting-started/whats-new",
       "file": "guidelines/whats-new.json"
     },
     {
@@ -517,7 +517,7 @@
       "title": "Writing about people",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-about-people",
+      "sourceUrl": "https://spectrum.adobe.com/content/language-and-inclusivity/writing-about-people",
       "file": "guidelines/writing-about-people.json"
     },
     {
@@ -525,7 +525,7 @@
       "title": "Writing for errors",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/writing-for-errors",
+      "sourceUrl": "https://spectrum.adobe.com/content/writing-for-errors",
       "file": "guidelines/writing-for-errors.json"
     },
     {
@@ -533,7 +533,7 @@
       "title": "Writing for onboarding",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/writing-for-onboarding",
+      "sourceUrl": "https://spectrum.adobe.com/content/writing-for-onboarding",
       "file": "guidelines/writing-for-onboarding.json"
     },
     {
@@ -541,7 +541,7 @@
       "title": "Writing for readability",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/language-and-inclusivity/writing-for-readability",
+      "sourceUrl": "https://spectrum.adobe.com/content/language-and-inclusivity/writing-for-readability",
       "file": "guidelines/writing-for-readability.json"
     },
     {
@@ -549,7 +549,7 @@
       "title": "Writing with visuals",
       "category": "designing",
       "status": "published",
-      "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/content/language-and-inclusivity/writing-with-visuals",
+      "sourceUrl": "https://spectrum.adobe.com/content/language-and-inclusivity/writing-with-visuals",
       "file": "guidelines/writing-with-visuals.json"
     }
   ]

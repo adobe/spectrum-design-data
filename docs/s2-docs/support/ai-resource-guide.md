@@ -1,8 +1,8 @@
 ---
 title: AI resource guide
 category: support
-source_url: https://main--spectrum-hub--adobe.aem.live/support/ai-resource-guide
-last_updated: '2026-08-27'
+source_url: https://spectrum.adobe.com/support/ai-resource-guide
+last_updated: '2026-09-29'
 status: published
 tags:
   - AI tooling
@@ -17,42 +17,36 @@ hub_path: /support/ai-resource-guide
 
 # AI resource guide
 
-### AI engineering at Adobe
+## AI Engineering at Adobe
 
-Claude is an AI tool by Anthropic available for Adobe employees through Claude Enterprise. While other tooling is supported at Adobe, our main focus is currently on Claude workflows. Learn more at the Claude Enterprise at Adobe page on the wiki.
-
-## Design resources
-
-For component specs, anatomy, usage guidelines, design tokens, and Figma resources. View the Spectrum 2 Design Data website View the Figma MCP (connects Claude to Figma libraries)
-
-## Prototyping resources
-
-For designers prototyping with Spectrum components.
+GitHub Copilot is the current tool of choice for Adobe employees. Learn more on the GitHub Copilot at Adobe website. Instructions for setting up to work with Figma can be found on Figma's MCP setup page.
 
 ### Protopack
 
-"Protopack is the Design Technology team's streamlined prototyping foundation. Protopack simplifies setup, includes production-ready Spectrum components, integrates with Adobe services, and supports easy deployment. It removes much of the configuration overhead so you can focus on designing, iterating, and exploring ideas." View the AD AI Prototyping Quick Start wiki View the Awesome Deployment Platform wiki Join the Protopack Slack channel
+Protopack is a streamlined prototyping foundation built by Adobe Design Technology. It removes setup friction and gives you a ready-to-use environment aligned with Adobe standards, so you can focus on building and iterating instead of configuring. View the AD AI Prototyping Quick Start wiki Join the Protopack Slack channel
 
-### Protopack for React Spectrum
+## Cross-platform resources
 
-Download Protopack and view the RSP template View the React Spectrum Starter template in the Protopack app View the React Spectrum AI integration overview View the React Spectrum website
+Spectrum Design Data puts the official Spectrum dataset (design tokens, component schemas, and Spectrum documentation and usage guidelines) directly in your AI assistant. We ship both an Agent Skill and an MCP server. See the Spectrum Data System documentation for more details.
 
-### Protopack for Spectrum Web Components
+### @adobe/design-data-skill [npm: github]
 
-Download Protopack and view the SWC template View the Spectrum 2 Web Components Starter template in the Protopack app View the Spectrum Web Components AI documentation View the Spectrum Web Components website
+A skill the sets up access agents access to Spectrum design tokens, component schemas, and design-system data via the design data CLI.
 
-## Engineering resources
+### @adobe/design-data-mcp [npm: github]
 
-For engineers doing UI development with Spectrum components. Resources for other platforms (iOS, Android, Desktop) are being developed and will be shared here soon.
+The MCP server for Adobe Spectrum design tokens, component schemas, and design guidelines and documentation.
+
+## Web Platform Resources
 
 ### React Spectrum
 
-View the React Spectrum AI integration overview View the React Spectrum website View the React Spectrum GitHub repository
+View the React Spectrum AI integration overview
 
 ### Spectrum Web Components
 
-View the Spectrum Web Components AI documentation View the Spectrum Web Components website View the Spectrum Web Components GitHub repository
+View the Spectrum Web Components AI skills
 
-### Spectrum design data
+## Additional Web Resources
 
-View the Spectrum 2 Design Data AI resources View the Spectrum 2 Design Data website View the Spectrum 2 Design Data tools overview View the Spectrum 2 Design Data GitHub repository
+Spectrum 2 Web Skill helps AI agents create, review, and refine Spectrum 2 web UI with approved components, design tokens, accessibility guidance, and links to Spectrum sources. It's also a unifying skill that will play nice with other Spectrum-related skill you're already using such as the React Spectrum S2 Skill. Spectrum Toolkit lets you inspect, stage edits, and copy the changes as a prompt for your agent. It's an easy way for you to use the design system, components, and icons, in your web projects.
