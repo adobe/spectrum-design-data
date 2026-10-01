@@ -4,11 +4,12 @@
 const Module = require("node:module");
 const { isAbsolute, relative } = require("node:path");
 const originalResolve = Module._resolveFilename;
+const artifact = process.cwd();
 
 // Cover createRequire and the CommonJS WASM wrapper as well as ESM imports.
 Module._resolveFilename = function (...args) {
   const filename = originalResolve.apply(this, args);
-  if (isAbsolute(filename) && relative(__dirname, filename).startsWith("..")) {
+  if (isAbsolute(filename) && relative(artifact, filename).startsWith("..")) {
     throw new Error(
       `Require escaped isolated artifact: ${args[0]} -> ${filename}`,
     );
