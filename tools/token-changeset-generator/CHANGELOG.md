@@ -1,5 +1,12 @@
 # @adobe/token-changeset-generator
 
+## 0.2.10
+
+### Patch Changes
+
+- Updated dependencies [[`51ac624`](https://github.com/adobe/spectrum-design-data/commit/51ac62471300dc7514bb716907bf81d94aad4777)]:
+  - @adobe/token-diff-generator@2.5.7
+
 ## 0.2.9
 
 ### Patch Changes

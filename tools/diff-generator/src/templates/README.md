@@ -4,10 +4,15 @@ This directory contains Handlebars templates used by the diff-generator tool for
 
 ## Built-in Templates
 
-- **`default.hbs`** - Markdown-style output similar to the existing markdown formatter
-- **`json.hbs`** - Structured JSON output with full diff details
-- **`plain.hbs`** - Clean plain text output for CLI consumption
-- **`summary.hbs`** - High-level summary with statistics only
+* **`markdown.hbs`** - Markdown reports with collapsible sections for GitHub
+* **`json.hbs`** - Structured JSON output with full diff details
+* **`plain.hbs`** - Clean plain text output for CLI consumption
+* **`summary.hbs`** - High-level summary with statistics only
+
+Markdown lists inside `<details>` need a blank line after `</summary>` and before
+`</details>`. Keep these lines in the rendered output. The CLI preserves blank
+lines for Markdown, JSON, and custom templates; only `cli` and `plain` templates
+use compact terminal spacing.
 
 ## Creating Custom Templates
 
@@ -58,28 +63,28 @@ Your template receives the following data:
 
 ### Calculation Helpers
 
-- `{{totalTokens result}}` - Total number of changed tokens
-- `{{totalUpdatedTokens result.updated}}` - Total number of tokens with property updates
+* `{{totalTokens result}}` - Total number of changed tokens
+* `{{totalUpdatedTokens result.updated}}` - Total number of tokens with property updates
 
 ### Object Helpers
 
-- `{{hasKeys obj}}` - Check if object has properties
-- `{{objectKeys obj}}` - Get object keys as array
-- `{{objectValues obj}}` - Get object values as array
-- `{{objectEntries obj}}` - Get object entries as array
+* `{{hasKeys obj}}` - Check if object has properties
+* `{{objectKeys obj}}` - Get object keys as array
+* `{{objectValues obj}}` - Get object values as array
+* `{{objectEntries obj}}` - Get object entries as array
 
 ### Utility Helpers
 
-- `{{repeat str count}}` - Repeat string count times
-- `{{cleanPath path}}` - Clean up property paths (removes "sets." and "$")
-- `{{cleanSchemaUrl url}}` - Clean up schema URLs
-- `{{lastPathPart path}}` - Get last part of a path (e.g., "color.json" from "/path/to/color.json")
-- `{{formatDate date}}` - Format date/timestamp
+* `{{repeat str count}}` - Repeat string count times
+* `{{cleanPath path}}` - Clean up property paths (removes "sets." and "$")
+* `{{cleanSchemaUrl url}}` - Clean up schema URLs
+* `{{lastPathPart path}}` - Get last part of a path (e.g., "color.json" from "/path/to/color.json")
+* `{{formatDate date}}` - Format date/timestamp
 
 ### Conditional Helpers
 
-- `{{ifEquals arg1 arg2}}` - Conditional equality check
-- `{{#if condition}}...{{/if}}` - Standard Handlebars conditional
+* `{{ifEquals arg1 arg2}}` - Conditional equality check
+* `{{#if condition}}...{{/if}}` - Standard Handlebars conditional
 
 ## Examples
 
