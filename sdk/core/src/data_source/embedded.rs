@@ -72,7 +72,7 @@ static COMPONENTS: Dir<'_> =
 /// Taxonomy field JSONs (`packages/design-data/fields/`, 24 files, ~96 KB).
 static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/fields");
 
-/// Guideline documents (`packages/design-data/guidelines/`, 25 files + manifest.json).
+/// Guideline documents (`packages/design-data/guidelines/`, 58 files + manifest.json).
 static GUIDELINES: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
 
@@ -435,8 +435,14 @@ mod tests {
     fn materialize_guidelines_count() {
         // Regression guard: if a guideline is added to or removed from
         // packages/design-data/guidelines/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_GUIDELINE_COUNT when you've intentionally changed the set.
         // manifest.json is excluded — it is not a guideline document.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_GUIDELINE_COUNT: usize = 58;
+
         let (_tmp, root) = temp_root();
         let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))
             .unwrap()
@@ -448,9 +454,9 @@ mod tests {
             .collect();
         assert_eq!(
             guidelines.len(),
-            25,
-            "expected 25 guideline documents — update this count if you've added/removed \
-             files from packages/design-data/guidelines/"
+            EXPECTED_GUIDELINE_COUNT,
+            "expected {EXPECTED_GUIDELINE_COUNT} guideline documents — update this count if \
+             you've added/removed files from packages/design-data/guidelines/"
         );
     }
 
@@ -458,7 +464,13 @@ mod tests {
     fn materialize_components_count() {
         // Regression guard: if a component schema is added to or removed from
         // packages/design-data/components/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_COMPONENT_COUNT when you've intentionally changed the set.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_COMPONENT_COUNT: usize = 97;
+
         let (_tmp, root) = temp_root();
         let components: Vec<_> = fs::read_dir(root.join("packages/design-data/components"))
             .unwrap()
@@ -467,9 +479,9 @@ mod tests {
             .collect();
         assert_eq!(
             components.len(),
-            97,
-            "expected 97 component schemas — update this count if you've added/removed \
-             schemas from packages/design-data/components/"
+            EXPECTED_COMPONENT_COUNT,
+            "expected {EXPECTED_COMPONENT_COUNT} component schemas — update this count if \
+             you've added/removed schemas from packages/design-data/components/"
         );
     }
 }

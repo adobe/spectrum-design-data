@@ -1,5 +1,32 @@
 # @adobe/spectrum-design-data
 
+## 3.4.0
+
+### Minor Changes
+
+- [#1517](https://github.com/adobe/spectrum-design-data/pull/1517) [`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the `structure` field being silently dropped from generated legacy token
+  keys, which broke five banner/list gap and padding tokens.
+  - **fields/structure.json**: remove `excludeFromLegacyKey: true`; `structure`
+    now participates in legacy key generation like any other field.
+  - **layout.tokens.json**: regenerates `gap-horizontal`, `gap-vertical`,
+    `padding-horizontal`, `padding-vertical` to `banner-gap-horizontal`,
+    `banner-gap-vertical`, `banner-padding-horizontal`, `banner-padding-vertical`;
+    regenerates `gap-regular` to `list-gap-regular`. The five old generic keys
+    are kept as deprecated aliases (`renamed` to their corrected names) so no
+    existing consumer breaks.
+  - **spectrum-tokens**: `packages/tokens/src/layout.json` and the six files
+    aliasing these tokens are regenerated with the corrected names.
+
+- [#1524](https://github.com/adobe/spectrum-design-data/pull/1524) [`ec3376f`](https://github.com/adobe/spectrum-design-data/commit/ec3376fa833f2c31dd0b2340590134b2747b00c4) Thanks [@GarthDB](https://github.com/GarthDB)! - Promote public Spectrum Hub guidance to the stable release channel.
+  - **packages/design-data**: refresh component guidance and publish the Hub guideline
+    corpus, including the October 1 public-site sync.
+  - **sdk/wasm**: rebuild embedded guidance for MCP and JavaScript consumers.
+  - **tools/s2-docs-to-document-blocks**: reject duplicate component slugs and retain
+    section introductions alongside their subsections in published guidance.
+  - **tools/spectrum-hub-fetcher**: fetch and merge public Hub pages for component and
+    guideline syncs, reconciling obsolete slugs and category paths, preserving text
+    boundaries, and decoding HTML entities before transformation.
+
 ## 3.3.0
 
 ### Minor Changes

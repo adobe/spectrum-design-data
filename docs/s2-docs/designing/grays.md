@@ -1,97 +1,35 @@
 ---
-title: "Grays"
-source_url: https://s2.spectrum.corp.adobe.com/page/grays/
-last_updated: 2026-02-02
+title: Grays
 category: designing
+source_url: https://spectrum.adobe.com/foundations/color/grays
+last_updated: '2026-08-07'
 status: published
 tags:
-
-- designing
-related_components:
-- attention-hierarchy
-- colors
-
+  - gray-system
+  - neutral-grays
+  - Gray-25
+  - Gray-50
+  - Gray-75
+  - Gray-100
+  - Gray-800
+  - accessibility
+hub_path: /foundations/color/grays
 ---
 
 # Grays
 
-## Resources
+## Examples of using grays
 
-### Design
+Gray-25, -50, and -75 are reserved for background layers. Gray-100, -200, and -300 are used for lower contrast component background progressions or borders. Gray-800 and -900 are used for higher contrast component backgrounds such as text and active borders. This ensures that components are always visible, regardless of the background color. Image: Two horizontal gray scales labeled 'Light Theme' and 'Dark Theme,' each showing swatches numbered 25 to 1000 progressing from light to dark (Light Theme) or dark to light (Dark Theme). (source: https://spectrum.adobe.com/foundations/color/media_1e2a1ce49c17844ce15bb752c1b2b0fac8d86ed31.png?width=750&format=png&optimize=medium) Image: Diagram showing gray scale values applied to UI elements: gray-100 and gray-200 labeling button backgrounds, gray-25 and gray-300 labeling a text field's background and border, gray-800 and gray-900 labeling a text field's dark border and value text, and gray-800 labeling a dark button's background. (source: https://spectrum.adobe.com/foundations/color/media_182ca3846846ee3343af1ccf1d4a9ad022b4a81ad.png?width=750&format=png&optimize=medium)
 
-* **Figma**: S2 Web
+## Background Color
 
-## External links
-
-Gray-100 was previously the default background color. With Spectrum 2, gray-25 is the new default background color, which makes the UI brighter and have higher contrast than before.
-
-Spectrum 2 includes two new grays — gray-25 and gray-1000 — plus an update to the rest of the 11 grays. This means that there are 13 grays total in the system.
-
-The Spectrum team collected feedback from product teams across Adobe and determined that the 6.0.0 color system for light UI had an issue with the steps between gray-50 and gray-75. The difference between these two was so slight it was almost imperceivable, making it so that gray-75 was not very useful. Also, the grays from -100 to -400 had too much contrast between each step, making it so that each component state appeared too harsh. Gray-900 was solid black, which was too high of a contrast to be used in text components. Reading solid black text on a solid white background is not ideal; it creates optical strain for a significant number of users.
-
-Adding two new grays also allowed us to keep a solid black (in light UI) and solid white (in dark UI) without having to keep gray-900 so bright. Now gray-1000 can be used for borders with opacities.
-
-Adding an extra shade in the low range allowed for us to make more incremental steps between background grays.
-
-With the 6.0.0 gray system, users working in apps that support dark theme felt the colors were too light and muddy. And, users working in apps that support darkest theme felt the UI was too high-contrast, which makes it difficult to view the screen comfortably for long periods of time. The Spectrum 2 update addresses both issues by combining the dark and darkest themes into a new theme, with brightness values that are between the two existing themes.
-
-This update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.
-
-"There are no current WCAG or W3C guidelines about if every fill and stroke in every component of every state needs to be 3:1 in contrast. Another thing to consider is that it’s irresponsible to approach the topic of contrast with a “one-size-fits-all” approach: every user has different needs, and design should account for user preference and customization. While one user may need interfaces to be higher contrast to be able to more clearly read and interact with the content, others may prefer interfaces to be lower in contrast (for example, people who are prone to getting migraines)."
-
-Because of this, Spectrum designs all active states of UI components to be at least 3:1 in contrast in some way with the background (such as a text field’s active state border). And, all objects within components, such as icons, drag handles, and text, are also compliant with the 3:1 or 4.5:1 requirement. Other graphical objects also always use at least 3:1 contrast and are accompanied by textual descriptions. Products using Spectrum should be built in such a way that the interface contrast, coloring, sizing, motion, and more can all be adjustable by the user to fit their own specific needs.
-
-The Spectrum 2 color update changed gray-900 (which is used by most heading or title text) to slightly lower contrast in both dark and light UI to ensure improved readability for as many users as possible.
-
-Color updates are breaking changes, so you’ll need to use the following information to responsibly migrate to Spectrum 2 colors. If this isn’t done correctly, backgrounds and components will appear extra dark.
-
-Field borders are currently the only objects that stay gray-300 in the default state.
-
-## Overview
-
-Adding an extra shade in the low range allowed for us to make more incremental steps between background grays.
-
-This update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.
-
-Field borders are currently the only objects that stay gray-300 in the default state.
-
-## Two new grays
-
-Adding an extra shade in the low range allowed for us to make more incremental steps between background grays.
-
-This update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.
-
-Field borders are currently the only objects that stay gray-300 in the default state.
+In Spectrum, gray-25 is the default background color, which makes the UI bright and higher contrast. Image: A dark-themed mobile video editing app interface showing a preview frame, playback controls, and timeline with audio and video tracks, alongside a stack of overlapping dark gray diamond shapes representing layered dark surface colors. (source: https://spectrum.adobe.com/foundations/color/media_106bd0837a2d55c4c4226e8c215298f94689c05d6.png?width=750&format=png&optimize=medium)
 
 ## A single dark theme
 
-This update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.
+Spectrum utilizes a simplified color theming system with a single dark mode. Spectrum’s dark theme is utilized for both the dark color theme (in light device mode) and for dark device mode. Image: Dark-themed video editing interface showing a home interior design scene in the player, with timeline containing video clips and audio waveform below, and a 3D layers panel on the right side. (source: https://spectrum.adobe.com/foundations/color/media_138e9f7dcac3886ceaaa9ec6d7c15eab9075cc6f9.png?width=750&format=png&optimize=medium)
 
-Field borders are currently the only objects that stay gray-300 in the default state.
+## Accessibility and contrast
 
-## Layering system
-
-This update affects the layering system. The primary, secondary, and tertiary layers now use grays 25-75 instead of grays 50-100.
-
-Field borders are currently the only objects that stay gray-300 in the default state.
-
-## Accessibility
-
-Field borders are currently the only objects that stay gray-300 in the default state.
-
-## Migration guide
-
-Field borders are currently the only objects that stay gray-300 in the default state.
-
-## Design tokens
-
-Use the [Spectrum Token Visualization Tool](https://opensource.adobe.com/spectrum-tokens/s2-visualizer/?filter=spectrum%2Clight%2Cdesktop) to review the tokens for this component.
-
-## Questions or feedback?
-
-Ask questions about this component by posting in [#spectrum-design](https://adobe.enterprise.slack.com/archives/C0B4ZDHEE) on Slack. Submit any feedback or file bugs (either about this component or its documentation) through Spectrum's [feedback form](https://adobe.enterprise.slack.com/lists/T024FSURM/F08FFP5MLHJ).
-
-## Related Components
-
-* [Attention hierarchy](/page/attention-hierarchy/)
-* [Colors](/page/colors/)
+Adobe aims to be AA compliant for WCAG guidelines. The latest 2.2 guidelines require that text is at least 4.5:1 in contrast for small text. Spectrum never deviates from this. The World Wide Web Consortium (W3C) also requires active, non-text components to have a minimum of 3:1 in contrast against adjacent colors. Some elements are exempt from this (like disabled items, decorative items, user-set items, or logotypes). This relates to both UI components such as text fields and buttons, and to graphical objects like icons or illustrations. There are no current WCAG or W3C guidelines about if every fill and stroke in every component of every state needs to be 3:1 in contrast. Another thing to consider is that it’s irresponsible to approach the topic of contrast with a “one-size-fits-all” approach: every user has different needs, and design should account for user preference and customization. While one user may need interfaces to be higher contrast to be able to more clearly read and interact with the content, others may prefer interfaces to be lower in contrast (for example, people who are prone to getting migraines). Because of this, Spectrum designs all active states of UI components to be at least 3:1 in contrast in some way with the background (such as a text field’s active state border). And, all objects within components, such as icons, drag handles, and text, are also compliant with the 3:1 or 4.5:1 requirement. Other graphical objects also always use at least 3:1 contrast and are accompanied by textual descriptions. Products using Spectrum should be built in such a way that the interface contrast, coloring, sizing, motion, and more can all be adjustable by the user to fit their own specific needs. View the Inclusive design page for more information about accessibility and inclusivity in the design system. Image: Chart titled 'Gray (Dark Theme)' showing contrast ratios against gray-25 for gray scale values 25 through 1000, ranging from 1 (25) to 21 (1000), with swatches progressing from dark to light. (source: https://spectrum.adobe.com/foundations/color/media_1228b58cf9369a0e51a06b56999b145c093af4082.png?width=750&format=png&optimize=medium) Image: Chart titled 'Gray (Light Theme)' showing contrast ratios against gray-25 for gray scale values 25 through 1000, ranging from 1 (25) to 21 (1000), with swatches progressing from light to dark. (source: https://spectrum.adobe.com/foundations/color/media_1e777cb3e01226d77ed4730156d3da3790442f86c.png?width=750&format=png&optimize=medium)
