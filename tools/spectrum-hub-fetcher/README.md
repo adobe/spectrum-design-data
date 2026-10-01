@@ -10,6 +10,20 @@ Full rationale and the exact tables live as JSDoc in `src/component-map.js` itse
 this file is a condensed index of the decisions that need a human "yes, that's right"
 before Phase B/C proceed.
 
+## Running the sync workflows
+
+`hub-component-sync.yml` and `hub-guideline-sync.yml` fetch the public site at
+`https://spectrum.adobe.com` with an explicit `--origin` argument. The CLI default
+still points to the AEM origin; pass `--origin https://spectrum.adobe.com` to match
+the workflows when running locally.
+
+Dispatch the workflows from a branch containing the fetcher, such as `beta-hub`.
+Leave `limit` empty for a full sync. A dry run fetches and checks health but skips
+staging and transformation, so it cannot show changes to the checked-in data.
+Use `dry_run=false` to generate a content PR when changes are found. Each run
+uploads its fetch and available review reports as a GitHub Actions artifact,
+including when the health guard fails.
+
 ## What was cross-referenced
 
 * Live, unbounded (no `--limit`) dry-run fetches of `/web/rsp/components/*` (61

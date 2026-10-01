@@ -77,7 +77,7 @@ jobs:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
           FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          args=(--out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
+          args=(--origin https://spectrum.adobe.com --out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
           if [ -n "$FETCH_LIMIT" ]; then
             args+=(--limit "$FETCH_LIMIT")
           fi
@@ -240,3 +240,13 @@ jobs:
             - [ ] I have read the CONTRIBUTING document.
             - [ ] I have added tests to cover my changes.
             - [ ] All new and existing tests passed.
+
+      - name: Upload sync reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-guideline-sync-reports
+          path: |
+            hub-fetch-report.json
+            guideline-review.md
+          if-no-files-found: warn
