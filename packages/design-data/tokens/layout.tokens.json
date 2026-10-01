@@ -271,6 +271,24 @@
     "name": {
       "property": "gap",
       "structure": "banner",
+      "orientation": "horizontal",
+      "legacyKey": "gap-horizontal"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
+    "uuid": "88c10a5d-9495-44b2-8b03-e9283c79144b",
+    "description": "Spacing between child elements for banner components",
+    "lifecycle": {
+      "deprecatedIn": "3.3.0",
+      "deprecatedComment": "Renamed to include the banner structure prefix; use banner-gap-horizontal instead.",
+      "replacedBy": "c0571c46-5946-4896-bcbf-270560de5385"
+    },
+    "conceptId": "2ed53cd0-afb2-4b41-abe8-357b6984d858"
+  },
+  {
+    "name": {
+      "property": "gap",
+      "structure": "banner",
       "orientation": "vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -278,6 +296,24 @@
     "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
     "description": "Spacing between child elements for banner components",
     "conceptId": "e488914b-889c-4455-8dea-5446848d6261"
+  },
+  {
+    "name": {
+      "property": "gap",
+      "structure": "banner",
+      "orientation": "vertical",
+      "legacyKey": "gap-vertical"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
+    "uuid": "952a4750-63b2-458e-81b1-bf00cb064934",
+    "description": "Spacing between child elements for banner components",
+    "lifecycle": {
+      "deprecatedIn": "3.3.0",
+      "deprecatedComment": "Renamed to include the banner structure prefix; use banner-gap-vertical instead.",
+      "replacedBy": "312ebac2-32a0-47a8-9c4e-e366b2232228"
+    },
+    "conceptId": "8e59c7c8-8264-4b14-9554-6df62e0113be"
   },
   {
     "name": {
@@ -289,6 +325,23 @@
     "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
     "description": "Horizontal internal spacing for banner components",
     "conceptId": "fe991478-b395-4870-938b-a8a09f721c02"
+  },
+  {
+    "name": {
+      "property": "padding-horizontal",
+      "structure": "banner",
+      "legacyKey": "padding-horizontal"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
+    "uuid": "f0749dc3-1649-4e6f-957e-c2194e191c88",
+    "description": "Horizontal internal spacing for banner components",
+    "lifecycle": {
+      "deprecatedIn": "3.3.0",
+      "deprecatedComment": "Renamed to include the banner structure prefix; use banner-padding-horizontal instead.",
+      "replacedBy": "eb386242-21c6-437b-8125-e6d4394dd9c5"
+    },
+    "conceptId": "a0789399-daee-4248-b5b1-d36600560eea"
   },
   {
     "name": {
@@ -313,6 +366,23 @@
     "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
     "description": "Vertical internal spacing for banner components",
     "conceptId": "6e2370f2-ecbc-4ca9-912a-db39726761d1"
+  },
+  {
+    "name": {
+      "property": "padding-vertical",
+      "structure": "banner",
+      "legacyKey": "padding-vertical"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
+    "uuid": "9ae57860-2109-4f79-9230-7616e9898fd9",
+    "description": "Vertical internal spacing for banner components",
+    "lifecycle": {
+      "deprecatedIn": "3.3.0",
+      "deprecatedComment": "Renamed to include the banner structure prefix; use banner-padding-vertical instead.",
+      "replacedBy": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
+    },
+    "conceptId": "58fc7a18-a8e3-464b-a282-bc6303a6f063"
   },
   {
     "name": {
@@ -5947,6 +6017,24 @@
     "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
     "description": "Spacing between child elements for list structures (regular density)",
     "conceptId": "3a663b76-4b9c-41bc-833e-5eb7f346fd4c"
+  },
+  {
+    "name": {
+      "property": "gap",
+      "structure": "list",
+      "weight": "regular",
+      "legacyKey": "gap-regular"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",
+    "uuid": "c2408389-1e7e-4aae-8a49-d8b8233102c7",
+    "description": "Spacing between child elements for list structures (regular density)",
+    "lifecycle": {
+      "deprecatedIn": "3.3.0",
+      "deprecatedComment": "Renamed to include the list structure prefix; use list-gap-regular instead.",
+      "replacedBy": "b7e1af59-753e-4059-8f46-8d862f631ad8"
+    },
+    "conceptId": "ef320d25-625e-404c-8b69-8958ef42223c"
   },
   {
     "name": {

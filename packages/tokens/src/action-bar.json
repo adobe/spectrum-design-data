@@ -28,7 +28,7 @@
     "uuid": "3116a00c-0ad3-4ae6-9fbb-f9b5624a2708",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "action-bar-close-button-to-counter": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -67,7 +67,7 @@
     "uuid": "72e276ce-d6ee-4bcf-9955-91c833b8b2cd",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-gap-horizontal instead.",
-    "renamed": "gap-horizontal"
+    "renamed": "banner-gap-horizontal"
   },
   "action-bar-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -82,7 +82,7 @@
     "uuid": "cfa41a43-8fb2-4c3b-a2df-f8658c87b31b",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "action-bar-top-to-item-counter": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -91,6 +91,6 @@
     "uuid": "73f82d09-7927-461c-b7d7-ab0bc6b3e3f9",
     "deprecated": true,
     "deprecated_comment": "Use semantic token banner-padding-vertical instead.",
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   }
 }
