@@ -658,6 +658,16 @@ importers:
         specifier: ^3.3.3
         version: 3.7.4
 
+  tools/figma-code-connect:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.27.1
+        version: 1.27.1(zod@3.25.76)
+    devDependencies:
+      ava:
+        specifier: ^6.1.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/ios-override-importer:
     devDependencies:
       ava:

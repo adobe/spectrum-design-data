@@ -16,7 +16,9 @@
     "root:test",
     "s2-docs-to-document-blocks:test",
     "design-data:validate-guidelines",
-    "token-mapping-analyzer:test"
+    "token-mapping-analyzer:test",
+    "figma-code-connect:test",
+    "figma-code-connect:plan"
   ],
   "rust": [
     "sdk:fmt-check",
