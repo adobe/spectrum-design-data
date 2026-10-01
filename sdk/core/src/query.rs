@@ -33,12 +33,25 @@ pub(crate) const ALLOWED_KEYS: &[&str] = &[
     "$schema",
 ];
 
-/// Return the list of keys that may appear in filter expressions.
+/// Return the list of filter keys that are meaningfully supported in the
+/// embedded dataset.
 ///
-/// Exposed so that the wasm surface can return the canonical set dynamically
-/// rather than duplicating it in JavaScript.
+/// `component` remains accepted by the parser for compatibility, but it is not
+/// included here because the dataset does not reliably populate that name-object
+/// field for end-user queries. The public contract should steer callers to
+/// `describe_component`/`tokenBindings` instead of advertising `component` as a
+/// dependable indexed filter key.
 pub fn indexed_fields() -> &'static [&'static str] {
-    ALLOWED_KEYS
+    &[
+        "property",
+        "variant",
+        "state",
+        "colorScheme",
+        "scale",
+        "contrast",
+        "uuid",
+        "$schema",
+    ]
 }
 
 /// Keys resolved from `raw["name"][key]` (name-object fields).
@@ -47,6 +60,7 @@ const NAME_OBJECT_KEYS: &[&str] = &[
     "component",
     "variant",
     "state",
+    "colorRole",
     "colorScheme",
     "scale",
     "contrast",
@@ -223,6 +237,14 @@ fn matches_condition(raw: &serde_json::Value, cond: &Condition) -> bool {
         Operator::Eq => any_match,
         Operator::NotEq => !any_match,
     }
+}
+
+/// Match a name-object field using the same scalar/array and glob semantics as
+/// query filters.
+pub fn matches_name_field(raw: &serde_json::Value, key: &str, pattern: &str) -> bool {
+    resolve_key(raw, key)
+        .iter()
+        .any(|value| glob_match(pattern, value))
 }
 
 /// Resolve a query key to the field's value(s) in a token's raw JSON.
@@ -520,7 +542,6 @@ mod tests {
         let fields = super::indexed_fields();
         let expected = [
             "property",
-            "component",
             "variant",
             "state",
             "colorScheme",
@@ -533,6 +554,7 @@ mod tests {
         for key in &expected {
             assert!(fields.contains(key), "indexed_fields missing key: {key}");
         }
+        assert!(!fields.contains(&"component"));
     }
 
     // ── Parser tests ────────────────────────────────────────────────────

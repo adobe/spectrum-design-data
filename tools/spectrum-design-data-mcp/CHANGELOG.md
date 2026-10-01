@@ -1,25 +1,25 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
-## 1.1.76-beta.2
+## 1.1.78
 
 ### Patch Changes
 
 - Updated dependencies []:
-  - @adobe/spectrum-component-api-schemas@6.1.59-beta.2
+  - @adobe/spectrum-component-api-schemas@6.1.61
 
-## 1.1.76-beta.1
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @adobe/spectrum-component-api-schemas@6.1.59-beta.1
-
-## 1.1.76-beta.0
+## 1.1.77
 
 ### Patch Changes
 
 - Updated dependencies []:
-  - @adobe/spectrum-component-api-schemas@6.1.59-beta.0
+  - @adobe/spectrum-component-api-schemas@6.1.60
+
+## 1.1.76
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.59
 
 ## 1.1.75
 

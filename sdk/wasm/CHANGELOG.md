@@ -1,5 +1,43 @@
 # @adobe/design-data-wasm
 
+## 0.10.2
+
+### Patch Changes
+
+- [#1519](https://github.com/adobe/spectrum-design-data/pull/1519) [`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b) Thanks [@GarthDB](https://github.com/GarthDB)! - Build and verify wasm artifacts before snapshot and stable publication.
+  - **sdk/wasm**: check packed artifacts and isolated Node and web runtimes.
+  - **release workflows**: build snapshot wasm separately and verify packages before publishing.
+
+## 0.10.1
+
+### Patch Changes
+
+- [#1513](https://github.com/adobe/spectrum-design-data/pull/1513) [`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum 2 implementation metadata for components with exact verified exports.
+  - **spectrum-design-data**: replace S1 mappings with verified Spectrum 2 exports.
+  - **design-data-wasm**: include the updated component data in the WASM package.
+
+## 0.10.0
+
+### Minor Changes
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add narrowing and ambiguity metadata to property-based token resolution.
+  - **resolve_token**: support component, variant, state, and colorRole narrowing while reporting
+    deprecated and ambiguous matches.
+
+### Patch Changes
+
+- [#1502](https://github.com/adobe/spectrum-design-data/pull/1502) [`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify that component query filters are accepted for compatibility but are not
+  indexed in the embedded dataset.
+  - **sdk/core/src/query.rs**: exclude the unreliable component field from the
+    canonical indexed-filter list.
+  - **sdk/wasm/src/dataset.rs**: direct component discovery to component
+    descriptions and token binding metadata.
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Rebuild the embedded wasm dataset snapshot, stale since 3.1.0, to match published data 3.2.5.
+  - **sdk/wasm**: rebuilt against current `packages/design-data` source, refreshing
+    `embedded_cache.redb` and the `pkg/node`/`pkg/web` outputs; `primer().provenance
+.designDataVersion` now reports `3.2.5`.
+
 ## 0.9.0
 
 ### Minor Changes

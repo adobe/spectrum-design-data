@@ -10,6 +10,7 @@
 
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
+use std::sync::OnceLock;
 
 use chrono::Utc;
 
@@ -22,15 +23,15 @@ use std::collections::{HashMap, HashSet};
 
 use clap::{ArgGroup, Args, Parser, Subcommand, ValueEnum};
 use design_data_core::cache;
-use design_data_core::cascade::{resolve_property, ResolutionContext};
+use design_data_core::cascade::{self, resolve_property, ResolutionContext};
 use design_data_core::compat::{
     load_snapshot, snapshot_matches, write_snapshot, ValidationSnapshot,
 };
 use design_data_core::data_source::{self, CliPathOverrides};
 use design_data_core::diff;
 use design_data_core::diff::display_name;
-use design_data_core::figma;
-use design_data_core::graph::TokenGraph;
+use design_data_core::export::TokenExporter;
+use design_data_core::graph::{TokenGraph, TokenRecord};
 use design_data_core::legacy;
 use design_data_core::manifest;
 use design_data_core::migrate;
@@ -42,6 +43,8 @@ use design_data_core::schema::SchemaRegistry;
 use design_data_core::suggest;
 use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
+use design_data_dtcg as dtcg;
+use design_data_figma as figma;
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -63,6 +66,17 @@ struct Cli {
     /// TUI launch options (used when no subcommand is given).
     #[command(flatten)]
     tui: TuiArgs,
+    /// Select a named `[platforms.<id>]` entry from `.design-data.toml` (h890.27.3).
+    /// Available on every subcommand. Outranked only by a subcommand's own
+    /// `--manifest`; outranks `DESIGN_DATA_PLATFORM` and `default_platform`.
+    ///
+    /// Known limitation: place `--platform` *after* the subcommand name
+    /// (e.g. `design-data validate-manifest --platform foo`). Putting it
+    /// *before* the subcommand can be misparsed as the bare-invocation TUI
+    /// positional `DATASET` argument, since this top-level `Cli` also has an
+    /// optional positional flattened in via `TuiArgs`.
+    #[arg(long, global = true)]
+    platform: Option<String>,
 }
 
 /// Arguments for launching the interactive TUI (bare invocation or `tui` subcommand).
@@ -99,6 +113,11 @@ struct TuiArgs {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Inspect configured `[platforms.<id>]` manifest profiles (h890.27.6)
+    Platform {
+        #[command(subcommand)]
+        sub: PlatformSub,
+    },
     /// Validate design data against JSON Schemas (Layer 1) and catalog rules (Layer 2)
     Validate {
         /// Path to a JSON file or directory to validate
@@ -190,9 +209,11 @@ enum Commands {
         /// Contrast mode (e.g. regular, high)
         #[arg(long, value_name = "MODE")]
         contrast: Option<String>,
-        /// Output format
-        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
-        format: OutputFormat,
+        /// Output format: `pretty` (human-readable), `json` (raw resolved token
+        /// record), or `dtcg` (W3C Design Tokens Community Group `$value`/`$type`
+        /// document, for Style Dictionary/Terrazzo/etc. consumption)
+        #[arg(long, value_enum, default_value_t = ResolveFormat::Pretty)]
+        format: ResolveFormat,
     },
     /// Decompose a legacy kebab-case token slug into its structured name-object
     /// fields (property/component/variant/state), verifying the roundtrip.
@@ -241,12 +262,47 @@ enum Commands {
         /// Filter expression (e.g. "component=button,state=hover")
         #[arg(long, value_name = "EXPR")]
         filter: String,
-        /// Output format
-        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
-        format: OutputFormat,
+        /// Output format: `pretty`, `json` (raw matching records), or `dtcg` (resolved
+        /// cascade winner per matched property, as a merged W3C DTCG document)
+        #[arg(long, value_enum, default_value_t = QueryFormat::Pretty)]
+        format: QueryFormat,
         /// Output only the match count
         #[arg(long)]
         count: bool,
+        /// Color scheme mode for `--format dtcg` resolution (e.g. light, dark, wireframe)
+        #[arg(long, value_name = "MODE")]
+        color_scheme: Option<String>,
+        /// Scale mode for `--format dtcg` resolution (e.g. desktop, mobile)
+        #[arg(long, value_name = "MODE")]
+        scale: Option<String>,
+        /// Contrast mode for `--format dtcg` resolution (e.g. regular, high)
+        #[arg(long, value_name = "MODE")]
+        contrast: Option<String>,
+    },
+    /// Export a whole resolved dataset as a single W3C DTCG document: every distinct
+    /// token property resolved to its cascade winner in the given mode context, merged
+    /// into one flat document (see `design_data_dtcg`). Reuses the same mode flags
+    /// and manifest handling as `resolve`; unlike `resolve`, it emits every property, not
+    /// one.
+    Export {
+        /// Directory containing cascade-format .tokens.json files
+        #[arg(value_name = "PATH")]
+        path: Option<PathBuf>,
+        /// Directory containing spec-format mode set declaration JSON files
+        #[arg(long, value_name = "DIR")]
+        mode_sets_path: Option<PathBuf>,
+        /// Color scheme mode (e.g. light, dark, wireframe)
+        #[arg(long, value_name = "MODE")]
+        color_scheme: Option<String>,
+        /// Scale mode (e.g. desktop, mobile)
+        #[arg(long, value_name = "MODE")]
+        scale: Option<String>,
+        /// Contrast mode (e.g. regular, high)
+        #[arg(long, value_name = "MODE")]
+        contrast: Option<String>,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = ExportFormat::Dtcg)]
+        format: ExportFormat,
     },
     /// Snapshot and backward-compat verification helpers
     Migrate {
@@ -394,6 +450,44 @@ enum Commands {
 }
 
 #[derive(Subcommand)]
+enum PlatformSub {
+    /// List every configured platform-manifest entry (named `[platforms.<id>]`
+    /// profiles, plus the legacy single `manifest` key if present)
+    List {
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
+    /// Show details for one named `[platforms.<id>]` entry: resolved manifest
+    /// location (local path, or remote repo + pin), identity fields, and
+    /// foundation-version drift vs. this build (advisory only)
+    Show {
+        /// Platform id (as configured under `[platforms.<id>]`)
+        id: String,
+        /// Output format
+        #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+        format: OutputFormat,
+    },
+    /// Emit a standalone, publishable repo for a local `[platforms.<id>]` entry
+    /// (manifest.json, extensions/, README, LICENSE, `.design-data.toml` pinned
+    /// at the entry's `foundationVersion`, and a CI validation workflow), plus
+    /// printed `git subtree split` instructions for history-preserving
+    /// extraction — see `platforms/README.md`'s ejection contract and
+    /// `docs/MIGRATION.md` for the full runbook
+    Eject {
+        /// Platform id (must be a local `[platforms.<id>]` path entry — a
+        /// remote/`github`-sourced entry is already external and can't be
+        /// ejected from here)
+        id: String,
+        /// Output directory (default: `./<id>-design-data` in the CWD).
+        /// Rejected if it resolves inside the platform's own `extensions/`
+        /// dir, which would make the recursive copy walk into its own output.
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
 enum MigrateSub {
     /// Run validation and compare to a golden snapshot JSON
     Verify {
@@ -517,6 +611,19 @@ enum FigmaSub {
         /// before export instead of reading `path` as a raw token directory
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
+        /// Add per-platform `codeSyntax` entries (shown in Figma Dev Mode) from
+        /// a platform manifest's `formatting` block, as `PLATFORM=PATH` (Figma
+        /// platform key, e.g. `ANDROID` or `iOS`, `=` a manifest.json path).
+        /// Repeatable. Independent of `--manifest` — this only reads
+        /// `formatting`, not the value cascade. `WEB` is rejected as a
+        /// platform key — its `codeSyntax` entry is already the authoritative
+        /// `--spectrum-{legacyKey}` name and a `formatting`-derived one would
+        /// only be lossier. Known limitation: for a
+        /// component-scoped token, `conceptOrder`/`abbreviations` entries for
+        /// `"component"` have no effect — the component prefix stays fused to
+        /// `property` and only casing/delimiter conversion applies.
+        #[arg(long = "code-syntax-manifest", value_name = "PLATFORM=PATH")]
+        code_syntax_manifests: Vec<String>,
     },
     /// Import Figma Variable edits back into manifest `overrides` entries
     Import {
@@ -622,10 +729,52 @@ enum DiffFormat {
     Markdown,
 }
 
+/// Output format for the `resolve` command (superset of `OutputFormat` — adds `dtcg`,
+/// a W3C DTCG-conformant `$value`/`$type`/`$description` document derived from the
+/// resolved token's leaf value; see `design_data_dtcg`).
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum ResolveFormat {
+    #[default]
+    Pretty,
+    Json,
+    Dtcg,
+}
+
+/// Output format for the `export` command.
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum ExportFormat {
+    #[default]
+    Dtcg,
+    Json,
+}
+
+/// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
+/// which resolves the cascade winner for each distinct property among the matched
+/// tokens and merges them into one W3C DTCG document; see `design_data_dtcg`).
+#[derive(Clone, Copy, Debug, Default, ValueEnum)]
+enum QueryFormat {
+    #[default]
+    Pretty,
+    Json,
+    Dtcg,
+}
+
+/// The `--platform <id>` value from the top-level [`Cli`] flag (h890.27.4), set
+/// once in `main` before any command handler runs. Read by [`resolve_data_source`]
+/// so every call site picks it up automatically without threading it through 16+
+/// individual `CliPathOverrides` constructions. `DESIGN_DATA_PLATFORM` needs no
+/// equivalent — [`data_source::resolve`] already reads that env var directly.
+static GLOBAL_PLATFORM_ID: OnceLock<Option<String>> = OnceLock::new();
+
 /// Resolve `overrides` against the current working directory. Shared by every
 /// command handler so the config/probing/embedded-snapshot tiers in
 /// [`data_source::resolve`] are applied consistently everywhere.
-fn resolve_data_source(overrides: CliPathOverrides) -> miette::Result<data_source::ResolvedData> {
+fn resolve_data_source(
+    mut overrides: CliPathOverrides,
+) -> miette::Result<data_source::ResolvedData> {
+    if overrides.platform_id.is_none() {
+        overrides.platform_id = GLOBAL_PLATFORM_ID.get().cloned().flatten();
+    }
     let cwd = std::env::current_dir().into_diagnostic()?;
     data_source::resolve(&cwd, &overrides).into_diagnostic()
 }
@@ -697,6 +846,51 @@ fn run_dump_legacy_keys(explicit_path: Option<&Path>) -> miette::Result<ExitCode
     Ok(ExitCode::SUCCESS)
 }
 
+/// Resolve every distinct token in the dataset in `ctx` (see
+/// `cascade::resolve_dataset`), optionally restricted to the token identities in
+/// `only_identities` (as computed by `cascade::token_identity_key`). Shared by
+/// `export --format dtcg`/`--format json` and `query --format dtcg`.
+fn resolve_dataset_winners(
+    graph: &TokenGraph,
+    ctx: &ResolutionContext,
+    only_identities: Option<&HashSet<String>>,
+) -> Vec<TokenRecord> {
+    cascade::resolve_dataset(graph, ctx)
+        .into_iter()
+        .filter(|winner| {
+            let Some(only) = only_identities else {
+                return true;
+            };
+            winner
+                .raw
+                .get("name")
+                .and_then(|v| v.as_object())
+                .is_some_and(|n| only.contains(&cascade::token_identity_key(n, &graph.mode_sets)))
+        })
+        .collect()
+}
+
+/// Pure graph -> document exporters, looked up by `--format <id>`. Figma is
+/// deliberately not here — it's bidirectional/network-coupled, not a one-shot
+/// transform, so it keeps its own subcommands instead of this trait (see
+/// `design_data_core::export::TokenExporter`).
+fn exporters() -> Vec<Box<dyn TokenExporter>> {
+    vec![Box::new(dtcg::DtcgExporter)]
+}
+
+/// Merge each winner's single-key DTCG document into one flat DTCG document.
+fn winners_to_dtcg_doc(
+    graph: &TokenGraph,
+    winners: &[TokenRecord],
+    ctx: &HashMap<String, String>,
+) -> serde_json::Value {
+    exporters()
+        .into_iter()
+        .find(|e| e.format_id() == "dtcg")
+        .expect("dtcg exporter always registered")
+        .export(graph, winners, ctx)
+}
+
 fn run_resolve(
     property: &str,
     explicit_path: Option<&Path>,
@@ -704,7 +898,7 @@ fn run_resolve(
     color_scheme: Option<String>,
     scale: Option<String>,
     contrast: Option<String>,
-    format: OutputFormat,
+    format: ResolveFormat,
 ) -> miette::Result<ExitCode> {
     // Build resolution context from flags.
     let mut resolve_ctx = ResolutionContext::new();
@@ -760,13 +954,17 @@ fn run_resolve(
         Some(winner) => {
             let winner = &winner.record;
             match format {
-                OutputFormat::Json => {
+                ResolveFormat::Json => {
                     println!(
                         "{}",
                         serde_json::to_string_pretty(&winner.raw).into_diagnostic()?
                     );
                 }
-                OutputFormat::Pretty => {
+                ResolveFormat::Dtcg => {
+                    let doc = dtcg::token_to_dtcg_document(&graph, winner);
+                    println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+                }
+                ResolveFormat::Pretty => {
                     println!("Property:  {property}");
                     if let Some(val) = winner.raw.get("value") {
                         println!("Value:     {val}");
@@ -970,6 +1168,485 @@ fn run_validate_dataset(path: &Path, opts: ValidateDatasetOpts) -> miette::Resul
 /// configured Layer 2 platform manifest directly, without running a query. Loads the
 /// foundation token graph and runs the same cascade `manifest::apply_configured` applies
 /// during `query`/`resolve`/`convert`: Layer 1 schema-shape validation plus apply-time
+/// Describe one `[platforms.<id>]` entry as `(location, detail)` for
+/// `platform list`/`show` (h890.27.6): `location` is `"local"` or `"remote"`;
+/// `detail` is a human-readable path, or `repo@pin (manifest_path)`.
+fn describe_platform_entry(entry: &data_source::PlatformManifestEntry) -> (&'static str, String) {
+    match entry {
+        data_source::PlatformManifestEntry::Path(path) => ("local", path.display().to_string()),
+        data_source::PlatformManifestEntry::Remote {
+            repo,
+            tag,
+            branch,
+            sha,
+            manifest_path,
+        } => {
+            let pin = tag
+                .as_deref()
+                .map(|t| format!("tag:{t}"))
+                .or_else(|| branch.as_deref().map(|b| format!("branch:{b}")))
+                .or_else(|| sha.as_deref().map(|s| format!("sha:{s}")))
+                .unwrap_or_else(|| "unpinned".to_string());
+            let manifest_path = manifest_path
+                .clone()
+                .unwrap_or_else(|| PathBuf::from("manifest.json"));
+            (
+                "remote",
+                format!("{repo}@{pin} ({})", manifest_path.display()),
+            )
+        }
+    }
+}
+
+/// `design-data platform list` (h890.27.6): enumerate every configured
+/// `[platforms.<id>]` entry (or the legacy single `manifest` key, if that's all
+/// a repo has), marking which one `default_platform` selects.
+fn run_platform_list(format: OutputFormat) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let found = data_source::find_config(&cwd).into_diagnostic()?;
+
+    let mut rows: Vec<(String, &'static str, String, bool)> = Vec::new();
+    if let Some((_, config)) = &found {
+        if let Some(platforms) = &config.platforms {
+            let mut ids: Vec<String> = platforms.keys().cloned().collect();
+            ids.sort();
+            for id in ids {
+                let entry = &platforms[&id];
+                let (location, detail) = describe_platform_entry(entry);
+                let is_default = config.default_platform.as_deref() == Some(id.as_str());
+                rows.push((id, location, detail, is_default));
+            }
+        } else if let Some(manifest) = &config.manifest {
+            rows.push((
+                "(default)".to_string(),
+                "local",
+                manifest.display().to_string(),
+                true,
+            ));
+        }
+    }
+
+    match format {
+        OutputFormat::Json => {
+            let json: Vec<_> = rows
+                .iter()
+                .map(|(id, location, detail, is_default)| {
+                    serde_json::json!({
+                        "id": id,
+                        "location": location,
+                        "detail": detail,
+                        "default": is_default,
+                    })
+                })
+                .collect();
+            println!("{}", serde_json::to_string(&json).into_diagnostic()?);
+        }
+        OutputFormat::Pretty => {
+            if rows.is_empty() {
+                println!("design-data: no platform manifests configured");
+            } else {
+                for (id, location, detail, is_default) in &rows {
+                    let marker = if *is_default { "*" } else { " " };
+                    println!("{marker} {id:<20} {location:<8} {detail}");
+                }
+            }
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data platform show <id>` (h890.27.6): resolve one named platform
+/// entry (fetching it if remote), and report its location, identity fields,
+/// and an advisory `foundationVersion`-vs-this-build drift check.
+fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides {
+        platform_id: Some(id.to_string()),
+        ..Default::default()
+    })?;
+    let Some(manifest_path) = resolved.platform_manifest.clone() else {
+        eprintln!("design-data: error: platform \"{id}\" resolved but has no manifest path");
+        return Ok(ExitCode::from(2));
+    };
+
+    let manifest_json: Option<serde_json::Value> = std::fs::read_to_string(&manifest_path)
+        .ok()
+        .and_then(|text| serde_json::from_str(&text).ok());
+    let str_field = |key: &str| {
+        manifest_json
+            .as_ref()
+            .and_then(|m| m.get(key))
+            .and_then(|v| v.as_str())
+            .map(str::to_string)
+    };
+    let platform = str_field("platform");
+    let platform_version = str_field("platformVersion");
+    let repository = str_field("repository");
+    let foundation_version = str_field("foundationVersion");
+    let drift = foundation_version.as_deref().map(|fv| {
+        if fv == data_source::EMBEDDED_DATA_VERSION {
+            format!("in sync (matches this build's embedded foundation {fv})")
+        } else {
+            format!(
+                "manifest declares foundationVersion \"{fv}\"; this build's embedded \
+                 foundation is \"{}\" — may be drifted",
+                data_source::EMBEDDED_DATA_VERSION
+            )
+        }
+    });
+
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let entry_detail = data_source::find_config(&cwd)
+        .into_diagnostic()?
+        .and_then(|(_, config)| config.platforms)
+        .and_then(|platforms| platforms.get(id).map(describe_platform_entry));
+
+    match format {
+        OutputFormat::Json => {
+            println!(
+                "{}",
+                serde_json::json!({
+                    "id": id,
+                    "manifest": manifest_path.display().to_string(),
+                    "location": entry_detail.as_ref().map(|(l, _)| *l),
+                    "detail": entry_detail.as_ref().map(|(_, d)| d.clone()),
+                    "platform": platform,
+                    "platformVersion": platform_version,
+                    "repository": repository,
+                    "foundationVersion": foundation_version,
+                    "drift": drift,
+                })
+            );
+        }
+        OutputFormat::Pretty => {
+            println!("design-data: platform \"{id}\"");
+            println!("  manifest:  {}", manifest_path.display());
+            if let Some((location, detail)) = &entry_detail {
+                println!("  source:    {location} — {detail}");
+            }
+            if let Some(p) = &platform {
+                println!("  platform:  {p}");
+            }
+            if let Some(v) = &platform_version {
+                println!("  version:   {v}");
+            }
+            if let Some(r) = &repository {
+                println!("  repository:{r}");
+            }
+            if let Some(d) = &drift {
+                println!("  foundation: {d}");
+            }
+        }
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+/// Lexically absolutize and normalize a path (join with cwd if relative,
+/// then collapse `.`/`..` components) without touching the filesystem or
+/// resolving symlinks, so two paths — one of which may not exist yet, like an
+/// eject `--out` dir — can be compared for containment. `std::path::absolute`
+/// alone isn't enough: it leaves `..` components in place, which would let a
+/// crafted `--out` path (e.g. `platforms/x/extensions/../../../out`) dodge a
+/// naive `starts_with` check.
+fn absolutize(path: &Path) -> std::io::Result<PathBuf> {
+    use std::path::Component;
+    let absolute = std::path::absolute(path)?;
+    let mut normalized = PathBuf::new();
+    for component in absolute.components() {
+        match component {
+            Component::ParentDir => {
+                normalized.pop();
+            }
+            Component::CurDir => {}
+            other => normalized.push(other),
+        }
+    }
+    Ok(normalized)
+}
+
+/// Resolve `path` (lexically absolutized/normalized via [`absolutize`]) as
+/// close to a true canonical path as possible without requiring it to exist:
+/// canonicalizes the nearest existing ancestor (resolving any symlinks in
+/// it — e.g. macOS's `/tmp` -> `/private/tmp`) and re-joins the remaining,
+/// not-yet-created path segments onto that. Needed because a config-derived
+/// path (resolved from `std::env::current_dir()`, which most OSes already
+/// report fully resolved) and a literal, unresolved CLI `--out` argument can
+/// otherwise disagree on containment purely due to a symlinked ancestor.
+fn resolve_as_far_as_possible(path: &Path) -> std::io::Result<PathBuf> {
+    let lexical = absolutize(path)?;
+    for ancestor in lexical.ancestors() {
+        if ancestor.exists() {
+            let canonical_ancestor = ancestor.canonicalize()?;
+            let suffix = lexical
+                .strip_prefix(ancestor)
+                .expect("ancestor is a prefix of lexical by construction");
+            return Ok(canonical_ancestor.join(suffix));
+        }
+    }
+    // No ancestor exists (e.g. an absolute root that isn't mounted) — fall
+    // back to the lexical form.
+    Ok(lexical)
+}
+
+/// True if `candidate` is `ancestor` itself or nested anywhere under it,
+/// resolved via [`resolve_as_far_as_possible`] so this works even when
+/// `candidate` doesn't exist on disk yet (e.g. an eject `--out` dir) and even
+/// when a symlinked ancestor (e.g. macOS's `/tmp`) would otherwise make a
+/// purely lexical comparison disagree.
+fn path_is_within(ancestor: &Path, candidate: &Path) -> std::io::Result<bool> {
+    let ancestor = resolve_as_far_as_possible(ancestor)?;
+    let candidate = resolve_as_far_as_possible(candidate)?;
+    Ok(candidate.starts_with(&ancestor))
+}
+
+/// Recursively copy a directory tree (used by `platform eject` to duplicate a
+/// platform's `extensions/` dir into the ejected repo). Creates `dst` and any
+/// nested subdirectories as needed.
+fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
+    std::fs::create_dir_all(dst)?;
+    for entry in std::fs::read_dir(src)? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
+        let dst_path = dst.join(entry.file_name());
+        if file_type.is_dir() {
+            copy_dir_all(&entry.path(), &dst_path)?;
+        } else {
+            std::fs::copy(entry.path(), &dst_path)?;
+        }
+    }
+    Ok(())
+}
+
+/// `design-data platform eject <id>` (h890.27.11): package a local
+/// `[platforms.<id>]` entry as a standalone, publishable repo — the first half
+/// of the incubate-here → team-owned-repo migration path (`platforms/README.md`).
+/// Does not touch git history; pair with the printed `git subtree split`
+/// instructions to preserve it.
+fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode> {
+    let cwd = std::env::current_dir().into_diagnostic()?;
+    let Some((config_path, config)) = data_source::find_config(&cwd).into_diagnostic()? else {
+        eprintln!(
+            "design-data: error: no `.design-data.toml` found from {}",
+            cwd.display()
+        );
+        return Ok(ExitCode::from(2));
+    };
+    let config_dir = config_path
+        .parent()
+        .expect("config file path always has a parent")
+        .to_path_buf();
+
+    let entry = config.platforms.as_ref().and_then(|p| p.get(id));
+    let manifest_path = match entry {
+        Some(data_source::PlatformManifestEntry::Path(path)) => {
+            if path.is_absolute() {
+                path.clone()
+            } else {
+                config_dir.join(path)
+            }
+        }
+        Some(data_source::PlatformManifestEntry::Remote { .. }) => {
+            eprintln!(
+                "design-data: error: platform \"{id}\" is a remote entry — it's already \
+                 external and has nothing to eject; point consumers at its `repo`/`tag` \
+                 directly instead"
+            );
+            return Ok(ExitCode::from(2));
+        }
+        None => {
+            let available = config
+                .platforms
+                .as_ref()
+                .map(|p| {
+                    let mut ids: Vec<String> = p.keys().cloned().collect();
+                    ids.sort();
+                    ids
+                })
+                .unwrap_or_default();
+            eprintln!(
+                "design-data: error: unknown platform id \"{id}\" — configured ids: {}",
+                if available.is_empty() {
+                    "(none)".to_string()
+                } else {
+                    available.join(", ")
+                }
+            );
+            return Ok(ExitCode::from(2));
+        }
+    };
+    let Some(platform_dir) = manifest_path.parent() else {
+        eprintln!(
+            "design-data: error: manifest path {} has no parent directory",
+            manifest_path.display()
+        );
+        return Ok(ExitCode::from(2));
+    };
+
+    let manifest_text = std::fs::read_to_string(&manifest_path)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to read {}", manifest_path.display()))?;
+    let manifest_json: serde_json::Value =
+        serde_json::from_str(&manifest_text)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to parse {}", manifest_path.display()))?;
+    let foundation_version = manifest_json
+        .get("foundationVersion")
+        .and_then(|v| v.as_str())
+        .map(str::to_string);
+
+    let out_dir = out.unwrap_or_else(|| PathBuf::from(format!("{id}-design-data")));
+
+    // Reject an --out nested inside (or equal to) the platform's `extensions/`
+    // dir *before* creating it. `copy_dir_all` below walks `extensions_src`
+    // recursively; if `out_dir` (and the `extensions/` it creates inside
+    // itself) lives inside that same tree, the walk would encounter its own
+    // in-progress destination and recurse until the OS refuses
+    // (ELOOP/too-many-open-files) or disk fills up. The reverse nesting
+    // (extensions/ living inside --out) is harmless — the destination
+    // subtree is a distinct path — so only this direction is rejected.
+    let extensions_src = platform_dir.join("extensions");
+    if extensions_src.is_dir() && path_is_within(&extensions_src, &out_dir).into_diagnostic()? {
+        eprintln!(
+            "design-data: error: --out {} is inside platform \"{id}\"'s extensions/ dir \
+             ({}) — choose an output path outside it",
+            out_dir.display(),
+            extensions_src.display()
+        );
+        return Ok(ExitCode::from(2));
+    }
+
+    std::fs::create_dir_all(&out_dir)
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to create {}", out_dir.display()))?;
+
+    // manifest.json — verbatim; the on-disk Layer 2 manifest never carries an
+    // inline `extensions` object (that's glob+merged from the sibling
+    // `extensions/` dir at apply time), so no rewriting is needed.
+    std::fs::copy(&manifest_path, out_dir.join("manifest.json"))
+        .into_diagnostic()
+        .wrap_err("failed to copy manifest.json")?;
+
+    // extensions/ — copied verbatim if present; a platform with no overlay
+    // content yet (e.g. seeded-but-empty) simply has nothing to copy.
+    if extensions_src.is_dir() {
+        copy_dir_all(&extensions_src, &out_dir.join("extensions"))
+            .into_diagnostic()
+            .wrap_err("failed to copy extensions/")?;
+    }
+
+    // README.md — copy the in-repo one if present (it documents this
+    // platform's real naming/formatting rationale), else a minimal generated
+    // stub.
+    let readme_src = platform_dir.join("README.md");
+    let readme_dst = out_dir.join("README.md");
+    if readme_src.is_file() {
+        std::fs::copy(&readme_src, &readme_dst)
+            .into_diagnostic()
+            .wrap_err("failed to copy README.md")?;
+    } else {
+        std::fs::write(
+            &readme_dst,
+            format!(
+                "# {id} design data\n\nEjected from `adobe/spectrum-design-data`'s \
+                 `platforms/{id}/` — see `.design-data.toml` for the pinned foundation \
+                 source.\n"
+            ),
+        )
+        .into_diagnostic()
+        .wrap_err("failed to write README.md")?;
+    }
+
+    // LICENSE — copy the monorepo's Apache-2.0 LICENSE verbatim, when locatable
+    // (best-effort: an ejected repo built from a non-standard checkout layout
+    // should still get everything else).
+    let resolved_for_schemas = resolve_data_source(CliPathOverrides {
+        platform_id: Some(id.to_string()),
+        ..Default::default()
+    })
+    .ok();
+    if let Some(schema_path) = resolved_for_schemas
+        .as_ref()
+        .and_then(|r| manifest::locate_manifest_schema(&r.schemas_root))
+    {
+        // schema_path = <repo>/packages/design-data-spec/schemas/manifest.schema.json
+        if let Some(repo_root) = schema_path.ancestors().nth(4) {
+            let license_src = repo_root.join("LICENSE");
+            if license_src.is_file() {
+                let _ = std::fs::copy(&license_src, out_dir.join("LICENSE"));
+            }
+        }
+    }
+
+    // .design-data.toml — pin the foundation via the same [source] github
+    // mechanism a remote `[platforms.<id>]` entry already uses, at the
+    // manifest's own foundationVersion tag.
+    let tag_line = foundation_version
+        .as_deref()
+        .map(|fv| format!("tag = \"{fv}\"\n"))
+        .unwrap_or_else(|| {
+            "# foundationVersion missing from manifest.json — set `tag` manually\n\
+             tag = \"@adobe/spectrum-tokens@0.0.0\"\n"
+                .to_string()
+        });
+    std::fs::write(
+        out_dir.join(".design-data.toml"),
+        format!(
+            "# Ejected from adobe/spectrum-design-data's platforms/{id}/ — see\n\
+             # https://github.com/adobe/spectrum-design-data/blob/main/docs/MIGRATION.md\n\
+             manifest = \"manifest.json\"\n\
+             \n\
+             [source]\n\
+             type = \"github\"\n\
+             repo = \"adobe/spectrum-design-data\"\n\
+             {tag_line}"
+        ),
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .design-data.toml")?;
+
+    // .github/workflows/validate.yml — the composite action's own documented
+    // usage (.github/actions/validate/README.md), with skip-dataset-validation
+    // set since an ejected manifest-only repo has no local tokens/ dir.
+    let workflows_dir = out_dir.join(".github").join("workflows");
+    std::fs::create_dir_all(&workflows_dir)
+        .into_diagnostic()
+        .wrap_err("failed to create .github/workflows")?;
+    std::fs::write(
+        workflows_dir.join("validate.yml"),
+        "name: Validate\n\
+         \n\
+         on:\n\
+         \x20\x20pull_request:\n\
+         \n\
+         jobs:\n\
+         \x20\x20validate:\n\
+         \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+         \x20\x20\x20\x20steps:\n\
+         \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+         \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20dataset-path: .\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20manifest: manifest.json\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20skip-dataset-validation: true\n",
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .github/workflows/validate.yml")?;
+
+    println!("design-data: ejected \"{id}\" to {}", out_dir.display());
+    println!();
+    println!("This does not carry git history. To preserve it:");
+    println!("  git subtree split --prefix=platforms/{id} -b eject/{id}");
+    println!("  # then, in a fresh clone of the destination repo (or as a new remote):");
+    println!("  git push <destination-repo-url> eject/{id}:main");
+    println!();
+    println!(
+        "Once pushed, flip `[platforms.{id}]` in this repo's `.design-data.toml` from a \
+         path to a `github` entry pointing at the destination repo (see \
+         docs/MIGRATION.md)."
+    );
+
+    Ok(ExitCode::SUCCESS)
+}
+
 /// checks (include/exclude query parse, override-target resolution).
 ///
 /// Exit codes: `0` valid; `1` validation failure (schema violation, unlocatable schema,
@@ -1009,6 +1686,17 @@ fn run_validate_manifest(
 
     match manifest::apply_configured(&mut graph, &resolved) {
         Ok(_) => {
+            // Advisory-only: does the manifest's optional `platform` identity field
+            // (h890.27.1) match a known id in the platform-implementations registry?
+            // Never affects the exit code — `platform` is a SHOULD, not a MUST.
+            let identity_warning = std::fs::read_to_string(&manifest_path)
+                .ok()
+                .and_then(|text| serde_json::from_str(&text).ok())
+                .and_then(|manifest_json| {
+                    manifest::check_platform_identity(&manifest_json, &resolved.schemas_root)
+                        .ok()
+                        .flatten()
+                });
             match format {
                 OutputFormat::Json => {
                     println!(
@@ -1016,11 +1704,15 @@ fn run_validate_manifest(
                         serde_json::json!({
                             "valid": true,
                             "manifest": manifest_path.display().to_string(),
+                            "warning": identity_warning,
                         })
                     );
                 }
                 OutputFormat::Pretty => {
                     println!("design-data: {} is valid", manifest_path.display());
+                    if let Some(warning) = &identity_warning {
+                        eprintln!("design-data: warning: {warning}");
+                    }
                 }
             }
             Ok(ExitCode::SUCCESS)
@@ -1387,8 +2079,11 @@ fn run_diff(
 fn run_query(
     explicit_path: Option<&Path>,
     filter_expr: &str,
-    format: OutputFormat,
+    format: QueryFormat,
     count_only: bool,
+    color_scheme: Option<String>,
+    scale: Option<String>,
+    contrast: Option<String>,
 ) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: explicit_path.map(Path::to_path_buf),
@@ -1405,7 +2100,7 @@ fn run_query(
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
     // Apply a configured platform manifest (filters/overrides/extensions) before querying.
-    manifest::apply_configured(&mut graph, &resolved)
+    let restrictions = manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
     // Manifest overlays change the token set — rebuild the index when one is configured.
@@ -1429,14 +2124,39 @@ fn run_query(
     }
 
     match format {
-        OutputFormat::Json => {
+        QueryFormat::Dtcg => {
+            let mut resolve_ctx = ResolutionContext::new();
+            if let Some(m) = color_scheme {
+                resolve_ctx = resolve_ctx.with("colorScheme", m);
+            }
+            if let Some(m) = scale {
+                resolve_ctx = resolve_ctx.with("scale", m);
+            }
+            if let Some(m) = contrast {
+                resolve_ctx = resolve_ctx.with("contrast", m);
+            }
+            for (mode_set, allowed) in &restrictions {
+                resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
+            }
+
+            let matched_identities: HashSet<String> = results
+                .iter()
+                .filter_map(|t| t.raw.get("name").and_then(|v| v.as_object()))
+                .map(|n| cascade::token_identity_key(n, &graph.mode_sets))
+                .collect();
+
+            let winners = resolve_dataset_winners(&graph, &resolve_ctx, Some(&matched_identities));
+            let doc = winners_to_dtcg_doc(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
+        QueryFormat::Json => {
             let raw_values: Vec<&serde_json::Value> = results.iter().map(|t| &t.raw).collect();
             println!(
                 "{}",
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
         }
-        OutputFormat::Pretty => {
+        QueryFormat::Pretty => {
             if results.is_empty() {
                 println!("No matching tokens.");
             } else {
@@ -1460,6 +2180,70 @@ fn run_query(
     } else {
         Ok(ExitCode::SUCCESS)
     }
+}
+
+/// `design-data export [PATH]` — export the whole resolved dataset: every distinct
+/// token property resolved to its cascade winner in the given mode context, merged
+/// into one flat document. Mirrors `run_resolve`'s data-loading/mode-context setup,
+/// but emits every property instead of one.
+fn run_export(
+    explicit_path: Option<&Path>,
+    mode_sets_path: Option<PathBuf>,
+    color_scheme: Option<String>,
+    scale: Option<String>,
+    contrast: Option<String>,
+    format: ExportFormat,
+) -> miette::Result<ExitCode> {
+    let mut resolve_ctx = ResolutionContext::new();
+    if let Some(m) = color_scheme {
+        resolve_ctx = resolve_ctx.with("colorScheme", m);
+    }
+    if let Some(m) = scale {
+        resolve_ctx = resolve_ctx.with("scale", m);
+    }
+    if let Some(m) = contrast {
+        resolve_ctx = resolve_ctx.with("contrast", m);
+    }
+
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: explicit_path.map(Path::to_path_buf),
+        mode_sets: mode_sets_path,
+        ..Default::default()
+    })?;
+    let path = &resolved.tokens_root;
+
+    let mut graph = TokenGraph::open_cached_with_catalogs(
+        path,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
+
+    let restrictions = manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    for (mode_set, allowed) in &restrictions {
+        resolve_ctx = resolve_ctx.with_restriction(mode_set.clone(), allowed.clone());
+    }
+
+    let winners = resolve_dataset_winners(&graph, &resolve_ctx, None);
+
+    match format {
+        ExportFormat::Dtcg => {
+            let doc = winners_to_dtcg_doc(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
+        ExportFormat::Json => {
+            let raw_values: Vec<&serde_json::Value> = winners.iter().map(|t| &t.raw).collect();
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&raw_values).into_diagnostic()?
+            );
+        }
+    }
+
+    Ok(ExitCode::SUCCESS)
 }
 
 /// Load a legacyKey → Figma-name override map from a `figma audit` artifact
@@ -1494,12 +2278,38 @@ fn run_figma_export(
     dry_run: bool,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
+    code_syntax_manifests: &[String],
 ) -> miette::Result<ExitCode> {
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
     let client = figma::api::FigmaClient::new(token.to_string());
 
     // 0. Load name-mapping overrides, if given.
     let overrides = mapping.map(load_overrides).transpose()?;
+
+    // 0b. Load per-platform `formatting` configs for extra `codeSyntax` entries
+    // (`--code-syntax-manifest ANDROID=path/to/android.manifest.json`, repeatable).
+    let mut platform_formats = Vec::with_capacity(code_syntax_manifests.len());
+    for entry in code_syntax_manifests {
+        let (platform, manifest_path) = entry.split_once('=').ok_or_else(|| {
+            miette::miette!("--code-syntax-manifest expects PLATFORM=PATH, got {entry:?}")
+        })?;
+        // `WEB` already carries the authoritative `--spectrum-{legacyKey}` name
+        // (set unconditionally in `make_variable_action`); a `formatting`-derived
+        // reconstruction is strictly lossier, so reject it here rather than let
+        // `augment_code_syntax_with_platform_formats` silently overwrite it.
+        if platform.eq_ignore_ascii_case("WEB") {
+            return Err(miette::miette!(
+                "--code-syntax-manifest WEB is not supported: WEB's codeSyntax is already set to the authoritative --spectrum-{{legacyKey}} name"
+            ));
+        }
+        let config = manifest::load_formatting_config(Path::new(manifest_path))
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load platform manifest {manifest_path}"))?
+            .ok_or_else(|| {
+                miette::miette!("platform manifest {manifest_path} has no `formatting` block")
+            })?;
+        platform_formats.push((platform.to_string(), config));
+    }
 
     // 1. Load tokens — either straight from the source directory, or resolved
     // through the platform manifest cascade (include/exclude, overrides,
@@ -1538,9 +2348,13 @@ fn run_figma_export(
 
     // 3. Build the export payload.
     eprintln!("Building export payload from {}...", path.display());
-    let (body, summary) =
-        figma::mapping::build_export_payload(&tokens, &response.meta, overrides.as_ref())
-            .map_err(|e| miette::miette!("{e}"))?;
+    let (body, summary) = figma::mapping::build_export_payload_with_platform_formats(
+        &tokens,
+        &response.meta,
+        overrides.as_ref(),
+        &platform_formats,
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
 
     // 4. Output or post.
     if dry_run {
@@ -1865,7 +2679,7 @@ fn run_figma_diff(
             let c = &report.counts;
             // `renamed` is an orthogonal flag (a variable can be renamed *and*
             // matched, mismatched, etc.), not a sibling partition — print it
-            // separately so the other five don't look like they should sum
+            // separately so the other six don't look like they should sum
             // to the total entry count.
             println!(
                 "match={} value-mismatch={} figma-only={} design-data-only={} skipped-uncovered={} multi-mode-mismatch={} (renamed={})",
@@ -2376,6 +3190,7 @@ fn run_tui(args: TuiArgs) -> ExitCode {
         record: args.record,
         replay: args.replay,
         snapshot_ansi: args.snapshot_ansi,
+        platform_id: GLOBAL_PLATFORM_ID.get().cloned().flatten(),
     };
     match design_data_tui::launch(opts) {
         Ok(()) => ExitCode::SUCCESS,
@@ -2388,6 +3203,9 @@ fn run_tui(args: TuiArgs) -> ExitCode {
 
 fn main() -> ExitCode {
     let cli = Cli::parse();
+    GLOBAL_PLATFORM_ID
+        .set(cli.platform.clone())
+        .expect("main runs exactly once; GLOBAL_PLATFORM_ID is set exactly once here");
 
     // Bare invocation (no subcommand) or explicit `tui` subcommand → launch the TUI.
     let command = match cli.command {
@@ -2397,6 +3215,11 @@ fn main() -> ExitCode {
     };
 
     let result = match command {
+        Commands::Platform { sub } => match sub {
+            PlatformSub::List { format } => run_platform_list(format),
+            PlatformSub::Show { id, format } => run_platform_show(&id, format),
+            PlatformSub::Eject { id, out } => run_platform_eject(&id, out),
+        },
         Commands::Validate {
             path,
             format,
@@ -2480,7 +3303,33 @@ fn main() -> ExitCode {
             filter,
             format,
             count,
-        } => run_query(path.as_deref(), &filter, format, count),
+            color_scheme,
+            scale,
+            contrast,
+        } => run_query(
+            path.as_deref(),
+            &filter,
+            format,
+            count,
+            color_scheme,
+            scale,
+            contrast,
+        ),
+        Commands::Export {
+            path,
+            mode_sets_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        } => run_export(
+            path.as_deref(),
+            mode_sets_path,
+            color_scheme,
+            scale,
+            contrast,
+            format,
+        ),
         Commands::Migrate { sub } => match sub {
             MigrateSub::Verify {
                 path,
@@ -2526,6 +3375,7 @@ fn main() -> ExitCode {
                 dry_run,
                 mapping,
                 manifest,
+                code_syntax_manifests,
             } => run_figma_export(
                 &path,
                 &file_key,
@@ -2533,6 +3383,7 @@ fn main() -> ExitCode {
                 dry_run,
                 mapping.as_deref(),
                 manifest.as_deref(),
+                &code_syntax_manifests,
             ),
             FigmaSub::Import {
                 path,

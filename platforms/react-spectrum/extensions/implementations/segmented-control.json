@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "segmented-control",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SegmentedControl",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

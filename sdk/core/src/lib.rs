@@ -19,8 +19,7 @@ pub mod component;
 pub mod data_source;
 pub mod diff;
 pub mod discovery;
-#[cfg(feature = "figma")]
-pub mod figma;
+pub mod export;
 pub mod graph;
 pub mod legacy;
 pub mod manifest;
@@ -950,7 +949,7 @@ mod manifest_extensions_conformance {
     use serde_json::Value;
 
     use crate::data_source::{Provenance, ResolvedData};
-    use crate::graph::TokenGraph;
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
     use crate::manifest::apply_configured;
     use crate::CoreError;
 
@@ -966,9 +965,10 @@ mod manifest_extensions_conformance {
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
     }
 
-    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...]}`) into a
-    /// [`TokenGraph`] via [`TokenGraph::from_pairs`], using each token's `key`
-    /// field as the graph key.
+    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...],
+    /// "components": [...]}`) into a [`TokenGraph`] via
+    /// [`TokenGraph::from_pairs`], using each token's `key` field as the graph
+    /// key, plus any foundation-layer `components`.
     fn base_graph() -> TokenGraph {
         let path = family_root().join("base/dataset.json");
         let dataset: Value = serde_json::from_str(
@@ -988,7 +988,22 @@ mod manifest_extensions_conformance {
                 (key, PathBuf::from("dataset.json"), t.clone())
             })
             .collect();
-        TokenGraph::from_pairs(pairs)
+        let components = dataset
+            .get("components")
+            .and_then(|v| v.as_array())
+            .into_iter()
+            .flatten()
+            .map(|c| ComponentRecord {
+                name: c["name"]
+                    .as_str()
+                    .expect("each base component has a \"name\"")
+                    .to_string(),
+                file: PathBuf::from("dataset.json"),
+                raw: c.clone(),
+                layer: Layer::Foundation,
+            })
+            .collect();
+        TokenGraph::from_pairs(pairs).with_components(components)
     }
 
     /// Build the base graph and resolve+apply `<dir>/manifest.json` against it
@@ -1165,6 +1180,22 @@ mod manifest_extensions_behavior {
                                 "{case}: expected relationship {uuid} absent, but present"
                             ));
                         }
+                    }
+                }
+            }
+
+            if let Some(by_component) = expected.get("implementations").and_then(|v| v.as_object())
+            {
+                for (name, want) in by_component {
+                    let got = graph
+                        .components
+                        .iter()
+                        .find(|c| &c.name == name)
+                        .and_then(|c| c.raw.get("implementations"));
+                    if got != Some(want) {
+                        failures.push(format!(
+                            "{case}: component {name:?} implementations expected {want}, got {got:?}"
+                        ));
                     }
                 }
             }

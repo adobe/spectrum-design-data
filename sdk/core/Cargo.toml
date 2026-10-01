@@ -55,7 +55,6 @@ wasm = ["cache"]
 # tooling (CLI/TUI/tests) retains full schema validation with HTTP + file resolution.
 schema-resolvers = ["jsonschema/resolve-http", "jsonschema/resolve-file"]
 fetch = ["dep:reqwest", "dep:tokio", "dep:flate2", "dep:tar"]
-figma = ["dep:reqwest", "dep:tokio"]
 
 # On wasm32-unknown-unknown, getrandom (pulled in transitively e.g. by ahash → jsonschema)
 # needs the `wasm_js` backend, and uuid's plain `rng` path doesn't work either.

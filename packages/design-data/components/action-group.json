@@ -9,6 +9,14 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionGroup",
+      "importPath": "@adobe/spectrum-wc/components/action-group",
+      "notes": "Spectrum 2 web component custom element: swc-action-group."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

@@ -13,11 +13,11 @@ before Phase B/C proceed.
 ## Running the sync workflows
 
 `hub-component-sync.yml` and `hub-guideline-sync.yml` fetch the public site at
-`https://spectrum.adobe.com` with an explicit `--origin` argument. The CLI default
-still points to the AEM origin; pass `--origin https://spectrum.adobe.com` to match
-the workflows when running locally.
+`https://spectrum.adobe.com` with an explicit `--origin` argument. The CLI uses
+the same origin by default.
 
-Dispatch the workflows from a branch containing the fetcher, such as `beta-hub`.
+Dispatch the workflows from a branch containing the fetcher. Content ships
+through the stable `main` release channel.
 Leave `limit` empty for a full sync. A dry run fetches and checks health but skips
 staging and transformation, so it cannot show changes to the checked-in data.
 Use `dry_run=false` to generate a content PR when changes are found. Each run

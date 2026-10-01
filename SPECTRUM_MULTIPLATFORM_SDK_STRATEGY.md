@@ -41,7 +41,9 @@ cascades a local `manifest.json` on top.
 * **CLI** (`sdk/cli/src/main.rs`): `validate`, `validate-dataset`, `resolve`, `query`, `diff`,
   `primer`, `figma read|export|audit`, `write`, `authoring-session`, `lifecycle`, `data`,
   `cache-build`, `tui`. `validate`, `validate-dataset`, and `diff` emit `--format json` and exit **1
-  on failure/drift, 2 on hard error** — directly CI-gateable.
+  on failure/drift, 2 on hard error** — directly CI-gateable. `resolve` also emits `--format dtcg`,
+  a W3C DTCG-conformant `$value`/`$type` document for Style Dictionary/Terrazzo/etc. consumption
+  (`sdk/core/src/dtcg.rs`).
 * **`.design-data.toml` discovery + cascade** (`sdk/core/src/data_source/mod.rs`): a project points
   at a foundation via `[source]` — `type = "path"` or `type = "github"` (a repo pinned by exactly
   one of `tag`/`branch`/`sha`, fetched as a release tarball over pure HTTPS, cached; cache dir via

@@ -1,25 +1,40 @@
 # @adobe/token-naming-audit
 
-## 0.1.57-beta.2
+## 0.1.61
 
 ### Patch Changes
 
-- Updated dependencies [[`f826ac2`](https://github.com/adobe/spectrum-design-data/commit/f826ac2262876cbbd8d949a45b3b471e9515d7d8)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.2
+- Updated dependencies [[`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b)]:
+  - @adobe/design-data-wasm@0.10.2
 
-## 0.1.57-beta.1
-
-### Patch Changes
-
-- Updated dependencies [[`29dca57`](https://github.com/adobe/spectrum-design-data/commit/29dca5751778d5ba024f932e187909e9e04a9758), [`996b2e0`](https://github.com/adobe/spectrum-design-data/commit/996b2e06979b661da90b87b1d7b6574118392f49), [`6496f8f`](https://github.com/adobe/spectrum-design-data/commit/6496f8f1d50026d6596470e6f97047d3dac838ee)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.1
-
-## 0.1.57-beta.0
+## 0.1.60
 
 ### Patch Changes
 
-- Updated dependencies [[`627374f`](https://github.com/adobe/spectrum-design-data/commit/627374fbcf306cbe9040d6ec4e7d53ce374ecc12)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.0
+- Updated dependencies [[`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d), [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5)]:
+  - @adobe/design-data-wasm@0.10.1
+  - @adobe/spectrum-design-data@3.3.0
+
+## 0.1.59
+
+### Patch Changes
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.10.0
+
+## 0.1.58
+
+### Patch Changes
+
+- Updated dependencies [[`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56)]:
+  - @adobe/spectrum-design-data@3.2.5
+
+## 0.1.57
+
+### Patch Changes
+
+- Updated dependencies [[`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c)]:
+  - @adobe/spectrum-design-data@3.2.4
 
 ## 0.1.56
 

@@ -24,7 +24,7 @@ Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 do
 * **[@adobe/changeset-linter](https://www.npmjs.com/package/%40adobe%2Fchangeset-linter)** — Linting tool to enforce concise changeset files
 * **[@adobe/design-data](https://www.npmjs.com/package/%40adobe%2Fdesign-data)** — Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management
 * **[@adobe/design-data-agent-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-agent-mcp)** — MCP server and Claude Code skill for the design-data agent surface — read tools run in-process via wasm
-* **[@adobe/design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-mcp)** — MCP server for Spectrum design tokens and component schemas via the design-data CLI
+* **[@adobe/design-data-mcp](https://www.npmjs.com/package/%40adobe%2Fdesign-data-mcp)** — MCP server for Spectrum design tokens, component schemas, and design guidelines (embedded, offline)
 * **[@adobe/design-data-skill](https://www.npmjs.com/package/%40adobe%2Fdesign-data-skill)** — Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI
 * **[@adobe/optimized-diff](https://www.npmjs.com/package/%40adobe%2Foptimized-diff)** — High-performance deep object diff algorithm with significant performance improvements over generic libraries
 * **[@adobe/s2-docs-mcp](https://www.npmjs.com/package/%40adobe%2Fs2-docs-mcp)** — MCP server for Spectrum 2 documentation
@@ -36,6 +36,7 @@ Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 do
 * **[@adobe/token-diff-generator](https://www.npmjs.com/package/%40adobe%2Ftoken-diff-generator)** — Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.
 * **[@adobe/token-naming-audit](https://github.com/adobe/spectrum-design-data/tree/main/tools/token-naming-audit)** — Audit tool that reports string-name token debt and overloaded property-field values
 * **[component-options-editor](https://github.com/adobe/spectrum-design-data/tree/main/tools/component-options-editor)** — Figma plugin for authoring Spectrum component option schemas
+* **[ios-override-importer](https://github.com/adobe/spectrum-design-data/tree/main/tools/ios-override-importer)** — One-time importer converting Spectrum iOS's override-log.csv into a Platform Manifest (manifest.json)
 * **[markdown-generator](https://github.com/adobe/spectrum-design-data/tree/main/tools/markdown-generator)** — Generate markdown files from tokens, component-schemas, and design-system-registry for docs and chatbot indexing
 * **[release-analyzer](https://github.com/adobe/spectrum-design-data/tree/main/tools/release-analyzer)** — Analyzes Spectrum Tokens release history and generates data for change frequency visualization
 * **[s2-docs-transformer](https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-transformer)** — Tools for scraping and transforming Spectrum 2 documentation

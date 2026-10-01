@@ -9,6 +9,13 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/segmented-control/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SegmentedControl",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

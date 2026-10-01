@@ -6,12 +6,12 @@ description: >
   system, token lookup, spec-conformance, drift detection, or token authoring on custom data.
 metadata:
   author: adobe
-  version: "1.10.0-beta.2"
+  version: "1.14.1"
 when_to_use: >
   Trigger on: design system, design tokens, spec-conformant, drift, validate tokens, token
   authoring, custom dataset, DESIGN_DATA_PATH, design-data validate, design-data diff,
   design-data write, product-context.json.
-allowed-tools: mcp__design-data-agent__primer, mcp__design-data-agent__query_tokens, mcp__design-data-agent__resolve_token, mcp__design-data-agent__describe_component, mcp__design-data-agent__validate_usage, mcp__design-data-agent__diff_datasets, mcp__design-data-agent__write, mcp__design-data-agent__start_authoring_session, mcp__design-data-agent__authoring_session_step_intent, mcp__design-data-agent__authoring_session_step_classification, mcp__design-data-agent__authoring_session_step_values, mcp__design-data-agent__authoring_session_commit, mcp__design-data-agent__authoring_session_cancel, mcp__design-data-agent__authoring_session_get, mcp__design-data-agent__authoring_session_list
+allowed-tools: mcp__design-data-agent__primer, mcp__design-data-agent__query_tokens, mcp__design-data-agent__suggest_token, mcp__design-data-agent__resolve_token, mcp__design-data-agent__describe_component, mcp__design-data-agent__validate_usage, mcp__design-data-agent__diff_datasets, mcp__design-data-agent__write, mcp__design-data-agent__start_authoring_session, mcp__design-data-agent__authoring_session_step_intent, mcp__design-data-agent__authoring_session_step_classification, mcp__design-data-agent__authoring_session_step_values, mcp__design-data-agent__authoring_session_commit, mcp__design-data-agent__authoring_session_cancel, mcp__design-data-agent__authoring_session_get, mcp__design-data-agent__authoring_session_list
 ---
 
 # design-data agent skill
@@ -67,9 +67,18 @@ all subsequent lookups. No inputs required.
 
 ### Resolve a token to its literal value — `resolve_token`
 
-Required: `property` (string) — e.g. `"accent-background-color-default"`
-Optional: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
-`contrast` (`"regular"` or `"high"`)
+Required: `property` (string) — the bare `name.property` segment, e.g. `"background-color"`
+or `"corner-radius"` (see `primer().properties` for the full list). **Not** a flattened
+legacyKey like `"accent-background-color-default"` — that form never resolves.
+Optional context: `colorScheme` (`"light"` or `"dark"`), `scale` (`"desktop"` or `"mobile"`),
+`contrast` (`"regular"` or `"high"`). Optional narrowing: `component`, `variant`, `state`, and
+`colorRole`. Set `excludeDeprecated` to omit tokens with `lifecycle.deprecatedIn`.
+
+> **Gotcha:** when several tokens share a property, use `variant`, `state`, or `colorRole` to
+> narrow the match, then check `ambiguous` and `deprecated` on the result. `component` is
+> sparsely populated in the current dataset, so prefer the other fields when available.
+> `resolve_token` still uses cascade ranking when multiple candidates remain; use `query_tokens`
+> to inspect the full candidate set.
 
 ### Query tokens by filter expression — `query_tokens`
 
@@ -83,13 +92,24 @@ Filter syntax examples:
 ```
 property=background-color
 property=*background*
-component=button
-component=button,state=hover
 property=background-color|property=border-color
 $schema=https://spectrum.adobe.com/page/design-token/
 ```
 
+> **Gotcha:** `component=<id>` currently always returns `[]` — tokens aren't
+> component-indexed in this dataset. Use `describe_component` to see a component's known
+> token bindings instead.
+
 > **Exit codes:** `0` = matches found; empty array = no matches (not an error).
+
+### Suggest a token from a description — `suggest_token`
+
+Required: `intent` (string) — a natural-language description of the design need,
+such as `"primary CTA button background color"`.
+
+Optional: `limit` (number, default `5`) — the maximum number of suggestions to return.
+Results are ranked by confidence using token names, name-object fields, and description
+text. Use this when the user describes what they need rather than knowing a token name.
 
 ***
 
@@ -152,8 +172,9 @@ Helper tools: `authoring_session_get` (inspect state), `authoring_session_list` 
 `authoring_session_commit` accepts an optional `schema_path` to override the schemas directory
 for Layer-1 JSON-Schema validation before writing.
 
-> **Note:** `authoring_session_step_intent` (NLP suggestion ranking) still delegates to the
-> `design-data` CLI because the NLP `suggest` API is not yet on the wasm surface.
+> **Note:** The standalone `suggest_token` tool calls the wasm `suggest` API directly.
+> `authoring_session_step_intent` still delegates to the `design-data` CLI for
+> session-state-aware ranking within an authoring flow.
 
 ***
 

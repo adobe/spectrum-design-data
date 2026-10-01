@@ -401,7 +401,7 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     };
 
     let result = ws.perform_write(&ctx);
-    assert!(result.is_ok(), "write should succeed: {:?}", result);
+    assert!(result.is_ok(), "write should succeed: {result:?}");
 
     // Cascade writer upserts by UUID — a token whose name already exists in the
     // graph is written as a new entry (the cascade writer resolves identity by uuid,
@@ -417,7 +417,7 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     let arr: serde_json::Value =
         serde_json::from_str(&std::fs::read_to_string(&cascade_file).unwrap()).unwrap();
     assert!(
-        arr.as_array().map_or(false, |a| !a.is_empty()),
+        arr.as_array().is_some_and(|a| !a.is_empty()),
         "cascade array should contain the new token"
     );
 }
@@ -457,7 +457,7 @@ fn resolve_target_file_routes_to_cascade_tokens_dir() {
     );
     // File is a JSON array (cascade format).
     let content = std::fs::read_to_string(
-        &tmpdir
+        tmpdir
             .path()
             .join("tokens")
             .join("background-color.tokens.json"),

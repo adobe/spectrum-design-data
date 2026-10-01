@@ -11,13 +11,31 @@
  */
 
 import test from "ava";
-import { writeFileSync, mkdirSync, rmSync } from "fs";
+import { writeFileSync, mkdirSync, mkdtempSync, rmSync } from "fs";
+import { execFileSync } from "child_process";
 import { join } from "path";
+import { tmpdir } from "os";
 import {
   lintChangeset,
   getWorkspacePackageNames,
+  isDatasetContentFile,
+  requireWasmBumpForDataChanges,
+  getChangedChangesetContents,
   LINT_RULES,
+  WASM_PACKAGE,
 } from "../src/index.js";
+
+// Minimal scratch git repo for exercising getChangedChangesetContents' actual git diff
+// behavior, not just the pure functions it feeds.
+function initScratchRepo(dir) {
+  mkdirSync(join(dir, ".changeset"), { recursive: true });
+  const git = (...args) =>
+    execFileSync("git", args, { cwd: dir, encoding: "utf8" });
+  git("init", "-q");
+  git("config", "user.email", "test@test.com");
+  git("config", "user.name", "test");
+  return git;
+}
 
 // Test directory setup
 const testDir = "./test-changesets";
@@ -323,4 +341,109 @@ test("LINT_RULES configuration", (t) => {
       p.test("**Original Branch:** main"),
     ),
   );
+});
+
+test("isDatasetContentFile matches dataset content globs", (t) => {
+  t.true(isDatasetContentFile("packages/design-data/tokens/color.tokens.json"));
+  t.true(isDatasetContentFile("packages/design-data/mode-sets/contrast.json"));
+  t.true(isDatasetContentFile("packages/design-data/components/button.json"));
+  t.true(isDatasetContentFile("packages/design-data/fields/emphasis.json"));
+});
+
+test("isDatasetContentFile ignores non-dataset files", (t) => {
+  t.false(isDatasetContentFile("packages/design-data/README.md"));
+  t.false(isDatasetContentFile("packages/design-data/tokens/color.json")); // wrong extension
+  t.false(isDatasetContentFile("tools/changeset-linter/src/index.js"));
+  t.false(
+    isDatasetContentFile("packages/design-data-spec/conformance/foo.json"),
+  );
+});
+
+test("requireWasmBumpForDataChanges: no-op when no data files changed", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["tools/changeset-linter/src/index.js"],
+    [],
+  );
+  t.deepEqual(result, { required: false, satisfied: true });
+});
+
+test("requireWasmBumpForDataChanges: fails when data changed with no wasm changeset", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    ['---\n"@adobe/some-other-package": patch\n---\n\nUnrelated change.\n'],
+  );
+  t.deepEqual(result, { required: true, satisfied: false });
+});
+
+test("requireWasmBumpForDataChanges: passes when a wasm changeset is pending", (t) => {
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    [`---\n"${WASM_PACKAGE}": patch\n---\n\nRefresh embedded dataset.\n`],
+  );
+  t.deepEqual(result, { required: true, satisfied: true });
+});
+
+test("requireWasmBumpForDataChanges: a body-only mention does not satisfy the check", (t) => {
+  // The package name appears only in prose (e.g. an example or discussion), not in the
+  // frontmatter that changesets actually reads to decide what to bump.
+  const result = requireWasmBumpForDataChanges(
+    ["packages/design-data/tokens/color.tokens.json"],
+    [
+      `---\n"@adobe/some-other-package": patch\n---\n\nSee also "${WASM_PACKAGE}": patch for context.\n`,
+    ],
+  );
+  t.deepEqual(result, { required: true, satisfied: false });
+});
+
+test("getChangedChangesetContents: ignores a changeset already present on base", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "changeset-lint-scratch-"));
+  try {
+    const git = initScratchRepo(dir);
+    writeFileSync(
+      join(dir, ".changeset", "pre-existing.md"),
+      `---\n"${WASM_PACKAGE}": patch\n---\n\nUnrelated bump already on base.\n`,
+    );
+    git("add", "-A");
+    git("commit", "-q", "-m", "base: pre-existing wasm changeset");
+    git("branch", "base");
+
+    // A follow-on commit that changes nothing under .changeset/ — the pre-existing
+    // changeset above must not be reported as "changed" relative to base.
+    writeFileSync(join(dir, "unrelated.txt"), "noise\n");
+    git("add", "-A");
+    git("commit", "-q", "-m", "unrelated change, no new changeset");
+
+    const contents = getChangedChangesetContents("base", ".changeset", {
+      cwd: dir,
+    });
+    t.deepEqual(contents, []);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("getChangedChangesetContents: includes a changeset newly added in the diff", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "changeset-lint-scratch-"));
+  try {
+    const git = initScratchRepo(dir);
+    writeFileSync(join(dir, "README.md"), "seed\n");
+    git("add", "-A");
+    git("commit", "-q", "-m", "base: seed commit");
+    git("branch", "base");
+
+    writeFileSync(
+      join(dir, ".changeset", "new-bump.md"),
+      `---\n"${WASM_PACKAGE}": patch\n---\n\nNew changeset added by this change.\n`,
+    );
+    git("add", "-A");
+    git("commit", "-q", "-m", "add the required changeset");
+
+    const contents = getChangedChangesetContents("base", ".changeset", {
+      cwd: dir,
+    });
+    t.is(contents.length, 1);
+    t.true(contents[0].includes(WASM_PACKAGE));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

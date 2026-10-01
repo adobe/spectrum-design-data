@@ -9,6 +9,13 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/color-wheel/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorWheel",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

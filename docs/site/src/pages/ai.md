@@ -23,17 +23,20 @@ of guessing.
 
 **Look things up**
 
-- **Find a token:** "what's the token for the default row background?"
+- **Find a token:** "what's the token for the default row background?" (filter/query tools)
 - **Suggest a token from a description:** "I need a background for a selected, hovered
   row." It ranks existing tokens by confidence and surfaces real ones first, so you reuse
   before you invent.
 - **Inspect a component's options:** "what sizes and variants does Button support?" You get
   the actual schema: variants, sizes, states, and boolean props.
 - **Resolve a value in context:** "what's this token's hex in dark mode at high contrast?"
+  When a property is shared across many tokens, narrow by component, variant, state, or color
+  role. If it still matches more than one token, the result marks it `ambiguous`; it also
+  identifies deprecated tokens.
 - **Read a guideline:** "pull up the Colors guideline" or "what does the background layers
   guidance say?"
-- **Get oriented:** a primer with token counts, the mode-sets (color scheme, scale, and
-  contrast), the component list, the registry vocabulary, and where the data came from.
+- **Get oriented:** a primer with token counts, the component list, the registry
+  vocabulary, and where the data came from.
 
 **Use the shared vocabulary (the registry)**
 

@@ -9,6 +9,13 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "AvatarGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

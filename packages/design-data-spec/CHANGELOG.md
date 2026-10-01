@@ -1,5 +1,34 @@
 # @adobe/design-data-spec
 
+## 4.4.0
+
+### Minor Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `prefix` property to manifest `formatting` (closes DNA-1741).
+  - **manifest.schema.json**: `formatting.prefix` (string) is prepended to a
+    formatted name, after casing/delimiter, unaffected by them — for wrapping
+    conventions like CSS custom properties (`--spectrum-`).
+  - **spec/manifest.md**: documents the new field alongside `conceptOrder`,
+    `casing`, `delimiter`, `abbreviations`.
+
+## 4.3.0
+
+### Minor Changes
+
+- [#1479](https://github.com/adobe/spectrum-design-data/pull/1479) [`e483c9c`](https://github.com/adobe/spectrum-design-data/commit/e483c9cf74acf463c9a3d2be4caba7689e3dc27c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add foundation-owned component platform implementation metadata.
+  - **schemas/component.schema.json**: support implementation names and package or
+    import-path references for component consumers.
+
+## 4.2.1
+
+### Patch Changes
+
+- [#1476](https://github.com/adobe/spectrum-design-data/pull/1476) [`046e4e6`](https://github.com/adobe/spectrum-design-data/commit/046e4e65930d5fd17b55ee2c9ce880e1e049f99a) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the `export` CLI subcommand and `--format dtcg` output in the
+  agent-readable surface spec.
+  - **spec/agent-surface.md**: list `export` alongside the existing
+    reference-CLI subcommands and note `--format dtcg` support on
+    `resolve`/`query`/`export`.
+
 ## 4.2.0
 
 ### Minor Changes

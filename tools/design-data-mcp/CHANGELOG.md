@@ -1,17 +1,55 @@
 # @adobe/design-data-mcp
 
-## 1.8.0-beta.2
+## 1.8.5
 
 ### Patch Changes
 
-- Updated dependencies [[`f826ac2`](https://github.com/adobe/spectrum-design-data/commit/f826ac2262876cbbd8d949a45b3b471e9515d7d8)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.2
+- Updated dependencies [[`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b)]:
+  - @adobe/design-data-wasm@0.10.2
+  - @adobe/design-data@3.2.3
 
-## 1.8.0-beta.1
+## 1.8.4
+
+### Patch Changes
+
+- Updated dependencies [[`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d), [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5)]:
+  - @adobe/design-data-wasm@0.10.1
+  - @adobe/spectrum-design-data@3.3.0
+  - @adobe/design-data@3.2.2
+
+## 1.8.3
+
+### Patch Changes
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.10.0
+  - @adobe/design-data@3.2.1
+
+## 1.8.2
+
+### Patch Changes
+
+- [#1492](https://github.com/adobe/spectrum-design-data/pull/1492) [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add guideline discovery to the agent MCP server.
+  - **tools/design-data-agent-mcp**: add the `list_guidelines` read tool and shared catalog loading.
+  - **tools/design-data**: expose manifest-backed guideline catalog loading.
+  - **tools/design-data-mcp**: reuse the shared guideline catalog loader.
+
+- Updated dependencies [[`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56), [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3)]:
+  - @adobe/spectrum-design-data@3.2.5
+  - @adobe/design-data@3.2.0
+
+## 1.8.1
+
+### Patch Changes
+
+- Updated dependencies [[`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c)]:
+  - @adobe/spectrum-design-data@3.2.4
+
+## 1.8.0
 
 ### Minor Changes
 
-- [#1471](https://github.com/adobe/spectrum-design-data/pull/1471) [`8599e3a`](https://github.com/adobe/spectrum-design-data/commit/8599e3af55b6e862d5a7bc5b64080eaadbe44128) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a guideline-read tool to design-data-agent-mcp, closing the read/write
+- [#1472](https://github.com/adobe/spectrum-design-data/pull/1472) [`c49217b`](https://github.com/adobe/spectrum-design-data/commit/c49217b058ceeb9102bcd39decb493821660e739) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a guideline-read tool to design-data-agent-mcp, closing the read/write
   asymmetry with describe_component (closes spectrum-design-data-9fe.7).
   - **tools/design-data/src/guideline.js**: new shared `loadGuideline(dir, id)`
     helper (path-traversal guarded, `manifest` id rejected) used by both MCP
@@ -25,16 +63,8 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`8599e3a`](https://github.com/adobe/spectrum-design-data/commit/8599e3af55b6e862d5a7bc5b64080eaadbe44128), [`29dca57`](https://github.com/adobe/spectrum-design-data/commit/29dca5751778d5ba024f932e187909e9e04a9758), [`996b2e0`](https://github.com/adobe/spectrum-design-data/commit/996b2e06979b661da90b87b1d7b6574118392f49), [`6496f8f`](https://github.com/adobe/spectrum-design-data/commit/6496f8f1d50026d6596470e6f97047d3dac838ee)]:
-  - @adobe/design-data@3.1.0-beta.0
-  - @adobe/spectrum-design-data@3.3.0-beta.1
-
-## 1.7.44-beta.0
-
-### Patch Changes
-
-- Updated dependencies [[`627374f`](https://github.com/adobe/spectrum-design-data/commit/627374fbcf306cbe9040d6ec4e7d53ce374ecc12)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.0
+- Updated dependencies [[`c49217b`](https://github.com/adobe/spectrum-design-data/commit/c49217b058ceeb9102bcd39decb493821660e739)]:
+  - @adobe/design-data@3.1.0
 
 ## 1.7.43
 

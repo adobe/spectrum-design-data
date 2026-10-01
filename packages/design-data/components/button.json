@@ -9,6 +9,19 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/button/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "importPath": "@adobe/spectrum-wc/components/button",
+      "notes": "Spectrum 2 web component custom element: swc-button."
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

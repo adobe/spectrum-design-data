@@ -16,10 +16,14 @@ sdk/
 │       ├── query/      # filter expressions
 │       ├── cache/      # derived redb cache over canonical JSON (default-on)
 │       ├── migrate/    # snapshot, convert, legacy helpers
-│       ├── figma/      # Figma Variables bridge (feature-gated)
 │       ├── schema/     # JSON Schema registry
 │       └── registry/   # design-system registry data
 ├── cli/                # design-data-cli binary (design-data)
+├── tui/                # design-data-tui: terminal UI (also has a package.json for the pnpm workspace)
+├── wasm/               # design-data-wasm: WASM bindings
+├── plugins/
+│   ├── dtcg/           # DTCG (Design Tokens Community Group) format plugin
+│   └── figma/          # Figma Variables bridge (import/export/mapping)
 ├── scripts/            # Node helpers (codegen, version sync)
 ├── moon.yml            # moonrepo task definitions
 └── rust-toolchain.toml # pinned toolchain (Rust 1.85.0)
@@ -66,14 +70,50 @@ design-data validate packages/design-data/tokens \
 
 ### resolve
 
-Resolve a single token property to its final value for a given mode context.
+Resolve a single token property to its final value for a given mode context. `PROPERTY`
+is a token's `name.property` value (e.g. `color`, `size`, `typography`) — not a full
+legacy token slug.
 
 ```bash
-design-data resolve background-color-default packages/design-data/tokens \
+design-data resolve color packages/design-data/tokens \
   --color-scheme light \
   --scale desktop \
   --contrast regular
 ```
+
+Use `--format dtcg` to emit a [W3C DTCG](https://tr.designtokens.org/format/)-conformant
+`$value`/`$type`/`$description` document from the resolved token, for consumption by
+Style Dictionary, Terrazzo, and similar tooling. The resolved leaf's `$schema` token-type
+drives `$type` (color, dimension, typography, shadow, ...); inline `{alias}` references
+inside composite values (typography, drop-shadow) are resolved to literal values:
+
+```bash
+design-data resolve color packages/design-data/tokens --color-scheme light --format dtcg
+# {
+#   "accent-background-color-default": {
+#     "$value": "#3b63fb",
+#     "$type": "color"
+#   }
+# }
+```
+
+### export
+
+Export the whole resolved dataset — every distinct token property resolved to its
+cascade winner in a given mode context — as one flat document.
+
+```bash
+design-data export packages/design-data/tokens --color-scheme dark --format dtcg
+# {
+#   "accent-background-color-default": { "$value": "#4069fd", "$type": "color" },
+#   "font-size-200": { "$value": { "value": 16.0, "unit": "px" }, "$type": "dimension" },
+#   ...
+# }
+design-data export packages/design-data/tokens --format json  # raw cascade-winner records
+```
+
+Like `resolve --format dtcg`, inline `{alias}` references inside composite values
+(typography, drop-shadow) are resolved in the active mode context.
 
 ### diff
 
@@ -93,6 +133,15 @@ List tokens matching a filter expression.
 design-data query packages/design-data/tokens --filter "component=button,state=hover"
 design-data query packages/design-data/tokens --filter "component=button" --count
 design-data query packages/design-data/tokens --filter "component=button" --format json
+```
+
+Use `--format dtcg` to merge only the matched properties' cascade winners into one
+DTCG document (accepts the same `--color-scheme/--scale/--contrast` mode flags as
+`resolve`/`export`):
+
+```bash
+design-data query packages/design-data/tokens --filter "component=button" \
+  --format dtcg --color-scheme dark
 ```
 
 ### migrate
@@ -232,9 +281,9 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 Integration tests live in `sdk/cli/tests/` and use [`assert_cmd`](https://docs.rs/assert_cmd) to exercise the binary end-to-end.
 
-### Figma feature flag
+### Figma and DTCG plugin crates
 
-The `figma` module in `design-data-core` is gated behind the optional `figma` feature. The CLI enables it by default. Library consumers that don't need Figma can omit the feature to avoid the `reqwest`/`tokio` dependencies.
+The Figma Variables bridge and DTCG format support live in their own crates — `design-data-figma` (`plugins/figma/`) and `design-data-dtcg` (`plugins/dtcg/`) — rather than as feature-gated modules inside `design-data-core`. `design-data-cli` depends on both unconditionally. Library consumers that only need `design-data-core` (token resolution, validation, caching, etc.) don't pull in either crate's dependencies (e.g. `reqwest`/`tokio` for Figma) unless they add the plugin crate themselves.
 
 ## Versioning
 

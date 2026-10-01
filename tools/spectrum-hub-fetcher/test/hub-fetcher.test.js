@@ -17,6 +17,7 @@ import { join } from "node:path";
 import { parse } from "node-html-parser";
 
 import { main } from "../src/cli.js";
+import { createClient } from "../src/aem-client.js";
 
 import { inlineFragments } from "../src/fragments.js";
 import { stripNoise, splitSections } from "../src/sections.js";
@@ -37,6 +38,29 @@ function createFixtureFetch() {
     }
   };
 }
+
+test("hub client fetches the public Spectrum site by default", async (t) => {
+  const urls = [];
+  const client = createClient({
+    fetchImpl: async (url) => {
+      urls.push(url);
+      return {
+        ok: true,
+        headers: new Headers(),
+        json: async () => ({ data: [] }),
+        text: async () => "<h1>Motion</h1>",
+      };
+    },
+  });
+
+  await client.fetchQueryIndex();
+  await client.fetchPage("/foundations/behavior/motion");
+
+  t.deepEqual(urls, [
+    "https://spectrum.adobe.com/query-index.json?limit=500",
+    "https://spectrum.adobe.com/foundations/behavior/motion.plain.html",
+  ]);
+});
 
 test("hub fetcher emits schema-compatible markdown from live-page HTML fixtures", async (t) => {
   const html = loadFixture(

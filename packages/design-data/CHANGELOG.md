@@ -1,52 +1,50 @@
 # @adobe/spectrum-design-data
 
-## 3.3.0-beta.2
+## 3.3.0
 
 ### Minor Changes
 
-- [#1497](https://github.com/adobe/spectrum-design-data/pull/1497) [`f826ac2`](https://github.com/adobe/spectrum-design-data/commit/f826ac2262876cbbd8d949a45b3b471e9515d7d8) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync guideline content from Spectrum Hub preview.
-  - **packages/design-data/guidelines**: 69 guideline documents (was 49).
-  - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to 69.
+- [#1513](https://github.com/adobe/spectrum-design-data/pull/1513) [`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum 2 implementation metadata for components with exact verified exports.
+  - **spectrum-design-data**: replace S1 mappings with verified Spectrum 2 exports.
+  - **design-data-wasm**: include the updated component data in the WASM package.
 
-## 3.3.0-beta.1
+### Patch Changes
 
-### Minor Changes
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove `web-components-states.json` from the foundation registry (closes DNA-1741).
+  - **registry/platform-extensions/web-components-states.json**: removed — the
+    canonical copy now lives in `platforms/web-components/extensions/platform-extensions/`
+    and is reachable via the manifest cascade, mirroring the earlier
+    `ios-states.json` migration.
 
-- [#1469](https://github.com/adobe/spectrum-design-data/pull/1469) [`29dca57`](https://github.com/adobe/spectrum-design-data/commit/29dca5751778d5ba024f932e187909e9e04a9758) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync component content from Spectrum Hub (automated).
-  - **packages/design-data/components**: 97 component schemas refreshed (was 97).
+## 3.2.5
 
-- [#1470](https://github.com/adobe/spectrum-design-data/pull/1470) [`996b2e0`](https://github.com/adobe/spectrum-design-data/commit/996b2e06979b661da90b87b1d7b6574118392f49) Thanks [@GarthDB](https://github.com/GarthDB)! - Retire 9 guideline duplicates already superseded by Spectrum Hub content, and
-  re-point the 2 remaining frozen sourceUrl fields (closes
-  spectrum-design-data-085.2.4).
-  - **packages/design-data/guidelines**: removes `app-frame-content-area`,
-    `app-frame-header`, `app-frame-creating-bluelines`,
-    `app-frame-side-navigation`, `containers`, `illustrations`,
-    `object-styles`, `typography-fundamentals`, and `spacing` — each was a
-    frozen `s2.spectrum.corp.adobe.com` copy whose live-Hub successor content
-    already exists under a new slug; corpus goes from 58 to 49.
-  - **packages/design-data/guidelines/introduction.json, principles.json**:
-    re-point `sourceUrl` from the frozen S2 site to their live
-    `/getting-started/` Hub equivalents.
-  - **tools/spectrum-hub-fetcher/src/hub-map.js**: add `/getting-started/` to
-    `PREFIX_CATEGORIES` (mapped to `fundamentals`) so these pages join the
-    automated crawl going forward.
-  - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to 49.
+### Patch Changes
 
-- [#1463](https://github.com/adobe/spectrum-design-data/pull/1463) [`6496f8f`](https://github.com/adobe/spectrum-design-data/commit/6496f8f1d50026d6596470e6f97047d3dac838ee) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync guideline content from Spectrum Hub (automated).
-  - **packages/design-data/guidelines**: 58 guideline documents (was 58).
+- [#1489](https://github.com/adobe/spectrum-design-data/pull/1489) [`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56) Thanks [@GarthDB](https://github.com/GarthDB)! - Derive `figma diff`'s scale/colorScheme resolution from declared mode-set
+  schema instead of hardcoded literals (closes spectrum-design-data-11k.16).
+  - **sdk/core/src/graph.rs**: `rebuild_legacy_name_index`'s desktop/light
+    tie-break now reads its defaults from `graph.mode_sets` when declared,
+    falling back to the historical `"desktop"`/`"light"` literals otherwise;
+    `with_mode_sets` rebuilds the index afterward so attaching mode sets
+    after tokens (redb cache hydration, `from_json_dir_with_names_and_catalogs`)
+    no longer leaves a stale, schema-unaware index.
+  - **sdk/plugins/figma/src/import/resolve.rs**: `default_source_context` now
+    derives its checked discriminator fields from `graph.mode_sets` instead
+    of hardcoding `scale`/`colorScheme`, so a token disambiguated by any
+    declared mode set (e.g. `contrast`) keeps its alias-chain context pinned.
+  - **sdk/cli/src/main.rs**: fixed a stale comment miscounting `figma diff`'s
+    pretty-print columns.
 
-## 3.3.0-beta.0
+## 3.2.4
 
-### Minor Changes
+### Patch Changes
 
-- [#1457](https://github.com/adobe/spectrum-design-data/pull/1457) [`627374f`](https://github.com/adobe/spectrum-design-data/commit/627374fbcf306cbe9040d6ec4e7d53ce374ecc12) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum Hub guidance content to the guideline corpus.
-  - **packages/design-data/guidelines**: 47 guidelines now sourced from the
-    Spectrum Hub, replacing 14 frozen copies and adding 33 new documents; the
-    corpus grows from 25 to 58.
-  - **tools/spectrum-hub-fetcher**: maps hub paths to guideline categories and
-    slugs, drops navigation stubs and duplicate pages, and stages Markdown into
-    `docs/s2-docs/`.
-  - **sdk/core/src/data_source/embedded.rs**: guideline count guard updated to 58.
+- [#1484](https://github.com/adobe/spectrum-design-data/pull/1484) [`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `figma pair` to consult CTR resolution before value-matching (closes #11k.10.13).
+  - **sdk/plugins/figma/src/import/pair.rs**: `pair_by_value`'s already-resolved
+    skip gate now also checks `resolve_relationship_ref`, matching `figma
+diff`'s resolution order, so Typography-grouping and other CTR-only names
+    (`Heading/`, `Body/`, `Title/`, `Detail/`, `Code/`, some `Alias/`) no longer
+    wrongly fall through to the value-matching path and land in `ambiguous`.
 
 ## 3.2.3
 

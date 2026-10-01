@@ -1,6 +1,6 @@
 # `@adobe/design-data-agent-mcp`
 
-MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `describe_component`, `describe_guideline`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. Only `authoring_session_step_intent` still invokes the native binary (for NLP suggest ranking, not yet on the wasm surface).
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `suggest_token`, `describe_component`, `describe_guideline`, `list_guidelines`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. `suggest_token` uses the wasm `suggest` API directly; `authoring_session_step_intent` still invokes the native binary for session-state-aware ranking within an authoring flow.
 
 ## Install
 
@@ -71,16 +71,20 @@ node tools/design-data-agent-mcp/src/index.js
 | `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)                                          |
 | `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)                                      |
 | `DESIGN_DATA_CONFIG`     | —             | Path to a `.design-data.toml` (or its directory) to resolve a platform cascade |
+| `DESIGN_DATA_PLATFORM`   | —             | Select a named `[platforms.<id>]` entry (needs `DESIGN_DATA_CONFIG`)           |
 
 > **Platform cascade.** If `DESIGN_DATA_CONFIG` is set, the server shells out to
 > the `design-data` CLI once at startup (`design-data query --filter "" --format
 > json`, run from the config's directory) to resolve its `.design-data.toml`
-> source (path/npm/github/git) and any top-level `manifest` cascade, then
+> source (path/npm/github/git) and either its top-level `manifest` cascade or,
+> if `DESIGN_DATA_PLATFORM` is also set, that named `[platforms.<id>]` entry's
+> manifest — mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`, then
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
-> `query_tokens` / `validate_usage` at it instead of the embedded Spectrum
-> snapshot. `describe_component` / `describe_guideline` are unaffected — they always
-> read components/guidelines from `@adobe/spectrum-design-data` regardless of
-> cascade state. If resolution fails
+> `query_tokens` / `validate_usage` / `describe_component` /
+> `describe_guideline` / `list_guidelines` at it instead of the embedded
+> Spectrum snapshot. Component, relationship, and guideline catalogs are copied
+> from the fallback dataset and overlaid with platform manifest extensions. If
+> resolution fails
 > (e.g. no network for a github source), the server logs a warning and falls
 > back to the embedded/local dataset rather than crashing.
 
@@ -151,8 +155,10 @@ node tools/design-data-agent-mcp/src/index.js
 | `primer`             | Load full token taxonomy, component list, and field definitions |
 | `resolve_token`      | Resolve a token property to its literal value                   |
 | `query_tokens`       | Filter tokens by expression                                     |
+| `suggest_token`      | Suggest tokens matching a natural-language intent               |
 | `describe_component` | Fetch component schema and token bindings                       |
 | `describe_guideline` | Fetch guideline documentBlocks content and metadata             |
+| `list_guidelines`    | List guideline slugs and metadata, optionally by category       |
 | `validate_usage`     | Validate token usage and return a diagnostic report             |
 | `diff_datasets`      | Compare two datasets and return a semantic diff                 |
 | `write`              | Write agent-generated product context to the dataset            |

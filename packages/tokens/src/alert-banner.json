@@ -17,7 +17,7 @@
         "uuid": "5f2b2bc1-ebb0-46dd-a563-58df6307996d"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -81,7 +81,7 @@
         "uuid": "7939208b-2f8c-4569-b7cb-1c1bcfc8705a"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-top-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -101,7 +101,7 @@
         "uuid": "8db02117-b543-4b3e-b0ff-203e9a821708"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-top-to-workflow-icon": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -121,7 +121,7 @@
         "uuid": "402c755b-322c-4ea0-856c-ca209bdaa8ec"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "alert-banner-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -9,6 +9,13 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/tag/"
   },
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tag",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "documentBlocks": [
     {
       "type": "purpose",

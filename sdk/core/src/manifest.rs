@@ -43,6 +43,11 @@ const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
         "platformExtensions",
         "platform-extension.json",
     ),
+    (
+        "implementations",
+        "implementations",
+        "implementation-mapping.schema.json",
+    ),
 ];
 
 /// Locate `packages/design-data-spec/schemas/manifest.schema.json` by walking up
@@ -52,6 +57,104 @@ pub fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
         let candidate = p.join("packages/design-data-spec/schemas/manifest.schema.json");
         candidate.is_file().then_some(candidate)
     })
+}
+
+/// Locate `packages/design-data/registry/platform-implementations.json` by walking
+/// up from `schemas_root` — the registry of known platform-manifest implementation
+/// ids (see `spec/manifest.md#identity-fields`), distinct from the token-level
+/// `platforms.json` device-target registry.
+fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathBuf> {
+    schemas_root.ancestors().find_map(|p| {
+        let candidate = p.join("packages/design-data/registry/platform-implementations.json");
+        candidate.is_file().then_some(candidate)
+    })
+}
+
+/// Check a manifest's optional `platform` field against the
+/// platform-implementations registry, returning an advisory message when the id
+/// isn't recognized. `platform` is a SHOULD, not a MUST (`manifest.schema.json`
+/// places no `enum` constraint on it) — an unrecognized id is not a schema
+/// violation, just something the caller may want to surface to the platform team
+/// (e.g. `validate-manifest`'s pretty output, or `platform show`).
+///
+/// Returns `Ok(None)` when `platform` is absent, or present and recognized.
+/// Returns `Err` only for I/O/parse failures reading the registry file — a
+/// missing/malformed registry does not fail the manifest.
+pub fn check_platform_identity(
+    manifest: &Value,
+    schemas_root: &Path,
+) -> Result<Option<String>, CoreError> {
+    let Some(platform) = manifest.get("platform").and_then(|v| v.as_str()) else {
+        return Ok(None);
+    };
+    let Some(registry_path) = locate_platform_implementations_registry(schemas_root) else {
+        return Ok(None);
+    };
+    let text = std::fs::read_to_string(&registry_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let registry: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let known = registry
+        .get("values")
+        .and_then(|v| v.as_array())
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(|v| v.get("id").and_then(|id| id.as_str()))
+                .any(|id| id == platform)
+        })
+        .unwrap_or(false);
+    if known {
+        Ok(None)
+    } else {
+        Ok(Some(format!(
+            "manifest declares platform \"{platform}\" which is not in the \
+             platform-implementations registry ({}) — this is advisory only, not a \
+             validation failure",
+            registry_path.display()
+        )))
+    }
+}
+
+/// Read a platform manifest.json's optional `formatting` block
+/// (`manifest.schema.json#/properties/formatting`) as a
+/// [`crate::naming::FormattingConfig`], for callers (e.g. `figma export
+/// --code-syntax-manifest`) that only need per-platform token-name
+/// serialization rules, not the full include/exclude/overrides cascade.
+/// Returns `Ok(None)` when the manifest has no `formatting` block.
+pub fn load_formatting_config(
+    manifest_path: &Path,
+) -> Result<Option<crate::naming::FormattingConfig>, CoreError> {
+    let text = std::fs::read_to_string(manifest_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let manifest: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let Some(formatting) = manifest.get("formatting") else {
+        return Ok(None);
+    };
+    let config = serde_json::from_value(formatting.clone()).map_err(|e| {
+        CoreError::ParseError(format!(
+            "platform manifest {} has an invalid `formatting` block: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    Ok(Some(config))
 }
 
 /// Apply the Layer 2 platform manifest declared in `.design-data.toml`
@@ -203,7 +306,7 @@ fn build_extensions_value(
         }
     }
 
-    // components/, fields/, guidelines/, platform-extensions/ — one artifact per
+    // components/, fields/, guidelines/, platform-extensions/, implementations/ — one artifact per
     // file (though a file holding an array of several is tolerated too), all files
     // in the subdirectory concatenated in sorted path order.
     for (dir_name, key, schema_file) in CONCAT_CATEGORIES {
@@ -267,7 +370,7 @@ enum FragmentValidation<'a> {
     /// `tokens/*.tokens.json`: the whole parsed file is itself the cascade array
     /// `cascade-file.schema.json` describes — validated before flattening.
     TokenFile(&'a Path),
-    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`: each
+    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`, `implementations/`: each
     /// flattened entry is one object validated against the category schema.
     Item(&'a Path),
     /// `relationships/`: each flattened entry *without* an `"op"` key (a plain
@@ -679,5 +782,179 @@ mod tests {
         std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
 
         assert!(err.to_string().contains("unreadable.json"));
+    }
+
+    #[test]
+    fn check_platform_identity_absent_field_is_noop() {
+        let manifest = json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0"});
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn check_platform_identity_known_id_is_noop() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "react-spectrum"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none(), "expected no warning, got: {result:?}");
+    }
+
+    #[test]
+    fn check_platform_identity_unknown_id_returns_advisory() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "totally-not-a-real-platform"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        let message = result.expect("expected an advisory message");
+        assert!(message.contains("totally-not-a-real-platform"));
+        assert!(message.contains("advisory only"));
+    }
+
+    /// spectrum-design-data-h890.27.10: `web-components-states.json` was moved out
+    /// of the foundation registry (`packages/design-data/registry/platform-extensions/`)
+    /// into `platforms/web-components/extensions/platform-extensions/` — confirm the
+    /// real, migrated file is still discovered, schema-validated, and merged into the
+    /// graph via the same cascade every other platform-extensions fragment uses.
+    #[test]
+    fn swc_web_components_states_extension_is_loaded_via_cascade() {
+        let manifest_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../platforms/web-components/manifest.json");
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let record = graph
+            .platform_extensions
+            .iter()
+            .find(|r| r.platform == "Web Components" && r.extends == "states")
+            .expect("web-components-states.json extension present after migration");
+        let term_ids: Vec<&str> = record
+            .raw
+            .get("extensions")
+            .and_then(|v| v.as_array())
+            .unwrap()
+            .iter()
+            .filter_map(|t| t.get("termId").and_then(|v| v.as_str()))
+            .collect();
+        assert!(term_ids.contains(&"hover"));
+        assert!(term_ids.contains(&"focus"));
+        assert!(term_ids.contains(&"disabled"));
+        assert!(term_ids.contains(&"keyboard-focus"));
+    }
+
+    /// The real foundation component catalog, which the incubating platforms'
+    /// `extensions/implementations/` fragments target.
+    fn real_components() -> Vec<crate::graph::ComponentRecord> {
+        TokenGraph::load_spec_components(
+            &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/components"),
+        )
+        .unwrap()
+    }
+
+    fn button_rows(graph: &TokenGraph) -> Vec<Value> {
+        graph
+            .components
+            .iter()
+            .find(|c| c.name == "button")
+            .and_then(|c| c.raw.get("implementations"))
+            .and_then(|v| v.as_array())
+            .cloned()
+            .expect("button has implementations")
+    }
+
+    /// h890.29: each incubating platform's seeded `extensions/implementations/`
+    /// refines its own foundation default in place — stamping the owner and, for
+    /// SWC gen2, adding `package` alongside `importPath` — without duplicating or
+    /// dropping the other implementation's row.
+    #[test]
+    fn incubating_platforms_refine_their_own_implementation_rows() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms");
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("web-components/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert_eq!(
+            button_rows(&graph),
+            vec![
+                json!({"platform": "web", "componentName": "Button", "package": "@react-spectrum/s2"}),
+                json!({
+                    "platform": "web",
+                    "componentName": "Button",
+                    "package": "@adobe/spectrum-wc",
+                    "importPath": "@adobe/spectrum-wc/components/button",
+                    "notes": "Spectrum 2 web component custom element: swc-button.",
+                    "implementation": "web-components"
+                }),
+            ]
+        );
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("react-spectrum/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+    }
+
+    #[test]
+    fn embedded_snapshot_validates_ejected_implementation_fragments() {
+        let project = tempfile::tempdir().unwrap();
+        let root = project.path().join("embedded");
+        crate::data_source::embedded::materialize_to(&root).unwrap();
+
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms/react-spectrum");
+        let manifest_path = project.path().join("manifest.json");
+        std::fs::copy(source.join("manifest.json"), &manifest_path).unwrap();
+        let fragments = project.path().join("extensions/implementations");
+        std::fs::create_dir_all(&fragments).unwrap();
+        for entry in std::fs::read_dir(source.join("extensions/implementations")).unwrap() {
+            let entry = entry.unwrap();
+            std::fs::copy(entry.path(), fragments.join(entry.file_name())).unwrap();
+        }
+
+        let components =
+            TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
+                .unwrap();
+        let mut graph = make_graph().with_components(components);
+        let resolved = resolved_with_manifest(manifest_path, root.join("packages/tokens/schemas"));
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+
+        let invalid_fragment = fragments.join("invalid.json");
+        std::fs::write(
+            &invalid_fragment,
+            json!({
+                "component": "button",
+                "implementations": [{"platform": "web", "package": "@react-spectrum/s2"}]
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let error = apply_configured(&mut graph, &resolved)
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains(&invalid_fragment.display().to_string()),
+            "{error}"
+        );
+        assert!(error.contains("failed schema validation"), "{error}");
+        assert!(error.contains("componentName"), "{error}");
     }
 }

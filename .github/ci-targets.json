@@ -30,6 +30,7 @@
     "tokens:validateDesignData",
     "design-data:validate",
     "design-data:roundtrip-verify",
+    "root:validate-platforms",
     "design-data:legacy-output",
     "design-data-glue:ci",
     "demo:ci",

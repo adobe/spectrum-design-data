@@ -282,6 +282,11 @@ impl TokenGraph {
         if let Some(dir) = mode_sets_dir {
             if dir.is_dir() {
                 graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
+                // Rebuild now that mode_sets is complete: legacy_name_index's
+                // scale/colorScheme tie-break (see rebuild_legacy_name_index)
+                // reads mode_sets for its defaults, and it was already built
+                // once, with none, inside from_json_dir_with_names above.
+                graph.rebuild_legacy_name_index();
             }
         }
         if let Some(dir) = components_dir {
@@ -955,6 +960,21 @@ impl TokenGraph {
             }
         }
 
+        // 5b. extensions.implementations — platform-owned refinements of a
+        // component's `implementations` rows. Runs after 5 so a fragment may
+        // target a platform-local component. Rows are upserted, never
+        // whole-array replaced, so other implementations' rows survive.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("implementations"))
+            .and_then(|v| v.as_array())
+        {
+            let platform_id = manifest.get("platform").and_then(|v| v.as_str());
+            for entry in entries {
+                merge_implementation_fragment(&mut self.components, entry, platform_id)?;
+            }
+        }
+
         // 6. extensions.platformExtensions — platform terminology annotating ids in
         // an existing base registry. Replaced by (platform, extends); every termId
         // must already exist in that base registry (extensions never add new ids).
@@ -1478,11 +1498,28 @@ impl TokenGraph {
     /// When several tokens share one `legacyKey` (a scale-set's desktop/mobile
     /// members, or a color-set's light/dark/wireframe members — both legitimate:
     /// the legacy flat-key format has no room for the mode axis), prefer the
-    /// canonical/base member deterministically: `name.scale == "desktop"`, else
-    /// `name.colorScheme == "light"`, else the lexicographically-first graph key.
+    /// canonical/base member deterministically: `name.scale` matching the
+    /// `scale` mode set's declared `default_mode`, else `name.colorScheme`
+    /// matching `colorScheme`'s, else the lexicographically-first graph key.
+    /// Defaults are read from `self.mode_sets` (see [`Self::with_mode_sets`])
+    /// when that axis is declared there, falling back to the historical
+    /// `"desktop"`/`"light"` literals otherwise — e.g. a caller (the redb
+    /// cache's `hydrate`, or any two-step "tokens then mode sets" builder
+    /// path) that hasn't rebuilt the index again since attaching mode sets.
     /// Same "desktop is base" convention as [`Self::reindex_relationship_tokens`]'s
     /// CTR-side scale tie-break.
     fn rebuild_legacy_name_index(&mut self) {
+        let scale_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "scale")
+            .map_or("desktop", |ms| ms.default_mode.as_str());
+        let color_scheme_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "colorScheme")
+            .map_or("light", |ms| ms.default_mode.as_str());
+
         self.legacy_name_index.clear();
         let mut candidates: HashMap<String, Vec<&str>> = HashMap::new();
         for (key, rec) in &self.tokens {
@@ -1501,7 +1538,8 @@ impl TokenGraph {
                         .raw
                         .get("name")
                         .and_then(|n| n.get("scale"))
-                        == Some(&Value::String("desktop".to_string()))
+                        .and_then(Value::as_str)
+                        == Some(scale_default)
                 })
                 .or_else(|| {
                     keys.iter().find(|k| {
@@ -1509,7 +1547,8 @@ impl TokenGraph {
                             .raw
                             .get("name")
                             .and_then(|n| n.get("colorScheme"))
-                            == Some(&Value::String("light".to_string()))
+                            .and_then(Value::as_str)
+                            == Some(color_scheme_default)
                     })
                 })
                 .or_else(|| keys.first())
@@ -1520,8 +1559,16 @@ impl TokenGraph {
     }
 
     /// Attach mode set records (e.g. from conformance fixtures).
+    ///
+    /// Rebuilds `legacy_name_index` afterward: every call site attaches mode
+    /// sets after tokens are already loaded, and the index's scale/colorScheme
+    /// tie-break (see [`Self::rebuild_legacy_name_index`]) reads
+    /// `self.mode_sets` for its defaults, so a stale index built before this
+    /// call would silently keep using the `"desktop"`/`"light"` fallback
+    /// instead of the now-attached schema's declared defaults.
     pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
         self.mode_sets = mode_sets;
+        self.rebuild_legacy_name_index();
         self
     }
 
@@ -1919,6 +1966,133 @@ fn upsert_by_key<T>(vec: &mut Vec<T>, key: impl Fn(&T) -> bool, record: T) {
     }
 }
 
+/// Merge one `extensions/implementations/` fragment
+/// (`implementation-mapping.schema.json`) into its target component's
+/// `implementations` array. See `spec/manifest.md#extensionsimplementations`.
+///
+/// Each row's owning implementation id is its own `implementation` field, else
+/// the manifest's `platform` id (stamped onto the stored row). A platform only
+/// ever matches rows it owns: rows stamped with the same id, or unstamped
+/// foundation defaults. It never touches another implementation's rows.
+fn merge_implementation_fragment(
+    components: &mut [ComponentRecord],
+    fragment: &Value,
+    platform_id: Option<&str>,
+) -> Result<(), CoreError> {
+    let Some(component) = fragment.get("component").and_then(|v| v.as_str()) else {
+        return Ok(()); // unreachable after Layer 1 fragment validation
+    };
+    let record = components
+        .iter_mut()
+        .find(|c| c.name == component)
+        .ok_or_else(|| {
+            CoreError::ParseError(format!(
+                "platform manifest extensions.implementations targets component \
+                 \"{component}\" which does not exist in the component catalog"
+            ))
+        })?;
+    let Some(obj) = record.raw.as_object_mut() else {
+        return Ok(());
+    };
+    let rows = obj
+        .entry("implementations")
+        .or_insert_with(|| Value::Array(Vec::new()));
+    let Some(rows) = rows.as_array_mut() else {
+        return Err(CoreError::ParseError(format!(
+            "component \"{component}\" has a non-array `implementations` field"
+        )));
+    };
+
+    for entry in fragment
+        .get("implementations")
+        .and_then(|v| v.as_array())
+        .into_iter()
+        .flatten()
+    {
+        let owner = entry
+            .get("implementation")
+            .and_then(|v| v.as_str())
+            .or(platform_id);
+
+        if entry.get("op").and_then(|v| v.as_str()) == Some("remove") {
+            let before = rows.len();
+            rows.retain(|row| !(row_owned_by(row, owner) && remove_selector_matches(entry, row)));
+            if rows.len() == before {
+                return Err(CoreError::ParseError(format!(
+                    "platform manifest extensions.implementations op:\"remove\" on component \
+                     \"{component}\" matched no implementation row owned by {} ({entry})",
+                    owner.map_or_else(|| "this manifest".to_string(), |o| format!("\"{o}\""))
+                )));
+            }
+            continue;
+        }
+
+        let mut row = entry.clone();
+        if let (Some(owner), Some(row_obj)) = (owner, row.as_object_mut()) {
+            row_obj
+                .entry("implementation")
+                .or_insert_with(|| Value::String(owner.to_string()));
+        }
+        upsert_by_key(
+            rows,
+            |existing| same_implementation_row(existing, &row),
+            row.clone(),
+        );
+    }
+    Ok(())
+}
+
+fn str_field<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
+    v.get(key).and_then(|v| v.as_str())
+}
+
+/// A row is owned by `owner` when it is an unstamped foundation default or is
+/// stamped with the same implementation id.
+fn row_owned_by(row: &Value, owner: Option<&str>) -> bool {
+    match str_field(row, "implementation") {
+        None => true,
+        Some(id) => Some(id) == owner,
+    }
+}
+
+/// `op: "remove"` matches a row when every selector field it carries equals the
+/// row's value for that field.
+fn remove_selector_matches(selector: &Value, row: &Value) -> bool {
+    [
+        "platform",
+        "implementation",
+        "componentName",
+        "package",
+        "importPath",
+    ]
+    .iter()
+    .all(|key| match str_field(selector, key) {
+        None => true,
+        Some(want) => str_field(row, key) == Some(want),
+    })
+}
+
+/// Upsert identity. A stamped row is keyed by `(platform, implementation,
+/// componentName)`. An unstamped foundation default has no implementation id,
+/// so it matches when `platform` and `componentName` agree and the two rows
+/// share a module reference (`package` or `importPath`).
+fn same_implementation_row(existing: &Value, incoming: &Value) -> bool {
+    if str_field(existing, "platform") != str_field(incoming, "platform")
+        || str_field(existing, "componentName") != str_field(incoming, "componentName")
+    {
+        return false;
+    }
+    match str_field(existing, "implementation") {
+        Some(id) => str_field(incoming, "implementation") == Some(id),
+        None => ["package", "importPath"].iter().any(|key| {
+            matches!(
+                (str_field(existing, key), str_field(incoming, key)),
+                (Some(a), Some(b)) if a == b
+            )
+        }),
+    }
+}
+
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {
     match v {
@@ -2182,7 +2356,7 @@ impl TokenGraph {
     /// at all" (safe to fall back to its own direct `conceptId`) apart from
     /// "it's CTR-backed but no sibling matches this context" (genuinely
     /// uncovered; must not fall back to a differently-scoped sibling).
-    pub(crate) fn has_relationship_record(&self, legacy_key: &str) -> bool {
+    pub fn has_relationship_record(&self, legacy_key: &str) -> bool {
         self.relationships
             .iter()
             .any(|r| r.raw.get("legacyKey").and_then(Value::as_str) == Some(legacy_key))
@@ -2304,7 +2478,7 @@ impl TokenGraph {
     ///
     /// Use this in chain-walking code that has an active resolution context; use
     /// `resolve_alias_key` for context-free alias resolution (e.g. `resolve_leaf`).
-    pub(crate) fn resolve_alias_in_context<'a>(
+    pub fn resolve_alias_in_context<'a>(
         &'a self,
         alias_target: &str,
         ctx: &std::collections::HashMap<String, String>,
@@ -3342,6 +3516,58 @@ mod tests {
                 "must prefer the light candidate"
             );
         }
+    }
+
+    #[test]
+    fn legacy_name_index_tie_break_honors_declared_mode_set_default() {
+        // The desktop/light tie-break in rebuild_legacy_name_index reads its
+        // defaults from graph.mode_sets when that axis is declared there,
+        // rather than always the hardcoded "desktop"/"light" literals — a
+        // colorScheme mode set declaring "dark" as default must make the
+        // dark candidate win, not light.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let dark_default_color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "dark".to_string(),
+        };
+
+        let g = TokenGraph::from_records(vec![dark, light])
+            .with_mode_sets(vec![dark_default_color_scheme]);
+        let key = g
+            .legacy_name_index
+            .get("accent-background-color-key-focus")
+            .expect("legacy key must resolve");
+        assert_eq!(
+            key, "color-aliases.tokens.json:10",
+            "must prefer the declared-default (dark) candidate, not the hardcoded light literal"
+        );
     }
 
     #[test]

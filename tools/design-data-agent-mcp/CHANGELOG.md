@@ -1,17 +1,102 @@
 # @adobe/design-data-agent-mcp
 
-## 1.10.0-beta.2
+## 1.14.1
 
 ### Patch Changes
 
-- Updated dependencies [[`f826ac2`](https://github.com/adobe/spectrum-design-data/commit/f826ac2262876cbbd8d949a45b3b471e9515d7d8)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.2
+- Updated dependencies [[`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b)]:
+  - @adobe/design-data-wasm@0.10.2
+  - @adobe/design-data@3.2.3
 
-## 1.10.0-beta.1
+## 1.14.0
 
 ### Minor Changes
 
-- [#1471](https://github.com/adobe/spectrum-design-data/pull/1471) [`8599e3a`](https://github.com/adobe/spectrum-design-data/commit/8599e3af55b6e862d5a7bc5b64080eaadbe44128) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a guideline-read tool to design-data-agent-mcp, closing the read/write
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Make the MCP honor named `[platforms.<id>]` entries, not just the legacy
+  top-level `manifest` key (closes DNA-1741).
+  - **src/config.js**: adds `platformId`, read from a new `DESIGN_DATA_PLATFORM`
+    env var, mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`.
+  - **src/cascade-bootstrap.js**: passes `--platform <id>` to the CLI query
+    shell-out and materializes that named entry's `extensions/` catalogs when
+    `platformId` is set, instead of always resolving the legacy `manifest` key.
+    Also resolves `default_platform` via the CLI when `platformId` is unset, so
+    catalogs stay consistent with the token query in that case too.
+  - **README.md**: documents `DESIGN_DATA_PLATFORM`.
+
+### Patch Changes
+
+- Updated dependencies [[`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d), [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5)]:
+  - @adobe/design-data-wasm@0.10.1
+  - @adobe/spectrum-design-data@3.3.0
+  - @adobe/design-data@3.2.2
+
+## 1.13.0
+
+### Minor Changes
+
+- [#1505](https://github.com/adobe/spectrum-design-data/pull/1505) [`03f76ad`](https://github.com/adobe/spectrum-design-data/commit/03f76ad686fc99954c7fde05017280a874150654) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a standalone natural-language token suggestion tool to the agent MCP.
+  - **tools/design-data-agent-mcp**: expose ranked `suggest_token` results from user intent.
+
+## 1.12.0
+
+### Minor Changes
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Add narrowing and ambiguity metadata to property-based token resolution.
+  - **resolve_token**: support component, variant, state, and colorRole narrowing while reporting
+    deprecated and ambiguous matches.
+
+### Patch Changes
+
+- [#1504](https://github.com/adobe/spectrum-design-data/pull/1504) [`814f84e`](https://github.com/adobe/spectrum-design-data/commit/814f84ede4d207e5e24c40a1b6f054fb58462b70) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix `primer` returning empty `modeSets` arrays (closes spectrum-design-data-v9bb).
+  - **tools/design-data-agent-mcp/src/tools/read.js**: build `modeSets` from the
+    `modeSets` array already returned by `ds.primer()` instead of the
+    field-catalog-only `getFieldValues("colorScheme"|"scale"|"contrast")`, which
+    never had entries for mode-set dimensions.
+
+- [#1500](https://github.com/adobe/spectrum-design-data/pull/1500) [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix broken example calls in read-tool docstrings and the design-data skill.
+  - **tools/design-data-agent-mcp/src/tools/read.js**: `query_tokens`'s docstring example
+    (`category=color`) never worked — replaced with a real filter and a note that
+    `component=<id>` is currently unindexed. `resolve_token`'s docstring example
+    (`accent-background-color-default`) was a legacyKey-shaped name that never resolves —
+    replaced with guidance on the accepted bare-property format and its disambiguation limits.
+  - **tools/design-data-agent-mcp/skills/design-data/SKILL.md**: same two examples corrected,
+    with gotcha notes for both tools.
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.10.0
+  - @adobe/design-data@3.2.1
+
+## 1.11.0
+
+### Minor Changes
+
+- [#1492](https://github.com/adobe/spectrum-design-data/pull/1492) [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add guideline discovery to the agent MCP server.
+  - **tools/design-data-agent-mcp**: add the `list_guidelines` read tool and shared catalog loading.
+  - **tools/design-data**: expose manifest-backed guideline catalog loading.
+  - **tools/design-data-mcp**: reuse the shared guideline catalog loader.
+
+### Patch Changes
+
+- [#1493](https://github.com/adobe/spectrum-design-data/pull/1493) [`c26e183`](https://github.com/adobe/spectrum-design-data/commit/c26e183e4b2d1f5ff82aa810a6d1bf45dd4514dc) Thanks [@GarthDB](https://github.com/GarthDB)! - Honor the active cascade dataset when reading components and guidelines.
+  - **tools/design-data-agent-mcp**: route component, relationship, and guideline reads
+    through the resolved cascade while preserving the embedded fallback.
+
+- Updated dependencies [[`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56), [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3)]:
+  - @adobe/spectrum-design-data@3.2.5
+  - @adobe/design-data@3.2.0
+
+## 1.10.1
+
+### Patch Changes
+
+- Updated dependencies [[`a6b8360`](https://github.com/adobe/spectrum-design-data/commit/a6b83605ff76405d4de830169ab5101b04eb788c)]:
+  - @adobe/spectrum-design-data@3.2.4
+
+## 1.10.0
+
+### Minor Changes
+
+- [#1472](https://github.com/adobe/spectrum-design-data/pull/1472) [`c49217b`](https://github.com/adobe/spectrum-design-data/commit/c49217b058ceeb9102bcd39decb493821660e739) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a guideline-read tool to design-data-agent-mcp, closing the read/write
   asymmetry with describe_component (closes spectrum-design-data-9fe.7).
   - **tools/design-data/src/guideline.js**: new shared `loadGuideline(dir, id)`
     helper (path-traversal guarded, `manifest` id rejected) used by both MCP
@@ -25,16 +110,8 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`8599e3a`](https://github.com/adobe/spectrum-design-data/commit/8599e3af55b6e862d5a7bc5b64080eaadbe44128), [`29dca57`](https://github.com/adobe/spectrum-design-data/commit/29dca5751778d5ba024f932e187909e9e04a9758), [`996b2e0`](https://github.com/adobe/spectrum-design-data/commit/996b2e06979b661da90b87b1d7b6574118392f49), [`6496f8f`](https://github.com/adobe/spectrum-design-data/commit/6496f8f1d50026d6596470e6f97047d3dac838ee)]:
-  - @adobe/design-data@3.1.0-beta.0
-  - @adobe/spectrum-design-data@3.3.0-beta.1
-
-## 1.9.14-beta.0
-
-### Patch Changes
-
-- Updated dependencies [[`627374f`](https://github.com/adobe/spectrum-design-data/commit/627374fbcf306cbe9040d6ec4e7d53ce374ecc12)]:
-  - @adobe/spectrum-design-data@3.3.0-beta.0
+- Updated dependencies [[`c49217b`](https://github.com/adobe/spectrum-design-data/commit/c49217b058ceeb9102bcd39decb493821660e739)]:
+  - @adobe/design-data@3.1.0
 
 ## 1.9.13
 

@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-export const DEFAULT_SITE_ORIGIN = "https://main--spectrum-hub--adobe.aem.live";
+export const DEFAULT_SITE_ORIGIN = "https://spectrum.adobe.com";
 export const QUERY_INDEX_PATH = "/query-index.json?limit=500";
 
 const RETRYABLE_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
