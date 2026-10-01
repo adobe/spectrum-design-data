@@ -2,6 +2,26 @@
 
 MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `suggest_token`, `describe_component`, `describe_guideline`, `list_guidelines`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. `suggest_token` uses the wasm `suggest` API directly; `authoring_session_step_intent` still invokes the native binary for session-state-aware ranking within an authoring flow.
 
+## Testing guideline content
+
+Run `moon run design-data-agent-mcp:test`. For the packaged content contracts only,
+after `moon run sdk-wasm:build`, run:
+
+```sh
+pnpm --filter @adobe/design-data-agent-mcp exec ava test/packaged-guidelines.test.js
+```
+
+The suite uses `pnpm pack` to test the agent's publishable files, extracts the
+tarball into a fresh private tree, and vendors local runtime dependencies using
+the MCPB packaging allowlists. It initializes the packed server over stdio with
+no data overrides, checks the catalog against the canonical manifest, compares
+every guideline response to source JSON, and checks invalid-slug errors. An import
+guard rejects ESM imports and CommonJS requires outside the private tree.
+
+Dependencies come from the local build, not registry tarballs, so this is not a
+registry-install test. It does not assess model answer quality. The tests remove
+private staging trees afterward.
+
 ## Install
 
 ### Claude Code (skill + optional MCP)

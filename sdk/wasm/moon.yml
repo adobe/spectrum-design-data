@@ -60,7 +60,9 @@ tasks:
       - "@globs(sources)"
       - "/sdk/core/src/**/*.rs"
       - "/sdk/core/Cargo.toml"
+      - "/sdk/core/build.rs"
       - "/sdk/core/src/registry_data.rs"
+      - "/packages/design-data/guidelines/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
     outputs:

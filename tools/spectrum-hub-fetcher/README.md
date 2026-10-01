@@ -80,6 +80,17 @@ decreases only when staging actually removes superseded JSON files.
 
 ## Verification
 
+`moon run spectrum-hub-fetcher:test` includes the offline content contracts in
+`test/stage-docs.test.js`. They stage the checked-in Writing for errors,
+Typography system, and Containers pages, transform them to guideline JSON, and
+compare the output to the canonical documents. Normalized phrase checks preserve
+key guidance, including both the ExtraBold recommendation and the limited Black
+exception. These checks tolerate whitespace and typographic quote changes, not
+missing content. No live fetch or model is involved.
+
+For just these tests, run
+`pnpm --filter @adobe/spectrum-hub-fetcher exec ava test/stage-docs.test.js`.
+
 Staging reconciles moved component categories by filename and migrated guideline
 slugs by canonical Hub source path. It preserves pages omitted from a limited
 fetch. Dry runs report superseded paths without removing them. The component

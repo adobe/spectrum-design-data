@@ -21,10 +21,18 @@ tasks:
     command: [pnpm, ava]
     deps:
       - sdk-wasm:build
+      - design-data-mcp:stage
     inputs:
       - "src/**/*.js"
       - "test/**/*.js"
       - "ava.config.js"
+      - "package.json"
+      - "/tools/design-data-mcp/test/helpers/**/*"
+      - "/tools/design-data-mcp/scripts/generate-mcpb.mjs"
+      - "/tools/design-data-mcp/package.json"
+      - "/packages/design-data/guidelines/**/*.json"
+      - "/docs/s2-docs/**/*.md"
+      - "/pnpm-lock.yaml"
 
   version:
     command: node

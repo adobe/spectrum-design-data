@@ -18,6 +18,12 @@ fn main() {
     println!(
         "cargo:rerun-if-changed={}",
         Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/guidelines")
+            .display()
+    );
+    println!(
+        "cargo:rerun-if-changed={}",
+        Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../packages/design-data-spec/schemas")
             .display()
     );
