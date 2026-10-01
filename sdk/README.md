@@ -203,15 +203,28 @@ Interact with the Figma Variables REST API. Requires a `FIGMA_TOKEN` environment
 
 ```bash
 export FIGMA_TOKEN=<your-token>
-design-data figma read   --file-key <KEY>
-design-data figma export --file-key <KEY> --output figma-vars.json
+design-data figma read --file-key <KEY> --format json > figma-vars.json
+design-data figma export packages/tokens/src --file-key <KEY> --dry-run > figma-payload.json
 ```
 
-Audit the generator's output against a previously captured snapshot — offline,
-no API call:
+Export reads the legacy projection generated from canonical `packages/design-data`
+by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
+file. Dry runs still read the file through the API to obtain collection and mode IDs.
+
+Font weights export as Figma style strings (`Regular`, `Bold`, `ExtraBold`, and
+the other supported weights), not numeric CSS weights. Numeric angle tokens
+export as FLOAT values in degrees. These conversions also apply to aliases
+and scale-set members; canonical token values are unchanged.
+
+Android `dp` dimensions remain excluded from export because Figma has no `dp`
+unit. The export summary lists them as unsupported units. Audit JSON reports
+their token names in `skipped_unsupported_unit`, separately from
+`skipped_unparseable_value` for malformed values.
+
+Audit the generator's output against a saved snapshot without an API call:
 
 ```bash
-design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
+design-data figma audit --snapshot figma-vars.json --token-dir packages/tokens/src
 ```
 
 Diff the manifest-resolved dataset against a Figma file's actual variable

@@ -23,6 +23,7 @@ pub(super) const COLOR_SET: &str = "color-set.json";
 pub(super) const COLOR: &str = "color.json";
 pub(super) const SCALE_SET: &str = "scale-set.json";
 pub(super) const DIMENSION: &str = "dimension.json";
+pub(super) const ANGLE: &str = "angle.json";
 pub(crate) const OPACITY: &str = "opacity.json";
 pub(super) const FONT_FAMILY: &str = "font-family.json";
 pub(super) const FONT_SIZE: &str = "font-size.json";

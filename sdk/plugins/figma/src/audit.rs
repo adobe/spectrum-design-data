@@ -52,6 +52,7 @@ pub struct AuditReport {
     pub skipped_alias_unresolved: Vec<String>,
     pub skipped_unknown_schema: Vec<String>,
     pub skipped_unparseable_value: Vec<String>,
+    pub skipped_unsupported_unit: Vec<String>,
     /// `legacyKey` → proposed Figma name override, seeded (empty) for every
     /// `generated_only` divergence — each one needs a human decision before
     /// 11k.5 can consume it.
@@ -143,6 +144,7 @@ pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditRe
         skipped_alias_unresolved: summary.skipped_alias_unresolved,
         skipped_unknown_schema: summary.skipped_unknown_schema,
         skipped_unparseable_value: summary.skipped_unparseable_value,
+        skipped_unsupported_unit: summary.skipped_unsupported_unit,
         overrides,
     })
 }
