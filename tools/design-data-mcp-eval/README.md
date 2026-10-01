@@ -51,6 +51,9 @@ Before spending inference requests, the runner checks every shipped guideline ag
 the canonical corpus. The default artifact is the Moon-staged bundle. Use `--artifact`
 with an absolute path to a trusted alternate staging tree for packaging investigations.
 Tests own private trees so parallel packaging tests cannot replace a running artifact.
+Evaluation loads its import guards from outside the artifact without writing to the
+staging tree. An archive regression verifies that evaluation leaves the tree unchanged
+and that subsequent MCPB packing excludes the test guards.
 
 Each scenario has at most eight model turns, sixteen tool calls, and a two-minute
 timeout. A run has at most 64 inference requests, 2,000,000 cumulative prompt characters,

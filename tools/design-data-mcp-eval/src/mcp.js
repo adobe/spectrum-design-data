@@ -3,8 +3,7 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { fileURLToPath } from "node:url";
-import { copyFile, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 
 export const bundleDir = fileURLToPath(
@@ -15,20 +14,24 @@ export const bundleDir = fileURLToPath(
 );
 
 export async function connectMcp(cwd = bundleDir) {
-  for (const file of ["isolation-loader.js", "isolation-require.cjs"]) {
-    await copyFile(
-      new URL(`../../design-data-mcp/test/helpers/${file}`, import.meta.url),
-      join(cwd, file),
-    );
-  }
   const client = new Client({ name: "hub-mcp-eval", version: "1.0.0" });
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [
       "--require",
-      join(cwd, "isolation-require.cjs"),
+      fileURLToPath(
+        new URL(
+          "../../design-data-mcp/test/helpers/isolation-require.cjs",
+          import.meta.url,
+        ),
+      ),
       "--experimental-loader",
-      join(cwd, "isolation-loader.js"),
+      fileURLToPath(
+        new URL(
+          "../../design-data-mcp/test/helpers/isolation-loader.js",
+          import.meta.url,
+        ),
+      ),
       "src/cli.js",
     ],
     cwd,
