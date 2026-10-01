@@ -211,6 +211,37 @@ Export reads the legacy projection generated from canonical `packages/design-dat
 by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
 file. Dry runs still read the file through the API to obtain collection and mode IDs.
 
+Writes capture a raw baseline, build one immutable payload, and fetch the file
+again immediately before POST. Concurrent changes abort the write; only
+collection `variableIds` membership ordering is ignored. Mode order and API
+metadata such as `isExtension` remain significant. This is a best-effort guard,
+not an atomic transaction: Figma can still change between the final GET and POST.
+
+After POST, export maps temporary IDs to real IDs and fetches readback. It checks
+emitted metadata, scalar/color values, alias target IDs, and unchanged unrelated
+variables, deprecated variables, modes and collections. Only written numeric
+values use an absolute tolerance (default `1e-6`, covering observed Figma storage
+noise); untouched state and concurrency checks are exact. Use
+`--numeric-tolerance <NUMBER>` to change this finite, nonnegative tolerance.
+
+`--verification-out <DIR>` records `preflight.json` (including a payload SHA-256),
+`readback.json`, or `ambiguous-outcome.json`. Reports contain verification results,
+not the access token or raw API response. Use a fresh report directory for each
+attempt; existing reports are never overwritten by another attempt. Dry-run
+creates no reports.
+Verification failures return nonzero even after Figma accepted the POST. A
+transport failure, server error, or malformed POST response triggers one
+read-only probe and a nonzero ambiguous-outcome error. The CLI never retries a
+mutation. Inspect the live file before another write; a changed probe alone
+cannot prove that the intended payload landed.
+
+The explicit escape hatches are `--allow-concurrent-changes` (warns about drift,
+then protects the latest unrelated state during readback) and
+`--skip-readback-verification` (reports an **unverified write**, never "Done").
+Neither bypasses ambiguous-outcome handling. These commands do not perform the
+separate Figma library **Publish** action. Automated tests use a loopback HTTP
+server; a live write needs separate approval.
+
 Font weights export as Figma style strings (`Regular`, `Bold`, `ExtraBold`, and
 the other supported weights), not numeric CSS weights. Numeric angle tokens
 export as FLOAT values in degrees. These conversions also apply to aliases
@@ -293,8 +324,8 @@ design-data write -o product-context.json -r "Customizing accent color for brand
 
 Validation runs in two layers:
 
-- **Layer 1 — Structural** (`core/src/validate/structural.rs`): JSON Schema validation against the spec schemas in `packages/design-data-spec/`.
-- **Layer 2 — Relational** (`core/src/validate/relational.rs`): Graph-based catalog rules that check cross-token relationships (alias targets, cascade completeness, naming conventions, accessibility declarations, etc.).
+* **Layer 1 — Structural** (`core/src/validate/structural.rs`): JSON Schema validation against the spec schemas in `packages/design-data-spec/`.
+* **Layer 2 — Relational** (`core/src/validate/relational.rs`): Graph-based catalog rules that check cross-token relationships (alias targets, cascade completeness, naming conventions, accessibility declarations, etc.).
 
 Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rules/`](core/src/validate/rules/). Each file is self-documenting via inline doc comments.
 
@@ -332,8 +363,8 @@ The `design-data-cli` Rust binary is released via **GitHub Releases** (tagged `d
 
 Install options:
 
-- **Cargo:** `cargo install design-data-cli`
-- **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
-- **Homebrew:** (future) `brew install adobe/tap/design-data`
+* **Cargo:** `cargo install design-data-cli`
+* **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
+* **Homebrew:** (future) `brew install adobe/tap/design-data`
 
 The `@adobe/design-data` npm package is now the **JS/wasm library** (`tools/design-data`), not the CLI launcher. It exposes `loadDataset`, `validateDataset`, session helpers, and write utilities via `@adobe/design-data-wasm` under the hood. The `design-data-cli` Cargo.toml version is managed independently; bump it manually before a native release and add a matching changeset for the changelog.
