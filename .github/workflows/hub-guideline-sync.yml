@@ -126,8 +126,9 @@ jobs:
           NODE
 
       - name: Stage docs for the guideline transform
+        id: stage
         if: github.event.inputs.dry_run != 'true'
-        run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs
+        run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs --guidelines-dir ./packages/design-data/guidelines
 
       - name: Transform staged docs into guideline JSON
         if: github.event.inputs.dry_run != 'true'
@@ -157,6 +158,8 @@ jobs:
       - name: Bump embedded guideline count guard
         if: steps.content.outputs.has_changes == 'true'
         id: count
+        env:
+          ALLOW_GUIDELINE_COUNT_DECREASE: ${{ steps.stage.outputs.guideline_count_decrease_allowed }}
         run: node .github/scripts/bump-embedded-counts.mjs
 
       - name: Write guideline sync changeset

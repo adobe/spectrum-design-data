@@ -145,54 +145,6 @@
       "file": "guidelines/content-area-browsing-context.json"
     },
     {
-      "slug": "content-design-grammar-and-mechanics",
-      "title": "Grammar and mechanics",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/content-design/grammar-and-mechanics",
-      "file": "guidelines/content-design-grammar-and-mechanics.json"
-    },
-    {
-      "slug": "content-design-voice-and-tone",
-      "title": "Voice and tone",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/content-design/voice-and-tone",
-      "file": "guidelines/content-design-voice-and-tone.json"
-    },
-    {
-      "slug": "content-grammar-and-mechanics",
-      "title": "Grammar and mechanics",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/grammar-and-mechanics",
-      "file": "guidelines/content-grammar-and-mechanics.json"
-    },
-    {
-      "slug": "content-language-and-inclusivity-writing-about-people",
-      "title": "Writing about people",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/language-and-inclusivity/writing-about-people",
-      "file": "guidelines/content-language-and-inclusivity-writing-about-people.json"
-    },
-    {
-      "slug": "content-language-and-inclusivity-writing-with-visuals",
-      "title": "Writing with visuals",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/language-and-inclusivity/writing-with-visuals",
-      "file": "guidelines/content-language-and-inclusivity-writing-with-visuals.json"
-    },
-    {
-      "slug": "content-voice-and-tone",
-      "title": "Voice and tone",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/content/voice-and-tone",
-      "file": "guidelines/content-voice-and-tone.json"
-    },
-    {
       "slug": "creating-bluelines-browsing-context",
       "title": "Creating bluelines",
       "category": "designing",
@@ -329,38 +281,6 @@
       "file": "guidelines/introduction.json"
     },
     {
-      "slug": "language-and-inclusivity-writing-about-people",
-      "title": "Writing about people",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/content-design/language-and-inclusivity/writing-about-people",
-      "file": "guidelines/language-and-inclusivity-writing-about-people.json"
-    },
-    {
-      "slug": "language-and-inclusivity-writing-with-visuals",
-      "title": "Writing with visuals",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/content-design/language-and-inclusivity/writing-with-visuals",
-      "file": "guidelines/language-and-inclusivity-writing-with-visuals.json"
-    },
-    {
-      "slug": "layout-and-structure-containers",
-      "title": "Containers",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/containers",
-      "file": "guidelines/layout-and-structure-containers.json"
-    },
-    {
-      "slug": "layout-and-structure-spacing-overview",
-      "title": "Spacing",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/layout-and-structure/spacing/overview",
-      "file": "guidelines/layout-and-structure-spacing-overview.json"
-    },
-    {
       "slug": "layout-spacing",
       "title": "Layout spacing",
       "category": "designing",
@@ -487,14 +407,6 @@
       "status": "published",
       "sourceUrl": "https://spectrum.adobe.com/foundations/icons-and-illustrations/using-icons",
       "file": "guidelines/using-icons.json"
-    },
-    {
-      "slug": "visual-language-containers",
-      "title": "Containers",
-      "category": "designing",
-      "status": "published",
-      "sourceUrl": "https://preview.spectrum.adobe.com/foundations/visual-language/containers",
-      "file": "guidelines/visual-language-containers.json"
     },
     {
       "slug": "voice-and-tone",

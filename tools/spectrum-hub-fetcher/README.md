@@ -24,11 +24,24 @@ Use `dry_run=false` to generate a content PR when changes are found. Each run
 uploads its fetch and available review reports as a GitHub Actions artifact,
 including when the health guard fails.
 
+Staging reconciles Hub pages by source path, including known path migrations.
+When a page receives a shorter slug or moves category, staging removes its old
+Markdown copy. Pages absent from the current fetch and legacy-only guidance stay
+untouched, so limited runs do not prune unrelated content.
+
+Pass `--guidelines-dir packages/design-data/guidelines` to `scripts/stage-docs.js`
+to also remove superseded generated JSON. Then run the guideline transform to
+rebuild the manifest and `node .github/scripts/bump-embedded-counts.mjs` to update
+the embedded count guard. `--dry-run` reports removals without changing files.
+For verified removals, set `ALLOW_GUIDELINE_COUNT_DECREASE=true` when running the
+count script locally. The workflow runs these steps in order and permits count
+decreases only when staging actually removes superseded JSON files.
+
 ## What was cross-referenced
 
-* Live, unbounded (no `--limit`) dry-run fetches of `/web/rsp/components/*` (61
+- Live, unbounded (no `--limit`) dry-run fetches of `/web/rsp/components/*` (61
   pages) and `/web/swc/components/*` (18 pages) via `spectrum-hub-fetcher`'s CLI.
-* All 97 files in `packages/design-data/components/`.
+- All 97 files in `packages/design-data/components/`.
 
 ## Decisions requiring review
 
@@ -36,7 +49,7 @@ including when the health guard fails.
    local filename exactly. Low risk, mechanical.
 
 2. **1 curated fan-out** (`COMPONENT_SLUG_FANOUT`): the Hub's single
-   `color-handle-and-loupe` page must route into *two* local components,
+   `color-handle-and-loupe` page must route into _two_ local components,
    `color-handle.json` and `color-loupe.json`. The Hub page's prose is genuinely
    fused across both concepts (not per-component sectioned), so the decision is to
    duplicate the same combined content into both targets and flag it for human
@@ -48,7 +61,7 @@ including when the health guard fails.
 3. **35 local-only components** (`COMPONENTS_WITHOUT_HUB_PAGE`) with no Hub page
    yet — informational only, unaffected by this pipeline until the Hub publishes
    something. Two names in this bucket are easy to mistake for fan-out targets of
-   an *existing* mapped slug but are not: `cards` (hub, 1:1) vs. `card` /
+   an _existing_ mapped slug but are not: `cards` (hub, 1:1) vs. `card` /
    `card-horizontal` / `collection-card` (local-only, unrelated); `calendar` (hub,
    1:1) vs. `single-calendar` / `double-calendar` / `triple-calendar` (local-only,
    unrelated). An earlier manual spot-check in this investigation briefly
@@ -57,10 +70,10 @@ including when the health guard fails.
 
 ## What this table deliberately does not do
 
-* No RSP-vs-SWC merge logic — see the "Phase B" section below.
-* No wiring into any fetch/stage/transform/workflow code. Nothing currently calls
+- No RSP-vs-SWC merge logic — see the "Phase B" section below.
+- No wiring into any fetch/stage/transform/workflow code. Nothing currently calls
   `resolveComponentTargets()` outside of its own tests.
-* No category-prefix mapping (unlike `hub-map.js`'s guideline-side
+- No category-prefix mapping (unlike `hub-map.js`'s guideline-side
   `PREFIX_CATEGORIES`) — component hub paths are flat, so each target's category is
   taken from the existing local component's own `meta.category`, purely for a
   future staging step's convenience.
@@ -73,7 +86,7 @@ under `packages/design-data/components/`, and — the strongest invariant — th
 of all three tables exactly accounts for all 97 local component files with none
 left unaccounted for.
 
-***
+---
 
 # Phase B: RSP/SWC per-section content merge (`component-fetch.js` / `component-merge.js`)
 
@@ -90,18 +103,18 @@ page-existence level (Phase A), so the bead's originally-stated default —
 "prefer the more-complete platform page" — can never be decided by page/heading
 presence alone. The actual rule, implemented in `mergeComponentSections()`:
 
-* **Shared heading, identical text** (after normalizing away scrape noise like
+- **Shared heading, identical text** (after normalizing away scrape noise like
   smart quotes/case): RSP's version is kept, no flag.
-* **Shared heading, genuinely divergent text**: RSP's version is kept as the
+- **Shared heading, genuinely divergent text**: RSP's version is kept as the
   default base, but a `"diverged"` flag carries both texts for human review — this
   is never silently resolved.
-* **RSP-only heading** (including when the Hub has no SWC page at all): RSP's
+- **RSP-only heading** (including when the Hub has no SWC page at all): RSP's
   version is kept, no flag — nothing to reconcile when only one platform has an
   opinion.
-* **SWC-only heading**: not merged into the output (there's no RSP slot for it),
+- **SWC-only heading**: not merged into the output (there's no RSP slot for it),
   but flagged as `"swc-only-section"` so real SWC-only content is never silently
   dropped.
-* **`Component options`, `Anatomy`, `States`, and the other headings in
+- **`Component options`, `Anatomy`, `States`, and the other headings in
   `NON_DIFFABLE_HEADINGS`**: never diffed at all. These either never reach
   `documentBlocks` output (already skipped by
   `s2-docs-to-document-blocks/src/blocks-builder.js`'s `SKIP_SECTIONS` — the two
@@ -116,16 +129,16 @@ Re-verified live for this phase across all 18 shared RSP/SWC pairs, with a full
 post-fragment-inlining section-by-section text diff (not the page/heading-presence
 check Phase A limited itself to):
 
-* **17 of 18 pairs are byte-identical** across every shared heading.
-* The one real divergence found anywhere was `link`'s `Component options` section
+- **17 of 18 pairs are byte-identical** across every shared heading.
+- The one real divergence found anywhere was `link`'s `Component options` section
   (RSP props vs. SWC CSS classes) — already excluded from diffing by design, so it
   produces no flag.
-* `link`'s SWC page also has an entire `Behaviors` section (with subsections) that
+- `link`'s SWC page also has an entire `Behaviors` section (with subsections) that
   RSP's `link` page lacks — the one live case where the `"swc-only-section"` flag
   actually fires.
-* `progress-bar`, `status-light`, and `tabs` have several RSP-only headings SWC's
+- `progress-bar`, `status-light`, and `tabs` have several RSP-only headings SWC's
   thinner page lacks — expected, unremarkable, no flag.
-* `color-handle-and-loupe` (Phase A's fan-out case) is byte-identical between RSP
+- `color-handle-and-loupe` (Phase A's fan-out case) is byte-identical between RSP
   and SWC across all 12 sections — zero flags today.
 
 **Correction to an earlier claim**: Phase A's planning notes (and this file's
@@ -148,13 +161,13 @@ a drift guard asserting `NON_DIFFABLE_HEADINGS` stays equal to
 
 ## What Phase B deliberately does not do
 
-* No wiring into any workflow. Nothing currently calls `fetchComponentPair()` or
+- No wiring into any workflow. Nothing currently calls `fetchComponentPair()` or
   `mergeComponentSections()` outside of their own tests — that's Phase C
   (`hub-component-sync.yml`, a new, separate workflow — not a rename or extension
   of `hub-guideline-sync.yml`).
-* No decision about *where* the merged/flagged output is written, or how flags
+- No decision about _where_ the merged/flagged output is written, or how flags
   surface in a generated PR — that's also Phase C's job.
-* No change to `hub-guideline-sync.yml`, `cli.js`'s existing guideline fetch path,
+- No change to `hub-guideline-sync.yml`, `cli.js`'s existing guideline fetch path,
   or any other part of the already-shipped, live-verified guideline sync. The new
   component-fetch logic is a fully standalone module reusing only the lower-level
   building blocks (`inlineFragments`, `stripNoise`, `splitSections`).

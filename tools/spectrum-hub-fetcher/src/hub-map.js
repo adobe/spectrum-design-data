@@ -42,6 +42,23 @@ const PREFIX_CATEGORIES = [
 
 export const SUPPORTED_PREFIXES = PREFIX_CATEGORIES.map(([prefix]) => prefix);
 
+const GUIDELINE_PATH_ALIASES = {
+  "/foundations/content-design/grammar-and-mechanics":
+    "/content/grammar-and-mechanics",
+  "/foundations/content-design/voice-and-tone": "/content/voice-and-tone",
+  "/foundations/content-design/language-and-inclusivity/writing-about-people":
+    "/content/language-and-inclusivity/writing-about-people",
+  "/foundations/content-design/language-and-inclusivity/writing-with-visuals":
+    "/content/language-and-inclusivity/writing-with-visuals",
+  "/foundations/visual-language/containers":
+    "/foundations/layout-and-structure/containers",
+};
+
+export function canonicalGuidelinePath(path) {
+  const normalized = path.replace(/\/+$/, "");
+  return GUIDELINE_PATH_ALIASES[normalized] ?? normalized;
+}
+
 /**
  * Explicit slug decisions for cases the generic rules below cannot settle on
  * their own. Keep this table small and justified — it is a curated override,

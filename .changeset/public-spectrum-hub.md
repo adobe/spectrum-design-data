@@ -9,4 +9,4 @@ Promote public Spectrum Hub guidance to the stable release channel.
   corpus, including the October 1 public-site sync.
 - **sdk/wasm**: rebuild embedded guidance for MCP and JavaScript consumers.
 - **tools/spectrum-hub-fetcher**: fetch and merge public Hub pages for component and
-  guideline syncs.
+  guideline syncs, reconciling obsolete slugs before transformation.
