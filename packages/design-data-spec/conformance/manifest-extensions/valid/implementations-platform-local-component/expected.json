@@ -1,0 +1,12 @@
+{
+  "implementations": {
+    "tab-bar-ios": [
+      {
+        "platform": "ios",
+        "componentName": "SpectrumTabBar",
+        "package": "SpectrumUI",
+        "implementation": "ios"
+      }
+    ]
+  }
+}

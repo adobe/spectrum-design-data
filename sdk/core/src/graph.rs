@@ -960,6 +960,21 @@ impl TokenGraph {
             }
         }
 
+        // 5b. extensions.implementations — platform-owned refinements of a
+        // component's `implementations` rows. Runs after 5 so a fragment may
+        // target a platform-local component. Rows are upserted, never
+        // whole-array replaced, so other implementations' rows survive.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("implementations"))
+            .and_then(|v| v.as_array())
+        {
+            let platform_id = manifest.get("platform").and_then(|v| v.as_str());
+            for entry in entries {
+                merge_implementation_fragment(&mut self.components, entry, platform_id)?;
+            }
+        }
+
         // 6. extensions.platformExtensions — platform terminology annotating ids in
         // an existing base registry. Replaced by (platform, extends); every termId
         // must already exist in that base registry (extensions never add new ids).
@@ -1948,6 +1963,133 @@ fn upsert_by_key<T>(vec: &mut Vec<T>, key: impl Fn(&T) -> bool, record: T) {
         *existing = record;
     } else {
         vec.push(record);
+    }
+}
+
+/// Merge one `extensions/implementations/` fragment
+/// (`implementation-mapping.schema.json`) into its target component's
+/// `implementations` array. See `spec/manifest.md#extensionsimplementations`.
+///
+/// Each row's owning implementation id is its own `implementation` field, else
+/// the manifest's `platform` id (stamped onto the stored row). A platform only
+/// ever matches rows it owns: rows stamped with the same id, or unstamped
+/// foundation defaults. It never touches another implementation's rows.
+fn merge_implementation_fragment(
+    components: &mut [ComponentRecord],
+    fragment: &Value,
+    platform_id: Option<&str>,
+) -> Result<(), CoreError> {
+    let Some(component) = fragment.get("component").and_then(|v| v.as_str()) else {
+        return Ok(()); // unreachable after Layer 1 fragment validation
+    };
+    let record = components
+        .iter_mut()
+        .find(|c| c.name == component)
+        .ok_or_else(|| {
+            CoreError::ParseError(format!(
+                "platform manifest extensions.implementations targets component \
+                 \"{component}\" which does not exist in the component catalog"
+            ))
+        })?;
+    let Some(obj) = record.raw.as_object_mut() else {
+        return Ok(());
+    };
+    let rows = obj
+        .entry("implementations")
+        .or_insert_with(|| Value::Array(Vec::new()));
+    let Some(rows) = rows.as_array_mut() else {
+        return Err(CoreError::ParseError(format!(
+            "component \"{component}\" has a non-array `implementations` field"
+        )));
+    };
+
+    for entry in fragment
+        .get("implementations")
+        .and_then(|v| v.as_array())
+        .into_iter()
+        .flatten()
+    {
+        let owner = entry
+            .get("implementation")
+            .and_then(|v| v.as_str())
+            .or(platform_id);
+
+        if entry.get("op").and_then(|v| v.as_str()) == Some("remove") {
+            let before = rows.len();
+            rows.retain(|row| !(row_owned_by(row, owner) && remove_selector_matches(entry, row)));
+            if rows.len() == before {
+                return Err(CoreError::ParseError(format!(
+                    "platform manifest extensions.implementations op:\"remove\" on component \
+                     \"{component}\" matched no implementation row owned by {} ({entry})",
+                    owner.map_or_else(|| "this manifest".to_string(), |o| format!("\"{o}\""))
+                )));
+            }
+            continue;
+        }
+
+        let mut row = entry.clone();
+        if let (Some(owner), Some(row_obj)) = (owner, row.as_object_mut()) {
+            row_obj
+                .entry("implementation")
+                .or_insert_with(|| Value::String(owner.to_string()));
+        }
+        upsert_by_key(
+            rows,
+            |existing| same_implementation_row(existing, &row),
+            row.clone(),
+        );
+    }
+    Ok(())
+}
+
+fn str_field<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
+    v.get(key).and_then(|v| v.as_str())
+}
+
+/// A row is owned by `owner` when it is an unstamped foundation default or is
+/// stamped with the same implementation id.
+fn row_owned_by(row: &Value, owner: Option<&str>) -> bool {
+    match str_field(row, "implementation") {
+        None => true,
+        Some(id) => Some(id) == owner,
+    }
+}
+
+/// `op: "remove"` matches a row when every selector field it carries equals the
+/// row's value for that field.
+fn remove_selector_matches(selector: &Value, row: &Value) -> bool {
+    [
+        "platform",
+        "implementation",
+        "componentName",
+        "package",
+        "importPath",
+    ]
+    .iter()
+    .all(|key| match str_field(selector, key) {
+        None => true,
+        Some(want) => str_field(row, key) == Some(want),
+    })
+}
+
+/// Upsert identity. A stamped row is keyed by `(platform, implementation,
+/// componentName)`. An unstamped foundation default has no implementation id,
+/// so it matches when `platform` and `componentName` agree and the two rows
+/// share a module reference (`package` or `importPath`).
+fn same_implementation_row(existing: &Value, incoming: &Value) -> bool {
+    if str_field(existing, "platform") != str_field(incoming, "platform")
+        || str_field(existing, "componentName") != str_field(incoming, "componentName")
+    {
+        return false;
+    }
+    match str_field(existing, "implementation") {
+        Some(id) => str_field(incoming, "implementation") == Some(id),
+        None => ["package", "importPath"].iter().any(|key| {
+            matches!(
+                (str_field(existing, key), str_field(incoming, key)),
+                (Some(a), Some(b)) if a == b
+            )
+        }),
     }
 }
 

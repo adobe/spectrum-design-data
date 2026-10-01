@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "card",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

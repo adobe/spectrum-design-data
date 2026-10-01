@@ -43,6 +43,11 @@ const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
         "platformExtensions",
         "platform-extension.json",
     ),
+    (
+        "implementations",
+        "implementations",
+        "implementation-mapping.schema.json",
+    ),
 ];
 
 /// Locate `packages/design-data-spec/schemas/manifest.schema.json` by walking up
@@ -301,7 +306,7 @@ fn build_extensions_value(
         }
     }
 
-    // components/, fields/, guidelines/, platform-extensions/ — one artifact per
+    // components/, fields/, guidelines/, platform-extensions/, implementations/ — one artifact per
     // file (though a file holding an array of several is tolerated too), all files
     // in the subdirectory concatenated in sorted path order.
     for (dir_name, key, schema_file) in CONCAT_CATEGORIES {
@@ -365,7 +370,7 @@ enum FragmentValidation<'a> {
     /// `tokens/*.tokens.json`: the whole parsed file is itself the cascade array
     /// `cascade-file.schema.json` describes — validated before flattening.
     TokenFile(&'a Path),
-    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`: each
+    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`, `implementations/`: each
     /// flattened entry is one object validated against the category schema.
     Item(&'a Path),
     /// `relationships/`: each flattened entry *without* an `"op"` key (a plain
@@ -819,7 +824,7 @@ mod tests {
     fn swc_web_components_states_extension_is_loaded_via_cascade() {
         let manifest_path = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../platforms/web-components/manifest.json");
-        let mut graph = make_graph();
+        let mut graph = make_graph().with_components(real_components());
         let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         apply_configured(&mut graph, &resolved).unwrap();
 
@@ -840,5 +845,116 @@ mod tests {
         assert!(term_ids.contains(&"focus"));
         assert!(term_ids.contains(&"disabled"));
         assert!(term_ids.contains(&"keyboard-focus"));
+    }
+
+    /// The real foundation component catalog, which the incubating platforms'
+    /// `extensions/implementations/` fragments target.
+    fn real_components() -> Vec<crate::graph::ComponentRecord> {
+        TokenGraph::load_spec_components(
+            &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/components"),
+        )
+        .unwrap()
+    }
+
+    fn button_rows(graph: &TokenGraph) -> Vec<Value> {
+        graph
+            .components
+            .iter()
+            .find(|c| c.name == "button")
+            .and_then(|c| c.raw.get("implementations"))
+            .and_then(|v| v.as_array())
+            .cloned()
+            .expect("button has implementations")
+    }
+
+    /// h890.29: each incubating platform's seeded `extensions/implementations/`
+    /// refines its own foundation default in place — stamping the owner and, for
+    /// SWC gen2, adding `package` alongside `importPath` — without duplicating or
+    /// dropping the other implementation's row.
+    #[test]
+    fn incubating_platforms_refine_their_own_implementation_rows() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms");
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("web-components/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert_eq!(
+            button_rows(&graph),
+            vec![
+                json!({"platform": "web", "componentName": "Button", "package": "@react-spectrum/s2"}),
+                json!({
+                    "platform": "web",
+                    "componentName": "Button",
+                    "package": "@adobe/spectrum-wc",
+                    "importPath": "@adobe/spectrum-wc/components/button",
+                    "notes": "Spectrum 2 web component custom element: swc-button.",
+                    "implementation": "web-components"
+                }),
+            ]
+        );
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("react-spectrum/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+    }
+
+    #[test]
+    fn embedded_snapshot_validates_ejected_implementation_fragments() {
+        let project = tempfile::tempdir().unwrap();
+        let root = project.path().join("embedded");
+        crate::data_source::embedded::materialize_to(&root).unwrap();
+
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms/react-spectrum");
+        let manifest_path = project.path().join("manifest.json");
+        std::fs::copy(source.join("manifest.json"), &manifest_path).unwrap();
+        let fragments = project.path().join("extensions/implementations");
+        std::fs::create_dir_all(&fragments).unwrap();
+        for entry in std::fs::read_dir(source.join("extensions/implementations")).unwrap() {
+            let entry = entry.unwrap();
+            std::fs::copy(entry.path(), fragments.join(entry.file_name())).unwrap();
+        }
+
+        let components =
+            TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
+                .unwrap();
+        let mut graph = make_graph().with_components(components);
+        let resolved = resolved_with_manifest(manifest_path, root.join("packages/tokens/schemas"));
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+
+        let invalid_fragment = fragments.join("invalid.json");
+        std::fs::write(
+            &invalid_fragment,
+            json!({
+                "component": "button",
+                "implementations": [{"platform": "web", "package": "@react-spectrum/s2"}]
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let error = apply_configured(&mut graph, &resolved)
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains(&invalid_fragment.display().to_string()),
+            "{error}"
+        );
+        assert!(error.contains("failed schema validation"), "{error}");
+        assert!(error.contains("componentName"), "{error}");
     }
 }

@@ -4,12 +4,14 @@ Exercises the Layer 2 platform manifest's `extensions/` **directory** loader
 (`packages/design-data-spec/spec/manifest.md#extensions-directory`): a sibling
 `extensions/` tree (or a custom name via the manifest's `extensionsDir` field)
 whose category subdirectories (`tokens/`, `components/`, `fields/`,
-`guidelines/`, `mode-sets/`, `platform-extensions/`, `relationships/`) are discovered,
+`guidelines/`, `mode-sets/`, `platform-extensions/`, `relationships/`,
+`implementations/`) are discovered,
 glob+merged in sorted path order, per-fragment schema-validated, and spliced
 into the manifest before it's applied to the graph.
 
 * `base/dataset.json` — a shared minimal seed graph (three foundation tokens:
-  `btn-bg`, `btn-fg`, `chk-bg` on the `button`/`checkbox` components), loaded
+  `btn-bg`, `btn-fg`, `chk-bg` on the `button`/`checkbox` components, plus a
+  foundation `button` component with two default `implementations` rows), loaded
   once per case before that case's `manifest.json` is applied via
   `apply_configured`.
 * `valid/<case>/` — `manifest.json` + an `extensions/` (or custom-named) tree
@@ -19,13 +21,18 @@ into the manifest before it's applied to the graph.
   {
     "relationships": {
       "byUuid": { "<uuid>": { "count": 1, "value": "8px" } },
-      "absent": ["<uuid>"]
+      "absent": ["<uuid>"],
     },
     "components": { "present": ["tab-bar-ios"] },
     "fields": { "present": ["hapticStyle"] },
     "modeSets": { "present": ["interfaceLevel"] },
     "guidelines": { "present": ["ios-haptics"] },
-    "tokens": { "orderByUuid": ["<uuid-1>", "<uuid-2>"] }
+    "tokens": { "orderByUuid": ["<uuid-1>", "<uuid-2>"] },
+    "implementations": {
+      "<component>": [
+        /* exact merged rows */
+      ],
+    },
   }
   ```
   A case that only needs to prove "loads clean" uses `{}`.
@@ -37,30 +44,39 @@ Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 `manifest_extensions_conformance` (pass/fail + error message matching) and
 `manifest_extensions_behavior` (post-apply graph predicates) test modules.
 
-| Case                                           | Intent                                                                                                                   |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `valid/injects-component`                      | A `components/` fragment is injected as a Platform-layer component.                                                      |
-| `valid/injects-platform-extension`             | A `platform-extensions/` fragment is injected.                                                                           |
-| `valid/injects-field`                          | A `fields/` fragment is injected.                                                                                        |
-| `valid/injects-guideline`                      | A `guidelines/` fragment is injected.                                                                                    |
-| `valid/injects-mode-set`                       | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                        |
-| `valid/injects-relationship`                   | A `relationships/` plain-add fragment is injected.                                                                       |
-| `valid/override-relationship-by-uuid`          | An `op: "override"` entry replaces a plain add sharing its `uuid`, regardless of file sort order.                        |
-| `valid/plain-add-uuid-collision-append`        | Two plain adds sharing a `uuid` both append rather than one overwriting the other.                                       |
-| `valid/remove-relationship-by-uuid`            | An `op: "remove"` entry deletes the matching relationship.                                                               |
-| `valid/tokens-sorted-order`                    | Multiple `tokens/*.tokens.json` files concatenate in sorted path order.                                                  |
-| `valid/later-file-wins`                        | Two `components/` fragments declaring the same component name dedupe to one, later file wins.                            |
-| `valid/custom-extensions-dir`                  | The manifest's `extensionsDir` field is honored in place of the default `extensions/` name.                              |
-| `valid/override-entry-skips-schema-validation` | An `op: "override"` relationship entry is not schema-validated against `relationship.schema.json` (only plain adds are). |
-| `invalid/override-missing-uuid`                | An `op: "override"` relationship entry missing `uuid` fails loudly.                                                      |
-| `invalid/unknown-term-id`                      | A `platform-extensions/` fragment referencing a non-existent `termId` fails loudly.                                      |
-| `invalid/component-missing-name`               | A `components/` fragment missing `name` fails Layer 1 fragment schema validation.                                        |
-| `invalid/field-invalid-kind`                   | A `fields/` fragment with an invalid `kind` enum value fails schema validation.                                          |
-| `invalid/guideline-invalid-category`           | A `guidelines/` fragment with an invalid `category` enum value fails schema validation.                                  |
-| `invalid/mode-set-missing-default`             | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                   |
-| `invalid/platform-extension-missing-extends`   | A `platform-extensions/` fragment missing `extends` fails schema validation.                                             |
-| `invalid/token-invalid-uuid`                   | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                       |
-| `invalid/relationship-missing-scope`           | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                           |
-| `invalid/extensions-dir-parent-traversal`      | `extensionsDir` containing a `..` component is rejected.                                                                 |
-| `invalid/extensions-dir-absolute-path`         | An absolute `extensionsDir` path is rejected.                                                                            |
-| `invalid/unknown-subdir-name`                  | An unrecognized subdirectory directly under `extensions/` (not one of the six known categories) is rejected by name.     |
+| Case                                             | Intent                                                                                                                          |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `valid/injects-component`                        | A `components/` fragment is injected as a Platform-layer component.                                                             |
+| `valid/injects-platform-extension`               | A `platform-extensions/` fragment is injected.                                                                                  |
+| `valid/injects-field`                            | A `fields/` fragment is injected.                                                                                               |
+| `valid/injects-guideline`                        | A `guidelines/` fragment is injected.                                                                                           |
+| `valid/injects-mode-set`                         | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                               |
+| `valid/injects-relationship`                     | A `relationships/` plain-add fragment is injected.                                                                              |
+| `valid/override-relationship-by-uuid`            | An `op: "override"` entry replaces a plain add sharing its `uuid`, regardless of file sort order.                               |
+| `valid/plain-add-uuid-collision-append`          | Two plain adds sharing a `uuid` both append rather than one overwriting the other.                                              |
+| `valid/remove-relationship-by-uuid`              | An `op: "remove"` entry deletes the matching relationship.                                                                      |
+| `valid/tokens-sorted-order`                      | Multiple `tokens/*.tokens.json` files concatenate in sorted path order.                                                         |
+| `valid/later-file-wins`                          | Two `components/` fragments declaring the same component name dedupe to one, later file wins.                                   |
+| `valid/custom-extensions-dir`                    | The manifest's `extensionsDir` field is honored in place of the default `extensions/` name.                                     |
+| `valid/override-entry-skips-schema-validation`   | An `op: "override"` relationship entry is not schema-validated against `relationship.schema.json` (only plain adds are).        |
+| `valid/implementations-upsert-foundation-row`    | An `implementations/` row replaces the foundation default sharing its `importPath` and is stamped with the manifest `platform`. |
+| `valid/implementations-later-file-wins`          | Two fragments upserting the same stamped row dedupe by `implementation` id; the later file wins.                                |
+| `valid/implementations-remove-row`               | An `op: "remove"` selector deletes the matching foundation default.                                                             |
+| `valid/implementations-platform-local-component` | A fragment may target a component added by the same manifest's `components/`.                                                   |
+| `valid/implementations-other-owner-untouched`    | A row stamped with a different `implementation` id is never matched by another owner's upsert.                                  |
+| `invalid/override-missing-uuid`                  | An `op: "override"` relationship entry missing `uuid` fails loudly.                                                             |
+| `invalid/unknown-term-id`                        | A `platform-extensions/` fragment referencing a non-existent `termId` fails loudly.                                             |
+| `invalid/component-missing-name`                 | A `components/` fragment missing `name` fails Layer 1 fragment schema validation.                                               |
+| `invalid/field-invalid-kind`                     | A `fields/` fragment with an invalid `kind` enum value fails schema validation.                                                 |
+| `invalid/guideline-invalid-category`             | A `guidelines/` fragment with an invalid `category` enum value fails schema validation.                                         |
+| `invalid/mode-set-missing-default`               | A `mode-sets/` fragment missing the required `default` field fails Layer 1 fragment schema validation.                          |
+| `invalid/platform-extension-missing-extends`     | A `platform-extensions/` fragment missing `extends` fails schema validation.                                                    |
+| `invalid/token-invalid-uuid`                     | A `tokens/*.tokens.json` fragment with a malformed `uuid` fails schema validation.                                              |
+| `invalid/relationship-missing-scope`             | A `relationships/` plain-add fragment missing `scope` fails schema validation.                                                  |
+| `invalid/extensions-dir-parent-traversal`        | `extensionsDir` containing a `..` component is rejected.                                                                        |
+| `invalid/extensions-dir-absolute-path`           | An absolute `extensionsDir` path is rejected.                                                                                   |
+| `invalid/unknown-subdir-name`                    | An unrecognized subdirectory directly under `extensions/` (not one of the known categories) is rejected by name.                |
+| `invalid/implementations-unknown-component`      | An `implementations/` fragment naming a component absent from the catalog fails loudly.                                         |
+| `invalid/implementations-remove-no-match`        | An `op: "remove"` matching no owned row fails loudly.                                                                           |
+| `invalid/implementations-row-missing-reference`  | A row with neither `package` nor `importPath` fails schema validation.                                                          |
+| `invalid/implementations-unknown-op`             | An `op` other than `"remove"` fails schema validation.                                                                          |
