@@ -293,8 +293,8 @@ design-data write -o product-context.json -r "Customizing accent color for brand
 
 Validation runs in two layers:
 
-* **Layer 1 — Structural** (`core/src/validate/structural.rs`): JSON Schema validation against the spec schemas in `packages/design-data-spec/`.
-* **Layer 2 — Relational** (`core/src/validate/relational.rs`): Graph-based catalog rules that check cross-token relationships (alias targets, cascade completeness, naming conventions, accessibility declarations, etc.).
+- **Layer 1 — Structural** (`core/src/validate/structural.rs`): JSON Schema validation against the spec schemas in `packages/design-data-spec/`.
+- **Layer 2 — Relational** (`core/src/validate/relational.rs`): Graph-based catalog rules that check cross-token relationships (alias targets, cascade completeness, naming conventions, accessibility declarations, etc.).
 
 Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rules/`](core/src/validate/rules/). Each file is self-documenting via inline doc comments.
 
@@ -332,8 +332,8 @@ The `design-data-cli` Rust binary is released via **GitHub Releases** (tagged `d
 
 Install options:
 
-* **Cargo:** `cargo install design-data-cli`
-* **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
-* **Homebrew:** (future) `brew install adobe/tap/design-data`
+- **Cargo:** `cargo install design-data-cli`
+- **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
+- **Homebrew:** (future) `brew install adobe/tap/design-data`
 
 The `@adobe/design-data` npm package is now the **JS/wasm library** (`tools/design-data`), not the CLI launcher. It exposes `loadDataset`, `validateDataset`, session helpers, and write utilities via `@adobe/design-data-wasm` under the hood. The `design-data-cli` Cargo.toml version is managed independently; bump it manually before a native release and add a matching changeset for the changelog.
