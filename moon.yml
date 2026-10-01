@@ -15,6 +15,11 @@ tasks:
       - pnpm
       - ava
       - test
+    inputs:
+      - "test/**/*"
+      - ".github/workflows/**/*.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
   pre-commit:
     command:
       - pnpm
