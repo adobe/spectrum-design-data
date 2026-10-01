@@ -599,9 +599,6 @@ enum FigmaSub {
         /// Figma personal access token (or set FIGMA_TOKEN env var)
         #[arg(long, env = "FIGMA_TOKEN")]
         token: String,
-        /// Generate payload without calling the API
-        #[arg(long)]
-        dry_run: bool,
         /// Path to a name-mapping override artifact (from `figma audit`); overrides
         /// take precedence over the default `{prefix}/{legacyKey}` naming
         #[arg(long, value_name = "PATH")]
@@ -624,6 +621,8 @@ enum FigmaSub {
         /// `property` and only casing/delimiter conversion applies.
         #[arg(long = "code-syntax-manifest", value_name = "PLATFORM=PATH")]
         code_syntax_manifests: Vec<String>,
+        #[command(flatten)]
+        write_options: FigmaWriteOptions,
     },
     /// Import Figma Variable edits back into manifest `overrides` entries
     Import {
@@ -2271,17 +2270,60 @@ fn load_overrides(path: &Path) -> miette::Result<HashMap<String, String>> {
         .collect())
 }
 
+#[derive(clap::Args)]
+struct FigmaWriteOptions {
+    /// Generate payload with a read-only GET; do not write to Figma
+    #[arg(long)]
+    dry_run: bool,
+    /// Override detected concurrent changes (warns; readback remains required)
+    #[arg(long)]
+    allow_concurrent_changes: bool,
+    /// Skip readback verification and report an explicitly unverified write
+    #[arg(long)]
+    skip_readback_verification: bool,
+    /// Directory for preflight, readback and ambiguous-outcome JSON reports
+    #[arg(long, value_name = "DIR")]
+    verification_out: Option<PathBuf>,
+    /// Absolute tolerance for written scalar/color values; untouched state is exact
+    #[arg(long, default_value_t = figma::write_guard::DEFAULT_NUMERIC_TOLERANCE)]
+    numeric_tolerance: f64,
+    #[arg(long, env = "FIGMA_API_BASE_URL", hide = true)]
+    figma_api_base_url: Option<String>,
+}
+
+fn write_figma_report(
+    directory: Option<&Path>,
+    name: &str,
+    report: &serde_json::Value,
+) -> miette::Result<()> {
+    if let Some(directory) = directory {
+        std::fs::write(directory.join(name), serde_json::to_vec_pretty(report).into_diagnostic()?)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("writing Figma report {name}; if POST was attempted, inspect the live file before retrying"))?;
+    }
+    Ok(())
+}
+
 fn run_figma_export(
     path: &Path,
     file_key: &str,
     token: &str,
-    dry_run: bool,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
     code_syntax_manifests: &[String],
+    write_options: &FigmaWriteOptions,
 ) -> miette::Result<ExitCode> {
+    use figma::write_guard;
+    use sha2::{Digest, Sha256};
+
+    write_guard::validate_tolerance(write_options.numeric_tolerance).into_diagnostic()?;
     let rt = tokio::runtime::Runtime::new().into_diagnostic()?;
-    let client = figma::api::FigmaClient::new(token.to_string());
+    let client = match &write_options.figma_api_base_url {
+        Some(base_url) => {
+            figma::api::FigmaClient::with_base_url(token.to_string(), base_url).into_diagnostic()?
+        }
+        None => figma::api::FigmaClient::new(token.to_string()),
+    };
 
     // 0. Load name-mapping overrides, if given.
     let overrides = mapping.map(load_overrides).transpose()?;
@@ -2342,8 +2384,8 @@ fn run_figma_export(
 
     // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
-    let response = rt
-        .block_on(client.get_local_variables(file_key))
+    let (response, baseline) = rt
+        .block_on(client.get_local_variables_with_raw(file_key))
         .map_err(|e| miette::miette!("{e}"))?;
 
     // 3. Build the export payload.
@@ -2356,21 +2398,169 @@ fn run_figma_export(
     )
     .map_err(|e| miette::miette!("{e}"))?;
 
-    // 4. Output or post.
-    if dry_run {
-        println!("{}", serde_json::to_string_pretty(&body).into_diagnostic()?);
+    let payload = serde_json::to_value(&body).into_diagnostic()?;
+    // 4. Output or guard, post once, then verify.
+    if write_options.dry_run {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&payload).into_diagnostic()?
+        );
     } else {
+        write_guard::validate_payload(&baseline, &payload).into_diagnostic()?;
+        let report_dir = write_options.verification_out.as_deref();
+        if let Some(directory) = report_dir {
+            std::fs::create_dir_all(directory).into_diagnostic()?;
+            for name in ["preflight.json", "readback.json", "ambiguous-outcome.json"] {
+                let pending = serde_json::json!({"verified": false, "outcome": "not_attempted"});
+                let mut file = std::fs::OpenOptions::new()
+                    .write(true)
+                    .create_new(true)
+                    .open(directory.join(name))
+                    .into_diagnostic()
+                    .wrap_err(
+                        "verification reports require a fresh directory; no POST attempted",
+                    )?;
+                std::io::Write::write_all(
+                    &mut file,
+                    &serde_json::to_vec_pretty(&pending).into_diagnostic()?,
+                )
+                .into_diagnostic()?;
+            }
+        }
+        let current = rt
+            .block_on(client.get_local_variables_raw(file_key))
+            .into_diagnostic()
+            .wrap_err("preflight GET failed; no POST attempted")?;
+        let drift = write_guard::check_concurrent_change(&baseline, &current);
+        let bytes = serde_json::to_vec(&payload).into_diagnostic()?;
+        let creates = body
+            .variables
+            .iter()
+            .filter(|v| v.action == "CREATE")
+            .count();
+        write_figma_report(
+            report_dir,
+            "preflight.json",
+            &serde_json::json!({
+                "concurrentChangesDetected": drift.is_err(),
+                "concurrentChangesOverridden": drift.is_err() && write_options.allow_concurrent_changes,
+                "creates": creates,
+                "updates": body.variables.len() - creates,
+                "deletions": 0,
+                "modeValues": body.variable_mode_values.len(),
+                "aliasValues": summary.mode_values_aliased,
+                "payloadSha256": format!("{:x}", Sha256::digest(&bytes)),
+                "numericTolerance": write_options.numeric_tolerance,
+                "readbackSkipped": write_options.skip_readback_verification,
+            }),
+        )?;
+        if let Err(ref error) = drift {
+            if !write_options.allow_concurrent_changes {
+                return Err(miette::miette!(
+                    "{error}; POST aborted. Rebuild the payload from a fresh baseline."
+                ));
+            }
+            eprintln!("WARNING: overriding concurrent changes: {error}");
+        }
+        // Even with an override, protect newly observed unrelated state in readback.
+        write_guard::validate_payload(&current, &payload).into_diagnostic()?;
         eprintln!(
             "Posting {} variables to Figma...",
             summary.variables_created
         );
-        let post_response = rt
-            .block_on(client.post_variables(file_key, &body))
-            .map_err(|e| miette::miette!("{e}"))?;
-        eprintln!(
-            "Done. {} ID mappings returned.",
-            post_response.meta.temp_id_to_real_id.len()
-        );
+        let post_response = match rt.block_on(client.post_variables_raw(file_key, &payload)) {
+            Ok(response) => response,
+            Err(error @ figma::FigmaError::AmbiguousWrite(_)) => {
+                let probe = match rt.block_on(client.get_local_variables_raw(file_key)) {
+                    Ok(after) => {
+                        if creates == 0
+                            && write_guard::verify_readback(
+                                &current,
+                                &after,
+                                &payload,
+                                &HashMap::new(),
+                                write_options.numeric_tolerance,
+                            )
+                            .is_ok()
+                        {
+                            "read-only probe matches the expected UPDATE effects; POST acceptance remains unknown".to_string()
+                        } else {
+                            match write_guard::check_concurrent_change(&current, &after) {
+                                Ok(()) => "read-only probe found unchanged state; POST acceptance remains unknown".to_string(),
+                                Err(_) => "read-only probe found changed state; the intended write cannot be verified".to_string(),
+                            }
+                        }
+                    }
+                    Err(_) => "read-only probe failed; live state remains unknown".to_string(),
+                };
+                write_figma_report(
+                    report_dir,
+                    "ambiguous-outcome.json",
+                    &serde_json::json!({
+                        "verified": false, "outcome": "ambiguous", "probe": probe,
+                        "automaticMutationRetries": 0,
+                    }),
+                )?;
+                return Err(miette::miette!("{error}. {probe}. No automatic retry; verify the live file manually before any further write."));
+            }
+            Err(error) => return Err(miette::miette!("{error}")),
+        };
+        if write_options.skip_readback_verification {
+            eprintln!(
+                "WARNING: unverified write accepted; readback verification was explicitly skipped."
+            );
+            write_figma_report(
+                report_dir,
+                "readback.json",
+                &serde_json::json!({
+                    "verified": false, "readbackSkipped": true,
+                }),
+            )?;
+        } else {
+            let after = match rt.block_on(client.get_local_variables_raw(file_key)) {
+                Ok(after) => after,
+                Err(error) => {
+                    write_figma_report(
+                        report_dir,
+                        "readback.json",
+                        &serde_json::json!({
+                            "verified": false, "outcome": "readback_failed",
+                        }),
+                    )?;
+                    return Err(miette::miette!("POST accepted but readback GET failed: {error}. Write is unverified. Inspect the live file before retrying; no automatic retry."));
+                }
+            };
+            let result = write_guard::verify_readback(
+                &current,
+                &after,
+                &payload,
+                &post_response.meta.temp_id_to_real_id,
+                write_options.numeric_tolerance,
+            );
+            match result {
+                Ok(report) => {
+                    write_figma_report(
+                        report_dir,
+                        "readback.json",
+                        &serde_json::to_value(report).into_diagnostic()?,
+                    )?;
+                    eprintln!(
+                        "Done. Figma write verified. {} ID mappings returned.",
+                        post_response.meta.temp_id_to_real_id.len()
+                    );
+                }
+                Err(error) => {
+                    write_figma_report(
+                        report_dir,
+                        "readback.json",
+                        &serde_json::json!({
+                            "verified": false, "error": error.to_string(),
+                        }),
+                    )?;
+                    return Err(miette::miette!("{error}. POST was accepted; inspect the live file before retrying. No automatic retry."));
+                }
+            }
+        }
     }
 
     // 5. Print summary to stderr.
@@ -3387,18 +3577,18 @@ fn main() -> ExitCode {
                 path,
                 file_key,
                 token,
-                dry_run,
                 mapping,
                 manifest,
                 code_syntax_manifests,
+                write_options,
             } => run_figma_export(
                 &path,
                 &file_key,
                 &token,
-                dry_run,
                 mapping.as_deref(),
                 manifest.as_deref(),
                 &code_syntax_manifests,
+                &write_options,
             ),
             FigmaSub::Import {
                 path,
