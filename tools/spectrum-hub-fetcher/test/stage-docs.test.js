@@ -12,7 +12,6 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,7 +27,9 @@ const PREVIEW = "https://preview.spectrum.adobe.com";
 const PUBLIC = "https://spectrum.adobe.com";
 
 test.beforeEach((t) => {
-  const root = mkdtempSync(join(tmpdir(), "hub-stage-docs-"));
+  const root = mkdtempSync(
+    fileURLToPath(new URL("../.stage-docs-", import.meta.url)),
+  );
   t.context = {
     root,
     from: join(root, "fetch"),
@@ -317,3 +318,79 @@ test("published Hub guidelines have no preview sources or duplicate page identit
     identities.add(identity);
   }
 });
+
+function normalizeProse(text) {
+  return text
+    .normalize("NFKC")
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+const CONTENT_FACTS = {
+  "writing-for-errors": [
+    "Choose the message first, then the component",
+    "Use plain language, and avoid jargon",
+    "Don't blame the user, even if the error is their fault",
+    "Save “sorry” for serious errors",
+    "Use passive voice sparingly",
+  ],
+  "typography-system": [
+    "Spectrum recommends ExtraBold as the heaviest font weight for most use cases",
+    "In limited cases, products may use the Black font weight to support product-specific branding",
+    "Black should be reserved for heading type styles and used at 18 px or larger to maintain legibility",
+  ],
+  containers: [
+    "they group related concepts together into distinct areas",
+    "Emphasized containers should be used sparingly",
+    "When deciding whether a container should be emphasized, consider the rest of the page",
+    "While there are exceptions, generally only one group at a time should be emphasized on a page",
+    "For example, a group of related cards can use a drop shadow, but not every element on a page should have a drop shadow",
+    "If the whole container is interactive, hover is shown through a slightly more prominent drop shadow",
+    "spacing is used to create separation between concepts",
+    "Borders can also be used around objects as an alternate style to a background color, and should be used without a fill",
+  ],
+};
+
+for (const [slug, facts] of Object.entries(CONTENT_FACTS)) {
+  test(`published ${slug} preserves content facts through staging and transformation`, (t) => {
+    const source = readFileSync(
+      new URL(`../../../docs/s2-docs/designing/${slug}.md`, import.meta.url),
+      "utf8",
+    );
+    mkdirSync(join(t.context.from, "designing"), { recursive: true });
+    writeFileSync(join(t.context.from, "designing", `${slug}.md`), source);
+    stage(t.context);
+    const staged = readFileSync(
+      join(t.context.to, "designing", `${slug}.md`),
+      "utf8",
+    );
+    const { doc } = buildGuideline(parseDoc(staged), slug);
+    const canonical = JSON.parse(
+      readFileSync(
+        new URL(
+          `../../../packages/design-data/guidelines/${slug}.json`,
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+    t.deepEqual(
+      doc,
+      canonical,
+      "checked-in JSON must match the staged source transform",
+    );
+    const prose = normalizeProse(
+      doc.documentBlocks.map((block) => block.content ?? "").join(" "),
+    );
+    for (const fact of facts) {
+      t.true(
+        normalizeProse(staged).includes(normalizeProse(fact)),
+        `Markdown: ${fact}`,
+      );
+      t.true(prose.includes(normalizeProse(fact)), `documentBlocks: ${fact}`);
+    }
+  });
+}
