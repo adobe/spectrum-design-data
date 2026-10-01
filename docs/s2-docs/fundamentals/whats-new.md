@@ -1,8 +1,8 @@
 ---
 title: Great design systems evolve alongside the people who use them
 category: fundamentals
-source_url: https://preview.spectrum.adobe.com/getting-started/whats-new
-last_updated: '2026-09-09'
+source_url: https://spectrum.adobe.com/getting-started/whats-new
+last_updated: '2026-09-29'
 status: published
 tags: []
 hub_path: /getting-started/whats-new
@@ -10,7 +10,7 @@ hub_path: /getting-started/whats-new
 
 # Great design systems evolve alongside the people who use them
 
-## September 14, 2026
+## September 30, 2026
 
 Release 1.0
 

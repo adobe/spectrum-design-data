@@ -1,7 +1,7 @@
 ---
 title: FAQs
 category: support
-source_url: https://preview.spectrum.adobe.com/support
+source_url: https://spectrum.adobe.com/support
 last_updated: '2026-08-19'
 status: published
 tags: []
@@ -115,6 +115,14 @@ When collaborating with your design team and product leaders throughout the tran
 ## Where can I find Spectrum 2 components and styles in Figma?
 
 The Spectrum team manages Spectrum 2 components and styles as Figma libraries. These are available on the Resources page.
+
+## Where can I find the archived Spectrum 1 documentation?
+
+The Spectrum 1 is retired and is no longer supported. The related websites have been in maintenance mode since April 21, 2025. For now, we offer available archived web content for Adobe-internal reference only. Spectrum 1 design documentation archive (VPN required) Spectrum 1 Contributions documentation archive (VPN required)
+
+## Where can I find the Spectrum Patterns website?
+
+The migration of Spectrum Patterns to the new website is underway. In the meanwhile, the original Spectrum Patterns website remains accessible for reference. If you have questions regarding the content, please contact the corresponding design team that represents your product area or focus.
 
 ## Who should I reach out to if I have questions?
 

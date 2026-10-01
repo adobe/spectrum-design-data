@@ -1,7 +1,7 @@
 ---
 title: Voice and tone
 category: designing
-source_url: https://main--spectrum-hub--adobe.aem.live/content/voice-and-tone
+source_url: https://spectrum.adobe.com/content/voice-and-tone
 last_updated: '2026-09-14'
 status: published
 tags:
@@ -44,7 +44,7 @@ If voice is our products' personality, then tone is all the different ways we ex
 
 ### Tone Spectrum
 
-The right tone depends on a user’s contextual needs and corresponding emotions for that experience, as well as how involved and emotional we need to be in the process. Think of the tone for any given experience as being on a spectrum: Tone can fall on a spectrum going from motivational to helpful, helpful to instructive, instructive to reassuring, reassuring to supportive.
+The right tone depends on a user’s contextual needs and corresponding emotions for that experience, as well as how involved and emotional we need to be in the process. Think of the tone for any given experience as being on a spectrum: Image: Unlabeled image (source: https://spectrum.adobe.com/content/media_12f84ec54da70f6105c953de2d8d0e1ab408de467.png?width=750&format=png&optimize=medium)Tone can fall on a spectrum going from motivational to helpful, helpful to instructive, instructive to reassuring, reassuring to supportive.
 
 ### Tone guide
 

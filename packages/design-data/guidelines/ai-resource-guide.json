@@ -8,35 +8,31 @@
     { "type": "purpose", "content": "AI resource guide" },
     {
       "type": "guideline",
-      "content": "For component specs, anatomy, usage guidelines, design tokens, and Figma resources. View the Spectrum 2 Design Data website View the Figma MCP (connects Claude to Figma libraries)"
+      "content": "Protopack is a streamlined prototyping foundation built by Adobe Design Technology. It removes setup friction and gives you a ready-to-use environment aligned with Adobe standards, so you can focus on building and iterating instead of configuring. View the AD AI Prototyping Quick Start wiki Join the Protopack Slack channel"
     },
     {
       "type": "guideline",
-      "content": "Protopack is the Design Technology team's streamlined prototyping foundation. Protopack simplifies setup, includes production-ready Spectrum components, integrates with Adobe services, and supports easy deployment. It removes much of the configuration overhead so you can focus on designing, iterating, and exploring ideas.\" View the AD AI Prototyping Quick Start wiki View the Awesome Deployment Platform wiki Join the Protopack Slack channel"
+      "content": "@adobe/design-data-skill [npm: github].\n\nA skill the sets up access agents access to Spectrum design tokens, component schemas, and design-system data via the design data CLI."
     },
     {
       "type": "guideline",
-      "content": "Protopack for React Spectrum.\n\nDownload Protopack and view the RSP template View the React Spectrum Starter template in the Protopack app View the React Spectrum AI integration overview View the React Spectrum website"
+      "content": "@adobe/design-data-mcp [npm: github].\n\nThe MCP server for Adobe Spectrum design tokens, component schemas, and design guidelines and documentation."
     },
     {
       "type": "guideline",
-      "content": "Protopack for Spectrum Web Components.\n\nDownload Protopack and view the SWC template View the Spectrum 2 Web Components Starter template in the Protopack app View the Spectrum Web Components AI documentation View the Spectrum Web Components website"
+      "content": "React Spectrum.\n\nView the React Spectrum AI integration overview"
     },
     {
       "type": "guideline",
-      "content": "React Spectrum.\n\nView the React Spectrum AI integration overview View the React Spectrum website View the React Spectrum GitHub repository"
+      "content": "Spectrum Web Components.\n\nView the Spectrum Web Components AI skills"
     },
     {
       "type": "guideline",
-      "content": "Spectrum Web Components.\n\nView the Spectrum Web Components AI documentation View the Spectrum Web Components website View the Spectrum Web Components GitHub repository"
-    },
-    {
-      "type": "guideline",
-      "content": "Spectrum design data.\n\nView the Spectrum 2 Design Data AI resources View the Spectrum 2 Design Data website View the Spectrum 2 Design Data tools overview View the Spectrum 2 Design Data GitHub repository"
+      "content": "Spectrum 2 Web Skill helps AI agents create, review, and refine Spectrum 2 web UI with approved components, design tokens, accessibility guidance, and links to Spectrum sources. It's also a unifying skill that will play nice with other Spectrum-related skill you're already using such as the React Spectrum S2 Skill. Spectrum Toolkit lets you inspect, stage edits, and copy the changes as a prompt for your agent. It's an easy way for you to use the design system, components, and icons, in your web projects."
     }
   ],
-  "sourceUrl": "https://main--spectrum-hub--adobe.aem.live/support/ai-resource-guide",
-  "lastUpdated": "2026-08-27",
+  "sourceUrl": "https://spectrum.adobe.com/support/ai-resource-guide",
+  "lastUpdated": "2026-09-29",
   "status": "published",
   "tags": [
     "AI tooling",
