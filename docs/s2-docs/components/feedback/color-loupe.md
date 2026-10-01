@@ -5,7 +5,7 @@ last_updated: null
 status: published
 tags: []
 hub_path: /web/rsp/components/color-handle-and-loupe
-swc_exists: true
+swc_exists: false
 ---
 
 # Color handle and loupe
