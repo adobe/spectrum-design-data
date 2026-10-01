@@ -1,5 +1,17 @@
 # @adobe/design-data-tui
 
+## 0.14.1
+
+### Patch Changes
+
+- [#1516](https://github.com/adobe/spectrum-design-data/pull/1516) [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix standalone platform manifest loading with implementation fragments.
+  - **sdk/core/src/data_source/embedded.rs**: embed fragment schemas and dependencies.
+    Refresh older cached snapshot layouts.
+  - **sdk/core/src/manifest.rs**: cover ejected mappings and reject invalid implementation rows.
+  - **sdk/core/build.rs**, **sdk/moon.yml**: rebuild and check embedded schema changes.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
 ## 0.14.0
 
 ### Minor Changes
