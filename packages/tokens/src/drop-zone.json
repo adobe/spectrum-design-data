@@ -91,6 +91,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "drop-zone",
     "value": "428px",
-    "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273"
+    "uuid": "2097b13e-94b3-4a06-a0af-c7d8420d1273",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-3x-large"
   }
 }

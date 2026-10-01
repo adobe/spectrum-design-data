@@ -58,7 +58,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "action-bar",
     "value": "{component-height-400}",
-    "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd"
+    "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd",
+    "deprecated": true,
+    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly, no change.",
+    "renamed": "banner-height-medium"
   },
   "action-bar-label-to-action-group-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -73,7 +76,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "action-bar",
     "value": "176px",
-    "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f"
+    "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared banner-minimum-width-* scale.",
+    "renamed": "banner-minimum-width-medium"
   },
   "action-bar-top-to-content-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

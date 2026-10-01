@@ -187,25 +187,33 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-300}",
-    "uuid": "49130d66-edfb-48bd-8648-96c47f40a884"
+    "uuid": "49130d66-edfb-48bd-8648-96c47f40a884",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "tab-item-compact-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-200}",
-    "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702"
+    "uuid": "6d781a0e-e03d-4750-ae4f-67a29d731702",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "tab-item-compact-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-100}",
-    "uuid": "e8c7c826-548d-4037-b064-3cf699675d35"
+    "uuid": "e8c7c826-548d-4037-b064-3cf699675d35",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "tab-item-compact-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-75}",
-    "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96"
+    "uuid": "25f7d9a5-9464-4447-97d9-97839b371f96",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "tab-item-focus-indicator-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -291,25 +299,37 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-500}",
-    "uuid": "42ed814c-5044-4c70-b82f-b49f8226241e"
+    "uuid": "42ed814c-5044-4c70-b82f-b49f8226241e",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-3x-large"
   },
   "tab-item-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-400}",
-    "uuid": "8abd0b0e-fd6d-4064-9d0e-1ab998fcb0ce"
+    "uuid": "8abd0b0e-fd6d-4064-9d0e-1ab998fcb0ce",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-2x-large"
   },
   "tab-item-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-300}",
-    "uuid": "5d2288f4-f383-47fa-baca-0168cb46750a"
+    "uuid": "5d2288f4-f383-47fa-baca-0168cb46750a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-extra-large"
   },
   "tab-item-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "tabs",
     "value": "{component-height-200}",
-    "uuid": "7b31cf38-5bac-4f79-a4f1-172a4ea66e10"
+    "uuid": "7b31cf38-5bac-4f79-a4f1-172a4ea66e10",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-large"
   },
   "tab-item-start-to-edge-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

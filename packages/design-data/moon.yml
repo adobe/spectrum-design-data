@@ -87,6 +87,8 @@ tasks:
       - "@globs(tokens)"
       - "@globs(catalogs)"
       - "@globs(registry)"
+      # Relationship edits must invalidate cached dataset validation.
+      - "@globs(relationships)"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/design-data-spec/schemas/**/*.json"
 
@@ -128,6 +130,8 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"
+      # --relationships-path reads this directory independently of tokens.
+      - "@globs(relationships)"
       - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
@@ -150,8 +154,8 @@ tasks:
     outputs:
       - "/packages/tokens/src/**/*.json"
 
-  # CI guard: verify that packages/tokens/src/ is in sync with the cascade
-  # source. Fails if a PR updates cascade tokens without re-running legacy-output.
+  # Verify that legacy -> cascade -> legacy conversion preserves tokens/src.
+  # tokens:verifyLegacyOutput checks parity with the current cascade source.
   roundtrip-verify:
     command: ../../sdk/target/debug/design-data
     args:

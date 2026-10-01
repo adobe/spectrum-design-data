@@ -42,13 +42,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-panel",
     "value": "400px",
-    "uuid": "11400ef3-c995-41bc-8a9d-eb389d95f360"
+    "uuid": "11400ef3-c995-41bc-8a9d-eb389d95f360",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-extra-large"
   },
   "standard-panel-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-panel",
     "value": "200px",
-    "uuid": "37ab7428-8175-409f-8e74-55e51a962139"
+    "uuid": "37ab7428-8175-409f-8e74-55e51a962139",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-minimum-width-medium"
   },
   "standard-panel-title-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -87,6 +93,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "standard-panel",
     "value": "260px",
-    "uuid": "41cd9d92-4d69-4aaa-9c95-e980aa5eb992"
+    "uuid": "41cd9d92-4d69-4aaa-9c95-e980aa5eb992",
+    "deprecated": true,
+    "deprecated_comment": "Manually adjusted per t-shirt size, bounded by separate min/max tokens; not appropriate for a foundational token."
   }
 }

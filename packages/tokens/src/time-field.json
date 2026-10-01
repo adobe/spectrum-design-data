@@ -3,7 +3,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "time-field",
     "value": 2.5,
-    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f"
+    "uuid": "21bb1275-44e7-49be-926a-66966e969a6f",
+    "deprecated": true,
+    "deprecated_comment": "Fixed input pattern (mm/dd/yyyy or hh:mm) is component-specific by nature; platform-specific token, not foundational."
   },
   "time-field-text-to-visual": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-circle",
     "uuid": "8eb6c228-6374-4243-84c3-5a5d3236268e",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "80px",
         "uuid": "c7719369-7d3d-4446-ade2-08abb472a985"
       }
-    }
+    },
+    "renamed": "visual-size-800"
   },
   "progress-circle-size-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-circle",
     "uuid": "f275f342-c396-4781-944e-07cb302f5241",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "40px",
         "uuid": "c380cf9b-cb59-465c-9b56-41654d3239f1"
       }
-    }
+    },
+    "renamed": "visual-size-300"
   },
   "progress-circle-size-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-circle",
     "uuid": "ab2492f4-18ef-471b-94f7-9998be139116",
+    "deprecated": true,
+    "deprecated_comment": "remapped to visual sizing for visual elements (avatar, thumbnails, etc)",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,7 +56,8 @@
         "value": "20px",
         "uuid": "a7fafd60-dc38-425a-b6b6-952a06d30ab4"
       }
-    }
+    },
+    "renamed": "visual-size-50"
   },
   "progress-circle-thickness-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tooltip",
     "uuid": "e606fea0-3540-4461-96b5-c57e9d9b39ef",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,7 +16,8 @@
         "value": "200px",
         "uuid": "6d7623e1-65f5-4af5-8c08-b33b093b85ae"
       }
-    }
+    },
+    "renamed": "container-maximum-width-extra-small"
   },
   "tooltip-tip-corner-radius": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -26,6 +29,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tooltip",
     "uuid": "85cce135-1150-4d93-9347-ecf23f8a48e5",
+    "deprecated": true,
+    "deprecated_comment": "These can stay component-specific tokens, but the values should be updated to reference sizes that map to the primitive size scale",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -37,12 +42,15 @@
         "value": "6px",
         "uuid": "70c9f65f-1e23-4c47-94dd-0c3ddde15743"
       }
-    }
+    },
+    "renamed": "size-75"
   },
   "tooltip-tip-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tooltip",
     "uuid": "0b509ce5-5f52-4cb0-8811-52a1264ff473",
+    "deprecated": true,
+    "deprecated_comment": "These can stay component-specific tokens, but the values should be updated to reference sizes that map to the primitive size scale",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -54,6 +62,7 @@
         "value": "12px",
         "uuid": "ad2c09a6-c42e-4eef-94a3-6c2180c6e2af"
       }
-    }
+    },
+    "renamed": "size-100"
   }
 }

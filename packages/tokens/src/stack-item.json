@@ -101,6 +101,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "stack-item",
     "uuid": "1748229e-c8e2-40fb-8932-a8d094cf5689",
+    "deprecated": true,
+    "deprecated_comment": "Value is bound by the container it sits inside; not an independent measurement, so no token needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

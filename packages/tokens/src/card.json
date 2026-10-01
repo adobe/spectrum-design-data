@@ -15,31 +15,46 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "400px",
-    "uuid": "7a94daad-ec68-4ef1-9c84-9bf6c9b6b696"
+    "uuid": "7a94daad-ec68-4ef1-9c84-9bf6c9b6b696",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-3x-large"
   },
   "card-default-width-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "120px",
-    "uuid": "b99da217-1715-446c-9120-53e435cb0d0a"
+    "uuid": "b99da217-1715-446c-9120-53e435cb0d0a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-extra-small"
   },
   "card-default-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "320px",
-    "uuid": "dc3ab4d0-f006-4ade-91da-ef263a676244"
+    "uuid": "dc3ab4d0-f006-4ade-91da-ef263a676244",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-2x-large"
   },
   "card-default-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "240px",
-    "uuid": "5645fd64-11a8-4a0e-95f6-2f0cd89f5852"
+    "uuid": "5645fd64-11a8-4a0e-95f6-2f0cd89f5852",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-large"
   },
   "card-default-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "180px",
-    "uuid": "bec36248-9c3d-4ecd-857e-c5c20bdc0e1a"
+    "uuid": "bec36248-9c3d-4ecd-857e-c5c20bdc0e1a",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-width-* scale.",
+    "renamed": "container-width-medium"
   },
   "card-description-to-footer": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -198,61 +213,91 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "460px",
-    "uuid": "6f924664-b056-4fdb-a6ab-c5609e3e9316"
+    "uuid": "6f924664-b056-4fdb-a6ab-c5609e3e9316",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-extra-large"
   },
   "card-maximum-width-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "140px",
-    "uuid": "9b2b13ac-1728-49f5-8e15-6eeed2e7f855"
+    "uuid": "9b2b13ac-1728-49f5-8e15-6eeed2e7f855",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-extra-small"
   },
   "card-maximum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "370px",
-    "uuid": "2e85d49c-4002-4beb-9173-f4b2ab78d043"
+    "uuid": "2e85d49c-4002-4beb-9173-f4b2ab78d043",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-large"
   },
   "card-maximum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "280px",
-    "uuid": "ccfe1006-0ddd-4203-b0e0-4c92a090c376"
+    "uuid": "ccfe1006-0ddd-4203-b0e0-4c92a090c376",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-medium"
   },
   "card-maximum-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "210px",
-    "uuid": "42b0d345-b069-48b6-be41-6ed9047097d4"
+    "uuid": "42b0d345-b069-48b6-be41-6ed9047097d4",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
+    "renamed": "container-maximum-width-small"
   },
   "card-minimum-height-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "300px",
-    "uuid": "ef218a9a-900a-4454-840c-2380020bcbf3"
+    "uuid": "ef218a9a-900a-4454-840c-2380020bcbf3",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-height-* scale.",
+    "renamed": "container-minimum-height-large"
   },
   "card-minimum-height-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "90px",
-    "uuid": "f4492a8a-8cb4-481f-a2e4-73da516023be"
+    "uuid": "f4492a8a-8cb4-481f-a2e4-73da516023be",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-height-* scale.",
+    "renamed": "container-minimum-height-3x-small"
   },
   "card-minimum-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "240px",
-    "uuid": "2047247e-07d1-4b9b-b184-c173e6421daf"
+    "uuid": "2047247e-07d1-4b9b-b184-c173e6421daf",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-height-* scale.",
+    "renamed": "container-minimum-height-medium"
   },
   "card-minimum-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "180px",
-    "uuid": "a29c460d-3496-49e9-8996-f4b42b9fbce7"
+    "uuid": "a29c460d-3496-49e9-8996-f4b42b9fbce7",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-height-* scale.",
+    "renamed": "container-minimum-height-small"
   },
   "card-minimum-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "135px",
-    "uuid": "862e84ab-4efa-4c8e-a0e0-5ed158dadbcb"
+    "uuid": "862e84ab-4efa-4c8e-a0e0-5ed158dadbcb",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-height-* scale.",
+    "renamed": "container-minimum-height-extra-small"
   },
   "card-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -267,43 +312,62 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "100px",
-    "uuid": "3a11949c-f1ac-490b-8416-f4883402d105"
+    "uuid": "3a11949c-f1ac-490b-8416-f4883402d105",
+    "deprecated": true,
+    "deprecated_comment": "Duplicate of card-minimum-width-extra-small; not in any S2 spec, no replacement needed."
   },
   "card-minimum-width-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "340px",
-    "uuid": "7a98c2aa-404f-4fba-a20d-f5b73919b13e"
+    "uuid": "7a98c2aa-404f-4fba-a20d-f5b73919b13e",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-2x-large"
   },
   "card-minimum-width-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "100px",
-    "uuid": "dad01ae6-b161-4d09-8296-33c6ee7d8ca1"
+    "uuid": "dad01ae6-b161-4d09-8296-33c6ee7d8ca1",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-extra-small"
   },
   "card-minimum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "270px",
-    "uuid": "549fbfad-78b7-430d-8fac-7d23084f2bea"
+    "uuid": "549fbfad-78b7-430d-8fac-7d23084f2bea",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-extra-large"
   },
   "card-minimum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "200px",
-    "uuid": "813d9d3b-8e02-44d9-a898-3045947edc08"
+    "uuid": "813d9d3b-8e02-44d9-a898-3045947edc08",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-medium"
   },
   "card-minimum-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "150px",
-    "uuid": "6d94093e-daba-4312-b083-61f44d027737"
+    "uuid": "6d94093e-daba-4312-b083-61f44d027737",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale.",
+    "renamed": "container-minimum-width-small"
   },
   "card-preview-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "card",
     "value": "130px",
-    "uuid": "58eb5be8-644f-448e-99b9-94d1fbb93240"
+    "uuid": "58eb5be8-644f-448e-99b9-94d1fbb93240",
+    "deprecated": true,
+    "deprecated_comment": "Not found in any S2 token specs, no replacement needed."
   },
   "card-selection-background-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json",

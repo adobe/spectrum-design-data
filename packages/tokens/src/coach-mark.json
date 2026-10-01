@@ -49,6 +49,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "coach-mark",
     "uuid": "6ba9d196-81bc-4580-a7e2-b6436c1602bd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -60,7 +62,8 @@
         "value": "248px",
         "uuid": "7f8346b2-f8bf-441d-8412-2a2a28cf4b90"
       }
-    }
+    },
+    "renamed": "container-maximum-width-large"
   },
   "coach-mark-media-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -100,6 +103,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "coach-mark",
     "uuid": "e47ef136-eb89-4ca6-97ef-257e9452691c",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale; grow-only floor, no independent minimum below the default.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -111,7 +116,8 @@
         "value": "216px",
         "uuid": "9004d69e-5726-42f5-a4d0-de09db2de784"
       }
-    }
+    },
+    "renamed": "container-minimum-width-extra-large"
   },
   "coach-mark-pagination-body-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -195,6 +201,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "coach-mark",
     "uuid": "f8383184-47bf-4ff9-af46-cf7739c37780",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared container-minimum-width-* scale; renders at this size by default and grows to the maximum, no smaller floor of its own.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -206,6 +214,7 @@
         "value": "216px",
         "uuid": "b3f14387-44fd-43d3-a152-c8e691ef87df"
       }
-    }
+    },
+    "renamed": "container-minimum-width-extra-large"
   }
 }

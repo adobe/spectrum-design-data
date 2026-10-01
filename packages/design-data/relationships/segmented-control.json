@@ -408,7 +408,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "965c85ea-398f-4a75-8014-91b86061f33e",
     "uuid": "4aaef8d2-aa58-46b8-837c-15d794cfcdb5",
-    "legacyKey": "segmented-control-item-height"
+    "legacyKey": "segmented-control-item-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-height-* scale.",
+      "replacedBy": "61de58a3-53ed-4dd8-8937-08920b00968c"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 251 of the mapping sheet."
   },
   {
     "scope": {
@@ -419,7 +425,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "265px",
     "uuid": "efa7a73d-611e-44a1-8ea5-0bad83ef77de",
-    "legacyKey": "segmented-control-item-maximum-width"
+    "legacyKey": "segmented-control-item-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared base-maximum-width-* scale.",
+      "replacedBy": "2038fafb-2a72-462e-bf57-1b6c45b6a2a5"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 252 of the mapping sheet."
   },
   {
     "scope": {

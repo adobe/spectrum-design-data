@@ -32,7 +32,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "72px",
     "uuid": "00c313bf-61be-4f5a-9d26-3e9f1ea0e950",
-    "legacyKey": "bar-panel-maximum-width"
+    "legacyKey": "bar-panel-maximum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Not resizable; value is just content + padding + density, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 50 of the mapping sheet."
   },
   {
     "scope": {
@@ -42,7 +47,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "40px",
     "uuid": "db0862a7-3a92-4c24-a06a-d20acfd94e1b",
-    "legacyKey": "bar-panel-minimum-width"
+    "legacyKey": "bar-panel-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Not resizable; value is just content + padding + density, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 51 of the mapping sheet."
   },
   {
     "scope": {
@@ -67,6 +77,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "c0e0d08b-e22f-44d3-b547-6bd173d00e1b",
-    "legacyKey": "bar-panel-width"
+    "legacyKey": "bar-panel-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Not resizable; value is just content + padding + density, no token needed."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 52 of the mapping sheet."
   }
 ]

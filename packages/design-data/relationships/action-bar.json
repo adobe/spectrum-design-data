@@ -659,7 +659,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "b00a338c-f297-486a-94c8-cbfa8f6392c2",
     "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd",
-    "legacyKey": "action-bar-height"
+    "legacyKey": "action-bar-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly, no change.",
+      "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 3 of the mapping sheet."
   },
   {
     "scope": {
@@ -688,7 +694,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "176px",
     "uuid": "9fb582b4-38e6-43d0-9b94-69964fb24c9f",
-    "legacyKey": "action-bar-minimum-width"
+    "legacyKey": "action-bar-minimum-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared banner-minimum-width-* scale.",
+      "replacedBy": "20d5b444-a329-4d64-b237-a9652437f0e1"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 4 of the mapping sheet."
   },
   {
     "scope": {
