@@ -2721,7 +2721,7 @@
       "anatomy": "visual",
       "scaleIndex": 50
     },
-    "value": "16px",
+    "$ref": "1d7aaaf6-0a4b-41a7-a510-d3dbcee6996f",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "c95dc6f0-3784-4367-86ea-bcccd6123a88",
     "lifecycle": {
@@ -2736,7 +2736,7 @@
       "anatomy": "visual",
       "scaleIndex": 75
     },
-    "value": "20px",
+    "$ref": "0efd036f-4738-4cba-aa6e-c154a68af0fb",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306",
     "lifecycle": {
@@ -2751,7 +2751,7 @@
       "anatomy": "visual",
       "scaleIndex": 100
     },
-    "value": "24px",
+    "$ref": "bb4894cd-5fab-4d17-aea3-7e43c650a1db",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "cae804bb-ebef-480b-a98f-15452dff5650",
     "lifecycle": {
@@ -2766,7 +2766,7 @@
       "anatomy": "visual",
       "scaleIndex": 200
     },
-    "value": "28px",
+    "$ref": "fd71a9ac-284c-48a3-9665-5f68b90fc660",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "4d2469cf-d4e2-44ac-9056-6982e2f9ac55",
     "lifecycle": {
@@ -2781,7 +2781,7 @@
       "anatomy": "visual",
       "scaleIndex": 300
     },
-    "value": "32px",
+    "$ref": "9e6c70a8-d921-42b2-9084-7408424124ef",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "9d50a6bc-7194-47f5-aef0-7b37446618ff",
     "lifecycle": {
@@ -2796,7 +2796,7 @@
       "anatomy": "visual",
       "scaleIndex": 400
     },
-    "value": "36px",
+    "$ref": "4570ed23-5b28-4937-80f9-602852b91302",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "ffb3bc44-3c2a-410c-b69f-1267eab1be8a",
     "lifecycle": {
@@ -2811,7 +2811,7 @@
       "anatomy": "visual",
       "scaleIndex": 500
     },
-    "value": "40px",
+    "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "d2b6af19-0151-4203-89da-6f61f88358ae",
     "lifecycle": {
@@ -2826,7 +2826,7 @@
       "anatomy": "visual",
       "scaleIndex": 600
     },
-    "value": "48px",
+    "$ref": "03042116-4c2d-4a29-b17f-47da76f5e103",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "7d5d9d24-05ad-4438-8542-b79ae0593a56",
     "lifecycle": {
@@ -2841,7 +2841,7 @@
       "anatomy": "visual",
       "scaleIndex": 700
     },
-    "value": "56px",
+    "$ref": "859dc7a3-678a-414a-a177-728925480c5d",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e",
     "lifecycle": {
@@ -2856,7 +2856,7 @@
       "anatomy": "visual",
       "scaleIndex": 800
     },
-    "value": "64px",
+    "$ref": "67cafee2-a871-4689-a2d7-985eabe8c0b3",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "cbd0511f-c73d-40fa-9dfa-619ee5a38472",
     "lifecycle": {
@@ -2871,7 +2871,7 @@
       "anatomy": "visual",
       "scaleIndex": 900
     },
-    "value": "80px",
+    "$ref": "35f7c244-75f8-4fc4-bf07-0534f0dbdc87",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "786f4575-8665-4ac2-903b-f6492b9dcf95",
     "lifecycle": {
@@ -2886,7 +2886,7 @@
       "anatomy": "visual",
       "scaleIndex": 1000
     },
-    "value": "96px",
+    "$ref": "eade2b64-ec37-4e11-959e-963f7aeade0f",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "9e887af0-66cb-4c0e-b3a8-77bbfe96a453",
     "lifecycle": {
