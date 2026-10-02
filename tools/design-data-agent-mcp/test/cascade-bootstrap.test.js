@@ -9,7 +9,14 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { bootstrapCascade } from "../src/cascade-bootstrap.js";
@@ -27,6 +34,9 @@ function freshConfig(overrides = {}) {
     designDataConfig: null,
     cascadeDataPath: null,
     cascadeActive: false,
+    componentsDir: null,
+    relationshipsDir: null,
+    guidelinesDir: null,
     ...overrides,
   };
 }
@@ -127,6 +137,62 @@ test("materializes resolved tokens into cascadeDataPath on success, without touc
   );
 });
 
+test("materializes fallback catalogs and manifest extensions into cascadeDataPath", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+  const fallbackDir = join(dir, "fallback");
+  const componentsDir = join(fallbackDir, "components");
+  const relationshipsDir = join(fallbackDir, "relationships");
+  const guidelinesDir = join(fallbackDir, "guidelines");
+  const extensionsDir = join(dir, "extensions");
+  mkdirSync(componentsDir, { recursive: true });
+  mkdirSync(relationshipsDir, { recursive: true });
+  mkdirSync(guidelinesDir, { recursive: true });
+  mkdirSync(join(extensionsDir, "components"), { recursive: true });
+  mkdirSync(join(extensionsDir, "guidelines"), { recursive: true });
+  writeFileSync(
+    join(componentsDir, "button.json"),
+    JSON.stringify({ id: "button", name: "Fallback Button" }),
+  );
+  writeFileSync(
+    join(guidelinesDir, "colors.json"),
+    JSON.stringify({ id: "colors", documentBlocks: [] }),
+  );
+  writeFileSync(
+    join(extensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Cascade Button" }),
+  );
+  writeFileSync(
+    join(extensionsDir, "guidelines", "motion.json"),
+    JSON.stringify({ id: "motion", documentBlocks: [] }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "extensions" }),
+  );
+  writeFileSync(join(dir, ".design-data.toml"), 'manifest = "manifest.json"\n');
+
+  const config = freshConfig({
+    designDataConfig: dir,
+    componentsDir,
+    relationshipsDir,
+    guidelinesDir,
+  });
+
+  await bootstrapCascade(config, {
+    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
+  });
+
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Cascade Button",
+  );
+  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "colors.json")));
+  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "motion.json")));
+});
+
 test("accepts a path to the .design-data.toml file itself, not just its directory", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
   t.teardown(() => rmSync(dir, { recursive: true, force: true }));
@@ -146,4 +212,158 @@ test("accepts a path to the .design-data.toml file itself, not just its director
 
   t.is(seenCwd, dir, "cwd should be the directory containing the toml file");
   t.true(config.cascadeActive);
+});
+
+test("passes --platform to the CLI query shell-out when platformId is set", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+  const config = freshConfig({
+    designDataConfig: dir,
+    platformId: "web-components",
+  });
+
+  let seenArgs;
+  await bootstrapCascade(config, {
+    run: async (args) => {
+      seenArgs = args;
+      return { exitCode: 0, stdout: "[]", stderr: "" };
+    },
+  });
+
+  t.deepEqual(seenArgs, [
+    "query",
+    "--filter",
+    "",
+    "--format",
+    "json",
+    "--platform",
+    "web-components",
+  ]);
+});
+
+test("resolves default_platform from the CLI when platformId is unset, keeping tokens and catalogs in agreement", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+
+  // Legacy manifest — must be ignored once `default_platform` selects a
+  // named entry, exactly as it would be if `platformId` were set explicitly.
+  const legacyExtensionsDir = join(dir, "legacy-extensions");
+  mkdirSync(join(legacyExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(legacyExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Legacy Button" }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "legacy-extensions" }),
+  );
+
+  const platformDir = join(dir, "platforms", "web-components");
+  const platformExtensionsDir = join(platformDir, "extensions");
+  mkdirSync(join(platformExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(platformExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Platform Button" }),
+  );
+  writeFileSync(join(platformDir, "manifest.json"), JSON.stringify({}));
+
+  writeFileSync(
+    join(dir, ".design-data.toml"),
+    'manifest = "manifest.json"\n' +
+      'default_platform = "web-components"\n\n' +
+      "[platforms]\n" +
+      'web-components = "platforms/web-components/manifest.json"\n',
+  );
+
+  // No platformId set — only `default_platform` in the config selects it.
+  const config = freshConfig({ designDataConfig: dir });
+
+  const seenArgs = [];
+  await bootstrapCascade(config, {
+    run: async (args) => {
+      seenArgs.push(args);
+      if (args[0] === "platform" && args[1] === "list") {
+        return {
+          exitCode: 0,
+          stdout: JSON.stringify([
+            {
+              id: "web-components",
+              location: "local",
+              detail: "platforms/web-components/manifest.json",
+              default: true,
+            },
+          ]),
+          stderr: "",
+        };
+      }
+      return { exitCode: 0, stdout: "[]", stderr: "" };
+    },
+  });
+
+  t.deepEqual(seenArgs.at(-1), [
+    "query",
+    "--filter",
+    "",
+    "--format",
+    "json",
+    "--platform",
+    "web-components",
+  ]);
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Platform Button",
+    "catalogs must match the same platform the token query resolved, not the legacy manifest",
+  );
+});
+
+test("materializes a named platform's extensions instead of the legacy manifest key", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+
+  // Legacy manifest — must be ignored once platformId selects a named entry.
+  const legacyExtensionsDir = join(dir, "legacy-extensions");
+  mkdirSync(join(legacyExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(legacyExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Legacy Button" }),
+  );
+  writeFileSync(
+    join(dir, "manifest.json"),
+    JSON.stringify({ extensionsDir: "legacy-extensions" }),
+  );
+
+  // Named platform entry.
+  const platformDir = join(dir, "platforms", "web-components");
+  const platformExtensionsDir = join(platformDir, "extensions");
+  mkdirSync(join(platformExtensionsDir, "components"), { recursive: true });
+  writeFileSync(
+    join(platformExtensionsDir, "components", "button.json"),
+    JSON.stringify({ id: "button", name: "Platform Button" }),
+  );
+  writeFileSync(join(platformDir, "manifest.json"), JSON.stringify({}));
+
+  writeFileSync(
+    join(dir, ".design-data.toml"),
+    'manifest = "manifest.json"\n\n' +
+      "[platforms]\n" +
+      'web-components = "platforms/web-components/manifest.json"\n',
+  );
+
+  const config = freshConfig({
+    designDataConfig: dir,
+    platformId: "web-components",
+  });
+
+  await bootstrapCascade(config, {
+    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
+  });
+
+  t.is(
+    JSON.parse(
+      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
+    ).name,
+    "Platform Button",
+  );
 });

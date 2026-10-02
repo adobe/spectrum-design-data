@@ -15,7 +15,7 @@
  * guard) lives in exactly one place instead of being duplicated per server.
  */
 
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve, sep } from "node:path";
 
 /**
@@ -43,4 +43,25 @@ export function loadGuideline(guidelinesDir, id) {
     throw new Error(`Not found: "${id}" in guidelines/.`);
   }
   return JSON.parse(readFileSync(filePath, "utf-8"));
+}
+
+/**
+ * List guideline catalog entries from the manifest, falling back to the files
+ * present in the directory when the manifest is unavailable.
+ *
+ * @param {string} guidelinesDir - absolute path to the guidelines directory.
+ * @returns {Array<object>} guideline catalog entries.
+ */
+export function listGuidelines(guidelinesDir) {
+  const baseDir = resolve(guidelinesDir);
+  const manifestPath = resolve(baseDir, "manifest.json");
+  if (existsSync(manifestPath)) {
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+    return manifest.guidelines ?? [];
+  }
+
+  return readdirSync(baseDir)
+    .filter((file) => file.endsWith(".json") && file !== "manifest.json")
+    .map((file) => ({ slug: file.replace(/\.json$/, "") }))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
 }

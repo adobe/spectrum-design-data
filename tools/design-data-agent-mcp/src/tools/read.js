@@ -15,30 +15,29 @@
  * required. primer and describe_component were migrated in issue m1r.
  * describe_guideline (spectrum-design-data-9fe.7) is the read-back counterpart to
  * data_create/data_edit's "guidelines" category, closing the same read/write
- * asymmetry describe_component already closes for components. Its guideline-loading
- * logic (including the path-traversal guard) is shared with the sibling
+ * asymmetry describe_component already closes for components. Its guideline
+ * loading and listing logic is shared with the sibling
  * @adobe/design-data-mcp package's `design-data-guideline` tool via the
  * `@adobe/design-data/guideline` module, rather than duplicated here.
  *
- * Note: authoring_session_step_intent in authoring.js still uses the CLI because
- * the NLP suggest ranking is not yet on the wasm surface.
+ * suggest_token uses the wasm suggest surface directly. The separate
+ * authoring_session_step_intent flow still uses the CLI for session-state-aware
+ * ranking within an authoring session.
  *
  * Cascade scope (see cascade-bootstrap.js / spectrum-design-data-h890.14): once a
  * `.design-data.toml` cascade is resolved, primer/resolve_token/query_tokens/
  * validate_usage all reflect it (they read config.cascadeDataPath instead of
- * config.dataPath when config.cascadeActive). describe_component/describe_guideline
- * do not — components/relationships/guidelines still come from config.componentsDir /
- * config.relationshipsDir / config.guidelinesDir, which resolve from the embedded
- * @adobe/spectrum-design-data package regardless of cascade state. A platform source
- * repo generally carries a token cascade only, not its own component/guideline
- * schemas, so this is left out of scope rather than guessed at; revisit if a platform
- * manifest starts declaring components or guidelines.
+ * config.dataPath when config.cascadeActive). Cascade bootstrap copies the
+ * fallback component/relationship/guideline catalogs into that snapshot and
+ * overlays manifest extensions, so describe_component/describe_guideline/list_guidelines
+ * read the same active cascade while preserving the embedded fallback for inactive
+ * cascades.
  */
 
 import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { loadDataset } from "@adobe/design-data/load";
-import { loadGuideline } from "@adobe/design-data/guideline";
+import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
 import { config } from "../config.js";
 import { checkDatasetFreshness } from "../dataset-freshness.js";
 
@@ -100,6 +99,15 @@ function validateGuidelineId(id) {
   validateKebabId(id, "guideline");
 }
 
+function getCascadeAwareDir(baseDir, subdir) {
+  if (!baseDir || !config.cascadeActive || !config.cascadeDataPath) {
+    return baseDir;
+  }
+
+  const cascadeDir = join(config.cascadeDataPath, subdir);
+  return existsSync(cascadeDir) ? cascadeDir : baseDir;
+}
+
 export function createReadTools() {
   return [
     {
@@ -114,16 +122,16 @@ export function createReadTools() {
       async handler() {
         // Shape note: this response intentionally diverges from the CLI PrimerData
         // struct (sdk/core/src/primer.rs). The CLI emits modeSets as an array of
-        // {name, values} objects and taxonomyFields as a flat array. This in-process
-        // shape uses keyed objects (matching the sibling design-data-mcp), which agents
-        // and the SKILL.md skill prompt consume by key name. Skill contract:
-        // tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
+        // {name, modes, defaultMode} objects and taxonomyFields as a flat array. This
+        // in-process shape uses keyed objects (matching the sibling design-data-mcp),
+        // which agents and the SKILL.md skill prompt consume by key name. Skill
+        // contract: tokenCount, modeSets.{colorScheme,scale,contrast}, components[],
         // taxonomyFields.{indexed,advisory}. provenance is included for metrics:
         // for the embedded dataset it carries designDataVersion (@adobe/spectrum-design-data
         // version baked in at wasm build time); for custom datasets the source differs.
         const wasm = await getWasm();
         const ds = await getDataset();
-        const { provenance } = ds.primer();
+        const { provenance, modeSets: rawModeSets } = ds.primer();
         // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
         // failure, never blocks the primer response.
         const datasetStatus = await checkDatasetFreshness(
@@ -135,11 +143,13 @@ export function createReadTools() {
           // and consumers should prefer it going forward.
           source: config.cascadeActive ? "cascade" : "embedded",
           tokenCount: ds.tokenCount(),
-          modeSets: {
-            colorScheme: wasm.getFieldValues("colorScheme") ?? [],
-            scale: wasm.getFieldValues("scale") ?? [],
-            contrast: wasm.getFieldValues("contrast") ?? [],
-          },
+          // Mode-set dimensions (colorScheme, scale, contrast) live in
+          // graph.mode_sets, not the field-catalog registry, so they're read from
+          // ds.primer()'s modeSets array rather than wasm.getFieldValues()
+          // (spectrum-design-data-v9bb).
+          modeSets: Object.fromEntries(
+            rawModeSets.map((ms) => [ms.name, ms.modes]),
+          ),
           taxonomyFields: {
             indexed: wasm.getIndexedFields(),
             advisory: wasm.getAdvisoryFields() ?? [],
@@ -156,7 +166,9 @@ export function createReadTools() {
     {
       name: "resolve_token",
       description:
-        "Resolve a design token property to its final value for a given color scheme, scale, and contrast level.",
+        "Resolve a design token property to its final value for a given context. " +
+        "Use component, variant, state, or colorRole to disambiguate shared properties; " +
+        "inspect ambiguous and deprecated in the result.",
       inputSchema: {
         type: "object",
         required: ["property"],
@@ -164,7 +176,9 @@ export function createReadTools() {
           property: {
             type: "string",
             description:
-              "Token property name, e.g. accent-background-color-default",
+              "Bare token property name (the name.property segment, e.g. " +
+              '"background-color", "corner-radius" — see primer().properties for ' +
+              "the full list). Not a flattened legacyKey.",
           },
           colorScheme: {
             type: "string",
@@ -180,10 +194,46 @@ export function createReadTools() {
             enum: ["regular", "high"],
             description: "Contrast: regular or high",
           },
+          component: {
+            type: "string",
+            description:
+              "Optional component name-object field. It is sparsely populated; " +
+              "prefer variant, state, or colorRole when available.",
+          },
+          variant: {
+            type: "string",
+            description:
+              "Optional token variant used to narrow shared properties.",
+          },
+          state: {
+            type: "string",
+            description:
+              "Optional token state used to narrow shared properties (including array-valued state).",
+          },
+          colorRole: {
+            type: "string",
+            description:
+              "Optional color role such as accent, negative, or positive.",
+          },
+          excludeDeprecated: {
+            type: "boolean",
+            description:
+              "Exclude tokens with lifecycle.deprecatedIn from candidate resolution.",
+          },
         },
         additionalProperties: false,
       },
-      async handler({ property, colorScheme, scale, contrast }) {
+      async handler({
+        property,
+        colorScheme,
+        scale,
+        contrast,
+        component,
+        variant,
+        state,
+        colorRole,
+        excludeDeprecated,
+      }) {
         const ds = await loadDataset(
           config.cascadeActive ? config.cascadeDataPath : config.dataPath,
         );
@@ -191,10 +241,19 @@ export function createReadTools() {
         if (colorScheme) context.colorScheme = colorScheme;
         if (scale) context.scale = scale;
         if (contrast) context.contrast = contrast;
-        const result = ds.resolve(property, context);
+        const result = ds.resolve(property, context, {
+          component,
+          variant,
+          state,
+          colorRole,
+          excludeDeprecated: excludeDeprecated ?? false,
+        });
         if (!result) {
+          const deprecatedHint = excludeDeprecated
+            ? " Only deprecated matches may exist; retry without excludeDeprecated to inspect them."
+            : "";
           throw new Error(
-            `No token found for property "${property}" in context ${JSON.stringify(context)}`,
+            `No token found for property "${property}" in context ${JSON.stringify(context)}.${deprecatedHint}`,
           );
         }
         return result;
@@ -211,7 +270,11 @@ export function createReadTools() {
         properties: {
           filter: {
             type: "string",
-            description: 'Filter expression, e.g. "category=color"',
+            description:
+              'Filter expression, e.g. "property=background-color". Valid keys: ' +
+              "property, component, variant, state, colorScheme, scale, contrast, " +
+              'uuid, $schema. Note: "component" is not currently populated on ' +
+              "tokens — component=<id> always returns []; use describe_component instead.",
           },
         },
         additionalProperties: false,
@@ -221,6 +284,36 @@ export function createReadTools() {
           config.cascadeActive ? config.cascadeDataPath : config.dataPath,
         );
         return ds.query(filter);
+      },
+    },
+
+    {
+      name: "suggest_token",
+      description:
+        "Suggest Spectrum tokens matching a natural-language intent using Jaccard similarity " +
+        "scoring over token name segments, name-object fields, and description text. " +
+        "Returns matches ranked by confidence with token name, layer, value, and name object. " +
+        "Use when the user describes what they need rather than knowing the token name.",
+      inputSchema: {
+        type: "object",
+        required: ["intent"],
+        properties: {
+          intent: {
+            type: "string",
+            description:
+              'Natural-language description of the design need, e.g. "primary CTA button background color"',
+          },
+          limit: {
+            type: "number",
+            description: "Maximum number of suggestions to return (default: 5)",
+            default: 5,
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ intent, limit = 5 }) {
+        const ds = await getDataset();
+        return ds.suggest(intent, undefined, limit);
       },
     },
 
@@ -238,7 +331,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateComponentId(id);
-        const componentsDir = config.componentsDir;
+        const componentsDir = getCascadeAwareDir(
+          config.componentsDir,
+          "components",
+        );
         if (!componentsDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load component "${id}". ` +
@@ -268,7 +364,10 @@ export function createReadTools() {
         // of the component file into relationships/<id>.json — merge them back
         // in so callers relying on this tool for a component's token bindings
         // still see them (see spectrum-design-data-x29.4).
-        const relationshipsDir = config.relationshipsDir;
+        const relationshipsDir = getCascadeAwareDir(
+          config.relationshipsDir,
+          "relationships",
+        );
         const relationshipFile = relationshipsDir
           ? join(relationshipsDir, `${id}.json`)
           : null;
@@ -302,7 +401,10 @@ export function createReadTools() {
       },
       async handler({ id }) {
         validateGuidelineId(id);
-        const guidelinesDir = config.guidelinesDir;
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
         if (!guidelinesDir) {
           throw new Error(
             `@adobe/spectrum-design-data is not installed — cannot load guideline "${id}". ` +
@@ -315,9 +417,8 @@ export function createReadTools() {
           if (err.message.startsWith("Not found:")) {
             let available;
             try {
-              available = readdirSync(guidelinesDir)
-                .filter((f) => f.endsWith(".json") && f !== "manifest.json")
-                .map((f) => f.replace(/\.json$/, ""))
+              available = listGuidelines(guidelinesDir)
+                .map((guideline) => guideline.slug)
                 .sort()
                 .join(", ");
             } catch {
@@ -330,6 +431,40 @@ export function createReadTools() {
           }
           throw err;
         }
+      },
+    },
+
+    {
+      name: "list_guidelines",
+      description:
+        "List available Spectrum design guidelines and their metadata. Optionally " +
+        "filter the catalog by category before calling describe_guideline.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            description:
+              "Optional guideline category, e.g. designing or implementing",
+          },
+        },
+        additionalProperties: false,
+      },
+      async handler({ category } = {}) {
+        const guidelinesDir = getCascadeAwareDir(
+          config.guidelinesDir,
+          "guidelines",
+        );
+        if (!guidelinesDir) {
+          throw new Error(
+            `@adobe/spectrum-design-data is not installed — cannot list guidelines. ` +
+              `Install it with: pnpm add @adobe/spectrum-design-data`,
+          );
+        }
+        const guidelines = listGuidelines(guidelinesDir);
+        return category
+          ? guidelines.filter((guideline) => guideline.category === category)
+          : guidelines;
       },
     },
   ];

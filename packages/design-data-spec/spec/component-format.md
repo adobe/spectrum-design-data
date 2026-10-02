@@ -6,6 +6,8 @@ This document defines the normative **component declaration** object: identity (
 
 Component declarations close the structural gap between the token name-object's `component`, `variant`, `anatomy`, and `state` fields and the declared surface of each component. Before this chapter, a token referencing `component: "button"` with `variant: "foo"` was undetectable as invalid because no machine-readable component contract existed in the same spec. After this chapter, validators enforce cross-reference rules (see [SPEC rules](#spec-rules)).
 
+This chapter defines the Design Data contract for a component. It intentionally does not restate the full platform-native component API, story/example-format semantics, or other standards already owned elsewhere. When another authoritative specification already defines an implementation contract or format, this document points to that source instead of duplicating its normative rules.
+
 Scoped under [RFC-A — Component Contract in Design Data Spec](https://github.com/adobe/spectrum-design-data/discussions/832). See also [rfc-coordination.md](../docs/rfc-coordination.md).
 
 ## Document shape
@@ -82,34 +84,44 @@ where `{name}` matches the component's `name` field.
 ## Implementations
 
 `implementations` declares the published platform implementations corresponding
-to this design-system component. It is foundation-owned canonical data so
-consumers, including Code Connect generators, can resolve an implementation
-without platform-specific configuration.
+to this design-system component, so consumers such as Code Connect generators
+can resolve an implementation without platform-specific configuration.
 
-Each entry **MUST** contain `platform` and `componentName`, plus exactly one
-implementation reference: `package` for a published package or `importPath`
-for an importable module/source path. `notes` is optional context for consumers.
-Multiple entries MAY use the same `platform` when their packages distinguish
-different implementations for that platform.
+Each entry **MUST** contain `platform` and `componentName`, plus at least one
+implementation reference: `package` for a published package and/or
+`importPath` for an importable module or source path. When both are present,
+`importPath` **SHOULD** be a subpath export of `package`. `notes` is optional
+context for consumers.
+
+`platform` is a device target (`web`, `ios`, `android`), so several
+implementations may share it. The optional `implementation` field names the
+implementation project from the platform-implementations registry (for example
+`react-spectrum` or `web-components`) to tell them apart.
 
 ```json
 "implementations": [
   {
     "platform": "web",
+    "implementation": "web-components",
     "componentName": "Button",
-    "package": "@spectrum-web-components/button"
+    "package": "@adobe/spectrum-wc",
+    "importPath": "@adobe/spectrum-wc/components/button"
   }
 ]
 ```
 
-Platform manifests do not override `implementations` in this version. A future
-extension may add platform-owned overrides after consumers need them; until
-then, component declarations remain the canonical source of implementation
-names and references.
+### Layering
+
+Foundation component data carries canonical **default** rows. A platform
+manifest refines its own rows through
+[`extensions/implementations/`](manifest.md#extensionsimplementations):
+upserting rows it owns and removing stale ones, without restating the rest of
+the component. Rows owned by another implementation are left untouched, so the
+merged catalog still lists every implementation of the component.
 
 ## Options
 
-The `options` block declares the component's API surface — the configurable properties that affect its appearance or behavior. It mirrors the shape of `@adobe/spectrum-component-api-schemas` for backward compatibility.
+The `options` block declares the component's API surface — the configurable properties that affect its appearance or behavior. It is the Design Data contract for the component surface that this repo validates; it does not duplicate the entire implementation-owned API schema. For exhaustive platform-specific semantics, follow the authoritative implementation contract instead of restating it here.
 
 **NORMATIVE:** `options` **MUST** be a JSON object. Each key is an option name; each value is an **option descriptor**.
 
@@ -424,13 +436,18 @@ A complete button component declaration:
     }
   ],
   "anatomy": [
-    { "name": "icon",  "description": "Leading icon." },
+    { "name": "icon", "description": "Leading icon." },
     { "name": "label", "description": "Button text.", "required": true }
   ],
   "states": [
-    { "name": "hover",    "trigger": "interaction", "precedence": 50 },
-    { "name": "focus",    "trigger": "interaction", "precedence": 60, "layered": true },
-    { "name": "disabled", "trigger": "prop",        "precedence": 100 }
+    { "name": "hover", "trigger": "interaction", "precedence": 50 },
+    {
+      "name": "focus",
+      "trigger": "interaction",
+      "precedence": 60,
+      "layered": true
+    },
+    { "name": "disabled", "trigger": "prop", "precedence": 100 }
   ],
   "lifecycle": {
     "introduced": "1.0.0-draft"
@@ -446,7 +463,10 @@ A complete button component declaration:
 {
   "name": "button",
   "displayName": "Button",
-  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
   "accessibility": {
     "role": "button",
     "intents": ["trigger"],
@@ -477,7 +497,10 @@ A complete button component declaration:
 {
   "name": "button",
   "displayName": "Button",
-  "meta": { "category": "actions", "documentationUrl": "https://spectrum.adobe.com/page/button/" },
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://spectrum.adobe.com/page/button/"
+  },
   "documentBlocks": [
     {
       "type": "purpose",

@@ -16,23 +16,35 @@
     },
     {
       "type": "guideline",
+      "content": "Handle behavior.\n\nIn the color area and color slider, the handle can slide all the way to the edge of the component. It always displays the selected color inside the handle and never gets cut off by the border or any container."
+    },
+    {
+      "type": "guideline",
+      "content": "Transparent colors.\n\nWhen using transparent colors, the handle and loupe display an opacity checkerboard background to clearly show the level of transparency."
+    },
+    {
+      "type": "guideline",
       "content": "Color loupe.\n\nThe loupe is a floating element positioned above the handle. It provides a preview that reflects the color currently sampled by its parent color component and disappears when the interaction ends."
     },
     {
       "type": "guideline",
-      "content": "Transparent colors.\n\nWhen using transparent colors, the loupe displays an opacity checkerboard background to clearly show the level of transparency."
+      "content": "Keyboard focus.\n\nThe keyboard focus state enlarges the handle to become twice as large. The loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."
     },
     {
       "type": "guideline",
-      "content": "Keyboard focus.\n\nThe loupe is a visual-only element and should not receive focus since it does not provide interactive functionality."
-    },
-    {
-      "type": "guideline",
-      "content": "Display combined values.\n\nColor selection usually happens using a variety of input methods (color area, color slider, color wheel). The color loupe should display the final output color: the combined values from multiple color inputs.\n\nThe number of input methods is determined by the color space (or \"mode\"), for example:\n\n* 2 controls: HSL using color wheel (hue) and color area (saturation and lightness)\n* 3 controls: RGB using unique color sliders for Red, Green, and Blue\n* 4 controls: RGBa using unique color sliders for Red, Green, Blue, and Alpha"
+      "content": "Display combined values.\n\nColor selection usually happens using a variety of input methods (color area, color slider, color wheel). The color loupe should display the final output color: the combined values from multiple color inputs. The number of input methods is determined by the color space (or \"mode\"), for example: 2 controls: HSL using color wheel (hue) and color area (saturation and lightness) 3 controls: RGB using unique color sliders for Red, Green, and Blue 4 controls: RGBa using unique color sliders for Red, Green, Blue, and Alpha"
     },
     {
       "type": "guideline",
       "content": "Color loupe on down/touch state.\n\nThe color loupe component can be used above the handle to show the selected color that would otherwise be covered by a cursor, stylus, or finger on the down/touch state. This can be customized to appear only on finger-input, or always appear regardless of input type."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ColorLoupe",
+      "importPath": "@adobe/spectrum-wc/components/color-loupe",
+      "notes": "Spectrum 2 web component custom element: swc-color-loupe."
     }
   ],
   "options": {
@@ -40,10 +52,6 @@
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/hex-color.json"
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "focusable": false }
 }

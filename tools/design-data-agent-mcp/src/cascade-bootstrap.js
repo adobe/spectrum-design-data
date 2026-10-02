@@ -17,11 +17,22 @@
  * The CLI already does config discovery, github fetch/cache, and manifest-cascade
  * application on every data-touching subcommand — this just shells out to it once
  * (`design-data query --filter "" --format json`, cwd = the config's directory)
- * and materializes the result as a single `*.tokens.json` cascade-array file in a
- * temp dir, which loadDataset()/validateDataset() already know how to read.
+ * and materializes the result as a cascade dataset in a temp dir, which
+ * loadDataset()/validateDataset() already know how to read. Catalog directories
+ * are copied from the configured fallback dataset and then overlaid with any
+ * manifest extensions so component/guideline reads see the same cascade.
  */
 
-import { existsSync, mkdtempSync, statSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { runCli } from "./cli.js";
@@ -32,9 +43,135 @@ function resolveConfigDir(configPath) {
   return statSync(configPath).isDirectory() ? configPath : dirname(configPath);
 }
 
+function resolveManifestPath(configDir, platformId) {
+  const configPath = join(configDir, ".design-data.toml");
+  if (!existsSync(configPath)) return null;
+
+  const configText = readFileSync(configPath, "utf-8");
+
+  if (platformId) {
+    // Named `[platforms.<id>]` entries (spectrum-design-data-h890.27.3) are
+    // either a bare local path (`id = "platforms/id/manifest.json"`, matched
+    // here) or a remote `github`-sourced table. This regex only resolves the
+    // local-path shape — a remote platform entry's extensions/ catalogs still
+    // need fetching, which the CLI's `query` shell-out below does not surface
+    // to this file; local-path is the shape every platform incubating in this
+    // monorepo uses today (see platforms/README.md).
+    const idPattern = platformId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const match = configText.match(
+      new RegExp(`^\\s*${idPattern}\\s*=\\s*["']([^"']+)["']\\s*$`, "m"),
+    );
+    if (!match) return null;
+    const manifestPath = join(configDir, match[1]);
+    return existsSync(manifestPath) ? manifestPath : null;
+  }
+
+  const match = configText.match(/^\s*manifest\s*=\s*["']([^"']+)["']\s*$/m);
+  const manifestPath = join(configDir, match?.[1] ?? "manifest.json");
+  return existsSync(manifestPath) ? manifestPath : null;
+}
+
+/**
+ * Determine which named `[platforms.<id>]` entry, if any, the CLI would pick
+ * for the *tokens* cascade so catalog materialization can match it exactly.
+ * `config.platformId` (from `DESIGN_DATA_PLATFORM`) always wins; otherwise
+ * this asks the CLI which id `default_platform` resolves to, via
+ * `platform list --format json`, rather than re-implementing the CLI's own
+ * precedence rules (`--manifest` > `--platform` > `DESIGN_DATA_PLATFORM` >
+ * `default_platform` > legacy `manifest` key) in a second, drifting regex.
+ * Returns `null` on any failure (no platforms configured, CLI error,
+ * unparsable output) so callers fall back to the legacy `manifest` key.
+ */
+async function resolveActivePlatformId(configDir, config, run) {
+  if (config.platformId) return config.platformId;
+  try {
+    const { exitCode, stdout } = await run(
+      ["platform", "list", "--format", "json"],
+      { timeout: 10_000, cwd: configDir },
+    );
+    if (exitCode !== 0) return null;
+    const rows = JSON.parse(stdout);
+    const defaultRow = rows.find((row) => row.default);
+    if (!defaultRow || defaultRow.id === "(default)") return null;
+    return defaultRow.id;
+  } catch {
+    return null;
+  }
+}
+
+function materializeCatalogs(config, cascadeDir, configDir, activePlatformId) {
+  const manifestPath = resolveManifestPath(configDir, activePlatformId);
+  let extensionsDir = null;
+  if (manifestPath) {
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+    extensionsDir = join(
+      dirname(manifestPath),
+      manifest.extensionsDir ?? "extensions",
+    );
+  }
+
+  for (const [key, subdir] of [
+    ["componentsDir", "components"],
+    ["relationshipsDir", "relationships"],
+    ["guidelinesDir", "guidelines"],
+  ]) {
+    const targetDir = join(cascadeDir, subdir);
+    mkdirSync(targetDir, { recursive: true });
+    const fallbackDir = config[key];
+    if (fallbackDir && existsSync(fallbackDir)) {
+      cpSync(fallbackDir, targetDir, { recursive: true, force: true });
+    }
+    const extensionDir = extensionsDir && join(extensionsDir, subdir);
+    if (extensionDir && existsSync(extensionDir)) {
+      cpSync(extensionDir, targetDir, { recursive: true, force: true });
+      if (subdir === "guidelines") {
+        mergeGuidelineManifest(targetDir, extensionDir);
+      }
+    }
+  }
+}
+
+function mergeGuidelineManifest(targetDir, extensionDir) {
+  const manifestPath = join(targetDir, "manifest.json");
+  const manifest = existsSync(manifestPath)
+    ? JSON.parse(readFileSync(manifestPath, "utf-8"))
+    : { guidelines: [] };
+  const entries = new Map(
+    (manifest.guidelines ?? []).map((entry) => [entry.slug, entry]),
+  );
+
+  for (const file of readdirSync(extensionDir)) {
+    if (!file.endsWith(".json") || file === "manifest.json") continue;
+    const document = JSON.parse(
+      readFileSync(join(extensionDir, file), "utf-8"),
+    );
+    const slug = document.name ?? file.replace(/\.json$/, "");
+    entries.set(slug, {
+      slug,
+      ...(document.title && { title: document.title }),
+      ...(document.category && { category: document.category }),
+      ...(document.status && { status: document.status }),
+      ...(document.sourceUrl && { sourceUrl: document.sourceUrl }),
+      file: `guidelines/${file}`,
+    });
+  }
+
+  writeFileSync(
+    manifestPath,
+    JSON.stringify({ ...manifest, guidelines: [...entries.values()] }),
+    "utf-8",
+  );
+}
+
 /**
  * Resolve `config.designDataConfig`'s cascade and populate
- * `config.cascadeDataPath` / `config.cascadeActive` with the result.
+ * `config.cascadeDataPath` / `config.cascadeActive` with the result. If
+ * `config.platformId` is set, selects that named `[platforms.<id>]` entry
+ * (spectrum-design-data-h890.27.14) — both for the CLI query shell-out and
+ * for materializing that platform's `extensions/` catalogs, instead of the
+ * legacy top-level `manifest` key. If `platformId` is unset but the config
+ * has a `default_platform`, `resolveActivePlatformId` discovers that id from
+ * the CLI itself so both halves still agree on the same platform.
  * Deliberately does not touch `config.dataPath`/`config.dataRoot` — those
  * remain the fallback anchors for unrelated write/authoring/data tools,
  * which must keep targeting the real dataset root, not the cascade's
@@ -59,10 +196,25 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
   }
 
   try {
-    const { exitCode, stdout, stderr } = await run(
-      ["query", "--filter", "", "--format", "json"],
-      { timeout: 60_000, cwd: configDir },
+    const activePlatformId = await resolveActivePlatformId(
+      configDir,
+      config,
+      run,
     );
+    const queryArgs = ["query", "--filter", "", "--format", "json"];
+    if (activePlatformId) {
+      // Must follow the subcommand — see the CLI's own --platform help text
+      // on this ordering limitation. Passing this explicitly (even when it
+      // only came from `default_platform`, not an explicit selection) keeps
+      // the token query and the catalog materialization below looking at
+      // the exact same platform, instead of letting the CLI's own default
+      // resolution and this file's manifest-path regex potentially disagree.
+      queryArgs.push("--platform", activePlatformId);
+    }
+    const { exitCode, stdout, stderr } = await run(queryArgs, {
+      timeout: 60_000,
+      cwd: configDir,
+    });
     if (exitCode !== 0) {
       throw new Error(stderr || `design-data exited with code ${exitCode}`);
     }
@@ -74,6 +226,7 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
       JSON.stringify(tokens),
       "utf-8",
     );
+    materializeCatalogs(config, dir, configDir, activePlatformId);
 
     config.cascadeDataPath = dir;
     config.cascadeActive = true;

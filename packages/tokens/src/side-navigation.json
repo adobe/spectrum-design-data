@@ -160,7 +160,7 @@
         "uuid": "be37c65c-88c5-48cd-9554-8240909db98d"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "side-navigation-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

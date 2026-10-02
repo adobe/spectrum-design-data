@@ -472,9 +472,13 @@ pub fn extract_legacy_key(name_val: &Value) -> Option<String> {
     //   Color-domain (handled by color-domain branch above): colorFamily, colorRole
     //   Integer scale (walked positionally would double-emit vs. the explicit append
     //     below, since scaleIndex has no fixed catalog position of its own): scaleIndex
-    //   Legacy metadata annotation (value already embedded in `property` for all current
-    //     tokens): structure — if it joins Phase D decomposition, remove its
-    //     excludeFromLegacyKey flag and re-verify against the three legacy gates.
+    //
+    // `structure` used to be excluded on the (mistaken) assumption that its value was
+    // always already embedded in `property`. An audit found 138/138 tokens carrying both
+    // `structure` and a pinned `legacyKey` include the structure word in that key — the
+    // exclusion silently dropped it for the handful of tokens (banner/list gap+padding
+    // in layout.tokens.json) that had no pinned `legacyKey` to mask the bug. Re-enabled
+    // (dsi.structure-legacy-key); see packages/design-data/fields/structure.json.
     //
     // `weight` and `style` (dsi.2.7) joined Phase D decomposition like `size`: their
     // qualifier segment (e.g. "bold" in `bold-font-weight`) no longer sorts adjacent to
@@ -507,6 +511,11 @@ pub struct FormattingConfig {
     pub delimiter: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub abbreviations: Option<HashMap<String, String>>,
+    /// Literal string prepended to the fully-formatted name, after casing/
+    /// delimiter are applied and unaffected by either (e.g. CSS custom
+    /// property conventions like `--spectrum-`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub prefix: Option<String>,
 }
 
 /// Casing style for a manifest-formatted token name (`manifest.schema.json`
@@ -611,7 +620,11 @@ fn general_domain_key(
                 .iter()
                 .flat_map(|s| s.split('-').map(str::to_string))
                 .collect();
-            Some(apply_casing(&words, casing, delimiter))
+            let formatted = apply_casing(&words, casing, delimiter);
+            Some(match &cfg.prefix {
+                Some(prefix) => format!("{prefix}{formatted}"),
+                None => formatted,
+            })
         }
     }
 }
@@ -629,11 +642,11 @@ fn ordered_field_names(
     if let Some(concept_order) = config.and_then(|c| c.concept_order.as_ref()) {
         for field in concept_order {
             // A manifest can't reintroduce a field the catalog marks
-            // `excludeFromLegacyKey` (e.g. `colorFamily`, `scale`, `structure`) —
-            // same exclusion the fallback loop below and the `space-between`
-            // branch in `extract_legacy_key` already honor. `scaleIndex` is
-            // exempt: it carries that flag too, but has no catalog position of
-            // its own and is deliberately placeable via `conceptOrder` (see the
+            // `excludeFromLegacyKey` (e.g. `colorFamily`, `scale`) — same
+            // exclusion the fallback loop below and the `space-between` branch
+            // in `extract_legacy_key` already honor. `scaleIndex` is exempt: it
+            // carries that flag too, but has no catalog position of its own and
+            // is deliberately placeable via `conceptOrder` (see the
             // `field == "scaleIndex"` special case in `general_domain_key`).
             if field != "scaleIndex"
                 && catalog
@@ -984,6 +997,21 @@ mod tests {
     }
 
     #[test]
+    fn format_name_prefix_is_prepended_after_casing_unaffected_by_it() {
+        // SWC's `--spectrum-` CSS custom-property convention (h890.27.9): the
+        // prefix is a literal wrapper, not itself subject to `casing`.
+        let name = json!({"component": "button", "property": "background-color"});
+        let config = FormattingConfig {
+            prefix: Some("--spectrum-".to_string()),
+            ..Default::default()
+        };
+        assert_eq!(
+            format_name(&name, &config).as_deref(),
+            Some("--spectrum-button-background-color")
+        );
+    }
+
+    #[test]
     fn format_name_pascal_case() {
         let name = json!({"property": "spacing", "scaleIndex": 200});
         let config = FormattingConfig {
@@ -1220,17 +1248,29 @@ mod tests {
     }
 
     #[test]
-    fn extract_key_legacy_annotation_fields_excluded_from_key() {
-        // structure is a legacy-metadata annotation whose value is already embedded in
-        // `property` for all current tokens. It carries exclude_from_legacy_key: true so
-        // a catalog-walk refactor can't silently re-include it.
-        // (`family` was promoted out of this group for the pur/typography pass — see
-        // extract_key_family_emphasis_before_property. `weight`/`style` joined Phase D
-        // decomposition in dsi.2.7 — see extract_key_weight_style_participate_in_key below.)
+    fn extract_key_structure_participates_in_key() {
+        // dsi.structure-legacy-key: `structure` used to carry
+        // exclude_from_legacy_key: true on the (mistaken) assumption its value was
+        // always already embedded in `property`. An audit found 138/138 corpus tokens
+        // with both `structure` and a pinned `legacyKey` include the structure word in
+        // that key — the flag only silently broke the handful of tokens with no pin to
+        // mask it (banner/list gap+padding tokens in layout.tokens.json). `structure`
+        // now walks the catalog like any other Phase D field.
+        let name = json!({
+            "property": "padding-horizontal",
+            "structure": "banner"
+        });
+        let key = extract_legacy_key(&name).unwrap();
+        assert_eq!(key, "banner-padding-horizontal");
+
+        // A token whose `property` already has the structure fused in (the
+        // pre-decomposition legacy representation) pins an explicit `legacyKey`
+        // instead, exactly like the weight/style case below.
         let name = json!({
             "component": "body",
             "property": "bold-font-weight",
-            "structure": "body"
+            "structure": "body",
+            "legacyKey": "body-bold-font-weight"
         });
         let key = extract_legacy_key(&name).unwrap();
         assert_eq!(key, "body-bold-font-weight");

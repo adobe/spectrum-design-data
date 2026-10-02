@@ -17,6 +17,7 @@ pub mod color;
 pub mod import;
 pub mod mapping;
 pub mod types;
+pub mod write_guard;
 
 /// Errors specific to Figma API integration.
 #[derive(Debug, thiserror::Error)]
@@ -25,6 +26,10 @@ pub enum FigmaError {
     Http(#[from] reqwest::Error),
     #[error("Figma API error (status {status}): {message}")]
     Api { status: u16, message: String },
+    #[error("Figma write outcome is ambiguous: {0}. Do not retry the write; inspect the live file first")]
+    AmbiguousWrite(String),
+    #[error("invalid Figma response: {0}")]
+    InvalidResponse(String),
     #[error("unsupported color format: {0}")]
     UnsupportedColorFormat(String),
 }

@@ -20,6 +20,10 @@ fileGroups:
     - "core/tests/**/*.rs"
     - "cli/tests/**/*.rs"
     - "tui/tests/**/*.rs"
+    - "wasm/src/**/*.rs"
+    - "plugins/*/src/**/*.rs"
+    - "plugins/*/tests/**/*.rs"
+    - "*/build.rs"
     # Glob patterns, not literal filenames: moon's changed-file matching
     # doesn't register literal entries like "Cargo.toml" (only actual globs),
     # so the previous per-crate Cargo.toml/rust-toolchain.toml literals here
@@ -54,6 +58,7 @@ tasks:
       # Embedded snapshot sources — invalidate the build when token data changes.
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
+      - "/packages/design-data-spec/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
       - "/packages/design-data/mode-sets/*.json"
@@ -78,6 +83,7 @@ tasks:
       # Embedded snapshot sources — re-run tests when token data changes.
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
+      - "/packages/design-data-spec/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
       - "/packages/design-data/mode-sets/*.json"
@@ -99,6 +105,7 @@ tasks:
       - "core/src/registry_data.rs"
       - "/packages/design-data/tokens/*.tokens.json"
       - "/packages/tokens/schemas/**/*.json"
+      - "/packages/design-data-spec/schemas/**/*.json"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/tokens/manifest.json"
       - "/packages/design-data/mode-sets/*.json"
@@ -130,11 +137,13 @@ tasks:
     args:
       - clippy
       - --workspace
+      - --all-targets
       - --
       - -D
       - warnings
     inputs:
       - "@globs(sources)"
+      - "/packages/design-data-spec/schemas/**/*.json"
   tui:
     command: cargo
     args:

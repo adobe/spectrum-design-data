@@ -15,6 +15,11 @@ tasks:
       - pnpm
       - ava
       - test
+    inputs:
+      - "test/**/*"
+      - ".github/workflows/**/*.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
   pre-commit:
     command:
       - pnpm
@@ -33,3 +38,17 @@ tasks:
       - changeset publish
     options:
       runInCI: false
+  # Validates every incubating platforms/<id>/manifest.json via the same
+  # `design-data --platform <id> validate-manifest` check a consumer would
+  # run locally (spectrum-design-data-h890.27.12). Prints `platform show`
+  # per id for advisory foundation-drift visibility.
+  validate-platforms:
+    command:
+      - node
+      - .github/scripts/validate-platforms.mjs
+    deps:
+      - sdk:build
+    inputs:
+      - "/platforms/**/*"
+      - "/.design-data.toml"
+      - ".github/scripts/validate-platforms.mjs"

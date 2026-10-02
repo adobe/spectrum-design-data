@@ -22,6 +22,7 @@ projects:
   release-timeline: "docs/release-timeline"
   spectrum-design-data-mcp: "tools/spectrum-design-data-mcp"
   design-data-mcp: "tools/design-data-mcp"
+  design-data-mcp-eval: "tools/design-data-mcp-eval"
   design-data-agent-mcp: "tools/design-data-agent-mcp"
   s2-docs-mcp: "tools/s2-docs-mcp"
   component-options-editor: "tools/component-options-editor"
@@ -31,6 +32,7 @@ projects:
   design-data-glue: "tools/design-data"
   design-data-skill: "tools/design-data-skill"
   s2-docs-to-document-blocks: "tools/s2-docs-to-document-blocks"
+  spectrum-hub-fetcher: "tools/spectrum-hub-fetcher"
   ios-override-importer: "tools/ios-override-importer"
 vcs:
   defaultBranch: "main"

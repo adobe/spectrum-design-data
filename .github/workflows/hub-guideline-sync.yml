@@ -72,11 +72,12 @@ jobs:
           pnpm install --frozen-lockfile
 
       - name: Fetch Spectrum Hub pages
+        continue-on-error: true
         env:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
           FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          args=(--out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
+          args=(--origin https://spectrum.adobe.com --out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
           if [ -n "$FETCH_LIMIT" ]; then
             args+=(--limit "$FETCH_LIMIT")
           fi
@@ -95,6 +96,7 @@ jobs:
           const pages = Array.isArray(report.pages) ? report.pages : [];
           const written = Number(report.written ?? 0);
           const selectedRows = Number(report.selectedRows ?? 0);
+          const fetchError = typeof report.error === 'string' ? report.error : null;
           const fragmentsFailed = pages.reduce((sum, page) => sum + Number(page.fragmentsFailed ?? 0), 0);
           const fragmentsResolved = pages.reduce((sum, page) => sum + Number(page.fragmentsResolved ?? 0), 0);
           const failureThreshold = Math.max(3, Math.ceil(0.1 * (fragmentsResolved + fragmentsFailed)));
@@ -110,18 +112,23 @@ jobs:
             failureThreshold,
             hasLimit,
             weakWriteVolume,
+            fetchError,
             invalid,
           }, null, 2));
 
           if (invalid) {
+            if (fetchError) {
+              console.error(`Fetch guard failed: fetcher reported ${fetchError}`);
+            }
             console.error('Fetch guard failed: too many fragment failures or too few pages were written.');
             process.exit(1);
           }
           NODE
 
       - name: Stage docs for the guideline transform
+        id: stage
         if: github.event.inputs.dry_run != 'true'
-        run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs
+        run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs --guidelines-dir ./packages/design-data/guidelines
 
       - name: Transform staged docs into guideline JSON
         if: github.event.inputs.dry_run != 'true'
@@ -151,6 +158,8 @@ jobs:
       - name: Bump embedded guideline count guard
         if: steps.content.outputs.has_changes == 'true'
         id: count
+        env:
+          ALLOW_GUIDELINE_COUNT_DECREASE: ${{ steps.stage.outputs.guideline_count_decrease_allowed }}
         run: node .github/scripts/bump-embedded-counts.mjs
 
       - name: Write guideline sync changeset
@@ -234,3 +243,13 @@ jobs:
             - [ ] I have read the CONTRIBUTING document.
             - [ ] I have added tests to cover my changes.
             - [ ] All new and existing tests passed.
+
+      - name: Upload sync reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-guideline-sync-reports
+          path: |
+            hub-fetch-report.json
+            guideline-review.md
+          if-no-files-found: warn

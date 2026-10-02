@@ -1,5 +1,67 @@
 # @adobe/spectrum-design-data
 
+## 3.4.0
+
+### Minor Changes
+
+- [#1517](https://github.com/adobe/spectrum-design-data/pull/1517) [`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the `structure` field being silently dropped from generated legacy token
+  keys, which broke five banner/list gap and padding tokens.
+  - **fields/structure.json**: remove `excludeFromLegacyKey: true`; `structure`
+    now participates in legacy key generation like any other field.
+  - **layout.tokens.json**: regenerates `gap-horizontal`, `gap-vertical`,
+    `padding-horizontal`, `padding-vertical` to `banner-gap-horizontal`,
+    `banner-gap-vertical`, `banner-padding-horizontal`, `banner-padding-vertical`;
+    regenerates `gap-regular` to `list-gap-regular`. The five old generic keys
+    are kept as deprecated aliases (`renamed` to their corrected names) so no
+    existing consumer breaks.
+  - **spectrum-tokens**: `packages/tokens/src/layout.json` and the six files
+    aliasing these tokens are regenerated with the corrected names.
+
+- [#1524](https://github.com/adobe/spectrum-design-data/pull/1524) [`ec3376f`](https://github.com/adobe/spectrum-design-data/commit/ec3376fa833f2c31dd0b2340590134b2747b00c4) Thanks [@GarthDB](https://github.com/GarthDB)! - Promote public Spectrum Hub guidance to the stable release channel.
+  - **packages/design-data**: refresh component guidance and publish the Hub guideline
+    corpus, including the October 1 public-site sync.
+  - **sdk/wasm**: rebuild embedded guidance for MCP and JavaScript consumers.
+  - **tools/s2-docs-to-document-blocks**: reject duplicate component slugs and retain
+    section introductions alongside their subsections in published guidance.
+  - **tools/spectrum-hub-fetcher**: fetch and merge public Hub pages for component and
+    guideline syncs, reconciling obsolete slugs and category paths, preserving text
+    boundaries, and decoding HTML entities before transformation.
+
+## 3.3.0
+
+### Minor Changes
+
+- [#1513](https://github.com/adobe/spectrum-design-data/pull/1513) [`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add Spectrum 2 implementation metadata for components with exact verified exports.
+  - **spectrum-design-data**: replace S1 mappings with verified Spectrum 2 exports.
+  - **design-data-wasm**: include the updated component data in the WASM package.
+
+### Patch Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove `web-components-states.json` from the foundation registry (closes DNA-1741).
+  - **registry/platform-extensions/web-components-states.json**: removed — the
+    canonical copy now lives in `platforms/web-components/extensions/platform-extensions/`
+    and is reachable via the manifest cascade, mirroring the earlier
+    `ios-states.json` migration.
+
+## 3.2.5
+
+### Patch Changes
+
+- [#1489](https://github.com/adobe/spectrum-design-data/pull/1489) [`132e66c`](https://github.com/adobe/spectrum-design-data/commit/132e66c541eaf4749d6e1b199705f8feb5621b56) Thanks [@GarthDB](https://github.com/GarthDB)! - Derive `figma diff`'s scale/colorScheme resolution from declared mode-set
+  schema instead of hardcoded literals (closes spectrum-design-data-11k.16).
+  - **sdk/core/src/graph.rs**: `rebuild_legacy_name_index`'s desktop/light
+    tie-break now reads its defaults from `graph.mode_sets` when declared,
+    falling back to the historical `"desktop"`/`"light"` literals otherwise;
+    `with_mode_sets` rebuilds the index afterward so attaching mode sets
+    after tokens (redb cache hydration, `from_json_dir_with_names_and_catalogs`)
+    no longer leaves a stale, schema-unaware index.
+  - **sdk/plugins/figma/src/import/resolve.rs**: `default_source_context` now
+    derives its checked discriminator fields from `graph.mode_sets` instead
+    of hardcoding `scale`/`colorScheme`, so a token disambiguated by any
+    declared mode set (e.g. `contrast`) keeps its alias-chain context pinned.
+  - **sdk/cli/src/main.rs**: fixed a stale comment miscounting `figma diff`'s
+    pretty-print columns.
+
 ## 3.2.4
 
 ### Patch Changes

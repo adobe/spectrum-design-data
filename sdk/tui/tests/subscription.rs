@@ -219,8 +219,7 @@ fn toast_subscription_fires_toast_expired_after_duration() {
         .count();
     assert_eq!(
         expired_count, 1,
-        "exactly one ToastExpired should fire at expiry (got {:?})",
-        fired
+        "exactly one ToastExpired should fire at expiry (got {fired:?})"
     );
 }
 

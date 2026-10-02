@@ -111,25 +111,25 @@ pub(super) fn scale_aligned_source_value(
     scale_source_value.or_else(|| leaf.raw.get("value").cloned())
 }
 
-/// The axis (`scale` or `colorScheme`) `record` was itself disambiguated on,
-/// as a one-entry context map — `None` when `record` carries neither (an
-/// ordinary, unambiguous token). Lets a caller keep an alias chain pinned to
-/// the same scale/scheme `record` was picked for, instead of dropping it the
-/// moment a hop lands on another `conceptId`.
+/// The axis (e.g. `scale`, `colorScheme`, `contrast`) `record` was itself
+/// disambiguated on, as a one-entry context map — `None` when `record`
+/// carries none of `graph.mode_sets`'s declared fields (an ordinary,
+/// unambiguous token). Lets a caller keep an alias chain pinned to the same
+/// axis `record` was picked for, instead of dropping it the moment a hop
+/// lands on another `conceptId`. Derived from `graph.mode_sets` (matching
+/// [`multimode_name_field`]'s pattern below) rather than a hardcoded field
+/// list, so a token disambiguated by any declared mode set — not just
+/// `scale`/`colorScheme` — is covered without a code change.
 pub(super) fn default_source_context(
+    graph: &TokenGraph,
     record: &design_data_core::graph::TokenRecord,
 ) -> Option<HashMap<String, String>> {
     let name = record.raw.get("name")?;
-    if let Some(scale) = name.get("scale").and_then(Value::as_str) {
-        return Some(HashMap::from([("scale".to_string(), scale.to_string())]));
-    }
-    if let Some(scheme) = name.get("colorScheme").and_then(Value::as_str) {
-        return Some(HashMap::from([(
-            "colorScheme".to_string(),
-            scheme.to_string(),
-        )]));
-    }
-    None
+    graph.mode_sets.iter().find_map(|mode_set| {
+        name.get(&mode_set.name)
+            .and_then(Value::as_str)
+            .map(|mode| HashMap::from([(mode_set.name.clone(), mode.to_string())]))
+    })
 }
 
 /// Resolve `conceptId`'s member whose `name.<field>` matches `mode_key`,

@@ -16,10 +16,14 @@ sdk/
 │       ├── query/      # filter expressions
 │       ├── cache/      # derived redb cache over canonical JSON (default-on)
 │       ├── migrate/    # snapshot, convert, legacy helpers
-│       ├── figma/      # Figma Variables bridge (feature-gated)
 │       ├── schema/     # JSON Schema registry
 │       └── registry/   # design-system registry data
 ├── cli/                # design-data-cli binary (design-data)
+├── tui/                # design-data-tui: terminal UI (also has a package.json for the pnpm workspace)
+├── wasm/               # design-data-wasm: WASM bindings
+├── plugins/
+│   ├── dtcg/           # DTCG (Design Tokens Community Group) format plugin
+│   └── figma/          # Figma Variables bridge (import/export/mapping)
 ├── scripts/            # Node helpers (codegen, version sync)
 ├── moon.yml            # moonrepo task definitions
 └── rust-toolchain.toml # pinned toolchain (Rust 1.85.0)
@@ -199,15 +203,83 @@ Interact with the Figma Variables REST API. Requires a `FIGMA_TOKEN` environment
 
 ```bash
 export FIGMA_TOKEN=<your-token>
-design-data figma read   --file-key <KEY>
-design-data figma export --file-key <KEY> --output figma-vars.json
+design-data figma read --file-key <KEY> --format json > figma-vars.json
+design-data figma export packages/tokens/src --file-key <KEY> --dry-run > figma-payload.json
 ```
 
-Audit the generator's output against a previously captured snapshot — offline,
-no API call:
+Export reads the legacy projection generated from canonical `packages/design-data`
+by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
+file. Dry runs still read the file through the API to obtain collection and mode IDs.
+
+Writes capture a raw baseline, build one immutable payload, and fetch the file
+again immediately before POST. Concurrent changes abort the write; only
+collection `variableIds` membership ordering is ignored. Mode order and API
+metadata such as `isExtension` remain significant. This is a best-effort guard,
+not an atomic transaction: Figma can still change between the final GET and POST.
+
+After POST, export maps temporary IDs to real IDs and fetches readback. It checks
+emitted metadata, scalar/color values, alias target IDs, and unchanged unrelated
+variables, deprecated variables, modes and collections. Only written numeric
+values use an absolute tolerance (default `1e-6`, covering observed Figma storage
+noise); untouched state and concurrency checks are exact. Use
+`--numeric-tolerance <NUMBER>` to change this finite, nonnegative tolerance.
+
+`--verification-out <DIR>` records `preflight.json` (including a payload SHA-256),
+`readback.json`, or `ambiguous-outcome.json`. Reports contain verification results,
+not the access token or raw API response. Use a fresh report directory for each
+attempt; existing reports are never overwritten by another attempt. Dry-run
+creates no reports.
+Verification failures return nonzero even after Figma accepted the POST. A
+transport failure, server error, or malformed POST response triggers one
+read-only probe and a nonzero ambiguous-outcome error. The CLI never retries a
+mutation. Inspect the live file before another write; a changed probe alone
+cannot prove that the intended payload landed.
+
+The explicit escape hatches are `--allow-concurrent-changes` (warns about drift,
+then protects the latest unrelated state during readback) and
+`--skip-readback-verification` (reports an **unverified write**, never "Done").
+Neither bypasses ambiguous-outcome handling. These commands do not perform the
+separate Figma library **Publish** action. Automated tests use a loopback HTTP
+server; a live write needs separate approval.
+
+Font weights export as Figma style strings (`Regular`, `Bold`, `ExtraBold`, and
+the other supported weights), not numeric CSS weights. Numeric angle tokens
+export as FLOAT values in degrees. These conversions also apply to aliases
+and scale-set members; canonical token values are unchanged.
+
+Unitless `multiplier.json` tokens export as FLOAT values without conversion.
+Top-level aliases use `VARIABLE_ALIAS` references when their targets are exported;
+alias chains can reference the terminal scalar or mode-set variable. A reference
+to a mode set keeps its mode-dependent values rather than copying one default
+value. Existing variable IDs and name-mapping overrides apply to these targets.
+
+The size-taxonomy snapshot's 11 line-height and radius aliases are supported:
+
+| Aliases                                                                      | Target                | Unitless value |
+| ---------------------------------------------------------------------------- | --------------------- | -------------- |
+| `body-line-height`, `code-line-height`                                       | `line-height-200`     | 1.5            |
+| `detail-line-height`, `heading-line-height`, `title-line-height`             | `line-height-100`     | 1.3            |
+| `body-cjk-line-height`, `code-cjk-line-height`                               | `cjk-line-height-200` | 1.7            |
+| `detail-cjk-line-height`, `heading-cjk-line-height`, `title-cjk-line-height` | `cjk-line-height-100` | 1.5            |
+| `corner-radius-full`                                                         | `corner-radius-1000`  | 0.5            |
+
+Android `dp` dimensions remain excluded from export because Figma has no `dp`
+unit. The export summary lists them as unsupported units. Audit JSON reports
+their token names in `skipped_unsupported_unit`, separately from
+`skipped_unparseable_value` for malformed values.
+
+Aliases to excluded schemas (`typography`, `drop-shadow`, `gradient-stop`,
+`alignment`, and `text-transform`) or unknown schemas appear in
+`skipped_alias_unsupported`, with the terminal target name, schema URL, and
+reason. The exporter has no supported Figma Variable mapping for these schemas.
+Missing targets and cycles remain in `skipped_alias_unresolved`; malformed
+terminal values appear in `skipped_unparseable_value`. The exporter drops
+references to targets that failed to export, so the payload has no dangling aliases.
+
+Audit the generator's output against a saved snapshot without an API call:
 
 ```bash
-design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
+design-data figma audit --snapshot figma-vars.json --token-dir packages/tokens/src
 ```
 
 Diff the manifest-resolved dataset against a Figma file's actual variable
@@ -277,9 +349,9 @@ Relational rules have stable `SPEC-NNN` IDs and live in [`core/src/validate/rule
 
 Integration tests live in `sdk/cli/tests/` and use [`assert_cmd`](https://docs.rs/assert_cmd) to exercise the binary end-to-end.
 
-### Figma feature flag
+### Figma and DTCG plugin crates
 
-The `figma` module in `design-data-core` is gated behind the optional `figma` feature. The CLI enables it by default. Library consumers that don't need Figma can omit the feature to avoid the `reqwest`/`tokio` dependencies.
+The Figma Variables bridge and DTCG format support live in their own crates — `design-data-figma` (`plugins/figma/`) and `design-data-dtcg` (`plugins/dtcg/`) — rather than as feature-gated modules inside `design-data-core`. `design-data-cli` depends on both unconditionally. Library consumers that only need `design-data-core` (token resolution, validation, caching, etc.) don't pull in either crate's dependencies (e.g. `reqwest`/`tokio` for Figma) unless they add the plugin crate themselves.
 
 ## Versioning
 

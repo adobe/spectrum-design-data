@@ -385,7 +385,7 @@ pub fn diff_values(
         // scale/scheme the top-level record was picked for. Pin the chain to
         // that same axis, matching how a mode-less Figma variable's own alias
         // chain stays on one collection mode (its default) throughout.
-        let leaf = default_source_context(record)
+        let leaf = default_source_context(graph, record)
             .map(|ctx| record.resolve_leaf_in_context(graph, &ctx))
             .unwrap_or(leaf);
 

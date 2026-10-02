@@ -81,7 +81,7 @@ jobs:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
           FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          args=(--out "$RUNNER_TEMP/hub-component-fetch" --report hub-component-fetch-report.json)
+          args=(--origin https://spectrum.adobe.com --out "$RUNNER_TEMP/hub-component-fetch" --report hub-component-fetch-report.json)
           if [ -n "$FETCH_LIMIT" ]; then
             args+=(--limit "$FETCH_LIMIT")
           fi
@@ -302,3 +302,14 @@ jobs:
             .changeset
             sdk/core/src/data_source/embedded.rs
           body-path: component-sync-pr-body.md
+
+      - name: Upload sync reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-component-sync-reports
+          path: |
+            hub-component-fetch-report.json
+            component-blocks-review.md
+            component-sync-flags-summary.md
+          if-no-files-found: warn

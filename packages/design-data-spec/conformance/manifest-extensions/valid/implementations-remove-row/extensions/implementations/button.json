@@ -1,0 +1,10 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "op": "remove",
+      "componentName": "Button",
+      "importPath": "@adobe/spectrum-wc/components/button"
+    }
+  ]
+}

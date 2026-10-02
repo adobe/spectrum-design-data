@@ -73,6 +73,12 @@ pub struct LaunchOptions {
     pub replay: Option<PathBuf>,
     /// Run headless (no TTY) and print the final frame as ANSI SGR to stdout.
     pub snapshot_ansi: bool,
+    /// Select a named `[platforms.<id>]` entry from `.design-data.toml`
+    /// (spectrum-design-data-h890.27.14), mirroring the CLI's own
+    /// `--platform`/`DESIGN_DATA_PLATFORM`. `None` falls back to
+    /// `DESIGN_DATA_PLATFORM`, `default_platform`, or the legacy top-level
+    /// `manifest` key, same precedence as every other command.
+    pub platform_id: Option<String>,
 }
 
 /// Token dataset loaded once at startup and held for the full session.
@@ -99,6 +105,7 @@ impl DatasetHandle {
         mode_sets_arg: Option<PathBuf>,
         allow_write: bool,
         theme: Theme,
+        platform_id: Option<String>,
     ) -> Result<Self> {
         // Resolve spec paths via the central data_source resolver.
         // The dataset path is already explicit; we only need spec catalog dirs + schema.
@@ -108,6 +115,7 @@ impl DatasetHandle {
             &CliPathOverrides {
                 components: components_arg,
                 mode_sets: mode_sets_arg,
+                platform_id,
                 ..Default::default()
             },
         )
@@ -199,6 +207,7 @@ pub fn launch(opts: LaunchOptions) -> miette::Result<()> {
         opts.mode_sets,
         opts.allow_write,
         theme,
+        opts.platform_id,
     )?;
     let resume_wizard = !opts.no_resume_wizard;
 

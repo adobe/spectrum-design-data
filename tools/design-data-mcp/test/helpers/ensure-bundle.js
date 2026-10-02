@@ -19,8 +19,9 @@
  *   test.before(ensureBundle);
  */
 
-import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import { existsSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,6 +31,33 @@ export const packageDir = resolve(
 );
 export const stagingDir = join(packageDir, "dist", "design-data-mcp-bundle");
 export const entryPoint = join(stagingDir, "src", "cli.js");
+const execFileAsync = promisify(execFile);
+
+export async function generateBundle(directory = stagingDir) {
+  await execFileAsync(
+    process.execPath,
+    ["scripts/generate-mcpb.mjs", directory],
+    {
+      cwd: packageDir,
+      timeout: 120_000,
+      maxBuffer: 4 * 1024 * 1024,
+    },
+  );
+}
+
+/** Each content-contract suite owns a fresh tree; never trust a previous manifest. */
+export async function createFreshBundle() {
+  const dist = join(packageDir, "dist");
+  mkdirSync(dist, { recursive: true });
+  const directory = mkdtempSync(join(dist, "content-contract-"));
+  try {
+    await generateBundle(directory);
+    return directory;
+  } catch (error) {
+    rmSync(directory, { recursive: true, force: true });
+    throw error;
+  }
+}
 
 /**
  * Generate the staging bundle if `dist/design-data-mcp-bundle/manifest.json`
@@ -39,15 +67,5 @@ export const entryPoint = join(stagingDir, "src", "cli.js");
 export async function ensureBundle() {
   if (existsSync(join(stagingDir, "manifest.json"))) return;
 
-  await new Promise((resolve, reject) => {
-    const child = spawn("node", ["scripts/generate-mcpb.mjs"], {
-      cwd: packageDir,
-      stdio: "inherit",
-    });
-    child.on("exit", (code) => {
-      if (code === 0) resolve();
-      else reject(new Error(`generate-mcpb.mjs exited with code ${code}`));
-    });
-    child.on("error", reject);
-  });
+  await generateBundle();
 }

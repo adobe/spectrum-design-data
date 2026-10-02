@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "button-group",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ButtonGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}
