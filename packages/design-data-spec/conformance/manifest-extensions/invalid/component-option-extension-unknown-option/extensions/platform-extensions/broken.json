@@ -1,0 +1,4 @@
+{
+  "platform": "iOS",
+  "componentOptions": [{ "component": "button", "option": "not-a-real-option" }]
+}

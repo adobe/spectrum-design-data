@@ -1,0 +1,12 @@
+{
+  "platform": "React Spectrum",
+  "componentOptions": [
+    {
+      "component": "button",
+      "option": "style",
+      "values": [
+        { "value": "not-a-canonical-value", "platformValue": "mystery" }
+      ]
+    }
+  ]
+}

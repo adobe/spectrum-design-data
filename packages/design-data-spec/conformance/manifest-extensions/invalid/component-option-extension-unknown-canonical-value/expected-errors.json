@@ -1,0 +1,5 @@
+{
+  "errors": [
+    { "message_pattern": "value.*not-a-canonical-value.*button.*style" }
+  ]
+}
