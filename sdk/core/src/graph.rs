@@ -1071,17 +1071,43 @@ impl TokenGraph {
                                          \"{component}\" which does not exist"
                                 ))
                             })?;
-                        if component_record
+                        let option_record = component_record
                             .raw
                             .get("options")
-                            .and_then(|o| o.get(option))
-                            .is_none()
-                        {
+                            .and_then(|options| options.get(option));
+                        if option_record.is_none() {
                             return Err(CoreError::ParseError(format!(
                                 "platform manifest extensions.platformExtensions \
                                  ({platform}) componentOptions references option \
                                  \"{option}\" which does not exist on component \"{component}\""
                             )));
+                        }
+                        if let Some(value_aliases) = opt.get("values").and_then(Value::as_array) {
+                            let canonical_values = option_record
+                                .and_then(|option| option.get("values"))
+                                .and_then(Value::as_array)
+                                .ok_or_else(|| {
+                                    CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions maps values for option \
+                                         \"{option}\" on component \"{component}\", which has no canonical values"
+                                    ))
+                                })?;
+                            for alias in value_aliases {
+                                let Some(value) = alias.get("value").and_then(Value::as_str) else {
+                                    continue;
+                                };
+                                if !canonical_values.iter().any(|canonical| {
+                                    canonical.get("value").and_then(Value::as_str) == Some(value)
+                                }) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions value \
+                                         \"{value}\" is not declared on component \
+                                         \"{component}\" option \"{option}\""
+                                    )));
+                                }
+                            }
                         }
                         let record = ComponentOptionExtensionRecord {
                             platform: platform.to_string(),

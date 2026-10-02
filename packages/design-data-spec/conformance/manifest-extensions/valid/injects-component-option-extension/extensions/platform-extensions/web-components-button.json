@@ -5,7 +5,8 @@
       "component": "button",
       "option": "style",
       "platformProp": "fillStyle",
-      "platformAttribute": "fill-style"
+      "platformAttribute": "fill-style",
+      "values": [{ "value": "fill", "platformValue": "Fill" }]
     }
   ]
 }
