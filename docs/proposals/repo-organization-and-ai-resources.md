@@ -12,6 +12,10 @@ This proposal is for discussion with Aaron or the AI/Data squad. It does not mov
 Spectrum 1 already lives on the `s1-legacy` branch and predates the repository's AI tooling, so the
 main-branch question is how to handle deprecated or one-off S2-era assets—not how to relocate S1.
 
+This proposal is stacked on [#1532](https://github.com/adobe/spectrum-design-data/pull/1532), which
+fixes the Hub documentation layout and MCP data source. The inventory was collected from `main`
+before that change; the transformer entry below reflects its removal in the stack's base.
+
 ## Current AI resources
 
 The repository has root `AGENTS.md`, `CLAUDE.md`, and `llms.txt` files, Claude-specific rules and
@@ -59,37 +63,37 @@ deprecation or removal.
 
 ### Tools
 
-| Path                               | Audience / status                                   | Proposed handling                                                                                                                                      |
-| ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `tools/changeset-linter`           | Repository housekeeping; published                  | Classify as internal even though it is published; decide separately whether publication is intentional                                                 |
-| `tools/component-diff-generator`   | Consumer-facing; published                          | Keep; document its public CLI/API                                                                                                                      |
-| `tools/component-options-editor`   | Internal authoring tool; private                    | Keep in the maintainer/authoring category                                                                                                              |
-| `tools/demo`                       | Repository demonstrations; no package manifest      | Keep separate from consumer tool documentation                                                                                                         |
-| `tools/design-data`                | Consumer-facing library; published                  | Keep; package-specific guidance and `llms.txt` are appropriate                                                                                         |
-| `tools/design-data-agent-mcp`      | Consumer-facing MCP/skill; published                | Keep; package instructions should explain installation and user workflows                                                                              |
-| `tools/design-data-mcp`            | Consumer-facing MCP server; published               | Keep; package instructions and `llms.txt` are appropriate                                                                                              |
-| `tools/design-data-mcp-eval`       | Internal evaluation tooling; private                | Keep out of consumer-facing indexes                                                                                                                    |
-| `tools/design-data-skill`          | Consumer-facing skill; published                    | Keep; document installation and usage                                                                                                                  |
-| `tools/diff-generator`             | Consumer-facing CLI/library; published              | Keep; package-specific guidance and `llms.txt` are appropriate                                                                                         |
-| `tools/ios-override-importer`      | One-time internal importer; private                 | Archive candidate, but retain its test target and confirm whether the import is complete before moving                                                 |
-| `tools/markdown-generator`         | Repository content-generation tool; private         | Classify as housekeeping; verify whether any output is still generated before considering archive                                                      |
-| `tools/optimized-diff`             | Consumer-facing library; published                  | Keep; package-specific guidance and `llms.txt` are appropriate                                                                                         |
-| `tools/release-analyzer`           | Repository release-analysis tool; private           | Classify as housekeeping                                                                                                                               |
-| `tools/remark-changeset`           | Unclear; no package manifest found                  | Verify references; remove only if confirmed to be an empty workspace remnant                                                                           |
-| `tools/s2-docs-mcp`                | Consumer-facing documentation MCP; published        | Keep; package-specific instructions and `llms.txt` are appropriate                                                                                     |
-| `tools/s2-docs-to-document-blocks` | Internal documentation-data transform; private      | Classify as housekeeping                                                                                                                               |
-| `tools/s2-docs-transformer`        | Internal documentation scraper/transformer; private | Candidate for retirement after [#1532](https://github.com/adobe/spectrum-design-data/issues/1532) merges; it is still present and has Moon tasks today |
-| `tools/s2-implementation-metadata` | Internal verification scripts; no package manifest  | Classify as housekeeping                                                                                                                               |
-| `tools/spectrum-design-data-mcp`   | Consumer-facing but deprecated; published           | Do not treat as an internal tool or move it; preserve compatibility until an explicit npm deprecation/removal decision                                 |
-| `tools/spectrum-diff-core`         | Consumer-facing shared library; published           | Keep; package-specific guidance and `llms.txt` are appropriate                                                                                         |
-| `tools/spectrum-hub-fetcher`       | Internal Hub sync tool; private                     | Classify as housekeeping                                                                                                                               |
-| `tools/token-changeset-generator`  | Internal release workflow tool; private             | Classify as housekeeping                                                                                                                               |
-| `tools/token-corpus-migrate`       | Internal taxonomy migration CLI; private            | Keep as maintainer tooling; its documentation and the spec still reference it                                                                          |
-| `tools/token-manifest-builder`     | Internal Style Dictionary-era utility; private      | Archive candidate; verify whether the old input format is still supported                                                                              |
-| `tools/token-mapping-analyzer`     | Internal taxonomy analysis; private                 | Keep as maintainer tooling; it is imported by a design-data-spec script and has CI coverage                                                            |
-| `tools/token-name-parser`          | Unclear; no package manifest found                  | Inspect tracked source and references before deciding; generated output alone is not enough to establish it is unused                                  |
-| `tools/token-naming-audit`         | Internal token audit CLI; private                   | Keep as maintainer tooling; it has a CI target                                                                                                         |
-| `tools/transform-tokens-json`      | One-time internal token transform; private          | Archive candidate after verifying no remaining input/output dependency                                                                                 |
+| Path                               | Audience / status                                  | Proposed handling                                                                                                          |
+| ---------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `tools/changeset-linter`           | Repository housekeeping; published                 | Classify as internal even though it is published; decide separately whether publication is intentional                     |
+| `tools/component-diff-generator`   | Consumer-facing; published                         | Keep; document its public CLI/API                                                                                          |
+| `tools/component-options-editor`   | Internal authoring tool; private                   | Keep in the maintainer/authoring category                                                                                  |
+| `tools/demo`                       | Repository demonstrations; no package manifest     | Keep separate from consumer tool documentation                                                                             |
+| `tools/design-data`                | Consumer-facing library; published                 | Keep; package-specific guidance and `llms.txt` are appropriate                                                             |
+| `tools/design-data-agent-mcp`      | Consumer-facing MCP/skill; published               | Keep; package instructions should explain installation and user workflows                                                  |
+| `tools/design-data-mcp`            | Consumer-facing MCP server; published              | Keep; package instructions and `llms.txt` are appropriate                                                                  |
+| `tools/design-data-mcp-eval`       | Internal evaluation tooling; private               | Keep out of consumer-facing indexes                                                                                        |
+| `tools/design-data-skill`          | Consumer-facing skill; published                   | Keep; document installation and usage                                                                                      |
+| `tools/diff-generator`             | Consumer-facing CLI/library; published             | Keep; package-specific guidance and `llms.txt` are appropriate                                                             |
+| `tools/ios-override-importer`      | One-time internal importer; private                | Archive candidate, but retain its test target and confirm whether the import is complete before moving                     |
+| `tools/markdown-generator`         | Repository content-generation tool; private        | Classify as housekeeping; verify whether any output is still generated before considering archive                          |
+| `tools/optimized-diff`             | Consumer-facing library; published                 | Keep; package-specific guidance and `llms.txt` are appropriate                                                             |
+| `tools/release-analyzer`           | Repository release-analysis tool; private          | Classify as housekeeping                                                                                                   |
+| `tools/remark-changeset`           | Unclear; no package manifest found                 | Verify references; remove only if confirmed to be an empty workspace remnant                                               |
+| `tools/s2-docs-mcp`                | Consumer-facing documentation MCP; published       | Keep; package-specific instructions and `llms.txt` are appropriate                                                         |
+| `tools/s2-docs-to-document-blocks` | Internal documentation-data transform; private     | Classify as housekeeping                                                                                                   |
+| `tools/s2-docs-transformer`        | Retired internal documentation scraper/transformer | Removed by [#1532](https://github.com/adobe/spectrum-design-data/pull/1532); no additional archive or relocation is needed |
+| `tools/s2-implementation-metadata` | Internal verification scripts; no package manifest | Classify as housekeeping                                                                                                   |
+| `tools/spectrum-design-data-mcp`   | Consumer-facing but deprecated; published          | Do not treat as an internal tool or move it; preserve compatibility until an explicit npm deprecation/removal decision     |
+| `tools/spectrum-diff-core`         | Consumer-facing shared library; published          | Keep; package-specific guidance and `llms.txt` are appropriate                                                             |
+| `tools/spectrum-hub-fetcher`       | Internal Hub sync tool; private                    | Classify as housekeeping                                                                                                   |
+| `tools/token-changeset-generator`  | Internal release workflow tool; private            | Classify as housekeeping                                                                                                   |
+| `tools/token-corpus-migrate`       | Internal taxonomy migration CLI; private           | Keep as maintainer tooling; its documentation and the spec still reference it                                              |
+| `tools/token-manifest-builder`     | Internal Style Dictionary-era utility; private     | Archive candidate; verify whether the old input format is still supported                                                  |
+| `tools/token-mapping-analyzer`     | Internal taxonomy analysis; private                | Keep as maintainer tooling; it is imported by a design-data-spec script and has CI coverage                                |
+| `tools/token-name-parser`          | Unclear; no package manifest found                 | Inspect tracked source and references before deciding; generated output alone is not enough to establish it is unused      |
+| `tools/token-naming-audit`         | Internal token audit CLI; private                  | Keep as maintainer tooling; it has a CI target                                                                             |
+| `tools/transform-tokens-json`      | One-time internal token transform; private         | Archive candidate after verifying no remaining input/output dependency                                                     |
 
 ### Other repository areas
 
@@ -153,7 +157,7 @@ for users of Spectrum tools. Keep consumer installation and usage help in packag
 ## Suggested implementation sequence
 
 1. Agree on the classification model and inventory with Aaron / the AI-Data squad.
-2. Wait for [#1532](https://github.com/adobe/spectrum-design-data/issues/1532) to merge before evaluating the S2 docs transformer against its replacement.
+2. Merge [#1532](https://github.com/adobe/spectrum-design-data/pull/1532) first; its removal of the S2 docs transformer already handles that archive candidate.
 3. Add the audience/lifecycle inventory and generated index; validate all paths against workspace,
    Moon, CI, docs, and package metadata.
 4. Adopt the root `.ai/` source and generator/validator tasks; migrate existing Claude rules and
@@ -170,9 +174,10 @@ for users of Spectrum tools. Keep consumer installation and usage help in packag
   Slack conversation.
 * The replacement MCP is documented as the maintained option, while the older package explicitly
   says it remains available for compatibility: `tools/spectrum-design-data-mcp/README.md:3-9`.
-* `s2-docs-transformer` is still private and has active Moon tasks over `docs/s2-docs`; treat [#1532](https://github.com/adobe/spectrum-design-data/issues/1532)
-  as a sequencing dependency, not as a completed removal: `tools/s2-docs-transformer/package.json:2-18`,
-  `tools/s2-docs-transformer/moon.yml:3-46`.
+* At inventory time on `main`, `s2-docs-transformer` was private and had Moon tasks over
+  `docs/s2-docs`: `tools/s2-docs-transformer/package.json:2-18`,
+  `tools/s2-docs-transformer/moon.yml:3-46`. Those files are removed in
+  [#1532](https://github.com/adobe/spectrum-design-data/pull/1532), the base of this stack.
 * The importer calls itself one-time and remains in the CI target list:
   `tools/ios-override-importer/package.json:2-11`, `.github/ci-targets.json:29`.
 * The taxonomy migration is documented as a one-shot operation and is still referenced by the spec:
