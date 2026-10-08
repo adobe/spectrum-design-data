@@ -24,9 +24,8 @@
       "args": ["mcp"]
     },
     "ferrograph": {
-      "command": "ferrograph",
-      "args": ["mcp"],
-      "cwd": "sdk",
+      "command": "/bin/sh",
+      "args": ["-c", "cd sdk && exec ferrograph mcp"],
       "env": {
         "FERROGRAPH_DB": ".ferrograph"
       }
