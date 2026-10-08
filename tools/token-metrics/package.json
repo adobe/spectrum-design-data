@@ -1,0 +1,43 @@
+{
+  "name": "@adobe/spectrum-tokens-metrics",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Extracts and reports design token metrics from @adobe/spectrum-tokens for tracking health, coverage, and growth of the Spectrum design token system",
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "token-metrics": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "engines": {
+    "node": ">=20.12.0",
+    "pnpm": ">=10.17.1"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git",
+    "directory": "tools/token-metrics"
+  },
+  "author": "Garth Braithwaite <garthdb@gmail.com> (http://garthdb.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data/tree/main/tools/token-metrics#readme",
+  "keywords": [
+    "spectrum",
+    "tokens",
+    "metrics",
+    "design-system",
+    "analysis"
+  ],
+  "dependencies": {
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "ava": "^6.0.0"
+  }
+}
