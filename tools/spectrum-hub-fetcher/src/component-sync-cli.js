@@ -15,9 +15,9 @@
  * CLI entrypoint for `component-sync.js`, for bead spectrum-design-data-085.2.5's
  * `hub-component-sync.yml` (Phase C). Fetches every Hub slug component-map.js
  * knows about, merges each RSP/SWC pair, and writes one Markdown file per
- * resolved local target under <out>/<category>/<target>.md — in the same
- * frontmatter + heading shape tools/s2-docs-to-document-blocks already
- * consumes via its `transform` command.
+ * Hub page under <out>/web/{rsp,swc}/components/<hub-slug>.md, mirroring the
+ * Hub's information architecture. The RSP and SWC pages are kept as separate
+ * files; merge flags are reported but not applied to the files.
  *
  * All the actual fetch/merge/render logic lives in `component-sync.js`,
  * which has no CLI/argv/process.exit concerns and is what tests import —
@@ -44,9 +44,8 @@ Usage:
 
 Fetches every Hub slug component-map.js knows about (RSP + SWC where both
 exist), merges each pair with mergeComponentSections(), and writes one
-Markdown file per resolved local target under <out>/<category>/<target>.md —
-in the same frontmatter + heading shape tools/s2-docs-to-document-blocks
-already consumes via its \`transform\` command.
+Markdown file per Hub page under <out>/web/{rsp,swc}/components/<hub-slug>.md.
+RSP and SWC pages stay separate; \`transform\` reads the RSP page.
 
 Defaults:
   --out ./_hub-component-fetch
@@ -151,11 +150,17 @@ async function main() {
       continue;
     }
 
-    for (const { target, category } of result.targets) {
-      const destination = join(args.outDir, category, `${target}.md`);
+    for (const { platform, markdown } of result.pages) {
+      const destination = join(
+        args.outDir,
+        "web",
+        platform,
+        "components",
+        `${result.slug}.md`,
+      );
       if (!args.dryRun) {
         mkdirSync(dirname(destination), { recursive: true });
-        writeFileSync(destination, result.markdown, "utf8");
+        writeFileSync(destination, markdown, "utf8");
       }
       written += 1;
     }

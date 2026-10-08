@@ -12,13 +12,14 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { assignSlugs, canonicalGuidelinePath } from "../src/hub-map.js";
+import { canonicalGuidelinePath } from "../src/hub-map.js";
 import { renderPage } from "../src/markdown.js";
 import { parseDoc } from "../../s2-docs-to-document-blocks/src/md-parser.js";
 import { buildGuideline } from "../../s2-docs-to-document-blocks/src/guideline-builder.js";
+import { buildGuidelineIndex } from "../../s2-docs-to-document-blocks/src/cli.js";
 
 const SCRIPT = fileURLToPath(
   new URL("../scripts/stage-docs.js", import.meta.url),
@@ -48,10 +49,10 @@ function writePage(root, slug, path, origin, category = "designing") {
     category,
     sourceUrl: `${origin}${path}`,
     sections: [{ heading: "Overview", level: 2, text: "Useful guidance." }],
-    extra: { hub_path: path },
+    extra: { hub_path: path, slug },
   });
   const file = join(root, category, `${slug}.md`);
-  mkdirSync(join(root, category), { recursive: true });
+  mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, markdown);
   return file;
 }
@@ -80,69 +81,86 @@ function stage(options, extra = [], env = {}) {
   );
 }
 
-test("staging reconciles slugs when a colliding Hub path disappears", (t) => {
+test("staging mirrors the Hub path and keeps slug/category in frontmatter", (t) => {
   const options = t.context;
-  const oldPath = "/foundations/content-design/voice-and-tone";
-  const path = "/content/voice-and-tone";
-  const oldSlugs = assignSlugs([oldPath, path]);
-  const newSlug = assignSlugs([path]).get(path);
-  t.is(newSlug, "voice-and-tone");
-
-  const oldFiles = [oldPath, path].map((old) => {
-    const slug = oldSlugs.get(old);
-    t.not(slug, newSlug);
-    return {
-      markdown: writePage(options.to, slug, old, PREVIEW),
-      json: writeGuideline(options.guidelinesDir, slug, `${PREVIEW}${old}`),
-    };
-  });
-  writePage(options.from, newSlug, path, PUBLIC);
-
-  const legacy = writePage(
-    options.to,
-    "legacy-only",
-    "/page/legacy-only/",
-    "https://s2.spectrum.corp.adobe.com",
+  writePage(options.from, "voice-and-tone", "/content/voice-and-tone", PUBLIC);
+  writePage(
+    options.from,
+    "fonts",
+    "/foundations/typography/fonts",
+    PUBLIC,
+    "designing",
   );
-  const unrelated = writePage(
+
+  t.true(stage(options).includes("added 2, updated 0, unchanged 0"));
+  const staged = join(options.to, "content", "voice-and-tone.md");
+  t.true(existsSync(join(options.to, "foundations/typography/fonts.md")));
+  const { frontmatter } = parseDoc(readFileSync(staged, "utf8"));
+  t.is(frontmatter.slug, "voice-and-tone");
+  t.is(frontmatter.category, "designing");
+  t.true(stage(options).includes("unchanged 2"));
+
+  const index = buildGuidelineIndex(options.to);
+  t.is(index.get("voice-and-tone"), staged);
+  const { doc } = buildGuideline(
+    parseDoc(readFileSync(staged, "utf8")),
+    "voice-and-tone",
+  );
+  t.is(doc.sourceUrl, `${PUBLIC}/content/voice-and-tone`);
+});
+
+test("staging preserves pages absent from the fetch", (t) => {
+  const options = t.context;
+  const omitted = writePage(
     options.to,
-    "other-hub-page",
+    "other",
     "/content/other-hub-page",
-    PREVIEW,
+    PUBLIC,
   );
-  const legacyJson = writeGuideline(
+  const target = join(options.to, "content", "other-hub-page.md");
+  writePage(options.from, "voice-and-tone", "/content/voice-and-tone", PUBLIC);
+
+  stage(options);
+  t.true(existsSync(omitted));
+  t.false(existsSync(target) && false);
+  t.true(existsSync(join(options.to, "content", "voice-and-tone.md")));
+});
+
+test("a re-slugged Hub page removes its obsolete guideline JSON only", (t) => {
+  const options = t.context;
+  const path = "/content/voice-and-tone";
+  const stale = writeGuideline(
+    options.guidelinesDir,
+    "content-voice-and-tone",
+    `${PREVIEW}${path}`,
+  );
+  const legacy = writeGuideline(
     options.guidelinesDir,
     "legacy-only",
     "https://s2.spectrum.corp.adobe.com/page/legacy-only/",
   );
-  const unrelatedJson = writeGuideline(
+  const unrelated = writeGuideline(
     options.guidelinesDir,
     "other-hub-page",
-    `${PREVIEW}/content/other-hub-page`,
+    `${PUBLIC}/content/other-hub-page`,
   );
+  writePage(options.from, "voice-and-tone", path, PUBLIC);
 
   const githubOutput = join(options.root, "github-output");
-  const output = stage(options, [], { GITHUB_OUTPUT: githubOutput });
+  t.true(
+    stage(options, [], { GITHUB_OUTPUT: githubOutput }).includes(
+      "removed 1 guideline JSON",
+    ),
+  );
   t.true(
     readFileSync(githubOutput, "utf8").includes(
       "guideline_count_decrease_allowed=true",
     ),
   );
-  t.true(output.includes("removed 2 superseded Markdown and 2 guideline JSON"));
-  for (const file of oldFiles) {
-    t.false(existsSync(file.markdown));
-    t.false(existsSync(file.json));
-  }
-  for (const file of [legacy, unrelated, legacyJson, unrelatedJson]) {
-    t.true(existsSync(file));
-  }
-  const markdown = readFileSync(
-    join(options.to, "designing", `${newSlug}.md`),
-    "utf8",
-  );
-  const { doc } = buildGuideline(parseDoc(markdown), newSlug);
-  t.is(doc.name, newSlug);
-  t.is(doc.sourceUrl, `${PUBLIC}${path}`);
+  t.false(existsSync(stale));
+  t.true(existsSync(legacy));
+  t.true(existsSync(unrelated));
+
   const secondOutput = join(options.root, "second-output");
   stage(options, [], { GITHUB_OUTPUT: secondOutput });
   t.is(
@@ -151,53 +169,9 @@ test("staging reconciles slugs when a colliding Hub path disappears", (t) => {
   );
 });
 
-test("staging reconciles generated orphans even when their Markdown is missing", (t) => {
-  const options = t.context;
-  const old = "/foundations/content-design/voice-and-tone";
-  const json = writeGuideline(
-    options.guidelinesDir,
-    "content-design-voice-and-tone",
-    `${PREVIEW}${old}`,
-  );
-  writePage(options.from, "voice-and-tone", "/content/voice-and-tone", PUBLIC);
-
-  t.true(
-    stage(options).includes(
-      "removed 0 superseded Markdown and 1 guideline JSON",
-    ),
-  );
-  t.false(existsSync(json));
-});
-
-test("staging removes both old Containers paths in favor of the public path", (t) => {
-  const options = t.context;
-  const paths = [
-    "/foundations/visual-language/containers",
-    "/foundations/layout-and-structure/containers",
-  ];
-  const slugs = assignSlugs(paths);
-  const oldFiles = paths.map((path) => ({
-    markdown: writePage(options.to, slugs.get(path), path, PREVIEW),
-    json: writeGuideline(
-      options.guidelinesDir,
-      slugs.get(path),
-      `${PREVIEW}${path}`,
-    ),
-  }));
-  writePage(options.from, "containers", paths[1], PUBLIC);
-
-  stage(options);
-  for (const file of oldFiles) {
-    t.false(existsSync(file.markdown));
-    t.false(existsSync(file.json));
-  }
-  t.true(existsSync(join(options.to, "designing", "containers.md")));
-});
-
-test("staging dry run reports superseded files without changing them", (t) => {
+test("staging dry run changes nothing", (t) => {
   const options = t.context;
   const path = "/content/voice-and-tone";
-  const old = writePage(options.to, "content-voice-and-tone", path, PREVIEW);
   const json = writeGuideline(
     options.guidelinesDir,
     "content-voice-and-tone",
@@ -205,55 +179,9 @@ test("staging dry run reports superseded files without changing them", (t) => {
   );
   writePage(options.from, "voice-and-tone", path, PUBLIC);
 
-  const githubOutput = join(options.root, "github-output");
-  t.true(
-    stage(options, ["--dry-run"], {
-      GITHUB_OUTPUT: githubOutput,
-    }).includes("[dry-run] superseded:"),
-  );
-  t.true(
-    readFileSync(githubOutput, "utf8").includes(
-      "guideline_count_decrease_allowed=false",
-    ),
-  );
-  t.true(existsSync(old));
+  t.true(stage(options, ["--dry-run"]).includes("[dry-run] 1 hub page(s)"));
   t.true(existsSync(json));
-  t.false(existsSync(join(options.to, "designing", "voice-and-tone.md")));
-});
-
-test("a category move preserves JSON whose slug is still incoming", (t) => {
-  const options = t.context;
-  const path = "/support/developer-overview";
-  const old = writePage(options.to, "developer-overview", path, PREVIEW);
-  const json = writeGuideline(
-    options.guidelinesDir,
-    "developer-overview",
-    `${PREVIEW}${path}`,
-  );
-  writePage(options.from, "developer-overview", path, PUBLIC, "developing");
-
-  stage(options);
-  t.false(existsSync(old));
-  t.true(existsSync(json));
-  t.true(existsSync(join(options.to, "developing", "developer-overview.md")));
-});
-
-test("staging refuses mismatched JSON before changing any files", (t) => {
-  const options = t.context;
-  const path = "/content/voice-and-tone";
-  const old = writePage(options.to, "content-voice-and-tone", path, PREVIEW);
-  const json = writeGuideline(
-    options.guidelinesDir,
-    "content-voice-and-tone",
-    `${PUBLIC}/content/other-page`,
-  );
-  writePage(options.from, "voice-and-tone", path, PUBLIC);
-
-  const error = t.throws(() => stage(options));
-  t.true(error.stderr.includes("Cannot reconcile unrelated guideline"));
-  t.true(existsSync(old));
-  t.true(existsSync(json));
-  t.false(existsSync(join(options.to, "designing", "voice-and-tone.md")));
+  t.false(existsSync(join(options.to, "content", "voice-and-tone.md")));
 });
 
 test("staging rejects conflicting incoming aliases before writing files", (t) => {
@@ -273,17 +201,14 @@ test("staging rejects conflicting incoming aliases before writing files", (t) =>
 
 test("an empty fetch cannot remove staged or generated guidance", (t) => {
   const options = t.context;
-  const path = "/content/voice-and-tone";
-  const old = writePage(options.to, "content-voice-and-tone", path, PREVIEW);
   const json = writeGuideline(
     options.guidelinesDir,
     "content-voice-and-tone",
-    `${PREVIEW}${path}`,
+    `${PREVIEW}/content/voice-and-tone`,
   );
 
   const error = t.throws(() => stage(options));
   t.true(error.stderr.includes("No markdown found"));
-  t.true(existsSync(old));
   t.true(existsSync(json));
 });
 
@@ -354,17 +279,22 @@ const CONTENT_FACTS = {
   ],
 };
 
+const PUBLISHED_DOCS = fileURLToPath(
+  new URL("../../../docs/s2-docs", import.meta.url),
+);
+
 for (const [slug, facts] of Object.entries(CONTENT_FACTS)) {
   test(`published ${slug} preserves content facts through staging and transformation`, (t) => {
-    const source = readFileSync(
-      new URL(`../../../docs/s2-docs/designing/${slug}.md`, import.meta.url),
-      "utf8",
-    );
-    mkdirSync(join(t.context.from, "designing"), { recursive: true });
-    writeFileSync(join(t.context.from, "designing", `${slug}.md`), source);
+    const sourcePath = buildGuidelineIndex(PUBLISHED_DOCS).get(slug);
+    t.truthy(sourcePath, `docs/s2-docs has a page for ${slug}`);
+    const source = readFileSync(sourcePath, "utf8");
+    const { frontmatter } = parseDoc(source);
+    const fetched = join(t.context.from, frontmatter.category, `${slug}.md`);
+    mkdirSync(dirname(fetched), { recursive: true });
+    writeFileSync(fetched, source);
     stage(t.context);
     const staged = readFileSync(
-      join(t.context.to, "designing", `${slug}.md`),
+      join(t.context.to, `${frontmatter.hub_path.slice(1)}.md`),
       "utf8",
     );
     const { doc } = buildGuideline(parseDoc(staged), slug);

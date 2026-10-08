@@ -13,6 +13,7 @@ tags:
   - Prototyping
   - design-to-code
 hub_path: /support/ai-resource-guide
+slug: ai-resource-guide
 ---
 
 # AI resource guide

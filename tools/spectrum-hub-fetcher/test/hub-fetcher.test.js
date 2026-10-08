@@ -14,6 +14,8 @@ import test from "ava";
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { buildGuidelineIndex } from "../../s2-docs-to-document-blocks/src/cli.js";
 import { parse } from "node-html-parser";
 
 import { main } from "../src/cli.js";
@@ -59,7 +61,9 @@ test("text boundaries and decoded punctuation survive extraction and guideline p
 test("published internationalization and grammar guidance retains readable text", (t) => {
   for (const slug of ["internationalization", "grammar-and-mechanics"]) {
     const markdown = readFileSync(
-      new URL(`../../../docs/s2-docs/designing/${slug}.md`, import.meta.url),
+      buildGuidelineIndex(
+        fileURLToPath(new URL("../../../docs/s2-docs", import.meta.url)),
+      ).get(slug),
       "utf8",
     );
     const json = readFileSync(

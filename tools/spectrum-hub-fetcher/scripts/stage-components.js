@@ -11,20 +11,20 @@
  */
 
 /**
- * Copies fetched+merged component Markdown from a scratch directory into the
- * docs/s2-docs/components tree that tools/s2-docs-to-document-blocks's
- * `transform` command reads.
+ * Copies fetched component Markdown from a scratch directory into the
+ * docs/s2-docs tree, preserving the Hub's own layout:
  *
- * Reconciles category migrations by component filename. Components omitted
- * from this run are left untouched. Unlike stage-docs.js, subdirectories are
- * discovered from the source tree rather than a hardcoded list — component
- * categories (actions/containers/data-visualization/feedback/inputs/
- * navigation/status) come from each target's own `meta.category` field (see
- * `component-sync-cli.js`), not a fixed guideline-style enum, so hardcoding
- * them here would be one more list to keep in sync for no benefit.
+ *   web/rsp/components/<hub-slug>.md
+ *   web/swc/components/<hub-slug>.md
+ *
+ * Staged pages carry `design_data_targets` frontmatter, which
+ * tools/s2-docs-to-document-blocks's `transform` command uses to find the
+ * page for each design-data component. Staged pages that the fetch no longer
+ * produces are removed, but only when the run covered every known slug
+ * (pass --prune); partial runs leave pages absent from the fetch untouched.
  *
  * Usage:
- *   node scripts/stage-components.js --from ./_hub-component-fetch --to ./docs/s2-docs/components [--dry-run]
+ *   node scripts/stage-components.js --from ./_hub-component-fetch --to ./docs/s2-docs [--prune] [--dry-run]
  */
 
 import {
@@ -37,10 +37,13 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 
+const PLATFORMS = ["rsp", "swc"];
+
 function parseArgs(argv) {
   const options = {
     from: "./_hub-component-fetch",
-    to: "./docs/s2-docs/components",
+    to: "./docs/s2-docs",
+    prune: false,
     dryRun: false,
   };
 
@@ -48,27 +51,25 @@ function parseArgs(argv) {
     const arg = argv[index];
     if (arg === "--from") options.from = argv[index + 1];
     else if (arg === "--to") options.to = argv[index + 1];
+    else if (arg === "--prune") options.prune = true;
     else if (arg === "--dry-run") options.dryRun = true;
   }
 
   return options;
 }
 
-function collect(from) {
+function collect(root) {
   const files = [];
 
-  if (!existsSync(from)) {
-    return files;
-  }
-
-  for (const category of readdirSync(from, { withFileTypes: true })) {
-    if (!category.isDirectory()) continue;
-    const dir = join(from, category.name);
+  for (const platform of PLATFORMS) {
+    const dir = join(root, "web", platform, "components");
+    if (!existsSync(dir)) continue;
     for (const file of readdirSync(dir, { withFileTypes: true })) {
       if (file.isFile() && file.name.endsWith(".md")) {
         files.push({
-          category: category.name,
+          platform,
           name: file.name,
+          relative: join("web", platform, "components", file.name),
           source: join(dir, file.name),
         });
       }
@@ -84,7 +85,7 @@ function main() {
 
   if (files.length === 0) {
     console.error(
-      `No markdown found under ${options.from}. Run component-sync-cli.js first.`,
+      `No markdown found under ${options.from}/web. Run component-sync-cli.js first.`,
     );
     process.exitCode = 1;
     return;
@@ -94,20 +95,9 @@ function main() {
   let updated = 0;
   let unchanged = 0;
   let removed = 0;
-  const incoming = new Map();
-  for (const file of files) {
-    if (incoming.has(file.name)) {
-      throw new Error(
-        `Duplicate component "${file.name}" in ${incoming.get(file.name)} and ${file.source}`,
-      );
-    }
-    incoming.set(file.name, file.source);
-  }
-  const existing = collect(options.to);
 
   for (const file of files) {
-    const targetDir = join(options.to, file.category);
-    const target = join(targetDir, file.name);
+    const target = join(options.to, file.relative);
     const contents = readFileSync(file.source, "utf8");
 
     if (!existsSync(target)) added += 1;
@@ -115,11 +105,15 @@ function main() {
     else updated += 1;
 
     if (!options.dryRun) {
-      mkdirSync(targetDir, { recursive: true });
+      mkdirSync(join(target, ".."), { recursive: true });
       writeFileSync(target, contents);
     }
-    for (const old of existing) {
-      if (old.name !== file.name || old.category === file.category) continue;
+  }
+
+  if (options.prune) {
+    const incoming = new Set(files.map((file) => file.relative));
+    for (const old of collect(options.to)) {
+      if (incoming.has(old.relative)) continue;
       removed += 1;
       if (!options.dryRun) unlinkSync(old.source);
     }
@@ -128,7 +122,7 @@ function main() {
   const prefix = options.dryRun ? "[dry-run] " : "";
   console.log(`${prefix}${files.length} component page(s) -> ${options.to}`);
   console.log(
-    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}, removed ${removed} superseded path(s)`,
+    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}, removed ${removed} stale page(s)`,
   );
 }
 

@@ -30,11 +30,8 @@ tasks:
     command:
       - node
       - tasks/bundleDocs.js
+    inputs:
+      - "tasks/bundleDocs.js"
+      - "/packages/design-data/components/*.json"
     outputs:
       - "data/"
-
-  index:
-    command: "node src/batch-scraper.js index"
-
-  report:
-    command: "node src/batch-scraper.js report"
