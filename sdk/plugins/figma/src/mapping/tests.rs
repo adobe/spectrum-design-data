@@ -1402,3 +1402,95 @@ fn s2_web_baseline_fixture_deserializes() {
     );
     assert!(!meta.variables.is_empty(), "expected at least one variable");
 }
+
+fn redirect_fixture() -> (tempfile::TempDir, Vec<(String, PathBuf, serde_json::Value)>) {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let dim = "https://example.com/dimension.json";
+    write!(
+        f,
+        "{}",
+        json!({
+            "old-a": { "$schema": dim, "value": "200px", "uuid": "o1", "deprecated": true, "renamed": "old-b" },
+            "old-b": { "$schema": dim, "value": "180px", "uuid": "o2", "deprecated": true, "renamed": "new-w" },
+            "new-w": { "$schema": dim, "value": "192px", "uuid": "o3" },
+            "old-none": { "$schema": dim, "value": "10px", "uuid": "o4", "deprecated": true },
+            "cyc-a": { "$schema": dim, "value": "1px", "uuid": "o5", "deprecated": true, "renamed": "cyc-b" },
+            "cyc-b": { "$schema": dim, "value": "2px", "uuid": "o6", "deprecated": true, "renamed": "cyc-a" },
+            "old-color": {
+                "$schema": "https://example.com/color.json", "value": "rgb(1, 2, 3)",
+                "uuid": "o7", "deprecated": true, "renamed": "new-w"
+            }
+        })
+    )
+    .unwrap();
+    let tokens = load_all_tokens(dir.path()).unwrap();
+    (dir, tokens)
+}
+
+fn alias_target(body: &PostVariablesBody, name: &str) -> Vec<String> {
+    let id = body
+        .variables
+        .iter()
+        .find(|v| v.name == name)
+        .and_then(|v| v.id.clone())
+        .unwrap_or_else(|| panic!("variable {name} missing"));
+    body.variable_mode_values
+        .iter()
+        .filter(|mv| mv.variable_id == id)
+        .filter(|mv| mv.value.get("type").and_then(|t| t.as_str()) == Some("VARIABLE_ALIAS"))
+        .filter_map(|mv| {
+            mv.value
+                .get("id")
+                .and_then(|v| v.as_str())
+                .map(String::from)
+        })
+        .collect()
+}
+
+#[test]
+fn redirect_deprecated_follows_chain_to_terminal_replacement() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
+            .unwrap();
+    assert_eq!(
+        alias_target(&body, "platformScale/old-a"),
+        vec!["platformScale__new-w"]
+    );
+    assert_eq!(
+        alias_target(&body, "platformScale/old-b"),
+        vec!["platformScale__new-w"]
+    );
+    assert_eq!(summary.redirected_deprecated.len(), 2);
+}
+
+#[test]
+fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
+            .unwrap();
+    for name in [
+        "platformScale/old-none",
+        "platformScale/cyc-a",
+        "platformScale/cyc-b",
+    ] {
+        assert!(alias_target(&body, name).is_empty(), "{name} aliased");
+    }
+    assert!(alias_target(&body, "colorTheme/old-color").is_empty());
+    assert!(!summary.redirect_skipped.is_empty());
+}
+
+#[test]
+fn redirect_deprecated_is_off_by_default() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    assert!(summary.redirected_deprecated.is_empty());
+    assert!(alias_target(&body, "platformScale/old-a").is_empty());
+}
