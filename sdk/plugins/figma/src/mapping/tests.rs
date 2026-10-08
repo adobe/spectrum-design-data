@@ -1494,3 +1494,42 @@ fn redirect_deprecated_is_off_by_default() {
     assert!(summary.redirected_deprecated.is_empty());
     assert!(alias_target(&body, "platformScale/old-a").is_empty());
 }
+
+#[test]
+fn redirect_deprecated_targets_alias_schema_replacements() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let dim = "https://example.com/dimension.json";
+    write!(
+        f,
+        "{}",
+        json!({
+            "spacing-300": { "$schema": dim, "value": "12px", "uuid": "s1" },
+            "container-padding-medium": {
+                "$schema": "https://example.com/alias.json",
+                "value": "{spacing-300}", "uuid": "s2"
+            },
+            "old-padding": {
+                "$schema": dim, "value": "14px", "uuid": "s3",
+                "deprecated": true, "renamed": "container-padding-medium"
+            }
+        })
+    )
+    .unwrap();
+    let tokens = load_all_tokens(dir.path()).unwrap();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
+            .unwrap();
+    assert_eq!(
+        alias_target(&body, "platformScale/old-padding"),
+        vec!["platformScale__container-padding-medium"]
+    );
+    assert!(
+        summary.redirect_skipped.is_empty(),
+        "{:?}",
+        summary.redirect_skipped
+    );
+}

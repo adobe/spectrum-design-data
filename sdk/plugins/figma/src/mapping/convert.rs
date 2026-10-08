@@ -517,6 +517,16 @@ pub(super) fn compute_redirects(
     redirects
 }
 
+/// Whether an alias-schema token will be exported as a variable by
+/// [`process_alias_token`] (it resolves and its value converts), and if so
+/// whether it routes to the color collection.
+pub(super) fn alias_exportable_route(value_index: &ValueIndex, token_name: &str) -> Option<bool> {
+    let resolved = value_index.get(token_name)?.as_ref().ok()?;
+    let figma_type = schema_to_figma_type(&resolved.schema);
+    value_to_figma(&resolved.value, figma_type, &resolved.schema).ok()?;
+    Some(figma_type == "COLOR" || resolved.schema.ends_with(OPACITY))
+}
+
 /// Figma type and whether the token belongs in the color collection, for a
 /// redirected token (derived from its own resolved value, like
 /// [`process_alias_token`]).

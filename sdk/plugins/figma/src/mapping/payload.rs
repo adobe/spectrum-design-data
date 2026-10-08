@@ -17,9 +17,9 @@ use std::path::PathBuf;
 use serde_json::Value;
 
 use super::convert::{
-    build_value_index, compute_redirects, process_alias_token, process_color_set_token,
-    process_flat_token, process_redirected_token, process_scale_set_token, redirect_route,
-    resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
+    alias_exportable_route, build_value_index, compute_redirects, process_alias_token,
+    process_color_set_token, process_flat_token, process_redirected_token, process_scale_set_token,
+    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
 };
 use super::routing::{
     resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
@@ -296,8 +296,43 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         alias_target_ids.insert(token_name.clone(), id);
     }
 
+    let mut redirect_target_ids = alias_target_ids.clone();
     let redirects = if redirect_deprecated {
-        compute_redirects(tokens, &value_index, &alias_target_ids, &mut summary)
+        // Semantic replacements are often alias-schema tokens, which the
+        // pre-pass above excludes. They are still exported as variables, so a
+        // redirect may target them; mirror process_alias_token's routing.
+        for (token_name, token_file, token_entry) in tokens {
+            let is_alias_schema = token_entry
+                .get("$schema")
+                .and_then(|v| v.as_str())
+                .is_some_and(|s| s.ends_with(ALIAS));
+            let is_ref = token_entry
+                .get("value")
+                .and_then(|v| v.as_str())
+                .is_some_and(|v| v.starts_with('{') && v.ends_with('}'));
+            if !is_alias_schema || !is_ref {
+                continue;
+            }
+            let Some(is_color) = alias_exportable_route(&value_index, token_name) else {
+                continue;
+            };
+            let kind = if is_color {
+                TokenKind::Color
+            } else {
+                TokenKind::Scale
+            };
+            let Some(rc) = super::routing::pick_collection(&resolved, kind, token_file) else {
+                continue;
+            };
+            let (_, id) = resolve_variable_id(
+                token_name,
+                rc.spec.default_prefix,
+                &existing_var_index,
+                overrides,
+            );
+            redirect_target_ids.insert(token_name.clone(), id);
+        }
+        compute_redirects(tokens, &value_index, &redirect_target_ids, &mut summary)
     } else {
         HashMap::new()
     };
@@ -317,7 +352,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         if let Some(target_name) = redirects.get(token_name) {
             if let (Some((figma_type, is_color)), Some(target_id)) = (
                 redirect_route(&value_index, token_name),
-                alias_target_ids.get(target_name),
+                redirect_target_ids.get(target_name),
             ) {
                 let kind = if is_color {
                     TokenKind::Color
