@@ -34,5 +34,6 @@ projects:
   s2-docs-to-document-blocks: "tools/s2-docs-to-document-blocks"
   spectrum-hub-fetcher: "tools/spectrum-hub-fetcher"
   ios-override-importer: "tools/ios-override-importer"
+  figma-code-connect: "tools/figma-code-connect"
 vcs:
   defaultBranch: "main"
