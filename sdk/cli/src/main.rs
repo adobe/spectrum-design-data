@@ -621,6 +621,14 @@ enum FigmaSub {
         /// `property` and only casing/delimiter conversion applies.
         #[arg(long = "code-syntax-manifest", value_name = "PLATFORM=PATH")]
         code_syntax_manifests: Vec<String>,
+        /// Export a deprecated token that names a replacement (`renamed` /
+        /// `lifecycle.replacedBy`) as an alias to that replacement's variable
+        /// in every mode, instead of its own literal value. Follows
+        /// replacement chains. Changes the values Figma designs render for
+        /// those tokens — review with `figma diff` before writing. Deprecated
+        /// tokens without a usable replacement keep their literal value.
+        #[arg(long)]
+        redirect_deprecated: bool,
         #[command(flatten)]
         write_options: FigmaWriteOptions,
     },
@@ -2304,6 +2312,7 @@ fn write_figma_report(
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn run_figma_export(
     path: &Path,
     file_key: &str,
@@ -2311,6 +2320,7 @@ fn run_figma_export(
     mapping: Option<&Path>,
     manifest: Option<&Path>,
     code_syntax_manifests: &[String],
+    redirect_deprecated: bool,
     write_options: &FigmaWriteOptions,
 ) -> miette::Result<ExitCode> {
     use figma::write_guard;
@@ -2390,11 +2400,12 @@ fn run_figma_export(
 
     // 3. Build the export payload.
     eprintln!("Building export payload from {}...", path.display());
-    let (body, summary) = figma::mapping::build_export_payload_with_platform_formats(
+    let (body, summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
         &response.meta,
         overrides.as_ref(),
         &platform_formats,
+        redirect_deprecated,
     )
     .map_err(|e| miette::miette!("{e}"))?;
 
@@ -2602,8 +2613,22 @@ fn run_figma_export(
             summary.skipped_unsupported_unit,
         );
     }
+    if !summary.redirected_deprecated.is_empty() {
+        eprintln!(
+            "  Redirected deprecated tokens to their replacement: {}",
+            summary.redirected_deprecated.len(),
+        );
+    }
+    if !summary.redirect_skipped.is_empty() {
+        eprintln!(
+            "  Not redirected (kept own value): {}",
+            summary.redirect_skipped.len(),
+        );
+        for reason in &summary.redirect_skipped {
+            eprintln!("    {reason}");
+        }
+    }
     if !summary.mode_warnings.is_empty() {
-        eprintln!("  Warnings: {}", summary.mode_warnings.len());
         for w in &summary.mode_warnings {
             eprintln!("    {w}");
         }
@@ -3580,6 +3605,7 @@ fn main() -> ExitCode {
                 mapping,
                 manifest,
                 code_syntax_manifests,
+                redirect_deprecated,
                 write_options,
             } => run_figma_export(
                 &path,
@@ -3588,6 +3614,7 @@ fn main() -> ExitCode {
                 mapping.as_deref(),
                 manifest.as_deref(),
                 &code_syntax_manifests,
+                redirect_deprecated,
                 &write_options,
             ),
             FigmaSub::Import {

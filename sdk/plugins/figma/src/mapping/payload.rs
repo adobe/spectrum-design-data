@@ -17,8 +17,9 @@ use std::path::PathBuf;
 use serde_json::Value;
 
 use super::convert::{
-    build_value_index, process_alias_token, process_color_set_token, process_flat_token,
-    process_scale_set_token, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
+    alias_exportable_route, build_value_index, compute_redirects, process_alias_token,
+    process_color_set_token, process_flat_token, process_redirected_token, process_scale_set_token,
+    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
 };
 use super::routing::{
     resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
@@ -81,6 +82,12 @@ pub struct ExportSummary {
     pub skipped_unknown_schema: Vec<String>,
     pub skipped_unparseable_value: Vec<String>,
     pub skipped_unsupported_unit: Vec<String>,
+    /// Deprecated tokens exported as aliases to their replacement
+    /// (`--redirect-deprecated`).
+    pub redirected_deprecated: Vec<String>,
+    /// Deprecated tokens with a `renamed` target that couldn't be redirected;
+    /// each keeps its own literal value. Entries read `token: reason`.
+    pub redirect_skipped: Vec<String>,
 }
 
 /// Build a Figma POST payload from a flat set of legacy-shaped token entries.
@@ -120,8 +127,29 @@ pub fn build_export_payload_with_platform_formats(
     overrides: Option<&HashMap<String, String>>,
     platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    let (mut body, summary) =
-        build_export_payload_with_specs(tokens, existing, overrides, COLLECTION_SPECS)?;
+    build_export_payload_with_options(tokens, existing, overrides, platform_formats, false)
+}
+
+/// Same as [`build_export_payload_with_platform_formats`], plus the opt-in
+/// `redirect_deprecated` pass: each deprecated token that names a replacement
+/// is exported as a `VARIABLE_ALIAS` to the (transitively resolved) replacement
+/// variable in every mode, instead of its own stale literal. Deprecated tokens
+/// with no usable replacement keep their literal and are listed in
+/// [`ExportSummary::redirect_skipped`] when they declared one.
+pub fn build_export_payload_with_options(
+    tokens: &[(String, PathBuf, Value)],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
+    redirect_deprecated: bool,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    let (mut body, summary) = build_export_payload_with_specs_and_redirect(
+        tokens,
+        existing,
+        overrides,
+        COLLECTION_SPECS,
+        redirect_deprecated,
+    )?;
     if !platform_formats.is_empty() {
         augment_code_syntax_with_platform_formats(&mut body.variables, platform_formats);
     }
@@ -185,11 +213,25 @@ pub(super) fn augment_code_syntax_with_platform_formats(
 /// Same as [`build_export_payload`], but with an explicit collection-spec
 /// table — the production entry point always uses [`COLLECTION_SPECS`]; tests
 /// use this to exercise routing against additional mock collections.
+#[cfg(test)]
 pub(super) fn build_export_payload_with_specs(
     tokens: &[(String, PathBuf, Value)],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
     specs: &'static [CollectionSpec],
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    build_export_payload_with_specs_and_redirect(tokens, existing, overrides, specs, false)
+}
+
+/// [`build_export_payload_with_specs`] with the opt-in `redirect_deprecated`
+/// pass: a deprecated token that names a replacement (`renamed`) is exported as
+/// an alias to that replacement's variable instead of its own literal value.
+pub(super) fn build_export_payload_with_specs_and_redirect(
+    tokens: &[(String, PathBuf, Value)],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    specs: &'static [CollectionSpec],
+    redirect_deprecated: bool,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     // 1. Look up collection and mode IDs from the existing file, for every
     // collection the spec table can route to.
@@ -254,6 +296,47 @@ pub(super) fn build_export_payload_with_specs(
         alias_target_ids.insert(token_name.clone(), id);
     }
 
+    let mut redirect_target_ids = alias_target_ids.clone();
+    let redirects = if redirect_deprecated {
+        // Semantic replacements are often alias-schema tokens, which the
+        // pre-pass above excludes. They are still exported as variables, so a
+        // redirect may target them; mirror process_alias_token's routing.
+        for (token_name, token_file, token_entry) in tokens {
+            let is_alias_schema = token_entry
+                .get("$schema")
+                .and_then(|v| v.as_str())
+                .is_some_and(|s| s.ends_with(ALIAS));
+            let is_ref = token_entry
+                .get("value")
+                .and_then(|v| v.as_str())
+                .is_some_and(|v| v.starts_with('{') && v.ends_with('}'));
+            if !is_alias_schema || !is_ref {
+                continue;
+            }
+            let Some(is_color) = alias_exportable_route(&value_index, token_name) else {
+                continue;
+            };
+            let kind = if is_color {
+                TokenKind::Color
+            } else {
+                TokenKind::Scale
+            };
+            let Some(rc) = super::routing::pick_collection(&resolved, kind, token_file) else {
+                continue;
+            };
+            let (_, id) = resolve_variable_id(
+                token_name,
+                rc.spec.default_prefix,
+                &existing_var_index,
+                overrides,
+            );
+            redirect_target_ids.insert(token_name.clone(), id);
+        }
+        compute_redirects(tokens, &value_index, &redirect_target_ids, &mut summary)
+    } else {
+        HashMap::new()
+    };
+
     for (token_name, token_file, token_entry) in tokens {
         let schema = token_entry
             .get("$schema")
@@ -264,6 +347,36 @@ pub(super) fn build_export_payload_with_specs(
         if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) {
             summary.skipped_composite.push(token_name.clone());
             continue;
+        }
+
+        if let Some(target_name) = redirects.get(token_name) {
+            if let (Some((figma_type, is_color)), Some(target_id)) = (
+                redirect_route(&value_index, token_name),
+                redirect_target_ids.get(target_name),
+            ) {
+                let kind = if is_color {
+                    TokenKind::Color
+                } else {
+                    TokenKind::Scale
+                };
+                if let Some(rc) = super::routing::pick_collection(&resolved, kind, token_file) {
+                    process_redirected_token(
+                        token_name,
+                        token_entry,
+                        rc.collection_id,
+                        rc.spec.default_prefix,
+                        &rc.mode_ids,
+                        &figma_type,
+                        target_id,
+                        &existing_var_index,
+                        overrides,
+                        &mut variables,
+                        &mut mode_values,
+                        &mut summary,
+                    );
+                    continue;
+                }
+            }
         }
 
         // Route to the appropriate collection.
