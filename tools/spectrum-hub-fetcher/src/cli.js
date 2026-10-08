@@ -264,7 +264,7 @@ export async function main(
       sourceUrl,
       lastUpdated: toDateString(row.lastModified),
       tags: Array.isArray(row.tags) ? row.tags : [],
-      extra: { hub_path: row.path },
+      extra: { hub_path: row.path, slug: target.slug },
     });
 
     const destination = join(args.outDir, target.category, `${target.slug}.md`);

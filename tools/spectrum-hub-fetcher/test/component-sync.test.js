@@ -92,8 +92,11 @@ test("syncSlug returns status:written with resolved targets/categories when the 
 
   t.is(result.status, "written");
   t.deepEqual(result.targets, [{ target: "accordion", category: "inputs" }]);
-  t.true(result.markdown.startsWith("---\n"));
-  t.true(result.markdown.includes("# "));
+  t.deepEqual(result.pages.map((p) => p.platform).sort(), ["rsp", "swc"]);
+  for (const page of result.pages) {
+    t.true(page.markdown.startsWith("---\n"));
+    t.true(page.markdown.includes("# "));
+  }
   t.deepEqual(result.flags, []); // identical RSP/SWC content => no flags
 });
 

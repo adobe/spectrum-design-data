@@ -14,6 +14,7 @@ tags:
   - Brand
   - Icons
 hub_path: /support/contact-us
+slug: contact-us
 ---
 
 # Contact us

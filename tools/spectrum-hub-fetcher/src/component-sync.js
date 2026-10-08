@@ -60,9 +60,8 @@ export function listKnownHubSlugs() {
 }
 
 /**
- * Local `packages/design-data/components/<slug>.json`'s `meta.category`, used to
- * mirror the same `docs/s2-docs/components/<category>/<slug>.md` layout
- * `s2-docs-to-document-blocks` already reads. Read directly from the existing
+ * Local `packages/design-data/components/<slug>.json`'s `meta.category`, used for the
+ * `category` frontmatter on each staged page. Read directly from the existing
  * component JSON rather than from `COMPONENT_SLUG_MAP`'s grouping keys, since
  * fan-out targets (`color-handle`, `color-loupe`) aren't listed there at all —
  * this way every target, mapped or fanned-out, resolves the same way.
@@ -74,7 +73,7 @@ export function resolveTargetCategory(componentsDir, targetSlug) {
   if (!category) {
     throw new Error(
       `packages/design-data/components/${targetSlug}.json has no meta.category — cannot ` +
-        "determine its docs/s2-docs/components/<category>/ staging directory.",
+        "determine its category.",
     );
   }
   return category;
@@ -94,7 +93,7 @@ export function resolveTargetCategory(componentsDir, targetSlug) {
  *   slug: string,
  *   status: "written"|"unavailable"|"unrecognized",
  *   targets: Array<{target: string, category: string}>,
- *   markdown?: string,
+ *   pages?: Array<{platform: "rsp"|"swc", hubPath: string, markdown: string}>,
  *   flags: Array,
  *   fragmentsResolved: number,
  *   fragmentsFailed: number,
@@ -141,25 +140,40 @@ export async function syncSlug({
     };
   }
 
-  const markdown = renderPage({
-    title: rsp.title,
-    sections,
-    sourceUrl: rsp.path,
-    lastUpdated: null,
-    tags: [],
-    extra: { hub_path: rsp.path, swc_exists: swc.exists },
-  });
-
   const writtenTargets = targets.map((target) => ({
     target,
     category: resolveTargetCategory(componentsDir, target),
+  }));
+  const designDataTargets = writtenTargets.map((t) => t.target);
+  const category = writtenTargets[0].category;
+
+  const pages = [{ platform: "rsp", page: rsp }];
+  if (swc.exists) pages.push({ platform: "swc", page: swc });
+
+  const platformPages = pages.map(({ platform, page }) => ({
+    platform,
+    hubPath: page.path,
+    markdown: renderPage({
+      title: page.title || rsp.title,
+      category,
+      sections: platform === "rsp" ? sections : page.sections,
+      sourceUrl: page.path,
+      lastUpdated: null,
+      tags: [],
+      extra: {
+        hub_path: page.path,
+        platform,
+        design_data_targets: designDataTargets,
+        swc_exists: swc.exists,
+      },
+    }),
   }));
 
   return {
     slug,
     status: "written",
     targets: writtenTargets,
-    markdown,
+    pages: platformPages,
     flags,
     fragmentsResolved: rsp.fragments?.resolved ?? 0,
     fragmentsFailed:

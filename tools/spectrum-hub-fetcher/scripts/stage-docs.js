@@ -12,10 +12,14 @@
 
 /**
  * Copies fetched hub Markdown from a scratch directory into the docs/s2-docs
- * tree that tools/s2-docs-to-document-blocks reads.
+ * tree, mirroring the Hub's own paths (e.g. /foundations/color/color ->
+ * foundations/color/color.md). Each page's frontmatter carries the
+ * design-data `slug` and `category` that tools/s2-docs-to-document-blocks
+ * uses to produce guideline JSON, so the folder layout is free to follow the
+ * Hub.
  *
- * Reconciles renamed Hub pages by canonical path while preserving pages absent
- * from this fetch, including legacy-only guidance and partial-sync omissions.
+ * Pages absent from this fetch are preserved (partial-sync omissions).
+ * Guideline JSON whose Hub page was re-slugged is removed.
  *
  * Usage:
  *   node scripts/stage-docs.js --from ./_hub-fetch --to ./docs/s2-docs
@@ -32,7 +36,7 @@ import {
   unlinkSync,
   appendFileSync,
 } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { parseDoc } from "../../s2-docs-to-document-blocks/src/md-parser.js";
 import { canonicalGuidelinePath } from "../src/hub-map.js";
 
@@ -110,33 +114,32 @@ function main() {
   const incoming = files.map((file) => {
     const contents = readFileSync(file.source, "utf8");
     const { frontmatter } = parseDoc(contents);
+    const hubPath = frontmatter.hub_path;
+    if (typeof hubPath !== "string" || !hubPath.startsWith("/")) {
+      throw new Error(`${file.source} has no hub_path frontmatter.`);
+    }
     return {
       ...file,
       contents,
+      slug: basename(file.name, ".md"),
       identity: hubIdentity(frontmatter.source_url),
-      target: join(options.to, file.category, file.name),
+      target: join(options.to, `${hubPath.slice(1)}.md`),
     };
   });
   const identities = new Map();
+  const targets = new Map();
   for (const file of incoming) {
+    if (targets.has(file.target)) {
+      throw new Error(`Multiple fetched pages resolve to ${file.target}.`);
+    }
+    targets.set(file.target, file.source);
     if (!file.identity) continue;
     if (identities.has(file.identity)) {
       throw new Error(`Multiple fetched pages resolve to ${file.identity}.`);
     }
-    identities.set(file.identity, file.target);
+    identities.set(file.identity, file.slug);
   }
-  const incomingSlugs = new Set(
-    incoming.map((file) => basename(file.name, ".md")),
-  );
-  const superseded = collect(options.to)
-    .map((file) => {
-      const { frontmatter } = parseDoc(readFileSync(file.source, "utf8"));
-      return { ...file, identity: hubIdentity(frontmatter.source_url) };
-    })
-    .filter((file) => {
-      const target = identities.get(file.identity);
-      return target && target !== file.source;
-    });
+  const incomingSlugs = new Set(incoming.map((file) => file.slug));
   const obsoleteJson = new Set();
   if (options.guidelinesDir && existsSync(options.guidelinesDir)) {
     for (const name of readdirSync(options.guidelinesDir)) {
@@ -146,33 +149,23 @@ function main() {
       const jsonPath = join(options.guidelinesDir, name);
       const doc = JSON.parse(readFileSync(jsonPath, "utf8"));
       const identity = hubIdentity(doc.sourceUrl);
-      const file = superseded.find(
-        (candidate) => basename(candidate.name, ".md") === slug,
-      );
-      if (file && identity !== file.identity) {
-        throw new Error(`Cannot reconcile unrelated guideline ${jsonPath}.`);
-      }
-      if (identities.has(identity)) obsoleteJson.add(jsonPath);
+      if (identity && identities.has(identity)) obsoleteJson.add(jsonPath);
     }
   }
 
   for (const file of incoming) {
-    const targetDir = join(options.to, file.category);
-    const target = join(targetDir, file.name);
-    const contents = file.contents;
-
-    if (!existsSync(target)) added += 1;
-    else if (readFileSync(target, "utf8") === contents) unchanged += 1;
+    if (!existsSync(file.target)) added += 1;
+    else if (readFileSync(file.target, "utf8") === file.contents)
+      unchanged += 1;
     else updated += 1;
 
     if (!options.dryRun) {
-      mkdirSync(targetDir, { recursive: true });
-      writeFileSync(target, contents);
+      mkdirSync(dirname(file.target), { recursive: true });
+      writeFileSync(file.target, file.contents);
     }
   }
 
   if (!options.dryRun) {
-    for (const file of superseded) unlinkSync(file.source);
     for (const jsonPath of obsoleteJson) unlinkSync(jsonPath);
   }
   if (process.env.GITHUB_OUTPUT) {
@@ -186,11 +179,8 @@ function main() {
   const prefix = options.dryRun ? "[dry-run] " : "";
   console.log(`${prefix}${files.length} hub page(s) -> ${options.to}`);
   console.log(
-    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}, removed ${superseded.length} superseded Markdown and ${obsoleteJson.size} guideline JSON file(s)`,
+    `${prefix}added ${added}, updated ${updated}, unchanged ${unchanged}, removed ${obsoleteJson.size} guideline JSON file(s)`,
   );
-  for (const file of superseded) {
-    console.log(`${prefix}superseded: ${file.source}`);
-  }
 }
 
 main();

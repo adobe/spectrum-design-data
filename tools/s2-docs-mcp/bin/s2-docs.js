@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 
 import {
   getAllComponents,
+  getCategories,
   getComponentsByCategory,
   getComponentDoc,
   searchComponents,
@@ -21,14 +22,7 @@ import {
   getStats,
 } from "../src/data/docs.js";
 
-const CATEGORIES = [
-  "actions",
-  "containers",
-  "feedback",
-  "inputs",
-  "navigation",
-  "status",
-];
+const CATEGORIES = getCategories();
 
 const USE_CASE_MAP = {
   form: "inputs",
@@ -58,7 +52,7 @@ Commands:
   get <name>                  Get docs for a specific component
   search <query> [--content]  Search by name; --content searches doc bodies
   use-case <phrase>           Find components matching a use case
-  stats                       Show documentation coverage statistics
+  stats                       Show component counts by category
 
 Categories: ${CATEGORIES.join(", ")}
 `;

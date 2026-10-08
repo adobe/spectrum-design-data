@@ -12,7 +12,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDocIndex } from "../../s2-docs-to-document-blocks/src/cli.js";
 import { transformComponent } from "../../s2-docs-to-document-blocks/src/transformer.js";
@@ -30,13 +30,14 @@ test.afterEach.always((t) => {
   rmSync(t.context.root, { recursive: true, force: true });
 });
 
-function page(root, category, slug, text) {
-  const dir = join(root, category);
-  mkdirSync(dir, { recursive: true });
-  const path = join(dir, `${slug}.md`);
+function page(root, platform, slug, text, targets = [slug]) {
+  const path = join(root, "web", platform, "components", `${slug}.md`);
+  mkdirSync(dirname(path), { recursive: true });
   writeFileSync(
     path,
-    `---\ntitle: ${slug}\n---\n\n# ${slug}\n\n## Overview\n\n${text}\n`,
+    `---\ntitle: ${slug}\nplatform: ${platform}\ndesign_data_targets:\n${targets
+      .map((t) => `  - ${t}`)
+      .join("\n")}\n---\n\n# ${slug}\n\n## Overview\n\n${text}\n`,
   );
   return path;
 }
@@ -45,83 +46,93 @@ function stage({ from, to }, extra = []) {
   return execFileSync(
     process.execPath,
     [SCRIPT, "--from", from, "--to", to, ...extra],
-    {
-      encoding: "utf8",
-      stdio: "pipe",
-    },
+    { encoding: "utf8", stdio: "pipe" },
   );
 }
 
-test("category migration removes all obsolete paths and publishes the incoming blocks", async (t) => {
-  const { root, from, to } = t.context;
-  const old = page(to, "navigation", "accordion", "Stale preview guidance.");
-  const older = page(to, "feedback", "accordion", "Older guidance.");
-  const omitted = page(to, "inputs", "button", "Omitted component stays.");
-  const target = page(
-    from,
-    "containers",
-    "accordion",
-    "Fresh public Hub guidance.",
+test("stages RSP and SWC pages as separate files mirroring the Hub IA", (t) => {
+  const { from, to } = t.context;
+  const rsp = page(from, "rsp", "accordion", "RSP guidance.");
+  const swc = page(from, "swc", "accordion", "SWC guidance.");
+
+  t.true(stage(t.context).includes("added 2, updated 0, unchanged 0"));
+  t.is(
+    readFileSync(join(to, "web/rsp/components/accordion.md"), "utf8"),
+    readFileSync(rsp, "utf8"),
   );
+  t.is(
+    readFileSync(join(to, "web/swc/components/accordion.md"), "utf8"),
+    readFileSync(swc, "utf8"),
+  );
+  t.true(stage(t.context).includes("unchanged 2"));
+});
+
+test("pages absent from a partial run are kept; --prune removes them", (t) => {
+  const { from, to } = t.context;
+  const omitted = page(to, "rsp", "button", "Omitted component stays.");
+  page(from, "rsp", "accordion", "Fresh.");
+
+  stage(t.context);
+  t.true(existsSync(omitted));
+
+  t.true(stage(t.context, ["--prune"]).includes("removed 1 stale page(s)"));
+  t.false(existsSync(omitted));
+  t.true(existsSync(join(to, "web/rsp/components/accordion.md")));
+});
+
+test("dry run writes and removes nothing", (t) => {
+  const { from, to } = t.context;
+  const stale = page(to, "rsp", "button", "Stale.");
+  page(from, "rsp", "accordion", "New.");
+
+  t.true(stage(t.context, ["--dry-run", "--prune"]).includes("removed 1"));
+  t.true(existsSync(stale));
+  t.false(existsSync(join(to, "web/rsp/components/accordion.md")));
+});
+
+test("document index maps every design_data_targets entry to the RSP page", (t) => {
+  const { to } = t.context;
+  const combined = page(to, "rsp", "color-handle-and-loupe", "Fused.", [
+    "color-handle",
+    "color-loupe",
+  ]);
+  page(to, "swc", "color-handle-and-loupe", "SWC only.", ["color-handle"]);
+
+  const index = buildDocIndex(join(to, "web/rsp/components"));
+  t.is(index.size, 2);
+  t.is(index.get("color-handle"), combined);
+  t.is(index.get("color-loupe"), combined);
+});
+
+test("document indexing rejects duplicate targets with both paths", (t) => {
+  const { to } = t.context;
+  const first = page(to, "rsp", "accordion", "One.");
+  const second = page(to, "rsp", "accordion-two", "Two.", ["accordion"]);
+  const error = t.throws(() => buildDocIndex(join(to, "web/rsp/components")));
+  t.true(error.message.includes('Duplicate component slug "accordion"'));
+  t.true(error.message.includes(first));
+  t.true(error.message.includes(second));
+});
+
+test("staged RSP page publishes its blocks through the transform", async (t) => {
+  const { root, from, to } = t.context;
+  page(from, "rsp", "accordion", "Fresh public Hub guidance.");
+  stage(t.context);
   const jsonPath = join(root, "accordion.json");
   writeFileSync(
     jsonPath,
     JSON.stringify({ name: "accordion", description: "An accordion." }),
   );
 
-  const output = stage(t.context);
-  t.true(output.includes("removed 2 superseded path(s)"));
-  t.false(existsSync(old));
-  t.false(existsSync(older));
-  t.true(existsSync(omitted));
-  const index = buildDocIndex(to);
-  t.is(index.size, 2);
-  t.is(
-    readFileSync(index.get("accordion"), "utf8"),
-    readFileSync(target, "utf8"),
-  );
+  const index = buildDocIndex(join(to, "web/rsp/components"));
   await transformComponent(jsonPath, index.get("accordion"), { dryRun: false });
   const blocks = JSON.parse(readFileSync(jsonPath, "utf8")).documentBlocks;
   t.true(JSON.stringify(blocks).includes("Fresh public Hub guidance."));
-  t.false(JSON.stringify(blocks).includes("Stale"));
-  t.true(stage(t.context).includes("unchanged 1, removed 0"));
-});
-
-test("dry run reports migrations without writing or removing either path", (t) => {
-  const { from, to } = t.context;
-  const old = page(to, "navigation", "accordion", "Old.");
-  page(from, "containers", "accordion", "New.");
-  t.true(stage(t.context, ["--dry-run"]).includes("removed 1"));
-  t.is(readFileSync(old, "utf8").includes("Old."), true);
-  t.false(existsSync(join(to, "containers", "accordion.md")));
-});
-
-test("duplicate incoming slugs fail before any staging mutation", (t) => {
-  const { from, to } = t.context;
-  const old = page(to, "navigation", "accordion", "Old.");
-  page(from, "containers", "accordion", "New.");
-  page(from, "feedback", "accordion", "Ambiguous.");
-  const error = t.throws(() => stage(t.context));
-  t.true(
-    error.stderr.toString().includes('Duplicate component "accordion.md"'),
-  );
-  t.true(readFileSync(old, "utf8").includes("Old."));
-  t.false(existsSync(join(to, "containers")));
-});
-
-test("document indexing rejects duplicate slugs with both paths", (t) => {
-  const { to } = t.context;
-  const first = page(to, "containers", "accordion", "New.");
-  const second = page(to, "navigation", "accordion", "Old.");
-  const error = t.throws(() => buildDocIndex(to));
-  t.true(error.message.includes('Duplicate component slug "accordion"'));
-  t.true(error.message.includes(first));
-  t.true(error.message.includes(second));
 });
 
 test("published component blocks match the uniquely indexed Markdown", async (t) => {
   const root = fileURLToPath(
-    new URL("../../../docs/s2-docs/components", import.meta.url),
+    new URL("../../../docs/s2-docs/web/rsp/components", import.meta.url),
   );
   const components = fileURLToPath(
     new URL("../../../packages/design-data/components", import.meta.url),
