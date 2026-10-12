@@ -57,6 +57,7 @@
     "mode-sets/",
     "guidelines/",
     "registry/",
+    "llms.txt",
     "README.md"
   ],
   "scripts": {},

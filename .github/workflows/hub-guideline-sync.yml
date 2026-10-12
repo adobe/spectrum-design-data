@@ -138,13 +138,13 @@ jobs:
         id: content
         if: github.event.inputs.dry_run != 'true'
         run: |
-          status="$(git status --porcelain -- docs/s2-docs packages/design-data/guidelines)"
+          status="$(git status --porcelain -- docs/s2-docs/foundations docs/s2-docs/content docs/s2-docs/support docs/s2-docs/getting-started packages/design-data/guidelines)"
           if [ -n "$status" ]; then
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "$status"
           else
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            echo "No content changes detected under docs/s2-docs or packages/design-data/guidelines."
+            echo "No content changes detected under the docs/s2-docs guideline folders or packages/design-data/guidelines."
           fi
 
       - name: Dry-run summary
@@ -203,7 +203,10 @@ jobs:
           author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
           committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
           add-paths: |
-            docs/s2-docs
+            docs/s2-docs/foundations
+            docs/s2-docs/content
+            docs/s2-docs/support
+            docs/s2-docs/getting-started
             packages/design-data/guidelines
             .changeset
             sdk/core/src/data_source/embedded.rs

@@ -24,7 +24,9 @@ export default {
         !file.includes("CHANGELOG.md") &&
         !file.includes("docs/site/src/") &&
         !file.includes("docs/s2-docs/") &&
-        !file.includes("docs/markdown/"),
+        !file.includes("docs/markdown/") &&
+        !file.includes("docs/repo-index.md") &&
+        !file.includes(".github/instructions/"),
     );
     if (processableFiles.length === 0) return [];
     // Use -o flag (no path) to write back to same file

@@ -6,7 +6,7 @@ A Model Context Protocol server that provides AI tools with access to Spectrum 2
 
 * **Search components** by name, category, or content
 * **Get component docs** with full formatting
-* **Statistics** on scraped documentation
+* **Statistics** on documentation coverage
 * **Find by use case** (e.g., "form input", "navigation")
 * **List all components** by category
 
@@ -40,38 +40,6 @@ Or add to your `.cursor/mcp.json`:
 }
 ```
 
-### Batch Scraping
-
-List all components:
-
-```bash
-pnpm run scrape list
-```
-
-Parse a snapshot file:
-
-```bash
-pnpm run scrape parse <snapshot-file> <category> <slug>
-```
-
-Example:
-
-```bash
-pnpm run scrape parse ~/.cursor/browser-logs/snapshot.log actions button
-```
-
-Generate component index (scans `docs/s2-docs/`):
-
-```bash
-pnpm run scrape index
-```
-
-Check scraping status:
-
-```bash
-pnpm run scrape report
-```
-
 ## Available MCP Tools
 
 ### `list-s2-components`
@@ -80,7 +48,7 @@ List all available Spectrum 2 components, optionally filtered by category.
 
 **Parameters:**
 
-* `category` (optional): Filter by category (actions, containers, feedback, inputs, navigation, status)
+* `category` (optional): Filter by category (categories come from component `meta.category`)
 
 ### `get-s2-component`
 
@@ -102,7 +70,7 @@ Search documentation by component name or within content.
 
 ### `get-s2-stats`
 
-Get statistics about scraped documentation coverage.
+Get statistics about documentation coverage.
 
 ### `find-s2-component-by-use-case`
 
@@ -112,39 +80,14 @@ Find components by use case or design pattern.
 
 * `useCase` (required): Use case description (e.g., "form input", "navigation")
 
-## Scraping Workflow
+## Data Source
 
-1. **Use Cursor's scrape-s2-docs skill** to scrape components into `docs/s2-docs/`
-2. **Regenerate index** after adding or updating docs:
-   ```bash
-   pnpm run scrape index
-   ```
-3. **Check status**:
-   ```bash
-   pnpm run scrape report
-   ```
-4. Start the MCP server to query docs
-
-## Data Location
-
-Documentation is read from:
-
-```
-spectrum-design-data/docs/s2-docs/
-├── components/
-├── designing/
-├── fundamentals/
-├── developing/
-├── support/
-└── index.json
-```
-
-See [docs/s2-docs/README.md](../../docs/s2-docs/README.md) for maintenance and transform scripts.
+Documentation is built from the design-data component JSON (`packages/design-data/components/*.json`, rendered from each component's `documentBlocks`). `pnpm run bundle` copies it into `data/components` for publishing. The JSON is regenerated from Spectrum Hub by the `hub-component-sync` workflow; see [docs/s2-docs/README.md](../../docs/s2-docs/README.md).
 
 ## Using with Cursor
 
 * **MCP (this server)** – Add the s2-docs MCP server to `.cursor/mcp.json` (see [Usage](#usage) above). The AI can then use the tools to list, search, and fetch component docs on demand.
-* **[**@Files**](https://github.com/Files) & Folders** – In chat, reference the `docs/s2-docs` folder (or a subfolder like `docs/s2-docs/components`) so the AI gets the markdown files as context.
+* **[**@Files**](https://github.com/Files) & Folders** – In chat, reference the `docs/s2-docs` folder (or a subfolder like `docs/s2-docs/web/rsp/components`) so the AI gets the markdown files as context.
 * **[**@Docs**](https://github.com/Docs)** – If the S2 documentation is published at a URL, add it in Cursor via **[**@Docs**](https://github.com/Docs) → Add new doc** so Cursor indexes it. See [Cursor’s @Docs documentation](https://cursor.com/docs/context/mentions#docs).
 
 ## Integration with spectrum-design-data-mcp

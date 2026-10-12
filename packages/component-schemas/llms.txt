@@ -1,0 +1,36 @@
+# @adobe/spectrum-component-api-schemas
+
+> JSON Schemas describing Spectrum component APIs and options.
+
+An NPM package of JSON Schema for Spectrum components. Used in the table of options on the Spectrum Design System website (example).
+
+| **Property**        | **Values**                              | **Default value** |
+| ------------------- | --------------------------------------- | ----------------- |
+| label               | text                                    | -                 |
+| hide label          | yes / no                                | no                |
+| icon                | icon / nothing                          | nothing           |
+| size                | s / m / l / xl                          | m                 |
+| is quiet            | yes / no                                | no                |
+| is selected         | yes / no                                | no                |
+| is emphasized       | yes / no                                | no                |
+| static color        | white / black                           | none              |
+| selected text color | hex value                               | #000000           |
+| has hold icon       | yes / no                                | no                |
+| is disabled         | yes / no…
+
+## Install
+
+`npm install @adobe/spectrum-component-api-schemas`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/README.md): usage and API overview
+- [Helper functions](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/README.md#helper-functions)
+- [Project file structure](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/README.md#project-file-structure)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/spectrum-component-api-schemas)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/)
