@@ -51,8 +51,6 @@
     "release-timeline:updateData",
     "s2-docs-mcp:build",
     "s2-docs-mcp:bundle",
-    "s2-docs-mcp:index",
-    "s2-docs-mcp:report",
     "s2-visualizer:build",
     "s2-visualizer:typescript",
     "design-data-agent-mcp:version",

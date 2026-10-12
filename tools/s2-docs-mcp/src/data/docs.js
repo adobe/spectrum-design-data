@@ -1,71 +1,103 @@
 /**
  * S2 Documentation Data Access
+ *
+ * Reads Spectrum 2 component documentation from the design-data component
+ * JSON (`packages/design-data/components/*.json`), which the Spectrum Hub sync
+ * workflows keep current. A copy is bundled into `data/` at publish time
+ * (see tasks/bundleDocs.js); in the monorepo the package data is read directly.
  */
 
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { homedir } from "os";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Prefer bundled data shipped with the package; fall back to local repo for dev
 const bundledPath = join(__dirname, "../../data");
-const DOCS_DIR = existsSync(join(bundledPath, "index.json"))
+const repoPath = join(__dirname, "../../../../packages/design-data");
+const DATA_DIR = existsSync(join(bundledPath, "components"))
   ? bundledPath
-  : join(homedir(), "Spectrum", "spectrum-design-data", "docs", "s2-docs");
+  : repoPath;
 
-/**
- * Load component index
- */
-export function loadIndex() {
-  const indexPath = join(DOCS_DIR, "index.json");
-  if (!existsSync(indexPath)) {
-    return { categories: {} };
+const COMPONENTS_DIR = join(DATA_DIR, "components");
+
+let cache = null;
+
+function loadComponents() {
+  if (cache) return cache;
+  cache = [];
+  if (!existsSync(COMPONENTS_DIR)) return cache;
+
+  for (const file of readdirSync(COMPONENTS_DIR).sort()) {
+    if (!file.endsWith(".json")) continue;
+    const doc = JSON.parse(readFileSync(join(COMPONENTS_DIR, file), "utf-8"));
+    cache.push({
+      slug: doc.name ?? file.replace(".json", ""),
+      name: doc.displayName ?? doc.name,
+      category: doc.meta?.category ?? "uncategorized",
+      url: doc.meta?.documentationUrl,
+      description: doc.description,
+      documentBlocks: doc.documentBlocks ?? [],
+    });
   }
-  return JSON.parse(readFileSync(indexPath, "utf-8"));
+  return cache;
+}
+
+function toSummary({ documentBlocks, ...summary }) {
+  return summary;
+}
+
+function renderBlock(block) {
+  if (block.type === "do-dont") {
+    return [
+      `**Do:** ${block.content}`,
+      block.dont ? `**Don't:** ${block.dont}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+  }
+  return block.content;
 }
 
 /**
  * Get list of all components
  */
 export function getAllComponents() {
-  const index = loadIndex();
-  const components = [];
+  return loadComponents().map(toSummary);
+}
 
-  Object.entries(index.categories || {}).forEach(([category, items]) => {
-    items.forEach((comp) => {
-      if (comp.exists) {
-        components.push({
-          ...comp,
-          category,
-        });
-      }
-    });
-  });
-
-  return components;
+/**
+ * Get the sorted list of component categories
+ */
+export function getCategories() {
+  return [...new Set(loadComponents().map((c) => c.category))].sort();
 }
 
 /**
  * Get components by category
  */
 export function getComponentsByCategory(category) {
-  const index = loadIndex();
-  return (index.categories[category] || []).filter((comp) => comp.exists);
+  return getAllComponents().filter((comp) => comp.category === category);
 }
 
 /**
- * Get component documentation
+ * Get component documentation rendered as Markdown
  */
 export function getComponentDoc(category, slug) {
-  const filePath = join(DOCS_DIR, "components", category, `${slug}.md`);
+  const component = loadComponents().find(
+    (c) => c.slug === slug && (!category || c.category === category),
+  );
 
-  if (!existsSync(filePath)) {
+  if (!component) {
     throw new Error(`Component not found: ${category}/${slug}`);
   }
 
-  return readFileSync(filePath, "utf-8");
+  const lines = [`# ${component.name}`];
+  if (component.url) lines.push(`Source: ${component.url}`);
+  for (const block of component.documentBlocks) {
+    lines.push(renderBlock(block));
+  }
+  return lines.join("\n\n");
 }
 
 /**
@@ -73,9 +105,8 @@ export function getComponentDoc(category, slug) {
  */
 export function searchComponents(query) {
   const lowerQuery = query.toLowerCase();
-  const components = getAllComponents();
 
-  return components.filter(
+  return getAllComponents().filter(
     (comp) =>
       comp.name.toLowerCase().includes(lowerQuery) ||
       comp.slug.toLowerCase().includes(lowerQuery) ||
@@ -88,32 +119,26 @@ export function searchComponents(query) {
  */
 export function searchInContent(query) {
   const lowerQuery = query.toLowerCase();
-  const components = getAllComponents();
   const results = [];
 
-  components.forEach((comp) => {
-    try {
-      const content = getComponentDoc(comp.category, comp.slug);
-      if (content.toLowerCase().includes(lowerQuery)) {
-        // Extract context around the match
-        const lines = content.split("\n");
-        const matchingLines = lines
-          .map((line, index) => ({ line, index }))
-          .filter(({ line }) => line.toLowerCase().includes(lowerQuery))
-          .slice(0, 3); // Limit to 3 matches per component
+  for (const comp of getAllComponents()) {
+    const content = getComponentDoc(comp.category, comp.slug);
+    if (!content.toLowerCase().includes(lowerQuery)) continue;
 
-        results.push({
-          component: comp,
-          matches: matchingLines.map(({ line, index }) => ({
-            line: line.trim(),
-            lineNumber: index + 1,
-          })),
-        });
-      }
-    } catch (error) {
-      // Skip if file not found
-    }
-  });
+    const matchingLines = content
+      .split("\n")
+      .map((line, index) => ({ line, index }))
+      .filter(({ line }) => line.toLowerCase().includes(lowerQuery))
+      .slice(0, 3); // Limit to 3 matches per component
+
+    results.push({
+      component: comp,
+      matches: matchingLines.map(({ line, index }) => ({
+        line: line.trim(),
+        lineNumber: index + 1,
+      })),
+    });
+  }
 
   return results;
 }
@@ -145,27 +170,13 @@ export function findComponentByName(name) {
  * Get statistics
  */
 export function getStats() {
-  const index = loadIndex();
-  let total = 0;
-  let scraped = 0;
+  const components = getAllComponents();
   const byCategory = {};
 
-  Object.entries(index.categories || {}).forEach(([category, components]) => {
-    const existing = components.filter((c) => c.exists);
-    byCategory[category] = {
-      total: components.length,
-      scraped: existing.length,
-      percentage: Math.round((existing.length / components.length) * 100),
-    };
-    total += components.length;
-    scraped += existing.length;
-  });
+  for (const { category } of components) {
+    byCategory[category] ??= { total: 0 };
+    byCategory[category].total += 1;
+  }
 
-  return {
-    total,
-    scraped,
-    missing: total - scraped,
-    percentage: Math.round((scraped / total) * 100),
-    byCategory,
-  };
+  return { total: components.length, byCategory };
 }

@@ -39,7 +39,6 @@ Packages under `tools/` in the repo. For the MCP servers and Agent Skills (S2 do
 * **[ios-override-importer](https://github.com/adobe/spectrum-design-data/tree/main/tools/ios-override-importer)** — One-time importer converting Spectrum iOS's override-log.csv into a Platform Manifest (manifest.json)
 * **[markdown-generator](https://github.com/adobe/spectrum-design-data/tree/main/tools/markdown-generator)** — Generate markdown files from tokens, component-schemas, and design-system-registry for docs and chatbot indexing
 * **[release-analyzer](https://github.com/adobe/spectrum-design-data/tree/main/tools/release-analyzer)** — Analyzes Spectrum Tokens release history and generates data for change frequency visualization
-* **[s2-docs-transformer](https://github.com/adobe/spectrum-design-data/tree/main/tools/s2-docs-transformer)** — Tools for scraping and transforming Spectrum 2 documentation
 * **[token-changeset-generator](https://github.com/adobe/spectrum-design-data/tree/main/tools/token-changeset-generator)** — Generate changeset files for Spectrum token changes from tokens studio PR data
 * **[token-manifest-builder](https://github.com/adobe/spectrum-design-data/tree/main/tools/token-manifest-builder)** — Builds a JSON manifest file from the source of a Style Dictionary project.
 * **[token-mapping-analyzer](https://github.com/adobe/spectrum-design-data/tree/main/tools/token-mapping-analyzer)** — Analyzes existing tokens against the 13-field taxonomy name object spec

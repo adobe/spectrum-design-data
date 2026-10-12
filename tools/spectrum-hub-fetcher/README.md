@@ -24,6 +24,13 @@ Use `dry_run=false` to generate a content PR when changes are found. Each run
 uploads its fetch and available review reports as a GitHub Actions artifact,
 including when the health guard fails.
 
+Component staging preserves previously fetched RSP and SWC pages missing from
+the current fetch, including full runs. The health guard tolerates some missing
+RSP pages, and its `unavailable` list does not track missing SWC pages, so a
+passing report cannot confirm removals. The workflow never passes `--prune`.
+Use that option manually only with an independently verified complete snapshot
+and confirmed page removals.
+
 Staging reconciles Hub pages by source path, including known path migrations.
 When a page receives a shorter slug or moves category, staging removes its old
 Markdown copy. Pages absent from the current fetch and legacy-only guidance stay
