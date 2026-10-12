@@ -2,6 +2,18 @@
 
 # Proposal: organize repository tools and AI resources
 
+## Implementation status
+
+Implemented in [#1533](https://github.com/adobe/spectrum-design-data/issues/1533) (tracked as `spectrum-design-data-ezum`):
+
+* **Inventory**: `.ai/inventory.json` records audience, lifecycle, publication, and `llms.txt` status for every project. `docs/repo-index.md` is generated from it.
+* **Shared AI resources**: rules and skills live in `.ai/`. `pnpm ai:sync` generates `.github/instructions/` and `.cursor/rules/` and links `.claude/` and `.cursor/` to `.ai/`. `pnpm ai:check` runs in CI as `root:ai-check`.
+* **Agent instructions**: the root `AGENTS.md` is split into repository rules and maintainer workflows. Every non-content project has a short `AGENTS.md`, and every `CLAUDE.md` only points to it.
+* **`llms.txt`**: generated for the 14 published, active, consumer-facing packages. The root `llms.txt` is now a generated index.
+* **Cleanup**: removed `tools/token-manifest-builder`, `tools/transform-tokens-json`, and `tools/token-name-parser`. `packages/component-schema-converter` and `tools/remark-changeset` were untracked local remnants, not repository content.
+
+The inventory below is the original pre-implementation survey. Treat `.ai/inventory.json` as current.
+
 ## Purpose
 
 Aaron raised four related questions in Slack: how to keep legacy work distinct, whether packages

@@ -41,6 +41,7 @@
     "rules",
     "schemas",
     "spec",
+    "llms.txt",
     "README.md"
   ]
 }

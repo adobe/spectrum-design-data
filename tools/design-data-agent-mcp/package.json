@@ -11,6 +11,7 @@
     "src/",
     ".claude-plugin/",
     "skills/",
+    "llms.txt",
     "README.md",
     "LICENSE"
   ],

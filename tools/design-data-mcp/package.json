@@ -9,6 +9,7 @@
   },
   "files": [
     "src/",
+    "llms.txt",
     "README.md",
     "LICENSE"
   ],
