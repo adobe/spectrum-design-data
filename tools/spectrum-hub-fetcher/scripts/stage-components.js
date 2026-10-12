@@ -19,9 +19,10 @@
  *
  * Staged pages carry `design_data_targets` frontmatter, which
  * tools/s2-docs-to-document-blocks's `transform` command uses to find the
- * page for each design-data component. Staged pages that the fetch no longer
- * produces are removed, but only when the run covered every known slug
- * (pass --prune); partial runs leave pages absent from the fetch untouched.
+ * page for each design-data component. Pages absent from the fetch are preserved
+ * by default, even on full runs: missing RSP or SWC pages may reflect an outage.
+ * --prune removes all absent pages; use it only with an independently verified
+ * complete snapshot and confirmed removals.
  *
  * Usage:
  *   node scripts/stage-components.js --from ./_hub-component-fetch --to ./docs/s2-docs [--prune] [--dry-run]

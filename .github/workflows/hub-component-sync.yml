@@ -131,15 +131,11 @@ jobs:
 
       - name: Stage docs for the component transform
         if: github.event.inputs.dry_run != 'true'
-        env:
-          FETCH_LIMIT: ${{ github.event.inputs.limit }}
         run: |
-          args=(--from "$RUNNER_TEMP/hub-component-fetch" --to ./docs/s2-docs)
-          # Only prune pages the Hub no longer serves when every known slug was fetched.
-          if [ -z "$FETCH_LIMIT" ]; then
-            args+=(--prune)
-          fi
-          node tools/spectrum-hub-fetcher/scripts/stage-components.js "${args[@]}"
+          # Missing pages can reflect outages, including unreported SWC-only failures.
+          node tools/spectrum-hub-fetcher/scripts/stage-components.js \
+            --from "$RUNNER_TEMP/hub-component-fetch" \
+            --to ./docs/s2-docs
 
       - name: Transform staged docs into component documentBlocks
         if: github.event.inputs.dry_run != 'true'

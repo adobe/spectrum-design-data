@@ -4,6 +4,7 @@
 import test from "ava";
 import { execFileSync } from "node:child_process";
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -14,6 +15,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { load } from "js-yaml";
 import { buildDocIndex } from "../../s2-docs-to-document-blocks/src/cli.js";
 import { transformComponent } from "../../s2-docs-to-document-blocks/src/transformer.js";
 
@@ -79,6 +81,80 @@ test("pages absent from a partial run are kept; --prune removes them", (t) => {
   t.false(existsSync(omitted));
   t.true(existsSync(join(to, "web/rsp/components/accordion.md")));
 });
+
+for (const platform of ["rsp", "swc"]) {
+  test(`full workflow sync preserves an unavailable ${platform.toUpperCase()} page`, (t) => {
+    const { root } = t.context;
+    const from = join(root, "hub-component-fetch");
+    const to = join(root, "docs/s2-docs");
+    const omitted = page(
+      to,
+      platform,
+      "button",
+      "Previously fetched guidance.",
+    );
+    const previous = readFileSync(omitted, "utf8");
+    const fresh = page(from, "rsp", "accordion", "Fresh guidance.");
+    const slugs = ["accordion"];
+    if (platform === "swc") {
+      page(from, "rsp", "button", "Fresh RSP guidance.");
+      slugs.push("button");
+    }
+    writeFileSync(
+      join(root, "hub-component-fetch-report.json"),
+      JSON.stringify({
+        totalSlugs: 2,
+        selectedSlugs: 2,
+        written: slugs.length,
+        unavailable: platform === "rsp" ? ["button"] : [],
+        unrecognized: [],
+        pages: slugs.map((slug) => ({
+          slug,
+          fragmentsResolved: 1,
+          fragmentsFailed: 0,
+        })),
+      }),
+    );
+    const script = join(
+      root,
+      "tools/spectrum-hub-fetcher/scripts/stage-components.js",
+    );
+    mkdirSync(dirname(script), { recursive: true });
+    writeFileSync(join(dirname(script), "package.json"), '{"type":"module"}');
+    copyFileSync(SCRIPT, script);
+    const workflow = load(
+      readFileSync(
+        new URL(
+          "../../../.github/workflows/hub-component-sync.yml",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+    const steps = Object.values(workflow.jobs).flatMap(
+      (job) => job.steps ?? [],
+    );
+    for (const name of [
+      "Guard fetch health",
+      "Stage docs for the component transform",
+    ]) {
+      const step = steps.find((step) => step.name === name);
+      t.truthy(step, `Workflow step exists: ${name}`);
+      execFileSync("bash", ["-e", "-o", "pipefail", "-c", step.run], {
+        cwd: root,
+        env: { ...process.env, RUNNER_TEMP: root, FETCH_LIMIT: "" },
+        encoding: "utf8",
+        stdio: "pipe",
+      });
+    }
+    t.true(existsSync(omitted), "Previously fetched page is preserved");
+    t.is(readFileSync(omitted, "utf8"), previous);
+    t.is(
+      readFileSync(join(to, "web/rsp/components/accordion.md"), "utf8"),
+      readFileSync(fresh, "utf8"),
+    );
+  });
+}
 
 test("dry run writes and removes nothing", (t) => {
   const { from, to } = t.context;
