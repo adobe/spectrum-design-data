@@ -1,0 +1,437 @@
+{
+  "$comment": "Repository inventory. Audience, lifecycle, and npm publication are independent fields; do not infer one from another. Edit this file, then run `pnpm ai:sync` to regenerate docs/repo-index.md.",
+  "version": 1,
+  "fields": {
+    "kind": ["package", "crate", "area", "content"],
+    "audience": ["consumer", "maintainer", "demo"],
+    "lifecycle": ["active", "incubating", "deprecated", "one-time"],
+    "published": "true when the package is configured for npm publication (private is absent or false)",
+    "llms": "true when the project ships a generated llms.txt"
+  },
+  "projects": [
+    {
+      "path": "packages/component-schemas",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "JSON Schemas describing Spectrum component APIs and options."
+    },
+    {
+      "path": "packages/design-data",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Canonical Spectrum design token data in cascade format, plus components, fields, registry, and guidelines."
+    },
+    {
+      "path": "packages/design-data-spec",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Design Data Specification: prose, JSON Schemas, rule catalog, and conformance fixtures."
+    },
+    {
+      "path": "packages/design-system-registry",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "deprecated",
+      "published": true,
+      "llms": false,
+      "summary": "Compatibility shim for registry data that moved to @adobe/spectrum-design-data."
+    },
+    {
+      "path": "packages/token-names",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Sidecar taxonomy name objects for Spectrum tokens."
+    },
+    {
+      "path": "packages/tokens",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Spectrum design tokens as published to npm."
+    },
+    {
+      "path": "sdk",
+      "kind": "area",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Rust workspace for the design-data SDK (CLI, core, TUI, WASM, plugins)."
+    },
+    {
+      "path": "sdk/cli",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "The `design-data` command-line interface."
+    },
+    {
+      "path": "sdk/core",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Core library: token resolution, validation, registry, and diffing."
+    },
+    {
+      "path": "sdk/plugins/dtcg",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "DTCG import and export plugin."
+    },
+    {
+      "path": "sdk/plugins/figma",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Figma variables import, export, and diff plugin."
+    },
+    {
+      "path": "sdk/tui",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Interactive terminal UI for authoring and inspecting design data."
+    },
+    {
+      "path": "sdk/wasm",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "WebAssembly bindings for design-data-core."
+    },
+    {
+      "path": "platforms",
+      "kind": "area",
+      "audience": "consumer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Incubating platform manifests for implementation teams."
+    },
+    {
+      "path": "tools/changeset-linter",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": false,
+      "summary": "Enforces concise changeset files. Published, but intended for this repository."
+    },
+    {
+      "path": "tools/component-diff-generator",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Diff reports for component schema changes with breaking-change analysis."
+    },
+    {
+      "path": "tools/component-options-editor",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Figma plugin for authoring component option schemas."
+    },
+    {
+      "path": "tools/demo",
+      "kind": "area",
+      "audience": "demo",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "includes": ["tools/demo/presentation"],
+      "summary": "Terminal demo videos and presentation decks for the CLI and TUI."
+    },
+    {
+      "path": "tools/design-data",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions."
+    },
+    {
+      "path": "tools/design-data-agent-mcp",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "MCP server and Claude Code skill for design-data authoring sessions."
+    },
+    {
+      "path": "tools/design-data-mcp",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Embedded, offline MCP server for tokens, component schemas, and guidelines."
+    },
+    {
+      "path": "tools/design-data-mcp-eval",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Offline grounding contracts and opt-in agent evaluations for the Hub MCP."
+    },
+    {
+      "path": "tools/design-data-skill",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Claude Code skill for querying Spectrum design data through the CLI."
+    },
+    {
+      "path": "tools/diff-generator",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Token diff CLI and library with CLI, JSON, and Markdown output."
+    },
+    {
+      "path": "tools/ios-override-importer",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "one-time",
+      "published": false,
+      "llms": false,
+      "summary": "One-time importer for the Spectrum iOS override log. Retains its CI target."
+    },
+    {
+      "path": "tools/markdown-generator",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Generates markdown from tokens and schemas for docs and chatbot indexing."
+    },
+    {
+      "path": "tools/optimized-diff",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "High-performance deep object diff library."
+    },
+    {
+      "path": "tools/release-analyzer",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Analyzes release history for the release-timeline visualization."
+    },
+    {
+      "path": "tools/s2-docs-mcp",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "MCP server for Spectrum 2 documentation."
+    },
+    {
+      "path": "tools/s2-docs-to-document-blocks",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Transforms s2-docs Markdown into documentBlocks for design-data."
+    },
+    {
+      "path": "tools/s2-implementation-metadata",
+      "kind": "area",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Verification scripts for S2 implementation metadata."
+    },
+    {
+      "path": "tools/spectrum-design-data-mcp",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "deprecated",
+      "published": true,
+      "llms": false,
+      "summary": "Deprecated MCP server kept for compatibility; use @adobe/design-data-mcp."
+    },
+    {
+      "path": "tools/spectrum-diff-core",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": true,
+      "llms": true,
+      "summary": "Shared core library for the diff generators."
+    },
+    {
+      "path": "tools/spectrum-hub-fetcher",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Fetches public Spectrum Hub pages into s2-docs Markdown."
+    },
+    {
+      "path": "tools/token-changeset-generator",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Generates changesets from Tokens Studio sync PR data."
+    },
+    {
+      "path": "tools/token-corpus-migrate",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Taxonomy migration CLI that adds name objects to legacy tokens."
+    },
+    {
+      "path": "tools/token-mapping-analyzer",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Analyzes tokens against the 13-field taxonomy name object spec."
+    },
+    {
+      "path": "tools/token-naming-audit",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Reports string-name token debt and overloaded property values."
+    },
+    {
+      "path": "templates/node-tool",
+      "kind": "area",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Template for scaffolding new Node.js tools."
+    },
+    {
+      "path": "docs/markdown",
+      "kind": "content",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Generated markdown for docs-site chatbot indexing. Do not edit by hand."
+    },
+    {
+      "path": "docs/proposals",
+      "kind": "content",
+      "audience": "maintainer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Design and process proposals for discussion."
+    },
+    {
+      "path": "docs/release-timeline",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Interactive timeline of Spectrum token releases."
+    },
+    {
+      "path": "docs/s2-docs",
+      "kind": "content",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Spectrum 2 documentation content mirrored from Spectrum Hub."
+    },
+    {
+      "path": "docs/s2-tokens-viewer",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Spectrum 2 tokens viewer web app."
+    },
+    {
+      "path": "docs/s2-visualizer",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Spectrum 2 token visualizer web app."
+    },
+    {
+      "path": "docs/site",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Eleventy docs site for Spectrum Design Data."
+    },
+    {
+      "path": "docs/visualizer",
+      "kind": "package",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Spectrum 1 token visualizer, still deployed as a static site. Relationship to the S2 viewer is unverified."
+    }
+  ]
+}

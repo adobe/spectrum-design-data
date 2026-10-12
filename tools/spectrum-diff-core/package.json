@@ -30,6 +30,7 @@
   },
   "files": [
     "src/",
+    "llms.txt",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"

@@ -52,3 +52,19 @@ tasks:
       - "/platforms/**/*"
       - "/.design-data.toml"
       - ".github/scripts/validate-platforms.mjs"
+  # Verifies .ai/ sources are valid and generated AI resources (instructions,
+  # repo index, llms.txt) are current. Fix drift with `pnpm ai:sync`.
+  ai-check:
+    command:
+      - node
+      - .ai/scripts/validate.js
+    inputs:
+      - "/.ai/**/*"
+      - "/AGENTS.md"
+      - "/**/AGENTS.md"
+      - "/**/CLAUDE.md"
+      - "/**/llms.txt"
+      - "/**/README.md"
+      - "/**/package.json"
+      - "/docs/repo-index.md"
+      - "/.github/instructions/**/*"

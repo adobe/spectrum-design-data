@@ -1,0 +1,28 @@
+# @adobe/design-data-mcp
+
+> MCP server for Spectrum design tokens, component schemas, and design guidelines (embedded, offline)
+
+MCP server for [Adobe Spectrum](https://spectrum.adobe.com) design tokens, component schemas,
+and design guidelines. Runs fully in-process via an embedded Spectrum snapshot — no network
+access, no CLI binary, and no configuration required.
+
+## Install
+
+`npm install @adobe/design-data-mcp`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md): usage and API overview
+- [Install in Claude Desktop (Extension)](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#install-in-claude-desktop-extension)
+- [Setup via npx (Cursor / Claude Desktop manual config)](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#setup-via-npx-cursor--claude-desktop-manual-config)
+- [Staying current](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#staying-current)
+- [Tools](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#tools)
+- [Testing guideline content](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#testing-guideline-content)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/README.md#license)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data-mcp)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-mcp/)
