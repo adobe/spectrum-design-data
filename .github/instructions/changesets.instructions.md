@@ -9,8 +9,11 @@ description: "Changeset format and bump rules enforced by CI"
 # Changesets
 
 * Create a changeset for every user-facing change; never edit package versions by hand.
+
 * Bump level: `patch` for a bug fix or packaging fix, `minor` for additive or validation-behavior changes, `major` for breaking changes.
+
 * The body is at most 20 lines: one intro sentence plus one bullet per changed artifact. Put rationale in the PR description.
+
 * Format:
 
   ```md
@@ -20,4 +23,5 @@ description: "Changeset format and bump rules enforced by CI"
   ```
 
 * Write the file directly rather than using the interactive `pnpm changeset` wizard when working non-interactively.
+
 * Verify with `node tools/changeset-linter/src/cli.js check --fail-on-warnings`.
