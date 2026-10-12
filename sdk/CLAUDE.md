@@ -28,6 +28,10 @@ moon run sdk:tui         # run the TUI locally
 Note: build and test both depend on `codegen-check` — if token JSON files changed,
 run `moon run sdk:codegen` first or the check will fail.
 
+`sdk:tui` loads the checked-in canonical tokens from `packages/design-data/tokens`.
+Its dataset argument is relative to `sdk/`, where Moon runs the task; no token
+build is required before launching.
+
 ## Key Facts
 
 * **Rust toolchain**: pinned in `sdk/rust-toolchain.toml` — don't override it

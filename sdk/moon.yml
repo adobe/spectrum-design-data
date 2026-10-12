@@ -152,7 +152,7 @@ tasks:
       - design-data-cli
       - --release
       - --
-      - packages/tokens/dist/json
+      - ../packages/design-data/tokens
       - --theme
       - spectrum
       - --no-resume-wizard
