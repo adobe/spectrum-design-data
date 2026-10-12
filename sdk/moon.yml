@@ -158,6 +158,8 @@ tasks:
       - --no-resume-wizard
     toolchain: "system"
     options:
+      interactive: true
+      cache: false
       runInCI: false
   version:
     command: node

@@ -31,6 +31,8 @@ run `moon run sdk:codegen` first or the check will fail.
 `sdk:tui` loads the checked-in canonical tokens from `packages/design-data/tokens`.
 Its dataset argument is relative to `sdk/`, where Moon runs the task; no token
 build is required before launching.
+The task runs interactively without caching so Moon passes terminal input and
+output through to the TUI instead of printing progress over its screen.
 
 ## Key Facts
 
