@@ -11,7 +11,6 @@ projects:
   s2-visualizer: "docs/s2-visualizer"
   site: "docs/site"
   markdown-generator: "tools/markdown-generator"
-  transform-tokens-json: "tools/transform-tokens-json"
   root: "."
   token-diff-generator: "tools/diff-generator"
   component-diff-generator: "tools/component-diff-generator"
