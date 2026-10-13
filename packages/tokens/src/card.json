@@ -216,7 +216,7 @@
     "uuid": "6f924664-b056-4fdb-a6ab-c5609e3e9316",
     "deprecated": true,
     "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-extra-large"
+    "renamed": "container-maximum-width-2x-large"
   },
   "card-maximum-width-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -225,7 +225,7 @@
     "uuid": "9b2b13ac-1728-49f5-8e15-6eeed2e7f855",
     "deprecated": true,
     "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-extra-small"
+    "renamed": "container-maximum-width-2x-small"
   },
   "card-maximum-width-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -234,7 +234,7 @@
     "uuid": "2e85d49c-4002-4beb-9173-f4b2ab78d043",
     "deprecated": true,
     "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-large"
+    "renamed": "container-maximum-width-extra-large"
   },
   "card-maximum-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

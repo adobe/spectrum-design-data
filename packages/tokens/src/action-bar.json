@@ -60,8 +60,8 @@
     "value": "{component-height-400}",
     "uuid": "e67822de-d0cd-4b49-8e90-6c43523bb4dd",
     "deprecated": true,
-    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly, no change.",
-    "renamed": "banner-height-medium"
+    "deprecated_comment": "Content + padding derived; matches banner-height exactly, no change.",
+    "renamed": "banner-height"
   },
   "action-bar-label-to-action-group-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

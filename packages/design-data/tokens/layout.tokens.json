@@ -7580,8 +7580,7 @@
     "name": {
       "structure": "banner",
       "property": "width",
-      "size": "m",
-      "legacyKey": "banner-width-medium"
+      "legacyKey": "banner-width"
     },
     "value": "896px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
@@ -7595,8 +7594,7 @@
     "name": {
       "structure": "banner",
       "property": "height",
-      "size": "m",
-      "legacyKey": "banner-height-medium"
+      "legacyKey": "banner-height"
     },
     "value": "56px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
@@ -7610,8 +7608,7 @@
     "name": {
       "structure": "banner",
       "property": "minimum-height",
-      "size": "m",
-      "legacyKey": "banner-minimum-height-medium"
+      "legacyKey": "banner-minimum-height"
     },
     "value": "56px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
@@ -7964,14 +7961,28 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "name": {
+      "structure": "container",
+      "property": "maximum-width",
+      "size": "xxs",
+      "legacyKey": "container-maximum-width-2x-small"
+    },
+    "$ref": "db351495-cc43-4fb6-9e36-404e6d7cf375",
+    "uuid": "231d919c-9219-4d12-8f3d-d7dc74695137",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "structure": "container",
       "property": "maximum-width",
       "size": "xs",
       "legacyKey": "container-maximum-width-extra-small"
     },
-    "value": "144px",
+    "$ref": "6d45c79e-f65b-49da-878b-d65c00df49c7",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "36428496-404a-4cc4-b11d-1cca9ead303c",
     "lifecycle": {
@@ -7979,14 +7990,14 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "structure": "container",
       "property": "maximum-width",
       "size": "s",
       "legacyKey": "container-maximum-width-small"
     },
-    "value": "192px",
+    "$ref": "ac0a6745-630e-40a3-a0e9-15cb0cbbbf0d",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "fc89675c-6344-443d-a1cd-aef607e0ae23",
     "lifecycle": {

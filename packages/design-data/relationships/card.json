@@ -470,7 +470,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
-      "replacedBy": "0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"
+      "replacedBy": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"
     },
     "rationale": "Deprecated via refine-from-sheets from row 63 of the mapping sheet."
   },
@@ -489,7 +489,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
-      "replacedBy": "36428496-404a-4cc4-b11d-1cca9ead303c"
+      "replacedBy": "231d919c-9219-4d12-8f3d-d7dc74695137"
     },
     "rationale": "Deprecated via refine-from-sheets from row 64 of the mapping sheet."
   },
@@ -508,7 +508,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
-      "replacedBy": "0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa"
+      "replacedBy": "0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"
     },
     "rationale": "Deprecated via refine-from-sheets from row 65 of the mapping sheet."
   },

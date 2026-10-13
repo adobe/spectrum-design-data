@@ -662,7 +662,7 @@
     "legacyKey": "action-bar-height",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly, no change.",
+      "deprecatedComment": "Content + padding derived; matches banner-height exactly, no change.",
       "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
     },
     "rationale": "Deprecated via refine-from-sheets from row 3 of the mapping sheet."

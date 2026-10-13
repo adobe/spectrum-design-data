@@ -379,7 +379,7 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly.",
+      "deprecatedComment": "Content + padding derived; matches banner-height exactly.",
       "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
     },
     "rationale": "Deprecated via refine-from-sheets from row 396 of the mapping sheet."
@@ -400,7 +400,7 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Content + padding derived; matches banner-height-medium exactly.",
+      "deprecatedComment": "Content + padding derived; matches banner-height exactly.",
       "replacedBy": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
     },
     "rationale": "Deprecated via refine-from-sheets from row 396 of the mapping sheet."

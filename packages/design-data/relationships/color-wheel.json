@@ -140,8 +140,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
-      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+      "deprecatedComment": "Referenced primitive size-1200 (144px); component-specific to Color wheel, not a container concept.",
+      "replacedBy": "db351495-cc43-4fb6-9e36-404e6d7cf375"
     },
     "rationale": "Deprecated via refine-from-sheets from row 442 of the mapping sheet."
   },
@@ -161,8 +161,8 @@
     "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Referenced primitive size-1300 (192px); component-specific to Color wheel, not a container concept.",
-      "replacedBy": "6d45c79e-f65b-49da-878b-d65c00df49c7"
+      "deprecatedComment": "Referenced primitive size-1200 (144px); component-specific to Color wheel, not a container concept.",
+      "replacedBy": "db351495-cc43-4fb6-9e36-404e6d7cf375"
     },
     "rationale": "Deprecated via refine-from-sheets from row 442 of the mapping sheet."
   },

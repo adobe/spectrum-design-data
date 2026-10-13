@@ -296,7 +296,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
-      "replacedBy": "36428496-404a-4cc4-b11d-1cca9ead303c"
+      "replacedBy": "231d919c-9219-4d12-8f3d-d7dc74695137"
     },
     "rationale": "Deprecated via refine-from-sheets from row 398 of the mapping sheet."
   },
@@ -317,7 +317,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared container-maximum-width-* scale.",
-      "replacedBy": "36428496-404a-4cc4-b11d-1cca9ead303c"
+      "replacedBy": "231d919c-9219-4d12-8f3d-d7dc74695137"
     },
     "rationale": "Deprecated via refine-from-sheets from row 398 of the mapping sheet."
   },

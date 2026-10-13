@@ -24,7 +24,7 @@
     "uuid": "4413ee4d-86b1-4d88-b2ee-64c0939698b9",
     "deprecated": true,
     "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-large"
+    "renamed": "container-maximum-width-2x-large"
   },
   "illustrated-message-large-body-font-size": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -191,6 +191,6 @@
     "uuid": "95c055b0-f688-4405-8426-1b2302e32ebd",
     "deprecated": true,
     "deprecated_comment": "Consolidated into the shared container-maximum-width-* scale.",
-    "renamed": "container-maximum-width-2x-large"
+    "renamed": "container-maximum-width-large"
   }
 }

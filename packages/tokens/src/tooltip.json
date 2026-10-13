@@ -17,7 +17,7 @@
         "uuid": "6d7623e1-65f5-4af5-8c08-b33b093b85ae"
       }
     },
-    "renamed": "container-maximum-width-extra-small"
+    "renamed": "container-maximum-width-2x-small"
   },
   "tooltip-tip-corner-radius": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

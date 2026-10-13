@@ -24,7 +24,7 @@
     "component": "alert-banner",
     "uuid": "c469d4c8-8d99-46ac-9b95-63a26e023627",
     "deprecated": true,
-    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly, no change.",
+    "deprecated_comment": "Use the shared banner-minimum-height token.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -37,7 +37,7 @@
         "uuid": "6d313800-3020-45f8-969d-63e81057ff97"
       }
     },
-    "renamed": "banner-height-medium"
+    "renamed": "banner-minimum-height"
   },
   "alert-banner-to-bottom-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -144,6 +144,6 @@
         "uuid": "b02e6302-d443-4b94-bda9-f4cc90b3d4ca"
       }
     },
-    "renamed": "banner-width-medium"
+    "renamed": "banner-width"
   }
 }

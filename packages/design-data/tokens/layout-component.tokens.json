@@ -2700,13 +2700,13 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "minimum-height",
       "legacyKey": "list-item-minimum-height",
       "anatomy": "list-item"
     },
-    "value": "44px",
+    "$ref": "c46f0475-b34e-4f08-ae8c-728f23b09ef9",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "f94c5322-654a-4dc2-8c2f-c77bbf2a0826",
     "lifecycle": {

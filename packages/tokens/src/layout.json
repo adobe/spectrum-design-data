@@ -112,7 +112,7 @@
     "value": "2dp",
     "uuid": "f9456531-ab61-4c14-b7af-7016ce1c0d3e"
   },
-  "banner-height-medium": {
+  "banner-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "b9e67494-44bb-48d9-b4e6-d2385c6ab41d"
@@ -122,7 +122,7 @@
     "value": "352px",
     "uuid": "b377dd74-b519-4a29-bba1-870b1861915a"
   },
-  "banner-minimum-height-medium": {
+  "banner-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "56px",
     "uuid": "e271c350-f967-4425-8f24-12be5f43f7c7"
@@ -143,7 +143,7 @@
     "uuid": "7f237198-3842-49bc-aa79-e723fbe6c78e",
     "description": "Horizontal internal spacing for banner components (compact density)"
   },
-  "banner-width-medium": {
+  "banner-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "896px",
     "uuid": "1236fe9c-ea39-415c-94b6-e35333bbfe39"
@@ -1674,6 +1674,11 @@
     "value": "512px",
     "uuid": "b9f37df2-24d3-4cbb-8ee7-e34d2f8b2057"
   },
+  "container-maximum-width-2x-small": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{size-1200}",
+    "uuid": "231d919c-9219-4d12-8f3d-d7dc74695137"
+  },
   "container-maximum-width-3x-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "608px",
@@ -1685,8 +1690,8 @@
     "uuid": "0d43922b-9c5b-4bd8-9e67-f53c8ffd44d3"
   },
   "container-maximum-width-extra-small": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "144px",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{size-1300}",
     "uuid": "36428496-404a-4cc4-b11d-1cca9ead303c"
   },
   "container-maximum-width-large": {
@@ -1700,8 +1705,8 @@
     "uuid": "ea8ff009-1e4b-42c7-9df0-1c8f33e7d322"
   },
   "container-maximum-width-small": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
-    "value": "192px",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "value": "{size-1400}",
     "uuid": "fc89675c-6344-443d-a1cd-aef607e0ae23"
   },
   "container-minimum-height-2x-large": {

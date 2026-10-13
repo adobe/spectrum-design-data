@@ -24,7 +24,7 @@
     "component": "toast",
     "uuid": "28138e79-4a91-4446-a07e-7c8bac379b18",
     "deprecated": true,
-    "deprecated_comment": "Content + padding derived; matches banner-height-medium exactly.",
+    "deprecated_comment": "Content + padding derived; matches banner-height exactly.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -37,7 +37,7 @@
         "uuid": "12c8ae92-16b9-48ec-801c-bf07785da4b3"
       }
     },
-    "renamed": "banner-height-medium"
+    "renamed": "banner-height"
   },
   "toast-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
