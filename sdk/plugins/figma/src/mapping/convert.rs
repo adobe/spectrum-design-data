@@ -12,7 +12,7 @@
 //! single token into the `VariableAction`/`ModeValueAction` pair(s) that make
 //! up a Figma Variables POST payload.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 use serde_json::Value;
@@ -414,6 +414,170 @@ fn make_variable_action(
         code_syntax: Some(code_syntax),
     };
     (va, var_id)
+}
+
+/// Schema family used to decide whether a deprecated token and its
+/// replacement are interchangeable as a Figma alias (a font weight must never
+/// alias a font family, a dimension never a font size).
+fn schema_class(schema: &str) -> Option<&'static str> {
+    [
+        COLOR,
+        DIMENSION,
+        ANGLE,
+        MULTIPLIER,
+        OPACITY,
+        FONT_FAMILY,
+        FONT_SIZE,
+        FONT_STYLE,
+        FONT_WEIGHT,
+    ]
+    .into_iter()
+    .find(|s| schema.ends_with(s))
+}
+
+/// Map each deprecated token to the terminal replacement it should alias.
+///
+/// Follows the legacy `renamed` chain (`lifecycle.replacedBy` in the canonical
+/// format) transitively, stopping at the first token that isn't itself
+/// deprecated-with-a-replacement. Tokens whose chain cycles, dangles, has no
+/// exported variable, or crosses schema families are left on their own
+/// literal and recorded in `summary.redirect_skipped`.
+pub(super) fn compute_redirects(
+    tokens: &[(String, PathBuf, Value)],
+    value_index: &ValueIndex,
+    alias_target_ids: &HashMap<String, String>,
+    summary: &mut ExportSummary,
+) -> HashMap<String, String> {
+    let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, _, v)| (n.as_str(), v)).collect();
+    let mut redirects = HashMap::new();
+
+    for (name, _file, entry) in tokens {
+        if entry.get("deprecated").and_then(Value::as_bool) != Some(true) {
+            continue;
+        }
+        let Some(first) = entry.get("renamed").and_then(Value::as_str) else {
+            continue;
+        };
+
+        let mut seen: HashSet<&str> = HashSet::from([name.as_str()]);
+        let mut current = first;
+        let terminal = loop {
+            if !seen.insert(current) {
+                break Err("replacement chain cycles".to_string());
+            }
+            let Some(target) = by_name.get(current) else {
+                break Err(format!("replacement '{current}' not found"));
+            };
+            let next = (target.get("deprecated").and_then(Value::as_bool) == Some(true))
+                .then(|| target.get("renamed").and_then(Value::as_str))
+                .flatten();
+            match next {
+                Some(next) => current = next,
+                None => break Ok(current),
+            }
+        };
+
+        let skip = |summary: &mut ExportSummary, reason: String| {
+            summary.redirect_skipped.push(format!("{name}: {reason}"));
+        };
+        let terminal = match terminal {
+            Ok(t) => t,
+            Err(reason) => {
+                skip(summary, reason);
+                continue;
+            }
+        };
+        if !alias_target_ids.contains_key(terminal) {
+            skip(
+                summary,
+                format!("replacement '{terminal}' has no exported variable"),
+            );
+            continue;
+        }
+        let (Some(Ok(own)), Some(Ok(replacement))) =
+            (value_index.get(name), value_index.get(terminal))
+        else {
+            skip(
+                summary,
+                format!("could not resolve a value for it or '{terminal}'"),
+            );
+            continue;
+        };
+        if schema_class(&own.schema).is_none()
+            || schema_class(&own.schema) != schema_class(&replacement.schema)
+        {
+            skip(
+                summary,
+                format!("replacement '{terminal}' has a different value type"),
+            );
+            continue;
+        }
+        redirects.insert(name.clone(), terminal.to_string());
+    }
+    redirects
+}
+
+/// Whether an alias-schema token will be exported as a variable by
+/// [`process_alias_token`] (it resolves and its value converts), and if so
+/// whether it routes to the color collection.
+pub(super) fn alias_exportable_route(value_index: &ValueIndex, token_name: &str) -> Option<bool> {
+    let resolved = value_index.get(token_name)?.as_ref().ok()?;
+    let figma_type = schema_to_figma_type(&resolved.schema);
+    value_to_figma(&resolved.value, figma_type, &resolved.schema).ok()?;
+    Some(figma_type == "COLOR" || resolved.schema.ends_with(OPACITY))
+}
+
+/// Figma type and whether the token belongs in the color collection, for a
+/// redirected token (derived from its own resolved value, like
+/// [`process_alias_token`]).
+pub(super) fn redirect_route(value_index: &ValueIndex, token_name: &str) -> Option<(String, bool)> {
+    let resolved = value_index.get(token_name)?.as_ref().ok()?;
+    let figma_type = schema_to_figma_type(&resolved.schema);
+    let is_color = figma_type == "COLOR" || resolved.schema.ends_with(OPACITY);
+    Some((figma_type.to_string(), is_color))
+}
+
+/// Emit a deprecated token as a variable whose every mode aliases the
+/// replacement variable, instead of its own stale literal.
+#[allow(clippy::too_many_arguments)]
+pub(super) fn process_redirected_token(
+    token_name: &str,
+    entry: &Value,
+    collection_id: &str,
+    prefix: &str,
+    mode_ids: &HashMap<String, String>,
+    figma_type: &str,
+    target_id: &str,
+    existing_var_index: &HashMap<&str, &str>,
+    overrides: Option<&HashMap<String, String>>,
+    variables: &mut Vec<VariableAction>,
+    mode_values: &mut Vec<ModeValueAction>,
+    summary: &mut ExportSummary,
+) {
+    let desc = entry.get("description").and_then(|v| v.as_str());
+    let (va, var_id) = make_variable_action(
+        token_name,
+        prefix,
+        collection_id,
+        figma_type,
+        desc,
+        existing_var_index,
+        overrides,
+    );
+    variables.push(va);
+    summary.variables_created += 1;
+
+    let mut modes: Vec<&String> = mode_ids.values().collect();
+    modes.sort();
+    for mode_id in modes {
+        mode_values.push(ModeValueAction {
+            variable_id: var_id.clone(),
+            mode_id: mode_id.clone(),
+            value: serde_json::to_value(FigmaVariableAlias::new(target_id.to_string())).unwrap(),
+        });
+        summary.mode_values_aliased += 1;
+    }
+    summary.redirected_deprecated.push(token_name.to_string());
 }
 
 #[allow(clippy::too_many_arguments)]
