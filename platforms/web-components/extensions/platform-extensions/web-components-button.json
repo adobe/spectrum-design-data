@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "platform": "Web Components",
+  "platformVersion": "Spectrum Web Components (gen2)",
+  "description": "Button option/prop naming for @spectrum-web-components/button, verified against gen2/packages/swc/components/button/Button.ts and gen2/packages/core/components/button/Button.types.ts.",
+  "componentOptions": [
+    {
+      "component": "button",
+      "option": "style",
+      "platformProp": "fillStyle",
+      "platformAttribute": "fill-style",
+      "notes": "Lit JS property is fillStyle (camelCase); its reflected HTML attribute is fill-style."
+    },
+    {
+      "component": "button",
+      "option": "variant",
+      "platformProp": "variant"
+    },
+    {
+      "component": "button",
+      "option": "size",
+      "platformProp": "size",
+      "notes": "Values match canonical casing (s|m|l|xl); no per-value aliasing needed on this platform."
+    },
+    {
+      "component": "button",
+      "option": "isDisabled",
+      "platformProp": "disabled"
+    },
+    {
+      "component": "button",
+      "option": "isPending",
+      "platformProp": "pending",
+      "notes": "SWC also exposes a pending-label attribute (accessible-name override during pending) with no canonical counterpart; not modeled here since it's not a value of an existing option."
+    },
+    {
+      "component": "button",
+      "option": "isLabelHidden",
+      "notes": "No direct prop equivalent found on this platform. Icon-only rendering is inferred from slot presence (no default-slot content) rather than an explicit boolean toggle. Left without a platformProp intentionally — a generator should skip this option for Web Components rather than guess an attribute name."
+    },
+    {
+      "component": "button",
+      "option": "staticColor",
+      "platformProp": "staticColor",
+      "platformAttribute": "static-color"
+    }
+  ]
+}

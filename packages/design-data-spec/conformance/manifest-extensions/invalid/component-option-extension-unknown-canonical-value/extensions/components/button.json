@@ -1,0 +1,16 @@
+{
+  "$id": "https://example.com/components/button",
+  "name": "button",
+  "displayName": "Button",
+  "meta": {
+    "category": "actions",
+    "documentationUrl": "https://example.com"
+  },
+  "options": {
+    "style": {
+      "type": "string",
+      "default": "fill",
+      "values": [{ "value": "fill" }, { "value": "outline" }]
+    }
+  }
+}
