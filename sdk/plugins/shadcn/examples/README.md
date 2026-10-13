@@ -44,5 +44,20 @@ Treat those variables as plain custom properties set in `:root` and `.dark`, not
 
 Component items hold Spectrum Design Data metadata only: options, states, anatomy, accessibility, and implementation references.
 The exporter writes no component source files and no Code Connect mappings.
-Each item lists `spectrum-theme` as a registry dependency, but nothing hosts the theme yet.
-Publish the generated theme next to the component items before installing them with the shadcn CLI.
+Each item lists `spectrum-theme` as a registry dependency. Without `--base-url` that is the bare name, which the shadcn CLI cannot resolve.
+
+## Hosted registry
+
+The deploy-docs workflow runs `moon run sdk:shadcn-registry`, which publishes the registry to GitHub Pages. Nothing under `site/` is committed.
+
+```bash
+design-data shadcn registry --output site/r --base-url https://adobe.github.io/spectrum-design-data/r
+```
+
+With `--base-url`, the output is flat: `registry.json`, `spectrum-theme.json`, and one `{component}.json` per component.
+Each item's `spectrum-theme` dependency becomes `{base-url}/spectrum-theme.json`, and `registry.json` lists the theme too.
+Install a component, and its theme with it, using:
+
+```bash
+npx shadcn@latest add https://adobe.github.io/spectrum-design-data/r/action-button.json
+```

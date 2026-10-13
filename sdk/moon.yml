@@ -92,6 +92,27 @@ tasks:
       - "/packages/design-data/guidelines/*.json"
     deps:
       - codegen-check
+  # Hosted shadcn registry for GitHub Pages: site/r/registry.json,
+  # site/r/{component}.json and site/r/spectrum-theme.json. Generated in the
+  # deploy-docs workflow; the output is not committed.
+  shadcn-registry:
+    command: cargo
+    args:
+      - run
+      - --package
+      - design-data-cli
+      - --
+      - shadcn
+      - registry
+      - --output
+      - $workspaceRoot/site/r
+      - --base-url
+      - https://adobe.github.io/spectrum-design-data/r
+    options:
+      cache: false
+      runInCI: false
+    deps:
+      - codegen-check
   # nextest doesn't run doctests — this covers the runnable ```rust examples
   # in core/src (write.rs, naming.rs, legacy.rs, migrate.rs, cascade.rs, etc).
   test-doc:
