@@ -1,0 +1,27 @@
+# @adobe/spectrum-component-diff-generator
+
+> Generates diff reports for Spectrum component schema changes with breaking change analysis
+
+A tool for generating diff reports between Spectrum component schema versions, with intelligent breaking change detection.
+
+## Install
+
+`npm install @adobe/spectrum-component-diff-generator`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md): usage and API overview
+- [Features](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#features)
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#installation)
+- [Usage](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#usage)
+- [Breaking Change Detection](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#breaking-change-detection)
+- [Output Examples](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#output-examples)
+- [Architecture](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#architecture)
+- [Future Enhancements](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/README.md#future-enhancements)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/spectrum-component-diff-generator)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/)

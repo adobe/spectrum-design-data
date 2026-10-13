@@ -31,29 +31,47 @@ const __dirname = dirname(__filename);
 
 // Resolve monorepo root relative to this file: tools/s2-docs-to-document-blocks/src/cli.js → ../../..
 const ROOT = resolve(__dirname, "../../..");
-const DOCS_DIR = join(ROOT, "docs/s2-docs/components");
+const S2_DOCS_DIR = join(ROOT, "docs/s2-docs");
+const DOCS_DIR = join(S2_DOCS_DIR, "web/rsp/components");
 const COMPONENTS_DIR = join(ROOT, "packages/design-data/components");
 
-const GUIDELINE_SUBTREES = [
-  "designing",
-  "fundamentals",
-  "developing",
+// Hub path roots that carry guideline pages (mirrors the Hub's own IA).
+const GUIDELINE_ROOTS = [
+  "foundations",
+  "content",
   "support",
+  "getting-started",
 ];
 const GUIDELINES_OUT_DIR = join(ROOT, "packages/design-data/guidelines");
 
-/** Map component slug → absolute path to s2-docs Markdown file */
+function listMarkdown(dir) {
+  if (!existsSync(dir)) return [];
+  const files = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...listMarkdown(full));
+    else if (entry.name.endsWith(".md")) files.push(full);
+  }
+  return files.sort();
+}
+
+function readFrontmatter(path) {
+  return parseDoc(readFileSync(path, "utf8")).frontmatter ?? {};
+}
+
+/**
+ * Map design-data component slug → absolute path to the RSP Markdown page,
+ * driven by each page's `design_data_targets` frontmatter.
+ */
 export function buildDocIndex(docsDir = DOCS_DIR) {
   const index = new Map();
-  for (const category of readdirSync(docsDir)) {
-    const catDir = join(docsDir, category);
-    for (const file of readdirSync(catDir)) {
-      if (!file.endsWith(".md")) continue;
-      const slug = file.replace(".md", "");
-      const path = join(catDir, file);
+  for (const path of listMarkdown(docsDir)) {
+    const { design_data_targets: targets } = readFrontmatter(path);
+    if (!Array.isArray(targets)) continue;
+    for (const slug of targets) {
       if (index.has(slug)) {
         throw new Error(
-          `Duplicate component slug "${slug}" in ${index.get(slug)} and ${path}. Reconcile staged component paths before transforming.`,
+          `Duplicate component slug "${slug}" in ${index.get(slug)} and ${path}. Reconcile staged component pages before transforming.`,
         );
       }
       index.set(slug, path);
@@ -73,17 +91,19 @@ function buildComponentIndex() {
   return index;
 }
 
-/** Map guideline slug → absolute path to s2-docs Markdown file (across all subtrees) */
-function buildGuidelineIndex() {
+/** Map guideline slug → absolute path to its Hub-mirrored Markdown page */
+export function buildGuidelineIndex(docsBase = S2_DOCS_DIR) {
   const index = new Map();
-  const s2DocsBase = join(ROOT, "docs/s2-docs");
-  for (const subtree of GUIDELINE_SUBTREES) {
-    const subtreeDir = join(s2DocsBase, subtree);
-    if (!existsSync(subtreeDir)) continue;
-    for (const file of readdirSync(subtreeDir)) {
-      if (!file.endsWith(".md")) continue;
-      const slug = file.replace(".md", "");
-      index.set(slug, join(subtreeDir, file));
+  for (const root of GUIDELINE_ROOTS) {
+    for (const path of listMarkdown(join(docsBase, root))) {
+      const { slug } = readFrontmatter(path);
+      if (typeof slug !== "string" || !slug) continue;
+      if (index.has(slug)) {
+        throw new Error(
+          `Duplicate guideline slug "${slug}" in ${index.get(slug)} and ${path}.`,
+        );
+      }
+      index.set(slug, path);
     }
   }
   return index;
@@ -425,13 +445,28 @@ async function runGuideline(args) {
     });
   }
 
-  // Write manifest (catalog for MCP discovery)
+  // Write manifest (catalog for MCP discovery). Built from every JSON on disk so
+  // guidelines without a Hub page (JSON-only) stay listed.
   if (!args.dryRun && manifestEntries.length > 0) {
-    const manifest = {
-      guidelines: manifestEntries,
-    };
+    const entries = readdirSync(GUIDELINES_OUT_DIR)
+      .filter((f) => f.endsWith(".json") && f !== "manifest.json")
+      .map((f) => {
+        const slug = f.replace(".json", "");
+        const doc = JSON.parse(
+          readFileSync(join(GUIDELINES_OUT_DIR, f), "utf8"),
+        );
+        return {
+          slug,
+          title: doc.title,
+          category: doc.category,
+          status: doc.status ?? null,
+          sourceUrl: doc.sourceUrl ?? null,
+          file: `guidelines/${slug}.json`,
+        };
+      })
+      .sort((a, b) => a.slug.localeCompare(b.slug));
     const manifestPath = join(GUIDELINES_OUT_DIR, "manifest.json");
-    await writeJson(manifestPath, manifest);
+    await writeJson(manifestPath, { guidelines: entries });
     console.log(`\nManifest written: ${manifestPath}`);
   }
 

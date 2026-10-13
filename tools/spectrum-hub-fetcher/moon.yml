@@ -24,6 +24,7 @@ tasks:
       - test/**/*
       - ava.config.js
       - package.json
+      - /.github/workflows/hub-component-sync.yml
       - /tools/s2-docs-to-document-blocks/src/**/*
       - "/docs/s2-docs/components/**/*.md"
       - "/packages/design-data/components/**/*.json"

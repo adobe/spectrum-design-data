@@ -6,6 +6,7 @@
   "files": [
     "skills/",
     ".claude-plugin/",
+    "llms.txt",
     "README.md",
     "LICENSE"
   ],

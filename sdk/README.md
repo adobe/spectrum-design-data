@@ -211,6 +211,13 @@ Export reads the legacy projection generated from canonical `packages/design-dat
 by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
 file. Dry runs still read the file through the API to obtain collection and mode IDs.
 
+Pass `--redirect-deprecated` to export each deprecated token that names a
+replacement (`renamed`) as an alias to the terminal replacement in every mode,
+instead of its own literal value. Redirecting changes the values designs render
+(for example `accordion-minimum-width` 200px becomes `list-item-minimum-width-medium`
+192px), so review a `--dry-run` first. Tokens with no usable replacement keep
+their value and are listed in the summary.
+
 Writes capture a raw baseline, build one immutable payload, and fetch the file
 again immediately before POST. Concurrent changes abort the write; only
 collection `variableIds` membership ordering is ignored. Mode order and API

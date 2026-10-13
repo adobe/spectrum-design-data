@@ -15,13 +15,13 @@
     "tasks/",
     ".claude-plugin/",
     "skills/",
+    "llms.txt",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "start": "node src/cli.js",
     "test": "ava",
-    "scrape": "node src/batch-scraper.js",
     "bundle": "node tasks/bundleDocs.js",
     "prepublishOnly": "node tasks/bundleDocs.js"
   },

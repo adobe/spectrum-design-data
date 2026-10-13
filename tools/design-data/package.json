@@ -14,6 +14,7 @@
   },
   "files": [
     "src/",
+    "llms.txt",
     "README.md"
   ],
   "engines": {

@@ -1,0 +1,29 @@
+# @adobe/design-data-spec
+
+> Design Data Specification — prose, JSON Schemas, rule catalog, and conformance fixtures for the design data format
+
+Normative **Design Data Specification** artifacts for Spectrum: human-readable spec (`spec/`), JSON Schemas (`schemas/`), validation rule catalog (`rules/`), and conformance fixtures (`conformance/`).
+
+**Spec version:** `1.0.0-draft` — see [`spec/index.md`](spec/index.md).
+
+See [`spec/manifest.md`](spec/manifest.md) for the platform manifest spec, including the
+`extensions/` directory model.
+
+## Install
+
+`npm install @adobe/design-data-spec`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/README.md): usage and API overview
+- [Layers](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/README.md#layers)
+- [Package exports](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/README.md#package-exports)
+- [Tasks](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/README.md#tasks)
+- [References](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/README.md#references)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data-spec)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/)

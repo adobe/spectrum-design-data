@@ -24,6 +24,7 @@
     "pkg/web/design_data_wasm.d.ts",
     "pkg/web/design_data_wasm_bg.wasm.d.ts",
     "pkg/web/package.json",
+    "llms.txt",
     "README.md"
   ],
   "keywords": [
