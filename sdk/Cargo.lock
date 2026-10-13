@@ -718,6 +718,7 @@ dependencies = [
  "design-data-core",
  "design-data-dtcg",
  "serde_json",
+ "tempfile",
 ]
 
 [[package]]

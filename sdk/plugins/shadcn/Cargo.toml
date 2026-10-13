@@ -13,3 +13,6 @@ path = "src/lib.rs"
 design-data-core = { path = "../../core" }
 design-data-dtcg = { path = "../dtcg" }
 serde_json = { version = "1.0", features = ["preserve_order"] }
+
+[dev-dependencies]
+tempfile = "3.14"
