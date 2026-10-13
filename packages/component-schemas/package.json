@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-component-api-schemas",
-  "version": "6.1.63",
+  "version": "0.0.0-size-token-taxonomy-20261013224620",
   "description": "",
   "type": "module",
   "main": "index.js",

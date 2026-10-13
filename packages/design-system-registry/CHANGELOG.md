@@ -1,5 +1,12 @@
 # @adobe/design-system-registry
 
+## 0.0.0-size-token-taxonomy-20261013224620
+
+### Patch Changes
+
+- Updated dependencies [[`17e0ae3`](https://github.com/adobe/spectrum-design-data/commit/17e0ae32f889758bd137edfbba427e62bd4abe80), [`504ce4f`](https://github.com/adobe/spectrum-design-data/commit/504ce4f8646fd61461b9929e65bfdae960588b7b), [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5), [`0ecfcd1`](https://github.com/adobe/spectrum-design-data/commit/0ecfcd1944ae01da2888333580e4c68641f73238), [`f53020c`](https://github.com/adobe/spectrum-design-data/commit/f53020c804e76e2753000e49fa9e2cb7fcf743c0), [`6489178`](https://github.com/adobe/spectrum-design-data/commit/6489178cebad29545772bf9dfd768051ebaede35)]:
+  - @adobe/spectrum-design-data@0.0.0-size-token-taxonomy-20261013224620
+
 ## 5.0.45
 
 ### Patch Changes

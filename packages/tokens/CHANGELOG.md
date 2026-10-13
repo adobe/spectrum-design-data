@@ -1,5 +1,37 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 0.0.0-size-token-taxonomy-20261013224620
+
+### Major Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`504ce4f`](https://github.com/adobe/spectrum-design-data/commit/504ce4f8646fd61461b9929e65bfdae960588b7b) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine size tokens and remove the medium suffix from shared banner tokens.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **tokens/layout.tokens.json**: Add 2x-small width, update size aliases, and rename banner tokens.
+  - **tokens/layout-component.tokens.json**: Alias the list item minimum height to size-600 (40px).
+  - **relationships/card.json**: Correct the extra-small, large, and extra-large width mappings.
+  - **relationships/tooltip.json**: Map the maximum width to the 2x-small container maximum width.
+  - **relationships/color-wheel.json**: Map the minimum width to size-1200.
+  - **relationships/illustrated-message.json**: Correct horizontal and vertical width mappings.
+  - **relationships/alert-banner.json**: Map the minimum height to banner-minimum-height.
+  - **relationships/action-bar.json**, **relationships/toast.json**: Update banner-height guidance.
+  - **packages/tokens/src/**: Regenerate legacy aliases, names, and replacement mappings.
+  - **packages/tokens/test/sizeRefinements.test.js**: Cover canonical and legacy data.
+
+### Minor Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Propagate size taxonomy refinements from the cascade source into the legacy token package.
+  - **tokens/src**: Regenerated from `packages/design-data` to add shared `banner-*` layout
+    tokens and mark consolidated size tokens `deprecated` with a `renamed` migration target.
+
+### Patch Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`f53020c`](https://github.com/adobe/spectrum-design-data/commit/f53020c804e76e2753000e49fa9e2cb7fcf743c0) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Synchronize legacy token output with the size-token refinements in #1503.
+  - **tokens/layout.tokens.json**: remove three replacement pointers to removed tokens.
+  - **packages/tokens/src/**: regenerate legacy output from the canonical design data.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
 ## 15.5.0
 
 ### Minor Changes
