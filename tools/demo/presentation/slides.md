@@ -54,18 +54,21 @@ deterministic — query, resolve, describe. No model involved.
 Beat A1 — `:query background-color/*` filters ~4,166 tokens into a Name / Value /
 File / Layer table. The TUI loads the whole corpus in about a second.
 
-Beat A2 — `:resolve property=accent-background-color-default,colorScheme=dark`
+Beat A2 — `:resolve property=accent-background-color,colorScheme=dark`
 shows the cascade winner (★) and a Spec specificity column. Same idea as CSS
 specificity, but deterministic and auditable.
 
 Beat A3 — `:describe button` pulls the component schema straight from the spec
-bundle: anatomy, states, accessibility role, token bindings.
+bundle: anatomy, states, accessibility role, token bindings. Press `y` to yank
+any selected row to the clipboard.
 
-Beat A4 — `/accentbg` is live fuzzy-find: the table re-ranks on every keystroke
-with fzf-style subsequence matching (the header reads `Fuzzy: /accentbg`). Enter
-keeps the filtered results; Esc restores the previous view. So `:` is the
-structured surface (`query`/`find`) and `/` is incremental name search — show
-both.
+Beat A4 — `:find` opens the two-screen **find wizard** (Filters → Preview).
+The Filters screen shows five input fields (property, component, variant, state,
+free-text intent). As you type in a field, **cross-field count badges** update
+on every other option — showing how many tokens match the full filter when that
+value is applied. Tab to the Preview button and Enter to see results; Esc steps
+back one screen at a time. `:query` is complementary — unguided glob/predicate
+filtering for when you already know the expression.
 -->
 
 ***
@@ -93,18 +96,20 @@ which keeps the cascade coherent.
 <!--
 Beat B1 — `:new accent background`. The reuse banner fires because a high-
 confidence match exists (threshold 0.35). One Tab takes the alias path straight
-to the Confirm diff — a reference, not a duplicate value.
+to the Confirm diff — a reference, not a duplicate value. Press Esc to
+back-navigate one screen at a time (new #1160/#1172 behavior — show this!):
+Confirm → Values → Classification → Intent → cancel.
 
 Beat B2 — `:new custom brand overlay` is a genuinely novel intent, so no banner.
 Walk the four screens: Intent → Classification (layer, property, name fields,
-live preview) → Values (one row per mode combination, alias or literal) →
-Confirm (rationale required, live diff).
+live preview; screen title reads `Step 2 of 4 — Classification`) → Values (one
+row per mode combination, alias or literal) → Confirm (rationale required,
+live diff). Esc×4 to cancel.
 
-Note the Confirm diff serializes EVERY mode-combo row as a `sets` block — we
-just fixed a bug where only the first row was written. The multi-mode story is
-honest on camera now. The diff also emits a structured `name` object (property +
-name fields), so the TUI writes the same token shape as the MCP authoring
-session — the wizard and agent paths are at parity.
+The Confirm diff serializes EVERY mode-combo row as a `sets` block and emits a
+structured `name` object (property + name fields), so the TUI writes the same
+token shape as the MCP authoring session — the wizard and agent paths are at
+parity.
 -->
 
 ***

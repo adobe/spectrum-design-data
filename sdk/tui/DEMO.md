@@ -63,12 +63,12 @@ search them like a database."*
 ### Beat 2 — Cascade resolution (45 s)
 
 **Talking point:** "Every token participates in a cascade — like CSS specificity but
-for design. Let's see who wins for `accent-background-color-default` in dark mode."
+for design. Let's see who wins for `accent-background-color` in dark mode."
 
-| Keys                                                                        | Action       |
-| --------------------------------------------------------------------------- | ------------ |
-| `:`                                                                         | Open palette |
-| `resolve property=accent-background-color-default,colorScheme=dark` `Enter` | Run resolve  |
+| Keys                                                                | Action       |
+| ------------------------------------------------------------------- | ------------ |
+| `:`                                                                 | Open palette |
+| `resolve property=accent-background-color,colorScheme=dark` `Enter` | Run resolve  |
 
 Expected: table with ★ / Name / Value / File / Layer / Spec columns. One row has ★
 in the first column — that's the winning token for this mode combination.
@@ -109,7 +109,9 @@ diff preview — it's an alias, not a net-new value.
 
 *"One keystroke, and the cascade stays healthy."*
 
-**Esc** to cancel (we'll create a real one next).
+**Esc** to back-navigate (Esc now steps back one screen at a time — press Esc four
+times to cancel from Confirm: Confirm → Values → Classification → Intent → cancel).
+This is a good moment to narrate the back-navigation feature.
 
 ***
 
@@ -233,17 +235,18 @@ Quit and relaunch against the real dataset for the rest of the demo.
 
 * `:query property=*background*` `Enter` — narrows the table to tokens whose
   property matches the `*background*` glob (any `query` expression works here).
-* `:find background` `Enter` — opens the Find wizard seeded with that intent for
-  interactive name lookup.
-* `/` `btnbg` — opens **live fuzzy-find**: the table re-ranks on every keystroke
-  using fzf-style subsequence matching (`btnbg` matches `button-background`), with
-  the header reading `Fuzzy: /btnbg`. `Enter` keeps the filtered results; `Esc`
-  restores the view that was on screen before you opened the palette. Pick a
-  needle that actually hits tokens in your dataset so the live narrowing reads
-  clearly on camera — `btnbg` is just an example.
+* `:find` `Enter` — opens the **Find wizard** at the Filters screen
+  (`Step 1 of 2 — Filters`). Five fields: property, component, variant, state,
+  free-text intent. As you type, **cross-field count badges** update next to
+  every option — showing how many tokens match the full combination. Tab through
+  the fields to the Preview button; Enter to run the query; Esc from Preview
+  returns to Filters; Esc from Filters cancels.
+* `:find background` `Enter` — same wizard, pre-seeded with "background" as the
+  intent field. Good for intent-first lookup.
 
-*"`:` is the structured command surface — `query` for predicate filtering and `find`
-for guided lookup — while `/` is incremental fuzzy search over token names. Tab
+*"`:query` is predicate filtering (glob expressions, structured fields). `:find`
+is guided lookup with live count feedback — use it when you want to explore what
+values are available for a field before committing to an expression. Tab
 autocomplete and Up/Down history work throughout the `:` palette."*
 
 ***
