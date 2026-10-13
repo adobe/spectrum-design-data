@@ -247,6 +247,67 @@ pub fn write_component_registry(
     Ok(components.len())
 }
 
+/// Write a self-contained registry for static hosting under `base_url`.
+///
+/// Items and the theme sit flat next to `registry.json` (`{name}.json`), so each is
+/// installable with `shadcn add {base_url}/{name}.json`. Every component's
+/// `spectrum-theme` dependency is rewritten to the hosted theme URL so the shadcn CLI
+/// can resolve it, and the theme item is listed in `registry.json`.
+pub fn write_hosted_registry(
+    components_dir: &Path,
+    output_dir: &Path,
+    selected_component: Option<&str>,
+    base_url: &str,
+    theme: &Value,
+) -> Result<usize, String> {
+    let base_url = base_url.trim_end_matches('/');
+    if !(base_url.starts_with("https://") || base_url.starts_with("http://")) {
+        return Err(format!(
+            "base URL '{base_url}' must start with http:// or https://"
+        ));
+    }
+    let theme_name = theme
+        .get("name")
+        .and_then(Value::as_str)
+        .ok_or_else(|| "theme item is missing a string 'name'".to_string())?;
+    let theme_url = format!("{base_url}/{theme_name}.json");
+
+    let components = read_component_declarations(components_dir, selected_component)?;
+    let mut items = components
+        .iter()
+        .map(component_registry_item)
+        .collect::<Result<Vec<_>, _>>()?;
+    for item in &mut items {
+        item["registryDependencies"] = json!([theme_url]);
+    }
+
+    let mut theme_item = Map::new();
+    theme_item.insert("$schema".to_string(), json!(REGISTRY_ITEM_SCHEMA));
+    theme_item.extend(
+        theme
+            .as_object()
+            .ok_or_else(|| "theme item must be an object".to_string())?
+            .clone(),
+    );
+    let theme_item = Value::Object(theme_item);
+
+    fs::create_dir_all(output_dir)
+        .map_err(|error| format!("creating {}: {error}", output_dir.display()))?;
+    for item in items.iter().chain(std::iter::once(&theme_item)) {
+        let name = item["name"]
+            .as_str()
+            .expect("registry items always have a string name");
+        write_json(&output_dir.join(format!("{name}.json")), item)?;
+    }
+    let mut all_items = vec![theme_item];
+    all_items.extend(items);
+    write_json(
+        &output_dir.join("registry.json"),
+        &component_registry_document(all_items),
+    )?;
+    Ok(components.len())
+}
+
 fn read_component_declarations(
     components_dir: &Path,
     selected_component: Option<&str>,
@@ -643,5 +704,54 @@ mod tests {
         let output = tempfile::tempdir().unwrap();
         let error = write_component_registry(components.path(), output.path(), None).unwrap_err();
         assert!(error.contains("no component JSON files found"), "{error}");
+    }
+
+    #[test]
+    fn hosted_registry_is_flat_and_points_at_hosted_theme() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        write_component(components.path(), "alpha", "alpha");
+        let theme = json!({"name": "spectrum-theme", "type": "registry:theme", "cssVars": {"light": {}, "dark": {}}});
+        let count = write_hosted_registry(
+            components.path(),
+            output.path(),
+            None,
+            "https://example.com/r/",
+            &theme,
+        )
+        .unwrap();
+        assert_eq!(count, 1);
+        let read = |name: &str| -> Value {
+            serde_json::from_str(&fs::read_to_string(output.path().join(name)).unwrap()).unwrap()
+        };
+        assert_eq!(
+            read("alpha.json")["registryDependencies"],
+            json!(["https://example.com/r/spectrum-theme.json"])
+        );
+        assert_eq!(read("spectrum-theme.json")["$schema"], REGISTRY_ITEM_SCHEMA);
+        let names: Vec<_> = read("registry.json")["items"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|item| item["name"].as_str().unwrap().to_string())
+            .collect();
+        assert_eq!(names, ["spectrum-theme", "alpha"]);
+    }
+
+    #[test]
+    fn hosted_registry_rejects_non_http_base_url() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        write_component(components.path(), "alpha", "alpha");
+        let theme = json!({"name": "spectrum-theme"});
+        let error = write_hosted_registry(
+            components.path(),
+            output.path(),
+            None,
+            "example.com",
+            &theme,
+        )
+        .unwrap_err();
+        assert!(error.contains("must start with http"), "{error}");
     }
 }

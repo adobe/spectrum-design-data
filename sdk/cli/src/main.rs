@@ -468,6 +468,11 @@ enum ShadcnSub {
         /// Override components directory
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
+        /// Hosted registry base URL (for example https://host/r). Writes a flat
+        /// layout (`registry.json`, `{name}.json`, `spectrum-theme.json`) and
+        /// points each item's `spectrum-theme` dependency at `{URL}/spectrum-theme.json`
+        #[arg(long, value_name = "URL")]
+        base_url: Option<String>,
     },
 }
 
@@ -3227,6 +3232,7 @@ fn run_shadcn_registry(
     output_dir: &Path,
     component: Option<&str>,
     components_dir: Option<PathBuf>,
+    base_url: Option<&str>,
 ) -> miette::Result<ExitCode> {
     let resolved = resolve_data_source(CliPathOverrides {
         components: components_dir,
@@ -3234,9 +3240,35 @@ fn run_shadcn_registry(
     })?;
     let components_dir = resolved
         .components
+        .clone()
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
-    let count = shadcn::write_component_registry(&components_dir, output_dir, component)
-        .map_err(|error| miette::miette!("{error}"))?;
+    let count = match base_url {
+        Some(base_url) => {
+            let mut graph = TokenGraph::open_cached_with_catalogs(
+                &resolved.tokens_root,
+                resolved.mode_sets.as_deref(),
+                resolved.components.as_deref(),
+            )
+            .into_diagnostic()
+            .wrap_err_with(|| {
+                format!(
+                    "failed to load tokens from {}",
+                    resolved.tokens_root.display()
+                )
+            })?;
+            let mut ctx = ResolutionContext::new();
+            let restrictions = manifest::apply_configured(&mut graph, &resolved)
+                .into_diagnostic()
+                .wrap_err("failed to apply platform manifest cascade")?;
+            for (mode_set, allowed) in &restrictions {
+                ctx = ctx.with_restriction(mode_set.clone(), allowed.clone());
+            }
+            let theme = shadcn::ShadcnThemeExporter.export(&graph, &[], &ctx.mode_sets);
+            shadcn::write_hosted_registry(&components_dir, output_dir, component, base_url, &theme)
+        }
+        None => shadcn::write_component_registry(&components_dir, output_dir, component),
+    }
+    .map_err(|error| miette::miette!("{error}"))?;
     println!(
         "Wrote {count} component registry item(s) to {}",
         output_dir.display()
@@ -3744,7 +3776,13 @@ fn main() -> ExitCode {
                 output,
                 component,
                 components_dir,
-            } => run_shadcn_registry(&output, component.as_deref(), components_dir),
+                base_url,
+            } => run_shadcn_registry(
+                &output,
+                component.as_deref(),
+                components_dir,
+                base_url.as_deref(),
+            ),
         },
         Commands::Suggest {
             intent,
