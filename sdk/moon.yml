@@ -110,6 +110,7 @@ tasks:
       - https://adobe.github.io/spectrum-design-data/r
     options:
       cache: false
+      runInCI: false
     deps:
       - codegen-check
   # nextest doesn't run doctests — this covers the runnable ```rust examples
