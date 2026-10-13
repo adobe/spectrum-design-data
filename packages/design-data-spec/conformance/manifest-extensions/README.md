@@ -43,12 +43,15 @@ into the manifest before it's applied to the graph.
 Rust SDK drives these fixtures in `sdk/core/src/lib.rs` via the
 `manifest_extensions_conformance` (pass/fail + error message matching) and
 `manifest_extensions_behavior` (post-apply graph predicates) test modules.
+The boolean option regression test derives an invalid case from
+`valid/injects-component-option-extension` and checks that value aliases fail
+with an error naming the option and component.
 
 | Case                                                         | Intent                                                                                                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
 | `valid/injects-component`                                    | A `components/` fragment is injected as a Platform-layer component.                                                             |
 | `valid/injects-platform-extension`                           | A `platform-extensions/` fragment is injected.                                                                                  |
-| `valid/injects-component-option-extension`                   | A `platform-extensions/` fragment using `componentOptions` (no `extends`/`extensions`) is injected.                             |
+| `valid/injects-component-option-extension`                   | String value aliases and a boolean option name alias without `values` are injected via `componentOptions`.                      |
 | `valid/injects-field`                                        | A `fields/` fragment is injected.                                                                                               |
 | `valid/injects-guideline`                                    | A `guidelines/` fragment is injected.                                                                                           |
 | `valid/injects-mode-set`                                     | A `mode-sets/` fragment is injected (declare-or-replace by name).                                                               |

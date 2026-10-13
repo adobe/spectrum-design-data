@@ -1050,6 +1050,52 @@ mod manifest_extensions_conformance {
     }
 
     #[test]
+    fn boolean_component_option_value_aliases_are_rejected() {
+        let source = family_root().join("valid/injects-component-option-extension");
+        let dir = tempfile::tempdir().expect("create boolean option alias fixture");
+        let components = dir.path().join("extensions/components");
+        let platform_extensions = dir.path().join("extensions/platform-extensions");
+        std::fs::create_dir_all(&components).unwrap();
+        std::fs::create_dir_all(&platform_extensions).unwrap();
+        std::fs::copy(
+            source.join("manifest.json"),
+            dir.path().join("manifest.json"),
+        )
+        .unwrap();
+        std::fs::copy(
+            source.join("extensions/components/button.json"),
+            components.join("button.json"),
+        )
+        .unwrap();
+        let extension = serde_json::json!({
+            "platform": "Web Components",
+            "componentOptions": [{
+                "component": "button",
+                "option": "isDisabled",
+                "platformProp": "disabled",
+                "values": [{"value": "true", "platformValue": "true"}]
+            }]
+        });
+        std::fs::write(
+            platform_extensions.join("broken.json"),
+            serde_json::to_vec(&extension).unwrap(),
+        )
+        .unwrap();
+
+        let error = apply_case(dir.path())
+            .expect_err("boolean options without canonical values must reject value aliases");
+        match error {
+            CoreError::ParseError(message) => assert_eq!(
+                message,
+                "platform manifest extensions.platformExtensions (Web Components) \
+                 componentOptions maps values for option \"isDisabled\" on component \
+                 \"button\", which has no canonical values"
+            ),
+            other => panic!("expected the no-canonical-values parse error, got: {other}"),
+        }
+    }
+
+    #[test]
     fn invalid_cases_match_expected_errors() {
         let mut failures = Vec::new();
         for dir in case_dirs(&family_root().join("invalid")) {

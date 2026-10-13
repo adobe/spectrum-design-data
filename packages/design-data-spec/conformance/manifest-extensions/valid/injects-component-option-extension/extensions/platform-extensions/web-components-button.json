@@ -7,6 +7,12 @@
       "platformProp": "fillStyle",
       "platformAttribute": "fill-style",
       "values": [{ "value": "fill", "platformValue": "Fill" }]
+    },
+    {
+      "component": "button",
+      "option": "isDisabled",
+      "platformProp": "disabled",
+      "platformAttribute": "disabled"
     }
   ]
 }

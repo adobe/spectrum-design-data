@@ -6,6 +6,12 @@
         "component": "button",
         "option": "style",
         "platformProp": "fillStyle"
+      },
+      {
+        "platform": "Web Components",
+        "component": "button",
+        "option": "isDisabled",
+        "platformProp": "disabled"
       }
     ]
   }

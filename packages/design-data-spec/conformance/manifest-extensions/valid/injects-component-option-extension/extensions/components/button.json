@@ -11,6 +11,10 @@
       "type": "string",
       "default": "fill",
       "values": [{ "value": "fill" }, { "value": "outline" }]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
