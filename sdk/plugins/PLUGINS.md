@@ -34,13 +34,17 @@ target that actually exist:
   `design-data-dtcg`'s `DtcgExporter` and `design-data-shadcn`'s
   `ShadcnThemeExporter` implement this trait. The CLI looks them up by
   `format_id()` from a small static registry (`cli/src/main.rs::exporters()`)
-  instead of hardcoding a match arm.
+  instead of hardcoding a match arm. Run `design-data export --format shadcn-theme`
+  for the shadcn theme. It ignores `winners`, resolves `light` and `dark` from
+  the graph itself, and emits keys without a `--` prefix (shadcn adds it).
 
 * **Data-specific one-shot exports** — a pure transform that does not consume a
   resolved token graph. `design-data-shadcn` also maps component declarations
-  into metadata-only `registry:component` items. This uses a dedicated
-  `shadcn registry` subcommand and the component lookup path; it intentionally
-  does not implement `TokenExporter`, whose inputs are token-only.
+  into `registry:component` items with metadata only: no source files and no
+  Code Connect mappings. Run `design-data shadcn registry --output DIR`
+  (add `--component ID` for one component). It uses its own subcommand and the
+  component lookup path, and does not implement `TokenExporter`, whose inputs
+  are token-only. Build and test with `moon run sdk:build` and `moon run sdk:test`.
 
 * **Bidirectional / network-coupled plugins** — anything that isn't a
   one-shot transform. `design-data-figma` is this shape: it fetches live
