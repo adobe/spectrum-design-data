@@ -12,24 +12,26 @@
 //!
 //! ## Why this leans on `design-data-dtcg` instead of re-deriving values
 //!
-//! `TokenExporter::export` hands us already-resolved `winners`, but turning a
-//! resolved [`TokenRecord`] into a CSS-ready value (color hex, dimension string, ...)
-//! is exactly what [`design_data_dtcg::token_to_dtcg_document`] already does. Rather
-//! than duplicate that leaf-resolution logic, this exporter calls it per winner and
-//! lifts `$value` straight into a `--spectrum-{legacyKey}` custom property.
+//! Turning a resolved [`TokenRecord`] into a CSS-ready value (color hex, dimension
+//! string, ...) is what [`design_data_dtcg::token_to_dtcg_document_in_context`] already
+//! does. Rather than duplicate that leaf-resolution logic, this exporter calls it per
+//! winner and lifts `$value` straight into a `spectrum-{legacyKey}` key (shadcn adds the `--` prefix itself).
 //!
 //! ## Theme mode coverage
 //!
-//! `export` only receives winners for the single `mode_ctx` the CLI resolved. shadcn's
-//! `cssVars` wants `light` *and* `dark` in one document, so this exporter re-resolves
-//! the `dark` side itself from `graph` via [`design_data_core::cascade::resolve_dataset`],
-//! using the light side's `mode_ctx` with `colorScheme` flipped.
+//! shadcn's `cssVars` wants `light` *and* `dark` in one document. The `winners` the CLI
+//! passes come from one context, and without `--color-scheme` that context leaves
+//! `colorScheme` unset, which resolves scheme-specific tokens arbitrarily. This exporter
+//! ignores `winners` and resolves each side from `graph` via
+//! [`design_data_core::cascade::resolve_dataset`]. Other mode sets (scale, contrast)
+//! come from `mode_ctx`, falling back to each mode set's declared default, so unset
+//! modes never resolve arbitrarily. `colorScheme` is set to `light` or `dark`.
 //!
 //! CSS variables are emitted only for tokens with a legacy key and a scalar
 //! DTCG value that can be represented as CSS. Tokens without a legacy key and
 //! composite values such as typography or shadow objects are skipped rather
 //! than assigned an invented property name or serialized as invalid CSS.
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::Path;
 
@@ -53,34 +55,25 @@ impl TokenExporter for ShadcnThemeExporter {
     fn export(
         &self,
         graph: &TokenGraph,
-        winners: &[TokenRecord],
+        _winners: &[TokenRecord],
         mode_ctx: &HashMap<String, String>,
     ) -> Value {
-        let light_scheme = mode_ctx
-            .get("colorScheme")
-            .cloned()
-            .unwrap_or_else(|| "light".to_string());
-        let dark_scheme = if light_scheme == "dark" {
-            "light"
-        } else {
-            "dark"
+        let scheme_vars = |scheme: &str| {
+            let mut ctx_map: HashMap<String, String> = graph
+                .mode_sets
+                .iter()
+                .map(|set| (set.name.clone(), set.default_mode.clone()))
+                .collect();
+            ctx_map.extend(mode_ctx.iter().map(|(k, v)| (k.clone(), v.clone())));
+            ctx_map.insert("colorScheme".to_string(), scheme.to_string());
+            let mut ctx = ResolutionContext::new();
+            for (mode_set, mode) in &ctx_map {
+                ctx = ctx.with(mode_set.clone(), mode.clone());
+            }
+            css_vars(graph, &resolve_dataset(graph, &ctx), &ctx_map)
         };
-
-        let light_vars = css_vars(graph, winners);
-
-        let mut dark_ctx = ResolutionContext::new();
-        for (mode_set, mode) in mode_ctx {
-            dark_ctx = dark_ctx.with(mode_set.clone(), mode.clone());
-        }
-        dark_ctx = dark_ctx.with("colorScheme", dark_scheme);
-        let dark_winners = resolve_dataset(graph, &dark_ctx);
-        let dark_vars = css_vars(graph, &dark_winners);
-
-        let (light_vars, dark_vars) = if light_scheme == "dark" {
-            (dark_vars, light_vars)
-        } else {
-            (light_vars, dark_vars)
-        };
+        let light_vars = scheme_vars("light");
+        let dark_vars = scheme_vars("dark");
 
         json!({
             "name": "spectrum-theme",
@@ -93,10 +86,14 @@ impl TokenExporter for ShadcnThemeExporter {
     }
 }
 
-/// Build a flat `{"--spectrum-{legacyKey}": "<css value>"}` map from resolved winners,
+/// Build a flat `{"spectrum-{legacyKey}": "<css value>"}` map from resolved winners,
 /// deriving each value via the DTCG exporter's leaf resolution (`$value`).
-fn css_vars(graph: &TokenGraph, winners: &[TokenRecord]) -> Map<String, Value> {
-    let mut vars = Map::new();
+fn css_vars(
+    graph: &TokenGraph,
+    winners: &[TokenRecord],
+    ctx: &HashMap<String, String>,
+) -> Map<String, Value> {
+    let mut vars = BTreeMap::new();
     for winner in winners {
         let Some(name) = winner.raw.get("name") else {
             continue;
@@ -104,7 +101,7 @@ fn css_vars(graph: &TokenGraph, winners: &[TokenRecord]) -> Map<String, Value> {
         let Some(legacy_key) = extract_legacy_key(name) else {
             continue;
         };
-        let doc = design_data_dtcg::token_to_dtcg_document(graph, winner);
+        let doc = design_data_dtcg::token_to_dtcg_document_in_context(graph, winner, ctx);
         let Some(entry) = doc.get(&legacy_key) else {
             continue;
         };
@@ -114,9 +111,11 @@ fn css_vars(graph: &TokenGraph, winners: &[TokenRecord]) -> Map<String, Value> {
         let Some(css_value) = dtcg_value_to_css(entry.get("$type"), value) else {
             continue;
         };
-        vars.insert(format!("--spectrum-{legacy_key}"), Value::String(css_value));
+        vars.insert(format!("spectrum-{legacy_key}"), css_value);
     }
-    vars
+    vars.into_iter()
+        .map(|(key, value)| (key, Value::String(value)))
+        .collect()
 }
 
 /// Render a DTCG `$value` as a CSS-ready string, keyed off its `$type`. Scalars
@@ -462,11 +461,11 @@ mod tests {
         let doc = ShadcnThemeExporter.export(&graph, &winners, &ctx.mode_sets);
 
         assert_eq!(
-            doc["cssVars"]["light"]["--spectrum-accent-color"],
+            doc["cssVars"]["light"]["spectrum-accent-color"],
             json!("#1473e6")
         );
         assert_eq!(
-            doc["cssVars"]["dark"]["--spectrum-accent-color"],
+            doc["cssVars"]["dark"]["spectrum-accent-color"],
             json!("#2680eb")
         );
         assert_eq!(doc["type"], json!("registry:theme"));
@@ -562,5 +561,87 @@ mod tests {
         assert!(component_registry_item(&component)
             .unwrap_err()
             .contains("without 'value'"));
+    }
+
+    fn write_component(dir: &Path, file_stem: &str, name: &str) {
+        let component = json!({
+            "name": name,
+            "displayName": "Example",
+            "meta": {"category": "actions", "documentationUrl": "https://example.com"}
+        });
+        fs::write(
+            dir.join(format!("{file_stem}.json")),
+            serde_json::to_string(&component).unwrap(),
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn registry_rejects_invalid_component_id() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        let error = write_component_registry(components.path(), output.path(), Some("Bad_Name"))
+            .unwrap_err();
+        assert!(error.contains("invalid component id 'Bad_Name'"), "{error}");
+        assert!(!output.path().join("registry.json").exists());
+    }
+
+    #[test]
+    fn registry_reports_missing_component() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        let error = write_component_registry(components.path(), output.path(), Some("missing"))
+            .unwrap_err();
+        assert!(error.contains("reading component"), "{error}");
+        assert!(error.contains("missing.json"), "{error}");
+    }
+
+    #[test]
+    fn registry_reports_malformed_json() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        fs::write(components.path().join("broken.json"), "{ not json").unwrap();
+        let error =
+            write_component_registry(components.path(), output.path(), Some("broken")).unwrap_err();
+        assert!(error.contains("parsing component"), "{error}");
+        let error = write_component_registry(components.path(), output.path(), None).unwrap_err();
+        assert!(error.contains("parsing component"), "{error}");
+    }
+
+    #[test]
+    fn registry_rejects_filename_name_mismatch() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        write_component(components.path(), "alpha", "beta");
+        let error =
+            write_component_registry(components.path(), output.path(), Some("alpha")).unwrap_err();
+        assert!(
+            error.contains("declares name 'beta', expected 'alpha'"),
+            "{error}"
+        );
+        let error = write_component_registry(components.path(), output.path(), None).unwrap_err();
+        assert!(
+            error.contains("does not match declared name 'beta'"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn registry_reports_write_failure() {
+        let components = tempfile::tempdir().unwrap();
+        write_component(components.path(), "alpha", "alpha");
+        let scratch = tempfile::tempdir().unwrap();
+        let blocker = scratch.path().join("not-a-directory");
+        fs::write(&blocker, "file").unwrap();
+        let error = write_component_registry(components.path(), &blocker, None).unwrap_err();
+        assert!(error.contains("creating"), "{error}");
+    }
+
+    #[test]
+    fn registry_reports_empty_components_directory() {
+        let components = tempfile::tempdir().unwrap();
+        let output = tempfile::tempdir().unwrap();
+        let error = write_component_registry(components.path(), output.path(), None).unwrap_err();
+        assert!(error.contains("no component JSON files found"), "{error}");
     }
 }
