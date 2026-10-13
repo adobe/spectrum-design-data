@@ -657,6 +657,7 @@ dependencies = [
  "predicates",
  "serde",
  "serde_json",
+ "sha2",
  "tempfile",
  "tokio",
  "toml",
@@ -711,7 +712,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-tui"
-version = "0.14.0"
+version = "0.16.0"
 dependencies = [
  "clap",
  "crossterm",

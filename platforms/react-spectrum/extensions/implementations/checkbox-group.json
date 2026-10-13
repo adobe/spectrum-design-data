@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "checkbox-group",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "CheckboxGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

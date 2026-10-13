@@ -42,7 +42,7 @@
       "items": {
         "$ref": "#/$defs/implementation"
       },
-      "description": "Known platform implementations of this component. Foundation-owned canonical mappings; platform-specific overrides are not supported yet. See spec/component-format.md#implementations."
+      "description": "Known platform implementations of this component. Foundation data carries canonical default mappings; a platform manifest refines its own rows through extensions/implementations/. See spec/component-format.md#implementations."
     },
     "options": {
       "$ref": "#/$defs/optionsMap"
@@ -115,6 +115,11 @@
           "minLength": 1,
           "description": "Target platform identifier (for example, 'web', 'ios', or 'android'). Multiple implementations may target the same platform when they have distinct packages."
         },
+        "implementation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Implementation project id from the platform-implementations registry (for example, 'react-spectrum' or 'web-components'). Distinguishes implementations that share a `platform` device target. A platform manifest stamps its own `platform` id here when merging extensions/implementations/ entries that omit it."
+        },
         "componentName": {
           "type": "string",
           "minLength": 1,
@@ -123,7 +128,7 @@
         "importPath": {
           "type": "string",
           "minLength": 1,
-          "description": "Importable module or source path for a platform implementation."
+          "description": "Importable module or source path for a platform implementation. When `package` is also set, this SHOULD be a subpath export of that package."
         },
         "package": {
           "type": "string",
@@ -135,7 +140,7 @@
           "description": "Optional implementation-specific usage or mapping notes."
         }
       },
-      "oneOf": [
+      "anyOf": [
         {
           "required": ["importPath"]
         },

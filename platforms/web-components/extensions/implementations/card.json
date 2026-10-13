@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "card",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "package": "@adobe/spectrum-wc",
+      "importPath": "@adobe/spectrum-wc/components/card",
+      "notes": "Spectrum 2 web component custom element: swc-card."
+    }
+  ]
+}

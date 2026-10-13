@@ -8,25 +8,26 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                           | Supported?                                                   | Field                             | Applies to            |
-| --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | --------------------- |
-| Remove / exclude                                    | Yes                                                          | `exclude`                         | Tokens only           |
-| Include / whitelist                                 | Yes                                                          | `include`                         | Tokens only           |
-| Override value (type-preserving)                    | Yes                                                          | `overrides[].value`               | Tokens only           |
-| Override → re-alias                                 | Yes                                                          | `overrides[].$ref`                | Tokens only           |
-| Add new tokens (may alias via `$ref`)               | Yes                                                          | `extensions/tokens/`              | Tokens                |
-| Add / replace components                            | Yes                                                          | `extensions/components/`          | Components            |
-| Add / replace field declarations                    | Yes                                                          | `extensions/fields/`              | Fields                |
-| Add / replace guideline documents                   | Yes                                                          | `extensions/guidelines/`          | Guidelines            |
-| Declare / replace platform-local mode set           | Yes                                                          | `extensions/mode-sets/`           | Mode sets             |
-| Add / remove / retarget a single mode; remove a set | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets             |
-| Add relationships/CTRs; override/remove by `uuid`   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)  |
-| Add / remove naming exceptions                      | Yes                                                          | `namingExceptions`                | Naming validation     |
-| Annotate existing terminology (cannot add new ids)  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids |
-| Restrict allowed mode-set values                    | Yes                                                          | `modeSetRestrictions`             | Mode sets             |
-| Reformat name serialization                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings    |
-| Override/remove/alias translations                  | No                                                           | —                                 | —                     |
-| Override Layer-1 schemas                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                     |
+| Operation                                           | Supported?                                                   | Field                             | Applies to                  |
+| --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | --------------------------- |
+| Remove / exclude                                    | Yes                                                          | `exclude`                         | Tokens only                 |
+| Include / whitelist                                 | Yes                                                          | `include`                         | Tokens only                 |
+| Override value (type-preserving)                    | Yes                                                          | `overrides[].value`               | Tokens only                 |
+| Override → re-alias                                 | Yes                                                          | `overrides[].$ref`                | Tokens only                 |
+| Add new tokens (may alias via `$ref`)               | Yes                                                          | `extensions/tokens/`              | Tokens                      |
+| Add / replace components                            | Yes                                                          | `extensions/components/`          | Components                  |
+| Add / replace field declarations                    | Yes                                                          | `extensions/fields/`              | Fields                      |
+| Add / replace guideline documents                   | Yes                                                          | `extensions/guidelines/`          | Guidelines                  |
+| Declare / replace platform-local mode set           | Yes                                                          | `extensions/mode-sets/`           | Mode sets                   |
+| Add / remove / retarget a single mode; remove a set | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                   |
+| Add relationships/CTRs; override/remove by `uuid`   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)        |
+| Add / remove naming exceptions                      | Yes                                                          | `namingExceptions`                | Naming validation           |
+| Annotate existing terminology (cannot add new ids)  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids       |
+| Upsert / remove own implementation mappings         | Yes                                                          | `extensions/implementations/`     | Component `implementations` |
+| Restrict allowed mode-set values                    | Yes                                                          | `modeSetRestrictions`             | Mode sets                   |
+| Reformat name serialization                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings          |
+| Override/remove/alias translations                  | No                                                           | —                                 | —                           |
+| Override Layer-1 schemas                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                           |
 
 ## Manifest document
 
@@ -112,6 +113,7 @@ extensions/
   relationships/         <component>.json      one CTR set per file
   guidelines/             <topic>.json         one guideline per file
   platform-extensions/   <platform>-<registry>.json
+  implementations/       <component>.json      one component's implementation rows
 ```
 
 **NORMATIVE:** Each subdirectory is discovered by a recursive glob for `*.json` files (for
@@ -131,6 +133,9 @@ or empty subdirectory contributes nothing and is not an error.
   injected into the corresponding catalog **add-or-replace by name** (for
   `platform-extensions/`, by `termId`; see below). When two files declare the same name,
   **the entry from the later file (in sorted path order) wins.**
+* **`implementations/`** — one component's implementation rows per file, merged row-by-row into
+  that component's existing `implementations` array (never whole-array replaced). See
+  [`extensions/implementations/`](#extensionsimplementations) below.
 
 **NORMATIVE:** Each fragment file **MUST** validate against its category's real JSON schema at
 load time — this is enforced reference-SDK behavior, not an aspirational goal:
@@ -142,6 +147,8 @@ load time — this is enforced reference-SDK behavior, not an aspirational goal:
 * **`relationships/`** → `relationship.schema.json` (see the Add/Override/remove rules above)
 * **`platform-extensions/`** → `platform-extension.json` (see
   [`extensions/platform-extensions/`](#extensionsplatform-extensions) below)
+* **`implementations/`** → `implementation-mapping.schema.json` (see
+  [`extensions/implementations/`](#extensionsimplementations) below)
 * **`tokens/`** → `cascade-file.schema.json` (see above)
 
 A fragment that fails validation against its category schema is a manifest error — the
@@ -213,6 +220,51 @@ example, platform-specific state names). **NORMATIVE:** each file **MUST** valid
 `platform-extension.json`, and every `termId` **MUST** already exist in the referenced
 foundation registry — this mechanism annotates existing ids, it does **NOT** introduce new
 ones.
+
+#### `extensions/implementations/`
+
+Platform-owned refinements of a component's
+[`implementations`](component-format.md#implementations) — the packages, import paths, and
+exported names a platform ships. Foundation component data carries canonical **default** rows;
+a platform manifest refines only its own rows, so the implementation team that owns the
+manifest also owns its mappings, and they travel with the manifest when it is ejected.
+
+```json
+{
+  "component": "button",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "op": "remove",
+      "componentName": "Button",
+      "package": "@react-spectrum/button"
+    }
+  ]
+}
+```
+
+**NORMATIVE:** each file **MUST** validate against `implementation-mapping.schema.json`.
+`component` **MUST** name a component in the catalog after `extensions/components/` has been
+applied (so a fragment may target a platform-local component); an unknown component is a
+manifest error. Entries apply in array order, files in sorted path order.
+
+**NORMATIVE:** each entry has an *owner*: its own `implementation` field if present, otherwise
+the manifest's top-level `platform` id. A manifest only matches rows its owner owns — rows
+stamped with the same `implementation` id, or unstamped foundation defaults. Rows stamped with
+a different `implementation` id are never modified or removed.
+
+* **Upsert** (no `op`) — a full implementation row. When the entry omits `implementation` and
+  the manifest declares `platform`, the stored row is stamped with that id. The row replaces the
+  first existing row with the same `platform` and `componentName` that either carries the same
+  `implementation` id, or is an unstamped foundation default sharing a `package` or `importPath`
+  value. Otherwise it is appended.
+* **Remove** (`"op": "remove"`) — a selector of `componentName` plus any of `platform`,
+  `implementation`, `package`, `importPath`. It deletes every owned row whose values equal every
+  selector field given. A remove that matches no owned row is a manifest error.
 
 ### `namingExceptions`
 

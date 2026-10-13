@@ -9,13 +9,6 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/avatar-group/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "AvatarGroup",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -23,27 +16,23 @@
     },
     {
       "type": "guideline",
-      "content": "An avatar group displays a set of related avatars together. It’s typically used to represent a collection of people or entities."
+      "content": "Keyboard focus.\n\nIndividual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."
     },
     {
       "type": "guideline",
-      "content": "Avatar sizes scale exponentially, based on the Spectrum type scale. Avatar has preset sizes to flex across all surfaces and can also be customized to fit appropriately for your context."
+      "content": "Adjusting stroke color to match neutral backgrounds.\n\nEach individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."
     },
     {
-      "type": "guideline",
-      "content": "An Avatar group can have an optional text label that clearly describes the group or number of users that it represents."
-    },
+      "type": "do-dont",
+      "content": "Do not adjust stroke color on a colored background",
+      "dont": "When using a colored background the avatar stroke color should remain set as default for both light and dark themes."
+    }
+  ],
+  "implementations": [
     {
-      "type": "guideline",
-      "content": "Individual avatars inside Avatar group can be navigated using a keyboard. The keyboard focus state adds a focus ring around the avatar."
-    },
-    {
-      "type": "guideline",
-      "content": "Each individual avatar has a stroke applied to better show distinction between individual users in the group. By default, the outline color is a neutral gray, but the stroke color should be adjusted manually to match the background where the avatar group is placed."
-    },
-    {
-      "type": "guideline",
-      "content": "When using a colored background the avatar stroke color should remain set as default for both light and dark themes."
+      "platform": "web",
+      "componentName": "AvatarGroup",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {
@@ -55,35 +44,16 @@
       "type": "number",
       "default": 100,
       "values": [
-        {
-          "value": 50
-        },
-        {
-          "value": 75
-        },
-        {
-          "value": 100
-        },
-        {
-          "value": 200
-        },
-        {
-          "value": 300
-        },
-        {
-          "value": 400
-        },
-        {
-          "value": 500
-        }
+        { "value": 50 },
+        { "value": 75 },
+        { "value": 100 },
+        { "value": 200 },
+        { "value": 300 },
+        { "value": 400 },
+        { "value": 500 }
       ]
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
-  "accessibility": {
-    "role": "group",
-    "focusable": false
-  }
+  "lifecycle": { "introduced": "1.0.0-draft" },
+  "accessibility": { "role": "group", "focusable": false }
 }

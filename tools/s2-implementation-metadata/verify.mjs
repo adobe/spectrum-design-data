@@ -8,7 +8,14 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-import { readFile, readdir, stat, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  stat,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -26,6 +33,10 @@ const defaultComponentsDir = path.join(
   repoRoot,
   "packages/design-data/components",
 );
+
+const implementationMappingSchema =
+  "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json";
+export const platformIds = ["react-spectrum", "web-components"];
 
 const aliasCandidates = {
   "bar-panel": ["ActionBar"],
@@ -263,6 +274,91 @@ export function createImplementationMappings(componentIds, rsS2, spectrumWc) {
   return mappings;
 }
 
+/**
+ * Platform-owned `extensions/implementations/` fragments for one incubating
+ * platform (see spec/manifest.md#extensionsimplementations). Rows omit
+ * `implementation`; the SDK stamps it from the manifest's `platform` id.
+ */
+export function createPlatformFragments(
+  componentIds,
+  platformId,
+  rsS2,
+  spectrumWc,
+) {
+  const fragments = new Map();
+  for (const componentId of componentIds) {
+    const componentName = pascalCase(componentId);
+    let row;
+    if (platformId === "react-spectrum" && rsS2.names.has(componentName)) {
+      row = { platform: "web", componentName, package: rsS2.packageName };
+    } else if (platformId === "web-components") {
+      const wc = spectrumWc.components.get(componentName);
+      if (wc) {
+        row = {
+          platform: "web",
+          componentName: wc.componentName,
+          package: spectrumWc.packageName,
+          importPath: wc.importPath,
+          notes: wc.notes,
+        };
+      }
+    }
+    if (row) {
+      fragments.set(componentId, {
+        $schema: implementationMappingSchema,
+        component: componentId,
+        implementations: [row],
+      });
+    }
+  }
+  return fragments;
+}
+
+function formatFragment(fragment) {
+  return `${JSON.stringify(fragment, null, 2)}\n`;
+}
+
+async function syncFragments(outDir, fragments, check) {
+  let existing = [];
+  try {
+    existing = (await readdir(outDir)).filter((name) => name.endsWith(".json"));
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw error;
+    }
+  }
+  const expected = new Map(
+    [...fragments].map(([id, fragment]) => [
+      `${id}.json`,
+      formatFragment(fragment),
+    ]),
+  );
+  const differences = [];
+  for (const name of existing) {
+    if (!expected.has(name)) {
+      differences.push(name);
+      if (!check) {
+        await rm(path.join(outDir, name), { force: true });
+      }
+    }
+  }
+  if (!check) {
+    await mkdir(outDir, { recursive: true });
+  }
+  for (const [name, content] of expected) {
+    const filePath = path.join(outDir, name);
+    const current = await readFile(filePath, "utf8").catch(() => undefined);
+    if (current === content) {
+      continue;
+    }
+    differences.push(name);
+    if (!check) {
+      await writeFile(filePath, content);
+    }
+  }
+  return differences.sort();
+}
+
 export function replaceImplementations(source, implementations) {
   const property = /^([ \t]*)"implementations"\s*:\s*\[/m.exec(source);
   const indent =
@@ -390,9 +486,12 @@ function parseArgs(argv) {
     write: false,
     check: false,
     json: false,
+    emitPlatform: undefined,
+    out: undefined,
   };
   const values = {
     "--components": "componentsDir",
+    "--out": "out",
     "--react-spectrum-s2": "reactSpectrumRoot",
     "--spectrum-wc-gen2": "spectrumWcRoot",
   };
@@ -411,6 +510,13 @@ function parseArgs(argv) {
         throw new Error(`Missing value for ${arg}`);
       }
       options[values[arg]] = path.resolve(value);
+    } else if (arg === "--emit-platform") {
+      options.emitPlatform = argv[++i];
+      if (!platformIds.includes(options.emitPlatform)) {
+        throw new Error(
+          `--emit-platform must be one of: ${platformIds.join(", ")}`,
+        );
+      }
     } else if (arg === "--help" || arg === "-h") {
       options.help = true;
     } else {
@@ -420,6 +526,14 @@ function parseArgs(argv) {
 
   if (options.write && options.check) {
     throw new Error("Use either --write or --check, not both");
+  }
+  if (options.out && !options.emitPlatform) {
+    throw new Error("--out requires --emit-platform");
+  }
+  if (options.emitPlatform && options.write) {
+    throw new Error(
+      "--emit-platform writes fragments itself; do not combine it with --write",
+    );
   }
 
   return options;
@@ -434,6 +548,11 @@ function usage() {
     "  --check                 Fail if component data differs from verified mappings.",
     "  --json                  Emit the full report as JSON.",
     "  --components <path>     Component JSON directory.",
+    "  --emit-platform <id>    Write platform-owned extensions/implementations/",
+    "                          fragments for react-spectrum or web-components",
+    "                          (with --check: fail if they are out of date).",
+    "  --out <dir>             Fragment directory (default:",
+    "                          platforms/<id>/extensions/implementations).",
     "  --react-spectrum-s2 <path>  Local @react-spectrum/s2 package checkout.",
     "  --spectrum-wc-gen2 <path>   Local @adobe/spectrum-wc gen2 package checkout.",
   ].join("\n");
@@ -499,7 +618,34 @@ export async function run(options) {
       })),
   };
 
-  if (options.write) {
+  if (options.emitPlatform) {
+    const fragments = createPlatformFragments(
+      componentIds,
+      options.emitPlatform,
+      rsS2,
+      spectrumWc,
+    );
+    const outDir =
+      options.out ??
+      path.join(
+        repoRoot,
+        "platforms",
+        options.emitPlatform,
+        "extensions/implementations",
+      );
+    const differences = await syncFragments(outDir, fragments, options.check);
+    report.platform = {
+      id: options.emitPlatform,
+      outDir,
+      fragmentCount: fragments.size,
+      changed: differences,
+    };
+    if (options.check && differences.length > 0) {
+      throw new Error(
+        `${options.emitPlatform} implementation fragments are out of date: ${differences.join(", ")}`,
+      );
+    }
+  } else if (options.write) {
     for (const file of files) {
       const source = await readFile(file.path, "utf8");
       const implementations = mappings.get(file.id);
@@ -536,12 +682,18 @@ export async function run(options) {
     console.log(
       `Verified exports: ${rsS2.names.size} React Spectrum S2 names, ${spectrumWc.components.size} Spectrum WC gen2 elements.`,
     );
+    if (report.platform) {
+      const verb = options.check ? "match" : "written to";
+      console.log(
+        `${report.platform.fragmentCount} ${report.platform.id} fragments ${verb} ${path.relative(repoRoot, report.platform.outDir)}.`,
+      );
+    }
     if (options.write) {
       console.log(
         "Wrote verified mappings; non-exact aliases were not applied.",
       );
     }
-    if (options.check) {
+    if (options.check && !report.platform) {
       console.log("All component mappings match the verified S2 exports.");
     }
     if (aliases.length > 0) {

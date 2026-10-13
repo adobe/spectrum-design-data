@@ -1,0 +1,9 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "op": "replace",
+      "componentName": "Button"
+    }
+  ]
+}

@@ -1,5 +1,30 @@
 # @adobe/design-data
 
+## 3.2.5
+
+### Patch Changes
+
+- [#1533](https://github.com/adobe/spectrum-design-data/pull/1533) [`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship a generated `llms.txt` with each consumer-facing package (closes #1533).
+  - **package.json (10 packages)**: add `llms.txt` to the npm `files` list.
+  - **llms.txt**: generated from each README and `.ai/inventory.json` by `pnpm ai:sync`.
+
+- Updated dependencies [[`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340)]:
+  - @adobe/design-data-wasm@0.10.4
+
+## 3.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb), [`a0154dc`](https://github.com/adobe/spectrum-design-data/commit/a0154dc39e460942cd4ab4a755e9e76130400d5d), [`ec3376f`](https://github.com/adobe/spectrum-design-data/commit/ec3376fa833f2c31dd0b2340590134b2747b00c4), [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440)]:
+  - @adobe/design-data-wasm@0.10.3
+
+## 3.2.3
+
+### Patch Changes
+
+- Updated dependencies [[`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b)]:
+  - @adobe/design-data-wasm@0.10.2
+
 ## 3.2.2
 
 ### Patch Changes

@@ -40,6 +40,10 @@ closed). Phases below are unblocked; see RFC
 
 ### Phase 2 — verify Figma export parity
 
+The [SDK Figma export documentation](../sdk/README.md#figma) describes concurrency
+guards, readback verification, and recovery from ambiguous writes. These checks
+protect publication state; they do not replace token-format parity checks below.
+
 * Confirm `design-data figma export` reads the cascade token format
   (`packages/design-data/tokens/`) end to end. The CLI help text calls its input a
   "legacy token source directory" — that naming is overloaded; verify

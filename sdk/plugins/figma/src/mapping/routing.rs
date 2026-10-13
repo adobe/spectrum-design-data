@@ -23,6 +23,8 @@ pub(super) const COLOR_SET: &str = "color-set.json";
 pub(super) const COLOR: &str = "color.json";
 pub(super) const SCALE_SET: &str = "scale-set.json";
 pub(super) const DIMENSION: &str = "dimension.json";
+pub(super) const ANGLE: &str = "angle.json";
+pub(super) const MULTIPLIER: &str = "multiplier.json";
 pub(crate) const OPACITY: &str = "opacity.json";
 pub(super) const FONT_FAMILY: &str = "font-family.json";
 pub(super) const FONT_SIZE: &str = "font-size.json";
@@ -30,12 +32,11 @@ pub(crate) const FONT_STYLE: &str = "font-style.json";
 pub(crate) const FONT_WEIGHT: &str = "font-weight.json";
 pub(super) const ALIAS: &str = "alias.json";
 
-// Schemas we skip (composite types with no Figma Variable equivalent).
+// Schemas excluded by export policy: composites and unsupported semantic types.
 pub(super) const SKIP_SCHEMAS: &[&str] = &[
     "typography.json",
     "drop-shadow.json",
     "gradient-stop.json",
-    "multiplier.json",
     "alignment.json",
     "text-transform.json",
 ];

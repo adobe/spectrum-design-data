@@ -1,5 +1,16 @@
 # @adobe/token-diff-generator
 
+## 2.5.8
+
+### Patch Changes
+
+- [#1533](https://github.com/adobe/spectrum-design-data/pull/1533) [`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship a generated `llms.txt` with each consumer-facing package (closes #1533).
+  - **package.json (10 packages)**: add `llms.txt` to the npm `files` list.
+  - **llms.txt**: generated from each README and `.ai/inventory.json` by `pnpm ai:sync`.
+
+- Updated dependencies [[`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340)]:
+  - @adobe/spectrum-diff-core@1.1.3
+
 ## 2.5.7
 
 ### Patch Changes

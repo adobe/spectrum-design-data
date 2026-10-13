@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "switch",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Switch",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

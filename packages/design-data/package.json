@@ -1,6 +1,6 @@
 {
   "name": "@adobe/spectrum-design-data",
-  "version": "3.3.0",
+  "version": "3.5.0",
   "description": "Spectrum design tokens in cascade format — the canonical source of truth for @adobe/spectrum-tokens",
   "type": "module",
   "repository": {
@@ -57,6 +57,7 @@
     "mode-sets/",
     "guidelines/",
     "registry/",
+    "llms.txt",
     "README.md"
   ],
   "scripts": {},

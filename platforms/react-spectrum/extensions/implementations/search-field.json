@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "search-field",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SearchField",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

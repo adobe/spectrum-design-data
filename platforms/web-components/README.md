@@ -35,6 +35,14 @@ the completed iOS `ios-states.json` migration. It's reachable through the
 Foundation→Platform cascade whenever `web-components` is the selected
 platform (`design-data validate-manifest --platform web-components`, etc.).
 
+`extensions/implementations/` holds one fragment per component mapping it to
+its `@adobe/spectrum-wc` gen2 package and
+`components/<name>` subpath export. The fragments are **staged by the design-data team, not
+authored by the SWC team**: they were generated from a local source checkout by
+`tools/s2-implementation-metadata/verify.mjs --emit-platform web-components`, which only
+accepts exact export matches. Regenerate rather than hand-edit until the team
+takes ownership (see `packages/design-data-spec/spec/manifest.md#extensionsimplementations`).
+
 ## Ejection
 
 When SWC is ready to own this manifest directly (in their main repo or a

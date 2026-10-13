@@ -2714,7 +2714,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-50",
@@ -2729,7 +2729,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-75",
@@ -2744,7 +2744,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-100",
@@ -2759,7 +2759,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-200",
@@ -2774,7 +2774,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-300",
@@ -2789,7 +2789,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-400",
@@ -2804,7 +2804,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-500",
@@ -2819,7 +2819,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-600",
@@ -2834,7 +2834,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-700",
@@ -2849,7 +2849,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-800",
@@ -2864,7 +2864,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-900",
@@ -2879,7 +2879,7 @@
     }
   },
   {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
       "legacyKey": "visual-size-1000",

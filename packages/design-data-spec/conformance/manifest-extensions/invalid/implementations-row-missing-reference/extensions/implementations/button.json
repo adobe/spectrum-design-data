@@ -1,0 +1,9 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button"
+    }
+  ]
+}

@@ -1,172 +1,94 @@
 // Copyright 2026 Adobe. All rights reserved.
-// This file is licensed to you under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License. You may obtain a copy
-// of the License at http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software distributed under
-// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-// OF ANY KIND, either express or implied. See the License for the specific language
-// governing permissions and limitations under the License.
-
-/**
- * Offline bundle smoke test — reproduces the Anthropic directory reviewer's
- * "offline initialize + tools-list check" against the staged MCPB bundle.
- *
- * Spawns `node src/cli.js` from dist/design-data-mcp-bundle with a clean env
- * (no NODE_PATH / pnpm workspace visible) and sends JSON-RPC initialize +
- * tools/list over stdio. Asserts that:
- *   - The server starts without 'Cannot find module' errors.
- *   - initialize succeeds (serverInfo present).
- *   - tools/list returns exactly 7 tools.
- *
- * The staging bundle is auto-generated in test.before when absent, so these
- * tests never silently skip — locally or in CI.
- */
+// Licensed under the Apache License, Version 2.0.
 
 import test from "ava";
-import { spawn } from "node:child_process";
-import { stagingDir, ensureBundle } from "./helpers/ensure-bundle.js";
+import { readFileSync, rmSync } from "node:fs";
+import { join } from "node:path";
+import { createFreshBundle } from "./helpers/ensure-bundle.js";
+import {
+  callJson,
+  connectArtifact,
+  readCanonical,
+} from "./helpers/stdio-client.js";
 
-// Ensure the staging bundle exists before any test runs.
-// `ensureBundle` runs generate-mcpb.mjs when the staging dir is absent so
-// these tests never silently skip — the old skip-if-absent pattern is removed.
-test.before(ensureBundle);
+test.before(async (t) => {
+  t.context.directory = await createFreshBundle();
+  const connection = await connectArtifact(t.context.directory, "src/cli.js");
+  Object.assign(t.context, connection);
+});
 
-const EXPECTED_TOOLS = [
-  "design-data-primer",
-  "design-data-query",
-  "design-data-suggest",
-  "design-data-component",
-  "design-data-resolve",
-  "design-data-guideline-list",
-  "design-data-guideline",
-];
-
-/** Send two JSON-RPC frames to the server and collect the first two responses. */
-function runBundleSmoke() {
-  return new Promise((resolve, reject) => {
-    const child = spawn("node", ["src/cli.js"], {
-      cwd: stagingDir,
-      // Deliberately minimal env: no NODE_PATH or pnpm store — bundle must be self-contained.
-      // DESIGN_DATA_SKIP_VERSION_CHECK keeps this an offline test even if a future test
-      // here calls the primer tool handler (currently only initialize + tools/list run).
-      env: { PATH: process.env.PATH, DESIGN_DATA_SKIP_VERSION_CHECK: "1" },
-      stdio: ["pipe", "pipe", "pipe"],
-    });
-
-    let stderrAccum = "";
-    child.stderr.on("data", (d) => {
-      stderrAccum += d.toString();
-    });
-
-    const initMsg =
-      JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "initialize",
-        params: {
-          protocolVersion: "2024-11-05",
-          capabilities: {},
-          clientInfo: { name: "smoke-test", version: "0" },
-        },
-      }) + "\n";
-
-    const toolsListMsg =
-      JSON.stringify({
-        jsonrpc: "2.0",
-        id: 2,
-        method: "tools/list",
-        params: {},
-      }) + "\n";
-
-    child.stdin.write(initMsg);
-
-    let buf = "";
-    let initResult = null;
-    let toolsResult = null;
-
-    child.stdout.on("data", (chunk) => {
-      buf += chunk.toString();
-      const lines = buf.split("\n");
-      buf = lines.pop(); // keep incomplete trailing line
-
-      for (const line of lines) {
-        if (!line.trim()) continue;
-        let msg;
-        try {
-          msg = JSON.parse(line);
-        } catch {
-          continue;
-        }
-        if (msg.id === 1 && !initResult) {
-          initResult = msg;
-          child.stdin.write(toolsListMsg);
-        } else if (msg.id === 2 && !toolsResult) {
-          toolsResult = msg;
-          child.kill();
-        }
-      }
-    });
-
-    const timeout = setTimeout(() => {
-      child.kill();
-      reject(new Error(`Bundle smoke test timed out. stderr: ${stderrAccum}`));
-    }, 20000);
-
-    child.on("exit", () => {
-      clearTimeout(timeout);
-      if (stderrAccum.includes("Cannot find module")) {
-        reject(
-          new Error(
-            `Bundle failed to start — 'Cannot find module' in stderr:\n${stderrAccum}`,
-          ),
-        );
-        return;
-      }
-      if (!initResult || !toolsResult) {
-        reject(
-          new Error(
-            `Did not receive expected responses. stderr: ${stderrAccum}`,
-          ),
-        );
-        return;
-      }
-      resolve({ initResult, toolsResult, stderr: stderrAccum });
-    });
-  });
-}
+test.after.always(async (t) => {
+  await t.context.client?.close();
+  if (t.context.directory)
+    rmSync(t.context.directory, { recursive: true, force: true });
+});
 
 test.serial(
-  "bundle starts offline and returns correct serverInfo",
+  "fresh isolated bundle initializes offline and advertises its manifest tools",
   async (t) => {
-    const { initResult } = await runBundleSmoke();
-    t.truthy(initResult.result, "initialize result should be present");
-    t.is(initResult.result.serverInfo?.name, "design-data");
-    t.truthy(
-      initResult.result.serverInfo?.version,
-      "serverInfo.version should be set",
+    const { client, directory, stderr } = t.context;
+    const manifest = JSON.parse(
+      readFileSync(join(directory, "manifest.json"), "utf8"),
     );
+    t.is(client.getServerVersion().name, "design-data");
+    t.is(client.getServerVersion().version, manifest.version);
+    const { tools } = await client.listTools();
+    t.deepEqual(
+      tools.map(({ name, description }) => ({ name, description })),
+      manifest.tools,
+    );
+    t.false(stderr().includes("Cannot find module"), stderr());
   },
 );
 
-test.serial("bundle tools/list returns all 7 expected tools", async (t) => {
-  const { toolsResult } = await runBundleSmoke();
-  const tools = toolsResult.result?.tools ?? [];
-  const names = tools.map((tool) => tool.name);
-  t.is(
-    names.length,
-    7,
-    `Expected 7 tools, got ${names.length}: ${names.join(", ")}`,
-  );
-  for (const expected of EXPECTED_TOOLS) {
-    t.true(names.includes(expected), `Missing tool: ${expected}`);
-  }
-});
+test.serial(
+  "guideline tools return the canonical catalog, not a frozen count",
+  async (t) => {
+    const { guidelines, total } = await callJson(
+      t.context.client,
+      "design-data-guideline-list",
+    );
+    const expected = readCanonical("manifest.json").guidelines;
+    t.deepEqual(guidelines, expected);
+    t.is(total, expected.length);
+    const category = "designing";
+    const filtered = await callJson(
+      t.context.client,
+      "design-data-guideline-list",
+      { category },
+    );
+    t.deepEqual(
+      filtered.guidelines,
+      expected.filter((entry) => entry.category === category),
+    );
+    t.is(filtered.total, filtered.guidelines.length);
+  },
+);
 
-test.serial("bundle starts with no Cannot-find-module errors", async (t) => {
-  const { stderr } = await runBundleSmoke();
-  t.false(
-    stderr.includes("Cannot find module"),
-    `Unexpected 'Cannot find module' in stderr:\n${stderr}`,
-  );
-});
+test.serial(
+  "every shipped guideline equals current source JSON over stdio",
+  async (t) => {
+    for (const { slug } of readCanonical("manifest.json").guidelines) {
+      const document = await callJson(
+        t.context.client,
+        "design-data-guideline",
+        { id: slug },
+      );
+      t.deepEqual(document, readCanonical(`${slug}.json`), slug);
+    }
+  },
+);
+
+test.serial(
+  "invalid and unknown guideline slugs produce MCP tool errors",
+  async (t) => {
+    for (const id of ["../writing-for-errors", "zzz-nonexistent-guideline"]) {
+      const result = await t.context.client.callTool({
+        name: "design-data-guideline",
+        arguments: { id },
+      });
+      t.true(result.isError, id);
+      t.regex(result.content[0].text, /invalid|not found|unknown/i);
+    }
+  },
+);

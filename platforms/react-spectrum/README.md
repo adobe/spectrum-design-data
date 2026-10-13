@@ -23,8 +23,15 @@ React Spectrum source reference.
 
 ## `extensions/`
 
-Currently empty — see `extensions/README.md` for the category layout it would
-use if/when a real extension is needed.
+`extensions/implementations/` holds one fragment per component mapping it to
+its `@react-spectrum/s2` export. The fragments are **staged by the design-data team, not
+authored by the React Spectrum team**: they were generated from a local source checkout by
+`tools/s2-implementation-metadata/verify.mjs --emit-platform react-spectrum`, which only
+accepts exact export matches. Regenerate rather than hand-edit until the team
+takes ownership (see `packages/design-data-spec/spec/manifest.md#extensionsimplementations`).
+
+No other React Spectrum-specific extension exists yet — see
+`extensions/README.md` for the category layout.
 
 ## Validating locally
 

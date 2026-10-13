@@ -69,6 +69,26 @@ any network failure (offline/air-gapped use is unaffected); set
 | `design-data-guideline-list` | List available Spectrum design guideline pages, optionally filtered by category    |
 | `design-data-guideline`      | Full guideline document by slug ID (purpose, rules, accessibility, examples)       |
 
+## Testing guideline content
+
+Run `moon run design-data-mcp:test`. For the content contracts only, after
+`moon run sdk-wasm:build`, run:
+
+```sh
+pnpm --filter @adobe/design-data-mcp exec ava test/bundle-smoke.test.js test/ensure-bundle.test.js
+```
+
+The smoke suite generates a fresh, private MCPB staging tree for each run and
+calls the guideline tools over stdio with a minimal environment. Import guards
+reject ESM imports and CommonJS requires outside that tree. Catalog assertions
+compare against the current canonical manifest, not a fixed guideline count; every guideline response
+must equal its checked-in JSON. Helper tests seed stale data and verify that
+regeneration replaces it and removes orphan files.
+The tests remove all private staging trees afterward.
+
+These tests check transport, packaging, and content delivery. They do not assess
+how a model interprets the guidance.
+
 ## License
 
 Apache-2.0 — see the [project repository](https://github.com/adobe/spectrum-design-data) for details.

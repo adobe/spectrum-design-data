@@ -1,5 +1,12 @@
 # @adobe/token-names
 
+## 0.2.13
+
+### Patch Changes
+
+- Updated dependencies [[`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb)]:
+  - @adobe/spectrum-tokens@15.5.0
+
 ## 0.2.12
 
 ### Patch Changes

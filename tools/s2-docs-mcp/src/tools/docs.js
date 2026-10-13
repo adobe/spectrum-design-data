@@ -4,6 +4,7 @@
 
 import {
   getAllComponents,
+  getCategories,
   getComponentsByCategory,
   getComponentDoc,
   searchComponents,
@@ -22,16 +23,8 @@ export function createDocsTools() {
         properties: {
           category: {
             type: "string",
-            description:
-              "Filter by category (actions, containers, feedback, inputs, navigation, status)",
-            enum: [
-              "actions",
-              "containers",
-              "feedback",
-              "inputs",
-              "navigation",
-              "status",
-            ],
+            description: `Filter by category (${getCategories().join(", ")})`,
+            enum: getCategories(),
           },
         },
       },
@@ -156,7 +149,8 @@ export function createDocsTools() {
 
     {
       name: "get-s2-stats",
-      description: "Get statistics about scraped S2 documentation",
+      description:
+        "Get statistics about the Spectrum 2 component documentation",
       inputSchema: {
         type: "object",
         properties: {},
