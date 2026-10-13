@@ -109,6 +109,15 @@
       "summary": "Figma variables import, export, and diff plugin."
     },
     {
+      "path": "sdk/plugins/shadcn",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "shadcn theme and component registry export plugin."
+    },
+    {
       "path": "sdk/tui",
       "kind": "package",
       "audience": "consumer",
