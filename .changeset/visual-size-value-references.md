@@ -7,4 +7,5 @@
 Replace hardcoded visual-size values with references to the size scale.
 
 - **tokens/layout-component.tokens.json**: Reference matching size token UUIDs for
-	12 visual-size tokens without changing their resolved values.
+	12 visual-size tokens without changing their resolved values. Their `$schema` is now `alias.json` (was `dimension.json`), which structural validation requires for `$ref` tokens.
+- **packages/tokens/src/layout-component.json**: Regenerated legacy output; the same 12 tokens now use the `alias.json` `$schema`.
