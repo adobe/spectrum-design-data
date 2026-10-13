@@ -1,0 +1,18 @@
+{
+  "platform": "Web Components",
+  "componentOptions": [
+    {
+      "component": "button",
+      "option": "style",
+      "platformProp": "fillStyle",
+      "platformAttribute": "fill-style",
+      "values": [{ "value": "fill", "platformValue": "Fill" }]
+    },
+    {
+      "component": "button",
+      "option": "isDisabled",
+      "platformProp": "disabled",
+      "platformAttribute": "disabled"
+    }
+  ]
+}
