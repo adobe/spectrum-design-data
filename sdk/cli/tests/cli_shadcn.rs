@@ -166,7 +166,12 @@ fn assert_registry_failure(mut cmd: Command, message: &str) {
     let assert = cmd.assert().failure();
     let code = assert.get_output().status.code();
     assert_ne!(code, Some(0));
-    let stderr = String::from_utf8_lossy(&assert.get_output().stderr).into_owned();
+    // miette wraps long messages at the terminal width, so rejoin wrapped lines.
+    let stderr = String::from_utf8_lossy(&assert.get_output().stderr)
+        .replace('│', " ")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     assert!(
         stderr.contains(message),
         "expected {message:?} in stderr: {stderr}"
