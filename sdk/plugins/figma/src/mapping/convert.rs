@@ -441,7 +441,8 @@ fn schema_class(schema: &str) -> Option<&'static str> {
 /// format) transitively, stopping at the first token that isn't itself
 /// deprecated-with-a-replacement. Tokens whose chain cycles, dangles, has no
 /// exported variable, or crosses schema families are left on their own
-/// literal and recorded in `summary.redirect_skipped`.
+/// literal and recorded in `summary.redirect_skipped`. So are tokens whose
+/// terminal replacement has a value that can't be exported.
 pub(super) fn compute_redirects(
     tokens: &[(String, PathBuf, Value)],
     value_index: &ValueIndex,
@@ -503,6 +504,19 @@ pub(super) fn compute_redirects(
             );
             continue;
         };
+        if value_to_figma(
+            &replacement.value,
+            schema_to_figma_type(&replacement.schema),
+            &replacement.schema,
+        )
+        .is_err()
+        {
+            skip(
+                summary,
+                format!("replacement '{terminal}' has a value that cannot be exported"),
+            );
+            continue;
+        }
         if schema_class(&own.schema).is_none()
             || schema_class(&own.schema) != schema_class(&replacement.schema)
         {
