@@ -14,6 +14,17 @@ parallel type surface.
 pnpm add @adobe/design-data-wasm
 ```
 
+## Release verification
+
+Run `moon run sdk-wasm:verify-package` to build both targets and check the
+packed package before publishing. The check installs the tarball in a temporary
+consumer outside the workspace and runs embedded-data queries through the Node
+and web entrypoints. It also checks that the bindings, types, and wasm binaries
+are present and valid. It does not publish packages.
+
+Snapshot and stable release workflows run the same check after downloading
+their wasm build artifacts.
+
 ## Usage
 
 ### Node.js (synchronous — no `init()` required)
@@ -22,25 +33,29 @@ The `node` export condition resolves to a synchronous CommonJS build; named
 imports work in ESM via cjs-module-lexer.
 
 ```js
-import { Dataset, getValues, findValue } from '@adobe/design-data-wasm';
+import { Dataset, getValues, findValue } from "@adobe/design-data-wasm";
 
 // Use the canonical embedded Spectrum dataset (zero config):
 const ds = Dataset.embedded();
 
 // Or build a dataset from your own token objects:
-const tokens = JSON.parse(fs.readFileSync('my-tokens.json', 'utf-8'));
+const tokens = JSON.parse(fs.readFileSync("my-tokens.json", "utf-8"));
 const customDs = Dataset.fromTokens(tokens);
 
 // Query
-const colorTokens = ds.query('property=color,colorScheme=dark');
+const colorTokens = ds.query("property=color,colorScheme=dark");
 console.log(colorTokens[0].name, colorTokens[0].raw.value);
 
 // Validate (relational rules — structural/JSON-Schema checks require the CLI)
 const { valid, errors } = ds.validate();
 
 // Resolve a property in a given context
-const result = ds.resolve('background', { colorScheme: 'dark', scale: 'medium' });
-if (result) console.log(result.token.raw.value, 'specificity:', result.specificity);
+const result = ds.resolve("background", {
+  colorScheme: "dark",
+  scale: "medium",
+});
+if (result)
+  console.log(result.token.raw.value, "specificity:", result.specificity);
 
 // Diff two datasets
 const oldDs = Dataset.fromTokens(oldTokens);
@@ -60,14 +75,16 @@ with the URL of the `.wasm` file before using any API.
 > `await init()` before using any API.
 
 ```js
-import init, { Dataset } from '@adobe/design-data-wasm';
+import init, { Dataset } from "@adobe/design-data-wasm";
 // or explicit browser path:
-import init, { Dataset } from '@adobe/design-data-wasm/pkg/web/design_data_wasm.js';
+import init, {
+  Dataset,
+} from "@adobe/design-data-wasm/pkg/web/design_data_wasm.js";
 
 await init(); // pass wasm URL if needed: await init(new URL('./wasm/design_data_wasm_bg.wasm', import.meta.url))
 
 const ds = Dataset.fromTokens(tokens);
-const results = ds.query('property=color');
+const results = ds.query("property=color");
 ```
 
 ## API
@@ -113,7 +130,12 @@ needed):
 Types are generated from the Rust structs; no parallel declaration needed.
 
 ```ts
-import type { TokenResult, ValidationResult, DiffResult, ResolveResult } from '@adobe/design-data-wasm';
+import type {
+  TokenResult,
+  ValidationResult,
+  DiffResult,
+  ResolveResult,
+} from "@adobe/design-data-wasm";
 ```
 
 ## License

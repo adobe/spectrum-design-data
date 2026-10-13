@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "tag",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Tag",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

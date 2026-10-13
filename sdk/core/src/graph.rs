@@ -92,6 +92,21 @@ pub struct PlatformExtensionRecord {
     pub raw: Value,
 }
 
+/// One component-option extension (spec-format JSON, `platform-extension.json`
+/// `componentOptions[]` shape), aliasing one component's own `options` entry to
+/// this platform's prop/attribute/value names. Unlike [`PlatformExtensionRecord`],
+/// this isn't backed by a shared base registry — `component`+`option` scope it to
+/// one component declaration instead of a registry `termId`. Populated only via a
+/// platform manifest's `extensions.platformExtensions` entries that carry
+/// `componentOptions` (the same fragment files `PlatformExtensionRecord` reads).
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ComponentOptionExtensionRecord {
+    pub platform: String,
+    pub component: String,
+    pub option: String,
+    pub raw: Value,
+}
+
 /// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct GuidelineRecord {
@@ -146,6 +161,10 @@ pub struct TokenGraph {
     /// Platform-extension declarations, populated only via a platform manifest's
     /// `extensions.platformExtensions` (see [`PlatformExtensionRecord`]).
     pub platform_extensions: Vec<PlatformExtensionRecord>,
+    /// Component-option extension declarations, populated from the same
+    /// `extensions.platformExtensions` entries when they carry `componentOptions`
+    /// (see [`ComponentOptionExtensionRecord`]).
+    pub component_option_extensions: Vec<ComponentOptionExtensionRecord>,
     /// Guideline documents from the spec `guidelines/` catalog.
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
@@ -595,6 +614,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -637,6 +657,7 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
@@ -960,6 +981,21 @@ impl TokenGraph {
             }
         }
 
+        // 5b. extensions.implementations — platform-owned refinements of a
+        // component's `implementations` rows. Runs after 5 so a fragment may
+        // target a platform-local component. Rows are upserted, never
+        // whole-array replaced, so other implementations' rows survive.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("implementations"))
+            .and_then(|v| v.as_array())
+        {
+            let platform_id = manifest.get("platform").and_then(|v| v.as_str());
+            for entry in entries {
+                merge_implementation_fragment(&mut self.components, entry, platform_id)?;
+            }
+        }
+
         // 6. extensions.platformExtensions — platform terminology annotating ids in
         // an existing base registry. Replaced by (platform, extends); every termId
         // must already exist in that base registry (extensions never add new ids).
@@ -969,45 +1005,127 @@ impl TokenGraph {
             .and_then(|v| v.as_array())
         {
             for entry in entries {
-                let (Some(platform), Some(extends)) = (
-                    entry.get("platform").and_then(|v| v.as_str()),
-                    entry.get("extends").and_then(|v| v.as_str()),
-                ) else {
+                let Some(platform) = entry.get("platform").and_then(|v| v.as_str()) else {
                     continue;
                 };
-                // `extends` names a registry by its field-catalog field name
-                // ("state") or its registry-file basename ("states") — both keys
-                // resolve to the same registry (see `build_registry_map`).
-                let registries = RegistryData::embedded();
-                let registry = registries.for_field(extends).ok_or_else(|| {
-                    CoreError::ParseError(format!(
-                        "platform manifest extensions.platformExtensions declares \
-                         extends:\"{extends}\" but no such base registry exists"
-                    ))
-                })?;
-                if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
-                    for term in terms {
-                        if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
-                            if !registry.contains(term_id) {
-                                return Err(CoreError::ParseError(format!(
-                                    "platform manifest extensions.platformExtensions \
-                                     ({platform}/{extends}) references termId \"{term_id}\" \
-                                     which does not exist in the \"{extends}\" registry"
-                                )));
+                if let Some(extends) = entry.get("extends").and_then(|v| v.as_str()) {
+                    // `extends` names a registry by its field-catalog field name
+                    // ("state") or its registry-file basename ("states") — both keys
+                    // resolve to the same registry (see `build_registry_map`).
+                    let registries = RegistryData::embedded();
+                    let registry = registries.for_field(extends).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.platformExtensions declares \
+                             extends:\"{extends}\" but no such base registry exists"
+                        ))
+                    })?;
+                    if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
+                        for term in terms {
+                            if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
+                                if !registry.contains(term_id) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}/{extends}) references termId \"{term_id}\" \
+                                         which does not exist in the \"{extends}\" registry"
+                                    )));
+                                }
                             }
                         }
                     }
+                    let record = PlatformExtensionRecord {
+                        platform: platform.to_string(),
+                        extends: extends.to_string(),
+                        raw: entry.clone(),
+                    };
+                    upsert_by_key(
+                        &mut self.platform_extensions,
+                        |r| r.platform == platform && r.extends == extends,
+                        record,
+                    );
                 }
-                let record = PlatformExtensionRecord {
-                    platform: platform.to_string(),
-                    extends: extends.to_string(),
-                    raw: entry.clone(),
-                };
-                upsert_by_key(
-                    &mut self.platform_extensions,
-                    |r| r.platform == platform && r.extends == extends,
-                    record,
-                );
+                // `componentOptions` — per-component option/prop aliasing, not backed
+                // by a shared registry (see `ComponentOptionExtensionRecord`). Not
+                // mutually exclusive with `extends` above; the schema's `anyOf` only
+                // requires an entry to carry at least one of the two.
+                if let Some(component_options) =
+                    entry.get("componentOptions").and_then(|v| v.as_array())
+                {
+                    for opt in component_options {
+                        let (Some(component), Some(option)) = (
+                            opt.get("component").and_then(|v| v.as_str()),
+                            opt.get("option").and_then(|v| v.as_str()),
+                        ) else {
+                            continue;
+                        };
+                        // Mirrors the extends/termId check above: a typo'd component or
+                        // option name must fail loudly here, not silently produce a
+                        // dangling alias no component declaration ever resolves.
+                        let component_record = self
+                            .components
+                            .iter()
+                            .find(|c| c.name == component)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions references component \
+                                         \"{component}\" which does not exist"
+                                ))
+                            })?;
+                        let option_record = component_record
+                            .raw
+                            .get("options")
+                            .and_then(|options| options.get(option));
+                        if option_record.is_none() {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.platformExtensions \
+                                 ({platform}) componentOptions references option \
+                                 \"{option}\" which does not exist on component \"{component}\""
+                            )));
+                        }
+                        if let Some(value_aliases) = opt.get("values").and_then(Value::as_array) {
+                            let canonical_values = option_record
+                                .and_then(|option| option.get("values"))
+                                .and_then(Value::as_array)
+                                .ok_or_else(|| {
+                                    CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions maps values for option \
+                                         \"{option}\" on component \"{component}\", which has no canonical values"
+                                    ))
+                                })?;
+                            for alias in value_aliases {
+                                let Some(value) = alias.get("value").and_then(Value::as_str) else {
+                                    continue;
+                                };
+                                if !canonical_values.iter().any(|canonical| {
+                                    canonical.get("value").and_then(Value::as_str) == Some(value)
+                                }) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions value \
+                                         \"{value}\" is not declared on component \
+                                         \"{component}\" option \"{option}\""
+                                    )));
+                                }
+                            }
+                        }
+                        let record = ComponentOptionExtensionRecord {
+                            platform: platform.to_string(),
+                            component: component.to_string(),
+                            option: option.to_string(),
+                            raw: opt.clone(),
+                        };
+                        upsert_by_key(
+                            &mut self.component_option_extensions,
+                            |r| {
+                                r.platform == platform
+                                    && r.component == component
+                                    && r.option == option
+                            },
+                            record,
+                        );
+                    }
+                }
             }
         }
 
@@ -1948,6 +2066,133 @@ fn upsert_by_key<T>(vec: &mut Vec<T>, key: impl Fn(&T) -> bool, record: T) {
         *existing = record;
     } else {
         vec.push(record);
+    }
+}
+
+/// Merge one `extensions/implementations/` fragment
+/// (`implementation-mapping.schema.json`) into its target component's
+/// `implementations` array. See `spec/manifest.md#extensionsimplementations`.
+///
+/// Each row's owning implementation id is its own `implementation` field, else
+/// the manifest's `platform` id (stamped onto the stored row). A platform only
+/// ever matches rows it owns: rows stamped with the same id, or unstamped
+/// foundation defaults. It never touches another implementation's rows.
+fn merge_implementation_fragment(
+    components: &mut [ComponentRecord],
+    fragment: &Value,
+    platform_id: Option<&str>,
+) -> Result<(), CoreError> {
+    let Some(component) = fragment.get("component").and_then(|v| v.as_str()) else {
+        return Ok(()); // unreachable after Layer 1 fragment validation
+    };
+    let record = components
+        .iter_mut()
+        .find(|c| c.name == component)
+        .ok_or_else(|| {
+            CoreError::ParseError(format!(
+                "platform manifest extensions.implementations targets component \
+                 \"{component}\" which does not exist in the component catalog"
+            ))
+        })?;
+    let Some(obj) = record.raw.as_object_mut() else {
+        return Ok(());
+    };
+    let rows = obj
+        .entry("implementations")
+        .or_insert_with(|| Value::Array(Vec::new()));
+    let Some(rows) = rows.as_array_mut() else {
+        return Err(CoreError::ParseError(format!(
+            "component \"{component}\" has a non-array `implementations` field"
+        )));
+    };
+
+    for entry in fragment
+        .get("implementations")
+        .and_then(|v| v.as_array())
+        .into_iter()
+        .flatten()
+    {
+        let owner = entry
+            .get("implementation")
+            .and_then(|v| v.as_str())
+            .or(platform_id);
+
+        if entry.get("op").and_then(|v| v.as_str()) == Some("remove") {
+            let before = rows.len();
+            rows.retain(|row| !(row_owned_by(row, owner) && remove_selector_matches(entry, row)));
+            if rows.len() == before {
+                return Err(CoreError::ParseError(format!(
+                    "platform manifest extensions.implementations op:\"remove\" on component \
+                     \"{component}\" matched no implementation row owned by {} ({entry})",
+                    owner.map_or_else(|| "this manifest".to_string(), |o| format!("\"{o}\""))
+                )));
+            }
+            continue;
+        }
+
+        let mut row = entry.clone();
+        if let (Some(owner), Some(row_obj)) = (owner, row.as_object_mut()) {
+            row_obj
+                .entry("implementation")
+                .or_insert_with(|| Value::String(owner.to_string()));
+        }
+        upsert_by_key(
+            rows,
+            |existing| same_implementation_row(existing, &row),
+            row.clone(),
+        );
+    }
+    Ok(())
+}
+
+fn str_field<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
+    v.get(key).and_then(|v| v.as_str())
+}
+
+/// A row is owned by `owner` when it is an unstamped foundation default or is
+/// stamped with the same implementation id.
+fn row_owned_by(row: &Value, owner: Option<&str>) -> bool {
+    match str_field(row, "implementation") {
+        None => true,
+        Some(id) => Some(id) == owner,
+    }
+}
+
+/// `op: "remove"` matches a row when every selector field it carries equals the
+/// row's value for that field.
+fn remove_selector_matches(selector: &Value, row: &Value) -> bool {
+    [
+        "platform",
+        "implementation",
+        "componentName",
+        "package",
+        "importPath",
+    ]
+    .iter()
+    .all(|key| match str_field(selector, key) {
+        None => true,
+        Some(want) => str_field(row, key) == Some(want),
+    })
+}
+
+/// Upsert identity. A stamped row is keyed by `(platform, implementation,
+/// componentName)`. An unstamped foundation default has no implementation id,
+/// so it matches when `platform` and `componentName` agree and the two rows
+/// share a module reference (`package` or `importPath`).
+fn same_implementation_row(existing: &Value, incoming: &Value) -> bool {
+    if str_field(existing, "platform") != str_field(incoming, "platform")
+        || str_field(existing, "componentName") != str_field(incoming, "componentName")
+    {
+        return false;
+    }
+    match str_field(existing, "implementation") {
+        Some(id) => str_field(incoming, "implementation") == Some(id),
+        None => ["package", "importPath"].iter().any(|key| {
+            matches!(
+                (str_field(existing, key), str_field(incoming, key)),
+                (Some(a), Some(b)) if a == b
+            )
+        }),
     }
 }
 

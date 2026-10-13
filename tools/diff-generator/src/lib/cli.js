@@ -237,7 +237,13 @@ export class ReportFormatter {
     return {
       formatter,
       outputFunction,
-      getOutput: () => reportOutput.join("\n").replaceAll("\n\n", "\n"),
+      getOutput: () => {
+        const output = reportOutput.join("\n");
+        // Keep terminal spacing unchanged; Markdown needs its blank lines.
+        return ["cli", "plain"].includes(formatter.template)
+          ? output.replaceAll("\n\n", "\n")
+          : output;
+      },
     };
   }
 }

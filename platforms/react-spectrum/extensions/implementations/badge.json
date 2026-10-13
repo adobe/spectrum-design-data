@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "badge",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Badge",
+      "package": "@react-spectrum/s2"
+    }
+  ]
+}

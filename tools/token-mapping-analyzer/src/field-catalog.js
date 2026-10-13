@@ -45,9 +45,11 @@ export function loadFieldCatalog(fieldsDir = DEFAULT_FIELDS_DIR) {
   }
 
   // Build serialization order: semantic fields sorted by position, excluding
-  // fields flagged excludeFromLegacyKey (e.g. `structure`) — those are never
-  // part of the reconstructed legacy key, mirroring sdk/core/src/naming.rs's
-  // catalog-driven position-walk.
+  // fields flagged excludeFromLegacyKey (e.g. `colorFamily`, `scaleIndex`) —
+  // those are never part of the reconstructed legacy key, mirroring
+  // sdk/core/src/naming.rs's catalog-driven position-walk. `structure` used to
+  // be excluded here too but that was a bug (dsi.structure-legacy-key): see
+  // packages/design-data/fields/structure.json.
   const serializationOrder = declarations
     .filter((d) => d.kind === "semantic" && !d.excludeFromLegacyKey)
     .sort((a, b) => a.serialization.position - b.serialization.position)

@@ -75,6 +75,63 @@ Buttons enable actions or navigation between views.
 
 // ── buildBlocks — guideline blocks from behaviors ─────────────────────────────
 
+for (const heading of [
+  "Behaviors",
+  "Usage guidelines",
+  "External links",
+  "Localization",
+]) {
+  test(`buildBlocks preserves ${heading} introductory prose before subsections`, (t) => {
+    const markdown = `# Guidance
+
+## ${heading}
+
+First parent paragraph.
+
+Second parent paragraph.
+
+### Child guidance
+
+Keep the child guidance once.
+`;
+    const { blocks } = buildBlocks(parseDoc(markdown));
+    t.deepEqual(
+      blocks.map((block) => block.content),
+      [
+        "First parent paragraph.",
+        "Second parent paragraph.",
+        "Child guidance.\n\nKeep the child guidance once.",
+      ],
+    );
+  });
+}
+
+test("preserving parent prose does not publish skipped sections or option tables", (t) => {
+  const { blocks } = buildBlocks(
+    parseDoc(`# Guidance
+
+## States
+
+Hidden state table.
+
+### Default
+
+Hidden state detail.
+
+## Component options
+
+Hidden option table.
+
+### Flexible width
+
+Useful option detail.
+`),
+  );
+  const text = JSON.stringify(blocks);
+  t.false(text.includes("Hidden"));
+  t.deepEqual(blocks, []);
+});
+
 test("buildBlocks creates guideline blocks from ## Behaviors subsections", (t) => {
   const md = `---
 title: "Button"

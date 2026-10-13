@@ -158,7 +158,11 @@ const iosExtensions = allExtensions.filter(ext => ext.platform === 'iOS');
 
 ## Example: Web Components States Extension
 
-Here's a complete example showing how Web Components extends the states registry:
+Here's a complete example showing how Web Components extends the states registry
+(the canonical copy now lives at
+[`platforms/web-components/extensions/platform-extensions/web-components-states.json`](../../platforms/web-components/extensions/platform-extensions/web-components-states.json)
+— see [`platforms/README.md`](../../platforms/README.md) for why platform-specific
+content is incubated there instead of in this registry):
 
 ```json
 {
@@ -317,4 +321,4 @@ For questions or feedback:
 * [Design System Registry README](README.md)
 * [Authoring Guide](AUTHORING.md)
 * [Platform Extension Schema](schemas/platform-extension.json)
-* [Example: Web Components States Extension](registry/platform-extensions/web-components-states.json)
+* [Example: Web Components States Extension](../../platforms/web-components/extensions/platform-extensions/web-components-states.json)

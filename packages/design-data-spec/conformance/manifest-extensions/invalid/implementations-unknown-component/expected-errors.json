@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "message_pattern": "\"nope\""
+    },
+    {
+      "message_pattern": "does not exist in the component catalog"
+    }
+  ]
+}

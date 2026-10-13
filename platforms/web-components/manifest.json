@@ -1,0 +1,10 @@
+{
+  "specVersion": "1.0.0-draft",
+  "foundationVersion": "@adobe/spectrum-tokens@15.4.1",
+  "platform": "web-components",
+  "platformVersion": "Spectrum Web Components (spectrum-css)",
+  "repository": "https://github.com/adobe/spectrum-web-components",
+  "formatting": {
+    "prefix": "--spectrum-"
+  }
+}

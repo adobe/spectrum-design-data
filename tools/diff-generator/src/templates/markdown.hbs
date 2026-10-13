@@ -10,7 +10,6 @@
 {{#if (hasKeys result.renamed)}}
 <details{{detailsOpen renamed.length}}><summary><strong>Renamed ({{renamed.length}})</strong></summary>
 
-<!-- -->
 {{#each renamed~}}
 - `{{oldName}}` -> `{{name}}`
 {{/each}}
@@ -20,7 +19,6 @@
 {{#if (hasKeys result.deprecated)}}
 <details{{detailsOpen deprecated.length}}><summary><strong>Newly Deprecated ({{deprecated.length}})</strong></summary>
 
-<!-- -->
 {{#each deprecated~}}
 - `{{name}}`{{#if comment}}: {{comment}}{{/if}}
 {{/each}}
@@ -30,7 +28,6 @@
 {{#if (hasKeys result.reverted)}}
 <details{{detailsOpen reverted.length}}><summary><strong>Newly "Un-deprecated" ({{reverted.length}})</strong></summary>
 
-<!-- -->
 {{#each reverted~}}
 - `{{name}}`
 {{/each}}
@@ -41,7 +38,6 @@
 {{#if (hasKeys result.added)}}
 <details{{detailsOpen added.length}}><summary><strong>Added ({{added.length}})</strong></summary>
 
-<!-- -->
 {{#each added~}}
 - `{{name}}`
 {{/each}}
@@ -51,7 +47,6 @@
 {{#if (hasKeys result.deleted)}}
 <details{{detailsOpen deleted.length}}><summary><strong>Deleted ({{deleted.length}})</strong></summary>
 
-<!-- -->
 {{#each deleted~}}
 - `{{name}}`
 {{/each}}
@@ -65,7 +60,6 @@
 {{#if (hasKeys result.updated.renamed)}}
 <details{{detailsOpen updated.renamed.length}}><summary><strong>Renamed Properties ({{updated.renamed.length}})</strong></summary>
 
-<!-- -->
 {{#each updated.renamed~}}
 - `{{name}}`
 {{#each change}}
@@ -79,7 +73,6 @@
 {{#if (hasKeys result.updated.added)}}
 <details{{detailsOpen updated.added.length}}><summary><strong>Added Properties ({{updated.added.length}})</strong></summary>
 
-<!-- -->
 {{#each updated.added~}}
 - `{{name}}`
 {{#each changes}}
@@ -93,7 +86,6 @@
 {{#if (hasKeys result.updated.deleted)}}
 <details{{detailsOpen updated.deleted.length}}><summary><strong>Deleted Properties ({{updated.deleted.length}})</strong></summary>
 
-<!-- -->
 {{#each updated.deleted~}}
 - `{{name}}`
 {{#each changes}}
@@ -107,7 +99,6 @@
 {{#if (hasKeys result.updated.updated)}}
 <details{{detailsOpen updated.updated.length}}><summary><strong>Updated Properties ({{updated.updated.length}})</strong></summary>
 
-<!-- -->
 {{#each updated.updated~}}
 - `{{name}}`
 {{#each changes}}

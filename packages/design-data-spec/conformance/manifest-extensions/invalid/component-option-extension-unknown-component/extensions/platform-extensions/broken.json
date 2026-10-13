@@ -1,0 +1,6 @@
+{
+  "platform": "iOS",
+  "componentOptions": [
+    { "component": "not-a-real-component", "option": "style" }
+  ]
+}

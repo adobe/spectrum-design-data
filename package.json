@@ -8,7 +8,9 @@
     "prepare": "husky || true",
     "release": "changeset publish",
     "version": "changeset version && moon run :version",
-    "changeset-lint": "node tools/changeset-linter/src/cli.js"
+    "changeset-lint": "node tools/changeset-linter/src/cli.js",
+    "ai:sync": "node .ai/scripts/sync.js && node .ai/scripts/inventory.js && node .ai/scripts/llms.js",
+    "ai:check": "node .ai/scripts/validate.js"
   },
   "repository": {
     "type": "git",

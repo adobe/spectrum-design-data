@@ -14,6 +14,21 @@
       "minLength": 1,
       "description": "Pin to a foundation release (semver or tag)."
     },
+    "platform": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Machine-readable platform implementation id (e.g. \"react-spectrum\", \"web-components\", \"ios\"), matching an id in the platform-implementations registry. Optional: a manifest MAY be anonymous (e.g. a single-platform repo where identity is implicit), but SHOULD declare it once the manifest is relocatable (fetched remotely, or one of several manifests in the same repo)."
+    },
+    "platformVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of the platform implementation this manifest targets, e.g. \"React Spectrum 3.x\" or \"Spectrum Web Components 0.x+\". Distinct from `foundationVersion` (the pinned foundation release)."
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1,
+      "description": "URL of the repository that owns (or, during incubation, will eventually own) this platform manifest, e.g. \"https://github.com/adobe/react-spectrum\"."
+    },
     "include": {
       "type": "array",
       "items": {
@@ -138,6 +153,11 @@
             "type": "string"
           },
           "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+        },
+        "prefix": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Literal string prepended to the fully-formatted token name (after casing/delimiter are applied), unaffected by `casing` itself. For platform naming conventions that wrap the token name rather than reshape it, e.g. CSS custom properties (`--spectrum-`) or other namespaced identifier prefixes."
         }
       },
       "additionalProperties": false

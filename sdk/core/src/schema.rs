@@ -290,6 +290,21 @@ mod tests {
     }
 
     #[test]
+    fn validate_manifest_accepts_identity_fields() {
+        // platform / platformVersion / repository (h890.27.1) are optional and
+        // additive — a manifest declaring them still validates cleanly.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "react-spectrum",
+            "platformVersion": "React Spectrum 3.x",
+            "repository": "https://github.com/adobe/react-spectrum"
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
+    }
+
+    #[test]
     fn validate_manifest_rejects_missing_required_field() {
         // Missing the required `foundationVersion`.
         let manifest = json!({ "specVersion": "1.0.0-draft" });

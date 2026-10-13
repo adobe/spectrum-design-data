@@ -15,6 +15,18 @@ fn main() {
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/package.json");
 
     println!("cargo:rerun-if-changed={}", pkg_json.display());
+    println!(
+        "cargo:rerun-if-changed={}",
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/guidelines")
+            .display()
+    );
+    println!(
+        "cargo:rerun-if-changed={}",
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/schemas")
+            .display()
+    );
 
     let raw = std::fs::read_to_string(&pkg_json)
         .unwrap_or_else(|e| panic!("build.rs: cannot read {}: {e}", pkg_json.display()));

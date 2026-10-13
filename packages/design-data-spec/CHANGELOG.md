@@ -1,5 +1,44 @@
 # @adobe/design-data-spec
 
+## 4.6.0
+
+### Minor Changes
+
+- [#1483](https://github.com/adobe/spectrum-design-data/pull/1483) [`418cc0d`](https://github.com/adobe/spectrum-design-data/commit/418cc0d4b95e3b6b7cc70779e55d09173c88c357) Thanks [@GarthDB](https://github.com/GarthDB)! - Add platform-specific component option aliases and validate their canonical values.
+  - **packages/design-data-spec**: Add `componentOptions` extensions with canonical-value validation.
+  - **packages/design-data**: Add Button option mappings for React Spectrum and Web Components.
+
+### Patch Changes
+
+- [#1533](https://github.com/adobe/spectrum-design-data/pull/1533) [`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship a generated `llms.txt` with each consumer-facing package (closes #1533).
+  - **package.json (10 packages)**: add `llms.txt` to the npm `files` list.
+  - **llms.txt**: generated from each README and `.ai/inventory.json` by `pnpm ai:sync`.
+
+## 4.5.0
+
+### Minor Changes
+
+- [#1516](https://github.com/adobe/spectrum-design-data/pull/1516) [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can now own their component implementation mappings through a new
+  `extensions/implementations/` category, refining foundation defaults row by row.
+  - **schemas/implementation-mapping.schema.json**: new fragment schema — `component` plus
+    implementation rows to upsert, or `op: "remove"` selectors.
+  - **schemas/component.schema.json**: implementations accept `package` and `importPath`
+    together, and gain an optional `implementation` registry id.
+  - **spec/manifest.md**, **spec/component-format.md**: document ownership, upsert identity,
+    remove selectors, and foundation-default layering.
+  - **conformance/manifest-extensions/**: valid and invalid fixtures for the new category.
+
+## 4.4.0
+
+### Minor Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `prefix` property to manifest `formatting` (closes DNA-1741).
+  - **manifest.schema.json**: `formatting.prefix` (string) is prepended to a
+    formatted name, after casing/delimiter, unaffected by them — for wrapping
+    conventions like CSS custom properties (`--spectrum-`).
+  - **spec/manifest.md**: documents the new field alongside `conceptOrder`,
+    `casing`, `delimiter`, `abbreviations`.
+
 ## 4.3.0
 
 ### Minor Changes

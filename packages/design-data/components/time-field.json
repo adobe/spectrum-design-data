@@ -13,7 +13,7 @@
     {
       "platform": "web",
       "componentName": "TimeField",
-      "package": "@react-spectrum/datepicker"
+      "package": "@react-spectrum/s2"
     }
   ],
   "lifecycle": { "introduced": "1.0.0-draft" }

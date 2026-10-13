@@ -949,7 +949,7 @@ mod manifest_extensions_conformance {
     use serde_json::Value;
 
     use crate::data_source::{Provenance, ResolvedData};
-    use crate::graph::TokenGraph;
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
     use crate::manifest::apply_configured;
     use crate::CoreError;
 
@@ -965,9 +965,10 @@ mod manifest_extensions_conformance {
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
     }
 
-    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...]}`) into a
-    /// [`TokenGraph`] via [`TokenGraph::from_pairs`], using each token's `key`
-    /// field as the graph key.
+    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...],
+    /// "components": [...]}`) into a [`TokenGraph`] via
+    /// [`TokenGraph::from_pairs`], using each token's `key` field as the graph
+    /// key, plus any foundation-layer `components`.
     fn base_graph() -> TokenGraph {
         let path = family_root().join("base/dataset.json");
         let dataset: Value = serde_json::from_str(
@@ -987,7 +988,22 @@ mod manifest_extensions_conformance {
                 (key, PathBuf::from("dataset.json"), t.clone())
             })
             .collect();
-        TokenGraph::from_pairs(pairs)
+        let components = dataset
+            .get("components")
+            .and_then(|v| v.as_array())
+            .into_iter()
+            .flatten()
+            .map(|c| ComponentRecord {
+                name: c["name"]
+                    .as_str()
+                    .expect("each base component has a \"name\"")
+                    .to_string(),
+                file: PathBuf::from("dataset.json"),
+                raw: c.clone(),
+                layer: Layer::Foundation,
+            })
+            .collect();
+        TokenGraph::from_pairs(pairs).with_components(components)
     }
 
     /// Build the base graph and resolve+apply `<dir>/manifest.json` against it
@@ -1031,6 +1047,52 @@ mod manifest_extensions_conformance {
             }
         }
         assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+
+    #[test]
+    fn boolean_component_option_value_aliases_are_rejected() {
+        let source = family_root().join("valid/injects-component-option-extension");
+        let dir = tempfile::tempdir().expect("create boolean option alias fixture");
+        let components = dir.path().join("extensions/components");
+        let platform_extensions = dir.path().join("extensions/platform-extensions");
+        std::fs::create_dir_all(&components).unwrap();
+        std::fs::create_dir_all(&platform_extensions).unwrap();
+        std::fs::copy(
+            source.join("manifest.json"),
+            dir.path().join("manifest.json"),
+        )
+        .unwrap();
+        std::fs::copy(
+            source.join("extensions/components/button.json"),
+            components.join("button.json"),
+        )
+        .unwrap();
+        let extension = serde_json::json!({
+            "platform": "Web Components",
+            "componentOptions": [{
+                "component": "button",
+                "option": "isDisabled",
+                "platformProp": "disabled",
+                "values": [{"value": "true", "platformValue": "true"}]
+            }]
+        });
+        std::fs::write(
+            platform_extensions.join("broken.json"),
+            serde_json::to_vec(&extension).unwrap(),
+        )
+        .unwrap();
+
+        let error = apply_case(dir.path())
+            .expect_err("boolean options without canonical values must reject value aliases");
+        match error {
+            CoreError::ParseError(message) => assert_eq!(
+                message,
+                "platform manifest extensions.platformExtensions (Web Components) \
+                 componentOptions maps values for option \"isDisabled\" on component \
+                 \"button\", which has no canonical values"
+            ),
+            other => panic!("expected the no-canonical-values parse error, got: {other}"),
+        }
     }
 
     #[test]
@@ -1168,6 +1230,22 @@ mod manifest_extensions_behavior {
                 }
             }
 
+            if let Some(by_component) = expected.get("implementations").and_then(|v| v.as_object())
+            {
+                for (name, want) in by_component {
+                    let got = graph
+                        .components
+                        .iter()
+                        .find(|c| &c.name == name)
+                        .and_then(|c| c.raw.get("implementations"));
+                    if got != Some(want) {
+                        failures.push(format!(
+                            "{case}: component {name:?} implementations expected {want}, got {got:?}"
+                        ));
+                    }
+                }
+            }
+
             if let Some(present) = expected
                 .get("platformExtensions")
                 .and_then(|p| p.get("present"))
@@ -1204,6 +1282,39 @@ mod manifest_extensions_behavior {
                         if !matched {
                             failures.push(format!(
                                 "{case}: platform extension {platform:?}/{extends:?} missing term {term_id:?} (platformTerm {platform_term:?})"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(present) = expected
+                .get("componentOptionExtensions")
+                .and_then(|p| p.get("present"))
+                .and_then(|v| v.as_array())
+            {
+                for want in present {
+                    let platform = want.get("platform").and_then(|v| v.as_str());
+                    let component = want.get("component").and_then(|v| v.as_str());
+                    let option = want.get("option").and_then(|v| v.as_str());
+                    let platform_prop = want.get("platformProp").and_then(|v| v.as_str());
+
+                    let Some(record) = graph.component_option_extensions.iter().find(|r| {
+                        Some(r.platform.as_str()) == platform
+                            && Some(r.component.as_str()) == component
+                            && Some(r.option.as_str()) == option
+                    }) else {
+                        failures.push(format!(
+                            "{case}: expected component option extension {platform:?}/{component:?}/{option:?}, not found"
+                        ));
+                        continue;
+                    };
+
+                    if let Some(platform_prop) = platform_prop {
+                        let actual = record.raw.get("platformProp").and_then(|v| v.as_str());
+                        if actual != Some(platform_prop) {
+                            failures.push(format!(
+                                "{case}: component option extension {platform:?}/{component:?}/{option:?} expected platformProp {platform_prop:?}, got {actual:?}"
                             ));
                         }
                     }

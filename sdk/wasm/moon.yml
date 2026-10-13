@@ -60,8 +60,11 @@ tasks:
       - "@globs(sources)"
       - "/sdk/core/src/**/*.rs"
       - "/sdk/core/Cargo.toml"
+      - "/sdk/core/build.rs"
       - "/sdk/core/src/registry_data.rs"
+      - "/packages/design-data/guidelines/*.json"
       - "src/embedded_cache.redb"
+      - "scripts/build.mjs"
     outputs:
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm.d.ts"
@@ -88,10 +91,12 @@ tasks:
     inputs:
       - "test/**/*.test.js"
       - "ava.config.js"
+      - "scripts/verify-package.mjs"
       - "package.json"
       - "pkg/node/design_data_wasm.js"
       - "pkg/node/design_data_wasm_bg.wasm"
       - "/packages/design-data-spec/conformance/**/*"
+      - "pkg/web/**/*"
     deps:
       - build
 
@@ -99,3 +104,16 @@ tasks:
     deps:
       - build
       - test
+
+  verify-package:
+    command: [node, scripts/verify-package.mjs]
+    deps:
+      - build
+    inputs:
+      - "scripts/verify-package.mjs"
+      - "scripts/build.mjs"
+      - "package.json"
+      - "pkg/**/*"
+    options:
+      cache: false
+      runInCI: false

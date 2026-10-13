@@ -1,0 +1,12 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@adobe/spectrum-wc",
+      "importPath": "@adobe/spectrum-wc/components/button",
+      "notes": "Custom element: swc-button."
+    }
+  ]
+}

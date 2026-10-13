@@ -357,6 +357,38 @@ test("OutputManager › constructor with defaults", (t) => {
   t.truthy(manager.logger);
 });
 
+for (const template of ["cli", "plain", "markdown", "json", "custom"]) {
+  test(`ReportFormatter › preserves appropriate whitespace for ${template}`, (t) => {
+    const { outputFunction, getOutput } = new ReportFormatter().createFormatter(
+      {
+        options: { template },
+      },
+    );
+    outputFunction("first\n\nsecond\n\n\nthird");
+    outputFunction("fourth\n\nfifth");
+    t.is(
+      getOutput(),
+      ["cli", "plain"].includes(template)
+        ? "first\nsecond\n\nthird\nfourth\nfifth"
+        : "first\n\nsecond\n\n\nthird\nfourth\n\nfifth",
+    );
+  });
+}
+
+test("ReportFormatter › uses the effective default template for whitespace", (t) => {
+  const { formatter, outputFunction, getOutput } =
+    new ReportFormatter().createFormatter(
+      createFormatterConfig({ format: "handlebars" }),
+    );
+  outputFunction("first\n\nsecond");
+  t.is(
+    getOutput(),
+    ["cli", "plain"].includes(formatter.template)
+      ? "first\nsecond"
+      : "first\n\nsecond",
+  );
+});
+
 test("OutputManager › constructor with dependencies", (t) => {
   const mockStoreOutput = () => {};
   const mockLogger = { log: () => {} };

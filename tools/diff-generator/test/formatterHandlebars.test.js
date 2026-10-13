@@ -16,6 +16,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { HandlebarsFormatter } from "../src/lib/formatterHandlebars.js";
 import Handlebars from "handlebars";
+import { ReportFormatter, createFormatterConfig } from "../src/lib/cli.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -762,17 +763,34 @@ test("HandlebarsFormatter with markdown template", (t) => {
 
   t.true(success);
   t.true(output.includes("Added"));
-  // GFM requires a blank line after </summary> for markdown bullets to render correctly.
-  // prettier (run by @changesets/apply-release-plan) collapses blank lines when the diff is
-  // nested inside a changelog list item. The `<!-- -->` comment separator makes the blank
-  // line prettier-resistant. Assert all 9 <details> sections have the separator.
-  const separatorMatches = (output.match(/<\/summary>\n\n<!-- -->/g) || [])
-    .length;
-  t.is(
-    separatorMatches,
-    9,
-    `Expected 9 <details> sections with blank line + <!-- --> after </summary>, found ${separatorMatches}`,
+  t.is((output.match(/<\/summary>\n\n- /g) || []).length, 9);
+  t.is((output.match(/\n\n<\/details>/g) || []).length, 9);
+  t.false(output.includes("<!-- -->"));
+});
+
+test("Markdown report preserves list boundaries through CLI output collection", (t) => {
+  const { formatter, outputFunction, getOutput } =
+    new ReportFormatter().createFormatter(
+      createFormatterConfig({ format: "markdown" }),
+    );
+  t.true(
+    formatter.printReport(mockTokenDiffResult, outputFunction, {
+      format: "markdown",
+    }),
   );
+
+  const output = getOutput();
+  const sections = [...output.matchAll(/<details[^>]*>([\s\S]*?)<\/details>/g)];
+  t.is(sections.length, 9);
+  for (const [, section] of sections) {
+    t.regex(section, /<\/summary>\n\n- /);
+    t.true(section.endsWith("\n\n"));
+  }
+  t.regex(
+    output,
+    /- `token-with-updated-property`\n\t- `light.value`: `#ff0000` -> `#00ff00`/,
+  );
+  t.false(output.includes("<!-- -->"));
 });
 
 // Test the default export singleton formatter

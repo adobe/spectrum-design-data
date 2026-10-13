@@ -1,0 +1,32 @@
+# @adobe/optimized-diff
+
+> High-performance deep object diff algorithm with significant performance improvements over generic libraries
+
+High-performance deep object diff algorithm with significant performance improvements over generic libraries.
+
+## Install
+
+`npm install @adobe/optimized-diff`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md): usage and API overview
+- [Overview](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#overview)
+- [Features](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#features)
+- [Performance](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#performance)
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#installation)
+- [API](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#api)
+- [Algorithm Details](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#algorithm-details)
+- [Benchmarking](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#benchmarking)
+- [Testing](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#testing)
+- [Technical Details](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#technical-details)
+- [Integration Examples](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#integration-examples)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#license)
+- [Contributing](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/README.md#contributing)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/optimized-diff)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/optimized-diff/)

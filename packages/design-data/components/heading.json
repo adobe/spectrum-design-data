@@ -13,7 +13,7 @@
     {
       "platform": "web",
       "componentName": "Heading",
-      "package": "@react-spectrum/text"
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

@@ -159,7 +159,7 @@
         "uuid": "a06c6929-1acc-4084-a8ee-3d4ad5a0064e"
       }
     },
-    "renamed": "gap-regular"
+    "renamed": "list-gap-regular"
   },
   "tree-view-item-to-item": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

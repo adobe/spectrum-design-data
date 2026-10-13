@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "message_pattern": "matched no implementation row"
+    },
+    {
+      "message_pattern": "\"web-components\""
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Selects an incubating platform manifest (h890.27.7) for local development and
+# CI dogfooding from anywhere inside this repo, e.g.:
+#   design-data --platform react-spectrum validate-manifest
+#   design-data platform list
+#
+# No [source] block: this repo *is* the foundation dataset, so the resolver's
+# normal in-repo probing (tier 3) still finds packages/tokens/** on its own.
+# This file only adds named platform-manifest entries on top of that; it has
+# no effect unless --platform/DESIGN_DATA_PLATFORM is used.
+#
+# See platforms/README.md for the incubation model and ejection contract.
+
+[platforms]
+react-spectrum = "platforms/react-spectrum/manifest.json"
+web-components = "platforms/web-components/manifest.json"

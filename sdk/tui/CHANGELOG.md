@@ -1,5 +1,56 @@
 # @adobe/design-data-tui
 
+## 0.16.0
+
+### Minor Changes
+
+- [#1531](https://github.com/adobe/spectrum-design-data/pull/1531) [`10f4ddc`](https://github.com/adobe/spectrum-design-data/commit/10f4ddceacca9b66a0ef9f1a883d408d91447f1c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add opt-in `--redirect-deprecated` to `design-data figma export`.
+  - **sdk/plugins/figma/**: export a deprecated token with a `renamed`
+    replacement as an alias to the terminal replacement in every mode,
+    following chains. Cycles, missing targets and schema-class mismatches
+    keep the token's own value and are reported.
+  - **sdk/cli/**: add the flag and report redirected and skipped counts.
+    Default behavior is unchanged.
+  - **sdk/README.md**: document the flag.
+
+## 0.15.0
+
+### Minor Changes
+
+- [#1530](https://github.com/adobe/spectrum-design-data/pull/1530) [`04313a4`](https://github.com/adobe/spectrum-design-data/commit/04313a442619c1965d98697088cfedf507f6cebd) Thanks [@GarthDB](https://github.com/GarthDB)! - Guard Figma export writes against concurrent changes and verify their readback.
+  - **sdk/plugins/figma/**: retain raw API metadata, compare concurrent state, remap temporary IDs,
+    and verify written values and preserved state.
+  - **sdk/cli/**: report success only after verification; provide explicit bypasses, numeric tolerance
+    and verification reports without retrying ambiguous writes.
+  - **sdk/README.md**: document write safeguards, recovery and read-only dry runs.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. Licensed under Apache-2.0. -->
+
+### Patch Changes
+
+- [#1528](https://github.com/adobe/spectrum-design-data/pull/1528) [`9acb38a`](https://github.com/adobe/spectrum-design-data/commit/9acb38ad05f89aedf9ccd6f7d524a63fadde2404) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix Figma export of named font weights, numeric angles, multipliers, and their aliases.
+  - **sdk/plugins/figma/src/mapping/**: export named weights as STRING and angles and multipliers
+    as FLOAT; preserve schema types, scalar/mode-set alias references, existing IDs,
+    and dangling-reference checks.
+  - **sdk/plugins/figma/src/audit.rs**: report unsupported units and alias targets
+    with explicit reasons.
+  - **sdk/cli/**: expose unsupported-unit and target diagnostics and test audit output.
+  - **sdk/README.md**: document supported values, aliases, and remaining exclusions.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. Licensed under Apache-2.0. -->
+
+## 0.14.1
+
+### Patch Changes
+
+- [#1516](https://github.com/adobe/spectrum-design-data/pull/1516) [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix standalone platform manifest loading with implementation fragments.
+  - **sdk/core/src/data_source/embedded.rs**: embed fragment schemas and dependencies.
+    Refresh older cached snapshot layouts.
+  - **sdk/core/src/manifest.rs**: cover ejected mappings and reject invalid implementation rows.
+  - **sdk/core/build.rs**, **sdk/moon.yml**: rebuild and check embedded schema changes.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
 ## 0.14.0
 
 ### Minor Changes

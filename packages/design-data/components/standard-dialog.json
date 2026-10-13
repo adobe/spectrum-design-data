@@ -16,80 +16,33 @@
     },
     {
       "type": "guideline",
-      "content": "Standard dialogs are containers that appear over the interface to present contextual information, tasks, or workflows. They’re centered on the screen and used for moderately complex actions that require focused attention. Interactions outside the dialog are blocked until it's dismissed or completed."
+      "content": "Placement.\n\nStandard dialogs appear in the center of the screen."
     },
     {
       "type": "guideline",
-      "content": "By default, an alert dialog that includes a button to cancel or go back will be labeled “Cancel.”"
+      "content": "Text overflow.\n\nWhen the title and description text are too long for the available horizontal space, they wrap to form another line."
     },
     {
       "type": "guideline",
-      "content": "Standard dialogs can include up to three buttons if a secondary outline button label is defined. If no label is defined, the button won’t appear. The secondary outline button should use a short, actionable phrase that clearly communicates the result of selecting the action—typically describing the previous step or an alternative choice."
+      "content": "Button group overflow.\n\nStandard dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."
     },
     {
       "type": "guideline",
-      "content": "The primary action label refers to the rightmost button in the dialog footer for languages that read left to right. It should use a short, actionable phrase that clearly communicates the result of selecting the action—whether that means moving forward or dismissing the dialog."
+      "content": "Dismissible or not?\n\nWhether a dialog is dismissible is controlled by the hideCloseButton prop. A dialog with a close button can be dismissed by clicking the button or the background overlay. Avoid using a dismissible dialog when the user needs to confirm an action or make a decision. Instead, use a dismissible dialog for information that is optional or nice to know—content that can be quickly dismissed without requiring user action."
+    },
+    {
+      "type": "do-dont",
+      "content": "Don't include buttons when dismissible",
+      "dont": "A dismissible dialog should not include buttons in the footer. Instead, the dialog is dismissed by clicking the close button or the background overlay."
     },
     {
       "type": "guideline",
-      "content": "The presence of a close button determines whether a dialog is dismissible."
-    },
-    {
-      "type": "guideline",
-      "content": "In both cases, pressing the Escape key should close the dialog and return the page to its previous state. This action should behave the same as clicking a close or cancel button."
-    },
-    {
-      "type": "guideline",
-      "content": "Standard dialogs are available in three widths:"
-    },
-    {
-      "type": "guideline",
-      "content": "Dialogs automatically scale down to 90% of the screen width on smaller viewports. Height is flexible and adjusts to fit the content."
-    },
-    {
-      "type": "guideline",
-      "content": "Standard dialogs can include a full-bleed cover image at the top. Dialogs with a cover image should not be dismissible and rely on buttons in the footer area to close the dialog."
-    },
-    {
-      "type": "guideline",
-      "content": "Standard dialogs can include an optional description. Use the description to briefly provide additional context or information that helps users make an informed decision based on the available actions."
-    },
-    {
-      "type": "guideline",
-      "content": "All standard dialogs must include a title. The title appears at the top of the dialog and should briefly describe the expected outcome if the user proceeds with the primary action. If a cover image is shown, the title will appear below it."
-    },
-    {
-      "type": "guideline",
-      "content": "Standard dialogs appear in the center of the screen."
-    },
-    {
-      "type": "guideline",
-      "content": "When the title and description text are too long for the available horizontal space, they wrap to form another line."
-    },
-    {
-      "type": "guideline",
-      "content": "Standard dialogs can include up to three buttons. When horizontal space is limited, the buttons stack vertically. Buttons should be ordered by ascending importance, with the most critical action placed at the end or bottom of the stack."
-    },
-    {
-      "type": "guideline",
-      "content": "Avoid using a dismissible dialog when the user needs to confirm an action or make a decision. Instead, use a dismissible dialog for information that is optional or nice to know—content that can be quickly dismissed without requiring user action."
-    },
-    {
-      "type": "guideline",
-      "content": "A dismissible dialog should not include buttons in the footer. Instead, the dialog is dismissed by clicking the close button or the background overlay."
-    },
-    {
-      "type": "guideline",
-      "content": "Most dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is “Delete conversation,” the primary action button label should be “Delete.”"
+      "content": "Use similar language for dialog titles and actions.\n\nMost dialog titles should communicate the primary action of the dialog. When possible, the button label should use the same language as the action mentioned in the title. For example, if the title is \"Delete conversation,\" the primary action button label should be \"Delete."
     }
   ],
   "options": {
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "string"
-    },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
     "hideImage": {
       "type": "boolean",
       "default": false,
@@ -98,29 +51,14 @@
     "size": {
       "type": "string",
       "default": "m",
-      "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        }
-      ]
+      "values": [{ "value": "s" }, { "value": "m" }, { "value": "l" }]
     },
-    "hideCloseButton": {
-      "type": "boolean",
-      "default": false
-    },
+    "hideCloseButton": { "type": "boolean", "default": false },
     "footerContent": {
       "type": "string",
       "description": "Optional footer content to display in the dialog footer like a checkbox."
     },
-    "primaryActionLabel": {
-      "type": "string"
-    },
+    "primaryActionLabel": { "type": "string" },
     "secondaryActionLabel": {
       "type": "string",
       "description": "If undefined, this button does not appear."
@@ -131,25 +69,15 @@
       "description": "If undefined, this button does not appear."
     }
   },
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "role": "dialog",
     "intents": ["dismiss"],
     "focusable": false,
     "keyboardIntents": ["dismiss"],
     "wcag": [
-      {
-        "criterion": "2.4.3",
-        "level": "A",
-        "title": "Focus Order"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.4.3", "level": "A", "title": "Focus Order" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

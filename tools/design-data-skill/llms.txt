@@ -1,0 +1,26 @@
+# @adobe/design-data-skill
+
+> Claude Code skill for Spectrum design tokens and component schemas via the design-data CLI
+
+A Claude Code plugin that gives agents access to Spectrum design tokens,
+component schemas, and design-system data via the `@adobe/design-data` CLI.
+
+Also published on npm as `@adobe/design-data-skill` for versioned skill installs.
+
+## Install
+
+`npm install @adobe/design-data-skill`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md): usage and API overview
+- [Structure](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#structure)
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#installation)
+- [Usage](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/README.md#usage)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data-skill)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-skill/)

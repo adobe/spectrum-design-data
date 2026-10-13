@@ -1,0 +1,28 @@
+# @adobe/s2-docs-mcp
+
+> MCP server for Spectrum 2 documentation
+
+A Model Context Protocol server that provides AI tools with access to Spectrum 2 documentation. Part of the [Spectrum Design Data](https://github.com/adobe/spectrum-design-data) monorepo.
+
+## Install
+
+`npm install @adobe/s2-docs-mcp`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md): usage and API overview
+- [Features](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#features)
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#installation)
+- [Usage](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#usage)
+- [Available MCP Tools](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#available-mcp-tools)
+- [Data Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#data-source)
+- [Using with Cursor](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#using-with-cursor)
+- [Integration with spectrum-design-data-mcp](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#integration-with-spectrum-design-data-mcp)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/README.md#license)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/s2-docs-mcp)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/s2-docs-mcp/)

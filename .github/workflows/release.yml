@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - beta
+      # The legacy `beta` branch is retained as the TDIFF Spectrum 2 baseline
+      # (.github/workflows/tdiff-spectrum2.yml), not as a release channel.
+      # Hub content is public and ships through the stable main release channel.
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -162,17 +164,22 @@ jobs:
       - name: Build wasm package
         run: moon run sdk-wasm:build
 
+      - name: Verify MCP content before publishing
+        run: moon run spectrum-hub-fetcher:test design-data-mcp:test design-data-agent-mcp:test design-data-mcp-eval:test
+
       - name: Upload wasm package build
         uses: actions/upload-artifact@v4
         with:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
           retention-days: 1
+          if-no-files-found: error
 
   build-binaries:
     name: Build binary (${{ matrix.platform }})
     needs: changesets
     if: >-
+      github.ref == 'refs/heads/main' &&
       needs.changesets.outputs.hasChangesets == 'false' &&
       needs.changesets.outputs.cliReleaseNeeded == 'true'
     runs-on: ${{ matrix.runner }}
@@ -323,6 +330,9 @@ jobs:
           name: wasm-pkg-build
           path: sdk/wasm/pkg
 
+      - name: Verify wasm package tarball
+        run: node sdk/wasm/scripts/verify-package.mjs
+
       - name: Publish packages
         id: cs
         uses: GarthDB/changesets-action@v1.6.8
@@ -337,14 +347,14 @@ jobs:
       # Skipped when build-binaries did not run (cliReleaseNeeded==false for
       # npm-only releases) or when it failed.
       - name: Download binary artifacts
-        if: needs.build-binaries.result == 'success'
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         uses: actions/download-artifact@v4
         with:
           pattern: design-data-*
           merge-multiple: false
 
       - name: Attach binaries to GitHub Release
-        if: needs.build-binaries.result == 'success'
+        if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           CLI_VERSION=$(grep '^version' sdk/cli/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
@@ -377,8 +387,6 @@ jobs:
       # so this opens one from a bot branch and merges it immediately rather
       # than pushing directly — works regardless of whether GH_TOKEN can
       # bypass protection, since 0 approvals/required checks are configured.
-      # Restricted to main: this workflow also runs on beta, and a beta-triggered
-      # run would branch off beta and auto-merge a PR into main with no review gate.
       - name: Bump Homebrew formula
         if: needs.build-binaries.result == 'success' && github.ref == 'refs/heads/main'
         shell: bash

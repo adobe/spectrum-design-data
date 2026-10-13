@@ -116,7 +116,19 @@ fn shadcn_registry_exports_all_components() {
     let items = registry["items"]
         .as_array()
         .expect("registry has an item array");
-    assert_eq!(items.len(), 97);
+    let mut expected: Vec<String> = std::fs::read_dir(&components_dir)
+        .expect("components dir")
+        .filter_map(|e| {
+            let p = e.ok()?.path();
+            (p.extension()? == "json").then(|| p.file_stem()?.to_str().map(String::from))?
+        })
+        .collect();
+    expected.sort();
+    let actual: Vec<String> = items
+        .iter()
+        .map(|i| i["name"].as_str().expect("name").to_string())
+        .collect();
+    assert_eq!(actual, expected);
     for item in items {
         assert_eq!(item["type"], "registry:component");
         assert!(item["meta"].is_object());

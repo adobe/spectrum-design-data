@@ -1,10 +1,7 @@
 ---
-"@adobe/design-data-wasm": patch
 "@adobe/design-data-tui": minor
-"@adobe/spectrum-design-data": minor
 ---
 
 Add shadcn registry exports for Spectrum tokens and component metadata.
 
-- **design-data-tui**: expose the shadcn theme exporter and component registry subcommand.
-- **spectrum-design-data**: add canonical platform implementation metadata for Spectrum components.
+- **design-data-tui**: add `export --format shadcn-theme` for light/dark `registry:theme` output, and a `shadcn registry` subcommand that writes metadata-only `registry:component` items plus a `registry.json` index from component declarations.

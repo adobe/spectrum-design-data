@@ -86,6 +86,7 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"
+      - "@globs(relationships)"
       - "@globs(registry)"
       - "/packages/tokens/naming-exceptions.json"
       - "/packages/design-data-spec/schemas/**/*.json"
@@ -128,6 +129,7 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"
+      - "@globs(relationships)"
       - "/packages/tokens/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
