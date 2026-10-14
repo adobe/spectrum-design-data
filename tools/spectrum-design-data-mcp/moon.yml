@@ -19,6 +19,8 @@ tasks:
     command:
       - pnpm
       - ava
+    deps:
+      - sdk-wasm:build
   test-watch:
     command:
       - ava

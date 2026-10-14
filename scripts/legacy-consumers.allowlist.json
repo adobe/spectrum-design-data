@@ -42,10 +42,6 @@
       "reason": "comment describing the legacy tree"
     },
     {
-      "path": "tools/spectrum-design-data-mcp/**",
-      "reason": "xqln.10: deprecated published package, superseded by @adobe/design-data-mcp"
-    },
-    {
       "path": "packages/design-data/moon.yml",
       "reason": "intentional: legacy-output, roundtrip-verify and verifyLegacyOutput tasks"
     },

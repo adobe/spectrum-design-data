@@ -437,7 +437,7 @@ pub(super) fn compute_redirects(
             };
             let next = target
                 .deprecated
-                .then(|| target.replacement.as_deref())
+                .then_some(target.replacement.as_deref())
                 .flatten();
             match next {
                 Some(next) => current = next,

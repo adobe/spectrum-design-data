@@ -134,16 +134,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         }
 
         // Output file: strip `.tokens.json` or just `.json` → same stem + `.json`.
-        let stem = input_path
-            .file_name()
-            .and_then(|s| s.to_str())
-            .unwrap_or("tokens");
-        let out_stem = stem
-            .strip_suffix(".tokens.json")
-            .or_else(|| stem.strip_suffix(".json"))
-            .unwrap_or(stem);
-        let out_name = format!("{out_stem}.json");
-        let out_path = output_dir.join(out_name);
+        let out_path = output_dir.join(legacy_filename(input_path));
         let out_text = serde_json::to_string_pretty(&Value::Object(legacy))?;
         std::fs::write(&out_path, out_text + "\n")?;
 
@@ -182,6 +173,39 @@ pub fn convert_records(arr: &[Value]) -> Result<(Map<String, Value>, LegacySumma
 pub fn convert_graph(
     graph: &crate::graph::TokenGraph,
 ) -> Result<(Map<String, Value>, LegacySummary), CoreError> {
+    let (files, summary) = convert_graph_files(graph)?;
+    let mut combined = Map::new();
+    for (_, legacy) in files {
+        combined.extend(legacy);
+    }
+    Ok((combined, summary))
+}
+
+/// Legacy token maps keyed by output filename.
+pub type LegacyByFile = BTreeMap<String, Map<String, Value>>;
+
+/// Convert a graph into legacy token maps keyed by output filename.
+///
+/// Uses the same source-file grouping, cross-file reference index, and filename
+/// normalization as [`convert_dir`], excluding non-default contrast records as
+/// [`convert_graph`] does. Synthetic relationship lookup tokens are not exported:
+/// the original relationship records supply their complete mode sets instead.
+pub fn convert_graph_by_file(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(LegacyByFile, LegacySummary), CoreError> {
+    let (files, summary) = convert_graph_files(graph)?;
+    let output = files
+        .into_iter()
+        .map(|(path, legacy)| (legacy_filename(&path), legacy))
+        .collect();
+    Ok((output, summary))
+}
+
+type LegacyFiles = Vec<(std::path::PathBuf, Map<String, Value>)>;
+
+fn convert_graph_files(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(LegacyFiles, LegacySummary), CoreError> {
     let is_default_contrast = |v: &Value| {
         v.get("name")
             .and_then(|n| n.as_object())
@@ -204,33 +228,46 @@ pub fn convert_graph(
             .push((r.index, r.raw.clone()));
     }
 
-    let mut files: Vec<Vec<Value>> = Vec::new();
-    for (_, mut rows) in by_file {
+    let mut files: Vec<(std::path::PathBuf, Vec<Value>)> = Vec::new();
+    for (path, mut rows) in by_file {
         rows.sort_by_key(|(i, _)| *i);
-        files.push(
+        files.push((
+            path,
             rows.into_iter()
                 .map(|(_, v)| v)
                 .filter(is_default_contrast)
-                .collect(),
-        );
+                .collect::<Vec<_>>(),
+        ));
     }
 
     let mut global_uuid_to_name = HashMap::new();
-    for arr in &files {
+    for (_, arr) in &files {
         global_uuid_to_name.extend(index_uuid_names(arr));
     }
     let mut summary = LegacySummary::default();
-    let mut combined = Map::new();
-    for arr in &files {
+    let mut output = Vec::new();
+    for (path, arr) in &files {
         let legacy = convert_array(arr, &mut summary, &global_uuid_to_name)?;
         if legacy.is_empty() {
             continue;
         }
         summary.files_processed += 1;
         summary.files_written += 1;
-        combined.extend(legacy);
+        output.push((path.clone(), legacy));
     }
-    Ok((combined, summary))
+    Ok((output, summary))
+}
+
+fn legacy_filename(path: &Path) -> String {
+    let name = path
+        .file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or("tokens");
+    let stem = name
+        .strip_suffix(".tokens.json")
+        .or_else(|| name.strip_suffix(".json"))
+        .unwrap_or(name);
+    format!("{stem}.json")
 }
 
 /// Build the UUID/conceptId → legacy-name index used to resolve `$ref` and
@@ -1132,6 +1169,64 @@ mod tests {
 
     fn obj(v: Value) -> Map<String, Value> {
         v.as_object().unwrap().clone()
+    }
+
+    #[test]
+    fn graph_by_file_matches_canonical_convert_dir() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+        let graph = crate::graph::TokenGraph::from_json_dir(&root.join("tokens"))
+            .unwrap()
+            .with_relationships(
+                crate::graph::TokenGraph::load_spec_relationships(&root.join("relationships"))
+                    .unwrap(),
+            );
+        let (files, summary) = convert_graph_by_file(&graph).unwrap();
+        let output = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(format!(".legacy-output-regression-{}", std::process::id()));
+        std::fs::create_dir(&output).unwrap();
+        let dir_summary = convert_dir(&root.join("tokens"), &output).unwrap();
+        let expected: BTreeMap<String, Map<String, Value>> = discover_json_files(&output)
+            .unwrap()
+            .into_iter()
+            .map(|path| {
+                let value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+                (legacy_filename(&path), value)
+            })
+            .collect();
+        std::fs::remove_dir_all(&output).unwrap();
+        assert_eq!(files, expected);
+        assert_eq!(summary.tokens_produced, dir_summary.tokens_produced);
+        assert_eq!(summary.files_written, dir_summary.files_written);
+        assert!(files["picker.json"].contains_key("picker-border-width"));
+    }
+
+    #[test]
+    fn graph_by_file_preserves_grouping_refs_and_default_contrast() {
+        let graph = crate::graph::TokenGraph::from_pairs(vec![
+            (
+                "target".into(),
+                "palette.tokens.json".into(),
+                json!({"name": {"property": "target"}, "value": "#fff", "uuid": "target-id"}),
+            ),
+            (
+                "alias".into(),
+                "alias.json".into(),
+                json!({"name": {"property": "alias"}, "$ref": "target-id", "uuid": "alias-id"}),
+            ),
+            (
+                "contrast".into(),
+                "palette.tokens.json".into(),
+                json!({"name": {"property": "target", "contrast": "high"}, "value": "#000"}),
+            ),
+        ]);
+        let (files, summary) = convert_graph_by_file(&graph).unwrap();
+        assert_eq!(files.len(), 2);
+        assert_eq!(files["palette.json"]["target"]["value"], "#fff");
+        assert_eq!(files["alias.json"]["alias"]["value"], "{target}");
+        assert_eq!(summary.tokens_produced, 2);
+        let (flat, _) = convert_graph(&graph).unwrap();
+        let expected: Map<String, Value> = files.into_values().flatten().collect();
+        assert_eq!(flat, expected);
     }
 
     #[test]
