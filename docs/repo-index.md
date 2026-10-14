@@ -45,7 +45,7 @@ Repository housekeeping, release, taxonomy, and authoring tools. Not intended fo
 
 | Path | Package | Lifecycle | npm | llms.txt | Summary |
 | --- | --- | --- | --- | --- | --- |
-| [`packages/token-names`](../packages/token-names/) | `@adobe/token-names` | legacy | no | no | Legacy-migration input: sidecar name objects for `migrate convert`. |
+| [`packages/token-names`](../packages/token-names/) | `@adobe/token-names` | active | no | no | Legacy-migration input: sidecar name objects for migrate convert. |
 | [`tools/changeset-linter`](../tools/changeset-linter/) | `@adobe/changeset-linter` | active | published | no | Enforces concise changeset files. Published, but intended for this repository. |
 | [`tools/component-options-editor`](../tools/component-options-editor/) | `component-options-editor` | active | no | no | Figma plugin for authoring component option schemas. |
 | [`tools/design-data-mcp-eval`](../tools/design-data-mcp-eval/) | `@adobe/design-data-mcp-eval` | active | no | no | Offline grounding contracts and opt-in agent evaluations for the Hub MCP. |
