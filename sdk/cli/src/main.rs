@@ -1295,7 +1295,8 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     let repository = str_field("repository");
     let foundation_version = str_field("foundationVersion");
     let drift = foundation_version.as_deref().map(|fv| {
-        if fv == data_source::EMBEDDED_DATA_VERSION {
+        let version = fv.rsplit_once('@').map_or(fv, |(_, v)| v);
+        if version == data_source::EMBEDDED_DATA_VERSION {
             format!("in sync (matches this build's embedded foundation {fv})")
         } else {
             format!(
@@ -1596,7 +1597,7 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
         .map(|fv| format!("tag = \"{fv}\"\n"))
         .unwrap_or_else(|| {
             "# foundationVersion missing from manifest.json — set `tag` manually\n\
-             tag = \"@adobe/spectrum-tokens@0.0.0\"\n"
+             tag = \"@adobe/spectrum-design-data@0.0.0\"\n"
                 .to_string()
         });
     std::fs::write(

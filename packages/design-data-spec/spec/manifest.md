@@ -35,10 +35,10 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Required fields
 
-| Field               | Type   | Description                                                   |
-| ------------------- | ------ | ------------------------------------------------------------- |
-| `specVersion`       | string | **MUST** be `1.0.0-draft` for documents targeting this draft. |
-| `foundationVersion` | string | Pin to a released foundation version (semver or tag string).  |
+| Field               | Type   | Description                                                                                                                                                                                               |
+| ------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `specVersion`       | string | **MUST** be `1.0.0-draft` for documents targeting this draft.                                                                                                                                             |
+| `foundationVersion` | string | Pin to a released foundation version (semver or tag string). Spectrum platforms use the canonical package tag `@adobe/spectrum-design-data@<version>`, not the generated legacy `@adobe/spectrum-tokens`. |
 
 ## Optional fields
 
