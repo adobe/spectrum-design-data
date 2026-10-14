@@ -2304,11 +2304,9 @@ fn write_figma_report(
 fn load_figma_tokens(
     path: Option<&Path>,
     manifest: Option<&Path>,
-) -> miette::Result<Vec<(String, PathBuf, serde_json::Value)>> {
-    if let (Some(dir), None) = (path, manifest) {
-        if !dir_has_cascade_tokens(dir) {
-            return figma::mapping::load_all_tokens(dir).map_err(|e| miette::miette!("{e}"));
-        }
+) -> miette::Result<Vec<figma::mapping::ExportToken>> {
+    if path.is_some_and(|dir| !dir_has_cascade_tokens(dir)) {
+        miette::bail!("Figma export/audit requires canonical .tokens.json data; legacy directories are no longer supported");
     }
     let resolved = resolve_data_source(CliPathOverrides {
         tokens_root: path.map(Path::to_path_buf),
@@ -2336,7 +2334,7 @@ fn load_figma_tokens(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
-    figma::mapping::tokens_from_graph(&graph).map_err(|e| miette::miette!("{e}"))
+    figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))
 }
 
 fn dir_has_cascade_tokens(dir: &Path) -> bool {
@@ -2892,21 +2890,9 @@ fn run_figma_diff(
 ) -> miette::Result<ExitCode> {
     let (meta, mapping_map, graph) =
         load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
-    let tokens: Vec<(String, std::path::PathBuf, serde_json::Value)> = graph
-        .tokens
-        .values()
-        .map(|r| {
-            let name = r
-                .raw
-                .get("name")
-                .and_then(naming::extract_legacy_key)
-                .unwrap_or_else(|| r.name.clone());
-            (name, r.file.clone(), r.raw.clone())
-        })
-        .collect();
 
     // 3. Diff.
-    let report = figma::import::diff_values(&meta, &graph, &tokens, mapping_map.as_ref())
+    let report = figma::import::diff_values(&meta, &graph, mapping_map.as_ref())
         .map_err(|e| miette::miette!("{e}"))?;
 
     match format {

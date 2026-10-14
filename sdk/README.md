@@ -209,8 +209,8 @@ design-data figma export --file-key <KEY> --dry-run > figma-payload.json
 
 Export reads canonical `packages/design-data` (tokens plus relationships) directly and
 applies any `--manifest` cascade; it does not read `packages/tokens`. `PATH` is optional
-and may point at a cascade tokens directory; a legacy-format directory is still accepted
-for compatibility. Omit `--dry-run` to write variables to the
+and must point at a cascade (`.tokens.json`) directory; legacy-format directories
+are rejected. The mapper consumes the token graph directly. Omit `--dry-run` to write variables to the
 file. Dry runs still read the file through the API to obtain collection and mode IDs.
 
 Pass `--redirect-deprecated` to export each deprecated token that names a
@@ -288,7 +288,7 @@ references to targets that failed to export, so the payload has no dangling alia
 Audit the generator's output against a saved snapshot without an API call:
 
 ```bash
-design-data figma audit --snapshot figma-vars.json --token-dir packages/tokens/src
+design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
 ```
 
 Diff the manifest-resolved dataset against a Figma file's actual variable

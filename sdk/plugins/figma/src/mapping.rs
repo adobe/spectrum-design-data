@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Convert legacy Spectrum token files into a Figma Variables POST payload.
+//! Convert canonical Spectrum token graphs into a Figma Variables POST payload.
 //!
 //! Targets the `.Color theme` and `.Platform scale` collections, which use
 //! `{camelCasePrefix}/{kebab-case-token-name}` naming — matching legacy token
@@ -21,13 +21,16 @@
 //! ties the two together.
 
 mod convert;
+#[cfg(test)]
+mod golden_tests;
+mod graph;
 mod payload;
 mod routing;
 #[cfg(test)]
 mod tests;
 
 pub(crate) use convert::figma_opacity_to_fraction;
-pub use convert::{load_all_tokens, tokens_from_graph};
+pub use graph::{export_tokens, ExportToken};
 pub use payload::{
     build_export_payload, build_export_payload_with_options,
     build_export_payload_with_platform_formats, summarize_variables, CollectionSummary,
