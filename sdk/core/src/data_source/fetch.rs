@@ -534,6 +534,25 @@ fn extract_tarball_inner_with_limits(
             continue;
         }
 
+        // Untrusted archive: refuse anything that could escape `dest` (`..`, absolute
+        // paths) and links, which a later entry could be written through.
+        if rel
+            .components()
+            .any(|c| !matches!(c, std::path::Component::Normal(_)))
+        {
+            return Err(FetchError::Extract {
+                url: url.to_string(),
+                source: std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    format!("unsafe path in archive: {}", rel.display()),
+                ),
+            });
+        }
+        let entry_type = entry.header().entry_type();
+        if entry_type.is_symlink() || entry_type.is_hard_link() {
+            continue;
+        }
+
         // Only extract paths we need:
         //   packages/tokens/**
         //   packages/design-data/mode-sets/**
@@ -852,6 +871,75 @@ mod tests {
                 .unwrap();
         }
         builder.into_inner().unwrap().finish().unwrap()
+    }
+
+    /// Tarball whose second entry carries a raw (unvalidated) path, as a hostile
+    /// archive would; `Builder::append_data` refuses `..`, so write the name bytes directly.
+    fn make_raw_path_tarball(raw_name: &str, link: Option<&str>) -> Vec<u8> {
+        use flate2::write::GzEncoder;
+        use flate2::Compression;
+        use tar::{Builder, EntryType, Header};
+
+        let mut builder = Builder::new(GzEncoder::new(Vec::new(), Compression::fast()));
+        let mut first = Header::new_gnu();
+        first.set_size(2);
+        first.set_mode(0o644);
+        first.set_cksum();
+        builder
+            .append_data(&mut first, "repo-v1/ok.txt", &b"hi"[..])
+            .unwrap();
+
+        let mut header = Header::new_gnu();
+        header.as_gnu_mut().unwrap().name[..raw_name.len()].copy_from_slice(raw_name.as_bytes());
+        header.set_mode(0o644);
+        if let Some(target) = link {
+            header.set_entry_type(EntryType::Symlink);
+            header.set_size(0);
+            header.set_link_name(target).unwrap();
+            header.set_cksum();
+            builder.append(&header, std::io::empty()).unwrap();
+        } else {
+            header.set_size(4);
+            header.set_cksum();
+            builder.append(&header, &b"evil"[..]).unwrap();
+        }
+        builder.into_inner().unwrap().finish().unwrap()
+    }
+
+    #[test]
+    fn extract_rejects_parent_dir_traversal() {
+        let bytes = make_raw_path_tarball("repo-v1/../escaped.txt", None);
+        let root = tempfile::TempDir::new().unwrap();
+        let dest = root.path().join("out");
+
+        let err = extract_tarball_inner(
+            &bytes,
+            "https://example.test/archive.tar.gz",
+            &dest,
+            |_rel: &Path| true,
+        )
+        .unwrap_err();
+
+        assert!(matches!(err, FetchError::Extract { .. }), "got {err:?}");
+        assert!(!root.path().join("escaped.txt").exists());
+    }
+
+    #[test]
+    fn extract_skips_symlink_entries() {
+        let bytes = make_raw_path_tarball("repo-v1/link", Some("/etc"));
+        let root = tempfile::TempDir::new().unwrap();
+        let dest = root.path().join("out");
+
+        extract_tarball_inner(
+            &bytes,
+            "https://example.test/archive.tar.gz",
+            &dest,
+            |_rel: &Path| true,
+        )
+        .unwrap();
+
+        assert!(dest.join("ok.txt").is_file());
+        assert!(dest.join("link").symlink_metadata().is_err());
     }
 
     #[test]
