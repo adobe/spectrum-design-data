@@ -588,11 +588,15 @@ enum FigmaSub {
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
-    /// Export legacy tokens as Figma Variables
+    /// Export design-data tokens as Figma Variables
     Export {
-        /// Path to legacy token source directory
+        /// Optional tokens root override. Defaults to the resolved design-data
+        /// dataset (`packages/design-data/tokens`, embedded, or configured
+        /// source). A directory of cascade `.tokens.json` files is loaded
+        /// natively; a legacy-format directory (e.g. `packages/tokens/src`) is
+        /// still accepted but deprecated.
         #[arg(value_name = "PATH")]
-        path: PathBuf,
+        path: Option<PathBuf>,
         /// Figma file key to target
         #[arg(long)]
         file_key: String,
@@ -605,7 +609,7 @@ enum FigmaSub {
         mapping: Option<PathBuf>,
         /// Path to a platform manifest.json; when given, tokens are resolved
         /// through the manifest cascade (include/exclude, overrides, extensions)
-        /// before export instead of reading `path` as a raw token directory
+        /// before export
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
         /// Add per-platform `codeSyntax` entries (shown in Figma Dev Mode) from
@@ -660,9 +664,10 @@ enum FigmaSub {
         /// Path to a `figma read --format json` snapshot (a `VariablesMeta` JSON file)
         #[arg(long)]
         snapshot: PathBuf,
-        /// Path to legacy token source directory (see `migrate legacy-output`)
+        /// Optional tokens root override (cascade or legacy-format directory);
+        /// defaults to the resolved design-data dataset
         #[arg(long)]
-        token_dir: PathBuf,
+        token_dir: Option<PathBuf>,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -1816,6 +1821,13 @@ fn run_migrate_legacy_output_cascaded(
     .into_diagnostic()
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+
     // Apply the configured platform manifest (filters/overrides/extensions) — same
     // cascade `run_query`/`run_resolve` apply — so this is the same dataset a
     // platform's `resolve`/`query` calls see, not the raw foundation.
@@ -1823,36 +1835,7 @@ fn run_migrate_legacy_output_cascaded(
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
 
-    // ponytail: contrast-variant records (e.g. manifest extensions adding
-    // contrast:"high") share a legacyKey+colorScheme with their regular-contrast
-    // sibling — legacy::convert_array groups sets by colorScheme/scale only, so
-    // keeping both would silently overwrite one. Skip non-default contrast until
-    // legacy.rs learns a contrast set-dimension (spectrum-design-data-h890.17).
-    let is_default_contrast = |v: &serde_json::Value| {
-        v.get("name")
-            .and_then(|n| n.as_object())
-            .is_none_or(|n| !n.contains_key("contrast"))
-    };
-    // apply_platform_manifest replaces an overridden token's record in place
-    // (same graph key), so `graph.tokens` never holds a stale Foundation-layer
-    // duplicate here.
-    let mut records: Vec<serde_json::Value> = graph
-        .tokens
-        .values()
-        .map(|t| &t.raw)
-        .filter(|raw| is_default_contrast(raw))
-        .cloned()
-        .collect();
-    records.extend(
-        graph
-            .relationships
-            .iter()
-            .map(|r| &r.raw)
-            .filter(|raw| is_default_contrast(raw))
-            .cloned(),
-    );
-
-    let (legacy_map, summary) = legacy::convert_records(&records)
+    let (legacy_map, summary) = legacy::convert_graph(&graph)
         .into_diagnostic()
         .wrap_err("failed to convert cascaded dataset to legacy format")?;
 
@@ -2312,9 +2295,63 @@ fn write_figma_report(
     Ok(())
 }
 
+/// Load the tokens `figma export`/`audit` map to variables.
+///
+/// Cascade data (the resolved design-data dataset, or a `.tokens.json`
+/// directory) is projected in memory from a [`TokenGraph`], with any platform
+/// manifest cascade applied. Only an explicit legacy-format directory without a
+/// manifest is read as flat legacy JSON.
+fn load_figma_tokens(
+    path: Option<&Path>,
+    manifest: Option<&Path>,
+) -> miette::Result<Vec<(String, PathBuf, serde_json::Value)>> {
+    if let (Some(dir), None) = (path, manifest) {
+        if !dir_has_cascade_tokens(dir) {
+            return figma::mapping::load_all_tokens(dir).map_err(|e| miette::miette!("{e}"));
+        }
+    }
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: path.map(Path::to_path_buf),
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    figma::mapping::tokens_from_graph(&graph).map_err(|e| miette::miette!("{e}"))
+}
+
+fn dir_has_cascade_tokens(dir: &Path) -> bool {
+    std::fs::read_dir(dir).is_ok_and(|entries| {
+        entries.filter_map(Result::ok).any(|e| {
+            e.file_name()
+                .to_str()
+                .is_some_and(|n| n.ends_with(".tokens.json"))
+        })
+    })
+}
+
 #[allow(clippy::too_many_arguments)]
 fn run_figma_export(
-    path: &Path,
+    path: Option<&Path>,
     file_key: &str,
     token: &str,
     mapping: Option<&Path>,
@@ -2362,35 +2399,8 @@ fn run_figma_export(
             })?;
         platform_formats.push((platform.to_string(), config));
     }
-
-    // 1. Load tokens — either straight from the source directory, or resolved
-    // through the platform manifest cascade (include/exclude, overrides,
-    // extensions) when `--manifest` is given.
-    let tokens = match manifest {
-        None => figma::mapping::load_all_tokens(path).map_err(|e| miette::miette!("{e}"))?,
-        Some(manifest_path) => {
-            let resolved = resolve_data_source(CliPathOverrides {
-                tokens_root: Some(path.to_path_buf()),
-                platform_manifest: Some(manifest_path.to_path_buf()),
-                ..Default::default()
-            })?;
-            let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
-                &resolved.tokens_root,
-                resolved.mode_sets.as_deref(),
-                resolved.components.as_deref(),
-            )
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-            manifest::apply_configured(&mut graph, &resolved)
-                .into_diagnostic()
-                .wrap_err("failed to apply platform manifest cascade")?;
-            graph
-                .tokens
-                .values()
-                .map(|r| (r.name.clone(), r.file.clone(), r.raw.clone()))
-                .collect()
-        }
-    };
+    // 1. Load tokens (cascade graph projection, or a legacy dir when given).
+    let tokens = load_figma_tokens(path, manifest)?;
 
     // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
@@ -2399,7 +2409,7 @@ fn run_figma_export(
         .map_err(|e| miette::miette!("{e}"))?;
 
     // 3. Build the export payload.
-    eprintln!("Building export payload from {}...", path.display());
+    eprintln!("Building export payload...");
     let (body, summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
         &response.meta,
@@ -2744,7 +2754,7 @@ fn run_figma_import(
 /// offline, no network call and no token required.
 fn run_figma_audit(
     snapshot: &Path,
-    token_dir: &Path,
+    token_dir: Option<&Path>,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let text = std::fs::read_to_string(snapshot)
@@ -2754,7 +2764,8 @@ fn run_figma_audit(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
 
-    let report = figma::audit::audit_names(&meta, token_dir).map_err(|e| miette::miette!("{e}"))?;
+    let tokens = load_figma_tokens(token_dir, None)?;
+    let report = figma::audit::audit_tokens(&meta, &tokens).map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -3608,7 +3619,7 @@ fn main() -> ExitCode {
                 redirect_deprecated,
                 write_options,
             } => run_figma_export(
-                &path,
+                path.as_deref(),
                 &file_key,
                 &token,
                 mapping.as_deref(),
@@ -3636,7 +3647,7 @@ fn main() -> ExitCode {
                 snapshot,
                 token_dir,
                 format,
-            } => run_figma_audit(&snapshot, &token_dir, format),
+            } => run_figma_audit(&snapshot, token_dir.as_deref(), format),
             FigmaSub::Diff {
                 file_key,
                 token,

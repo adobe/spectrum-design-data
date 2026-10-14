@@ -204,11 +204,13 @@ Interact with the Figma Variables REST API. Requires a `FIGMA_TOKEN` environment
 ```bash
 export FIGMA_TOKEN=<your-token>
 design-data figma read --file-key <KEY> --format json > figma-vars.json
-design-data figma export packages/tokens/src --file-key <KEY> --dry-run > figma-payload.json
+design-data figma export --file-key <KEY> --dry-run > figma-payload.json
 ```
 
-Export reads the legacy projection generated from canonical `packages/design-data`
-by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
+Export reads canonical `packages/design-data` (tokens plus relationships) directly and
+applies any `--manifest` cascade; it does not read `packages/tokens`. `PATH` is optional
+and may point at a cascade tokens directory; a legacy-format directory is still accepted
+for compatibility. Omit `--dry-run` to write variables to the
 file. Dry runs still read the file through the API to obtain collection and mode IDs.
 
 Pass `--redirect-deprecated` to export each deprecated token that names a

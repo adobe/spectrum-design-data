@@ -172,6 +172,67 @@ pub fn convert_records(arr: &[Value]) -> Result<(Map<String, Value>, LegacySumma
     Ok((legacy, summary))
 }
 
+/// Convert a loaded (and optionally platform-cascaded) [`TokenGraph`] into one
+/// combined legacy token map.
+///
+/// Contrast-variant records share a `legacyKey` + `colorScheme` with their
+/// regular-contrast sibling, and [`convert_records`] groups sets by
+/// colorScheme/scale only, so non-default contrast records are skipped until
+/// legacy output learns a contrast set-dimension (spectrum-design-data-h890.17).
+pub fn convert_graph(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(Map<String, Value>, LegacySummary), CoreError> {
+    let is_default_contrast = |v: &Value| {
+        v.get("name")
+            .and_then(|n| n.as_object())
+            .is_none_or(|n| !n.contains_key("contrast"))
+    };
+    // Convert per source file (as `convert_dir` does): set grouping is scoped
+    // to a file, so merging every file into one array changes which sets form.
+    let mut by_file: std::collections::BTreeMap<std::path::PathBuf, Vec<(usize, Value)>> =
+        std::collections::BTreeMap::new();
+    for t in graph.tokens.values() {
+        by_file
+            .entry(t.file.clone())
+            .or_default()
+            .push((t.index, t.raw.clone()));
+    }
+    for r in &graph.relationships {
+        by_file
+            .entry(r.file.clone())
+            .or_default()
+            .push((r.index, r.raw.clone()));
+    }
+
+    let mut files: Vec<Vec<Value>> = Vec::new();
+    for (_, mut rows) in by_file {
+        rows.sort_by_key(|(i, _)| *i);
+        files.push(
+            rows.into_iter()
+                .map(|(_, v)| v)
+                .filter(is_default_contrast)
+                .collect(),
+        );
+    }
+
+    let mut global_uuid_to_name = HashMap::new();
+    for arr in &files {
+        global_uuid_to_name.extend(index_uuid_names(arr));
+    }
+    let mut summary = LegacySummary::default();
+    let mut combined = Map::new();
+    for arr in &files {
+        let legacy = convert_array(arr, &mut summary, &global_uuid_to_name)?;
+        if legacy.is_empty() {
+            continue;
+        }
+        summary.files_processed += 1;
+        summary.files_written += 1;
+        combined.extend(legacy);
+    }
+    Ok((combined, summary))
+}
+
 /// Build the UUID/conceptId → legacy-name index used to resolve `$ref` and
 /// `replaced_by` targets, over every named token or CTR in `arr`.
 ///
