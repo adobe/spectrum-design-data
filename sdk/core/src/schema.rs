@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Load legacy Spectrum token JSON Schemas (`packages/tokens/schemas`) into a [`SchemaRegistry`].
+//! Load legacy Spectrum token JSON Schemas (`packages/design-data-spec/schemas`) into a [`SchemaRegistry`].
 
 use std::collections::HashMap;
 use std::fs;
@@ -222,9 +222,12 @@ fn build_schema_validator(
     let mut resources: Vec<(String, Resource)> = Vec::new();
     if let Some(dir) = schema_path.parent() {
         collect_schema_resources(dir, &mut resources)?;
-        let value_types = dir.join("value-types");
-        if value_types.is_dir() {
-            collect_schema_resources(&value_types, &mut resources)?;
+        // `token-file.json` (a sibling of these schemas) refs into `token-types/`.
+        for sub in ["value-types", "token-types"] {
+            let sub_dir = dir.join(sub);
+            if sub_dir.is_dir() {
+                collect_schema_resources(&sub_dir, &mut resources)?;
+            }
         }
     }
 

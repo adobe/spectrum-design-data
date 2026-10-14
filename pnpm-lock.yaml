@@ -560,6 +560,9 @@ importers:
 
   tools/design-data:
     dependencies:
+      '@adobe/design-data-spec':
+        specifier: workspace:*
+        version: link:../../packages/design-data-spec
       '@adobe/design-data-wasm':
         specifier: workspace:*
         version: link:../../sdk/wasm

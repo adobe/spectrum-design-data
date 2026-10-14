@@ -11,8 +11,8 @@
 //! Compile-time embedded Spectrum design-data snapshot.
 //!
 //! The design-data binary carries a pinned copy of `@adobe/spectrum-design-data` (the
-//! canonical cascade-format token corpus), its `packages/tokens/schemas` JSON Schemas, and
-//! the `packages/design-data-spec/schemas` Layer 1 schema catalog, all
+//! canonical cascade-format token corpus), and the
+//! `packages/design-data-spec/schemas` catalog (Layer 1 schemas plus the `token-types/` token schemas), all
 //! baked in at build time via [`include_dir!`] / `include_str!`.  On first use outside a
 //! monorepo checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
 //! the OS cache dir so the disk-based loaders in `graph.rs`, `schema.rs`, and
@@ -30,13 +30,13 @@
 //!       fields/
 //!       guidelines/     ← structured guideline documents (*.json + manifest.json)
 //!       mode-sets/
-//!     tokens/
-//!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
+//!     tokens/
 //!       manifest.json
 //!     design-data-spec/
 //!       schemas/
 //!         *.json          ← platform-manifest and extension fragment schemas
+//!         token-types/    ← token-type schemas (+ token-file.json)
 //!         value-types/    ← referenced value schemas
 //!   .complete           ← written last; signals a complete extraction
 //! ```
@@ -57,10 +57,6 @@ use include_dir::{include_dir, Dir};
 /// Cascade-format token source files (`packages/design-data/tokens/*.tokens.json`, 8 files).
 static TOKENS_SRC: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/tokens");
 
-/// JSON Schema files for token validation (`packages/tokens/schemas/`, ~88 KB).
-/// Includes the `token-types/` subdirectory.
-static TOKENS_SCHEMAS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/schemas");
-
 /// Mode-set declarations (`packages/design-data/mode-sets/`, 3 files, ~12 KB).
 static MODE_SETS: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/mode-sets");
@@ -76,10 +72,10 @@ static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design
 static GUIDELINES: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
 
-/// Naming exceptions list (`packages/tokens/naming-exceptions.json`, ~46 KB).
+/// Naming exceptions list (`packages/design-data/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/tokens/naming-exceptions.json"
+    "/../../packages/design-data/naming-exceptions.json"
 ));
 
 /// Token build manifest — lists the 8 source JSON file paths
@@ -102,7 +98,7 @@ static SPEC_SCHEMAS: Dir<'_> =
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
-const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":spec-schemas-v1");
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v2");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -181,8 +177,8 @@ fn evict_stale_versions(current: &Path) {
 ///
 /// Layout after a successful call (see module-level doc for the full tree):
 /// - `<root>/packages/design-data/tokens/` — cascade-format token JSON (`*.tokens.json`)
-/// - `<root>/packages/tokens/schemas/` — schema JSON (+ `token-types/`)
-/// - `<root>/packages/tokens/naming-exceptions.json`
+/// - `<root>/packages/design-data-spec/schemas/` — schema JSON (+ `token-types/`)
+/// - `<root>/packages/design-data/naming-exceptions.json`
 /// - `<root>/packages/tokens/manifest.json`
 /// - `<root>/packages/design-data/mode-sets/`
 /// - `<root>/packages/design-data/components/`
@@ -218,7 +214,6 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         dir.extract(dest)
     };
     extract(&TOKENS_SRC, &tmp.join("packages/design-data/tokens"))?;
-    extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
     extract(&MODE_SETS, &tmp.join("packages/design-data/mode-sets"))?;
     extract(&COMPONENTS, &tmp.join("packages/design-data/components"))?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
@@ -229,7 +224,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     )?;
 
     write_file(
-        &tmp.join("packages/tokens/naming-exceptions.json"),
+        &tmp.join("packages/design-data/naming-exceptions.json"),
         NAMING_EXCEPTIONS.as_bytes(),
     )?;
     write_file(
@@ -297,7 +292,8 @@ mod tests {
             "design-data/tokens missing"
         );
         assert!(
-            root.join("packages/tokens/schemas/token-types").is_dir(),
+            root.join("packages/design-data-spec/schemas/token-types")
+                .is_dir(),
             "schemas/token-types missing"
         );
         assert!(
@@ -317,7 +313,7 @@ mod tests {
             "guidelines missing"
         );
         assert!(
-            root.join("packages/tokens/naming-exceptions.json")
+            root.join("packages/design-data/naming-exceptions.json")
                 .is_file(),
             "naming-exceptions.json missing"
         );
@@ -389,7 +385,7 @@ mod tests {
         let (_tmp, root) = temp_root();
         let schema_path = root.join("packages/design-data-spec/schemas/manifest.schema.json");
         assert!(schema_path.is_file());
-        let schemas_root = root.join("packages/tokens/schemas");
+        let schemas_root = root.join("packages/design-data-spec/schemas");
         assert_eq!(
             crate::manifest::locate_manifest_schema(&schemas_root),
             Some(schema_path)
@@ -420,11 +416,12 @@ mod tests {
     #[test]
     fn materialize_schemas_has_token_types_subdir() {
         let (_tmp, root) = temp_root();
-        let schemas: Vec<_> = fs::read_dir(root.join("packages/tokens/schemas/token-types"))
-            .unwrap()
-            .flatten()
-            .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
-            .collect();
+        let schemas: Vec<_> =
+            fs::read_dir(root.join("packages/design-data-spec/schemas/token-types"))
+                .unwrap()
+                .flatten()
+                .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
+                .collect();
         assert!(
             !schemas.is_empty(),
             "token-types/ should contain at least one JSON schema"

@@ -397,7 +397,7 @@ enum Commands {
         /// Token overrides an existing foundation/platform token (records in overrides[])
         #[arg(long)]
         is_override: bool,
-        /// Path to schemas directory (default: packages/tokens/schemas relative to target)
+        /// Path to schemas directory (default: packages/design-data-spec/schemas relative to target)
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
     },
@@ -3378,9 +3378,9 @@ fn run_write_token(key: &str, target: &Path, opts: WriteTokenOpts<'_>) -> miette
     let schemas_dir = schema_path
         .map(PathBuf::from)
         .or_else(|| {
-            // Try target's parent up to repo root looking for packages/tokens/schemas.
+            // Try target's parent up to repo root looking for packages/design-data-spec/schemas.
             target.ancestors().find_map(|p| {
-                let candidate = p.join("packages/tokens/schemas");
+                let candidate = p.join("packages/design-data-spec/schemas");
                 candidate.is_dir().then_some(candidate)
             })
         })

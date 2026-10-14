@@ -39,7 +39,7 @@ const raw = execFileSync(
     "validate",
     "./tokens",
     "--exceptions-path",
-    "../tokens/naming-exceptions.json",
+    "./naming-exceptions.json",
     "--format",
     "json",
   ],

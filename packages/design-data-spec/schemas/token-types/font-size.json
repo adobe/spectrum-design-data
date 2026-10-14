@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+  "title": "Dimension",
+  "description": "Pixel, rem, and em font sizes dimension.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^(?:-?((?:\\d+\\.?\\d*)|(?:\\.?\\d+))(px|rem|em))$"
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "uuid": {}
+  }
+}

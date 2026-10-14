@@ -20,7 +20,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const EXCEPTIONS_PATH = resolve(
   __dirname,
-  "../../../packages/tokens/naming-exceptions.json",
+  "../../../packages/design-data/naming-exceptions.json",
 );
 const DECOMPOSITIONS_PATH = resolve(
   __dirname,

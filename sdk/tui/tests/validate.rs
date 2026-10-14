@@ -24,7 +24,7 @@ fn manifest_dir() -> PathBuf {
 }
 
 fn schema_dir() -> PathBuf {
-    manifest_dir().join("../../packages/tokens/schemas")
+    manifest_dir().join("../../packages/design-data-spec/schemas")
 }
 
 fn tokens_good_dir() -> PathBuf {

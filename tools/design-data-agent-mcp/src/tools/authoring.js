@@ -248,7 +248,7 @@ export function createAuthoringTools() {
             type: "string",
             description:
               "Path to schemas directory containing token-types/ and token-file.json. " +
-              "Defaults to @adobe/spectrum-tokens schemas when omitted.",
+              "Defaults to the @adobe/design-data-spec schemas when omitted.",
           },
           is_override: {
             type: "boolean",
