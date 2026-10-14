@@ -2,6 +2,14 @@
   "$comment": "Files allowed to reference @adobe/spectrum-tokens or packages/tokens. Intentional entries stay; entries naming a bead id are temporary and should be removed when that bead closes.",
   "entries": [
     {
+      "path": "scripts/check-legacy-consumers.mjs",
+      "reason": "the guardrail itself"
+    },
+    {
+      "path": "test/check-legacy-consumers.test.js",
+      "reason": "guardrail fixtures"
+    },
+    {
       "path": ".github/workflows/token-diff-pr-comment.yml",
       "reason": "intentional: diffs the published legacy output"
     },
