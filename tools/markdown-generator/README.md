@@ -7,7 +7,7 @@ A tool for generating markdown documentation files from Spectrum design tokens, 
 The markdown generator converts structured data from three sources into markdown files with YAML frontmatter:
 
 * **Component Schemas** (`@adobe/spectrum-component-api-schemas`) → `output/components/*.md`
-* **Design Tokens** (`@adobe/spectrum-tokens`) → `output/tokens/*.md`
+* **Design Tokens** (`@adobe/spectrum-design-data` (projected to legacy set format)) → `output/tokens/*.md`
 * **Design System Registry** (`@adobe/design-system-registry`) → `output/registry/*.md`
 
 ## Features

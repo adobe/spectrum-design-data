@@ -685,9 +685,6 @@ importers:
       '@adobe/spectrum-design-data':
         specifier: workspace:*
         version: link:../../packages/design-data
-      '@adobe/spectrum-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
 
   tools/optimized-diff:
     devDependencies:
