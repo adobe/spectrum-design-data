@@ -112,10 +112,10 @@ pub enum SourceConfig {
         /// the directory containing `.design-data.toml`).
         root: PathBuf,
     },
-    /// `@adobe/spectrum-tokens` (and matching `design-data-spec`) from the npm
+    /// `@adobe/spectrum-design-data` (and matching `design-data-spec`) from the npm
     /// registry.  **Not yet implemented — planned for `#1050`.**
     Npm {
-        /// Package name (default: `@adobe/spectrum-tokens`).
+        /// Package name (default: `@adobe/spectrum-design-data`).
         package: Option<String>,
         /// Exact version to resolve.
         version: String,
@@ -1558,7 +1558,7 @@ mod tests {
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
         fs::write(
             tmp.path().join(".design-data.toml"),
-            "[source]\ntype = \"npm\"\npackage = \"@adobe/spectrum-tokens\"\nversion = \"14.0.0\"\n",
+            "[source]\ntype = \"npm\"\npackage = \"@adobe/spectrum-design-data\"\nversion = \"1.0.0\"\n",
         )
         .unwrap();
 
