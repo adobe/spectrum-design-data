@@ -61,7 +61,7 @@
       "lifecycle": "active",
       "published": true,
       "llms": true,
-      "summary": "Spectrum design tokens as published to npm."
+      "summary": "Generated legacy output of Spectrum design tokens, published to npm. Source of truth is packages/design-data."
     },
     {
       "path": "sdk",

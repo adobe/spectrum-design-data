@@ -9,7 +9,7 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 - [packages/component-schemas](https://github.com/adobe/spectrum-design-data/blob/main/packages/component-schemas/llms.txt): JSON Schemas describing Spectrum component APIs and options.
 - [packages/design-data](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/llms.txt): Canonical Spectrum design token data in cascade format, plus components, fields, registry, and guidelines.
 - [packages/design-data-spec](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data-spec/llms.txt): Design Data Specification: prose, JSON Schemas, rule catalog, and conformance fixtures.
-- [packages/tokens](https://github.com/adobe/spectrum-design-data/blob/main/packages/tokens/llms.txt): Spectrum design tokens as published to npm.
+- [packages/tokens](https://github.com/adobe/spectrum-design-data/blob/main/packages/tokens/llms.txt): Generated legacy output of Spectrum design tokens, published to npm. Source of truth is packages/design-data.
 - [sdk/wasm](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/llms.txt): WebAssembly bindings for design-data-core.
 - [tools/component-diff-generator](https://github.com/adobe/spectrum-design-data/blob/main/tools/component-diff-generator/llms.txt): Diff reports for component schema changes with breaking-change analysis.
 - [tools/design-data](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data/llms.txt): Node.js helpers for the WASM package: dataset loading, token writes, authoring sessions.
