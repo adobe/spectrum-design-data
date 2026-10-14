@@ -22,6 +22,14 @@ const NAMES_DIR = resolve(__dirname, "../names");
 
 const nameFiles = await glob("*.json", { cwd: NAMES_DIR, absolute: true });
 
+// Tokens were split across per-component files (e.g. typography -> body, code,
+// detail, heading), so a slug may live in any tokens/src file.
+const allTokenSlugs = new Set(
+  (await glob("*.json", { cwd: TOKENS_SRC, absolute: true })).flatMap((f) =>
+    Object.keys(JSON.parse(readFileSync(f, "utf8"))),
+  ),
+);
+
 test("names directory contains at least one sidecar file", (t) => {
   t.true(nameFiles.length > 0, "expected at least one names/*.json file");
 });
@@ -37,19 +45,13 @@ for (const nameFile of nameFiles) {
     );
   });
 
-  test(`names/${filename}: all slugs resolve in tokens/src/${filename}`, (t) => {
-    if (!existsSync(tokenFile)) {
-      t.pass("skipped — file not found (caught by prior test)");
-      return;
-    }
+  test(`names/${filename}: all slugs resolve in tokens/src`, (t) => {
     const nameMap = JSON.parse(readFileSync(nameFile, "utf8"));
-    const tokens = JSON.parse(readFileSync(tokenFile, "utf8"));
-    const tokenSlugs = new Set(Object.keys(tokens));
-    const orphans = Object.keys(nameMap).filter((s) => !tokenSlugs.has(s));
+    const orphans = Object.keys(nameMap).filter((s) => !allTokenSlugs.has(s));
     t.deepEqual(
       orphans,
       [],
-      `orphan slugs in names/${filename}: ${orphans.join(", ")}`,
+      `orphan slugs in names/${filename} (not found in any tokens/src file): ${orphans.join(", ")}`,
     );
   });
 
