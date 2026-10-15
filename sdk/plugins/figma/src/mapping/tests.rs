@@ -117,6 +117,7 @@ fn fixture_tokens(
                 .get("renamed")
                 .and_then(|v| v.as_str())
                 .map(str::to_string),
+            axis: None,
         })
         .collect()
 }

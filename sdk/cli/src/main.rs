@@ -633,6 +633,19 @@ enum FigmaSub {
         /// tokens without a usable replacement keep their literal value.
         #[arg(long)]
         redirect_deprecated: bool,
+        /// Also write a modeless alias layer into the existing "Spectrum"
+        /// collection: one variable per token, aliasing the mode-group variable
+        /// for tokens that vary on one axis, or holding the concrete value for
+        /// tokens that don't. Fails if the collection is missing. Off by
+        /// default; mode-group collections are unaffected either way.
+        #[arg(long)]
+        modeless_layer: bool,
+        /// Name variables by their bare token name instead of
+        /// `colorTheme/<name>` / `platformScale/<name>`. Only use this once the
+        /// target library's top-level folders are removed; otherwise every
+        /// variable is created anew. Off by default.
+        #[arg(long)]
+        no_folder_prefix: bool,
         #[command(flatten)]
         write_options: FigmaWriteOptions,
     },
@@ -2363,6 +2376,8 @@ fn run_figma_export(
     manifest: Option<&Path>,
     code_syntax_manifests: &[String],
     redirect_deprecated: bool,
+    modeless_layer: bool,
+    no_folder_prefix: bool,
     write_options: &FigmaWriteOptions,
 ) -> miette::Result<ExitCode> {
     use figma::write_guard;
@@ -2406,6 +2421,11 @@ fn run_figma_export(
     }
     // 1. Load tokens (cascade graph projection, or a legacy dir when given).
     let (tokens, specs) = load_figma_tokens(path, manifest)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
 
     // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
@@ -2415,7 +2435,7 @@ fn run_figma_export(
 
     // 3. Build the export payload.
     eprintln!("Building export payload...");
-    let (body, summary) = figma::mapping::build_export_payload_with_options(
+    let (mut body, mut summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
         &specs,
         &response.meta,
@@ -2424,6 +2444,17 @@ fn run_figma_export(
         redirect_deprecated,
     )
     .map_err(|e| miette::miette!("{e}"))?;
+    if modeless_layer {
+        figma::mapping::append_modeless_layer(
+            &mut body,
+            &mut summary,
+            &tokens,
+            &specs,
+            &response.meta,
+            overrides.as_ref(),
+        )
+        .map_err(|e| miette::miette!("{e}"))?;
+    }
 
     let payload = serde_json::to_value(&body).into_diagnostic()?;
     // 4. Output or guard, post once, then verify.
@@ -3612,6 +3643,8 @@ fn main() -> ExitCode {
                 manifest,
                 code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 write_options,
             } => run_figma_export(
                 path.as_deref(),
@@ -3621,6 +3654,8 @@ fn main() -> ExitCode {
                 manifest.as_deref(),
                 &code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 &write_options,
             ),
             FigmaSub::Import {

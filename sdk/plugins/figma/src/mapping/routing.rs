@@ -97,6 +97,19 @@ const FIGMA_COLLECTIONS: &[(TokenKind, &str, &str)] = &[
     ),
 ];
 
+/// Drop the `colorTheme/`/`platformScale/` top-level folder from every spec, so
+/// variables are named by their bare token name (the collection already groups
+/// them). Opt-in: the default keeps the prefix the shipped library uses.
+pub fn without_folder_prefix(specs: Vec<CollectionSpec>) -> Vec<CollectionSpec> {
+    specs
+        .into_iter()
+        .map(|spec| CollectionSpec {
+            default_prefix: "",
+            ..spec
+        })
+        .collect()
+}
+
 /// Build the collection specs from the graph's declared mode sets
 /// (`graph.mode_sets`): one spec per mapped mode set, with its modes in
 /// declaration order. Fails if a mapped mode set isn't declared, since the

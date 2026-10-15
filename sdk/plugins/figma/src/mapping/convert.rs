@@ -328,7 +328,13 @@ pub(super) fn resolve_variable_id(
     let figma_name = overrides
         .and_then(|m| m.get(token_name))
         .cloned()
-        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+        .unwrap_or_else(|| {
+            if prefix.is_empty() {
+                token_name.to_string()
+            } else {
+                format!("{prefix}/{token_name}")
+            }
+        });
     // Match against the final (possibly overridden) name. An override that
     // points at a name not already in the file produces a CREATE, not a
     // rename of the old variable — Figma's variables payload has no rename

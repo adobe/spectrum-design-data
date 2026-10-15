@@ -238,10 +238,18 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
     let mut variables: Vec<VariableAction> = Vec::new();
     let mut mode_values: Vec<ModeValueAction> = Vec::new();
 
-    // Build index of existing variable names → IDs for UPDATE detection.
+    // Build index of existing variable names → IDs for UPDATE detection. The
+    // modeless layer's variables share bare token names, so they're excluded.
+    let modeless_collection_ids: HashSet<&str> = existing
+        .variable_collections
+        .values()
+        .filter(|c| c.name == super::modeless::MODELESS_COLLECTION)
+        .map(|c| c.id.as_str())
+        .collect();
     let existing_var_index: HashMap<&str, &str> = existing
         .variables
         .values()
+        .filter(|v| !modeless_collection_ids.contains(v.variable_collection_id.as_str()))
         .map(|v| (v.name.as_str(), v.id.as_str()))
         .collect();
 

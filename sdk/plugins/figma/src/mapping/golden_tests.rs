@@ -73,6 +73,112 @@ fn cascade_fixture_matches_golden_payload() {
     assert_eq!(Value::Array(payloads), expected);
 }
 
+fn metadata_with_modeless_collection() -> crate::types::VariablesMeta {
+    let mut meta = metadata();
+    meta.variable_collections.insert(
+        "c-spectrum".to_string(),
+        crate::types::FigmaVariableCollection {
+            id: "c-spectrum".to_string(),
+            name: MODELESS_COLLECTION.to_string(),
+            key: "k-spectrum".to_string(),
+            modes: vec![crate::types::FigmaMode {
+                mode_id: "m-spectrum".to_string(),
+                name: "Mode 1".to_string(),
+            }],
+            default_mode_id: "m-spectrum".to_string(),
+            remote: false,
+            hidden_from_publishing: false,
+            variable_ids: vec![],
+        },
+    );
+    meta
+}
+
+#[test]
+fn modeless_layer_aliases_single_axis_tokens_and_copies_invariant_values() {
+    let graph = fixture_graph();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
+    let tokens = export_tokens(&graph).unwrap();
+    let meta = metadata_with_modeless_collection();
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    let before = body.variables.len();
+    append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap();
+    assert!(body.variables.len() > before);
+
+    let modeless = |name: &str| {
+        let variable = body
+            .variables
+            .iter()
+            .find(|v| v.variable_collection_id == "c-spectrum" && v.name == name)
+            .unwrap_or_else(|| panic!("modeless variable {name}"));
+        let value = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| Some(&mv.variable_id) == variable.id.as_ref())
+            .unwrap();
+        assert_eq!(value.mode_id, "m-spectrum");
+        value.value.clone()
+    };
+    let group_id = |name: &str| {
+        body.variables
+            .iter()
+            .find(|v| v.name == name)
+            .and_then(|v| v.id.clone())
+            .unwrap()
+    };
+
+    let color = modeless("accent-color-100");
+    assert_eq!(color["type"], "VARIABLE_ALIAS");
+    assert_eq!(color["id"], group_id("colorTheme/accent-color-100"));
+    let size = modeless("font-size-100");
+    assert_eq!(size["id"], group_id("platformScale/font-size-100"));
+    let spacing = modeless("spacing-100");
+    assert!(spacing.get("type").is_none(), "{spacing}");
+    assert_eq!(spacing, serde_json::json!(8.0));
+}
+
+#[test]
+fn modeless_layer_requires_the_collection_to_exist() {
+    let graph = fixture_graph();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
+    let tokens = export_tokens(&graph).unwrap();
+    let meta = metadata();
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    let error =
+        append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap_err();
+    assert!(error.to_string().contains(MODELESS_COLLECTION), "{error}");
+}
+
+#[test]
+fn unprefixed_specs_name_variables_by_bare_token_name() {
+    let graph = fixture_graph();
+    let specs = without_folder_prefix(collection_specs(&graph.mode_sets).unwrap());
+    let tokens = export_tokens(&graph).unwrap();
+    let meta = metadata_with_modeless_collection();
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap();
+    let in_group = |name: &str| {
+        body.variables
+            .iter()
+            .filter(|v| v.name == name && v.variable_collection_id != "c-spectrum")
+            .count()
+    };
+    assert_eq!(in_group("accent-color-100"), 1);
+    assert_eq!(in_group("spacing-100"), 1);
+    assert!(body.variables.iter().all(|v| !v.name.contains('/')));
+    let modeless: Vec<_> = body
+        .variables
+        .iter()
+        .filter(|v| v.variable_collection_id == "c-spectrum")
+        .map(|v| v.id.clone().unwrap())
+        .collect();
+    let unique: std::collections::HashSet<_> = modeless.iter().collect();
+    assert_eq!(unique.len(), modeless.len());
+}
+
 #[test]
 fn full_corpus_exports_every_collection_deterministically() {
     let graph = corpus();
