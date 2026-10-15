@@ -178,6 +178,18 @@ runs:
           exit 0
         fi
 
+        # A pin that is a bare semver can be compared; anything else (e.g. a tag from a
+        # different package) still reports drift but is never auto-bumped.
+        bumpable=false
+        if [[ "$pinned" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ "$(printf '%s\n%s\n' "$pinned" "$latest" | sort -V | tail -1)" == "$pinned" ]]; then
+            echo "::warning::Manifest pins ${prefix}${pinned}, ahead of latest ${prefix}${latest}; not reporting drift."
+            echo "drift=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          bumpable=true
+        fi
+        echo "bumpable=$bumpable" >> "$GITHUB_OUTPUT"
         echo "drift=true" >> "$GITHUB_OUTPUT"
         message="Foundation moved: manifest pins ${prefix}${pinned}, latest is ${prefix}${latest}"
         if [[ "${{ inputs.drift-mode }}" == "fail" ]]; then
@@ -217,7 +229,8 @@ runs:
     - name: Open foundation bump PR
       if: >-
         ${{ !cancelled() && inputs.open-pr == 'true'
-        && steps.drift.outputs.drift == 'true' && github.event_name != 'pull_request' }}
+        && steps.drift.outputs.drift == 'true' && steps.drift.outputs.bumpable == 'true'
+        && github.event_name != 'pull_request' }}
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
@@ -244,7 +257,9 @@ runs:
 
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        base=$(git rev-parse --abbrev-ref HEAD)
+        base=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name')
+        # A closed PR can leave the bump branch behind; track it so --force-with-lease has a ref.
+        git fetch origin "$branch" 2>/dev/null || true
         git checkout -B "$branch"
 
         tmp=$(mktemp)
@@ -252,16 +267,17 @@ runs:
         mv "$tmp" "$MANIFEST"
         git add "$MANIFEST"
 
-        # .design-data.toml pins the foundation tag next to the manifest.
+        # .design-data.toml pins the full foundation tag (the fetcher uses it verbatim)
+        # next to the manifest, regardless of the manifest's own style.
         toml="$(dirname "$MANIFEST")/.design-data.toml"
         if [[ -f "$toml" ]] && grep -q '^tag *= *"' "$toml"; then
-          sed -i.bak "s|^tag *= *\".*\"|tag = \"${new}\"|" "$toml"
+          sed -i.bak "s|^tag *= *\".*\"|tag = \"${PREFIX}${LATEST}\"|" "$toml"
           rm -f "${toml}.bak"
           git add "$toml"
         fi
 
         git commit -m "chore: bump foundationVersion to ${new}"
         git push --force-with-lease origin "$branch"
-        gh pr create --head "$branch" --base "${GITHUB_REF_NAME:-$base}" \
+        gh pr create --head "$branch" --base "$base" \
           --title "chore: bump foundationVersion to ${new}" \
           --body "Foundation moved from \`${PINNED}\` to \`${LATEST}\`. Review the foundation changelog and platform overrides before merging."
