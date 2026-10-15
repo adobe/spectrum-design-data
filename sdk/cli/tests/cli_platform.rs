@@ -211,6 +211,9 @@ fn platform_eject_local_entry_creates_standalone_repo() {
         .join("extensions/platform-extensions/foo.json")
         .is_file());
     assert!(out_dir.join(".github/workflows/validate.yml").is_file());
+    let drift = std::fs::read_to_string(out_dir.join(".github/workflows/foundation-drift.yml"))
+        .expect("foundation-drift.yml written");
+    assert!(drift.contains("open-pr: true"));
 
     let config = fs::read_to_string(out_dir.join(".design-data.toml")).expect("read config");
     assert!(config.contains("manifest = \"manifest.json\""));

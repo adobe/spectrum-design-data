@@ -46,7 +46,7 @@ inputs:
   foundation-tag-prefix:
     description: "Tag prefix identifying foundation release tags in foundation-repo"
     required: false
-    default: "@adobe/spectrum-tokens@"
+    default: "@adobe/spectrum-design-data@"
   drift-mode:
     description: "'warn' (annotate only) or 'fail' (block the PR) on foundation drift"
     required: false
@@ -55,8 +55,16 @@ inputs:
     description: "Open a 'foundation moved' issue when drift is detected"
     required: false
     default: "false"
+  open-pr:
+    description: >
+      Open a pull request that bumps foundationVersion (and the `tag` in a sibling
+      .design-data.toml, if present) to the latest foundation release when drift
+      is detected. Needs `contents: write` and `pull-requests: write`. Skipped on
+      pull_request events; run it from a schedule or a push to the default branch.
+    required: false
+    default: "false"
   github-token:
-    description: "GitHub token for release lookups, tag lookups, and issue creation"
+    description: "GitHub token for release lookups, tag lookups, issue creation, and bump PRs"
     required: false
     default: ${{ github.token }}
 
@@ -160,7 +168,7 @@ runs:
         pinned="${pinned#"$prefix"}"
         latest=$(gh api "repos/${{ inputs.foundation-repo }}/tags" --paginate \
           --jq '.[].name | select(startswith("'"$prefix"'"))' \
-          | sed "s|^${prefix}||" | sort -V | tail -1)
+          | sed "s|^${prefix}||" | grep -v -- '-' | sort -V | tail -1 || true)
 
         echo "pinned=$pinned" >> "$GITHUB_OUTPUT"
         echo "latest=$latest" >> "$GITHUB_OUTPUT"
@@ -205,3 +213,55 @@ runs:
         against the new release.
         EOF
         )"
+
+    - name: Open foundation bump PR
+      if: >-
+        ${{ !cancelled() && inputs.open-pr == 'true'
+        && steps.drift.outputs.drift == 'true' && github.event_name != 'pull_request' }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        MANIFEST: ${{ inputs.manifest }}
+        PREFIX: ${{ inputs.foundation-tag-prefix }}
+        PINNED: ${{ steps.drift.outputs.pinned }}
+        LATEST: ${{ steps.drift.outputs.latest }}
+      run: |
+        set -euo pipefail
+        branch="foundation-bump/${LATEST}"
+        open=$(gh pr list --head "$branch" --state open --json number --jq 'length')
+        if [[ "$open" -gt 0 ]]; then
+          echo "PR already open for ${branch}, skipping."
+          exit 0
+        fi
+
+        # Keep the manifest's existing style: full tag when it had the prefix, else bare.
+        current=$(jq -r '.foundationVersion' "$MANIFEST")
+        if [[ "$current" == "$PREFIX"* ]]; then
+          new="${PREFIX}${LATEST}"
+        else
+          new="$LATEST"
+        fi
+
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        base=$(git rev-parse --abbrev-ref HEAD)
+        git checkout -B "$branch"
+
+        tmp=$(mktemp)
+        jq --arg v "$new" '.foundationVersion = $v' "$MANIFEST" > "$tmp"
+        mv "$tmp" "$MANIFEST"
+        git add "$MANIFEST"
+
+        # .design-data.toml pins the foundation tag next to the manifest.
+        toml="$(dirname "$MANIFEST")/.design-data.toml"
+        if [[ -f "$toml" ]] && grep -q '^tag *= *"' "$toml"; then
+          sed -i.bak "s|^tag *= *\".*\"|tag = \"${new}\"|" "$toml"
+          rm -f "${toml}.bak"
+          git add "$toml"
+        fi
+
+        git commit -m "chore: bump foundationVersion to ${new}"
+        git push --force-with-lease origin "$branch"
+        gh pr create --head "$branch" --base "${GITHUB_REF_NAME:-$base}" \
+          --title "chore: bump foundationVersion to ${new}" \
+          --body "Foundation moved from \`${PINNED}\` to \`${LATEST}\`. Review the foundation changelog and platform overrides before merging."

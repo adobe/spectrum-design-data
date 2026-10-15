@@ -1665,6 +1665,35 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
     .into_diagnostic()
     .wrap_err("failed to write .github/workflows/validate.yml")?;
 
+    // Weekly drift check that opens a PR bumping foundationVersion.
+    std::fs::write(
+        workflows_dir.join("foundation-drift.yml"),
+        "name: Foundation drift\n\
+         \n\
+         on:\n\
+         \x20\x20schedule:\n\
+         \x20\x20\x20\x20- cron: \"0 9 * * 1\"\n\
+         \x20\x20workflow_dispatch:\n\
+         \n\
+         permissions:\n\
+         \x20\x20contents: write\n\
+         \x20\x20pull-requests: write\n\
+         \n\
+         jobs:\n\
+         \x20\x20drift:\n\
+         \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+         \x20\x20\x20\x20steps:\n\
+         \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+         \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20dataset-path: .\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20manifest: manifest.json\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20skip-dataset-validation: true\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20open-pr: true\n",
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .github/workflows/foundation-drift.yml")?;
+
     println!("design-data: ejected \"{id}\" to {}", out_dir.display());
     println!();
     println!("This does not carry git history. To preserve it:");
