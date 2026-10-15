@@ -211,6 +211,18 @@ fn platform_eject_local_entry_creates_standalone_repo() {
         .join("extensions/platform-extensions/foo.json")
         .is_file());
     assert!(out_dir.join(".github/workflows/validate.yml").is_file());
+    let drift = std::fs::read_to_string(out_dir.join(".github/workflows/foundation-drift.yml"))
+        .expect("foundation-drift.yml written");
+    assert!(drift.contains("open-pr: true"));
+    assert!(drift.contains("cron:"), "{drift}");
+    assert!(drift.contains("workflow_dispatch:"), "{drift}");
+    assert!(drift.contains("contents: write"), "{drift}");
+    assert!(drift.contains("pull-requests: write"), "{drift}");
+    assert!(
+        drift.contains("adobe/spectrum-design-data/.github/actions/validate@"),
+        "{drift}"
+    );
+    assert!(drift.contains("skip-dataset-validation: true"), "{drift}");
 
     let config = fs::read_to_string(out_dir.join(".design-data.toml")).expect("read config");
     assert!(config.contains("manifest = \"manifest.json\""));

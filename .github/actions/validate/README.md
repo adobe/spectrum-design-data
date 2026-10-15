@@ -31,18 +31,26 @@ check requires a local `tokens/` dir and fails unconditionally without one.
 
 ## Inputs
 
-| Input                     | Default                      | Description                                                                         |
-| ------------------------- | ---------------------------- | ----------------------------------------------------------------------------------- |
-| `dataset-path`            | `.`                          | Path passed to `validate-dataset`/`validate-manifest`                               |
-| `manifest`                | `manifest.json`              | Platform manifest file                                                              |
-| `skip-dataset-validation` | `false`                      | Skip `validate-dataset` for manifest-only overlay repos with no local `tokens/` dir |
-| `cli-version`             | `latest`                     | `design-data-cli` release version to install                                        |
-| `install-method`          | `release`                    | `release` (direct binary download) or `homebrew`                                    |
-| `foundation-repo`         | `adobe/spectrum-design-data` | Repo checked for foundation drift                                                   |
-| `foundation-tag-prefix`   | `@adobe/spectrum-tokens@`    | Tag prefix identifying foundation release tags                                      |
-| `drift-mode`              | `warn`                       | `warn` (annotate) or `fail` (block the PR) on drift                                 |
-| `open-issue`              | `false`                      | Open a "foundation moved" issue when drift is detected                              |
-| `github-token`            | `${{ github.token }}`        | Used for release/tag lookups and issue creation                                     |
+| Input                     | Default                        | Description                                                                                                                           |
+| ------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `dataset-path`            | `.`                            | Path passed to `validate-dataset`/`validate-manifest`                                                                                 |
+| `manifest`                | `manifest.json`                | Platform manifest file                                                                                                                |
+| `skip-dataset-validation` | `false`                        | Skip `validate-dataset` for manifest-only overlay repos with no local `tokens/` dir                                                   |
+| `cli-version`             | `latest`                       | `design-data-cli` release version to install                                                                                          |
+| `install-method`          | `release`                      | `release` (direct binary download) or `homebrew`                                                                                      |
+| `foundation-repo`         | `adobe/spectrum-design-data`   | Repo checked for foundation drift                                                                                                     |
+| `foundation-tag-prefix`   | `@adobe/spectrum-design-data@` | Tag prefix identifying foundation release tags (stable only)                                                                          |
+| `drift-mode`              | `warn`                         | `warn` (annotate) or `fail` (block the PR) on drift                                                                                   |
+| `open-issue`              | `false`                        | Open a "foundation moved" issue when drift is detected                                                                                |
+| `open-pr`                 | `false`                        | Open a PR bumping `foundationVersion` on drift (needs `contents: write` and `pull-requests: write`; skipped on `pull_request` events) |
+| `github-token`            | `${{ github.token }}`          | Used for release/tag lookups, issue and PR creation                                                                                   |
+
+### Foundation bump PRs (`open-pr`)
+
+* **Prefix default changed.** `foundation-tag-prefix` now defaults to `@adobe/spectrum-design-data@` (was `@adobe/spectrum-tokens@`). A manifest still pinned to a `spectrum-tokens` tag reports drift but is never auto-bumped; a bare semver pin ahead of the latest tag is not reported as drift. Set `foundation-tag-prefix` explicitly to keep the old behavior.
+* **CI on the bump PR.** A PR created with the default `GITHUB_TOKEN` does not trigger other workflows. Pass a PAT or GitHub App token as `github-token`, and as `token` to `actions/checkout` so the push uses it.
+* **Repository setting.** Enable "Allow GitHub Actions to create and approve pull requests" under Settings → Actions → General.
+* **Base branch.** The PR targets the repository's default branch. `.design-data.toml` always gets the full tag (`<prefix><version>`); the manifest keeps its existing bare or full style.
 
 ## Outputs
 
