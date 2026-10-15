@@ -16,7 +16,50 @@ use serde_json::json;
 use super::convert::*;
 use super::payload::*;
 use super::routing::*;
+use crate::mapping::ExportToken;
 use crate::types::*;
+use crate::FigmaError;
+
+fn test_specs() -> Vec<CollectionSpec> {
+    collection_specs(&[]).unwrap()
+}
+
+// Shadow the glob-imported builders so call sites stay focused on tokens.
+fn build_export_payload(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload(tokens, &test_specs(), existing, overrides)
+}
+
+fn build_export_payload_with_specs(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs(
+        tokens,
+        existing,
+        overrides,
+        &mock_extra_specs(),
+    )
+}
+
+fn build_export_payload_with_specs_and_redirect(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    redirect_deprecated: bool,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs_and_redirect(
+        tokens,
+        existing,
+        overrides,
+        &test_specs(),
+        redirect_deprecated,
+    )
+}
 
 // Historical codec fixtures describe grouped values; only tests adapt that shape.
 fn fixture_tokens(
@@ -66,6 +109,7 @@ fn fixture_tokens(
                 .get("renamed")
                 .and_then(|v| v.as_str())
                 .map(str::to_string),
+            axis: None,
         })
         .collect()
 }
@@ -1295,7 +1339,7 @@ fn alias_to_non_prepassed_target_falls_back_to_literal() {
 /// `mock_meta()` plus a 3rd collection reachable only via a specific
 /// `source_files` entry — proves `CollectionSpec`/`resolve_collections`
 /// can route by file, without touching any of the real production
-/// collections in `COLLECTION_SPECS`.
+/// collections in `collection_specs`.
 fn mock_meta_with_extra_collection() -> VariablesMeta {
     let mut meta = mock_meta();
     meta.variable_collections.insert(
@@ -1317,26 +1361,20 @@ fn mock_meta_with_extra_collection() -> VariablesMeta {
     meta
 }
 
-const MOCK_EXTRA_SPECS: &[CollectionSpec] = &[
-    CollectionSpec {
-        figma_collection_name: COLOR_THEME_COLLECTION,
-        default_prefix: COLOR_THEME_PREFIX,
-        kind: TokenKind::Color,
-        source_files: &[],
-    },
-    CollectionSpec {
-        figma_collection_name: ".Mock Extra",
-        default_prefix: "mockExtra",
-        kind: TokenKind::Scale,
-        source_files: &["special-widget.json"],
-    },
-    CollectionSpec {
-        figma_collection_name: PLATFORM_SCALE_COLLECTION,
-        default_prefix: PLATFORM_SCALE_PREFIX,
-        kind: TokenKind::Scale,
-        source_files: &[],
-    },
-];
+fn mock_extra_specs() -> Vec<CollectionSpec> {
+    let mut specs = test_specs();
+    specs.insert(
+        1,
+        CollectionSpec {
+            figma_collection_name: ".Mock Extra",
+            default_prefix: "mockExtra",
+            kind: TokenKind::Scale,
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            source_files: &["special-widget.json"],
+        },
+    );
+    specs
+}
 
 #[test]
 fn file_specific_spec_routes_token_to_mock_collection() {
@@ -1351,8 +1389,7 @@ fn file_specific_spec_routes_token_to_mock_collection() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "mockExtra/widget-gap");
 }
@@ -1370,8 +1407,7 @@ fn wildcard_spec_still_applies_for_files_not_listed_in_a_specific_entry() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "platformScale/spacing-100");
 }
@@ -1389,8 +1425,7 @@ fn exported_variable_carries_web_code_syntax_for_dev_mode() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     let code_syntax = body.variables[0]
         .code_syntax
         .as_ref()
@@ -1419,8 +1454,7 @@ fn platform_formats_add_extra_code_syntax_entries_from_web() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     assert_eq!(
@@ -1462,8 +1496,7 @@ fn platform_formats_component_concept_order_is_a_no_op() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     // If `component` were actually recovered and moved per `conceptOrder`,
@@ -1538,14 +1571,9 @@ fn alias_target(body: &PostVariablesBody, name: &str) -> Vec<String> {
 fn redirect_deprecated_follows_chain_to_terminal_replacement() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-a"),
         vec!["platformScale__new-w"]
@@ -1561,14 +1589,9 @@ fn redirect_deprecated_follows_chain_to_terminal_replacement() {
 fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     for name in [
         "platformScale/old-none",
         "platformScale/cyc-a",
@@ -1614,14 +1637,9 @@ fn redirect_deprecated_targets_alias_schema_replacements() {
     .unwrap();
     let tokens = load_fixture_tokens(dir.path()).unwrap();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-padding"),
         vec!["platformScale__container-padding-medium"]

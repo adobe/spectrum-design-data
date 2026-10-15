@@ -260,6 +260,18 @@ pub fn diff_values(
     graph: &TokenGraph,
     mapping: Option<&HashMap<String, String>>,
 ) -> Result<DiffReport, FigmaError> {
+    diff_values_with_options(meta, graph, mapping, false)
+}
+
+/// [`diff_values`] for a file whose generated variables use bare token names
+/// (`figma export --no-folder-prefix`): a slash-less Figma name is taken as the
+/// legacy key itself, and the design-data-only pass compares unprefixed names.
+pub fn diff_values_with_options(
+    meta: &VariablesMeta,
+    graph: &TokenGraph,
+    mapping: Option<&HashMap<String, String>>,
+    no_folder_prefix: bool,
+) -> Result<DiffReport, FigmaError> {
     let reversed: Option<HashMap<String, String>> =
         mapping.map(|m| m.iter().map(|(k, v)| (v.clone(), k.clone())).collect());
 
@@ -287,7 +299,9 @@ pub fn diff_values(
         // reach the alias-target fallback below unless that fallback runs
         // even when inversion itself fails outright (not just when it
         // inverts to something the graph can't resolve).
-        let inverted = invert_name(&variable.name, reversed.as_ref());
+        let inverted = invert_name(&variable.name, reversed.as_ref()).or_else(|| {
+            (no_folder_prefix && !variable.name.contains('/')).then(|| variable.name.clone())
+        });
         let resolved = inverted
             .as_ref()
             .and_then(|legacy_key| {
@@ -429,10 +443,18 @@ pub fn diff_values(
     // produce an export payload at all; that's a reason to skip this one
     // pass, not to discard the Figma-driven diff already computed above.
     let export_tokens = crate::mapping::export_tokens(graph)?;
-    if let Ok((body, _summary)) = build_export_payload(&export_tokens, meta, mapping) {
+    let specs = crate::mapping::collection_specs(&graph.mode_sets)?;
+    let specs = if no_folder_prefix {
+        crate::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
+    if let Ok((body, _summary)) = build_export_payload(&export_tokens, &specs, meta, mapping) {
         for action in &body.variables {
             if !seen.contains(&action.name) {
-                let legacy_key = invert_name(&action.name, reversed.as_ref());
+                let legacy_key = invert_name(&action.name, reversed.as_ref()).or_else(|| {
+                    (no_folder_prefix && !action.name.contains('/')).then(|| action.name.clone())
+                });
                 // A legacy key that never resolved (e.g. a cascade-format
                 // token with no usable `name`/`legacyKey` field) falls back
                 // to its synthetic `path:index` graph key, which always

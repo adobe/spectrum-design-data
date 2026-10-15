@@ -17,12 +17,11 @@ use super::graph::ExportToken;
 use super::convert::{
     alias_exportable_route, build_value_index, compute_redirects, process_alias_token,
     process_color_set_token, process_flat_token, process_redirected_token, process_scale_set_token,
-    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
+    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id, VarIndex,
 };
 use super::routing::{
-    resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
-    COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY,
-    SCALE_SET, SKIP_SCHEMAS,
+    resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION,
+    FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, SCALE_SET, SKIP_SCHEMAS,
 };
 use crate::types::{
     FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
@@ -97,12 +96,15 @@ pub struct ExportSummary {
 /// (from a `figma audit` artifact); keys absent from the map fall back to the
 /// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
 /// today's naming for every token.
+///
+/// `specs` come from [`super::collection_specs`] over the graph's declared mode sets.
 pub fn build_export_payload(
     tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_platform_formats(tokens, existing, overrides, &[])
+    build_export_payload_with_platform_formats(tokens, specs, existing, overrides, &[])
 }
 
 /// Same as [`build_export_payload`], but also populates `codeSyntax` for the
@@ -113,11 +115,12 @@ pub fn build_export_payload(
 /// [`build_export_payload`] exactly.
 pub fn build_export_payload_with_platform_formats(
     tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
     platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_options(tokens, existing, overrides, platform_formats, false)
+    build_export_payload_with_options(tokens, specs, existing, overrides, platform_formats, false)
 }
 
 /// Same as [`build_export_payload_with_platform_formats`], plus the opt-in
@@ -128,6 +131,7 @@ pub fn build_export_payload_with_platform_formats(
 /// [`ExportSummary::redirect_skipped`] when they declared one.
 pub fn build_export_payload_with_options(
     tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
     platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
@@ -137,7 +141,7 @@ pub fn build_export_payload_with_options(
         tokens,
         existing,
         overrides,
-        COLLECTION_SPECS,
+        specs,
         redirect_deprecated,
     )?;
     if !platform_formats.is_empty() {
@@ -201,14 +205,13 @@ pub(super) fn augment_code_syntax_with_platform_formats(
 }
 
 /// Same as [`build_export_payload`], but with an explicit collection-spec
-/// table — the production entry point always uses [`COLLECTION_SPECS`]; tests
-/// use this to exercise routing against additional mock collections.
+/// table — tests use this to exercise routing against additional mock collections.
 #[cfg(test)]
 pub(super) fn build_export_payload_with_specs(
     tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    specs: &'static [CollectionSpec],
+    specs: &[CollectionSpec],
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     build_export_payload_with_specs_and_redirect(tokens, existing, overrides, specs, false)
 }
@@ -220,7 +223,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
     tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    specs: &'static [CollectionSpec],
+    specs: &[CollectionSpec],
     redirect_deprecated: bool,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     // 1. Look up collection and mode IDs from the existing file, for every
@@ -235,11 +238,24 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
     let mut variables: Vec<VariableAction> = Vec::new();
     let mut mode_values: Vec<ModeValueAction> = Vec::new();
 
-    // Build index of existing variable names → IDs for UPDATE detection.
-    let existing_var_index: HashMap<&str, &str> = existing
+    // Build index of existing variable names → IDs for UPDATE detection. The
+    // modeless layer's variables share bare token names, so they're excluded.
+    let modeless_collection_ids: HashSet<&str> = existing
+        .variable_collections
+        .values()
+        .filter(|c| c.name == super::modeless::MODELESS_COLLECTION)
+        .map(|c| c.id.as_str())
+        .collect();
+    let existing_var_index: VarIndex<'_> = existing
         .variables
         .values()
-        .map(|v| (v.name.as_str(), v.id.as_str()))
+        .filter(|v| !modeless_collection_ids.contains(v.variable_collection_id.as_str()))
+        .map(|v| {
+            (
+                (v.variable_collection_id.as_str(), v.name.as_str()),
+                v.id.as_str(),
+            )
+        })
         .collect();
 
     // 3. Pre-pass: resolve every non-skipped, non-alias-schema token's Figma
@@ -279,6 +295,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         let (_, id) = resolve_variable_id(
             token_name,
             rc.spec.default_prefix,
+            rc.collection_id,
             &existing_var_index,
             overrides,
         );
@@ -312,6 +329,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
             let (_, id) = resolve_variable_id(
                 token_name,
                 rc.spec.default_prefix,
+                rc.collection_id,
                 &existing_var_index,
                 overrides,
             );
@@ -374,7 +392,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
                 token_name,
                 token_entry,
                 rc.collection_id,
-                rc.spec.default_prefix,
+                rc.spec,
                 &rc.mode_ids,
                 &value_index,
                 &existing_var_index,
@@ -394,7 +412,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
                 token_name,
                 token_entry,
                 rc.collection_id,
-                rc.spec.default_prefix,
+                rc.spec,
                 &rc.mode_ids,
                 &value_index,
                 &existing_var_index,

@@ -25,6 +25,9 @@ pub struct ExportToken {
     pub(super) description: Option<String>,
     pub(super) deprecated: bool,
     pub(super) replacement: Option<String>,
+    /// Mode set this token's resolved value diverges on (per
+    /// `TokenGraph::diverges_on_axis`); `None` when it is axis-invariant.
+    pub(super) axis: Option<String>,
 }
 
 struct Record<'a> {
@@ -196,6 +199,15 @@ pub fn export_tokens(graph: &TokenGraph) -> Result<Vec<ExportToken>, FigmaError>
                     .iter()
                     .all(|r| replacement(r, &names).as_ref() == Some(first))
             });
+        let axis = dimension
+            .filter(|dim| {
+                graph
+                    .mode_sets
+                    .iter()
+                    .find(|set| set.name == *dim)
+                    .is_none_or(|set| graph.diverges_on_axis(key, set))
+            })
+            .map(str::to_string);
         let token = ExportToken {
             name: key.to_string(),
             file: file.clone(),
@@ -204,6 +216,7 @@ pub fn export_tokens(graph: &TokenGraph) -> Result<Vec<ExportToken>, FigmaError>
             description,
             deprecated,
             replacement,
+            axis,
         };
         // Later files replace a colliding name without changing its export position.
         if let Some(&position) = positions.get(key) {

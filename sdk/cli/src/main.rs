@@ -633,6 +633,19 @@ enum FigmaSub {
         /// tokens without a usable replacement keep their literal value.
         #[arg(long)]
         redirect_deprecated: bool,
+        /// Also write a modeless alias layer into the existing "Spectrum"
+        /// collection: one variable per token, aliasing the mode-group variable
+        /// for tokens that vary on one axis, or holding the concrete value for
+        /// tokens that don't. Fails if the collection is missing. Off by
+        /// default; mode-group collections are unaffected either way.
+        #[arg(long)]
+        modeless_layer: bool,
+        /// Name variables by their bare token name instead of
+        /// `colorTheme/<name>` / `platformScale/<name>`. Only use this once the
+        /// target library's top-level folders are removed; otherwise every
+        /// variable is created anew. Off by default.
+        #[arg(long)]
+        no_folder_prefix: bool,
         #[command(flatten)]
         write_options: FigmaWriteOptions,
     },
@@ -668,6 +681,10 @@ enum FigmaSub {
         /// defaults to the resolved design-data dataset
         #[arg(long)]
         token_dir: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -693,6 +710,10 @@ enum FigmaSub {
         /// resolved dataset
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -2305,7 +2326,10 @@ fn write_figma_report(
 fn load_figma_tokens(
     path: Option<&Path>,
     manifest: Option<&Path>,
-) -> miette::Result<Vec<figma::mapping::ExportToken>> {
+) -> miette::Result<(
+    Vec<figma::mapping::ExportToken>,
+    Vec<figma::mapping::CollectionSpec>,
+)> {
     if path.is_some_and(|dir| !dir_has_cascade_tokens(dir)) {
         miette::bail!("Figma export/audit requires canonical .tokens.json data; legacy directories are no longer supported");
     }
@@ -2335,7 +2359,10 @@ fn load_figma_tokens(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
-    figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))
+    let specs =
+        figma::mapping::collection_specs(&graph.mode_sets).map_err(|e| miette::miette!("{e}"))?;
+    let tokens = figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))?;
+    Ok((tokens, specs))
 }
 
 fn dir_has_cascade_tokens(dir: &Path) -> bool {
@@ -2357,6 +2384,8 @@ fn run_figma_export(
     manifest: Option<&Path>,
     code_syntax_manifests: &[String],
     redirect_deprecated: bool,
+    modeless_layer: bool,
+    no_folder_prefix: bool,
     write_options: &FigmaWriteOptions,
 ) -> miette::Result<ExitCode> {
     use figma::write_guard;
@@ -2399,7 +2428,12 @@ fn run_figma_export(
         platform_formats.push((platform.to_string(), config));
     }
     // 1. Load tokens (cascade graph projection, or a legacy dir when given).
-    let tokens = load_figma_tokens(path, manifest)?;
+    let (tokens, specs) = load_figma_tokens(path, manifest)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
 
     // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
@@ -2409,14 +2443,26 @@ fn run_figma_export(
 
     // 3. Build the export payload.
     eprintln!("Building export payload...");
-    let (body, summary) = figma::mapping::build_export_payload_with_options(
+    let (mut body, mut summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
+        &specs,
         &response.meta,
         overrides.as_ref(),
         &platform_formats,
         redirect_deprecated,
     )
     .map_err(|e| miette::miette!("{e}"))?;
+    if modeless_layer {
+        figma::mapping::append_modeless_layer(
+            &mut body,
+            &mut summary,
+            &tokens,
+            &specs,
+            &response.meta,
+            overrides.as_ref(),
+        )
+        .map_err(|e| miette::miette!("{e}"))?;
+    }
 
     let payload = serde_json::to_value(&body).into_diagnostic()?;
     // 4. Output or guard, post once, then verify.
@@ -2754,6 +2800,7 @@ fn run_figma_import(
 fn run_figma_audit(
     snapshot: &Path,
     token_dir: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let text = std::fs::read_to_string(snapshot)
@@ -2763,8 +2810,14 @@ fn run_figma_audit(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
 
-    let tokens = load_figma_tokens(token_dir, None)?;
-    let report = figma::audit::audit_tokens(&meta, &tokens).map_err(|e| miette::miette!("{e}"))?;
+    let (tokens, specs) = load_figma_tokens(token_dir, None)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
+    let report =
+        figma::audit::audit_tokens(&meta, &tokens, &specs).map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -2887,14 +2940,20 @@ fn run_figma_diff(
     snapshot: Option<&Path>,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let (meta, mapping_map, graph) =
         load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
 
     // 3. Diff.
-    let report = figma::import::diff_values(&meta, &graph, mapping_map.as_ref())
-        .map_err(|e| miette::miette!("{e}"))?;
+    let report = figma::import::diff_values_with_options(
+        &meta,
+        &graph,
+        mapping_map.as_ref(),
+        no_folder_prefix,
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -2932,7 +2991,7 @@ fn run_figma_diff(
 /// to cover today.
 ///
 /// These are real-file naming conventions observed in specific collections,
-/// not the exporter's own output — `mapping::COLLECTION_SPECS` models what
+/// not the exporter's own output — `mapping::collection_specs` models what
 /// `figma export` generates (`colorTheme/`, `platformScale/`) and has no
 /// entry for these, so there's nothing to derive this list from
 /// automatically. If a new prefix group shows up, add it here by hand.
@@ -3604,6 +3663,8 @@ fn main() -> ExitCode {
                 manifest,
                 code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 write_options,
             } => run_figma_export(
                 path.as_deref(),
@@ -3613,6 +3674,8 @@ fn main() -> ExitCode {
                 manifest.as_deref(),
                 &code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 &write_options,
             ),
             FigmaSub::Import {
@@ -3633,14 +3696,16 @@ fn main() -> ExitCode {
             FigmaSub::Audit {
                 snapshot,
                 token_dir,
+                no_folder_prefix,
                 format,
-            } => run_figma_audit(&snapshot, token_dir.as_deref(), format),
+            } => run_figma_audit(&snapshot, token_dir.as_deref(), no_folder_prefix, format),
             FigmaSub::Diff {
                 file_key,
                 token,
                 snapshot,
                 mapping,
                 manifest,
+                no_folder_prefix,
                 format,
             } => run_figma_diff(
                 file_key.as_deref(),
@@ -3648,6 +3713,7 @@ fn main() -> ExitCode {
                 snapshot.as_deref(),
                 mapping.as_deref(),
                 manifest.as_deref(),
+                no_folder_prefix,
                 format,
             ),
             FigmaSub::Pair {

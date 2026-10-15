@@ -23,7 +23,7 @@ use std::path::Path;
 
 use serde::Serialize;
 
-use super::mapping::{build_export_payload, summarize_variables};
+use super::mapping::{build_export_payload, collection_specs, summarize_variables, CollectionSpec};
 use super::types::VariablesMeta;
 use super::FigmaError;
 
@@ -82,16 +82,19 @@ pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditRe
             );
         }
     }
-    audit_tokens(existing, &crate::mapping::export_tokens(&graph)?)
+    let specs = collection_specs(&graph.mode_sets)?;
+    audit_tokens(existing, &crate::mapping::export_tokens(&graph)?, &specs)
 }
 
 /// Same as [`audit_names`], over already-loaded tokens (e.g. from
-/// [`crate::mapping::export_tokens`]).
+/// [`crate::mapping::export_tokens`]) and the collection specs derived from
+/// the graph's mode sets.
 pub fn audit_tokens(
     existing: &VariablesMeta,
     tokens: &[crate::mapping::ExportToken],
+    specs: &[CollectionSpec],
 ) -> Result<AuditReport, FigmaError> {
-    let (body, summary) = build_export_payload(tokens, existing, None)?;
+    let (body, summary) = build_export_payload(tokens, specs, existing, None)?;
 
     // Real variable names per collection, from the snapshot (non-remote only,
     // matching summarize_variables' existing convention). The real file has

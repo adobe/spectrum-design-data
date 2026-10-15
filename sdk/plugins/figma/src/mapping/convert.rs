@@ -17,9 +17,8 @@ use std::collections::{HashMap, HashSet};
 use serde_json::Value;
 
 use super::routing::{
-    ALIAS, ANGLE, COLOR, COLOR_MODES, COLOR_SET, COLOR_THEME_COLLECTION, DIMENSION, FONT_FAMILY,
-    FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, PLATFORM_SCALE_COLLECTION,
-    SCALE_MODES, SCALE_SET,
+    CollectionSpec, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE,
+    FONT_WEIGHT, MULTIPLIER, OPACITY, SCALE_SET,
 };
 use crate::color::parse_color;
 use crate::types::{FigmaVariableAlias, ModeValueAction, VariableAction};
@@ -38,6 +37,10 @@ pub(super) enum ResolutionError {
     UnsupportedSchema { target: String, schema: String },
     Unparseable,
 }
+
+/// Existing Figma variables keyed by `(collection id, variable name)`. Names are
+/// only unique within a collection, so lookups must be scoped to one.
+pub(super) type VarIndex<'a> = HashMap<(&'a str, &'a str), &'a str>;
 
 pub(super) type ValueIndex = HashMap<String, Result<ResolvedValue, ResolutionError>>;
 
@@ -323,23 +326,31 @@ pub(super) fn variable_alias_target_id(value: &Value) -> Option<&str> {
 pub(super) fn resolve_variable_id(
     token_name: &str,
     prefix: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    collection_id: &str,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (String, String) {
     let figma_name = overrides
         .and_then(|m| m.get(token_name))
         .cloned()
-        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+        .unwrap_or_else(|| {
+            if prefix.is_empty() {
+                token_name.to_string()
+            } else {
+                format!("{prefix}/{token_name}")
+            }
+        });
     // Match against the final (possibly overridden) name. An override that
     // points at a name not already in the file produces a CREATE, not a
     // rename of the old variable — Figma's variables payload has no rename
     // action, so remapping an existing token surfaces as a new variable.
-    let id = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-        existing_id.to_string()
-    } else {
-        // Figma rejects temp IDs containing '/'; use '__' as separator.
-        figma_name.replace('/', "__")
-    };
+    let id =
+        if let Some(&existing_id) = existing_var_index.get(&(collection_id, figma_name.as_str())) {
+            existing_id.to_string()
+        } else {
+            // Figma rejects temp IDs containing '/'; use '__' as separator.
+            figma_name.replace('/', "__")
+        };
     (figma_name, id)
 }
 
@@ -350,12 +361,17 @@ fn make_variable_action(
     collection_id: &str,
     figma_type: &str,
     description: Option<&str>,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let (figma_name, var_id) =
-        resolve_variable_id(token_name, prefix, existing_var_index, overrides);
-    let action = if existing_var_index.contains_key(figma_name.as_str()) {
+    let (figma_name, var_id) = resolve_variable_id(
+        token_name,
+        prefix,
+        collection_id,
+        existing_var_index,
+        overrides,
+    );
+    let action = if existing_var_index.contains_key(&(collection_id, figma_name.as_str())) {
         "UPDATE".to_string()
     } else {
         "CREATE".to_string()
@@ -516,7 +532,7 @@ pub(super) fn process_redirected_token(
     mode_ids: &HashMap<String, String>,
     figma_type: &str,
     target_id: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -553,10 +569,10 @@ pub(super) fn process_color_set_token(
     token_name: &str,
     entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -567,6 +583,8 @@ pub(super) fn process_color_set_token(
     if sets.is_empty() {
         return;
     }
+
+    let prefix = spec.default_prefix;
 
     // Determine the inner type from any mode entry — not just the first —
     // since a set's first member can be an `alias.json` pointer (no
@@ -591,13 +609,14 @@ pub(super) fn process_color_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in COLOR_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{COLOR_THEME_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };
@@ -665,10 +684,10 @@ pub(super) fn process_scale_set_token(
     token_name: &str,
     entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -679,6 +698,8 @@ pub(super) fn process_scale_set_token(
     if sets.is_empty() {
         return;
     }
+
+    let prefix = spec.default_prefix;
 
     let inner_schema = sets
         .values()
@@ -708,13 +729,14 @@ pub(super) fn process_scale_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in SCALE_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{PLATFORM_SCALE_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };
@@ -788,7 +810,7 @@ pub(super) fn process_flat_token(
     figma_type: &str,
     default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -858,7 +880,7 @@ pub(super) fn process_alias_token(
     color_default_mode_id: &str,
     scale_default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,

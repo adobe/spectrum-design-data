@@ -24,6 +24,7 @@ mod convert;
 #[cfg(test)]
 mod golden_tests;
 mod graph;
+mod modeless;
 mod payload;
 mod routing;
 #[cfg(test)]
@@ -31,9 +32,11 @@ mod tests;
 
 pub(crate) use convert::figma_opacity_to_fraction;
 pub use graph::{export_tokens, ExportToken};
+pub use modeless::{append_modeless_layer, MODELESS_COLLECTION};
 pub use payload::{
     build_export_payload, build_export_payload_with_options,
     build_export_payload_with_platform_formats, summarize_variables, CollectionSummary,
     ExportSummary,
 };
+pub use routing::{collection_specs, without_folder_prefix, CollectionSpec};
 pub(crate) use routing::{FONT_STYLE, FONT_WEIGHT, OPACITY};
