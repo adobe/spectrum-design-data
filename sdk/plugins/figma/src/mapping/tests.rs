@@ -33,17 +33,10 @@ fn build_export_payload(
     super::payload::build_export_payload(tokens, &test_specs(), existing, overrides)
 }
 
-// Markers keep call sites naming which spec table a test exercises.
-struct MockExtraSpecs;
-const MOCK_EXTRA_SPECS: MockExtraSpecs = MockExtraSpecs;
-struct DefaultSpecs;
-const COLLECTION_SPECS: DefaultSpecs = DefaultSpecs;
-
 fn build_export_payload_with_specs(
     tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    _specs: MockExtraSpecs,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     super::payload::build_export_payload_with_specs(
         tokens,
@@ -57,7 +50,6 @@ fn build_export_payload_with_specs_and_redirect(
     tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    _specs: DefaultSpecs,
     redirect_deprecated: bool,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     super::payload::build_export_payload_with_specs_and_redirect(
@@ -1397,8 +1389,7 @@ fn file_specific_spec_routes_token_to_mock_collection() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "mockExtra/widget-gap");
 }
@@ -1416,8 +1407,7 @@ fn wildcard_spec_still_applies_for_files_not_listed_in_a_specific_entry() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "platformScale/spacing-100");
 }
@@ -1435,8 +1425,7 @@ fn exported_variable_carries_web_code_syntax_for_dev_mode() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     let code_syntax = body.variables[0]
         .code_syntax
         .as_ref()
@@ -1465,8 +1454,7 @@ fn platform_formats_add_extra_code_syntax_entries_from_web() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     assert_eq!(
@@ -1508,8 +1496,7 @@ fn platform_formats_component_concept_order_is_a_no_op() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
-            .unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     // If `component` were actually recovered and moved per `conceptOrder`,
@@ -1584,14 +1571,9 @@ fn alias_target(body: &PostVariablesBody, name: &str) -> Vec<String> {
 fn redirect_deprecated_follows_chain_to_terminal_replacement() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-a"),
         vec!["platformScale__new-w"]
@@ -1607,14 +1589,9 @@ fn redirect_deprecated_follows_chain_to_terminal_replacement() {
 fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     for name in [
         "platformScale/old-none",
         "platformScale/cyc-a",
@@ -1660,14 +1637,9 @@ fn redirect_deprecated_targets_alias_schema_replacements() {
     .unwrap();
     let tokens = load_fixture_tokens(dir.path()).unwrap();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload_with_specs_and_redirect(
-        &fixture_tokens(&tokens),
-        &meta,
-        None,
-        COLLECTION_SPECS,
-        true,
-    )
-    .unwrap();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-padding"),
         vec!["platformScale__container-padding-medium"]
