@@ -500,6 +500,10 @@ enum PlatformSub {
         /// dir, which would make the recursive copy walk into its own output.
         #[arg(long)]
         out: Option<PathBuf>,
+        /// Also write `.github/workflows/consumer-smoke.yml`, which runs the
+        /// repo's own `consumer/smoke.sh` (codegen + build) when present
+        #[arg(long)]
+        with_consumer_smoke: bool,
     },
 }
 
@@ -1471,7 +1475,11 @@ fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
 /// of the incubate-here → team-owned-repo migration path (`platforms/README.md`).
 /// Does not touch git history; pair with the printed `git subtree split`
 /// instructions to preserve it.
-fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode> {
+fn run_platform_eject(
+    id: &str,
+    out: Option<PathBuf>,
+    with_consumer_smoke: bool,
+) -> miette::Result<ExitCode> {
     let cwd = std::env::current_dir().into_diagnostic()?;
     let Some((config_path, config)) = data_source::find_config(&cwd).into_diagnostic()? else {
         eprintln!(
@@ -1711,7 +1719,55 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
     .into_diagnostic()
     .wrap_err("failed to write .github/workflows/foundation-drift.yml")?;
 
+    // Opt-in: the repo owns codegen + build in `consumer/smoke.sh`, so this
+    // scaffold stays language-agnostic and hardcodes no token ids.
+    if with_consumer_smoke {
+        std::fs::write(
+            workflows_dir.join("consumer-smoke.yml"),
+            "name: Consumer smoke\n\
+             \n\
+             on:\n\
+             \x20\x20pull_request:\n\
+             \x20\x20\x20\x20paths:\n\
+             \x20\x20\x20\x20\x20\x20- manifest.json\n\
+             \x20\x20\x20\x20\x20\x20- extensions/**\n\
+             \x20\x20\x20\x20\x20\x20- .design-data.toml\n\
+             \x20\x20\x20\x20\x20\x20- consumer/**\n\
+             \x20\x20workflow_dispatch:\n\
+             \n\
+             permissions:\n\
+             \x20\x20contents: read\n\
+             \n\
+             jobs:\n\
+             \x20\x20smoke:\n\
+             \x20\x20\x20\x20# Edit runs-on (and add toolchain setup, e.g. a pinned Xcode) to match consumer/smoke.sh.\n\
+             \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+             \x20\x20\x20\x20steps:\n\
+             \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+             \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20install-only: true\n\
+             \x20\x20\x20\x20\x20\x20- name: Run consumer/smoke.sh\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20if: hashFiles('consumer/smoke.sh') != ''\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20env:\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20DESIGN_DATA_BIN: design-data\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20run: bash consumer/smoke.sh\n\
+             \x20\x20\x20\x20\x20\x20- name: Note missing smoke script\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20if: hashFiles('consumer/smoke.sh') == ''\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20run: echo \"::notice::consumer/smoke.sh not found; nothing to smoke-test\"\n",
+        )
+        .into_diagnostic()
+        .wrap_err("failed to write .github/workflows/consumer-smoke.yml")?;
+    }
+
     println!("design-data: ejected \"{id}\" to {}", out_dir.display());
+    if with_consumer_smoke {
+        println!(
+            "Wrote .github/workflows/consumer-smoke.yml: add consumer/smoke.sh to your repo \
+             (it should regenerate consumer output via $DESIGN_DATA_BIN and build it, \
+             exiting non-zero on failure)."
+        );
+    }
     println!();
     println!("This does not carry git history. To preserve it:");
     println!("  git subtree split --prefix=platforms/{id} -b eject/{id}");
@@ -3663,7 +3719,11 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
-            PlatformSub::Eject { id, out } => run_platform_eject(&id, out),
+            PlatformSub::Eject {
+                id,
+                out,
+                with_consumer_smoke,
+            } => run_platform_eject(&id, out, with_consumer_smoke),
         },
         Commands::Validate {
             path,

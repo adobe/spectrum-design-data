@@ -63,6 +63,13 @@ inputs:
       pull_request events; run it from a schedule or a push to the default branch.
     required: false
     default: "false"
+  install-only:
+    description: >
+      Set to 'true' to only install the design-data CLI onto PATH and skip validation,
+      drift checks, and issue/PR steps. Use it to run the CLI from your own steps
+      (for example a consumer-codegen smoke test).
+    required: false
+    default: "false"
   github-token:
     description: "GitHub token for release lookups, tag lookups, issue creation, and bump PRs"
     required: false
@@ -104,9 +111,10 @@ runs:
           fi
         fi
         tag="design-data-cli@${version}"
+        asset=$("$GITHUB_ACTION_PATH/scripts/cli-asset-name.sh" "$RUNNER_OS" "$RUNNER_ARCH")
         mkdir -p "$RUNNER_TEMP/design-data-cli"
         curl -fsSL \
-          "https://github.com/adobe/spectrum-design-data/releases/download/${tag//@/%40}/design-data-linux-x64" \
+          "https://github.com/adobe/spectrum-design-data/releases/download/${tag//@/%40}/${asset}" \
           -o "$RUNNER_TEMP/design-data-cli/design-data"
         chmod +x "$RUNNER_TEMP/design-data-cli/design-data"
         echo "$RUNNER_TEMP/design-data-cli" >> "$GITHUB_PATH"
@@ -131,7 +139,7 @@ runs:
 
     - name: Validate dataset
       id: validate-dataset
-      if: inputs.skip-dataset-validation != 'true'
+      if: inputs.install-only != 'true' && inputs.skip-dataset-validation != 'true'
       shell: bash
       run: |
         set +e
@@ -144,6 +152,7 @@ runs:
 
     - name: Validate manifest
       id: validate-manifest
+      if: inputs.install-only != 'true'
       shell: bash
       run: |
         set +e
@@ -157,6 +166,7 @@ runs:
 
     - name: Check foundation drift
       id: drift
+      if: inputs.install-only != 'true'
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
