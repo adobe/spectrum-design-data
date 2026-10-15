@@ -1926,9 +1926,11 @@ mod tests {
     fn structure_prefixed_legacy_keys_survive_convert_graph() {
         let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../packages/design-data/tokens");
-        if !src.exists() {
-            return;
-        }
+        assert!(
+            src.exists(),
+            "canonical token corpus missing: {}",
+            src.display()
+        );
         let graph = crate::graph::TokenGraph::from_json_dir(&src).expect("load graph");
         let (map, _) = convert_graph(&graph).expect("convert graph");
 
