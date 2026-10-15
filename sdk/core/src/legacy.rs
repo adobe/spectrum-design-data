@@ -1920,6 +1920,71 @@ mod tests {
         assert_eq!(summary.flat_tokens, 2);
     }
 
+    /// The five structure-prefixed keys (mra7) keep their original UUIDs and
+    /// values; the old unprefixed keys are distinct deprecated compat records.
+    #[test]
+    fn structure_prefixed_legacy_keys_survive_convert_graph() {
+        let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/tokens");
+        assert!(
+            src.exists(),
+            "canonical token corpus missing: {}",
+            src.display()
+        );
+        let graph = crate::graph::TokenGraph::from_json_dir(&src).expect("load graph");
+        let (map, _) = convert_graph(&graph).expect("convert graph");
+
+        // (live key, original uuid, old key, compat uuid, value)
+        let cases = [
+            (
+                "banner-gap-horizontal",
+                "c0571c46-5946-4896-bcbf-270560de5385",
+                "gap-horizontal",
+                "88c10a5d-9495-44b2-8b03-e9283c79144b",
+                "{spacing-400}",
+            ),
+            (
+                "banner-gap-vertical",
+                "312ebac2-32a0-47a8-9c4e-e366b2232228",
+                "gap-vertical",
+                "952a4750-63b2-458e-81b1-bf00cb064934",
+                "{spacing-100}",
+            ),
+            (
+                "banner-padding-horizontal",
+                "eb386242-21c6-437b-8125-e6d4394dd9c5",
+                "padding-horizontal",
+                "f0749dc3-1649-4e6f-957e-c2194e191c88",
+                "{spacing-300}",
+            ),
+            (
+                "banner-padding-vertical",
+                "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+                "padding-vertical",
+                "9ae57860-2109-4f79-9230-7616e9898fd9",
+                "{spacing-200}",
+            ),
+            (
+                "list-gap-regular",
+                "b7e1af59-753e-4059-8f46-8d862f631ad8",
+                "gap-regular",
+                "c2408389-1e7e-4aae-8a49-d8b8233102c7",
+                "{spacing-75}",
+            ),
+        ];
+        for (live, live_uuid, old, old_uuid, value) in cases {
+            let l = map.get(live).unwrap_or_else(|| panic!("missing {live}"));
+            assert_eq!(l["uuid"], live_uuid, "{live} uuid");
+            assert_eq!(l["value"], value, "{live} value");
+            assert!(l.get("deprecated").is_none(), "{live} must stay live");
+            let o = map.get(old).unwrap_or_else(|| panic!("missing {old}"));
+            assert_eq!(o["uuid"], old_uuid, "{old} uuid");
+            assert_ne!(o["uuid"], l["uuid"]);
+            assert_eq!(o["value"], value, "{old} value");
+            assert_eq!(o["deprecated"], true, "{old} deprecated");
+        }
+    }
+
     /// Integration test: full roundtrip against the real Spectrum token sources.
     /// Skipped automatically when the packages/tokens/src directory is absent
     /// (e.g. in a sparse checkout).
