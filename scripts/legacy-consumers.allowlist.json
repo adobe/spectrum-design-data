@@ -42,10 +42,6 @@
       "reason": "comment describing the legacy tree"
     },
     {
-      "path": "tools/spectrum-design-data-mcp/**",
-      "reason": "xqln.10: deprecated published package, superseded by @adobe/design-data-mcp"
-    },
-    {
       "path": "packages/design-data/moon.yml",
       "reason": "intentional: legacy-output, roundtrip-verify and verifyLegacyOutput tasks"
     },
@@ -75,23 +71,23 @@
     },
     {
       "path": "packages/token-names/**",
-      "reason": "xqln.16: reads packages/tokens/src"
+      "reason": "intentional: legacy-migration input only (feeds migrate convert and regenerate-from-legacy)"
     },
     {
       "path": "docs/s2-tokens-viewer/**",
-      "reason": "xqln.15: reads @adobe/spectrum-tokens"
+      "reason": "intentional: viewer documents the published legacy package; stays on it by design"
     },
     {
       "path": "docs/visualizer/src/controllers/graph-data-source.ts",
-      "reason": "xqln.17: raw GitHub packages/tokens URLs"
+      "reason": "intentional: S1 archive fetches legacy data from the s1-legacy branch"
     },
     {
       "path": "docs/s2-visualizer/src/controllers/graph-data-source.ts",
-      "reason": "xqln.17: raw GitHub packages/tokens URLs"
+      "reason": "intentional: visualizes the published legacy package by design"
     },
     {
       "path": "sdk/moon.yml",
-      "reason": "intentional: legacy parity inputs and TOKENS_MANIFEST embed (xqln.19)"
+      "reason": "intentional: legacy parity inputs and TOKENS_MANIFEST embed"
     },
     {
       "path": "sdk/core/src/legacy.rs",
@@ -103,7 +99,7 @@
     },
     {
       "path": "sdk/core/src/data_source/**",
-      "reason": "intentional: old-tag layout fallbacks; TOKENS_MANIFEST embed (xqln.19)"
+      "reason": "intentional: old-tag layout fallbacks; TOKENS_MANIFEST embed"
     },
     {
       "path": "sdk/core/src/authoring/session.rs",
@@ -128,10 +124,6 @@
     {
       "path": "sdk/cli/tests/cli_validate.rs",
       "reason": "intentional: legacy corpus tests"
-    },
-    {
-      "path": "sdk/plugins/figma/src/mapping/convert.rs",
-      "reason": "comment describing the legacy projection"
     }
   ]
 }

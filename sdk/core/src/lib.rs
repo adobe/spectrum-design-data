@@ -1020,7 +1020,6 @@ mod manifest_extensions_conformance {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: Some(dir.join("manifest.json")),
             provenance: Provenance::InRepo,
         };

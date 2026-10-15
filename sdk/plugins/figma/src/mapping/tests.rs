@@ -18,6 +18,80 @@ use super::payload::*;
 use super::routing::*;
 use crate::types::*;
 
+// Historical codec fixtures describe grouped values; only tests adapt that shape.
+fn fixture_tokens(
+    tokens: &[(String, PathBuf, serde_json::Value)],
+) -> Vec<super::graph::ExportToken> {
+    use super::graph::{ExportToken, ExportValue};
+    fn value(entry: &serde_json::Value) -> ExportValue {
+        let literal = entry.get("value").cloned();
+        let alias = literal
+            .as_ref()
+            .and_then(|v| v.as_str())
+            .and_then(|s| s.strip_prefix('{'))
+            .and_then(|s| s.strip_suffix('}'))
+            .map(str::to_string);
+        ExportValue {
+            schema: entry
+                .get("$schema")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .into(),
+            literal: if alias.is_some() { None } else { literal },
+            alias,
+        }
+    }
+    tokens
+        .iter()
+        .map(|(name, file, entry)| ExportToken {
+            name: name.clone(),
+            file: file.clone(),
+            value: value(entry),
+            modes: entry
+                .get("sets")
+                .and_then(|v| v.as_object())
+                .map(|modes| {
+                    modes
+                        .iter()
+                        .map(|(mode, entry)| (mode.clone(), value(entry)))
+                        .collect()
+                })
+                .unwrap_or_default(),
+            description: entry
+                .get("description")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            deprecated: entry.get("deprecated").and_then(|v| v.as_bool()) == Some(true),
+            replacement: entry
+                .get("renamed")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+        })
+        .collect()
+}
+
+fn load_fixture_tokens(
+    dir: &std::path::Path,
+) -> Result<Vec<(String, PathBuf, serde_json::Value)>, std::io::Error> {
+    let mut paths = std::fs::read_dir(dir)?
+        .map(|entry| entry.map(|e| e.path()))
+        .collect::<Result<Vec<_>, _>>()?;
+    paths.sort();
+    let mut tokens = Vec::new();
+    for path in paths {
+        if path.extension().is_some_and(|ext| ext == "json") {
+            let entries: serde_json::Map<String, serde_json::Value> =
+                serde_json::from_slice(&std::fs::read(&path)?)?;
+            tokens.extend(
+                entries
+                    .into_iter()
+                    .map(|(name, value)| (name, path.clone(), value)),
+            );
+        }
+    }
+    Ok(tokens)
+}
+
 fn resolved_mode_value(
     body: &PostVariablesBody,
     mode_value: &ModeValueAction,
@@ -81,7 +155,7 @@ fn multiplier_aliases_reuse_ids_and_preserve_unitless_values() {
             .unwrap(),
         );
     }
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 16);
     assert_eq!(summary.mode_values_set, 5);
     assert_eq!(summary.mode_values_aliased, 11);
@@ -153,7 +227,8 @@ fn multiplier_alias_chains_keep_mode_set_references_and_overrides() {
             mode_id: "m-mobile".into(),
             name: "Mobile".into(),
         });
-    let (body, summary) = build_export_payload(&tokens, &meta, Some(&overrides)).unwrap();
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &meta, Some(&overrides)).unwrap();
     assert_eq!(summary.mode_values_aliased, 3);
     for name in ["direct", "chain"] {
         let mv = body
@@ -195,7 +270,8 @@ fn alias_diagnostics_distinguish_unsupported_missing_cycles_and_malformed() {
         .map(|(name, value)| (name.clone(), PathBuf::from("tokens.json"), value.clone()))
         .collect();
     tokens.sort_by(|a, b| a.0.cmp(&b.0));
-    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
     assert!(body.variables.is_empty());
     assert_eq!(summary.skipped_alias_unresolved, ["cycle", "missing"]);
     assert_eq!(summary.skipped_unparseable_value, ["bad", "bad-alias"]);
@@ -246,7 +322,8 @@ fn flat_alias_chains_to_unexported_mode_sets_cannot_leave_dangling_references() 
             }),
         ),
     ];
-    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
     assert!(body.variables.is_empty());
     assert!(body.variable_mode_values.is_empty());
     assert_eq!(summary.mode_values_aliased, 0);
@@ -291,7 +368,7 @@ fn named_font_weights_update_existing_string_variables() {
         ));
     }
 
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 6);
     assert_eq!(summary.mode_values_set, 6);
     assert!(summary.skipped_unparseable_value.is_empty());
@@ -356,7 +433,7 @@ fn font_weight_alias_chains_and_scale_modes_keep_style_strings() {
             mode_id: "m-mobile".into(),
             name: "Mobile".into(),
         });
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 4);
     assert!(summary.skipped_unparseable_value.is_empty());
     assert!(body.variables.iter().all(|v| v.resolved_type == "STRING"));
@@ -421,7 +498,7 @@ fn numeric_angles_export_through_aliases_and_scale_modes() {
             mode_id: "m-mobile".into(),
             name: "Mobile".into(),
         });
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 5);
     assert_eq!(summary.mode_values_set, 3);
     assert_eq!(summary.mode_values_aliased, 3);
@@ -500,7 +577,7 @@ fn dp_units_are_reported_separately_in_flat_alias_and_set_tokens() {
             mode_id: "m-mobile".into(),
             name: "Mobile".into(),
         });
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert!(body.variables.is_empty());
     assert!(body.variable_mode_values.is_empty());
     assert_eq!(summary.variables_created, 0);
@@ -545,7 +622,8 @@ fn invalid_scalar_values_are_reported_without_changing_font_family_strings() {
             json!({ "$schema": "https://example.com/font-family.json", "value": "medium" }),
         ),
     ];
-    let (body, summary) = build_export_payload(&tokens, &mock_meta(), None).unwrap();
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
     assert_eq!(
         summary.skipped_unparseable_value,
         [
@@ -633,8 +711,8 @@ fn color_set_produces_three_mode_values() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(summary.mode_values_set, 3);
     assert_eq!(body.variables.len(), 1);
@@ -667,8 +745,8 @@ fn scale_set_token_with_no_matching_target_mode_warns_instead_of_silently_droppi
 
     // mock_meta()'s .Platform scale collection only defines a Desktop mode.
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
 
     // Desktop value still lands; Mobile value is dropped but now warned about.
     assert_eq!(summary.mode_values_set, 1);
@@ -700,8 +778,8 @@ fn dimension_token_goes_to_platform_scale() {
     .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "platformScale/spacing-100");
     assert_eq!(body.variables[0].resolved_type, "FLOAT");
@@ -730,8 +808,8 @@ fn opacity_token_scales_fraction_to_figma_percent() {
     .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     // Opacity is a FLOAT, but lives in the Color theme collection in the
     // manual library, not Platform scale — see COLLECTION_SPECS routing.
@@ -768,8 +846,8 @@ fn color_set_with_opacity_members_produces_float_not_color() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].resolved_type, "FLOAT");
     assert_eq!(body.variable_mode_values.len(), 3);
@@ -799,7 +877,7 @@ fn build_export_payload_accepts_in_memory_tokens_not_just_a_directory() {
     )];
 
     let meta = mock_meta();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "platformScale/spacing-100");
     let val = &body.variable_mode_values[0].value;
@@ -837,8 +915,9 @@ fn override_remaps_name_absent_override_stays_1to1() {
     )]
     .into_iter()
     .collect();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, _summary) = build_export_payload(&tokens, &meta, Some(&overrides)).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, _summary) =
+        build_export_payload(&fixture_tokens(&tokens), &meta, Some(&overrides)).unwrap();
 
     let by_name = |n: &str| body.variables.iter().find(|v| v.name == n);
     assert!(by_name("Layout/spacing-100-real").is_some());
@@ -870,8 +949,8 @@ fn alias_resolves_to_concrete_value() {
     .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (_body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (_body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     // base-color (flat color) + alias-color (alias→color)
     assert_eq!(summary.variables_created, 2);
     assert!(summary.skipped_alias_unresolved.is_empty());
@@ -917,8 +996,8 @@ fn alias_to_set_token_resolves_to_light_mode_not_first_in_file() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
 
     assert!(
         summary.skipped_alias_unresolved.is_empty(),
@@ -984,8 +1063,8 @@ fn composite_types_are_skipped() {
     .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert_eq!(summary.variables_created, 0);
     assert_eq!(summary.skipped_composite.len(), 2);
     assert!(body.variables.is_empty());
@@ -1036,8 +1115,8 @@ fn in_set_alias_emits_variable_alias_reference() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
 
     assert_eq!(summary.mode_values_aliased, 3);
     assert_eq!(summary.mode_values_set, 6);
@@ -1100,8 +1179,8 @@ fn alias_to_malformed_set_target_drops_dangling_reference() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
 
     let emitted_ids: std::collections::HashSet<_> = body
         .variables
@@ -1180,8 +1259,8 @@ fn alias_to_non_prepassed_target_falls_back_to_literal() {
         .unwrap();
 
     let meta = mock_meta();
-    let tokens = load_all_tokens(dir.path()).unwrap();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
 
     // "base-alias" is a top-level alias token, excluded from the alias-target
     // pre-pass (its own Figma routing isn't known up front), so aliasing it
@@ -1272,7 +1351,8 @@ fn file_specific_spec_routes_token_to_mock_collection() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
+            .unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "mockExtra/widget-gap");
 }
@@ -1290,7 +1370,8 @@ fn wildcard_spec_still_applies_for_files_not_listed_in_a_specific_entry() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, summary) =
-        build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
+            .unwrap();
     assert_eq!(summary.variables_created, 1);
     assert_eq!(body.variables[0].name, "platformScale/spacing-100");
 }
@@ -1308,7 +1389,8 @@ fn exported_variable_carries_web_code_syntax_for_dev_mode() {
     )];
     let meta = mock_meta_with_extra_collection();
     let (body, _summary) =
-        build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
+            .unwrap();
     let code_syntax = body.variables[0]
         .code_syntax
         .as_ref()
@@ -1337,7 +1419,8 @@ fn platform_formats_add_extra_code_syntax_entries_from_web() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
+            .unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     assert_eq!(
@@ -1379,7 +1462,8 @@ fn platform_formats_component_concept_order_is_a_no_op() {
     };
     let platform_formats = vec![("ANDROID".to_string(), android_format)];
     let (mut body, _summary) =
-        build_export_payload_with_specs(&tokens, &meta, None, MOCK_EXTRA_SPECS).unwrap();
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None, MOCK_EXTRA_SPECS)
+            .unwrap();
     augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
     let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
     // If `component` were actually recovered and moved per `conceptOrder`,
@@ -1426,7 +1510,7 @@ fn redirect_fixture() -> (tempfile::TempDir, Vec<(String, PathBuf, serde_json::V
         })
     )
     .unwrap();
-    let tokens = load_all_tokens(dir.path()).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
     (dir, tokens)
 }
 
@@ -1454,9 +1538,14 @@ fn alias_target(body: &PostVariablesBody, name: &str) -> Vec<String> {
 fn redirect_deprecated_follows_chain_to_terminal_replacement() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) =
-        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
-            .unwrap();
+    let (body, summary) = build_export_payload_with_specs_and_redirect(
+        &fixture_tokens(&tokens),
+        &meta,
+        None,
+        COLLECTION_SPECS,
+        true,
+    )
+    .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-a"),
         vec!["platformScale__new-w"]
@@ -1472,9 +1561,14 @@ fn redirect_deprecated_follows_chain_to_terminal_replacement() {
 fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) =
-        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
-            .unwrap();
+    let (body, summary) = build_export_payload_with_specs_and_redirect(
+        &fixture_tokens(&tokens),
+        &meta,
+        None,
+        COLLECTION_SPECS,
+        true,
+    )
+    .unwrap();
     for name in [
         "platformScale/old-none",
         "platformScale/cyc-a",
@@ -1490,7 +1584,7 @@ fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch
 fn redirect_deprecated_is_off_by_default() {
     let (_dir, tokens) = redirect_fixture();
     let meta = mock_meta();
-    let (body, summary) = build_export_payload(&tokens, &meta, None).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
     assert!(summary.redirected_deprecated.is_empty());
     assert!(alias_target(&body, "platformScale/old-a").is_empty());
 }
@@ -1518,11 +1612,16 @@ fn redirect_deprecated_targets_alias_schema_replacements() {
         })
     )
     .unwrap();
-    let tokens = load_all_tokens(dir.path()).unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
     let meta = mock_meta();
-    let (body, summary) =
-        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
-            .unwrap();
+    let (body, summary) = build_export_payload_with_specs_and_redirect(
+        &fixture_tokens(&tokens),
+        &meta,
+        None,
+        COLLECTION_SPECS,
+        true,
+    )
+    .unwrap();
     assert_eq!(
         alias_target(&body, "platformScale/old-padding"),
         vec!["platformScale__container-padding-medium"]

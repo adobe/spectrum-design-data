@@ -602,18 +602,8 @@ fn diff_values_reports_known_mismatch() {
     };
 
     let graph = mock_graph("blue-100", "u-blue-100", json!("#ff8000"));
-    let tokens = vec![(
-        "blue-100".to_string(),
-        PathBuf::from("test.json"),
-        json!({
-            "$schema": "https://example.com/color.json",
-            "name": "blue-100",
-            "value": "#ff8000",
-            "uuid": "u-blue-100",
-        }),
-    )];
 
-    let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.value_mismatch, 1);
     assert_eq!(report.counts.matched, 0);
     let entry = report
@@ -701,18 +691,8 @@ fn bare_named_alias_variable_resolves_via_target() {
         json!("0.1"),
         "https://example.com/opacity.json",
     );
-    let tokens = vec![(
-        "background-opacity-default".to_string(),
-        PathBuf::from("test.json"),
-        json!({
-            "$schema": "https://example.com/opacity.json",
-            "name": "background-opacity-default",
-            "value": "0.1",
-            "uuid": "u-bod",
-        }),
-    )];
 
-    let report = diff_values(&meta, &graph, &tokens, None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(
         report.counts.figma_only, 0,
         "bare-named alias var must not be classified FigmaOnly: {:?}",
@@ -775,17 +755,12 @@ fn design_data_only_entry_uses_mapping_for_legacy_key() {
         variable_collections,
     };
 
-    let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
-    let tokens = vec![(
-        "spacing-100".to_string(),
-        PathBuf::from("test.json"),
-        json!({
-            "$schema": "https://example.com/dimension.json",
-            "name": "spacing-100",
-            "value": "8px",
-            "uuid": "u-spacing-100",
-        }),
-    )];
+    let graph = mock_graph_with_schema(
+        "spacing-100",
+        "u-spacing-100",
+        json!("8px"),
+        "https://example.com/dimension.json",
+    );
     let mapping: HashMap<String, String> = [(
         "spacing-100".to_string(),
         "Layout/spacing-100-real".to_string(),
@@ -793,87 +768,13 @@ fn design_data_only_entry_uses_mapping_for_legacy_key() {
     .into_iter()
     .collect();
 
-    let report = diff_values(&meta, &graph, &tokens, Some(&mapping)).unwrap();
+    let report = diff_values(&meta, &graph, Some(&mapping)).unwrap();
     let entry = report
         .entries
         .iter()
         .find(|e| e.name == "Layout/spacing-100-real")
         .expect("design-data-only entry must be reported");
     assert_eq!(entry.legacy_key.as_deref(), Some("spacing-100"));
-}
-
-/// A token whose name resolution fell back to its synthetic
-/// `path:index` graph key (no usable `name`/`legacyKey` field, e.g. a
-/// cascade-format token graph.rs couldn't extract a legacy key from)
-/// must be reported as skipped, not as a misleading "design-data-only"
-/// real gap.
-#[test]
-fn unresolved_legacy_key_is_skipped_not_design_data_only() {
-    use super::super::types::{FigmaMode, FigmaVariableCollection};
-
-    let mut variable_collections = HashMap::new();
-    variable_collections.insert(
-        "col-1".to_string(),
-        FigmaVariableCollection {
-            id: "col-1".to_string(),
-            name: ".Color theme".to_string(),
-            key: "k1".to_string(),
-            modes: vec![FigmaMode {
-                mode_id: "m-light".to_string(),
-                name: "Light".to_string(),
-            }],
-            default_mode_id: "m-light".to_string(),
-            remote: false,
-            hidden_from_publishing: false,
-            variable_ids: vec![],
-        },
-    );
-    variable_collections.insert(
-        "col-2".to_string(),
-        FigmaVariableCollection {
-            id: "col-2".to_string(),
-            name: ".Platform scale".to_string(),
-            key: "k2".to_string(),
-            modes: vec![FigmaMode {
-                mode_id: "m-desktop".to_string(),
-                name: "Desktop".to_string(),
-            }],
-            default_mode_id: "m-desktop".to_string(),
-            remote: false,
-            hidden_from_publishing: false,
-            variable_ids: vec![],
-        },
-    );
-    let meta = VariablesMeta {
-        variables: HashMap::new(),
-        variable_collections,
-    };
-
-    let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
-    let tokens = vec![(
-        "/repo/packages/design-data/tokens/layout.tokens.json:3".to_string(),
-        PathBuf::from("test.json"),
-        json!({
-            "$schema": "https://example.com/dimension.json",
-            "value": "8px",
-            "uuid": "u-spacing-100",
-        }),
-    )];
-
-    let report = diff_values(&meta, &graph, &tokens, None).unwrap();
-    assert_eq!(report.counts.design_data_only, 0);
-    assert_eq!(report.counts.skipped_uncovered, 1);
-    let entry = report
-        .entries
-        .iter()
-        .find(|e| e.name.contains(".json:"))
-        .expect("unresolved-name entry must be reported");
-    match &entry.class {
-        DiffClass::SkippedUncovered { reason } => {
-            assert_eq!(reason, "legacy-key-unresolved");
-        }
-        other => panic!("expected SkippedUncovered, got {other:?}"),
-    }
 }
 
 #[test]
@@ -889,7 +790,7 @@ fn opacity_scale_agrees_when_figma_is_percent_of_fraction() {
         json!("0.1"),
         "https://example.com/opacity.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -907,7 +808,7 @@ fn opacity_mismatch_reports_fraction_scale() {
         json!("0.1"),
         "https://example.com/opacity.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.value_mismatch, 1);
     let entry = &report.entries[0];
     match &entry.class {
@@ -969,7 +870,7 @@ fn font_weight_name_casing_agrees() {
         json!("bold"),
         "https://example.com/font-weight.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -987,7 +888,7 @@ fn font_weight_space_variant_agrees() {
         json!("extra-bold"),
         "https://example.com/font-weight.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -1005,7 +906,7 @@ fn font_style_normal_agrees_with_figma_regular() {
         json!("normal"),
         "https://example.com/font-style.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -1025,7 +926,7 @@ fn font_weight_genuine_difference_still_mismatches() {
         json!("bold"),
         "https://example.com/font-weight.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.value_mismatch, 1);
 }
 
@@ -1042,7 +943,7 @@ fn font_family_verbatim_value_agrees() {
         json!("Source Code Pro"),
         "https://example.com/font-family.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -1062,7 +963,7 @@ fn font_family_genuine_difference_mismatches() {
         json!("Source Code Pro"),
         "https://example.com/font-family.json",
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.value_mismatch, 1);
 }
 
@@ -1074,7 +975,7 @@ fn dp_unit_agrees_with_bare_figma_number() {
         vec![("m-desktop", json!(2.0))],
     )]);
     let graph = mock_graph("android-elevation", "u-elevation", json!("2dp"));
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -1334,7 +1235,7 @@ fn color_theme_modes_compared_individually_when_one_diverges() {
         json!("#ffffff"),
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.multi_mode_mismatch, 1);
     assert_eq!(report.counts.skipped_uncovered, 0);
     assert_eq!(report.counts.matched, 0);
@@ -1392,7 +1293,7 @@ fn color_theme_modes_resolve_through_nested_set_alias_per_mode() {
     let meta = mock_meta_color_theme(var);
     let graph = mock_nested_color_set_graph("accent-background-color-default");
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     let entry = report
         .entries
         .iter()
@@ -1437,7 +1338,7 @@ fn color_theme_modes_all_agree_reports_match() {
         json!("#ff8000"),
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.multi_mode_mismatch, 0);
     assert_eq!(report.counts.skipped_uncovered, 0);
@@ -1483,7 +1384,7 @@ fn diff_multimode_resolves_alias_through_same_named_mode() {
         json!("#000000"),
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.multi_mode_mismatch, 0);
     assert!(matches!(report.entries[0].class, DiffClass::Match));
@@ -1541,7 +1442,7 @@ fn platform_scale_modes_compared_individually_when_one_diverges() {
     let meta = mock_meta_platform_scale(var);
     let graph = mock_scale_graph("line-height-900", json!("42px"), json!("50px"));
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.multi_mode_mismatch, 1);
     assert_eq!(report.counts.matched, 0);
     assert_eq!(report.counts.skipped_uncovered, 0);
@@ -1605,7 +1506,7 @@ fn color_theme_all_modes_uncovered_reports_skipped_not_mismatch() {
     .unwrap();
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.multi_mode_mismatch, 0);
     assert_eq!(report.counts.skipped_uncovered, 1);
     assert_eq!(report.counts.matched, 0);
@@ -1672,7 +1573,7 @@ fn ctr_only_multimode_variable_routes_through_diff_multimode() {
     ]);
     let graph = with_real_mode_sets(graph);
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     // Before the fix: `record_concept_id` only checked `conceptId`, missed
     // the CTR's `setUuid`, so this fell through to the old collapse path
     // instead of `diff_multimode` (multi_mode_mismatch stayed 0).
@@ -1792,7 +1693,7 @@ fn ref_backed_ctr_color_set_routes_through_diff_multimode() {
         ]);
     let graph = with_real_mode_sets(graph);
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.multi_mode_mismatch, 1);
     assert_eq!(report.counts.skipped_uncovered, 0);
 
@@ -1870,7 +1771,7 @@ fn diff_multimode_reports_uncovered_when_no_set_member_matches_mode() {
         .unwrap();
     let graph = with_real_mode_sets(TokenGraph::from_json_dir(dir.path()).unwrap());
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.multi_mode_mismatch, 1);
     assert_eq!(report.counts.matched, 0);
 
@@ -1935,7 +1836,7 @@ fn scale_set_aligns_to_figmas_captured_mode() {
     );
     let meta = mock_meta_with_single_mode(var, "Desktop", "m-desktop");
     let graph = mock_scale_graph("line-height-900", json!("42px"), json!("50px"));
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -1955,7 +1856,7 @@ fn scale_set_still_mismatches_on_real_desktop_drift() {
         json!("14px"),
         json!("12px"),
     );
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.value_mismatch, 1);
     let entry = &report.entries[0];
     match &entry.class {
@@ -2015,7 +1916,7 @@ fn ctr_scale_set_aligns_to_figmas_captured_mode() {
             },
         ]);
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     assert_eq!(report.counts.matched, 1);
     assert_eq!(report.counts.value_mismatch, 0);
 }
@@ -2041,7 +1942,12 @@ fn modes_agree_still_emits_when_diverged() {
         "FLOAT",
         vec![("m-desktop", json!(16.0)), ("m-mobile", json!(16.0))],
     )]);
-    let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
+    let graph = mock_graph_with_schema(
+        "spacing-100",
+        "u-spacing-100",
+        json!("8px"),
+        "https://example.com/dimension.json",
+    );
     let (overrides, summary) = build_import_overrides(&meta, &graph, None);
     assert_eq!(summary.overrides_emitted, 1);
     assert_eq!(overrides[0]["value"], "16px");
@@ -2072,7 +1978,12 @@ fn modes_disagree_reports_multimode_divergent() {
         "FLOAT",
         vec![("m-desktop", json!(16.0)), ("m-mobile", json!(12.0))],
     )]);
-    let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
+    let graph = mock_graph_with_schema(
+        "spacing-100",
+        "u-spacing-100",
+        json!("8px"),
+        "https://example.com/dimension.json",
+    );
     let (overrides, summary) = build_import_overrides(&meta, &graph, None);
     assert!(overrides.is_empty());
     assert_eq!(
@@ -2107,7 +2018,12 @@ fn rename_map_takes_precedence_over_prefix_strip() {
     )]
     .into_iter()
     .collect();
-    let graph = mock_graph("spacing-100", "u-spacing-100", json!("8px"));
+    let graph = mock_graph_with_schema(
+        "spacing-100",
+        "u-spacing-100",
+        json!("8px"),
+        "https://example.com/dimension.json",
+    );
     let (overrides, summary) = build_import_overrides(&meta, &graph, Some(&renames));
     assert_eq!(summary.overrides_emitted, 1);
     assert_eq!(overrides[0]["target"], "u-spacing-100");
@@ -2287,7 +2203,7 @@ fn diff_values_resolves_alias_through_target_name() {
         "https://example.com/dimension.json",
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     // Both the alias and the target it points at are diffed as their own
     // Figma variables (the target's own name also inverts cleanly here) —
     // matched == 2, not 1.
@@ -2330,7 +2246,7 @@ fn diff_values_alias_with_unresolvable_target_stays_figma_only() {
         "https://example.com/dimension.json",
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     // Both the alias and its (also-unresolvable) target end up figma_only.
     assert_eq!(report.counts.figma_only, 2);
     assert_eq!(report.counts.matched, 0);
@@ -2371,7 +2287,7 @@ fn diff_values_resolves_alias_target_via_supplied_renames() {
     .into_iter()
     .collect();
 
-    let report = diff_values(&meta, &graph, &[], Some(&mapping)).unwrap();
+    let report = diff_values(&meta, &graph, Some(&mapping)).unwrap();
     let entry = report
         .entries
         .iter()
@@ -2424,7 +2340,7 @@ fn diff_values_resolves_alias_two_hops_deep() {
         "https://example.com/dimension.json",
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     let entry = report
         .entries
         .iter()
@@ -2468,7 +2384,7 @@ fn diff_values_alias_chain_cycle_terminates_without_hang() {
         "https://example.com/dimension.json",
     );
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     // Neither side of the cycle resolves — both stay figma_only, and the
     // call returns instead of looping forever.
     assert_eq!(report.counts.figma_only, 2);
@@ -2525,7 +2441,7 @@ fn diff_values_rejects_direct_match_onto_composite_shape() {
         ),
     ]);
 
-    let report = diff_values(&meta, &graph, &[], None).unwrap();
+    let report = diff_values(&meta, &graph, None).unwrap();
     let entry = report
         .entries
         .iter()

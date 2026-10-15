@@ -503,7 +503,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: Some(manifest_path),
             provenance: Provenance::InRepo,
         }
@@ -581,7 +580,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: None,
             provenance: Provenance::InRepo,
         };

@@ -31,8 +31,6 @@
 //!       guidelines/     ← structured guideline documents (*.json + manifest.json)
 //!       mode-sets/
 //!       naming-exceptions.json
-//!     tokens/
-//!       manifest.json
 //!     design-data-spec/
 //!       schemas/
 //!         *.json          ← platform-manifest and extension fragment schemas
@@ -78,13 +76,6 @@ static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     "/../../packages/design-data/naming-exceptions.json"
 ));
 
-/// Token build manifest — lists the 8 source JSON file paths
-/// (`packages/tokens/manifest.json`).
-static TOKENS_MANIFEST: &str = include_str!(concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/tokens/manifest.json"
-));
-
 /// Layer 1 manifest and fragment schemas, including their offline `$ref` dependencies.
 static SPEC_SCHEMAS: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/schemas");
@@ -98,7 +89,7 @@ static SPEC_SCHEMAS: Dir<'_> =
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
 
-const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v2");
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v3");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -179,7 +170,6 @@ fn evict_stale_versions(current: &Path) {
 /// - `<root>/packages/design-data/tokens/` — cascade-format token JSON (`*.tokens.json`)
 /// - `<root>/packages/design-data-spec/schemas/` — schema JSON (+ `token-types/`)
 /// - `<root>/packages/design-data/naming-exceptions.json`
-/// - `<root>/packages/tokens/manifest.json`
 /// - `<root>/packages/design-data/mode-sets/`
 /// - `<root>/packages/design-data/components/`
 /// - `<root>/packages/design-data/fields/`
@@ -226,10 +216,6 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     write_file(
         &tmp.join("packages/design-data/naming-exceptions.json"),
         NAMING_EXCEPTIONS.as_bytes(),
-    )?;
-    write_file(
-        &tmp.join("packages/tokens/manifest.json"),
-        TOKENS_MANIFEST.as_bytes(),
     )?;
 
     // Rename tmp → root.  Atomic on POSIX (same filesystem); non-atomic on Windows
@@ -316,10 +302,6 @@ mod tests {
             root.join("packages/design-data/naming-exceptions.json")
                 .is_file(),
             "naming-exceptions.json missing"
-        );
-        assert!(
-            root.join("packages/tokens/manifest.json").is_file(),
-            "manifest.json missing"
         );
         assert!(
             root.join(".complete").is_file(),

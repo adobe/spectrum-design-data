@@ -269,10 +269,6 @@ pub struct ResolvedData {
     pub relationships: Option<PathBuf>,
     /// `naming-exceptions.json` path.
     pub exceptions: Option<PathBuf>,
-    /// Build `manifest.json` path (the token-source file list, not the platform manifest).
-    /// Populated here but consumed by #1049 (embedded snapshot provenance tracking).
-    #[allow(dead_code)]
-    pub manifest: Option<PathBuf>,
     /// Layer 2 **platform** `manifest.json` path from the top-level `manifest` key, if any.
     ///
     /// Unlike [`Self::manifest`] (the token build manifest), this is the platform
@@ -748,11 +744,6 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
             .find(|c| c.is_file())
     });
 
-    let manifest = {
-        let c = root.join("packages/tokens/manifest.json");
-        c.is_file().then_some(c)
-    };
-
     ResolvedData {
         tokens_root,
         schemas_root,
@@ -762,7 +753,6 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         guidelines,
         relationships,
         exceptions,
-        manifest,
         platform_manifest: None,
         provenance,
     }
@@ -863,15 +853,6 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         candidates.into_iter().find(|c| c.is_file())
     });
 
-    // manifest (the build manifest.json file listing token sources)
-    let manifest = {
-        let candidates = [
-            cwd.join("packages/tokens/manifest.json"),
-            cwd.join("../packages/tokens/manifest.json"),
-        ];
-        candidates.into_iter().find(|c| c.is_file())
-    };
-
     ResolvedData {
         tokens_root,
         schemas_root,
@@ -881,7 +862,6 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
         guidelines,
         relationships,
         exceptions,
-        manifest,
         platform_manifest: None,
         provenance: Provenance::InRepo,
     }
@@ -963,8 +943,6 @@ mod tests {
             b"{}",
         )
         .unwrap();
-        fs::create_dir_all(dir.join("packages/tokens")).unwrap();
-        fs::write(dir.join("packages/tokens/manifest.json"), b"[]").unwrap();
     }
 
     // --- Tier 3: CWD probing (no config) ---
@@ -983,7 +961,6 @@ mod tests {
         assert!(resolved.components.is_some());
         assert!(resolved.fields.is_some());
         assert!(resolved.exceptions.is_some());
-        assert!(resolved.manifest.is_some());
     }
 
     #[test]

@@ -14,7 +14,6 @@
 //! overrides for the divergent ones.
 
 use std::collections::{BTreeSet, HashMap};
-use std::path::PathBuf;
 
 use serde::Serialize;
 use serde_json::Value;
@@ -259,7 +258,6 @@ fn diff_multimode(
 pub fn diff_values(
     meta: &VariablesMeta,
     graph: &TokenGraph,
-    tokens: &[(String, PathBuf, Value)],
     mapping: Option<&HashMap<String, String>>,
 ) -> Result<DiffReport, FigmaError> {
     let reversed: Option<HashMap<String, String>> =
@@ -430,7 +428,8 @@ pub fn diff_values(
     // A file missing the `.Color theme`/`.Platform scale` collections can't
     // produce an export payload at all; that's a reason to skip this one
     // pass, not to discard the Figma-driven diff already computed above.
-    if let Ok((body, _summary)) = build_export_payload(tokens, meta, mapping) {
+    let export_tokens = crate::mapping::export_tokens(graph)?;
+    if let Ok((body, _summary)) = build_export_payload(&export_tokens, meta, mapping) {
         for action in &body.variables {
             if !seen.contains(&action.name) {
                 let legacy_key = invert_name(&action.name, reversed.as_ref());

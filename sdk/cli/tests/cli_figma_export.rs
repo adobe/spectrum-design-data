@@ -20,37 +20,23 @@ fn audit_reports_unsupported_units_in_json_and_pretty_output() {
     let token_dir = dir.path().join("tokens");
     std::fs::create_dir(&token_dir).unwrap();
     std::fs::write(
-        token_dir.join("layout.json"),
-        serde_json::to_vec(&serde_json::json!({
-            "android-elevation": {
-                "$schema": "https://example.com/dimension.json",
-                "value": "2dp",
-            },
-            "strikethrough-day-orientation": {
-                "$schema": "https://example.com/angle.json",
-                "value": -25,
-            },
-            "bold-font-weight": {
-                "$schema": "https://example.com/font-weight.json",
-                "value": "bold",
-            },
-            "line-height-100": {
-                "$schema": "https://example.com/multiplier.json",
-                "value": 1.3,
-            },
-            "heading-line-height": {
-                "$schema": "https://example.com/alias.json",
-                "value": "{line-height-100}",
-            },
-            "shadow": {
-                "$schema": "https://example.com/drop-shadow.json",
-                "value": [],
-            },
-            "shadow-alias": {
-                "$schema": "https://example.com/alias.json",
-                "value": "{shadow}",
-            },
-        }))
+        token_dir.join("layout.tokens.json"),
+        serde_json::to_vec(&serde_json::json!([
+            {"name": "android-elevation", "uuid": "u-1",
+             "$schema": "https://example.com/dimension.json", "value": "2dp"},
+            {"name": "strikethrough-day-orientation", "uuid": "u-2",
+             "$schema": "https://example.com/angle.json", "value": -25},
+            {"name": "bold-font-weight", "uuid": "u-3",
+             "$schema": "https://example.com/font-weight.json", "value": "bold"},
+            {"name": "line-height-100", "uuid": "u-4",
+             "$schema": "https://example.com/multiplier.json", "value": 1.3},
+            {"name": "heading-line-height", "uuid": "u-5",
+             "$schema": "https://example.com/alias.json", "$ref": "u-4"},
+            {"name": "shadow", "uuid": "u-6",
+             "$schema": "https://example.com/drop-shadow.json", "value": []},
+            {"name": "shadow-alias", "uuid": "u-7",
+             "$schema": "https://example.com/alias.json", "$ref": "u-6"},
+        ]))
         .unwrap(),
     )
     .unwrap();

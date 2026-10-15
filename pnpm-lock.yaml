@@ -730,12 +730,12 @@ importers:
 
   tools/spectrum-design-data-mcp:
     dependencies:
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
       '@adobe/spectrum-component-api-schemas':
         specifier: workspace:*
         version: link:../../packages/component-schemas
-      '@adobe/spectrum-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
