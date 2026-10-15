@@ -38,6 +38,10 @@ pub(super) enum ResolutionError {
     Unparseable,
 }
 
+/// Existing Figma variables keyed by `(collection id, variable name)`. Names are
+/// only unique within a collection, so lookups must be scoped to one.
+pub(super) type VarIndex<'a> = HashMap<(&'a str, &'a str), &'a str>;
+
 pub(super) type ValueIndex = HashMap<String, Result<ResolvedValue, ResolutionError>>;
 
 fn scalar_schema_supported(schema: &str) -> bool {
@@ -322,7 +326,8 @@ pub(super) fn variable_alias_target_id(value: &Value) -> Option<&str> {
 pub(super) fn resolve_variable_id(
     token_name: &str,
     prefix: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    collection_id: &str,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (String, String) {
     let figma_name = overrides
@@ -339,12 +344,13 @@ pub(super) fn resolve_variable_id(
     // points at a name not already in the file produces a CREATE, not a
     // rename of the old variable — Figma's variables payload has no rename
     // action, so remapping an existing token surfaces as a new variable.
-    let id = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-        existing_id.to_string()
-    } else {
-        // Figma rejects temp IDs containing '/'; use '__' as separator.
-        figma_name.replace('/', "__")
-    };
+    let id =
+        if let Some(&existing_id) = existing_var_index.get(&(collection_id, figma_name.as_str())) {
+            existing_id.to_string()
+        } else {
+            // Figma rejects temp IDs containing '/'; use '__' as separator.
+            figma_name.replace('/', "__")
+        };
     (figma_name, id)
 }
 
@@ -355,12 +361,17 @@ fn make_variable_action(
     collection_id: &str,
     figma_type: &str,
     description: Option<&str>,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let (figma_name, var_id) =
-        resolve_variable_id(token_name, prefix, existing_var_index, overrides);
-    let action = if existing_var_index.contains_key(figma_name.as_str()) {
+    let (figma_name, var_id) = resolve_variable_id(
+        token_name,
+        prefix,
+        collection_id,
+        existing_var_index,
+        overrides,
+    );
+    let action = if existing_var_index.contains_key(&(collection_id, figma_name.as_str())) {
         "UPDATE".to_string()
     } else {
         "CREATE".to_string()
@@ -521,7 +532,7 @@ pub(super) fn process_redirected_token(
     mode_ids: &HashMap<String, String>,
     figma_type: &str,
     target_id: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -561,7 +572,7 @@ pub(super) fn process_color_set_token(
     spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -676,7 +687,7 @@ pub(super) fn process_scale_set_token(
     spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
@@ -799,7 +810,7 @@ pub(super) fn process_flat_token(
     figma_type: &str,
     default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
@@ -869,7 +880,7 @@ pub(super) fn process_alias_token(
     color_default_mode_id: &str,
     scale_default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,

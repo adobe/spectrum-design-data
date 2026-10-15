@@ -20,7 +20,7 @@ use std::collections::HashMap;
 
 use serde_json::{json, Value};
 
-use super::convert::{resolve_variable_id, variable_alias_target_id};
+use super::convert::{resolve_variable_id, variable_alias_target_id, VarIndex};
 use super::graph::ExportToken;
 use super::payload::ExportSummary;
 use super::routing::{pick_collection, resolve_collections, CollectionSpec, TokenKind};
@@ -67,11 +67,16 @@ pub fn append_modeless_layer(
     })?;
 
     let resolved = resolve_collections(existing, specs)?;
-    let existing_index: HashMap<&str, &str> = existing
+    let existing_index: VarIndex<'_> = existing
         .variables
         .values()
         .filter(|v| v.variable_collection_id != collection.id)
-        .map(|v| (v.name.as_str(), v.id.as_str()))
+        .map(|v| {
+            (
+                (v.variable_collection_id.as_str(), v.name.as_str()),
+                v.id.as_str(),
+            )
+        })
         .collect();
     let modeless_index: HashMap<&str, &str> = existing
         .variables
@@ -120,12 +125,17 @@ pub fn append_modeless_layer(
             let (_, id) = resolve_variable_id(
                 &token.name,
                 rc.spec.default_prefix,
+                rc.collection_id,
                 &existing_index,
                 overrides,
             );
             emitted.get(id.as_str()).map(|v| (id, *v))
         });
         let Some((source_id, source)) = source else {
+            summary.mode_warnings.push(format!(
+                "modeless layer: '{}' has no mode-group variable in the export, skipped",
+                token.name
+            ));
             continue;
         };
 

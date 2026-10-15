@@ -681,6 +681,10 @@ enum FigmaSub {
         /// defaults to the resolved design-data dataset
         #[arg(long)]
         token_dir: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -706,6 +710,10 @@ enum FigmaSub {
         /// resolved dataset
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -2792,6 +2800,7 @@ fn run_figma_import(
 fn run_figma_audit(
     snapshot: &Path,
     token_dir: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let text = std::fs::read_to_string(snapshot)
@@ -2802,6 +2811,11 @@ fn run_figma_audit(
         .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
 
     let (tokens, specs) = load_figma_tokens(token_dir, None)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
     let report =
         figma::audit::audit_tokens(&meta, &tokens, &specs).map_err(|e| miette::miette!("{e}"))?;
 
@@ -2926,14 +2940,20 @@ fn run_figma_diff(
     snapshot: Option<&Path>,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let (meta, mapping_map, graph) =
         load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
 
     // 3. Diff.
-    let report = figma::import::diff_values(&meta, &graph, mapping_map.as_ref())
-        .map_err(|e| miette::miette!("{e}"))?;
+    let report = figma::import::diff_values_with_options(
+        &meta,
+        &graph,
+        mapping_map.as_ref(),
+        no_folder_prefix,
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -3676,14 +3696,16 @@ fn main() -> ExitCode {
             FigmaSub::Audit {
                 snapshot,
                 token_dir,
+                no_folder_prefix,
                 format,
-            } => run_figma_audit(&snapshot, token_dir.as_deref(), format),
+            } => run_figma_audit(&snapshot, token_dir.as_deref(), no_folder_prefix, format),
             FigmaSub::Diff {
                 file_key,
                 token,
                 snapshot,
                 mapping,
                 manifest,
+                no_folder_prefix,
                 format,
             } => run_figma_diff(
                 file_key.as_deref(),
@@ -3691,6 +3713,7 @@ fn main() -> ExitCode {
                 snapshot.as_deref(),
                 mapping.as_deref(),
                 manifest.as_deref(),
+                no_folder_prefix,
                 format,
             ),
             FigmaSub::Pair {

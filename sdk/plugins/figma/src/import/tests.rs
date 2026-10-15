@@ -620,6 +620,32 @@ fn diff_values_reports_known_mismatch() {
     }
 }
 
+#[test]
+fn diff_values_with_bare_names_maps_variable_to_its_token() {
+    let var = mock_variable(
+        "blue-100",
+        "COLOR",
+        vec![("m-light", json!({"r": 0.0, "g": 0.0, "b": 1.0, "a": 1.0}))],
+    );
+    let meta = VariablesMeta {
+        variables: HashMap::from([(var.id.clone(), var)]),
+        variable_collections: HashMap::new(),
+    };
+    let graph = mock_graph("blue-100", "u-blue-100", json!("#ff8000"));
+
+    let prefixed = diff_values(&meta, &graph, None).unwrap();
+    assert_eq!(prefixed.counts.value_mismatch, 0);
+
+    let bare = diff_values_with_options(&meta, &graph, None, true).unwrap();
+    assert_eq!(bare.counts.value_mismatch, 1);
+    let entry = bare
+        .entries
+        .iter()
+        .find(|e| e.name == "blue-100")
+        .expect("bare-named variable must be reported");
+    assert_eq!(entry.legacy_key.as_deref(), Some("blue-100"));
+}
+
 /// `S2.Color-theme` is a single-mode collection whose variables are bare
 /// names (no `/`) that are `VARIABLE_ALIAS`es into `.Color theme`.
 /// `invert_name` can't invert a bare name, so it must not short-circuit

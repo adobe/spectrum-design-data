@@ -17,7 +17,7 @@ use super::graph::ExportToken;
 use super::convert::{
     alias_exportable_route, build_value_index, compute_redirects, process_alias_token,
     process_color_set_token, process_flat_token, process_redirected_token, process_scale_set_token,
-    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
+    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id, VarIndex,
 };
 use super::routing::{
     resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION,
@@ -246,11 +246,16 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         .filter(|c| c.name == super::modeless::MODELESS_COLLECTION)
         .map(|c| c.id.as_str())
         .collect();
-    let existing_var_index: HashMap<&str, &str> = existing
+    let existing_var_index: VarIndex<'_> = existing
         .variables
         .values()
         .filter(|v| !modeless_collection_ids.contains(v.variable_collection_id.as_str()))
-        .map(|v| (v.name.as_str(), v.id.as_str()))
+        .map(|v| {
+            (
+                (v.variable_collection_id.as_str(), v.name.as_str()),
+                v.id.as_str(),
+            )
+        })
         .collect();
 
     // 3. Pre-pass: resolve every non-skipped, non-alias-schema token's Figma
@@ -290,6 +295,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         let (_, id) = resolve_variable_id(
             token_name,
             rc.spec.default_prefix,
+            rc.collection_id,
             &existing_var_index,
             overrides,
         );
@@ -323,6 +329,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
             let (_, id) = resolve_variable_id(
                 token_name,
                 rc.spec.default_prefix,
+                rc.collection_id,
                 &existing_var_index,
                 overrides,
             );

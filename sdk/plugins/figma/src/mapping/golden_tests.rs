@@ -180,6 +180,57 @@ fn unprefixed_specs_name_variables_by_bare_token_name() {
 }
 
 #[test]
+fn bare_names_do_not_match_same_named_variables_in_other_collections() {
+    let graph = fixture_graph();
+    let specs = without_folder_prefix(collection_specs(&graph.mode_sets).unwrap());
+    let tokens = export_tokens(&graph).unwrap();
+    let mut meta = metadata_with_modeless_collection();
+    meta.variable_collections.insert(
+        "c-other".to_string(),
+        crate::types::FigmaVariableCollection {
+            id: "c-other".to_string(),
+            name: "Unrelated".to_string(),
+            key: "k-other".to_string(),
+            modes: vec![crate::types::FigmaMode {
+                mode_id: "m-other".to_string(),
+                name: "Mode 1".to_string(),
+            }],
+            default_mode_id: "m-other".to_string(),
+            remote: false,
+            hidden_from_publishing: false,
+            variable_ids: vec![],
+        },
+    );
+    meta.variables.insert(
+        "v-other".to_string(),
+        serde_json::from_value(serde_json::json!({
+            "id": "v-other",
+            "name": "spacing-100",
+            "key": "k",
+            "variableCollectionId": "c-other",
+            "resolvedType": "FLOAT",
+            "valuesByMode": {"m-other": 1.0},
+        }))
+        .unwrap(),
+    );
+    let (mut body, mut summary) =
+        build_export_payload_with_options(&tokens, &specs, &meta, None, &[], false).unwrap();
+    append_modeless_layer(&mut body, &mut summary, &tokens, &specs, &meta, None).unwrap();
+    assert!(
+        body.variables
+            .iter()
+            .all(|v| v.id.as_deref() != Some("v-other")),
+        "a same-named variable in another collection must not be updated"
+    );
+    let spacing = body
+        .variables
+        .iter()
+        .find(|v| v.name == "spacing-100" && v.variable_collection_id != "c-spectrum")
+        .expect("spacing-100 exported");
+    assert_eq!(spacing.action, "CREATE");
+}
+
+#[test]
 fn full_corpus_exports_every_collection_deterministically() {
     let graph = corpus();
     let specs = collection_specs(&graph.mode_sets).unwrap();
