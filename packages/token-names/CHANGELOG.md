@@ -1,5 +1,16 @@
 # @adobe/token-names
 
+## 0.2.14
+
+### Patch Changes
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Split the typography name sidecar to match the per-component token files.
+  - **packages/token-names/names/**: move six entries out of `typography.json` into new
+    `body.json`, `code.json`, `detail.json` and `heading.json`, mirroring `tokens/src`.
+
+- Updated dependencies [[`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115)]:
+  - @adobe/spectrum-tokens@15.5.1
+
 ## 0.2.13
 
 ### Patch Changes

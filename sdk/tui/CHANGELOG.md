@@ -1,5 +1,43 @@
 # @adobe/design-data-tui
 
+## 0.17.0
+
+### Minor Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - `design-data figma export` and `figma audit` read the design-data graph, not `packages/tokens/src`.
+  - **sdk/cli/**: load the resolved dataset (or `--manifest` cascade), then project it
+    through the legacy converter before mapping. The token path argument is now an
+    optional override.
+  - **sdk/core/src/legacy.rs**: add a per-file graph projection with a global UUID map.
+  - **sdk/plugins/figma/**: audit shares the projected input; mapper behavior is unchanged.
+  - **sdk/cli/tests/**: a parity test proves the projection equals `packages/tokens/src`.
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Figma export and audit map the design-data graph directly (closes xqln.14).
+  - **sdk/plugins/figma/**: the mapper groups cascade records into export tokens without
+    the legacy projection; payloads match the previous output byte for byte.
+  - **sdk/cli/**: `figma export` and `figma audit` reject flat legacy token directories.
+  - **sdk/plugins/figma/src/import/**: `diff_values` no longer takes a legacy token list.
+  - **sdk/plugins/figma/tests/**: a pinned cascade fixture has a golden payload.
+
+### Patch Changes
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Stop embedding the legacy `packages/tokens/manifest.json` in the SDK (closes xqln.19).
+  - **sdk/core**: remove the embedded `TOKENS_MANIFEST` and `ResolvedData.manifest`.
+  - **sdk/core**: bump the embedded snapshot marker so stale snapshots re-extract.
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Reject path traversal and link entries when extracting remote archives.
+  - **sdk/core/src/data_source/fetch.rs**: refuse `..`/absolute paths, skip symlinks and hardlinks.
+
 ## 0.16.0
 
 ### Minor Changes
