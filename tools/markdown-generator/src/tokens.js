@@ -12,10 +12,10 @@ governing permissions and limitations under the License.
 
 import { basename } from "path";
 import {
-  tokenFileNames,
+  getTokenFileNames,
   getFileTokens,
   getAllTokens,
-} from "@adobe/spectrum-tokens";
+} from "./token-source.js";
 import {
   buildTokenFileMap,
   buildTokenMap,
@@ -195,7 +195,7 @@ export async function generateTokenMarkdown(outputDir) {
   await mkdir(outTokens, { recursive: true });
 
   const fileToTokens = new Map();
-  for (const filePath of tokenFileNames) {
+  for (const filePath of getTokenFileNames()) {
     const fileName = basename(filePath);
     const fileKey = basename(fileName, ".json");
     const data = await getFileTokens(fileName);

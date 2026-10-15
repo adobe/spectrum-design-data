@@ -87,7 +87,8 @@ mod tests {
 
     #[test]
     fn structural_validates_spectrum_token_sources() {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+        let schemas =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
         let src = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/src");
         let registry = SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load");
         let report = validate_structural(&src, &registry).expect("validate");
@@ -618,7 +619,7 @@ mod validation_conformance {
 
     fn load_naming_exceptions() -> HashSet<String> {
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/tokens/naming-exceptions.json");
+            .join("../../packages/design-data/naming-exceptions.json");
         NamingExceptionsFile::load(&path)
             .map(|f| f.token_set())
             .unwrap_or_default()
@@ -958,11 +959,11 @@ mod manifest_extensions_conformance {
             .join("../../packages/design-data-spec/conformance/manifest-extensions")
     }
 
-    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors
     /// `manifest.rs`'s test-only `repo_schemas_root`.
     fn repo_schemas_root() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas")
     }
 
     /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...],

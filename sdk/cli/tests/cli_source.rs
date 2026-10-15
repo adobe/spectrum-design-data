@@ -22,10 +22,11 @@ use std::path::PathBuf;
 use assert_cmd::Command;
 use serde_json::json;
 
-/// Real `packages/tokens/schemas` dir in this checkout, for `--schema-path` —
+/// Real `packages/design-data-spec/schemas` dir in this checkout, for `--schema-path` —
 /// the fixture source in [`setup_source_project`] has no schemas of its own.
 fn real_schemas_dir() -> PathBuf {
-    let schemas = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+    let schemas =
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
     assert!(
         schemas.join("token-types").is_dir(),
         "expected schemas at {}",

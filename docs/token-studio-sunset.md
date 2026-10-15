@@ -2,7 +2,7 @@
 
 <!-- Copyright 2026 Adobe. All rights reserved. -->
 
-**Status:** Draft roadmap. Phase 0 and Phase 1 complete; Phase 2 (verify Figma export parity) next.
+**Status:** Draft roadmap. Phase 0, Phase 1, and Phase 2 complete; Phase 3 (decommission the inbound sync) next.
 
 ## Why
 
@@ -44,13 +44,15 @@ The [SDK Figma export documentation](../sdk/README.md#figma) describes concurren
 guards, readback verification, and recovery from ambiguous writes. These checks
 protect publication state; they do not replace token-format parity checks below.
 
-* Confirm `design-data figma export` reads the cascade token format
-  (`packages/design-data/tokens/`) end to end. The CLI help text calls its input a
-  "legacy token source directory" — that naming is overloaded; verify
-  `build_export_payload`'s expected input shape in `sdk/core/src/figma/mapping.rs` before
-  relying on it.
-* Confirm round-trip to legacy output (`design-data:legacy-output`,
-  `design-data:roundtrip-verify`) so `@adobe/spectrum-tokens` consumers see no regression.
+* **Done:** `design-data figma export` and `figma audit` load the cascade `TokenGraph`
+  (`packages/design-data/tokens/` plus relationships and the manifest cascade) and
+  project it through `legacy::convert_graph` into the legacy-shaped Figma mapper. They no
+  longer read `packages/tokens/src`.
+* **Done:** `sdk/cli/tests/cli_legacy_projection_parity.rs` proves the projection equals
+  `packages/tokens/src`, and `design-data:legacy-output` / `design-data:roundtrip-verify`
+  keep `@adobe/spectrum-tokens` consumers free of regressions.
+* **Next:** a native mapper over the graph with no legacy-shape projection (bead
+  `spectrum-design-data-xqln.14`), using the parity test as its oracle.
 
 ### Phase 3 — decommission the inbound sync
 

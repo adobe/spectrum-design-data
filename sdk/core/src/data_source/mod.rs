@@ -24,7 +24,7 @@
 //!    `[platforms.<id>]` entries selected via `--platform`/`DESIGN_DATA_PLATFORM`/
 //!    `default_platform`; see [`resolve_platform_manifest`] for the full
 //!    precedence between those forms.
-//! 3. **CWD-relative probing** — tries `packages/tokens/…` and
+//! 3. **CWD-relative probing** — tries `packages/design-data/…` and
 //!    `packages/design-data-spec/…` relative to `cwd`.  Preserves the original
 //!    in-monorepo behaviour when run from inside a checkout.
 //! 4. **Embedded snapshot** — baked into the binary at compile time via
@@ -102,7 +102,7 @@ pub struct DesignDataConfig {
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
 pub enum SourceConfig {
     /// A local filesystem path; the root of a repo that follows the standard
-    /// monorepo layout (`packages/tokens/`, `packages/design-data-spec/`, …).
+    /// monorepo layout (`packages/design-data/`, `packages/design-data-spec/`, …).
     ///
     /// The `root` is resolved relative to the directory containing
     /// `.design-data.toml`. To apply a platform manifest cascade over this
@@ -112,17 +112,17 @@ pub enum SourceConfig {
         /// the directory containing `.design-data.toml`).
         root: PathBuf,
     },
-    /// `@adobe/spectrum-tokens` (and matching `design-data-spec`) from the npm
+    /// `@adobe/spectrum-design-data` (and matching `design-data-spec`) from the npm
     /// registry.  **Not yet implemented — planned for `#1050`.**
     Npm {
-        /// Package name (default: `@adobe/spectrum-tokens`).
+        /// Package name (default: `@adobe/spectrum-design-data`).
         package: Option<String>,
         /// Exact version to resolve.
         version: String,
     },
     /// A GitHub archive tarball. Fetched and cached (see
     /// `sdk/core/src/data_source/fetch.rs`). The archive contains the full
-    /// dataset including `packages/tokens/schemas/**`, fetched over plain HTTPS
+    /// dataset including `packages/design-data-spec/schemas/**`, fetched over plain HTTPS
     /// with no Node or git binary required.
     ///
     /// Pin to **exactly one** of `tag`, `branch`, or `sha`. A `branch` pin is
@@ -640,14 +640,30 @@ fn fetch_platform_manifest_source(
 /// Returns `true` when `cwd` is inside a monorepo checkout.
 ///
 /// Walks up the ancestor chain from `cwd` looking for a directory that contains
-/// `packages/tokens/schemas/token-types`.  This works regardless of how deeply
-/// nested `cwd` is inside the repo (repo root, `sdk/`, `packages/tokens/`, etc.).
+/// `packages/design-data-spec/schemas/token-types` (or the legacy
+/// `packages/tokens/schemas/token-types`).  This works regardless of how deeply
+/// nested `cwd` is inside the repo (repo root, `sdk/`, `packages/design-data/`, etc.).
 ///
 /// When this returns `true` the resolver skips the embedded tier and uses
 /// CWD-relative probing instead, preserving the original in-monorepo workflow.
 fn is_in_repo(cwd: &Path) -> bool {
-    cwd.ancestors()
-        .any(|dir| dir.join("packages/tokens/schemas/token-types").is_dir())
+    cwd.ancestors().any(|dir| find_schema_dir(dir).is_some())
+}
+
+/// Directories (relative to a dataset root) that may hold the token-type schemas,
+/// newest layout first. The legacy `packages/tokens/schemas` location is kept as a
+/// fallback for datasets fetched from older tags.
+const SCHEMA_DIRS: [&str; 2] = [
+    "packages/design-data-spec/schemas",
+    "packages/tokens/schemas",
+];
+
+/// Find the directory under `base` that contains `token-types/`.
+fn find_schema_dir(base: &Path) -> Option<PathBuf> {
+    SCHEMA_DIRS
+        .iter()
+        .map(|d| base.join(d))
+        .find(|c| c.join("token-types").is_dir())
 }
 
 /// Walk ancestors of `start` looking for `.design-data.toml` and parse it.
@@ -695,7 +711,9 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
         .clone()
         .unwrap_or_else(|| root.join("packages/design-data/tokens"));
 
-    let schemas_root = resolve_schema_root(overrides, || root.join("packages/tokens/schemas"));
+    let schemas_root = resolve_schema_root(overrides, || {
+        find_schema_dir(root).unwrap_or_else(|| root.join(SCHEMA_DIRS[0]))
+    });
 
     let mode_sets = overrides.mode_sets.clone().or_else(|| {
         let c = root.join("packages/design-data/mode-sets");
@@ -723,8 +741,11 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
     });
 
     let exceptions = overrides.exceptions.clone().or_else(|| {
-        let c = root.join("packages/tokens/naming-exceptions.json");
-        c.is_file().then_some(c)
+        // Older tags keep the file under packages/tokens/.
+        ["packages/design-data", "packages/tokens"]
+            .iter()
+            .map(|d| root.join(d).join("naming-exceptions.json"))
+            .find(|c| c.is_file())
     });
 
     let manifest = {
@@ -760,7 +781,7 @@ fn from_root(root: &Path, overrides: &CliPathOverrides, provenance: Provenance) 
 /// NOTE: `is_in_repo` uses an ancestor-walk so it returns `true` from ANY
 /// subdirectory of the repo.  This function intentionally keeps the original
 /// two-candidate probing so that callers running from deeply-nested dirs (e.g.
-/// `packages/tokens/`) get `None` for spec dirs they can't reach — the same
+/// `packages/design-data/`) get `None` for spec dirs they can't reach — the same
 /// result they got before the resolver was introduced.
 fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // tokens_root — probe for the cascade dataset first (same two-candidate pattern as
@@ -780,15 +801,10 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
 
     // schemas_root
     let schemas_root = resolve_schema_root(overrides, || {
-        let candidates = [
-            cwd.join("packages/tokens/schemas"),
-            cwd.join("../packages/tokens/schemas"),
-            cwd.join("../../packages/tokens/schemas"),
-        ];
-        candidates
-            .into_iter()
-            .find(|c| c.join("token-types").is_dir())
-            .unwrap_or_else(|| cwd.join("packages/tokens/schemas"))
+        [cwd.to_path_buf(), cwd.join(".."), cwd.join("../..")]
+            .iter()
+            .find_map(|base| find_schema_dir(base))
+            .unwrap_or_else(|| cwd.join(SCHEMA_DIRS[0]))
     });
 
     // mode_sets
@@ -839,6 +855,8 @@ fn probe_cwd(cwd: &Path, overrides: &CliPathOverrides) -> ResolvedData {
     // exceptions
     let exceptions = overrides.exceptions.clone().or_else(|| {
         let candidates = [
+            cwd.join("packages/design-data/naming-exceptions.json"),
+            cwd.join("../packages/design-data/naming-exceptions.json"),
             cwd.join("packages/tokens/naming-exceptions.json"),
             cwd.join("../packages/tokens/naming-exceptions.json"),
         ];
@@ -930,13 +948,22 @@ mod tests {
     use crate::data_source::test_support::{env_lock, outside_repo_tempdir};
 
     fn make_monorepo(dir: &Path) {
-        fs::create_dir_all(dir.join("packages/tokens/schemas/token-types")).unwrap();
-        fs::write(dir.join("packages/tokens/schemas/token-file.json"), b"{}").unwrap();
+        fs::create_dir_all(dir.join("packages/design-data-spec/schemas/token-types")).unwrap();
+        fs::write(
+            dir.join("packages/design-data-spec/schemas/token-file.json"),
+            b"{}",
+        )
+        .unwrap();
         fs::create_dir_all(dir.join("packages/design-data/tokens")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/mode-sets")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/components")).unwrap();
         fs::create_dir_all(dir.join("packages/design-data/fields")).unwrap();
-        fs::write(dir.join("packages/tokens/naming-exceptions.json"), b"{}").unwrap();
+        fs::write(
+            dir.join("packages/design-data/naming-exceptions.json"),
+            b"{}",
+        )
+        .unwrap();
+        fs::create_dir_all(dir.join("packages/tokens")).unwrap();
         fs::write(dir.join("packages/tokens/manifest.json"), b"[]").unwrap();
     }
 
@@ -949,12 +976,25 @@ mod tests {
 
         let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
         assert_eq!(resolved.provenance, Provenance::InRepo);
-        assert!(resolved.schemas_root.ends_with("packages/tokens/schemas"));
+        assert!(resolved
+            .schemas_root
+            .ends_with("packages/design-data-spec/schemas"));
         assert!(resolved.mode_sets.is_some());
         assert!(resolved.components.is_some());
         assert!(resolved.fields.is_some());
         assert!(resolved.exceptions.is_some());
         assert!(resolved.manifest.is_some());
+    }
+
+    #[test]
+    fn probe_falls_back_to_legacy_schema_dir() {
+        // Older tags only carry the schemas under packages/tokens/schemas.
+        let tmp = TempDir::new().unwrap();
+        fs::create_dir_all(tmp.path().join("packages/tokens/schemas/token-types")).unwrap();
+
+        let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
+        assert_eq!(resolved.provenance, Provenance::InRepo);
+        assert!(resolved.schemas_root.ends_with("packages/tokens/schemas"));
     }
 
     #[test]
@@ -977,7 +1017,11 @@ mod tests {
         // probe returns None fields for those paths.
         let tmp = TempDir::new().unwrap();
         // Only create the minimal structure to trigger is_in_repo — no spec dirs.
-        fs::create_dir_all(tmp.path().join("packages/tokens/schemas/token-types")).unwrap();
+        fs::create_dir_all(
+            tmp.path()
+                .join("packages/design-data-spec/schemas/token-types"),
+        )
+        .unwrap();
 
         let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
         assert_eq!(resolved.provenance, Provenance::InRepo);
@@ -1514,7 +1558,7 @@ mod tests {
         std::env::set_var("DESIGN_DATA_CACHE_DIR", tmp.path());
         fs::write(
             tmp.path().join(".design-data.toml"),
-            "[source]\ntype = \"npm\"\npackage = \"@adobe/spectrum-tokens\"\nversion = \"14.0.0\"\n",
+            "[source]\ntype = \"npm\"\npackage = \"@adobe/spectrum-design-data\"\nversion = \"1.0.0\"\n",
         )
         .unwrap();
 
@@ -1586,7 +1630,7 @@ mod tests {
         fs::create_dir_all(&custom).unwrap();
 
         // Set the env var; resolve must return its value even though CWD probing
-        // would find packages/tokens/schemas instead.
+        // would find packages/design-data-spec/schemas instead.
         std::env::set_var("DESIGN_DATA_SCHEMA_ROOT", custom.to_str().unwrap());
         let resolved = resolve(tmp.path(), &CliPathOverrides::default()).unwrap();
         std::env::remove_var("DESIGN_DATA_SCHEMA_ROOT");
@@ -1646,7 +1690,9 @@ mod tests {
         // Embedded-tier coverage lives in resolve_outside_repo_uses_embedded_tier.
         assert_eq!(resolved.schemas_root, custom_schema);
         assert!(
-            !resolved.schemas_root.ends_with("packages/tokens/schemas"),
+            !resolved
+                .schemas_root
+                .ends_with("packages/design-data-spec/schemas"),
             "schema override must not fall through to the embedded/in-repo default"
         );
     }

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json",
+  "title": "Alignment",
+  "description": "Defines an alignment value (horizontal, vertical, or text) along a single axis. Keyword values are direction-aware: 'start' and 'end' resolve based on writing mode or layout direction.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alignment.json"
+    },
+    "value": {
+      "type": "string",
+      "enum": ["start", "center", "end"],
+      "default": "start"
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "uuid": {}
+  }
+}

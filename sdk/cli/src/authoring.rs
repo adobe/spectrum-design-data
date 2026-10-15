@@ -102,7 +102,7 @@ pub enum AuthoringSessionCommand {
         /// `$schema` URL for the new token (e.g. `.../color.json`).
         #[arg(long)]
         schema_url: String,
-        /// Schemas directory for validation (default: `packages/tokens/schemas`
+        /// Schemas directory for validation (default: `packages/design-data-spec/schemas`
         /// relative to the target's parent).
         #[arg(long)]
         schema_path: Option<PathBuf>,
@@ -242,7 +242,7 @@ fn parse_name_fields(raw: &[String]) -> Result<Vec<(String, String)>, String> {
         .collect()
 }
 
-/// Resolve the schema directory, defaulting to `packages/tokens/schemas` two
+/// Resolve the schema directory, defaulting to `packages/design-data-spec/schemas` two
 /// levels above the target file (matching the existing `write-token` pattern).
 fn resolve_schema_path(explicit: Option<&Path>, target: &Path) -> PathBuf {
     if let Some(p) = explicit {
@@ -253,5 +253,5 @@ fn resolve_schema_path(explicit: Option<&Path>, target: &Path) -> PathBuf {
         .parent()
         .and_then(|p| p.parent())
         .map(|r| r.join("schemas"))
-        .unwrap_or_else(|| PathBuf::from("packages/tokens/schemas"))
+        .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/schemas"))
 }

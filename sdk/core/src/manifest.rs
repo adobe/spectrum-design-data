@@ -486,11 +486,11 @@ mod tests {
     use serde_json::json;
     use std::path::PathBuf;
 
-    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
     /// default `schemas_root` an in-repo `ResolvedData` carries.
     fn repo_schemas_root() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas")
     }
 
     fn resolved_with_manifest(manifest_path: PathBuf, schemas_root: PathBuf) -> ResolvedData {
@@ -929,7 +929,10 @@ mod tests {
             TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
                 .unwrap();
         let mut graph = make_graph().with_components(components);
-        let resolved = resolved_with_manifest(manifest_path, root.join("packages/tokens/schemas"));
+        let resolved = resolved_with_manifest(
+            manifest_path,
+            root.join("packages/design-data-spec/schemas"),
+        );
         apply_configured(&mut graph, &resolved).unwrap();
         let rows = button_rows(&graph);
         assert_eq!(rows.len(), 2);

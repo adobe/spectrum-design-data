@@ -61,6 +61,29 @@ pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, PathBuf, Value)>, Figm
     Ok(tokens)
 }
 
+/// Project a loaded (optionally platform-cascaded) cascade [`TokenGraph`] into
+/// the flat `(name, source, entry)` triples the mapper consumes, in memory.
+///
+/// Uses the same projection that generates `packages/tokens/src`
+/// (`design_data_core::legacy::convert_graph`) so export no longer depends on
+/// that generated directory being present or in sync. Entries have no
+/// meaningful source file, so the placeholder basename routes through the
+/// wildcard [`super::routing::CollectionSpec::source_files`] entries.
+pub fn tokens_from_graph(
+    graph: &design_data_core::graph::TokenGraph,
+) -> Result<Vec<(String, PathBuf, Value)>, FigmaError> {
+    let (map, _summary) =
+        design_data_core::legacy::convert_graph(graph).map_err(|e| FigmaError::Api {
+            status: 0,
+            message: format!("failed to project cascade tokens: {e}"),
+        })?;
+    let source = PathBuf::from("design-data.json");
+    Ok(map
+        .into_iter()
+        .map(|(name, entry)| (name, source.clone(), entry))
+        .collect())
+}
+
 pub(super) struct ResolvedValue {
     value: String,
     schema: String,

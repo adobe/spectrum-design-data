@@ -22,6 +22,8 @@
   "exports": {
     "./package.json": "./package.json",
     "./schemas/token.schema.json": "./schemas/token.schema.json",
+    "./schemas/token-file.json": "./schemas/token-file.json",
+    "./schemas/token-types/*": "./schemas/token-types/*",
     "./schemas/mode-set.schema.json": "./schemas/mode-set.schema.json",
     "./schemas/field.schema.json": "./schemas/field.schema.json",
     "./schemas/manifest.schema.json": "./schemas/manifest.schema.json",

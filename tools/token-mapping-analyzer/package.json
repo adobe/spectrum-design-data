@@ -15,9 +15,6 @@
     "url": "https://github.com/adobe/spectrum-design-data/issues"
   },
   "homepage": "https://github.com/adobe/spectrum-design-data#readme",
-  "dependencies": {
-    "@adobe/spectrum-tokens": "workspace:*"
-  },
   "devDependencies": {
     "ava": "^6.1.1"
   }

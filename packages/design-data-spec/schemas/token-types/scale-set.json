@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+  "title": "Scale set",
+  "description": "A set that contains dimension values that change based on platform scale.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "set.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    },
+    "sets": {
+      "type": "object",
+      "properties": {
+        "mobile": {
+          "anyOf": [
+            {
+              "$ref": "dimension.json"
+            },
+            {
+              "$ref": "font-size.json"
+            },
+            {
+              "$ref": "alias.json"
+            },
+            {
+              "$ref": "multiplier.json"
+            }
+          ]
+        },
+        "desktop": {
+          "anyOf": [
+            {
+              "$ref": "dimension.json"
+            },
+            {
+              "$ref": "font-size.json"
+            },
+            {
+              "$ref": "alias.json"
+            },
+            {
+              "$ref": "multiplier.json"
+            }
+          ]
+        }
+      },
+      "required": ["mobile", "desktop"]
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "renamed": {},
+    "uuid": {},
+    "conceptId": {}
+  },
+  "required": ["sets", "uuid"]
+}

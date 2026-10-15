@@ -19,7 +19,6 @@
   "homepage": "https://github.com/adobe/spectrum-design-data#readme",
   "dependencies": {
     "@adobe/spectrum-design-data": "workspace:*",
-    "@adobe/spectrum-component-api-schemas": "workspace:*",
-    "@adobe/spectrum-tokens": "workspace:*"
+    "@adobe/spectrum-component-api-schemas": "workspace:*"
   }
 }

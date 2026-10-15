@@ -27,7 +27,7 @@ mod routing;
 mod tests;
 
 pub(crate) use convert::figma_opacity_to_fraction;
-pub use convert::load_all_tokens;
+pub use convert::{load_all_tokens, tokens_from_graph};
 pub use payload::{
     build_export_payload, build_export_payload_with_options,
     build_export_payload_with_platform_formats, summarize_variables, CollectionSummary,

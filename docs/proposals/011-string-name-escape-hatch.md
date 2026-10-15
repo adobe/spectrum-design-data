@@ -12,7 +12,7 @@ include legacy compound-state tokens (`focus-ring-color-key-focus`), tokens
 whose meaning is encoded in a vendor-prefixed string, or tokens migrated from
 external systems whose naming conventions do not map to the taxonomy.
 
-Currently these tokens are tracked in `packages/tokens/naming-exceptions.json`
+Currently these tokens are tracked in `packages/design-data/naming-exceptions.json`
 as informal tech debt — 730+ entries across categories like `compound-state`,
 `typography-*`, `state-position`, and others. There is no formal spec concept
 that lets tooling discover these tokens, report them consistently, or plan for

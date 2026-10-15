@@ -45,11 +45,11 @@ tasks:
         migrate convert "$MOON_WORKSPACE_ROOT/docs/s2-tokens-viewer/tokens"
         --output "$MOON_WORKSPACE_ROOT/docs/s2-tokens-viewer/cascade"
         --names-dir "$MOON_WORKSPACE_ROOT/packages/token-names/names"
-        --exceptions "$MOON_WORKSPACE_ROOT/packages/tokens/naming-exceptions.json"
+        --exceptions "$MOON_WORKSPACE_ROOT/packages/design-data/naming-exceptions.json"
     inputs:
       - tokens/**/*.json
       - "/packages/token-names/names/**/*.json"
-      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data/naming-exceptions.json"
     outputs:
       - cascade/
     deps:

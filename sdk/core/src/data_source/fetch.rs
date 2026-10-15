@@ -20,8 +20,8 @@
 //! ```text
 //! <base>/sources/<type>/<key>/
 //!   packages/design-data/tokens/*.tokens.json
-//!   packages/tokens/schemas/**
-//!   packages/tokens/naming-exceptions.json
+//!   packages/design-data-spec/schemas/**   (older tags: packages/tokens/schemas/**)
+//!   packages/design-data/naming-exceptions.json   (older tags: packages/tokens/naming-exceptions.json)
 //!   packages/tokens/manifest.json
 //!   packages/design-data/mode-sets/          ← github only
 //!   packages/design-data/components/
@@ -164,7 +164,7 @@ pub fn ensure_cached(
             source_type: "npm",
             reason: "the published npm packages are dataset-incomplete for the cascade \
                      (@adobe/spectrum-tokens ships tokens only; @adobe/spectrum-design-data \
-                     omits packages/tokens/schemas). Use source.type = \"github\", which \
+                     omits the schemas). Use source.type = \"github\", which \
                      serves the full dataset (incl. schemas) over plain HTTPS with no Node \
                      required, and pins by tag/branch/sha.",
         }),
@@ -599,7 +599,11 @@ fn should_extract(rel: &Path) -> bool {
                 .map(|c| c.as_os_str().to_string_lossy().into_owned());
             matches!(
                 third.as_deref(),
-                Some("tokens") | Some("components") | Some("fields") | Some("mode-sets")
+                Some("tokens")
+                    | Some("components")
+                    | Some("fields")
+                    | Some("mode-sets")
+                    | Some("naming-exceptions.json")
             )
         }
         (Some("packages"), Some("design-data-spec")) => {
@@ -667,6 +671,13 @@ mod tests {
             "packages/tokens/naming-exceptions.json"
         )));
         assert!(should_extract(Path::new("packages/tokens/manifest.json")));
+    }
+
+    #[test]
+    fn should_extract_naming_exceptions() {
+        assert!(should_extract(Path::new(
+            "packages/design-data/naming-exceptions.json"
+        )));
     }
 
     #[test]
@@ -931,7 +942,9 @@ mod tests {
             "tokens/src missing"
         );
         assert!(
-            root.join("packages/tokens/schemas/token-types").is_dir(),
+            root.join("packages/design-data-spec/schemas/token-types")
+                .is_dir()
+                || root.join("packages/tokens/schemas/token-types").is_dir(),
             "schemas/token-types missing"
         );
         assert!(

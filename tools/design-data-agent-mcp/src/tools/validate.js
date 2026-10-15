@@ -31,7 +31,7 @@ export function createValidateTools() {
             type: "string",
             description:
               "Path to schemas directory containing token-types/ and token-file.json. " +
-              "Defaults to @adobe/spectrum-tokens schemas. Set DESIGN_DATA_SCHEMAS env var or " +
+              "Defaults to the @adobe/design-data-spec schemas. Set DESIGN_DATA_SCHEMAS env var or " +
               "pass explicitly for custom schema sets.",
           },
         },

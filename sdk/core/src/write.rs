@@ -529,7 +529,8 @@ mod tests {
     use tempfile::TempDir;
 
     fn test_registry() -> SchemaRegistry {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+        let schemas =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
         SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load")
     }
 
@@ -877,7 +878,8 @@ mod cascade_tests {
     use tempfile::TempDir;
 
     fn cascade_registry() -> SchemaRegistry {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+        let schemas =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
         SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load")
     }
 

@@ -15,6 +15,7 @@
     "component-options-editor:validate",
     "root:test",
     "root:ai-check",
+    "root:check-legacy-consumers",
     "s2-docs-to-document-blocks:test",
     "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
@@ -43,6 +44,7 @@
     "token-naming-audit:ci"
   ],
   "excludedFromCI": [
+    "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
     "component-diff-generator:diff",
     "markdown-generator:generate",

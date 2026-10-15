@@ -43,6 +43,7 @@
     "provenance": true
   },
   "dependencies": {
+    "@adobe/design-data-spec": "workspace:*",
     "@adobe/design-data-wasm": "workspace:*",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"
