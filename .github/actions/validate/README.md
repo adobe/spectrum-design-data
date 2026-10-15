@@ -43,7 +43,10 @@ check requires a local `tokens/` dir and fails unconditionally without one.
 | `drift-mode`              | `warn`                         | `warn` (annotate) or `fail` (block the PR) on drift                                                                                   |
 | `open-issue`              | `false`                        | Open a "foundation moved" issue when drift is detected                                                                                |
 | `open-pr`                 | `false`                        | Open a PR bumping `foundationVersion` on drift (needs `contents: write` and `pull-requests: write`; skipped on `pull_request` events) |
+| `install-only`            | `false`                        | Only install the CLI onto `PATH`; skip validation, drift, and issue/PR steps                                                          |
 | `github-token`            | `${{ github.token }}`          | Used for release/tag lookups, issue and PR creation                                                                                   |
+
+The `release` install picks the binary for the runner (Linux x64, macOS arm64, macOS x64).
 
 ### Foundation bump PRs (`open-pr`)
 
