@@ -2305,7 +2305,10 @@ fn write_figma_report(
 fn load_figma_tokens(
     path: Option<&Path>,
     manifest: Option<&Path>,
-) -> miette::Result<Vec<figma::mapping::ExportToken>> {
+) -> miette::Result<(
+    Vec<figma::mapping::ExportToken>,
+    Vec<figma::mapping::CollectionSpec>,
+)> {
     if path.is_some_and(|dir| !dir_has_cascade_tokens(dir)) {
         miette::bail!("Figma export/audit requires canonical .tokens.json data; legacy directories are no longer supported");
     }
@@ -2335,7 +2338,10 @@ fn load_figma_tokens(
     manifest::apply_configured(&mut graph, &resolved)
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
-    figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))
+    let specs =
+        figma::mapping::collection_specs(&graph.mode_sets).map_err(|e| miette::miette!("{e}"))?;
+    let tokens = figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))?;
+    Ok((tokens, specs))
 }
 
 fn dir_has_cascade_tokens(dir: &Path) -> bool {
@@ -2399,7 +2405,7 @@ fn run_figma_export(
         platform_formats.push((platform.to_string(), config));
     }
     // 1. Load tokens (cascade graph projection, or a legacy dir when given).
-    let tokens = load_figma_tokens(path, manifest)?;
+    let (tokens, specs) = load_figma_tokens(path, manifest)?;
 
     // 2. GET existing variables to obtain collection/mode IDs.
     eprintln!("Fetching existing variables from Figma...");
@@ -2411,6 +2417,7 @@ fn run_figma_export(
     eprintln!("Building export payload...");
     let (body, summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
+        &specs,
         &response.meta,
         overrides.as_ref(),
         &platform_formats,
@@ -2763,8 +2770,9 @@ fn run_figma_audit(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
 
-    let tokens = load_figma_tokens(token_dir, None)?;
-    let report = figma::audit::audit_tokens(&meta, &tokens).map_err(|e| miette::miette!("{e}"))?;
+    let (tokens, specs) = load_figma_tokens(token_dir, None)?;
+    let report =
+        figma::audit::audit_tokens(&meta, &tokens, &specs).map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -2932,7 +2940,7 @@ fn run_figma_diff(
 /// to cover today.
 ///
 /// These are real-file naming conventions observed in specific collections,
-/// not the exporter's own output — `mapping::COLLECTION_SPECS` models what
+/// not the exporter's own output — `mapping::collection_specs` models what
 /// `figma export` generates (`colorTheme/`, `platformScale/`) and has no
 /// entry for these, so there's nothing to derive this list from
 /// automatically. If a new prefix group shows up, add it here by hand.

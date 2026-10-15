@@ -30,6 +30,9 @@ fn corpus() -> TokenGraph {
     let root = root();
     TokenGraph::from_json_dir(&root.join("packages/design-data/tokens"))
         .unwrap()
+        .with_mode_sets(
+            TokenGraph::load_spec_mode_sets(&root.join("packages/design-data/mode-sets")).unwrap(),
+        )
         .with_relationships(
             TokenGraph::load_spec_relationships(&root.join("packages/design-data/relationships"))
                 .unwrap(),
@@ -43,13 +46,21 @@ fn normalize(value: impl serde::Serialize) -> Value {
 
 #[test]
 fn cascade_fixture_matches_golden_payload() {
-    let tokens = export_tokens(&fixture_graph()).unwrap();
+    let graph = fixture_graph();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
+    let tokens = export_tokens(&graph).unwrap();
     let payloads: Vec<Value> = [false, true]
         .into_iter()
         .map(|redirect| {
-            let (body, _) =
-                build_export_payload_with_options(&tokens, &metadata(), None, &[], redirect)
-                    .unwrap();
+            let (body, _) = build_export_payload_with_options(
+                &tokens,
+                &specs,
+                &metadata(),
+                None,
+                &[],
+                redirect,
+            )
+            .unwrap();
             normalize(body)
         })
         .collect();
@@ -65,10 +76,12 @@ fn cascade_fixture_matches_golden_payload() {
 #[test]
 fn full_corpus_exports_every_collection_deterministically() {
     let graph = corpus();
+    let specs = collection_specs(&graph.mode_sets).unwrap();
     let tokens = export_tokens(&graph).unwrap();
     assert!(tokens.len() > 500);
-    let build =
-        || build_export_payload_with_options(&tokens, &metadata(), None, &[], false).unwrap();
+    let build = || {
+        build_export_payload_with_options(&tokens, &specs, &metadata(), None, &[], false).unwrap()
+    };
     let (first, summary) = build();
     assert!(summary.variables_created > 500);
     let collections: std::collections::BTreeSet<_> = first
@@ -81,4 +94,39 @@ fn full_corpus_exports_every_collection_deterministically() {
         "expected both collections: {collections:?}"
     );
     assert_eq!(normalize(first), normalize(build().0));
+}
+
+#[test]
+fn ctr_only_tokens_group_by_scale_mode() {
+    use design_data_core::graph::RelationshipRecord;
+    let record = |index: usize, scale: &str, value: &str, uuid: &str| RelationshipRecord {
+        file: PathBuf::from("text-area.json"),
+        index,
+        uuid: Some(uuid.to_string()),
+        raw: serde_json::json!({
+            "scope": {"component": "text-area", "property": "minimum-height", "options": {"scale": scale}},
+            "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+            "value": value,
+            "uuid": uuid,
+            "legacyKey": "text-area-minimum-height",
+            "setUuid": "set-1",
+            "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+        }),
+    };
+    let graph = TokenGraph::from_json_dir(
+        &Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/figma/cascade/tokens"),
+    )
+    .unwrap()
+    .with_relationships(vec![
+        record(0, "desktop", "56px", "r-1"),
+        record(1, "mobile", "64px", "r-2"),
+    ]);
+    let tokens = export_tokens(&graph).unwrap();
+    let token = tokens
+        .iter()
+        .find(|t| t.name == "text-area-minimum-height")
+        .expect("CTR-only token exported");
+    assert!(token.value.schema.ends_with(routing::SCALE_SET));
+    let modes: Vec<_> = token.modes.keys().map(String::as_str).collect();
+    assert_eq!(modes, ["desktop", "mobile"]);
 }

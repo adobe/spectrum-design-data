@@ -429,7 +429,8 @@ pub fn diff_values(
     // produce an export payload at all; that's a reason to skip this one
     // pass, not to discard the Figma-driven diff already computed above.
     let export_tokens = crate::mapping::export_tokens(graph)?;
-    if let Ok((body, _summary)) = build_export_payload(&export_tokens, meta, mapping) {
+    let specs = crate::mapping::collection_specs(&graph.mode_sets)?;
+    if let Ok((body, _summary)) = build_export_payload(&export_tokens, &specs, meta, mapping) {
         for action in &body.variables {
             if !seen.contains(&action.name) {
                 let legacy_key = invert_name(&action.name, reversed.as_ref());

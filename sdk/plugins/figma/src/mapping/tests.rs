@@ -16,7 +16,58 @@ use serde_json::json;
 use super::convert::*;
 use super::payload::*;
 use super::routing::*;
+use crate::mapping::ExportToken;
 use crate::types::*;
+use crate::FigmaError;
+
+fn test_specs() -> Vec<CollectionSpec> {
+    collection_specs(&[]).unwrap()
+}
+
+// Shadow the glob-imported builders so call sites stay focused on tokens.
+fn build_export_payload(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload(tokens, &test_specs(), existing, overrides)
+}
+
+// Markers keep call sites naming which spec table a test exercises.
+struct MockExtraSpecs;
+const MOCK_EXTRA_SPECS: MockExtraSpecs = MockExtraSpecs;
+struct DefaultSpecs;
+const COLLECTION_SPECS: DefaultSpecs = DefaultSpecs;
+
+fn build_export_payload_with_specs(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    _specs: MockExtraSpecs,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs(
+        tokens,
+        existing,
+        overrides,
+        &mock_extra_specs(),
+    )
+}
+
+fn build_export_payload_with_specs_and_redirect(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    _specs: DefaultSpecs,
+    redirect_deprecated: bool,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs_and_redirect(
+        tokens,
+        existing,
+        overrides,
+        &test_specs(),
+        redirect_deprecated,
+    )
+}
 
 // Historical codec fixtures describe grouped values; only tests adapt that shape.
 fn fixture_tokens(
@@ -1295,7 +1346,7 @@ fn alias_to_non_prepassed_target_falls_back_to_literal() {
 /// `mock_meta()` plus a 3rd collection reachable only via a specific
 /// `source_files` entry — proves `CollectionSpec`/`resolve_collections`
 /// can route by file, without touching any of the real production
-/// collections in `COLLECTION_SPECS`.
+/// collections in `collection_specs`.
 fn mock_meta_with_extra_collection() -> VariablesMeta {
     let mut meta = mock_meta();
     meta.variable_collections.insert(
@@ -1317,26 +1368,20 @@ fn mock_meta_with_extra_collection() -> VariablesMeta {
     meta
 }
 
-const MOCK_EXTRA_SPECS: &[CollectionSpec] = &[
-    CollectionSpec {
-        figma_collection_name: COLOR_THEME_COLLECTION,
-        default_prefix: COLOR_THEME_PREFIX,
-        kind: TokenKind::Color,
-        source_files: &[],
-    },
-    CollectionSpec {
-        figma_collection_name: ".Mock Extra",
-        default_prefix: "mockExtra",
-        kind: TokenKind::Scale,
-        source_files: &["special-widget.json"],
-    },
-    CollectionSpec {
-        figma_collection_name: PLATFORM_SCALE_COLLECTION,
-        default_prefix: PLATFORM_SCALE_PREFIX,
-        kind: TokenKind::Scale,
-        source_files: &[],
-    },
-];
+fn mock_extra_specs() -> Vec<CollectionSpec> {
+    let mut specs = test_specs();
+    specs.insert(
+        1,
+        CollectionSpec {
+            figma_collection_name: ".Mock Extra",
+            default_prefix: "mockExtra",
+            kind: TokenKind::Scale,
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            source_files: &["special-widget.json"],
+        },
+    );
+    specs
+}
 
 #[test]
 fn file_specific_spec_routes_token_to_mock_collection() {

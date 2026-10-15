@@ -17,9 +17,8 @@ use std::collections::{HashMap, HashSet};
 use serde_json::Value;
 
 use super::routing::{
-    ALIAS, ANGLE, COLOR, COLOR_MODES, COLOR_SET, COLOR_THEME_COLLECTION, DIMENSION, FONT_FAMILY,
-    FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, PLATFORM_SCALE_COLLECTION,
-    SCALE_MODES, SCALE_SET,
+    CollectionSpec, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE,
+    FONT_WEIGHT, MULTIPLIER, OPACITY, SCALE_SET,
 };
 use crate::color::parse_color;
 use crate::types::{FigmaVariableAlias, ModeValueAction, VariableAction};
@@ -553,7 +552,7 @@ pub(super) fn process_color_set_token(
     token_name: &str,
     entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
@@ -567,6 +566,8 @@ pub(super) fn process_color_set_token(
     if sets.is_empty() {
         return;
     }
+
+    let prefix = spec.default_prefix;
 
     // Determine the inner type from any mode entry — not just the first —
     // since a set's first member can be an `alias.json` pointer (no
@@ -591,13 +592,14 @@ pub(super) fn process_color_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in COLOR_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{COLOR_THEME_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };
@@ -665,7 +667,7 @@ pub(super) fn process_scale_set_token(
     token_name: &str,
     entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
     existing_var_index: &HashMap<&str, &str>,
@@ -679,6 +681,8 @@ pub(super) fn process_scale_set_token(
     if sets.is_empty() {
         return;
     }
+
+    let prefix = spec.default_prefix;
 
     let inner_schema = sets
         .values()
@@ -708,13 +712,14 @@ pub(super) fn process_scale_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in SCALE_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{PLATFORM_SCALE_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };

@@ -36,4 +36,5 @@ pub use payload::{
     build_export_payload_with_platform_formats, summarize_variables, CollectionSummary,
     ExportSummary,
 };
+pub use routing::{collection_specs, CollectionSpec};
 pub(crate) use routing::{FONT_STYLE, FONT_WEIGHT, OPACITY};
