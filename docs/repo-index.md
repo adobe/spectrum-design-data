@@ -20,6 +20,7 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`sdk/core`](../sdk/core/) | `design-data-core` | active | no | no | Core library: token resolution, validation, registry, and diffing. |
 | [`sdk/plugins/dtcg`](../sdk/plugins/dtcg/) | `design-data-dtcg` | active | no | no | DTCG import and export plugin. |
 | [`sdk/plugins/figma`](../sdk/plugins/figma/) | `design-data-figma` | active | no | no | Figma variables import, export, and diff plugin. |
+| [`sdk/plugins/shadcn`](../sdk/plugins/shadcn/) | `design-data-shadcn` | active | no | no | shadcn theme and component registry export plugin. |
 | [`sdk/tui`](../sdk/tui/) | `@adobe/design-data-tui` | active | no | no | Interactive terminal UI for authoring and inspecting design data. |
 | [`sdk/wasm`](../sdk/wasm/) | `@adobe/design-data-wasm` | active | published | yes | WebAssembly bindings for design-data-core. |
 | [`platforms`](../platforms/) | — | incubating | no | no | Incubating platform manifests for implementation teams. |
