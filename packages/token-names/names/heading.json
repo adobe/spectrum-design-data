@@ -1,0 +1,10 @@
+{
+  "heading-margin-bottom-multiplier": {
+    "structure": "heading",
+    "property": "margin-bottom"
+  },
+  "heading-margin-top-multiplier": {
+    "structure": "heading",
+    "property": "margin-top"
+  }
+}

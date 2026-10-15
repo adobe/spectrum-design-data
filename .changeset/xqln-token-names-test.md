@@ -2,7 +2,7 @@
 "@adobe/token-names": patch
 ---
 
-Resolve token-names sidecar slugs across all `tokens/src` files.
+Split the typography name sidecar to match the per-component token files.
 
-- **packages/token-names/test/coverage.test.js**: typography tokens moved to body, code,
-  detail and heading files, so the one-to-one file check failed.
+- **packages/token-names/names/**: move six entries out of `typography.json` into new
+  `body.json`, `code.json`, `detail.json` and `heading.json`, mirroring `tokens/src`.
