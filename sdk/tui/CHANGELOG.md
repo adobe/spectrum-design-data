@@ -1,5 +1,20 @@
 # @adobe/design-data-tui
 
+## 0.18.0
+
+### Minor Changes
+
+- [`e4027eb`](https://github.com/adobe/spectrum-design-data/commit/e4027eb3470b3be44731b88ca28615508e051f91) - Figma export derives collection specs from mode sets and gains opt-in flags (cn3v.3, .4, .7).
+  - **sdk/plugins/figma**: specs come from `graph.mode_sets`; variables match per collection.
+  - **sdk/cli**: `figma export --modeless-layer` writes a modeless alias layer.
+  - **sdk/cli**: `figma export|audit|diff --no-folder-prefix` use bare token names.
+
+- [`30748a8`](https://github.com/adobe/spectrum-design-data/commit/30748a86bc397b648f36b9bcd29c223eb6bcab07) - Validate action can open a PR that bumps `foundationVersion` on drift (closes h890.7.2).
+  - **.github/actions/validate**: new `open-pr` input; pins ahead of latest aren't drift.
+  - **.github/actions/validate**: default `foundation-tag-prefix` is now
+    `@adobe/spectrum-design-data@`; set it to keep `@adobe/spectrum-tokens@`.
+  - **sdk/cli**: `platform eject` scaffolds `.github/workflows/foundation-drift.yml`.
+
 ## 0.17.0
 
 ### Minor Changes
