@@ -117,7 +117,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "50763a0d-c6eb-47f0-8b56-4c86ee22a430"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "77dc4cd4-8e4e-4873-b6f3-d573eb7fc315"
+    "$ref": "1247c1ab-9e31-482a-832c-d32911a1e698"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "7ce11af3-b94b-4239-a310-f8d09635779a"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "dc4ec555-72eb-4328-aba4-e8d594102f45"
+    "$ref": "2f10fab2-66e0-4007-9c01-9643d472ba3b"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "space-between"
     },
     "context": "Spacing (text to visual)",
-    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {

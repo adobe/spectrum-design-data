@@ -12,7 +12,22 @@
     "foundationVersion": {
       "type": "string",
       "minLength": 1,
-      "description": "Pin to a foundation release (semver or tag)."
+      "description": "Pin to a foundation release (semver or tag), e.g. \"@adobe/spectrum-design-data@3.5.0\"."
+    },
+    "platform": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Machine-readable platform implementation id (e.g. \"react-spectrum\", \"web-components\", \"ios\"), matching an id in the platform-implementations registry. Optional: a manifest MAY be anonymous (e.g. a single-platform repo where identity is implicit), but SHOULD declare it once the manifest is relocatable (fetched remotely, or one of several manifests in the same repo)."
+    },
+    "platformVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable description of the platform implementation this manifest targets, e.g. \"React Spectrum 3.x\" or \"Spectrum Web Components 0.x+\". Distinct from `foundationVersion` (the pinned foundation release)."
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1,
+      "description": "URL of the repository that owns (or, during incubation, will eventually own) this platform manifest, e.g. \"https://github.com/adobe/react-spectrum\"."
     },
     "include": {
       "type": "array",
@@ -83,65 +98,69 @@
         "additionalProperties": false
       }
     },
-    "extensions": {
+    "extensionsDir": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path (relative to the manifest) to the platform's extensions directory, holding platform-local tokens/components/fields/relationships/guidelines/platform-extensions as one file per artifact (see spec/manifest.md#extensions-directory). Default: \"extensions\"."
+    },
+    "namingExceptions": {
       "type": "object",
-      "description": "Platform-local tokens, mode sets, and formatting rules.",
+      "description": "Platform-local overlay on the base naming-exceptions set: names to add and/or remove for this platform's naming validation.",
       "properties": {
-        "tokens": {
-          "$ref": "cascade-file.schema.json",
-          "description": "Platform-local token definitions, in cascade-format (same shape as a cascade token file)."
-        },
-        "components": {
+        "add": {
           "type": "array",
-          "items": { "$ref": "component.schema.json" },
-          "description": "Platform-local component specs, injected into the component catalog (add-or-replace by name)."
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Token names to add to the naming-exceptions set for this platform."
         },
-        "platformExtensions": {
+        "remove": {
           "type": "array",
-          "items": {
-            "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json"
-          },
-          "description": "Platform-local terminology extensions (e.g. iOS state vocabulary), annotating ids in an existing base registry."
-        },
-        "formatting": {
-          "type": "object",
-          "description": "Rules for serializing structured name objects into platform-specific token name strings.",
-          "properties": {
-            "conceptOrder": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "uniqueItems": true,
-              "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
-            },
-            "casing": {
-              "type": "string",
-              "enum": [
-                "kebab-case",
-                "camelCase",
-                "PascalCase",
-                "SCREAMING_SNAKE_CASE"
-              ],
-              "description": "Casing style for serialized token names. Default: kebab-case."
-            },
-            "delimiter": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Character(s) separating concepts in the serialized string. Default: -."
-            },
-            "abbreviations": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "description": "Map of full term to abbreviated form, applied after ordering and before casing."
-            }
-          },
-          "additionalProperties": false
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Token names to remove from the base naming-exceptions set for this platform."
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
+    },
+    "formatting": {
+      "type": "object",
+      "description": "Rules for serializing structured name objects into platform-specific token name strings.",
+      "properties": {
+        "conceptOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Ordered list of field names for serialization. Values must match declared field names from the design system's field catalog (field.schema.json declarations). Replaces the default serialization.position order from each field declaration."
+        },
+        "casing": {
+          "type": "string",
+          "enum": [
+            "kebab-case",
+            "camelCase",
+            "PascalCase",
+            "SCREAMING_SNAKE_CASE"
+          ],
+          "description": "Casing style for serialized token names. Default: kebab-case."
+        },
+        "delimiter": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Character(s) separating concepts in the serialized string. Default: -."
+        },
+        "abbreviations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Map of full term to abbreviated form, applied after ordering and before casing."
+        },
+        "prefix": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Literal string prepended to the fully-formatted token name (after casing/delimiter are applied), unaffected by `casing` itself. For platform naming conventions that wrap the token name rather than reshape it, e.g. CSS custom properties (`--spectrum-`) or other namespaced identifier prefixes."
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

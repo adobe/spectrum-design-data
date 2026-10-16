@@ -1,0 +1,6 @@
+{
+  "errors": [
+    { "message_pattern": "setDefault" },
+    { "message_pattern": "not in its modes" }
+  ]
+}

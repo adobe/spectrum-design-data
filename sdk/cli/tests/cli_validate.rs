@@ -19,7 +19,7 @@ use serde_json::json;
 fn tokens_src_and_schemas() -> (PathBuf, PathBuf) {
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let src = manifest.join("../../packages/tokens/src");
-    let schemas = manifest.join("../../packages/tokens/schemas");
+    let schemas = manifest.join("../../packages/design-data-spec/schemas");
     assert!(src.is_dir(), "expected token sources at {}", src.display());
     assert!(
         schemas.join("token-types").is_dir(),
@@ -260,19 +260,17 @@ fn primer_emits_json_with_required_fields() {
         "tokenCount must be positive"
     );
     assert!(
-        doc["modeSets"].as_array().map_or(false, |a| !a.is_empty()),
+        doc["modeSets"].as_array().is_some_and(|a| !a.is_empty()),
         "modeSets must be non-empty"
     );
     assert!(
-        doc["components"]
-            .as_array()
-            .map_or(false, |a| !a.is_empty()),
+        doc["components"].as_array().is_some_and(|a| !a.is_empty()),
         "components must be non-empty"
     );
     assert!(
         doc["taxonomyFields"]
             .as_array()
-            .map_or(false, |a| !a.is_empty()),
+            .is_some_and(|a| !a.is_empty()),
         "taxonomyFields must be non-empty"
     );
 }

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "avatar",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Avatar",
+      "package": "@adobe/spectrum-wc",
+      "importPath": "@adobe/spectrum-wc/components/avatar",
+      "notes": "Spectrum 2 web component custom element: swc-avatar."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/s2",
+      "implementation": "react-spectrum",
+      "notes": "declared by another owner"
+    },
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/s2",
+      "notes": "web-components row with the same package"
+    }
+  ]
+}

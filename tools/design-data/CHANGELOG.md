@@ -1,5 +1,108 @@
 # @adobe/design-data
 
+## 3.2.6
+
+### Patch Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
+- Updated dependencies [[`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115), [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb), [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb)]:
+  - @adobe/design-data-spec@4.7.0
+  - @adobe/design-data-wasm@0.11.0
+
+## 3.2.5
+
+### Patch Changes
+
+- [#1533](https://github.com/adobe/spectrum-design-data/pull/1533) [`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship a generated `llms.txt` with each consumer-facing package (closes #1533).
+  - **package.json (10 packages)**: add `llms.txt` to the npm `files` list.
+  - **llms.txt**: generated from each README and `.ai/inventory.json` by `pnpm ai:sync`.
+
+- Updated dependencies [[`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340)]:
+  - @adobe/design-data-wasm@0.10.4
+
+## 3.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb), [`a0154dc`](https://github.com/adobe/spectrum-design-data/commit/a0154dc39e460942cd4ab4a755e9e76130400d5d), [`ec3376f`](https://github.com/adobe/spectrum-design-data/commit/ec3376fa833f2c31dd0b2340590134b2747b00c4), [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440)]:
+  - @adobe/design-data-wasm@0.10.3
+
+## 3.2.3
+
+### Patch Changes
+
+- Updated dependencies [[`738ff48`](https://github.com/adobe/spectrum-design-data/commit/738ff487e7a858d846e998f6b370755fe5929b6b)]:
+  - @adobe/design-data-wasm@0.10.2
+
+## 3.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`b9888b8`](https://github.com/adobe/spectrum-design-data/commit/b9888b8ce9a0e4ec5b607e088942999629d5d43d)]:
+  - @adobe/design-data-wasm@0.10.1
+
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [[`2ee9fa8`](https://github.com/adobe/spectrum-design-data/commit/2ee9fa8ccc042e00a57811477a6abdd341b13c1b), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0), [`da4e7d1`](https://github.com/adobe/spectrum-design-data/commit/da4e7d14b5a35a6c1e516b54b1797425145599c0)]:
+  - @adobe/design-data-wasm@0.10.0
+
+## 3.2.0
+
+### Minor Changes
+
+- [#1492](https://github.com/adobe/spectrum-design-data/pull/1492) [`2b5462d`](https://github.com/adobe/spectrum-design-data/commit/2b5462d8c57541abc0dc400dc2bdd2ac0f2a5dc3) Thanks [@GarthDB](https://github.com/GarthDB)! - Add guideline discovery to the agent MCP server.
+  - **tools/design-data-agent-mcp**: add the `list_guidelines` read tool and shared catalog loading.
+  - **tools/design-data**: expose manifest-backed guideline catalog loading.
+  - **tools/design-data-mcp**: reuse the shared guideline catalog loader.
+
+## 3.1.0
+
+### Minor Changes
+
+- [#1472](https://github.com/adobe/spectrum-design-data/pull/1472) [`c49217b`](https://github.com/adobe/spectrum-design-data/commit/c49217b058ceeb9102bcd39decb493821660e739) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a guideline-read tool to design-data-agent-mcp, closing the read/write
+  asymmetry with describe_component (closes spectrum-design-data-9fe.7).
+  - **tools/design-data/src/guideline.js**: new shared `loadGuideline(dir, id)`
+    helper (path-traversal guarded, `manifest` id rejected) used by both MCP
+    servers.
+  - **tools/design-data-mcp/src/tools/design-data.js**: `design-data-guideline`
+    now delegates to the shared loader instead of duplicating it.
+  - **tools/design-data-agent-mcp/src/tools/read.js**: new `describe_guideline`
+    tool reads a guideline's documentBlocks back by slug ID.
+  - **tools/design-data-agent-mcp/src/config.js**: new `guidelinesDir` /
+    `DESIGN_DATA_GUIDELINES` resolution, mirroring `componentsDir`.
+
+## 3.0.9
+
+### Patch Changes
+
+- Updated dependencies [[`47db5e9`](https://github.com/adobe/spectrum-design-data/commit/47db5e9c8069b90e7377a0096ad18fa72c86fb2c)]:
+  - @adobe/design-data-wasm@0.9.0
+
+## 3.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`0c2efe3`](https://github.com/adobe/spectrum-design-data/commit/0c2efe3b039cf5ee59e9dcbaa0c1fa9a59d807ee), [`d3ae6e3`](https://github.com/adobe/spectrum-design-data/commit/d3ae6e3e0a5a35223ac687a72e4b7e6580256eea)]:
+  - @adobe/design-data-wasm@0.8.0
+
+## 3.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`17239f3`](https://github.com/adobe/spectrum-design-data/commit/17239f31fe23279e1034ef4dd1d1c3072d550a16), [`eb6e57f`](https://github.com/adobe/spectrum-design-data/commit/eb6e57f47c6bb38e2675418e9ef7f0737a385f3b), [`3aa312d`](https://github.com/adobe/spectrum-design-data/commit/3aa312db6a055108f685b832dfafdf195ab088fc), [`e0300ab`](https://github.com/adobe/spectrum-design-data/commit/e0300ab6167bc237c83d9d45885a10405c10b974)]:
+  - @adobe/design-data-wasm@0.7.0
+
 ## 3.0.6
 
 ### Patch Changes

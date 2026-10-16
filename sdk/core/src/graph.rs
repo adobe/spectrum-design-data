@@ -92,6 +92,21 @@ pub struct PlatformExtensionRecord {
     pub raw: Value,
 }
 
+/// One component-option extension (spec-format JSON, `platform-extension.json`
+/// `componentOptions[]` shape), aliasing one component's own `options` entry to
+/// this platform's prop/attribute/value names. Unlike [`PlatformExtensionRecord`],
+/// this isn't backed by a shared base registry — `component`+`option` scope it to
+/// one component declaration instead of a registry `termId`. Populated only via a
+/// platform manifest's `extensions.platformExtensions` entries that carry
+/// `componentOptions` (the same fragment files `PlatformExtensionRecord` reads).
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ComponentOptionExtensionRecord {
+    pub platform: String,
+    pub component: String,
+    pub option: String,
+    pub raw: Value,
+}
+
 /// One guideline document (spec-format JSON from `guidelines/`), loaded for relational rules.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct GuidelineRecord {
@@ -146,6 +161,10 @@ pub struct TokenGraph {
     /// Platform-extension declarations, populated only via a platform manifest's
     /// `extensions.platformExtensions` (see [`PlatformExtensionRecord`]).
     pub platform_extensions: Vec<PlatformExtensionRecord>,
+    /// Component-option extension declarations, populated from the same
+    /// `extensions.platformExtensions` entries when they carry `componentOptions`
+    /// (see [`ComponentOptionExtensionRecord`]).
+    pub component_option_extensions: Vec<ComponentOptionExtensionRecord>,
     /// Guideline documents from the spec `guidelines/` catalog.
     pub guidelines: Vec<GuidelineRecord>,
     /// Taxonomy field definitions from the spec fields catalog.
@@ -153,6 +172,28 @@ pub struct TokenGraph {
     /// Component/Token Relationship (CTR) entries from the spec `relationships/`
     /// catalog, flattened from each file's top-level array.
     pub relationships: Vec<RelationshipRecord>,
+    /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
+    /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
+    /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
+    /// whenever `relationships` changes; see [`Self::resolve_relationship_ref`].
+    ///
+    /// These synthetic records live *only* here — they never enter `self.tokens`,
+    /// `uuid_index`, or `concept_id_index` (built solely from `tokens/*.tokens.json`).
+    /// So context-aware resolution (`Self::resolve_concept_in_context`,
+    /// `Self::resolve_alias_in_context`) can't see CTR-only scale-sets; a future need
+    /// for that should follow the `ctrScaleValues` inline-stash pattern used by
+    /// `Self::reindex_relationship_tokens` rather than feeding these into the shared
+    /// indexes (which are iterated elsewhere for diff classification).
+    relationship_tokens: HashMap<String, TokenRecord>,
+    /// Cache: CTR `legacyKey` → every inline-value sibling as its own synthetic
+    /// [`TokenRecord`] (unlike `relationship_tokens`, which keeps only one
+    /// "chosen" default per key). Rebuilt alongside `relationship_tokens` by
+    /// [`Self::reindex_relationship_tokens`]; used by
+    /// [`Self::best_relationship_token_in_context`] so a context-matched
+    /// inline sibling (e.g. one distinguished only by `colorScheme`) isn't
+    /// discarded in favor of the context-blind default when it has no `$ref`
+    /// for [`Self::resolve_relationship_ref_in_context`] to follow.
+    relationship_tokens_by_key: HashMap<String, Vec<TokenRecord>>,
     /// Platform manifest from `manifest.json` in the tokens root, if present.
     pub manifest: serde_json::Value,
     /// Secondary index: UUID value → primary key in `tokens`.
@@ -161,8 +202,8 @@ pub struct TokenGraph {
     /// `"<file>:<index>"` (guaranteed unique) rather than UUIDs, so `$ref`
     /// targets that are UUID strings need this index to resolve.
     ///
-    /// Also contains `set_uuid → first child key` as a context-free fallback
-    /// (see `set_uuid_index` for the full child list used by context-aware
+    /// Also contains `conceptId → first child key` as a context-free fallback
+    /// (see `concept_id_index` for the full child list used by context-aware
     /// resolution).
     uuid_index: HashMap<String, String>,
     /// Tertiary index: legacy human-readable name → primary key in `tokens`.
@@ -173,18 +214,17 @@ pub struct TokenGraph {
     /// against cascade tokens.  Not needed for object-format tokens, which are
     /// already keyed by their legacy slug, but harmlessly populated there too.
     legacy_name_index: HashMap<String, String>,
-    /// Quaternary index: set-level UUID → all child graph keys (in insertion order).
+    /// Quaternary index: concept-level UUID → all child graph keys (in insertion order).
     ///
-    /// When the cascade `migrate convert` command explodes a legacy color-set or
-    /// scale-set token into per-mode records, each child carries a `set_uuid`
-    /// field pointing at the original set-level UUID (which is no longer any
-    /// individual record's `uuid`).  Context-aware callers (e.g.
-    /// [`TokenGraph::resolve_alias_in_context`]) use this index to pick the
-    /// mode-appropriate child rather than always taking the first.
+    /// Every token carries a `conceptId` shared by every mode row of the same
+    /// design concept (see `docs/proposals/013-multimodal-model-spike-samples.md`).
+    /// Context-aware callers (e.g. [`TokenGraph::resolve_alias_in_context`]) use
+    /// this index to pick the mode-appropriate child rather than always taking
+    /// the first.
     ///
-    /// `uuid_index` retains the `set_uuid → first child` mapping as a context-free
+    /// `uuid_index` retains the `conceptId → first child` mapping as a context-free
     /// fallback so non-context callers like `resolve_leaf` continue to terminate.
-    set_uuid_index: HashMap<String, Vec<String>>,
+    concept_id_index: HashMap<String, Vec<String>>,
 }
 
 impl TokenGraph {
@@ -261,6 +301,11 @@ impl TokenGraph {
         if let Some(dir) = mode_sets_dir {
             if dir.is_dir() {
                 graph.mode_sets.extend(Self::load_spec_mode_sets(dir)?);
+                // Rebuild now that mode_sets is complete: legacy_name_index's
+                // scale/colorScheme tie-break (see rebuild_legacy_name_index)
+                // reads mode_sets for its defaults, and it was already built
+                // once, with none, inside from_json_dir_with_names above.
+                graph.rebuild_legacy_name_index();
             }
         }
         if let Some(dir) = components_dir {
@@ -398,17 +443,17 @@ impl TokenGraph {
                     if let Some(u) = &uuid {
                         g.uuid_index.entry(u.clone()).or_insert_with(|| key.clone());
                     }
-                    // Register set_uuid → key so that aliases pointing at the
+                    // Register conceptId → key so that aliases pointing at the
                     // set-level UUID (emitted by the forward migration when a
                     // legacy alias targets a color-set or scale-set token) can
                     // resolve.  `or_insert_with` keeps the first mode (stable)
-                    // as a context-free fallback in uuid_index; set_uuid_index
+                    // as a context-free fallback in uuid_index; concept_id_index
                     // accumulates ALL children for context-aware selection.
-                    if let Some(su) = tok_obj.get("set_uuid").and_then(|v| v.as_str()) {
+                    if let Some(su) = tok_obj.get("conceptId").and_then(|v| v.as_str()) {
                         g.uuid_index
                             .entry(su.to_string())
                             .or_insert_with(|| key.clone());
-                        g.set_uuid_index
+                        g.concept_id_index
                             .entry(su.to_string())
                             .or_default()
                             .push(key.clone());
@@ -520,7 +565,7 @@ impl TokenGraph {
     pub fn from_pairs(entries: Vec<(String, PathBuf, Value)>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
-        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
+        let mut concept_id_index: HashMap<String, Vec<String>> = HashMap::new();
         // `from_pairs` uses the entry name as the graph key (object-format style),
         // so no separate legacy_name_index entry is needed — tokens.get(name) works.
         let legacy_name_index = HashMap::new();
@@ -539,13 +584,13 @@ impl TokenGraph {
                 uuid_index.entry(u.clone()).or_insert_with(|| name.clone());
             }
             if let Some(su) = tok_obj
-                .and_then(|o| o.get("set_uuid"))
+                .and_then(|o| o.get("conceptId"))
                 .and_then(|v| v.as_str())
             {
                 uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| name.clone());
-                set_uuid_index
+                concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(name.clone());
@@ -569,13 +614,16 @@ impl TokenGraph {
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            relationship_tokens: HashMap::new(),
+            relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
             legacy_name_index,
-            set_uuid_index,
+            concept_id_index,
         }
     }
 
@@ -586,47 +634,47 @@ impl TokenGraph {
     pub fn from_records(records: Vec<TokenRecord>) -> Self {
         let mut tokens = HashMap::new();
         let mut uuid_index = HashMap::new();
-        let mut set_uuid_index: HashMap<String, Vec<String>> = HashMap::new();
-        let mut legacy_name_index = HashMap::new();
+        let mut concept_id_index: HashMap<String, Vec<String>> = HashMap::new();
         for record in records {
             if let Some(u) = &record.uuid {
                 uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| record.name.clone());
             }
-            if let Some(su) = record.raw.get("set_uuid").and_then(|v| v.as_str()) {
+            if let Some(su) = record.raw.get("conceptId").and_then(|v| v.as_str()) {
                 uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| record.name.clone());
-                set_uuid_index
+                concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(record.name.clone());
             }
-            // Index by legacy name derived from the name object so that inline
-            // composite refs can resolve if this was a cascade-format token.
-            if let Some(name_val) = record.raw.get("name") {
-                if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| record.name.clone());
-                }
-            }
             tokens.insert(record.name.clone(), record);
         }
-        Self {
+        let mut graph = Self {
             tokens,
             mode_sets: Vec::new(),
             components: Vec::new(),
             platform_extensions: Vec::new(),
+            component_option_extensions: Vec::new(),
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            relationship_tokens: HashMap::new(),
+            relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
             uuid_index,
-            legacy_name_index,
-            set_uuid_index,
-        }
+            legacy_name_index: HashMap::new(),
+            concept_id_index,
+        };
+        // `records`' order is whatever the caller supplied (e.g. the cache's
+        // `hydrate` iterates a `redb` table in lexicographic key order, not
+        // the tokens' original file/array order) — build `legacy_name_index`
+        // via the same deterministic "desktop"/"light" tie-break used
+        // elsewhere, rather than first-wins over an arbitrary order.
+        graph.rebuild_legacy_name_index();
+        graph
     }
 
     /// Load a `product-context.json` and insert Product-layer tokens into the graph.
@@ -933,6 +981,21 @@ impl TokenGraph {
             }
         }
 
+        // 5b. extensions.implementations — platform-owned refinements of a
+        // component's `implementations` rows. Runs after 5 so a fragment may
+        // target a platform-local component. Rows are upserted, never
+        // whole-array replaced, so other implementations' rows survive.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("implementations"))
+            .and_then(|v| v.as_array())
+        {
+            let platform_id = manifest.get("platform").and_then(|v| v.as_str());
+            for entry in entries {
+                merge_implementation_fragment(&mut self.components, entry, platform_id)?;
+            }
+        }
+
         // 6. extensions.platformExtensions — platform terminology annotating ids in
         // an existing base registry. Replaced by (platform, extends); every termId
         // must already exist in that base registry (extensions never add new ids).
@@ -942,47 +1005,512 @@ impl TokenGraph {
             .and_then(|v| v.as_array())
         {
             for entry in entries {
-                let (Some(platform), Some(extends)) = (
-                    entry.get("platform").and_then(|v| v.as_str()),
-                    entry.get("extends").and_then(|v| v.as_str()),
-                ) else {
+                let Some(platform) = entry.get("platform").and_then(|v| v.as_str()) else {
                     continue;
                 };
-                // `extends` names a registry by its field-catalog field name
-                // ("state") or its registry-file basename ("states") — both keys
-                // resolve to the same registry (see `build_registry_map`).
-                let registries = RegistryData::embedded();
-                let registry = registries.for_field(extends).ok_or_else(|| {
-                    CoreError::ParseError(format!(
-                        "platform manifest extensions.platformExtensions declares \
-                         extends:\"{extends}\" but no such base registry exists"
-                    ))
-                })?;
-                if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
-                    for term in terms {
-                        if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
-                            if !registry.contains(term_id) {
-                                return Err(CoreError::ParseError(format!(
-                                    "platform manifest extensions.platformExtensions \
-                                     ({platform}/{extends}) references termId \"{term_id}\" \
-                                     which does not exist in the \"{extends}\" registry"
-                                )));
+                if let Some(extends) = entry.get("extends").and_then(|v| v.as_str()) {
+                    // `extends` names a registry by its field-catalog field name
+                    // ("state") or its registry-file basename ("states") — both keys
+                    // resolve to the same registry (see `build_registry_map`).
+                    let registries = RegistryData::embedded();
+                    let registry = registries.for_field(extends).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.platformExtensions declares \
+                             extends:\"{extends}\" but no such base registry exists"
+                        ))
+                    })?;
+                    if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
+                        for term in terms {
+                            if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
+                                if !registry.contains(term_id) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}/{extends}) references termId \"{term_id}\" \
+                                         which does not exist in the \"{extends}\" registry"
+                                    )));
+                                }
                             }
                         }
                     }
+                    let record = PlatformExtensionRecord {
+                        platform: platform.to_string(),
+                        extends: extends.to_string(),
+                        raw: entry.clone(),
+                    };
+                    upsert_by_key(
+                        &mut self.platform_extensions,
+                        |r| r.platform == platform && r.extends == extends,
+                        record,
+                    );
                 }
-                let record = PlatformExtensionRecord {
-                    platform: platform.to_string(),
-                    extends: extends.to_string(),
-                    raw: entry.clone(),
-                };
-                upsert_by_key(
-                    &mut self.platform_extensions,
-                    |r| r.platform == platform && r.extends == extends,
-                    record,
-                );
+                // `componentOptions` — per-component option/prop aliasing, not backed
+                // by a shared registry (see `ComponentOptionExtensionRecord`). Not
+                // mutually exclusive with `extends` above; the schema's `anyOf` only
+                // requires an entry to carry at least one of the two.
+                if let Some(component_options) =
+                    entry.get("componentOptions").and_then(|v| v.as_array())
+                {
+                    for opt in component_options {
+                        let (Some(component), Some(option)) = (
+                            opt.get("component").and_then(|v| v.as_str()),
+                            opt.get("option").and_then(|v| v.as_str()),
+                        ) else {
+                            continue;
+                        };
+                        // Mirrors the extends/termId check above: a typo'd component or
+                        // option name must fail loudly here, not silently produce a
+                        // dangling alias no component declaration ever resolves.
+                        let component_record = self
+                            .components
+                            .iter()
+                            .find(|c| c.name == component)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions references component \
+                                         \"{component}\" which does not exist"
+                                ))
+                            })?;
+                        let option_record = component_record
+                            .raw
+                            .get("options")
+                            .and_then(|options| options.get(option));
+                        if option_record.is_none() {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.platformExtensions \
+                                 ({platform}) componentOptions references option \
+                                 \"{option}\" which does not exist on component \"{component}\""
+                            )));
+                        }
+                        if let Some(value_aliases) = opt.get("values").and_then(Value::as_array) {
+                            let canonical_values = option_record
+                                .and_then(|option| option.get("values"))
+                                .and_then(Value::as_array)
+                                .ok_or_else(|| {
+                                    CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions maps values for option \
+                                         \"{option}\" on component \"{component}\", which has no canonical values"
+                                    ))
+                                })?;
+                            for alias in value_aliases {
+                                let Some(value) = alias.get("value").and_then(Value::as_str) else {
+                                    continue;
+                                };
+                                if !canonical_values.iter().any(|canonical| {
+                                    canonical.get("value").and_then(Value::as_str) == Some(value)
+                                }) {
+                                    return Err(CoreError::ParseError(format!(
+                                        "platform manifest extensions.platformExtensions \
+                                         ({platform}) componentOptions value \
+                                         \"{value}\" is not declared on component \
+                                         \"{component}\" option \"{option}\""
+                                    )));
+                                }
+                            }
+                        }
+                        let record = ComponentOptionExtensionRecord {
+                            platform: platform.to_string(),
+                            component: component.to_string(),
+                            option: option.to_string(),
+                            raw: opt.clone(),
+                        };
+                        upsert_by_key(
+                            &mut self.component_option_extensions,
+                            |r| {
+                                r.platform == platform
+                                    && r.component == component
+                                    && r.option == option
+                            },
+                            record,
+                        );
+                    }
+                }
             }
         }
+
+        // 7. extensions.fields — platform-local field declarations, add-or-replace
+        // by name into the field catalog. `extensions.formatting.conceptOrder`
+        // (if present) references field names by string, so a platform that
+        // renames or removes a field it also references there is
+        // self-inconsistent; that is a manifest-authoring concern, not
+        // enforced here.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("fields"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let required = entry
+                    .get("required")
+                    .and_then(|v| v.as_bool())
+                    .unwrap_or(false);
+                let description = entry
+                    .get("description")
+                    .and_then(|v| v.as_str())
+                    .filter(|s| !s.is_empty())
+                    .map(str::to_string);
+                let record = FieldRecord {
+                    name: name.to_string(),
+                    required,
+                    description,
+                };
+                upsert_by_key(&mut self.fields, |f| f.name == name, record);
+            }
+        }
+
+        // 7b. extensions.modeSets — platform-local mode-set declarations and
+        // edits, keyed by "op" (mirrors extensions.relationships' add/override/
+        // remove grammar):
+        //   - no "op": add-or-replace the whole set by name (unchanged
+        //     behavior). New name = a clean new platform axis; existing name =
+        //     the platform's version replaces it for this platform's
+        //     resolution only — the foundation catalog is untouched.
+        //   - "op": "addMode" / "removeMode" — add or drop a single mode value
+        //     on an existing set, without restating its other modes.
+        //   - "op": "setDefault" — change an existing set's default mode.
+        //   - "op": "remove" — drop the whole set from this platform's
+        //     resolution.
+        // Every op but the plain add targets an existing set by "name" and is
+        // rejected (not silently skipped) when the target, or an op-specific
+        // field, is missing. Cascade specificity/matching and SPEC-005
+        // (default ∈ modes) already operate on `graph.mode_sets` generically —
+        // no changes needed there.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("modeSets"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                // An "op" key present but not a string (e.g. a number or bool) must
+                // not silently fall through to the plain-add path below — that would
+                // treat a malformed op entry as an untargeted add and drop it via the
+                // add path's own missing-modes/default `continue`, defeating the
+                // "reject rather than silently skip" guarantee for ops.
+                if let Some(op_value) = entry.get("op") {
+                    if op_value.as_str().is_none() {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets entry has a non-string \
+                             \"op\" ({op_value})"
+                        )));
+                    }
+                }
+                let op = entry.get("op").and_then(|v| v.as_str());
+                // Every op (unlike the plain add below) targets an existing set by
+                // "name", so a missing "name" here is a manifest error, not a skip.
+                let name = if op.is_some() {
+                    entry.get("name").and_then(|v| v.as_str()).ok_or_else(|| {
+                        CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets \"{}\" entry is missing \
+                             a \"name\"",
+                            op.unwrap()
+                        ))
+                    })?
+                } else {
+                    let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                        continue;
+                    };
+                    name
+                };
+                match op {
+                    None => {
+                        let Some(modes) = entry.get("modes").and_then(|v| v.as_array()) else {
+                            continue;
+                        };
+                        let Some(default_mode) = entry.get("default").and_then(|v| v.as_str())
+                        else {
+                            continue;
+                        };
+                        let modes: Vec<String> = modes
+                            .iter()
+                            .filter_map(|m| m.as_str().map(String::from))
+                            .collect();
+                        let record = ModeSetRecord {
+                            file: PathBuf::from("manifest.json"),
+                            name: name.to_string(),
+                            modes,
+                            default_mode: default_mode.to_string(),
+                        };
+                        upsert_by_key(&mut self.mode_sets, |m| m.name == name, record);
+                    }
+                    Some("addMode") => {
+                        let mode = entry.get("mode").and_then(|v| v.as_str()).ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets addMode for \"{name}\" \
+                                 is missing a \"mode\""
+                            ))
+                        })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets addMode targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if target.modes.iter().any(|m| m == mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets addMode for \"{name}\" \
+                                 mode \"{mode}\" already exists"
+                            )));
+                        }
+                        target.modes.push(mode.to_string());
+                    }
+                    Some("removeMode") => {
+                        let mode = entry.get("mode").and_then(|v| v.as_str()).ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 is missing a \"mode\""
+                            ))
+                        })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets removeMode targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if !target.modes.iter().any(|m| m == mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 mode \"{mode}\" does not exist"
+                            )));
+                        }
+                        if target.default_mode == mode {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove \"{mode}\" — it is the current default (use \
+                                 \"setDefault\" first)"
+                            )));
+                        }
+                        if target.modes.len() == 1 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove its only remaining mode \"{mode}\""
+                            )));
+                        }
+                        // Guard against orphaning tokens authored against this mode value:
+                        // cascade matching never validates a token's mode value against the
+                        // set's remaining `modes`, so a stale "mode" reference would keep
+                        // matching (and could even outrank the default by specificity).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .and_then(|o| o.get(name))
+                                    .and_then(|v| v.as_str())
+                                    == Some(mode)
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets removeMode for \"{name}\" \
+                                 cannot remove \"{mode}\" — still referenced by {referenced} \
+                                 token(s); update or remove those tokens first"
+                            )));
+                        }
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .expect("existence already checked above");
+                        target.modes.retain(|m| m != mode);
+                    }
+                    Some("setDefault") => {
+                        let default_mode = entry
+                            .get("default")
+                            .and_then(|v| v.as_str())
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets setDefault for \
+                                     \"{name}\" is missing a \"default\""
+                                ))
+                            })?;
+                        let target = self
+                            .mode_sets
+                            .iter_mut()
+                            .find(|m| m.name == name)
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.modeSets setDefault targets \
+                                     mode set \"{name}\" which does not exist"
+                                ))
+                            })?;
+                        if !target.modes.iter().any(|m| m == default_mode) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets setDefault for \"{name}\" \
+                                 default \"{default_mode}\" is not in its modes"
+                            )));
+                        }
+                        target.default_mode = default_mode.to_string();
+                    }
+                    Some("remove") => {
+                        if !self.mode_sets.iter().any(|m| m.name == name) {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets remove targets mode set \
+                                 \"{name}\" which does not exist"
+                            )));
+                        }
+                        // Same guard as removeMode: dropping the whole set while tokens
+                        // still carry this mode-set key would orphan them for cascade
+                        // matching (which never validates against the mode-set catalog).
+                        let referenced = self
+                            .tokens
+                            .values()
+                            .filter(|t| {
+                                t.raw
+                                    .get("name")
+                                    .and_then(|v| v.as_object())
+                                    .is_some_and(|o| o.contains_key(name))
+                            })
+                            .count();
+                        if referenced > 0 {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.modeSets remove targets mode set \
+                                 \"{name}\" which is still referenced by {referenced} token(s); \
+                                 update or remove those tokens first"
+                            )));
+                        }
+                        self.mode_sets.retain(|m| m.name != name);
+                    }
+                    Some(other) => {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.modeSets entry has unknown op \
+                             \"{other}\" (expected \"addMode\", \"removeMode\", \"setDefault\", \
+                             or \"remove\", or omit \"op\" to add/replace the whole set)"
+                        )));
+                    }
+                }
+            }
+        }
+
+        // 8. extensions.guidelines — platform-local guideline docs, add-or-replace
+        // by name into the guideline catalog.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("guidelines"))
+            .and_then(|v| v.as_array())
+        {
+            for entry in entries {
+                let Some(name) = entry.get("name").and_then(|v| v.as_str()) else {
+                    continue;
+                };
+                let record = GuidelineRecord {
+                    name: name.to_string(),
+                    file: PathBuf::from("manifest.json"),
+                    raw: entry.clone(),
+                };
+                upsert_by_key(&mut self.guidelines, |g| g.name == name, record);
+            }
+        }
+
+        // 9. extensions.relationships — platform-local CTR add/override/remove.
+        // Add: an entry with no "op" is a full relationship object (per
+        // relationship.schema.json), appended at the platform layer, keyed
+        // positionally (file "manifest.json", index = its position in this array).
+        // Override/remove: relationships have no stable identity besides an
+        // optional `uuid`, so targeting one requires an entry with "op":
+        // "override" or "op": "remove" plus a "uuid" — an override/remove entry
+        // missing a uuid is a manifest-authoring error, rejected rather than
+        // silently skipped. "override" also carries a "value" (the replacement
+        // relationship object); "remove" drops the matching record entirely.
+        if let Some(entries) = manifest
+            .get("extensions")
+            .and_then(|e| e.get("relationships"))
+            .and_then(|v| v.as_array())
+        {
+            for (index, entry) in entries.iter().enumerate() {
+                match entry.get("op").and_then(|v| v.as_str()) {
+                    None => {
+                        let uuid = entry
+                            .get("uuid")
+                            .and_then(|v| v.as_str())
+                            .map(str::to_string);
+                        let record = RelationshipRecord {
+                            file: PathBuf::from("manifest.json"),
+                            index,
+                            uuid,
+                            raw: entry.clone(),
+                        };
+                        // Always append — a plain add has no "op" and must not
+                        // silently overwrite an existing relationship even if its
+                        // (optional, unconstrained) uuid happens to collide with
+                        // one already present. Overwriting requires an explicit
+                        // "op": "override" entry (handled below).
+                        self.relationships.push(record);
+                    }
+                    Some("override") => {
+                        let target_uuid =
+                            entry.get("uuid").and_then(|v| v.as_str()).ok_or_else(|| {
+                                CoreError::ParseError(
+                                    "platform manifest extensions.relationships override entry \
+                                     is missing a \"uuid\" — relationships have no other stable \
+                                     identity to target"
+                                        .to_string(),
+                                )
+                            })?;
+                        let value = entry.get("value").cloned().ok_or_else(|| {
+                            CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships override for uuid \
+                                 \"{target_uuid}\" is missing a \"value\" (the replacement \
+                                 relationship object)"
+                            ))
+                        })?;
+                        let target = self
+                            .relationships
+                            .iter_mut()
+                            .find(|r| r.uuid.as_deref() == Some(target_uuid))
+                            .ok_or_else(|| {
+                                CoreError::ParseError(format!(
+                                    "platform manifest extensions.relationships override \
+                                     targets uuid \"{target_uuid}\" which does not exist"
+                                ))
+                            })?;
+                        target.raw = value;
+                    }
+                    Some("remove") => {
+                        let target_uuid =
+                            entry.get("uuid").and_then(|v| v.as_str()).ok_or_else(|| {
+                                CoreError::ParseError(
+                                    "platform manifest extensions.relationships remove entry is \
+                                     missing a \"uuid\" — relationships have no other stable \
+                                     identity to target"
+                                        .to_string(),
+                                )
+                            })?;
+                        let before = self.relationships.len();
+                        self.relationships
+                            .retain(|r| r.uuid.as_deref() != Some(target_uuid));
+                        if self.relationships.len() == before {
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.relationships remove targets \
+                                 uuid \"{target_uuid}\" which does not exist"
+                            )));
+                        }
+                    }
+                    Some(other) => {
+                        return Err(CoreError::ParseError(format!(
+                            "platform manifest extensions.relationships entry has unknown op \
+                             \"{other}\" (expected \"override\" or \"remove\", or omit \"op\" \
+                             to add)"
+                        )));
+                    }
+                }
+            }
+        }
+
+        self.reindex_relationship_tokens();
 
         Ok(PlatformManifest {
             mode_set_restrictions,
@@ -1036,29 +1564,29 @@ impl TokenGraph {
         Ok(Vec::new())
     }
 
-    /// Rebuild `uuid_index` and `set_uuid_index` from the current `tokens` map
+    /// Rebuild `uuid_index` and `concept_id_index` from the current `tokens` map
     /// (after filtering or cache reload).
     ///
     /// This is called whenever the token map is mutated (e.g. after loading from
     /// the redb cache, which only persists `tokens`/`mode_sets`/`fields`).
-    /// Rebuilding here ensures that `set_uuid` → children mappings are restored
+    /// Rebuilding here ensures that `conceptId` → children mappings are restored
     /// even when the graph was not loaded fresh from JSON.
     fn rebuild_uuid_index(&mut self) {
         self.uuid_index.clear();
-        self.set_uuid_index.clear();
+        self.concept_id_index.clear();
         for (key, rec) in &self.tokens {
             if let Some(u) = &rec.uuid {
                 self.uuid_index
                     .entry(u.clone())
                     .or_insert_with(|| key.clone());
             }
-            if let Some(su) = rec.raw.get("set_uuid").and_then(|v| v.as_str()) {
+            if let Some(su) = rec.raw.get("conceptId").and_then(|v| v.as_str()) {
                 // First-child fallback for context-free callers (resolve_leaf, etc.).
                 self.uuid_index
                     .entry(su.to_string())
                     .or_insert_with(|| key.clone());
                 // Full child list for context-aware resolution.
-                self.set_uuid_index
+                self.concept_id_index
                     .entry(su.to_string())
                     .or_default()
                     .push(key.clone());
@@ -1066,22 +1594,84 @@ impl TokenGraph {
         }
     }
 
+    /// Rebuild `legacy_name_index` from `self.tokens` (a `HashMap`, so iteration
+    /// order is not the tokens' original file/array order — anything relying on
+    /// "first seen wins" here would pick a candidate nondeterministically).
+    ///
+    /// When several tokens share one `legacyKey` (a scale-set's desktop/mobile
+    /// members, or a color-set's light/dark/wireframe members — both legitimate:
+    /// the legacy flat-key format has no room for the mode axis), prefer the
+    /// canonical/base member deterministically: `name.scale` matching the
+    /// `scale` mode set's declared `default_mode`, else `name.colorScheme`
+    /// matching `colorScheme`'s, else the lexicographically-first graph key.
+    /// Defaults are read from `self.mode_sets` (see [`Self::with_mode_sets`])
+    /// when that axis is declared there, falling back to the historical
+    /// `"desktop"`/`"light"` literals otherwise — e.g. a caller (the redb
+    /// cache's `hydrate`, or any two-step "tokens then mode sets" builder
+    /// path) that hasn't rebuilt the index again since attaching mode sets.
+    /// Same "desktop is base" convention as [`Self::reindex_relationship_tokens`]'s
+    /// CTR-side scale tie-break.
     fn rebuild_legacy_name_index(&mut self) {
+        let scale_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "scale")
+            .map_or("desktop", |ms| ms.default_mode.as_str());
+        let color_scheme_default = self
+            .mode_sets
+            .iter()
+            .find(|ms| ms.name == "colorScheme")
+            .map_or("light", |ms| ms.default_mode.as_str());
+
         self.legacy_name_index.clear();
+        let mut candidates: HashMap<String, Vec<&str>> = HashMap::new();
         for (key, rec) in &self.tokens {
             if let Some(name_val) = rec.raw.get("name") {
                 if let Some(legacy_key) = extract_legacy_key(name_val) {
-                    self.legacy_name_index
-                        .entry(legacy_key)
-                        .or_insert_with(|| key.clone());
+                    candidates.entry(legacy_key).or_default().push(key.as_str());
                 }
             }
+        }
+        for (legacy_key, mut keys) in candidates {
+            keys.sort_unstable();
+            let chosen = keys
+                .iter()
+                .find(|k| {
+                    self.tokens[**k]
+                        .raw
+                        .get("name")
+                        .and_then(|n| n.get("scale"))
+                        .and_then(Value::as_str)
+                        == Some(scale_default)
+                })
+                .or_else(|| {
+                    keys.iter().find(|k| {
+                        self.tokens[**k]
+                            .raw
+                            .get("name")
+                            .and_then(|n| n.get("colorScheme"))
+                            .and_then(Value::as_str)
+                            == Some(color_scheme_default)
+                    })
+                })
+                .or_else(|| keys.first())
+                .expect("keys is non-empty by construction");
+            self.legacy_name_index
+                .insert(legacy_key, (*chosen).to_string());
         }
     }
 
     /// Attach mode set records (e.g. from conformance fixtures).
+    ///
+    /// Rebuilds `legacy_name_index` afterward: every call site attaches mode
+    /// sets after tokens are already loaded, and the index's scale/colorScheme
+    /// tie-break (see [`Self::rebuild_legacy_name_index`]) reads
+    /// `self.mode_sets` for its defaults, so a stale index built before this
+    /// call would silently keep using the `"desktop"`/`"light"` fallback
+    /// instead of the now-attached schema's declared defaults.
     pub fn with_mode_sets(mut self, mode_sets: Vec<ModeSetRecord>) -> Self {
         self.mode_sets = mode_sets;
+        self.rebuild_legacy_name_index();
         self
     }
 
@@ -1214,7 +1804,216 @@ impl TokenGraph {
     /// Attach relationship records loaded from a relationships catalog directory.
     pub fn with_relationships(mut self, relationships: Vec<RelationshipRecord>) -> Self {
         self.relationships = relationships;
+        self.reindex_relationship_tokens();
         self
+    }
+
+    /// Schemas whose inline CTR `value` is a plain literal directly comparable
+    /// to a Figma value. `font-family.json`'s inline value is a bare
+    /// family-name string, compared verbatim against a Figma `STRING`
+    /// variable by `diff_against_source`'s `"STRING"` branch — same rule as
+    /// any other literal here, no font-specific normalization.
+    ///
+    /// Not derived from `figma::import::diff_against_source`'s Figma-side
+    /// `resolved_type` match (`COLOR`/`FLOAT`/`STRING`) — that classifies by
+    /// Figma variable type, this by design-data `$schema`, and there's no
+    /// shared enum between them. Adding a schema here that isn't actually
+    /// FLOAT/STRING-comparable on the Figma side needs a matching look at
+    /// `diff_against_source`.
+    const INLINE_CTR_COMPARABLE_SCHEMAS: [&'static str; 5] = [
+        "dimension.json",
+        "multiplier.json",
+        "gradient-stop.json",
+        "opacity.json",
+        "font-family.json",
+    ];
+
+    /// Rebuild `relationship_tokens` from `self.relationships`: for every CTR
+    /// `legacyKey` with no `$ref`-backed entry, synthesize a leaf `TokenRecord`
+    /// from its inline `value`, so `resolve_relationship_ref` can return it.
+    ///
+    /// When a `legacyKey` has several inline entries (a scale-set CTR, e.g.
+    /// `avatar-size-100` has one per `scale`), prefers `scale: "desktop"` —
+    /// same convention as the alias-target fallback's default-mode pick —
+    /// then the first scale-less entry, then simply the first.
+    ///
+    /// Call after any mutation of `self.relationships` (this fn,
+    /// `apply_platform_manifest`'s CTR add/override/remove, and
+    /// `validate::validate_all_with_full_options`'s `relationships_path` load).
+    pub(crate) fn reindex_relationship_tokens(&mut self) {
+        self.relationship_tokens.clear();
+        self.relationship_tokens_by_key.clear();
+        let mut by_key: HashMap<&str, Vec<&RelationshipRecord>> = HashMap::new();
+        for rec in &self.relationships {
+            if rec.raw.get("$ref").is_some() {
+                continue; // $ref-backed CTRs resolve via resolve_alias_key instead.
+            }
+            let Some(legacy_key) = rec.raw.get("legacyKey").and_then(Value::as_str) else {
+                continue;
+            };
+            let comparable = rec
+                .raw
+                .get("$schema")
+                .and_then(Value::as_str)
+                .is_some_and(|s| {
+                    Self::INLINE_CTR_COMPARABLE_SCHEMAS
+                        .iter()
+                        .any(|suf| s.ends_with(suf))
+                });
+            if comparable && rec.raw.get("value").is_some() {
+                by_key.entry(legacy_key).or_default().push(rec);
+            }
+        }
+        for (legacy_key, candidates) in by_key {
+            let chosen = candidates
+                .iter()
+                .find(|r| {
+                    r.raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get("scale"))
+                        .and_then(Value::as_str)
+                        == Some("desktop")
+                })
+                .or_else(|| {
+                    candidates.iter().find(|r| {
+                        r.raw
+                            .get("scope")
+                            .and_then(|s| s.get("options"))
+                            .and_then(|o| o.get("scale"))
+                            .is_none()
+                    })
+                })
+                .or_else(|| candidates.first())
+                .expect("candidates is non-empty by construction");
+            // CTRs key scale variants under `scope.options.scale` /
+            // `setUuid` (camelCase), not the `name.scale` / `conceptId`
+            // shape `scale_aligned_source_value` reads off
+            // cascade-token records via `concept_id_index` — and that index
+            // is built only from `self.tokens`, which CTR-only scale-sets
+            // never enter. Rather than force these into that pipeline,
+            // stash every scale's value directly on the synthetic raw so
+            // `scale_aligned_source_value` can pick the Figma-mode-matching
+            // one itself when there's more than one.
+            let mut raw = chosen.raw.clone();
+            if candidates.len() > 1 {
+                let mut scale_values = serde_json::Map::new();
+                for c in &candidates {
+                    let scale = c
+                        .raw
+                        .get("scope")
+                        .and_then(|s| s.get("options"))
+                        .and_then(|o| o.get("scale"))
+                        .and_then(Value::as_str);
+                    if let (Some(scale), Some(value)) = (scale, c.raw.get("value")) {
+                        scale_values.insert(scale.to_string(), value.clone());
+                    }
+                }
+                if let Some(obj) = raw.as_object_mut() {
+                    if !scale_values.is_empty() {
+                        obj.insert("ctrScaleValues".to_string(), Value::Object(scale_values));
+                    }
+                }
+            }
+            self.relationship_tokens.insert(
+                legacy_key.to_string(),
+                TokenRecord {
+                    name: legacy_key.to_string(),
+                    file: chosen.file.clone(),
+                    index: chosen.index,
+                    schema_url: chosen
+                        .raw
+                        .get("$schema")
+                        .and_then(Value::as_str)
+                        .map(str::to_string),
+                    uuid: chosen.uuid.clone(),
+                    alias_target: None,
+                    raw,
+                    layer: Layer::default(),
+                },
+            );
+            // Keep every candidate's own record too (raw untouched, no
+            // `ctrScaleValues` stashing) — `relationship_tokens` above holds
+            // only the single "chosen" default, which is wrong whenever a
+            // context-aware caller needs a *different* sibling than the
+            // default (e.g. one distinguished by `colorScheme` rather than
+            // `scale`). See `best_relationship_token_in_context`.
+            self.relationship_tokens_by_key.insert(
+                legacy_key.to_string(),
+                candidates
+                    .iter()
+                    .map(|c| TokenRecord {
+                        name: legacy_key.to_string(),
+                        file: c.file.clone(),
+                        index: c.index,
+                        schema_url: c
+                            .raw
+                            .get("$schema")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                        uuid: c.uuid.clone(),
+                        alias_target: None,
+                        raw: c.raw.clone(),
+                        layer: Layer::default(),
+                    })
+                    .collect(),
+            );
+        }
+    }
+
+    /// Context-aware sibling of the `relationship_tokens` default: when a
+    /// `legacyKey` has more than one inline-value CTR sibling (see
+    /// [`Self::reindex_relationship_tokens`]), scores each against `ctx` the
+    /// same way [`Self::best_relationship_candidate`] does and returns the
+    /// best match; falls back to the single context-blind default when
+    /// there's only one candidate (or none cached, e.g. legacy_key isn't
+    /// inline-value-backed at all).
+    fn best_relationship_token_in_context<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        let Some(candidates) = self.relationship_tokens_by_key.get(legacy_key) else {
+            return self.relationship_tokens.get(legacy_key);
+        };
+        if candidates.len() == 1 {
+            return self.relationship_tokens.get(legacy_key);
+        }
+        let mut best_score: Option<usize> = None;
+        let mut best_uuid: Option<&str> = None;
+        let mut best: Option<&TokenRecord> = None;
+        for c in candidates {
+            let scope_options = c.raw.get("scope").and_then(|s| s.get("options"));
+            let conflicts = ctx.iter().any(|(k, v)| {
+                scope_options
+                    .and_then(|o| o.get(k.as_str()))
+                    .and_then(Value::as_str)
+                    .is_some_and(|existing| existing != v.as_str())
+            });
+            if conflicts {
+                continue;
+            }
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    scope_options
+                        .and_then(|o| o.get(k.as_str()))
+                        .and_then(Value::as_str)
+                        == Some(v.as_str())
+                })
+                .count();
+            let cand_uuid = c.uuid.as_deref().unwrap_or("");
+            let is_better = match best_score {
+                None => true,
+                Some(b) => score > b || (score == b && Some(cand_uuid) < best_uuid),
+            };
+            if is_better {
+                best_score = Some(score);
+                best_uuid = Some(cand_uuid);
+                best = Some(c);
+            }
+        }
+        best.or_else(|| self.relationship_tokens.get(legacy_key))
     }
 
     /// Find the `$schema` URL of any token whose `name.property` matches `property`.
@@ -1270,6 +2069,133 @@ fn upsert_by_key<T>(vec: &mut Vec<T>, key: impl Fn(&T) -> bool, record: T) {
     }
 }
 
+/// Merge one `extensions/implementations/` fragment
+/// (`implementation-mapping.schema.json`) into its target component's
+/// `implementations` array. See `spec/manifest.md#extensionsimplementations`.
+///
+/// Each row's owning implementation id is its own `implementation` field, else
+/// the manifest's `platform` id (stamped onto the stored row). A platform only
+/// ever matches rows it owns: rows stamped with the same id, or unstamped
+/// foundation defaults. It never touches another implementation's rows.
+fn merge_implementation_fragment(
+    components: &mut [ComponentRecord],
+    fragment: &Value,
+    platform_id: Option<&str>,
+) -> Result<(), CoreError> {
+    let Some(component) = fragment.get("component").and_then(|v| v.as_str()) else {
+        return Ok(()); // unreachable after Layer 1 fragment validation
+    };
+    let record = components
+        .iter_mut()
+        .find(|c| c.name == component)
+        .ok_or_else(|| {
+            CoreError::ParseError(format!(
+                "platform manifest extensions.implementations targets component \
+                 \"{component}\" which does not exist in the component catalog"
+            ))
+        })?;
+    let Some(obj) = record.raw.as_object_mut() else {
+        return Ok(());
+    };
+    let rows = obj
+        .entry("implementations")
+        .or_insert_with(|| Value::Array(Vec::new()));
+    let Some(rows) = rows.as_array_mut() else {
+        return Err(CoreError::ParseError(format!(
+            "component \"{component}\" has a non-array `implementations` field"
+        )));
+    };
+
+    for entry in fragment
+        .get("implementations")
+        .and_then(|v| v.as_array())
+        .into_iter()
+        .flatten()
+    {
+        let owner = entry
+            .get("implementation")
+            .and_then(|v| v.as_str())
+            .or(platform_id);
+
+        if entry.get("op").and_then(|v| v.as_str()) == Some("remove") {
+            let before = rows.len();
+            rows.retain(|row| !(row_owned_by(row, owner) && remove_selector_matches(entry, row)));
+            if rows.len() == before {
+                return Err(CoreError::ParseError(format!(
+                    "platform manifest extensions.implementations op:\"remove\" on component \
+                     \"{component}\" matched no implementation row owned by {} ({entry})",
+                    owner.map_or_else(|| "this manifest".to_string(), |o| format!("\"{o}\""))
+                )));
+            }
+            continue;
+        }
+
+        let mut row = entry.clone();
+        if let (Some(owner), Some(row_obj)) = (owner, row.as_object_mut()) {
+            row_obj
+                .entry("implementation")
+                .or_insert_with(|| Value::String(owner.to_string()));
+        }
+        upsert_by_key(
+            rows,
+            |existing| same_implementation_row(existing, &row),
+            row.clone(),
+        );
+    }
+    Ok(())
+}
+
+fn str_field<'a>(v: &'a Value, key: &str) -> Option<&'a str> {
+    v.get(key).and_then(|v| v.as_str())
+}
+
+/// A row is owned by `owner` when it is an unstamped foundation default or is
+/// stamped with the same implementation id.
+fn row_owned_by(row: &Value, owner: Option<&str>) -> bool {
+    match str_field(row, "implementation") {
+        None => true,
+        Some(id) => Some(id) == owner,
+    }
+}
+
+/// `op: "remove"` matches a row when every selector field it carries equals the
+/// row's value for that field.
+fn remove_selector_matches(selector: &Value, row: &Value) -> bool {
+    [
+        "platform",
+        "implementation",
+        "componentName",
+        "package",
+        "importPath",
+    ]
+    .iter()
+    .all(|key| match str_field(selector, key) {
+        None => true,
+        Some(want) => str_field(row, key) == Some(want),
+    })
+}
+
+/// Upsert identity. A stamped row is keyed by `(platform, implementation,
+/// componentName)`. An unstamped foundation default has no implementation id,
+/// so it matches when `platform` and `componentName` agree and the two rows
+/// share a module reference (`package` or `importPath`).
+fn same_implementation_row(existing: &Value, incoming: &Value) -> bool {
+    if str_field(existing, "platform") != str_field(incoming, "platform")
+        || str_field(existing, "componentName") != str_field(incoming, "componentName")
+    {
+        return false;
+    }
+    match str_field(existing, "implementation") {
+        Some(id) => str_field(incoming, "implementation") == Some(id),
+        None => ["package", "importPath"].iter().any(|key| {
+            matches!(
+                (str_field(existing, key), str_field(incoming, key)),
+                (Some(a), Some(b)) if a == b
+            )
+        }),
+    }
+}
+
 /// The JSON "kind" of a value, used for override type-safety checks.
 fn json_kind(v: &Value) -> &'static str {
     match v {
@@ -1318,7 +2244,7 @@ fn parse_mode_set(path: &Path, obj: &serde_json::Map<String, Value>) -> Option<M
 
 /// Count the name-object fields in `raw` that match the given context map.
 ///
-/// Used for context-aware candidate selection in [`TokenGraph::resolve_set_in_context`]
+/// Used for context-aware candidate selection in [`TokenGraph::resolve_concept_in_context`]
 /// and `cascade::resolve_reference`: the candidate with the highest score is the
 /// best fit for the requested context.
 pub(crate) fn name_ctx_score(
@@ -1384,31 +2310,242 @@ impl TokenGraph {
         None
     }
 
-    /// Whether `target` resolves to a relationship's own `uuid`, or to a
-    /// mode-set group id that only survives as `setUuid` on sibling
-    /// relationships — i.e. a CTR-side alias anchor, for callers that already
-    /// tried [`Self::resolve_alias_key`] (token-side) and came up empty.
-    pub fn relationship_target_exists(&self, target: &str) -> bool {
-        self.relationships.iter().any(|r| {
+    /// Relationship whose own `uuid`, or `setUuid`, equals `target` — i.e.
+    /// `target` is a CTR-side alias anchor rather than a token-side one.
+    /// Shared by [`Self::relationship_target_exists`] and
+    /// [`Self::resolve_relationship_ref`]'s sibling-CTR fallback.
+    fn find_relationship_target(&self, target: &str) -> Option<&RelationshipRecord> {
+        self.relationships.iter().find(|r| {
             r.uuid.as_deref() == Some(target)
                 || r.raw.get("setUuid").and_then(|v| v.as_str()) == Some(target)
         })
     }
 
-    /// Resolve a set-level UUID to the context-appropriate child record.
+    /// Whether `target` resolves to a relationship's own `uuid`, or to a
+    /// mode-set group id that only survives as `setUuid` on sibling
+    /// relationships — i.e. a CTR-side alias anchor, for callers that already
+    /// tried [`Self::resolve_alias_key`] (token-side) and came up empty.
+    pub fn relationship_target_exists(&self, target: &str) -> bool {
+        self.find_relationship_target(target).is_some()
+    }
+
+    /// Resolve a Component/Token Relationship (CTR) `legacyKey` to a token,
+    /// for callers that already tried [`Self::resolve_alias_key`] (token-side)
+    /// and came up empty.
     ///
-    /// Picks the child from `set_uuid_index` whose name-object fields best match
+    /// Tries the CTR's `$ref` target first, via [`Self::resolve_alias_key`].
+    /// When that misses, `$ref` may point at a *sibling* CTR's own
+    /// `uuid`/`setUuid` rather than a token (e.g. `avatar-group-size-100`'s
+    /// `$ref` targets `avatar-size-100`'s scale-set `setUuid`) — recurses
+    /// into that sibling's own `legacyKey` to follow the chain, which may run
+    /// several CTRs deep (e.g. `drop-zone-title-font-size` →
+    /// `illustrated-message-medium-title-font-size` → `body-size-s` → a
+    /// token's `conceptId`) before landing on a token or an inline value.
+    /// Falls back to the CTR's own inline `value` when it carries one
+    /// directly (e.g. `avatar-size-100`'s dimension) — see
+    /// [`Self::reindex_relationship_tokens`] for which schemas qualify
+    /// (`font-family`'s inline value, e.g. `code-font-family`, deliberately
+    /// doesn't: no schema-driven comparison rule for it here, so a chain
+    /// that bottoms out there — e.g. `code-cjk-font-family` — stays
+    /// unresolved by design). Returns `None` when no CTR has that
+    /// `legacyKey`, or no path found a usable value.
+    pub fn resolve_relationship_ref<'a>(&'a self, legacy_key: &str) -> Option<&'a TokenRecord> {
+        self.resolve_relationship_ref_inner(legacy_key, 0)
+    }
+
+    fn resolve_relationship_ref_inner<'a>(
+        &'a self,
+        legacy_key: &str,
+        depth: usize,
+    ) -> Option<&'a TokenRecord> {
+        // ponytail: depth cap guards a cyclic/malformed $ref chain; real
+        // chains observed so far are 3 hops deep at most.
+        if depth > 16 {
+            return None;
+        }
+        let via_ref = self
+            .relationships
+            .iter()
+            .find(|r| r.raw.get("legacyKey").and_then(|v| v.as_str()) == Some(legacy_key))
+            .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
+            .and_then(|target| {
+                self.resolve_alias_key(target).or_else(|| {
+                    let sibling_key = self
+                        .find_relationship_target(target)?
+                        .raw
+                        .get("legacyKey")
+                        .and_then(|v| v.as_str())?;
+                    self.resolve_relationship_ref_inner(sibling_key, depth + 1)
+                })
+            });
+        via_ref.or_else(|| self.relationship_tokens.get(legacy_key))
+    }
+
+    /// Relationship record whose `legacyKey` matches and whose
+    /// `scope.options` best fits `ctx` — same tie-break style as
+    /// [`Self::resolve_concept_in_context`] (highest match count wins), but
+    /// scored against a CTR's `scope.options` rather than a token's `name`.
+    ///
+    /// Some CTRs emit multiple sibling records under one `legacyKey`,
+    /// distinguished only by `scope.options` (e.g.
+    /// `opacity-checkerboard-square-dark`'s light/dark/wireframe
+    /// `colorScheme` variants, each `$ref`-ing a different palette step) —
+    /// [`Self::resolve_relationship_ref`]'s plain `.find()` picks whichever
+    /// sibling happens first, which is wrong whenever the siblings disagree
+    /// (as they do here: light/wireframe target gray-200, dark targets
+    /// gray-800). This scores every same-`legacyKey` sibling against `ctx`.
+    fn best_relationship_candidate<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a RelationshipRecord> {
+        let mut best_score: Option<usize> = None;
+        let mut best_uuid: Option<&str> = None;
+        let mut best: Option<&RelationshipRecord> = None;
+        for r in &self.relationships {
+            if r.raw.get("legacyKey").and_then(Value::as_str) != Some(legacy_key) {
+                continue;
+            }
+            let scope_options = r.raw.get("scope").and_then(|s| s.get("options"));
+            // A record that doesn't mention a `ctx` key at all doesn't
+            // discriminate on it (e.g. a single-record CTR with no
+            // `colorScheme` option covers every mode) — only an explicit,
+            // disagreeing value disqualifies a candidate. Re-verify like
+            // `resolve_set_member_in_context` does: a sibling that
+            // explicitly names *some* `ctx` key with a different value is
+            // never acceptable, even as a last resort — an uncovered mode
+            // (e.g. a Wireframe variant no sibling declares) must fall
+            // through to `SkippedUncovered`, not silently compare against a
+            // sibling scoped to a different mode.
+            let conflicts = ctx.iter().any(|(k, v)| {
+                scope_options
+                    .and_then(|o| o.get(k.as_str()))
+                    .and_then(Value::as_str)
+                    .is_some_and(|existing| existing != v.as_str())
+            });
+            if conflicts {
+                continue;
+            }
+            let score = ctx
+                .iter()
+                .filter(|(k, v)| {
+                    scope_options
+                        .and_then(|o| o.get(k.as_str()))
+                        .and_then(Value::as_str)
+                        == Some(v.as_str())
+                })
+                .count();
+            let cand_uuid = r.uuid.as_deref().unwrap_or("");
+            // Higher score wins; equal scores break on uuid lexicographic
+            // ascending — same convention as `resolve_concept_in_context`, so
+            // two siblings scoring equally on disjoint context keys (e.g.
+            // one scoped only by `colorScheme`, the other only by `scale`)
+            // pick a stable candidate instead of whichever loaded first.
+            let is_better = match best_score {
+                None => true,
+                Some(b) => score > b || (score == b && Some(cand_uuid) < best_uuid),
+            };
+            if is_better {
+                best_score = Some(score);
+                best_uuid = Some(cand_uuid);
+                best = Some(r);
+            }
+        }
+        best
+    }
+
+    /// Whether any relationship record (any sibling, regardless of context)
+    /// carries this `legacyKey` — used to tell "this token isn't CTR-backed
+    /// at all" (safe to fall back to its own direct `conceptId`) apart from
+    /// "it's CTR-backed but no sibling matches this context" (genuinely
+    /// uncovered; must not fall back to a differently-scoped sibling).
+    pub fn has_relationship_record(&self, legacy_key: &str) -> bool {
+        self.relationships
+            .iter()
+            .any(|r| r.raw.get("legacyKey").and_then(Value::as_str) == Some(legacy_key))
+    }
+
+    /// Context-aware sibling of [`Self::resolve_relationship_ref`]: picks the
+    /// same-`legacyKey` relationship record whose `scope.options` best
+    /// matches `ctx` (via [`Self::best_relationship_candidate`]) instead of
+    /// the first one found, then resolves its `$ref` through
+    /// [`Self::resolve_alias_in_context`] so a `$ref` to a mode-set
+    /// (`conceptId`) also lands on the `ctx`-appropriate member.
+    pub fn resolve_relationship_ref_in_context<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> Option<&'a TokenRecord> {
+        self.resolve_relationship_ref_in_context_inner(legacy_key, ctx, 0)
+    }
+
+    fn resolve_relationship_ref_in_context_inner<'a>(
+        &'a self,
+        legacy_key: &str,
+        ctx: &std::collections::HashMap<String, String>,
+        depth: usize,
+    ) -> Option<&'a TokenRecord> {
+        if depth > 16 {
+            return None;
+        }
+        let via_ref = self
+            .best_relationship_candidate(legacy_key, ctx)
+            .and_then(|rec| rec.raw.get("$ref").and_then(|v| v.as_str()))
+            .and_then(|target| {
+                self.resolve_alias_in_context(target, ctx).or_else(|| {
+                    let sibling_key = self
+                        .find_relationship_target(target)?
+                        .raw
+                        .get("legacyKey")
+                        .and_then(|v| v.as_str())?;
+                    self.resolve_relationship_ref_in_context_inner(sibling_key, ctx, depth + 1)
+                })
+            });
+        via_ref.or_else(|| self.best_relationship_token_in_context(legacy_key, ctx))
+    }
+
+    /// Whether `legacy_key`'s resolved value differs across `mode_set`'s
+    /// modes, with every other declared mode set (`self.mode_sets`) held at
+    /// its own `default_mode`. This is the primitive Nate Baldwin's Figma
+    /// "mode-group" collection membership needs (bead `cn3v.2`): a concept
+    /// belongs in `mode_set`'s mode-group collection iff this returns true.
+    /// Built only on [`Self::resolve_relationship_ref_in_context`] — no new
+    /// resolver logic.
+    pub fn diverges_on_axis(&self, legacy_key: &str, mode_set: &ModeSetRecord) -> bool {
+        let base_ctx: std::collections::HashMap<String, String> = self
+            .mode_sets
+            .iter()
+            .filter(|ms| ms.name != mode_set.name)
+            .map(|ms| (ms.name.clone(), ms.default_mode.clone()))
+            .collect();
+
+        let resolved: Vec<Option<Value>> = mode_set
+            .modes
+            .iter()
+            .map(|mode| {
+                let mut ctx = base_ctx.clone();
+                ctx.insert(mode_set.name.clone(), mode.clone());
+                self.resolve_relationship_ref_in_context(legacy_key, &ctx)
+                    .map(|r| r.resolve_leaf_in_context(self, &ctx).raw["value"].clone())
+            })
+            .collect();
+        resolved.windows(2).any(|w| w[0] != w[1])
+    }
+
+    /// Resolve a concept-level UUID to the context-appropriate child record.
+    ///
+    /// Picks the child from `concept_id_index` whose name-object fields best match
     /// `ctx` (greatest count of matching key=value pairs).  Tie-breaks are stable:
     /// among equal-score children the one with the lexicographically smallest `uuid`
     /// wins, so repeated calls with the same arguments always return the same token.
     ///
-    /// Returns `None` when no children are registered for `set_uuid`.
-    pub fn resolve_set_in_context<'a>(
+    /// Returns `None` when no children are registered for `concept_id`.
+    pub fn resolve_concept_in_context<'a>(
         &'a self,
-        set_uuid: &str,
+        concept_id: &str,
         ctx: &std::collections::HashMap<String, String>,
     ) -> Option<&'a TokenRecord> {
-        let keys = self.set_uuid_index.get(set_uuid)?;
+        let keys = self.concept_id_index.get(concept_id)?;
         let mut best_score = 0usize;
         let mut best_uuid: Option<&str> = None;
         let mut best: Option<&TokenRecord> = None;
@@ -1435,22 +2572,22 @@ impl TokenGraph {
         best
     }
 
-    /// Context-aware alias resolution: checks `set_uuid_index` first.
+    /// Context-aware alias resolution: checks `concept_id_index` first.
     ///
-    /// When `alias_target` is a set-level UUID, returns the mode-appropriate child
-    /// via [`TokenGraph::resolve_set_in_context`].  Falls back to the standard
+    /// When `alias_target` is a concept-level UUID, returns the mode-appropriate child
+    /// via [`TokenGraph::resolve_concept_in_context`].  Falls back to the standard
     /// [`TokenGraph::resolve_alias_key`] path (uuid_index → direct → legacy name)
     /// for all other alias targets.
     ///
     /// Use this in chain-walking code that has an active resolution context; use
     /// `resolve_alias_key` for context-free alias resolution (e.g. `resolve_leaf`).
-    pub(crate) fn resolve_alias_in_context<'a>(
+    pub fn resolve_alias_in_context<'a>(
         &'a self,
         alias_target: &str,
         ctx: &std::collections::HashMap<String, String>,
     ) -> Option<&'a TokenRecord> {
-        if self.set_uuid_index.contains_key(alias_target) {
-            return self.resolve_set_in_context(alias_target, ctx);
+        if self.concept_id_index.contains_key(alias_target) {
+            return self.resolve_concept_in_context(alias_target, ctx);
         }
         self.resolve_alias_key(alias_target)
     }
@@ -1477,6 +2614,32 @@ impl TokenRecord {
             };
             // Use the resolved graph key, not the raw alias string, so that a
             // UUID ref and a name ref to the same token are both detected.
+            if seen.contains(&next.name.as_str()) {
+                break;
+            }
+            seen.push(&next.name);
+            current = next;
+        }
+        current
+    }
+
+    /// Context-aware twin of [`TokenRecord::resolve_leaf`]: walks alias edges via
+    /// [`TokenGraph::resolve_alias_in_context`] instead of `resolve_alias_key`, so a
+    /// hop that lands on a `conceptId` re-enters the mode-appropriate child instead of
+    /// falling back to an arbitrary (first-indexed) one. Use this when the caller has
+    /// an active mode context (e.g. resolving a `.Color theme` set member's own
+    /// `$ref` chain); use `resolve_leaf` when there is none.
+    pub fn resolve_leaf_in_context<'a>(
+        &'a self,
+        graph: &'a TokenGraph,
+        ctx: &std::collections::HashMap<String, String>,
+    ) -> &'a TokenRecord {
+        let mut current = self;
+        let mut seen: Vec<&str> = vec![&self.name];
+        while let Some(target_name) = current.alias_target.as_deref() {
+            let Some(next) = graph.resolve_alias_in_context(target_name, ctx) else {
+                break;
+            };
             if seen.contains(&next.name.as_str()) {
                 break;
             }
@@ -1934,6 +3097,402 @@ mod tests {
     }
 
     #[test]
+    fn manifest_mode_set_resolves_via_cascade() {
+        use crate::cascade::{resolve, ResolutionContext};
+
+        // Two same-layer candidates for the same slot, one authored against a
+        // platform-local mode axis (`interfaceLevel`) that isn't a foundation
+        // mode set at all — only `apply_platform_manifest` below teaches the
+        // graph about it.
+        let mut g = TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"}),
+            ),
+            (
+                "btn-bg-elevated".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button", "interfaceLevel": "elevated"}, "value": "#ccc", "uuid": "u-btn-bg-elevated"}),
+            ),
+        ]);
+
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "base"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let declared = g
+            .mode_sets
+            .iter()
+            .find(|m| m.name == "interfaceLevel")
+            .expect("manifest-declared mode set present");
+        assert_eq!(declared.default_mode, "base");
+
+        // With `interfaceLevel: elevated` requested, the elevated-specific
+        // token outranks the base one on specificity.
+        let ctx = ResolutionContext::new().with("interfaceLevel", "elevated");
+        let winner = resolve(&g, &ctx).expect("should find a winner");
+        assert_eq!(winner.uuid.as_deref(), Some("u-btn-bg-elevated"));
+
+        // Explicitly requesting `interfaceLevel: base` rules the elevated
+        // candidate out via `matches_context`, so the base token wins.
+        let base_ctx = ResolutionContext::new().with("interfaceLevel", "base");
+        let base_winner = resolve(&g, &base_ctx).expect("should find a winner");
+        assert_eq!(base_winner.uuid.as_deref(), Some("u-btn-bg"));
+    }
+
+    fn scale_mode_set() -> ModeSetRecord {
+        ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            default_mode: "desktop".to_string(),
+        }
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_appends_without_restating_others() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let scale = g.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
+        assert_eq!(scale.default_mode, "desktop");
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_duplicate_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "mobile"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_missing_target_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_drops_a_non_default_value() {
+        let mut g = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec![
+                "light".to_string(),
+                "dark".to_string(),
+                "wireframe".to_string(),
+            ],
+            default_mode: "light".to_string(),
+        }]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "colorScheme", "op": "removeMode", "mode": "wireframe"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let cs = g
+            .mode_sets
+            .iter()
+            .find(|m| m.name == "colorScheme")
+            .unwrap();
+        assert_eq!(cs.modes, vec!["light", "dark"]);
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_of_current_default_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "removeMode", "mode": "desktop"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_last_remaining_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("mode-sets/single.json"),
+            name: "single".to_string(),
+            modes: vec!["only".to_string()],
+            default_mode: "only".to_string(),
+        }]);
+        // Retarget the default first so the "current default" guard doesn't
+        // fire before the "last remaining mode" guard is exercised.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "single", "op": "addMode", "mode": "other"},
+                    {"name": "single", "op": "setDefault", "default": "other"},
+                    {"name": "single", "op": "removeMode", "mode": "only"},
+                    {"name": "single", "op": "removeMode", "mode": "other"}
+                ]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_set_default_retargets() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "scale", "op": "addMode", "mode": "tv"},
+                    {"name": "scale", "op": "setDefault", "default": "tv"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let scale = g.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.default_mode, "tv");
+    }
+
+    #[test]
+    fn manifest_mode_set_set_default_to_nonmember_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "setDefault", "default": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_drops_the_whole_set() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        assert!(!g.mode_sets.iter().any(|m| m.name == "scale"));
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_missing_target_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_unknown_op_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "bogus"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_with_non_string_op_errors() {
+        // A non-string "op" (e.g. a number) must not silently fall through to the
+        // plain add/replace path and be dropped there — it's a manifest error.
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": 1}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_op_missing_name_errors() {
+        let mut g = foundation_graph().with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"op": "addMode", "mode": "tv"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_mode_still_referenced_errors() {
+        // A token authored against "scale": "mobile" must block removeMode from
+        // dropping "mobile" — cascade matching never checks a token's mode value
+        // against the mode set's remaining `modes`, so an orphaned reference would
+        // keep matching (spectrum-design-data reviewer finding).
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "removeMode", "mode": "mobile"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_remove_still_referenced_errors() {
+        let mut g = TokenGraph::from_pairs(vec![(
+            "btn-bg-mobile".into(),
+            PathBuf::from("button.json"),
+            json!({"name": {"property": "background-color", "component": "button", "scale": "mobile"}, "value": "#ccc", "uuid": "u-btn-bg-mobile"}),
+        )])
+        .with_mode_sets(vec![scale_mode_set()]);
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "remove"}]
+            }
+        });
+        assert!(g.apply_platform_manifest(&manifest).is_err());
+    }
+
+    #[test]
+    fn manifest_mode_set_add_mode_then_resolves_via_cascade() {
+        use crate::cascade::{resolve, ResolutionContext};
+
+        let mut g = TokenGraph::from_pairs(vec![
+            (
+                "btn-bg".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"}),
+            ),
+            (
+                "btn-bg-tv".into(),
+                PathBuf::from("button.json"),
+                json!({"name": {"property": "background-color", "component": "button", "scale": "tv"}, "value": "#ccc", "uuid": "u-btn-bg-tv"}),
+            ),
+        ])
+        .with_mode_sets(vec![scale_mode_set()]);
+
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [{"name": "scale", "op": "addMode", "mode": "tv"}]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
+
+        let tv_ctx = ResolutionContext::new().with("scale", "tv");
+        let tv_winner = resolve(&g, &tv_ctx).expect("should find a winner");
+        assert_eq!(tv_winner.uuid.as_deref(), Some("u-btn-bg-tv"));
+
+        let desktop_ctx = ResolutionContext::new().with("scale", "desktop");
+        let desktop_winner = resolve(&g, &desktop_ctx).expect("should find a winner");
+        assert_eq!(desktop_winner.uuid.as_deref(), Some("u-btn-bg"));
+    }
+
+    #[test]
+    fn manifest_relationship_override_without_uuid_errors() {
+        // Bypasses Layer 1 schema validation (which already requires "uuid"
+        // alongside "op": "override"/"remove") to exercise graph.rs's own
+        // uuid-required check directly.
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{
+                    "op": "override",
+                    "value": {"scope": {"component": "button", "property": "corner-radius"}, "value": "8px"}
+                }]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("missing a \"uuid\""));
+    }
+
+    #[test]
+    fn manifest_relationship_remove_without_uuid_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{"op": "remove"}]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("missing a \"uuid\""));
+    }
+
+    #[test]
+    fn manifest_relationship_unknown_op_errors() {
+        let mut g = foundation_graph();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "relationships": [{"op": "rename", "uuid": "u-whatever"}]
+            }
+        });
+        let err = g.apply_platform_manifest(&manifest).unwrap_err();
+        assert!(err.to_string().contains("unknown op"));
+    }
+
+    #[test]
     fn manifest_mode_set_restrictions_returned() {
         let mut g = foundation_graph();
         let manifest = json!({
@@ -2012,6 +3571,930 @@ mod tests {
         let alias_rec = g.tokens.get(&alias_key).unwrap();
         let resolved = alias_rec.resolve_leaf(&g);
         assert_eq!(resolved.raw["value"], "rgb(0,0,255)");
+    }
+
+    #[test]
+    fn from_records_legacy_name_index_is_order_independent() {
+        // `from_records` feeds the cache's `hydrate` path, whose input order
+        // is a `redb` table's lexicographic key order, not the tokens' file/
+        // array order — e.g. "...:10" (dark) sorts before "...:9" (light).
+        // Build the same two color-set members (sharing one legacyKey) in
+        // both orders and confirm `legacy_name_index` picks the "light" one
+        // either way, instead of whichever happened to come first.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+
+        for records in [vec![dark.clone(), light.clone()], vec![light, dark]] {
+            let g = TokenGraph::from_records(records);
+            let key = g
+                .legacy_name_index
+                .get("accent-background-color-key-focus")
+                .expect("legacy key must resolve");
+            assert_eq!(
+                key, "color-aliases.tokens.json:9",
+                "must prefer the light candidate"
+            );
+        }
+    }
+
+    #[test]
+    fn legacy_name_index_tie_break_honors_declared_mode_set_default() {
+        // The desktop/light tie-break in rebuild_legacy_name_index reads its
+        // defaults from graph.mode_sets when that axis is declared there,
+        // rather than always the hardcoded "desktop"/"light" literals — a
+        // colorScheme mode set declaring "dark" as default must make the
+        // dark candidate win, not light.
+        let dark = TokenRecord {
+            name: "color-aliases.tokens.json:10".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 10,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000010".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "dark", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let light = TokenRecord {
+            name: "color-aliases.tokens.json:9".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            index: 9,
+            schema_url: None,
+            uuid: Some("aaaaaaaa-0000-0000-0000-000000000009".to_string()),
+            alias_target: None,
+            raw: json!({
+                "name": { "colorRole": "accent", "state": ["keyboard-focus"],
+                          "colorScheme": "light", "legacyKey": "accent-background-color-key-focus" }
+            }),
+            layer: Layer::Foundation,
+        };
+        let dark_default_color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "dark".to_string(),
+        };
+
+        let g = TokenGraph::from_records(vec![dark, light])
+            .with_mode_sets(vec![dark_default_color_scheme]);
+        let key = g
+            .legacy_name_index
+            .get("accent-background-color-key-focus")
+            .expect("legacy key must resolve");
+        assert_eq!(
+            key, "color-aliases.tokens.json:10",
+            "must prefer the declared-default (dark) candidate, not the hardcoded light literal"
+        );
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_ctr_ref_to_token() {
+        // A leaf token plus a CTR (Component/Token Relationship) whose $ref
+        // points at it by UUID, keyed by legacyKey the way
+        // packages/design-data/relationships/*.json entries are.
+        let uuid = "cccccccc-0000-0000-0000-000000000001";
+        let g = cascade_graph_from(json!([{
+            "name": { "property": "font-weight", "value": "regular" },
+            "$schema": "https://example.com/font-weight.json",
+            "value": "regular",
+            "uuid": uuid
+        }]))
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/body.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000001".to_string()),
+            raw: json!({
+                "legacyKey": "body-sans-serif-emphasized-font-weight",
+                "$ref": uuid
+            }),
+        }]);
+
+        let rec = g
+            .resolve_relationship_ref("body-sans-serif-emphasized-font-weight")
+            .expect("CTR $ref lookup must succeed");
+        assert_eq!(rec.raw["value"], "regular");
+
+        // Unknown legacyKey and a $ref-less (inline-value) CTR both miss.
+        assert!(g.resolve_relationship_ref("no-such-key").is_none());
+        let g_inline = g.with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/code.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000002".to_string()),
+            raw: json!({
+                "legacyKey": "code-font-family",
+                "value": "Source Code Pro"
+            }),
+        }]);
+        assert!(g_inline
+            .resolve_relationship_ref("code-font-family")
+            .is_none());
+    }
+
+    #[test]
+    fn resolve_relationship_ref_resolves_inline_dimension_ctrs_preferring_desktop() {
+        // avatar-size-100's CTR shape: a scale-set with a desktop and a mobile
+        // entry sharing one legacyKey, each an inline dimension value (no
+        // $ref) — the real shape in packages/design-data/relationships/avatar.json.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 0,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "mobile", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "28px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000001",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 1,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "desktop", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "24px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000002",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            // A scale-less inline CTR, e.g. alert-dialog-maximum-width.
+            RelationshipRecord {
+                file: PathBuf::from("relationships/alert-dialog.json"),
+                index: 0,
+                uuid: Some("eeeeeeee-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "scope": {"component": "alert-dialog", "property": "maximum-width"},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "480px",
+                    "uuid": "eeeeeeee-0000-0000-0000-000000000003",
+                    "legacyKey": "alert-dialog-maximum-width"
+                }),
+            },
+        ]);
+
+        // Desktop entry wins even though mobile was inserted first.
+        let avatar = g
+            .resolve_relationship_ref("avatar-size-100")
+            .expect("inline dimension CTR must resolve");
+        assert_eq!(avatar.raw["value"], "24px");
+
+        let dialog = g
+            .resolve_relationship_ref("alert-dialog-maximum-width")
+            .expect("scale-less inline dimension CTR must resolve");
+        assert_eq!(dialog.raw["value"], "480px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_resolves_inline_opacity_ctrs() {
+        // table-row-hover-opacity's real shape: an inline opacity value (no
+        // $ref), as seen in packages/design-data/relationships/table.json.
+        let g = TokenGraph::default().with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/table.json"),
+            index: 0,
+            uuid: Some("dddddddd-0000-0000-0000-000000000001".to_string()),
+            raw: json!({
+                "scope": {"component": "table", "part": "row", "property": "hover-opacity"},
+                "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+                "value": "0.07",
+                "uuid": "dddddddd-0000-0000-0000-000000000001",
+                "legacyKey": "table-row-hover-opacity"
+            }),
+        }]);
+
+        let rec = g
+            .resolve_relationship_ref("table-row-hover-opacity")
+            .expect("inline opacity CTR must resolve");
+        assert_eq!(rec.raw["value"], "0.07");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_ref_to_sibling_ctr_uuid() {
+        // avatar-group-size-100's real shape: its $ref targets
+        // avatar-size-100's scale-set setUuid, which only exists on that
+        // sibling CTR — never in tokens/*.tokens.json.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar.json"),
+                index: 0,
+                uuid: Some("ffffffff-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar", "property": "size", "options": {"scale": "desktop", "scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "value": "24px",
+                    "uuid": "ffffffff-0000-0000-0000-000000000001",
+                    "setUuid": "ffffffff-0000-0000-0000-00000000000a",
+                    "legacyKey": "avatar-size-100"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/avatar-group.json"),
+                index: 0,
+                uuid: Some("ffffffff-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"component": "avatar-group", "property": "size", "options": {"scaleIndex": 100}},
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+                    "$ref": "ffffffff-0000-0000-0000-00000000000a",
+                    "uuid": "ffffffff-0000-0000-0000-000000000002",
+                    "legacyKey": "avatar-group-size-100"
+                }),
+            },
+        ]);
+
+        let rec = g
+            .resolve_relationship_ref("avatar-group-size-100")
+            .expect("$ref to a sibling CTR's setUuid must resolve");
+        assert_eq!(rec.raw["value"], "24px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_follows_multi_hop_ctr_chain_to_token() {
+        // drop-zone-title-font-size's real shape: a 3-hop chain of $refs
+        // across CTRs before landing on a token's conceptId.
+        let uuid = "11111111-0000-0000-0000-000000000099";
+        let g = cascade_graph_from(json!([{
+            "name": { "property": "font-size", "value": "l" },
+            "$schema": "https://example.com/font-size.json",
+            "value": "20px",
+            "conceptId": uuid
+        }]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/body.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "body-size-s",
+                    "$ref": uuid
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/illustrated-message.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "illustrated-message-medium-title-font-size",
+                    "$ref": "11111111-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/drop-zone.json"),
+                index: 0,
+                uuid: Some("11111111-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "legacyKey": "drop-zone-title-font-size",
+                    "setUuid": "11111111-0000-0000-0000-000000000002",
+                    "$ref": "11111111-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        let rec = g
+            .resolve_relationship_ref("drop-zone-title-font-size")
+            .expect("multi-hop CTR chain to a token must resolve");
+        assert_eq!(rec.raw["value"], "20px");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_resolves_through_font_family_chain() {
+        // code-cjk-font-family's real shape: its $ref targets
+        // code-font-family, an inline font-family CTR in
+        // INLINE_CTR_COMPARABLE_SCHEMAS. The chain must resolve to the
+        // inline value, same as dimension/multiplier/opacity CTR chains.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/code.json"),
+                index: 0,
+                uuid: Some("22222222-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "code-font-family",
+                    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
+                    "value": "Source Code Pro",
+                    "uuid": "22222222-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/code.json"),
+                index: 1,
+                uuid: Some("22222222-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "code-cjk-font-family",
+                    "$ref": "22222222-0000-0000-0000-000000000001",
+                    "uuid": "22222222-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        let rec = g
+            .resolve_relationship_ref("code-cjk-font-family")
+            .expect("font-family CTR chain must resolve");
+        assert_eq!(rec.raw["value"], "Source Code Pro");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_terminates_on_cyclic_ctr_ref() {
+        // Malformed data: two CTRs whose $refs point at each other's uuid,
+        // forming a cycle. Must return None via the depth cap rather than
+        // recursing forever / overflowing the stack.
+        let g = TokenGraph::default().with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/cycle.json"),
+                index: 0,
+                uuid: Some("33333333-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "legacyKey": "cycle-a",
+                    "$ref": "33333333-0000-0000-0000-000000000002",
+                    "uuid": "33333333-0000-0000-0000-000000000001"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/cycle.json"),
+                index: 1,
+                uuid: Some("33333333-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "legacyKey": "cycle-b",
+                    "$ref": "33333333-0000-0000-0000-000000000001",
+                    "uuid": "33333333-0000-0000-0000-000000000002"
+                }),
+            },
+        ]);
+
+        assert!(g.resolve_relationship_ref("cycle-a").is_none());
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_picks_matching_option_sibling() {
+        // Real shape: `opacity-checkerboard-square-dark` has three sibling
+        // CTR records sharing one legacyKey, distinguished only by
+        // `scope.options.colorScheme` — light/wireframe `$ref` gray-200's
+        // set, dark `$ref`s gray-800's set. Context-free
+        // `resolve_relationship_ref` picks whichever comes first (light),
+        // which is wrong for Dark. `resolve_relationship_ref_in_context`
+        // must pick the sibling whose own colorScheme option matches ctx.
+        let g = cascade_graph_from(json!([
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 200, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#323232",
+                "uuid": "u-gray-200-dark",
+                "conceptId": "su-gray-200"
+            },
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 800, "colorScheme": "dark"},
+                "$schema": "https://example.com/color.json",
+                "value": "#dbdbdb",
+                "uuid": "u-gray-800-dark",
+                "conceptId": "su-gray-800"
+            },
+        ]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 0,
+                uuid: Some("44444444-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-200"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/opacity-checkerboard.json"),
+                index: 1,
+                uuid: Some("44444444-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "opacity-checkerboard-square-dark",
+                    "$ref": "su-gray-800"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "dark".to_string())]);
+        let rec = g
+            .resolve_relationship_ref_in_context("opacity-checkerboard-square-dark", &ctx)
+            .expect("dark-context resolution must find gray-800's dark member");
+        assert_eq!(rec.raw["value"], "#dbdbdb");
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_reports_none_for_uncovered_mode() {
+        // A CTR whose siblings only cover light/dark must NOT fall back to
+        // an arbitrary sibling (e.g. light) when asked for a mode neither
+        // one declares (e.g. wireframe) — that's a genuinely uncovered
+        // mode, not a 0-score tie-break default.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 0,
+                uuid: Some("55555555-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-light"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/uncovered.json"),
+                index: 1,
+                uuid: Some("55555555-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "uncovered-mode-token",
+                    "$ref": "su-dark"
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "wireframe".to_string())]);
+        assert!(g
+            .resolve_relationship_ref_in_context("uncovered-mode-token", &ctx)
+            .is_none());
+        assert!(g.has_relationship_record("uncovered-mode-token"));
+        assert!(!g.has_relationship_record("some-other-key"));
+    }
+
+    #[test]
+    fn resolve_relationship_ref_in_context_picks_matching_inline_value_sibling() {
+        // Unlike `opacity-checkerboard-square-dark` above, some CTR siblings
+        // carry no `$ref` at all — just an inline `value` (e.g.
+        // `avatar-size-100`'s dimension) — distinguished by
+        // `scope.options.colorScheme` instead of the `scale` axis
+        // `reindex_relationship_tokens` special-cases via `ctrScaleValues`.
+        // The context-blind `relationship_tokens` default only keeps one
+        // "chosen" candidate (whichever `reindex_relationship_tokens` picked
+        // first), so a naive fallback there would silently return the wrong
+        // sibling's value for a non-default colorScheme.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/inline-value.json"),
+                index: 0,
+                uuid: Some("66666666-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "light"}},
+                    "legacyKey": "inline-value-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 4
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/inline-value.json"),
+                index: 1,
+                uuid: Some("66666666-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "inline-value-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 8
+                }),
+            },
+        ]);
+
+        let ctx =
+            std::collections::HashMap::from([("colorScheme".to_string(), "dark".to_string())]);
+        let rec = g
+            .resolve_relationship_ref_in_context("inline-value-token", &ctx)
+            .expect("dark-context resolution must find the dark inline-value sibling");
+        assert_eq!(rec.raw["value"], 8);
+    }
+
+    #[test]
+    fn best_relationship_candidate_ties_break_on_lexicographically_smallest_uuid() {
+        // Two siblings score equally (1) when the request ctx supplies both
+        // a `colorScheme` and a `scale` key but each sibling only declares
+        // one of those axes: neither conflicts, and both match exactly one
+        // key. Without a deterministic tie-break, whichever loaded first
+        // wins arbitrarily; `best_relationship_candidate` must instead pick
+        // the same sibling every time (smallest uuid), matching
+        // `resolve_concept_in_context`'s convention.
+        let g = cascade_graph_from(json!([
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 200},
+                "$schema": "https://example.com/color.json",
+                "value": "#scale-branch",
+                "uuid": "u-scale-branch",
+                "conceptId": "su-scale-branch"
+            },
+            {
+                "name": {"colorFamily": "gray", "scaleIndex": 800},
+                "$schema": "https://example.com/color.json",
+                "value": "#color-branch",
+                "uuid": "u-color-branch",
+                "conceptId": "su-color-branch"
+            },
+        ]))
+        .with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/tie-break.json"),
+                index: 0,
+                uuid: Some("77777777-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"scale": "desktop"}},
+                    "legacyKey": "tie-break-token",
+                    "$ref": "su-scale-branch"
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/tie-break.json"),
+                index: 1,
+                uuid: Some("77777777-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "tie-break-token",
+                    "$ref": "su-color-branch"
+                }),
+            },
+        ]);
+
+        let ctx = std::collections::HashMap::from([
+            ("scale".to_string(), "desktop".to_string()),
+            ("colorScheme".to_string(), "dark".to_string()),
+        ]);
+        let first = g
+            .resolve_relationship_ref_in_context("tie-break-token", &ctx)
+            .map(|r| r.raw["value"].clone());
+        for _ in 0..10 {
+            let again = g
+                .resolve_relationship_ref_in_context("tie-break-token", &ctx)
+                .map(|r| r.raw["value"].clone());
+            assert_eq!(first, again, "repeated calls must pick the same sibling");
+        }
+        // Smaller uuid (…0001, the colorScheme sibling) wins the tie.
+        assert_eq!(first, Some(json!("#color-branch")));
+    }
+
+    /// Spike helper (DNA-1953 follow-up / bead cn3v): resolves `legacy_key`
+    /// across every mode of `axis` (other axes held at whatever `base_ctx`
+    /// specifies) and reports whether the resolved value actually differs
+    /// across those modes — i.e. whether this concept belongs in that axis's
+    /// Figma "mode-group" collection under Nate Baldwin's model. Built only
+    /// on the existing context-aware resolver; not part of the public API.
+    fn concept_diverges_on_axis(
+        g: &TokenGraph,
+        legacy_key: &str,
+        axis: &ModeSetRecord,
+        base_ctx: &std::collections::HashMap<String, String>,
+    ) -> bool {
+        let resolved: Vec<Option<Value>> = axis
+            .modes
+            .iter()
+            .map(|mode| {
+                let mut ctx = base_ctx.clone();
+                ctx.insert(axis.name.clone(), mode.clone());
+                g.resolve_relationship_ref_in_context(legacy_key, &ctx)
+                    .map(|r| r.raw["value"].clone())
+            })
+            .collect();
+        resolved.windows(2).any(|w| w[0] != w[1])
+    }
+
+    #[test]
+    fn ctr_resolution_handles_two_axis_cross_product() {
+        // Spike for bead spectrum-design-data-cn3v (Nate Baldwin's mode-group
+        // / modeless Figma model, Slack C0BUQU7JDA7 p1788988579332039):
+        // proves the *existing* CTR resolver — no changes — already resolves
+        // every point of a colorScheme x contrast cross-product correctly,
+        // via best_relationship_candidate's "most matched ctx keys wins"
+        // scoring over an N-key scope.options map.
+        let g = cascade_graph_from(json!([])).with_relationships(vec![
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000001".to_string()),
+                raw: json!({
+                    "scope": {"options": {}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 1
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000002".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 2
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 2,
+                uuid: Some("88888888-0000-0000-0000-000000000003".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "wireframe"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 3
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 3,
+                uuid: Some("88888888-0000-0000-0000-000000000004".to_string()),
+                raw: json!({
+                    "scope": {"options": {"contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 4
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 4,
+                uuid: Some("88888888-0000-0000-0000-000000000005".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark", "contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 5
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/two-axis.json"),
+                index: 5,
+                uuid: Some("88888888-0000-0000-0000-000000000006".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "wireframe", "contrast": "high"}},
+                    "legacyKey": "two-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 6
+                }),
+            },
+            // Single-axis control: varies only by colorScheme, never mentions
+            // contrast at all.
+            RelationshipRecord {
+                file: PathBuf::from("relationships/single-axis.json"),
+                index: 0,
+                uuid: Some("88888888-0000-0000-0000-000000000011".to_string()),
+                raw: json!({
+                    "scope": {"options": {}},
+                    "legacyKey": "single-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 100
+                }),
+            },
+            RelationshipRecord {
+                file: PathBuf::from("relationships/single-axis.json"),
+                index: 1,
+                uuid: Some("88888888-0000-0000-0000-000000000012".to_string()),
+                raw: json!({
+                    "scope": {"options": {"colorScheme": "dark"}},
+                    "legacyKey": "single-axis-token",
+                    "$schema": "https://example.com/dimension.json",
+                    "value": 200
+                }),
+            },
+        ]);
+
+        // 1. Cross-product resolution: every one of the six
+        // {light,dark,wireframe} x {regular,high} points must resolve to its
+        // own distinct expected value, via the resolver's existing
+        // most-matched-key scoring — no new tie-break needed.
+        let expected = [
+            (("light", "regular"), 1),
+            (("dark", "regular"), 2),
+            (("wireframe", "regular"), 3),
+            (("light", "high"), 4),
+            (("dark", "high"), 5),
+            (("wireframe", "high"), 6),
+        ];
+        for ((color_scheme, contrast), want) in expected {
+            let ctx = std::collections::HashMap::from([
+                ("colorScheme".to_string(), color_scheme.to_string()),
+                ("contrast".to_string(), contrast.to_string()),
+            ]);
+            let got = g
+                .resolve_relationship_ref_in_context("two-axis-token", &ctx)
+                .unwrap_or_else(|| {
+                    panic!("no resolution for colorScheme={color_scheme} contrast={contrast}")
+                });
+            assert_eq!(
+                got.raw["value"],
+                json!(want),
+                "colorScheme={color_scheme} contrast={contrast}"
+            );
+        }
+
+        // 2. Divergence derivation: the primitive Nate's "mode-group
+        // collection membership" needs is derivable from data the graph
+        // already has — no new resolver logic beyond the helper above.
+        let color_scheme_axis = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec![
+                "light".to_string(),
+                "dark".to_string(),
+                "wireframe".to_string(),
+            ],
+            default_mode: "light".to_string(),
+        };
+        let contrast_axis = ModeSetRecord {
+            file: PathBuf::from("mode-sets/contrast.json"),
+            name: "contrast".to_string(),
+            modes: vec!["regular".to_string(), "high".to_string()],
+            default_mode: "regular".to_string(),
+        };
+
+        // Two-axis token: diverges on both axes (holding the other at its
+        // default mode) -> belongs in both mode-group collections.
+        let base_contrast_default =
+            std::collections::HashMap::from([("contrast".to_string(), "regular".to_string())]);
+        assert!(concept_diverges_on_axis(
+            &g,
+            "two-axis-token",
+            &color_scheme_axis,
+            &base_contrast_default
+        ));
+        let base_color_scheme_default =
+            std::collections::HashMap::from([("colorScheme".to_string(), "light".to_string())]);
+        assert!(concept_diverges_on_axis(
+            &g,
+            "two-axis-token",
+            &contrast_axis,
+            &base_color_scheme_default
+        ));
+
+        // Single-axis control: diverges on colorScheme only -> belongs in
+        // just the colorScheme mode-group collection, matching Nate's "no
+        // reason to have light/dark options that resolve to the same value"
+        // rule for the axis it doesn't vary on.
+        assert!(concept_diverges_on_axis(
+            &g,
+            "single-axis-token",
+            &color_scheme_axis,
+            &base_contrast_default
+        ));
+        assert!(!concept_diverges_on_axis(
+            &g,
+            "single-axis-token",
+            &contrast_axis,
+            &base_color_scheme_default
+        ));
+    }
+
+    #[test]
+    fn diverges_on_axis_reports_mode_group_membership() {
+        // AC: a light!=dark color token reports true on colorScheme, false
+        // on scale; a scale-invariant token reports false on colorScheme.
+        let color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "light".to_string(),
+        };
+        let scale = ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["medium".to_string(), "large".to_string()],
+            default_mode: "medium".to_string(),
+        };
+
+        let g = cascade_graph_from(json!([]))
+            .with_mode_sets(vec![color_scheme.clone(), scale.clone()])
+            .with_relationships(vec![
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/color-token.json"),
+                    index: 0,
+                    uuid: Some("99999999-0000-0000-0000-000000000001".to_string()),
+                    raw: json!({
+                        "scope": {"options": {}},
+                        "legacyKey": "color-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "light-value"
+                    }),
+                },
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/color-token.json"),
+                    index: 1,
+                    uuid: Some("99999999-0000-0000-0000-000000000002".to_string()),
+                    raw: json!({
+                        "scope": {"options": {"colorScheme": "dark"}},
+                        "legacyKey": "color-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "dark-value"
+                    }),
+                },
+                // scale-invariant: no per-scale relationship sibling exists,
+                // so both scale modes resolve to the same base record.
+                RelationshipRecord {
+                    file: PathBuf::from("relationships/scale-invariant-token.json"),
+                    index: 0,
+                    uuid: Some("99999999-0000-0000-0000-000000000003".to_string()),
+                    raw: json!({
+                        "scope": {"options": {}},
+                        "legacyKey": "scale-invariant-token",
+                        "$schema": "https://example.com/dimension.json",
+                        "value": "same-everywhere"
+                    }),
+                },
+            ]);
+
+        assert!(
+            g.diverges_on_axis("color-token", &color_scheme),
+            "color-token differs light vs dark"
+        );
+        assert!(
+            !g.diverges_on_axis("color-token", &scale),
+            "color-token doesn't vary by scale"
+        );
+        assert!(
+            !g.diverges_on_axis("scale-invariant-token", &color_scheme),
+            "scale-invariant-token resolves the same in light and dark"
+        );
+    }
+
+    #[test]
+    fn diverges_on_axis_follows_alias_chain_to_leaf_value() {
+        // Regression: a CTR's `$ref` can land on a mode-scoped alias record
+        // (itself a `$ref`, no "value") rather than a leaf. Comparing
+        // `raw["value"]` directly reads `null` for every mode, so a token
+        // that actually diverges was reported as not diverging.
+        let color_scheme = ModeSetRecord {
+            file: PathBuf::from("mode-sets/color-scheme.json"),
+            name: "colorScheme".to_string(),
+            modes: vec!["light".to_string(), "dark".to_string()],
+            default_mode: "light".to_string(),
+        };
+
+        let g = cascade_graph_from(json!([
+            {
+                "name": { "property": "palette", "variant": "light" },
+                "$schema": "https://example.com/color.json",
+                "value": "light-leaf-value",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000001"
+            },
+            {
+                "name": { "property": "palette", "variant": "dark" },
+                "$schema": "https://example.com/color.json",
+                "value": "dark-leaf-value",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000002"
+            },
+            // Mode-scoped aliases sharing one conceptId: each is itself a
+            // `$ref`, not a leaf value.
+            {
+                "name": { "property": "aliased-color", "colorScheme": "light" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": "eeeeeeee-0000-0000-0000-000000000001",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000003",
+                "conceptId": "su-aliased-color"
+            },
+            {
+                "name": { "property": "aliased-color", "colorScheme": "dark" },
+                "$schema": "https://example.com/alias.json",
+                "$ref": "eeeeeeee-0000-0000-0000-000000000002",
+                "uuid": "eeeeeeee-0000-0000-0000-000000000004",
+                "conceptId": "su-aliased-color"
+            },
+        ]))
+        .with_mode_sets(vec![color_scheme.clone()])
+        .with_relationships(vec![RelationshipRecord {
+            file: PathBuf::from("relationships/aliased-color-token.json"),
+            index: 0,
+            uuid: Some("99999999-0000-0000-0000-000000000010".to_string()),
+            raw: json!({
+                "scope": {"options": {}},
+                "legacyKey": "aliased-color-token",
+                "$ref": "su-aliased-color"
+            }),
+        }]);
+
+        assert!(
+            g.diverges_on_axis("aliased-color-token", &color_scheme),
+            "light and dark resolve to different leaf values through the alias chain"
+        );
     }
 
     #[test]

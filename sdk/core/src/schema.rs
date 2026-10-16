@@ -8,12 +8,12 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Load legacy Spectrum token JSON Schemas (`packages/tokens/schemas`) into a [`SchemaRegistry`].
+//! Load legacy Spectrum token JSON Schemas (`packages/design-data-spec/schemas`) into a [`SchemaRegistry`].
 
 use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
-use std::sync::Arc;
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex, OnceLock};
 
 use jsonschema::{Draft, Registry, Resource, ValidationOptions, Validator};
 use serde_json::Value;
@@ -146,10 +146,7 @@ impl SchemaRegistry {
         value: &Value,
         schema_path: &Path,
     ) -> Result<Vec<String>, CoreError> {
-        let validator = build_schema_validator(
-            schema_path,
-            jsonschema::options().should_validate_formats(true),
-        )?;
+        let validator = cached_validator(schema_path)?;
         Ok(validator
             .iter_errors(value)
             .map(|e| e.to_string())
@@ -172,6 +169,45 @@ impl SchemaRegistry {
     }
 }
 
+/// Process-wide cache of compiled [`Validator`]s for
+/// [`SchemaRegistry::validate_value_against_schema_file`], keyed by canonicalized
+/// schema path. That function is called once per fragment/entry (e.g. every
+/// `extensions/` fragment item during a manifest load) with a fixed set of
+/// [`ValidationOptions`], so a schema file's compiled validator — including the
+/// disk reads + `$ref` resolution `build_schema_validator` performs for every
+/// sibling schema — only needs to happen once per process, not once per call.
+fn schema_validator_cache() -> &'static Mutex<HashMap<PathBuf, Arc<Validator>>> {
+    static CACHE: OnceLock<Mutex<HashMap<PathBuf, Arc<Validator>>>> = OnceLock::new();
+    CACHE.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+/// Compile (or fetch from [`schema_validator_cache`]) the validator for
+/// `schema_path`, always with `should_validate_formats(true)` and draft
+/// auto-detection — the fixed options `validate_value_against_schema_file` uses.
+fn cached_validator(schema_path: &Path) -> Result<Arc<Validator>, CoreError> {
+    let key = schema_path
+        .canonicalize()
+        .unwrap_or_else(|_| schema_path.to_path_buf());
+
+    if let Some(validator) = schema_validator_cache()
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+        .get(&key)
+    {
+        return Ok(Arc::clone(validator));
+    }
+
+    let validator = Arc::new(build_schema_validator(
+        schema_path,
+        jsonschema::options().should_validate_formats(true),
+    )?);
+    schema_validator_cache()
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+        .insert(key, Arc::clone(&validator));
+    Ok(validator)
+}
+
 /// Read `schema_path`, register sibling `*.json` schemas in its directory (and a
 /// `value-types/` subdirectory, if present) by their `$id` so cross-schema `$ref`s
 /// resolve offline, then compile a [`Validator`] with `options` (draft, format
@@ -186,9 +222,12 @@ fn build_schema_validator(
     let mut resources: Vec<(String, Resource)> = Vec::new();
     if let Some(dir) = schema_path.parent() {
         collect_schema_resources(dir, &mut resources)?;
-        let value_types = dir.join("value-types");
-        if value_types.is_dir() {
-            collect_schema_resources(&value_types, &mut resources)?;
+        // `token-file.json` (a sibling of these schemas) refs into `token-types/`.
+        for sub in ["value-types", "token-types"] {
+            let sub_dir = dir.join(sub);
+            if sub_dir.is_dir() {
+                collect_schema_resources(&sub_dir, &mut resources)?;
+            }
         }
     }
 
@@ -254,6 +293,21 @@ mod tests {
     }
 
     #[test]
+    fn validate_manifest_accepts_identity_fields() {
+        // platform / platformVersion / repository (h890.27.1) are optional and
+        // additive — a manifest declaring them still validates cleanly.
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "react-spectrum",
+            "platformVersion": "React Spectrum 3.x",
+            "repository": "https://github.com/adobe/react-spectrum"
+        });
+        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
+        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
+    }
+
+    #[test]
     fn validate_manifest_rejects_missing_required_field() {
         // Missing the required `foundationVersion`.
         let manifest = json!({ "specVersion": "1.0.0-draft" });
@@ -274,87 +328,18 @@ mod tests {
     }
 
     #[test]
-    fn validate_manifest_accepts_valid_extensions_tokens() {
+    fn validate_manifest_rejects_inline_extensions() {
+        // manifest.schema.json (spec/manifest.md#extensions-directory, h890.26.1)
+        // dropped the inline `extensions` property in favor of the sibling
+        // `extensions/` directory — additionalProperties:false now rejects it at
+        // the top level like any other unknown key. Per-fragment schema
+        // validation of what lives *in* that directory is h890.26.3; the loader
+        // that globs it (h890.26.2) reads fragments directly, not through this
+        // manifest-level schema.
         let manifest = json!({
             "specVersion": "1.0.0-draft",
             "foundationVersion": "1.0.0",
-            "extensions": {
-                "tokens": [
-                    {
-                        "name": {"property": "color"},
-                        "value": "#000"
-                    }
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_extensions_tokens() {
-        // Missing the required `name` and has neither `value` nor `$ref`.
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": {
-                "tokens": [
-                    {"bogus": true}
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(!errors.is_empty());
-    }
-
-    #[test]
-    fn validate_manifest_accepts_valid_extensions_components_and_platform_extensions() {
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": {
-                "components": [
-                    {
-                        "$id": "tab-bar-ios",
-                        "name": "tab-bar-ios",
-                        "displayName": "Tab Bar (iOS)",
-                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                    }
-                ],
-                "platformExtensions": [
-                    {
-                        "platform": "iOS",
-                        "extends": "states",
-                        "extensions": [
-                            {"termId": "hover", "platformTerm": "highlighted"}
-                        ]
-                    }
-                ]
-            }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(errors.is_empty(), "expected no errors, got: {errors:?}");
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_extensions_components() {
-        // Missing the required `name` (and `$id`/`displayName`/`meta`).
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": { "components": [{"bogus": true}] }
-        });
-        let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
-        assert!(!errors.is_empty());
-    }
-
-    #[test]
-    fn validate_manifest_rejects_malformed_platform_extensions() {
-        // Missing the required `extends`/`extensions`.
-        let manifest = json!({
-            "specVersion": "1.0.0-draft",
-            "foundationVersion": "1.0.0",
-            "extensions": { "platformExtensions": [{"platform": "iOS"}] }
+            "extensions": { "tokens": [{"name": {"property": "color"}, "value": "#000"}] }
         });
         let errors = SchemaRegistry::validate_manifest(&manifest, &manifest_schema_path()).unwrap();
         assert!(!errors.is_empty());

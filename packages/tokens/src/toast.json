@@ -17,7 +17,7 @@
         "uuid": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "toast-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -71,7 +71,7 @@
         "uuid": "9f0688f5-128f-47c3-8585-94d704214881"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   },
   "toast-top-to-workflow-icon": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -91,6 +91,6 @@
         "uuid": "1f83245b-3d79-4326-b843-df7b6549cade"
       }
     },
-    "renamed": "padding-vertical"
+    "renamed": "banner-padding-vertical"
   }
 }

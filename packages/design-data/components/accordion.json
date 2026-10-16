@@ -16,55 +16,37 @@
     },
     {
       "type": "guideline",
-      "content": "An accordion displays a list of items that can be expanded or collapsed to show additional content. It can support zero, one, or multiple expanded items at a time."
+      "content": "Single vs. multiple expansion.\n\nBy default, only one accordion item may be expanded at a time. However, the component can be configured to allow multiple items to remain open simultaneously."
     },
     {
       "type": "guideline",
-      "content": "By default, only one accordion item can be expanded at a time. Use the isMultiple option to allow multiple items to be expanded simultaneously."
+      "content": "Title wrapping.\n\nAccordion titles wrap automatically if they exceed the available width."
     },
     {
       "type": "guideline",
-      "content": "Accordions can contain any number of items. Each item can be expanded or collapsed by interacting with any part of the item."
+      "content": "Optional actions.\n\nAn optional action button or switch can be placed on the trailing edge of an accordion item to support contextual interactions."
     },
     {
       "type": "guideline",
-      "content": "Accordions come in three densities: compact, regular, and spacious. Each of the different densities have the same font size, but have tighter or looser vertical spacing between the rows."
+      "content": "Progressive disclosure.\n\nAccordions are effective for organizing large amounts of related content within a limited space. They help users stay focused by revealing information only when it's needed, making them ideal for scenarios where not all content needs to be visible at once."
     },
     {
-      "type": "guideline",
-      "content": "Individual accordion items can be disabled using the isDisabled option. Disabled items cannot be expanded or collapsed."
+      "type": "do-dont",
+      "content": "Avoid accordion overuse",
+      "dont": "Avoid using accordions when users are likely to read all the content in one go, as they can introduce unnecessary clicks and hinder the user experience. For complex or deeply nested information structures, consider alternative components such as tree views or tabs to maintain clarity and ease of navigation"
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Accordion",
+      "package": "@react-spectrum/s2"
     },
     {
-      "type": "guideline",
-      "content": "By default, accordions have dividers between sections. This style works best when lots of content is inside each section."
-    },
-    {
-      "type": "guideline",
-      "content": "Alternatively, you can have no dividers between sections. This style works best when a clear layout (vertical stack, table, grid) makes it easy see and understand. Too many quiet components in a small space can be hard to differentiate."
-    },
-    {
-      "type": "guideline",
-      "content": "Accordions come in four different sizes: small, medium, large, and extra-large. The medium size is the default and recommended option. Use the other sizes sparingly; they should be used to create a hierarchy of importance within the page. Each of the different sizes have varying font sizes, and tighter or looser vertical spacing between the rows."
-    },
-    {
-      "type": "guideline",
-      "content": "By default, only one accordion item may be expanded at a time. However, the component can be configured to allow multiple items to remain open simultaneously."
-    },
-    {
-      "type": "guideline",
-      "content": "Accordion titles wrap automatically if they exceed the available width."
-    },
-    {
-      "type": "guideline",
-      "content": "An optional action button or switch can be placed on the trailing edge of an accordion item to support contextual interactions."
-    },
-    {
-      "type": "guideline",
-      "content": "Accordions are effective for organizing large amounts of related content within a limited space. They help users stay focused by revealing information only when it's needed, making them ideal for scenarios where not all content needs to be visible at once."
-    },
-    {
-      "type": "guideline",
-      "content": "Avoid using accordions when users are likely to read all the content in one go, as they can introduce unnecessary clicks and hinder the user experience. For complex or deeply nested information structures, consider alternative components such as tree views or tabs to maintain clarity and ease of navigation."
+      "platform": "web",
+      "componentName": "Accordion",
+      "importPath": "@adobe/spectrum-wc/components/accordion",
+      "notes": "Spectrum 2 web component custom element: swc-accordion."
     }
   ],
   "options": {
@@ -72,41 +54,21 @@
       "type": "string",
       "default": "m",
       "values": [
-        {
-          "value": "s"
-        },
-        {
-          "value": "m"
-        },
-        {
-          "value": "l"
-        },
-        {
-          "value": "xl"
-        }
+        { "value": "s" },
+        { "value": "m" },
+        { "value": "l" },
+        { "value": "xl" }
       ]
     },
-    "isQuiet": {
-      "type": "boolean",
-      "default": false
-    },
-    "isDisabled": {
-      "type": "boolean",
-      "default": false
-    },
+    "isQuiet": { "type": "boolean", "default": false },
+    "isDisabled": { "type": "boolean", "default": false },
     "density": {
       "type": "string",
       "default": "regular",
       "values": [
-        {
-          "value": "compact"
-        },
-        {
-          "value": "regular"
-        },
-        {
-          "value": "spacious"
-        }
+        { "value": "compact" },
+        { "value": "regular" },
+        { "value": "spacious" }
       ]
     },
     "items": {
@@ -149,37 +111,18 @@
     }
   },
   "states": [
-    {
-      "name": "hover",
-      "trigger": "interaction"
-    },
-    {
-      "name": "down",
-      "trigger": "interaction"
-    },
-    {
-      "name": "keyboard-focus",
-      "trigger": "interaction"
-    }
+    { "name": "hover", "trigger": "interaction" },
+    { "name": "down", "trigger": "interaction" },
+    { "name": "keyboard-focus", "trigger": "interaction" }
   ],
-  "lifecycle": {
-    "introduced": "1.0.0-draft"
-  },
+  "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
     "intents": ["expand"],
     "focusable": true,
     "keyboardIntents": ["activate", "expand", "collapse"],
     "wcag": [
-      {
-        "criterion": "2.1.1",
-        "level": "A",
-        "title": "Keyboard"
-      },
-      {
-        "criterion": "4.1.2",
-        "level": "A",
-        "title": "Name, Role, Value"
-      }
+      { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+      { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
     ]
   }
 }

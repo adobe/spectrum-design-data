@@ -1,0 +1,26 @@
+# @adobe/design-data-agent-mcp
+
+> MCP server and Claude Code skill for the design-data agent surface — read tools run in-process via wasm
+
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `suggest_token`, `describe_component`, `describe_guideline`, `list_guidelines`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. `suggest_token` uses the wasm `suggest` API directly; `authoring_session_step_intent` still invokes the native binary for session-state-aware ranking within an authoring flow.
+
+## Install
+
+`npm install @adobe/design-data-agent-mcp`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md): usage and API overview
+- [Testing guideline content](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#testing-guideline-content)
+- [Install](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#install)
+- [MCP server](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#mcp-server)
+- [Tools exposed](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#tools-exposed)
+- [Skill](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#skill)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/README.md#license)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data-agent-mcp)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data-agent-mcp/)

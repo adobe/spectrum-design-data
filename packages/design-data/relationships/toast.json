@@ -61,7 +61,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to text)",
-    "$ref": "4366909e-3bfb-481c-abdc-4ae71f965bc3"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to text)",
-    "$ref": "205f0c77-6588-4cc7-927f-3ba767200bac"
+    "$ref": "42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "space-between"
     },
     "context": "18px (desktop), 20px (mobile)",
-    "$ref": "d10d2a55-2b4d-46b1-81e9-521d6c3578e1"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "space-between"
     },
     "context": "18px (desktop), 20px (mobile)",
-    "$ref": "1f83245b-3d79-4326-b843-df7b6549cade"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "space-between"
     },
     "context": "18px (desktop), 20px (mobile)",
-    "$ref": "be4f24cf-9334-4fc4-aa72-e0347beecda7"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "space-between"
     },
     "context": "18px (desktop), 20px (mobile)",
-    "$ref": "9f0688f5-128f-47c3-8585-94d704214881"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "space-between"
     },
     "context": "20px (desktop), 22px (mobile)",
-    "$ref": "821e8f74-d1de-4507-9ff7-ece44e535e8c"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "space-between"
     },
     "context": "20px (desktop), 22px (mobile)",
-    "$ref": "a790fd9e-4e5f-4f4c-a3ca-832540832580"
+    "$ref": "64fa4ab7-be93-4420-8cdc-a6ef91499852"
   },
   {
     "scope": {

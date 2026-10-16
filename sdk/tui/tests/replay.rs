@@ -51,7 +51,7 @@ fn message_serializes_and_deserializes_palette_submit() {
 
 #[test]
 fn ndjson_stream_round_trips() {
-    let messages = vec![
+    let messages = [
         Message::PaletteSubmit("query property=accent-color".into()),
         Message::PaletteCancel,
     ];

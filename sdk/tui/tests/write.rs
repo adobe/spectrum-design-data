@@ -12,7 +12,7 @@
 //!
 //! Each test uses a `tempfile::TempDir` as the dataset to keep writes hermetic.
 //! Tests that exercise the real `write_token` path load `SchemaRegistry` from
-//! `packages/tokens/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
+//! `packages/design-data-spec/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
 
 use std::path::PathBuf;
 
@@ -34,9 +34,9 @@ const COLOR_SCHEMA: &str =
 
 /// Load the real `SchemaRegistry` from the schemas directory.
 fn load_registry() -> SchemaRegistry {
-    // Walk up from the TUI crate manifest to find packages/tokens/schemas.
+    // Walk up from the TUI crate manifest to find packages/design-data-spec/schemas.
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let schemas = manifest.join("../../packages/tokens/schemas");
+    let schemas = manifest.join("../../packages/design-data-spec/schemas");
     SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schema registry should load")
 }
 
@@ -401,7 +401,7 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     };
 
     let result = ws.perform_write(&ctx);
-    assert!(result.is_ok(), "write should succeed: {:?}", result);
+    assert!(result.is_ok(), "write should succeed: {result:?}");
 
     // Cascade writer upserts by UUID — a token whose name already exists in the
     // graph is written as a new entry (the cascade writer resolves identity by uuid,
@@ -417,7 +417,7 @@ fn is_override_detected_when_token_name_exists_in_graph() {
     let arr: serde_json::Value =
         serde_json::from_str(&std::fs::read_to_string(&cascade_file).unwrap()).unwrap();
     assert!(
-        arr.as_array().map_or(false, |a| !a.is_empty()),
+        arr.as_array().is_some_and(|a| !a.is_empty()),
         "cascade array should contain the new token"
     );
 }
@@ -457,7 +457,7 @@ fn resolve_target_file_routes_to_cascade_tokens_dir() {
     );
     // File is a JSON array (cascade format).
     let content = std::fs::read_to_string(
-        &tmpdir
+        tmpdir
             .path()
             .join("tokens")
             .join("background-color.tokens.json"),

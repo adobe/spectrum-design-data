@@ -83,7 +83,7 @@ mod tests {
         let ctx = ValidationContext {
             graph: &g,
             naming_exceptions: &exceptions,
-            registry: &registry,
+            registry,
             manifest: manifest.as_ref(),
         };
         Rule.validate(&ctx)

@@ -11,8 +11,8 @@
 //! Compile-time embedded Spectrum design-data snapshot.
 //!
 //! The design-data binary carries a pinned copy of `@adobe/spectrum-design-data` (the
-//! canonical cascade-format token corpus), its `packages/tokens/schemas` JSON Schemas, and
-//! the single `packages/design-data-spec/schemas/manifest.schema.json` Layer 1 schema, all
+//! canonical cascade-format token corpus), and the
+//! `packages/design-data-spec/schemas` catalog (Layer 1 schemas plus the `token-types/` token schemas), all
 //! baked in at build time via [`include_dir!`] / `include_str!`.  On first use outside a
 //! monorepo checkout, [`materialize`] writes the snapshot to a version-namespaced directory under
 //! the OS cache dir so the disk-based loaders in `graph.rs`, `schema.rs`, and
@@ -30,18 +30,17 @@
 //!       fields/
 //!       guidelines/     ← structured guideline documents (*.json + manifest.json)
 //!       mode-sets/
-//!     tokens/
-//!       schemas/        ← JSON Schema files (+ token-types/ subdir)
 //!       naming-exceptions.json
-//!       manifest.json
 //!     design-data-spec/
 //!       schemas/
-//!         manifest.schema.json  ← Layer 1 platform-manifest schema (only file embedded)
+//!         *.json          ← platform-manifest and extension fragment schemas
+//!         token-types/    ← token-type schemas (+ token-file.json)
+//!         value-types/    ← referenced value schemas
 //!   .complete           ← written last; signals a complete extraction
 //! ```
 //!
-//! [`materialize`] is idempotent: if `.complete` already exists the function returns
-//! immediately without touching the filesystem.
+//! [`materialize`] is idempotent: a matching `.complete` marker returns immediately.
+//! Older snapshot layouts are re-extracted even when the data version is unchanged.
 
 use std::io;
 use std::path::{Path, PathBuf};
@@ -56,10 +55,6 @@ use include_dir::{include_dir, Dir};
 /// Cascade-format token source files (`packages/design-data/tokens/*.tokens.json`, 8 files).
 static TOKENS_SRC: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/tokens");
 
-/// JSON Schema files for token validation (`packages/tokens/schemas/`, ~88 KB).
-/// Includes the `token-types/` subdirectory.
-static TOKENS_SCHEMAS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/tokens/schemas");
-
 /// Mode-set declarations (`packages/design-data/mode-sets/`, 3 files, ~12 KB).
 static MODE_SETS: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/mode-sets");
@@ -71,31 +66,19 @@ static COMPONENTS: Dir<'_> =
 /// Taxonomy field JSONs (`packages/design-data/fields/`, 24 files, ~96 KB).
 static FIELDS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/fields");
 
-/// Guideline documents (`packages/design-data/guidelines/`, 25 files + manifest.json).
+/// Guideline documents (`packages/design-data/guidelines/`, 58 files + manifest.json).
 static GUIDELINES: Dir<'_> =
     include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data/guidelines");
 
-/// Naming exceptions list (`packages/tokens/naming-exceptions.json`, ~46 KB).
+/// Naming exceptions list (`packages/design-data/naming-exceptions.json`, ~46 KB).
 static NAMING_EXCEPTIONS: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/tokens/naming-exceptions.json"
+    "/../../packages/design-data/naming-exceptions.json"
 ));
 
-/// Token build manifest — lists the 8 source JSON file paths
-/// (`packages/tokens/manifest.json`).
-static TOKENS_MANIFEST: &str = include_str!(concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/tokens/manifest.json"
-));
-
-/// Layer 1 platform-manifest JSON Schema, used by `manifest::apply_configured` to
-/// validate a configured platform manifest (`packages/design-data-spec/schemas/manifest.schema.json`).
-/// Embedded as a single file (it has no `$ref`s to sibling schemas) rather than the whole
-/// `design-data-spec` catalog, which is source-authoring tooling not needed at runtime.
-static MANIFEST_SCHEMA: &str = include_str!(concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/design-data-spec/schemas/manifest.schema.json"
-));
+/// Layer 1 manifest and fragment schemas, including their offline `$ref` dependencies.
+static SPEC_SCHEMAS: Dir<'_> =
+    include_dir!("$CARGO_MANIFEST_DIR/../../packages/design-data-spec/schemas");
 
 // ---------------------------------------------------------------------------
 // Version provenance
@@ -105,6 +88,8 @@ static MANIFEST_SCHEMA: &str = include_str!(concat!(
 ///
 /// Derived at compile time from `packages/design-data/package.json` via `build.rs`.
 pub const EMBEDDED_DATA_VERSION: &str = env!("DESIGN_DATA_VERSION");
+
+const SNAPSHOT_MARKER: &str = concat!(env!("DESIGN_DATA_VERSION"), ":token-schemas-v3");
 
 // ---------------------------------------------------------------------------
 // Cache-dir resolution
@@ -177,19 +162,19 @@ fn evict_stale_versions(current: &Path) {
 
 /// Write the embedded snapshot into `root` and return when complete.
 ///
-/// Idempotent: if `<root>/.complete` already exists, returns immediately without
-/// touching the filesystem.  The sentinel is written **last** so a killed first
-/// run cannot leave a partial tree that later invocations trust.
+/// Idempotent: if `<root>/.complete` matches the data version and snapshot layout,
+/// returns immediately. Older layouts are re-extracted. The sentinel is written
+/// **last** so a killed first run cannot leave a partial tree that later invocations trust.
 ///
 /// Layout after a successful call (see module-level doc for the full tree):
 /// - `<root>/packages/design-data/tokens/` — cascade-format token JSON (`*.tokens.json`)
-/// - `<root>/packages/tokens/schemas/` — schema JSON (+ `token-types/`)
-/// - `<root>/packages/tokens/naming-exceptions.json`
-/// - `<root>/packages/tokens/manifest.json`
+/// - `<root>/packages/design-data-spec/schemas/` — schema JSON (+ `token-types/`)
+/// - `<root>/packages/design-data/naming-exceptions.json`
 /// - `<root>/packages/design-data/mode-sets/`
 /// - `<root>/packages/design-data/components/`
 /// - `<root>/packages/design-data/fields/`
 /// - `<root>/packages/design-data/guidelines/`
+/// - `<root>/packages/design-data-spec/schemas/` — manifest and fragment schemas
 /// - `<root>/.complete`
 ///
 /// # Errors
@@ -197,8 +182,11 @@ fn evict_stale_versions(current: &Path) {
 /// Returns an `io::Error` if the cache dir cannot be created or any write fails.
 pub fn materialize_to(root: &Path) -> io::Result<()> {
     let sentinel = root.join(".complete");
-    if sentinel.exists() {
-        return Ok(());
+    match std::fs::read_to_string(&sentinel) {
+        Ok(marker) if marker == SNAPSHOT_MARKER => return Ok(()),
+        Ok(_) => {}
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
     }
 
     // Extract into a sibling tmp dir, then rename to avoid a half-written state
@@ -216,23 +204,18 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
         dir.extract(dest)
     };
     extract(&TOKENS_SRC, &tmp.join("packages/design-data/tokens"))?;
-    extract(&TOKENS_SCHEMAS, &tmp.join("packages/tokens/schemas"))?;
     extract(&MODE_SETS, &tmp.join("packages/design-data/mode-sets"))?;
     extract(&COMPONENTS, &tmp.join("packages/design-data/components"))?;
     extract(&FIELDS, &tmp.join("packages/design-data/fields"))?;
     extract(&GUIDELINES, &tmp.join("packages/design-data/guidelines"))?;
+    extract(
+        &SPEC_SCHEMAS,
+        &tmp.join("packages/design-data-spec/schemas"),
+    )?;
 
     write_file(
-        &tmp.join("packages/tokens/naming-exceptions.json"),
+        &tmp.join("packages/design-data/naming-exceptions.json"),
         NAMING_EXCEPTIONS.as_bytes(),
-    )?;
-    write_file(
-        &tmp.join("packages/tokens/manifest.json"),
-        TOKENS_MANIFEST.as_bytes(),
-    )?;
-    write_file(
-        &tmp.join("packages/design-data-spec/schemas/manifest.schema.json"),
-        MANIFEST_SCHEMA.as_bytes(),
     )?;
 
     // Rename tmp → root.  Atomic on POSIX (same filesystem); non-atomic on Windows
@@ -250,7 +233,7 @@ pub fn materialize_to(root: &Path) -> io::Result<()> {
     std::fs::rename(&tmp, root)?;
 
     // Write sentinel last.
-    std::fs::write(&sentinel, EMBEDDED_DATA_VERSION.as_bytes())?;
+    std::fs::write(&sentinel, SNAPSHOT_MARKER.as_bytes())?;
 
     Ok(())
 }
@@ -295,7 +278,8 @@ mod tests {
             "design-data/tokens missing"
         );
         assert!(
-            root.join("packages/tokens/schemas/token-types").is_dir(),
+            root.join("packages/design-data-spec/schemas/token-types")
+                .is_dir(),
             "schemas/token-types missing"
         );
         assert!(
@@ -315,13 +299,9 @@ mod tests {
             "guidelines missing"
         );
         assert!(
-            root.join("packages/tokens/naming-exceptions.json")
+            root.join("packages/design-data/naming-exceptions.json")
                 .is_file(),
             "naming-exceptions.json missing"
-        );
-        assert!(
-            root.join("packages/tokens/manifest.json").is_file(),
-            "manifest.json missing"
         );
         assert!(
             root.join(".complete").is_file(),
@@ -333,18 +313,53 @@ mod tests {
     fn materialize_is_idempotent() {
         let (_tmp, root) = temp_root();
 
-        // Corrupt the sentinel; a second call should return immediately (sentinel
-        // exists) without re-extracting, so the corruption persists.
-        let sentinel = root.join(".complete");
-        fs::write(&sentinel, "DIRTY").unwrap();
+        let extra_file = root.join("unchanged");
+        fs::write(&extra_file, "unchanged").unwrap();
 
         materialize_to(&root).expect("second materialize_to failed");
 
         assert_eq!(
-            fs::read_to_string(&sentinel).unwrap(),
-            "DIRTY",
-            "second call should not have overwritten the sentinel"
+            fs::read_to_string(&extra_file).unwrap(),
+            "unchanged",
+            "second call should not have re-extracted the snapshot"
         );
+        assert_eq!(
+            fs::read_to_string(root.join(".complete")).unwrap(),
+            SNAPSHOT_MARKER
+        );
+    }
+
+    #[test]
+    fn materialize_refreshes_legacy_snapshot_layout() {
+        let (_tmp, root) = temp_root();
+        let schemas = root.join("packages/design-data-spec/schemas");
+        fs::remove_dir_all(&schemas).unwrap();
+        fs::create_dir_all(&schemas).unwrap();
+        fs::write(schemas.join("manifest.schema.json"), "{}").unwrap();
+        fs::write(root.join(".complete"), EMBEDDED_DATA_VERSION).unwrap();
+
+        materialize_to(&root).unwrap();
+
+        assert_eq!(
+            fs::read_to_string(root.join(".complete")).unwrap(),
+            SNAPSHOT_MARKER
+        );
+        assert!(schemas.join("implementation-mapping.schema.json").is_file());
+        assert!(schemas.join("component.schema.json").is_file());
+        assert!(schemas.join("value-types").is_dir());
+        let schema: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(schemas.join("manifest.schema.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(schema["type"], "object");
+    }
+
+    #[test]
+    fn materialize_propagates_sentinel_read_errors() {
+        let tmp = TempDir::new().unwrap();
+        let root = tmp.path().join("embedded");
+        fs::create_dir_all(root.join(".complete")).unwrap();
+        assert!(materialize_to(&root).is_err());
     }
 
     #[test]
@@ -352,7 +367,7 @@ mod tests {
         let (_tmp, root) = temp_root();
         let schema_path = root.join("packages/design-data-spec/schemas/manifest.schema.json");
         assert!(schema_path.is_file());
-        let schemas_root = root.join("packages/tokens/schemas");
+        let schemas_root = root.join("packages/design-data-spec/schemas");
         assert_eq!(
             crate::manifest::locate_manifest_schema(&schemas_root),
             Some(schema_path)
@@ -383,11 +398,12 @@ mod tests {
     #[test]
     fn materialize_schemas_has_token_types_subdir() {
         let (_tmp, root) = temp_root();
-        let schemas: Vec<_> = fs::read_dir(root.join("packages/tokens/schemas/token-types"))
-            .unwrap()
-            .flatten()
-            .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
-            .collect();
+        let schemas: Vec<_> =
+            fs::read_dir(root.join("packages/design-data-spec/schemas/token-types"))
+                .unwrap()
+                .flatten()
+                .filter(|e| e.path().extension().is_some_and(|x| x == "json"))
+                .collect();
         assert!(
             !schemas.is_empty(),
             "token-types/ should contain at least one JSON schema"
@@ -398,8 +414,14 @@ mod tests {
     fn materialize_guidelines_count() {
         // Regression guard: if a guideline is added to or removed from
         // packages/design-data/guidelines/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_GUIDELINE_COUNT when you've intentionally changed the set.
         // manifest.json is excluded — it is not a guideline document.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_GUIDELINE_COUNT: usize = 58;
+
         let (_tmp, root) = temp_root();
         let guidelines: Vec<_> = fs::read_dir(root.join("packages/design-data/guidelines"))
             .unwrap()
@@ -411,9 +433,9 @@ mod tests {
             .collect();
         assert_eq!(
             guidelines.len(),
-            25,
-            "expected 25 guideline documents — update this count if you've added/removed \
-             files from packages/design-data/guidelines/"
+            EXPECTED_GUIDELINE_COUNT,
+            "expected {EXPECTED_GUIDELINE_COUNT} guideline documents — update this count if \
+             you've added/removed files from packages/design-data/guidelines/"
         );
     }
 
@@ -421,7 +443,13 @@ mod tests {
     fn materialize_components_count() {
         // Regression guard: if a component schema is added to or removed from
         // packages/design-data/components/, this test fails deliberately.
-        // Update the expected count when you've intentionally changed the set.
+        // Update EXPECTED_COMPONENT_COUNT when you've intentionally changed the set.
+        //
+        // Automation (.github/scripts/bump-embedded-counts.mjs) rewrites only the
+        // numeric literal below — keep it isolated on its own line, undisturbed by
+        // nearby test reordering/refactors, so that rewrite stays a single-anchor edit.
+        const EXPECTED_COMPONENT_COUNT: usize = 97;
+
         let (_tmp, root) = temp_root();
         let components: Vec<_> = fs::read_dir(root.join("packages/design-data/components"))
             .unwrap()
@@ -430,9 +458,9 @@ mod tests {
             .collect();
         assert_eq!(
             components.len(),
-            98,
-            "expected 98 component schemas — update this count if you've added/removed \
-             schemas from packages/design-data/components/"
+            EXPECTED_COMPONENT_COUNT,
+            "expected {EXPECTED_COMPONENT_COUNT} component schemas — update this count if \
+             you've added/removed schemas from packages/design-data/components/"
         );
     }
 }

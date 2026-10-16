@@ -55,8 +55,15 @@ output=$("$CLI" component button \
 [[ "$output" == *"button"* ]] || fail "Expected 'button' in component output."
 ok
 
-step "A3: design-data query --filter component=button"
-"$CLI" query packages/design-data/tokens --filter "component=button" > /dev/null
+step "A3: design-data query --filter property=component-height-100"
+# Post-CTR-migration (#1330), component associations live in
+# relationships/*.json (scope.component), not in a token's own name object —
+# "component=button" no longer matches anything (spectrum-design-data-2d8z).
+# component-height-100 is one of the tokens relationships/button.json binds
+# to button (scope.property), so it's a real button-associated query target.
+a3_output=$("$CLI" query packages/design-data/tokens --filter "property=component-height-100" 2>&1 || true)
+[[ "$a3_output" == *"component-height-100"* ]] \
+  || fail "Expected component-height-100 in query output."
 ok
 
 # ─── Demo B — Blank design system ────────────────────────────────────────────

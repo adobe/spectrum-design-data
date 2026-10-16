@@ -1,0 +1,5 @@
+{
+  "platform": "iOS",
+  "extends": "states",
+  "extensions": [{ "termId": "not-a-real-state" }]
+}

@@ -27,6 +27,7 @@
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "@spectrum-css/actionbutton": "^7.2.0",
+    "@spectrum-css/badge": "^6.2.0",
     "@spectrum-css/icon": "^9.2.0",
     "@spectrum-css/link": "^7.1.0",
     "@spectrum-css/page": "^9.1.0",

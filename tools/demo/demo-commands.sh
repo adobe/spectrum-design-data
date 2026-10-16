@@ -17,8 +17,10 @@ design-data component button \
   --components-dir packages/design-data/components
 
 # A3. Query the design system
-# Say: "A designer asks 'what tokens does the button use?' One CLI call. Same answer for the engineer."
-design-data query packages/design-data/tokens --filter "component=button"
+# Say: "A designer asks 'what token backs the button's minimum height?' The relationship
+# binds it to component-height-100. One CLI call resolves it across scale. Same answer
+# for the engineer."
+design-data query packages/design-data/tokens --filter "property=component-height-100"
 
 # A4. (no command — switch to Claude Code, ask the question from agent-questions.md)
 

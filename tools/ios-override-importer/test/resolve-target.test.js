@@ -15,8 +15,9 @@ const FAMILIES = new Set(["blue", "static-blue"]);
 
 test("matchPaletteSlug recognizes a known family + numeric index", (t) => {
   t.deepEqual(matchPaletteSlug("blue-1000", FAMILIES), {
+    property: "color",
     colorFamily: "blue",
-    scaleIndex: 1000,
+    scaleIndex: "1000",
   });
 });
 
@@ -51,7 +52,7 @@ test("resolveTarget falls back through the Aliases chain in order", (t) => {
   // decompose() returns null, so it falls through to "blue-1000".
   t.deepEqual(result, {
     slug: "blue-1000",
-    name: { colorFamily: "blue", scaleIndex: 1000 },
+    name: { property: "color", colorFamily: "blue", scaleIndex: "1000" },
   });
 });
 

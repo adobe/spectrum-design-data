@@ -147,6 +147,9 @@ importers:
       '@spectrum-css/actionbutton':
         specifier: ^7.2.0
         version: 7.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)
+      '@spectrum-css/badge':
+        specifier: ^6.2.0
+        version: 6.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)
       '@spectrum-css/icon':
         specifier: ^9.2.0
         version: 9.2.0(@spectrum-css/tokens@16.0.2)
@@ -557,6 +560,9 @@ importers:
 
   tools/design-data:
     dependencies:
+      '@adobe/design-data-spec':
+        specifier: workspace:*
+        version: link:../../packages/design-data-spec
       '@adobe/design-data-wasm':
         specifier: workspace:*
         version: link:../../sdk/wasm
@@ -592,6 +598,9 @@ importers:
 
   tools/design-data-mcp:
     dependencies:
+      '@adobe/design-data':
+        specifier: workspace:*
+        version: link:../design-data
       '@adobe/design-data-wasm':
         specifier: workspace:*
         version: link:../../sdk/wasm
@@ -611,6 +620,16 @@ importers:
       sharp:
         specifier: ^0.35.1
         version: 0.35.1
+
+  tools/design-data-mcp-eval:
+    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.27.1
+        version: 1.27.1(zod@3.25.76)
+    devDependencies:
+      ava:
+        specifier: ^6.0.1
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
   tools/design-data-skill:
     devDependencies:
@@ -666,9 +685,6 @@ importers:
       '@adobe/spectrum-design-data':
         specifier: workspace:*
         version: link:../../packages/design-data
-      '@adobe/spectrum-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
 
   tools/optimized-diff:
     devDependencies:
@@ -712,23 +728,14 @@ importers:
         specifier: ^6.0.0
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
-  tools/s2-docs-transformer:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.0.4
-        version: 1.27.1(zod@3.25.76)
-      js-yaml:
-        specifier: ^4.1.1
-        version: 4.1.1
-
   tools/spectrum-design-data-mcp:
     dependencies:
+      '@adobe/design-data-wasm':
+        specifier: workspace:*
+        version: link:../../sdk/wasm
       '@adobe/spectrum-component-api-schemas':
         specifier: workspace:*
         version: link:../../packages/component-schemas
-      '@adobe/spectrum-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
@@ -771,6 +778,19 @@ importers:
         specifier: ^3.3.3
         version: 3.7.4
 
+  tools/spectrum-hub-fetcher:
+    dependencies:
+      js-yaml:
+        specifier: ^4.1.1
+        version: 4.1.1
+      node-html-parser:
+        specifier: ^9.0.1
+        version: 9.0.4
+    devDependencies:
+      ava:
+        specifier: ^6.0.0
+        version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
+
   tools/token-changeset-generator:
     dependencies:
       '@adobe/token-diff-generator':
@@ -806,13 +826,7 @@ importers:
         specifier: ^6.4.0
         version: 6.4.0(@ava/typescript@6.0.0)(rollup@4.44.1)
 
-  tools/token-manifest-builder: {}
-
   tools/token-mapping-analyzer:
-    dependencies:
-      '@adobe/spectrum-tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
     devDependencies:
       ava:
         specifier: ^6.1.1
@@ -839,12 +853,6 @@ importers:
       esmock:
         specifier: ^2.6.9
         version: 2.7.1
-
-  tools/transform-tokens-json:
-    dependencies:
-      jsonpath-plus:
-        specifier: ^8.1.0
-        version: 8.1.0
 
 packages:
 
@@ -1905,6 +1913,17 @@ packages:
 
   '@spectrum-css/actionbutton@7.2.0':
     resolution: {integrity: sha512-uz6/TTQS05ZHwvKSKUE21WBLKcsl3JvVPTGEnwrNm88DO6ZFXwNyAK770oKWlCv1HHB/M0q0F0sKhXKA18mJFA==}
+    peerDependencies:
+      '@spectrum-css/icon': '>=9.0.0 <10.0.0'
+      '@spectrum-css/tokens': '>=16.0.0 <17.0.0'
+    peerDependenciesMeta:
+      '@spectrum-css/icon':
+        optional: true
+      '@spectrum-css/tokens':
+        optional: true
+
+  '@spectrum-css/badge@6.2.0':
+    resolution: {integrity: sha512-XqnX6p/T0YDw63F8kRReGJ0Dd//G6eRLHWidq6KuzxbvLw2/YZSe8r2jyiOXoecK44hYsL8+LDb9J+fuNakRIg==}
     peerDependencies:
       '@spectrum-css/icon': '>=9.0.0 <10.0.0'
       '@spectrum-css/tokens': '>=16.0.0 <17.0.0'
@@ -3415,6 +3434,10 @@ packages:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
     engines: {node: '>=0.12'}
 
+  entities@8.1.0:
+    resolution: {integrity: sha512-kxL7msIffSuh9aaFAMD7rxAIuTRMAHMeBtgHW2yUdWw732ZNh4MehkF2gdjvtdmikkaIP9bFDDJOPlsvm7avrA==}
+    engines: {node: '>=20.19.0'}
+
   env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
     engines: {node: '>=6'}
@@ -4243,11 +4266,6 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  jsonpath-plus@8.1.0:
-    resolution: {integrity: sha512-qVTiuKztFGw0dGhYi3WNqvddx3/SHtyDT0xJaeyz4uP0d1tkpG+0y5uYQ4OcIo1TLAz3PE/qDOW9F0uDt3+CTw==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-
   junk@3.1.0:
     resolution: {integrity: sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==}
     engines: {node: '>=8'}
@@ -4718,6 +4736,9 @@ packages:
   node-gyp-build@4.8.4:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
     hasBin: true
+
+  node-html-parser@9.0.4:
+    resolution: {integrity: sha512-reUSrZkF1rO7hEYe5mJwtbVcQ6mB5QrViCZH6Wv+iz3er/PA9Q50gol15dMLQRDfdli4VzqPMPR24HNRFgVKFw==}
 
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
@@ -7298,6 +7319,11 @@ snapshots:
       '@spectrum-css/icon': 9.2.0(@spectrum-css/tokens@16.0.2)
       '@spectrum-css/tokens': 16.0.2
 
+  '@spectrum-css/badge@6.2.0(@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2))(@spectrum-css/tokens@16.0.2)':
+    optionalDependencies:
+      '@spectrum-css/icon': 9.2.0(@spectrum-css/tokens@16.0.2)
+      '@spectrum-css/tokens': 16.0.2
+
   '@spectrum-css/icon@9.2.0(@spectrum-css/tokens@16.0.2)':
     optionalDependencies:
       '@spectrum-css/tokens': 16.0.2
@@ -9414,6 +9440,8 @@ snapshots:
 
   entities@6.0.1: {}
 
+  entities@8.1.0: {}
+
   env-paths@2.2.1: {}
 
   envinfo@7.21.0: {}
@@ -10280,8 +10308,6 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
-  jsonpath-plus@8.1.0: {}
-
   junk@3.1.0: {}
 
   keyv@4.5.4:
@@ -10906,6 +10932,11 @@ snapshots:
   node-forge@1.4.0: {}
 
   node-gyp-build@4.8.4: {}
+
+  node-html-parser@9.0.4:
+    dependencies:
+      css-select: 5.2.2
+      entities: 8.1.0
 
   node-releases@2.0.27: {}
 

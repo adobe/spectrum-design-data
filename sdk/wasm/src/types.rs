@@ -70,6 +70,35 @@ pub struct TokenResult {
 pub struct ResolveResult {
     pub token: TokenResult,
     pub specificity: u32,
+    pub deprecated: bool,
+    pub deprecated_in: Option<String>,
+    pub candidate_count: usize,
+    pub ambiguous: bool,
+    pub alternatives: Vec<ResolveAlternative>,
+}
+
+/// A non-winning candidate returned with a property resolution.
+#[derive(Debug, Clone, Serialize, Deserialize, Tsify)]
+#[tsify(into_wasm_abi, from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct ResolveAlternative {
+    pub name: String,
+    pub uuid: Option<String>,
+    pub deprecated: bool,
+    pub deprecated_in: Option<String>,
+}
+
+/// Optional name-object fields used to narrow property resolution.
+#[derive(Debug, Clone, Default, Serialize, Deserialize, Tsify)]
+#[tsify(from_wasm_abi)]
+#[serde(rename_all = "camelCase")]
+pub struct ResolveNarrowing {
+    pub component: Option<String>,
+    pub variant: Option<String>,
+    pub state: Option<String>,
+    pub color_role: Option<String>,
+    #[serde(default)]
+    pub exclude_deprecated: bool,
 }
 
 /// Severity level of a validation diagnostic.
@@ -323,52 +352,6 @@ impl From<design_data_core::suggest::SuggestionResult> for SuggestResult {
     }
 }
 
-#[cfg(test)]
-mod suggest_result_tests {
-    use super::*;
-    use design_data_core::graph::Layer;
-    use design_data_core::suggest::SuggestionResult;
-    use serde_json::json;
-    use std::path::PathBuf;
-
-    #[test]
-    fn conversion_uses_display_name_for_cascade_token() {
-        let result = SuggestionResult {
-            token_uuid: Some("uuid-1".to_string()),
-            token_name: "color-aliases.tokens.json:24".to_string(),
-            file: PathBuf::from("color-aliases.tokens.json"),
-            layer: Layer::Foundation,
-            confidence: 0.5,
-            name_object: Some(json!({
-                "colorRole": "accent",
-                "property": "background-color",
-                "state": "default",
-                "legacyKey": "accent-background-color-default",
-            })),
-            value: None,
-        };
-
-        let converted = SuggestResult::from(result);
-        assert_eq!(converted.token_name, "accent-background-color-default");
-    }
-
-    #[test]
-    fn conversion_falls_back_to_graph_key_without_name_object() {
-        let result = SuggestionResult {
-            token_uuid: None,
-            token_name: "some-legacy-string-key".to_string(),
-            file: PathBuf::from("legacy.tokens.json"),
-            layer: Layer::Foundation,
-            confidence: 0.5,
-            name_object: None,
-            value: None,
-        };
-
-        let converted = SuggestResult::from(result);
-        assert_eq!(converted.token_name, "some-legacy-string-key");
-    }
-}
-
 impl From<&design_data_core::graph::TokenRecord> for TokenResult {
     fn from(r: &design_data_core::graph::TokenRecord) -> Self {
         Self {
@@ -432,5 +415,51 @@ impl From<design_data_core::report::ValidationReport> for ValidationResult {
             errors,
             warnings,
         }
+    }
+}
+
+#[cfg(test)]
+mod suggest_result_tests {
+    use super::*;
+    use design_data_core::graph::Layer;
+    use design_data_core::suggest::SuggestionResult;
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    #[test]
+    fn conversion_uses_display_name_for_cascade_token() {
+        let result = SuggestionResult {
+            token_uuid: Some("uuid-1".to_string()),
+            token_name: "color-aliases.tokens.json:24".to_string(),
+            file: PathBuf::from("color-aliases.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: Some(json!({
+                "colorRole": "accent",
+                "property": "background-color",
+                "state": "default",
+                "legacyKey": "accent-background-color-default",
+            })),
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "accent-background-color-default");
+    }
+
+    #[test]
+    fn conversion_falls_back_to_graph_key_without_name_object() {
+        let result = SuggestionResult {
+            token_uuid: None,
+            token_name: "some-legacy-string-key".to_string(),
+            file: PathBuf::from("legacy.tokens.json"),
+            layer: Layer::Foundation,
+            confidence: 0.5,
+            name_object: None,
+            value: None,
+        };
+
+        let converted = SuggestResult::from(result);
+        assert_eq!(converted.token_name, "some-legacy-string-key");
     }
 }

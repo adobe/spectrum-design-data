@@ -22,8 +22,8 @@ test("parses light/dark slots to rgba", (t) => {
     "ColorSet(light: Color(59, 99, 251, 1.0), dark: Color(64, 105, 253, 1.0), elevated: none, lightIncreased: none, darkIncreased: none, elevatedIncreased: none)",
   );
   t.deepEqual(modes, [
-    { colorScheme: "light", value: "rgba(59, 99, 251, 1.0)" },
-    { colorScheme: "dark", value: "rgba(64, 105, 253, 1.0)" },
+    { colorScheme: "light", value: "rgba(59, 99, 251, 1)" },
+    { colorScheme: "dark", value: "rgba(64, 105, 253, 1)" },
   ]);
   t.deepEqual(skipped, []);
 });
@@ -33,10 +33,10 @@ test("maps *Increased slots to contrast:high", (t) => {
     "ColorSet(light: Color(1, 1, 1, 1.0), dark: Color(2, 2, 2, 1.0), elevated: none, lightIncreased: Color(3, 3, 3, 1.0), darkIncreased: Color(4, 4, 4, 1.0), elevatedIncreased: none)",
   );
   t.deepEqual(modes, [
-    { colorScheme: "light", value: "rgba(1, 1, 1, 1.0)" },
-    { colorScheme: "dark", value: "rgba(2, 2, 2, 1.0)" },
-    { colorScheme: "light", contrast: "high", value: "rgba(3, 3, 3, 1.0)" },
-    { colorScheme: "dark", contrast: "high", value: "rgba(4, 4, 4, 1.0)" },
+    { colorScheme: "light", value: "rgba(1, 1, 1, 1)" },
+    { colorScheme: "dark", value: "rgba(2, 2, 2, 1)" },
+    { colorScheme: "light", contrast: "high", value: "rgba(3, 3, 3, 1)" },
+    { colorScheme: "dark", contrast: "high", value: "rgba(4, 4, 4, 1)" },
   ]);
 });
 
@@ -48,13 +48,13 @@ test("maps elevated/elevatedIncreased to variant:elevated at colorScheme:dark", 
     {
       variant: "elevated",
       colorScheme: "dark",
-      value: "rgba(5, 5, 5, 1.0)",
+      value: "rgba(5, 5, 5, 1)",
     },
     {
       variant: "elevated",
       colorScheme: "dark",
       contrast: "high",
-      value: "rgba(6, 6, 6, 1.0)",
+      value: "rgba(6, 6, 6, 1)",
     },
   ]);
   t.deepEqual(skipped, []);

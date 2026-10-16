@@ -27,13 +27,23 @@ function loadColorFamilies() {
 
 const PALETTE_RE = /^(.+)-(\d+)$/;
 
-/** `{colorFamily, scaleIndex}` if `slug` is a recognized palette slug, else null. */
+/**
+ * `{property, colorFamily, scaleIndex}` if `slug` is a recognized palette
+ * slug, else null. `property: "color"` matches the real corpus's palette
+ * tokens (packages/design-data/tokens/color-palette.tokens.json) and
+ * satisfies token.schema.json's nameObject (`required: ["property"]`).
+ * `scaleIndex` stays the regex's string capture rather than `Number(index)`
+ * — colorFamily/scaleIndex aren't declared nameObject properties, so they
+ * fall under `additionalProperties: {"type": "string"}`, which rejects a
+ * numeric value (only enforced for extensions/ fragments today, not yet for
+ * the foundation corpus — see sdk/core/src/manifest.rs's FragmentValidation).
+ */
 export function matchPaletteSlug(slug, colorFamilies) {
   const m = PALETTE_RE.exec(slug);
   if (!m) return null;
   const [, family, index] = m;
   if (!colorFamilies.has(family)) return null;
-  return { colorFamily: family, scaleIndex: Number(index) };
+  return { property: "color", colorFamily: family, scaleIndex: index };
 }
 
 /**

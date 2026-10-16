@@ -1,0 +1,5 @@
+{
+  "name": "interfaceLevel",
+  "modes": ["base", "elevated"],
+  "default": "base"
+}

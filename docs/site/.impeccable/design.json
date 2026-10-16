@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-17T23:43:00Z",
+  "title": "Design System: Spectrum Design Data docs site",
+  "extensions": {
+    "colorMeta": {
+      "accent-default": {
+        "role": "accent",
+        "displayName": "Spectrum Blue 900",
+        "canonical": "rgb(59, 99, 251)",
+        "cssVar": "--spectrum-accent-background-color-default",
+        "resolvesTo": "--spectrum-blue-900"
+      },
+      "accent-hover": {
+        "role": "accent",
+        "displayName": "Spectrum Blue 1000",
+        "canonical": "rgb(39, 77, 234)",
+        "cssVar": "--spectrum-accent-background-color-hover",
+        "resolvesTo": "--spectrum-blue-1000"
+      },
+      "gray-900": {
+        "role": "neutral",
+        "displayName": "Spectrum Gray 900",
+        "canonical": "rgb(19, 19, 19)",
+        "cssVar": "--spectrum-gray-900"
+      },
+      "gray-800": {
+        "role": "neutral",
+        "displayName": "Spectrum Gray 800",
+        "canonical": "rgb(41, 41, 41)",
+        "cssVar": "--spectrum-neutral-content-color-default",
+        "resolvesTo": "--spectrum-gray-800"
+      },
+      "gray-700": {
+        "role": "neutral",
+        "displayName": "Spectrum Gray 700",
+        "canonical": "rgb(80, 80, 80)",
+        "cssVar": "--spectrum-gray-700"
+      },
+      "gray-25": {
+        "role": "neutral",
+        "displayName": "Spectrum Gray 25 (page background)",
+        "canonical": "rgb(255, 255, 255)",
+        "cssVar": "--spectrum-background-base-color",
+        "resolvesTo": "--spectrum-gray-25"
+      }
+    },
+    "typographyMeta": {
+      "body": {
+        "displayName": "Body (medium scale)",
+        "purpose": "Default paragraph and UI text at 16px / --spectrum-font-size-200.",
+        "cssVar": "--spectrum-body-size-m"
+      }
+    },
+    "shadows": [
+      {
+        "name": "drop-shadow-emphasized-default",
+        "value": "0px 0px 0px rgba(0, 0, 0, 0.12)",
+        "cssVar": "--spectrum-drop-shadow-emphasized-default-color",
+        "purpose": "Resting elevation for emphasized surfaces (color-100, opacity 0.12)."
+      },
+      {
+        "name": "drop-shadow-emphasized-hover",
+        "value": "0px 0px 0px rgba(0, 0, 0, 0.16)",
+        "cssVar": "--spectrum-drop-shadow-emphasized-hover-color",
+        "purpose": "Hover elevation step (color-200, opacity 0.16)."
+      },
+      {
+        "name": "drop-shadow-dragged",
+        "value": "0px 0px 0px rgba(0, 0, 0, 0.2)",
+        "cssVar": "--spectrum-drop-shadow-dragged-color",
+        "purpose": "Highest elevation, dragged/active surfaces (color-300, opacity 0.2)."
+      },
+      {
+        "name": "floating-action-button",
+        "value": "0px 4px 12px rgba(0, 0, 0, 0.12)",
+        "cssVar": "--spectrum-floating-action-button-drop-shadow-y / -blur",
+        "purpose": "Component-specific shadow recipe for floating action buttons; y:4px blur:12px."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.45, 0, 0.4, 1)",
+        "purpose": "Default easing for most state transitions."
+      },
+      {
+        "name": "ease-in",
+        "value": "cubic-bezier(0.5, 0, 1, 1)",
+        "purpose": "Elements leaving/collapsing."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0, 0, 0.4, 1)",
+        "purpose": "Elements entering/expanding."
+      },
+      {
+        "name": "duration-100",
+        "value": "130ms",
+        "purpose": "Fast micro-interactions (hover, focus)."
+      },
+      {
+        "name": "duration-200",
+        "value": "160ms",
+        "purpose": "Standard transitions."
+      },
+      {
+        "name": "duration-300",
+        "value": "190ms",
+        "purpose": "Larger surface transitions (panels, overlays)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "768px",
+        "note": "Observed in docs/site/src/assets/css; not a formal Spectrum token — this repo's own responsive cutoff."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "Spectrum's default accent-emphasis, fill-style button (variant=\"accent\", style=\"fill\").",
+      "html": "<button class=\"spectrum-ActionButton spectrum-ActionButton--accent\">Action</button>",
+      "css": ".spectrum-ActionButton--accent { background-color: var(--spectrum-accent-background-color-default); color: var(--spectrum-gray-25); border-radius: var(--spectrum-corner-radius-control-m, 4px); } .spectrum-ActionButton--accent:hover { background-color: var(--spectrum-accent-background-color-hover); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The System, Documenting Itself",
+    "overview": "This site is not a bespoke brand — it is Adobe Spectrum, rendered with the same @spectrum-css packages this repository's data produces for every other Spectrum consumer. There is no independent visual language to invent here; the only correct move is to use Spectrum's own tokens and components exactly as published, at their default light/desktop/regular-contrast values.",
+    "keyCharacteristics": [
+      "Tokens over hex — every value traces to a real --spectrum-* custom property.",
+      "No custom component variants beyond what @spectrum-css ships.",
+      "This sidecar is a verified snapshot, not the source of truth — the published package and the design-data MCP tools are."
+    ],
+    "rules": [
+      {
+        "name": "The No-Invented-Hex Rule",
+        "body": "Never write a literal hex/rgb value into new CSS. Reference the --spectrum-* custom property, or once gen2 components land, token('token-name') via @adobe/postcss-token.",
+        "section": "colors"
+      },
+      {
+        "name": "The Verify-Before-You-Ship Rule",
+        "body": "Resolve exact token names/values with the design-data MCP tools (query_tokens, resolve_token, describe_component) before writing new UI — this repository is the literal source of truth those tools read from.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do resolve token names/values via the design-data MCP or skill before writing new UI.",
+      "Do use gen2's token('token-name') function (@adobe/postcss-token + @adobe/swc-tokens) once adopted — it fails the build if a token name doesn't exist.",
+      "Do re-run /impeccable document after a @spectrum-css/token package bump to catch drift."
+    ],
+    "donts": [
+      "Don't invent colors, radii, spacing, or component variants not present in @spectrum-css/@adobe/swc-tokens.",
+      "Don't hardcode a hex/px value pulled from memory instead of the verified token.",
+      "Don't silently overwrite DESIGN.md or this sidecar — refresh via /impeccable document instead."
+    ]
+  }
+}

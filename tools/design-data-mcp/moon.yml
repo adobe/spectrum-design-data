@@ -30,8 +30,16 @@ tasks:
       - scripts/generate-mcpb.mjs
       - README.md
       - package.json
-      - $workspaceRoot/docs/site/public/adobe_logo.svg
-      - $workspaceRoot/LICENSE
+      - /packages/design-data/guidelines/**/*.json
+      - /packages/design-data/components/**/*.json
+      - /packages/design-data/package.json
+      - /tools/design-data/src/**/*
+      - /tools/design-data/package.json
+      - /sdk/wasm/package.json
+      - /sdk/wasm/pkg/node/**/*
+      - /pnpm-lock.yaml
+      - /docs/site/public/adobe_logo.svg
+      - /LICENSE
     outputs:
       - dist/design-data-mcp-bundle
   test:
@@ -40,6 +48,15 @@ tasks:
       - ava
     deps:
       - "~:stage"
+    inputs:
+      - src/**/*
+      - test/**/*
+      - ava.config.js
+      - package.json
+      - scripts/generate-mcpb.mjs
+      - /packages/design-data/guidelines/**/*.json
+      - /docs/s2-docs/**/*.md
+      - /pnpm-lock.yaml
   bundle:
     # Produce design-data.mcpb — a self-contained Claude Desktop Extension archive.
     #

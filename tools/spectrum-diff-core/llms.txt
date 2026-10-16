@@ -1,0 +1,28 @@
+# @adobe/spectrum-diff-core
+
+> Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.)
+
+Shared core library for Spectrum diff generation tools (tokens, component schemas, etc.).
+
+## Install
+
+`npm install @adobe/spectrum-diff-core`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md): usage and API overview
+- [Overview](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#overview)
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#installation)
+- [Usage](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#usage)
+- [CLI Framework](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#cli-framework)
+- [Template System](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#template-system)
+- [API Reference](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#api-reference)
+- [Development](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#development)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/README.md#license)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/spectrum-diff-core)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/spectrum-diff-core/)

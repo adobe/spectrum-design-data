@@ -1,0 +1,6 @@
+{
+  "body-margin-multiplier": {
+    "structure": "body",
+    "property": "margin"
+  }
+}

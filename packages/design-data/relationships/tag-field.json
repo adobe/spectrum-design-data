@@ -205,7 +205,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "20658099-94df-4c6c-a2f2-558c92174121"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -213,7 +213,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "68c4dc34-49cb-4174-bd06-5f5dfbd0b64e"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -221,7 +221,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "dd684a30-2e49-4096-8b1c-40fbd6c8cac2"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -229,7 +229,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "b98d3a2d-94fb-4491-9650-1c9a62365a19"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -237,7 +237,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "e0b53a9a-e95a-45b8-b9b2-a16b70096c05"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "scope": {
@@ -245,7 +245,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom edge to alert icon)",
-    "$ref": "a7c0e1fc-bc57-450e-bdc2-1c2cf2823d98"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "scope": {
@@ -261,7 +261,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "b6eebf3a-4733-4177-a235-6eccfacf67cd"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -269,7 +269,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "5e448fc3-6c14-4169-84a0-1f70bbc478cb"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "798ecb75-638c-41dd-81a0-d7ecca9960da"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -285,7 +285,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "0072dc62-b868-4c4b-afd9-9c52d876c614"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -293,7 +293,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "03b1351c-1309-4e1a-a18b-bf3a350814c4"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "space-between"
     },
     "context": "Spacing (edge to tag group)",
-    "$ref": "1fda84ab-aa68-46fb-bd0f-d8174a08a41e"
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921"
   },
   {
     "scope": {

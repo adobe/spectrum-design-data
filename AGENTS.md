@@ -1,8 +1,31 @@
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+
 # Agent Instructions
+
+Canonical instructions for every AI tool in this repository. `CLAUDE.md` files only point here. Package-level `AGENTS.md` files add local commands; [docs/repo-index.md](docs/repo-index.md) lists every project with its audience and lifecycle.
+
+Shared rules and skills live in `.ai/` (see [.ai/README.md](.ai/README.md)). Edit them there, then run `pnpm ai:sync`. Never edit `.github/instructions/`, `.cursor/rules/`, or the `.claude/`/`.cursor/` symlinks by hand.
+
+## Repository Rules
+
+* **pnpm\@10.17.1** only (never npm or yarn); **moon** for tasks (`moon run <project>:<task>`, `moon query projects`); **AVA** for JS tests; Node \~20.12; ESM throughout.
+* **Changesets**: `pnpm changeset` for every user-facing change. Body ≤ 20 lines; verify with `node tools/changeset-linter/src/cli.js check --fail-on-warnings`. Details: `.ai/rules/changesets.md`.
+* **Conventional commits** (`type(scope): description`, `!` for breaking), enforced by commitlint.
+* **Copyright**: every new file starts with `Copyright YYYY Adobe. All rights reserved.` (current year, language-appropriate comment style). License: Apache-2.0.
+* **Code style**: 2-space indent, single quotes in docs examples, `const` over `let`, `async/await`. See `.ai/rules/javascript.md`.
+* **Tests**: `moon run test` (all), `pnpm --filter <package> test` (one), `moon run sdk:test` (Rust).
+* **GitHub**: use the `gh` CLI. Fill every section of `.github/PULL_REQUEST_TEMPLATE.md`; link issues and describe how you tested.
+* **Layout**: `packages/` core libraries, `tools/` internal tooling, `docs/` sites and explorers, `sdk/` Rust workspace, `platforms/` incubating platform manifests.
+
+## Maintainer Workflows
+
+The rest of this file covers maintainer tooling (Beads, Scout, Jira, session close). It isn't needed to contribute to a package.
+
+### Issue tracking
 
 This project uses **bd** (beads) for issue tracking. Run `bd prime` for full workflow context and commands.
 
-## Quick Reference
+### Quick Reference
 
 ```bash
 bd ready              # Find available work
@@ -14,9 +37,20 @@ bd dolt push          # Push beads data to remote
 
 ## Rules
 
-- Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
-- Run `bd prime` for detailed command reference and session close protocol
-- Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
+* Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
+* Run `bd prime` for detailed command reference and session close protocol
+* Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
+
+## Scout MCP
+
+Scout MCP is configured for this repository and may be exposed through deferred tool discovery rather than the initial tool catalog.
+
+When doing code review, source discovery, architecture tracing, or any work covered by Scout:
+
+* Use Scout MCP tools directly.
+* If a needed `mcp__scout__*` tool is not visible, first use tool discovery with an exact selector such as `select:mcp__scout__review_pr`, `select:mcp__scout__investigate`, or `select:mcp__scout__keyword_search`.
+* After selecting a Scout tool, call that MCP tool as the next tool call.
+* Do not fall back to the Scout CLI unless Scout MCP discovery fails for the needed tool.
 
 ## Non-Interactive Shell Commands
 
@@ -25,6 +59,7 @@ bd dolt push          # Push beads data to remote
 Shell commands like `cp`, `mv`, and `rm` may be aliased to include `-i` (interactive) mode on some systems, causing the agent to hang indefinitely waiting for y/n input.
 
 **Use these forms instead:**
+
 ```bash
 cp -f source dest           # NOT: cp source dest
 mv -f source dest           # NOT: mv source dest
@@ -34,10 +69,11 @@ cp -rf source dest          # NOT: cp -r source dest
 ```
 
 **Other commands that may prompt:**
-- `scp` - use `-o BatchMode=yes` for non-interactive
-- `ssh` - use `-o BatchMode=yes` to fail instead of prompting
-- `apt-get` - use `-y` flag
-- `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
+
+* `scp` - use `-o BatchMode=yes` for non-interactive
+* `ssh` - use `-o BatchMode=yes` to fail instead of prompting
+* `apt-get` - use `-y` flag
+* `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
 ## Session Completion
 
@@ -54,3 +90,22 @@ cp -rf source dest          # NOT: cp -r source dest
    git status  # MUST show "up to date with origin"
    ```
 5. **Verify** — all changes committed and pushed
+
+## Jira Initiative Tracking
+
+Beads sync to Jira (`DNA` project) with `import-beads.js` in the separate `adobe-mcp-servers` repo (`src/corp-jira/scripts/`), run manually each week. Only **Epics** link to Initiatives, through the `initiative:DNA-XXXX` label.
+
+* New epic: `bd create -t epic -l initiative:DNA-XXXX ...`. Existing epic: `bd label add <epic-id> initiative:DNA-XXXX`.
+* One initiative per epic. Leave the label off if no initiative fits.
+* Initiatives: `DNA-1522` adaptive support per platform, `DNA-1520` multi-platform governance, `DNA-1516` metrics, `DNA-1740` per-platform usage baselines, `DNA-1741` connect Web/iOS/Android to design data, `DNA-1747` AI-authored Spectrum 2 code, `DNA-1748` documentation, `DNA-1796` design data authoring.
+* Look up a Jira key or bead id: `node <adobe-mcp-servers>/src/corp-jira/dist/scripts/import-beads.js --lookup <id>`.
+* Ad hoc Jira work uses the `corp-jira` MCP server tools.
+
+## Code Intelligence (MCP)
+
+`.mcp.json` configures Scout, Ferrograph, tuiwright, design-data, figma, and corp-jira.
+
+* **Scout**: semantic search and cross-package references for the whole repo. Run `memory_search` before `investigate`, and `memory_write` after durable findings.
+* **Ferrograph**: exact call graph, blast radius, and dead code for `sdk/` Rust only. Its index is at `sdk/.ferrograph`; `cd sdk` before using the CLI.
+* Rust structural questions go to Ferrograph; everything else goes to Scout.
+* **corp-jira** needs a local `adobe-mcp-servers` checkout; its path in `.mcp.json` is machine-specific.

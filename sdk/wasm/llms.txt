@@ -1,0 +1,32 @@
+# @adobe/design-data-wasm
+
+> WebAssembly bindings for design-data-core — query, validate, resolve, diff, and registry helpers for Spectrum design tokens
+
+WebAssembly bindings for [`design-data-core`](../core/) — query, validate,
+resolve, and diff Spectrum design tokens from JavaScript or TypeScript, with
+zero native dependencies.
+
+Generated TypeScript types are derived directly from the Rust types via
+[tsify-next](https://github.com/nickel-lang/tsify-next) — no hand-maintained
+parallel type surface.
+
+## Install
+
+`npm install @adobe/design-data-wasm`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md): usage and API overview
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#installation)
+- [Release verification](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#release-verification)
+- [Usage](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#usage)
+- [API](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#api)
+- [TypeScript](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#typescript)
+- [License](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/README.md#license)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data-wasm)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/sdk/wasm/)

@@ -34,10 +34,18 @@ const packageJson = JSON.parse(
   readFileSync(resolve(__dirname, "../package.json"), "utf8"),
 );
 
+const SERVER_INSTRUCTIONS =
+  `This server bundles a snapshot of Spectrum design data (tokens, ` +
+  `components, guidelines) baked into its wasm at build time. The data version travels with ` +
+  `the package version, so there is nothing to update separately. To get newer Spectrum data, ` +
+  `install the latest published package (npx -y @adobe/design-data-mcp@latest — plain ` +
+  `"npx -y @adobe/design-data-mcp" can reuse a cached older build). Call design-data-primer ` +
+  `and read provenance.designDataVersion to see the embedded dataset version.`;
+
 export function createMCPServer() {
   const server = new Server(
     { name: "design-data", version: packageJson.version },
-    { capabilities: { tools: {} } },
+    { capabilities: { tools: {} }, instructions: SERVER_INSTRUCTIONS },
   );
 
   const tools = createDesignDataTools();

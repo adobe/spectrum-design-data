@@ -1,5 +1,5 @@
 {
-  "description": "A set-level alias ($ref targeting a set_uuid) MUST resolve to the mode-appropriate child. Under colorScheme=dark, accent-color-900 → blue-900 dark (different value from light).",
+  "description": "A set-level alias ($ref targeting a conceptId) MUST resolve to the mode-appropriate child. Under colorScheme=dark, accent-color-900 → blue-900 dark (different value from light).",
   "resolved": true,
   "expected_value": "rgb(75, 117, 255)",
   "expected_chain_length": 3,

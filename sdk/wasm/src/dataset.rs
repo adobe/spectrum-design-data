@@ -23,7 +23,9 @@ use std::sync::OnceLock;
 
 #[cfg(feature = "embedded")]
 use design_data_core::cache;
-use design_data_core::cascade::{resolve_property, ResolutionContext};
+use design_data_core::cascade::{
+    matches_context, resolve_property_narrowed, PropertyNarrowing, ResolutionContext,
+};
 use design_data_core::diff::semantic_diff;
 use design_data_core::graph::TokenGraph;
 use design_data_core::primer;
@@ -35,8 +37,9 @@ use wasm_bindgen::prelude::*;
 use crate::error::{js_err, to_js_error};
 use crate::types::{
     AddedToken, DeletedToken, DeprecatedToken, DiffResult, PropertyChange, RenamedToken,
-    ResolutionContext as WasmContext, ResolveResult, RevertedToken, SuggestResult,
-    SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken, ValidationResult,
+    ResolutionContext as WasmContext, ResolveAlternative, ResolveNarrowing, ResolveResult,
+    RevertedToken, SuggestResult, SuggestResultArray, TokenResult, TokenResultArray, UpdatedToken,
+    ValidationResult,
 };
 
 // ---------------------------------------------------------------------------
@@ -63,6 +66,28 @@ static EMBEDDED_GRAPH: OnceLock<Result<TokenGraph, String>> = OnceLock::new();
 // --fields-path packages/design-data/fields`)
 #[cfg(feature = "embedded")]
 static EMBEDDED_CACHE_BYTES: &[u8] = include_bytes!("embedded_cache.redb");
+
+#[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
+
+#[cfg(feature = "embedded")]
+fn load_embedded_graph() -> Result<TokenGraph, String> {
+    let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
+    let mut relationships = Vec::new();
+    for (filename, text) in EMBEDDED_RELATIONSHIPS {
+        let rows: Vec<serde_json::Value> =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        for (index, raw) in rows.into_iter().enumerate() {
+            relationships.push(design_data_core::graph::RelationshipRecord {
+                file: std::path::PathBuf::from("relationships").join(filename),
+                index,
+                uuid: raw.get("uuid").and_then(|v| v.as_str()).map(String::from),
+                raw,
+            });
+        }
+    }
+    Ok(graph.with_relationships(relationships))
+}
 
 // ---------------------------------------------------------------------------
 // Dataset class
@@ -113,9 +138,7 @@ impl Dataset {
         #[cfg(feature = "embedded")]
         {
             let graph = EMBEDDED_GRAPH
-                .get_or_init(|| {
-                    cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())
-                })
+                .get_or_init(load_embedded_graph)
                 .as_ref()
                 .map_err(|e| js_err(e))?
                 .clone();
@@ -202,6 +225,20 @@ impl Dataset {
         data.serialize(&serializer).map_err(js_err)
     }
 
+    /// Project tokens and relationships into legacy maps keyed by output filename.
+    ///
+    /// Returns a plain object, e.g. `{ "color-palette.json": { "blue-100": ... } }`.
+    /// Non-default contrast records are excluded, matching native legacy output.
+    #[wasm_bindgen(js_name = "legacyOutput")]
+    pub fn legacy_output(&self) -> Result<JsValue, JsValue> {
+        use serde::Serialize as _;
+        let (files, _) =
+            design_data_core::legacy::convert_graph_by_file(&self.graph).map_err(to_js_error)?;
+        files
+            .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+            .map_err(js_err)
+    }
+
     // -----------------------------------------------------------------------
     // Query
     // -----------------------------------------------------------------------
@@ -210,8 +247,13 @@ impl Dataset {
     ///
     /// **Syntax:** `key=value` pairs separated by `,` (AND) or `|` (OR).
     /// Use `!=` for negation and `*` as a wildcard suffix or prefix.
-    /// Valid keys: `property`, `component`, `variant`, `state`, `colorScheme`,
-    /// `scale`, `contrast`, `uuid`, `$schema`.
+    /// Valid parser keys: `property`, `component`, `variant`, `state`,
+    /// `colorScheme`, `scale`, `contrast`, `uuid`, `$schema`.
+    ///
+    /// `component` remains accepted for compatibility, but it is not a
+    /// meaningfully indexed field in the embedded dataset and usually returns no
+    /// matches. Prefer `describe_component` and `tokenBindings` metadata for
+    /// component-aware discovery.
     ///
     /// ```js
     /// const results = ds.query("property=color,colorScheme=dark");
@@ -284,7 +326,10 @@ impl Dataset {
     /// no token matches the property+context combination.
     ///
     /// ```js
-    /// const result = ds.resolve("background", { colorScheme: "dark", scale: "medium" });
+    /// const result = ds.resolve("background", { colorScheme: "dark", scale: "medium" }, {
+    ///   variant: "accent",
+    ///   state: "hover",
+    /// });
     /// if (result) console.log(result.token.raw.value);
     /// ```
     #[wasm_bindgen]
@@ -292,6 +337,7 @@ impl Dataset {
         &self,
         property: &str,
         context: WasmContext,
+        narrowing: Option<ResolveNarrowing>,
     ) -> Result<Option<ResolveResult>, JsValue> {
         let ctx_map = context.into_inner();
 
@@ -300,19 +346,65 @@ impl Dataset {
             ctx = ctx.with(k, v);
         }
 
-        // Delegate to cascade::resolve_property — the same path used by cli and tui.
+        let narrowing = narrowing.unwrap_or_default();
+        let core_narrowing = PropertyNarrowing {
+            component: narrowing.component,
+            variant: narrowing.variant,
+            state: narrowing.state,
+            color_role: narrowing.color_role,
+            exclude_deprecated: narrowing.exclude_deprecated,
+        };
+        let candidates = resolve_property_narrowed(&self.graph, property, &ctx, &core_narrowing);
+        // Delegate to cascade::resolve_property_narrowed — the same cascade ranking
+        // path used by cli and tui, with the additional name-object filters applied.
         // This correctly applies layer-ordering (Platform wins over Foundation) that
         // the previous inline subgraph construction did not preserve.
-        match resolve_property(&self.graph, property, &ctx)
-            .into_iter()
-            .find(|c| c.is_winner)
-        {
-            Some(winner) => Ok(Some(ResolveResult {
-                token: TokenResult::from(&winner.record),
-                specificity: winner.specificity,
-            })),
-            None => Ok(None),
-        }
+        let Some(winner_index) = candidates.iter().position(|c| c.is_winner) else {
+            return Ok(None);
+        };
+        let winner = &candidates[winner_index];
+        let context_candidate = |candidate: &&design_data_core::cascade::ResolvedCandidate| {
+            candidate
+                .record
+                .raw
+                .get("name")
+                .and_then(|value| value.as_object())
+                .is_some_and(|name| matches_context(name, &ctx))
+        };
+        let candidate_count = candidates.iter().filter(context_candidate).count();
+        let alternatives = candidates
+            .iter()
+            .enumerate()
+            .filter(|(index, candidate)| *index != winner_index && context_candidate(candidate))
+            .take(5)
+            .map(|(_, candidate)| ResolveAlternative {
+                name: candidate.record.name.clone(),
+                uuid: candidate.record.uuid.clone(),
+                deprecated: candidate.deprecated,
+                deprecated_in: candidate
+                    .record
+                    .raw
+                    .get("lifecycle")
+                    .and_then(|v| v.get("deprecatedIn"))
+                    .and_then(|v| v.as_str())
+                    .map(String::from),
+            })
+            .collect();
+        Ok(Some(ResolveResult {
+            token: TokenResult::from(&winner.record),
+            specificity: winner.specificity,
+            deprecated: winner.deprecated,
+            deprecated_in: winner
+                .record
+                .raw
+                .get("lifecycle")
+                .and_then(|v| v.get("deprecatedIn"))
+                .and_then(|v| v.as_str())
+                .map(String::from),
+            candidate_count,
+            ambiguous: candidate_count > 1,
+            alternatives,
+        }))
     }
 
     // -----------------------------------------------------------------------

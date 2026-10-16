@@ -10,5 +10,12 @@
     "documentationUrl": "https://spectrum.adobe.com/page/user-card/"
   },
   "anatomy": [{ "name": "title" }],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "UserCard",
+      "package": "@react-spectrum/s2"
+    }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

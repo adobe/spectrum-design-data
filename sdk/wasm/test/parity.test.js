@@ -185,13 +185,12 @@ test("getAdvisoryFields returns a non-empty string array", (t) => {
   t.true(fields.every((f) => typeof f === "string"));
 });
 
-test("getIndexedFields returns all 9 queryable filter keys", (t) => {
+test("getIndexedFields returns all 8 indexed filter keys", (t) => {
   const fields = wasm.getIndexedFields();
   t.true(Array.isArray(fields));
   t.true(fields.every((f) => typeof f === "string"));
   const expected = [
     "property",
-    "component",
     "variant",
     "state",
     "colorScheme",
@@ -871,7 +870,7 @@ test("resolveReference: set-level alias light vs dark returns different chains",
       },
       value: "rgb(59, 99, 251)",
       uuid: "nyt-blue900-light-0000-000000000001",
-      set_uuid: "nyt-blue900-set-000-0000-000000000001",
+      conceptId: "nyt-blue900-set-000-0000-000000000001",
     },
     {
       name: {
@@ -882,7 +881,7 @@ test("resolveReference: set-level alias light vs dark returns different chains",
       },
       value: "rgb(75, 117, 255)",
       uuid: "nyt-blue900-dark-0000-000000000001",
-      set_uuid: "nyt-blue900-set-000-0000-000000000001",
+      conceptId: "nyt-blue900-set-000-0000-000000000001",
     },
     {
       name: { property: "accent-color-900" },

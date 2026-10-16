@@ -1,6 +1,26 @@
 # `@adobe/design-data-agent-mcp`
 
-MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `describe_component`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. Only `authoring_session_step_intent` still invokes the native binary (for NLP suggest ranking, not yet on the wasm surface).
+MCP server and Claude Code skill for the [Spectrum Design Data](../../packages/design-data/) agent surface. Read tools (`primer`, `resolve_token`, `query_tokens`, `suggest_token`, `describe_component`, `describe_guideline`, `list_guidelines`) run fully in-process via `@adobe/design-data-wasm` — no CLI binary required for those. `suggest_token` uses the wasm `suggest` API directly; `authoring_session_step_intent` still invokes the native binary for session-state-aware ranking within an authoring flow.
+
+## Testing guideline content
+
+Run `moon run design-data-agent-mcp:test`. For the packaged content contracts only,
+after `moon run sdk-wasm:build`, run:
+
+```sh
+pnpm --filter @adobe/design-data-agent-mcp exec ava test/packaged-guidelines.test.js
+```
+
+The suite uses `pnpm pack` to test the agent's publishable files, extracts the
+tarball into a fresh private tree, and vendors local runtime dependencies using
+the MCPB packaging allowlists. It initializes the packed server over stdio with
+no data overrides, checks the catalog against the canonical manifest, compares
+every guideline response to source JSON, and checks invalid-slug errors. An import
+guard rejects ESM imports and CommonJS requires outside the private tree.
+
+Dependencies come from the local build, not registry tarballs, so this is not a
+registry-install test. It does not assess model answer quality. The tests remove
+private staging trees afterward.
 
 ## Install
 
@@ -26,17 +46,30 @@ https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-
 ### npm (MCP server)
 
 ```sh
-npx @adobe/design-data-agent-mcp
+npx @adobe/design-data-agent-mcp@latest
 ```
 
 The `@adobe/design-data` CLI binary is **only** needed for `authoring_session_step_intent`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
+
+### Staying current
+
+The embedded Spectrum snapshot is baked into the wasm at build time and travels with the
+package version — there's no separate data update to run. Pin `@latest` (as above) so `npx`
+fetches the newest published version rather than reusing whatever it last cached; `-y` alone
+only skips the install confirmation, it doesn't force a re-fetch. Already on `/plugin`? Run
+`/plugin update design-data-agent@spectrum-design-data`. Call the primer tool and check
+`provenance.designDataVersion` to see which dataset version is embedded. The primer tool
+also does a best-effort check against the latest published `@adobe/spectrum-design-data`
+version — if the embedded dataset is behind, it adds a `provenance.datasetStatus` field and
+logs a one-line warning to stderr. This is silent on any network failure (offline/air-gapped
+use is unaffected); set `DESIGN_DATA_SKIP_VERSION_CHECK=1` to disable the check entirely.
 
 ## MCP server
 
 Configure your MCP client to run:
 
 ```sh
-npx -y @adobe/design-data-agent-mcp
+npx -y @adobe/design-data-agent-mcp@latest
 ```
 
 Or from a repo clone:
@@ -47,15 +80,34 @@ node tools/design-data-agent-mcp/src/index.js
 
 ### Environment variables
 
-| Variable                 | Default       | Description                                       |
-| ------------------------ | ------------- | ------------------------------------------------- |
-| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary (authoring only) |
-| `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to |
-| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                 |
-| `DESIGN_DATA_COMPONENTS` | —             | Override components directory                     |
-| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                         |
-| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)             |
-| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)         |
+| Variable                 | Default       | Description                                                                    |
+| ------------------------ | ------------- | ------------------------------------------------------------------------------ |
+| `DESIGN_DATA_BIN`        | `design-data` | Path to the `design-data` binary (authoring only)                              |
+| `DESIGN_DATA_ROOT`       | —             | Absolute root that relative paths are anchored to                              |
+| `DESIGN_DATA_PATH`       | `.`           | Dataset root path                                                              |
+| `DESIGN_DATA_COMPONENTS` | —             | Override components directory                                                  |
+| `DESIGN_DATA_GUIDELINES` | —             | Override guidelines directory                                                  |
+| `DESIGN_DATA_FIELDS`     | —             | Override fields directory                                                      |
+| `DESIGN_DATA_SCHEMAS`    | —             | Override schema path (for `validate`)                                          |
+| `DESIGN_DATA_EXCEPTIONS` | —             | Override exceptions path (for `validate`)                                      |
+| `DESIGN_DATA_CONFIG`     | —             | Path to a `.design-data.toml` (or its directory) to resolve a platform cascade |
+| `DESIGN_DATA_PLATFORM`   | —             | Select a named `[platforms.<id>]` entry (needs `DESIGN_DATA_CONFIG`)           |
+
+> **Platform cascade.** If `DESIGN_DATA_CONFIG` is set, the server shells out to
+> the `design-data` CLI once at startup
+> (`design-data query --filter "" --format json`, run from the config's directory)
+> to resolve its `.design-data.toml`
+> source (path/npm/github/git) and either its top-level `manifest` cascade or,
+> if `DESIGN_DATA_PLATFORM` is also set, that named `[platforms.<id>]` entry's
+> manifest — mirroring the CLI's own `--platform`/`DESIGN_DATA_PLATFORM`, then
+> materializes the result to a temp dir and points `primer` / `resolve_token` /
+> `query_tokens` / `validate_usage` / `describe_component` /
+> `describe_guideline` / `list_guidelines` at it instead of the embedded
+> Spectrum snapshot. Component, relationship, and guideline catalogs are copied
+> from the fallback dataset and overlaid with platform manifest extensions. If
+> resolution fails
+> (e.g. no network for a github source), the server logs a warning and falls
+> back to the embedded/local dataset rather than crashing.
 
 > **Path resolution.** The MCP client launches this server with the working
 > directory inherited from wherever the editor was opened — which may be a
@@ -75,8 +127,8 @@ node tools/design-data-agent-mcp/src/index.js
 >    is independent of the working directory.
 > 3. **Fallback.** `dataPath` falls back to the (anchored) current directory; the
 >    component/field overrides fall back to `null` (not supplied), which means
->    `describe_component` will throw an error if `@adobe/spectrum-design-data` is
->    not resolvable.
+>    `describe_component` / `describe_guideline` will throw an error if
+>    `@adobe/spectrum-design-data` is not resolvable.
 >
 > In a monorepo checkout you typically need no `DESIGN_DATA_*` env vars at all —
 > resolution via the workspace package handles it.
@@ -88,7 +140,7 @@ node tools/design-data-agent-mcp/src/index.js
   "mcpServers": {
     "design-data-agent": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "args": ["-y", "@adobe/design-data-agent-mcp@latest"],
       "env": {
         "DESIGN_DATA_ROOT": "/abs/path/to/your/repo",
         "DESIGN_DATA_PATH": "packages/design-data/tokens",
@@ -107,7 +159,7 @@ node tools/design-data-agent-mcp/src/index.js
   "mcpServers": {
     "design-data-agent": {
       "command": "npx",
-      "args": ["-y", "@adobe/design-data-agent-mcp"],
+      "args": ["-y", "@adobe/design-data-agent-mcp@latest"],
       "env": {
         "DESIGN_DATA_BIN": "design-data",
         "DESIGN_DATA_PATH": "/path/to/your/dataset"
@@ -124,7 +176,10 @@ node tools/design-data-agent-mcp/src/index.js
 | `primer`             | Load full token taxonomy, component list, and field definitions |
 | `resolve_token`      | Resolve a token property to its literal value                   |
 | `query_tokens`       | Filter tokens by expression                                     |
+| `suggest_token`      | Suggest tokens matching a natural-language intent               |
 | `describe_component` | Fetch component schema and token bindings                       |
+| `describe_guideline` | Fetch guideline documentBlocks content and metadata             |
+| `list_guidelines`    | List guideline slugs and metadata, optionally by category       |
 | `validate_usage`     | Validate token usage and return a diagnostic report             |
 | `diff_datasets`      | Compare two datasets and return a semantic diff                 |
 | `write`              | Write agent-generated product context to the dataset            |

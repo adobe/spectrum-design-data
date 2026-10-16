@@ -16,12 +16,39 @@
 //! [`TokenGraph::apply_platform_manifest`](crate::graph::TokenGraph::apply_platform_manifest).
 
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
+
+use serde_json::{Map, Value};
 
 use crate::data_source::ResolvedData;
+use crate::discovery::discover_json_files;
 use crate::graph::TokenGraph;
 use crate::schema::SchemaRegistry;
 use crate::CoreError;
+
+/// Category subdirectories concatenated verbatim (sorted path order) into the
+/// merged `extensions` object, keyed by directory name → manifest JSON key →
+/// the object schema each entry is validated against (see
+/// [`FragmentValidation::Item`]) — this is what stops an entry missing e.g.
+/// "name" from silently vanishing in `apply_platform_manifest`'s own
+/// `let Some(name) = ... else { continue }`, by failing loudly here instead.
+/// `tokens/`, `relationships/`, and `mode-sets/` have their own handling below
+/// and aren't here.
+const CONCAT_CATEGORIES: &[(&str, &str, &str)] = &[
+    ("components", "components", "component.schema.json"),
+    ("fields", "fields", "field.schema.json"),
+    ("guidelines", "guidelines", "guideline.schema.json"),
+    (
+        "platform-extensions",
+        "platformExtensions",
+        "platform-extension.json",
+    ),
+    (
+        "implementations",
+        "implementations",
+        "implementation-mapping.schema.json",
+    ),
+];
 
 /// Locate `packages/design-data-spec/schemas/manifest.schema.json` by walking up
 /// from `schemas_root`.
@@ -30,6 +57,104 @@ pub fn locate_manifest_schema(schemas_root: &Path) -> Option<PathBuf> {
         let candidate = p.join("packages/design-data-spec/schemas/manifest.schema.json");
         candidate.is_file().then_some(candidate)
     })
+}
+
+/// Locate `packages/design-data/registry/platform-implementations.json` by walking
+/// up from `schemas_root` — the registry of known platform-manifest implementation
+/// ids (see `spec/manifest.md#identity-fields`), distinct from the token-level
+/// `platforms.json` device-target registry.
+fn locate_platform_implementations_registry(schemas_root: &Path) -> Option<PathBuf> {
+    schemas_root.ancestors().find_map(|p| {
+        let candidate = p.join("packages/design-data/registry/platform-implementations.json");
+        candidate.is_file().then_some(candidate)
+    })
+}
+
+/// Check a manifest's optional `platform` field against the
+/// platform-implementations registry, returning an advisory message when the id
+/// isn't recognized. `platform` is a SHOULD, not a MUST (`manifest.schema.json`
+/// places no `enum` constraint on it) — an unrecognized id is not a schema
+/// violation, just something the caller may want to surface to the platform team
+/// (e.g. `validate-manifest`'s pretty output, or `platform show`).
+///
+/// Returns `Ok(None)` when `platform` is absent, or present and recognized.
+/// Returns `Err` only for I/O/parse failures reading the registry file — a
+/// missing/malformed registry does not fail the manifest.
+pub fn check_platform_identity(
+    manifest: &Value,
+    schemas_root: &Path,
+) -> Result<Option<String>, CoreError> {
+    let Some(platform) = manifest.get("platform").and_then(|v| v.as_str()) else {
+        return Ok(None);
+    };
+    let Some(registry_path) = locate_platform_implementations_registry(schemas_root) else {
+        return Ok(None);
+    };
+    let text = std::fs::read_to_string(&registry_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let registry: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform-implementations registry {}: {e}",
+            registry_path.display()
+        ))
+    })?;
+    let known = registry
+        .get("values")
+        .and_then(|v| v.as_array())
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(|v| v.get("id").and_then(|id| id.as_str()))
+                .any(|id| id == platform)
+        })
+        .unwrap_or(false);
+    if known {
+        Ok(None)
+    } else {
+        Ok(Some(format!(
+            "manifest declares platform \"{platform}\" which is not in the \
+             platform-implementations registry ({}) — this is advisory only, not a \
+             validation failure",
+            registry_path.display()
+        )))
+    }
+}
+
+/// Read a platform manifest.json's optional `formatting` block
+/// (`manifest.schema.json#/properties/formatting`) as a
+/// [`crate::naming::FormattingConfig`], for callers (e.g. `figma export
+/// --code-syntax-manifest`) that only need per-platform token-name
+/// serialization rules, not the full include/exclude/overrides cascade.
+/// Returns `Ok(None)` when the manifest has no `formatting` block.
+pub fn load_formatting_config(
+    manifest_path: &Path,
+) -> Result<Option<crate::naming::FormattingConfig>, CoreError> {
+    let text = std::fs::read_to_string(manifest_path).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to read platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let manifest: Value = serde_json::from_str(&text).map_err(|e| {
+        CoreError::ParseError(format!(
+            "failed to parse platform manifest {}: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    let Some(formatting) = manifest.get("formatting") else {
+        return Ok(None);
+    };
+    let config = serde_json::from_value(formatting.clone()).map_err(|e| {
+        CoreError::ParseError(format!(
+            "platform manifest {} has an invalid `formatting` block: {e}",
+            manifest_path.display()
+        ))
+    })?;
+    Ok(Some(config))
 }
 
 /// Apply the Layer 2 platform manifest declared in `.design-data.toml`
@@ -52,7 +177,7 @@ pub fn apply_configured(
             manifest_path.display()
         ))
     })?;
-    let manifest: serde_json::Value = serde_json::from_str(&text).map_err(|e| {
+    let mut manifest: serde_json::Value = serde_json::from_str(&text).map_err(|e| {
         CoreError::ParseError(format!(
             "failed to parse platform manifest {}: {e}",
             manifest_path.display()
@@ -76,8 +201,281 @@ pub fn apply_configured(
         )));
     }
 
+    // Layer 2's `extensions/` directory (spec/manifest.md#extensions-directory) is
+    // glob+merged into the same `extensions` object shape the schema used to allow
+    // inline, then spliced in post-validation — the manifest.json on disk no longer
+    // carries `extensions` at all under the 26.1 schema, so validation above runs
+    // clean, and `apply_platform_manifest` below is none the wiser.
+    // manifest.schema.json's parent dir is the spec schemas/ dir, holding every
+    // category schema fragments are validated against below.
+    let schema_dir = schema_path
+        .parent()
+        .expect("schema_path is a file path, always has a parent");
+    if let Some(ext) = build_extensions_value(manifest_path, &manifest, schema_dir)? {
+        manifest
+            .as_object_mut()
+            .expect("manifest.json root is a JSON object (enforced by Layer 1 schema)")
+            .insert("extensions".to_string(), ext);
+    }
+
     let outcome = graph.apply_platform_manifest(&manifest)?;
     Ok(outcome.mode_set_restrictions)
+}
+
+/// Glob+merge the Layer 2 manifest's `extensions/` directory (default name
+/// `"extensions"`, overridable via the manifest's `extensionsDir` field) into the
+/// merged `extensions` `Value` [`TokenGraph::apply_platform_manifest`] expects.
+///
+/// Returns `Ok(None)` when the directory doesn't exist (or exists but every
+/// category subdirectory is missing/empty) — this is not an error; a platform
+/// with no extensions simply omits the directory.
+///
+/// See `packages/design-data-spec/spec/manifest.md#extensions-directory` for the
+/// normative discovery/merge/precedence rules this implements.
+fn build_extensions_value(
+    manifest_path: &Path,
+    manifest: &Value,
+    schema_dir: &Path,
+) -> Result<Option<Value>, CoreError> {
+    let dir_name = manifest
+        .get("extensionsDir")
+        .and_then(|v| v.as_str())
+        .unwrap_or("extensions");
+    if Path::new(dir_name).is_absolute()
+        || Path::new(dir_name)
+            .components()
+            .any(|c| matches!(c, Component::ParentDir))
+    {
+        return Err(CoreError::ParseError(format!(
+            "manifest extensionsDir \"{dir_name}\" must be a relative path inside the \
+             platform directory (no absolute paths or \"..\" components)"
+        )));
+    }
+    let ext_root = manifest_path
+        .parent()
+        .map_or_else(|| PathBuf::from(dir_name), |p| p.join(dir_name));
+    if !ext_root.is_dir() {
+        return Ok(None);
+    }
+
+    // "tokens", "relationships", and "mode-sets" have their own handling below
+    // (not in CONCAT_CATEGORIES); every other recognized subdirectory is one of
+    // CONCAT_CATEGORIES's entries, so derive the allowlist from there rather
+    // than duplicating the category list a second time.
+    let known_subdirs: Vec<&str> = std::iter::once("tokens")
+        .chain(CONCAT_CATEGORIES.iter().map(|(dir_name, _, _)| *dir_name))
+        .chain(std::iter::once("relationships"))
+        .chain(std::iter::once("mode-sets"))
+        .collect();
+    for entry in std::fs::read_dir(&ext_root)? {
+        let entry = entry?;
+        let path = entry.path();
+        if !path.is_dir() {
+            // Tolerate stray non-directory files (.DS_Store, README.md, ...).
+            continue;
+        }
+        let name = entry.file_name();
+        let name = name.to_string_lossy();
+        if !known_subdirs.contains(&name.as_ref()) {
+            return Err(CoreError::ParseError(format!(
+                "extensions directory {} contains an unrecognized subdirectory \"{name}\" — \
+                 expected one of: {}",
+                ext_root.display(),
+                known_subdirs.join(", ")
+            )));
+        }
+    }
+
+    let mut out = Map::new();
+
+    // tokens/ — *.tokens.json cascade-format files, concatenated in sorted path
+    // order into one array (cascade token files are themselves top-level arrays,
+    // which is exactly what `apply_platform_manifest` reads for `extensions.tokens`).
+    let tokens_dir = ext_root.join("tokens");
+    if tokens_dir.is_dir() {
+        let files: Vec<PathBuf> = discover_json_files(&tokens_dir)?
+            .into_iter()
+            .filter(|p| p.to_string_lossy().ends_with(".tokens.json"))
+            .collect();
+        let tokens = load_and_concat(
+            &files,
+            FragmentValidation::TokenFile(&schema_dir.join("cascade-file.schema.json")),
+        )?;
+        if !tokens.is_empty() {
+            out.insert("tokens".to_string(), Value::Array(tokens));
+        }
+    }
+
+    // components/, fields/, guidelines/, platform-extensions/, implementations/ — one artifact per
+    // file (though a file holding an array of several is tolerated too), all files
+    // in the subdirectory concatenated in sorted path order.
+    for (dir_name, key, schema_file) in CONCAT_CATEGORIES {
+        let dir = ext_root.join(dir_name);
+        if !dir.is_dir() {
+            continue;
+        }
+        let items = load_and_concat(
+            &discover_json_files(&dir)?,
+            FragmentValidation::Item(&schema_dir.join(schema_file)),
+        )?;
+        if !items.is_empty() {
+            out.insert((*key).to_string(), Value::Array(items));
+        }
+    }
+
+    // relationships/ — plain adds (no "op") must precede override/remove ops, so
+    // that an override/remove in a later-sorted file can still target an add from
+    // an earlier one; `apply_platform_manifest` processes this array strictly in
+    // order. Partition is stable: within each group, sorted-path order is kept.
+    let rel_dir = ext_root.join("relationships");
+    if rel_dir.is_dir() {
+        let items = load_and_concat(
+            &discover_json_files(&rel_dir)?,
+            FragmentValidation::RelationshipAdds(&schema_dir.join("relationship.schema.json")),
+        )?;
+        if !items.is_empty() {
+            let (mut adds, ops): (Vec<Value>, Vec<Value>) =
+                items.into_iter().partition(|v| v.get("op").is_none());
+            adds.extend(ops);
+            out.insert("relationships".to_string(), Value::Array(adds));
+        }
+    }
+
+    // mode-sets/ — plain adds (no "op") must precede addMode/removeMode/
+    // setDefault/remove ops, so that an op in a later-sorted file can still
+    // target an add from an earlier one; `apply_platform_manifest` processes
+    // this array strictly in order. Partition is stable: within each group,
+    // sorted-path order is kept.
+    let mode_sets_dir = ext_root.join("mode-sets");
+    if mode_sets_dir.is_dir() {
+        let items = load_and_concat(
+            &discover_json_files(&mode_sets_dir)?,
+            FragmentValidation::ModeSetAdds(&schema_dir.join("mode-set.schema.json")),
+        )?;
+        if !items.is_empty() {
+            let (mut adds, ops): (Vec<Value>, Vec<Value>) =
+                items.into_iter().partition(|v| v.get("op").is_none());
+            adds.extend(ops);
+            out.insert("modeSets".to_string(), Value::Array(adds));
+        }
+    }
+
+    Ok((!out.is_empty()).then_some(Value::Object(out)))
+}
+
+/// How a fragment file (or the entries flattened out of it) is schema-validated
+/// during [`load_and_concat`]. Each variant names the schema file to validate
+/// against; the difference is *what* value gets validated.
+enum FragmentValidation<'a> {
+    /// `tokens/*.tokens.json`: the whole parsed file is itself the cascade array
+    /// `cascade-file.schema.json` describes — validated before flattening.
+    TokenFile(&'a Path),
+    /// `components/`, `fields/`, `guidelines/`, `platform-extensions/`, `implementations/`: each
+    /// flattened entry is one object validated against the category schema.
+    Item(&'a Path),
+    /// `relationships/`: each flattened entry *without* an `"op"` key (a plain
+    /// add) is validated against `relationship.schema.json`. Entries with `"op"`
+    /// (override/remove) have no schema of their own — `relationship.schema.json`
+    /// only models plain add/ref shapes — and are left to
+    /// `apply_platform_manifest`'s own override/remove structural checks.
+    RelationshipAdds(&'a Path),
+    /// `mode-sets/`: each flattened entry *without* an `"op"` key (a plain
+    /// whole-set add/replace) is validated against `mode-set.schema.json`.
+    /// Entries with `"op"` (`addMode`/`removeMode`/`setDefault`/`remove`) have
+    /// no schema of their own and are left to `apply_platform_manifest`'s own
+    /// op-specific structural checks.
+    ModeSetAdds(&'a Path),
+}
+
+/// Read and parse each file in `files`, flattening top-level arrays (cascade
+/// token files, or a fragment file holding several entries) and pushing bare
+/// objects as-is, preserving `files`' order throughout. `validation` determines
+/// which values get checked against which category schema (see
+/// [`FragmentValidation`]) via
+/// [`SchemaRegistry::validate_value_against_schema_file`]; a violation fails
+/// loudly here — naming both the offending file and the schema errors — rather
+/// than silently vanishing in `apply_platform_manifest`'s own add-or-replace
+/// lookups.
+fn load_and_concat(
+    files: &[PathBuf],
+    validation: FragmentValidation<'_>,
+) -> Result<Vec<Value>, CoreError> {
+    let mut out = Vec::new();
+    for f in files {
+        let text = std::fs::read_to_string(f).map_err(|e| {
+            CoreError::ParseError(format!(
+                "failed to read extension fragment {}: {e}",
+                f.display()
+            ))
+        })?;
+        let val: Value = serde_json::from_str(&text).map_err(|e| {
+            CoreError::ParseError(format!(
+                "failed to parse extension fragment {}: {e}",
+                f.display()
+            ))
+        })?;
+
+        if let FragmentValidation::TokenFile(schema) = validation {
+            check_fragment(f, &val, schema)?;
+        }
+
+        let items: Vec<Value> = match val {
+            Value::Array(items) => items,
+            other => vec![other],
+        };
+
+        match validation {
+            FragmentValidation::Item(schema) => {
+                for item in &items {
+                    check_fragment(f, item, schema)?;
+                }
+            }
+            FragmentValidation::RelationshipAdds(schema) => {
+                // relationship.schema.json's top level is an *array* of entries
+                // (its item def lives at `$defs/relationship`, not reachable as
+                // its own schema file), so each plain-add entry is validated by
+                // wrapping it in a single-element array.
+                for item in &items {
+                    if item.get("op").is_none() {
+                        check_fragment(f, &Value::Array(vec![item.clone()]), schema)?;
+                    }
+                }
+            }
+            FragmentValidation::ModeSetAdds(schema) => {
+                // mode-set.schema.json's top level is a single object (unlike
+                // relationship.schema.json), so each plain-add entry validates
+                // directly, unwrapped.
+                for item in &items {
+                    if item.get("op").is_none() {
+                        check_fragment(f, item, schema)?;
+                    }
+                }
+            }
+            FragmentValidation::TokenFile(_) => {} // already validated above
+        }
+
+        out.extend(items);
+    }
+    Ok(out)
+}
+
+/// Validate `value` (a whole fragment file, or one entry flattened out of it)
+/// against `schema_path`, returning a [`CoreError::ParseError`] naming `file`
+/// and every schema violation when invalid.
+fn check_fragment(file: &Path, value: &Value, schema_path: &Path) -> Result<(), CoreError> {
+    let errors = SchemaRegistry::validate_value_against_schema_file(value, schema_path)?;
+    if errors.is_empty() {
+        return Ok(());
+    }
+    Err(CoreError::ParseError(format!(
+        "extension fragment {} failed schema validation ({}):\n  {}",
+        file.display(),
+        schema_path.file_name().map_or_else(
+            || schema_path.display().to_string(),
+            |n| n.to_string_lossy().into_owned()
+        ),
+        errors.join("\n  ")
+    )))
 }
 
 #[cfg(test)]
@@ -88,11 +486,11 @@ mod tests {
     use serde_json::json;
     use std::path::PathBuf;
 
-    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
     /// default `schemas_root` an in-repo `ResolvedData` carries.
     fn repo_schemas_root() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas")
     }
 
     fn resolved_with_manifest(manifest_path: PathBuf, schemas_root: PathBuf) -> ResolvedData {
@@ -105,7 +503,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: Some(manifest_path),
             provenance: Provenance::InRepo,
         }
@@ -143,6 +540,34 @@ mod tests {
         ])
     }
 
+    /// Write `manifest.json` (specVersion/foundationVersion plus any `extra`
+    /// top-level fields — e.g. `extensionsDir`) and, for each `(subdir, filename,
+    /// content)` triple, a fragment file under `<dir>/extensions/<subdir>/<filename>`.
+    /// Returns the manifest path. `content` is written as-is, so pass a JSON array
+    /// for `tokens/`/`relationships/` fixtures that need several entries in one file.
+    fn write_manifest_with_extensions(
+        dir: &Path,
+        extra: Value,
+        files: &[(&str, &str, Value)],
+    ) -> PathBuf {
+        let mut manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+        });
+        if let Value::Object(extra) = extra {
+            manifest.as_object_mut().unwrap().extend(extra);
+        }
+        let manifest_path = dir.join("manifest.json");
+        std::fs::write(&manifest_path, manifest.to_string()).unwrap();
+
+        for (subdir, filename, content) in files {
+            let sub = dir.join("extensions").join(subdir);
+            std::fs::create_dir_all(&sub).unwrap();
+            std::fs::write(sub.join(filename), content.to_string()).unwrap();
+        }
+        manifest_path
+    }
+
     #[test]
     fn no_manifest_is_noop() {
         let mut graph = make_graph();
@@ -155,7 +580,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: None,
             provenance: Provenance::InRepo,
         };
@@ -232,94 +656,306 @@ mod tests {
     }
 
     #[test]
-    fn manifest_injects_platform_component() {
+    fn missing_extensions_dir_is_noop_not_an_error() {
         let dir = tempfile::tempdir().unwrap();
-        let manifest_path = dir.path().join("manifest.json");
-        std::fs::write(
-            &manifest_path,
-            json!({
-                "specVersion": "1.0.0-draft",
-                "foundationVersion": "1.0.0",
-                "extensions": {
-                    "components": [{
-                        "$id": "tab-bar-ios",
-                        "name": "tab-bar-ios",
-                        "displayName": "Tab Bar (iOS)",
-                        "meta": {"category": "navigation", "documentationUrl": "https://example.com"}
-                    }]
-                }
-            })
-            .to_string(),
-        )
-        .unwrap();
+        // No `extensions/` directory at all next to manifest.json.
+        let manifest_path = write_manifest_with_extensions(dir.path(), json!({}), &[]);
+
+        let mut graph = make_graph();
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        let restrictions = apply_configured(&mut graph, &resolved).unwrap();
+        assert!(restrictions.is_empty());
+        assert_eq!(graph.tokens.len(), 3, "no extensions injected");
+    }
+
+    #[test]
+    fn extensions_mode_sets_directory_is_injected_into_graph() {
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "mode-sets",
+                "interface-level.json",
+                json!({"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "base"}),
+            )],
+        );
 
         let mut graph = make_graph();
         let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .components
+
+        let declared = graph
+            .mode_sets
             .iter()
-            .find(|c| c.name == "tab-bar-ios")
-            .expect("injected component present");
-        assert_eq!(injected.layer, crate::graph::Layer::Platform);
+            .find(|m| m.name == "interfaceLevel")
+            .expect("manifest-declared mode set present");
+        assert_eq!(declared.modes, vec!["base", "elevated"]);
+        assert_eq!(declared.default_mode, "base");
     }
 
     #[test]
-    fn manifest_injects_platform_extension() {
+    fn extensions_mode_sets_op_only_fragment_is_not_schema_rejected() {
+        // An op entry (no `modes`/`default`) would fail mode-set.schema.json's
+        // `required` check if it were validated like a plain add — it must be
+        // skipped by FragmentValidation::ModeSetAdds, not rejected.
         let dir = tempfile::tempdir().unwrap();
-        let manifest_path = dir.path().join("manifest.json");
-        std::fs::write(
-            &manifest_path,
-            json!({
-                "specVersion": "1.0.0-draft",
-                "foundationVersion": "1.0.0",
-                "extensions": {
-                    "platformExtensions": [{
-                        "platform": "iOS",
-                        "extends": "states",
-                        "extensions": [{"termId": "default", "platformTerm": "normal"}]
-                    }]
-                }
-            })
-            .to_string(),
-        )
-        .unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[(
+                "mode-sets",
+                "scale-tv.json",
+                json!({"name": "scale", "op": "addMode", "mode": "tv"}),
+            )],
+        );
+
+        let mut graph = make_graph();
+        graph = graph.with_mode_sets(vec![crate::graph::ModeSetRecord {
+            file: PathBuf::from("mode-sets/scale.json"),
+            name: "scale".to_string(),
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            default_mode: "desktop".to_string(),
+        }]);
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let scale = graph.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
+    }
+
+    #[test]
+    fn extensions_mode_sets_plain_adds_precede_ops_regardless_of_file_order() {
+        // "addMode.json" sorts before "scale.json" by filename, but the plain
+        // add for "scale" must still be applied before the op targeting it —
+        // load_and_concat's partition (adds before ops) must win over
+        // discovery's sorted-path order.
+        let dir = tempfile::tempdir().unwrap();
+        let manifest_path = write_manifest_with_extensions(
+            dir.path(),
+            json!({}),
+            &[
+                (
+                    "mode-sets",
+                    "addMode.json",
+                    json!({"name": "scale", "op": "addMode", "mode": "tv"}),
+                ),
+                (
+                    "mode-sets",
+                    "scale.json",
+                    json!({"name": "scale", "modes": ["desktop", "mobile"], "default": "desktop"}),
+                ),
+            ],
+        );
 
         let mut graph = make_graph();
         let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         apply_configured(&mut graph, &resolved).unwrap();
-        let injected = graph
-            .platform_extensions
-            .iter()
-            .find(|r| r.platform == "iOS" && r.extends == "states")
-            .expect("injected platform extension present");
-        assert_eq!(injected.raw["extensions"][0]["termId"], "default");
+
+        let scale = graph.mode_sets.iter().find(|m| m.name == "scale").unwrap();
+        assert_eq!(scale.modes, vec!["desktop", "mobile", "tv"]);
     }
 
+    #[cfg(unix)]
     #[test]
-    fn manifest_rejects_unknown_term_id() {
+    fn unreadable_extension_fragment_error_names_the_file() {
+        // Regression: the read-error path must name the file, like the
+        // parse-error path just below it does, so failures are diagnosable
+        // among many `extensions/` files.
+        use std::os::unix::fs::PermissionsExt;
+
         let dir = tempfile::tempdir().unwrap();
-        let manifest_path = dir.path().join("manifest.json");
-        std::fs::write(
-            &manifest_path,
-            json!({
-                "specVersion": "1.0.0-draft",
-                "foundationVersion": "1.0.0",
-                "extensions": {
-                    "platformExtensions": [{
-                        "platform": "iOS",
-                        "extends": "states",
-                        "extensions": [{"termId": "not-a-real-state"}]
-                    }]
-                }
-            })
-            .to_string(),
-        )
-        .unwrap();
+        let manifest_path = write_manifest_with_extensions(dir.path(), json!({}), &[]);
+        let components_dir = dir.path().join("extensions").join("components");
+        std::fs::create_dir_all(&components_dir).unwrap();
+        let bogus = components_dir.join("unreadable.json");
+        std::fs::write(&bogus, "{}").unwrap();
+        std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o000)).unwrap();
 
         let mut graph = make_graph();
         let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
         let err = apply_configured(&mut graph, &resolved).unwrap_err();
-        assert!(err.to_string().contains("not-a-real-state"));
+
+        // Restore permissions so the tempdir can be cleaned up.
+        std::fs::set_permissions(&bogus, std::fs::Permissions::from_mode(0o644)).unwrap();
+
+        assert!(err.to_string().contains("unreadable.json"));
+    }
+
+    #[test]
+    fn check_platform_identity_absent_field_is_noop() {
+        let manifest = json!({"specVersion": "1.0.0-draft", "foundationVersion": "1.0.0"});
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn check_platform_identity_known_id_is_noop() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "react-spectrum"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        assert!(result.is_none(), "expected no warning, got: {result:?}");
+    }
+
+    #[test]
+    fn check_platform_identity_unknown_id_returns_advisory() {
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "platform": "totally-not-a-real-platform"
+        });
+        let result = check_platform_identity(&manifest, &repo_schemas_root()).unwrap();
+        let message = result.expect("expected an advisory message");
+        assert!(message.contains("totally-not-a-real-platform"));
+        assert!(message.contains("advisory only"));
+    }
+
+    /// spectrum-design-data-h890.27.10: `web-components-states.json` was moved out
+    /// of the foundation registry (`packages/design-data/registry/platform-extensions/`)
+    /// into `platforms/web-components/extensions/platform-extensions/` — confirm the
+    /// real, migrated file is still discovered, schema-validated, and merged into the
+    /// graph via the same cascade every other platform-extensions fragment uses.
+    #[test]
+    fn swc_web_components_states_extension_is_loaded_via_cascade() {
+        let manifest_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../platforms/web-components/manifest.json");
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(manifest_path, repo_schemas_root());
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        let record = graph
+            .platform_extensions
+            .iter()
+            .find(|r| r.platform == "Web Components" && r.extends == "states")
+            .expect("web-components-states.json extension present after migration");
+        let term_ids: Vec<&str> = record
+            .raw
+            .get("extensions")
+            .and_then(|v| v.as_array())
+            .unwrap()
+            .iter()
+            .filter_map(|t| t.get("termId").and_then(|v| v.as_str()))
+            .collect();
+        assert!(term_ids.contains(&"hover"));
+        assert!(term_ids.contains(&"focus"));
+        assert!(term_ids.contains(&"disabled"));
+        assert!(term_ids.contains(&"keyboard-focus"));
+    }
+
+    /// The real foundation component catalog, which the incubating platforms'
+    /// `extensions/implementations/` fragments target.
+    fn real_components() -> Vec<crate::graph::ComponentRecord> {
+        TokenGraph::load_spec_components(
+            &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data/components"),
+        )
+        .unwrap()
+    }
+
+    fn button_rows(graph: &TokenGraph) -> Vec<Value> {
+        graph
+            .components
+            .iter()
+            .find(|c| c.name == "button")
+            .and_then(|c| c.raw.get("implementations"))
+            .and_then(|v| v.as_array())
+            .cloned()
+            .expect("button has implementations")
+    }
+
+    /// h890.29: each incubating platform's seeded `extensions/implementations/`
+    /// refines its own foundation default in place — stamping the owner and, for
+    /// SWC gen2, adding `package` alongside `importPath` — without duplicating or
+    /// dropping the other implementation's row.
+    #[test]
+    fn incubating_platforms_refine_their_own_implementation_rows() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms");
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("web-components/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        assert_eq!(
+            button_rows(&graph),
+            vec![
+                json!({"platform": "web", "componentName": "Button", "package": "@react-spectrum/s2"}),
+                json!({
+                    "platform": "web",
+                    "componentName": "Button",
+                    "package": "@adobe/spectrum-wc",
+                    "importPath": "@adobe/spectrum-wc/components/button",
+                    "notes": "Spectrum 2 web component custom element: swc-button.",
+                    "implementation": "web-components"
+                }),
+            ]
+        );
+
+        let mut graph = make_graph().with_components(real_components());
+        let resolved = resolved_with_manifest(
+            root.join("react-spectrum/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+    }
+
+    #[test]
+    fn embedded_snapshot_validates_ejected_implementation_fragments() {
+        let project = tempfile::tempdir().unwrap();
+        let root = project.path().join("embedded");
+        crate::data_source::embedded::materialize_to(&root).unwrap();
+
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../platforms/react-spectrum");
+        let manifest_path = project.path().join("manifest.json");
+        std::fs::copy(source.join("manifest.json"), &manifest_path).unwrap();
+        let fragments = project.path().join("extensions/implementations");
+        std::fs::create_dir_all(&fragments).unwrap();
+        for entry in std::fs::read_dir(source.join("extensions/implementations")).unwrap() {
+            let entry = entry.unwrap();
+            std::fs::copy(entry.path(), fragments.join(entry.file_name())).unwrap();
+        }
+
+        let components =
+            TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
+                .unwrap();
+        let mut graph = make_graph().with_components(components);
+        let resolved = resolved_with_manifest(
+            manifest_path,
+            root.join("packages/design-data-spec/schemas"),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+        let rows = button_rows(&graph);
+        assert_eq!(rows.len(), 2);
+        assert_eq!(rows[0]["implementation"], "react-spectrum");
+        assert_eq!(rows[0]["package"], "@react-spectrum/s2");
+        assert!(rows[1].get("implementation").is_none());
+
+        let invalid_fragment = fragments.join("invalid.json");
+        std::fs::write(
+            &invalid_fragment,
+            json!({
+                "component": "button",
+                "implementations": [{"platform": "web", "package": "@react-spectrum/s2"}]
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let error = apply_configured(&mut graph, &resolved)
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains(&invalid_fragment.display().to_string()),
+            "{error}"
+        );
+        assert!(error.contains("failed schema validation"), "{error}");
+        assert!(error.contains("componentName"), "{error}");
     }
 }

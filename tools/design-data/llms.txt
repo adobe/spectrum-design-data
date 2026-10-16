@@ -1,0 +1,17 @@
+# @adobe/design-data
+
+> Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management
+
+## Install
+
+`npm install @adobe/design-data`
+
+## Documentation
+
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/design-data)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/design-data/)

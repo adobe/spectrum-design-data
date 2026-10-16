@@ -4,7 +4,11 @@
   "title": "Platform Extension",
   "description": "Schema for platform-specific terminology extensions",
   "type": "object",
-  "required": ["platform", "extends", "extensions"],
+  "required": ["platform"],
+  "anyOf": [
+    { "required": ["extends", "extensions"] },
+    { "required": ["componentOptions"] }
+  ],
   "properties": {
     "$schema": {
       "type": "string",
@@ -32,9 +36,77 @@
       "items": {
         "$ref": "#/$defs/extension"
       }
+    },
+    "componentOptions": {
+      "type": "array",
+      "description": "Per-component option/value aliasing for this platform. Unlike `extensions` (which aliases a shared registry term everywhere it's used), these entries scope to one component's own `options` map — the right home for a naming difference that isn't backed by a shared registry (e.g. Button's `style` option vs. React's `fillStyle` prop).",
+      "items": {
+        "$ref": "#/$defs/componentOptionExtension"
+      }
     }
   },
   "$defs": {
+    "componentOptionExtension": {
+      "type": "object",
+      "required": ["component", "option"],
+      "properties": {
+        "component": {
+          "type": "string",
+          "description": "Component `name` (as declared in its component.schema.json file, e.g. 'button') this extension applies to."
+        },
+        "option": {
+          "type": "string",
+          "description": "Canonical option name from the component's `options` map (e.g. 'style')."
+        },
+        "platformProp": {
+          "type": "string",
+          "description": "This platform's name for the option (e.g. 'fillStyle')."
+        },
+        "platformAttribute": {
+          "type": "string",
+          "description": "This platform's HTML/DOM attribute name, when it differs from platformProp (e.g. Web Components' fill-style attribute vs. its fillStyle JS property). Omit if not applicable or identical to platformProp."
+        },
+        "platformAliases": {
+          "type": "array",
+          "description": "Other names this platform has used for the same concept (e.g. during a migration).",
+          "items": { "type": "string" }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-text context for why the names differ."
+        },
+        "values": {
+          "type": "array",
+          "description": "Per-value aliasing, for options whose values differ in casing or spelling across platforms (e.g. size 's'|'m'|'l'|'xl' canonical vs. React's 'S'|'M'|'L'|'XL').",
+          "items": {
+            "type": "object",
+            "required": ["value", "platformValue"],
+            "properties": {
+              "value": {
+                "type": "string",
+                "description": "Canonical value, from the component's options[option].values."
+              },
+              "platformValue": {
+                "type": "string",
+                "description": "This platform's value for the same concept."
+              }
+            }
+          }
+        },
+        "platformOnlyValues": {
+          "type": "array",
+          "description": "Values this platform's implementation accepts that have NO canonical/Figma counterpart (e.g. React Button's 'premium'/'genai' variants). Recorded here — not silently mapped to the nearest lookalike — so design-system drift between platforms is visible rather than papered over. A generator producing Code Connect templates from this data MUST NOT emit a figma.enum() entry for these; they can never appear in a Figma-driven example because no Figma variant represents them.",
+          "items": {
+            "type": "object",
+            "required": ["platformValue"],
+            "properties": {
+              "platformValue": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
     "extension": {
       "type": "object",
       "required": ["termId"],

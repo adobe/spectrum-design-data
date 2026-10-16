@@ -26,6 +26,7 @@ const requiredPaths = [
   "schemas/token.schema.json",
   "schemas/mode-set.schema.json",
   "schemas/manifest.schema.json",
+  "schemas/implementation-mapping.schema.json",
   "schemas/dataset.schema.json",
   "schemas/value-types",
   "rules/rules.yaml",

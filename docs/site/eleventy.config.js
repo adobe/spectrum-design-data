@@ -30,6 +30,8 @@ export default async function (eleventyConfig) {
   // Generated .md in src/components, tokens, registry are in .gitignore; we still want 11ty to process them
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setLiquidOptions({ jsTruthy: true });
+  // Contributor-facing doc, not a post — keep it out of the articles collection/output.
+  eleventyConfig.ignores.add("src/articles/README.md");
   eleventyConfig.addPlugin(HtmlBasePlugin, { pathPrefix });
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(cssConfig, {
@@ -47,6 +49,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "public/.nojekyll": ".nojekyll" });
   eleventyConfig.addPassthroughCopy({ "public/schemas": "schemas" });
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/images": "assets/images" });
 
   eleventyConfig.addCollection("components", function (api) {
     return api.getFilteredByGlob("src/components/**/*.md");
@@ -84,7 +87,20 @@ export default async function (eleventyConfig) {
     return content.replace(
       /<article[^>]*>([\s\S]*?)<\/article>/g,
       (articleBlock) =>
-        articleBlock.replace(/<a(\s)/g, '<a class="spectrum-Link"$1'),
+        articleBlock.replace(/<a\s+[^>]*>/g, (tag) => {
+          const classMatch = tag.match(/\sclass="([^"]*)"/);
+          if (classMatch) {
+            const existing = classMatch[1].split(/\s+/);
+            const merged = existing.includes("spectrum-Link")
+              ? existing
+              : ["spectrum-Link", ...existing];
+            return tag.replace(
+              /\sclass="[^"]*"/,
+              ` class="${merged.join(" ")}"`,
+            );
+          }
+          return tag.replace(/^<a\s/, '<a class="spectrum-Link" ');
+        }),
     );
   });
 

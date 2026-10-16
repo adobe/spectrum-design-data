@@ -119,6 +119,23 @@ fn seed_alias(graph: &TokenGraph, intent: &str, property_hint: Option<&str>) -> 
     }
 }
 
+/// Cartesian product of mode sets → list of mode-combo vectors.
+fn cartesian_product(mode_sets: &[ModeSetRecord]) -> Vec<Vec<(String, String)>> {
+    let mut result: Vec<Vec<(String, String)>> = vec![vec![]];
+    for ms in mode_sets {
+        let mut next = Vec::new();
+        for combo in &result {
+            for mode in &ms.modes {
+                let mut new_combo = combo.clone();
+                new_combo.push((ms.name.clone(), mode.clone()));
+                next.push(new_combo);
+            }
+        }
+        result = next;
+    }
+    result
+}
+
 #[cfg(test)]
 mod seed_alias_tests {
     use super::*;
@@ -145,21 +162,4 @@ mod seed_alias_tests {
         let seeded = seed_alias(&graph, "accent background color", None);
         assert_eq!(seeded.value(), "accent-background-color-default");
     }
-}
-
-/// Cartesian product of mode sets → list of mode-combo vectors.
-fn cartesian_product(mode_sets: &[ModeSetRecord]) -> Vec<Vec<(String, String)>> {
-    let mut result: Vec<Vec<(String, String)>> = vec![vec![]];
-    for ms in mode_sets {
-        let mut next = Vec::new();
-        for combo in &result {
-            for mode in &ms.modes {
-                let mut new_combo = combo.clone();
-                new_combo.push((ms.name.clone(), mode.clone()));
-                next.push(new_combo);
-            }
-        }
-        result = next;
-    }
-    result
 }

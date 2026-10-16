@@ -66,11 +66,13 @@ An agent loop benefits from a small, structural overview at session start so tha
 
 ### CLI
 
-The reference CLI is `design-data` (see [`sdk/cli/`](../../../sdk/cli/)). Install it via Homebrew (macOS), `cargo install design-data-cli`, or a [GitHub Release download](https://github.com/adobe/spectrum-design-data/releases) — see the [`sdk/cli/` README](../../../sdk/cli/README.md#install). RFC-C extends the existing subcommands (`validate`, `resolve`, `diff`, `query`) with:
+The reference CLI is `design-data` (see [`sdk/cli/`](../../../sdk/cli/)). Install it via Homebrew (macOS), `cargo install design-data-cli`, or a [GitHub Release download](https://github.com/adobe/spectrum-design-data/releases) — see the [`sdk/cli/` README](../../../sdk/cli/README.md#install). RFC-C extends the existing subcommands (`validate`, `resolve`, `diff`, `query`, `export`) with:
 
 * `design-data primer [PATH]` — emit the [Session primer](#session-primer) payload.
 * `design-data suggest "<intent>" [--property <hint>]` — invoke `suggest_token`.
 * `design-data explain <token-uuid|component-id>` — invoke `get_guidance`. (Deferred — not yet shipped; pending `get_guidance` wire-up.)
+
+`resolve`, `query`, and `export` all accept `--format dtcg` to emit [W3C DTCG](https://tr.designtokens.org/format/)-conformant `$value`/`$type` output, resolved for a given mode context (`--color-scheme`/`--scale`/`--contrast`) — `export` emits the whole dataset as one flat document, `query --format dtcg` a filtered subset, `resolve --format dtcg` a single property. See the [`sdk/` README](../../../sdk/README.md#cli-usage) for examples.
 
 **NORMATIVE:** All RFC-C CLI output MUST default to JSON when stdout is not a TTY, and MUST emit human-friendly output when stdout is a TTY. This makes the CLI directly composable from agent shells without per-call format flags.
 

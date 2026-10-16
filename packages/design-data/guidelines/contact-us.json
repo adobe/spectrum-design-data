@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/contact-us.json",
+  "name": "contact-us",
+  "title": "Contact us",
+  "category": "support",
+  "documentBlocks": [
+    { "type": "purpose", "content": "Contact us" },
+    {
+      "type": "guideline",
+      "content": "For general inquiries, feedback, bug reports, and other communication about Spectrum, please email us."
+    }
+  ],
+  "sourceUrl": "https://spectrum.adobe.com/support/contact-us",
+  "lastUpdated": "2026-09-08",
+  "status": "published",
+  "tags": [
+    "Contact",
+    "Slack",
+    "Jira",
+    "Figma",
+    "CCUE",
+    "DXUE",
+    "Brand",
+    "Icons"
+  ]
+}

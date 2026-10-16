@@ -1,5 +1,242 @@
 # @adobe/design-data-spec
 
+## 4.7.0
+
+### Minor Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
+### Patch Changes
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests pin `foundationVersion` to the canonical package (closes xqln.18).
+  - **platforms/**: pin `@adobe/spectrum-design-data@3.5.0` instead of `@adobe/spectrum-tokens`.
+  - **packages/design-data-spec/**: document the tag format in the manifest spec and schema.
+  - **sdk/cli/**: `platform show` drift check compares the version part of the tag.
+
+## 4.6.0
+
+### Minor Changes
+
+- [#1483](https://github.com/adobe/spectrum-design-data/pull/1483) [`418cc0d`](https://github.com/adobe/spectrum-design-data/commit/418cc0d4b95e3b6b7cc70779e55d09173c88c357) Thanks [@GarthDB](https://github.com/GarthDB)! - Add platform-specific component option aliases and validate their canonical values.
+  - **packages/design-data-spec**: Add `componentOptions` extensions with canonical-value validation.
+  - **packages/design-data**: Add Button option mappings for React Spectrum and Web Components.
+
+### Patch Changes
+
+- [#1533](https://github.com/adobe/spectrum-design-data/pull/1533) [`6375e4b`](https://github.com/adobe/spectrum-design-data/commit/6375e4b83333f51f012d8f95df35a20d8a792340) Thanks [@GarthDB](https://github.com/GarthDB)! - Ship a generated `llms.txt` with each consumer-facing package (closes #1533).
+  - **package.json (10 packages)**: add `llms.txt` to the npm `files` list.
+  - **llms.txt**: generated from each README and `.ai/inventory.json` by `pnpm ai:sync`.
+
+## 4.5.0
+
+### Minor Changes
+
+- [#1516](https://github.com/adobe/spectrum-design-data/pull/1516) [`1cce74b`](https://github.com/adobe/spectrum-design-data/commit/1cce74b35a7ecb48302b7114cd89063604ca8440) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can now own their component implementation mappings through a new
+  `extensions/implementations/` category, refining foundation defaults row by row.
+  - **schemas/implementation-mapping.schema.json**: new fragment schema — `component` plus
+    implementation rows to upsert, or `op: "remove"` selectors.
+  - **schemas/component.schema.json**: implementations accept `package` and `importPath`
+    together, and gain an optional `implementation` registry id.
+  - **spec/manifest.md**, **spec/component-format.md**: document ownership, upsert identity,
+    remove selectors, and foundation-default layering.
+  - **conformance/manifest-extensions/**: valid and invalid fixtures for the new category.
+
+## 4.4.0
+
+### Minor Changes
+
+- [#1514](https://github.com/adobe/spectrum-design-data/pull/1514) [`9d3a14f`](https://github.com/adobe/spectrum-design-data/commit/9d3a14fb4c7ed956f93b87ccee6565c73b940ed5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a `prefix` property to manifest `formatting` (closes DNA-1741).
+  - **manifest.schema.json**: `formatting.prefix` (string) is prepended to a
+    formatted name, after casing/delimiter, unaffected by them — for wrapping
+    conventions like CSS custom properties (`--spectrum-`).
+  - **spec/manifest.md**: documents the new field alongside `conceptOrder`,
+    `casing`, `delimiter`, `abbreviations`.
+
+## 4.3.0
+
+### Minor Changes
+
+- [#1479](https://github.com/adobe/spectrum-design-data/pull/1479) [`e483c9c`](https://github.com/adobe/spectrum-design-data/commit/e483c9cf74acf463c9a3d2be4caba7689e3dc27c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add foundation-owned component platform implementation metadata.
+  - **schemas/component.schema.json**: support implementation names and package or
+    import-path references for component consumers.
+
+## 4.2.1
+
+### Patch Changes
+
+- [#1476](https://github.com/adobe/spectrum-design-data/pull/1476) [`046e4e6`](https://github.com/adobe/spectrum-design-data/commit/046e4e65930d5fd17b55ee2c9ce880e1e049f99a) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the `export` CLI subcommand and `--format dtcg` output in the
+  agent-readable surface spec.
+  - **spec/agent-surface.md**: list `export` alongside the existing
+    reference-CLI subcommands and note `--format dtcg` support on
+    `resolve`/`query`/`export`.
+
+## 4.2.0
+
+### Minor Changes
+
+- [#1449](https://github.com/adobe/spectrum-design-data/pull/1449) [`57b9a04`](https://github.com/adobe/spectrum-design-data/commit/57b9a04243a13b151931e5b36876b857f6ac5ffe) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests can now add, remove, or retarget a single mode value (or remove a whole
+  set) in `extensions/mode-sets/` via an `op` field, instead of only declaring or replacing
+  the entire set.
+  - **spec/manifest.md**: documented the `addMode` / `removeMode` / `setDefault` / `remove`
+    op grammar and updated the capability matrix.
+  - **spec/mode-sets.md**: cross-referenced the new ops alongside the existing
+    declare-or-replace semantics.
+  - **conformance/manifest-extensions/**: added valid and invalid fixtures covering each op.
+
+## 4.1.0
+
+### Minor Changes
+
+- [#1428](https://github.com/adobe/spectrum-design-data/pull/1428) [`6005339`](https://github.com/adobe/spectrum-design-data/commit/6005339a0678226eee3e827fd5bbfa793f5bccc7) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a canonical `conceptId` UUID shared by every mode row of a design concept (closes the
+  concept-identity gap in proposal 013), and retire the transitional `set_uuid` cascade-migration
+  bridge field in the same release now that `conceptId` fully subsumes its role.
+  - **packages/tokens/schemas/token-types/alias.json**: removed `set_uuid`; `conceptId` was
+    already documented alongside `uuid` on the token schema.
+  - **packages/design-data/tokens/\*.tokens.json**: backfilled `conceptId` on every token
+    (reusing existing `set_uuid` values where present) and removed `set_uuid`.
+  - **sdk/core/src/{graph,legacy,migrate,figma/import}.rs**: re-keyed concept grouping,
+    legacy-output reconstruction, migration, and Figma import onto `conceptId`; CTR-side
+    camelCase `setUuid`/`setSchema` bridging is unchanged. `set_schema` is retained as-is —
+    it encodes set-type, not concept identity.
+  - **sdk/core/src/validate/rules/spec059.rs** (new): `alias-mode-context-compatibility`,
+    a mode analogue of SPEC-002 flagging an alias pinned to a mode-mismatched target.
+  - **spec/{cascade,token-format}.md**: normativize `conceptId` and context-aware `$ref`
+    resolution against a `conceptId` anchor.
+  - **conformance fixtures**: renamed `set_uuid` → `conceptId` throughout.
+
+## 4.0.0
+
+### Major Changes
+
+- [#1420](https://github.com/adobe/spectrum-design-data/pull/1420) [`211d661`](https://github.com/adobe/spectrum-design-data/commit/211d66122892000939944b43427f35e356a5ae51) Thanks [@GarthDB](https://github.com/GarthDB)! - Redefine platform-manifest `extensions` as a sibling `extensions/` directory (one file
+  per artifact, glob-discovered and merged at load time) instead of a single inline
+  object, so per-platform additions can scale past a handful of components.
+  - **schemas/manifest.schema.json**: removed the inline `extensions` object; a manifest
+    using the old inline shape now fails Layer 1 validation. Added optional
+    `extensionsDir` (default `"extensions"`) and promoted `namingExceptions`/`formatting`
+    to top-level manifest fields.
+  - **spec/manifest.md**: documents the `extensions/` directory layout, glob discovery,
+    and merge/precedence rules (deep-merge for `tokens/`, sorted-path-order/last-wins for
+    the other catalogs, override/remove-by-uuid for `relationships/`), and the
+    per-fragment schema each subdirectory validates against.
+  - **reference SDK loader**: glob-discovers and merges each `extensions/` subdirectory
+    at manifest load time, schema-validating every fragment file against its category's
+    real JSON schema before merging it in.
+
+## 3.5.0
+
+### Minor Changes
+
+- [#1394](https://github.com/adobe/spectrum-design-data/pull/1394) [`5e22a7a`](https://github.com/adobe/spectrum-design-data/commit/5e22a7a18cd1a4f2a5957cba9cafa66bef73ed63) Thanks [@GarthDB](https://github.com/GarthDB)! - Re-point component/token relationship (CTR) `$ref`s that pointed at deprecated tokens
+  (e.g. accordion spacing bindings still referencing tokens deprecated by SDS-15500) onto
+  their live `lifecycle.replacedBy` target, and add a rule that catches regressions.
+  - **packages/design-data/relationships/\*.json**: 1,366 relationship-only `$ref`s
+    re-pointed to their live replacement via `lifecycle.replacedBy`; 285 with no
+    replacement pointer are left as-is and now surface as SPEC-058 warnings. Does not
+    change `packages/tokens/src/` (`@adobe/spectrum-tokens`) — verified byte-identical.
+  - **migrate-to-relationships.mjs** and **seed-token-bindings.mjs**: resolve through
+    `lifecycle.replacedBy` when emitting a `$ref`, so re-running either generator can't
+    reintroduce a deprecated reference.
+  - **sdk/core/src/validate/rules/spec058.rs**: new warning rule (`ctr-ref-not-deprecated`)
+    flagging a relationship-only CTR whose `$ref` resolves to a deprecated token.
+  - **packages/design-data-spec/rules/rules.yaml**: catalogs SPEC-058.
+
+## 3.4.1
+
+### Patch Changes
+
+- [`a1d6e8a`](https://github.com/adobe/spectrum-design-data/commit/a1d6e8a8df15106aaaec047077d4d09011247227) Thanks [@GarthDB](https://github.com/GarthDB)! - Clarify two manifest cascade behaviors surfaced by the iOS platform manifest POC.
+  - **spec/manifest.md**: documents that overrides land as new platform-layer records, not
+    in-place edits (`query` double-counts an overridden token; only `resolve` picks the
+    cascade winner), and recommends validators reject a pre-cascade-format `foundationVersion`.
+
+## 3.4.0
+
+### Minor Changes
+
+- [#1388](https://github.com/adobe/spectrum-design-data/pull/1388) [`17239f3`](https://github.com/adobe/spectrum-design-data/commit/17239f31fe23279e1034ef4dd1d1c3072d550a16) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest carry field declarations as a first-class,
+  cascade-consumable `extensions` section (bead spectrum-design-data-h890.23.2),
+  continuing the cascade parity work started for components/platformExtensions
+  in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `fields` (array of `field.schema.json` items).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.fields` subsection document the add-or-replace-by-name
+    semantics, including the `conceptOrder` name-reference caveat.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded section
+    that add-or-replaces into the field catalog by `name`, reusing the
+    existing `FieldRecord`/`load_spec_fields` and `upsert_by_key` — no
+    struct change, so no cache-schema-version bump is needed.
+
+- [#1387](https://github.com/adobe/spectrum-design-data/pull/1387) [`eb6e57f`](https://github.com/adobe/spectrum-design-data/commit/eb6e57f47c6bb38e2675418e9ef7f0737a385f3b) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest carry guideline documents as a first-class,
+  cascade-consumable `extensions` section (bead spectrum-design-data-h890.23.1),
+  continuing the cascade parity work started for components/platformExtensions
+  in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `guidelines` (array of `guideline.schema.json` items).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.guidelines` subsection document the add-or-replace-by-name
+    semantics.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded section
+    that add-or-replaces into the guideline catalog by `name`, reusing the
+    existing `GuidelineRecord`/`load_spec_guidelines` and `upsert_by_key` — no
+    struct change, so no cache-schema-version bump is needed.
+
+- [#1390](https://github.com/adobe/spectrum-design-data/pull/1390) [`3aa312d`](https://github.com/adobe/spectrum-design-data/commit/3aa312db6a055108f685b832dfafdf195ab088fc) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest overlay add/remove naming exceptions onto the base
+  set used by naming validation (bead spectrum-design-data-h890.23.4),
+  completing the cascade parity work for h890.23.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `namingExceptions` (`{ add, remove }`, both optional arrays of
+    non-empty strings).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a new
+    `extensions.namingExceptions` subsection document the add/remove overlay
+    semantics (`remove` applied before `add`, so add wins on overlap).
+  - **sdk/core/src/naming.rs**: new `apply_naming_exceptions_overlay` helper;
+    naming exceptions stay a plain `HashSet<String>` outside `TokenGraph`, so
+    the overlay is applied where `validate_all_with_full_options` already
+    loads the sibling `manifest.json`, rather than as a graph-cascade section.
+
+- [#1389](https://github.com/adobe/spectrum-design-data/pull/1389) [`e0300ab`](https://github.com/adobe/spectrum-design-data/commit/e0300ab6167bc237c83d9d45885a10405c10b974) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a platform manifest add, override, or remove Component/Token
+  Relationship (CTR) entries via a new `extensions.relationships` section
+  (bead spectrum-design-data-h890.23.3), continuing the cascade parity work
+  started for components/platformExtensions in h890.22.
+  - **packages/design-data-spec/schemas/manifest.schema.json**: `extensions`
+    gains `relationships` (array of `relationship.schema.json` items, or
+    `{op: "override"|"remove", uuid, value?}` targeting entries).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix and a
+    new `extensions.relationships` subsection document the identity model —
+    add is positional, override/remove require a `uuid` since relationships
+    have no other stable key.
+  - **sdk/core/src/graph.rs**: `apply_platform_manifest` adds a guarded
+    section handling add/override/remove, reusing the existing
+    `RelationshipRecord`. Add always appends, even on a `uuid` collision;
+    override/remove require an explicit `uuid` or error.
+
+### Patch Changes
+
+- [#1386](https://github.com/adobe/spectrum-design-data/pull/1386) [`ca62801`](https://github.com/adobe/spectrum-design-data/commit/ca62801f3e84f295d5945c3e57793bb5d50a6b1b) Thanks [@GarthDB](https://github.com/GarthDB)! - Document the full platform manifest capability matrix and fill in missing `extensions` sub-keys.
+  - **spec/manifest.md**: adds a capability matrix (what a platform manifest
+    can override, alias, add, or remove, and what it can't) and documents
+    `extensions.tokens`, `extensions.components`, and
+    `extensions.platformExtensions`, previously undocumented despite being
+    applied by the SDK.
+
+- [#1391](https://github.com/adobe/spectrum-design-data/pull/1391) [`bdbf266`](https://github.com/adobe/spectrum-design-data/commit/bdbf266bc53e30d565531c1c8810688dba6f8348) Thanks [@GarthDB](https://github.com/GarthDB)! - Record the h890.23.5 decision on whether a platform manifest may override
+  Layer-1 schemas.
+  - **packages/design-data-spec/spec/manifest-schema-override-spike.md**: new
+    decision doc — no-go, with rationale (circularity, broken conformance
+    guarantees, no concrete need).
+  - **packages/design-data-spec/spec/manifest.md**: capability matrix gains an
+    explicit "Override Layer-1 schemas" row linking to the decision.
+
 ## 3.3.0
 
 ### Minor Changes

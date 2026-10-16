@@ -1,0 +1,9 @@
+{
+  "$id": "https://example.com/guidelines/ios-haptics",
+  "name": "ios-haptics",
+  "title": "iOS Haptics",
+  "category": "developing",
+  "documentBlocks": [
+    { "type": "purpose", "content": "When to use haptic feedback on iOS." }
+  ]
+}

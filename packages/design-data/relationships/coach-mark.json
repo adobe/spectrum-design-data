@@ -53,7 +53,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom/start/end edge to text)",
-    "$ref": "d5a3e2c7-f717-4436-91a3-3ab34aebd48e"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {
@@ -61,7 +61,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top/bottom/start/end edge to text)",
-    "$ref": "11fb0ab2-d6a0-4da8-9c83-c1f6b918406a"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "space-between"
     },
     "context": "Spacing (pagination to bottom)",
-    "$ref": "d2ff2d4f-058e-412b-9e16-1725d6d29e25"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "space-between"
     },
     "context": "Spacing (pagination to bottom)",
-    "$ref": "cd48e6b7-a4d8-4a22-8d65-531d770a9898"
+    "$ref": "2e855806-0f65-4df0-9d8f-74428daa358d"
   },
   {
     "scope": {

@@ -66,13 +66,58 @@ fn setup_project(manifest: serde_json::Value) -> tempfile::TempDir {
     project
 }
 
+/// Same fixture as [`setup_project`], but registered under a named
+/// `[platforms.rsp]` entry instead of the legacy top-level `manifest` key —
+/// exercises the same `--platform`/`platform_id` selection path the CLI and
+/// MCP use (spectrum-design-data-h890.27.14).
+fn setup_project_with_named_platform(manifest: serde_json::Value) -> tempfile::TempDir {
+    let project = tempfile::tempdir().expect("temp project dir");
+    let tokens_dir = project.path().join("tokens");
+    fs::create_dir_all(&tokens_dir).expect("create tokens dir");
+
+    fs::write(
+        tokens_dir.join("tokens.json"),
+        json!({
+            "btn-bg": {"name": {"property": "background-color", "component": "button"}, "value": "#aaa", "uuid": "u-btn-bg"},
+            "btn-fg": {"name": {"property": "color", "component": "button"}, "value": "#111", "uuid": "u-btn-fg"},
+            "chk-bg": {"name": {"property": "background-color", "component": "checkbox"}, "value": "#bbb", "uuid": "u-chk-bg"}
+        })
+        .to_string(),
+    )
+    .expect("write tokens");
+
+    fs::write(
+        project.path().join("manifest.json"),
+        serde_json::to_string_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("write manifest");
+
+    fs::write(
+        project.path().join(".design-data.toml"),
+        format!(
+            "[source]\ntype = \"path\"\nroot = \"{}\"\n\n[platforms]\nrsp = \"manifest.json\"\n",
+            repo_root().display()
+        ),
+    )
+    .expect("write config");
+
+    project
+}
+
 /// Mirror `DatasetHandle::load` manifest application for integration tests.
 fn load_session(
     project_path: &Path,
     tokens_path: &Path,
+    platform_id: Option<&str>,
 ) -> (TokenGraph, TokenIndex, HashMap<String, Vec<String>>) {
-    let resolved =
-        data_source::resolve(project_path, &CliPathOverrides::default()).expect("resolve");
+    let resolved = data_source::resolve(
+        project_path,
+        &CliPathOverrides {
+            platform_id: platform_id.map(str::to_string),
+            ..Default::default()
+        },
+    )
+    .expect("resolve");
 
     let (mut graph, mut token_index) = TokenGraph::open_cached_with_index_with_catalogs(
         tokens_path,
@@ -100,7 +145,7 @@ fn session_load_applies_manifest_include_filter() {
 
     let project_path = project.path().to_path_buf();
     let tokens_dir = project_path.join("tokens");
-    let (graph, token_index, restrictions) = load_session(&project_path, &tokens_dir);
+    let (graph, token_index, restrictions) = load_session(&project_path, &tokens_dir, None);
 
     assert!(restrictions.is_empty());
     assert_eq!(graph.tokens.len(), 2);
@@ -111,6 +156,31 @@ fn session_load_applies_manifest_include_filter() {
     assert!(matched
         .iter()
         .all(|t| { t.raw["name"]["component"].as_str() == Some("button") }));
+}
+
+#[test]
+fn session_load_applies_named_platform_manifest() {
+    let project = setup_project_with_named_platform(json!({
+        "specVersion": "1.0.0-draft",
+        "foundationVersion": "1.0.0",
+        "include": ["component=button"]
+    }));
+
+    let project_path = project.path().to_path_buf();
+    let tokens_dir = project_path.join("tokens");
+    let (graph, token_index, restrictions) = load_session(&project_path, &tokens_dir, Some("rsp"));
+
+    assert!(restrictions.is_empty());
+    assert_eq!(
+        graph.tokens.len(),
+        2,
+        "the named [platforms.rsp] entry's include filter should apply, same as \
+         the legacy top-level manifest key"
+    );
+
+    let expr = query::parse("").expect("empty filter");
+    let matched = query::filter_with_index(&graph, &token_index, &expr);
+    assert_eq!(matched.len(), 2);
 }
 
 #[test]
@@ -126,7 +196,7 @@ fn resolve_respects_manifest_restrictions() {
 
     let project_path = project.path().to_path_buf();
     let tokens_dir = project_path.join("tokens");
-    let (graph, token_index, restrictions) = load_session(&project_path, &tokens_dir);
+    let (graph, token_index, restrictions) = load_session(&project_path, &tokens_dir, None);
 
     let prop = "background-color".to_string();
     let ctx = ResolutionContext::new().with("colorScheme", "light");
@@ -174,7 +244,7 @@ fn session_load_hydrates_catalog_mode_sets_from_cache() {
 
     let project_path = project.path().to_path_buf();
     let tokens_dir = project_path.join("tokens");
-    let (graph, _, _) = load_session(&project_path, &tokens_dir);
+    let (graph, _, _) = load_session(&project_path, &tokens_dir, None);
 
     let color_scheme = graph
         .mode_sets

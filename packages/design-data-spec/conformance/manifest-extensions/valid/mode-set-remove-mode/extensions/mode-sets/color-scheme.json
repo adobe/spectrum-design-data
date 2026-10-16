@@ -1,0 +1,5 @@
+{
+  "name": "colorScheme",
+  "modes": ["light", "dark", "wireframe"],
+  "default": "light"
+}

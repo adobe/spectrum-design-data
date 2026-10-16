@@ -20,6 +20,10 @@ import { createRequire } from "module";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname, resolve, sep } from "path";
 
+import { listGuidelines, loadGuideline } from "@adobe/design-data/guideline";
+
+import { checkDatasetFreshness } from "../dataset-freshness.js";
+
 let _wasm;
 /** Lazy-load and cache the wasm module (nodejs target, no init() required). */
 async function getWasm() {
@@ -71,6 +75,24 @@ function loadDataFile(subdir, id) {
         `Install it with: pnpm add @adobe/spectrum-design-data`,
     );
   }
+
+  // Guideline loading (path-traversal guard included) is shared with
+  // @adobe/design-data-agent-mcp's describe_guideline tool via
+  // @adobe/design-data/guideline — reuse it here instead of duplicating the
+  // same containment check.
+  if (subdir === "guidelines") {
+    try {
+      return loadGuideline(resolve(pkgRoot, subdir), id);
+    } catch (err) {
+      if (err.message.startsWith("Not found:")) {
+        throw new Error(
+          `${err.message} Call design-data-guideline-list to see available guideline IDs.`,
+        );
+      }
+      throw err;
+    }
+  }
+
   const baseDir = resolve(pkgRoot, subdir);
   const filePath = resolve(baseDir, `${id}.json`);
   // Containment check: reject any path that escapes the intended subdirectory.
@@ -80,9 +102,7 @@ function loadDataFile(subdir, id) {
   if (!existsSync(filePath)) {
     throw new Error(
       `Not found: "${id}" in ${subdir}/. ` +
-        (subdir === "components"
-          ? `Call design-data-primer to see available component IDs.`
-          : `Call design-data-guideline-list to see available guideline IDs.`),
+        `Call design-data-primer to see available component IDs.`,
     );
   }
   return JSON.parse(readFileSync(filePath, "utf-8"));
@@ -90,14 +110,14 @@ function loadDataFile(subdir, id) {
 
 /**
  * Load the guidelines/manifest.json catalog.
- * Returns null when the file does not exist (guidelines not yet generated).
+ * Returns null when the package or manifest does not exist.
  */
 function loadGuidelineManifest() {
   const pkgRoot = resolveSpectrumDataPackage();
   if (!pkgRoot) return null;
-  const manifestPath = join(pkgRoot, "guidelines", "manifest.json");
-  if (!existsSync(manifestPath)) return null;
-  return JSON.parse(readFileSync(manifestPath, "utf-8"));
+  const guidelinesDir = join(pkgRoot, "guidelines");
+  if (!existsSync(guidelinesDir)) return null;
+  return { guidelines: listGuidelines(guidelinesDir) };
 }
 
 export function createDesignDataTools() {
@@ -128,7 +148,9 @@ export function createDesignDataTools() {
           ? {
               count: manifest.guidelines.length,
               categories: [
-                ...new Set(manifest.guidelines.map((g) => g.category)),
+                ...new Set(
+                  manifest.guidelines.map((g) => g.category).filter(Boolean),
+                ),
               ].sort(),
             }
           : null;
@@ -136,6 +158,11 @@ export function createDesignDataTools() {
         // Provenance carries source + designDataVersion (the @adobe/spectrum-design-data
         // package version baked into the wasm at build time via EMBEDDED_DATA_VERSION).
         const { provenance } = ds.primer();
+        // Best-effort staleness check (spectrum-design-data-9fe.5) — silent on
+        // failure, never blocks the primer response.
+        const datasetStatus = await checkDatasetFreshness(
+          provenance.designDataVersion,
+        );
 
         return {
           // top-level source is the legacy skill-contract field; provenance.source
@@ -155,7 +182,9 @@ export function createDesignDataTools() {
           components: wasm.getFieldValues("component") ?? [],
           properties: wasm.getFieldValues("property") ?? [],
           guidelines: guidelinesSummary,
-          provenance,
+          provenance: datasetStatus
+            ? { ...provenance, datasetStatus }
+            : provenance,
         };
       },
     },

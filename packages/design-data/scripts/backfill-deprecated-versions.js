@@ -23,7 +23,7 @@ governing permissions and limitations under the License.
  *      `@adobe/spectrum-tokens@X.Y.Z` tag.
  *
  * A cascade token's legacy name is recovered by matching its `uuid` (or, for
- * per-mode set tokens, `set_uuid`) against every `uuid` found anywhere inside each
+ * per-mode set tokens, `conceptId`) against every `uuid` found anywhere inside each
  * legacy token object (legacy set tokens nest a `uuid` per mode under `sets.*`).
  *
  * Tokens that resolve via neither source are left as `"unknown"` and reported
@@ -251,7 +251,7 @@ function main() {
 
       const names =
         legacyUuidToName.get(token.uuid) ??
-        (token.set_uuid ? legacyUuidToName.get(token.set_uuid) : undefined) ??
+        (token.conceptId ? legacyUuidToName.get(token.conceptId) : undefined) ??
         [];
 
       let version = null;

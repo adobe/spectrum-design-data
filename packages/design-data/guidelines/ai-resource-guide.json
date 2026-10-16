@@ -1,0 +1,42 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/ai-resource-guide.json",
+  "name": "ai-resource-guide",
+  "title": "AI resource guide",
+  "category": "support",
+  "documentBlocks": [
+    { "type": "purpose", "content": "AI resource guide" },
+    {
+      "type": "guideline",
+      "content": "Spectrum Design Data puts the official Spectrum dataset (design tokens, component schemas, and Spectrum documentation and usage guidelines) directly in your AI assistant. We ship both an Agent Skill and an MCP server. See the Spectrum Data System documentation for more details."
+    },
+    {
+      "type": "guideline",
+      "content": "@adobe/design-data-skill [npm: github].\n\nA skill the sets up access agents access to Spectrum design tokens, component schemas, and design-system data via the design data CLI."
+    },
+    {
+      "type": "guideline",
+      "content": "@adobe/design-data-mcp [npm: github].\n\nThe MCP server for Adobe Spectrum design tokens, component schemas, and design guidelines and documentation."
+    },
+    {
+      "type": "guideline",
+      "content": "React Spectrum.\n\nView the React Spectrum AI integration overview"
+    },
+    {
+      "type": "guideline",
+      "content": "Spectrum Web Components.\n\nView the Spectrum Web Components AI skills"
+    }
+  ],
+  "sourceUrl": "https://spectrum.adobe.com/support/ai-resource-guide",
+  "lastUpdated": "2026-09-29",
+  "status": "published",
+  "tags": [
+    "AI tooling",
+    "Protopack",
+    "Design data",
+    "Figma",
+    "Claude Enterprise",
+    "Prototyping",
+    "design-to-code"
+  ]
+}

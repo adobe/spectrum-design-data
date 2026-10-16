@@ -33,7 +33,8 @@ import { join, dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { homedir } from "os";
 import { serialize } from "../../../tools/token-mapping-analyzer/src/decomposer.js";
-import { loadRegistries } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { loadRegistries, buildUuidToTokenIndex } from "../../../tools/token-mapping-analyzer/src/registry-index.js";
+import { resolveReplacementUuid } from "../../../tools/token-mapping-analyzer/src/replacement-resolver.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDryRun = process.argv.includes("--dry-run");
@@ -86,6 +87,7 @@ function buildFlatKeyIndex(registry) {
 
 const registry = loadRegistries();
 const flatKeyIndex = buildFlatKeyIndex(registry);
+const uuidToToken = buildUuidToTokenIndex(tokensDir, relationshipsDir);
 
 let seeded = 0;
 let skipped = 0;
@@ -125,7 +127,9 @@ for (const [displayName, references] of Object.entries(figmaData)) {
       ctrs.push({
         scope: { component: slug, ...(property !== undefined ? { property } : {}) },
         ...(context ? { context } : {}),
-        $ref: token.uuid,
+        // Follow replacedBy so re-seeding from the Figma spec never pins a
+        // deprecated token's uuid when a live semantic replacement exists.
+        $ref: resolveReplacementUuid(token, uuidToToken),
       });
     }
   }

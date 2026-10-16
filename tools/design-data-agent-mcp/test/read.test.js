@@ -9,8 +9,16 @@
 // governing permissions and limitations under the License.
 
 import test from "ava";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { config } from "../src/config.js";
 import { createReadTools } from "../src/tools/read.js";
+
+// These tests call the real `primer` handler, which does a best-effort
+// registry.npmjs.org freshness check. Disable it here so this file stays
+// hermetic (no real network call, no flakiness in air-gapped CI) — the check
+// itself is covered by test/dataset-freshness.test.js.
+process.env.DESIGN_DATA_SKIP_VERSION_CHECK = "1";
 
 // ── helpers ────────────────────────────────────────────────────────────────────
 
@@ -37,6 +45,23 @@ test("primer returns expected top-level keys", async (t) => {
   t.true(
     Array.isArray(result.modeSets.contrast),
     "modeSets.contrast is an array",
+  );
+  // Mode-set dimensions are sourced from ds.primer()'s modeSets array (graph.mode_sets),
+  // not the field-catalog registry — regression coverage for spectrum-design-data-v9bb.
+  t.deepEqual(
+    [...result.modeSets.colorScheme].sort(),
+    ["dark", "light", "wireframe"],
+    "modeSets.colorScheme is populated",
+  );
+  t.deepEqual(
+    [...result.modeSets.scale].sort(),
+    ["desktop", "mobile"],
+    "modeSets.scale is populated",
+  );
+  t.deepEqual(
+    [...result.modeSets.contrast].sort(),
+    ["high", "regular"],
+    "modeSets.contrast is populated",
   );
   t.truthy(result.taxonomyFields, "taxonomyFields should be present");
   t.true(Array.isArray(result.components), "components is an array");
@@ -73,6 +98,47 @@ test("primer does not require a CLI binary (no runCli import)", async (t) => {
   );
   t.false(src.includes("runCli"), "read.js must not reference runCli");
   t.false(src.includes('../cli.js"'), "read.js must not import cli.js");
+});
+
+// ── suggest_token ─────────────────────────────────────────────────────────────
+
+test("suggest_token returns ranked results", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({
+    intent: "accent background color",
+    limit: 5,
+  });
+  t.true(Array.isArray(results));
+  t.true(results.length > 0);
+  for (const result of results) {
+    t.true(Object.hasOwn(result, "tokenName"), "result has tokenName");
+    t.true(Object.hasOwn(result, "confidence"), "result has confidence");
+    t.true(Object.hasOwn(result, "layer"), "result has layer");
+    t.is(typeof result.confidence, "number");
+    t.true(
+      result.confidence > 0 && result.confidence <= 1,
+      "confidence is between 0 and 1",
+    );
+    t.false(
+      /\.json:\d+$/.test(result.tokenName),
+      `tokenName "${result.tokenName}" is not a raw graph key`,
+    );
+  }
+});
+
+test("suggest_token respects limit", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({ intent: "color", limit: 3 });
+  t.true(results.length <= 3);
+});
+
+test("suggest_token returns an empty array for unrecognized intent", async (t) => {
+  const suggest = getHandler("suggest_token");
+  const results = await suggest({
+    intent: "zzz-no-match-xyzzy",
+    limit: 5,
+  });
+  t.deepEqual(results, []);
 });
 
 // ── describe_component ─────────────────────────────────────────────────────────
@@ -141,6 +207,112 @@ test("describe_component throws helpful error when componentsDir is null", async
     `expected 'not installed', got: ${err.message}`,
   );
 });
+
+// ── describe_guideline ───────────────────────────────────────────────────────────
+
+test("describe_guideline returns a guideline document with documentBlocks", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const result = await describe({ id: "colors" });
+  t.is(typeof result, "object", "result should be an object");
+  t.truthy(result, "result should be non-null");
+  t.true(
+    Array.isArray(result.documentBlocks),
+    "result.documentBlocks should be an array",
+  );
+});
+
+test("describe_guideline rejects path-traversal ID (../foo)", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "../foo" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects ID with uppercase letters", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "Colors" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects empty ID", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline rejects ID with path separator", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() => describe({ id: "a/b" }));
+  t.true(err.message.includes("Invalid guideline ID"), `got: ${err.message}`);
+});
+
+test("describe_guideline not-found error lists available guideline IDs", async (t) => {
+  const describe = getHandler("describe_guideline");
+  const err = await t.throwsAsync(() =>
+    describe({ id: "zzz-nonexistent-xyz" }),
+  );
+  t.true(err.message.includes("not found"), `got: ${err.message}`);
+  t.true(
+    err.message.includes("colors") || err.message.includes("manifest.json"),
+    `error should list available guidelines or point at manifest.json, got: ${err.message}`,
+  );
+});
+
+test("describe_guideline throws helpful error when guidelinesDir is null", async (t) => {
+  // Simulates a zero-config install where @adobe/spectrum-design-data is absent.
+  const saved = config.guidelinesDir;
+  config.guidelinesDir = null;
+
+  const describe = getHandler("describe_guideline");
+  const promise = describe({ id: "colors" });
+  config.guidelinesDir = saved;
+  const err = await t.throwsAsync(promise);
+  t.true(
+    err.message.includes("not installed"),
+    `expected 'not installed', got: ${err.message}`,
+  );
+});
+
+// ── list_guidelines ─────────────────────────────────────────────────────────────
+
+test.serial(
+  "list_guidelines returns available guideline metadata",
+  async (t) => {
+    const list = getHandler("list_guidelines");
+    const result = await list();
+    const manifest = JSON.parse(
+      readFileSync(join(config.guidelinesDir, "manifest.json"), "utf8"),
+    );
+    t.true(Array.isArray(result));
+    t.true(result.length > 0);
+    t.deepEqual(result, manifest.guidelines);
+    t.truthy(result[0].title);
+    t.truthy(result[0].category);
+  },
+);
+
+test.serial("list_guidelines filters by category", async (t) => {
+  const list = getHandler("list_guidelines");
+  const result = await list({ category: "designing" });
+  t.true(result.length > 0);
+  t.true(result.every((guideline) => guideline.category === "designing"));
+});
+
+test.serial(
+  "list_guidelines throws helpful error when guidelinesDir is null",
+  async (t) => {
+    const saved = config.guidelinesDir;
+    config.guidelinesDir = null;
+
+    const list = getHandler("list_guidelines");
+    const promise = list();
+    config.guidelinesDir = saved;
+    const err = await t.throwsAsync(promise);
+    t.true(
+      err.message.includes("not installed"),
+      `expected 'not installed', got: ${err.message}`,
+    );
+  },
+);
 
 test("primer shape contract: SKILL.md fields are all present", async (t) => {
   // Guards the contract described in SKILL.md: "returns the active dimensions,

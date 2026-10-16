@@ -513,7 +513,10 @@ fn hydrate(rtx: &redb::ReadTransaction) -> Result<TokenGraph, CacheError> {
         records.push(record);
     }
     let mut graph = TokenGraph::from_records(records);
-    graph.mode_sets = read_ordinal_table::<ModeSetRecord>(rtx, MODE_SETS)?;
+    // `with_mode_sets` (not a direct field assignment) so legacy_name_index's
+    // scale/colorScheme tie-break — already built once, with no mode sets,
+    // inside from_records above — gets rebuilt against the real schema.
+    graph = graph.with_mode_sets(read_ordinal_table::<ModeSetRecord>(rtx, MODE_SETS)?);
     graph.components = read_ordinal_table::<ComponentRecord>(rtx, COMPONENTS)?;
     graph.fields = read_ordinal_table::<FieldRecord>(rtx, FIELDS)?;
     // Manifest is stored in the META table under "manifest" (schema v3+).
@@ -1147,12 +1150,12 @@ mod tests {
             "both fields should survive round-trip"
         );
         assert_eq!(graph.fields[0].name, "alignment");
-        assert_eq!(graph.fields[0].required, false);
+        assert!(!graph.fields[0].required);
         assert_eq!(
             graph.fields[0].description.as_deref(),
             Some("Alignment axis")
         );
         assert_eq!(graph.fields[1].name, "component");
-        assert_eq!(graph.fields[1].required, true);
+        assert!(graph.fields[1].required);
     }
 }

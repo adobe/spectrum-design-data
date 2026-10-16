@@ -21,7 +21,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon)",
-    "$ref": "3e19f21e-0c87-4eca-bc21-d4c13bc984ef"
+    "$ref": "f3078f76-5c45-4b40-8d3c-523afcc4d2af"
   },
   {
     "scope": {
@@ -29,7 +29,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon)",
-    "$ref": "25d8256e-b05f-43e8-bbc3-5b60c24be29c"
+    "$ref": "f3078f76-5c45-4b40-8d3c-523afcc4d2af"
   },
   {
     "scope": {
@@ -37,7 +37,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text)",
-    "$ref": "04141c6f-50ff-4301-a7b5-315bbd9cac18"
+    "$ref": "f3078f76-5c45-4b40-8d3c-523afcc4d2af"
   },
   {
     "scope": {
@@ -45,7 +45,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text)",
-    "$ref": "1d7bd78d-4469-4385-89e7-fcd574cc6368"
+    "$ref": "f3078f76-5c45-4b40-8d3c-523afcc4d2af"
   },
   {
     "scope": {
@@ -61,7 +61,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top and bottom edge to text)",
-    "$ref": "c7914376-3769-4172-8467-fb811b3c155f"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "component-top-to-text-200"
     },
     "context": "Spacing (top and bottom edge to text)",
-    "$ref": "621c9cf1-02e2-478b-9f47-0804f0183531"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -77,7 +77,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top and bottom edge to text)",
-    "$ref": "ae65b844-9758-4708-8781-2c8df35af1e9"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "component-bottom-to-text-200"
     },
     "context": "Spacing (top and bottom edge to text)",
-    "$ref": "a39cef5c-631c-4942-b5d2-9121e05d47f8"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to separator icon)",
-    "$ref": "2e8091e4-f60b-438c-bcbb-111eb243900d"
+    "$ref": "51761a5c-200d-467d-a575-3722f825edb9"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to separator icon)",
-    "$ref": "2e12202a-8099-4a4d-b06d-703deaf20862"
+    "$ref": "51761a5c-200d-467d-a575-3722f825edb9"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "text-underline-gap"
     },
     "context": "Breadcrumb item (hover, down, focus states)",
-    "$ref": "d9d51235-f3fe-4e2a-bdca-b6a104d9a9e5"
+    "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "gap"
     },
     "context": "Focus indicator",
-    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
   },
   {
     "scope": {
@@ -269,7 +269,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon, medium)",
-    "$ref": "74d2cda7-385e-4145-8a3e-26065db5e302"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -277,7 +277,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon, medium)",
-    "$ref": "bf2e3518-154e-4975-b9fb-acbf60b7e154"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -285,7 +285,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text, medium)",
-    "$ref": "941f9040-ddb7-419c-ac05-dfa24effa055"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -293,7 +293,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text, medium)",
-    "$ref": "e87a054b-dceb-4462-a8fc-733700cc0f79"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -301,7 +301,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top and bottom edge to text, medium)",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -309,7 +309,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top and bottom edge to text, medium)",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -317,7 +317,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top and bottom edge to text, medium)",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -325,7 +325,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top and bottom edge to text, medium)",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to separator icon, medium)",
-    "$ref": "fdbf3b4b-7d6e-4464-8514-17c1b4790db6"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -341,7 +341,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to separator icon, medium)",
-    "$ref": "fcbd2bcb-7f53-4219-9d6b-89c01fd50da7"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -381,7 +381,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon, multiline)",
-    "$ref": "0d4dd9ba-5b01-432d-a7b2-d95947cfc43d"
+    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701"
   },
   {
     "scope": {
@@ -389,7 +389,7 @@
       "property": "space-between"
     },
     "context": "Spacing (breadcrumb item/title to separator icon, multiline)",
-    "$ref": "fbf763fe-9e35-4cdc-a5ed-9f90e03d23bd"
+    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701"
   },
   {
     "scope": {
@@ -397,7 +397,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text, multiline)",
-    "$ref": "3dd655e7-f0d4-4fa4-a885-4a7aff9510fd"
+    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701"
   },
   {
     "scope": {
@@ -405,7 +405,7 @@
       "property": "space-between"
     },
     "context": "Spacing (start and end edge to text, multiline)",
-    "$ref": "60a75c05-a9cd-4ecf-89e5-0bca9e137e9f"
+    "$ref": "2fca8c2d-dad0-4441-8e52-e623d76ef701"
   },
   {
     "scope": {
@@ -413,7 +413,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to text, multiline)",
-    "$ref": "138070fe-1f06-48b4-ac49-f8ff117c5f42"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -421,7 +421,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to text, multiline)",
-    "$ref": "ea82fc23-82e7-4116-a8bb-186a253675ad"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -429,7 +429,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to text, multiline)",
-    "$ref": "5a78f5a4-ceee-4854-96d4-b61d76cc522b"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -437,7 +437,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top and bottom edge to text, multiline)",
-    "$ref": "a51a1142-e38e-4055-bd45-ad2bd0045880"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -445,7 +445,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to separator icon, multiline)",
-    "$ref": "96d7dff4-4b3d-433a-8f83-8f55a1514812"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -453,7 +453,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top edge to separator icon, multiline)",
-    "$ref": "4b7eab87-e6a8-40f6-a071-5aff25493f2f"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -461,7 +461,7 @@
       "property": "space-between"
     },
     "context": "Spacing (separator icon to bottom text, multiline)",
-    "$ref": "ba160ed7-e66b-4dd1-bef8-e91fe9b05d2c"
+    "$ref": "dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7"
   },
   {
     "scope": {
@@ -469,7 +469,7 @@
       "property": "space-between"
     },
     "context": "Spacing (separator icon to bottom text, multiline)",
-    "$ref": "a1c90c6d-851d-495f-99cc-bbeb0c6fdd4f"
+    "$ref": "dae4ef22-9423-4ef2-a0d2-cc08ed9c0cd7"
   },
   {
     "scope": {
@@ -477,7 +477,7 @@
       "property": "space-between"
     },
     "context": "Spacing (truncated menu button to bottom text, multiline)",
-    "$ref": "2285d870-68ec-469f-a034-2fdeb31e33f0"
+    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
     "scope": {
@@ -485,7 +485,7 @@
       "property": "space-between"
     },
     "context": "Spacing (truncated menu button to bottom text, multiline)",
-    "$ref": "154bce30-bfe2-445b-bbdd-69efce5565ae"
+    "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47"
   },
   {
     "scope": {
@@ -493,7 +493,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top text to bottom text)",
-    "$ref": "3a89734d-4fcc-43cf-9b77-b2f6d3732391"
+    "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee"
   },
   {
     "scope": {
@@ -501,7 +501,7 @@
       "property": "space-between"
     },
     "context": "Spacing (top text to bottom text)",
-    "$ref": "b93aad22-aff0-46d5-b54e-17891f02124a"
+    "$ref": "62e8853d-9c4f-4e9d-be75-0020344d13ee"
   },
   {
     "scope": {

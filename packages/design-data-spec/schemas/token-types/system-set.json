@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/system-set.json",
+  "title": "System set",
+  "description": "A set that contains tokens that change based on system.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "set.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/system-set.json"
+    },
+    "sets": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "token.json"
+            },
+            "express": {
+              "$ref": "token.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "alias.json"
+            },
+            "express": {
+              "$ref": "alias.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "color-set.json"
+            },
+            "express": {
+              "$ref": "color-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "scale-set.json"
+            },
+            "express": {
+              "$ref": "scale-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        },
+        {
+          "properties": {
+            "spectrum": {
+              "$ref": "dimension.json"
+            },
+            "express": {
+              "$ref": "scale-set.json"
+            }
+          },
+          "required": ["spectrum", "express"]
+        }
+      ]
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "renamed": {},
+    "uuid": {},
+    "conceptId": {}
+  },
+  "required": ["sets"]
+}

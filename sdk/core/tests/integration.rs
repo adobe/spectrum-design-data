@@ -130,7 +130,7 @@ mod naming {
             // deliberately breaks the general roundtrip (the thin-format path is
             // tested separately in naming.rs unit tests).
             prop_assume!(
-                component.as_ref().map_or(true, |c| !property.starts_with(c.as_str()))
+                component.as_ref().is_none_or(|c| !property.starts_with(c.as_str()))
             );
 
             let obj = NameObject {

@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data-wasm",
-  "version": "0.6.0",
+  "version": "0.11.0",
   "description": "WebAssembly bindings for design-data-core — query, validate, resolve, diff, and registry helpers for Spectrum design tokens",
   "type": "module",
   "main": "./pkg/node/design_data_wasm.js",
@@ -24,6 +24,7 @@
     "pkg/web/design_data_wasm.d.ts",
     "pkg/web/design_data_wasm_bg.wasm.d.ts",
     "pkg/web/package.json",
+    "llms.txt",
     "README.md"
   ],
   "keywords": [

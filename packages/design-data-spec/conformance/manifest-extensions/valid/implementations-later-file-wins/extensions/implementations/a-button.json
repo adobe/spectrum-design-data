@@ -1,0 +1,11 @@
+{
+  "component": "button",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Button",
+      "package": "@react-spectrum/s2",
+      "notes": "first"
+    }
+  ]
+}

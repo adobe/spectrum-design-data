@@ -9,7 +9,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(59, 99, 251)",
     "uuid": "ref-blue900-light-0000-000000000002",
-    "set_uuid": "ref-blue900-set-000-0000-000000000002"
+    "conceptId": "ref-blue900-set-000-0000-000000000002"
   },
   {
     "name": {
@@ -21,7 +21,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgb(75, 117, 255)",
     "uuid": "ref-blue900-dark-0000-000000000002",
-    "set_uuid": "ref-blue900-set-000-0000-000000000002"
+    "conceptId": "ref-blue900-set-000-0000-000000000002"
   },
   {
     "name": { "property": "accent-color-900" },

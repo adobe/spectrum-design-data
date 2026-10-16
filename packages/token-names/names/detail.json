@@ -1,0 +1,10 @@
+{
+  "detail-margin-bottom-multiplier": {
+    "structure": "detail",
+    "property": "margin-bottom"
+  },
+  "detail-margin-top-multiplier": {
+    "structure": "detail",
+    "property": "margin-top"
+  }
+}

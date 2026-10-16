@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/implementation-mapping.schema.json",
+  "component": "progress-bar",
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ProgressBar",
+      "package": "@adobe/spectrum-wc",
+      "importPath": "@adobe/spectrum-wc/components/progress-bar",
+      "notes": "Spectrum 2 web component custom element: swc-progress-bar."
+    }
+  ]
+}

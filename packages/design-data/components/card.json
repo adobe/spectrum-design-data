@@ -17,6 +17,19 @@
       "description": "Preview area or thumbnail within the card."
     }
   ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "Card",
+      "importPath": "@adobe/spectrum-wc/components/card",
+      "notes": "Spectrum 2 web component custom element: swc-card."
+    }
+  ],
   "states": [{ "name": "default" }],
   "lifecycle": { "introduced": "1.0.0-draft" }
 }

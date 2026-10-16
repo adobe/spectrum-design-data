@@ -18,7 +18,7 @@
  * Mirrors the Rust implementation in sdk/core/src/validate/structural.rs using
  * Ajv 2020-12 (same draft as the Rust jsonschema crate).
  *
- * Schema source: packages/tokens/schemas/  (also published in @adobe/spectrum-tokens)
+ * Schema source: packages/design-data-spec/schemas/  (published in @adobe/design-data-spec)
  */
 
 import { createRequire } from "node:module";
@@ -34,14 +34,14 @@ import { buildDataset, walkTokenFiles } from "./load.js";
 
 /**
  * Attempt to locate the Spectrum token schemas directory by resolving
- * @adobe/spectrum-tokens (the npm package that ships them).
+ * @adobe/design-data-spec (the npm package that ships them).
  *
  * @returns {string|null} Absolute path to the schemas/ directory, or null.
  */
-function resolveSpectrumTokensSchemaDir() {
+function resolveSpecSchemaDir() {
   try {
     const req = createRequire(import.meta.url);
-    const pkgJson = req.resolve("@adobe/spectrum-tokens/package.json");
+    const pkgJson = req.resolve("@adobe/design-data-spec/package.json");
     return join(dirname(pkgJson), "schemas");
   } catch {
     return null;
@@ -53,7 +53,7 @@ function resolveSpectrumTokensSchemaDir() {
  *
  * @param {string|null|undefined} schemaPath - Caller-supplied override (the
  *   directory that contains token-types/ and token-file.json). If omitted the
- *   function falls back to @adobe/spectrum-tokens.
+ *   function falls back to @adobe/design-data-spec.
  * @param {{ required?: boolean }} [opts]
  * @returns {string|null} Absolute path to the schemas directory, or null when
  *   no path was supplied AND auto-discovery failed (only when required is false).
@@ -78,7 +78,7 @@ export function resolveSchemaDir(schemaPath, { required = true } = {}) {
     return schemaPath;
   }
 
-  const fallback = resolveSpectrumTokensSchemaDir();
+  const fallback = resolveSpecSchemaDir();
   if (fallback && existsSync(join(fallback, "token-types"))) {
     return fallback;
   }
@@ -86,7 +86,7 @@ export function resolveSchemaDir(schemaPath, { required = true } = {}) {
   if (required) {
     throw new Error(
       `Cannot locate the Spectrum token schemas directory. ` +
-        `Either install @adobe/spectrum-tokens or pass an explicit schema_path ` +
+        `Either install @adobe/design-data-spec or pass an explicit schema_path ` +
         `pointing at a directory containing token-types/ and token-file.json.`,
     );
   }

@@ -128,6 +128,34 @@ When **`$ref`** is present, the token is an **alias**. The value **MUST** be a n
   "uuid": "f24eb871-6419-4cef-88a2-cca8548ae31e" }
 ```
 
+### Concept identity (`conceptId`)
+
+**`conceptId`** is a UUID shared by every mode row of the same design concept — e.g. the light,
+dark, and wireframe rows of one color, or the mobile/desktop rows of one scale. It is additive to
+the per-value `uuid` (which remains the `$ref`/diff/`replacedBy`/sync anchor for one specific mode
+row) and, unlike `uuid`, is stable across the whole concept rather than one row.
+
+```json
+// Two mode rows of the same concept share one conceptId, each with its own uuid.
+{ "name": { "property": "accent-color", "colorScheme": "light" },
+  "value": "rgb(59, 99, 251)",
+  "uuid": "aaaaaaaa-0000-4000-8000-000000000001",
+  "conceptId": "cccccccc-0000-4000-8000-000000000099" }
+{ "name": { "property": "accent-color", "colorScheme": "dark" },
+  "value": "rgb(75, 117, 255)",
+  "uuid": "aaaaaaaa-0000-4000-8000-000000000002",
+  "conceptId": "cccccccc-0000-4000-8000-000000000099" }
+```
+
+**NORMATIVE:** All mode rows of the same design concept **MUST** carry the same `conceptId`.
+
+**NORMATIVE:** A `$ref` target **MAY** be a `conceptId` instead of a per-row `uuid`. When it is,
+resolution **MUST** pick the mode row registered under that `conceptId` whose name-object fields
+best match the referencing token's own resolution context (see
+[Cascade resolution — Alias resolution](cascade.md#alias-resolution)), rather than an arbitrary
+row — this is what makes a single alias correctly track light/dark or mobile/desktop without one
+alias per mode.
+
 ### Literal `value`
 
 When **`value`** is present, it **MUST** conform to the declared value type for that token. Value types are defined under `schemas/value-types/` and referenced from the token schema.

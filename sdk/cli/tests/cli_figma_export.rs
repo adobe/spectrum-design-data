@@ -1,0 +1,149 @@
+// Copyright 2026 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
+
+//! Integration tests for `design-data figma export` (`assert_cmd`).
+
+use assert_cmd::Command;
+use predicates::str::contains;
+
+#[test]
+fn audit_reports_unsupported_units_in_json_and_pretty_output() {
+    let dir = tempfile::tempdir().unwrap();
+    let snapshot = dir.path().join("snapshot.json");
+    let token_dir = dir.path().join("tokens");
+    std::fs::create_dir(&token_dir).unwrap();
+    std::fs::write(
+        token_dir.join("layout.tokens.json"),
+        serde_json::to_vec(&serde_json::json!([
+            {"name": "android-elevation", "uuid": "u-1",
+             "$schema": "https://example.com/dimension.json", "value": "2dp"},
+            {"name": "strikethrough-day-orientation", "uuid": "u-2",
+             "$schema": "https://example.com/angle.json", "value": -25},
+            {"name": "bold-font-weight", "uuid": "u-3",
+             "$schema": "https://example.com/font-weight.json", "value": "bold"},
+            {"name": "line-height-100", "uuid": "u-4",
+             "$schema": "https://example.com/multiplier.json", "value": 1.3},
+            {"name": "heading-line-height", "uuid": "u-5",
+             "$schema": "https://example.com/alias.json", "$ref": "u-4"},
+            {"name": "shadow", "uuid": "u-6",
+             "$schema": "https://example.com/drop-shadow.json", "value": []},
+            {"name": "shadow-alias", "uuid": "u-7",
+             "$schema": "https://example.com/alias.json", "$ref": "u-6"},
+        ]))
+        .unwrap(),
+    )
+    .unwrap();
+    std::fs::write(
+        &snapshot,
+        serde_json::to_vec(&serde_json::json!({
+            "variables": {},
+            "variableCollections": {
+                "color": {
+                    "id": "color", "name": ".Color theme", "key": "color",
+                    "modes": [{ "modeId": "light", "name": "Light" }],
+                    "defaultModeId": "light",
+                },
+                "scale": {
+                    "id": "scale", "name": ".Platform scale", "key": "scale",
+                    "modes": [{ "modeId": "desktop", "name": "Desktop" }],
+                    "defaultModeId": "desktop",
+                },
+            },
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+
+    let output = Command::cargo_bin("design-data")
+        .unwrap()
+        .args(["figma", "audit", "--snapshot"])
+        .arg(&snapshot)
+        .arg("--token-dir")
+        .arg(&token_dir)
+        .args(["--format", "json"])
+        .assert()
+        .success()
+        .get_output()
+        .stdout
+        .clone();
+    let report: serde_json::Value = serde_json::from_slice(&output).unwrap();
+    assert_eq!(
+        report["skipped_unsupported_unit"],
+        serde_json::json!(["android-elevation"])
+    );
+    assert_eq!(report["skipped_unparseable_value"], serde_json::json!([]));
+    assert_eq!(report["skipped_unknown_schema"], serde_json::json!([]));
+    assert_eq!(report["skipped_alias_unresolved"], serde_json::json!([]));
+    assert_eq!(report["skipped_composite"], serde_json::json!(["shadow"]));
+    let reasons = report["skipped_alias_unsupported"].as_array().unwrap();
+    assert_eq!(reasons.len(), 1);
+    assert!(reasons[0]
+        .as_str()
+        .unwrap()
+        .contains("shadow-alias: target 'shadow'"));
+    assert!(reasons[0].as_str().unwrap().contains("drop-shadow.json"));
+    let scale = report["collections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|c| c["collection_name"] == ".Platform scale")
+        .unwrap();
+    assert_eq!(
+        scale["generated_only"],
+        serde_json::json!([
+            "platformScale/bold-font-weight",
+            "platformScale/heading-line-height",
+            "platformScale/line-height-100",
+            "platformScale/strikethrough-day-orientation",
+        ])
+    );
+
+    Command::cargo_bin("design-data")
+        .unwrap()
+        .args(["figma", "audit", "--snapshot"])
+        .arg(&snapshot)
+        .arg("--token-dir")
+        .arg(&token_dir)
+        .args(["--format", "pretty"])
+        .assert()
+        .success()
+        .stdout(contains(
+            "unparseable=0 unsupported_unit=1 unsupported_alias=1",
+        ))
+        .stdout(contains(
+            "Unsupported alias target: shadow-alias: target 'shadow'",
+        ));
+}
+
+/// Regression for a bug found reviewing PR #1479: `--code-syntax-manifest WEB=...`
+/// used to silently overwrite the authoritative `--spectrum-{legacyKey}` `WEB`
+/// codeSyntax entry with a lossy `formatting`-derived reconstruction. This must be
+/// rejected before any network call, so a bogus path/token/manifest still exercises
+/// the check deterministically.
+#[test]
+fn code_syntax_manifest_rejects_web_platform() {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .args([
+            "figma",
+            "export",
+            "does-not-matter",
+            "--file-key",
+            "does-not-matter",
+            "--token",
+            "does-not-matter",
+            "--code-syntax-manifest",
+            "WEB=does-not-matter.json",
+            "--dry-run",
+        ])
+        .assert()
+        .failure()
+        .stderr(contains("WEB is not supported"));
+}

@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data",
-  "version": "3.0.6",
+  "version": "3.2.6",
   "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management",
   "type": "module",
   "main": "./src/index.js",
@@ -9,10 +9,12 @@
     "./load": "./src/load.js",
     "./write": "./src/write.js",
     "./session": "./src/session.js",
-    "./validate": "./src/validate.js"
+    "./validate": "./src/validate.js",
+    "./guideline": "./src/guideline.js"
   },
   "files": [
     "src/",
+    "llms.txt",
     "README.md"
   ],
   "engines": {
@@ -41,6 +43,7 @@
     "provenance": true
   },
   "dependencies": {
+    "@adobe/design-data-spec": "workspace:*",
     "@adobe/design-data-wasm": "workspace:*",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"

@@ -85,7 +85,7 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "40778817-6e47-4b58-a495-c4f34cee78df"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "component-edge-to-text-75"
     },
     "context": "Spacing (start/end edges)",
-    "$ref": "942f0f34-611a-4318-9b0e-3632e7f520b3"
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to text)",
-    "$ref": "477d659b-6489-4e90-84db-75a93174559a"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "component-top-to-text-75"
     },
     "context": "Spacing (top/bottom edge to text)",
-    "$ref": "54a0e5cf-3e4a-454b-9dba-a6a2c277fa5e"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to text)",
-    "$ref": "923c46e1-b6f7-4d8a-844d-b4c0661b5e60"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "component-bottom-to-text-75"
     },
     "context": "Spacing (top/bottom edge to text)",
-    "$ref": "0f1a6c63-bc4f-444c-9a18-67b6c35464b1"
+    "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d"
   },
   {
     "scope": {

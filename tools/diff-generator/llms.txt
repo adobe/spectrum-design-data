@@ -1,0 +1,22 @@
+# @adobe/token-diff-generator
+
+> Generate comprehensive diffs between design token sets with support for multiple output formats including CLI, JSON, and Markdown. Detects added, deleted, renamed, deprecated, and updated tokens across different schema versions.
+
+## Install
+
+`npm install @adobe/token-diff-generator`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/README.md): usage and API overview
+- [Installation](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/README.md#installation)
+- [Imports](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/README.md#imports)
+- [Token diff generator library](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/README.md#token-diff-generator-library)
+- [Token diff cli](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/README.md#token-diff-cli)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/token-diff-generator)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/tools/diff-generator/)

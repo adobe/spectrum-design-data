@@ -1,0 +1,1 @@
+{ "name": "scale", "modes": ["desktop", "mobile", "tv"], "default": "desktop" }

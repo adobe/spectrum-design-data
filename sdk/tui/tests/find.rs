@@ -212,7 +212,7 @@ fn open_results_view_has_correct_row_count() {
     advance_to_preview(&mut fs, &graph, &index);
     let event = fs.handle_key(key(KeyCode::Enter), &graph, &index);
     if let FindEvent::OpenResults(view) = event {
-        assert!(view.rows.len() >= 1);
+        assert!(!view.rows.is_empty());
         assert_eq!(view.expr_text, "property=background-color");
     } else {
         panic!("expected OpenResults");

@@ -22,6 +22,11 @@ This MCP server enables AI assistants to query and interact with Spectrum design
 
 * **Node.js 20+**
 
+For compatibility, token tools project the canonical embedded dataset through
+`@adobe/design-data-wasm` instead of reading generated legacy token files.
+Tool names and response shapes are unchanged. This package remains deprecated.
+Workspace development requires `moon run sdk-wasm:build` before running its tests.
+
 ## Installation
 
 ```bash

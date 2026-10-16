@@ -15,6 +15,12 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { createDesignDataTools } from "../src/tools/design-data.js";
 
+// These tests call the real design-data-primer handler, which does a
+// best-effort registry.npmjs.org freshness check. Disable it here so this
+// file stays hermetic (no real network call, no flakiness in air-gapped CI)
+// — the check itself is covered by test/dataset-freshness.test.js.
+process.env.DESIGN_DATA_SKIP_VERSION_CHECK = "1";
+
 const EXPECTED_TOOLS = [
   "design-data-primer",
   "design-data-query",

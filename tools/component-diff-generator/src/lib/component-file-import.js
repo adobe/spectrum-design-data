@@ -274,7 +274,6 @@ export class ComponentLoader extends FileLoader {
       "components/swatch-group.json",
       "components/swatch.json",
       "components/switch.json",
-      "components/tab-bar-ios.json",
       "components/table.json",
       "components/tabs.json",
       "components/tag-field.json",

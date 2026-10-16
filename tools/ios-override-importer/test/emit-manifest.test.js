@@ -36,7 +36,7 @@ test("true-value-change emits uuid-targeted overrides, one per changed mode", (t
     legacyKeyIndex,
   });
   t.deepEqual(result.overrides, [
-    { target: "uuid-light", value: "rgba(9, 9, 9, 1.0)" },
+    { target: "uuid-light", value: "rgba(9, 9, 9, 1)" },
   ]);
   t.deepEqual(result.extensionTokens, []);
   t.is(result.unresolved, undefined);
@@ -76,9 +76,8 @@ test("net-new emits one extension token per parsed mode", (t) => {
         state: ["default"],
         colorScheme: "light",
       },
-      $schema:
-        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-      value: "rgba(1, 2, 3, 1.0)",
+      $valueType: "value-types/color.schema.json",
+      value: "rgba(1, 2, 3, 1)",
     },
     {
       name: {
@@ -86,9 +85,8 @@ test("net-new emits one extension token per parsed mode", (t) => {
         state: ["default"],
         colorScheme: "dark",
       },
-      $schema:
-        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-      value: "rgba(4, 5, 6, 1.0)",
+      $valueType: "value-types/color.schema.json",
+      value: "rgba(4, 5, 6, 1)",
     },
   ]);
 });
@@ -111,9 +109,8 @@ test("contrast-addition includes contrast:high in the extension token's name", (
         colorScheme: "light",
         contrast: "high",
       },
-      $schema:
-        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-      value: "rgba(3, 3, 3, 1.0)",
+      $valueType: "value-types/color.schema.json",
+      value: "rgba(3, 3, 3, 1)",
     },
   ]);
 });
@@ -137,9 +134,8 @@ test("elevated/elevatedIncreased slots emit extension tokens with variant:elevat
           colorScheme: "dark",
           variant: "elevated",
         },
-        $schema:
-          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-        value: "rgba(7, 7, 7, 1.0)",
+        $valueType: "value-types/color.schema.json",
+        value: "rgba(7, 7, 7, 1)",
       },
       {
         name: {
@@ -149,9 +145,8 @@ test("elevated/elevatedIncreased slots emit extension tokens with variant:elevat
           variant: "elevated",
           contrast: "high",
         },
-        $schema:
-          "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
-        value: "rgba(8, 8, 8, 1.0)",
+        $valueType: "value-types/color.schema.json",
+        value: "rgba(8, 8, 8, 1)",
       },
     ],
   );
@@ -263,7 +258,7 @@ test("emitManifest merges rows and sorts output deterministically", (t) => {
   });
   t.deepEqual(
     result.extensionTokens.map((t) => t.name.scaleIndex),
-    [100, 200],
+    ["100", "200"],
   );
   t.deepEqual(result.unresolved, []);
 });

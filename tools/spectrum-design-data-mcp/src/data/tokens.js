@@ -10,12 +10,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { getTokensByFile, getAllTokens } from "@adobe/spectrum-tokens";
+let projection;
 
-export const getTokenData = getTokensByFile;
+async function loadProjection() {
+  if (!projection) {
+    projection = (async () => {
+      const { Dataset } = await import("@adobe/design-data-wasm");
+      const dataset = Dataset.embedded();
+      try {
+        const byFile = dataset.legacyOutput();
+        const flat = Object.assign({}, ...Object.values(byFile));
+        return { byFile, flat };
+      } finally {
+        dataset.free();
+      }
+    })();
+  }
+  try {
+    return await projection;
+  } catch (cause) {
+    projection = undefined;
+    throw new Error(
+      "Unable to load canonical Spectrum tokens from @adobe/design-data-wasm. " +
+        "Ensure its Node package is installed and built with embedded data and legacyOutput().",
+      { cause },
+    );
+  }
+}
+
+export async function getTokenData() {
+  return (await loadProjection()).byFile;
+}
 
 /** Flat { tokenName: tokenData } map — used for alias resolution */
-export const getFlatTokenMap = getAllTokens;
+export async function getFlatTokenMap() {
+  return (await loadProjection()).flat;
+}
 
 /**
  * Get available token categories (filenames without .json)

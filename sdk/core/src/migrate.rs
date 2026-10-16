@@ -682,10 +682,11 @@ fn build_set_entry(
         out.insert("uuid".into(), Value::String(uuid.to_string()));
     }
 
-    // Carry the outer set-level UUID so legacy-output can reconstruct it.
-    // Stored as `set_uuid` to distinguish it from the per-mode uuid.
-    if let Some(set_uuid) = outer.get("uuid").and_then(|v| v.as_str()) {
-        out.insert("set_uuid".into(), Value::String(set_uuid.to_string()));
+    // Carry the outer set-level UUID as the concept-level anchor so
+    // legacy-output can reconstruct it. Stored as `conceptId` to distinguish
+    // it from the per-mode uuid.
+    if let Some(concept_id) = outer.get("uuid").and_then(|v| v.as_str()) {
+        out.insert("conceptId".into(), Value::String(concept_id.to_string()));
     }
 
     // Carry the outer set schema so legacy-output can reconstruct the correct

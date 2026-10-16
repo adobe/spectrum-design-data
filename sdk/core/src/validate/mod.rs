@@ -135,6 +135,7 @@ pub fn validate_all_with_full_options(
     if let Some(dir) = relationships_path {
         if dir.is_dir() {
             graph.relationships = TokenGraph::load_spec_relationships(dir)?;
+            graph.reindex_relationship_tokens();
         }
     }
     // Load manifest.json from the data directory when present.
@@ -150,7 +151,9 @@ pub fn validate_all_with_full_options(
     } else {
         None
     };
-    let rel = relational::validate_relational(&graph, naming_exceptions, manifest.as_ref());
+    let effective_exceptions =
+        crate::naming::apply_naming_exceptions_overlay(naming_exceptions, manifest.as_ref());
+    let rel = relational::validate_relational(&graph, &effective_exceptions, manifest.as_ref());
     report.merge(rel);
     Ok(report)
 }

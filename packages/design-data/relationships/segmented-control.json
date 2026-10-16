@@ -37,7 +37,7 @@
       "property": "component-edge-to-visual-only-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "8fec6012-7cba-4ac5-94d7-14f39fce7612"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -45,7 +45,7 @@
       "property": "component-edge-to-visual-only-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "93e42bfc-c2f0-40cd-a561-9045c68cb5d1"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -53,7 +53,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -61,7 +61,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "e220eb52-f821-4807-9ab7-b5f3905d769f"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -77,7 +77,7 @@
       "property": "component-edge-to-visual-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "e77f525e-5043-49c1-a663-9f6c30067043"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "0c0d6d38-6734-4312-9be5-dd48dd571841"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -93,7 +93,7 @@
       "property": "component-edge-to-text-100"
     },
     "context": "Spacing (start/end edges, workflow icon with label)",
-    "$ref": "0b3ecfcf-8fb9-4faf-ab7f-ff4baf733df5"
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "15bf492b-3a65-4577-8a3b-df09026b96a7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "component-top-to-text-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "bed358a2-0559-4501-a147-b375887f25af"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "24def269-4582-46f6-a00c-8b5a28410917"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "component-bottom-to-text-100"
     },
     "context": "Spacing (top/bottom to edge, workflow icon with label)",
-    "$ref": "c8590269-dcaa-44f6-9c2d-d33274c3fe5e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
-    "$ref": "c3a280b0-bc84-4a7c-8048-c689f8deef86"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "component-top-to-workflow-icon-100"
     },
     "context": "Spacing (top/bottom edge to icon, workflow icon with label)",
-    "$ref": "a3d3f9e9-a784-445a-a052-22f84b832512"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "gap"
     },
     "context": "Focus ring",
-    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
   },
   {
     "scope": {

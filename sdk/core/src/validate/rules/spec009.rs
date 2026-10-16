@@ -226,6 +226,18 @@ mod tests {
     }
 
     #[test]
+    fn compound_state_with_pressed_alias_no_warning() {
+        // "pressed" is a registered alias of the foundation "active" state and
+        // must resolve as a recognized value, not warn as an opaque string.
+        let g = TokenGraph::from_pairs(vec![(
+            "t".into(),
+            PathBuf::from("a.tokens.json"),
+            json!({"name": {"property": "color", "state": ["selected", "pressed"]}, "value": "#fff"}),
+        )]);
+        assert!(diagnostics_for_rule(&g, "SPEC-009").is_empty());
+    }
+
+    #[test]
     fn compound_state_with_unknown_segment_warns() {
         let g = TokenGraph::from_pairs(vec![(
             "t".into(),

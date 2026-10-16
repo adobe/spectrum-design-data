@@ -1,0 +1,1652 @@
+// Copyright 2026 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
+
+use std::collections::HashMap;
+use std::path::PathBuf;
+
+use serde_json::json;
+
+use super::convert::*;
+use super::payload::*;
+use super::routing::*;
+use crate::mapping::ExportToken;
+use crate::types::*;
+use crate::FigmaError;
+
+fn test_specs() -> Vec<CollectionSpec> {
+    collection_specs(&[]).unwrap()
+}
+
+// Shadow the glob-imported builders so call sites stay focused on tokens.
+fn build_export_payload(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload(tokens, &test_specs(), existing, overrides)
+}
+
+fn build_export_payload_with_specs(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs(
+        tokens,
+        existing,
+        overrides,
+        &mock_extra_specs(),
+    )
+}
+
+fn build_export_payload_with_specs_and_redirect(
+    tokens: &[ExportToken],
+    existing: &VariablesMeta,
+    overrides: Option<&HashMap<String, String>>,
+    redirect_deprecated: bool,
+) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
+    super::payload::build_export_payload_with_specs_and_redirect(
+        tokens,
+        existing,
+        overrides,
+        &test_specs(),
+        redirect_deprecated,
+    )
+}
+
+// Historical codec fixtures describe grouped values; only tests adapt that shape.
+fn fixture_tokens(
+    tokens: &[(String, PathBuf, serde_json::Value)],
+) -> Vec<super::graph::ExportToken> {
+    use super::graph::{ExportToken, ExportValue};
+    fn value(entry: &serde_json::Value) -> ExportValue {
+        let literal = entry.get("value").cloned();
+        let alias = literal
+            .as_ref()
+            .and_then(|v| v.as_str())
+            .and_then(|s| s.strip_prefix('{'))
+            .and_then(|s| s.strip_suffix('}'))
+            .map(str::to_string);
+        ExportValue {
+            schema: entry
+                .get("$schema")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .into(),
+            literal: if alias.is_some() { None } else { literal },
+            alias,
+        }
+    }
+    tokens
+        .iter()
+        .map(|(name, file, entry)| ExportToken {
+            name: name.clone(),
+            file: file.clone(),
+            value: value(entry),
+            modes: entry
+                .get("sets")
+                .and_then(|v| v.as_object())
+                .map(|modes| {
+                    modes
+                        .iter()
+                        .map(|(mode, entry)| (mode.clone(), value(entry)))
+                        .collect()
+                })
+                .unwrap_or_default(),
+            description: entry
+                .get("description")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            deprecated: entry.get("deprecated").and_then(|v| v.as_bool()) == Some(true),
+            replacement: entry
+                .get("renamed")
+                .and_then(|v| v.as_str())
+                .map(str::to_string),
+            axis: None,
+        })
+        .collect()
+}
+
+fn load_fixture_tokens(
+    dir: &std::path::Path,
+) -> Result<Vec<(String, PathBuf, serde_json::Value)>, std::io::Error> {
+    let mut paths = std::fs::read_dir(dir)?
+        .map(|entry| entry.map(|e| e.path()))
+        .collect::<Result<Vec<_>, _>>()?;
+    paths.sort();
+    let mut tokens = Vec::new();
+    for path in paths {
+        if path.extension().is_some_and(|ext| ext == "json") {
+            let entries: serde_json::Map<String, serde_json::Value> =
+                serde_json::from_slice(&std::fs::read(&path)?)?;
+            tokens.extend(
+                entries
+                    .into_iter()
+                    .map(|(name, value)| (name, path.clone(), value)),
+            );
+        }
+    }
+    Ok(tokens)
+}
+
+fn resolved_mode_value(
+    body: &PostVariablesBody,
+    mode_value: &ModeValueAction,
+) -> serde_json::Value {
+    if let Some(target) = variable_alias_target_id(&mode_value.value) {
+        let target_value = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == target && mv.mode_id == mode_value.mode_id)
+            .expect("alias target must be emitted in the same mode");
+        resolved_mode_value(body, target_value)
+    } else {
+        mode_value.value.clone()
+    }
+}
+
+#[test]
+fn multiplier_aliases_reuse_ids_and_preserve_unitless_values() {
+    let aliases = [
+        ("body-cjk-line-height", "cjk-line-height-200"),
+        ("body-line-height", "line-height-200"),
+        ("code-cjk-line-height", "cjk-line-height-200"),
+        ("code-line-height", "line-height-200"),
+        ("detail-cjk-line-height", "cjk-line-height-100"),
+        ("detail-line-height", "line-height-100"),
+        ("heading-cjk-line-height", "cjk-line-height-100"),
+        ("heading-line-height", "line-height-100"),
+        ("corner-radius-full", "corner-radius-1000"),
+        ("title-cjk-line-height", "cjk-line-height-100"),
+        ("title-line-height", "line-height-100"),
+    ];
+    let targets = [
+        ("line-height-100", 1.3),
+        ("line-height-200", 1.5),
+        ("cjk-line-height-100", 1.5),
+        ("cjk-line-height-200", 1.7),
+        ("corner-radius-1000", 0.5),
+    ];
+    let mut tokens = Vec::new();
+    let mut meta = mock_meta();
+    for (name, target) in aliases {
+        tokens.push((name.into(), PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": format!("{{{target}}}") })));
+    }
+    for (name, value) in targets {
+        tokens.push((
+            name.into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/multiplier.json", "value": value }),
+        ));
+    }
+    for (name, _, _) in &tokens {
+        let id = format!("existing-{name}");
+        meta.variables.insert(
+            id.clone(),
+            serde_json::from_value(json!({
+                "id": id, "key": name, "name": format!("platformScale/{name}"),
+                "variableCollectionId": "col-2", "resolvedType": "FLOAT",
+                "valuesByMode": { "m-desktop": 0 },
+            }))
+            .unwrap(),
+        );
+    }
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 16);
+    assert_eq!(summary.mode_values_set, 5);
+    assert_eq!(summary.mode_values_aliased, 11);
+    assert!(summary.skipped_alias_unresolved.is_empty());
+    assert!(summary.skipped_alias_unsupported.is_empty());
+    assert!(summary.skipped_composite.is_empty());
+    assert!(body.variable_modes.is_empty());
+    assert!(body
+        .variables
+        .iter()
+        .all(|v| v.action == "UPDATE" && v.resolved_type == "FLOAT"));
+    for (name, target) in aliases {
+        let value = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == format!("existing-{name}"))
+            .unwrap();
+        assert_eq!(value.mode_id, "m-desktop");
+        assert_eq!(
+            variable_alias_target_id(&value.value),
+            Some(format!("existing-{target}").as_str())
+        );
+        let expected = targets.iter().find(|(n, _)| *n == target).unwrap().1;
+        assert_eq!(resolved_mode_value(&body, value), json!(expected));
+    }
+}
+
+#[test]
+fn multiplier_alias_chains_keep_mode_set_references_and_overrides() {
+    let tokens = vec![
+        (
+            "base".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/multiplier.json", "value": 1.3 }),
+        ),
+        (
+            "ratio".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "mobile": { "$schema": "https://example.com/multiplier.json", "value": 2 },
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{base}" },
+                },
+            }),
+        ),
+        (
+            "direct".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{ratio}",
+            }),
+        ),
+        (
+            "chain".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{direct}",
+            }),
+        ),
+    ];
+    let overrides = HashMap::from([("ratio".into(), "custom/ratio".into())]);
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &meta, Some(&overrides)).unwrap();
+    assert_eq!(summary.mode_values_aliased, 3);
+    for name in ["direct", "chain"] {
+        let mv = body
+            .variable_mode_values
+            .iter()
+            .find(|mv| mv.variable_id == format!("platformScale__{name}"))
+            .unwrap();
+        assert_eq!(variable_alias_target_id(&mv.value), Some("custom__ratio"));
+        assert_eq!(resolved_mode_value(&body, mv), json!(1.3));
+    }
+    let mobile = body
+        .variable_mode_values
+        .iter()
+        .find(|mv| mv.variable_id == "custom__ratio" && mv.mode_id == "m-mobile")
+        .unwrap();
+    assert_eq!(mobile.value, json!(2.0));
+}
+
+#[test]
+fn alias_diagnostics_distinguish_unsupported_missing_cycles_and_malformed() {
+    let entries = json!({
+        "shadow": { "$schema": "https://example.com/drop-shadow.json", "value": [] },
+        "shadow-alias": { "$schema": "https://example.com/alias.json", "value": "{shadow}" },
+        "shadow-chain": { "$schema": "https://example.com/alias.json", "value": "{shadow-alias}" },
+        "unknown": { "$schema": "https://example.com/unknown.json", "value": 2 },
+        "unknown-alias": { "$schema": "https://example.com/alias.json", "value": "{unknown}" },
+        "missing": { "$schema": "https://example.com/alias.json", "value": "{absent}" },
+        "cycle": { "$schema": "https://example.com/alias.json", "value": "{cycle}" },
+        "bad": { "$schema": "https://example.com/multiplier.json", "value": false },
+        "bad-alias": { "$schema": "https://example.com/alias.json", "value": "{bad}" },
+        "unsupported-set": { "$schema": "https://example.com/scale-set.json", "sets": {
+            "desktop": { "$schema": "https://example.com/alias.json", "value": "{shadow}" },
+        }},
+    });
+    let mut tokens: Vec<_> = entries
+        .as_object()
+        .unwrap()
+        .iter()
+        .map(|(name, value)| (name.clone(), PathBuf::from("tokens.json"), value.clone()))
+        .collect();
+    tokens.sort_by(|a, b| a.0.cmp(&b.0));
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
+    assert!(body.variables.is_empty());
+    assert_eq!(summary.skipped_alias_unresolved, ["cycle", "missing"]);
+    assert_eq!(summary.skipped_unparseable_value, ["bad", "bad-alias"]);
+    assert_eq!(summary.skipped_alias_unsupported.len(), 4);
+    assert!(summary
+        .skipped_alias_unsupported
+        .iter()
+        .any(|r| r.contains("shadow-chain: target 'shadow'") && r.contains("drop-shadow.json")));
+    assert!(summary
+        .skipped_alias_unsupported
+        .iter()
+        .any(|r| r.contains("unknown-alias") && r.contains("unknown.json")));
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("missing alias target 'absent'")));
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("possible cycle")));
+}
+
+#[test]
+fn flat_alias_chains_to_unexported_mode_sets_cannot_leave_dangling_references() {
+    let tokens = vec![
+        (
+            "target".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "unsupported-mode": { "$schema": "https://example.com/multiplier.json", "value": 1.3 },
+                },
+            }),
+        ),
+        (
+            "direct".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{target}",
+            }),
+        ),
+        (
+            "chain".into(),
+            PathBuf::from("tokens.json"),
+            json!({
+                "$schema": "https://example.com/alias.json", "value": "{direct}",
+            }),
+        ),
+    ];
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
+    assert!(body.variables.is_empty());
+    assert!(body.variable_mode_values.is_empty());
+    assert_eq!(summary.mode_values_aliased, 0);
+    assert_eq!(summary.variables_created, 0);
+    assert!(summary
+        .mode_warnings
+        .iter()
+        .any(|r| r.contains("dangling VARIABLE_ALIAS")));
+}
+
+#[test]
+fn named_font_weights_update_existing_string_variables() {
+    let weights = [
+        ("light", "Light"),
+        ("regular", "Regular"),
+        ("medium", "Medium"),
+        ("bold", "Bold"),
+        ("extra-bold", "ExtraBold"),
+        ("black", "Black"),
+    ];
+    let mut meta = mock_meta();
+    let mut tokens = Vec::new();
+    for (weight, style) in weights {
+        let name = format!("{weight}-font-weight");
+        let id = format!("existing-{weight}");
+        meta.variables.insert(
+            id.clone(),
+            serde_json::from_value(json!({
+                "id": id,
+                "key": name,
+                "name": format!("platformScale/{name}"),
+                "variableCollectionId": "col-2",
+                "resolvedType": "STRING",
+                "valuesByMode": { "m-desktop": style },
+            }))
+            .unwrap(),
+        );
+        tokens.push((
+            name,
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": weight }),
+        ));
+    }
+
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 6);
+    assert_eq!(summary.mode_values_set, 6);
+    assert!(summary.skipped_unparseable_value.is_empty());
+    for (weight, style) in weights {
+        let id = format!("existing-{weight}");
+        let variable = body
+            .variables
+            .iter()
+            .find(|v| v.id.as_deref() == Some(id.as_str()))
+            .unwrap();
+        assert_eq!(variable.action, "UPDATE");
+        assert_eq!(variable.resolved_type, "STRING");
+        assert_eq!(
+            variable.code_syntax.as_ref().unwrap()["WEB"],
+            format!("--spectrum-{weight}-font-weight"),
+        );
+        let value = body
+            .variable_mode_values
+            .iter()
+            .find(|v| v.variable_id == id)
+            .unwrap();
+        assert_eq!(value.value, json!(style));
+    }
+}
+
+#[test]
+fn font_weight_alias_chains_and_scale_modes_keep_style_strings() {
+    let tokens = vec![
+        (
+            "bold".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": "bold" }),
+        ),
+        (
+            "alias".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{bold}" }),
+        ),
+        (
+            "alias-chain".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{alias}" }),
+        ),
+        (
+            "weight-set".into(),
+            PathBuf::from("typography.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{alias-chain}" },
+                    "mobile": { "$schema": "https://example.com/font-weight.json", "value": "extra-bold" },
+                },
+            }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 4);
+    assert!(summary.skipped_unparseable_value.is_empty());
+    assert!(body.variables.iter().all(|v| v.resolved_type == "STRING"));
+    for value in &body.variable_mode_values {
+        assert_eq!(
+            resolved_mode_value(&body, value),
+            json!(if value.mode_id == "m-mobile" {
+                "ExtraBold"
+            } else {
+                "Bold"
+            }),
+        );
+    }
+}
+
+#[test]
+fn numeric_angles_export_through_aliases_and_scale_modes() {
+    let tokens = vec![
+        (
+            "strikethrough-day-orientation".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/angle.json", "value": -25 }),
+        ),
+        (
+            "angle-alias".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{strikethrough-day-orientation}" }),
+        ),
+        (
+            "angle-chain".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{angle-alias}" }),
+        ),
+        (
+            "angle-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/angle.json", "value": "{strikethrough-day-orientation}" },
+                    "mobile": { "$schema": "https://example.com/angle.json", "value": 25.5 },
+                },
+            }),
+        ),
+        (
+            "angle-fallback-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/alias.json", "value": "{angle-chain}" },
+                },
+            }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 5);
+    assert_eq!(summary.mode_values_set, 3);
+    assert_eq!(summary.mode_values_aliased, 3);
+    assert!(summary.skipped_unknown_schema.is_empty());
+    assert!(summary.skipped_unparseable_value.is_empty());
+    assert!(body
+        .variables
+        .iter()
+        .all(|v| v.resolved_type == "FLOAT" && v.variable_collection_id == "col-2"));
+    let alias = body
+        .variable_mode_values
+        .iter()
+        .find(|v| v.variable_id == "platformScale__angle-set" && v.mode_id == "m-desktop")
+        .unwrap();
+    assert_eq!(
+        alias.value,
+        json!({ "type": "VARIABLE_ALIAS", "id": "platformScale__strikethrough-day-orientation" }),
+    );
+    for value in body
+        .variable_mode_values
+        .iter()
+        .filter(|v| v.variable_id != alias.variable_id || v.mode_id != alias.mode_id)
+    {
+        assert_eq!(
+            resolved_mode_value(&body, value).as_f64(),
+            Some(if value.mode_id == "m-mobile" {
+                25.5
+            } else {
+                -25.0
+            })
+        );
+    }
+}
+
+#[test]
+fn dp_units_are_reported_separately_in_flat_alias_and_set_tokens() {
+    let tokens = vec![
+        (
+            "android-elevation".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": "2dp" }),
+        ),
+        (
+            "elevation-alias".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{android-elevation}" }),
+        ),
+        (
+            "elevation-chain".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/alias.json", "value": "{elevation-alias}" }),
+        ),
+        (
+            "elevation-set".into(),
+            PathBuf::from("layout.json"),
+            json!({
+                "$schema": "https://example.com/scale-set.json",
+                "sets": {
+                    "desktop": { "$schema": "https://example.com/dimension.json", "value": "{android-elevation}" },
+                    "mobile": { "$schema": "https://example.com/dimension.json", "value": "4dp" },
+                },
+            }),
+        ),
+        (
+            "bad-dp".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": "invaliddp" }),
+        ),
+    ];
+    let mut meta = mock_meta();
+    meta.variable_collections
+        .get_mut("col-2")
+        .unwrap()
+        .modes
+        .push(FigmaMode {
+            mode_id: "m-mobile".into(),
+            name: "Mobile".into(),
+        });
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert!(body.variables.is_empty());
+    assert!(body.variable_mode_values.is_empty());
+    assert_eq!(summary.variables_created, 0);
+    assert_eq!(
+        summary.skipped_unsupported_unit,
+        [
+            "android-elevation",
+            "elevation-alias",
+            "elevation-chain",
+            "elevation-set",
+        ]
+    );
+    assert_eq!(summary.skipped_unparseable_value, ["bad-dp"]);
+}
+
+#[test]
+fn invalid_scalar_values_are_reported_without_changing_font_family_strings() {
+    let tokens = vec![
+        (
+            "invalid-angle".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/angle.json", "value": true }),
+        ),
+        (
+            "invalid-weight".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-weight.json", "value": "unknown" }),
+        ),
+        (
+            "invalid-font-family".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-family.json", "value": 300 }),
+        ),
+        (
+            "invalid-dimension".into(),
+            PathBuf::from("layout.json"),
+            json!({ "$schema": "https://example.com/dimension.json", "value": 2 }),
+        ),
+        (
+            "font-family".into(),
+            PathBuf::from("typography.json"),
+            json!({ "$schema": "https://example.com/font-family.json", "value": "medium" }),
+        ),
+    ];
+    let (body, summary) =
+        build_export_payload(&fixture_tokens(&tokens), &mock_meta(), None).unwrap();
+    assert_eq!(
+        summary.skipped_unparseable_value,
+        [
+            "invalid-angle",
+            "invalid-weight",
+            "invalid-font-family",
+            "invalid-dimension",
+        ]
+    );
+    assert_eq!(body.variables.len(), 1);
+    assert_eq!(body.variable_mode_values[0].value, json!("medium"));
+}
+
+fn mock_meta() -> VariablesMeta {
+    VariablesMeta {
+        variables: HashMap::new(),
+        variable_collections: HashMap::from([
+            (
+                "col-1".into(),
+                super::super::types::FigmaVariableCollection {
+                    id: "col-1".into(),
+                    name: ".Color theme".into(),
+                    key: "k1".into(),
+                    modes: vec![
+                        super::super::types::FigmaMode {
+                            mode_id: "m-light".into(),
+                            name: "Light".into(),
+                        },
+                        super::super::types::FigmaMode {
+                            mode_id: "m-dark".into(),
+                            name: "Dark".into(),
+                        },
+                        super::super::types::FigmaMode {
+                            mode_id: "m-wire".into(),
+                            name: "Wireframe".into(),
+                        },
+                    ],
+                    default_mode_id: "m-light".into(),
+                    remote: false,
+                    hidden_from_publishing: false,
+                    variable_ids: vec![],
+                },
+            ),
+            (
+                "col-2".into(),
+                super::super::types::FigmaVariableCollection {
+                    id: "col-2".into(),
+                    name: ".Platform scale".into(),
+                    key: "k2".into(),
+                    modes: vec![super::super::types::FigmaMode {
+                        mode_id: "m-desktop".into(),
+                        name: "Desktop".into(),
+                    }],
+                    default_mode_id: "m-desktop".into(),
+                    remote: false,
+                    hidden_from_publishing: false,
+                    variable_ids: vec![],
+                },
+            ),
+        ]),
+    }
+}
+
+#[test]
+fn color_set_produces_three_mode_values() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("colors.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                "test-color": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "u1" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "u2" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "u3" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(summary.mode_values_set, 3);
+    assert_eq!(body.variables.len(), 1);
+    assert_eq!(body.variables[0].name, "colorTheme/test-color");
+    assert_eq!(body.variables[0].resolved_type, "COLOR");
+    assert_eq!(body.variable_mode_values.len(), 3);
+}
+
+#[test]
+fn scale_set_token_with_no_matching_target_mode_warns_instead_of_silently_dropping() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("scale.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                "test-scale": {
+                    "$schema": "https://example.com/scale-set.json",
+                    "sets": {
+                        "desktop": { "$schema": "https://example.com/dimension.json", "value": "16px", "uuid": "u1" },
+                        "mobile": { "$schema": "https://example.com/dimension.json", "value": "24px", "uuid": "u2" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+    // mock_meta()'s .Platform scale collection only defines a Desktop mode.
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+
+    // Desktop value still lands; Mobile value is dropped but now warned about.
+    assert_eq!(summary.mode_values_set, 1);
+    assert_eq!(body.variable_mode_values.len(), 1);
+    assert_eq!(summary.mode_warnings.len(), 1);
+    let warning = &summary.mode_warnings[0];
+    assert!(warning.contains("test-scale"), "{warning}");
+    assert!(warning.contains("mobile"), "{warning}");
+    assert!(warning.contains(".Platform scale"), "{warning}");
+}
+
+#[test]
+fn dimension_token_goes_to_platform_scale() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+        f,
+        "{}",
+        json!({
+            "spacing-100": {
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            }
+        })
+    )
+    .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+    assert_eq!(body.variables[0].resolved_type, "FLOAT");
+    // Value should be 8.0
+    let val = &body.variable_mode_values[0].value;
+    assert_eq!(val.as_f64(), Some(8.0));
+}
+
+#[test]
+fn opacity_token_scales_fraction_to_figma_percent() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("color-aliases.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+        f,
+        "{}",
+        json!({
+            "background-opacity-down": {
+                "$schema": "https://example.com/opacity.json",
+                "value": "0.1",
+                "uuid": "o1"
+            }
+        })
+    )
+    .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    // Opacity is a FLOAT, but lives in the Color theme collection in the
+    // manual library, not Platform scale — see COLLECTION_SPECS routing.
+    assert_eq!(body.variables[0].name, "colorTheme/background-opacity-down");
+    assert_eq!(body.variables[0].resolved_type, "FLOAT");
+    let val = &body.variable_mode_values[0].value;
+    assert_eq!(val.as_f64(), Some(10.0));
+}
+
+#[test]
+fn color_set_with_opacity_members_produces_float_not_color() {
+    // Defensive coverage for process_color_set_token's any-member type
+    // inference: even if the alias/first member weren't opacity, any
+    // member being opacity.json must still yield FLOAT, not COLOR.
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("opacity-set.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                "test-opacity-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/opacity.json", "value": "0.1", "uuid": "u1" },
+                        "dark": { "$schema": "https://example.com/opacity.json", "value": "0.2", "uuid": "u2" },
+                        "wireframe": { "$schema": "https://example.com/opacity.json", "value": "0.3", "uuid": "u3" }
+                    },
+                    "uuid": "u0"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(body.variables[0].resolved_type, "FLOAT");
+    assert_eq!(body.variable_mode_values.len(), 3);
+    for mv in &body.variable_mode_values {
+        assert!(
+            mv.value.as_f64().is_some(),
+            "expected flattened FLOAT, got {mv:?}"
+        );
+    }
+}
+
+#[test]
+fn build_export_payload_accepts_in_memory_tokens_not_just_a_directory() {
+    // Mirrors what a manifest-resolved TokenGraph hands the exporter:
+    // `(record.name, record.raw)` pairs with no backing directory — the
+    // seam that lets `figma export --manifest` feed platform-overridden
+    // `raw` values (e.g. from `apply_platform_manifest`) straight through
+    // without materializing them to disk first.
+    let tokens = vec![(
+        "spacing-100".to_string(),
+        PathBuf::from("in-memory.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "12px",
+            "uuid": "d1"
+        }),
+    )];
+
+    let meta = mock_meta();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+    let val = &body.variable_mode_values[0].value;
+    assert_eq!(val.as_f64(), Some(12.0));
+}
+
+#[test]
+fn override_remaps_name_absent_override_stays_1to1() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+        f,
+        "{}",
+        json!({
+            "spacing-100": {
+                "$schema": "https://example.com/dimension.json",
+                "value": "8px",
+                "uuid": "d1"
+            },
+            "spacing-200": {
+                "$schema": "https://example.com/dimension.json",
+                "value": "16px",
+                "uuid": "d2"
+            }
+        })
+    )
+    .unwrap();
+
+    let meta = mock_meta();
+    let overrides: HashMap<String, String> = [(
+        "spacing-100".to_string(),
+        "Layout/spacing-100-real".to_string(),
+    )]
+    .into_iter()
+    .collect();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, _summary) =
+        build_export_payload(&fixture_tokens(&tokens), &meta, Some(&overrides)).unwrap();
+
+    let by_name = |n: &str| body.variables.iter().find(|v| v.name == n);
+    assert!(by_name("Layout/spacing-100-real").is_some());
+    assert!(by_name("platformScale/spacing-200").is_some());
+}
+
+#[test]
+fn alias_resolves_to_concrete_value() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+        f,
+        "{}",
+        json!({
+            "base-color": {
+                "$schema": "https://example.com/color.json",
+                "value": "rgb(100, 200, 50)",
+                "uuid": "c1"
+            },
+            "alias-color": {
+                "$schema": "https://example.com/alias.json",
+                "value": "{base-color}",
+                "uuid": "a1"
+            }
+        })
+    )
+    .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (_body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    // base-color (flat color) + alias-color (alias→color)
+    assert_eq!(summary.variables_created, 2);
+    assert!(summary.skipped_alias_unresolved.is_empty());
+}
+
+#[test]
+fn alias_to_set_token_resolves_to_light_mode_not_first_in_file() {
+    // Regression test: resolve_value() used to call sets.values().next(),
+    // which is HashMap-order-dependent. In real data "dark" appears before
+    // "light" in color-palette.json, so an alias like
+    //   accent-color-100 -> {blue-100}
+    // was silently exporting the dark value into the Light Figma mode.
+    //
+    // The fix prefers sets["light"] over sets["desktop"] over first-in-file.
+    // This test encodes that contract: dark is listed first in the JSON, but
+    // the exported mode value must be the light value.
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                // Set token with dark listed first (mirrors real color-palette.json)
+                "base-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "dark":      { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "u-dark" },
+                        "light":     { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "u-light" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "u-wire" }
+                    },
+                    "uuid": "u0"
+                },
+                // Top-level alias pointing at the set token
+                "alias-to-set": {
+                    "$schema": "https://example.com/alias.json",
+                    "value": "{base-color-set}",
+                    "uuid": "a1"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+
+    assert!(
+        summary.skipped_alias_unresolved.is_empty(),
+        "alias should resolve"
+    );
+
+    // The alias variable must exist
+    let alias_var = body
+        .variables
+        .iter()
+        .find(|v| v.name == "colorTheme/alias-to-set")
+        .expect("alias-to-set should be exported");
+    assert_eq!(alias_var.resolved_type, "COLOR");
+
+    // The mode value must carry the light color (r=1, g=0, b=0), not the
+    // dark color (r=0, g=0, b=1) that would result from first-in-file order.
+    let alias_id = alias_var.id.as_deref().unwrap_or("");
+    let mv = body
+        .variable_mode_values
+        .iter()
+        .find(|v| v.variable_id == alias_id)
+        .expect("alias-to-set should have a mode value");
+
+    assert_eq!(
+        variable_alias_target_id(&mv.value),
+        Some("colorTheme__base-color-set")
+    );
+    let resolved = resolved_mode_value(&body, mv);
+    let r = resolved.get("r").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    let b = resolved.get("b").and_then(|v| v.as_f64()).unwrap_or(0.0);
+    assert!(
+        r > 0.9,
+        "expected light value (r≈1), got r={r} — dark value was used instead"
+    );
+    assert!(
+        b < 0.1,
+        "expected light value (b≈0), got b={b} — dark value was used instead"
+    );
+}
+
+#[test]
+fn composite_types_are_skipped() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("tokens.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+        f,
+        "{}",
+        json!({
+            "heading-typography": {
+                "$schema": "https://example.com/typography.json",
+                "value": { "fontFamily": "Arial", "fontSize": "16px" },
+                "uuid": "t1"
+            },
+            "shadow-1": {
+                "$schema": "https://example.com/drop-shadow.json",
+                "value": [{ "x": "0px", "y": "2px", "blur": "4px", "color": "rgba(0,0,0,0.1)" }],
+                "uuid": "s1"
+            }
+        })
+    )
+    .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 0);
+    assert_eq!(summary.skipped_composite.len(), 2);
+    assert!(body.variables.is_empty());
+}
+
+#[test]
+fn in_set_alias_emits_variable_alias_reference() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("colors.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                "base-color-set-a": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(255, 0, 0)", "uuid": "a-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(0, 255, 0)", "uuid": "a-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(0, 0, 255)", "uuid": "a-wire" }
+                    },
+                    "uuid": "a0"
+                },
+                "base-color-set-b": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "rgb(1, 1, 1)", "uuid": "b-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "rgb(2, 2, 2)", "uuid": "b-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "rgb(3, 3, 3)", "uuid": "b-wire" }
+                    },
+                    "uuid": "b0"
+                },
+                // Note: this key sorts before both base-color-set-* keys, so the
+                // main loop processes it before its alias targets — exercising the
+                // pre-pass that makes target ids available regardless of order.
+                "alias-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-color-set-b}", "uuid": "al-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-wire" }
+                    },
+                    "uuid": "al0"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+
+    assert_eq!(summary.mode_values_aliased, 3);
+    assert_eq!(summary.mode_values_set, 6);
+
+    let alias_var_id = body
+        .variables
+        .iter()
+        .find(|v| v.name == "colorTheme/alias-color-set")
+        .and_then(|v| v.id.clone())
+        .expect("alias-color-set variable created");
+    let alias_values: Vec<_> = body
+        .variable_mode_values
+        .iter()
+        .filter(|mv| mv.variable_id == alias_var_id)
+        .collect();
+    assert_eq!(alias_values.len(), 3);
+    for mv in &alias_values {
+        assert_eq!(
+            mv.value.get("type").and_then(|v| v.as_str()),
+            Some("VARIABLE_ALIAS")
+        );
+    }
+    let alias_target_ids: Vec<_> = alias_values
+        .iter()
+        .filter_map(|mv| mv.value.get("id").and_then(|v| v.as_str()))
+        .collect();
+    assert!(alias_target_ids.contains(&"colorTheme__base-color-set-a"));
+    assert!(alias_target_ids.contains(&"colorTheme__base-color-set-b"));
+}
+
+#[test]
+fn alias_to_malformed_set_target_drops_dangling_reference() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("colors.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                // Malformed: color-set schema but no `sets` object, so
+                // `process_color_set_token` bails without emitting a
+                // VariableAction — even though the pre-pass already
+                // registered an id for it.
+                "base-color-set-a": {
+                    "$schema": "https://example.com/color-set.json",
+                    "uuid": "a0"
+                },
+                "alias-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-color-set-a}", "uuid": "al-wire" }
+                    },
+                    "uuid": "al0"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+
+    let emitted_ids: std::collections::HashSet<_> = body
+        .variables
+        .iter()
+        .filter_map(|v| v.id.as_deref())
+        .collect();
+    for mv in &body.variable_mode_values {
+        if let Some(target) = variable_alias_target_id(&mv.value) {
+            assert!(
+                emitted_ids.contains(target),
+                "dangling VARIABLE_ALIAS to '{target}' with no matching VariableAction"
+            );
+        }
+    }
+    assert!(
+        summary
+            .mode_warnings
+            .iter()
+            .any(|w| w.contains("dangling VARIABLE_ALIAS")),
+        "expected a mode_warnings entry for the dropped alias, got: {:?}",
+        summary.mode_warnings
+    );
+
+    // Every mode of `alias-color-set` aliased the malformed `base-color-set-a`,
+    // so after dropping the dangling aliases it has zero mode values left — it
+    // must be dropped entirely, not sent to Figma as an empty CREATE/UPDATE.
+    assert!(
+        !emitted_ids.contains("colorTheme__alias-color-set"),
+        "expected the fully-dangling variable to be dropped, ids: {emitted_ids:?}"
+    );
+    assert!(
+        summary
+            .mode_warnings
+            .iter()
+            .any(|w| w.contains("dropped entirely")),
+        "expected a mode_warnings entry for the dropped variable, got: {:?}",
+        summary.mode_warnings
+    );
+    assert_eq!(
+        summary.mode_values_aliased, 0,
+        "dropped alias values must not be counted in the summary"
+    );
+}
+
+#[test]
+fn alias_to_non_prepassed_target_falls_back_to_literal() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("colors.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    write!(
+            f,
+            "{}",
+            json!({
+                "base-color": {
+                    "$schema": "https://example.com/color.json",
+                    "value": "rgb(10, 20, 30)",
+                    "uuid": "bc"
+                },
+                "base-alias": {
+                    "$schema": "https://example.com/alias.json",
+                    "value": "{base-color}",
+                    "uuid": "ba"
+                },
+                "test-color-set": {
+                    "$schema": "https://example.com/color-set.json",
+                    "sets": {
+                        "light": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-light" },
+                        "dark": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-dark" },
+                        "wireframe": { "$schema": "https://example.com/color.json", "value": "{base-alias}", "uuid": "t-wire" }
+                    },
+                    "uuid": "t0"
+                }
+            })
+        )
+        .unwrap();
+
+    let meta = mock_meta();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+
+    // "base-alias" is a top-level alias token, excluded from the alias-target
+    // pre-pass (its own Figma routing isn't known up front), so aliasing it
+    // still flattens through value_index instead of emitting a VARIABLE_ALIAS
+    // pointing at something that isn't a Figma variable.
+    assert_eq!(summary.mode_values_aliased, 1);
+
+    let test_set_id = body
+        .variables
+        .iter()
+        .find(|v| v.name == "colorTheme/test-color-set")
+        .and_then(|v| v.id.clone())
+        .expect("test-color-set variable created");
+    let mode_values: Vec<_> = body
+        .variable_mode_values
+        .iter()
+        .filter(|mv| mv.variable_id == test_set_id)
+        .collect();
+    assert_eq!(mode_values.len(), 3);
+    for mv in mode_values {
+        assert_ne!(
+            mv.value.get("type").and_then(|v| v.as_str()),
+            Some("VARIABLE_ALIAS")
+        );
+        assert!(
+            mv.value.get("r").is_some(),
+            "expected flattened FigmaColor literal, got {mv:?}"
+        );
+    }
+}
+
+/// `mock_meta()` plus a 3rd collection reachable only via a specific
+/// `source_files` entry — proves `CollectionSpec`/`resolve_collections`
+/// can route by file, without touching any of the real production
+/// collections in `collection_specs`.
+fn mock_meta_with_extra_collection() -> VariablesMeta {
+    let mut meta = mock_meta();
+    meta.variable_collections.insert(
+        "col-3".into(),
+        super::super::types::FigmaVariableCollection {
+            id: "col-3".into(),
+            name: ".Mock Extra".into(),
+            key: "k3".into(),
+            modes: vec![super::super::types::FigmaMode {
+                mode_id: "m-extra".into(),
+                name: "Desktop".into(),
+            }],
+            default_mode_id: "m-extra".into(),
+            remote: false,
+            hidden_from_publishing: false,
+            variable_ids: vec![],
+        },
+    );
+    meta
+}
+
+fn mock_extra_specs() -> Vec<CollectionSpec> {
+    let mut specs = test_specs();
+    specs.insert(
+        1,
+        CollectionSpec {
+            figma_collection_name: ".Mock Extra",
+            default_prefix: "mockExtra",
+            kind: TokenKind::Scale,
+            modes: vec!["desktop".to_string(), "mobile".to_string()],
+            source_files: &["special-widget.json"],
+        },
+    );
+    specs
+}
+
+#[test]
+fn file_specific_spec_routes_token_to_mock_collection() {
+    let tokens = vec![(
+        "widget-gap".to_string(),
+        PathBuf::from("special-widget.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "8px",
+            "uuid": "w1"
+        }),
+    )];
+    let meta = mock_meta_with_extra_collection();
+    let (body, summary) =
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(body.variables[0].name, "mockExtra/widget-gap");
+}
+
+#[test]
+fn wildcard_spec_still_applies_for_files_not_listed_in_a_specific_entry() {
+    let tokens = vec![(
+        "spacing-100".to_string(),
+        PathBuf::from("some-other-file.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "8px",
+            "uuid": "d1"
+        }),
+    )];
+    let meta = mock_meta_with_extra_collection();
+    let (body, summary) =
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert_eq!(summary.variables_created, 1);
+    assert_eq!(body.variables[0].name, "platformScale/spacing-100");
+}
+
+#[test]
+fn exported_variable_carries_web_code_syntax_for_dev_mode() {
+    let tokens = vec![(
+        "spacing-100".to_string(),
+        PathBuf::from("some-other-file.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "8px",
+            "uuid": "d1"
+        }),
+    )];
+    let meta = mock_meta_with_extra_collection();
+    let (body, _summary) =
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
+    let code_syntax = body.variables[0]
+        .code_syntax
+        .as_ref()
+        .expect("codeSyntax should be populated so Dev Mode shows the real token name");
+    assert_eq!(
+        code_syntax.get("WEB").map(String::as_str),
+        Some("--spectrum-spacing-100")
+    );
+}
+
+#[test]
+fn platform_formats_add_extra_code_syntax_entries_from_web() {
+    let tokens = vec![(
+        "avatar-group-size-100".to_string(),
+        PathBuf::from("some-other-file.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "8px",
+            "uuid": "d1"
+        }),
+    )];
+    let meta = mock_meta_with_extra_collection();
+    let android_format = design_data_core::naming::FormattingConfig {
+        casing: Some(design_data_core::naming::Casing::CamelCase),
+        ..Default::default()
+    };
+    let platform_formats = vec![("ANDROID".to_string(), android_format)];
+    let (mut body, _summary) =
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
+    augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+    let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+    assert_eq!(
+        code_syntax.get("WEB").map(String::as_str),
+        Some("--spectrum-avatar-group-size-100")
+    );
+    assert_eq!(
+        code_syntax.get("ANDROID").map(String::as_str),
+        Some("avatarGroupSize100")
+    );
+}
+
+/// Locks in the documented ceiling on `platform_code_name`: for a
+/// component-prefixed legacy key, `conceptOrder` placing `"component"` last
+/// has no effect, because the flat-key reconstruction never recovers a
+/// `component` value to move (see the `ponytail:` note on
+/// `platform_code_name`). The component segment stays fused to the front of
+/// `property` regardless of where `"component"` appears in `conceptOrder`.
+#[test]
+fn platform_formats_component_concept_order_is_a_no_op() {
+    let tokens = vec![(
+        "button-background-color-default".to_string(),
+        PathBuf::from("some-other-file.json"),
+        json!({
+            "$schema": "https://example.com/dimension.json",
+            "value": "8px",
+            "uuid": "d1"
+        }),
+    )];
+    let meta = mock_meta_with_extra_collection();
+    let android_format = design_data_core::naming::FormattingConfig {
+        concept_order: Some(vec![
+            "state".to_string(),
+            "property".to_string(),
+            "component".to_string(),
+        ]),
+        casing: Some(design_data_core::naming::Casing::CamelCase),
+        ..Default::default()
+    };
+    let platform_formats = vec![("ANDROID".to_string(), android_format)];
+    let (mut body, _summary) =
+        build_export_payload_with_specs(&fixture_tokens(&tokens), &meta, None).unwrap();
+    augment_code_syntax_with_platform_formats(&mut body.variables, &platform_formats);
+    let code_syntax = body.variables[0].code_syntax.as_ref().unwrap();
+    // If `component` were actually recovered and moved per `conceptOrder`,
+    // this would read "defaultBackgroundColorButton". It doesn't — the
+    // "button" prefix stays glued to the front of `property`.
+    assert_eq!(
+        code_syntax.get("ANDROID").map(String::as_str),
+        Some("defaultButtonBackgroundColor")
+    );
+}
+
+#[test]
+fn s2_web_baseline_fixture_deserializes() {
+    let raw = include_str!("../../tests/fixtures/figma/s2-web-variables.baseline.json");
+    let meta: crate::types::VariablesMeta =
+        serde_json::from_str(raw).expect("baseline fixture is valid VariablesMeta");
+    assert!(
+        !meta.variable_collections.is_empty(),
+        "expected at least one collection"
+    );
+    assert!(!meta.variables.is_empty(), "expected at least one variable");
+}
+
+fn redirect_fixture() -> (tempfile::TempDir, Vec<(String, PathBuf, serde_json::Value)>) {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let dim = "https://example.com/dimension.json";
+    write!(
+        f,
+        "{}",
+        json!({
+            "old-a": { "$schema": dim, "value": "200px", "uuid": "o1", "deprecated": true, "renamed": "old-b" },
+            "old-b": { "$schema": dim, "value": "180px", "uuid": "o2", "deprecated": true, "renamed": "new-w" },
+            "new-w": { "$schema": dim, "value": "192px", "uuid": "o3" },
+            "old-none": { "$schema": dim, "value": "10px", "uuid": "o4", "deprecated": true },
+            "cyc-a": { "$schema": dim, "value": "1px", "uuid": "o5", "deprecated": true, "renamed": "cyc-b" },
+            "cyc-b": { "$schema": dim, "value": "2px", "uuid": "o6", "deprecated": true, "renamed": "cyc-a" },
+            "old-color": {
+                "$schema": "https://example.com/color.json", "value": "rgb(1, 2, 3)",
+                "uuid": "o7", "deprecated": true, "renamed": "new-w"
+            }
+        })
+    )
+    .unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    (dir, tokens)
+}
+
+fn alias_target(body: &PostVariablesBody, name: &str) -> Vec<String> {
+    let id = body
+        .variables
+        .iter()
+        .find(|v| v.name == name)
+        .and_then(|v| v.id.clone())
+        .unwrap_or_else(|| panic!("variable {name} missing"));
+    body.variable_mode_values
+        .iter()
+        .filter(|mv| mv.variable_id == id)
+        .filter(|mv| mv.value.get("type").and_then(|t| t.as_str()) == Some("VARIABLE_ALIAS"))
+        .filter_map(|mv| {
+            mv.value
+                .get("id")
+                .and_then(|v| v.as_str())
+                .map(String::from)
+        })
+        .collect()
+}
+
+#[test]
+fn redirect_deprecated_follows_chain_to_terminal_replacement() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
+    assert_eq!(
+        alias_target(&body, "platformScale/old-a"),
+        vec!["platformScale__new-w"]
+    );
+    assert_eq!(
+        alias_target(&body, "platformScale/old-b"),
+        vec!["platformScale__new-w"]
+    );
+    assert_eq!(summary.redirected_deprecated.len(), 2);
+}
+
+#[test]
+fn redirect_deprecated_keeps_literal_without_replacement_cycle_or_class_mismatch() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
+    for name in [
+        "platformScale/old-none",
+        "platformScale/cyc-a",
+        "platformScale/cyc-b",
+    ] {
+        assert!(alias_target(&body, name).is_empty(), "{name} aliased");
+    }
+    assert!(alias_target(&body, "colorTheme/old-color").is_empty());
+    assert!(!summary.redirect_skipped.is_empty());
+}
+
+#[test]
+fn redirect_deprecated_is_off_by_default() {
+    let (_dir, tokens) = redirect_fixture();
+    let meta = mock_meta();
+    let (body, summary) = build_export_payload(&fixture_tokens(&tokens), &meta, None).unwrap();
+    assert!(summary.redirected_deprecated.is_empty());
+    assert!(alias_target(&body, "platformScale/old-a").is_empty());
+}
+
+#[test]
+fn redirect_deprecated_targets_alias_schema_replacements() {
+    use std::io::Write;
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("layout.json");
+    let mut f = std::fs::File::create(&path).unwrap();
+    let dim = "https://example.com/dimension.json";
+    write!(
+        f,
+        "{}",
+        json!({
+            "spacing-300": { "$schema": dim, "value": "12px", "uuid": "s1" },
+            "container-padding-medium": {
+                "$schema": "https://example.com/alias.json",
+                "value": "{spacing-300}", "uuid": "s2"
+            },
+            "old-padding": {
+                "$schema": dim, "value": "14px", "uuid": "s3",
+                "deprecated": true, "renamed": "container-padding-medium"
+            }
+        })
+    )
+    .unwrap();
+    let tokens = load_fixture_tokens(dir.path()).unwrap();
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
+    assert_eq!(
+        alias_target(&body, "platformScale/old-padding"),
+        vec!["platformScale__container-padding-medium"]
+    );
+    assert!(
+        summary.redirect_skipped.is_empty(),
+        "{:?}",
+        summary.redirect_skipped
+    );
+}

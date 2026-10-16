@@ -27,11 +27,11 @@ A **mode set declaration** is a JSON object describing one axis of variation. It
 
 These mode sets are declared in the `mode-sets/` catalog (see [Mode Set catalog](#mode-set-catalog)) and **SHOULD** be used consistently across Spectrum-compatible datasets:
 
-| `name`        | `modes`                      | `default` | Notes                                                                             |
-| ------------- | ---------------------------- | --------- | --------------------------------------------------------------------------------- |
-| `colorScheme` | `light`, `dark`, `wireframe` | `light`   | Theme / appearance.                                                               |
-| `scale`       | `desktop`, `mobile`          | `desktop` | Density scale. Legacy names; desktop = medium, mobile = large in W3C terminology. |
-| `contrast`    | `regular`, `high`            | `regular` | Accessibility contrast level.                                                     |
+| `name`        | `modes`                      | `default` | Notes                                                                                                                                                        |
+| ------------- | ---------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `colorScheme` | `light`, `dark`, `wireframe` | `light`   | Theme / appearance.                                                                                                                                          |
+| `scale`       | `desktop`, `mobile`          | `desktop` | Density scale. Legacy names; desktop = medium, mobile = large in W3C terminology.                                                                            |
+| `contrast`    | `regular`, `high`            | `regular` | Accessibility contrast level. iOS platform data authors `increased` as a synonym for `high` — treat the two as the same crosswalk term, not distinct values. |
 
 ## Mode Set catalog
 
@@ -44,6 +44,16 @@ The Spectrum foundation publishes mode set declarations as JSON files under `pac
 ## Optional mode sets
 
 Additional mode sets (e.g. `language`, `motion`) **MAY** be declared in a dataset's mode set catalog. Token name objects **MAY** include keys matching declared mode set names.
+
+A platform manifest **MAY** also declare or edit mode sets local to that platform, one entry per
+file under `extensions/mode-sets/` (see [Platform manifest — `extensions/`
+directory](manifest.md#extensions-directory)). An entry with no `op` uses **declare-or-replace-by-name** semantics, same as `extensions/fields/`: a new `name` adds a platform-local axis (e.g.
+`interfaceLevel`), while a `name` matching a foundation mode set replaces it for that platform only,
+leaving the foundation catalog untouched. `op: "addMode"` / `"removeMode"` / `"setDefault"` /
+`"remove"` instead edit an existing set in place — adding or dropping a single mode value,
+retargeting its default, or dropping the whole set — without restating its other modes. This is
+distinct from `modeSetRestrictions` (below), which only *narrows* the allowed values of an existing
+mode set at resolution time rather than editing the declared set itself.
 
 ## Defaults and specificity
 

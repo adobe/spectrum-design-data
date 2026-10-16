@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "platform-implementation",
+  "description": "Machine-readable ids for platform-manifest implementations (repos or in-monorepo directories that own a Layer 2 platform manifest.json). Distinct from platforms.json, which enumerates device targets (desktop/mobile/web/ios/android) referenced by token names — this registry enumerates concrete implementation projects a manifest's `platform` field may declare (spec/manifest.md#identity-fields). Referencing an id here is a SHOULD, not a MUST: a manifest may declare a `platform` value not yet listed while a new implementation is incubating.",
+  "values": [
+    {
+      "id": "react-spectrum",
+      "label": "React Spectrum",
+      "description": "Adobe's React implementation of Spectrum, incubating its platform manifest at platforms/react-spectrum/ ahead of an eventual hand-off to the React Spectrum team.",
+      "repository": "https://github.com/adobe/react-spectrum"
+    },
+    {
+      "id": "web-components",
+      "label": "Spectrum Web Components",
+      "description": "Adobe's Web Components implementation of Spectrum, incubating its platform manifest at platforms/web-components/ ahead of an eventual hand-off to the Spectrum Web Components team.",
+      "repository": "https://github.com/adobe/spectrum-web-components"
+    },
+    {
+      "id": "ios",
+      "label": "Spectrum iOS",
+      "description": "Adobe's iOS implementation of Spectrum, with its platform manifest already externalized (see epic h890.22).",
+      "repository": "https://github.com/GarthDB/spectrum-ios-design-data"
+    },
+    {
+      "id": "android",
+      "label": "Spectrum Android",
+      "description": "Adobe's Android implementation of Spectrum. No platform manifest exists yet (see epic h890.22.6, follow-up to the iOS work)."
+    }
+  ]
+}

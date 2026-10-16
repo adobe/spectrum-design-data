@@ -1,0 +1,9 @@
+{
+  "overrides": {
+    "font-size-1100": "Heading/Size/XXL",
+    "font-size-1300": "Heading/Size/XXXL",
+    "font-size-1500": "Heading/Size/XXXXL",
+    "font-size-700": "Heading/Size/L",
+    "font-size-900": "Heading/Size/XL"
+  }
+}

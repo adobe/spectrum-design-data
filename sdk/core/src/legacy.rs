@@ -134,16 +134,7 @@ pub fn convert_dir(input_dir: &Path, output_dir: &Path) -> Result<LegacySummary,
         }
 
         // Output file: strip `.tokens.json` or just `.json` → same stem + `.json`.
-        let stem = input_path
-            .file_name()
-            .and_then(|s| s.to_str())
-            .unwrap_or("tokens");
-        let out_stem = stem
-            .strip_suffix(".tokens.json")
-            .or_else(|| stem.strip_suffix(".json"))
-            .unwrap_or(stem);
-        let out_name = format!("{out_stem}.json");
-        let out_path = output_dir.join(out_name);
+        let out_path = output_dir.join(legacy_filename(input_path));
         let out_text = serde_json::to_string_pretty(&Value::Object(legacy))?;
         std::fs::write(&out_path, out_text + "\n")?;
 
@@ -172,7 +163,114 @@ pub fn convert_records(arr: &[Value]) -> Result<(Map<String, Value>, LegacySumma
     Ok((legacy, summary))
 }
 
-/// Build the UUID/set_uuid → legacy-name index used to resolve `$ref` and
+/// Convert a loaded (and optionally platform-cascaded) [`TokenGraph`] into one
+/// combined legacy token map.
+///
+/// Contrast-variant records share a `legacyKey` + `colorScheme` with their
+/// regular-contrast sibling, and [`convert_records`] groups sets by
+/// colorScheme/scale only, so non-default contrast records are skipped until
+/// legacy output learns a contrast set-dimension (spectrum-design-data-h890.17).
+pub fn convert_graph(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(Map<String, Value>, LegacySummary), CoreError> {
+    let (files, summary) = convert_graph_files(graph)?;
+    let mut combined = Map::new();
+    for (_, legacy) in files {
+        combined.extend(legacy);
+    }
+    Ok((combined, summary))
+}
+
+/// Legacy token maps keyed by output filename.
+pub type LegacyByFile = BTreeMap<String, Map<String, Value>>;
+
+/// Convert a graph into legacy token maps keyed by output filename.
+///
+/// Uses the same source-file grouping, cross-file reference index, and filename
+/// normalization as [`convert_dir`], excluding non-default contrast records as
+/// [`convert_graph`] does. Synthetic relationship lookup tokens are not exported:
+/// the original relationship records supply their complete mode sets instead.
+pub fn convert_graph_by_file(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(LegacyByFile, LegacySummary), CoreError> {
+    let (files, summary) = convert_graph_files(graph)?;
+    let output = files
+        .into_iter()
+        .map(|(path, legacy)| (legacy_filename(&path), legacy))
+        .collect();
+    Ok((output, summary))
+}
+
+type LegacyFiles = Vec<(std::path::PathBuf, Map<String, Value>)>;
+
+fn convert_graph_files(
+    graph: &crate::graph::TokenGraph,
+) -> Result<(LegacyFiles, LegacySummary), CoreError> {
+    let is_default_contrast = |v: &Value| {
+        v.get("name")
+            .and_then(|n| n.as_object())
+            .is_none_or(|n| !n.contains_key("contrast"))
+    };
+    // Convert per source file (as `convert_dir` does): set grouping is scoped
+    // to a file, so merging every file into one array changes which sets form.
+    let mut by_file: std::collections::BTreeMap<std::path::PathBuf, Vec<(usize, Value)>> =
+        std::collections::BTreeMap::new();
+    for t in graph.tokens.values() {
+        by_file
+            .entry(t.file.clone())
+            .or_default()
+            .push((t.index, t.raw.clone()));
+    }
+    for r in &graph.relationships {
+        by_file
+            .entry(r.file.clone())
+            .or_default()
+            .push((r.index, r.raw.clone()));
+    }
+
+    let mut files: Vec<(std::path::PathBuf, Vec<Value>)> = Vec::new();
+    for (path, mut rows) in by_file {
+        rows.sort_by_key(|(i, _)| *i);
+        files.push((
+            path,
+            rows.into_iter()
+                .map(|(_, v)| v)
+                .filter(is_default_contrast)
+                .collect::<Vec<_>>(),
+        ));
+    }
+
+    let mut global_uuid_to_name = HashMap::new();
+    for (_, arr) in &files {
+        global_uuid_to_name.extend(index_uuid_names(arr));
+    }
+    let mut summary = LegacySummary::default();
+    let mut output = Vec::new();
+    for (path, arr) in &files {
+        let legacy = convert_array(arr, &mut summary, &global_uuid_to_name)?;
+        if legacy.is_empty() {
+            continue;
+        }
+        summary.files_processed += 1;
+        summary.files_written += 1;
+        output.push((path.clone(), legacy));
+    }
+    Ok((output, summary))
+}
+
+fn legacy_filename(path: &Path) -> String {
+    let name = path
+        .file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or("tokens");
+    let stem = name
+        .strip_suffix(".tokens.json")
+        .or_else(|| name.strip_suffix(".json"))
+        .unwrap_or(name);
+    format!("{stem}.json")
+}
+
+/// Build the UUID/conceptId → legacy-name index used to resolve `$ref` and
 /// `replaced_by` targets, over every named token or CTR in `arr`.
 ///
 /// Shared by [`convert_dir`]'s cross-file pass-1 (accumulated across files)
@@ -195,8 +293,8 @@ fn index_uuid_names(arr: &[Value]) -> HashMap<String, String> {
             if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                 global_uuid_to_name.insert(uuid.to_string(), name.clone());
             }
-            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                global_uuid_to_name.insert(set_uuid.to_string(), name.clone());
+            if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                global_uuid_to_name.insert(concept_id.to_string(), name.clone());
             }
         }
     }
@@ -602,8 +700,8 @@ fn convert_array(
 /// A CTR has no `name` object — it has `scope` (`component`/`part`/`property`/
 /// `options`) plus a top-level `legacyKey`/`setUuid`/`setSchema` (camelCase,
 /// per `relationship.schema.json`) rather than the cascade token's nested
-/// `name.legacyKey` and snake_case `set_uuid`/`set_schema`. This function
-/// bridges that gap; everything downstream stays untouched.
+/// `name.legacyKey`, `conceptId`, and `set_schema`. This function bridges
+/// that gap; everything downstream stays untouched.
 ///
 /// Returns `None` when the CTR carries no `legacyKey` — relationship-only and
 /// net-new CTRs have no legacy counterpart and are filtered out here.
@@ -644,7 +742,7 @@ fn ctr_to_legacy_token(rel: &Map<String, Value>) -> Option<Map<String, Value>> {
         }
     }
     if let Some(v) = rel.get("setUuid") {
-        tok.insert("set_uuid".into(), v.clone());
+        tok.insert("conceptId".into(), v.clone());
     }
     if let Some(v) = rel.get("setSchema") {
         tok.insert("set_schema".into(), v.clone());
@@ -883,11 +981,11 @@ fn build_set_entry(
         outer.insert("component".into(), Value::String(c));
     }
 
-    // Recover the outer set-level UUID from the cascade tokens (stored as set_uuid).
-    if let Some(set_uuid) =
-        consistent_str_field(tokens, |t| t.get("set_uuid").and_then(|v| v.as_str()))
+    // Recover the outer set-level UUID from the cascade tokens (stored as conceptId).
+    if let Some(concept_id) =
+        consistent_str_field(tokens, |t| t.get("conceptId").and_then(|v| v.as_str()))
     {
-        outer.insert("uuid".into(), Value::String(set_uuid.to_string()));
+        outer.insert("uuid".into(), Value::String(concept_id.to_string()));
     }
 
     // Hoist lifecycle fields that are identical across all mode entries.
@@ -1074,6 +1172,64 @@ mod tests {
     }
 
     #[test]
+    fn graph_by_file_matches_canonical_convert_dir() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+        let graph = crate::graph::TokenGraph::from_json_dir(&root.join("tokens"))
+            .unwrap()
+            .with_relationships(
+                crate::graph::TokenGraph::load_spec_relationships(&root.join("relationships"))
+                    .unwrap(),
+            );
+        let (files, summary) = convert_graph_by_file(&graph).unwrap();
+        let output = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(format!(".legacy-output-regression-{}", std::process::id()));
+        std::fs::create_dir(&output).unwrap();
+        let dir_summary = convert_dir(&root.join("tokens"), &output).unwrap();
+        let expected: BTreeMap<String, Map<String, Value>> = discover_json_files(&output)
+            .unwrap()
+            .into_iter()
+            .map(|path| {
+                let value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+                (legacy_filename(&path), value)
+            })
+            .collect();
+        std::fs::remove_dir_all(&output).unwrap();
+        assert_eq!(files, expected);
+        assert_eq!(summary.tokens_produced, dir_summary.tokens_produced);
+        assert_eq!(summary.files_written, dir_summary.files_written);
+        assert!(files["picker.json"].contains_key("picker-border-width"));
+    }
+
+    #[test]
+    fn graph_by_file_preserves_grouping_refs_and_default_contrast() {
+        let graph = crate::graph::TokenGraph::from_pairs(vec![
+            (
+                "target".into(),
+                "palette.tokens.json".into(),
+                json!({"name": {"property": "target"}, "value": "#fff", "uuid": "target-id"}),
+            ),
+            (
+                "alias".into(),
+                "alias.json".into(),
+                json!({"name": {"property": "alias"}, "$ref": "target-id", "uuid": "alias-id"}),
+            ),
+            (
+                "contrast".into(),
+                "palette.tokens.json".into(),
+                json!({"name": {"property": "target", "contrast": "high"}, "value": "#000"}),
+            ),
+        ]);
+        let (files, summary) = convert_graph_by_file(&graph).unwrap();
+        assert_eq!(files.len(), 2);
+        assert_eq!(files["palette.json"]["target"]["value"], "#fff");
+        assert_eq!(files["alias.json"]["alias"]["value"], "{target}");
+        assert_eq!(summary.tokens_produced, 2);
+        let (flat, _) = convert_graph(&graph).unwrap();
+        let expected: Map<String, Value> = files.into_values().flatten().collect();
+        assert_eq!(flat, expected);
+    }
+
+    #[test]
     fn flat_ref_denormalizes_to_value() {
         let tok = obj(json!({
             "name": {"property": "swatch-border-color", "component": "swatch"},
@@ -1167,7 +1323,7 @@ mod tests {
             "setSchema": "color-set"
         }));
         let tok = ctr_to_legacy_token(&rel).unwrap();
-        assert_eq!(tok["set_uuid"], "set-0001");
+        assert_eq!(tok["conceptId"], "set-0001");
         assert_eq!(tok["set_schema"], "color-set");
         assert!(tok.get("setUuid").is_none());
         assert!(tok.get("setSchema").is_none());
@@ -1468,7 +1624,7 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "new-desktop-uuid-0001",
                 "uuid": "old-desktop-uuid-0001",
-                "set_uuid": "old-set-uuid-0001",
+                "conceptId": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
                 "lifecycle": {
                     "deprecatedIn": "unknown",
@@ -1480,7 +1636,7 @@ mod tests {
                 "$schema": ".../alias.json",
                 "$ref": "new-mobile-uuid-0001",
                 "uuid": "old-mobile-uuid-0001",
-                "set_uuid": "old-set-uuid-0001",
+                "conceptId": "old-set-uuid-0001",
                 "set_schema": ".../scale-set.json",
                 "lifecycle": {
                     "deprecatedIn": "unknown",
@@ -1507,8 +1663,8 @@ mod tests {
                 if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                     global.insert(uuid.to_string(), key.clone());
                 }
-                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                    global.insert(set_uuid.to_string(), key);
+                if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                    global.insert(concept_id.to_string(), key);
                 }
             }
         }
@@ -1576,8 +1732,8 @@ mod tests {
                 if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                     global.insert(uuid.to_string(), key.clone());
                 }
-                if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                    global.insert(set_uuid.to_string(), key);
+                if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                    global.insert(concept_id.to_string(), key);
                 }
             }
         }
@@ -1649,9 +1805,9 @@ mod tests {
 
     /// Regression: replaced_by pointing at a set token's outer UUID must resolve
     /// to `renamed` in the legacy output. Previously the global uuid_to_name map
-    /// only indexed per-mode UUIDs, so set_uuid entries were invisible.
+    /// only indexed per-mode UUIDs, so conceptId entries were invisible.
     #[test]
-    fn replaced_by_set_uuid_resolves_to_renamed() {
+    fn replaced_by_concept_id_resolves_to_renamed() {
         let arr = json!([
             // old-token: flat, deprecated, replaced_by the outer UUID of new-set.
             {
@@ -1664,29 +1820,29 @@ mod tests {
                     "replacedBy": "set-outer-uuid-0001"
                 }
             },
-            // new-set light mode: carries set_uuid = "set-outer-uuid-0001".
+            // new-set light mode: carries conceptId = "set-outer-uuid-0001".
             {
                 "name": {"property": "new-set", "colorScheme": "light"},
                 "$schema": ".../color.json",
                 "value": "#aaa",
                 "uuid": "new-0001",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             },
-            // new-set dark mode: same set_uuid.
+            // new-set dark mode: same conceptId.
             {
                 "name": {"property": "new-set", "colorScheme": "dark"},
                 "$schema": ".../color.json",
                 "value": "#111",
                 "uuid": "new-0002",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             },
-            // new-set wireframe mode: same set_uuid.
+            // new-set wireframe mode: same conceptId.
             {
                 "name": {"property": "new-set", "colorScheme": "wireframe"},
                 "$schema": ".../color.json",
                 "value": "#888",
                 "uuid": "new-0003",
-                "set_uuid": "set-outer-uuid-0001"
+                "conceptId": "set-outer-uuid-0001"
             }
         ]);
 
@@ -1698,8 +1854,8 @@ mod tests {
             if let Some(uuid) = tok.get("uuid").and_then(|v| v.as_str()) {
                 global.insert(uuid.to_string(), name.to_string());
             }
-            if let Some(set_uuid) = tok.get("set_uuid").and_then(|v| v.as_str()) {
-                global.insert(set_uuid.to_string(), name.to_string());
+            if let Some(concept_id) = tok.get("conceptId").and_then(|v| v.as_str()) {
+                global.insert(concept_id.to_string(), name.to_string());
             }
         }
 
@@ -1710,7 +1866,7 @@ mod tests {
         assert_eq!(
             old.get("renamed").and_then(|v| v.as_str()),
             Some("new-set"),
-            "replaced_by pointing at set_uuid should resolve to renamed"
+            "replaced_by pointing at conceptId should resolve to renamed"
         );
         assert_eq!(old["deprecated"], true);
         // new-set should have its outer UUID reconstructed.
@@ -1762,6 +1918,71 @@ mod tests {
         .unwrap();
         assert_eq!(button_out["button-color"]["uuid"], "dir-ctr-0001");
         assert_eq!(summary.flat_tokens, 2);
+    }
+
+    /// The five structure-prefixed keys (mra7) keep their original UUIDs and
+    /// values; the old unprefixed keys are distinct deprecated compat records.
+    #[test]
+    fn structure_prefixed_legacy_keys_survive_convert_graph() {
+        let src = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data/tokens");
+        assert!(
+            src.exists(),
+            "canonical token corpus missing: {}",
+            src.display()
+        );
+        let graph = crate::graph::TokenGraph::from_json_dir(&src).expect("load graph");
+        let (map, _) = convert_graph(&graph).expect("convert graph");
+
+        // (live key, original uuid, old key, compat uuid, value)
+        let cases = [
+            (
+                "banner-gap-horizontal",
+                "c0571c46-5946-4896-bcbf-270560de5385",
+                "gap-horizontal",
+                "88c10a5d-9495-44b2-8b03-e9283c79144b",
+                "{spacing-400}",
+            ),
+            (
+                "banner-gap-vertical",
+                "312ebac2-32a0-47a8-9c4e-e366b2232228",
+                "gap-vertical",
+                "952a4750-63b2-458e-81b1-bf00cb064934",
+                "{spacing-100}",
+            ),
+            (
+                "banner-padding-horizontal",
+                "eb386242-21c6-437b-8125-e6d4394dd9c5",
+                "padding-horizontal",
+                "f0749dc3-1649-4e6f-957e-c2194e191c88",
+                "{spacing-300}",
+            ),
+            (
+                "banner-padding-vertical",
+                "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+                "padding-vertical",
+                "9ae57860-2109-4f79-9230-7616e9898fd9",
+                "{spacing-200}",
+            ),
+            (
+                "list-gap-regular",
+                "b7e1af59-753e-4059-8f46-8d862f631ad8",
+                "gap-regular",
+                "c2408389-1e7e-4aae-8a49-d8b8233102c7",
+                "{spacing-75}",
+            ),
+        ];
+        for (live, live_uuid, old, old_uuid, value) in cases {
+            let l = map.get(live).unwrap_or_else(|| panic!("missing {live}"));
+            assert_eq!(l["uuid"], live_uuid, "{live} uuid");
+            assert_eq!(l["value"], value, "{live} value");
+            assert!(l.get("deprecated").is_none(), "{live} must stay live");
+            let o = map.get(old).unwrap_or_else(|| panic!("missing {old}"));
+            assert_eq!(o["uuid"], old_uuid, "{old} uuid");
+            assert_ne!(o["uuid"], l["uuid"]);
+            assert_eq!(o["value"], value, "{old} value");
+            assert_eq!(o["deprecated"], true, "{old} deprecated");
+        }
     }
 
     /// Integration test: full roundtrip against the real Spectrum token sources.

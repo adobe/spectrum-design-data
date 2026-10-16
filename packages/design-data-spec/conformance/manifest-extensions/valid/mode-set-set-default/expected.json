@@ -1,0 +1,6 @@
+{
+  "modeSets": {
+    "present": ["scale"],
+    "modes": { "scale": { "default": "tv" } }
+  }
+}

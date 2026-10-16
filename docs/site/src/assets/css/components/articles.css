@@ -1,0 +1,77 @@
+/*
+Copyright 2026 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+/* Filter group: real spacing rhythm instead of default button flow. */
+.article-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  margin-block-start: var(--spacing-large);
+  margin-block-end: var(--spacing-default);
+}
+
+/* List reset: this is a content list, not a bulleted one. */
+.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each entry reads as a row in a scannable index, not a stacked card. */
+.article-card {
+  padding-block: var(--spacing-default);
+  border-block-end: 1px solid var(--spectrum-gray-200);
+}
+
+.article-card:first-child {
+  padding-block-start: 0;
+}
+
+.article-card:last-child {
+  border-block-end: none;
+  padding-block-end: 0;
+}
+
+.article-card-title {
+  display: inline-block;
+  font-family: var(
+    --mod-heading-sans-serif-font-family,
+    var(--spectrum-heading-sans-serif-font-family)
+  );
+  font-weight: var(--spectrum-bold-font-weight);
+  font-size: var(--spectrum-heading-size-xs);
+  line-height: var(--spectrum-heading-line-height);
+}
+
+.article-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  margin-block-start: var(--spacing-small);
+}
+
+.article-card-date {
+  font-size: var(--spectrum-body-size-s);
+  color: var(--spectrum-gray-700);
+}
+
+.article-card-description {
+  margin-block-start: var(--spacing-small);
+  max-inline-size: 65ch;
+  color: var(--spectrum-gray-800);
+}
+
+@media screen and (max-width: 768px) {
+  .article-card-meta {
+    flex-wrap: wrap;
+  }
+}

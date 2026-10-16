@@ -19,8 +19,7 @@ pub mod component;
 pub mod data_source;
 pub mod diff;
 pub mod discovery;
-#[cfg(feature = "figma")]
-pub mod figma;
+pub mod export;
 pub mod graph;
 pub mod legacy;
 pub mod manifest;
@@ -88,7 +87,8 @@ mod tests {
 
     #[test]
     fn structural_validates_spectrum_token_sources() {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+        let schemas =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
         let src = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/src");
         let registry = SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load");
         let report = validate_structural(&src, &registry).expect("validate");
@@ -194,6 +194,25 @@ mod relational_conformance {
             modes: vec!["medium".into(), "large".into()],
             default_mode: "xlarge".into(),
         }]);
+        assert!(!diagnostics_for_rule(&g, "SPEC-005").is_empty());
+    }
+
+    /// A manifest-declared mode set (`extensions.modeSets`) is validated by SPEC-005
+    /// the same as a foundation one — the rule just walks `graph.mode_sets`
+    /// regardless of how a record got there.
+    #[test]
+    fn spec005_catches_manifest_declared_mode_set_bad_default() {
+        let mut g = TokenGraph::default();
+        let manifest = json!({
+            "specVersion": "1.0.0-draft",
+            "foundationVersion": "1.0.0",
+            "extensions": {
+                "modeSets": [
+                    {"name": "interfaceLevel", "modes": ["base", "elevated"], "default": "raised"}
+                ]
+            }
+        });
+        g.apply_platform_manifest(&manifest).unwrap();
         assert!(!diagnostics_for_rule(&g, "SPEC-005").is_empty());
     }
 
@@ -600,7 +619,7 @@ mod validation_conformance {
 
     fn load_naming_exceptions() -> HashSet<String> {
         let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../../packages/tokens/naming-exceptions.json");
+            .join("../../packages/design-data/naming-exceptions.json");
         NamingExceptionsFile::load(&path)
             .map(|f| f.token_set())
             .unwrap_or_default()
@@ -907,6 +926,526 @@ mod dataset_structure_conformance {
             errors.is_empty(),
             "expected no errors for valid SPEC-044 fixture, got: {errors:?}"
         );
+    }
+}
+
+/// Manifest extensions conformance — schema/error harness for the Layer 2
+/// platform manifest's `extensions/` directory loader (h890.26.4).
+///
+/// Fixtures live under
+/// `packages/design-data-spec/conformance/manifest-extensions/{valid,invalid}/<case>/`:
+/// each is a `manifest.json` + `extensions/` tree applied (via
+/// [`crate::manifest::apply_configured`]) against the shared
+/// `manifest-extensions/base/dataset.json` seed graph (the same 3-token
+/// button/checkbox shape as `manifest.rs`'s test-only `make_graph`).
+/// `valid/*` must apply cleanly; `invalid/*` must return an `Err` whose
+/// message matches every `message_pattern` in that case's
+/// `expected-errors.json`. See [`manifest_extensions_behavior`] for the
+/// companion post-apply graph-state harness.
+#[cfg(test)]
+mod manifest_extensions_conformance {
+    use std::path::{Path, PathBuf};
+
+    use regex::Regex;
+    use serde_json::Value;
+
+    use crate::data_source::{Provenance, ResolvedData};
+    use crate::graph::{ComponentRecord, Layer, TokenGraph};
+    use crate::manifest::apply_configured;
+    use crate::CoreError;
+
+    pub(crate) fn family_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../packages/design-data-spec/conformance/manifest-extensions")
+    }
+
+    /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
+    /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors
+    /// `manifest.rs`'s test-only `repo_schemas_root`.
+    fn repo_schemas_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas")
+    }
+
+    /// Load `base/dataset.json` (`{"tokens": [{"key": ..., ...}, ...],
+    /// "components": [...]}`) into a [`TokenGraph`] via
+    /// [`TokenGraph::from_pairs`], using each token's `key` field as the graph
+    /// key, plus any foundation-layer `components`.
+    fn base_graph() -> TokenGraph {
+        let path = family_root().join("base/dataset.json");
+        let dataset: Value = serde_json::from_str(
+            &std::fs::read_to_string(&path)
+                .unwrap_or_else(|e| panic!("failed to read {}: {e}", path.display())),
+        )
+        .unwrap_or_else(|e| panic!("invalid {}: {e}", path.display()));
+        let pairs = dataset["tokens"]
+            .as_array()
+            .expect("base dataset.json has a top-level \"tokens\" array")
+            .iter()
+            .map(|t| {
+                let key = t["key"]
+                    .as_str()
+                    .expect("each base token has a \"key\"")
+                    .to_string();
+                (key, PathBuf::from("dataset.json"), t.clone())
+            })
+            .collect();
+        let components = dataset
+            .get("components")
+            .and_then(|v| v.as_array())
+            .into_iter()
+            .flatten()
+            .map(|c| ComponentRecord {
+                name: c["name"]
+                    .as_str()
+                    .expect("each base component has a \"name\"")
+                    .to_string(),
+                file: PathBuf::from("dataset.json"),
+                raw: c.clone(),
+                layer: Layer::Foundation,
+            })
+            .collect();
+        TokenGraph::from_pairs(pairs).with_components(components)
+    }
+
+    /// Build the base graph and resolve+apply `<dir>/manifest.json` against it
+    /// via `apply_configured`, returning the resulting graph on success.
+    pub(crate) fn apply_case(dir: &Path) -> Result<TokenGraph, CoreError> {
+        let mut graph = base_graph();
+        let resolved = ResolvedData {
+            tokens_root: PathBuf::from("tokens"),
+            schemas_root: repo_schemas_root(),
+            mode_sets: None,
+            components: None,
+            fields: None,
+            guidelines: None,
+            relationships: None,
+            exceptions: None,
+            platform_manifest: Some(dir.join("manifest.json")),
+            provenance: Provenance::InRepo,
+        };
+        apply_configured(&mut graph, &resolved).map(|_| graph)
+    }
+
+    fn case_dirs(dir: &Path) -> Vec<PathBuf> {
+        let mut cases: Vec<PathBuf> = std::fs::read_dir(dir)
+            .unwrap_or_else(|e| panic!("{} missing: {e}", dir.display()))
+            .filter_map(|e| e.ok())
+            .map(|e| e.path())
+            .filter(|p| p.is_dir())
+            .collect();
+        cases.sort();
+        cases
+    }
+
+    #[test]
+    fn valid_cases_apply_cleanly() {
+        let mut failures = Vec::new();
+        for dir in case_dirs(&family_root().join("valid")) {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            if let Err(e) = apply_case(&dir) {
+                failures.push(format!("{case}: expected Ok, got Err: {e}"));
+            }
+        }
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+
+    #[test]
+    fn boolean_component_option_value_aliases_are_rejected() {
+        let source = family_root().join("valid/injects-component-option-extension");
+        let dir = tempfile::tempdir().expect("create boolean option alias fixture");
+        let components = dir.path().join("extensions/components");
+        let platform_extensions = dir.path().join("extensions/platform-extensions");
+        std::fs::create_dir_all(&components).unwrap();
+        std::fs::create_dir_all(&platform_extensions).unwrap();
+        std::fs::copy(
+            source.join("manifest.json"),
+            dir.path().join("manifest.json"),
+        )
+        .unwrap();
+        std::fs::copy(
+            source.join("extensions/components/button.json"),
+            components.join("button.json"),
+        )
+        .unwrap();
+        let extension = serde_json::json!({
+            "platform": "Web Components",
+            "componentOptions": [{
+                "component": "button",
+                "option": "isDisabled",
+                "platformProp": "disabled",
+                "values": [{"value": "true", "platformValue": "true"}]
+            }]
+        });
+        std::fs::write(
+            platform_extensions.join("broken.json"),
+            serde_json::to_vec(&extension).unwrap(),
+        )
+        .unwrap();
+
+        let error = apply_case(dir.path())
+            .expect_err("boolean options without canonical values must reject value aliases");
+        match error {
+            CoreError::ParseError(message) => assert_eq!(
+                message,
+                "platform manifest extensions.platformExtensions (Web Components) \
+                 componentOptions maps values for option \"isDisabled\" on component \
+                 \"button\", which has no canonical values"
+            ),
+            other => panic!("expected the no-canonical-values parse error, got: {other}"),
+        }
+    }
+
+    #[test]
+    fn invalid_cases_match_expected_errors() {
+        let mut failures = Vec::new();
+        for dir in case_dirs(&family_root().join("invalid")) {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let expected_path = dir.join("expected-errors.json");
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected-errors.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected-errors.json: {e}"));
+            let patterns: Vec<String> = expected
+                .get("errors")
+                .and_then(|v| v.as_array())
+                .cloned()
+                .unwrap_or_default()
+                .iter()
+                .filter_map(|e| {
+                    e.get("message_pattern")
+                        .and_then(|v| v.as_str())
+                        .map(String::from)
+                })
+                .collect();
+
+            match apply_case(&dir) {
+                Ok(_) => failures.push(format!("{case}: expected Err, got Ok")),
+                Err(e) => {
+                    let msg = e.to_string();
+                    for pattern in &patterns {
+                        let re = Regex::new(pattern).unwrap_or_else(|e| {
+                            panic!("{case}: invalid message_pattern {pattern:?}: {e}")
+                        });
+                        if !re.is_match(&msg) {
+                            failures.push(format!(
+                                "{case}: error message did not match pattern {pattern:?}\n  Got: {msg}"
+                            ));
+                        }
+                    }
+                }
+            }
+        }
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
+    }
+}
+
+/// Manifest extensions behavior harness — asserts `expected.json` predicates
+/// (relationship `byUuid` count/value, `absent` uuids, component/field/
+/// guideline presence by name, token load order by uuid) against the
+/// post-`apply_configured` graph state for `valid/*`
+/// [`manifest_extensions_conformance`] cases that carry them. Cases whose
+/// `expected.json` is `{}` (loads-clean only) are skipped here — they're
+/// fully covered by `manifest_extensions_conformance::valid_cases_apply_cleanly`.
+#[cfg(test)]
+mod manifest_extensions_behavior {
+    use std::path::PathBuf;
+
+    use serde_json::Value;
+
+    use super::manifest_extensions_conformance::{apply_case, family_root};
+
+    #[test]
+    fn valid_case_predicates_hold() {
+        let base = family_root().join("valid");
+        let mut cases: Vec<PathBuf> = std::fs::read_dir(&base)
+            .unwrap_or_else(|e| panic!("{} missing: {e}", base.display()))
+            .filter_map(|e| e.ok())
+            .map(|e| e.path())
+            .filter(|p| p.is_dir())
+            .collect();
+        cases.sort();
+
+        let mut failures = Vec::new();
+        for dir in cases {
+            let case = dir.file_name().unwrap().to_string_lossy().to_string();
+            let expected_path = dir.join("expected.json");
+            let expected: Value = serde_json::from_str(
+                &std::fs::read_to_string(&expected_path)
+                    .unwrap_or_else(|e| panic!("{case}: failed to read expected.json: {e}")),
+            )
+            .unwrap_or_else(|e| panic!("{case}: invalid expected.json: {e}"));
+
+            if expected.as_object().is_none_or(|o| o.is_empty()) {
+                continue; // "loads clean" only — no predicates to check here.
+            }
+
+            let graph = match apply_case(&dir) {
+                Ok(g) => g,
+                Err(e) => {
+                    failures.push(format!("{case}: apply_configured failed: {e}"));
+                    continue;
+                }
+            };
+
+            if let Some(rel) = expected.get("relationships") {
+                if let Some(by_uuid) = rel.get("byUuid").and_then(|v| v.as_object()) {
+                    for (uuid, spec) in by_uuid {
+                        let matching: Vec<_> = graph
+                            .relationships
+                            .iter()
+                            .filter(|r| r.uuid.as_deref() == Some(uuid.as_str()))
+                            .collect();
+                        if let Some(count) = spec.get("count").and_then(|v| v.as_u64()) {
+                            if matching.len() as u64 != count {
+                                failures.push(format!(
+                                    "{case}: relationship {uuid} expected count {count}, got {}",
+                                    matching.len()
+                                ));
+                            }
+                        }
+                        if let Some(value) = spec.get("value") {
+                            match matching.as_slice() {
+                                [only] if only.raw.get("value") == Some(value) => {}
+                                _ => failures.push(format!(
+                                    "{case}: relationship {uuid} expected a single match with value {value}, got {:?}",
+                                    matching.iter().map(|r| &r.raw).collect::<Vec<_>>()
+                                )),
+                            }
+                        }
+                    }
+                }
+                if let Some(absent) = rel.get("absent").and_then(|v| v.as_array()) {
+                    for uuid in absent.iter().filter_map(|v| v.as_str()) {
+                        if graph
+                            .relationships
+                            .iter()
+                            .any(|r| r.uuid.as_deref() == Some(uuid))
+                        {
+                            failures.push(format!(
+                                "{case}: expected relationship {uuid} absent, but present"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(by_component) = expected.get("implementations").and_then(|v| v.as_object())
+            {
+                for (name, want) in by_component {
+                    let got = graph
+                        .components
+                        .iter()
+                        .find(|c| &c.name == name)
+                        .and_then(|c| c.raw.get("implementations"));
+                    if got != Some(want) {
+                        failures.push(format!(
+                            "{case}: component {name:?} implementations expected {want}, got {got:?}"
+                        ));
+                    }
+                }
+            }
+
+            if let Some(present) = expected
+                .get("platformExtensions")
+                .and_then(|p| p.get("present"))
+                .and_then(|v| v.as_array())
+            {
+                for want in present {
+                    let platform = want.get("platform").and_then(|v| v.as_str());
+                    let extends = want.get("extends").and_then(|v| v.as_str());
+                    let term_id = want.get("termId").and_then(|v| v.as_str());
+                    let platform_term = want.get("platformTerm").and_then(|v| v.as_str());
+
+                    let Some(record) = graph.platform_extensions.iter().find(|r| {
+                        Some(r.platform.as_str()) == platform && Some(r.extends.as_str()) == extends
+                    }) else {
+                        failures.push(format!(
+                            "{case}: expected platform extension {platform:?}/{extends:?}, not found"
+                        ));
+                        continue;
+                    };
+
+                    if let Some(term_id) = term_id {
+                        let matched = record
+                            .raw
+                            .get("extensions")
+                            .and_then(|v| v.as_array())
+                            .is_some_and(|terms| {
+                                terms.iter().any(|t| {
+                                    t.get("termId").and_then(|v| v.as_str()) == Some(term_id)
+                                        && (platform_term.is_none()
+                                            || t.get("platformTerm").and_then(|v| v.as_str())
+                                                == platform_term)
+                                })
+                            });
+                        if !matched {
+                            failures.push(format!(
+                                "{case}: platform extension {platform:?}/{extends:?} missing term {term_id:?} (platformTerm {platform_term:?})"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(present) = expected
+                .get("componentOptionExtensions")
+                .and_then(|p| p.get("present"))
+                .and_then(|v| v.as_array())
+            {
+                for want in present {
+                    let platform = want.get("platform").and_then(|v| v.as_str());
+                    let component = want.get("component").and_then(|v| v.as_str());
+                    let option = want.get("option").and_then(|v| v.as_str());
+                    let platform_prop = want.get("platformProp").and_then(|v| v.as_str());
+
+                    let Some(record) = graph.component_option_extensions.iter().find(|r| {
+                        Some(r.platform.as_str()) == platform
+                            && Some(r.component.as_str()) == component
+                            && Some(r.option.as_str()) == option
+                    }) else {
+                        failures.push(format!(
+                            "{case}: expected component option extension {platform:?}/{component:?}/{option:?}, not found"
+                        ));
+                        continue;
+                    };
+
+                    if let Some(platform_prop) = platform_prop {
+                        let actual = record.raw.get("platformProp").and_then(|v| v.as_str());
+                        if actual != Some(platform_prop) {
+                            failures.push(format!(
+                                "{case}: component option extension {platform:?}/{component:?}/{option:?} expected platformProp {platform_prop:?}, got {actual:?}"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            for (key, records_len) in [
+                (
+                    "components",
+                    &graph
+                        .components
+                        .iter()
+                        .map(|c| c.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "fields",
+                    &graph
+                        .fields
+                        .iter()
+                        .map(|f| f.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "guidelines",
+                    &graph
+                        .guidelines
+                        .iter()
+                        .map(|g| g.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    "modeSets",
+                    &graph
+                        .mode_sets
+                        .iter()
+                        .map(|m| m.name.clone())
+                        .collect::<Vec<_>>(),
+                ),
+            ] {
+                if let Some(present) = expected
+                    .get(key)
+                    .and_then(|c| c.get("present"))
+                    .and_then(|v| v.as_array())
+                {
+                    for name in present.iter().filter_map(|v| v.as_str()) {
+                        let count = records_len.iter().filter(|n| n.as_str() == name).count();
+                        if count != 1 {
+                            failures.push(format!(
+                                "{case}: expected exactly one {key} named {name:?}, found {count}"
+                            ));
+                        }
+                    }
+                }
+                if let Some(absent) = expected
+                    .get(key)
+                    .and_then(|c| c.get("absent"))
+                    .and_then(|v| v.as_array())
+                {
+                    for name in absent.iter().filter_map(|v| v.as_str()) {
+                        if records_len.iter().any(|n| n.as_str() == name) {
+                            failures.push(format!(
+                                "{case}: expected no {key} named {name:?}, but found one"
+                            ));
+                        }
+                    }
+                }
+            }
+
+            if let Some(mode_sets) = expected.get("modeSets") {
+                if let Some(modes) = mode_sets.get("modes").and_then(|v| v.as_object()) {
+                    for (name, want) in modes {
+                        let Some(record) = graph.mode_sets.iter().find(|m| &m.name == name) else {
+                            failures.push(format!(
+                                "{case}: expected mode set {name:?} present to check modes/default"
+                            ));
+                            continue;
+                        };
+                        if let Some(want_modes) = want.get("modes").and_then(|v| v.as_array()) {
+                            let want_modes: Vec<&str> =
+                                want_modes.iter().filter_map(|v| v.as_str()).collect();
+                            if record.modes != want_modes {
+                                failures.push(format!(
+                                    "{case}: mode set {name:?} expected modes {want_modes:?}, got {:?}",
+                                    record.modes
+                                ));
+                            }
+                        }
+                        if let Some(want_default) = want.get("default").and_then(|v| v.as_str()) {
+                            if record.default_mode != want_default {
+                                failures.push(format!(
+                                    "{case}: mode set {name:?} expected default {want_default:?}, got {:?}",
+                                    record.default_mode
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+
+            if let Some(order) = expected
+                .get("tokens")
+                .and_then(|t| t.get("orderByUuid"))
+                .and_then(|v| v.as_array())
+            {
+                let uuids: Vec<&str> = order.iter().filter_map(|v| v.as_str()).collect();
+                let mut last_file: Option<PathBuf> = None;
+                for uuid in &uuids {
+                    let Some(record) = graph
+                        .tokens
+                        .values()
+                        .find(|t| t.uuid.as_deref() == Some(*uuid))
+                    else {
+                        failures.push(format!(
+                            "{case}: expected token uuid {uuid} present, not found"
+                        ));
+                        continue;
+                    };
+                    if let Some(prev) = &last_file {
+                        if &record.file < prev {
+                            failures.push(format!(
+                                "{case}: token uuid {uuid} loaded out of sorted-path order"
+                            ));
+                        }
+                    }
+                    last_file = Some(record.file.clone());
+                }
+            }
+        }
+
+        assert!(failures.is_empty(), "{}", failures.join("\n"));
     }
 }
 

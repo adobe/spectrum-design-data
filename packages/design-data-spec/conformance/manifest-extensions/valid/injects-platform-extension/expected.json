@@ -1,0 +1,12 @@
+{
+  "platformExtensions": {
+    "present": [
+      {
+        "platform": "iOS",
+        "extends": "states",
+        "termId": "default",
+        "platformTerm": "normal"
+      }
+    ]
+  }
+}

@@ -1,5 +1,78 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.5.1
+
+### Patch Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
+## 15.5.0
+
+### Minor Changes
+
+- [#1517](https://github.com/adobe/spectrum-design-data/pull/1517) [`e693b15`](https://github.com/adobe/spectrum-design-data/commit/e693b15fb1d233b6f70aed2a85532afdf949c8eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the `structure` field being silently dropped from generated legacy token
+  keys, which broke five banner/list gap and padding tokens.
+  - **fields/structure.json**: remove `excludeFromLegacyKey: true`; `structure`
+    now participates in legacy key generation like any other field.
+  - **layout.tokens.json**: regenerates `gap-horizontal`, `gap-vertical`,
+    `padding-horizontal`, `padding-vertical` to `banner-gap-horizontal`,
+    `banner-gap-vertical`, `banner-padding-horizontal`, `banner-padding-vertical`;
+    regenerates `gap-regular` to `list-gap-regular`. The five old generic keys
+    are kept as deprecated aliases (`renamed` to their corrected names) so no
+    existing consumer breaks.
+  - **spectrum-tokens**: `packages/tokens/src/layout.json` and the six files
+    aliasing these tokens are regenerated with the corrected names.
+
+## 15.4.1
+
+### Patch Changes
+
+- [#1452](https://github.com/adobe/spectrum-design-data/pull/1452) [`d88be4e`](https://github.com/adobe/spectrum-design-data/commit/d88be4e0204abb31d9f02ce680acd0fe478057a7) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct `stack-item-selected-background-color-down` to gray-200 (discussion #1415).
+  - **packages/design-data/relationships/stack-item.json**: rewired selected-down
+    background from gray-300 to gray-200, matching hover/key-focus — S2's down states
+    don't darken further, unlike S1. Regenerated legacy `packages/tokens/src/stack-item.json`
+    follows automatically.
+
+## 15.4.0
+
+### Minor Changes
+
+- [#1440](https://github.com/adobe/spectrum-design-data/pull/1440) [`fab8733`](https://github.com/adobe/spectrum-design-data/commit/fab873306f0798c8a2f3d532e6df4eca4e0b7460) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct desktop `base-padding-horizontal` values for large/extra-large/2x-large
+  to match the design decision confirmed in Figma/Tokens Studio (closes DNA-1926).
+  - **packages/tokens/src/layout.json**: `base-padding-horizontal-large` 14px→16px,
+    `base-padding-horizontal-extra-large` 16px→18px, `base-padding-horizontal-2x-large`
+    18px→20px (desktop scale only; mobile unchanged). Regenerated from the cascade
+    source fixed in #1438, which shipped without a changeset for this package.
+
+## 15.3.0
+
+### Minor Changes
+
+- [#1428](https://github.com/adobe/spectrum-design-data/pull/1428) [`6005339`](https://github.com/adobe/spectrum-design-data/commit/6005339a0678226eee3e827fd5bbfa793f5bccc7) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a canonical `conceptId` UUID shared by every mode row of a design concept (closes the
+  concept-identity gap in proposal 013), and retire the transitional `set_uuid` cascade-migration
+  bridge field in the same release now that `conceptId` fully subsumes its role.
+  - **packages/tokens/schemas/token-types/alias.json**: removed `set_uuid`; `conceptId` was
+    already documented alongside `uuid` on the token schema.
+  - **packages/design-data/tokens/\*.tokens.json**: backfilled `conceptId` on every token
+    (reusing existing `set_uuid` values where present) and removed `set_uuid`.
+  - **sdk/core/src/{graph,legacy,migrate,figma/import}.rs**: re-keyed concept grouping,
+    legacy-output reconstruction, migration, and Figma import onto `conceptId`; CTR-side
+    camelCase `setUuid`/`setSchema` bridging is unchanged. `set_schema` is retained as-is —
+    it encodes set-type, not concept identity.
+  - **sdk/core/src/validate/rules/spec059.rs** (new): `alias-mode-context-compatibility`,
+    a mode analogue of SPEC-002 flagging an alias pinned to a mode-mismatched target.
+  - **spec/{cascade,token-format}.md**: normativize `conceptId` and context-aware `$ref`
+    resolution against a `conceptId` anchor.
+  - **conformance fixtures**: renamed `set_uuid` → `conceptId` throughout.
+
 ## 15.2.0
 
 ### Minor Changes

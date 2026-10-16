@@ -20,6 +20,7 @@ The source-of-truth direction is already normative in [Evolution](evolution.md#l
 
 * Specifying the *output format* of generated artifacts. Legacy format mapping is defined in [Evolution — Legacy format contract](evolution.md#legacy-format-contract); DTCG and StyleDictionary outputs are deferred (RFC [#627](https://github.com/adobe/spectrum-design-data/discussions/627)).
 * Specifying the *consumer-facing API* of published packages (`@adobe/spectrum-tokens`, platform SDKs). Those are separately governed.
+* Restating the full semantics of external implementation contracts already owned by their native standards or package ecosystems. This spec links to authoritative sources instead of duplicating their normative rules.
 * Specifying the *UI* of the authoring tools; this document defines behavioral contracts, not user-interface design.
 * Multi-user collaboration, permissions models, and Figma sync direction (open questions in RFC [#625](https://github.com/adobe/spectrum-design-data/discussions/625)).
 

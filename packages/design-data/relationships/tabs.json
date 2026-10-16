@@ -45,7 +45,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "1d601d0a-d6d0-4711-9fb9-71898c2bcc9a"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -53,7 +53,7 @@
       "property": "space-between"
     },
     "context": "Spacing (icon to label)",
-    "$ref": "09d55113-8d94-429f-b0c8-ffabe8ccba27"
+    "$ref": "9898011f-a47c-4d5d-a74e-70b5f8d0b91c"
   },
   {
     "scope": {
@@ -61,7 +61,7 @@
       "property": "top-to-workflow-icon-compact-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "7788c25c-0ce2-4170-8c5f-2fb1d98d953a"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -69,7 +69,7 @@
       "property": "top-to-workflow-icon-compact-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "4fb0520b-8c74-4fb7-b279-a3586a06a57e"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -77,7 +77,7 @@
       "property": "top-to-workflow-icon-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "aec60dda-9e5a-40c8-8e45-5e1662eab6e3"
+    "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"
   },
   {
     "scope": {
@@ -85,7 +85,7 @@
       "property": "top-to-workflow-icon-medium"
     },
     "context": "Spacing (top/bottom to edge, workflow icon only)",
-    "$ref": "820baccf-af24-42a3-9729-99408bc9322f"
+    "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"
   },
   {
     "scope": {
@@ -101,7 +101,7 @@
       "property": "top-to-text-compact-medium"
     },
     "context": "Spacing (top edge to label)",
-    "$ref": "2481e3a1-302b-46b8-98c2-e9461dd47d0c"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -109,7 +109,7 @@
       "property": "top-to-text-compact-medium"
     },
     "context": "Spacing (top edge to label)",
-    "$ref": "128757b0-d690-4886-95d5-e9df36182a0f"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -117,7 +117,7 @@
       "property": "top-to-text-medium"
     },
     "context": "Spacing (top edge to label)",
-    "$ref": "e75e4e96-6d1b-4a86-9059-5c1f6f6ab269"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -125,7 +125,7 @@
       "property": "top-to-text-medium"
     },
     "context": "Spacing (top edge to label)",
-    "$ref": "a8c455e9-60e5-4838-bc9c-eaf7b39a4bf7"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -133,7 +133,7 @@
       "property": "bottom-to-text-compact-medium"
     },
     "context": "Spacing (bottom edge to label)",
-    "$ref": "b44bbd5a-ef03-4e83-a9f5-88c896969d4d"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -141,7 +141,7 @@
       "property": "bottom-to-text-compact-medium"
     },
     "context": "Spacing (bottom edge to label)",
-    "$ref": "e69dee42-92da-4ca9-9eb8-97a7860adaba"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -149,7 +149,7 @@
       "property": "bottom-to-text-medium"
     },
     "context": "Spacing (bottom edge to label)",
-    "$ref": "f507e1bd-f08e-42b1-aee6-ea38f9f8a387"
+    "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"
   },
   {
     "scope": {
@@ -157,7 +157,7 @@
       "property": "bottom-to-text-medium"
     },
     "context": "Spacing (bottom edge to label)",
-    "$ref": "691db84a-5336-4e45-bf73-ee617057e718"
+    "$ref": "71a2a059-e5d7-4965-a4c0-5ed1fee74c6a"
   },
   {
     "scope": {
@@ -165,7 +165,7 @@
       "property": "to-tab-item-horizontal-medium"
     },
     "context": "Spacing (between tab items, horizontal)",
-    "$ref": "31bea7d1-c8c2-4901-9f18-7a5c936d243f"
+    "$ref": "7a5f3049-0c20-4ff8-84ea-d161e58546fb"
   },
   {
     "scope": {
@@ -173,7 +173,7 @@
       "property": "to-tab-item-horizontal-medium"
     },
     "context": "Spacing (between tab items, horizontal)",
-    "$ref": "885a7cc3-8873-4cb7-99e7-b17f42fb48f1"
+    "$ref": "7a5f3049-0c20-4ff8-84ea-d161e58546fb"
   },
   {
     "scope": {
@@ -189,7 +189,7 @@
       "property": "gap"
     },
     "context": "Focus ring",
-    "$ref": "693651ef-71c7-4096-91a5-1c84cb861021"
+    "$ref": "fb035d45-e63b-4cd4-b220-675a52e99399"
   },
   {
     "scope": {

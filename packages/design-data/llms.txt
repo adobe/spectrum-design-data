@@ -1,0 +1,27 @@
+# @adobe/spectrum-design-data
+
+> Spectrum design tokens in cascade format — the canonical source of truth for @adobe/spectrum-tokens
+
+Spectrum design tokens in **cascade format** — the canonical source of truth
+for [`@adobe/spectrum-tokens`](../tokens).
+
+## Install
+
+`npm install @adobe/spectrum-design-data`
+
+## Documentation
+
+- [README](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md): usage and API overview
+- [What is the cascade format?](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#what-is-the-cascade-format)
+- [Relationship to `@adobe/spectrum-tokens`](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#relationship-to-adobespectrum-tokens)
+- [Token corpus](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#token-corpus)
+- [Name-object quality](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#name-object-quality)
+- [moon tasks](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#moon-tasks)
+- [Consuming the cascade format](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/README.md#consuming-the-cascade-format)
+- [Repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md): how this package fits in the repository
+
+## Optional
+
+- [Changelog](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/CHANGELOG.md)
+- [npm package](https://www.npmjs.com/package/@adobe/spectrum-design-data)
+- [Source](https://github.com/adobe/spectrum-design-data/blob/main/packages/design-data/)

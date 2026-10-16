@@ -2531,8 +2531,10 @@ const STATES_JSON: &str = r##"{
     {
       "id": "active",
       "label": "Active",
+      "aliases": ["pressed"],
       "description": "Active or pressed state",
-      "usedIn": ["component-options", "component-schemas"]
+      "usedIn": ["component-options", "component-schemas"],
+      "relatedTerms": ["down"]
     },
     {
       "id": "focus",
@@ -2603,7 +2605,8 @@ const STATES_JSON: &str = r##"{
       "id": "down",
       "label": "Down",
       "description": "Pressed or down state (mouse button down)",
-      "usedIn": ["tokens", "component-schemas"]
+      "usedIn": ["tokens", "component-schemas"],
+      "relatedTerms": ["active"]
     },
     {
       "id": "pending",
@@ -3358,7 +3361,7 @@ pub(crate) fn build_field_catalog() -> Vec<FieldCatalogEntry> {
     vec![
         FieldCatalogEntry { name: "variant", position: 0, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "component", position: 1, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
-        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: true },
+        FieldCatalogEntry { name: "structure", position: 2, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "substructure", position: 3, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "anatomy", position: 4, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },
         FieldCatalogEntry { name: "object", position: 5, validation: FieldValidation::Advisory, scope: None, required: false, has_registry: true, value_type: "string", exclude_from_legacy_key: false },

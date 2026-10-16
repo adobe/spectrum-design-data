@@ -106,6 +106,10 @@ tasks:
       - sdk:build
     inputs:
       - "@globs(sources)"
+      - "/packages/design-data/tokens/**/*.tokens.json"
+      - "/packages/design-data/relationships/**/*.json"
+      - "/packages/design-data/registry/**/*.json"
+      - "/packages/design-data/fields/**/*.json"
   test:
     command:
       - pnpm
