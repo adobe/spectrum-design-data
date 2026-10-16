@@ -83,6 +83,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "side-navigation",
     "uuid": "ea8b6bf1-d848-42ee-b388-b757ced4e96f",
+    "deprecated": true,
+    "deprecated_comment": "This token was originally hard coded as 18px, but seemingly aligns with workflow icon & visual-size of the side nav item.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -94,13 +96,16 @@
         "value": "22px",
         "uuid": "dfae987d-8f6c-4b2c-a01b-3a010581488d"
       }
-    }
+    },
+    "renamed": "base-visual-size-medium"
   },
   "side-navigation-indicator-thickness": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "side-navigation",
     "value": "2px",
-    "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6"
+    "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale."
   },
   "side-navigation-indicator-to-content": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -184,6 +189,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "side-navigation",
     "uuid": "457ff3f5-031a-4683-9579-aa0da4c49bc2",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-minimum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -195,7 +202,8 @@
         "value": "180px",
         "uuid": "ad835d79-64d9-4183-ace0-912c87fc2241"
       }
-    }
+    },
+    "renamed": "list-item-minimum-width-small"
   },
   "side-navigation-second-level-edge-to-indicator": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -381,6 +389,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "side-navigation",
     "uuid": "3550c39d-b2c9-434d-bab1-d37c560f5e49",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-width token; only current consumer, no size suffix needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -392,7 +402,8 @@
         "value": "240px",
         "uuid": "3bc5710f-5fd7-4cce-a3c2-f1e45deee2b2"
       }
-    }
+    },
+    "renamed": "list-width"
   },
   "side-navigation-with-icon-second-level-edge-to-text": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -898,6 +898,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "34dfc670-7333-40fc-96e0-93a466273634",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -909,13 +911,16 @@
         "value": "70px",
         "uuid": "c2e3068b-c0be-4615-bbf7-c65e58ef126b"
       }
-    }
+    },
+    "renamed": "list-item-height-extra-large"
   },
   "table-row-height-extra-large-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-300}",
-    "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7"
+    "uuid": "dcc5dd06-bb3d-46d3-adf2-133e5be942b7",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "table-row-height-extra-large-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -941,6 +946,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "6d69b2dc-16d1-4153-9f57-227f2a0f2c8c",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -958,6 +965,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "9e54ecf6-8a66-468c-8c8c-cd79ae9a6ecd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -969,13 +978,16 @@
         "value": "60px",
         "uuid": "ff04cae7-7f96-4db2-bf64-948c22d104ff"
       }
-    }
+    },
+    "renamed": "list-item-height-large"
   },
   "table-row-height-large-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-200}",
-    "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde"
+    "uuid": "d576b4aa-e3df-4aa9-8260-fecfe6517bde",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "table-row-height-large-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1001,6 +1013,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "81954a8f-3bd6-43fa-9fba-9cf209435025",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1018,6 +1032,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "e4365ada-fe16-4c16-af28-eb9bcbb15756",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1029,13 +1045,16 @@
         "value": "50px",
         "uuid": "2cf7918c-f84a-4903-a6ba-b110807842ba"
       }
-    }
+    },
+    "renamed": "list-item-height-medium"
   },
   "table-row-height-medium-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-100}",
-    "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2"
+    "uuid": "b4b86a59-041d-451c-a0be-cc82e997a1d2",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "table-row-height-medium-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1061,6 +1080,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "f5f3982f-4902-4a3f-9915-de8e1489bc24",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1078,6 +1099,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "a9bf30e6-0ca8-44af-8f97-149917c9f8c2",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1089,13 +1112,16 @@
         "value": "40px",
         "uuid": "77a26f7c-2f71-4021-a1f2-a2af7c69a111"
       }
-    }
+    },
+    "renamed": "list-item-height-small"
   },
   "table-row-height-small-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "table",
     "value": "{component-height-75}",
-    "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a"
+    "uuid": "a6dfc911-50fe-46dd-a7a3-cec3b115006a",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed."
   },
   "table-row-height-small-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -1121,6 +1147,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "60852607-b336-4dd8-ae03-db21292a2378",
+    "deprecated": true,
+    "deprecated_comment": "Density affects padding, not height; height token no longer needed.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1426,6 +1454,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "7ec12e53-f33b-40ff-a051-cb62f71a376e",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale, one step down.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1437,12 +1467,15 @@
         "value": "60px",
         "uuid": "06164331-9a76-4adf-b859-82074df19fbd"
       }
-    }
+    },
+    "renamed": "list-item-height-large"
   },
   "table-section-header-row-height-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "db3b99d0-492f-4360-8d36-d497e1e00462",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale, one step down.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1454,12 +1487,15 @@
         "value": "50px",
         "uuid": "cc41c4f1-bfc5-4aa5-87af-97f191cc7af3"
       }
-    }
+    },
+    "renamed": "list-item-height-medium"
   },
   "table-section-header-row-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "9b7fb04a-96c6-4eb2-87ff-e0703b02617b",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale, one step down.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1471,12 +1507,15 @@
         "value": "40px",
         "uuid": "07beb872-72a0-400e-b434-dd076c9be0a7"
       }
-    }
+    },
+    "renamed": "list-item-height-small"
   },
   "table-section-header-row-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "table",
     "uuid": "58fd11fd-232a-474b-b53e-3b54a5d96266",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-height-* scale, one step down.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -1488,7 +1527,8 @@
         "value": "30px",
         "uuid": "2cd8dc05-2f95-45b5-b8a4-0273baf3ba0e"
       }
-    }
+    },
+    "renamed": "list-item-height-extra-small"
   },
   "table-selected-row-background-color": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

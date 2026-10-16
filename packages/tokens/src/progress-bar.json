@@ -3,18 +3,25 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "progress-bar",
     "value": "768px",
-    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784"
+    "uuid": "7ba00389-a6ba-4d18-9d88-8704427ad784",
+    "deprecated": true,
+    "deprecated_comment": "Governed by container + padding, not a fixed value; bar-width scale doesn't extend this far, no token needed."
   },
   "progress-bar-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "progress-bar",
     "value": "48px",
-    "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7"
+    "uuid": "8dfd4f94-93cc-47dd-92d2-87d1696f4ab7",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared bar-minimum-width-* scale.",
+    "renamed": "bar-minimum-width-extra-large"
   },
   "progress-bar-thickness-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-bar",
     "uuid": "2c15f8e9-7fa5-43d6-9797-d1b3249fea3f",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -32,6 +39,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-bar",
     "uuid": "1254b284-bdec-4235-b13f-9b3eaed7d373",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -49,6 +58,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-bar",
     "uuid": "95d7924c-dd4e-48ab-9fc5-5895ba316cdd",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -66,6 +77,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "progress-bar",
     "uuid": "d45eab8f-f956-46c1-9dd7-bddf5b5dde4c",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

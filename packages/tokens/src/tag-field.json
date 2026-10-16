@@ -3,6 +3,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "59ccc726-108b-46ab-8d59-1cf9c16d6972",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -14,12 +16,15 @@
         "value": "312px",
         "uuid": "7f4da1db-493c-4965-b89e-3ca585bebd25"
       }
-    }
+    },
+    "renamed": "field-width-2x-large"
   },
   "tag-field-default-width-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "04a7da36-00b6-4f2a-b2f6-92715f134ae0",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -31,12 +36,15 @@
         "value": "288px",
         "uuid": "640aa691-c4a4-4cda-9912-2e6c6f9c1ac2"
       }
-    }
+    },
+    "renamed": "field-width-extra-large"
   },
   "tag-field-default-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "05fe2653-edc9-45a6-ace5-e3d1879b79c4",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -48,7 +56,8 @@
         "value": "264px",
         "uuid": "face078a-da74-4dec-9519-ef8a1a8b15cc"
       }
-    }
+    },
+    "renamed": "field-width-large"
   },
   "tag-field-edge-to-content-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -114,6 +123,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "513b90e1-d8b9-48bb-9592-bed8a27dfe98",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-minimum-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -125,12 +136,15 @@
         "value": "82px",
         "uuid": "b24c4940-bf4a-4c85-8cb8-b613ac9bc7c8"
       }
-    }
+    },
+    "renamed": "field-minimum-height-extra-large"
   },
   "tag-field-minimum-height-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "e228d447-a32e-4afb-88a6-2e336d60aa41",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-minimum-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -142,12 +156,15 @@
         "value": "68px",
         "uuid": "163ef7b4-537b-43b7-a543-ebea0153e16b"
       }
-    }
+    },
+    "renamed": "field-minimum-height-large"
   },
   "tag-field-minimum-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "8bd7af69-6696-4b58-9494-13e323598ac1",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-minimum-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -159,12 +176,15 @@
         "value": "54px",
         "uuid": "f9f61ca1-b08f-4e8d-89ae-f7f2c5df289d"
       }
-    }
+    },
+    "renamed": "field-minimum-height-medium"
   },
   "tag-field-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tag-field",
     "uuid": "a9c942a5-eff0-4e72-aa32-84075eca856c",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared field-minimum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -176,6 +196,7 @@
         "value": "200px",
         "uuid": "c1bf4479-eb9f-45de-b431-57fd892eac6f"
       }
-    }
+    },
+    "renamed": "field-minimum-width-large"
   }
 }

@@ -21,7 +21,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "thumbnail",
     "value": "4px",
-    "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995"
+    "uuid": "0322f848-009a-45c4-ad4a-17d8f7e41995",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared opacity-checkerboard-square-size-* scale.",
+    "renamed": "opacity-checkerboard-square-size-small"
   },
   "thumbnail-opacity-disabled": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -33,6 +36,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "6ccfba1b-2acd-4ea1-a969-af165b1b4803",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -44,12 +49,15 @@
         "value": "28px",
         "uuid": "545604c8-484f-4697-907c-31e2b2cb46d0"
       }
-    }
+    },
+    "renamed": "visual-size-100"
   },
   "thumbnail-size-1000": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "98ec54b1-1ad9-46cd-af5a-0d1247ceb197",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -61,12 +69,15 @@
         "value": "72px",
         "uuid": "cfbf3ec4-f51d-4a50-b81c-765fff84ce14"
       }
-    }
+    },
+    "renamed": "visual-size-800"
   },
   "thumbnail-size-200": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "788eb0e7-5684-4113-aa58-1b26fa525631",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -78,12 +89,15 @@
         "value": "32px",
         "uuid": "0e548378-9633-49d2-90d8-b40e1ba7c98e"
       }
-    }
+    },
+    "renamed": "visual-size-200"
   },
   "thumbnail-size-300": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "9a069107-9b74-49a7-b29e-48dc8ffec9ef",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -95,12 +109,15 @@
         "value": "36px",
         "uuid": "8f4dd02c-d3eb-4654-aea4-b3921048cdbe"
       }
-    }
+    },
+    "renamed": "visual-size-300"
   },
   "thumbnail-size-400": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "ab26b7c6-b002-4494-9cd6-116b53eb6a95",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -112,12 +129,15 @@
         "value": "40px",
         "uuid": "b0351cf7-f0df-4044-ab26-5b6649ea2e1f"
       }
-    }
+    },
+    "renamed": "visual-size-400"
   },
   "thumbnail-size-50": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "3c384b5a-5d50-4178-a24d-e6479b13df5e",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -129,12 +149,15 @@
         "value": "20px",
         "uuid": "7f33676b-63dd-4d16-b7e1-36520ade716d"
       }
-    }
+    },
+    "renamed": "visual-size-50"
   },
   "thumbnail-size-500": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "bfd1dccd-2166-445f-ac3e-14c78e3e0aa3",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -146,12 +169,15 @@
         "value": "44px",
         "uuid": "1798b58e-fce4-411d-ba8d-75006fa4f53e"
       }
-    }
+    },
+    "renamed": "visual-size-500"
   },
   "thumbnail-size-600": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "843927ab-cce4-45e5-a626-0f09dce95c27",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-500 or visual-size-600.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -169,6 +195,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "783c3746-367c-42d9-862e-1eb1ec229b31",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -180,12 +208,15 @@
         "value": "52px",
         "uuid": "5eab16f9-5537-4a14-958d-d96200c5723f"
       }
-    }
+    },
+    "renamed": "visual-size-600"
   },
   "thumbnail-size-75": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "389eb221-ff20-43c3-86d6-fefd6d63283c",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -197,12 +228,15 @@
         "value": "24px",
         "uuid": "852fc55b-beb7-428c-bc0c-452abc204de3"
       }
-    }
+    },
+    "renamed": "visual-size-75"
   },
   "thumbnail-size-800": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "644086da-cb67-4cd9-902d-a05f67858932",
+    "deprecated": true,
+    "deprecated_comment": "Deprecate and replace with visual-size-600 or -700. if 52px is needed exactly, implementations can override.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -220,6 +254,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "thumbnail",
     "uuid": "1c2c552a-5d02-42e3-af7c-8fdb7a909e2e",
+    "deprecated": true,
+    "deprecated_comment": "avatars, thumbnails, swatches, progress circles, illustrations all \"visual-size\"",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -231,6 +267,7 @@
         "value": "64px",
         "uuid": "97f11dd2-0173-464c-9eef-c260c9e8cf22"
       }
-    }
+    },
+    "renamed": "visual-size-700"
   }
 }

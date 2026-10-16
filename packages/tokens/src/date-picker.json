@@ -3,7 +3,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "date-picker",
     "value": "152px",
-    "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4"
+    "uuid": "69c201ab-f9d3-4a02-8fc9-ff96ff38eed4",
+    "deprecated": true,
+    "deprecated_comment": "Fixed input pattern (mm/dd/yyyy) is component-specific; platform-specific token, not foundational."
   },
   "date-picker-text-to-visual": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
