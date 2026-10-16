@@ -342,6 +342,47 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      # Announce published token packages in Slack. Skipped silently when
+      # SLACK_RELEASE_WEBHOOK_URL is not configured or nothing relevant shipped.
+      - name: Build Slack announcement
+        id: slack_msg
+        if: steps.cs.outputs.published == 'true'
+        shell: bash
+        env:
+          PUBLISHED: ${{ steps.cs.outputs.publishedPackages }}
+          HAS_WEBHOOK: ${{ secrets.SLACK_RELEASE_WEBHOOK_URL != '' }}
+        run: |
+          if [ "$HAS_WEBHOOK" != "true" ]; then
+            echo "SLACK_RELEASE_WEBHOOK_URL not set; skipping."
+            exit 0
+          fi
+          TEXT=""
+          for NAME in @adobe/spectrum-tokens @adobe/spectrum-design-data; do
+            VERSION=$(echo "$PUBLISHED" | jq -r --arg n "$NAME" '.[] | select(.name == $n) | .version')
+            if [ -n "$VERSION" ]; then
+              URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/%40${NAME#@}%40${VERSION}"
+              TEXT="${TEXT}${NAME} ${VERSION}: ${URL}"$'\n'
+            fi
+          done
+          if [ -n "$TEXT" ]; then
+            {
+              echo "send=true"
+              echo "text<<EOF"
+              printf '%s' "$TEXT"
+              echo
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post to Slack
+        if: steps.slack_msg.outputs.send == 'true'
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            text: ${{ toJSON(steps.slack_msg.outputs.text) }}
+
       # Download the binaries built by build-binaries and attach them to the
       # GitHub Release tagged by the design-data-cli Cargo.toml version.
       # Skipped when build-binaries did not run (cliReleaseNeeded==false for
