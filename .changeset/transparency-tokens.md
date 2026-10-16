@@ -1,4 +1,5 @@
 ---
+"@adobe/design-data-wasm": patch
 "@adobe/spectrum-design-data": minor
 "@adobe/spectrum-tokens": minor
 ---
@@ -16,3 +17,4 @@ Add static and theme-aware transparent colors, deprecate the old ones (#1345, #1
 - **registry/color-families.json**: register the four new color families.
 - **packages/tokens/src/color-palette.json**: regenerated legacy output; the 28 deprecated
   tokens gain `deprecated`, `deprecated_comment`, and `renamed`.
+- **@adobe/design-data-wasm**: patch bump because the embedded dataset content changed.
