@@ -14,6 +14,10 @@
       "reason": "intentional: diffs the published legacy output"
     },
     {
+      "path": ".github/workflows/release.yml",
+      "reason": "intentional: announces published legacy @adobe/spectrum-tokens releases in Slack"
+    },
+    {
       "path": ".github/actions/validate/action.yml",
       "reason": "intentional: default tag prefix for released tokens (GitHub source tags)"
     },
