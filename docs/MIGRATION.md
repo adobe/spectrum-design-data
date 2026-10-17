@@ -57,6 +57,14 @@ Prerequisites above) and that `.github/workflows/validate.yml`'s
 it isn't a manifest-only repo (e.g. a `design-data/` subdirectory inside the
 team's main repo, rather than the repo root).
 
+Pass `--with-consumer-smoke` to also write an opt-in
+`.github/workflows/consumer-smoke.yml`. It installs the CLI and runs the
+repo's own `consumer/smoke.sh` (skipping with a notice if absent), so codegen
+breakage in a platform consumer is caught in CI. The script should regenerate
+consumer output with `$DESIGN_DATA_BIN` and build it, exiting non-zero on
+failure. The workflow runs on `ubuntu-latest`; edit `runs-on` and add toolchain
+setup (for example a pinned Xcode on macOS) to match your consumer.
+
 ## Step 2 — Preserve history and push
 
 The eject command copies working-tree content only — it does not carry this
