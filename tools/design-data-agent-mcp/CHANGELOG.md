@@ -1,5 +1,17 @@
 # @adobe/design-data-agent-mcp
 
+## 1.15.1
+
+### Patch Changes
+
+- [#1554](https://github.com/adobe/spectrum-design-data/pull/1554) [`19841df`](https://github.com/adobe/spectrum-design-data/commit/19841dfca7292fef67ba22af8707e99bf06229bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Document platform configuration and CLI distribution (h890.3).
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **tools/design-data-agent-mcp/README.md**: catalogs come from
+    `design-data catalog export`, which needs a CLI newer than 0.12.1.
+  - **sdk/cli**: version 0.13.0 so `catalog export` ships; README drops the
+    unpublished `cargo install` path and documents platform selection.
+
 ## 1.15.0
 
 ### Minor Changes
