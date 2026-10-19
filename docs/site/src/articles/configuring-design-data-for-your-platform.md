@@ -20,11 +20,11 @@ your platform is the one being read.
 
 ## Pick a runtime
 
-| Runtime | Install | Platform support |
-| --- | --- | --- |
-| CLI and TUI (`design-data`) | Homebrew, macOS | Full: `--platform`, `DESIGN_DATA_PLATFORM`, `default_platform` |
-| MCP server (`@adobe/design-data-agent-mcp`) | `npx -y @adobe/design-data-agent-mcp@latest`, or the Claude Code plugin | Through `DESIGN_DATA_CONFIG`; shells out to the CLI |
-| WASM (`@adobe/design-data-wasm`) | `pnpm add @adobe/design-data-wasm` | Foundation only; `Dataset.embedded()` carries the embedded snapshot |
+| Runtime                                     | Install                                                                 | Platform support                                                    |
+| ------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| CLI and TUI (`design-data`)                 | Homebrew, macOS                                                         | Full: `--platform`, `DESIGN_DATA_PLATFORM`, `default_platform`      |
+| MCP server (`@adobe/design-data-agent-mcp`) | `npx -y @adobe/design-data-agent-mcp@latest`, or the Claude Code plugin | Through `DESIGN_DATA_CONFIG`; shells out to the CLI                 |
+| WASM (`@adobe/design-data-wasm`)            | `pnpm add @adobe/design-data-wasm`                                      | Foundation only; `Dataset.embedded()` carries the embedded snapshot |
 
 The CLI and TUI are one binary. Running `design-data` with no subcommand opens the
 TUI. There's no npm wrapper for either. Homebrew is the supported install for
@@ -134,7 +134,8 @@ foundation catalogs. Relationships aren't part of the export.
 
 ## Use a platform from the MCP server
 
-The MCP server reads platform data by running the CLI once at startup. Point it at
+The MCP server reads platform data by running the CLI at startup (for the platform
+lookup, the token query, and the catalog export). Point it at
 your config and name the platform:
 
 ```json
@@ -156,8 +157,10 @@ your config and name the platform:
 If you omit `DESIGN_DATA_PLATFORM`, the server asks the CLI which platform
 `default_platform` selects. The `design-data` binary must be on `PATH`, or set
 `DESIGN_DATA_BIN`, and it needs `catalog export`. If resolution fails, the server
-logs a warning and falls back to the embedded foundation data, so check the
-primer output when a platform seems to be missing.
+logs a warning and keeps serving its local dataset, which is the installed
+`@adobe/spectrum-design-data` package, `DESIGN_DATA_PATH`, or the embedded
+snapshot. None of those include your platform, so check the server's stderr
+when a platform seems to be missing.
 
 ## Where to go next
 
