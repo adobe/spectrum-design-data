@@ -110,11 +110,42 @@ test.before((t) => {
 
 test.before(async (t) => {
   await bootstrapCascade(config, {
-    run: async () => ({
-      exitCode: 0,
-      stdout: JSON.stringify([FIXTURE_TOKEN]),
-      stderr: "",
-    }),
+    run: async (args) => {
+      if (args[0] === "catalog") {
+        // Stands in for the CLI's platform-merged `catalog export` output.
+        const out = args[3];
+        mkdirSync(join(out, "components"), { recursive: true });
+        mkdirSync(join(out, "guidelines"), { recursive: true });
+        writeFileSync(
+          join(out, "components", "button.json"),
+          JSON.stringify({ id: "button", name: "Cascade Button" }),
+        );
+        for (const [slug, heading] of [
+          ["colors", "Cascade Colors"],
+          ["motion", "Motion"],
+        ]) {
+          writeFileSync(
+            join(out, "guidelines", `${slug}.json`),
+            JSON.stringify({
+              id: slug,
+              documentBlocks: [{ type: "section", heading }],
+            }),
+          );
+        }
+        writeFileSync(
+          join(out, "guidelines", "manifest.json"),
+          JSON.stringify({
+            guidelines: [{ slug: "colors" }, { slug: "motion" }],
+          }),
+        );
+        return { exitCode: 0, stdout: "", stderr: "" };
+      }
+      return {
+        exitCode: 0,
+        stdout: JSON.stringify([FIXTURE_TOKEN]),
+        stderr: "",
+      };
+    },
   });
   t.true(config.cascadeActive);
 });

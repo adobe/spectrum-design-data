@@ -17,6 +17,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -114,6 +115,7 @@ test("materializes resolved tokens into cascadeDataPath on success, without touc
   let seenCwd;
   await bootstrapCascade(config, {
     run: async (args, opts) => {
+      if (args[0] !== "query") return { exitCode: 0, stdout: "", stderr: "" };
       seenArgs = args;
       seenCwd = opts.cwd;
       return { exitCode: 0, stdout: JSON.stringify(tokens), stderr: "" };
@@ -138,142 +140,139 @@ test("materializes resolved tokens into cascadeDataPath on success, without touc
   );
 });
 
-test("materializes fallback catalogs and manifest extensions into cascadeDataPath", async (t) => {
+test("materializes catalogs via `catalog export` with the active platform, without merging in JS", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
   t.teardown(() => rmSync(dir, { recursive: true, force: true }));
-  const fallbackDir = join(dir, "fallback");
-  const componentsDir = join(fallbackDir, "components");
-  const relationshipsDir = join(fallbackDir, "relationships");
-  const guidelinesDir = join(fallbackDir, "guidelines");
-  const extensionsDir = join(dir, "extensions");
-  mkdirSync(componentsDir, { recursive: true });
-  mkdirSync(relationshipsDir, { recursive: true });
-  mkdirSync(guidelinesDir, { recursive: true });
-  mkdirSync(join(extensionsDir, "components"), { recursive: true });
-  mkdirSync(join(extensionsDir, "guidelines"), { recursive: true });
   writeFileSync(
-    join(componentsDir, "button.json"),
-    JSON.stringify({ id: "button", name: "Fallback Button" }),
+    join(dir, ".design-data.toml"),
+    '[platforms]\nios = "platforms/ios/manifest.json"\n',
   );
-  writeFileSync(
-    join(guidelinesDir, "colors.json"),
-    JSON.stringify({ id: "colors", documentBlocks: [] }),
-  );
-  writeFileSync(
-    join(extensionsDir, "components", "button.json"),
-    JSON.stringify({ id: "button", name: "Cascade Button" }),
-  );
-  writeFileSync(
-    join(extensionsDir, "guidelines", "motion.json"),
-    JSON.stringify({ id: "motion", documentBlocks: [] }),
-  );
-  writeFileSync(
-    join(dir, "manifest.json"),
-    JSON.stringify({ extensionsDir: "extensions" }),
-  );
-  writeFileSync(join(dir, ".design-data.toml"), 'manifest = "manifest.json"\n');
+  // Files sitting in the fallback dirs must not be copied or merged by JS.
+  const fallbackComponents = join(dir, "fallback", "components");
+  mkdirSync(fallbackComponents, { recursive: true });
+  writeFileSync(join(fallbackComponents, "stray.json"), "{}");
 
   const config = freshConfig({
     designDataConfig: dir,
-    componentsDir,
-    relationshipsDir,
-    guidelinesDir,
+    platformId: "ios",
+    componentsDir: fallbackComponents,
   });
-
+  let exportCall;
   await bootstrapCascade(config, {
-    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
-  });
-
-  t.is(
-    JSON.parse(
-      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
-    ).name,
-    "Cascade Button",
-  );
-  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "colors.json")));
-  t.true(existsSync(join(config.cascadeDataPath, "guidelines", "motion.json")));
-});
-
-test("real local ios profile keeps token selection and catalogs isolated", async (t) => {
-  const root = fileURLToPath(new URL("../../../", import.meta.url));
-  const iosExtensions = join(root, "platforms", "ios", "extensions");
-  const readJson = (path) => JSON.parse(readFileSync(path, "utf-8"));
-  const tokens = readJson(
-    join(iosExtensions, "tokens", "imported.tokens.json"),
-  );
-  const accent = tokens.find(
-    (token) =>
-      token.name.property === "accent-background-color" &&
-      token.name.colorScheme === "light",
-  );
-  t.truthy(accent, "the real iOS extension supplies the selected token");
-
-  for (const platformId of ["ios", "web-components", null]) {
-    const config = freshConfig({
-      designDataConfig: join(root, ".design-data.toml"),
-      platformId,
-    });
-    const selectedTokens = platformId === "ios" ? [accent] : [];
-    let queryArgs;
-    await bootstrapCascade(config, {
-      run: async (args, { cwd }) => {
-        t.is(cwd, root.replace(/\/$/, ""));
-        if (args[0] === "platform") {
-          return { exitCode: 0, stdout: "[]", stderr: "" };
-        }
-        queryArgs = args;
-        return {
-          exitCode: 0,
-          stdout: JSON.stringify(selectedTokens),
-          stderr: "",
-        };
-      },
-    });
-    t.true(config.cascadeActive);
-    t.teardown(() =>
-      rmSync(config.cascadeDataPath, { recursive: true, force: true }),
-    );
-    t.deepEqual(queryArgs, [
-      "query",
-      "--filter",
-      "",
-      "--format",
-      "json",
-      ...(platformId ? ["--platform", platformId] : []),
-    ]);
-    t.deepEqual(
-      readJson(join(config.cascadeDataPath, "resolved.tokens.json")),
-      selectedTokens,
-    );
-    t.is(config.dataPath, "/original/data/path");
-    t.is(config.dataRoot, "/original/data/root");
-
-    for (const category of ["components", "guidelines", "relationships"]) {
-      const catalog = join(
-        config.cascadeDataPath,
-        category,
-        "tab-bar-ios.json",
-      );
-      if (platformId === "ios") {
-        t.deepEqual(
-          readJson(catalog),
-          readJson(join(iosExtensions, category, "tab-bar-ios.json")),
-        );
-      } else {
-        t.false(
-          existsSync(catalog),
-          `${platformId} must not load iOS catalogs`,
+    run: async (args, opts) => {
+      if (args[0] === "catalog") {
+        exportCall = { args, opts };
+        mkdirSync(join(args[3], "components"), { recursive: true });
+        writeFileSync(
+          join(args[3], "components", "from-cli.json"),
+          JSON.stringify({ name: "from-cli" }),
         );
       }
-    }
-    if (platformId === "ios") {
+      return { exitCode: 0, stdout: "[]", stderr: "" };
+    },
+  });
+
+  t.true(config.cascadeActive);
+  t.deepEqual(exportCall.args, [
+    "catalog",
+    "export",
+    "--out",
+    config.cascadeDataPath,
+    "--platform",
+    "ios",
+  ]);
+  t.is(exportCall.opts.cwd, dir);
+  t.true(
+    existsSync(join(config.cascadeDataPath, "components", "from-cli.json")),
+  );
+  t.false(existsSync(join(config.cascadeDataPath, "components", "stray.json")));
+});
+
+test("falls back explicitly when `catalog export` fails", async (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
+  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
+  writeFileSync(join(dir, ".design-data.toml"), "");
+  const config = freshConfig({ designDataConfig: dir, platformId: "nope" });
+
+  await bootstrapCascade(config, {
+    run: async (args) =>
+      args[0] === "catalog"
+        ? { exitCode: 1, stdout: "", stderr: "no platform nope configured" }
+        : { exitCode: 0, stdout: "[]", stderr: "" },
+  });
+
+  t.false(config.cascadeActive);
+  t.is(config.cascadeDataPath, null);
+});
+
+// Real-CLI regression: needs a built `design-data` that has `catalog export`
+// (moon run sdk:build). Skipped when the debug binary is absent.
+const root = fileURLToPath(new URL("../../../", import.meta.url));
+const realBin =
+  process.env.DESIGN_DATA_BIN_REAL ??
+  join(root, "sdk", "target", "debug", "design-data");
+const realTest = existsSync(realBin) ? test : test.skip;
+
+function runReal(args, { cwd }) {
+  const result = spawnSync(realBin, args, {
+    cwd,
+    encoding: "utf-8",
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  return {
+    exitCode: result.status ?? 1,
+    stdout: result.stdout ?? "",
+    stderr: result.stderr ?? "",
+  };
+}
+
+realTest(
+  "real ios profile surfaces catalogs via the CLI cascade and stays isolated from other profiles",
+  async (t) => {
+    const iosExtensions = join(root, "platforms", "ios", "extensions");
+    const readJson = (path) => JSON.parse(readFileSync(path, "utf-8"));
+
+    for (const platformId of ["ios", "web-components", null]) {
+      const config = freshConfig({
+        designDataConfig: join(root, ".design-data.toml"),
+        platformId,
+      });
+      await bootstrapCascade(config, { run: async (a, o) => runReal(a, o) });
+      t.true(config.cascadeActive, `${platformId} bootstraps`);
+      t.teardown(() =>
+        rmSync(config.cascadeDataPath, { recursive: true, force: true }),
+      );
+      t.is(config.dataPath, "/original/data/path");
+      t.is(config.dataRoot, "/original/data/root");
+
+      for (const category of ["components", "guidelines", "relationships"]) {
+        const catalog = join(
+          config.cascadeDataPath,
+          category,
+          "tab-bar-ios.json",
+        );
+        if (platformId === "ios") {
+          t.deepEqual(
+            readJson(catalog),
+            readJson(join(iosExtensions, category, "tab-bar-ios.json")),
+          );
+        } else {
+          t.false(
+            existsSync(catalog),
+            `${platformId} must not load iOS ${category}`,
+          );
+        }
+      }
       const manifest = readJson(
         join(config.cascadeDataPath, "guidelines", "manifest.json"),
       );
-      t.true(manifest.guidelines.some(({ slug }) => slug === "tab-bar-ios"));
+      t.is(
+        manifest.guidelines.some(({ slug }) => slug === "tab-bar-ios"),
+        platformId === "ios",
+      );
     }
-  }
-});
+  },
+);
 
 test("accepts a path to the .design-data.toml file itself, not just its directory", async (t) => {
   const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
@@ -307,7 +306,7 @@ test("passes --platform to the CLI query shell-out when platformId is set", asyn
   let seenArgs;
   await bootstrapCascade(config, {
     run: async (args) => {
-      seenArgs = args;
+      if (args[0] === "query") seenArgs = args;
       return { exitCode: 0, stdout: "[]", stderr: "" };
     },
   });
@@ -382,70 +381,21 @@ test("resolves default_platform from the CLI when platformId is unset, keeping t
     },
   });
 
-  t.deepEqual(seenArgs.at(-1), [
-    "query",
-    "--filter",
-    "",
-    "--format",
-    "json",
-    "--platform",
-    "web-components",
-  ]);
-  t.is(
-    JSON.parse(
-      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
-    ).name,
-    "Platform Button",
-    "catalogs must match the same platform the token query resolved, not the legacy manifest",
+  t.deepEqual(
+    seenArgs.find((args) => args[0] === "query"),
+    [
+      "query",
+      "--filter",
+      "",
+      "--format",
+      "json",
+      "--platform",
+      "web-components",
+    ],
   );
-});
-
-test("materializes a named platform's extensions instead of the legacy manifest key", async (t) => {
-  const dir = mkdtempSync(join(tmpdir(), "cascade-test-"));
-  t.teardown(() => rmSync(dir, { recursive: true, force: true }));
-
-  // Legacy manifest — must be ignored once platformId selects a named entry.
-  const legacyExtensionsDir = join(dir, "legacy-extensions");
-  mkdirSync(join(legacyExtensionsDir, "components"), { recursive: true });
-  writeFileSync(
-    join(legacyExtensionsDir, "components", "button.json"),
-    JSON.stringify({ id: "button", name: "Legacy Button" }),
-  );
-  writeFileSync(
-    join(dir, "manifest.json"),
-    JSON.stringify({ extensionsDir: "legacy-extensions" }),
-  );
-
-  // Named platform entry.
-  const platformDir = join(dir, "platforms", "web-components");
-  const platformExtensionsDir = join(platformDir, "extensions");
-  mkdirSync(join(platformExtensionsDir, "components"), { recursive: true });
-  writeFileSync(
-    join(platformExtensionsDir, "components", "button.json"),
-    JSON.stringify({ id: "button", name: "Platform Button" }),
-  );
-  writeFileSync(join(platformDir, "manifest.json"), JSON.stringify({}));
-
-  writeFileSync(
-    join(dir, ".design-data.toml"),
-    'manifest = "manifest.json"\n\n' +
-      "[platforms]\n" +
-      'web-components = "platforms/web-components/manifest.json"\n',
-  );
-
-  const config = freshConfig({
-    designDataConfig: dir,
-    platformId: "web-components",
-  });
-
-  await bootstrapCascade(config, {
-    run: async () => ({ exitCode: 0, stdout: "[]", stderr: "" }),
-  });
-
-  t.is(
-    JSON.parse(
-      readFileSync(join(config.cascadeDataPath, "components", "button.json")),
-    ).name,
-    "Platform Button",
+  t.deepEqual(
+    seenArgs.find((args) => args[0] === "catalog").slice(-2),
+    ["--platform", "web-components"],
+    "catalogs must come from the same platform the token query resolved",
   );
 });

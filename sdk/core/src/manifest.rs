@@ -478,6 +478,52 @@ fn check_fragment(file: &Path, value: &Value, schema_path: &Path) -> Result<(), 
     )))
 }
 
+/// Component and guideline catalogs after the configured platform manifest
+/// (if any) has been applied. Entries are sorted by name.
+#[derive(Debug, Clone, Default)]
+pub struct MergedCatalogs {
+    pub components: Vec<(String, Value)>,
+    /// `(name, document, from_platform)`; `from_platform` marks documents
+    /// contributed by the platform manifest rather than the foundation catalog.
+    pub guidelines: Vec<(String, Value, bool)>,
+}
+
+/// Load the foundation component and guideline catalogs and apply the
+/// platform manifest from `resolved` through the same cascade as `resolve`
+/// and `query`. With no platform manifest the result is the foundation
+/// catalogs unchanged.
+pub fn load_merged_catalogs(resolved: &ResolvedData) -> Result<MergedCatalogs, CoreError> {
+    let mut graph = TokenGraph::from_json_dir_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )?;
+    if let Some(dir) = resolved.guidelines.as_deref().filter(|d| d.is_dir()) {
+        graph.guidelines = TokenGraph::load_spec_guidelines(dir)?;
+    }
+    apply_configured(&mut graph, resolved)?;
+
+    let mut components: Vec<(String, Value)> = graph
+        .components
+        .into_iter()
+        .map(|c| (c.name, c.raw))
+        .collect();
+    components.sort_by(|a, b| a.0.cmp(&b.0));
+    let mut guidelines: Vec<(String, Value, bool)> = graph
+        .guidelines
+        .into_iter()
+        .map(|g| {
+            let from_platform = g.file == Path::new("manifest.json");
+            (g.name, g.raw, from_platform)
+        })
+        .collect();
+    guidelines.sort_by(|a, b| a.0.cmp(&b.0));
+    Ok(MergedCatalogs {
+        components,
+        guidelines,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
