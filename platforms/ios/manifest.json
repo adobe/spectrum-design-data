@@ -2,7 +2,7 @@
   "specVersion": "1.0.0-draft",
   "platform": "ios",
   "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios",
-  "foundationVersion": "@adobe/spectrum-tokens@15.4.0",
+  "foundationVersion": "3.6.0",
   "include": [
     "property=color",
     "property=size",
