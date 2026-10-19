@@ -341,6 +341,12 @@ enum Commands {
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
     },
+    /// Export the component and guideline catalogs with the selected platform
+    /// manifest applied (`--platform`, `DESIGN_DATA_PLATFORM`, or `default_platform`)
+    Catalog {
+        #[command(subcommand)]
+        sub: CatalogSub,
+    },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
         /// Natural-language intent (e.g. "accent background hover")
@@ -447,6 +453,16 @@ enum Commands {
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
+}
+
+#[derive(Subcommand)]
+enum CatalogSub {
+    /// Write merged `components/`, `guidelines/` and `guidelines/manifest.json` under DIR
+    Export {
+        /// Output directory (created if missing)
+        #[arg(long, value_name = "DIR")]
+        out: PathBuf,
+    },
 }
 
 #[derive(Subcommand)]
@@ -3248,10 +3264,37 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
         return Ok(ExitCode::from(1));
     }
 
+    let components_dir_overridden = components_dir.is_some();
     let resolved = resolve_data_source(CliPathOverrides {
         components: components_dir,
         ..Default::default()
     })?;
+
+    // A selected platform manifest changes the catalog (extension components,
+    // implementation rows, replacements), so read through the cascade. Without
+    // one, or with an explicit --components-dir, keep the raw-file lookup.
+    if resolved.platform_manifest.is_some() && !components_dir_overridden {
+        let catalogs = manifest::load_merged_catalogs(&resolved)
+            .into_diagnostic()
+            .wrap_err("failed to apply platform manifest cascade")?;
+        return match catalogs.components.iter().find(|(name, _)| name == id) {
+            Some((_, doc)) => {
+                println!("{}", serde_json::to_string_pretty(doc).into_diagnostic()?);
+                Ok(ExitCode::SUCCESS)
+            }
+            None => {
+                let available: Vec<&str> = catalogs
+                    .components
+                    .iter()
+                    .map(|(name, _)| name.as_str())
+                    .collect();
+                eprintln!("Component '{id}' not found.");
+                eprintln!("Available components: {}", available.join(", "));
+                Ok(ExitCode::from(1))
+            }
+        };
+    }
+
     let dir = resolved
         .components
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
@@ -3272,6 +3315,91 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
             Ok(ExitCode::from(1))
         }
     }
+}
+
+/// `design-data catalog export --out DIR`: write the component and guideline
+/// catalogs after the selected platform manifest (if any) is applied, in the
+/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` layout.
+fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides::default())?;
+    let catalogs = manifest::load_merged_catalogs(&resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    let components_out = out.join("components");
+    let guidelines_out = out.join("guidelines");
+    std::fs::create_dir_all(&components_out).into_diagnostic()?;
+    std::fs::create_dir_all(&guidelines_out).into_diagnostic()?;
+    // Drop `.json` files from a previous export so reusing DIR can't leave
+    // components or guidelines behind that this cascade no longer contains.
+    for dir in [&components_out, &guidelines_out] {
+        for entry in std::fs::read_dir(dir).into_diagnostic()? {
+            let path = entry.into_diagnostic()?.path();
+            if path.extension().is_some_and(|ext| ext == "json") {
+                std::fs::remove_file(&path)
+                    .into_diagnostic()
+                    .wrap_err_with(|| format!("failed to remove stale {}", path.display()))?;
+            }
+        }
+    }
+    let write_json = |path: PathBuf, value: &serde_json::Value| -> miette::Result<()> {
+        std::fs::write(
+            &path,
+            serde_json::to_string_pretty(value).into_diagnostic()?,
+        )
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to write {}", path.display()))
+    };
+
+    for (name, doc) in &catalogs.components {
+        write_json(components_out.join(format!("{name}.json")), doc)?;
+    }
+
+    // Start from the foundation guidelines manifest, then add or replace
+    // entries for platform-contributed documents.
+    let mut entries: Vec<serde_json::Value> = resolved
+        .guidelines
+        .as_ref()
+        .map(|dir| dir.join("manifest.json"))
+        .filter(|p| p.is_file())
+        .map(|p| -> miette::Result<Vec<serde_json::Value>> {
+            let text = std::fs::read_to_string(&p).into_diagnostic()?;
+            let parsed: serde_json::Value = serde_json::from_str(&text).into_diagnostic()?;
+            Ok(parsed
+                .get("guidelines")
+                .and_then(|g| g.as_array())
+                .cloned()
+                .unwrap_or_default())
+        })
+        .transpose()?
+        .unwrap_or_default();
+    for (name, doc, from_platform) in &catalogs.guidelines {
+        write_json(guidelines_out.join(format!("{name}.json")), doc)?;
+        if *from_platform {
+            let mut entry = serde_json::json!({
+                "slug": name,
+                "title": doc.get("title").cloned().unwrap_or_else(|| name.clone().into()),
+                "file": format!("guidelines/{name}.json"),
+            });
+            if let Some(category) = doc.get("category") {
+                entry["category"] = category.clone();
+            }
+            entries.retain(|e| e.get("slug").and_then(|s| s.as_str()) != Some(name));
+            entries.push(entry);
+        }
+    }
+    write_json(
+        guidelines_out.join("manifest.json"),
+        &serde_json::json!({ "guidelines": entries }),
+    )?;
+
+    println!(
+        "Exported {} component(s) and {} guideline(s) to {}",
+        catalogs.components.len(),
+        catalogs.guidelines.len(),
+        out.display()
+    );
+    Ok(ExitCode::SUCCESS)
 }
 
 fn run_suggest(
@@ -3776,6 +3904,9 @@ fn main() -> ExitCode {
             mode_sets_dir,
         ),
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Catalog { sub } => match sub {
+            CatalogSub::Export { out } => run_catalog_export(&out),
+        },
         Commands::Suggest {
             intent,
             path,
