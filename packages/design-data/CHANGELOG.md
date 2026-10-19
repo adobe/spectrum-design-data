@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 3.6.1
+
+### Patch Changes
+
+- [#1550](https://github.com/adobe/spectrum-design-data/pull/1550) [`18431aa`](https://github.com/adobe/spectrum-design-data/commit/18431aa6bb40fee2838030592940195c42a6a1d4) Thanks [@GarthDB](https://github.com/GarthDB)! - Incubate the iOS manifest proof of concept under monorepo-maintainer stewardship.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **platforms/ios/**: preserve external data and attribution; target compatible foundation `3.6.0`.
+  - **registry/platform-implementations.json**: record the canonical iOS authoring location.
+
 ## 3.6.0
 
 ### Minor Changes
