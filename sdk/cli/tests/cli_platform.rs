@@ -499,3 +499,24 @@ fn catalog_export_without_platform_omits_ios_extension() {
     assert!(!out.path().join("components/tab-bar-ios.json").exists());
     assert!(out.path().join("components/accordion.json").is_file());
 }
+
+#[test]
+fn catalog_export_into_reused_dir_removes_stale_files() {
+    let out = tempfile::tempdir().expect("out dir");
+    let out_arg = out.path().to_str().unwrap();
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--platform", "ios", "--out", out_arg],
+    )
+    .success();
+    assert!(out.path().join("components/tab-bar-ios.json").is_file());
+
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out_arg],
+    )
+    .success();
+    assert!(!out.path().join("components/tab-bar-ios.json").exists());
+    assert!(!out.path().join("guidelines/tab-bar-ios.json").exists());
+    assert!(out.path().join("components/accordion.json").is_file());
+}

@@ -3330,6 +3330,18 @@ fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
     let guidelines_out = out.join("guidelines");
     std::fs::create_dir_all(&components_out).into_diagnostic()?;
     std::fs::create_dir_all(&guidelines_out).into_diagnostic()?;
+    // Drop `.json` files from a previous export so reusing DIR can't leave
+    // components or guidelines behind that this cascade no longer contains.
+    for dir in [&components_out, &guidelines_out] {
+        for entry in std::fs::read_dir(dir).into_diagnostic()? {
+            let path = entry.into_diagnostic()?.path();
+            if path.extension().is_some_and(|ext| ext == "json") {
+                std::fs::remove_file(&path)
+                    .into_diagnostic()
+                    .wrap_err_with(|| format!("failed to remove stale {}", path.display()))?;
+            }
+        }
+    }
     let write_json = |path: PathBuf, value: &serde_json::Value| -> miette::Result<()> {
         std::fs::write(
             &path,
