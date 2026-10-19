@@ -31,6 +31,8 @@ tasks:
       - "/tools/design-data-mcp/scripts/generate-mcpb.mjs"
       - "/tools/design-data-mcp/package.json"
       - "/packages/design-data/guidelines/**/*.json"
+      - "/platforms/**/*"
+      - "/.design-data.toml"
       - "/docs/s2-docs/**/*.md"
       - "/pnpm-lock.yaml"
 

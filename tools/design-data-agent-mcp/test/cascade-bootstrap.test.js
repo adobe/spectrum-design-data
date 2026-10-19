@@ -19,6 +19,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { bootstrapCascade } from "../src/cascade-bootstrap.js";
 
 // The actual CLI invocation (config discovery, github fetch/cache, manifest
@@ -191,6 +192,87 @@ test("materializes fallback catalogs and manifest extensions into cascadeDataPat
   );
   t.true(existsSync(join(config.cascadeDataPath, "guidelines", "colors.json")));
   t.true(existsSync(join(config.cascadeDataPath, "guidelines", "motion.json")));
+});
+
+test("real local ios profile keeps token selection and catalogs isolated", async (t) => {
+  const root = fileURLToPath(new URL("../../../", import.meta.url));
+  const iosExtensions = join(root, "platforms", "ios", "extensions");
+  const readJson = (path) => JSON.parse(readFileSync(path, "utf-8"));
+  const tokens = readJson(
+    join(iosExtensions, "tokens", "imported.tokens.json"),
+  );
+  const accent = tokens.find(
+    (token) =>
+      token.name.property === "accent-background-color" &&
+      token.name.colorScheme === "light",
+  );
+  t.truthy(accent, "the real iOS extension supplies the selected token");
+
+  for (const platformId of ["ios", "web-components", null]) {
+    const config = freshConfig({
+      designDataConfig: join(root, ".design-data.toml"),
+      platformId,
+    });
+    const selectedTokens = platformId === "ios" ? [accent] : [];
+    let queryArgs;
+    await bootstrapCascade(config, {
+      run: async (args, { cwd }) => {
+        t.is(cwd, root.replace(/\/$/, ""));
+        if (args[0] === "platform") {
+          return { exitCode: 0, stdout: "[]", stderr: "" };
+        }
+        queryArgs = args;
+        return {
+          exitCode: 0,
+          stdout: JSON.stringify(selectedTokens),
+          stderr: "",
+        };
+      },
+    });
+    t.true(config.cascadeActive);
+    t.teardown(() =>
+      rmSync(config.cascadeDataPath, { recursive: true, force: true }),
+    );
+    t.deepEqual(queryArgs, [
+      "query",
+      "--filter",
+      "",
+      "--format",
+      "json",
+      ...(platformId ? ["--platform", platformId] : []),
+    ]);
+    t.deepEqual(
+      readJson(join(config.cascadeDataPath, "resolved.tokens.json")),
+      selectedTokens,
+    );
+    t.is(config.dataPath, "/original/data/path");
+    t.is(config.dataRoot, "/original/data/root");
+
+    for (const category of ["components", "guidelines", "relationships"]) {
+      const catalog = join(
+        config.cascadeDataPath,
+        category,
+        "tab-bar-ios.json",
+      );
+      if (platformId === "ios") {
+        t.deepEqual(
+          readJson(catalog),
+          readJson(join(iosExtensions, category, "tab-bar-ios.json")),
+        );
+      } else {
+        t.false(
+          existsSync(catalog),
+          `${platformId} must not load iOS catalogs`,
+        );
+      }
+    }
+    if (platformId === "ios") {
+      const manifest = readJson(
+        join(config.cascadeDataPath, "guidelines", "manifest.json"),
+      );
+      t.true(manifest.guidelines.some(({ slug }) => slug === "tab-bar-ios"));
+    }
+  }
 });
 
 test("accepts a path to the .design-data.toml file itself, not just its directory", async (t) => {

@@ -8,9 +8,11 @@ an `extensions/` tree, its own `README.md` — so it can be extracted with
 ready, with **zero required changes for any consumer** of the cascade.
 
 See `packages/design-data-spec/spec/manifest.md` for the full Foundation→Platform
-cascade spec, and `spectrum-design-data-h890.22` for the worked precedent
-(`GarthDB/spectrum-ios-design-data`, the first platform manifest to graduate
-out of this pattern).
+cascade spec. `spectrum-design-data-h890.22` records the iOS externalization
+proof of concept in `GarthDB/spectrum-ios-design-data`. Without an independent
+iOS owner, its data incubates here at [`ios/`](ios/) under monorepo-maintainer
+stewardship (`spectrum-design-data-h890.28`). The Swift demo stays external;
+externalization was a tooling experiment, not a production ownership handoff.
 
 ## Why incubate here first
 
@@ -53,6 +55,7 @@ design-data --platform react-spectrum validate-manifest
 design-data --platform web-components query --filter "component:button"
 design-data platform list
 design-data platform show react-spectrum
+design-data validate-manifest --platform ios
 ```
 
 ## The ejection contract
@@ -83,12 +86,13 @@ step-by-step, using the iOS POC as the worked example.
 
 ## Status
 
-| id               | Team                    | Status     |
-| ---------------- | ----------------------- | ---------- |
-| `react-spectrum` | React Spectrum          | Incubating |
-| `web-components` | Spectrum Web Components | Incubating |
+| id               | Team                    | Status                      |
+| ---------------- | ----------------------- | --------------------------- |
+| `react-spectrum` | React Spectrum          | Incubating                  |
+| `web-components` | Spectrum Web Components | Incubating                  |
+| `ios`            | Monorepo maintainers    | Incubating proof of concept |
 
-Neither team has been asked to take ownership yet — these are staged so the
-cascade is dogfooded against two real, differently-shaped platforms
-(React Spectrum's JS token exports vs. SWC's `--spectrum-*` CSS custom
-properties) before either team is asked to adopt anything.
+The React Spectrum and Web Components teams have not been asked to take
+ownership yet. These manifests exercise the cascade against their different
+outputs (JS token exports and `--spectrum-*` CSS custom properties) before
+either team is asked to adopt it.

@@ -72,6 +72,17 @@ fn setup_project_with_named_platform() -> tempfile::TempDir {
 }
 
 #[test]
+fn ios_repo_profile_validates_real_manifest() {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(repo_root())
+        .args(["validate-manifest", "--platform", "ios", "--format", "json"])
+        .assert()
+        .success()
+        .stdout(contains("\"valid\":true"));
+}
+
+#[test]
 fn platform_flag_selects_named_manifest_entry() {
     let project = setup_project_with_named_platform();
 

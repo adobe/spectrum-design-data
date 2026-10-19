@@ -82,7 +82,7 @@ pub struct ComponentRecord {
 }
 
 /// One platform-extension declaration (spec-format JSON, `platform-extension.json`
-/// shape), annotating existing base-registry ids with platform-specific terminology.
+/// shape), annotating existing registry ids or mode-set values with platform terminology.
 /// Populated only via a platform manifest's `extensions.platformExtensions` — there
 /// is no catalog-directory loader for these (unlike components/guidelines/fields).
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -996,9 +996,8 @@ impl TokenGraph {
             }
         }
 
-        // 6. extensions.platformExtensions — platform terminology annotating ids in
-        // an existing base registry. Replaced by (platform, extends); every termId
-        // must already exist in that base registry (extensions never add new ids).
+        // 6. extensions.platformExtensions — platform terminology keyed by
+        // (platform, extends). Validate targets after mode-set edits below.
         if let Some(entries) = manifest
             .get("extensions")
             .and_then(|e| e.get("platformExtensions"))
@@ -1009,29 +1008,6 @@ impl TokenGraph {
                     continue;
                 };
                 if let Some(extends) = entry.get("extends").and_then(|v| v.as_str()) {
-                    // `extends` names a registry by its field-catalog field name
-                    // ("state") or its registry-file basename ("states") — both keys
-                    // resolve to the same registry (see `build_registry_map`).
-                    let registries = RegistryData::embedded();
-                    let registry = registries.for_field(extends).ok_or_else(|| {
-                        CoreError::ParseError(format!(
-                            "platform manifest extensions.platformExtensions declares \
-                             extends:\"{extends}\" but no such base registry exists"
-                        ))
-                    })?;
-                    if let Some(terms) = entry.get("extensions").and_then(|v| v.as_array()) {
-                        for term in terms {
-                            if let Some(term_id) = term.get("termId").and_then(|v| v.as_str()) {
-                                if !registry.contains(term_id) {
-                                    return Err(CoreError::ParseError(format!(
-                                        "platform manifest extensions.platformExtensions \
-                                         ({platform}/{extends}) references termId \"{term_id}\" \
-                                         which does not exist in the \"{extends}\" registry"
-                                    )));
-                                }
-                            }
-                        }
-                    }
                     let record = PlatformExtensionRecord {
                         platform: platform.to_string(),
                         extends: extends.to_string(),
@@ -1390,6 +1366,45 @@ impl TokenGraph {
                              \"{other}\" (expected \"addMode\", \"removeMode\", \"setDefault\", \
                              or \"remove\", or omit \"op\" to add/replace the whole set)"
                         )));
+                    }
+                }
+            }
+        }
+
+        // Crosswalks must reference the active catalog, including this manifest's
+        // mode-set additions/removals and crosswalks inherited from earlier layers.
+        let registries = RegistryData::embedded();
+        for record in &self.platform_extensions {
+            let extends = &record.extends;
+            // Preserve both field ("state") and registry-basename ("states") keys.
+            let registry = registries.for_field(extends);
+            let mode_set = self.mode_sets.iter().find(|m| m.name == *extends);
+            if registry.is_none() && mode_set.is_none() {
+                return Err(CoreError::ParseError(format!(
+                    "platform manifest extensions.platformExtensions declares \
+                     extends:\"{extends}\" but no such base registry or active mode set exists"
+                )));
+            }
+            if let Some(terms) = record.raw.get("extensions").and_then(Value::as_array) {
+                for term in terms {
+                    if let Some(term_id) = term.get("termId").and_then(Value::as_str) {
+                        let exists = registry.map_or_else(
+                            || mode_set.is_some_and(|m| m.modes.iter().any(|mode| mode == term_id)),
+                            |r| r.contains(term_id),
+                        );
+                        if !exists {
+                            let kind = if registry.is_some() {
+                                "registry"
+                            } else {
+                                "mode set"
+                            };
+                            return Err(CoreError::ParseError(format!(
+                                "platform manifest extensions.platformExtensions \
+                                 ({}/{extends}) references termId \"{term_id}\" \
+                                 which does not exist in the \"{extends}\" {kind}",
+                                record.platform
+                            )));
+                        }
                     }
                 }
             }
@@ -2859,6 +2874,65 @@ mod tests {
     }
 
     // ── apply_platform_manifest (Foundation→Platform cascade) ──────────────────
+
+    #[test]
+    fn manifest_mode_set_crosswalk_uses_merged_modes() {
+        let mut graph = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+            file: PathBuf::from("contrast.json"),
+            name: "contrast".into(),
+            modes: vec!["regular".into()],
+            default_mode: "regular".into(),
+        }]);
+        graph
+            .apply_platform_manifest(&json!({"extensions": {
+                "modeSets": [{"op": "addMode", "name": "contrast", "mode": "high"}],
+                "platformExtensions": [{
+                    "platform": "iOS", "extends": "contrast",
+                    "extensions": [{"termId": "high", "platformTerm": "increased"}]
+                }]
+            }}))
+            .unwrap();
+        assert_eq!(
+            graph.platform_extensions[0].raw["extensions"][0]["platformTerm"],
+            "increased"
+        );
+
+        let err = graph
+            .apply_platform_manifest(&json!({"extensions": {
+                "modeSets": [{"op": "removeMode", "name": "contrast", "mode": "high"}]
+            }}))
+            .unwrap_err();
+        assert!(err.to_string().contains("termId \"high\""));
+        assert!(err.to_string().contains("\"contrast\" mode set"));
+    }
+
+    #[test]
+    fn manifest_crosswalk_rejects_unknown_mode_or_target() {
+        for (target, term, expected) in [
+            ("contrast", "increased", "\"contrast\" mode set"),
+            (
+                "unknown-axis",
+                "high",
+                "no such base registry or active mode set",
+            ),
+        ] {
+            let mut graph = foundation_graph().with_mode_sets(vec![ModeSetRecord {
+                file: PathBuf::from("contrast.json"),
+                name: "contrast".into(),
+                modes: vec!["regular".into(), "high".into()],
+                default_mode: "regular".into(),
+            }]);
+            let err = graph
+                .apply_platform_manifest(&json!({"extensions": {
+                    "platformExtensions": [{
+                        "platform": "iOS", "extends": target,
+                        "extensions": [{"termId": term}]
+                    }]
+                }}))
+                .unwrap_err();
+            assert!(err.to_string().contains(expected), "{err}");
+        }
+    }
 
     /// Build a small foundation graph for manifest cascade tests.
     fn foundation_graph() -> TokenGraph {
