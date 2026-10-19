@@ -49,7 +49,7 @@ https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-
 npx @adobe/design-data-agent-mcp@latest
 ```
 
-The `@adobe/design-data` CLI binary is **only** needed for `authoring_session_step_intent`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
+The `design-data` CLI binary (`brew install adobe/spectrum-design-data/design-data`, 0.13.0 or newer) is needed for `authoring_session_step_intent` and whenever `DESIGN_DATA_CONFIG` is set, because the platform cascade runs `design-data catalog export`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
 
 ### Staying current
 
