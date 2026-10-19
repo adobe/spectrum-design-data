@@ -103,7 +103,10 @@ node tools/design-data-agent-mcp/src/index.js
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
 > `query_tokens` / `validate_usage` / `describe_component` /
 > `describe_guideline` / `list_guidelines` at it instead of the embedded
-> Spectrum snapshot. Component, relationship, and guideline catalogs are copied
+> Spectrum snapshot. Component and guideline catalogs come from
+> `design-data catalog export --out <dir> [--platform <id>]`, so extension
+> components, implementation rows, and replacements come from the SDK cascade
+> (this needs a `design-data` newer than 0.12.1). Relationships are still copied
 > from the fallback dataset and overlaid with platform manifest extensions. If
 > resolution fails
 > (e.g. no network for a github source), the server logs a warning and falls

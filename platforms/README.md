@@ -51,12 +51,16 @@ The repo-root `.design-data.toml` registers every incubating platform under
 `[platforms.<id>]`. From anywhere inside this repo:
 
 ```bash
-design-data --platform react-spectrum validate-manifest
-design-data --platform web-components query --filter "component:button"
+design-data validate-manifest --platform react-spectrum
+design-data query --filter "property=background-color" --platform web-components
 design-data platform list
 design-data platform show react-spectrum
 design-data validate-manifest --platform ios
 ```
+
+Put `--platform` after the subcommand. Before it, the CLI reads the subcommand
+name as the TUI dataset path. `DESIGN_DATA_PLATFORM` and `default_platform` also
+select a platform; see [Configuring design-data for your platform](https://opensource.adobe.com/spectrum-design-data/articles/configuring-design-data-for-your-platform/).
 
 ## The ejection contract
 
