@@ -1,0 +1,10 @@
+[
+  {
+    "scope": {
+      "component": "tab-bar-ios",
+      "property": "background-color"
+    },
+    "context": "Selected tab background",
+    "$ref": "736e4768-7944-40ec-a412-4cd36299e03d"
+  }
+]

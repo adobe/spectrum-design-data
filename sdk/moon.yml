@@ -86,6 +86,8 @@ tasks:
       - "/packages/design-data/components/*.json"
       - "/packages/design-data/fields/*.json"
       - "/packages/design-data/guidelines/*.json"
+      - "/platforms/**/*"
+      - "/.design-data.toml"
     deps:
       - codegen-check
   # nextest doesn't run doctests — this covers the runnable ```rust examples

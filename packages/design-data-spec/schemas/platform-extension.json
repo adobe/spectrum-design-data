@@ -28,7 +28,7 @@
     },
     "extends": {
       "type": "string",
-      "description": "Which registry this extends (sizes, states, variants, etc.)"
+      "description": "Foundation registry (field name or file basename) or active mode-set name whose existing ids or modes this annotates (e.g. states or contrast)."
     },
     "extensions": {
       "type": "array",

@@ -7,7 +7,13 @@ incubating in `platforms/<id>/` out to a repo the implementation team owns
 incubation model and the ejection contract at a glance; this document is the
 full runbook, using the iOS proof-of-concept
 (`GarthDB/spectrum-ios-design-data`, spectrum-design-data-h890.22) as the
-worked example throughout.
+historical worked example throughout. Its data now incubates at
+[`platforms/ios/`](../platforms/ios/) under monorepo-maintainer stewardship
+because no independent iOS owner has accepted it (`spectrum-design-data-h890.28`).
+The Swift demo remains external. Its consumer-only cutover requires a landed
+monorepo commit and verified remote consumption before deleting the external
+data copies. The earlier externalization proved the tooling, not production
+adoption or a team ownership handoff.
 
 Nothing here is a one-way door taken lightly: every step keeps the cascade
 consumable the whole way through, and the in-repo copy is only deleted at the

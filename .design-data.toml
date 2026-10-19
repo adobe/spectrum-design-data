@@ -11,5 +11,6 @@
 # See platforms/README.md for the incubation model and ejection contract.
 
 [platforms]
+ios = "platforms/ios/manifest.json"
 react-spectrum = "platforms/react-spectrum/manifest.json"
 web-components = "platforms/web-components/manifest.json"
