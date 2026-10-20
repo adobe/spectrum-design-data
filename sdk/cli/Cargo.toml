@@ -26,5 +26,6 @@ chrono = { version = "0.4", default-features = false, features = ["clock"] }
 [dev-dependencies]
 assert_cmd = "2.0"
 predicates = "3.1"
+serde_norway = "0.9.42"
 tempfile = "3.14"
 toml = "0.8"
