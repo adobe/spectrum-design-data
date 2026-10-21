@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 3.7.0
+
+### Minor Changes
+
+- [#1561](https://github.com/adobe/spectrum-design-data/pull/1561) [`be208ce`](https://github.com/adobe/spectrum-design-data/commit/be208cef23415ab779adbc49e2fcf7c9fdeca9b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync component content from Spectrum Hub (automated).
+  - **packages/design-data/components**: 97 component schemas refreshed (was 97).
+
+- [#1562](https://github.com/adobe/spectrum-design-data/pull/1562) [`21841d7`](https://github.com/adobe/spectrum-design-data/commit/21841d7f5712234eb9b9280d6bc75205114f6870) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync guideline content from Spectrum Hub (automated).
+  - **packages/design-data/guidelines**: 58 guideline documents (was 58).
+
 ## 3.6.1
 
 ### Patch Changes
