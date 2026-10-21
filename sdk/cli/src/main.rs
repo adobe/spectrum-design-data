@@ -602,7 +602,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
@@ -621,7 +621,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Path to a name-mapping override artifact (from `figma audit`); overrides
         /// take precedence over the default `{prefix}/{legacyKey}` naming
@@ -678,7 +678,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Path to a platform manifest.json; tokens are resolved through the
         /// manifest cascade so overrides target the same records `figma export` reads
@@ -715,7 +715,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: Option<String>,
         /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: Option<String>,
         /// Diff offline against a captured `figma read --format json` snapshot instead of
         /// calling the Figma API
@@ -746,7 +746,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: Option<String>,
         /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: Option<String>,
         /// Pair offline against a captured `figma read --format json` snapshot instead of
         /// calling the Figma API
