@@ -8,23 +8,20 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! The public entry points: build a Figma Variables POST payload from a flat
-//! set of legacy-shaped tokens, and summarize an existing file's variables.
+//! Build a Figma Variables POST payload from canonical tokens and summarize existing variables.
 
 use std::collections::{HashMap, HashSet};
-use std::path::PathBuf;
 
-use serde_json::Value;
+use super::graph::ExportToken;
 
 use super::convert::{
     alias_exportable_route, build_value_index, compute_redirects, process_alias_token,
     process_color_set_token, process_flat_token, process_redirected_token, process_scale_set_token,
-    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id,
+    redirect_route, resolve_variable_id, schema_to_figma_type, variable_alias_target_id, VarIndex,
 };
 use super::routing::{
-    resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLLECTION_SPECS, COLOR,
-    COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY,
-    SCALE_SET, SKIP_SCHEMAS,
+    resolve_collections, CollectionSpec, TokenKind, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION,
+    FONT_FAMILY, FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, SCALE_SET, SKIP_SCHEMAS,
 };
 use crate::types::{
     FigmaVariableCollection, ModeValueAction, PostVariablesBody, VariableAction, VariablesMeta,
@@ -90,15 +87,7 @@ pub struct ExportSummary {
     pub redirect_skipped: Vec<String>,
 }
 
-/// Build a Figma POST payload from a flat set of legacy-shaped token entries.
-///
-/// `tokens` is `(name, source file, raw legacy JSON entry)` triples — either
-/// loaded straight from a token-source directory ([`super::convert::load_all_tokens`])
-/// or collected from a manifest-resolved [`design_data_core::graph::TokenGraph`]
-/// (`(record.name, record.file, record.raw)` for each
-/// [`design_data_core::graph::TokenRecord`]) so platform overrides/extensions are
-/// reflected in the export. The source file lets [`CollectionSpec::source_files`]
-/// route a token by which file it came from, not just by `$schema`.
+/// Build a Figma POST payload from canonical records grouped by [`super::export_tokens`].
 ///
 /// `existing` is the result of `GET /v1/files/:file_key/variables/local` —
 /// used to look up collection and mode IDs for the target collections.
@@ -107,12 +96,15 @@ pub struct ExportSummary {
 /// (from a `figma audit` artifact); keys absent from the map fall back to the
 /// default `{prefix}/{legacyKey}` naming. `None` or an empty map preserves
 /// today's naming for every token.
+///
+/// `specs` come from [`super::collection_specs`] over the graph's declared mode sets.
 pub fn build_export_payload(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_platform_formats(tokens, existing, overrides, &[])
+    build_export_payload_with_platform_formats(tokens, specs, existing, overrides, &[])
 }
 
 /// Same as [`build_export_payload`], but also populates `codeSyntax` for the
@@ -122,12 +114,13 @@ pub fn build_export_payload(
 /// [`design_data_core::naming::format_name`]. An empty slice reproduces
 /// [`build_export_payload`] exactly.
 pub fn build_export_payload_with_platform_formats(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
     platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
-    build_export_payload_with_options(tokens, existing, overrides, platform_formats, false)
+    build_export_payload_with_options(tokens, specs, existing, overrides, platform_formats, false)
 }
 
 /// Same as [`build_export_payload_with_platform_formats`], plus the opt-in
@@ -137,7 +130,8 @@ pub fn build_export_payload_with_platform_formats(
 /// with no usable replacement keep their literal and are listed in
 /// [`ExportSummary::redirect_skipped`] when they declared one.
 pub fn build_export_payload_with_options(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
+    specs: &[CollectionSpec],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
     platform_formats: &[(String, design_data_core::naming::FormattingConfig)],
@@ -147,7 +141,7 @@ pub fn build_export_payload_with_options(
         tokens,
         existing,
         overrides,
-        COLLECTION_SPECS,
+        specs,
         redirect_deprecated,
     )?;
     if !platform_formats.is_empty() {
@@ -211,14 +205,13 @@ pub(super) fn augment_code_syntax_with_platform_formats(
 }
 
 /// Same as [`build_export_payload`], but with an explicit collection-spec
-/// table — the production entry point always uses [`COLLECTION_SPECS`]; tests
-/// use this to exercise routing against additional mock collections.
+/// table — tests use this to exercise routing against additional mock collections.
 #[cfg(test)]
 pub(super) fn build_export_payload_with_specs(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    specs: &'static [CollectionSpec],
+    specs: &[CollectionSpec],
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     build_export_payload_with_specs_and_redirect(tokens, existing, overrides, specs, false)
 }
@@ -227,10 +220,10 @@ pub(super) fn build_export_payload_with_specs(
 /// pass: a deprecated token that names a replacement (`renamed`) is exported as
 /// an alias to that replacement's variable instead of its own literal value.
 pub(super) fn build_export_payload_with_specs_and_redirect(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
     existing: &VariablesMeta,
     overrides: Option<&HashMap<String, String>>,
-    specs: &'static [CollectionSpec],
+    specs: &[CollectionSpec],
     redirect_deprecated: bool,
 ) -> Result<(PostVariablesBody, ExportSummary), FigmaError> {
     // 1. Look up collection and mode IDs from the existing file, for every
@@ -245,22 +238,34 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
     let mut variables: Vec<VariableAction> = Vec::new();
     let mut mode_values: Vec<ModeValueAction> = Vec::new();
 
-    // Build index of existing variable names → IDs for UPDATE detection.
-    let existing_var_index: HashMap<&str, &str> = existing
+    // Build index of existing variable names → IDs for UPDATE detection. The
+    // modeless layer's variables share bare token names, so they're excluded.
+    let modeless_collection_ids: HashSet<&str> = existing
+        .variable_collections
+        .values()
+        .filter(|c| c.name == super::modeless::MODELESS_COLLECTION)
+        .map(|c| c.id.as_str())
+        .collect();
+    let existing_var_index: VarIndex<'_> = existing
         .variables
         .values()
-        .map(|v| (v.name.as_str(), v.id.as_str()))
+        .filter(|v| !modeless_collection_ids.contains(v.variable_collection_id.as_str()))
+        .map(|v| {
+            (
+                (v.variable_collection_id.as_str(), v.name.as_str()),
+                v.id.as_str(),
+            )
+        })
         .collect();
 
     // 3. Pre-pass: resolve every non-skipped, non-alias-schema token's Figma
     // variable id up front, so a token that aliases a target processed later in
     // the main loop can still emit a VARIABLE_ALIAS instead of a flattened literal.
     let mut alias_target_ids: HashMap<String, String> = HashMap::new();
-    for (token_name, token_file, token_entry) in tokens {
-        let schema = token_entry
-            .get("$schema")
-            .and_then(|v| v.as_str())
-            .unwrap_or("");
+    for token_entry in tokens {
+        let token_name = &token_entry.name;
+        let token_file = &token_entry.file;
+        let schema = token_entry.value.schema.as_str();
         if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) || schema.ends_with(ALIAS) {
             continue;
         }
@@ -290,6 +295,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         let (_, id) = resolve_variable_id(
             token_name,
             rc.spec.default_prefix,
+            rc.collection_id,
             &existing_var_index,
             overrides,
         );
@@ -301,15 +307,11 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         // Semantic replacements are often alias-schema tokens, which the
         // pre-pass above excludes. They are still exported as variables, so a
         // redirect may target them; mirror process_alias_token's routing.
-        for (token_name, token_file, token_entry) in tokens {
-            let is_alias_schema = token_entry
-                .get("$schema")
-                .and_then(|v| v.as_str())
-                .is_some_and(|s| s.ends_with(ALIAS));
-            let is_ref = token_entry
-                .get("value")
-                .and_then(|v| v.as_str())
-                .is_some_and(|v| v.starts_with('{') && v.ends_with('}'));
+        for token_entry in tokens {
+            let token_name = &token_entry.name;
+            let token_file = &token_entry.file;
+            let is_alias_schema = token_entry.value.schema.ends_with(ALIAS);
+            let is_ref = token_entry.value.alias.is_some();
             if !is_alias_schema || !is_ref {
                 continue;
             }
@@ -327,6 +329,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
             let (_, id) = resolve_variable_id(
                 token_name,
                 rc.spec.default_prefix,
+                rc.collection_id,
                 &existing_var_index,
                 overrides,
             );
@@ -337,11 +340,10 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
         HashMap::new()
     };
 
-    for (token_name, token_file, token_entry) in tokens {
-        let schema = token_entry
-            .get("$schema")
-            .and_then(|v| v.as_str())
-            .unwrap_or("");
+    for token_entry in tokens {
+        let token_name = &token_entry.name;
+        let token_file = &token_entry.file;
+        let schema = token_entry.value.schema.as_str();
 
         // Skip composite types.
         if SKIP_SCHEMAS.iter().any(|s| schema.ends_with(s)) {
@@ -390,7 +392,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
                 token_name,
                 token_entry,
                 rc.collection_id,
-                rc.spec.default_prefix,
+                rc.spec,
                 &rc.mode_ids,
                 &value_index,
                 &existing_var_index,
@@ -410,7 +412,7 @@ pub(super) fn build_export_payload_with_specs_and_redirect(
                 token_name,
                 token_entry,
                 rc.collection_id,
-                rc.spec.default_prefix,
+                rc.spec,
                 &rc.mode_ids,
                 &value_index,
                 &existing_var_index,

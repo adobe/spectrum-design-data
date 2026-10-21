@@ -52,6 +52,14 @@ tasks:
       - "/platforms/**/*"
       - "/.design-data.toml"
       - ".github/scripts/validate-platforms.mjs"
+  # Fails when tooling references the generated legacy token package outside
+  # scripts/legacy-consumers.allowlist.json (xqln.12).
+  check-legacy-consumers:
+    command:
+      - node
+      - scripts/check-legacy-consumers.mjs
+    options:
+      cache: false
   # Verifies .ai/ sources are valid and generated AI resources (instructions,
   # repo index, llms.txt) are current. Fix drift with `pnpm ai:sync`.
   ai-check:

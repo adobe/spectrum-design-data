@@ -169,6 +169,26 @@
       "description": "Black-based transparent color family for overlay and shadow effects"
     },
     {
+      "id": "transparent-neutral",
+      "label": "Transparent Neutral",
+      "description": "Theme-aware transparent color family: black-based in Light/Wireframe, white-based in Dark"
+    },
+    {
+      "id": "transparent-neutral-inverse",
+      "label": "Transparent Neutral Inverse",
+      "description": "Theme-aware transparent color family: white-based in Light/Wireframe, black-based in Dark"
+    },
+    {
+      "id": "transparent-static-black",
+      "label": "Transparent Static Black",
+      "description": "Black-based transparent color family that remains fixed in all color schemes, aligned to the opacity foundation scale"
+    },
+    {
+      "id": "transparent-static-white",
+      "label": "Transparent Static White",
+      "description": "White-based transparent color family that remains fixed in all color schemes, aligned to the opacity foundation scale"
+    },
+    {
       "id": "transparent-white",
       "label": "Transparent White",
       "description": "White-based transparent color family for overlay and highlight effects"

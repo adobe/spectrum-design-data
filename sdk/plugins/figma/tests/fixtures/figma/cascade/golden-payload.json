@@ -1,0 +1,233 @@
+[
+  {
+    "variables": [
+      {
+        "action": "UPDATE",
+        "id": "VariableID:4821:253",
+        "name": "colorTheme/accent-color-100",
+        "variableCollectionId": "VariableCollectionId:4821:94",
+        "resolvedType": "COLOR",
+        "codeSyntax": {
+          "WEB": "--spectrum-accent-color-100"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:3242:1395",
+        "name": "platformScale/font-size-100",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-font-size-100"
+        }
+      },
+      {
+        "action": "CREATE",
+        "id": "platformScale__heading-gap",
+        "name": "platformScale/heading-gap",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-heading-gap"
+        }
+      },
+      {
+        "action": "CREATE",
+        "id": "platformScale__old-spacing",
+        "name": "platformScale/old-spacing",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-old-spacing"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:4821:485",
+        "name": "colorTheme/overlay-opacity",
+        "variableCollectionId": "VariableCollectionId:4821:94",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-overlay-opacity"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:3242:1123",
+        "name": "platformScale/spacing-100",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-spacing-100"
+        }
+      }
+    ],
+    "variableModeValues": [
+      {
+        "variableId": "VariableID:4821:253",
+        "modeId": "4821:0",
+        "value": {
+          "r": 1.0,
+          "g": 0.0,
+          "b": 0.0,
+          "a": 1.0
+        }
+      },
+      {
+        "variableId": "VariableID:4821:253",
+        "modeId": "4821:1",
+        "value": {
+          "r": 0.0,
+          "g": 0.0,
+          "b": 1.0,
+          "a": 1.0
+        }
+      },
+      {
+        "variableId": "VariableID:3242:1395",
+        "modeId": "3242:0",
+        "value": 14.0
+      },
+      {
+        "variableId": "platformScale__heading-gap",
+        "modeId": "3242:0",
+        "value": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:3242:1123"
+        }
+      },
+      {
+        "variableId": "platformScale__old-spacing",
+        "modeId": "3242:0",
+        "value": 6.0
+      },
+      {
+        "variableId": "VariableID:4821:485",
+        "modeId": "4821:0",
+        "value": 40.0
+      },
+      {
+        "variableId": "VariableID:3242:1123",
+        "modeId": "3242:0",
+        "value": 8.0
+      }
+    ]
+  },
+  {
+    "variables": [
+      {
+        "action": "UPDATE",
+        "id": "VariableID:4821:253",
+        "name": "colorTheme/accent-color-100",
+        "variableCollectionId": "VariableCollectionId:4821:94",
+        "resolvedType": "COLOR",
+        "codeSyntax": {
+          "WEB": "--spectrum-accent-color-100"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:3242:1395",
+        "name": "platformScale/font-size-100",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-font-size-100"
+        }
+      },
+      {
+        "action": "CREATE",
+        "id": "platformScale__heading-gap",
+        "name": "platformScale/heading-gap",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-heading-gap"
+        }
+      },
+      {
+        "action": "CREATE",
+        "id": "platformScale__old-spacing",
+        "name": "platformScale/old-spacing",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-old-spacing"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:4821:485",
+        "name": "colorTheme/overlay-opacity",
+        "variableCollectionId": "VariableCollectionId:4821:94",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-overlay-opacity"
+        }
+      },
+      {
+        "action": "UPDATE",
+        "id": "VariableID:3242:1123",
+        "name": "platformScale/spacing-100",
+        "variableCollectionId": "VariableCollectionId:3242:109",
+        "resolvedType": "FLOAT",
+        "codeSyntax": {
+          "WEB": "--spectrum-spacing-100"
+        }
+      }
+    ],
+    "variableModeValues": [
+      {
+        "variableId": "VariableID:4821:253",
+        "modeId": "4821:0",
+        "value": {
+          "r": 1.0,
+          "g": 0.0,
+          "b": 0.0,
+          "a": 1.0
+        }
+      },
+      {
+        "variableId": "VariableID:4821:253",
+        "modeId": "4821:1",
+        "value": {
+          "r": 0.0,
+          "g": 0.0,
+          "b": 1.0,
+          "a": 1.0
+        }
+      },
+      {
+        "variableId": "VariableID:3242:1395",
+        "modeId": "3242:0",
+        "value": 14.0
+      },
+      {
+        "variableId": "platformScale__heading-gap",
+        "modeId": "3242:0",
+        "value": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:3242:1123"
+        }
+      },
+      {
+        "variableId": "platformScale__old-spacing",
+        "modeId": "3242:0",
+        "value": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:3242:1123"
+        }
+      },
+      {
+        "variableId": "VariableID:4821:485",
+        "modeId": "4821:0",
+        "value": 40.0
+      },
+      {
+        "variableId": "VariableID:3242:1123",
+        "modeId": "3242:0",
+        "value": 8.0
+      }
+    ]
+  }
+]

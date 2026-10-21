@@ -23,6 +23,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use assert_cmd::Command;
+use predicates::prelude::PredicateBooleanExt;
 use predicates::str::contains;
 use serde_json::json;
 
@@ -69,6 +70,17 @@ fn setup_project_with_named_platform() -> tempfile::TempDir {
     .expect("write config");
 
     project
+}
+
+#[test]
+fn ios_repo_profile_validates_real_manifest() {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(repo_root())
+        .args(["validate-manifest", "--platform", "ios", "--format", "json"])
+        .assert()
+        .success()
+        .stdout(contains("\"valid\":true"));
 }
 
 #[test]
@@ -211,6 +223,30 @@ fn platform_eject_local_entry_creates_standalone_repo() {
         .join("extensions/platform-extensions/foo.json")
         .is_file());
     assert!(out_dir.join(".github/workflows/validate.yml").is_file());
+    let drift = std::fs::read_to_string(out_dir.join(".github/workflows/foundation-drift.yml"))
+        .expect("foundation-drift.yml written");
+    assert!(drift.contains("open-pr: true"));
+    assert!(drift.contains("cron:"), "{drift}");
+    assert!(drift.contains("workflow_dispatch:"), "{drift}");
+    assert!(drift.contains("contents: write"), "{drift}");
+    assert!(drift.contains("pull-requests: write"), "{drift}");
+    assert!(
+        drift.contains("adobe/spectrum-design-data/.github/actions/validate@"),
+        "{drift}"
+    );
+    assert!(drift.contains("skip-dataset-validation: true"), "{drift}");
+
+    // Every emitted workflow must be valid YAML, and the smoke workflow is
+    // opt-in.
+    for name in ["validate.yml", "foundation-drift.yml"] {
+        let text = fs::read_to_string(out_dir.join(".github/workflows").join(name))
+            .expect("workflow written");
+        serde_norway::from_str::<serde_norway::Value>(&text)
+            .unwrap_or_else(|e| panic!("{name} is not valid YAML: {e}\n{text}"));
+    }
+    assert!(!out_dir
+        .join(".github/workflows/consumer-smoke.yml")
+        .exists());
 
     let config = fs::read_to_string(out_dir.join(".design-data.toml")).expect("read config");
     assert!(config.contains("manifest = \"manifest.json\""));
@@ -223,6 +259,75 @@ fn platform_eject_local_entry_creates_standalone_repo() {
     config
         .parse::<toml::Value>()
         .expect("ejected .design-data.toml must be valid TOML");
+}
+
+/// `--with-consumer-smoke` opts into a language-agnostic workflow that runs the
+/// repo's own `consumer/smoke.sh` (h890.7.3). It must parse as YAML, install
+/// the CLI via the validate action's `install-only` mode, guard on the script
+/// existing, and hardcode no UUIDs.
+#[test]
+fn platform_eject_with_consumer_smoke_writes_workflow() {
+    let project = setup_project_with_named_platform();
+    let out_dir = project.path().join("ejected");
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(project.path())
+        .args(["platform", "eject", "rsp", "--with-consumer-smoke", "--out"])
+        .arg(&out_dir)
+        .assert()
+        .success()
+        .stdout(contains("consumer/smoke.sh"));
+
+    let text = fs::read_to_string(out_dir.join(".github/workflows/consumer-smoke.yml"))
+        .expect("consumer-smoke.yml written");
+    let doc: serde_norway::Value =
+        serde_norway::from_str(&text).unwrap_or_else(|e| panic!("invalid YAML: {e}\n{text}"));
+
+    let on = doc.get("on").expect("on trigger");
+    assert!(on.get("workflow_dispatch").is_some(), "{text}");
+    let paths: Vec<&str> = on["pull_request"]["paths"]
+        .as_sequence()
+        .expect("pull_request.paths")
+        .iter()
+        .filter_map(|p| p.as_str())
+        .collect();
+    for want in [
+        "manifest.json",
+        "extensions/**",
+        ".design-data.toml",
+        "consumer/**",
+    ] {
+        assert!(paths.contains(&want), "missing path {want}: {paths:?}");
+    }
+    assert_eq!(doc["permissions"]["contents"].as_str(), Some("read"));
+
+    let steps = doc["jobs"]["smoke"]["steps"]
+        .as_sequence()
+        .expect("smoke steps");
+    let install = steps
+        .iter()
+        .find(|s| {
+            s.get("uses")
+                .and_then(|u| u.as_str())
+                .is_some_and(|u| u.contains(".github/actions/validate@"))
+        })
+        .expect("validate action step");
+    assert_eq!(install["with"]["install-only"].as_bool(), Some(true));
+
+    let run = steps
+        .iter()
+        .find(|s| s.get("run").and_then(|r| r.as_str()) == Some("bash consumer/smoke.sh"))
+        .expect("smoke.sh step");
+    assert_eq!(
+        run["if"].as_str(),
+        Some("hashFiles('consumer/smoke.sh') != ''")
+    );
+    assert_eq!(run["env"]["DESIGN_DATA_BIN"].as_str(), Some("design-data"));
+
+    let uuid_like = text
+        .split(|c: char| !(c.is_ascii_hexdigit() || c == '-'))
+        .any(|w| w.len() == 36 && w.matches('-').count() == 4);
+    assert!(!uuid_like, "no hardcoded UUIDs expected:\n{text}");
 }
 
 /// An `--out` nested inside the platform's own `extensions/` dir must be
@@ -294,4 +399,205 @@ fn platform_eject_unknown_id_errors_listing_available_ids() {
         .failure()
         .stderr(contains("unknown platform id \"nope\""))
         .stderr(contains("rsp"));
+}
+
+// --- component / catalog reads through the platform cascade (h890.30) ---
+
+fn design_data(dir: &std::path::Path, args: &[&str]) -> assert_cmd::assert::Assert {
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(dir)
+        .args(args)
+        .assert()
+}
+
+/// Write an extension fragment into the temp project's `extensions/<category>/`.
+fn write_extension(project: &std::path::Path, category: &str, file: &str, body: &str) {
+    let dir = project.join("extensions").join(category);
+    fs::create_dir_all(&dir).expect("create extensions dir");
+    fs::write(dir.join(file), body).expect("write extension");
+}
+
+/// The real iOS tab-bar-ios component, renamed, for replacement fixtures.
+fn ios_component_as(name: &str, description: &str) -> String {
+    let path = repo_root().join("platforms/ios/extensions/components/tab-bar-ios.json");
+    let mut doc: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(path).expect("read ios component")).unwrap();
+    doc["name"] = json!(name);
+    doc["description"] = json!(description);
+    doc.to_string()
+}
+
+#[test]
+fn component_with_ios_platform_returns_extension_component() {
+    design_data(
+        repo_root().as_path(),
+        &["component", "tab-bar-ios", "--platform", "ios"],
+    )
+    .success()
+    .stdout(contains("\"name\": \"tab-bar-ios\""));
+}
+
+#[test]
+fn component_without_platform_does_not_see_ios_extension() {
+    design_data(repo_root().as_path(), &["component", "tab-bar-ios"])
+        .failure()
+        .stderr(contains("Component 'tab-bar-ios' not found."));
+}
+
+#[test]
+fn component_platform_profiles_are_isolated_from_ios() {
+    for platform in ["react-spectrum", "web-components"] {
+        design_data(
+            repo_root().as_path(),
+            &["component", "tab-bar-ios", "--platform", platform],
+        )
+        .failure()
+        .stderr(contains("Component 'tab-bar-ios' not found."));
+    }
+}
+
+#[test]
+fn component_foundation_output_matches_with_platform_that_does_not_touch_it() {
+    let plain = design_data(repo_root().as_path(), &["component", "accordion"]).success();
+    let with_platform = design_data(
+        repo_root().as_path(),
+        &["component", "accordion", "--platform", "ios"],
+    )
+    .success();
+    assert_eq!(
+        plain.get_output().stdout,
+        with_platform.get_output().stdout,
+        "ios does not extend accordion, so cascade output must equal raw output"
+    );
+}
+
+#[test]
+fn component_platform_merges_implementation_rows_and_replacements() {
+    let project = setup_project_with_named_platform();
+    write_extension(
+        project.path(),
+        "implementations",
+        "button.json",
+        &json!({
+            "component": "button",
+            "implementations": [{"platform": "web", "componentName": "RspOnlyButton", "package": "rsp-test"}]
+        })
+        .to_string(),
+    );
+    write_extension(
+        project.path(),
+        "components",
+        "accordion.json",
+        &ios_component_as("accordion", "Replaced by platform"),
+    );
+
+    design_data(
+        project.path(),
+        &["component", "button", "--platform", "rsp"],
+    )
+    .success()
+    .stdout(contains("RspOnlyButton"));
+    design_data(
+        project.path(),
+        &["component", "accordion", "--platform", "rsp"],
+    )
+    .success()
+    .stdout(contains("Replaced by platform"));
+    design_data(project.path(), &["component", "button"])
+        .success()
+        .stdout(contains("RspOnlyButton").not());
+}
+
+#[test]
+fn component_with_unknown_platform_errors() {
+    design_data(
+        repo_root().as_path(),
+        &["component", "button", "--platform", "nope"],
+    )
+    .failure()
+    .stderr(contains("no platform \"nope\" configured"));
+}
+
+#[test]
+fn component_with_malformed_extension_errors() {
+    let project = setup_project_with_named_platform();
+    write_extension(project.path(), "components", "broken.json", "{ not json");
+
+    design_data(
+        project.path(),
+        &["component", "button", "--platform", "rsp"],
+    )
+    .failure()
+    .stderr(contains("broken.json"));
+}
+
+#[test]
+fn component_missing_with_platform_lists_merged_components() {
+    design_data(
+        repo_root().as_path(),
+        &["component", "nope-xyz", "--platform", "ios"],
+    )
+    .failure()
+    .stderr(contains("Component 'nope-xyz' not found."))
+    .stderr(contains("tab-bar-ios"));
+}
+
+#[test]
+fn catalog_export_with_ios_writes_extension_component_and_guideline() {
+    let out = tempfile::tempdir().expect("out dir");
+    design_data(
+        repo_root().as_path(),
+        &[
+            "catalog",
+            "export",
+            "--platform",
+            "ios",
+            "--out",
+            out.path().to_str().unwrap(),
+        ],
+    )
+    .success();
+    assert!(out.path().join("components/tab-bar-ios.json").is_file());
+    assert!(out.path().join("components/accordion.json").is_file());
+    assert!(out.path().join("guidelines/tab-bar-ios.json").is_file());
+    let manifest = fs::read_to_string(out.path().join("guidelines/manifest.json")).unwrap();
+    assert!(manifest.contains("\"slug\": \"tab-bar-ios\""));
+    assert!(
+        manifest.contains("ai-resource-guide"),
+        "foundation entries preserved"
+    );
+}
+
+#[test]
+fn catalog_export_without_platform_omits_ios_extension() {
+    let out = tempfile::tempdir().expect("out dir");
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out.path().to_str().unwrap()],
+    )
+    .success();
+    assert!(!out.path().join("components/tab-bar-ios.json").exists());
+    assert!(out.path().join("components/accordion.json").is_file());
+}
+
+#[test]
+fn catalog_export_into_reused_dir_removes_stale_files() {
+    let out = tempfile::tempdir().expect("out dir");
+    let out_arg = out.path().to_str().unwrap();
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--platform", "ios", "--out", out_arg],
+    )
+    .success();
+    assert!(out.path().join("components/tab-bar-ios.json").is_file());
+
+    design_data(
+        repo_root().as_path(),
+        &["catalog", "export", "--out", out_arg],
+    )
+    .success();
+    assert!(!out.path().join("components/tab-bar-ios.json").exists());
+    assert!(!out.path().join("guidelines/tab-bar-ios.json").exists());
+    assert!(out.path().join("components/accordion.json").is_file());
 }

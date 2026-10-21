@@ -478,6 +478,52 @@ fn check_fragment(file: &Path, value: &Value, schema_path: &Path) -> Result<(), 
     )))
 }
 
+/// Component and guideline catalogs after the configured platform manifest
+/// (if any) has been applied. Entries are sorted by name.
+#[derive(Debug, Clone, Default)]
+pub struct MergedCatalogs {
+    pub components: Vec<(String, Value)>,
+    /// `(name, document, from_platform)`; `from_platform` marks documents
+    /// contributed by the platform manifest rather than the foundation catalog.
+    pub guidelines: Vec<(String, Value, bool)>,
+}
+
+/// Load the foundation component and guideline catalogs and apply the
+/// platform manifest from `resolved` through the same cascade as `resolve`
+/// and `query`. With no platform manifest the result is the foundation
+/// catalogs unchanged.
+pub fn load_merged_catalogs(resolved: &ResolvedData) -> Result<MergedCatalogs, CoreError> {
+    let mut graph = TokenGraph::from_json_dir_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )?;
+    if let Some(dir) = resolved.guidelines.as_deref().filter(|d| d.is_dir()) {
+        graph.guidelines = TokenGraph::load_spec_guidelines(dir)?;
+    }
+    apply_configured(&mut graph, resolved)?;
+
+    let mut components: Vec<(String, Value)> = graph
+        .components
+        .into_iter()
+        .map(|c| (c.name, c.raw))
+        .collect();
+    components.sort_by(|a, b| a.0.cmp(&b.0));
+    let mut guidelines: Vec<(String, Value, bool)> = graph
+        .guidelines
+        .into_iter()
+        .map(|g| {
+            let from_platform = g.file == Path::new("manifest.json");
+            (g.name, g.raw, from_platform)
+        })
+        .collect();
+    guidelines.sort_by(|a, b| a.0.cmp(&b.0));
+    Ok(MergedCatalogs {
+        components,
+        guidelines,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -486,11 +532,11 @@ mod tests {
     use serde_json::json;
     use std::path::PathBuf;
 
-    /// The real `packages/tokens/schemas` dir, whose ancestry contains
+    /// The real `packages/design-data-spec/schemas` dir, whose ancestry contains
     /// `packages/design-data-spec/schemas/manifest.schema.json` — mirrors the
     /// default `schemas_root` an in-repo `ResolvedData` carries.
     fn repo_schemas_root() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas")
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas")
     }
 
     fn resolved_with_manifest(manifest_path: PathBuf, schemas_root: PathBuf) -> ResolvedData {
@@ -503,7 +549,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: Some(manifest_path),
             provenance: Provenance::InRepo,
         }
@@ -581,7 +626,6 @@ mod tests {
             guidelines: None,
             relationships: None,
             exceptions: None,
-            manifest: None,
             platform_manifest: None,
             provenance: Provenance::InRepo,
         };
@@ -847,6 +891,116 @@ mod tests {
         assert!(term_ids.contains(&"keyboard-focus"));
     }
 
+    #[test]
+    fn ios_manifest_merges_real_foundation_and_extensions() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let data = root.join("packages/design-data");
+        let mut graph = TokenGraph::from_json_dir_with_catalogs(
+            &data.join("tokens"),
+            Some(&data.join("mode-sets")),
+            Some(&data.join("components")),
+        )
+        .unwrap();
+        let blue_uuid = "3451c170-3e78-449b-86f2-8b7dbea24c1c";
+        let foundation_blue = graph.resolve_alias_key(blue_uuid).unwrap().raw.clone();
+        let resolved = resolved_with_manifest(
+            root.join("platforms/ios/manifest.json"),
+            repo_schemas_root(),
+        );
+        apply_configured(&mut graph, &resolved).unwrap();
+
+        for uuid in [
+            "736e4768-7944-40ec-a412-4cd36299e03d",
+            "9a727140-328d-430f-9b10-8965eebe77d1",
+            "df8f47d4-5c3b-4ecb-b9fb-5d2dbd39d696",
+        ] {
+            let token = graph.resolve_alias_key(uuid).unwrap();
+            assert_eq!(token.raw["value"], "rgba(9, 144, 120, 1.0)");
+            assert_eq!(token.layer, crate::graph::Layer::Platform);
+        }
+        let blue = graph.resolve_alias_key(blue_uuid).unwrap();
+        assert_eq!(blue.raw, foundation_blue);
+        assert_eq!(blue.raw["name"]["colorFamily"], "blue");
+        assert_eq!(blue.raw["name"]["scaleIndex"], 900);
+        assert_eq!(blue.raw["name"]["colorScheme"], "light");
+        assert_eq!(blue.layer, crate::graph::Layer::Foundation);
+
+        let accent = graph
+            .tokens
+            .values()
+            .find(|t| {
+                t.raw["name"]["property"] == "accent-background-color"
+                    && t.raw["name"]["colorScheme"] == "dark"
+                    && t.raw["name"]["contrast"] == "high"
+                    && t.raw["name"]["state"] == json!(["default"])
+            })
+            .expect("high-contrast accent extension present");
+        assert_eq!(accent.raw["value"], "rgba(86, 129, 255, 1)");
+        assert_eq!(accent.layer, crate::graph::Layer::Platform);
+        let component = graph
+            .components
+            .iter()
+            .find(|c| c.name == "tab-bar-ios")
+            .unwrap();
+        assert_eq!(
+            component.raw["options"]["labelPosition"]["default"],
+            "bottom"
+        );
+        let guideline = graph
+            .guidelines
+            .iter()
+            .find(|g| g.name == "tab-bar-ios")
+            .unwrap();
+        assert!(guideline.raw["documentBlocks"][0]["content"]
+            .as_str()
+            .unwrap()
+            .contains("top-level navigation"));
+        let relationship = graph
+            .relationships
+            .iter()
+            .find(|r| {
+                r.raw["scope"]["component"] == "tab-bar-ios"
+                    && r.raw["scope"]["property"] == "background-color"
+            })
+            .unwrap();
+        let target = relationship.raw["$ref"].as_str().unwrap();
+        assert_eq!(
+            graph
+                .resolve_alias_key(target)
+                .unwrap()
+                .resolve_leaf(&graph)
+                .raw["value"],
+            "rgba(9, 144, 120, 1.0)"
+        );
+        for (extends, mappings) in [
+            (
+                "states",
+                vec![
+                    ("hover", "highlighted"),
+                    ("focus", "focused"),
+                    ("disabled", "disabled"),
+                    ("selected", "selected"),
+                ],
+            ),
+            ("contrast", vec![("high", "increased")]),
+        ] {
+            let record = graph
+                .platform_extensions
+                .iter()
+                .find(|r| r.platform == "iOS" && r.extends == extends)
+                .unwrap();
+            for (term, platform_term) in mappings {
+                assert!(record.raw["extensions"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .any(|entry| {
+                        entry["termId"] == term && entry["platformTerm"] == platform_term
+                    }));
+            }
+        }
+    }
+
     /// The real foundation component catalog, which the incubating platforms'
     /// `extensions/implementations/` fragments target.
     fn real_components() -> Vec<crate::graph::ComponentRecord> {
@@ -929,7 +1083,10 @@ mod tests {
             TokenGraph::load_spec_components(&root.join("packages/design-data/components"))
                 .unwrap();
         let mut graph = make_graph().with_components(components);
-        let resolved = resolved_with_manifest(manifest_path, root.join("packages/tokens/schemas"));
+        let resolved = resolved_with_manifest(
+            manifest_path,
+            root.join("packages/design-data-spec/schemas"),
+        );
         apply_configured(&mut graph, &resolved).unwrap();
         let rows = button_rows(&graph);
         assert_eq!(rows.len(), 2);

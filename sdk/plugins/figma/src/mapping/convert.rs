@@ -8,58 +8,23 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-//! Loading legacy token files, resolving their values, and converting a
+//! Resolving canonical token values and converting a
 //! single token into the `VariableAction`/`ModeValueAction` pair(s) that make
 //! up a Figma Variables POST payload.
 
 use std::collections::{HashMap, HashSet};
-use std::path::{Path, PathBuf};
 
 use serde_json::Value;
 
 use super::routing::{
-    ALIAS, ANGLE, COLOR, COLOR_MODES, COLOR_SET, COLOR_THEME_COLLECTION, DIMENSION, FONT_FAMILY,
-    FONT_SIZE, FONT_STYLE, FONT_WEIGHT, MULTIPLIER, OPACITY, PLATFORM_SCALE_COLLECTION,
-    SCALE_MODES, SCALE_SET,
+    CollectionSpec, ALIAS, ANGLE, COLOR, COLOR_SET, DIMENSION, FONT_FAMILY, FONT_SIZE, FONT_STYLE,
+    FONT_WEIGHT, MULTIPLIER, OPACITY, SCALE_SET,
 };
 use crate::color::parse_color;
 use crate::types::{FigmaVariableAlias, ModeValueAction, VariableAction};
-use crate::FigmaError;
 
+use super::graph::{ExportToken, ExportValue};
 use super::payload::ExportSummary;
-
-/// Load all legacy JSON token files from a directory into a flat map,
-/// keeping each token's source file (basename-matchable against
-/// [`super::routing::CollectionSpec::source_files`]).
-pub fn load_all_tokens(dir: &Path) -> Result<Vec<(String, PathBuf, Value)>, FigmaError> {
-    let mut tokens = Vec::new();
-    let mut paths: Vec<_> = std::fs::read_dir(dir)
-        .map_err(|e| FigmaError::Api {
-            status: 0,
-            message: format!("failed to read token directory: {e}"),
-        })?
-        .filter_map(|e| e.ok())
-        .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|ext| ext == "json"))
-        .collect();
-    paths.sort();
-
-    for path in paths {
-        let text = std::fs::read_to_string(&path).map_err(|e| FigmaError::Api {
-            status: 0,
-            message: format!("failed to read {}: {e}", path.display()),
-        })?;
-        let obj: serde_json::Map<String, Value> =
-            serde_json::from_str(&text).map_err(|e| FigmaError::Api {
-                status: 0,
-                message: format!("failed to parse {}: {e}", path.display()),
-            })?;
-        for (name, entry) in obj {
-            tokens.push((name, path.clone(), entry));
-        }
-    }
-    Ok(tokens)
-}
 
 pub(super) struct ResolvedValue {
     value: String,
@@ -72,6 +37,10 @@ pub(super) enum ResolutionError {
     UnsupportedSchema { target: String, schema: String },
     Unparseable,
 }
+
+/// Existing Figma variables keyed by `(collection id, variable name)`. Names are
+/// only unique within a collection, so lookups must be scoped to one.
+pub(super) type VarIndex<'a> = HashMap<(&'a str, &'a str), &'a str>;
 
 pub(super) type ValueIndex = HashMap<String, Result<ResolvedValue, ResolutionError>>;
 
@@ -91,15 +60,13 @@ fn scalar_schema_supported(schema: &str) -> bool {
     .any(|s| schema.ends_with(s))
 }
 
-fn scalar_value(entry: &Value) -> Option<String> {
-    match entry.get("value")? {
+fn scalar_value(entry: &ExportValue) -> Option<String> {
+    if let Some(alias) = &entry.alias {
+        return Some(format!("{{{alias}}}"));
+    }
+    match entry.literal.as_ref()? {
         Value::String(s) => Some(s.clone()),
-        Value::Number(n)
-            if entry
-                .get("$schema")
-                .and_then(Value::as_str)
-                .is_some_and(|schema| schema.ends_with(ANGLE) || schema.ends_with(MULTIPLIER)) =>
-        {
+        Value::Number(n) if entry.schema.ends_with(ANGLE) || entry.schema.ends_with(MULTIPLIER) => {
             Some(n.to_string())
         }
         _ => None,
@@ -108,12 +75,16 @@ fn scalar_value(entry: &Value) -> Option<String> {
 
 /// Build a lookup from token name → resolved value and leaf schema.
 /// Follows alias chains up to 10 levels deep.
-pub(super) fn build_value_index(tokens: &[(String, PathBuf, Value)]) -> ValueIndex {
-    let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, _, v)| (n.as_str(), v)).collect();
+pub(super) fn build_value_index(tokens: &[ExportToken]) -> ValueIndex {
+    let by_name: HashMap<&str, &ExportToken> =
+        tokens.iter().map(|t| (t.name.as_str(), t)).collect();
     let mut index = HashMap::new();
 
-    for (name, _file, entry) in tokens {
-        index.insert(name.clone(), resolve_value(name, entry, &by_name, 0));
+    for entry in tokens {
+        index.insert(
+            entry.name.clone(),
+            resolve_value(&entry.name, entry, &by_name, 0),
+        );
     }
     index
 }
@@ -122,8 +93,8 @@ pub(super) fn build_value_index(tokens: &[(String, PathBuf, Value)]) -> ValueInd
 /// For set tokens, prefers Light/Desktop when determining the leaf schema.
 fn resolve_value(
     name: &str,
-    entry: &Value,
-    by_name: &HashMap<&str, &Value>,
+    entry: &ExportToken,
+    by_name: &HashMap<&str, &ExportToken>,
     depth: usize,
 ) -> Result<ResolvedValue, ResolutionError> {
     if depth > 10 {
@@ -132,7 +103,7 @@ fn resolve_value(
         )));
     }
 
-    let schema = entry.get("$schema").and_then(Value::as_str).unwrap_or("");
+    let schema = entry.value.schema.as_str();
     if ![ALIAS, COLOR_SET, SCALE_SET]
         .iter()
         .any(|s| schema.ends_with(s))
@@ -148,20 +119,17 @@ fn resolve_value(
     // Prefer "light" (color default) then "desktop" (scale default) so that
     // aliases which resolve through a set token pick the canonical default-mode
     // value rather than whichever mode happens to be listed first in the file.
-    let leaf = if entry.get("value").is_some() {
-        entry
+    let leaf = if entry.value.literal.is_some() || entry.value.alias.is_some() {
+        &entry.value
     } else {
         entry
-            .get("sets")
-            .and_then(|s| s.as_object())
-            .and_then(|sets| {
-                sets.get("light")
-                    .or_else(|| sets.get("desktop"))
-                    .or_else(|| sets.values().next())
-            })
+            .modes
+            .get("light")
+            .or_else(|| entry.modes.get("desktop"))
+            .or_else(|| entry.modes.values().next())
             .ok_or(ResolutionError::Unparseable)?
     };
-    let leaf_schema = leaf.get("$schema").and_then(Value::as_str).unwrap_or("");
+    let leaf_schema = leaf.schema.as_str();
     if !leaf_schema.is_empty()
         && !leaf_schema.ends_with(ALIAS)
         && !scalar_schema_supported(leaf_schema)
@@ -358,23 +326,31 @@ pub(super) fn variable_alias_target_id(value: &Value) -> Option<&str> {
 pub(super) fn resolve_variable_id(
     token_name: &str,
     prefix: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    collection_id: &str,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (String, String) {
     let figma_name = overrides
         .and_then(|m| m.get(token_name))
         .cloned()
-        .unwrap_or_else(|| format!("{prefix}/{token_name}"));
+        .unwrap_or_else(|| {
+            if prefix.is_empty() {
+                token_name.to_string()
+            } else {
+                format!("{prefix}/{token_name}")
+            }
+        });
     // Match against the final (possibly overridden) name. An override that
     // points at a name not already in the file produces a CREATE, not a
     // rename of the old variable — Figma's variables payload has no rename
     // action, so remapping an existing token surfaces as a new variable.
-    let id = if let Some(&existing_id) = existing_var_index.get(figma_name.as_str()) {
-        existing_id.to_string()
-    } else {
-        // Figma rejects temp IDs containing '/'; use '__' as separator.
-        figma_name.replace('/', "__")
-    };
+    let id =
+        if let Some(&existing_id) = existing_var_index.get(&(collection_id, figma_name.as_str())) {
+            existing_id.to_string()
+        } else {
+            // Figma rejects temp IDs containing '/'; use '__' as separator.
+            figma_name.replace('/', "__")
+        };
     (figma_name, id)
 }
 
@@ -385,12 +361,17 @@ fn make_variable_action(
     collection_id: &str,
     figma_type: &str,
     description: Option<&str>,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
 ) -> (VariableAction, String) {
-    let (figma_name, var_id) =
-        resolve_variable_id(token_name, prefix, existing_var_index, overrides);
-    let action = if existing_var_index.contains_key(figma_name.as_str()) {
+    let (figma_name, var_id) = resolve_variable_id(
+        token_name,
+        prefix,
+        collection_id,
+        existing_var_index,
+        overrides,
+    );
+    let action = if existing_var_index.contains_key(&(collection_id, figma_name.as_str())) {
         "UPDATE".to_string()
     } else {
         "CREATE".to_string()
@@ -444,19 +425,21 @@ fn schema_class(schema: &str) -> Option<&'static str> {
 /// literal and recorded in `summary.redirect_skipped`. So are tokens whose
 /// terminal replacement has a value that can't be exported.
 pub(super) fn compute_redirects(
-    tokens: &[(String, PathBuf, Value)],
+    tokens: &[ExportToken],
     value_index: &ValueIndex,
     alias_target_ids: &HashMap<String, String>,
     summary: &mut ExportSummary,
 ) -> HashMap<String, String> {
-    let by_name: HashMap<&str, &Value> = tokens.iter().map(|(n, _, v)| (n.as_str(), v)).collect();
+    let by_name: HashMap<&str, &ExportToken> =
+        tokens.iter().map(|t| (t.name.as_str(), t)).collect();
     let mut redirects = HashMap::new();
 
-    for (name, _file, entry) in tokens {
-        if entry.get("deprecated").and_then(Value::as_bool) != Some(true) {
+    for entry in tokens {
+        let name = &entry.name;
+        if !entry.deprecated {
             continue;
         }
-        let Some(first) = entry.get("renamed").and_then(Value::as_str) else {
+        let Some(first) = entry.replacement.as_deref() else {
             continue;
         };
 
@@ -469,8 +452,9 @@ pub(super) fn compute_redirects(
             let Some(target) = by_name.get(current) else {
                 break Err(format!("replacement '{current}' not found"));
             };
-            let next = (target.get("deprecated").and_then(Value::as_bool) == Some(true))
-                .then(|| target.get("renamed").and_then(Value::as_str))
+            let next = target
+                .deprecated
+                .then_some(target.replacement.as_deref())
                 .flatten();
             match next {
                 Some(next) => current = next,
@@ -556,19 +540,19 @@ pub(super) fn redirect_route(value_index: &ValueIndex, token_name: &str) -> Opti
 #[allow(clippy::too_many_arguments)]
 pub(super) fn process_redirected_token(
     token_name: &str,
-    entry: &Value,
+    entry: &ExportToken,
     collection_id: &str,
     prefix: &str,
     mode_ids: &HashMap<String, String>,
     figma_type: &str,
     target_id: &str,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
 ) {
-    let desc = entry.get("description").and_then(|v| v.as_str());
+    let desc = entry.description.as_deref();
     let (va, var_id) = make_variable_action(
         token_name,
         prefix,
@@ -597,22 +581,24 @@ pub(super) fn process_redirected_token(
 #[allow(clippy::too_many_arguments)]
 pub(super) fn process_color_set_token(
     token_name: &str,
-    entry: &Value,
+    entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
 ) {
-    let sets = match entry.get("sets").and_then(|v| v.as_object()) {
-        Some(s) => s,
-        None => return,
-    };
+    let sets = &entry.modes;
+    if sets.is_empty() {
+        return;
+    }
+
+    let prefix = spec.default_prefix;
 
     // Determine the inner type from any mode entry — not just the first —
     // since a set's first member can be an `alias.json` pointer (no
@@ -620,14 +606,10 @@ pub(super) fn process_color_set_token(
     // `opacity.json`/`color.json` schema. Inferring from the first member
     // only would misclassify such a set as COLOR, making its opacity
     // values fail `parse_color` and get silently dropped.
-    let is_opacity = sets.values().any(|v| {
-        v.get("$schema")
-            .and_then(|s| s.as_str())
-            .is_some_and(|s| s.ends_with(OPACITY))
-    });
+    let is_opacity = sets.values().any(|v| v.schema.ends_with(OPACITY));
     let figma_type = if is_opacity { "FLOAT" } else { "COLOR" };
 
-    let desc = entry.get("description").and_then(|v| v.as_str());
+    let desc = entry.description.as_deref();
     let (va, var_id) = make_variable_action(
         token_name,
         prefix,
@@ -641,13 +623,14 @@ pub(super) fn process_color_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in COLOR_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{COLOR_THEME_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };
@@ -667,10 +650,7 @@ pub(super) fn process_color_set_token(
             continue;
         }
 
-        let mode_schema = mode_entry
-            .get("$schema")
-            .and_then(Value::as_str)
-            .unwrap_or("");
+        let mode_schema = mode_entry.schema.as_str();
         let resolved = raw_value.as_deref().and_then(|v| {
             if v.starts_with('{') && v.ends_with('}') {
                 let target = &v[1..v.len() - 1];
@@ -716,26 +696,29 @@ pub(super) fn process_color_set_token(
 #[allow(clippy::too_many_arguments)]
 pub(super) fn process_scale_set_token(
     token_name: &str,
-    entry: &Value,
+    entry: &ExportToken,
     collection_id: &str,
-    prefix: &str,
+    spec: &CollectionSpec,
     mode_ids: &HashMap<String, String>,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
 ) {
-    let sets = match entry.get("sets").and_then(|v| v.as_object()) {
-        Some(s) => s,
-        None => return,
-    };
+    let sets = &entry.modes;
+    if sets.is_empty() {
+        return;
+    }
+
+    let prefix = spec.default_prefix;
 
     let inner_schema = sets
         .values()
-        .filter_map(|v| v.get("$schema").and_then(Value::as_str))
+        .map(|v| v.schema.as_str())
+        .filter(|s| !s.is_empty())
         .find(|schema| !schema.ends_with(ALIAS))
         .or_else(|| {
             value_index
@@ -746,7 +729,7 @@ pub(super) fn process_scale_set_token(
         .unwrap_or("");
     let figma_type = schema_to_figma_type(inner_schema);
 
-    let desc = entry.get("description").and_then(|v| v.as_str());
+    let desc = entry.description.as_deref();
     let (va, var_id) = make_variable_action(
         token_name,
         prefix,
@@ -760,13 +743,14 @@ pub(super) fn process_scale_set_token(
     summary.variables_created += 1;
     let values_start = mode_values.len();
 
-    for &mode_name in SCALE_MODES {
+    for mode_name in &spec.modes {
         let Some(mode_entry) = sets.get(mode_name) else {
             continue;
         };
         let Some(mode_id) = mode_ids.get(mode_name) else {
             summary.mode_warnings.push(format!(
-                "{token_name}: no '{mode_name}' mode in '{PLATFORM_SCALE_COLLECTION}' — value dropped"
+                "{token_name}: no '{mode_name}' mode in '{}' — value dropped",
+                spec.figma_collection_name
             ));
             continue;
         };
@@ -834,19 +818,19 @@ pub(super) fn process_scale_set_token(
 #[allow(clippy::too_many_arguments)]
 pub(super) fn process_flat_token(
     token_name: &str,
-    entry: &Value,
+    entry: &ExportToken,
     collection_id: &str,
     prefix: &str,
     figma_type: &str,
     default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
 ) {
-    let raw_value = match scalar_value(entry) {
+    let raw_value = match scalar_value(&entry.value) {
         Some(v) => v,
         None => {
             record_value_error(summary, token_name, ValueError::Unparseable);
@@ -868,7 +852,7 @@ pub(super) fn process_flat_token(
         raw_value.as_str()
     };
 
-    let schema = entry.get("$schema").and_then(|v| v.as_str()).unwrap_or("");
+    let schema = entry.value.schema.as_str();
     let figma_val = match value_to_figma(resolved, figma_type, schema) {
         Ok(v) => v,
         Err(error) => {
@@ -877,7 +861,7 @@ pub(super) fn process_flat_token(
         }
     };
 
-    let desc = entry.get("description").and_then(|v| v.as_str());
+    let desc = entry.description.as_deref();
     let (va, var_id) = make_variable_action(
         token_name,
         prefix,
@@ -902,7 +886,7 @@ pub(super) fn process_flat_token(
 #[allow(clippy::too_many_arguments)]
 pub(super) fn process_alias_token(
     token_name: &str,
-    entry: &Value,
+    entry: &ExportToken,
     color_collection_id: &str,
     color_prefix: &str,
     scale_collection_id: &str,
@@ -910,14 +894,14 @@ pub(super) fn process_alias_token(
     color_default_mode_id: &str,
     scale_default_mode_id: &str,
     value_index: &ValueIndex,
-    existing_var_index: &HashMap<&str, &str>,
+    existing_var_index: &VarIndex<'_>,
     alias_target_ids: &HashMap<String, String>,
     overrides: Option<&HashMap<String, String>>,
     variables: &mut Vec<VariableAction>,
     mode_values: &mut Vec<ModeValueAction>,
     summary: &mut ExportSummary,
 ) {
-    let raw_value = match entry.get("value").and_then(|v| v.as_str()) {
+    let raw_value = match scalar_value(&entry.value) {
         Some(v) => v,
         None => return,
     };
@@ -954,7 +938,7 @@ pub(super) fn process_alias_token(
         }
     };
 
-    let desc = entry.get("description").and_then(|v| v.as_str());
+    let desc = entry.description.as_deref();
     let (va, var_id) = make_variable_action(
         token_name,
         prefix,

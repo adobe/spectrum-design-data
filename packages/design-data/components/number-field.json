@@ -9,13 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/number-field/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "NumberField",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -77,6 +70,13 @@
     {
       "type": "guideline",
       "content": "Write error text that shows a solution.\n\nWrite error messaging in a human-centered way by guiding a user and showing them a solution — don't simply state what's wrong and then leave them guessing as to how to resolve it. Ambiguous error messages can be frustrating and even shame-inducing for users. Also, keep in mind that something that a system may deem an error may not actually be perceived as an error to a user. Error text should be written in 1-2 short, complete sentences and in a clear and straightforward way. Never end with an exclamation point. For number fields, the nature of the error is often related to something that needs to be fixed for in-line validation, so a helpful tone is most appropriate."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "NumberField",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

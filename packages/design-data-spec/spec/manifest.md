@@ -8,26 +8,26 @@ This document defines the **platform manifest**: how a platform implementation r
 
 The manifest supports a fixed, enumerated set of operations against the foundation — it does **not** allow overriding, aliasing, or removing arbitrary foundation artifacts. Support is concentrated on tokens; translations and schemas have no manifest-level override mechanism at all.
 
-| Operation                                           | Supported?                                                   | Field                             | Applies to                  |
-| --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | --------------------------- |
-| Remove / exclude                                    | Yes                                                          | `exclude`                         | Tokens only                 |
-| Include / whitelist                                 | Yes                                                          | `include`                         | Tokens only                 |
-| Override value (type-preserving)                    | Yes                                                          | `overrides[].value`               | Tokens only                 |
-| Override → re-alias                                 | Yes                                                          | `overrides[].$ref`                | Tokens only                 |
-| Add new tokens (may alias via `$ref`)               | Yes                                                          | `extensions/tokens/`              | Tokens                      |
-| Add / replace components                            | Yes                                                          | `extensions/components/`          | Components                  |
-| Add / replace field declarations                    | Yes                                                          | `extensions/fields/`              | Fields                      |
-| Add / replace guideline documents                   | Yes                                                          | `extensions/guidelines/`          | Guidelines                  |
-| Declare / replace platform-local mode set           | Yes                                                          | `extensions/mode-sets/`           | Mode sets                   |
-| Add / remove / retarget a single mode; remove a set | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                   |
-| Add relationships/CTRs; override/remove by `uuid`   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)        |
-| Add / remove naming exceptions                      | Yes                                                          | `namingExceptions`                | Naming validation           |
-| Annotate existing terminology (cannot add new ids)  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids       |
-| Upsert / remove own implementation mappings         | Yes                                                          | `extensions/implementations/`     | Component `implementations` |
-| Restrict allowed mode-set values                    | Yes                                                          | `modeSetRestrictions`             | Mode sets                   |
-| Reformat name serialization                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings          |
-| Override/remove/alias translations                  | No                                                           | —                                 | —                           |
-| Override Layer-1 schemas                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                           |
+| Operation                                           | Supported?                                                   | Field                             | Applies to                     |
+| --------------------------------------------------- | ------------------------------------------------------------ | --------------------------------- | ------------------------------ |
+| Remove / exclude                                    | Yes                                                          | `exclude`                         | Tokens only                    |
+| Include / whitelist                                 | Yes                                                          | `include`                         | Tokens only                    |
+| Override value (type-preserving)                    | Yes                                                          | `overrides[].value`               | Tokens only                    |
+| Override → re-alias                                 | Yes                                                          | `overrides[].$ref`                | Tokens only                    |
+| Add new tokens (may alias via `$ref`)               | Yes                                                          | `extensions/tokens/`              | Tokens                         |
+| Add / replace components                            | Yes                                                          | `extensions/components/`          | Components                     |
+| Add / replace field declarations                    | Yes                                                          | `extensions/fields/`              | Fields                         |
+| Add / replace guideline documents                   | Yes                                                          | `extensions/guidelines/`          | Guidelines                     |
+| Declare / replace platform-local mode set           | Yes                                                          | `extensions/mode-sets/`           | Mode sets                      |
+| Add / remove / retarget a single mode; remove a set | Yes                                                          | `extensions/mode-sets/` (`op`)    | Mode sets                      |
+| Add relationships/CTRs; override/remove by `uuid`   | Yes                                                          | `extensions/relationships/`       | Relationships (CTRs)           |
+| Add / remove naming exceptions                      | Yes                                                          | `namingExceptions`                | Naming validation              |
+| Annotate existing terminology (cannot add new ids)  | Yes                                                          | `extensions/platform-extensions/` | Existing registry ids or modes |
+| Upsert / remove own implementation mappings         | Yes                                                          | `extensions/implementations/`     | Component `implementations`    |
+| Restrict allowed mode-set values                    | Yes                                                          | `modeSetRestrictions`             | Mode sets                      |
+| Reformat name serialization                         | Schema-declared only, not yet applied by the reference SDK   | `formatting`                      | Token name strings             |
+| Override/remove/alias translations                  | No                                                           | —                                 | —                              |
+| Override Layer-1 schemas                            | No (decided; see [spike](manifest-schema-override-spike.md)) | —                                 | —                              |
 
 ## Manifest document
 
@@ -35,10 +35,10 @@ A manifest **MUST** conform to [`manifest.schema.json`](../schemas/manifest.sche
 
 ## Required fields
 
-| Field               | Type   | Description                                                   |
-| ------------------- | ------ | ------------------------------------------------------------- |
-| `specVersion`       | string | **MUST** be `1.0.0-draft` for documents targeting this draft. |
-| `foundationVersion` | string | Pin to a released foundation version (semver or tag string).  |
+| Field               | Type   | Description                                                                                                                                                                                               |
+| ------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `specVersion`       | string | **MUST** be `1.0.0-draft` for documents targeting this draft.                                                                                                                                             |
+| `foundationVersion` | string | Pin to a released foundation version (semver or tag string). Spectrum platforms use the canonical package tag `@adobe/spectrum-design-data@<version>`, not the generated legacy `@adobe/spectrum-tokens`. |
 
 ## Optional fields
 
@@ -215,11 +215,12 @@ a new axis.
 
 #### `extensions/platform-extensions/`
 
-Platform terminology annotations layered onto **existing** foundation registry entries (for
-example, platform-specific state names). **NORMATIVE:** each file **MUST** validate against
-`platform-extension.json`, and every `termId` **MUST** already exist in the referenced
-foundation registry — this mechanism annotates existing ids, it does **NOT** introduce new
-ones.
+Platform terminology annotations for **existing** registry entries or mode-set values (for
+example, platform-specific state or contrast names). **NORMATIVE:** each file **MUST**
+validate against `platform-extension.json`. `extends` **MUST** name a foundation registry
+(by field name or registry-file basename) or an active mode set. Every `termId` **MUST**
+exist in that registry or the mode set's `modes`, after applying the manifest's mode-set
+edits. This mechanism annotates existing ids and modes; it does **NOT** introduce new ones.
 
 #### `extensions/implementations/`
 

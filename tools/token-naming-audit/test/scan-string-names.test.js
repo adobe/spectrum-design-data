@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = join(__dirname, "fixtures");
 
 test("known exception token is marked as known", async (t) => {
-  // fixturesDir has packages/tokens/naming-exceptions.json which lists
+  // fixturesDir has packages/design-data/naming-exceptions.json which lists
   // accent-background-color-default, so scanStringNames classifies it as known.
   const { scanStringNames } = await import("../src/scan-string-names.js");
 

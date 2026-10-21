@@ -2,7 +2,7 @@
 title: Brand
 category: designing
 source_url: https://spectrum.adobe.com/foundations/brand
-last_updated: '2026-09-10'
+last_updated: '2026-10-12'
 status: published
 tags:
   - Brand assets
@@ -36,7 +36,7 @@ On desktop, product folder icons are branded to help users find any product-rela
 
 ## Color
 
-Color has historically been an extremely important part of Adobe’s brand. Bringing more color into Spectrum 2 lets product experiences draw a much closer connection to marketing materials and product branding. Spectrum’s 6.0.0 color system didn’t throughly incorporate the Adobe brand colors, even though in-product UI colors are so close to them in both hue and saturation. With the colors for Spectrum 2, we’ve made some shifts to ensure that brand colors are better represented throughout product experiences. Image: Color-coded Adobe app icons with hex codes and names: Ai (Orange), Ps (Cyan), Dn (Celery), Ae (Indigo), Xd (Fuchsia), Id (Magenta). (source: https://spectrum.adobe.com/foundations/media_140ed33e3bdfc0215811463a3914f62aa3b83debd.png?width=750&format=png&optimize=medium) Brand colors used outside of in-product illustrations and splash imagery may differ slightly from the Spectrum 2 colors. Image: Color chart comparing brand colors and spectrum colors for Adobe apps, showing hex codes and color variations side by side. (source: https://spectrum.adobe.com/foundations/media_19e48a995352b0a44ae5ac4478d0b0780916e06e1.png?width=750&format=png&optimize=medium) Along with Adobe’s primary brand color palette (red, black, grey, and white), there’s also an extended color palette that brings a modern and bold personality to the Adobe brand. These colors are the starting point for graphics, diagrams and icons, illustrations, and backgrounds — and there are additional considerations for colors in Creative Cloud, Document Cloud, Experience Cloud, and Adobe Express for Spectrum 2 experiences.
+Color has historically been an extremely important part of Adobe’s brand. Bringing more color into Spectrum 2 lets product experiences draw a much closer connection to marketing materials and product branding. Spectrum’s 6.0.0 color system didn’t thoroughly incorporate the Adobe brand colors, even though in-product UI colors are so close to them in both hue and saturation. With the colors for Spectrum 2, we’ve made some shifts to ensure that brand colors are better represented throughout product experiences. Image: Color-coded Adobe app icons with hex codes and names: Ai (Orange), Ps (Cyan), Dn (Celery), Ae (Indigo), Xd (Fuchsia), Id (Magenta). (source: https://spectrum.adobe.com/foundations/media_140ed33e3bdfc0215811463a3914f62aa3b83debd.png?width=750&format=png&optimize=medium) Brand colors used outside of in-product illustrations and splash imagery may differ slightly from the Spectrum 2 colors. Image: Color chart comparing brand colors and spectrum colors for Adobe apps, showing hex codes and color variations side by side. (source: https://spectrum.adobe.com/foundations/media_19e48a995352b0a44ae5ac4478d0b0780916e06e1.png?width=750&format=png&optimize=medium) Along with Adobe’s primary brand color palette (red, black, grey, and white), there’s also an extended color palette that brings a modern and bold personality to the Adobe brand. These colors are the starting point for graphics, diagrams and icons, illustrations, and backgrounds — and there are additional considerations for colors in Creative Cloud, Document Cloud, Experience Cloud, and Adobe Express for Spectrum 2 experiences.
 
 ### Creative Cloud
 

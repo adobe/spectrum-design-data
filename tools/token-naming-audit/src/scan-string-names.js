@@ -15,7 +15,7 @@ import { resolve } from "node:path";
 import { glob } from "glob";
 
 function loadExceptions(root) {
-  const path = resolve(root, "packages/tokens/naming-exceptions.json");
+  const path = resolve(root, "packages/design-data/naming-exceptions.json");
   let data;
   try {
     data = JSON.parse(readFileSync(path, "utf-8"));

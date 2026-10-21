@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/guideline.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/guidelines/tab-bar-ios.json",
+  "name": "tab-bar-ios",
+  "title": "Tab bar (iOS)",
+  "category": "developing",
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "Tab bar is a top-level navigation control for iOS apps. See https://spectrum.adobe.com/page/tab-bar-ios/ for full usage guidance."
+    }
+  ]
+}

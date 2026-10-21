@@ -39,7 +39,10 @@ const DEFAULT_INCLUDE = [
 const DEFAULT_EXCLUDE = ["colorScheme=wireframe"];
 
 function parseArgs(argv) {
-  const args = { gaps: "gaps.md", foundation: "@adobe/spectrum-tokens@15.0.0" };
+  const args = {
+    gaps: "gaps.md",
+    foundation: "@adobe/spectrum-design-data@3.5.0",
+  };
   for (let i = 0; i < argv.length; i += 1) {
     const flag = argv[i];
     if (flag === "--csv") args.csv = argv[++i];

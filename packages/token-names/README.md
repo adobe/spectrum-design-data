@@ -4,7 +4,9 @@ Sidecar taxonomy data for Spectrum design tokens. Stores structured `name`
 objects for tokens in `@adobe/spectrum-tokens`, **decoupled** from the published
 token package so taxonomy changes don't bump `@adobe/spectrum-tokens`.
 
-This package is **private** — it is not published to npm. Delivery format for
+This package is a **legacy-migration input only**: it feeds `design-data migrate convert`
+and `regenerate-from-legacy`. Canonical names now live in `packages/design-data`; do not
+add new consumers. It is **private** — it is not published to npm. Delivery format for
 downstream consumers is TBD.
 
 ## Format

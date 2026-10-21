@@ -1,5 +1,39 @@
 # @adobe/spectrum-design-data
 
+## 3.6.1
+
+### Patch Changes
+
+- [#1550](https://github.com/adobe/spectrum-design-data/pull/1550) [`18431aa`](https://github.com/adobe/spectrum-design-data/commit/18431aa6bb40fee2838030592940195c42a6a1d4) Thanks [@GarthDB](https://github.com/GarthDB)! - Incubate the iOS manifest proof of concept under monorepo-maintainer stewardship.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **platforms/ios/**: preserve external data and attribution; target compatible foundation `3.6.0`.
+  - **registry/platform-implementations.json**: record the canonical iOS authoring location.
+
+## 3.6.0
+
+### Minor Changes
+
+- [#1382](https://github.com/adobe/spectrum-design-data/pull/1382) [`15f371e`](https://github.com/adobe/spectrum-design-data/commit/15f371e50e2ce95a624a93152e408e1bbe8844dc) Thanks [@GarthDB](https://github.com/GarthDB)! - Add static and theme-aware transparent colors, deprecate the old ones (#1345, #1346, #1347).
+  - **tokens/color-palette.tokens.json**: add `transparent-static-white-*` and
+    `transparent-static-black-*` (36 tokens), plus theme-aware `transparent-neutral-*` and
+    `transparent-neutral-inverse-*` (108 tokens across light, dark, wireframe). Alpha equals the
+    matching `opacity-*` step and matches the S2/Web Figma library's opacity links.
+  - **tokens/color-palette.tokens.json**: deprecate `transparent-white-*`, `transparent-black-*`,
+    `white`, and `black` with `replacedBy` mappings from #1346. Scales don't map 1:1: 8 of the
+    26 numbered tokens match exactly, the rest are approximate, and `-25` maps to `-0`.
+    Legacy values are unchanged.
+  - **registry/color-families.json**: register the four new color families.
+  - **packages/tokens/src/color-palette.json**: regenerated legacy output; the 28 deprecated
+    tokens gain `deprecated`, `deprecated_comment`, and `renamed`.
+  - **@adobe/design-data-wasm**: patch bump because the embedded dataset content changed.
+
+### Patch Changes
+
+- [`54ee322`](https://github.com/adobe/spectrum-design-data/commit/54ee322dc2fa9c6556549597a74610c290638664) - Pin the corrected banner/list legacy keys explicitly (follow-up to #1517).
+  - **packages/design-data/tokens/layout.tokens.json**: add `name.legacyKey` to the five live
+    `banner-gap-*`, `banner-padding-*` and `list-gap-regular` records. Generated output is unchanged.
+
 ## 3.5.0
 
 ### Minor Changes

@@ -18,11 +18,12 @@ tasks:
       - node
       - src/index.js
     deps:
-      - "tokens:build"
+      - "sdk:build"
       - "component-schemas:test"
       - "design-data:validate"
     inputs:
       - "@globs(sources)"
+      - "/packages/design-data/tokens/*.tokens.json"
       # Site pages are read directly by src/pages.js and mirrored into docs/markdown/pages.
       # Token/component/registry data is covered by the deps above.
       - "/docs/site/src/pages/**/*"

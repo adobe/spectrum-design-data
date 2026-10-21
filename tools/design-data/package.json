@@ -1,6 +1,6 @@
 {
   "name": "@adobe/design-data",
-  "version": "3.2.5",
+  "version": "3.2.8",
   "description": "Node.js helpers for @adobe/design-data-wasm: filesystem dataset loading, token write operations, and authoring-session management",
   "type": "module",
   "main": "./src/index.js",
@@ -43,6 +43,7 @@
     "provenance": true
   },
   "dependencies": {
+    "@adobe/design-data-spec": "workspace:*",
     "@adobe/design-data-wasm": "workspace:*",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"

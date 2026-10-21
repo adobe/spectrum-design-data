@@ -99,7 +99,34 @@ async function resolveActivePlatformId(configDir, config, run) {
   }
 }
 
-function materializeCatalogs(config, cascadeDir, configDir, activePlatformId) {
+/**
+ * Materialize the component and guideline catalogs by asking the CLI for the
+ * platform-merged result (`catalog export`), so extension components,
+ * implementation rows and replacements come from the SDK cascade rather than
+ * a second merge here. Relationships are not part of that export yet and are
+ * still copied from the fallback dir plus the platform's `extensions/`.
+ * Throws on failure so bootstrap falls back explicitly instead of serving a
+ * half-populated cascade.
+ */
+async function materializeCatalogs(
+  config,
+  cascadeDir,
+  configDir,
+  activePlatformId,
+  run,
+) {
+  const exportArgs = ["catalog", "export", "--out", cascadeDir];
+  if (activePlatformId) exportArgs.push("--platform", activePlatformId);
+  const { exitCode, stderr } = await run(exportArgs, {
+    timeout: 60_000,
+    cwd: configDir,
+  });
+  if (exitCode !== 0) {
+    throw new Error(
+      stderr || `design-data catalog export exited with code ${exitCode}`,
+    );
+  }
+
   const manifestPath = resolveManifestPath(configDir, activePlatformId);
   let extensionsDir = null;
   if (manifestPath) {
@@ -109,58 +136,18 @@ function materializeCatalogs(config, cascadeDir, configDir, activePlatformId) {
       manifest.extensionsDir ?? "extensions",
     );
   }
-
-  for (const [key, subdir] of [
-    ["componentsDir", "components"],
-    ["relationshipsDir", "relationships"],
-    ["guidelinesDir", "guidelines"],
-  ]) {
-    const targetDir = join(cascadeDir, subdir);
-    mkdirSync(targetDir, { recursive: true });
-    const fallbackDir = config[key];
-    if (fallbackDir && existsSync(fallbackDir)) {
-      cpSync(fallbackDir, targetDir, { recursive: true, force: true });
-    }
-    const extensionDir = extensionsDir && join(extensionsDir, subdir);
-    if (extensionDir && existsSync(extensionDir)) {
-      cpSync(extensionDir, targetDir, { recursive: true, force: true });
-      if (subdir === "guidelines") {
-        mergeGuidelineManifest(targetDir, extensionDir);
-      }
-    }
-  }
-}
-
-function mergeGuidelineManifest(targetDir, extensionDir) {
-  const manifestPath = join(targetDir, "manifest.json");
-  const manifest = existsSync(manifestPath)
-    ? JSON.parse(readFileSync(manifestPath, "utf-8"))
-    : { guidelines: [] };
-  const entries = new Map(
-    (manifest.guidelines ?? []).map((entry) => [entry.slug, entry]),
-  );
-
-  for (const file of readdirSync(extensionDir)) {
-    if (!file.endsWith(".json") || file === "manifest.json") continue;
-    const document = JSON.parse(
-      readFileSync(join(extensionDir, file), "utf-8"),
-    );
-    const slug = document.name ?? file.replace(/\.json$/, "");
-    entries.set(slug, {
-      slug,
-      ...(document.title && { title: document.title }),
-      ...(document.category && { category: document.category }),
-      ...(document.status && { status: document.status }),
-      ...(document.sourceUrl && { sourceUrl: document.sourceUrl }),
-      file: `guidelines/${file}`,
+  const targetDir = join(cascadeDir, "relationships");
+  mkdirSync(targetDir, { recursive: true });
+  if (config.relationshipsDir && existsSync(config.relationshipsDir)) {
+    cpSync(config.relationshipsDir, targetDir, {
+      recursive: true,
+      force: true,
     });
   }
-
-  writeFileSync(
-    manifestPath,
-    JSON.stringify({ ...manifest, guidelines: [...entries.values()] }),
-    "utf-8",
-  );
+  const extensionDir = extensionsDir && join(extensionsDir, "relationships");
+  if (extensionDir && existsSync(extensionDir)) {
+    cpSync(extensionDir, targetDir, { recursive: true, force: true });
+  }
 }
 
 /**
@@ -226,7 +213,7 @@ export async function bootstrapCascade(config, { run = runCli } = {}) {
       JSON.stringify(tokens),
       "utf-8",
     );
-    materializeCatalogs(config, dir, configDir, activePlatformId);
+    await materializeCatalogs(config, dir, configDir, activePlatformId, run);
 
     config.cascadeDataPath = dir;
     config.cascadeActive = true;
