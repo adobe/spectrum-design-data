@@ -250,10 +250,10 @@ fn run(server: &Server, flags: &[&str]) -> (std::process::Output, tempfile::Temp
     let directory = tempfile::tempdir().unwrap();
     let tokens = directory.path().join("tokens");
     std::fs::create_dir(&tokens).unwrap();
-    std::fs::write(tokens.join("typography.json"), json!({
-        "line-height-100":{"$schema":"https://example.com/multiplier.json","value":1.7},
-        "heading-line-height":{"$schema":"https://example.com/alias.json","value":"{line-height-100}"}
-    }).to_string()).unwrap();
+    std::fs::write(tokens.join("typography.tokens.json"), json!([
+        {"name":"line-height-100","uuid":"u-1","$schema":"https://example.com/multiplier.json","value":1.7},
+        {"name":"heading-line-height","uuid":"u-2","$schema":"https://example.com/alias.json","$ref":"u-1"}
+    ]).to_string()).unwrap();
     let output = Command::cargo_bin("design-data")
         .unwrap()
         .timeout(Duration::from_secs(20))
@@ -463,10 +463,10 @@ fn prior_reports_are_not_reused_and_never_trigger_a_write() {
     std::fs::create_dir(&tokens).unwrap();
     std::fs::create_dir(&reports).unwrap();
     std::fs::write(
-        tokens.join("typography.json"),
-        json!({
-            "line-height-100":{"$schema":"https://example.com/multiplier.json","value":1.7}
-        })
+        tokens.join("typography.tokens.json"),
+        json!([
+            {"name":"line-height-100","uuid":"u-1","$schema":"https://example.com/multiplier.json","value":1.7}
+        ])
         .to_string(),
     )
     .unwrap();

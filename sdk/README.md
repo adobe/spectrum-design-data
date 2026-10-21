@@ -189,7 +189,7 @@ Cache files live at `<cache_root>/cache/<tokens-version>/<dataset-key>.redb` and
 
 **Cache file keys:** `open_cached` (tokens only) and `open_cached_with_catalogs` produce different on-disk files for the same tokens root. CLI/TUI pass catalogs; WASM/tools using plain `build_bytes` / `open_cached` get a separate entry unless they use the `*_with_catalogs` variants.
 
-**Platform manifest (CLI/TUI):** Both surfaces apply a manifest configured via the top-level `manifest` key in `.design-data.toml` at session start via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` reports token count from the hydrated graph (catalogs included); it does not apply a platform manifest filter.
+**Platform manifest (CLI/TUI):** Both surfaces apply a manifest at session start, selected by `--platform`, `DESIGN_DATA_PLATFORM`, `default_platform`, or the legacy top-level `manifest` key in `.design-data.toml` (see [Configuring design-data for your platform](../docs/site/src/articles/configuring-design-data-for-your-platform.md)), via the shared `design-data-core::manifest::apply_configured` helper. Query/find use the platform-scoped token set and index; `:resolve` layers manifest mode-set restrictions through `cascade::resolve_property`. The TUI header shows `N platform` (vs `N tokens`) when a manifest is active. CLI `primer` reports token count from the hydrated graph (catalogs included); it does not apply a platform manifest filter.
 
 Opt out of the cache layer when depending on `design-data-core` as a library:
 
@@ -204,11 +204,13 @@ Interact with the Figma Variables REST API. Requires a `FIGMA_TOKEN` environment
 ```bash
 export FIGMA_TOKEN=<your-token>
 design-data figma read --file-key <KEY> --format json > figma-vars.json
-design-data figma export packages/tokens/src --file-key <KEY> --dry-run > figma-payload.json
+design-data figma export --file-key <KEY> --dry-run > figma-payload.json
 ```
 
-Export reads the legacy projection generated from canonical `packages/design-data`
-by `moon run design-data:legacy-output`. Omit `--dry-run` to write variables to the
+Export reads canonical `packages/design-data` (tokens plus relationships) directly and
+applies any `--manifest` cascade; it does not read `packages/tokens`. `PATH` is optional
+and must point at a cascade (`.tokens.json`) directory; legacy-format directories
+are rejected. The mapper consumes the token graph directly. Omit `--dry-run` to write variables to the
 file. Dry runs still read the file through the API to obtain collection and mode IDs.
 
 Pass `--redirect-deprecated` to export each deprecated token that names a
@@ -286,7 +288,7 @@ references to targets that failed to export, so the payload has no dangling alia
 Audit the generator's output against a saved snapshot without an API call:
 
 ```bash
-design-data figma audit --snapshot figma-vars.json --token-dir packages/tokens/src
+design-data figma audit --snapshot figma-vars.json --token-dir packages/design-data/tokens
 ```
 
 Diff the manifest-resolved dataset against a Figma file's actual variable
@@ -366,12 +368,15 @@ Versions are managed via [changesets](https://github.com/changesets/changesets) 
 
 ### Native CLI delivery
 
-The `design-data-cli` Rust binary is released via **GitHub Releases** (tagged `design-data-cli@x.y.z`). The release workflow builds it for four platforms on every version-PR merge and attaches the binaries to the release.
+The `design-data-cli` Rust binary is released via **GitHub Releases** (tagged `design-data-cli@x.y.z`). The release workflow builds it for four platforms on every version-PR merge and attaches the binaries to the release, then opens a PR that bumps `Formula/design-data.rb`.
 
-Install options:
+Platform teams install through Homebrew (macOS) for now:
 
-* **Cargo:** `cargo install design-data-cli`
-* **GitHub Releases:** download the binary for your platform from the [Releases page](https://github.com/adobe/spectrum-design-data/releases)
-* **Homebrew:** (future) `brew install adobe/tap/design-data`
+```sh
+brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-data
+brew install adobe/spectrum-design-data/design-data
+```
+
+There is no npm wrapper for the CLI or TUI, and the crates aren't published to crates.io. Native installers for other operating systems are future work. The WASM package (`@adobe/design-data-wasm`) keeps publishing to npm.
 
 The `@adobe/design-data` npm package is now the **JS/wasm library** (`tools/design-data`), not the CLI launcher. It exposes `loadDataset`, `validateDataset`, session helpers, and write utilities via `@adobe/design-data-wasm` under the hood. The `design-data-cli` Cargo.toml version is managed independently; bump it manually before a native release and add a matching changeset for the changelog.

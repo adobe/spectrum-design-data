@@ -23,7 +23,7 @@ use std::path::Path;
 
 use serde::Serialize;
 
-use super::mapping::{build_export_payload, load_all_tokens, summarize_variables};
+use super::mapping::{build_export_payload, collection_specs, summarize_variables, CollectionSpec};
 use super::types::VariablesMeta;
 use super::FigmaError;
 
@@ -62,13 +62,39 @@ pub struct AuditReport {
 
 /// Compare the generator's output against a real Figma snapshot.
 ///
-/// `existing` is the captured `VariablesMeta` (e.g. the 11k.3 baseline
-/// fixture); `token_dir` is a legacy-format token directory — the shape
-/// [`design_data_core::legacy::convert_dir`] produces from cascade `.tokens.json` files,
-/// not the cascade format itself.
+/// `existing` is captured `VariablesMeta`; `token_dir` contains canonical `.tokens.json` files.
 pub fn audit_names(existing: &VariablesMeta, token_dir: &Path) -> Result<AuditReport, FigmaError> {
-    let tokens = load_all_tokens(token_dir)?;
-    let (body, summary) = build_export_payload(&tokens, existing, None)?;
+    let mut graph = design_data_core::graph::TokenGraph::from_json_dir(token_dir).map_err(|e| {
+        FigmaError::Api {
+            status: 0,
+            message: format!("failed to load canonical tokens: {e}"),
+        }
+    })?;
+    if let Some(root) = token_dir.parent() {
+        let relationships = root.join("relationships");
+        if relationships.is_dir() {
+            graph = graph.with_relationships(
+                design_data_core::graph::TokenGraph::load_spec_relationships(&relationships)
+                    .map_err(|e| FigmaError::Api {
+                        status: 0,
+                        message: format!("failed to load relationships: {e}"),
+                    })?,
+            );
+        }
+    }
+    let specs = collection_specs(&graph.mode_sets)?;
+    audit_tokens(existing, &crate::mapping::export_tokens(&graph)?, &specs)
+}
+
+/// Same as [`audit_names`], over already-loaded tokens (e.g. from
+/// [`crate::mapping::export_tokens`]) and the collection specs derived from
+/// the graph's mode sets.
+pub fn audit_tokens(
+    existing: &VariablesMeta,
+    tokens: &[crate::mapping::ExportToken],
+    specs: &[CollectionSpec],
+) -> Result<AuditReport, FigmaError> {
+    let (body, summary) = build_export_payload(tokens, specs, existing, None)?;
 
     // Real variable names per collection, from the snapshot (non-remote only,
     // matching summarize_variables' existing convention). The real file has
@@ -290,18 +316,20 @@ mod tests {
         write!(
             f,
             "{}",
-            json!({
-                "test-color": {
+            json!([
+                {
+                    "name": "test-color",
                     "$schema": "https://example.com/color.json",
                     "value": "rgb(255, 0, 0)",
                     "uuid": "u1"
                 },
-                "test-size": {
+                {
+                    "name": "test-size",
                     "$schema": "https://example.com/dimension.json",
                     "value": "16px",
                     "uuid": "u2"
                 }
-            })
+            ])
         )
         .unwrap();
 

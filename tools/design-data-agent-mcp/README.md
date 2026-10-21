@@ -49,7 +49,14 @@ https://github.com/adobe/spectrum-design-data/tree/main/tools/design-data-agent-
 npx @adobe/design-data-agent-mcp@latest
 ```
 
-The `@adobe/design-data` CLI binary is **only** needed for `authoring_session_step_intent`. All other tools run in-process. Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
+The `design-data` CLI binary (0.13.0 or newer) is needed for `authoring_session_step_intent` and whenever `DESIGN_DATA_CONFIG` is set, because the platform cascade runs `design-data catalog export`. All other tools run in-process. Install it with Homebrew:
+
+```sh
+brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-data
+brew install adobe/spectrum-design-data/design-data
+```
+
+Set `DESIGN_DATA_BIN` if the binary is not on `PATH`.
 
 ### Staying current
 
@@ -103,7 +110,10 @@ node tools/design-data-agent-mcp/src/index.js
 > materializes the result to a temp dir and points `primer` / `resolve_token` /
 > `query_tokens` / `validate_usage` / `describe_component` /
 > `describe_guideline` / `list_guidelines` at it instead of the embedded
-> Spectrum snapshot. Component, relationship, and guideline catalogs are copied
+> Spectrum snapshot. Component and guideline catalogs come from
+> `design-data catalog export --out <dir> [--platform <id>]`, so extension
+> components, implementation rows, and replacements come from the SDK cascade
+> (this needs a `design-data` newer than 0.12.1). Relationships are still copied
 > from the fallback dataset and overlaid with platform manifest extensions. If
 > resolution fails
 > (e.g. no network for a github source), the server logs a warning and falls

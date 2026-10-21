@@ -75,14 +75,10 @@ jobs:
         continue-on-error: true
         env:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
-          FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
           args=(--origin https://spectrum.adobe.com --out "$RUNNER_TEMP/hub-fetch" --report hub-fetch-report.json)
           if [ -n "$FETCH_LIMIT" ]; then
             args+=(--limit "$FETCH_LIMIT")
-          fi
-          if [ "$FETCH_DRY_RUN" = "true" ]; then
-            args+=(--dry-run)
           fi
           node tools/spectrum-hub-fetcher/src/cli.js "${args[@]}"
 
@@ -127,29 +123,41 @@ jobs:
 
       - name: Stage docs for the guideline transform
         id: stage
-        if: github.event.inputs.dry_run != 'true'
         run: node tools/spectrum-hub-fetcher/scripts/stage-docs.js --from "$RUNNER_TEMP/hub-fetch" --to ./docs/s2-docs --guidelines-dir ./packages/design-data/guidelines
 
       - name: Transform staged docs into guideline JSON
-        if: github.event.inputs.dry_run != 'true'
         run: node tools/s2-docs-to-document-blocks/src/cli.js guideline --report guideline-review.md
 
       - name: Check for content changes
         id: content
-        if: github.event.inputs.dry_run != 'true'
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          status="$(git status --porcelain -- docs/s2-docs/foundations docs/s2-docs/content docs/s2-docs/support docs/s2-docs/getting-started packages/design-data/guidelines)"
-          if [ -n "$status" ]; then
+          paths=(docs/s2-docs/foundations docs/s2-docs/content docs/s2-docs/support docs/s2-docs/getting-started packages/design-data/guidelines)
+          status="$(git status --porcelain -- "${paths[@]}")"
+          if [ "$DRY_RUN" = "true" ]; then
+            # Report the diff, then report no changes so the count bump, changeset, and PR steps stay skipped.
+            {
+              echo "### Dry run: guideline content changes"
+              if [ -n "$status" ]; then
+                echo '```'
+                echo "$status"
+                git add -N -- "${paths[@]}"
+                git diff --stat -- "${paths[@]}"
+                echo '```'
+              else
+                echo "No content changes."
+              fi
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "$status"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          elif [ -n "$status" ]; then
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "$status"
           else
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             echo "No content changes detected under the docs/s2-docs guideline folders or packages/design-data/guidelines."
           fi
-
-      - name: Dry-run summary
-        if: github.event.inputs.dry_run == 'true'
-        run: echo "Dry run - fetch and fetch-health guard completed successfully; staging, transform, count-bump, changeset, and PR steps are skipped in dry-run mode."
 
       - name: Skip when content is unchanged
         if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes != 'true'

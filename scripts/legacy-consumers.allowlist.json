@@ -1,0 +1,133 @@
+{
+  "$comment": "Files allowed to reference @adobe/spectrum-tokens or packages/tokens. Intentional entries stay; entries naming a bead id are temporary and should be removed when that bead closes.",
+  "entries": [
+    {
+      "path": "scripts/check-legacy-consumers.mjs",
+      "reason": "the guardrail itself"
+    },
+    {
+      "path": "test/check-legacy-consumers.test.js",
+      "reason": "guardrail fixtures"
+    },
+    {
+      "path": ".github/workflows/token-diff-pr-comment.yml",
+      "reason": "intentional: diffs the published legacy output"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "intentional: announces published legacy @adobe/spectrum-tokens releases in Slack"
+    },
+    {
+      "path": ".github/actions/validate/action.yml",
+      "reason": "intentional: default tag prefix for released tokens (GitHub source tags)"
+    },
+    {
+      "path": "tools/diff-generator/**",
+      "reason": "intentional: diffs legacy token releases"
+    },
+    {
+      "path": "tools/release-analyzer/**",
+      "reason": "intentional: analyzes legacy token releases"
+    },
+    {
+      "path": "tools/token-changeset-generator/**",
+      "reason": "intentional: generates changesets for the legacy package"
+    },
+    {
+      "path": "tools/changeset-linter/test/**",
+      "reason": "intentional: changeset fixtures name the published package"
+    },
+    {
+      "path": "tools/token-corpus-migrate/**",
+      "reason": "intentional: one-way legacy to cascade migration tool"
+    },
+    {
+      "path": "tools/token-mapping-analyzer/src/index.js",
+      "reason": "comment describing the legacy tree"
+    },
+    {
+      "path": "packages/design-data/moon.yml",
+      "reason": "intentional: legacy-output, roundtrip-verify and verifyLegacyOutput tasks"
+    },
+    {
+      "path": "packages/design-data/package.json",
+      "reason": "description names the legacy package"
+    },
+    {
+      "path": "packages/design-data/scripts/backfill-deprecated-versions.js",
+      "reason": "intentional: reads legacy release history"
+    },
+    {
+      "path": "packages/design-data/scripts/repoint-deprecated-refs.mjs",
+      "reason": "comment describing the legacy projection"
+    },
+    {
+      "path": "packages/design-data-spec/moon.yml",
+      "reason": "intentional: generated legacy copies (sync-token-schemas)"
+    },
+    {
+      "path": "packages/design-data-spec/scripts/sync-token-schemas.mjs",
+      "reason": "intentional: generates the packages/tokens copies"
+    },
+    {
+      "path": "packages/design-data-spec/rules/rules.yaml",
+      "reason": "prose describing the legacy generator"
+    },
+    {
+      "path": "packages/token-names/**",
+      "reason": "intentional: legacy-migration input only (feeds migrate convert and regenerate-from-legacy)"
+    },
+    {
+      "path": "docs/s2-tokens-viewer/**",
+      "reason": "intentional: viewer documents the published legacy package; stays on it by design"
+    },
+    {
+      "path": "docs/visualizer/src/controllers/graph-data-source.ts",
+      "reason": "intentional: S1 archive fetches legacy data from the s1-legacy branch"
+    },
+    {
+      "path": "docs/s2-visualizer/src/controllers/graph-data-source.ts",
+      "reason": "intentional: visualizes the published legacy package by design"
+    },
+    {
+      "path": "sdk/moon.yml",
+      "reason": "intentional: legacy parity inputs and TOKENS_MANIFEST embed"
+    },
+    {
+      "path": "sdk/core/src/legacy.rs",
+      "reason": "intentional: legacy projection"
+    },
+    {
+      "path": "sdk/core/src/lib.rs",
+      "reason": "intentional: legacy parity test corpus"
+    },
+    {
+      "path": "sdk/core/src/data_source/**",
+      "reason": "intentional: old-tag layout fallbacks; TOKENS_MANIFEST embed"
+    },
+    {
+      "path": "sdk/core/src/authoring/session.rs",
+      "reason": "comment and fixture URL strings"
+    },
+    {
+      "path": "sdk/core/src/validate/rules/spec057.rs",
+      "reason": "comment describing the legacy generator"
+    },
+    {
+      "path": "sdk/core/tests/integration.rs",
+      "reason": "intentional: legacy parity corpus"
+    },
+    {
+      "path": "sdk/cli/src/main.rs",
+      "reason": "doc strings for legacy-output, roundtrip-verify and legacy-verify"
+    },
+    {
+      "path": "sdk/cli/tests/cli_legacy_projection_parity.rs",
+      "reason": "intentional: oracle for the legacy projection"
+    },
+    {
+      "path": "sdk/cli/tests/cli_validate.rs",
+      "reason": "intentional: legacy corpus tests"
+    }
+  ]
+}

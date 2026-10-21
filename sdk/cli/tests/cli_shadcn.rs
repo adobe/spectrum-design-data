@@ -96,6 +96,42 @@ fn shadcn_registry_writes_component_item_and_index() {
 }
 
 #[test]
+fn shadcn_registry_applies_selected_platform_manifest() {
+    let output_dir = tempdir().expect("temporary output directory");
+
+    Command::cargo_bin("design-data")
+        .expect("binary design-data")
+        .current_dir(repo_path(""))
+        .args([
+            "shadcn",
+            "registry",
+            "--platform",
+            "react-spectrum",
+            "--component",
+            "action-button",
+            "--output",
+            output_dir.path().to_str().expect("utf8 path"),
+        ])
+        .assert()
+        .success();
+
+    let item: Value = serde_json::from_slice(
+        &std::fs::read(output_dir.path().join("items/action-button.json"))
+            .expect("generated component item"),
+    )
+    .expect("valid component item JSON");
+    let implementations = item["meta"]["implementations"]
+        .as_array()
+        .expect("implementations");
+    assert!(
+        implementations
+            .iter()
+            .any(|row| row["implementation"] == "react-spectrum"),
+        "platform-owned mapping missing: {implementations:?}"
+    );
+}
+
+#[test]
 fn shadcn_registry_exports_all_components() {
     let output_dir = tempdir().expect("temporary output directory");
     let components_dir = repo_path("packages/design-data/components");
@@ -291,9 +327,16 @@ fn export_shadcn_theme_resolves_light_and_dark_values() {
         assert_eq!(light[key], light_value, "light {key}");
         assert_eq!(dark[key], dark_value, "dark {key}");
     }
-    // Scheme-independent tokens are identical in both schemes.
-    assert_eq!(light["spectrum-border-width-100"], "1px");
-    assert_eq!(dark["spectrum-border-width-100"], "1px");
+    // Scheme-independent non-color values live in `theme` (not light/dark), so shadcn
+    // doesn't mirror them into `@theme inline` as self-referencing `var()` entries.
+    let theme = doc["cssVars"]["theme"].as_object().expect("theme vars");
+    assert_eq!(theme["spectrum-border-width-100"], "1px");
+    assert!(!light.contains_key("spectrum-border-width-100"));
+    assert!(!dark.contains_key("spectrum-border-width-100"));
+    assert!(theme.values().all(|v| v.is_string()));
+    assert!(theme
+        .keys()
+        .all(|k| !light.contains_key(k) && !dark.contains_key(k)));
 
     // shadcn prepends `--` itself, so a `--` prefix would become `var(----…)`.
     assert!(light

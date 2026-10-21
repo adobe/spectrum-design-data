@@ -72,27 +72,52 @@ impl TokenExporter for ShadcnThemeExporter {
             }
             css_vars(graph, &resolve_dataset(graph, &ctx), &ctx_map)
         };
-        let light_vars = scheme_vars("light");
-        let dark_vars = scheme_vars("dark");
+        let mut light_vars = scheme_vars("light");
+        let mut dark_vars = scheme_vars("dark");
+
+        // shadcn mirrors every light/dark key into `@theme inline` as `var(--key)`,
+        // which is a self-reference for non-color values. Scheme-invariant non-color
+        // values go to `cssVars.theme` as literals instead, which shadcn writes
+        // straight into `@theme inline`.
+        let theme_keys: Vec<String> = light_vars
+            .iter()
+            .filter(|(key, (value, is_color))| {
+                !is_color && dark_vars.get(*key).is_some_and(|(dark, _)| dark == value)
+            })
+            .map(|(key, _)| key.clone())
+            .collect();
+        let mut theme_vars = Map::new();
+        for key in theme_keys {
+            if let Some((value, _)) = light_vars.remove(&key) {
+                theme_vars.insert(key.clone(), Value::String(value));
+            }
+            dark_vars.remove(&key);
+        }
+        let to_map = |vars: BTreeMap<String, (String, bool)>| -> Map<String, Value> {
+            vars.into_iter()
+                .map(|(key, (value, _))| (key, Value::String(value)))
+                .collect()
+        };
 
         json!({
             "name": "spectrum-theme",
             "type": "registry:theme",
             "cssVars": {
-                "light": light_vars,
-                "dark": dark_vars,
+                "theme": theme_vars,
+                "light": to_map(light_vars),
+                "dark": to_map(dark_vars),
             }
         })
     }
 }
 
-/// Build a flat `{"spectrum-{legacyKey}": "<css value>"}` map from resolved winners,
-/// deriving each value via the DTCG exporter's leaf resolution (`$value`).
+/// Build a `{"spectrum-{legacyKey}": ("<css value>", is_color)}` map from resolved
+/// winners, deriving each value via the DTCG exporter's leaf resolution (`$value`).
 fn css_vars(
     graph: &TokenGraph,
     winners: &[TokenRecord],
     ctx: &HashMap<String, String>,
-) -> Map<String, Value> {
+) -> BTreeMap<String, (String, bool)> {
     let mut vars = BTreeMap::new();
     for winner in winners {
         let Some(name) = winner.raw.get("name") else {
@@ -111,11 +136,10 @@ fn css_vars(
         let Some(css_value) = dtcg_value_to_css(entry.get("$type"), value) else {
             continue;
         };
-        vars.insert(format!("spectrum-{legacy_key}"), css_value);
+        let is_color = entry.get("$type").and_then(Value::as_str) == Some("color");
+        vars.insert(format!("spectrum-{legacy_key}"), (css_value, is_color));
     }
-    vars.into_iter()
-        .map(|(key, value)| (key, Value::String(value)))
-        .collect()
+    vars
 }
 
 /// Render a DTCG `$value` as a CSS-ready string, keyed off its `$type`. Scalars
@@ -227,6 +251,15 @@ pub fn write_component_registry(
     selected_component: Option<&str>,
 ) -> Result<usize, String> {
     let components = read_component_declarations(components_dir, selected_component)?;
+    write_component_registry_from(&components, output_dir)
+}
+
+/// Generate registry items from already-loaded component declarations (for
+/// example the platform-merged catalog) and write them with the `registry.json` index.
+pub fn write_component_registry_from(
+    components: &[Value],
+    output_dir: &Path,
+) -> Result<usize, String> {
     let items = components
         .iter()
         .map(component_registry_item)
@@ -260,6 +293,17 @@ pub fn write_hosted_registry(
     base_url: &str,
     theme: &Value,
 ) -> Result<usize, String> {
+    let components = read_component_declarations(components_dir, selected_component)?;
+    write_hosted_registry_from(&components, output_dir, base_url, theme)
+}
+
+/// Hosted-layout variant of [`write_component_registry_from`].
+pub fn write_hosted_registry_from(
+    components: &[Value],
+    output_dir: &Path,
+    base_url: &str,
+    theme: &Value,
+) -> Result<usize, String> {
     let base_url = base_url.trim_end_matches('/');
     if !(base_url.starts_with("https://") || base_url.starts_with("http://")) {
         return Err(format!(
@@ -272,7 +316,6 @@ pub fn write_hosted_registry(
         .ok_or_else(|| "theme item is missing a string 'name'".to_string())?;
     let theme_url = format!("{base_url}/{theme_name}.json");
 
-    let components = read_component_declarations(components_dir, selected_component)?;
     let mut items = components
         .iter()
         .map(component_registry_item)
@@ -308,7 +351,29 @@ pub fn write_hosted_registry(
     Ok(components.len())
 }
 
-fn read_component_declarations(
+/// Pick the requested component (or all, sorted) from a pre-merged catalog such as
+/// the platform-cascade output, applying the same id validation as the directory reader.
+pub fn select_components(
+    mut components: Vec<Value>,
+    selected_component: Option<&str>,
+) -> Result<Vec<Value>, String> {
+    if let Some(name) = selected_component {
+        design_data_core::component::validate_id(name)
+            .map_err(|error| format!("invalid component id '{name}': {error}"))?;
+        components.retain(|component| component["name"].as_str() == Some(name));
+        if components.is_empty() {
+            return Err(format!("component '{name}' not found in catalog"));
+        }
+        return Ok(components);
+    }
+    if components.is_empty() {
+        return Err("catalog contains no components".to_string());
+    }
+    components.sort_by(|left, right| left["name"].as_str().cmp(&right["name"].as_str()));
+    Ok(components)
+}
+
+pub fn read_component_declarations(
     components_dir: &Path,
     selected_component: Option<&str>,
 ) -> Result<Vec<Value>, String> {
@@ -530,6 +595,21 @@ mod tests {
             json!("#2680eb")
         );
         assert_eq!(doc["type"], json!("registry:theme"));
+    }
+
+    #[test]
+    fn select_components_filters_validates_and_sorts() {
+        let docs = vec![json!({"name": "beta"}), json!({"name": "alpha"})];
+        let all = select_components(docs.clone(), None).unwrap();
+        assert_eq!(all[0]["name"], "alpha");
+        let one = select_components(docs.clone(), Some("beta")).unwrap();
+        assert_eq!(one.len(), 1);
+        assert!(select_components(docs.clone(), Some("Bad_Name"))
+            .unwrap_err()
+            .contains("invalid component id"));
+        assert!(select_components(docs, Some("missing"))
+            .unwrap_err()
+            .contains("not found"));
     }
 
     #[test]

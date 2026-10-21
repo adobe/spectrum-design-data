@@ -485,7 +485,7 @@ fn load_registry(schema_dir: &Path) -> Result<SchemaRegistry, String> {
         .map_err(|e| format!("failed to load schema registry from {schema_dir:?}: {e}"))
 }
 
-/// Resolve the schema directory, defaulting to `packages/tokens/schemas` two
+/// Resolve the schema directory, defaulting to `packages/design-data-spec/schemas` two
 /// levels above the target file (same heuristic as `authoring.rs`).
 fn resolve_schema_path(explicit: Option<&Path>, target: &Path) -> PathBuf {
     if let Some(p) = explicit {
@@ -495,7 +495,7 @@ fn resolve_schema_path(explicit: Option<&Path>, target: &Path) -> PathBuf {
         .parent()
         .and_then(|p| p.parent())
         .map(|r| r.join("schemas"))
-        .unwrap_or_else(|| PathBuf::from("packages/tokens/schemas"))
+        .unwrap_or_else(|| PathBuf::from("packages/design-data-spec/schemas"))
 }
 
 /// Convert an empty string to `None` (clap `default_value = ""` sentinel).

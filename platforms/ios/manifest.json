@@ -1,0 +1,43 @@
+{
+  "specVersion": "1.0.0-draft",
+  "platform": "ios",
+  "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios",
+  "foundationVersion": "3.6.0",
+  "include": [
+    "property=color",
+    "property=size",
+    "property=line-height",
+    "property=font-weight",
+    "property=font-family",
+    "property=text-align",
+    "property=corner-radius",
+    "property=border-width",
+    "property=opacity",
+    "property=background-color"
+  ],
+  "exclude": ["colorScheme=wireframe"],
+  "overrides": [
+    {
+      "target": "736e4768-7944-40ec-a412-4cd36299e03d",
+      "value": "rgba(9, 144, 120, 1.0)"
+    },
+    {
+      "target": "9a727140-328d-430f-9b10-8965eebe77d1",
+      "value": "rgba(9, 144, 120, 1.0)"
+    },
+    {
+      "target": "df8f47d4-5c3b-4ecb-b9fb-5d2dbd39d696",
+      "value": "rgba(9, 144, 120, 1.0)"
+    }
+  ],
+  "formatting": {
+    "casing": "camelCase"
+  },
+  "namingExceptions": {
+    "add": [
+      "switch-selected-emphasized-track-color",
+      "switch-selected-not-emphasized-track-color",
+      "slider-track-disabled-background-fill-color"
+    ]
+  }
+}

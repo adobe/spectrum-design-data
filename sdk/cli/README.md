@@ -11,17 +11,8 @@ brew tap adobe/spectrum-design-data https://github.com/adobe/spectrum-design-dat
 brew install adobe/spectrum-design-data/design-data
 ```
 
-**Cargo (any platform with a Rust toolchain):**
-
-```sh
-cargo install design-data-cli
-```
-
-**Manual download (Linux/Windows, or any platform):**
-
-Grab the binary for your platform from the latest
-[`design-data-cli@*` GitHub Release](https://github.com/adobe/spectrum-design-data/releases),
-`chmod +x` it (Unix), and put it on your `PATH`. Checksums are in `SHA256SUMS`.
+Homebrew is the supported install for now. Native installers for other
+operating systems are future work.
 
 > The `@adobe/design-data` npm package is JS/wasm library glue, not the CLI —
 > `npm install -g @adobe/design-data` does **not** install the `design-data` command.
@@ -60,6 +51,12 @@ tag = "@adobe/spectrum-tokens@14.11.0"
 ```
 
 Without configuration, the embedded Spectrum snapshot is used automatically (offline, zero-setup).
+
+To apply a platform manifest, register it under `[platforms]` and select it with
+`--platform <id>` (after the subcommand), `DESIGN_DATA_PLATFORM`, or
+`default_platform`. `design-data catalog export --out DIR` writes the
+platform-merged component and guideline catalogs. See
+[Configuring design-data for your platform](https://opensource.adobe.com/spectrum-design-data/articles/configuring-design-data-for-your-platform/).
 
 ## License
 

@@ -1,6 +1,6 @@
 {
   "name": "markdown-generator",
-  "version": "0.1.82",
+  "version": "0.1.85",
   "description": "Generate markdown files from tokens, component-schemas, and design-system-registry for docs and chatbot indexing",
   "type": "module",
   "private": true,
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/adobe/spectrum-design-data#readme",
   "dependencies": {
     "@adobe/spectrum-design-data": "workspace:*",
-    "@adobe/spectrum-component-api-schemas": "workspace:*",
-    "@adobe/spectrum-tokens": "workspace:*"
+    "@adobe/spectrum-component-api-schemas": "workspace:*"
   }
 }

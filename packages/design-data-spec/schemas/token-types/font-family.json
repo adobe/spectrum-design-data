@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json",
+  "title": "Font family",
+  "description": "A font family token defines a font family that can be used in a component.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "token.json"
+    }
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-family.json"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^(?:\"?\\w+\"? ?,? ?)*\"?\\w+\"?$"
+    },
+    "component": {},
+    "private": {},
+    "deprecated": {},
+    "deprecated_comment": {},
+    "description": {},
+    "uuid": {}
+  }
+}

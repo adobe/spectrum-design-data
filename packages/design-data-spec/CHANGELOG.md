@@ -1,5 +1,36 @@
 # @adobe/design-data-spec
 
+## 4.8.0
+
+### Minor Changes
+
+- [#1550](https://github.com/adobe/spectrum-design-data/pull/1550) [`18431aa`](https://github.com/adobe/spectrum-design-data/commit/18431aa6bb40fee2838030592940195c42a6a1d4) Thanks [@GarthDB](https://github.com/GarthDB)! - <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+  Allow platform terminology crosswalks to reference existing modes in active mode sets.
+  - **spec/manifest.md**: define mode-set targets and validate terms after manifest mode-set edits.
+  - **schemas/platform-extension.json**: describe registry and mode-set crosswalk targets.
+
+## 4.7.0
+
+### Minor Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
+### Patch Changes
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - Platform manifests pin `foundationVersion` to the canonical package (closes xqln.18).
+  - **platforms/**: pin `@adobe/spectrum-design-data@3.5.0` instead of `@adobe/spectrum-tokens`.
+  - **packages/design-data-spec/**: document the tag format in the manifest spec and schema.
+  - **sdk/cli/**: `platform show` drift check compares the version part of the tag.
+
 ## 4.6.0
 
 ### Minor Changes

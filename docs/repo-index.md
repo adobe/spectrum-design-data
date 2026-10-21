@@ -14,7 +14,7 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`packages/component-schemas`](../packages/component-schemas/) | `@adobe/spectrum-component-api-schemas` | active | published | yes | JSON Schemas describing Spectrum component APIs and options. |
 | [`packages/design-data`](../packages/design-data/) | `@adobe/spectrum-design-data` | active | published | yes | Canonical Spectrum design token data in cascade format, plus components, fields, registry, and guidelines. |
 | [`packages/design-data-spec`](../packages/design-data-spec/) | `@adobe/design-data-spec` | active | published | yes | Design Data Specification: prose, JSON Schemas, rule catalog, and conformance fixtures. |
-| [`packages/tokens`](../packages/tokens/) | `@adobe/spectrum-tokens` | active | published | yes | Spectrum design tokens as published to npm. |
+| [`packages/tokens`](../packages/tokens/) | `@adobe/spectrum-tokens` | active | published | yes | Generated legacy output of Spectrum design tokens, published to npm. Source of truth is packages/design-data. |
 | [`sdk`](../sdk/) | — | active | no | no | Rust workspace for the design-data SDK (CLI, core, TUI, WASM, plugins). |
 | [`sdk/cli`](../sdk/cli/) | `design-data-cli` | active | no | no | The `design-data` command-line interface. |
 | [`sdk/core`](../sdk/core/) | `design-data-core` | active | no | no | Core library: token resolution, validation, registry, and diffing. |
@@ -46,7 +46,7 @@ Repository housekeeping, release, taxonomy, and authoring tools. Not intended fo
 
 | Path | Package | Lifecycle | npm | llms.txt | Summary |
 | --- | --- | --- | --- | --- | --- |
-| [`packages/token-names`](../packages/token-names/) | `@adobe/token-names` | active | no | no | Sidecar taxonomy name objects for Spectrum tokens. |
+| [`packages/token-names`](../packages/token-names/) | `@adobe/token-names` | active | no | no | Legacy-migration input: sidecar name objects for migrate convert. |
 | [`tools/changeset-linter`](../tools/changeset-linter/) | `@adobe/changeset-linter` | active | published | no | Enforces concise changeset files. Published, but intended for this repository. |
 | [`tools/component-options-editor`](../tools/component-options-editor/) | `component-options-editor` | active | no | no | Figma plugin for authoring component option schemas. |
 | [`tools/design-data-mcp-eval`](../tools/design-data-mcp-eval/) | `@adobe/design-data-mcp-eval` | active | no | no | Offline grounding contracts and opt-in agent evaluations for the Hub MCP. |

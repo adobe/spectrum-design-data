@@ -1,0 +1,97 @@
+[
+  {
+    "name": {
+      "property": "color",
+      "colorRole": "accent",
+      "colorScheme": "light",
+      "legacyKey": "accent-color-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "uuid": "c-1",
+    "value": "rgb(255, 0, 0)",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "name": {
+      "property": "color",
+      "colorRole": "accent",
+      "colorScheme": "dark",
+      "legacyKey": "accent-color-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
+    "uuid": "c-2",
+    "value": "rgb(0, 0, 255)",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color-set.json"
+  },
+  {
+    "name": {
+      "property": "font-size-100",
+      "scale": "desktop",
+      "legacyKey": "font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "uuid": "s-1",
+    "value": "14px",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "font-size-100",
+      "scale": "mobile",
+      "legacyKey": "font-size-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/font-size.json",
+    "uuid": "s-2",
+    "value": "17px",
+    "set_schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "legacyKey": "spacing-100"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "uuid": "f-1",
+    "value": "8px"
+  },
+  {
+    "name": {
+      "property": "gap",
+      "legacyKey": "heading-gap"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "uuid": "a-1",
+    "$ref": "f-1"
+  },
+  {
+    "name": {
+      "property": "opacity",
+      "legacyKey": "overlay-opacity"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
+    "uuid": "o-1",
+    "value": "0.4"
+  },
+  {
+    "name": {
+      "property": "spacing",
+      "legacyKey": "old-spacing"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "uuid": "d-1",
+    "value": "6px",
+    "lifecycle": {
+      "deprecatedIn": "1.0.0",
+      "replacedBy": "f-1"
+    }
+  },
+  {
+    "name": {
+      "property": "elevation",
+      "legacyKey": "android-elevation"
+    },
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
+    "uuid": "u-1",
+    "value": "2dp"
+  }
+]

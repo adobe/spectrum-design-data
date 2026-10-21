@@ -1,5 +1,37 @@
 # [**@adobe/spectrum-tokens**](https://github.com/adobe/spectrum-design-data)
 
+## 15.6.0
+
+### Minor Changes
+
+- [#1382](https://github.com/adobe/spectrum-design-data/pull/1382) [`15f371e`](https://github.com/adobe/spectrum-design-data/commit/15f371e50e2ce95a624a93152e408e1bbe8844dc) Thanks [@GarthDB](https://github.com/GarthDB)! - Add static and theme-aware transparent colors, deprecate the old ones (#1345, #1346, #1347).
+  - **tokens/color-palette.tokens.json**: add `transparent-static-white-*` and
+    `transparent-static-black-*` (36 tokens), plus theme-aware `transparent-neutral-*` and
+    `transparent-neutral-inverse-*` (108 tokens across light, dark, wireframe). Alpha equals the
+    matching `opacity-*` step and matches the S2/Web Figma library's opacity links.
+  - **tokens/color-palette.tokens.json**: deprecate `transparent-white-*`, `transparent-black-*`,
+    `white`, and `black` with `replacedBy` mappings from #1346. Scales don't map 1:1: 8 of the
+    26 numbered tokens match exactly, the rest are approximate, and `-25` maps to `-0`.
+    Legacy values are unchanged.
+  - **registry/color-families.json**: register the four new color families.
+  - **packages/tokens/src/color-palette.json**: regenerated legacy output; the 28 deprecated
+    tokens gain `deprecated`, `deprecated_comment`, and `renamed`.
+  - **@adobe/design-data-wasm**: patch bump because the embedded dataset content changed.
+
+## 15.5.1
+
+### Patch Changes
+
+- [#1538](https://github.com/adobe/spectrum-design-data/pull/1538) [`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115) Thanks [@GarthDB](https://github.com/GarthDB)! - Token-type schemas and `naming-exceptions.json` now live in canonical packages.
+  - **design-data-spec/schemas**: authoritative `token-types/` and `token-file.json`, exported as
+    `@adobe/design-data-spec/schemas/*`. `sync-token-schemas.mjs` generates copies; CI checks drift.
+  - **design-data/naming-exceptions.json**: moved here from `packages/tokens`.
+  - **packages/tokens**: `schemas/` and `naming-exceptions.json` are now generated copies.
+  - **docs/site/public/schemas**: regenerated, which updates six drifted files at the `$id` URLs.
+  - **sdk CLI**: resolves the new locations first, falls back to the old layout for older tags,
+    and bumps the embedded snapshot layout.
+  - **tools/design-data**: `validate` resolves schemas through `@adobe/design-data-spec`.
+
 ## 15.5.0
 
 ### Minor Changes

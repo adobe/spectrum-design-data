@@ -347,6 +347,12 @@ enum Commands {
         #[command(subcommand)]
         sub: ShadcnSub,
     },
+    /// Export the component and guideline catalogs with the selected platform
+    /// manifest applied (`--platform`, `DESIGN_DATA_PLATFORM`, or `default_platform`)
+    Catalog {
+        #[command(subcommand)]
+        sub: CatalogSub,
+    },
     /// Suggest existing tokens that match a natural-language intent string
     Suggest {
         /// Natural-language intent (e.g. "accent background hover")
@@ -403,7 +409,7 @@ enum Commands {
         /// Token overrides an existing foundation/platform token (records in overrides[])
         #[arg(long)]
         is_override: bool,
-        /// Path to schemas directory (default: packages/tokens/schemas relative to target)
+        /// Path to schemas directory (default: packages/design-data-spec/schemas relative to target)
         #[arg(long, value_name = "DIR")]
         schema_path: Option<PathBuf>,
     },
@@ -477,6 +483,16 @@ enum ShadcnSub {
 }
 
 #[derive(Subcommand)]
+enum CatalogSub {
+    /// Write merged `components/`, `guidelines/` and `guidelines/manifest.json` under DIR
+    Export {
+        /// Output directory (created if missing)
+        #[arg(long, value_name = "DIR")]
+        out: PathBuf,
+    },
+}
+
+#[derive(Subcommand)]
 enum PlatformSub {
     /// List every configured platform-manifest entry (named `[platforms.<id>]`
     /// profiles, plus the legacy single `manifest` key if present)
@@ -511,6 +527,10 @@ enum PlatformSub {
         /// dir, which would make the recursive copy walk into its own output.
         #[arg(long)]
         out: Option<PathBuf>,
+        /// Also write `.github/workflows/consumer-smoke.yml`, which runs the
+        /// repo's own `consumer/smoke.sh` (codegen + build) when present
+        #[arg(long)]
+        with_consumer_smoke: bool,
     },
 }
 
@@ -609,22 +629,26 @@ enum FigmaSub {
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
     },
-    /// Export legacy tokens as Figma Variables
+    /// Export design-data tokens as Figma Variables
     Export {
-        /// Path to legacy token source directory
+        /// Optional tokens root override. Defaults to the resolved design-data
+        /// dataset (`packages/design-data/tokens`, embedded, or configured
+        /// source). A directory of cascade `.tokens.json` files is loaded
+        /// natively; a legacy-format directory (e.g. `packages/tokens/src`) is
+        /// still accepted but deprecated.
         #[arg(value_name = "PATH")]
-        path: PathBuf,
+        path: Option<PathBuf>,
         /// Figma file key to target
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Path to a name-mapping override artifact (from `figma audit`); overrides
         /// take precedence over the default `{prefix}/{legacyKey}` naming
@@ -632,7 +656,7 @@ enum FigmaSub {
         mapping: Option<PathBuf>,
         /// Path to a platform manifest.json; when given, tokens are resolved
         /// through the manifest cascade (include/exclude, overrides, extensions)
-        /// before export instead of reading `path` as a raw token directory
+        /// before export
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
         /// Add per-platform `codeSyntax` entries (shown in Figma Dev Mode) from
@@ -656,6 +680,19 @@ enum FigmaSub {
         /// tokens without a usable replacement keep their literal value.
         #[arg(long)]
         redirect_deprecated: bool,
+        /// Also write a modeless alias layer into the existing "Spectrum"
+        /// collection: one variable per token, aliasing the mode-group variable
+        /// for tokens that vary on one axis, or holding the concrete value for
+        /// tokens that don't. Fails if the collection is missing. Off by
+        /// default; mode-group collections are unaffected either way.
+        #[arg(long)]
+        modeless_layer: bool,
+        /// Name variables by their bare token name instead of
+        /// `colorTheme/<name>` / `platformScale/<name>`. Only use this once the
+        /// target library's top-level folders are removed; otherwise every
+        /// variable is created anew. Off by default.
+        #[arg(long)]
+        no_folder_prefix: bool,
         #[command(flatten)]
         write_options: FigmaWriteOptions,
     },
@@ -668,7 +705,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: String,
         /// Figma personal access token (or set FIGMA_TOKEN env var)
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: String,
         /// Path to a platform manifest.json; tokens are resolved through the
         /// manifest cascade so overrides target the same records `figma export` reads
@@ -687,9 +724,14 @@ enum FigmaSub {
         /// Path to a `figma read --format json` snapshot (a `VariablesMeta` JSON file)
         #[arg(long)]
         snapshot: PathBuf,
-        /// Path to legacy token source directory (see `migrate legacy-output`)
+        /// Optional tokens root override (cascade or legacy-format directory);
+        /// defaults to the resolved design-data dataset
         #[arg(long)]
-        token_dir: PathBuf,
+        token_dir: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -700,7 +742,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: Option<String>,
         /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: Option<String>,
         /// Diff offline against a captured `figma read --format json` snapshot instead of
         /// calling the Figma API
@@ -715,6 +757,10 @@ enum FigmaSub {
         /// resolved dataset
         #[arg(long, value_name = "PATH")]
         manifest: Option<PathBuf>,
+        /// Compare against bare token names (as written by `figma export
+        /// --no-folder-prefix`) instead of `colorTheme/`/`platformScale/` names
+        #[arg(long)]
+        no_folder_prefix: bool,
         /// Output format (pretty or json)
         #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
         format: OutputFormat,
@@ -727,7 +773,7 @@ enum FigmaSub {
         #[arg(long)]
         file_key: Option<String>,
         /// Figma personal access token (or set FIGMA_TOKEN env var); required unless `--snapshot`
-        #[arg(long, env = "FIGMA_TOKEN")]
+        #[arg(long, env = "FIGMA_TOKEN", hide_env_values = true)]
         token: Option<String>,
         /// Pair offline against a captured `figma read --format json` snapshot instead of
         /// calling the Figma API
@@ -1323,7 +1369,8 @@ fn run_platform_show(id: &str, format: OutputFormat) -> miette::Result<ExitCode>
     let repository = str_field("repository");
     let foundation_version = str_field("foundationVersion");
     let drift = foundation_version.as_deref().map(|fv| {
-        if fv == data_source::EMBEDDED_DATA_VERSION {
+        let version = fv.rsplit_once('@').map_or(fv, |(_, v)| v);
+        if version == data_source::EMBEDDED_DATA_VERSION {
             format!("in sync (matches this build's embedded foundation {fv})")
         } else {
             format!(
@@ -1461,7 +1508,11 @@ fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
 /// of the incubate-here → team-owned-repo migration path (`platforms/README.md`).
 /// Does not touch git history; pair with the printed `git subtree split`
 /// instructions to preserve it.
-fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode> {
+fn run_platform_eject(
+    id: &str,
+    out: Option<PathBuf>,
+    with_consumer_smoke: bool,
+) -> miette::Result<ExitCode> {
     let cwd = std::env::current_dir().into_diagnostic()?;
     let Some((config_path, config)) = data_source::find_config(&cwd).into_diagnostic()? else {
         eprintln!(
@@ -1624,7 +1675,7 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
         .map(|fv| format!("tag = \"{fv}\"\n"))
         .unwrap_or_else(|| {
             "# foundationVersion missing from manifest.json — set `tag` manually\n\
-             tag = \"@adobe/spectrum-tokens@0.0.0\"\n"
+             tag = \"@adobe/spectrum-design-data@0.0.0\"\n"
                 .to_string()
         });
     std::fs::write(
@@ -1671,7 +1722,85 @@ fn run_platform_eject(id: &str, out: Option<PathBuf>) -> miette::Result<ExitCode
     .into_diagnostic()
     .wrap_err("failed to write .github/workflows/validate.yml")?;
 
+    // Weekly drift check that opens a PR bumping foundationVersion.
+    std::fs::write(
+        workflows_dir.join("foundation-drift.yml"),
+        "name: Foundation drift\n\
+         \n\
+         on:\n\
+         \x20\x20schedule:\n\
+         \x20\x20\x20\x20- cron: \"0 9 * * 1\"\n\
+         \x20\x20workflow_dispatch:\n\
+         \n\
+         permissions:\n\
+         \x20\x20contents: write\n\
+         \x20\x20pull-requests: write\n\
+         \n\
+         jobs:\n\
+         \x20\x20drift:\n\
+         \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+         \x20\x20\x20\x20steps:\n\
+         \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+         \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20dataset-path: .\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20manifest: manifest.json\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20# Ejected repos are manifest-only: no local tokens/ to validate.\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20skip-dataset-validation: true\n\
+         \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20open-pr: true\n",
+    )
+    .into_diagnostic()
+    .wrap_err("failed to write .github/workflows/foundation-drift.yml")?;
+
+    // Opt-in: the repo owns codegen + build in `consumer/smoke.sh`, so this
+    // scaffold stays language-agnostic and hardcodes no token ids.
+    if with_consumer_smoke {
+        std::fs::write(
+            workflows_dir.join("consumer-smoke.yml"),
+            "name: Consumer smoke\n\
+             \n\
+             on:\n\
+             \x20\x20pull_request:\n\
+             \x20\x20\x20\x20paths:\n\
+             \x20\x20\x20\x20\x20\x20- manifest.json\n\
+             \x20\x20\x20\x20\x20\x20- extensions/**\n\
+             \x20\x20\x20\x20\x20\x20- .design-data.toml\n\
+             \x20\x20\x20\x20\x20\x20- consumer/**\n\
+             \x20\x20workflow_dispatch:\n\
+             \n\
+             permissions:\n\
+             \x20\x20contents: read\n\
+             \n\
+             jobs:\n\
+             \x20\x20smoke:\n\
+             \x20\x20\x20\x20# Edit runs-on (and add toolchain setup, e.g. a pinned Xcode) to match consumer/smoke.sh.\n\
+             \x20\x20\x20\x20runs-on: ubuntu-latest\n\
+             \x20\x20\x20\x20steps:\n\
+             \x20\x20\x20\x20\x20\x20- uses: actions/checkout@v4\n\
+             \x20\x20\x20\x20\x20\x20- uses: adobe/spectrum-design-data/.github/actions/validate@main\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20with:\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20install-only: true\n\
+             \x20\x20\x20\x20\x20\x20- name: Run consumer/smoke.sh\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20if: hashFiles('consumer/smoke.sh') != ''\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20env:\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20DESIGN_DATA_BIN: design-data\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20run: bash consumer/smoke.sh\n\
+             \x20\x20\x20\x20\x20\x20- name: Note missing smoke script\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20if: hashFiles('consumer/smoke.sh') == ''\n\
+             \x20\x20\x20\x20\x20\x20\x20\x20run: echo \"::notice::consumer/smoke.sh not found; nothing to smoke-test\"\n",
+        )
+        .into_diagnostic()
+        .wrap_err("failed to write .github/workflows/consumer-smoke.yml")?;
+    }
+
     println!("design-data: ejected \"{id}\" to {}", out_dir.display());
+    if with_consumer_smoke {
+        println!(
+            "Wrote .github/workflows/consumer-smoke.yml: add consumer/smoke.sh to your repo \
+             (it should regenerate consumer output via $DESIGN_DATA_BIN and build it, \
+             exiting non-zero on failure)."
+        );
+    }
     println!();
     println!("This does not carry git history. To preserve it:");
     println!("  git subtree split --prefix=platforms/{id} -b eject/{id}");
@@ -1849,6 +1978,13 @@ fn run_migrate_legacy_output_cascaded(
     .into_diagnostic()
     .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
 
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+
     // Apply the configured platform manifest (filters/overrides/extensions) — same
     // cascade `run_query`/`run_resolve` apply — so this is the same dataset a
     // platform's `resolve`/`query` calls see, not the raw foundation.
@@ -1856,36 +1992,7 @@ fn run_migrate_legacy_output_cascaded(
         .into_diagnostic()
         .wrap_err("failed to apply platform manifest cascade")?;
 
-    // ponytail: contrast-variant records (e.g. manifest extensions adding
-    // contrast:"high") share a legacyKey+colorScheme with their regular-contrast
-    // sibling — legacy::convert_array groups sets by colorScheme/scale only, so
-    // keeping both would silently overwrite one. Skip non-default contrast until
-    // legacy.rs learns a contrast set-dimension (spectrum-design-data-h890.17).
-    let is_default_contrast = |v: &serde_json::Value| {
-        v.get("name")
-            .and_then(|n| n.as_object())
-            .is_none_or(|n| !n.contains_key("contrast"))
-    };
-    // apply_platform_manifest replaces an overridden token's record in place
-    // (same graph key), so `graph.tokens` never holds a stale Foundation-layer
-    // duplicate here.
-    let mut records: Vec<serde_json::Value> = graph
-        .tokens
-        .values()
-        .map(|t| &t.raw)
-        .filter(|raw| is_default_contrast(raw))
-        .cloned()
-        .collect();
-    records.extend(
-        graph
-            .relationships
-            .iter()
-            .map(|r| &r.raw)
-            .filter(|raw| is_default_contrast(raw))
-            .cloned(),
-    );
-
-    let (legacy_map, summary) = legacy::convert_records(&records)
+    let (legacy_map, summary) = legacy::convert_graph(&graph)
         .into_diagnostic()
         .wrap_err("failed to convert cascaded dataset to legacy format")?;
 
@@ -2353,15 +2460,75 @@ fn write_figma_report(
     Ok(())
 }
 
+/// Load the tokens `figma export`/`audit` map to variables.
+///
+/// Cascade data (the resolved design-data dataset, or a `.tokens.json`
+/// directory) is projected in memory from a [`TokenGraph`], with any platform
+/// manifest cascade applied. Only an explicit legacy-format directory without a
+/// manifest is read as flat legacy JSON.
+fn load_figma_tokens(
+    path: Option<&Path>,
+    manifest: Option<&Path>,
+) -> miette::Result<(
+    Vec<figma::mapping::ExportToken>,
+    Vec<figma::mapping::CollectionSpec>,
+)> {
+    if path.is_some_and(|dir| !dir_has_cascade_tokens(dir)) {
+        miette::bail!("Figma export/audit requires canonical .tokens.json data; legacy directories are no longer supported");
+    }
+    let resolved = resolve_data_source(CliPathOverrides {
+        tokens_root: path.map(Path::to_path_buf),
+        platform_manifest: manifest.map(Path::to_path_buf),
+        ..Default::default()
+    })?;
+    let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
+        &resolved.tokens_root,
+        resolved.mode_sets.as_deref(),
+        resolved.components.as_deref(),
+    )
+    .into_diagnostic()
+    .wrap_err_with(|| {
+        format!(
+            "failed to load tokens from {}",
+            resolved.tokens_root.display()
+        )
+    })?;
+    if let Some(dir) = resolved.relationships.as_deref() {
+        let rels = TokenGraph::load_spec_relationships(dir)
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to load relationships from {}", dir.display()))?;
+        graph = graph.with_relationships(rels);
+    }
+    manifest::apply_configured(&mut graph, &resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+    let specs =
+        figma::mapping::collection_specs(&graph.mode_sets).map_err(|e| miette::miette!("{e}"))?;
+    let tokens = figma::mapping::export_tokens(&graph).map_err(|e| miette::miette!("{e}"))?;
+    Ok((tokens, specs))
+}
+
+fn dir_has_cascade_tokens(dir: &Path) -> bool {
+    std::fs::read_dir(dir).is_ok_and(|entries| {
+        entries.filter_map(Result::ok).any(|e| {
+            e.file_name()
+                .to_str()
+                .is_some_and(|n| n.ends_with(".tokens.json"))
+        })
+    })
+}
+
 #[allow(clippy::too_many_arguments)]
 fn run_figma_export(
-    path: &Path,
+    path: Option<&Path>,
     file_key: &str,
     token: &str,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
     code_syntax_manifests: &[String],
     redirect_deprecated: bool,
+    modeless_layer: bool,
+    no_folder_prefix: bool,
     write_options: &FigmaWriteOptions,
 ) -> miette::Result<ExitCode> {
     use figma::write_guard;
@@ -2403,34 +2570,12 @@ fn run_figma_export(
             })?;
         platform_formats.push((platform.to_string(), config));
     }
-
-    // 1. Load tokens — either straight from the source directory, or resolved
-    // through the platform manifest cascade (include/exclude, overrides,
-    // extensions) when `--manifest` is given.
-    let tokens = match manifest {
-        None => figma::mapping::load_all_tokens(path).map_err(|e| miette::miette!("{e}"))?,
-        Some(manifest_path) => {
-            let resolved = resolve_data_source(CliPathOverrides {
-                tokens_root: Some(path.to_path_buf()),
-                platform_manifest: Some(manifest_path.to_path_buf()),
-                ..Default::default()
-            })?;
-            let (mut graph, _index) = TokenGraph::open_cached_with_index_with_catalogs(
-                &resolved.tokens_root,
-                resolved.mode_sets.as_deref(),
-                resolved.components.as_deref(),
-            )
-            .into_diagnostic()
-            .wrap_err_with(|| format!("failed to load tokens from {}", path.display()))?;
-            manifest::apply_configured(&mut graph, &resolved)
-                .into_diagnostic()
-                .wrap_err("failed to apply platform manifest cascade")?;
-            graph
-                .tokens
-                .values()
-                .map(|r| (r.name.clone(), r.file.clone(), r.raw.clone()))
-                .collect()
-        }
+    // 1. Load tokens (cascade graph projection, or a legacy dir when given).
+    let (tokens, specs) = load_figma_tokens(path, manifest)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
     };
 
     // 2. GET existing variables to obtain collection/mode IDs.
@@ -2440,15 +2585,27 @@ fn run_figma_export(
         .map_err(|e| miette::miette!("{e}"))?;
 
     // 3. Build the export payload.
-    eprintln!("Building export payload from {}...", path.display());
-    let (body, summary) = figma::mapping::build_export_payload_with_options(
+    eprintln!("Building export payload...");
+    let (mut body, mut summary) = figma::mapping::build_export_payload_with_options(
         &tokens,
+        &specs,
         &response.meta,
         overrides.as_ref(),
         &platform_formats,
         redirect_deprecated,
     )
     .map_err(|e| miette::miette!("{e}"))?;
+    if modeless_layer {
+        figma::mapping::append_modeless_layer(
+            &mut body,
+            &mut summary,
+            &tokens,
+            &specs,
+            &response.meta,
+            overrides.as_ref(),
+        )
+        .map_err(|e| miette::miette!("{e}"))?;
+    }
 
     let payload = serde_json::to_value(&body).into_diagnostic()?;
     // 4. Output or guard, post once, then verify.
@@ -2785,7 +2942,8 @@ fn run_figma_import(
 /// offline, no network call and no token required.
 fn run_figma_audit(
     snapshot: &Path,
-    token_dir: &Path,
+    token_dir: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let text = std::fs::read_to_string(snapshot)
@@ -2795,7 +2953,14 @@ fn run_figma_audit(
         .into_diagnostic()
         .wrap_err_with(|| format!("failed to parse snapshot {}", snapshot.display()))?;
 
-    let report = figma::audit::audit_names(&meta, token_dir).map_err(|e| miette::miette!("{e}"))?;
+    let (tokens, specs) = load_figma_tokens(token_dir, None)?;
+    let specs = if no_folder_prefix {
+        figma::mapping::without_folder_prefix(specs)
+    } else {
+        specs
+    };
+    let report =
+        figma::audit::audit_tokens(&meta, &tokens, &specs).map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -2918,26 +3083,20 @@ fn run_figma_diff(
     snapshot: Option<&Path>,
     mapping: Option<&Path>,
     manifest: Option<&Path>,
+    no_folder_prefix: bool,
     format: OutputFormat,
 ) -> miette::Result<ExitCode> {
     let (meta, mapping_map, graph) =
         load_figma_diff_inputs(file_key, token, snapshot, mapping, manifest)?;
-    let tokens: Vec<(String, std::path::PathBuf, serde_json::Value)> = graph
-        .tokens
-        .values()
-        .map(|r| {
-            let name = r
-                .raw
-                .get("name")
-                .and_then(naming::extract_legacy_key)
-                .unwrap_or_else(|| r.name.clone());
-            (name, r.file.clone(), r.raw.clone())
-        })
-        .collect();
 
     // 3. Diff.
-    let report = figma::import::diff_values(&meta, &graph, &tokens, mapping_map.as_ref())
-        .map_err(|e| miette::miette!("{e}"))?;
+    let report = figma::import::diff_values_with_options(
+        &meta,
+        &graph,
+        mapping_map.as_ref(),
+        no_folder_prefix,
+    )
+    .map_err(|e| miette::miette!("{e}"))?;
 
     match format {
         OutputFormat::Json => {
@@ -2975,7 +3134,7 @@ fn run_figma_diff(
 /// to cover today.
 ///
 /// These are real-file naming conventions observed in specific collections,
-/// not the exporter's own output — `mapping::COLLECTION_SPECS` models what
+/// not the exporter's own output — `mapping::collection_specs` models what
 /// `figma export` generates (`colorTheme/`, `platformScale/`) and has no
 /// entry for these, so there's nothing to derive this list from
 /// automatically. If a new prefix group shows up, add it here by hand.
@@ -3202,10 +3361,37 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
         return Ok(ExitCode::from(1));
     }
 
+    let components_dir_overridden = components_dir.is_some();
     let resolved = resolve_data_source(CliPathOverrides {
         components: components_dir,
         ..Default::default()
     })?;
+
+    // A selected platform manifest changes the catalog (extension components,
+    // implementation rows, replacements), so read through the cascade. Without
+    // one, or with an explicit --components-dir, keep the raw-file lookup.
+    if resolved.platform_manifest.is_some() && !components_dir_overridden {
+        let catalogs = manifest::load_merged_catalogs(&resolved)
+            .into_diagnostic()
+            .wrap_err("failed to apply platform manifest cascade")?;
+        return match catalogs.components.iter().find(|(name, _)| name == id) {
+            Some((_, doc)) => {
+                println!("{}", serde_json::to_string_pretty(doc).into_diagnostic()?);
+                Ok(ExitCode::SUCCESS)
+            }
+            None => {
+                let available: Vec<&str> = catalogs
+                    .components
+                    .iter()
+                    .map(|(name, _)| name.as_str())
+                    .collect();
+                eprintln!("Component '{id}' not found.");
+                eprintln!("Available components: {}", available.join(", "));
+                Ok(ExitCode::from(1))
+            }
+        };
+    }
+
     let dir = resolved
         .components
         .ok_or_else(|| miette::miette!("could not locate components directory"))?;
@@ -3234,14 +3420,32 @@ fn run_shadcn_registry(
     components_dir: Option<PathBuf>,
     base_url: Option<&str>,
 ) -> miette::Result<ExitCode> {
+    let components_dir_overridden = components_dir.is_some();
     let resolved = resolve_data_source(CliPathOverrides {
         components: components_dir,
         ..Default::default()
     })?;
-    let components_dir = resolved
-        .components
-        .clone()
-        .ok_or_else(|| miette::miette!("could not locate components directory"))?;
+    // Like `component`, read through the platform cascade so implementation
+    // mappings and extension components appear; an explicit --components-dir
+    // or no selected platform keeps the raw-file read.
+    let components = if resolved.platform_manifest.is_some() && !components_dir_overridden {
+        let catalogs = manifest::load_merged_catalogs(&resolved)
+            .into_diagnostic()
+            .wrap_err("failed to apply platform manifest cascade")?;
+        let docs = catalogs
+            .components
+            .into_iter()
+            .map(|(_, doc)| doc)
+            .collect();
+        shadcn::select_components(docs, component)
+    } else {
+        let dir = resolved
+            .components
+            .as_deref()
+            .ok_or_else(|| miette::miette!("could not locate components directory"))?;
+        shadcn::read_component_declarations(dir, component)
+    }
+    .map_err(|error| miette::miette!("{error}"))?;
     let count = match base_url {
         Some(base_url) => {
             let mut graph = TokenGraph::open_cached_with_catalogs(
@@ -3264,14 +3468,99 @@ fn run_shadcn_registry(
                 ctx = ctx.with_restriction(mode_set.clone(), allowed.clone());
             }
             let theme = shadcn::ShadcnThemeExporter.export(&graph, &[], &ctx.mode_sets);
-            shadcn::write_hosted_registry(&components_dir, output_dir, component, base_url, &theme)
+            shadcn::write_hosted_registry_from(&components, output_dir, base_url, &theme)
         }
-        None => shadcn::write_component_registry(&components_dir, output_dir, component),
+        None => shadcn::write_component_registry_from(&components, output_dir),
     }
     .map_err(|error| miette::miette!("{error}"))?;
     println!(
         "Wrote {count} component registry item(s) to {}",
         output_dir.display()
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
+/// `design-data catalog export --out DIR`: write the component and guideline
+/// catalogs after the selected platform manifest (if any) is applied, in the
+/// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` layout.
+fn run_catalog_export(out: &Path) -> miette::Result<ExitCode> {
+    let resolved = resolve_data_source(CliPathOverrides::default())?;
+    let catalogs = manifest::load_merged_catalogs(&resolved)
+        .into_diagnostic()
+        .wrap_err("failed to apply platform manifest cascade")?;
+
+    let components_out = out.join("components");
+    let guidelines_out = out.join("guidelines");
+    std::fs::create_dir_all(&components_out).into_diagnostic()?;
+    std::fs::create_dir_all(&guidelines_out).into_diagnostic()?;
+    // Drop `.json` files from a previous export so reusing DIR can't leave
+    // components or guidelines behind that this cascade no longer contains.
+    for dir in [&components_out, &guidelines_out] {
+        for entry in std::fs::read_dir(dir).into_diagnostic()? {
+            let path = entry.into_diagnostic()?.path();
+            if path.extension().is_some_and(|ext| ext == "json") {
+                std::fs::remove_file(&path)
+                    .into_diagnostic()
+                    .wrap_err_with(|| format!("failed to remove stale {}", path.display()))?;
+            }
+        }
+    }
+    let write_json = |path: PathBuf, value: &serde_json::Value| -> miette::Result<()> {
+        std::fs::write(
+            &path,
+            serde_json::to_string_pretty(value).into_diagnostic()?,
+        )
+        .into_diagnostic()
+        .wrap_err_with(|| format!("failed to write {}", path.display()))
+    };
+
+    for (name, doc) in &catalogs.components {
+        write_json(components_out.join(format!("{name}.json")), doc)?;
+    }
+
+    // Start from the foundation guidelines manifest, then add or replace
+    // entries for platform-contributed documents.
+    let mut entries: Vec<serde_json::Value> = resolved
+        .guidelines
+        .as_ref()
+        .map(|dir| dir.join("manifest.json"))
+        .filter(|p| p.is_file())
+        .map(|p| -> miette::Result<Vec<serde_json::Value>> {
+            let text = std::fs::read_to_string(&p).into_diagnostic()?;
+            let parsed: serde_json::Value = serde_json::from_str(&text).into_diagnostic()?;
+            Ok(parsed
+                .get("guidelines")
+                .and_then(|g| g.as_array())
+                .cloned()
+                .unwrap_or_default())
+        })
+        .transpose()?
+        .unwrap_or_default();
+    for (name, doc, from_platform) in &catalogs.guidelines {
+        write_json(guidelines_out.join(format!("{name}.json")), doc)?;
+        if *from_platform {
+            let mut entry = serde_json::json!({
+                "slug": name,
+                "title": doc.get("title").cloned().unwrap_or_else(|| name.clone().into()),
+                "file": format!("guidelines/{name}.json"),
+            });
+            if let Some(category) = doc.get("category") {
+                entry["category"] = category.clone();
+            }
+            entries.retain(|e| e.get("slug").and_then(|s| s.as_str()) != Some(name));
+            entries.push(entry);
+        }
+    }
+    write_json(
+        guidelines_out.join("manifest.json"),
+        &serde_json::json!({ "guidelines": entries }),
+    )?;
+
+    println!(
+        "Exported {} component(s) and {} guideline(s) to {}",
+        catalogs.components.len(),
+        catalogs.guidelines.len(),
+        out.display()
     );
     Ok(ExitCode::SUCCESS)
 }
@@ -3456,9 +3745,9 @@ fn run_write_token(key: &str, target: &Path, opts: WriteTokenOpts<'_>) -> miette
     let schemas_dir = schema_path
         .map(PathBuf::from)
         .or_else(|| {
-            // Try target's parent up to repo root looking for packages/tokens/schemas.
+            // Try target's parent up to repo root looking for packages/design-data-spec/schemas.
             target.ancestors().find_map(|p| {
-                let candidate = p.join("packages/tokens/schemas");
+                let candidate = p.join("packages/design-data-spec/schemas");
                 candidate.is_dir().then_some(candidate)
             })
         })
@@ -3537,7 +3826,11 @@ fn main() -> ExitCode {
         Commands::Platform { sub } => match sub {
             PlatformSub::List { format } => run_platform_list(format),
             PlatformSub::Show { id, format } => run_platform_show(&id, format),
-            PlatformSub::Eject { id, out } => run_platform_eject(&id, out),
+            PlatformSub::Eject {
+                id,
+                out,
+                with_consumer_smoke,
+            } => run_platform_eject(&id, out, with_consumer_smoke),
         },
         Commands::Validate {
             path,
@@ -3695,15 +3988,19 @@ fn main() -> ExitCode {
                 manifest,
                 code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 write_options,
             } => run_figma_export(
-                &path,
+                path.as_deref(),
                 &file_key,
                 &token,
                 mapping.as_deref(),
                 manifest.as_deref(),
                 &code_syntax_manifests,
                 redirect_deprecated,
+                modeless_layer,
+                no_folder_prefix,
                 &write_options,
             ),
             FigmaSub::Import {
@@ -3724,14 +4021,16 @@ fn main() -> ExitCode {
             FigmaSub::Audit {
                 snapshot,
                 token_dir,
+                no_folder_prefix,
                 format,
-            } => run_figma_audit(&snapshot, &token_dir, format),
+            } => run_figma_audit(&snapshot, token_dir.as_deref(), no_folder_prefix, format),
             FigmaSub::Diff {
                 file_key,
                 token,
                 snapshot,
                 mapping,
                 manifest,
+                no_folder_prefix,
                 format,
             } => run_figma_diff(
                 file_key.as_deref(),
@@ -3739,6 +4038,7 @@ fn main() -> ExitCode {
                 snapshot.as_deref(),
                 mapping.as_deref(),
                 manifest.as_deref(),
+                no_folder_prefix,
                 format,
             ),
             FigmaSub::Pair {
@@ -3783,6 +4083,9 @@ fn main() -> ExitCode {
                 components_dir,
                 base_url.as_deref(),
             ),
+        },
+        Commands::Catalog { sub } => match sub {
+            CatalogSub::Export { out } => run_catalog_export(&out),
         },
         Commands::Suggest {
             intent,

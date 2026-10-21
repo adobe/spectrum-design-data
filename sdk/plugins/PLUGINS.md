@@ -37,12 +37,15 @@ target that actually exist:
   instead of hardcoding a match arm. Run `design-data export --format shadcn-theme`
   for the shadcn theme. It ignores `winners`, resolves `light` and `dark` from
   the graph itself, and emits keys without a `--` prefix (shadcn adds it).
+  Scheme-independent non-color values go in `cssVars.theme` so shadcn doesn't
+  emit self-referencing `var()` entries for them.
 
 * **Data-specific one-shot exports** — a pure transform that does not consume a
   resolved token graph. `design-data-shadcn` also maps component declarations
   into `registry:component` items with metadata only: no source files and no
   Code Connect mappings. Run `design-data shadcn registry --output DIR`
-  (add `--component ID` for one component). It uses its own subcommand and the
+  (add `--component ID` for one component). It reads the platform-merged
+  catalog when a platform manifest is selected. It uses its own subcommand and the
   component lookup path, and does not implement `TokenExporter`, whose inputs
   are token-only. Build and test with `moon run sdk:build` and `moon run sdk:test`.
 

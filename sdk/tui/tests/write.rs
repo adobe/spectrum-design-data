@@ -12,7 +12,7 @@
 //!
 //! Each test uses a `tempfile::TempDir` as the dataset to keep writes hermetic.
 //! Tests that exercise the real `write_token` path load `SchemaRegistry` from
-//! `packages/tokens/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
+//! `packages/design-data-spec/schemas` (relative to the repo root via `CARGO_MANIFEST_DIR`).
 
 use std::path::PathBuf;
 
@@ -34,9 +34,9 @@ const COLOR_SCHEMA: &str =
 
 /// Load the real `SchemaRegistry` from the schemas directory.
 fn load_registry() -> SchemaRegistry {
-    // Walk up from the TUI crate manifest to find packages/tokens/schemas.
+    // Walk up from the TUI crate manifest to find packages/design-data-spec/schemas.
     let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let schemas = manifest.join("../../packages/tokens/schemas");
+    let schemas = manifest.join("../../packages/design-data-spec/schemas");
     SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schema registry should load")
 }
 

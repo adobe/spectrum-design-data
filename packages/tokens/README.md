@@ -1,5 +1,7 @@
 # Spectrum Tokens
 
+> **Generated legacy output.** `@adobe/spectrum-tokens` is generated from the canonical data in [`packages/design-data`](../design-data/) and kept for existing npm consumers. `schemas/` and `naming-exceptions.json` are generated copies (sources: [`design-data-spec/schemas`](../design-data-spec/schemas/) and [`design-data/naming-exceptions.json`](../design-data/naming-exceptions.json)). Don't build new tooling on this package; see `.ai/rules/legacy-tokens.md`.
+
 Design tokens are primarily name-value pairs used to store design decisions and distributed in a way platforms, implementations, and products can use across design tools and coding languages. These value types are represented as data, which include spacing, color, typography, object styles, animation, etc. These can represent anything defined by design: a color as an RGB value, an opacity as a number, and an animation ease function as Bezier coordinates. They're used in place of hard-coded values to ensure flexibility and unity across all product experiences.
 
 Design tokens are directly integrated into our component libraries, UI kits, and the Spectrum XD plugin. They cover the various options of platform scales, color themes, component states, and more. We also offer teams a variety of token types to use directly within their products if they are not using a Spectrum component library.

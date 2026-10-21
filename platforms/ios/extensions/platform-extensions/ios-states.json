@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "platform": "iOS",
+  "platformVersion": "iOS 17+",
+  "description": "iOS-specific terminology for interaction states",
+  "extends": "states",
+  "extensions": [
+    {
+      "termId": "hover",
+      "platformTerm": "highlighted",
+      "platformAliases": ["isHighlighted"],
+      "notes": "iOS uses 'highlighted' state for pointer interactions on devices with pointer support (iPad with mouse/trackpad)",
+      "reference": "UIControl.State.highlighted",
+      "codeExample": "button.isHighlighted = true",
+      "differences": [
+        "Only available on iOS devices with pointer support",
+        "Not triggered by touch interactions",
+        "Maps to UIControl.State.highlighted property"
+      ]
+    },
+    {
+      "termId": "focus",
+      "platformTerm": "focused",
+      "platformAliases": ["isFocused"],
+      "notes": "iOS uses UIFocusSystem for keyboard and pointer navigation",
+      "reference": "UIFocusEnvironment",
+      "codeExample": "view.canBecomeFocused",
+      "differences": [
+        "Part of UIFocusSystem framework",
+        "Supports both keyboard and pointer navigation",
+        "Requires implementing UIFocusEnvironment protocol"
+      ]
+    },
+    {
+      "termId": "disabled",
+      "platformTerm": "disabled",
+      "platformAliases": ["isEnabled"],
+      "notes": "iOS uses isEnabled property (inverted boolean)",
+      "reference": "UIControl.isEnabled",
+      "codeExample": "button.isEnabled = false",
+      "differences": [
+        "Property is named 'isEnabled' but inverted (false = disabled)",
+        "Affects both visual appearance and interaction"
+      ]
+    },
+    {
+      "termId": "selected",
+      "platformTerm": "selected",
+      "platformAliases": ["isSelected"],
+      "notes": "iOS uses isSelected for toggle-able controls",
+      "reference": "UIControl.isSelected",
+      "codeExample": "button.isSelected = true",
+      "differences": [
+        "Used for toggleable controls like checkboxes and radio buttons",
+        "Can be combined with other states (highlighted, disabled)"
+      ]
+    }
+  ]
+}
