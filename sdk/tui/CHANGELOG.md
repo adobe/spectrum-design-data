@@ -1,5 +1,22 @@
 # @adobe/design-data-tui
 
+## 0.20.0
+
+### Minor Changes
+
+- [#1547](https://github.com/adobe/spectrum-design-data/pull/1547) [`900b522`](https://github.com/adobe/spectrum-design-data/commit/900b522b5ef746f7d5f9640359a29089884db31e) Thanks [@GarthDB](https://github.com/GarthDB)! - `platform eject` can scaffold an opt-in consumer-codegen smoke workflow (closes h890.7.3).
+  - **sdk/cli**: `platform eject --with-consumer-smoke` writes `consumer-smoke.yml`,
+    which runs the repo's own `consumer/smoke.sh` when present.
+  - **.github/actions/validate**: new `install-only` input installs the CLI and skips checks.
+  - **.github/actions/validate**: release install picks the binary by runner OS and arch.
+  - **docs/MIGRATION.md**: documents the flag and the `consumer/smoke.sh` contract.
+
+### Patch Changes
+
+- [#1559](https://github.com/adobe/spectrum-design-data/pull/1559) [`926f26b`](https://github.com/adobe/spectrum-design-data/commit/926f26b80eea984a061f4e06c3a710a6a13f167b) Thanks [@GarthDB](https://github.com/GarthDB)! - Hide the `FIGMA_TOKEN` value in `figma * --help` output (closes nd2b).
+  - **sdk/cli/src/main.rs**: set `hide_env_values = true` on the token arg
+    of `figma read/export/import/diff/pair`; clap no longer prints it.
+
 ## 0.19.0
 
 ### Minor Changes
