@@ -238,6 +238,7 @@ jobs:
           fi
           {
             echo '---'
+            echo '"@adobe/design-data-wasm": patch'
             echo '"@adobe/spectrum-design-data": minor'
             echo '---'
             echo ''
