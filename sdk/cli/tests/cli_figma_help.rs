@@ -21,6 +21,11 @@ fn figma_help_does_not_leak_token_value() {
             stdout.contains("FIGMA_TOKEN"),
             "figma {sub}: env name missing"
         );
+        let stderr = String::from_utf8_lossy(&output.stderr);
         assert!(!stdout.contains(secret), "figma {sub} --help leaked token");
+        assert!(
+            !stderr.contains(secret),
+            "figma {sub} --help leaked token to stderr"
+        );
     }
 }
