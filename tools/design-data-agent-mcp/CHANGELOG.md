@@ -1,5 +1,14 @@
 # @adobe/design-data-agent-mcp
 
+## 1.15.2
+
+### Patch Changes
+
+- [#1557](https://github.com/adobe/spectrum-design-data/pull/1557) [`4db31e6`](https://github.com/adobe/spectrum-design-data/commit/4db31e6a4ef0c0e456eceed8b51a96c1db3c867d) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct the CLI requirement in the MCP README (h890.35).
+  - **tools/design-data-agent-mcp/README.md**: the `design-data` CLI is also
+    needed when `DESIGN_DATA_CONFIG` is set (the platform cascade uses
+    `catalog export`), and must be 0.13.0 or newer.
+
 ## 1.15.1
 
 ### Patch Changes
