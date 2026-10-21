@@ -1,5 +1,13 @@
 # @adobe/design-data-tui
 
+## 0.20.1
+
+### Patch Changes
+
+- [#1537](https://github.com/adobe/spectrum-design-data/pull/1537) [`2c6cb2f`](https://github.com/adobe/spectrum-design-data/commit/2c6cb2f7bb1c06df34c22137c54c673f9495730b) Thanks [@GarthDB](https://github.com/GarthDB)! - Keep a deprecated token's literal when `--redirect-deprecated` can't export its replacement.
+  - **sdk/plugins/figma/**: skip the redirect, and report it in the summary,
+    when the terminal replacement's value can't be converted for Figma.
+
 ## 0.20.0
 
 ### Minor Changes
