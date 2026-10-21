@@ -1623,7 +1623,7 @@ fn redirect_deprecated_keeps_literal_when_replacement_cannot_be_exported() {
 
     let meta = mock_meta();
     let (body, summary) =
-        build_export_payload_with_specs_and_redirect(&tokens, &meta, None, COLLECTION_SPECS, true)
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
             .unwrap();
 
     for (name, expected) in [("old-a", json!(200.0)), ("old-b", json!(180.0))] {
