@@ -9,13 +9,6 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/list-view/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "ListView",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -48,6 +41,13 @@
     {
       "type": "guideline",
       "content": "When to use a List view vs. Tree view.\n\nList views work best for flat collections of items that share the same hierarchy level. Tree views are ideal for displaying nested or hierarchical relationships."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ListView",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

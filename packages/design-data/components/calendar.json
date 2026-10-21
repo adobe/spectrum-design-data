@@ -9,13 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/calendar/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "Calendar",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -45,6 +38,13 @@
     {
       "type": "guideline",
       "content": "Optional time fields.\n\nThe calendar popover can also include time-specific fields, allowing users to specify start and end times."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Calendar",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

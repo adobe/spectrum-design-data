@@ -9,13 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/date-picker/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "DatePicker",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -56,6 +49,13 @@
     {
       "type": "guideline",
       "content": "Error.\n\nA date picker can be marked as having an error to show that a value needs to be entered in order to move forward, or that an entered value is invalid. In this scenario, displaying error text beneath the date field can aid the user in understanding how to resolve it. Error text within the calendar popover may also be helpful to aid the user in understanding what the error is signaling."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "DatePicker",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {
