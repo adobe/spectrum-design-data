@@ -80,14 +80,10 @@ jobs:
       - name: Fetch and merge Spectrum Hub component pages
         env:
           FETCH_LIMIT: ${{ github.event.inputs.limit }}
-          FETCH_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
           args=(--origin https://spectrum.adobe.com --out "$RUNNER_TEMP/hub-component-fetch" --report hub-component-fetch-report.json)
           if [ -n "$FETCH_LIMIT" ]; then
             args+=(--limit "$FETCH_LIMIT")
-          fi
-          if [ "$FETCH_DRY_RUN" = "true" ]; then
-            args+=(--dry-run)
           fi
           node tools/spectrum-hub-fetcher/src/component-sync-cli.js "${args[@]}"
 
@@ -130,7 +126,6 @@ jobs:
           NODE
 
       - name: Stage docs for the component transform
-        if: github.event.inputs.dry_run != 'true'
         run: |
           # Missing pages can reflect outages, including unreported SWC-only failures.
           node tools/spectrum-hub-fetcher/scripts/stage-components.js \
@@ -138,25 +133,38 @@ jobs:
             --to ./docs/s2-docs
 
       - name: Transform staged docs into component documentBlocks
-        if: github.event.inputs.dry_run != 'true'
         run: node tools/s2-docs-to-document-blocks/src/cli.js transform --report component-blocks-review.md
 
       - name: Check for content changes
         id: content
-        if: github.event.inputs.dry_run != 'true'
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          status="$(git status --porcelain -- docs/s2-docs/web packages/design-data/components)"
-          if [ -n "$status" ]; then
+          paths=(docs/s2-docs/web packages/design-data/components)
+          status="$(git status --porcelain -- "${paths[@]}")"
+          if [ "$DRY_RUN" = "true" ]; then
+            # Report the diff, then report no changes so the count bump, changeset, and PR steps stay skipped.
+            {
+              echo "### Dry run: component content changes"
+              if [ -n "$status" ]; then
+                echo '```'
+                echo "$status"
+                git add -N -- "${paths[@]}"
+                git diff --stat -- "${paths[@]}"
+                echo '```'
+              else
+                echo "No content changes."
+              fi
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "$status"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          elif [ -n "$status" ]; then
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "$status"
           else
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             echo "No content changes detected under docs/s2-docs/web or packages/design-data/components."
           fi
-
-      - name: Dry-run summary
-        if: github.event.inputs.dry_run == 'true'
-        run: echo "Dry run - fetch, merge, and fetch-health guard completed successfully; staging, transform, count-bump, changeset, and PR steps are skipped in dry-run mode."
 
       - name: Skip when content is unchanged
         if: github.event.inputs.dry_run != 'true' && steps.content.outputs.has_changes != 'true'
