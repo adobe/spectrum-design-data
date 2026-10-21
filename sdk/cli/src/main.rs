@@ -45,6 +45,7 @@ use design_data_core::validate;
 use design_data_core::write::{write_token, WriteTokenInput};
 use design_data_dtcg as dtcg;
 use design_data_figma as figma;
+use design_data_shadcn as shadcn;
 use design_data_tui::{LaunchOptions, ThemeChoice};
 use miette::{IntoDiagnostic, WrapErr};
 
@@ -341,6 +342,11 @@ enum Commands {
         #[arg(long, value_name = "DIR")]
         components_dir: Option<PathBuf>,
     },
+    /// Generate shadcn registry artifacts from Spectrum design data
+    Shadcn {
+        #[command(subcommand)]
+        sub: ShadcnSub,
+    },
     /// Export the component and guideline catalogs with the selected platform
     /// manifest applied (`--platform`, `DESIGN_DATA_PLATFORM`, or `default_platform`)
     Catalog {
@@ -453,6 +459,27 @@ enum Commands {
     },
     /// Launch the interactive TUI (same as running with no arguments)
     Tui(TuiArgs),
+}
+
+#[derive(Subcommand)]
+enum ShadcnSub {
+    /// Generate metadata-only component registry items and a registry index
+    Registry {
+        /// Output directory (contains registry.json and items/)
+        #[arg(long, value_name = "DIR")]
+        output: PathBuf,
+        /// Generate only this component (default: all components)
+        #[arg(long, value_name = "ID")]
+        component: Option<String>,
+        /// Override components directory
+        #[arg(long, value_name = "DIR")]
+        components_dir: Option<PathBuf>,
+        /// Hosted registry base URL (for example https://host/r). Writes a flat
+        /// layout (`registry.json`, `{name}.json`, `spectrum-theme.json`) and
+        /// points each item's `spectrum-theme` dependency at `{URL}/spectrum-theme.json`
+        #[arg(long, value_name = "URL")]
+        base_url: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -799,6 +826,9 @@ enum ExportFormat {
     #[default]
     Dtcg,
     Json,
+    /// shadcn `registry:theme` item (`cssVars.light`/`cssVars.dark`); see
+    /// `design_data_shadcn`.
+    ShadcnTheme,
 }
 
 /// Output format for the `query` command (superset of `OutputFormat` — adds `dtcg`,
@@ -928,7 +958,10 @@ fn resolve_dataset_winners(
 /// transform, so it keeps its own subcommands instead of this trait (see
 /// `design_data_core::export::TokenExporter`).
 fn exporters() -> Vec<Box<dyn TokenExporter>> {
-    vec![Box::new(dtcg::DtcgExporter)]
+    vec![
+        Box::new(dtcg::DtcgExporter),
+        Box::new(shadcn::ShadcnThemeExporter),
+    ]
 }
 
 /// Merge each winner's single-key DTCG document into one flat DTCG document.
@@ -2355,6 +2388,14 @@ fn run_export(
                 serde_json::to_string_pretty(&raw_values).into_diagnostic()?
             );
         }
+        ExportFormat::ShadcnTheme => {
+            let doc = exporters()
+                .into_iter()
+                .find(|e| e.format_id() == "shadcn-theme")
+                .expect("shadcn-theme exporter always registered")
+                .export(&graph, &winners, &resolve_ctx.mode_sets);
+            println!("{}", serde_json::to_string_pretty(&doc).into_diagnostic()?);
+        }
     }
 
     Ok(ExitCode::SUCCESS)
@@ -3373,6 +3414,72 @@ fn run_component(id: &str, components_dir: Option<PathBuf>) -> miette::Result<Ex
     }
 }
 
+fn run_shadcn_registry(
+    output_dir: &Path,
+    component: Option<&str>,
+    components_dir: Option<PathBuf>,
+    base_url: Option<&str>,
+) -> miette::Result<ExitCode> {
+    let components_dir_overridden = components_dir.is_some();
+    let resolved = resolve_data_source(CliPathOverrides {
+        components: components_dir,
+        ..Default::default()
+    })?;
+    // Like `component`, read through the platform cascade so implementation
+    // mappings and extension components appear; an explicit --components-dir
+    // or no selected platform keeps the raw-file read.
+    let components = if resolved.platform_manifest.is_some() && !components_dir_overridden {
+        let catalogs = manifest::load_merged_catalogs(&resolved)
+            .into_diagnostic()
+            .wrap_err("failed to apply platform manifest cascade")?;
+        let docs = catalogs
+            .components
+            .into_iter()
+            .map(|(_, doc)| doc)
+            .collect();
+        shadcn::select_components(docs, component)
+    } else {
+        let dir = resolved
+            .components
+            .as_deref()
+            .ok_or_else(|| miette::miette!("could not locate components directory"))?;
+        shadcn::read_component_declarations(dir, component)
+    }
+    .map_err(|error| miette::miette!("{error}"))?;
+    let count = match base_url {
+        Some(base_url) => {
+            let mut graph = TokenGraph::open_cached_with_catalogs(
+                &resolved.tokens_root,
+                resolved.mode_sets.as_deref(),
+                resolved.components.as_deref(),
+            )
+            .into_diagnostic()
+            .wrap_err_with(|| {
+                format!(
+                    "failed to load tokens from {}",
+                    resolved.tokens_root.display()
+                )
+            })?;
+            let mut ctx = ResolutionContext::new();
+            let restrictions = manifest::apply_configured(&mut graph, &resolved)
+                .into_diagnostic()
+                .wrap_err("failed to apply platform manifest cascade")?;
+            for (mode_set, allowed) in &restrictions {
+                ctx = ctx.with_restriction(mode_set.clone(), allowed.clone());
+            }
+            let theme = shadcn::ShadcnThemeExporter.export(&graph, &[], &ctx.mode_sets);
+            shadcn::write_hosted_registry_from(&components, output_dir, base_url, &theme)
+        }
+        None => shadcn::write_component_registry_from(&components, output_dir),
+    }
+    .map_err(|error| miette::miette!("{error}"))?;
+    println!(
+        "Wrote {count} component registry item(s) to {}",
+        output_dir.display()
+    );
+    Ok(ExitCode::SUCCESS)
+}
+
 /// `design-data catalog export --out DIR`: write the component and guideline
 /// catalogs after the selected platform manifest (if any) is applied, in the
 /// `components/*.json` + `guidelines/*.json` + `guidelines/manifest.json` layout.
@@ -3964,6 +4071,19 @@ fn main() -> ExitCode {
             mode_sets_dir,
         ),
         Commands::Component { id, components_dir } => run_component(&id, components_dir),
+        Commands::Shadcn { sub } => match sub {
+            ShadcnSub::Registry {
+                output,
+                component,
+                components_dir,
+                base_url,
+            } => run_shadcn_registry(
+                &output,
+                component.as_deref(),
+                components_dir,
+                base_url.as_deref(),
+            ),
+        },
         Commands::Catalog { sub } => match sub {
             CatalogSub::Export { out } => run_catalog_export(&out),
         },
