@@ -103,7 +103,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "100%",
     "uuid": "be327284-79fe-40b7-b996-8ad176d40d8e",
-    "legacyKey": "takeover-dialog-height"
+    "legacyKey": "takeover-dialog-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 361 of the mapping sheet."
   },
   {
     "scope": {
@@ -113,6 +118,11 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "100%",
     "uuid": "bb70e39d-c686-4cd2-a991-6b51fa16d9df",
-    "legacyKey": "takeover-dialog-width"
+    "legacyKey": "takeover-dialog-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Full-screen behavior (100% of viewport), not a fixed size; not appropriate for a foundational token."
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 362 of the mapping sheet."
   }
 ]

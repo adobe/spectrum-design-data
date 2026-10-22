@@ -3,12 +3,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "triple-calendar",
     "value": "320px",
-    "uuid": "19c4d5a5-6ccb-407e-afa7-79f19286837b"
+    "uuid": "19c4d5a5-6ccb-407e-afa7-79f19286837b",
+    "deprecated": true,
+    "deprecated_comment": "Fixed regardless of panel count; component-specific formula, not foundational."
   },
   "triple-calendar-popover-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "triple-calendar",
     "value": "912px",
-    "uuid": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6"
+    "uuid": "1ccfcd2c-6de7-4a25-b6b7-0b40acc702c6",
+    "deprecated": true,
+    "deprecated_comment": "Scales linearly by panel count; component-specific formula, not foundational."
   }
 }

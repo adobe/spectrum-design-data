@@ -23,6 +23,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tree-view",
     "uuid": "65d6c69e-0d00-4d31-8e18-a27cb4ddd464",
+    "deprecated": true,
+    "deprecated_comment": "This is a UI icon + padding determined by the semantic layout values.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -40,6 +42,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tree-view",
     "uuid": "a9a4a8fe-327f-4c81-9c86-8d824e159de4",
+    "deprecated": true,
+    "deprecated_comment": "This is a UI icon + padding determined by the semantic layout values.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -231,6 +235,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tree-view",
     "uuid": "b8dc040f-e26d-4d80-b27b-8af4381d24da",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-minimum-height-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -242,7 +248,8 @@
         "value": "50px",
         "uuid": "36d1219e-f34a-4ee9-bfa0-a93a42046d94"
       }
-    }
+    },
+    "renamed": "list-item-minimum-height"
   },
   "tree-view-minimum-top-to-context-area": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -268,6 +275,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
     "component": "tree-view",
     "uuid": "85b826d7-84dc-4843-9df4-b8385e7ce133",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared list-item-minimum-width-* scale.",
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -279,7 +288,8 @@
         "value": "200px",
         "uuid": "06c90c91-1598-4150-a431-e733ba39bec5"
       }
-    }
+    },
+    "renamed": "list-item-minimum-width-medium"
   },
   "tree-view-row-background-hover": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",

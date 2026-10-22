@@ -39,13 +39,19 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "rating",
     "value": "{component-height-100}",
-    "uuid": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964"
+    "uuid": "d7f24ef9-eb71-45e8-96a1-7e48ddc56964",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-medium"
   },
   "rating-height-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "component": "rating",
     "value": "{component-height-75}",
-    "uuid": "7e0c3f30-31f5-4fa2-b353-a739c904d796"
+    "uuid": "7e0c3f30-31f5-4fa2-b353-a739c904d796",
+    "deprecated": true,
+    "deprecated_comment": "Consolidated into the shared base-height-* scale.",
+    "renamed": "base-height-small"
   },
   "rating-indicator-to-icon": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -105,12 +111,16 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "rating",
     "value": "128px",
-    "uuid": "91a0e740-8f77-4d4a-b34c-d673afc1093b"
+    "uuid": "91a0e740-8f77-4d4a-b34c-d673afc1093b",
+    "deprecated": true,
+    "deprecated_comment": "Depends on icon count, not a fixed per-size value; compute at render time, no token needed."
   },
   "rating-width-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "rating",
     "value": "104px",
-    "uuid": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2"
+    "uuid": "b54da2cd-9d1e-498f-a52c-7be5e825c2a2",
+    "deprecated": true,
+    "deprecated_comment": "Depends on icon count, not a fixed per-size value; compute at render time, no token needed."
   }
 }

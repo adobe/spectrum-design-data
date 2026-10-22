@@ -90,6 +90,52 @@ function ctrToNameToken(ctr) {
   return { ...ctr, name };
 }
 
+function parseRelationshipTokens(source, filename) {
+  try {
+    return JSON.parse(source);
+  } catch (error) {
+    if (!(error instanceof SyntaxError)) throw error;
+    const position = /position (\d+)/.exec(error.message);
+    const lines = position
+      ? source.slice(0, Number(position[1])).split("\n")
+      : null;
+    const location = lines ? `:${lines.length}:${lines.at(-1).length + 1}` : "";
+    throw new SyntaxError(
+      `Invalid relationship JSON in ${filename}${location}: ${error.message}`,
+      { cause: error },
+    );
+  }
+}
+
+test("relationship JSON diagnostics preserve valid input", (t) => {
+  const tokens = [{ scope: { component: "menu", property: "height" } }];
+  t.deepEqual(
+    parseRelationshipTokens(JSON.stringify(tokens), "menu.json"),
+    tokens,
+  );
+});
+
+test("relationship JSON diagnostics identify the file, line, and column", (t) => {
+  const source = '[\n  {"value": "\u{1f600}",}\n]';
+  const error = t.throws(() => parseRelationshipTokens(source, "menu.json"), {
+    instanceOf: SyntaxError,
+    message: /^Invalid relationship JSON in menu\.json:2:18:/,
+  });
+  t.true(error.cause instanceof SyntaxError);
+});
+
+test("relationship JSON diagnostics retain errors without a position", (t) => {
+  const error = t.throws(() => parseRelationshipTokens("[", "menu.json"), {
+    instanceOf: SyntaxError,
+    message: /^Invalid relationship JSON in menu\.json:/,
+  });
+  t.true(error.cause instanceof SyntaxError);
+  t.is(
+    error.message,
+    `Invalid relationship JSON in menu.json: ${error.cause.message}`,
+  );
+});
+
 /**
  * Every CTR across relationships/*.json, reconstructed as name-shaped tokens.
  * name.component tokens that used to live in the cascade file can end up
@@ -98,11 +144,11 @@ function ctrToNameToken(ctr) {
 function loadAllRelationshipTokens() {
   return readdirSync(RELATIONSHIPS_DIR)
     .filter((f) => f.endsWith(".json"))
-    .flatMap((f) =>
-      JSON.parse(readFileSync(resolve(RELATIONSHIPS_DIR, f), "utf-8")).map(
-        ctrToNameToken,
-      ),
-    );
+    .flatMap((f) => {
+      const filename = resolve(RELATIONSHIPS_DIR, f);
+      const source = readFileSync(filename, "utf-8");
+      return parseRelationshipTokens(source, filename).map(ctrToNameToken);
+    });
 }
 
 /** Load a cascade token file plus every migrated token now living in relationships/*.json. */

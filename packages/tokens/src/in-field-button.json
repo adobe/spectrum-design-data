@@ -190,24 +190,32 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "in-field-button",
     "value": "44px",
-    "uuid": "5f844b3f-e0d7-40f0-a754-a14bee6a0fb4"
+    "uuid": "5f844b3f-e0d7-40f0-a754-a14bee6a0fb4",
+    "deprecated": true,
+    "deprecated_comment": "Derivable from spacing tokens plus icon size; no dedicated width scale needed."
   },
   "in-field-button-width-stacked-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "in-field-button",
     "value": "36px",
-    "uuid": "4e103763-4310-4aff-980f-652ad023084f"
+    "uuid": "4e103763-4310-4aff-980f-652ad023084f",
+    "deprecated": true,
+    "deprecated_comment": "Derivable from spacing tokens plus icon size; no dedicated width scale needed."
   },
   "in-field-button-width-stacked-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "in-field-button",
     "value": "28px",
-    "uuid": "bb8c7ce0-1766-47f9-b30e-36b3b57dc2ea"
+    "uuid": "bb8c7ce0-1766-47f9-b30e-36b3b57dc2ea",
+    "deprecated": true,
+    "deprecated_comment": "Derivable from spacing tokens plus icon size; no dedicated width scale needed."
   },
   "in-field-button-width-stacked-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "in-field-button",
     "value": "20px",
-    "uuid": "24125066-c8d1-4c4a-85b3-493d112d3ca0"
+    "uuid": "24125066-c8d1-4c4a-85b3-493d112d3ca0",
+    "deprecated": true,
+    "deprecated_comment": "Derivable from spacing tokens plus icon size; no dedicated width scale needed."
   }
 }

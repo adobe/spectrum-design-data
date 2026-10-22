@@ -3,7 +3,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "component": "date-field",
     "value": "152px",
-    "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b"
+    "uuid": "ebc4d09b-03c8-475a-af01-9bfcd590d92b",
+    "deprecated": true,
+    "deprecated_comment": "Fixed input pattern (mm/dd/yyyy) is component-specific; platform-specific token, not foundational."
   },
   "date-field-text-to-visual": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

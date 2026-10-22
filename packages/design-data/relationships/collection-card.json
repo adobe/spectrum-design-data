@@ -10,7 +10,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "249px",
     "uuid": "6b242eb5-aa73-417c-b786-9047ae7a65ac",
-    "legacyKey": "collection-card-minimum-height-extra-large"
+    "legacyKey": "collection-card-minimum-height-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 117 of the mapping sheet."
   },
   {
     "scope": {
@@ -23,7 +29,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "88px",
     "uuid": "fabfd445-4c39-4d39-9f7f-1ec531d4eb40",
-    "legacyKey": "collection-card-minimum-height-extra-small"
+    "legacyKey": "collection-card-minimum-height-extra-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "50a7fb55-51f5-43e1-b931-16834a1f641e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 118 of the mapping sheet."
   },
   {
     "scope": {
@@ -37,7 +49,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "514px",
     "uuid": "24d72e3c-ed0d-47d7-85f5-4792fcf87b7f",
-    "legacyKey": "collection-card-minimum-height-hero-extra-large"
+    "legacyKey": "collection-card-minimum-height-hero-extra-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "6dacb97d-a6c0-4346-8ff4-643456744379"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 119 of the mapping sheet."
   },
   {
     "scope": {
@@ -51,7 +69,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "168px",
     "uuid": "dc2f0f1a-609a-448a-833d-ded2580ef737",
-    "legacyKey": "collection-card-minimum-height-hero-extra-small"
+    "legacyKey": "collection-card-minimum-height-hero-extra-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "5f05aab8-29de-4e83-affb-e018cd7570b2"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 120 of the mapping sheet."
   },
   {
     "scope": {
@@ -65,7 +89,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "414px",
     "uuid": "d5586b0d-1ff1-4e7e-88ce-75d41aff90d9",
-    "legacyKey": "collection-card-minimum-height-hero-large"
+    "legacyKey": "collection-card-minimum-height-hero-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "f933e568-2034-4194-962d-b5af7934d536"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 121 of the mapping sheet."
   },
   {
     "scope": {
@@ -79,7 +109,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "317px",
     "uuid": "63ecc7ce-8a38-4d18-94ed-d9e6394279ba",
-    "legacyKey": "collection-card-minimum-height-hero-medium"
+    "legacyKey": "collection-card-minimum-height-hero-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "a6626a0d-3592-4ad7-8184-30c39b49a34d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 122 of the mapping sheet."
   },
   {
     "scope": {
@@ -93,7 +129,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "243px",
     "uuid": "adfc74bd-7520-4bfa-b278-28178007cfbc",
-    "legacyKey": "collection-card-minimum-height-hero-small"
+    "legacyKey": "collection-card-minimum-height-hero-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "066afe3c-54d2-491f-a6b9-f206c2e9a21d"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 123 of the mapping sheet."
   },
   {
     "scope": {
@@ -106,7 +148,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "202px",
     "uuid": "e5027e50-3a1f-425d-b06b-8e4cf4663c22",
-    "legacyKey": "collection-card-minimum-height-large"
+    "legacyKey": "collection-card-minimum-height-large",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "74459e0f-2b9a-4577-8dde-e05f3ed5ef3e"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 124 of the mapping sheet."
   },
   {
     "scope": {
@@ -119,7 +167,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "157px",
     "uuid": "8422dc66-e17d-4c54-a18b-a997a8e5d7c3",
-    "legacyKey": "collection-card-minimum-height-medium"
+    "legacyKey": "collection-card-minimum-height-medium",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "5f05aab8-29de-4e83-affb-e018cd7570b2"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 125 of the mapping sheet."
   },
   {
     "scope": {
@@ -132,6 +186,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "124px",
     "uuid": "9264b1ff-23ae-4fd5-8863-742c305689e2",
-    "legacyKey": "collection-card-minimum-height-small"
+    "legacyKey": "collection-card-minimum-height-small",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Consolidated into the shared container-minimum-height-* scale.",
+      "replacedBy": "93663edb-9399-4ad9-9b53-41aae64a8a5b"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 126 of the mapping sheet."
   }
 ]

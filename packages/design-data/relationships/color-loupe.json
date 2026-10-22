@@ -203,7 +203,13 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "64px",
     "uuid": "0f7e8b9e-99e5-4f5a-ae80-99f65f4c4e51",
-    "legacyKey": "color-loupe-height"
+    "legacyKey": "color-loupe-height",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-800 (64px); component-specific to Color loupe, not a shared category.",
+      "replacedBy": "67cafee2-a871-4689-a2d7-985eabe8c0b3"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 437 of the mapping sheet."
   },
   {
     "scope": {
@@ -239,6 +245,12 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "48px",
     "uuid": "889e2495-b882-4aa3-8a5b-1a71d44edde4",
-    "legacyKey": "color-loupe-width"
+    "legacyKey": "color-loupe-width",
+    "lifecycle": {
+      "deprecatedIn": "15.4.1",
+      "deprecatedComment": "Referenced primitive size-700 (48px); component-specific to Color loupe, not a shared category.",
+      "replacedBy": "03042116-4c2d-4a29-b17f-47da76f5e103"
+    },
+    "rationale": "Deprecated via refine-from-sheets from row 438 of the mapping sheet."
   }
 ]
