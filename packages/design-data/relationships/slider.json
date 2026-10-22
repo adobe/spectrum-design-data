@@ -2463,7 +2463,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
     },
     "rationale": "Deprecated via refine-from-sheets from row 268 of the mapping sheet."
   },
@@ -2686,11 +2686,6 @@
     "value": "16px",
     "uuid": "211a95ca-f83e-4711-83ed-a723258d8336",
     "legacyKey": "slider-track-height-large",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "da5eceb3-895f-4a83-a4da-069972670880"
-    },
     "rationale": "Deprecated via refine-from-sheets from row 269 of the mapping sheet."
   },
   {
@@ -2706,11 +2701,6 @@
     "value": "4px",
     "uuid": "c2eb2949-9471-4dc5-b02b-384627dbdea2",
     "legacyKey": "slider-track-height-medium",
-    "lifecycle": {
-      "deprecatedIn": "15.4.1",
-      "deprecatedComment": "should this be 6 like the other \"medium\" Bars ??",
-      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
-    },
     "rationale": "Deprecated via refine-from-sheets from row 270 of the mapping sheet."
   },
   {

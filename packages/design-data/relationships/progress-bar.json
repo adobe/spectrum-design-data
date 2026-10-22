@@ -368,7 +368,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "e5932015-2533-4c08-b177-8324876db35d"
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
     },
     "rationale": "Deprecated via refine-from-sheets from row 231 of the mapping sheet."
   },
@@ -390,7 +390,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "e5932015-2533-4c08-b177-8324876db35d"
+      "replacedBy": "7bf2ad53-7c4f-4412-bb4a-7d6667e763bc"
     },
     "rationale": "Deprecated via refine-from-sheets from row 231 of the mapping sheet."
   },
@@ -412,7 +412,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "33dafd8e-a4d3-408d-946e-4a81847c8b39"
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
     },
     "rationale": "Deprecated via refine-from-sheets from row 232 of the mapping sheet."
   },
@@ -434,7 +434,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "33dafd8e-a4d3-408d-946e-4a81847c8b39"
+      "replacedBy": "46d32810-88b6-4c89-9536-965e85455bb0"
     },
     "rationale": "Deprecated via refine-from-sheets from row 232 of the mapping sheet."
   },
@@ -456,7 +456,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
     },
     "rationale": "Deprecated via refine-from-sheets from row 233 of the mapping sheet."
   },
@@ -478,7 +478,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "2ca62b26-77ca-4a2b-a77e-554dfda97474"
+      "replacedBy": "11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e"
     },
     "rationale": "Deprecated via refine-from-sheets from row 233 of the mapping sheet."
   },
@@ -500,7 +500,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 234 of the mapping sheet."
   },
@@ -522,7 +522,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 234 of the mapping sheet."
   }

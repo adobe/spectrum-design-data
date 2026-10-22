@@ -150,7 +150,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "74247eb0-de20-4f77-a37f-a8d2590b9cab"
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 171 of the mapping sheet."
   },
@@ -169,7 +169,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 172 of the mapping sheet."
   },
@@ -188,7 +188,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "3f23efe0-cb9e-4df2-ab80-a510b8227708"
+      "replacedBy": "a53172f2-1e81-4691-9129-5b680f0b9863"
     },
     "rationale": "Deprecated via refine-from-sheets from row 173 of the mapping sheet."
   },

@@ -6377,7 +6377,8 @@
     "conceptId": "8ebdf862-2ff5-4fa5-a2e6-1d6d9b21ab24",
     "lifecycle": {
       "deprecatedIn": "15.4.1",
-      "deprecatedComment": "Consolidated into the shared thickness-* scale."
+      "deprecatedComment": "Consolidated into the shared thickness-* scale.",
+      "replacedBy": "5952b589-51da-4733-8606-6a8a93738df1"
     },
     "rationale": "Deprecated via refine-from-sheets from row 258 of the mapping sheet."
   },
@@ -7584,7 +7585,8 @@
     "description": "Thickness of the tab selection indicator (underline)",
     "conceptId": "1452994c-d0ac-49de-a235-1727f36fa87d",
     "lifecycle": {
-      "deprecatedIn": "15.4.1"
+      "deprecatedIn": "15.4.1",
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 448 of the mapping sheet."
   },
@@ -7602,7 +7604,8 @@
     "description": "Thickness of the strikethrough line on an unavailable calendar day",
     "conceptId": "b432568c-7621-4ca4-ba23-385c332a9a37",
     "lifecycle": {
-      "deprecatedIn": "15.4.1"
+      "deprecatedIn": "15.4.1",
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 447 of the mapping sheet."
   },
@@ -8718,6 +8721,102 @@
     "value": "736px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
     "uuid": "66fa439f-300b-442f-9da0-70055284201c",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 100
+    },
+    "value": 1.25,
+    "uuid": "cd95b6dd-25af-47f8-b79e-32ba79bf2463",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 200
+    },
+    "value": 1.333,
+    "uuid": "0f95b804-e429-45ca-a809-a386bdfc463d",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 300
+    },
+    "value": 1.5,
+    "uuid": "6475b781-e930-4cb1-860d-80386b75079f",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 400
+    },
+    "value": 1.78,
+    "uuid": "d9a794f7-9127-4c24-8627-d97fdfdf0b03",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 500
+    },
+    "value": 2,
+    "uuid": "8f502252-4495-4c6b-9343-3576500bd6e2",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 600
+    },
+    "value": 2.25,
+    "uuid": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 700
+    },
+    "value": 2.5,
+    "uuid": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00",
+    "lifecycle": {
+      "introduced": "1.0.0-draft"
+    }
+  },
+  {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "name": {
+      "property": "aspect-ratio",
+      "scaleIndex": 800
+    },
+    "value": 4,
+    "uuid": "abe2fb5d-998a-4694-a67a-9363bb7db322",
     "lifecycle": {
       "introduced": "1.0.0-draft"
     }

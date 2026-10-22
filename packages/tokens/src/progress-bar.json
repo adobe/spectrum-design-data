@@ -33,7 +33,8 @@
         "value": "13px",
         "uuid": "c15e51b3-4a5e-421e-aa4e-e0a82840f1a2"
       }
-    }
+    },
+    "renamed": "bar-thickness-extra-large"
   },
   "progress-bar-thickness-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -52,7 +53,8 @@
         "value": "10px",
         "uuid": "4b680695-7e42-493c-889b-c76a60ab1f4f"
       }
-    }
+    },
+    "renamed": "bar-thickness-large"
   },
   "progress-bar-thickness-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -71,7 +73,8 @@
         "value": "8px",
         "uuid": "d53e3ac6-6091-4c3f-9e1b-b12b716a5f95"
       }
-    }
+    },
+    "renamed": "bar-thickness-medium"
   },
   "progress-bar-thickness-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -90,6 +93,7 @@
         "value": "5px",
         "uuid": "ab98c47f-f2e4-4f74-8008-55c65907b6eb"
       }
-    }
+    },
+    "renamed": "bar-thickness-small"
   }
 }

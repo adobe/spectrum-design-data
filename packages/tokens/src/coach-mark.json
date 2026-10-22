@@ -80,7 +80,8 @@
         "value": "162px",
         "uuid": "45b31e46-b878-40a2-a28a-91c480f45253"
       }
-    }
+    },
+    "renamed": "aspect-ratio-200"
   },
   "coach-mark-media-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -97,7 +98,8 @@
         "value": "121px",
         "uuid": "53703e12-f837-4573-bd44-e4727ed2aeaa"
       }
-    }
+    },
+    "renamed": "aspect-ratio-400"
   },
   "coach-mark-minimum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

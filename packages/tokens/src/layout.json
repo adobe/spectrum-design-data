@@ -112,17 +112,45 @@
     "value": "2dp",
     "uuid": "f9456531-ab61-4c14-b7af-7016ce1c0d3e"
   },
-  "banner-gap-horizontal": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-400}",
-    "uuid": "c0571c46-5946-4896-bcbf-270560de5385",
-    "description": "Spacing between child elements for banner components"
+  "aspect-ratio-100": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.25,
+    "uuid": "cd95b6dd-25af-47f8-b79e-32ba79bf2463"
   },
-  "banner-gap-vertical": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-100}",
-    "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
-    "description": "Spacing between child elements for banner components"
+  "aspect-ratio-200": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.333,
+    "uuid": "0f95b804-e429-45ca-a809-a386bdfc463d"
+  },
+  "aspect-ratio-300": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.5,
+    "uuid": "6475b781-e930-4cb1-860d-80386b75079f"
+  },
+  "aspect-ratio-400": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 1.78,
+    "uuid": "d9a794f7-9127-4c24-8627-d97fdfdf0b03"
+  },
+  "aspect-ratio-500": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 2,
+    "uuid": "8f502252-4495-4c6b-9343-3576500bd6e2"
+  },
+  "aspect-ratio-600": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 2.25,
+    "uuid": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b"
+  },
+  "aspect-ratio-700": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 2.5,
+    "uuid": "f61f5ab9-84b3-4927-b256-5c6a8d31bf00"
+  },
+  "aspect-ratio-800": {
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
+    "value": 4,
+    "uuid": "abe2fb5d-998a-4694-a67a-9363bb7db322"
   },
   "banner-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -149,23 +177,11 @@
     "value": "192px",
     "uuid": "20d5b444-a329-4d64-b237-a9652437f0e1"
   },
-  "banner-padding-horizontal": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-300}",
-    "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
-    "description": "Horizontal internal spacing for banner components"
-  },
   "banner-padding-horizontal-compact": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
     "uuid": "7f237198-3842-49bc-aa79-e723fbe6c78e",
     "description": "Horizontal internal spacing for banner components (compact density)"
-  },
-  "banner-padding-vertical": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-200}",
-    "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
-    "description": "Vertical internal spacing for banner components"
   },
   "banner-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -3209,29 +3225,20 @@
   "gap-horizontal": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-400}",
-    "uuid": "88c10a5d-9495-44b2-8b03-e9283c79144b",
-    "deprecated": true,
-    "deprecated_comment": "Renamed to include the banner structure prefix; use banner-gap-horizontal instead.",
-    "description": "Spacing between child elements for banner components",
-    "renamed": "banner-gap-horizontal"
+    "uuid": "c0571c46-5946-4896-bcbf-270560de5385",
+    "description": "Spacing between child elements for banner components"
   },
   "gap-regular": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-75}",
-    "uuid": "c2408389-1e7e-4aae-8a49-d8b8233102c7",
-    "deprecated": true,
-    "deprecated_comment": "Renamed to include the list structure prefix; use list-gap-regular instead.",
-    "description": "Spacing between child elements for list structures (regular density)",
-    "renamed": "list-gap-regular"
+    "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
+    "description": "Spacing between child elements for list structures (regular density)"
   },
   "gap-vertical": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-100}",
-    "uuid": "952a4750-63b2-458e-81b1-bf00cb064934",
-    "deprecated": true,
-    "deprecated_comment": "Renamed to include the banner structure prefix; use banner-gap-vertical instead.",
-    "description": "Spacing between child elements for banner components",
-    "renamed": "banner-gap-vertical"
+    "uuid": "312ebac2-32a0-47a8-9c4e-e366b2232228",
+    "description": "Spacing between child elements for banner components"
   },
   "gradient-stop-1-genai": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
@@ -3336,12 +3343,6 @@
     "value": "{spacing-50}",
     "uuid": "a66810ec-1839-4ca3-8036-d552a71b1511",
     "description": "Spacing between child elements for list structures (compact density)"
-  },
-  "list-gap-regular": {
-    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
-    "value": "{spacing-75}",
-    "uuid": "b7e1af59-753e-4059-8f46-8d862f631ad8",
-    "description": "Spacing between child elements for list structures (regular density)"
   },
   "list-gap-spacious": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3475,27 +3476,22 @@
   "padding-horizontal": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-300}",
-    "uuid": "f0749dc3-1649-4e6f-957e-c2194e191c88",
-    "deprecated": true,
-    "deprecated_comment": "Renamed to include the banner structure prefix; use banner-padding-horizontal instead.",
-    "description": "Horizontal internal spacing for banner components",
-    "renamed": "banner-padding-horizontal"
+    "uuid": "eb386242-21c6-437b-8125-e6d4394dd9c5",
+    "description": "Horizontal internal spacing for banner components"
   },
   "padding-vertical": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "value": "{spacing-200}",
-    "uuid": "9ae57860-2109-4f79-9230-7616e9898fd9",
-    "deprecated": true,
-    "deprecated_comment": "Renamed to include the banner structure prefix; use banner-padding-vertical instead.",
-    "description": "Vertical internal spacing for banner components",
-    "renamed": "banner-padding-vertical"
+    "uuid": "64fa4ab7-be93-4420-8cdc-a6ef91499852",
+    "description": "Vertical internal spacing for banner components"
   },
   "side-focus-indicator": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
     "uuid": "d33433fd-6430-4769-a0b8-6d8c32a64803",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
+    "renamed": "bar-thickness-small"
   },
   "side-label-character-count-to-field": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -3772,7 +3768,8 @@
     "value": "2px",
     "uuid": "c4e4695b-3838-4bd4-b045-8219c77f6786",
     "deprecated": true,
-    "description": "Thickness of the strikethrough line on an unavailable calendar day"
+    "description": "Thickness of the strikethrough line on an unavailable calendar day",
+    "renamed": "bar-thickness-extra-small"
   },
   "tab-item-to-tab-item-compact-horizontal-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
@@ -3787,7 +3784,8 @@
     "value": "2px",
     "uuid": "181806e5-0216-4b11-a775-9ed4bb8832fc",
     "deprecated": true,
-    "description": "Thickness of the tab selection indicator (underline)"
+    "description": "Thickness of the tab selection indicator (underline)",
+    "renamed": "bar-thickness-extra-small"
   },
   "text-gap-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

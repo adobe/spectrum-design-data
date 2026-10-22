@@ -441,7 +441,10 @@
     "uuid": "f6381a33-ac4e-4ff9-86a3-183c857772ad",
     "legacyKey": "coach-mark-media-height",
     "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "0f95b804-e429-45ca-a809-a386bdfc463d"
+    }
   },
   {
     "scope": {
@@ -457,7 +460,10 @@
     "uuid": "45b31e46-b878-40a2-a28a-91c480f45253",
     "legacyKey": "coach-mark-media-height",
     "setUuid": "5aac121b-ffcd-4a05-85ff-89c5e3a46e1b",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "0f95b804-e429-45ca-a809-a386bdfc463d"
+    }
   },
   {
     "scope": {
@@ -473,7 +479,10 @@
     "uuid": "e62c5a76-685c-4b48-98bb-746d6dd4b10e",
     "legacyKey": "coach-mark-media-minimum-height",
     "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "d9a794f7-9127-4c24-8627-d97fdfdf0b03"
+    }
   },
   {
     "scope": {
@@ -489,7 +498,10 @@
     "uuid": "53703e12-f837-4573-bd44-e4727ed2aeaa",
     "legacyKey": "coach-mark-media-minimum-height",
     "setUuid": "f26ffd88-afb8-4235-8738-fbe17e6a3416",
-    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json"
+    "setSchema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
+    "lifecycle": {
+      "replacedBy": "d9a794f7-9127-4c24-8627-d97fdfdf0b03"
+    }
   },
   {
     "scope": {

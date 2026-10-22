@@ -105,7 +105,8 @@
     "value": "2px",
     "uuid": "6c2264d9-425a-4dec-9071-a47e0d2bfca6",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
+    "renamed": "bar-thickness-extra-small"
   },
   "side-navigation-indicator-to-content": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",
@@ -165,7 +166,7 @@
         "uuid": "be37c65c-88c5-48cd-9554-8240909db98d"
       }
     },
-    "renamed": "list-gap-regular"
+    "renamed": "gap-regular"
   },
   "side-navigation-maximum-width": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

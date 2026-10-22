@@ -340,7 +340,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "64e2dbc2-05fa-43d7-80ae-d4d11c55348f"
   },
   {
@@ -348,7 +348,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "abd011c4-87a5-4b1f-82e2-e94d118f417f"
   },
   {
@@ -356,7 +356,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "3605974e-8f93-4907-81b3-fb6ab55d03f8"
   },
   {
@@ -364,7 +364,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "8de4888d-8da5-45a0-8d5d-64a734993ae4"
   },
   {
@@ -372,7 +372,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "0a676e7a-8a89-4607-a918-3abcfb0234a2"
   },
   {
@@ -380,7 +380,7 @@
       "component": "swatch",
       "property": "color"
     },
-    "context": "Add \u201cbutton\u201d background",
+    "context": "Add “button” background",
     "$ref": "eaad36fe-2827-4404-8876-060de75c2b34"
   },
   {
@@ -474,7 +474,10 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2,
     "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7",
-    "legacyKey": "swatch-rectangle-width-multiplier"
+    "legacyKey": "swatch-rectangle-width-multiplier",
+    "lifecycle": {
+      "replacedBy": "8f502252-4495-4c6b-9343-3576500bd6e2"
+    }
   },
   {
     "scope": {

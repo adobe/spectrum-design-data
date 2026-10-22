@@ -109,7 +109,8 @@
     "value": "2px",
     "uuid": "d4db995b-1eff-44cc-8abc-93324a3af119",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-size-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-size-* scale.",
+    "renamed": "bar-thickness-extra-small"
   },
   "steplist-visual-size-extra-large": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

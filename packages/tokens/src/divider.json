@@ -14,7 +14,8 @@
     "value": "4px",
     "uuid": "913cce2a-c928-4803-9bd6-3fb1e0fcbee5",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
+    "renamed": "bar-thickness-small"
   },
   "divider-thickness-medium": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -22,7 +23,8 @@
     "value": "2px",
     "uuid": "3cf3e962-92f3-4334-8b92-9a1da9396c25",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
+    "renamed": "bar-thickness-extra-small"
   },
   "divider-thickness-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
@@ -30,7 +32,8 @@
     "value": "1px",
     "uuid": "9dcc27ef-7044-4051-97f3-2fd64a5d0a36",
     "deprecated": true,
-    "deprecated_comment": "Consolidated into the shared thickness-* scale."
+    "deprecated_comment": "Consolidated into the shared thickness-* scale.",
+    "renamed": "bar-thickness-2x-small"
   },
   "divider-vertical-minimum-height": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",

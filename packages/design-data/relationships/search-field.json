@@ -791,6 +791,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 4,
     "uuid": "c4b2177d-4468-4180-be27-69d26a51ba0b",
-    "legacyKey": "search-field-minimum-width-multiplier"
+    "legacyKey": "search-field-minimum-width-multiplier",
+    "lifecycle": {
+      "replacedBy": "abe2fb5d-998a-4694-a67a-9363bb7db322"
+    }
   }
 ]

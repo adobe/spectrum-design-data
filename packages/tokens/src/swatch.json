@@ -27,7 +27,8 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "swatch",
     "value": 2,
-    "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7"
+    "uuid": "b3157e9d-82a0-429e-b987-8c240a669af7",
+    "renamed": "aspect-ratio-500"
   },
   "swatch-size-extra-small": {
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/scale-set.json",

@@ -3,6 +3,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "component": "text-field",
     "value": 1.5,
-    "uuid": "875bbeaf-b4b7-41b9-8e6f-d6a57ec03049"
+    "uuid": "875bbeaf-b4b7-41b9-8e6f-d6a57ec03049",
+    "renamed": "aspect-ratio-300"
   }
 }

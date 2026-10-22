@@ -952,7 +952,7 @@
     "lifecycle": {
       "deprecatedIn": "15.4.1",
       "deprecatedComment": "Consolidated into the shared thickness-* scale.",
-      "replacedBy": "0d1af3fe-59d2-4029-bada-589b6cd2b6ce"
+      "replacedBy": "3766d95f-33c6-4b9d-84c8-1a546ee98d32"
     },
     "rationale": "Deprecated via refine-from-sheets from row 421 of the mapping sheet."
   },

@@ -1407,6 +1407,9 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/multiplier.json",
     "value": 2.25,
     "uuid": "68b6ac88-d229-460d-8d59-3f5c141db358",
-    "legacyKey": "button-minimum-width-multiplier"
+    "legacyKey": "button-minimum-width-multiplier",
+    "lifecycle": {
+      "replacedBy": "a5cb7045-f2be-4a51-a4dc-72c8bf92748b"
+    }
   }
 ]
