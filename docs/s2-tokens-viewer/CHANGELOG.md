@@ -1,5 +1,15 @@
 # s2-tokens-viewer
 
+## 0.3.0
+
+### Minor Changes
+
+- [#1565](https://github.com/adobe/spectrum-design-data/pull/1565) [`4e4dae4`](https://github.com/adobe/spectrum-design-data/commit/4e4dae417be47ae59085072c6902f2aa119f093d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add shareable deep links to the S2 tokens viewer (closes hwx4).
+  - **index.html**: `?q=` pre-fills the search and `?tab=` opens a tab,
+    for example `?q=corner-radius`. The URL stays in sync as you search
+    or switch tabs, and a "Copy link" button copies it.
+  - **css/viewer.css**: lays out the search box and copy button side by side.
+
 ## 0.2.30
 
 ### Patch Changes
