@@ -1,5 +1,12 @@
 # @adobe/design-data-wasm
 
+## 0.11.2
+
+### Patch Changes
+
+- [#1561](https://github.com/adobe/spectrum-design-data/pull/1561) [`be208ce`](https://github.com/adobe/spectrum-design-data/commit/be208cef23415ab779adbc49e2fcf7c9fdeca9b1) Thanks [@GarthDB](https://github.com/GarthDB)! - Sync component content from Spectrum Hub (automated).
+  - **packages/design-data/components**: 97 component schemas refreshed (was 97).
+
 ## 0.11.1
 
 ### Patch Changes

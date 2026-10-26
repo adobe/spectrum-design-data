@@ -9,13 +9,6 @@
     "category": "actions",
     "documentationUrl": "https://spectrum.adobe.com/page/action-bar/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "ActionBar",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -57,6 +50,13 @@
     {
       "type": "guideline",
       "content": "Don’t use quick actions.\n\nInstead of quick actions, use an action bar for both single and bulk selection patterns. An action bar is useful for when a user needs to perform actions on either a single or multiple items at the same time. It can be used on either a grid view or a table view. Don’t use quick actions — a deprecated component — because it presents conflicting nested actions (for example, a whole asset card could open a detailed view). This makes targeting specific actions very difficult, especially on smaller screens or with the keyboard."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "ActionBar",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": { "isEmphasized": { "type": "boolean", "default": false } },

@@ -1613,6 +1613,48 @@ fn redirect_deprecated_is_off_by_default() {
 }
 
 #[test]
+fn redirect_deprecated_keeps_literal_when_replacement_cannot_be_exported() {
+    let (_dir, mut tokens) = redirect_fixture();
+    let replacement = tokens
+        .iter_mut()
+        .find(|(name, _, _)| name == "new-w")
+        .expect("replacement token exists");
+    replacement.2["value"] = json!("10dp");
+
+    let meta = mock_meta();
+    let (body, summary) =
+        build_export_payload_with_specs_and_redirect(&fixture_tokens(&tokens), &meta, None, true)
+            .unwrap();
+
+    for (name, expected) in [("old-a", json!(200.0)), ("old-b", json!(180.0))] {
+        let variable_id = body
+            .variables
+            .iter()
+            .find(|variable| variable.name == format!("platformScale/{name}"))
+            .and_then(|variable| variable.id.as_deref())
+            .expect("deprecated variable exists");
+        let values: Vec<_> = body
+            .variable_mode_values
+            .iter()
+            .filter(|mode_value| mode_value.variable_id == variable_id)
+            .map(|mode_value| mode_value.value.clone())
+            .collect();
+
+        assert_eq!(values, vec![expected]);
+        assert!(alias_target(&body, &format!("platformScale/{name}")).is_empty());
+    }
+    assert!(summary.redirected_deprecated.is_empty());
+    assert!(summary
+        .redirect_skipped
+        .iter()
+        .any(|reason| reason.starts_with("old-a:") && reason.contains("cannot be exported")));
+    assert!(summary
+        .redirect_skipped
+        .iter()
+        .any(|reason| reason.starts_with("old-b:") && reason.contains("cannot be exported")));
+}
+
+#[test]
 fn redirect_deprecated_targets_alias_schema_replacements() {
     use std::io::Write;
     let dir = tempfile::tempdir().unwrap();
