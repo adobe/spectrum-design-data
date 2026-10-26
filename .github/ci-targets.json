@@ -19,7 +19,9 @@
     "spectrum-hub-fetcher:test",
     "design-data:validate-guidelines",
     "token-mapping-analyzer:test",
-    "root:test-platform-recipes-guard"
+    "root:test-platform-recipes-guard",
+    "figma-spec-plugin:check",
+    "figma-spec-plugin:test"
   ],
   "rust": [
     "sdk:fmt-check",
@@ -44,11 +46,13 @@
     "s2-docs-mcp:test",
     "token-naming-audit:ci",
     "root:validate-platform-recipes",
-    "root:test-platform-recipes-e2e"
+    "root:test-platform-recipes-e2e",
+    "component-spec-generator:test"
   ],
   "excludedFromCI": [
     "design-data-spec:sync-token-schemas",
     "design-data-mcp:bundle",
+    "component-spec-generator:generate",
     "component-diff-generator:diff",
     "markdown-generator:generate",
     "optimized-diff:benchmark",
