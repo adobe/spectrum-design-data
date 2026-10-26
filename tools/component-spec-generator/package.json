@@ -1,0 +1,27 @@
+{
+  "name": "component-spec-generator",
+  "version": "0.0.1",
+  "description": "Generates a per-component token spec (property -> resolved values across size/platform/theme) from CTR relationship data, as a deterministic replacement for the hand-maintained S2 Tokens spec Figma file",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": "~20.12"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data#readme",
+  "dependencies": {
+    "@adobe/design-data-wasm": "workspace:*"
+  },
+  "devDependencies": {
+    "ava": "^6.1.1"
+  }
+}

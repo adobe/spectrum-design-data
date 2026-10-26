@@ -39,7 +39,7 @@ This repository is a pnpm and moon monorepo (ES modules, Node.js, plus a Rust SD
 
 ## Maintainer-only tooling
 
-The 17 maintainer tools (release, taxonomy, authoring, and sync utilities) are not intended for Spectrum users, even when published to npm. They are listed in the [repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md).
+The 19 maintainer tools (release, taxonomy, authoring, and sync utilities) are not intended for Spectrum users, even when published to npm. They are listed in the [repository index](https://github.com/adobe/spectrum-design-data/blob/main/docs/repo-index.md).
 
 ## Optional
 

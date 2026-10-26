@@ -163,6 +163,15 @@
       "summary": "Figma plugin for authoring component option schemas."
     },
     {
+      "path": "tools/component-spec-generator",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Generates per-component token specs from design data for the S2 Tokens spec file."
+    },
+    {
       "path": "tools/demo",
       "kind": "area",
       "audience": "demo",
@@ -225,6 +234,15 @@
       "published": true,
       "llms": true,
       "summary": "Token diff CLI and library with CLI, JSON, and Markdown output."
+    },
+    {
+      "path": "tools/figma-spec-plugin",
+      "kind": "package",
+      "audience": "maintainer",
+      "lifecycle": "incubating",
+      "published": false,
+      "llms": false,
+      "summary": "Figma plugin that renders generated component token specs onto a canvas."
     },
     {
       "path": "tools/ios-override-importer",

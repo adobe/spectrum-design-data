@@ -1,0 +1,24 @@
+{
+  "name": "figma-spec-plugin",
+  "version": "0.0.1",
+  "description": "Figma plugin: renders the component-token-spec.json from tools/component-spec-generator onto the canvas, deterministically and idempotently. Stage 2 of the S2 Tokens spec generator.",
+  "private": true,
+  "engines": {
+    "node": "~20.12"
+  },
+  "packageManager": "pnpm@10.17.1",
+  "type": "module",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/spectrum-design-data.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/spectrum-design-data/issues"
+  },
+  "homepage": "https://github.com/adobe/spectrum-design-data#readme",
+  "devDependencies": {
+    "ava": "^6.1.1"
+  }
+}

@@ -27,6 +27,8 @@ projects:
   component-options-editor: "tools/component-options-editor"
   token-naming-audit: "tools/token-naming-audit"
   token-mapping-analyzer: "tools/token-mapping-analyzer"
+  component-spec-generator: "tools/component-spec-generator"
+  figma-spec-plugin: "tools/figma-spec-plugin"
   demo: "tools/demo"
   design-data-glue: "tools/design-data"
   design-data-skill: "tools/design-data-skill"
