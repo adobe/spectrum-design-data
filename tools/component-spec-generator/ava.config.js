@@ -10,6 +10,8 @@
 export default {
   files: ["test/**/*.test.js"],
   verbose: true,
+  // Loading the WASM dataset is slow when CI runs many moon tasks in parallel.
+  timeout: "2m",
   environmentVariables: {
     NODE_ENV: "test",
   },
