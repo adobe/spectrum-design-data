@@ -9,13 +9,6 @@
     "category": "navigation",
     "documentationUrl": "https://spectrum.adobe.com/page/breadcrumbs/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "Breadcrumbs",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -61,6 +54,13 @@
     {
       "type": "guideline",
       "content": "Don’t modify breadcrumbs for lateral navigation.\n\nBreadcrumbs are a way for traveling up a hierarchical navigation and should not be mixed with controls intended for lateral or non-hierarchical navigation."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "Breadcrumbs",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

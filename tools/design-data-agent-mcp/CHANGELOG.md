@@ -1,5 +1,78 @@
 # @adobe/design-data-agent-mcp
 
+## 1.15.3
+
+### Patch Changes
+
+- Updated dependencies [[`be208ce`](https://github.com/adobe/spectrum-design-data/commit/be208cef23415ab779adbc49e2fcf7c9fdeca9b1), [`21841d7`](https://github.com/adobe/spectrum-design-data/commit/21841d7f5712234eb9b9280d6bc75205114f6870)]:
+  - @adobe/design-data-wasm@0.11.2
+  - @adobe/spectrum-design-data@3.7.0
+  - @adobe/design-data@3.2.9
+
+## 1.15.2
+
+### Patch Changes
+
+- [#1557](https://github.com/adobe/spectrum-design-data/pull/1557) [`4db31e6`](https://github.com/adobe/spectrum-design-data/commit/4db31e6a4ef0c0e456eceed8b51a96c1db3c867d) Thanks [@GarthDB](https://github.com/GarthDB)! - Correct the CLI requirement in the MCP README (h890.35).
+  - **tools/design-data-agent-mcp/README.md**: the `design-data` CLI is also
+    needed when `DESIGN_DATA_CONFIG` is set (the platform cascade uses
+    `catalog export`), and must be 0.13.0 or newer.
+
+## 1.15.1
+
+### Patch Changes
+
+- [#1554](https://github.com/adobe/spectrum-design-data/pull/1554) [`19841df`](https://github.com/adobe/spectrum-design-data/commit/19841dfca7292fef67ba22af8707e99bf06229bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Document platform configuration and CLI distribution (h890.3).
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **tools/design-data-agent-mcp/README.md**: catalogs come from
+    `design-data catalog export`, which needs a CLI newer than 0.12.1.
+  - **sdk/cli**: version 0.13.0 so `catalog export` ships; README drops the
+    unpublished `cargo install` path and documents platform selection.
+
+## 1.15.0
+
+### Minor Changes
+
+- [#1552](https://github.com/adobe/spectrum-design-data/pull/1552) [`51074f2`](https://github.com/adobe/spectrum-design-data/commit/51074f211c78002ec2807207c5dcf745bc3c85d2) Thanks [@GarthDB](https://github.com/GarthDB)! - Make component reads follow the selected platform cascade (closes h890.30).
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **design-data component**: with a platform selected, returns the merged
+    component (extension components, implementation rows, replacements).
+    Unchanged with no platform.
+  - **design-data catalog export --out DIR**: new command writing the
+    platform-merged `components/` and `guidelines/` catalogs.
+  - **sdk/core manifest::load_merged_catalogs**: loads both through
+    `apply_configured`.
+  - **design-data-agent-mcp**: reads catalogs from `catalog export` instead of
+    copying extension files in JS. Needs a `design-data` with `catalog export`.
+
+## 1.14.6
+
+### Patch Changes
+
+- Updated dependencies [[`18431aa`](https://github.com/adobe/spectrum-design-data/commit/18431aa6bb40fee2838030592940195c42a6a1d4)]:
+  - @adobe/spectrum-design-data@3.6.1
+  - @adobe/design-data@3.2.8
+
+## 1.14.5
+
+### Patch Changes
+
+- Updated dependencies [[`54ee322`](https://github.com/adobe/spectrum-design-data/commit/54ee322dc2fa9c6556549597a74610c290638664), [`15f371e`](https://github.com/adobe/spectrum-design-data/commit/15f371e50e2ce95a624a93152e408e1bbe8844dc), [`54ee322`](https://github.com/adobe/spectrum-design-data/commit/54ee322dc2fa9c6556549597a74610c290638664)]:
+  - @adobe/spectrum-design-data@3.6.0
+  - @adobe/design-data-wasm@0.11.1
+  - @adobe/design-data@3.2.7
+
+## 1.14.4
+
+### Patch Changes
+
+- Updated dependencies [[`a5fc42f`](https://github.com/adobe/spectrum-design-data/commit/a5fc42ff5dc5b1c0dbc569a733021061e3a57115), [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb)]:
+  - @adobe/design-data@3.2.6
+  - @adobe/design-data-wasm@0.11.0
+  - @adobe/spectrum-design-data@3.5.0
+
 ## 1.14.3
 
 ### Patch Changes

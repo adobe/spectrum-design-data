@@ -7,7 +7,13 @@ incubating in `platforms/<id>/` out to a repo the implementation team owns
 incubation model and the ejection contract at a glance; this document is the
 full runbook, using the iOS proof-of-concept
 (`GarthDB/spectrum-ios-design-data`, spectrum-design-data-h890.22) as the
-worked example throughout.
+historical worked example throughout. Its data now incubates at
+[`platforms/ios/`](../platforms/ios/) under monorepo-maintainer stewardship
+because no independent iOS owner has accepted it (`spectrum-design-data-h890.28`).
+The Swift demo remains external as a consumer of an immutable monorepo commit.
+Its data-authoring copies and obsolete authoring automation have been removed.
+The earlier externalization proved the tooling, not production adoption or a
+team ownership handoff.
 
 Nothing here is a one-way door taken lightly: every step keeps the cascade
 consumable the whole way through, and the in-repo copy is only deleted at the
@@ -56,6 +62,17 @@ Prerequisites above) and that `.github/workflows/validate.yml`'s
 `dataset-path`/`manifest` inputs match the target repo's intended layout if
 it isn't a manifest-only repo (e.g. a `design-data/` subdirectory inside the
 team's main repo, rather than the repo root).
+
+Pass `--with-consumer-smoke` to also write an opt-in
+`.github/workflows/consumer-smoke.yml`. It installs the CLI and runs the
+repo's own `consumer/smoke.sh` (skipping with a notice if absent), so codegen
+breakage in a platform consumer is caught in CI. The script should regenerate
+consumer output with `$DESIGN_DATA_BIN` and build it, exiting non-zero on
+failure. The workflow runs on `ubuntu-latest`; edit `runs-on` and add toolchain
+setup (for example a pinned Xcode on macOS) to match your consumer. The
+installed CLI is the latest release; a consumer that needs unreleased CLI
+behavior (as the iOS demo does, pinned to a monorepo commit) should build its
+own CLI in the workflow and skip the `install-only` step.
 
 ## Step 2 — Preserve history and push
 

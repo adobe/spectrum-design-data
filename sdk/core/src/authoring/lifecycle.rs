@@ -469,7 +469,8 @@ mod tests {
 
     /// Load the real token schemas (same path as cascade_tests in write.rs).
     fn test_registry() -> SchemaRegistry {
-        let schemas = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/tokens/schemas");
+        let schemas =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data-spec/schemas");
         SchemaRegistry::load_legacy_token_schemas(&schemas).expect("schemas load")
     }
 

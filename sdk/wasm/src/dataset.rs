@@ -67,6 +67,28 @@ static EMBEDDED_GRAPH: OnceLock<Result<TokenGraph, String>> = OnceLock::new();
 #[cfg(feature = "embedded")]
 static EMBEDDED_CACHE_BYTES: &[u8] = include_bytes!("embedded_cache.redb");
 
+#[cfg(feature = "embedded")]
+include!(concat!(env!("OUT_DIR"), "/embedded_relationships.rs"));
+
+#[cfg(feature = "embedded")]
+fn load_embedded_graph() -> Result<TokenGraph, String> {
+    let graph = cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())?;
+    let mut relationships = Vec::new();
+    for (filename, text) in EMBEDDED_RELATIONSHIPS {
+        let rows: Vec<serde_json::Value> =
+            serde_json::from_str(text).map_err(|e| format!("{filename}: {e}"))?;
+        for (index, raw) in rows.into_iter().enumerate() {
+            relationships.push(design_data_core::graph::RelationshipRecord {
+                file: std::path::PathBuf::from("relationships").join(filename),
+                index,
+                uuid: raw.get("uuid").and_then(|v| v.as_str()).map(String::from),
+                raw,
+            });
+        }
+    }
+    Ok(graph.with_relationships(relationships))
+}
+
 // ---------------------------------------------------------------------------
 // Dataset class
 // ---------------------------------------------------------------------------
@@ -116,9 +138,7 @@ impl Dataset {
         #[cfg(feature = "embedded")]
         {
             let graph = EMBEDDED_GRAPH
-                .get_or_init(|| {
-                    cache::load_from_bytes(EMBEDDED_CACHE_BYTES).map_err(|e| e.to_string())
-                })
+                .get_or_init(load_embedded_graph)
                 .as_ref()
                 .map_err(|e| js_err(e))?
                 .clone();
@@ -203,6 +223,20 @@ impl Dataset {
         use serde::Serialize as _;
         let serializer = serde_wasm_bindgen::Serializer::json_compatible();
         data.serialize(&serializer).map_err(js_err)
+    }
+
+    /// Project tokens and relationships into legacy maps keyed by output filename.
+    ///
+    /// Returns a plain object, e.g. `{ "color-palette.json": { "blue-100": ... } }`.
+    /// Non-default contrast records are excluded, matching native legacy output.
+    #[wasm_bindgen(js_name = "legacyOutput")]
+    pub fn legacy_output(&self) -> Result<JsValue, JsValue> {
+        use serde::Serialize as _;
+        let (files, _) =
+            design_data_core::legacy::convert_graph_by_file(&self.graph).map_err(to_js_error)?;
+        files
+            .serialize(&serde_wasm_bindgen::Serializer::json_compatible())
+            .map_err(js_err)
     }
 
     // -----------------------------------------------------------------------

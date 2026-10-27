@@ -55,7 +55,7 @@ tasks:
     inputs:
       - "@globs(tokens)"
       - "scripts/spec009-report.js"
-      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data/naming-exceptions.json"
 
   # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
   validate-guidelines:
@@ -79,7 +79,7 @@ tasks:
       - --spec-schemas
       - ../design-data-spec/schemas
       - --exceptions-path
-      - ../tokens/naming-exceptions.json
+      - ./naming-exceptions.json
     toolchain: "system"
     deps:
       - sdk:build
@@ -88,7 +88,7 @@ tasks:
       - "@globs(catalogs)"
       - "@globs(relationships)"
       - "@globs(registry)"
-      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data/naming-exceptions.json"
       - "/packages/design-data-spec/schemas/**/*.json"
 
   # Validate the cascade token files against the design-data spec rules.
@@ -120,7 +120,7 @@ tasks:
       - ./relationships
       - --components-report-only
       - --exceptions-path
-      - ../tokens/naming-exceptions.json
+      - ./naming-exceptions.json
     toolchain: "system"
     deps:
       - sdk:build
@@ -130,7 +130,7 @@ tasks:
       - "@globs(tokens)"
       - "@globs(catalogs)"
       - "@globs(relationships)"
-      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data/naming-exceptions.json"
 
   # Regenerate packages/tokens/src/ from the cascade source of truth.
   # Run this after editing any tokens/*.tokens.json file to keep the
@@ -186,7 +186,7 @@ tasks:
       - --names-dir
       - ../token-names/names
       - --exceptions
-      - ../tokens/naming-exceptions.json
+      - ./naming-exceptions.json
     toolchain: "system"
     options:
       # Operator-only escape hatch: this task OVERWRITES the cascade source of
@@ -200,6 +200,6 @@ tasks:
     inputs:
       - "/packages/tokens/src/**/*.json"
       - "/packages/token-names/names/**/*.json"
-      - "/packages/tokens/naming-exceptions.json"
+      - "/packages/design-data/naming-exceptions.json"
     # No `outputs:` — prevents moon from auto-running this task as part of
     # dependency graphs and silently clobbering hand-edited cascade tokens.

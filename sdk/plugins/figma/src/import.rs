@@ -31,6 +31,8 @@ mod resolve;
 #[cfg(test)]
 mod tests;
 
-pub use diff::{diff_values, DiffClass, DiffCounts, DiffEntry, DiffReport, ModeDiff};
+pub use diff::{
+    diff_values, diff_values_with_options, DiffClass, DiffCounts, DiffEntry, DiffReport, ModeDiff,
+};
 pub use overrides::{build_import_overrides, ImportSummary};
 pub use pair::{pair_by_value, PairingCandidate, PairingReport};

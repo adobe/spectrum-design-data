@@ -48,12 +48,23 @@ pub(super) const COLOR_THEME_PREFIX: &str = "colorTheme";
 pub(super) const PLATFORM_SCALE_COLLECTION: &str = ".Platform scale";
 pub(super) const PLATFORM_SCALE_PREFIX: &str = "platformScale";
 
-/// Which mode set (and thus which of `COLOR_MODES`/`SCALE_MODES`) a token's
-/// schema routes through — orthogonal to which specific collection it lands in.
+/// Which declared mode set a token's schema routes through — orthogonal to
+/// which specific collection it lands in. Each kind names the mode set whose
+/// modes (from `graph.mode_sets`) the collection carries.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum TokenKind {
     Color,
     Scale,
+}
+
+impl TokenKind {
+    /// Id of the `mode-sets/*.json` entry this kind routes through.
+    pub(super) const fn mode_set(self) -> &'static str {
+        match self {
+            TokenKind::Color => "colorScheme",
+            TokenKind::Scale => "scale",
+        }
+    }
 }
 
 /// A Figma collection this exporter can target, and which source token files
@@ -62,32 +73,91 @@ pub(super) enum TokenKind {
 /// the legacy corpus mixes color and scale schemas within the same files.
 /// A non-empty `source_files` entry takes priority over a wildcard of the
 /// same `kind` when a token's file matches both.
-pub(super) struct CollectionSpec {
+///
+/// `modes` is the ordered mode list of the declared mode set the collection
+/// models; it is not hardcoded here.
+#[derive(Debug, Clone)]
+pub struct CollectionSpec {
     pub(super) figma_collection_name: &'static str,
     pub(super) default_prefix: &'static str,
     pub(super) kind: TokenKind,
+    pub(super) modes: Vec<String>,
     pub(super) source_files: &'static [&'static str],
 }
 
-pub(super) const COLLECTION_SPECS: &[CollectionSpec] = &[
-    CollectionSpec {
-        figma_collection_name: COLOR_THEME_COLLECTION,
-        default_prefix: COLOR_THEME_PREFIX,
-        kind: TokenKind::Color,
-        source_files: &[],
-    },
-    CollectionSpec {
-        figma_collection_name: PLATFORM_SCALE_COLLECTION,
-        default_prefix: PLATFORM_SCALE_PREFIX,
-        kind: TokenKind::Scale,
-        source_files: &[],
-    },
+/// Figma-side naming for each mode set this exporter maps to a collection.
+/// Only the hand-built library's collection name and folder prefix live here;
+/// the modes themselves come from the declared mode sets.
+const FIGMA_COLLECTIONS: &[(TokenKind, &str, &str)] = &[
+    (TokenKind::Color, COLOR_THEME_COLLECTION, COLOR_THEME_PREFIX),
+    (
+        TokenKind::Scale,
+        PLATFORM_SCALE_COLLECTION,
+        PLATFORM_SCALE_PREFIX,
+    ),
 ];
 
-// ── Mode name mapping ────────────────────────────────────────────────────────
+/// Drop the `colorTheme/`/`platformScale/` top-level folder from every spec, so
+/// variables are named by their bare token name (the collection already groups
+/// them). Opt-in: the default keeps the prefix the shipped library uses.
+pub fn without_folder_prefix(specs: Vec<CollectionSpec>) -> Vec<CollectionSpec> {
+    specs
+        .into_iter()
+        .map(|spec| CollectionSpec {
+            default_prefix: "",
+            ..spec
+        })
+        .collect()
+}
 
-pub(super) const COLOR_MODES: &[&str] = &["light", "dark", "wireframe"];
-pub(super) const SCALE_MODES: &[&str] = &["desktop", "mobile"];
+/// Build the collection specs from the graph's declared mode sets
+/// (`graph.mode_sets`): one spec per mapped mode set, with its modes in
+/// declaration order. Fails if a mapped mode set isn't declared, since the
+/// export can't route that kind of token without it.
+pub fn collection_specs(
+    mode_sets: &[design_data_core::graph::ModeSetRecord],
+) -> Result<Vec<CollectionSpec>, FigmaError> {
+    // A graph loaded without a mode-sets directory declares none; use the
+    // spec's built-in color-scheme and scale sets so such graphs still export.
+    let builtin;
+    let mode_sets = if mode_sets.is_empty() {
+        let record = |name: &str, modes: &[&str]| design_data_core::graph::ModeSetRecord {
+            file: std::path::PathBuf::new(),
+            name: name.to_string(),
+            modes: modes.iter().map(|m| (*m).to_string()).collect(),
+            default_mode: modes[0].to_string(),
+        };
+        builtin = [
+            record("colorScheme", &["light", "dark", "wireframe"]),
+            record("scale", &["desktop", "mobile"]),
+        ];
+        &builtin[..]
+    } else {
+        mode_sets
+    };
+    FIGMA_COLLECTIONS
+        .iter()
+        .map(|&(kind, figma_collection_name, default_prefix)| {
+            let set = mode_sets
+                .iter()
+                .find(|m| m.name == kind.mode_set())
+                .ok_or_else(|| FigmaError::Api {
+                    status: 0,
+                    message: format!(
+                        "mode set '{}' is not declared; it is required for collection '{figma_collection_name}'",
+                        kind.mode_set()
+                    ),
+                })?;
+            Ok(CollectionSpec {
+                figma_collection_name,
+                default_prefix,
+                kind,
+                modes: set.modes.clone(),
+                source_files: &[],
+            })
+        })
+        .collect()
+}
 
 fn find_collection<'a>(meta: &'a VariablesMeta, name: &str) -> Option<&'a FigmaVariableCollection> {
     meta.variable_collections.values().find(|c| c.name == name)
@@ -95,7 +165,7 @@ fn find_collection<'a>(meta: &'a VariablesMeta, name: &str) -> Option<&'a FigmaV
 
 /// A [`CollectionSpec`] resolved against a real Figma file's collections/modes.
 pub(super) struct ResolvedCollection<'a> {
-    pub(super) spec: &'static CollectionSpec,
+    pub(super) spec: &'a CollectionSpec,
     pub(super) collection_id: &'a str,
     pub(super) mode_ids: HashMap<String, String>,
     pub(super) default_mode_id: &'a str,
@@ -107,7 +177,7 @@ pub(super) struct ResolvedCollection<'a> {
 /// however many entries `specs` has.
 pub(super) fn resolve_collections<'a>(
     existing: &'a VariablesMeta,
-    specs: &'static [CollectionSpec],
+    specs: &'a [CollectionSpec],
 ) -> Result<Vec<ResolvedCollection<'a>>, FigmaError> {
     specs
         .iter()
@@ -121,14 +191,10 @@ pub(super) fn resolve_collections<'a>(
                     ),
                 }
             })?;
-            let modes = match spec.kind {
-                TokenKind::Color => COLOR_MODES,
-                TokenKind::Scale => SCALE_MODES,
-            };
             Ok(ResolvedCollection {
                 spec,
                 collection_id: &col.id,
-                mode_ids: resolve_mode_ids(&col.modes, modes),
+                mode_ids: resolve_mode_ids(&col.modes, &spec.modes),
                 default_mode_id: &col.default_mode_id,
             })
         })
@@ -156,7 +222,7 @@ pub(super) fn pick_collection<'a, 'b>(
 
 /// Map mode names (e.g. "light", "dark") to their Figma mode IDs.
 /// Case-insensitive matching since Figma uses "Light"/"Dark" etc.
-fn resolve_mode_ids(figma_modes: &[FigmaMode], expected: &[&str]) -> HashMap<String, String> {
+fn resolve_mode_ids(figma_modes: &[FigmaMode], expected: &[String]) -> HashMap<String, String> {
     let mut map = HashMap::new();
     for mode_name in expected {
         if let Some(fm) = figma_modes

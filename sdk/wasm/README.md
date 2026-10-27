@@ -89,6 +89,19 @@ const results = ds.query("property=color");
 
 ## API
 
+### Legacy compatibility output
+
+`ds.legacyOutput()` returns a plain object keyed by legacy output filename.
+Each file contains token entries keyed by legacy name, including reconstructed
+mode sets and aliases. The embedded dataset includes component/token relationships.
+Non-default contrast records are excluded, matching native graph legacy output.
+
+```js
+const byFile = ds.legacyOutput();
+const flat = Object.assign({}, ...Object.values(byFile));
+console.log(flat['picker-border-width'].value);
+```
+
 ### `Dataset`
 
 | Method                          | Returns                      | Description                                                                                                                                                                                                                   |

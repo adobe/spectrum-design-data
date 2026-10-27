@@ -14,6 +14,7 @@ fileGroups:
   sources:
     - "src/**/*.rs"
     - "Cargo.toml"
+    - "build.rs"
 tasks:
   # Build the .redb embedded cache blob from the canonical token source.
   # Uses packages/design-data/tokens (cascade array-format with inline name objects)
@@ -63,6 +64,7 @@ tasks:
       - "/sdk/core/build.rs"
       - "/sdk/core/src/registry_data.rs"
       - "/packages/design-data/guidelines/*.json"
+      - "/packages/design-data/relationships/*.json"
       - "src/embedded_cache.redb"
       - "scripts/build.mjs"
     outputs:

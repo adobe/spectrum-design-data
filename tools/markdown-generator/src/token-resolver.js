@@ -12,10 +12,10 @@ governing permissions and limitations under the License.
 
 import { basename } from "path";
 import {
-  tokenFileNames,
+  getTokenFileNames,
   getFileTokens,
   getAllTokens,
-} from "@adobe/spectrum-tokens";
+} from "./token-source.js";
 
 const ALIAS_PATTERN = /^\{([^}]+)\}$/;
 
@@ -33,7 +33,7 @@ function getReferencedTokenName(value) {
  */
 export async function buildTokenFileMap() {
   const map = new Map();
-  for (const filePath of tokenFileNames) {
+  for (const filePath of getTokenFileNames()) {
     const fileName = basename(filePath);
     const data = await getFileTokens(fileName);
     const fileKey = basename(fileName, ".json");

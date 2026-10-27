@@ -1,5 +1,42 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 1.1.84
+
+### Patch Changes
+
+- Updated dependencies [[`be208ce`](https://github.com/adobe/spectrum-design-data/commit/be208cef23415ab779adbc49e2fcf7c9fdeca9b1)]:
+  - @adobe/design-data-wasm@0.11.2
+  - @adobe/spectrum-component-api-schemas@6.1.66
+
+## 1.1.83
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@6.1.65
+
+## 1.1.82
+
+### Patch Changes
+
+- Updated dependencies [[`15f371e`](https://github.com/adobe/spectrum-design-data/commit/15f371e50e2ce95a624a93152e408e1bbe8844dc), [`54ee322`](https://github.com/adobe/spectrum-design-data/commit/54ee322dc2fa9c6556549597a74610c290638664)]:
+  - @adobe/design-data-wasm@0.11.1
+  - @adobe/spectrum-component-api-schemas@6.1.64
+
+## 1.1.81
+
+### Patch Changes
+
+- [#1539](https://github.com/adobe/spectrum-design-data/pull/1539) [`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb) Thanks [@GarthDB](https://github.com/GarthDB)! - <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+  Project canonical tokens into legacy maps for deprecated MCP compatibility.
+  - **sdk/wasm**: Add `Dataset.legacyOutput()` with embedded relationship records.
+  - **tools/spectrum-design-data-mcp**: Load tokens through wasm; keep existing tool APIs.
+
+- Updated dependencies [[`da64677`](https://github.com/adobe/spectrum-design-data/commit/da6467789ff0277102c4972703842fc0112e73eb)]:
+  - @adobe/design-data-wasm@0.11.0
+  - @adobe/spectrum-component-api-schemas@6.1.63
+
 ## 1.1.80
 
 ### Patch Changes

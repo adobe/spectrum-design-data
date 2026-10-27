@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/platform-extension.json",
+  "platform": "iOS",
+  "platformVersion": "iOS 17+",
+  "description": "iOS-specific terminology for accessibility contrast level",
+  "extends": "contrast",
+  "extensions": [
+    {
+      "termId": "high",
+      "platformTerm": "increased",
+      "platformAliases": ["lightIncreased", "darkIncreased"],
+      "notes": "iOS asset-catalog color sets expose separate 'Light/Dark + Increased Contrast' appearance slots (parsed here as the lightIncreased/darkIncreased ColorSet keys); both cross the same foundation contrast:\"high\" mode, distinguished by colorScheme.",
+      "reference": "SwiftUI ColorSchemeContrast.increased / UIAccessibility.isDarkerSystemColorsEnabled",
+      "codeExample": "@Environment(\\.colorSchemeContrast) var contrast // .increased",
+      "differences": [
+        "iOS has no separate 'contrast' trait independent of light/dark - increased contrast is expressed per color-scheme (lightIncreased vs. darkIncreased)",
+        "Foundation's contrast:\"high\" mode is orthogonal to colorScheme; this extension documents the crosswalk, not a new axis"
+      ]
+    }
+  ]
+}

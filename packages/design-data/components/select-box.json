@@ -9,13 +9,6 @@
     "category": "inputs",
     "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "SelectBox",
-      "package": "@react-spectrum/s2"
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -66,6 +59,13 @@
     {
       "type": "guideline",
       "content": "Checkbox vs. highlight selection.\n\nSome cases may make more sense for the user to select one or a few options in a group of select boxes, but if the use case doesn't make sense to be checking a selection, showCheckbox can be false and the highlight style can be used instead. There is no visual differentiation between single- and multi-select behaviors when checkboxes are not present."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SelectBox",
+      "package": "@react-spectrum/s2"
     }
   ],
   "options": {

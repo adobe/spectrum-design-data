@@ -18,8 +18,8 @@
     {
       "id": "ios",
       "label": "Spectrum iOS",
-      "description": "Adobe's iOS implementation of Spectrum, with its platform manifest already externalized (see epic h890.22).",
-      "repository": "https://github.com/GarthDB/spectrum-ios-design-data"
+      "description": "Spectrum iOS platform-manifest proof of concept, incubating at platforms/ios/ under monorepo-maintainer stewardship. Not a production implementation or an iOS-team adoption commitment.",
+      "repository": "https://github.com/adobe/spectrum-design-data/tree/main/platforms/ios"
     },
     {
       "id": "android",

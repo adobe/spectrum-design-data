@@ -9,19 +9,6 @@
     "category": "feedback",
     "documentationUrl": "https://spectrum.adobe.com/page/illustrated-message/"
   },
-  "implementations": [
-    {
-      "platform": "web",
-      "componentName": "IllustratedMessage",
-      "package": "@react-spectrum/s2"
-    },
-    {
-      "platform": "web",
-      "componentName": "IllustratedMessage",
-      "importPath": "@adobe/spectrum-wc/components/illustrated-message",
-      "notes": "Spectrum 2 web component custom element: swc-illustrated-message."
-    }
-  ],
   "documentBlocks": [
     {
       "type": "purpose",
@@ -80,6 +67,19 @@
     {
       "type": "guideline",
       "content": "Show value.\n\nAn illustrated message can be interruptive, so make it readily apparent that it's adding value to a user's experience or is putting the user on the right path to accomplish their goals. Don't use an illustrated message for purely promotional purposes or for upsells of unrelated actions."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "IllustratedMessage",
+      "package": "@react-spectrum/s2"
+    },
+    {
+      "platform": "web",
+      "componentName": "IllustratedMessage",
+      "importPath": "@adobe/spectrum-wc/components/illustrated-message",
+      "notes": "Spectrum 2 web component custom element: swc-illustrated-message."
     }
   ],
   "options": {

@@ -259,7 +259,8 @@
     "name": {
       "property": "gap",
       "structure": "banner",
-      "orientation": "horizontal"
+      "orientation": "horizontal",
+      "legacyKey": "banner-gap-horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ec565065-0820-460f-9a1b-b81911c48cb5",
@@ -289,7 +290,8 @@
     "name": {
       "property": "gap",
       "structure": "banner",
-      "orientation": "vertical"
+      "orientation": "vertical",
+      "legacyKey": "banner-gap-vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "507c0b4a-9dbc-4242-89fd-5efc4d1c35b9",
@@ -318,7 +320,8 @@
   {
     "name": {
       "property": "padding-horizontal",
-      "structure": "banner"
+      "structure": "banner",
+      "legacyKey": "banner-padding-horizontal"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ba632ede-84a7-4e56-91ef-8143b2499452",
@@ -359,7 +362,8 @@
   {
     "name": {
       "property": "padding-vertical",
-      "structure": "banner"
+      "structure": "banner",
+      "legacyKey": "banner-padding-vertical"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
@@ -6094,7 +6098,8 @@
     "name": {
       "property": "gap",
       "structure": "list",
-      "weight": "regular"
+      "weight": "regular",
+      "legacyKey": "list-gap-regular"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "576a60a3-ca80-46c5-a066-ba7b6197decd",

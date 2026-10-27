@@ -2,7 +2,7 @@
 
 # Figma variables baseline snapshot — S2 – Web
 
-Captured 2026-07-29 from the "S2 – Web" Figma file (`file-key xHBWBBIe2eo5vwoCeNrC4Q`) via:
+Captured 2026-10-16 (S2/Web v2.5.0; previously 2026-07-29) from the "S2 – Web" Figma file (`file-key xHBWBBIe2eo5vwoCeNrC4Q`) via:
 
 ```bash
 cargo run -p design-data-cli -- figma read --file-key xHBWBBIe2eo5vwoCeNrC4Q --format json | jq -S .
@@ -16,7 +16,7 @@ stable, reviewable git diffs. It is ground truth for the name audit
 
 ## Totals
 
-* **2961 variables** total (10 of them `remote: true` — inherited from a linked
+* **3205 variables** total (10 of them `remote: true` — inherited from a linked
   library rather than defined locally in this file).
 * **9 variable collections** (local + remote):
 
@@ -26,8 +26,8 @@ stable, reviewable git diffs. It is ground truth for the name audit
 | `VariableCollectionId:3242:1436`             | `Iconography`     | Modeless               |        14 | no     |
 | `VariableCollectionId:3242:1437`             | `Typography`      | Modeless               |       179 | no     |
 | `VariableCollectionId:3242:1438`             | `Layout`          | Modeless               |       329 | no     |
-| `VariableCollectionId:4821:94`               | `.Color theme`    | Light, Dark, Wireframe |       782 | no     |
-| `VariableCollectionId:8:1601`                | `S2.Color-theme`  | Modeless               |       782 | no     |
+| `VariableCollectionId:4821:94`               | `.Color theme`    | Light, Dark, Wireframe |       904 | no     |
+| `VariableCollectionId:8:1601`                | `S2.Color-theme`  | Modeless               |       904 | no     |
 | `VariableCollectionId:0aba8963.../8212:124`  | `Iconography`     | Modeless               |         1 | yes    |
 | `VariableCollectionId:74b0f8ae.../3242:6005` | `Layout`          | Modeless               |         6 | yes    |
 | `VariableCollectionId:83e7bfd1.../4821:8216` | `S2.Color-theme`  | Modeless               |         3 | yes    |
