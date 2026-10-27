@@ -1,5 +1,63 @@
 # @adobe/spectrum-design-data
 
+## 0.0.0-size-token-taxonomy-20261027185923
+
+### Major Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`504ce4f`](https://github.com/adobe/spectrum-design-data/commit/504ce4f8646fd61461b9929e65bfdae960588b7b) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine size tokens and remove the medium suffix from shared banner tokens.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+  - **tokens/layout.tokens.json**: Add 2x-small width, update size aliases, and rename banner tokens.
+  - **tokens/layout-component.tokens.json**: Alias the list item minimum height to size-600 (40px).
+  - **relationships/card.json**: Correct the extra-small, large, and extra-large width mappings.
+  - **relationships/tooltip.json**: Map the maximum width to the 2x-small container maximum width.
+  - **relationships/color-wheel.json**: Map the minimum width to size-1200.
+  - **relationships/illustrated-message.json**: Correct horizontal and vertical width mappings.
+  - **relationships/alert-banner.json**: Map the minimum height to banner-minimum-height.
+  - **relationships/action-bar.json**, **relationships/toast.json**: Update banner-height guidance.
+  - **packages/tokens/src/**: Regenerate legacy aliases, names, and replacement mappings.
+  - **packages/tokens/test/sizeRefinements.test.js**: Cover canonical and legacy data.
+
+### Patch Changes
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`17e0ae3`](https://github.com/adobe/spectrum-design-data/commit/17e0ae32f889758bd137edfbba427e62bd4abe80) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Fix malformed menu relationship JSON that prevented loading the design dataset.
+  - **relationships/menu.json**: remove a trailing comma from the section-divider
+    height token's lifecycle metadata.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Fix legacy-output regressions surfaced by the size token taxonomy refinements.
+  - **relationships/field.json**: Removed the deprecated `field-width-*` aliases that
+    duplicated the `legacyKey` now owned by the new `layout-component` size tokens
+    (per author confirmation, those legacy names are reused intentionally).
+  - **tokens/layout-component.tokens.json, tokens/layout.tokens.json**: Moved 82
+    non-component-scoped tokens (`banner-*`, `base-height-*`, `container-*`, `size-*`,
+    `thickness-size-*`) out of `layout-component` into `layout`, where shared tokens live.
+  - **relationships, tokens**: Added the missing `lifecycle` deprecation to 149 scale-set
+    sibling entries (mobile variants) that were left inconsistent with their deprecated
+    desktop counterpart.
+  - **design-data-wasm**: bump so the embedded dataset snapshot picks up these fixes.
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`0ecfcd1`](https://github.com/adobe/spectrum-design-data/commit/0ecfcd1944ae01da2888333580e4c68641f73238) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Refine shared size tokens and their component mappings.
+  - **tokens**: Reuse canonical taxonomy fields and size IDs while removing duplicate
+    generated entries.
+  - **relationships**: Map deprecated component tokens to shared primitive size tokens.
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`f53020c`](https://github.com/adobe/spectrum-design-data/commit/f53020c804e76e2753000e49fa9e2cb7fcf743c0) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - Synchronize legacy token output with the size-token refinements in #1503.
+  - **tokens/layout.tokens.json**: remove three replacement pointers to removed tokens.
+  - **packages/tokens/src/**: regenerate legacy output from the canonical design data.
+
+  <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+- [#1503](https://github.com/adobe/spectrum-design-data/pull/1503) [`6489178`](https://github.com/adobe/spectrum-design-data/commit/6489178cebad29545772bf9dfd768051ebaede35) Thanks [@NateBaldwinDesign](https://github.com/NateBaldwinDesign)! - <!-- Copyright 2026 Adobe. All rights reserved. -->
+
+  Replace hardcoded visual-size values with references to the size scale.
+  - **tokens/layout-component.tokens.json**: Reference matching size token UUIDs for
+    12 visual-size tokens without changing their resolved values. Their `$schema` is
+    now `alias.json` (was `dimension.json`), as structural validation requires for `$ref`.
+  - **packages/tokens/src/layout-component.json**: Regenerated legacy output; the same
+    12 tokens now use the `alias.json` `$schema`.
+
 ## 3.7.0
 
 ### Minor Changes

@@ -2,7 +2,7 @@
   "name": "s2-tokens-viewer",
   "private": true,
   "access": "restricted",
-  "version": "0.3.0",
+  "version": "0.0.0-size-token-taxonomy-20261027185923",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-design-data.git"

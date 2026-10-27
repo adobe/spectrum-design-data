@@ -1,5 +1,13 @@
 # [**@adobe/spectrum-design-data-mcp**](https://github.com/adobe/spectrum-design-data-mcp)
 
+## 0.0.0-size-token-taxonomy-20261027185923
+
+### Patch Changes
+
+- Updated dependencies [[`8cfa77d`](https://github.com/adobe/spectrum-design-data/commit/8cfa77d08d99b8251ed0f882a78e6bc7f76ec2f5)]:
+  - @adobe/design-data-wasm@0.0.0-size-token-taxonomy-20261027185923
+  - @adobe/spectrum-component-api-schemas@0.0.0-size-token-taxonomy-20261027185923
+
 ## 1.1.84
 
 ### Patch Changes
