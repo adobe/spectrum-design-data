@@ -141,6 +141,16 @@
       ]
     }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded background that holds the icon and label.",
+      "required": true,
+      "contains": ["icon", "label"]
+    },
+    { "name": "icon", "description": "Optional leading icon." },
+    { "name": "label", "description": "Badge text." }
+  ],
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": { "focusable": false }
 }

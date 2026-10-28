@@ -94,6 +94,7 @@
         { "value": "xl" }
       ]
     },
+    "isPending": { "type": "boolean", "default": false },
     "isQuiet": { "type": "boolean", "default": false },
     "isSelected": { "type": "boolean", "default": false },
     "isEmphasized": { "type": "boolean", "default": false },
@@ -108,6 +109,24 @@
     "hasHoldIcon": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Rounded background that holds the icon, label, and hold icon.",
+      "required": true,
+      "contains": ["icon", "label", "hold-icon"]
+    },
+    { "name": "icon", "description": "Workflow icon shown before the label." },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "hold-icon",
+      "description": "Corner triangle that signals a popover menu opens on hold."
+    },
+    {
+      "name": "focus-ring",
+      "description": "Outline drawn outside the container for keyboard focus."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

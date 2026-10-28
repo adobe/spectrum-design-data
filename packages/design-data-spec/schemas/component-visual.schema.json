@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "title": "Component visual recipe",
+  "description": "Layer 1 structural schema for a renderer-neutral component visual recipe (spec/component-visuals.md). Semantic rules (component exists, parts are declared anatomy, relationship selectors resolve) are Layer 2.",
+  "type": "object",
+  "required": ["component", "root", "parts"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "$id": { "type": "string" },
+    "specVersion": { "type": "string", "const": "1.0.0-draft" },
+    "component": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Name of the component declaration this recipe draws."
+    },
+    "root": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Key of the root part in `parts`."
+    },
+    "sizeScale": {
+      "type": "object",
+      "description": "Maps each size option value to a numeric scale index, substituted for {sizeIndex} in selectors.",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "parts": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/part" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "part": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["box", "text", "icon", "ring", "progress"] },
+        "children": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "uniqueItems": true
+        },
+        "visibleWhen": { "$ref": "#/$defs/condition" },
+        "placement": {
+          "type": "object",
+          "required": ["anchor"],
+          "properties": {
+            "anchor": {
+              "enum": [
+                "top-start",
+                "top-end",
+                "bottom-start",
+                "bottom-end",
+                "center"
+              ]
+            },
+            "inset": { "$ref": "#/$defs/valueSource" }
+          },
+          "additionalProperties": false
+        },
+        "props": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "direction",
+              "align",
+              "justify",
+              "gap",
+              "paddingInlineStart",
+              "paddingInlineEnd",
+              "paddingBlockStart",
+              "paddingBlockEnd",
+              "height",
+              "minWidth",
+              "width",
+              "cornerRadius",
+              "cornerRadiusStartStart",
+              "cornerRadiusStartEnd",
+              "cornerRadiusEndStart",
+              "cornerRadiusEndEnd",
+              "fill",
+              "stroke",
+              "strokeWidth",
+              "opacity",
+              "color",
+              "fontFamily",
+              "fontSize",
+              "fontWeight",
+              "lineHeight",
+              "gapToParent"
+            ]
+          },
+          "additionalProperties": {
+            "oneOf": [
+              { "$ref": "#/$defs/valueSource" },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "$ref": "#/$defs/conditionalValueSource" }
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "boolean", "number"] },
+              {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": ["string", "boolean", "number"] }
+              }
+            ]
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "uniqueItems": true
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "valueSource": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": ["value"],
+          "properties": { "value": {} },
+          "additionalProperties": false
+        },
+        {
+          "required": ["token"],
+          "properties": {
+            "token": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "required": ["relationship"],
+          "properties": {
+            "relationship": {
+              "type": "object",
+              "required": ["property"],
+              "properties": {
+                "property": { "type": "string", "minLength": 1 },
+                "context": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "conditionalValueSource": {
+      "type": "object",
+      "properties": {
+        "when": { "$ref": "#/$defs/condition" },
+        "priority": { "type": "integer" },
+        "relativeTo": { "enum": ["height"] },
+        "value": {},
+        "token": { "type": "object" },
+        "relationship": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            { "required": ["value"] },
+            { "required": ["token"] },
+            { "required": ["relationship"] }
+          ]
+        }
+      ],
+      "additionalProperties": false
+    }
+  }
+}
