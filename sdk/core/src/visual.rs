@@ -323,7 +323,8 @@ impl<'a> Ctx<'a> {
         &self,
         cands: Vec<&'g crate::graph::TokenRecord>,
     ) -> Vec<&'g crate::graph::TokenRecord> {
-        let mctx = self.mode_ctx();
+        let mut mctx = self.mode_ctx();
+        mctx.insert("size".into(), self.req.size.clone());
         let mut fit: Vec<_> = cands
             .into_iter()
             .filter(|t| {
@@ -490,13 +491,6 @@ impl<'a> Ctx<'a> {
                 }
             }
         }
-        // A candidate pinned to another size is not an option for this one.
-        cands.retain(|t| {
-            t.raw
-                .pointer("/name/size")
-                .and_then(Value::as_str)
-                .is_none_or(|sz| sz == self.req.size)
-        });
         Some((cands, property, context))
     }
 
@@ -1442,6 +1436,26 @@ mod tests {
             c.fill
         );
         assert!(scene.nodes.iter().all(|n| n.kind != "ring"));
+    }
+
+    #[test]
+    fn relationship_gap_follows_the_requested_size() {
+        let (g, recipe) = load();
+        let gap = |size: &str| {
+            let mut r = req(&[]);
+            r.size = size.into();
+            let scene = build_scene(&g, &recipe, &r).unwrap();
+            assert!(scene.diagnostics.is_empty(), "{:?}", scene.diagnostics);
+            let icon = scene.nodes.iter().find(|n| n.part == "icon").unwrap();
+            let label = scene.nodes.iter().find(|n| n.part == "label").unwrap();
+            label.x - (icon.x + icon.w)
+        };
+        let (s, m, xl) = (gap("s"), gap("m"), gap("xl"));
+        assert!(
+            s < xl,
+            "small gap {s} must not resolve to the xl token {xl}"
+        );
+        assert!(s <= m && m <= xl, "gap grows with size: {s} {m} {xl}");
     }
 
     #[test]
