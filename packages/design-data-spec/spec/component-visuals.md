@@ -51,6 +51,8 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `children`    | array of strings | Ordered child part names. Child order is layout order. Children **MUST** be declared parts.                                                                                                            |
 | `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                            |
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
+| `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
+| `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Defaults to the whole scene.                                                                                        |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
 ### Visual properties
@@ -67,6 +69,8 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `color`                                                                                        | text, icon | Content color.                                                                                                                 |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
+
+**Nested boxes.** A flowed `box` child may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle.
 
 ### Value sources
 
@@ -127,6 +131,8 @@ These record the research behind this draft and are not normative.
 * **Structured relationships.** Newer relationships already carry a `part` field and structured `options` (for example `state`, `size`, `scale`). Recipes should prefer them over `context` strings as more components adopt them; action-button's relationships still use labels only.
 
 * **Deprecated tokens.** The pilot's icon sizes bind to `workflow-icon-size-*` tokens that validation (SPEC-058) reports as deprecated in 14.5.0 with no `replacedBy`. The recipe follows the relationships until a replacement is mapped.
+
+* **Switch.** The switch recipe covers default, hover, down, keyboard-focus, and disabled, across selected and emphasized. Its track and handle colors come from relationships added for it, taken from the Figma token spec. They await design sign-off.
 
 * **Pilot coverage.** The action-button recipe covers default, hover, down, focus, disabled, and static black/white. Quiet, selected, and emphasized fills are not yet authored.
 

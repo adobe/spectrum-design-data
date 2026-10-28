@@ -1,0 +1,244 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "switch",
+  "root": "container",
+  "sizeScale": { "s": 75, "m": 100, "l": 200, "xl": 300 },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["control", "label"],
+      "pressTarget": "handle",
+      "props": {
+        "direction": { "value": "row" },
+        "align": { "value": "center" },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (control to label)"
+          }
+        },
+        "pressDifference": {
+          "when": { "states": ["down"] },
+          "relationship": {
+            "property": "component-size-difference",
+            "context": "Component size (down)"
+          }
+        },
+        "pressWidthRatio": {
+          "when": { "states": ["down"] },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMinPerspective": {
+          "when": { "states": ["down"] },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "context": "Component size (down)"
+          }
+        }
+      }
+    },
+    "control": {
+      "kind": "box",
+      "children": ["track", "handle"],
+      "props": {
+        "width": {
+          "relationship": { "property": "width", "context": "Track (size)" }
+        },
+        "height": {
+          "relationship": { "property": "height", "context": "Track (size)" }
+        }
+      }
+    },
+    "track": {
+      "kind": "box",
+      "props": {
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          },
+          "relativeTo": "height"
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "context": "Track (border)"
+          }
+        },
+        "fill": [
+          {
+            "relationship": { "property": "color", "context": "Control" }
+          },
+          {
+            "when": { "options": { "isSelected": true } },
+            "relationship": {
+              "property": "background-color",
+              "context": "Control (selected, non emphasized)"
+            }
+          },
+          {
+            "when": { "options": { "isSelected": true, "isEmphasized": true } },
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, emphasized)"
+            }
+          },
+          {
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "relationship": {
+              "property": "background-color",
+              "context": "Control (disabled, selected)"
+            },
+            "priority": 10
+          }
+        ],
+        "stroke": [
+          {
+            "relationship": {
+              "property": "border-color",
+              "context": "Control"
+            }
+          },
+          {
+            "when": { "options": { "isSelected": true } },
+            "relationship": {
+              "property": "background-color",
+              "context": "Control (selected, non emphasized)"
+            }
+          },
+          {
+            "when": { "options": { "isSelected": true, "isEmphasized": true } },
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, emphasized)"
+            }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": {
+              "property": "border-color",
+              "context": "Control (disabled)"
+            },
+            "priority": 10
+          },
+          {
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "relationship": {
+              "property": "background-color",
+              "context": "Control (disabled, selected)"
+            },
+            "priority": 11
+          }
+        ]
+      }
+    },
+    "handle": {
+      "kind": "box",
+      "props": {
+        "width": [
+          {
+            "relationship": { "property": "size", "context": "Handle (size)" }
+          }
+        ],
+        "height": [
+          {
+            "relationship": { "property": "size", "context": "Handle (size)" }
+          }
+        ],
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          },
+          "relativeTo": "height"
+        },
+        "justify": [
+          { "value": "start" },
+          { "when": { "options": { "isSelected": true } }, "value": "end" }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "background-color",
+              "context": "Control"
+            }
+          },
+          {
+            "when": { "options": { "isSelected": true } },
+            "relationship": { "property": "color", "context": "Control" }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": {
+              "property": "background-color",
+              "context": "Control (disabled)"
+            },
+            "priority": 10
+          },
+          {
+            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "relationship": { "property": "color", "context": "Control" },
+            "priority": 11
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": { "options": { "hideLabel": false } },
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Font size"
+          }
+        },
+        "fontWeight": {
+          "relationship": { "property": "font-weight", "context": "Font size" }
+        },
+        "color": [
+          {
+            "relationship": { "property": "content-color", "context": "Label" }
+          },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "track",
+      "visibleWhen": { "states": ["keyboard-focus"] },
+      "props": {
+        "stroke": {
+          "relationship": { "property": "color", "context": "Focus indicator" }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": { "property": "gap", "context": "Focus indicator" }
+        }
+      }
+    }
+  }
+}

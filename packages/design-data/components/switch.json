@@ -105,8 +105,36 @@
     },
     "isEmphasized": { "type": "boolean", "default": false },
     "isDisabled": { "type": "boolean", "default": false },
-    "isReadOnly": { "type": "boolean", "default": false }
+    "isReadOnly": { "type": "boolean", "default": false },
+    "hideLabel": { "type": "boolean", "default": false }
   },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Row that holds the control and the label.",
+      "required": true,
+      "contains": ["control", "label"]
+    },
+    {
+      "name": "control",
+      "description": "The whole on/off control: the track and its handle.",
+      "required": true,
+      "contains": ["track", "handle", "focus-indicator"]
+    },
+    {
+      "name": "track",
+      "description": "Pill-shaped background. Its border is drawn while the switch is off."
+    },
+    {
+      "name": "handle",
+      "description": "Circle that sits at the start of the track when off and at the end when on."
+    },
+    { "name": "label", "description": "Text label." },
+    {
+      "name": "focus-indicator",
+      "description": "Outline drawn outside the track for keyboard focus."
+    }
+  ],
   "states": [
     { "name": "hover", "trigger": "interaction" },
     { "name": "down", "trigger": "interaction" },

@@ -685,7 +685,8 @@
           scale: $("scale").value,
           label: "Label",
         };
-        if (view.mode !== "usage" && $("state")?.value) o.state = $("state").value;
+        if (view.mode !== "usage" && $("state")?.value)
+          o.state = $("state").value;
         for (const [name, { type, supported }] of Object.entries(controlOpts)) {
           if (!supported) continue;
           const el = $(`opt-${name}`);
@@ -710,7 +711,6 @@
             : "";
       };
 
-
       // ---- stage: matrix (usage) <-> zoomed component (anatomy / specs) ------
       const view = { mode: "usage" };
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -726,7 +726,7 @@
       };
       const fingerprint = (s) =>
         JSON.stringify(
-          s.nodes.map((n) => [n.part, n.fill, n.color, n.stroke, n.w]),
+          s.nodes.map((n) => [n.part, n.fill, n.color, n.stroke, n.x, n.w]),
         );
       let stageToken = 0;
 
@@ -792,7 +792,8 @@
             continue;
           const k = `opt.${m}`;
           if (
-            (await fp({ ...on, [k]: true })) !== (await fp({ ...off, [k]: true }))
+            (await fp({ ...on, [k]: true })) !==
+            (await fp({ ...off, [k]: true }))
           ) {
             box.checked = true;
             return;
@@ -998,7 +999,8 @@
         SPEC_EDGE = "#2f80d0";
       const pill = (x, y, text, color, mono, anchor = "start") => {
         const w = text.length * (mono ? 9 : 6.8) + 24;
-        const left = anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
+        const left =
+          anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
         const box = mono
           ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="9"`
           : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="12"`;
@@ -1023,7 +1025,7 @@
           .filter(([, n]) => n && n.kind !== "ring");
 
         let i = 0;
-        const callouts = parts.map(([a, n]) => {
+        const placed = parts.map(([a, n]) => {
           const isRoot = n === root;
           const up = isRoot || i++ % 2 === 0;
           const [x, y] = P(n, isRoot ? 0.1 : 0.5, isRoot ? 0 : up ? 0 : 1);
@@ -1031,6 +1033,20 @@
           const dx = isRoot
             ? -70
             : Math.max(-80, Math.min(80, cx * K * 0.5 + (up ? 20 : -20)));
+          return { a, x, y, dx, up };
+        });
+        // Labels on one side keep a minimum spacing, so parts that share a center
+        // (a switch's control, track and handle) do not stack their labels.
+        for (const side of [true, false]) {
+          const row = placed
+            .filter((c) => c.up === side)
+            .sort((p, q) => p.x + p.dx - (q.x + q.dx));
+          for (let j = 1; j < row.length; j++) {
+            const min = row[j - 1].x + row[j - 1].dx + 96;
+            if (row[j].x + row[j].dx < min) row[j].dx = min - row[j].x;
+          }
+        }
+        const callouts = placed.map(({ a, x, y, dx, up }) => {
           const dy = up ? -60 : 60;
           return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx - 8, y + dy, humanize(a.name.replace(/-/g, " ")), "#d83790")}</g>`;
         });
@@ -1038,28 +1054,40 @@
         const B = SPEC_LINE;
         const [x0, y0] = P(root, 0, 0),
           [x1, y1] = P(root, 1, 1);
+        // Anatomy lists the root's direct children, so nested parts (a switch's track and
+        // handle) stay out of the flow measurements. Without it, boxes are not flowed.
+        const rootContains = (C.anatomy ?? []).find(
+          (a) => a.name === root.part,
+        )?.contains;
         const flow = s.nodes
           .filter(
             (n) =>
               n !== root &&
               n.kind !== "ring" &&
-              n.kind !== "box" &&
-              n.part !== "hold-icon",
+              n.part !== "hold-icon" &&
+              (rootContains ? rootContains.includes(n.part) : n.kind !== "box"),
           )
           .sort((a, b) => a.x - b.x);
         const line = (xa, ya, xb, yb, extra = "") =>
           `<line x1="${xa}" y1="${ya}" x2="${xb}" y2="${yb}" stroke="${B}" stroke-width="1.5"${extra}/>`;
         const hb = (xa, xb, y, c = 6) =>
-          line(xa, y, xb, y) + line(xa, y - c, xa, y + c) + line(xb, y - c, xb, y + c);
+          line(xa, y, xb, y) +
+          line(xa, y - c, xa, y + c) +
+          line(xb, y - c, xb, y + c);
         const vb = (x, ya, yb, c = 6) =>
-          line(x, ya, x, yb) + line(x - c, ya, x + c, ya) + line(x - c, yb, x + c, yb);
-        const dot = (x, y) => `<circle cx="${x}" cy="${y}" r="4.5" fill="${B}"/>`;
-        const guide = (x, ya, yb) => line(x, ya, x, yb, ' stroke-dasharray="3 3"');
+          line(x, ya, x, yb) +
+          line(x - c, ya, x + c, ya) +
+          line(x - c, yb, x + c, yb);
+        const dot = (x, y) =>
+          `<circle cx="${x}" cy="${y}" r="4.5" fill="${B}"/>`;
+        const guide = (x, ya, yb) =>
+          line(x, ya, x, yb, ' stroke-dasharray="3 3"');
         const out = [];
         const h = tok(root, "height") ?? tok(root, "minHeight");
         if (h)
           out.push(
-            vb(x0 - 30, y0, y1) + pill(x0 - 48, (y0 + y1) / 2, h.token, B, true, "end"),
+            vb(x0 - 30, y0, y1) +
+              pill(x0 - 48, (y0 + y1) / 2, h.token, B, true, "end"),
           );
         const pd = tok(root, "paddingInlineStart");
         if (pd && flow[0]) {
@@ -1094,13 +1122,43 @@
         }
         const r = tok(root, "cornerRadius");
         if (r) {
-          const rr = (root.radii?.[1] ?? root.radii?.[0] ?? root.radius ?? 0) * K,
+          const rr =
+              (root.radii?.[1] ?? root.radii?.[0] ?? root.radius ?? 0) * K,
             R = rr + 9,
             ccx = x1 - rr,
             ccy = y0 + rr;
           out.push(
             `<path d="M${ccx + R * Math.cos(1.25)} ${ccy - R * Math.sin(1.25)} A${R} ${R} 0 0 1 ${ccx + R * Math.cos(0.1)} ${ccy - R * Math.sin(0.1)}" fill="none" stroke="${B}" stroke-width="4" stroke-linecap="round"/>` +
               pill(x1 + 14, y0 - 4, r.token, B, true),
+          );
+        }
+
+        // Boxes nested in a flowed box: the flowed box's width, and each nested box's size.
+        for (const n of flow.filter((n) => n.kind === "box")) {
+          const wt = tok(n, "width");
+          if (!wt) continue;
+          const [nl, nt] = P(n, 0, 0),
+            [nr] = P(n, 1, 1),
+            by = y1 + 26;
+          out.push(
+            hb(nl, nr, by) +
+              line((nl + nr) / 2, by, (nl + nr) / 2, by + 24) +
+              pill((nl + nr) / 2, by + 38, wt.token, B, true, "middle"),
+          );
+        }
+        for (const n of s.nodes.filter(
+          (n) =>
+            n.kind === "box" &&
+            n !== root &&
+            !flow.includes(n) &&
+            tok(n, "width"),
+        )) {
+          const wt = tok(n, "width");
+          const [hx, hy] = P(n, 0.5, 0);
+          out.push(
+            dot(hx, hy) +
+              line(hx, hy, hx, y0 - 110) +
+              pill(hx, y0 - 124, wt.token, B, true, "middle"),
           );
         }
 
@@ -1111,8 +1169,11 @@
           : "";
         if (pr) {
           const pd = tok(root, "pressDifference");
+          const pt = (pr.part && node(s, pr.part)) || root;
+          const [px0, py0] = P(pt, 0, 0),
+            [px1, py1] = P(pt, 1, 1);
           out.push(
-            `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="${(root.radii?.[0] ?? root.radius ?? 0) * K}" fill="none" stroke="${B}" stroke-width="1.5" stroke-dasharray="6 4"/>` +
+            `<rect x="${px0}" y="${py0}" width="${px1 - px0}" height="${py1 - py0}" rx="${(pt.radii?.[0] ?? pt.radius ?? 0) * K}" fill="none" stroke="${B}" stroke-width="1.5" stroke-dasharray="6 4"/>` +
               pill(
                 x0,
                 y1 + 140,
@@ -1124,7 +1185,7 @@
         }
 
         $("stage").innerHTML =
-          `<svg class="zoom" viewBox="0 0 ${W} ${H}"><g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pressAttr}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}">${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap"><g class="ov ov-anatomy">${callouts.join("")}</g><g class="ov ov-specs">${out.join("")}</g></g></svg>`;
+          `<svg class="zoom" viewBox="0 0 ${W} ${H}"><g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pr && !pr.part ? pressAttr : ""}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}"${pr?.part === n.part ? pressAttr : ""}>${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap"><g class="ov ov-anatomy">${callouts.join("")}</g><g class="ov ov-specs">${out.join("")}</g></g></svg>`;
 
         if (opts.from?.width && !reduced) {
           const svg = $("stage").querySelector("svg");
@@ -1199,7 +1260,8 @@
       async function setMode(t, from) {
         const prev = view.mode;
         if (t === prev) return;
-        if (prev === "usage" && !from) syncControls(await maxParts(liveOptions()));
+        if (prev === "usage" && !from)
+          syncControls(await maxParts(liveOptions()));
         view.mode = t;
         document
           .querySelectorAll(".tabs button")

@@ -34,7 +34,7 @@ const load = (component) => ({
     ),
   ),
 });
-const subjects = ["action-button", "badge", "button"].map(load);
+const subjects = ["action-button", "badge", "button", "switch"].map(load);
 
 const close = (a, b, path = "") => {
   if (typeof a === "number" && typeof b === "number") {
@@ -82,7 +82,20 @@ const badgeOptionSets = [
   { variant: "neutral", isDisabled: true },
 ];
 
-const optionSetsFor = { button: buttonOptionSets, badge: badgeOptionSets };
+const switchOptionSets = [
+  {},
+  { isSelected: true },
+  { isSelected: true, isEmphasized: true },
+  { isDisabled: true },
+  { isSelected: true, isEmphasized: true, isDisabled: true },
+  { hideLabel: true, isSelected: true },
+];
+
+const optionSetsFor = {
+  button: buttonOptionSets,
+  badge: badgeOptionSets,
+  switch: switchOptionSets,
+};
 
 for (const { component, compiled, recipe } of subjects) {
   const optionSets = optionSetsFor[component] ?? actionOptionSets;
@@ -147,7 +160,9 @@ for (const { component, compiled, recipe } of subjects) {
             ? { style: "outline", variant: "secondary" }
             : component === "badge"
               ? { variant: "info", style: "outline", fixed: "left", icon: true }
-              : { hasHoldIcon: true },
+              : component === "switch"
+                ? { isSelected: true, isEmphasized: true }
+                : { hasHoldIcon: true },
         mode: { colorScheme: "dark", scale: "desktop" },
         label: "Save",
       };
