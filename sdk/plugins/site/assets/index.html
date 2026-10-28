@@ -441,9 +441,11 @@
       .co.hl line {
         stroke-width: 3;
       }
-      .co.hl rect,
-      .mono-pill.hl rect {
+      .co.hl rect {
         fill: #fdeaf5;
+      }
+      .mono-pill.hl rect {
+        fill: #d6ecfb;
       }
       .co,
       .mono-pill {
@@ -929,16 +931,22 @@
       });
 
       // Anatomy callouts and spec dimension lines share one zoomed component.
-      const pill = (x, y, text, color, mono) => {
-        const w = text.length * (mono ? 7.3 : 6.8) + 18;
-        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${x}" y="${y - 12}" width="${w}" height="24" rx="12" fill="#fff" stroke="${color}" stroke-width="1.5"/><text x="${x + 9}" y="${y + 4}" font-size="12" fill="${color}">${esc(text)}</text></g>`;
+      const SPEC_LINE = "#4da3f0",
+        SPEC_EDGE = "#2f80d0";
+      const pill = (x, y, text, color, mono, anchor = "start") => {
+        const w = text.length * (mono ? 9 : 6.8) + 24;
+        const left = anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
+        const box = mono
+          ? `fill="#eef7fc" stroke="${SPEC_EDGE}" stroke-width="1.5" rx="9"`
+          : `fill="#fff" stroke="${color}" stroke-width="1.5" rx="12"`;
+        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${left}" y="${y - 14}" width="${w}" height="28" ${box}/><text x="${left + 11}" y="${y + 5}" font-size="${mono ? 14 : 12}" fill="${mono ? "#1f2d3d" : color}">${esc(text)}</text></g>`;
       };
 
       async function renderZoom(o, token, opts) {
         const s = await getScene(o);
         if (token !== stageToken) return;
         const K = 4,
-          padX = 260,
+          padX = 390,
           pad = 110,
           W = s.width * K + padX * 2,
           H = s.height * K + pad * 2;
@@ -964,7 +972,7 @@
           return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx - 8, y + dy, humanize(a.name.replace(/-/g, " ")), "#d83790")}</g>`;
         });
 
-        const B = "#4b75ff";
+        const B = SPEC_LINE;
         const [x0, y0] = P(root, 0, 0),
           [x1, y1] = P(root, 1, 1);
         const flow = s.nodes
@@ -976,35 +984,62 @@
               n.part !== "hold-icon",
           )
           .sort((a, b) => a.x - b.x);
-        const dim = (xa, ya, xb, yb) =>
-          `<line x1="${xa}" y1="${ya}" x2="${xb}" y2="${yb}" stroke="${B}" stroke-width="1.5"/>`;
+        const line = (xa, ya, xb, yb, extra = "") =>
+          `<line x1="${xa}" y1="${ya}" x2="${xb}" y2="${yb}" stroke="${B}" stroke-width="1.5"${extra}/>`;
+        const hb = (xa, xb, y, c = 6) =>
+          line(xa, y, xb, y) + line(xa, y - c, xa, y + c) + line(xb, y - c, xb, y + c);
+        const vb = (x, ya, yb, c = 6) =>
+          line(x, ya, x, yb) + line(x - c, ya, x + c, ya) + line(x - c, yb, x + c, yb);
+        const dot = (x, y) => `<circle cx="${x}" cy="${y}" r="4.5" fill="${B}"/>`;
+        const guide = (x, ya, yb) => line(x, ya, x, yb, ' stroke-dasharray="3 3"');
         const out = [];
         const h = tok(root, "height") ?? tok(root, "minHeight");
         if (h)
           out.push(
-            dim(x1 + 24, y0, x1 + 24, y1) +
-              pill(x1 + 36, (y0 + y1) / 2, h.token, B, true),
+            vb(x0 - 30, y0, y1) + pill(x0 - 48, (y0 + y1) / 2, h.token, B, true, "end"),
           );
         const pd = tok(root, "paddingInlineStart");
-        if (pd && flow[0])
+        if (pd && flow[0]) {
+          const fl = P(flow[0], 0, 0)[0],
+            fr = P(flow[flow.length - 1], 1, 0)[0],
+            by = y1 + 26,
+            uy = y1 + 44,
+            mid = (x0 + x1) / 2;
           out.push(
-            dim(x0, y1 + 24, P(flow[0], 0, 0)[0], y1 + 24) +
-              pill(x0 - 40, y1 + 52, pd.token, B, true),
+            [x0, fl, fr, x1].map((x) => guide(x, y1, by + 6)).join("") +
+              hb(x0, fl, by) +
+              hb(fr, x1, by) +
+              `<path d="M${fl} ${by} V${uy} H${fr} V${by}" fill="none" stroke="${B}" stroke-width="1.5"/>` +
+              dot(mid, uy) +
+              line(mid, uy, mid, uy + 28) +
+              pill(mid, uy + 42, pd.token, B, true, "middle"),
           );
+        }
         const gp = tok(root, "gap");
         if (gp && flow.length > 1) {
           const gx = P(flow[0], 1, 0)[0],
-            gx2 = P(flow[1], 0, 0)[0];
+            gx2 = P(flow[1], 0, 0)[0],
+            gm = (gx + gx2) / 2,
+            cy = (y0 + y1) / 2,
+            dy = cy - (y1 - y0) * 0.2;
           out.push(
-            dim(gx, y0 - 24, gx2, y0 - 24) +
-              pill(gx2 - 80, y0 - 52, gp.token, B, true),
+            hb(gx, gx2, cy + (y1 - y0) * 0.08, 5) +
+              line(gm, dy, gm, y0 - 40) +
+              dot(gm, dy) +
+              pill(gm, y0 - 54, gp.token, B, true, "middle"),
           );
         }
         const r = tok(root, "cornerRadius");
-        if (r)
+        if (r) {
+          const rr = (root.radii?.[1] ?? root.radii?.[0] ?? root.radius ?? 0) * K,
+            R = rr + 9,
+            ccx = x1 - rr,
+            ccy = y0 + rr;
           out.push(
-            `<circle cx="${x0 + 4}" cy="${y0 + 4}" r="3" fill="${B}"/>${pill(x0 - 170, y0 - 12, r.token, B, true)}`,
+            `<path d="M${ccx + R * Math.cos(1.25)} ${ccy - R * Math.sin(1.25)} A${R} ${R} 0 0 1 ${ccx + R * Math.cos(0.1)} ${ccy - R * Math.sin(0.1)}" fill="none" stroke="${B}" stroke-width="4" stroke-linecap="round"/>` +
+              pill(x1 + 14, y0 - 4, r.token, B, true),
           );
+        }
 
         // The pressed scale applies to the drawing only; measurements stay at rest size.
         const pr = s.press;
@@ -1017,7 +1052,7 @@
             `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="${(root.radii?.[0] ?? root.radius ?? 0) * K}" fill="none" stroke="${B}" stroke-width="1.5" stroke-dasharray="6 4"/>` +
               pill(
                 x0,
-                y1 + 84,
+                y1 + 140,
                 `${pd?.token ?? "component-size-difference"} → ×${pr.scale.toFixed(3)}`,
                 B,
                 true,
