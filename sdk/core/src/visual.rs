@@ -73,6 +73,9 @@ pub struct SceneNode {
     pub font_size: f64,
     pub font_weight: Option<String>,
     pub color: Option<String>,
+    /// Built-in glyph an `icon` node draws (`checkmark`, `dash`); unset draws the placeholder.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub glyph: Option<String>,
     pub tokens: Vec<TokenRef>,
 }
 
@@ -184,6 +187,10 @@ impl<'a> Ctx<'a> {
 
     /// An unset `label` option follows the request label: empty means icon-only.
     fn option(&self, name: &str) -> Value {
+        // The request's size is the `size` option, so conditions can switch on it.
+        if name == "size" {
+            return Value::String(self.req.size.clone());
+        }
         self.req
             .options
             .get(name)
@@ -958,6 +965,7 @@ pub fn build_scene(
         font_size: 0.0,
         font_weight: None,
         color: None,
+        glyph: None,
         tokens: container_tokens,
     }];
 
@@ -1000,6 +1008,7 @@ pub fn build_scene(
             font_size: c.font_size,
             font_weight: c.font_weight,
             color: c.color,
+            glyph: None,
             tokens: c.tokens,
         };
         if c.kind == "box" {
@@ -1019,6 +1028,35 @@ pub fn build_scene(
             let mut tokens = Vec::new();
             let nw = rp(&mut cx, np, "width");
             let nh = rp(&mut cx, np, "height");
+            if np.get("kind").and_then(Value::as_str) == Some("icon") {
+                // An icon inside a box is centered on both axes and draws its `glyph`.
+                let color = rp(&mut cx, np, "color");
+                track(&mut tokens, "width", &nw);
+                track(&mut tokens, "height", &nh);
+                track(&mut tokens, "color", &color);
+                let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
+                let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(w2);
+                nodes.push(SceneNode {
+                    part: nid,
+                    kind: "icon".into(),
+                    x: cx0 + (cw - w2) / 2.0,
+                    y: cy0 + (ch - h2) / 2.0,
+                    w: w2,
+                    h: h2,
+                    fill: None,
+                    stroke: None,
+                    stroke_width: 0.0,
+                    radius: 0.0,
+                    radii: None,
+                    text: None,
+                    font_size: 0.0,
+                    font_weight: None,
+                    color: color.map(|c| c.value),
+                    glyph: np.get("glyph").and_then(Value::as_str).map(String::from),
+                    tokens,
+                });
+                continue;
+            }
             let nfill = rp(&mut cx, np, "fill");
             let nstroke = rp(&mut cx, np, "stroke");
             let nsw = rp(&mut cx, np, "strokeWidth");
@@ -1059,6 +1097,7 @@ pub fn build_scene(
                 font_size: 0.0,
                 font_weight: None,
                 color: None,
+                glyph: None,
                 tokens,
             });
         }
@@ -1089,6 +1128,7 @@ pub fn build_scene(
             font_size: 0.0,
             font_weight: None,
             color: color.map(|c| c.value),
+            glyph: None,
             tokens,
         });
     }
@@ -1129,6 +1169,7 @@ pub fn build_scene(
             font_size: 0.0,
             font_weight: None,
             color: None,
+            glyph: None,
             tokens,
         });
     }
@@ -1348,6 +1389,32 @@ pub fn scene_to_svg(scene: &Scene) -> String {
                     esc(n.color.as_deref().unwrap_or("currentColor"))
                 );
             }
+            "icon" if matches!(n.glyph.as_deref(), Some("checkmark" | "dash")) => {
+                let color = esc(n.color.as_deref().unwrap_or("currentColor"));
+                if n.glyph.as_deref() == Some("dash") {
+                    let _ = write!(
+                        s,
+                        "<rect {attrs} x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" rx=\"{}\" fill=\"{color}\"/>",
+                        n.x,
+                        n.y,
+                        n.w,
+                        n.h,
+                        n.h / 2.0
+                    );
+                } else {
+                    let sw = (n.w * 0.16).max(1.0);
+                    let _ = write!(
+                        s,
+                        "<path {attrs} d=\"M{} {}L{} {}L{} {}\" stroke=\"{color}\" stroke-width=\"{sw}\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>",
+                        n.x + n.w * 0.1,
+                        n.y + n.h * 0.55,
+                        n.x + n.w * 0.38,
+                        n.y + n.h * 0.82,
+                        n.x + n.w * 0.9,
+                        n.y + n.h * 0.2
+                    );
+                }
+            }
             "icon" => {
                 // Built-in placeholder glyph (a plus) sized to the part box.
                 let (cx, cy) = (n.x + n.w / 2.0, n.y + n.h / 2.0);
@@ -1494,6 +1561,90 @@ mod tests {
         assert!(ring.x < part(&focus, "track").x, "ring wraps the track");
         let down = scene(false, &["down"]);
         assert_eq!(down.press.unwrap().part.as_deref(), Some("handle"));
+    }
+
+    #[test]
+    fn checkbox_box_marks_and_colors_follow_the_options() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/checkbox.json")).unwrap(),
+        )
+        .unwrap();
+        let scene = |size: &str, opts: &[&str], states: &[&str]| {
+            let mut r = req(states);
+            r.component = "checkbox".into();
+            r.size = size.into();
+            r.label = "Label".into();
+            for o in opts {
+                r.options.insert((*o).into(), Value::Bool(true));
+            }
+            build_scene(&g, &recipe, &r).unwrap()
+        };
+        let part = |s: &Scene, p: &str| s.nodes.iter().find(|n| n.part == p).cloned();
+
+        let off = scene("m", &[], &[]);
+        assert!(off.diagnostics.is_empty(), "{:?}", off.diagnostics);
+        let (control, b) = (part(&off, "control").unwrap(), part(&off, "box").unwrap());
+        assert_eq!(
+            (control.w, control.h, b.radius, b.stroke_width),
+            (16.0, 16.0, 4.0, 2.0)
+        );
+        assert_eq!(b.fill.as_deref(), Some("rgb(255, 255, 255)"));
+        assert_eq!(b.stroke.as_deref(), Some("rgb(41, 41, 41)"));
+        assert!(part(&off, "checkmark").is_none() && part(&off, "dash").is_none());
+        let label = part(&off, "label").unwrap();
+        assert_eq!(
+            label.x - (control.x + control.w),
+            6.0,
+            "control to label gap"
+        );
+
+        let on = scene("m", &["isSelected"], &[]);
+        assert!(on.diagnostics.is_empty(), "{:?}", on.diagnostics);
+        let (b, mark) = (part(&on, "box").unwrap(), part(&on, "checkmark").unwrap());
+        assert_eq!(
+            (b.stroke_width, b.fill.as_deref()),
+            (0.0, Some("rgb(41, 41, 41)"))
+        );
+        assert_eq!((mark.w, mark.glyph.as_deref()), (10.0, Some("checkmark")));
+        assert_eq!(mark.x + mark.w / 2.0, b.x + b.w / 2.0, "mark is centered");
+        assert_eq!(mark.color.as_deref(), Some("rgb(255, 255, 255)"));
+
+        let both = scene("m", &["isSelected", "isIndeterminate"], &[]);
+        assert!(
+            part(&both, "checkmark").is_none(),
+            "indeterminate wins over selected"
+        );
+        let dash = part(&both, "dash").unwrap();
+        assert_eq!(
+            (dash.w, dash.h, dash.glyph.as_deref()),
+            (7.5, 1.25, Some("dash"))
+        );
+
+        let accent = scene("m", &["isSelected", "isEmphasized"], &[]);
+        assert_eq!(
+            part(&accent, "box").unwrap().fill.as_deref(),
+            Some("rgb(59, 99, 251)")
+        );
+        let error = scene("m", &["isSelected", "isError", "isEmphasized"], &[]);
+        assert_eq!(
+            part(&error, "box").unwrap().fill.as_deref(),
+            Some("rgb(215, 50, 32)")
+        );
+        let disabled = scene("m", &["isSelected", "isDisabled", "isError"], &[]);
+        assert_eq!(
+            part(&disabled, "box").unwrap().fill.as_deref(),
+            Some("rgb(198, 198, 198)")
+        );
+
+        for (size, control, mark) in [("s", 14.0, 8.0), ("l", 18.0, 10.0), ("xl", 20.0, 12.0)] {
+            let s = scene(size, &["isSelected"], &[]);
+            assert_eq!(part(&s, "control").unwrap().w, control, "{size} control");
+            assert_eq!(part(&s, "checkmark").unwrap().w, mark, "{size} checkmark");
+        }
+
+        let focus = scene("m", &[], &["keyboard-focus"]);
+        assert!(part(&focus, "focus-indicator").unwrap().x < part(&focus, "box").unwrap().x);
     }
 
     #[test]

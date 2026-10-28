@@ -1,0 +1,634 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "checkbox",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["control", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (control to label)"
+          }
+        },
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "context": "Component size (down)"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "context": "Component size (down)"
+          }
+        }
+      },
+      "pressTarget": "box"
+    },
+    "control": {
+      "kind": "box",
+      "children": ["box", "checkmark", "dash"],
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "context": "S2 Control (size)"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "context": "S2 Control (size)"
+          }
+        }
+      }
+    },
+    "box": {
+      "kind": "box",
+      "props": {
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Control (rounding)"
+          }
+        },
+        "strokeWidth": [
+          {
+            "relationship": {
+              "property": "border-width",
+              "context": "Control (border)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "value": 0,
+            "priority": 1
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true
+              }
+            },
+            "value": 0,
+            "priority": 1
+          }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "context": "Control"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "S2 Control (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "S2 Control (selected, non emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true,
+                "isEmphasized": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Control (selected, emphasized)"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 900
+            },
+            "priority": 5
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 900
+            },
+            "priority": 5
+          },
+          {
+            "when": {
+              "options": {
+                "isSelected": true,
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label (disabled)"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isIndeterminate": true,
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label (disabled)"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isSelected": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isSelected": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isSelected": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isIndeterminate": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isIndeterminate": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isIndeterminate": true,
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          }
+        ],
+        "stroke": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 900
+            },
+            "priority": 5
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isError": true
+              }
+            },
+            "token": {
+              "property": "color",
+              "colorRole": "negative",
+              "scaleIndex": 1000
+            },
+            "priority": 6
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "checkmark": {
+      "kind": "icon",
+      "glyph": "checkmark",
+      "visibleWhen": {
+        "options": {
+          "isSelected": true,
+          "isIndeterminate": false
+        }
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 8
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 10
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 12
+          }
+        ],
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Control"
+          }
+        }
+      }
+    },
+    "dash": {
+      "kind": "icon",
+      "glyph": "dash",
+      "visibleWhen": {
+        "options": {
+          "isIndeterminate": true
+        }
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 6.5
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 7.5
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 9.65
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 11
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "value": 1.25
+          },
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "value": 1.25
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "value": 1.65
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "value": 2
+          }
+        ],
+        "color": {
+          "relationship": {
+            "property": "color",
+            "context": "Control"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "label": true
+        }
+      },
+      "props": {
+        "fontSize": {
+          "relationship": {
+            "property": "font-size-{sizeIndex}",
+            "context": "Label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "context": "Label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "context": "Label (disabled)"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "box",
+      "visibleWhen": {
+        "states": ["keyboard-focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus ring"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus ring"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus ring"
+          }
+        }
+      }
+    }
+  }
+}
