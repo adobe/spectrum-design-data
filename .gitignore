@@ -180,3 +180,8 @@ tools/demo/videos/out/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+.beads.gate.lock
+
+# Local OpenCode setup
+.opencode/
+opencode.jsonc
