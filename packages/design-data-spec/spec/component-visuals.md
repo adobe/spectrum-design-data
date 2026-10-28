@@ -1,0 +1,137 @@
+# Component visuals
+
+**Spec version:** `1.0.0-draft` (see [Overview](index.md))
+
+This document defines the **component visual recipe**: a renderer-neutral description of how a component looks, bound to design tokens. A recipe lets tooling produce SVG, PNG, and Figma output, plus anatomy and spec overlays, from one source. It is not tied to Figma, React, or any other platform.
+
+Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schemas/component-visual.schema.json). A pilot recipe lives at `packages/design-data/visuals/action-button.json`.
+
+## Goals and non-goals
+
+**Goals**
+
+* One data source drives three views of a component: a variant × state matrix (usage), anatomy callouts, and token-labelled measurements (specs).
+* Every geometric or paint value is token-bound, so overlays can name the token behind each measurement.
+* Output targets are plural: SVG first, then PNG, then Figma.
+
+**Non-goals**
+
+* Pixel parity with every platform implementation. Recipes describe the Spectrum design spec, not a browser's rendering of it.
+* Replacing component declarations. Options, states, slots and anatomy stay in [component format](component-format.md).
+* Describing interaction, motion or accessibility behavior.
+
+## Layers
+
+| Layer                 | Owns                                                                      | Where                                  |
+| --------------------- | ------------------------------------------------------------------------- | -------------------------------------- |
+| Component declaration | Options, states, slots, anatomy names                                     | `components/<name>.json`               |
+| **Visual recipe**     | Part tree, layout, shape, paint, text, token bindings                     | `visuals/<name>.json` (this spec)      |
+| Render request        | Which component, option values, states and modes to draw; matrices        | Tool input (not stored in the dataset) |
+| Scene graph           | Resolved rects, paths, text, groups, measurements with part and token ids | Renderer output; backends consume it   |
+
+**NORMATIVE:** A recipe **MUST** name exactly one component through `component`, and that component **MUST** be declared. *Planned Layer 2 rule; not yet enforced.*
+
+**NORMATIVE:** Every key of `parts` **MUST** be a declared anatomy part of the component. *Planned Layer 2 rule; not yet enforced.* Recipes therefore require components to declare anatomy.
+
+## Recipe object
+
+| Field         | Type   | Required    | Description                                                                                                    |
+| ------------- | ------ | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `specVersion` | string | RECOMMENDED | Spec version label.                                                                                            |
+| `component`   | string | REQUIRED    | Component `name`.                                                                                              |
+| `root`        | string | REQUIRED    | Key of the root part in `parts`.                                                                               |
+| `sizeScale`   | object | OPTIONAL    | Maps each `size` option value to a numeric scale index (e.g. `m` → `100`). Enables `{sizeIndex}` in selectors. |
+| `parts`       | object | REQUIRED    | Map of anatomy part name → part definition.                                                                    |
+
+### Part
+
+| Field         | Type             | Description                                                                                                                                                                                            |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `kind`        | enum             | `box`, `text`, `icon`, `ring`. `ring` is an outline drawn outside the parent box (focus indicator).                                                                                                    |
+| `children`    | array of strings | Ordered child part names. Child order is layout order. Children **MUST** be declared parts.                                                                                                            |
+| `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                            |
+| `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
+| `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
+
+### Visual properties
+
+| Property                                                                                       | Applies to | Meaning                                                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `direction`, `align`, `justify`                                                                | box        | Flex-like layout of children.                                                                                                  |
+| `gap`                                                                                          | box        | Space between flowed children.                                                                                                 |
+| `paddingInlineStart`, `paddingInlineEnd`, `paddingBlockStart`, `paddingBlockEnd`               | box        | Inner padding.                                                                                                                 |
+| `height`, `minWidth`, `width`                                                                  | box, icon  | Dimensions. Box width defaults to content.                                                                                     |
+| `cornerRadius`                                                                                 | box, ring  | Corner radius.                                                                                                                 |
+| `cornerRadiusStartStart`, `cornerRadiusStartEnd`, `cornerRadiusEndStart`, `cornerRadiusEndEnd` | box        | Per-corner radius (block-inline). Each falls back to `cornerRadius`. Renderers draw left-to-right, so start-start is top-left. |
+| `fill`, `stroke`, `strokeWidth`, `opacity`                                                     | box, ring  | Paint.                                                                                                                         |
+| `color`                                                                                        | text, icon | Content color.                                                                                                                 |
+| `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
+| `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
+
+### Value sources
+
+A property value is either one **value source** or an ordered list of **conditional value sources**. A value source is exactly one of:
+
+* `{"value": <literal>}`: a literal. Use only for geometry that no token describes (e.g. a glyph path).
+* `{"token": {<name-object fields>}}`: a token selected by name-object fields, resolved with the [cascade](cascade.md).
+* `{"relationship": {"property": "...", "context": "..."}}`: a token chosen through the component's [relationships](relationship-format.md). `property` and `context` match the relationship's `scope.property` and `context`.
+
+Selector strings **MAY** contain `{size}` (the request's `size` option value, e.g. `m`) and `{sizeIndex}` (that size's entry in `sizeScale`). A scalar `token` selector value matches an array-valued name field that contains it (e.g. `"state": "disabled"` matches `["disabled"]`).
+
+**NORMATIVE:** `token` and `relationship` selectors yield a set of candidate tokens. The renderer **MUST** narrow the candidates with the request's mode context (for example `colorScheme`, `scale`) using the [cascade](cascade.md), and **MUST** report a diagnostic if zero or more than one candidate remains.
+
+A conditional entry is a value source plus `when`. A condition has optional `options` (option name → value, or array of values), `states` (state names that must all be active) and `modes` (mode-set name → mode).
+
+**NORMATIVE:** When several entries match a request, the renderer **MUST** choose the one with the most conditions (options + states + modes). Ties go to the later entry in document order. An entry without `when` is the default. An entry **MAY** set an integer `priority` (default 0); a higher priority wins before condition count is compared. Use it for states that override every other combination, such as `disabled`.
+
+An entry on `cornerRadius` **MAY** set `relativeTo: "height"`, making its numeric value a ratio of the container height (a pill is `0.5`). A `stroke` on a `box` is drawn inside its bounds, so `strokeWidth` does not change the layout size.
+
+**NORMATIVE:** A renderer **MUST NOT** substitute a literal for a value source it cannot resolve. It **MUST** emit a diagnostic naming the part, property and selector, and omit that property.
+
+### Interim: relationship `context` strings
+
+Relationship `context` is free text today (for example `Background (selected, emphasized)`). Recipes bind to those strings so the pilot can ship without changing relationship data. This is brittle: a reworded context breaks a recipe, and a planned Layer 2 rule will report a `relationship` selector that matches no relationship. **RECOMMENDED:** a follow-up adds structured `options` to relationships so recipes can select by option and state instead of by label.
+
+## Render request and scene graph
+
+A render request is tool input, not dataset content: `{component, options, states, modes, overlays}`. A **matrix** is a list of requests plus a layout (rows × columns by option or state).
+
+The scene graph is the contract between resolution and output:
+
+* Nodes: `group`, `rect` (with corner radii), `path`, `text`, `ring`.
+* Every node carries `part` (anatomy name) and, for each token-bound property, `tokens` (property → token name or uuid and resolved value).
+* Measurements (height, padding, gap, radius) are recorded as dimension annotations with their token. Overlay backends draw dimension lines and callouts from these; recipes do not author overlays.
+
+**NORMATIVE:** A backend **MUST** produce the same scene graph input for the same request and dataset version (deterministic output).
+
+### Compiled recipes
+
+A build step **MAY** pre-resolve every `token` and `relationship` binding per `size|colorScheme|scale` into a ranked list of candidates (`{value, token, states}`), so a renderer needs no token graph. Only state-dependent selection remains at render time: take the first candidate whose `states` all apply, else the first. Backends that consume compiled recipes (for example the dependency-free JS runtime emitted by `design-data site`) **MUST** produce the same scene as the Rust reference renderer; the reference renderer is the source of truth and parity is tested.
+
+## Backend and tooling decisions (research outcomes)
+
+These record the research behind this draft and are not normative.
+
+**R1 — Playground (Domino) fit: reference only for now.** Domino models component *instances* (`componentType`, props, `items`/`itemsOrder`, slots). It has no geometry, paint, layout or token-binding concepts, no JSON Schema for the node envelope, and no document-format versioning. Its `@react-spectrum/s2` schemas are generated from React Spectrum, and prop names (`isQuiet`, `isDisabled`, `staticColor`) mostly match ours. The repository is private (`"private": true`; MIT metadata but no LICENSE file), so a public spec must not depend on its schemas. Its Figma plugin maps Figma → Domino, the opposite of our Figma output. Decision: keep recipes independent. A render request can later be converted to or from a Domino instance by an adapter, because option names align. Revisit when Domino publishes a versioned envelope schema.
+
+**R2 — Text measurement: approximate metrics with Source Sans 3.** Adobe Clean is proprietary and cannot be redistributed in this repository. Source Sans 3 (SIL OFL) is the open fallback. Renderers ship a width table for the fallback font and emit SVG `<text>` with the stack `adobe-clean-spectrum-vf, Adobe Clean, Source Sans 3, sans-serif`, so viewers with Adobe Clean available see it. Overlay positions use the measured width and may differ slightly from the viewer's font. SVG output maps font-weight names from tokens (`medium`, `bold`, and so on) to numeric weights. Exact shaping (rustybuzz or similar) is deferred until a licensed-font story exists. Outlining text to paths is **not** used for SVG, since it would require the proprietary font. **RECOMMENDED:** a page that embeds the SVG inline loads Adobe Clean through its own web font (for example the Typekit kit the docs site uses, family `adobe-clean-spectrum-vf`). Standalone `.svg` files, SVG used as an `<img>` or CSS background, and rasterized PNG output cannot load web fonts. They use the installed font or fall back to Source Sans 3, so exports **MAY** look slightly different from the live view. Outlining text at export time with a locally licensed font is a possible later option.
+
+**R3 — Layout: minimal flex first.** The pilot box model needs row direction, centering, gap, padding and one absolutely placed child. A purpose-built layout of that size avoids a dependency and keeps WASM small. Revisit `taffy` when text-field (wrapping, stacked label and help text) is piloted.
+
+**R4 — Icons.** Glyph geometry is sourced as SVG path data keyed by icon name (`workflow-icon`) and by the pilot's fixed glyphs (hold-icon corner triangle, checkmark). Literal paths are the one allowed use of `{"value": ...}`. A shared icon registry is follow-up work.
+
+**R5 — Figma.** The Figma backend consumes the scene graph and emits node JSON for a plugin to create frames bound to Figma Variables by token id, reusing the Variable mapping in `sdk/plugins/figma`. It requires no Figma-specific data in recipes.
+
+## Open questions
+
+* **Structured relationships.** Newer relationships already carry a `part` field and structured `options` (for example `state`, `size`, `scale`). Recipes should prefer them over `context` strings as more components adopt them; action-button's relationships still use labels only.
+
+* **Deprecated tokens.** The pilot's icon sizes bind to `workflow-icon-size-*` tokens that validation (SPEC-058) reports as deprecated in 14.5.0 with no `replacedBy`. The recipe follows the relationships until a replacement is mapped.
+
+* **Pilot coverage.** The action-button recipe covers default, hover, down, focus, disabled, and static black/white. Quiet, selected, and emphasized fills are not yet authored.
+
+* Should render requests (presets, matrices) be stored in the dataset for the Hub site, or stay tool input?
+
+* Which gaps in component-scoped tokens block recipes beyond the pilot? action-button binds only through relationships; many components have none.
+
+* Does `visibleWhen` need boolean composition (any/not), or are single conditions enough?

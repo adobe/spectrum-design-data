@@ -1,0 +1,996 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "button",
+  "root": "container",
+  "sizeScale": {
+    "xs": 50,
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["icon", "progress", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "component-height-{sizeIndex}",
+            "context": "Minimum height"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isLabelHidden": true
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "{size}"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isLabelHidden": true
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-vertical",
+              "size": "{size}"
+            }
+          }
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "context": "Spacing (icon to label)"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "context": "Rounding"
+          },
+          "relativeTo": "height"
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "fill"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "fill"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              }
+            },
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "fill"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "fill"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              }
+            },
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 200,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              }
+            },
+            "token": {
+              "legacyKey": "accent-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "legacyKey": "accent-background-color-hover"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "legacyKey": "accent-background-color-down"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              }
+            },
+            "token": {
+              "legacyKey": "negative-background-color-default"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "legacyKey": "negative-background-color-hover"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "legacyKey": "negative-background-color-down"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "secondary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "secondary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 100,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100,
+              "property": "color"
+            },
+            "priority": 10
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "style": "outline"
+              }
+            },
+            "value": "transparent",
+            "priority": 10
+          }
+        ],
+        "stroke": [
+          {
+            "value": "transparent"
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 300,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "secondary",
+                "style": "outline"
+              },
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true,
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 300,
+              "property": "color"
+            },
+            "priority": 10
+          }
+        ],
+        "strokeWidth": [
+          {
+            "value": 0
+          },
+          {
+            "when": {
+              "options": {
+                "style": "outline"
+              }
+            },
+            "token": {
+              "property": "border-width",
+              "scaleIndex": 200
+            }
+          }
+        ],
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "context": "Component size (down)"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "context": "Component size (down)"
+          }
+        },
+        "pressMaxPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "token": {
+            "property": "component-size-maximum-perspective",
+            "state": "down"
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "visibleWhen": {
+        "options": {
+          "isPending": false
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "visibleWhen": {
+        "options": {
+          "isLabelHidden": false,
+          "isPending": false
+        }
+      },
+      "props": {
+        "fontSize": {
+          "token": {
+            "property": "font-size-{sizeIndex}"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "context": "Label"
+          }
+        },
+        "color": [
+          {
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 800,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "accent"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "variant": "negative"
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 25,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "style": "outline"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "white",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-black",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "staticColor": "black",
+                "variant": "primary",
+                "style": "fill"
+              }
+            },
+            "token": {
+              "colorFamily": "transparent-white",
+              "scaleIndex": 900,
+              "property": "color"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 400,
+              "property": "color"
+            },
+            "priority": 10
+          }
+        ]
+      }
+    },
+    "progress": {
+      "kind": "progress",
+      "visibleWhen": {
+        "options": {
+          "isPending": true
+        }
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "workflow-icon-size-{sizeIndex}",
+            "context": "Icon"
+          }
+        },
+        "trackColor": {
+          "token": {
+            "colorFamily": "gray",
+            "scaleIndex": 300,
+            "property": "color"
+          }
+        },
+        "color": {
+          "token": {
+            "colorFamily": "gray",
+            "scaleIndex": 800,
+            "property": "color"
+          }
+        }
+      }
+    },
+    "focus-ring": {
+      "kind": "ring",
+      "visibleWhen": {
+        "states": ["focus"]
+      },
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "context": "Focus indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "context": "Focus indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "context": "Focus indicator"
+          }
+        }
+      }
+    }
+  }
+}
