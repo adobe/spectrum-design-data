@@ -73,7 +73,7 @@ const actionOptionSets = [
 
 const badgeOptionSets = [
   {},
-  { variant: "info", style: "outline", icon: true },
+  { variant: "informative", style: "outline", icon: true },
   { variant: "negative", style: "subtle", icon: true },
   { variant: "celery", fixed: "left" },
   { variant: "fuchsia", style: "outline", fixed: "top", icon: true },
@@ -159,7 +159,12 @@ for (const { component, compiled, recipe } of subjects) {
           component === "button"
             ? { style: "outline", variant: "secondary" }
             : component === "badge"
-              ? { variant: "info", style: "outline", fixed: "left", icon: true }
+              ? {
+                  variant: "informative",
+                  style: "outline",
+                  fixed: "left",
+                  icon: true,
+                }
               : component === "switch"
                 ? { isSelected: true, isEmphasized: true }
                 : { hasHoldIcon: true },
