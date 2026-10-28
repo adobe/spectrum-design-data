@@ -52,6 +52,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `visibleWhen` | condition        | The part is drawn only when the condition holds. Absent means always drawn.                                                                                                                            |
 | `placement`   | object           | For a child that is positioned rather than flowed: `anchor` (`top-start`, `top-end`, `bottom-start`, `bottom-end`, `center`) and optional `inset` value. `start`/`end` are logical and flip under RTL. |
 | `around`      | string           | For a `ring`: the part it outlines. Defaults to the root.                                                                                                                                              |
+| `glyph`       | enum             | For an `icon` nested in a box: the built-in glyph to draw (`checkmark`, `dash`). Unset draws a placeholder.                                                                                            |
 | `pressTarget` | string           | For the root: the part the pressed scale applies to (for example a switch handle). Defaults to the whole scene.                                                                                        |
 | `props`       | object           | Map of **visual property** → value source or conditional list.                                                                                                                                         |
 
@@ -71,7 +72,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
 
-**Nested boxes.** A flowed `box` child may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle.
+**Nested boxes.** A flowed `box` child may list its own `children`, which are boxes laid out inside it. A nested child is centered across the parent. Along the inline axis its `justify` prop (`start`, `center`, `end`) places it, with an inset equal to the cross-axis gap. A nested child with no `width` or `height` fills the parent. A `cornerRadius` of `0.5` with `relativeTo: "height"` draws a pill, or a circle for a square box. The switch uses this for its track and handle. A nested `icon` is centered on both axes and draws its `glyph`; the checkbox uses this for its checkmark and dash.
 
 ### Value sources
 

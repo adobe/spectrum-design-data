@@ -38,8 +38,12 @@ function makeCtx(compiled, req) {
   const states = req.states ?? [];
   const mode = req.mode ?? {};
   // An unset `label` option follows the request label: empty means icon-only.
+  // The request's size is the `size` option, so conditions can switch on it.
   const option = (name) =>
-    options[name] ?? (name === "label" ? (req.label ?? "").length > 0 : null);
+    name === "size"
+      ? req.size
+      : (options[name] ??
+        (name === "label" ? (req.label ?? "").length > 0 : null));
 
   const active = [...states];
   if (option("isDisabled") === true) active.push("disabled");
@@ -347,6 +351,31 @@ export function renderScene(compiled, req) {
       const tokens = [];
       const nw = rp(np, "width");
       const nh = rp(np, "height");
+      if (np.kind === "icon") {
+        const color = rp(np, "color");
+        track(tokens, "width", nw);
+        track(tokens, "height", nh);
+        track(tokens, "color", color);
+        const w2 = num(nw) ?? c.w;
+        const h2 = num(nh) ?? w2;
+        const extra = {
+          color: color ? color.value : null,
+          tokens,
+        };
+        if (np.glyph) extra.glyph = np.glyph;
+        nodes.push(
+          node(
+            nid,
+            "icon",
+            cx0 + (c.w - w2) / 2,
+            cy0 + (c.h - h2) / 2,
+            w2,
+            h2,
+            extra,
+          ),
+        );
+        continue;
+      }
       const nfill = rp(np, "fill");
       const nstroke = rp(np, "stroke");
       const nsw = rp(np, "strokeWidth");
@@ -517,6 +546,16 @@ export function renderSvg(scene) {
       const r = min / 2 - min / 18;
       const sw = Math.max(min / 9, 1);
       s += `<g ${attrs} fill="none" stroke-width="${sw}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${esc(n.stroke ?? "none")}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${esc(n.color ?? "currentColor")}" stroke-linecap="round"/></g>`;
+    } else if (
+      n.kind === "icon" &&
+      (n.glyph === "checkmark" || n.glyph === "dash")
+    ) {
+      const color = esc(n.color ?? "currentColor");
+      if (n.glyph === "dash") {
+        s += `<rect ${attrs} x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.h / 2}" fill="${color}"/>`;
+      } else {
+        s += `<path ${attrs} d="M${n.x + n.w * 0.1} ${n.y + n.h * 0.55}L${n.x + n.w * 0.38} ${n.y + n.h * 0.82}L${n.x + n.w * 0.9} ${n.y + n.h * 0.2}" stroke="${color}" stroke-width="${Math.max(n.w * 0.16, 1)}" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
+      }
     } else if (n.kind === "icon") {
       const cx = n.x + n.w / 2;
       const cy = n.y + n.h / 2;

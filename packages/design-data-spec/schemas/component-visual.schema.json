@@ -70,6 +70,10 @@
           "pattern": "^[a-z][a-z0-9-]*$",
           "description": "For a ring: the part it outlines. Defaults to the root."
         },
+        "glyph": {
+          "enum": ["checkmark", "dash"],
+          "description": "For an icon nested in a box: the built-in glyph to draw. Unset draws a placeholder."
+        },
         "pressTarget": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9-]*$",
