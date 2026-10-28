@@ -13,6 +13,8 @@ governing permissions and limitations under the License.
 export default {
   files: ["test/**/*.test.js"],
   verbose: true,
+  // visual-runtime-parity.test.js builds the site with the debug CLI at import time (~30s).
+  timeout: "180s",
   environmentVariables: {
     NODE_ENV: "test",
   },
