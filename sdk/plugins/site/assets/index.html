@@ -1,0 +1,1152 @@
+<!doctype html>
+<!-- Copyright 2026 Adobe. All rights reserved. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://use.typekit.net/flz1ovt.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Action button · Spectrum Hub prototype</title>
+    <style>
+      :root {
+        --bg: #f8f8f8;
+        --card: #fff;
+        --line: #e1e1e1;
+        --fg: #222;
+        --muted: #6e6e6e;
+        --blue: #4b75ff;
+        --pink: #d83790;
+        font-family:
+          "adobe-clean-spectrum-vf",
+          "Adobe Clean",
+          "Source Sans 3",
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        color: var(--fg);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 880px) 220px;
+        gap: 24px;
+        justify-content: center;
+        padding: 16px;
+        align-items: start;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+      }
+      nav.side {
+        position: sticky;
+        top: 16px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+        padding: 16px;
+        display: grid;
+        gap: 16px;
+      }
+      nav.side h4 {
+        margin: 0 0 4px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      nav.side ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 2px;
+      }
+      nav.side li {
+        padding: 6px 10px;
+        border-radius: 8px;
+        color: #444;
+      }
+      nav.side li.on {
+        background: #222;
+        color: #fff;
+        font-weight: 600;
+      }
+      .head {
+        padding: 28px 32px;
+      }
+      .crumb {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      h1 {
+        margin: 6px 0 8px;
+        font-size: 40px;
+        line-height: 1.15;
+      }
+      .head p {
+        margin: 0 0 16px;
+        max-width: 640px;
+        font-size: 16px;
+        color: #444;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 8px;
+      }
+      .badge.ok {
+        background: #d7f7e4;
+        color: #0b6b3a;
+      }
+      .live {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        margin-top: 16px;
+        overflow: hidden;
+      }
+      .stage {
+        min-height: 280px;
+        display: grid;
+        place-items: center;
+        background-color: #fff;
+        background-image: radial-gradient(#d0d0d0 1px, transparent 1px);
+        background-size: 16px 16px;
+        transition: background-color 0.2s;
+      }
+      .stage.dark {
+        background-color: #2c2c2c;
+        background-image: radial-gradient(#555 1px, transparent 1px);
+      }
+      .stage.light {
+        background-color: #f4f1d8;
+      }
+      .stagewrap {
+        position: relative;
+        display: grid;
+      }
+      .stage {
+        overflow: hidden;
+      }
+      .stage[data-mode="anatomy"],
+      .stage[data-mode="specs"] {
+        min-height: 380px;
+      }
+      .stage svg.zoom {
+        width: 100%;
+        height: auto;
+        max-height: 420px;
+        overflow: visible;
+      }
+      .ov {
+        transition: opacity 0.25s;
+      }
+      .stage[data-mode="anatomy"] .ov-specs,
+      .stage[data-mode="specs"] .ov-anatomy {
+        opacity: 0;
+        pointer-events: none;
+      }
+      button.cell {
+        border: 1.5px dashed transparent;
+        border-radius: 10px;
+        background: none;
+        padding: 4px;
+        min-width: 0;
+        cursor: zoom-in;
+        font: inherit;
+        color: inherit;
+        justify-self: stretch;
+        display: grid;
+        place-items: center;
+      }
+      button.cell:hover,
+      button.cell:focus-visible {
+        border-color: var(--pink);
+        outline: none;
+      }
+      .stage .matrix {
+        padding: 20px 16px;
+        width: 100%;
+        grid-template-columns: 90px repeat(var(--cols, 4), minmax(0, 1fr));
+        gap: 4px;
+      }
+      .stage .matrix svg {
+        max-width: 100%;
+        height: auto;
+      }
+      .stage.dark .matrix .h,
+      .stage.dark .matrix .rl {
+        color: #bbb;
+      }
+      .back {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border: 1px solid #c8c8c8;
+        border-radius: 999px;
+        background: #fff;
+        cursor: pointer;
+      }
+      .controls {
+        border-left: 1px solid var(--line);
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
+      .controls label.f {
+        display: grid;
+        gap: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      select {
+        font: inherit;
+        padding: 6px 8px;
+        border: 1px solid #c8c8c8;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--fg);
+      }
+      .sw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .sw input {
+        width: 36px;
+        height: 20px;
+        accent-color: #222;
+      }
+      .sw.off {
+        opacity: 0.4;
+      }
+      .note {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .tabs {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 16px auto;
+        max-width: 560px;
+        background: #ececec;
+        border-radius: 999px;
+        padding: 4px;
+      }
+      .tabs button {
+        position: relative;
+        z-index: 1;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-weight: 600;
+        padding: 8px 0;
+        cursor: pointer;
+        color: #555;
+      }
+      .tabs button.on {
+        color: #fff;
+      }
+      .tabs button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .tabs .thumb {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: 4px;
+        width: calc((100% - 8px) / 4);
+        background: #222;
+        border-radius: 999px;
+        transition: transform 0.2s;
+      }
+      section.panel {
+        padding: 24px 32px;
+        margin-bottom: 16px;
+      }
+      section.panel h2 {
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+      section.panel h3 {
+        margin: 20px 0 8px;
+        font-size: 16px;
+      }
+      .matrix {
+        display: grid;
+        grid-template-columns: 170px repeat(var(--cols, 4), 1fr);
+        gap: 4px 8px;
+        align-items: center;
+        justify-items: center;
+      }
+      .matrix .h {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .matrix .rl {
+        justify-self: start;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .two .card {
+        padding: 16px;
+        border-radius: 12px;
+      }
+      .two h4 {
+        margin: 0 0 8px;
+      }
+      .two li {
+        color: var(--muted);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+      }
+      td.mono {
+        font-family: ui-monospace, Menlo, monospace;
+        color: #2f4fd0;
+      }
+      aside.toc {
+        position: sticky;
+        top: 16px;
+        font-size: 13px;
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+      }
+      aside.toc b {
+        color: var(--fg);
+      }
+      .hidden {
+        display: none !important;
+      }
+      nav.side li a {
+        color: inherit;
+        text-decoration: none;
+        display: block;
+      }
+      nav.side li.dim {
+        color: #aaa;
+      }
+      .controls h5 {
+        margin: 4px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      #tokens details {
+        margin-bottom: 8px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #tokens table {
+        table-layout: fixed;
+      }
+      #tokens th:nth-child(1) {
+        width: 24%;
+      }
+      #tokens th:nth-child(3) {
+        width: 26%;
+      }
+      #tokens .fig {
+        color: var(--muted, #6e6e6e);
+        font-size: 11px;
+        margin-top: 2px;
+        word-break: break-all;
+      }
+      #tokens summary {
+        cursor: pointer;
+        padding: 8px 12px;
+        font-weight: 600;
+        background: #fafafa;
+        text-transform: capitalize;
+      }
+      #tokens summary .n {
+        color: var(--muted);
+        font-weight: 400;
+        margin-left: 6px;
+      }
+      #tokens tr.tr {
+        cursor: pointer;
+      }
+      #tokens tr.tr:hover,
+      #tokens tr.hl,
+      #tokens details.hl summary {
+        background: #fdeaf5;
+      }
+      #tokens tr.detail td {
+        background: #f6f8ff;
+        font-size: 12px;
+        color: #444;
+      }
+      #tokens tr.detail.hidden {
+        display: none;
+      }
+      #tokens .chain {
+        font-family: ui-monospace, Menlo, monospace;
+      }
+      #tokens .chain i {
+        color: var(--muted);
+        font-style: normal;
+        margin: 0 6px;
+      }
+      .sw-chip {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        vertical-align: -2px;
+        margin-right: 6px;
+      }
+      .pn.hl {
+        filter: drop-shadow(0 0 3px #d83790);
+      }
+      .co.hl line {
+        stroke-width: 3;
+      }
+      .co.hl rect,
+      .mono-pill.hl rect {
+        fill: #fdeaf5;
+      }
+      .co,
+      .mono-pill {
+        cursor: default;
+      }
+      .blocks p {
+        margin: 0 0 10px;
+      }
+      .blocks b {
+        display: block;
+      }
+      svg text {
+        font-family:
+          "adobe-clean-spectrum-vf",
+          "Adobe Clean",
+          "Source Sans 3",
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      .mono-pill text {
+        font-family: ui-monospace, Menlo, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="side card" id="nav"></nav>
+
+      <main>
+        <header class="head card">
+          <div class="crumb" id="crumb"></div>
+          <h1 id="title"></h1>
+          <p id="desc"></p>
+          <span class="badge ok">Code available</span
+          ><span class="badge ok">Design available</span>
+        </header>
+
+        <div class="live card" id="live-component">
+          <div class="stagewrap">
+            <div class="stage" id="stage" data-mode="usage"></div>
+            <button class="back hidden" id="back" type="button">
+              &larr; Back to all variants
+            </button>
+          </div>
+          <div class="controls" id="controls"></div>
+        </div>
+
+        <div class="tabs" id="tabs">
+          <div class="thumb" id="thumb"></div>
+          <button data-tab="usage" class="on">Usage</button>
+          <button data-tab="anatomy">Anatomy</button>
+          <button data-tab="specs">Specs &amp; Tokens</button>
+          <button disabled>Accessibility</button>
+        </div>
+
+        <section class="panel card" data-panel="usage">
+          <h2>Usage</h2>
+          <h3>Guidelines</h3>
+          <div class="blocks" id="blocks"></div>
+        </section>
+
+        <section class="panel card hidden" data-panel="anatomy">
+          <h2>Anatomy</h2>
+          <table id="anatomy-table"></table>
+        </section>
+
+        <section class="panel card hidden" data-panel="specs">
+          <h2>Specs &amp; Tokens</h2>
+          <h3>Resolved tokens</h3>
+          <div id="tokens"></div>
+        </section>
+      </main>
+
+      <aside class="toc">
+        <b>On this page</b>
+        <a>Live component</a><a>Anatomy</a><a>Component options</a><a>States</a
+        ><a>Usage guidelines</a><a>Design tokens</a>
+      </aside>
+    </div>
+
+    <script type="module">
+      import { backend } from "./backend.js";
+      import { roundedPath, cssFontWeight } from "./visual-runtime.js";
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) =>
+        String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;");
+      const humanize = (s) =>
+        s
+          .replace(/^(is|has)(?=[A-Z])/, "")
+          .replace(/([A-Z])/g, " $1")
+          .trim()
+          .toLowerCase()
+          .replace(/^./, (c) => c.toUpperCase());
+      const cache = new Map();
+      function getScene(o) {
+        const q = Object.fromEntries(
+          Object.entries(o).filter(
+            ([, v]) => v !== undefined && v !== false && v !== "" && v !== null,
+          ),
+        );
+        const key = JSON.stringify(q);
+        if (!cache.has(key)) cache.set(key, backend.scene(q));
+        return cache.get(key);
+      }
+
+      let C; // component definition + recipe summary
+      let controlOpts; // option name -> {type, values, supported}
+
+      // ---- scene -> SVG ------------------------------------------------------
+      function nodeSvg(n) {
+        if (n.kind === "box" && n.radii) {
+          const i = n.stroke_width / 2;
+          const r = n.radii.map((v) => Math.max(v - i, 0));
+          return `<path d="${roundedPath(n.x, n.y, n.w, n.h, n.radii)}" fill="${n.fill ?? "none"}"/>${n.stroke && n.stroke_width > 0 ? `<path d="${roundedPath(n.x + i, n.y + i, n.w - n.stroke_width, n.h - n.stroke_width, r)}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>` : ""}`;
+        }
+        if (n.kind === "box")
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="${n.fill ?? "none"}" stroke="${n.stroke ?? "none"}" stroke-width="${n.stroke_width}"/>`;
+        if (n.kind === "ring")
+          return `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="${n.radius}" fill="none" stroke="${n.stroke}" stroke-width="${n.stroke_width}"/>`;
+        if (n.part === "hold-icon")
+          return `<path d="M${n.x + n.w} ${n.y} V${n.y + n.h} H${n.x}Z" fill="${n.color}"/>`;
+        if (n.kind === "icon")
+          return `<circle cx="${n.x + n.w / 2}" cy="${n.y + n.h / 2}" r="${n.w * 0.4}" fill="none" stroke="${n.color}" stroke-width="1.5"/>`;
+        if (n.kind === "progress") {
+          const cx = n.x + n.w / 2,
+            cy = n.y + n.h / 2,
+            r = Math.min(n.w, n.h) / 2 - Math.min(n.w, n.h) / 18;
+          return `<g fill="none" stroke-width="${Math.max(1, Math.min(n.w, n.h) / 9)}"><circle cx="${cx}" cy="${cy}" r="${r}" stroke="${n.stroke}"/><path d="M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}" stroke="${n.color}" stroke-linecap="round"/></g>`;
+        }
+        if (n.kind === "text")
+          return `<text x="${n.x}" y="${n.y + n.h * 0.75}" font-size="${n.font_size}" font-weight="${cssFontWeight(n.font_weight)}" fill="${n.color}">${esc(n.text)}</text>`;
+        return "";
+      }
+      const sceneSvg = (s, k = 1) =>
+        `<svg width="${s.width * k}" height="${s.height * k}" viewBox="0 0 ${s.width} ${s.height}">${s.nodes.map(nodeSvg).join("")}</svg>`;
+      const node = (s, part) => s.nodes.find((n) => n.part === part);
+      const tok = (n, prop) => n?.tokens.find((t) => t.prop === prop);
+
+      // ---- controls generated from the component's options -------------------
+      function buildControls() {
+        const opts = C.options ?? {};
+        const used = new Set(C.recipe.used);
+        controlOpts = {};
+        const rows = [];
+        const mode = (id, title, values) =>
+          `<label class="f">${title}<select id="${id}">${values.map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></label>`;
+        for (const [name, def] of Object.entries(opts)) {
+          // Label text and icon presence become toggles when the recipe reads them.
+          const presence = name === "label" || def.$ref;
+          if (presence && !used.has(name)) continue;
+          const type = presence
+            ? "bool"
+            : def.values
+              ? "enum"
+              : def.type === "boolean"
+                ? "bool"
+                : null;
+          if (!type) continue;
+          controlOpts[name] = {
+            type,
+            supported: used.has(name),
+            def: name === "label" ? { ...def, default: true } : def,
+          };
+        }
+        const order = Object.keys(controlOpts).sort((a, b) =>
+          a === "size"
+            ? -1
+            : b === "size"
+              ? 1
+              : controlOpts[a].type === "enum"
+                ? -1
+                : controlOpts[b].type === "enum"
+                  ? 1
+                  : 0,
+        );
+        const ctl = (name) => {
+          const { type, supported, def } = controlOpts[name];
+          const dis = supported ? "" : "disabled";
+          if (type === "enum") {
+            const vals = def.values.map((v) => v.value ?? v);
+            const none =
+              def.default === undefined ? '<option value="">None</option>' : "";
+            return `<label class="f ${supported ? "" : "off"}">${humanize(name)}<select id="opt-${name}" ${dis}>${none}${vals.map((v) => `<option value="${v}" ${v === def.default ? "selected" : ""}>${v}</option>`).join("")}</select></label>`;
+          }
+          return `<label class="sw ${supported ? "" : "off"}"><span>${humanize(name)}</span><input type="checkbox" id="opt-${name}" ${dis} ${def.default ? "checked" : ""}/></label>`;
+        };
+        rows.push(
+          mode("scheme", "Color scheme", [
+            ["light", "Light"],
+            ["dark", "Dark"],
+          ]),
+        );
+        rows.push(
+          mode("scale", "Scale", [
+            ["desktop", "Desktop"],
+            ["mobile", "Mobile"],
+          ]),
+        );
+        rows.push(
+          order
+            .filter((n) => controlOpts[n].supported)
+            .map(ctl)
+            .join(""),
+        );
+        const unsupported = order.filter((n) => !controlOpts[n].supported);
+        if (unsupported.length)
+          rows.push(
+            `<h5>Not in the recipe yet</h5>${unsupported.map(ctl).join("")}`,
+          );
+        const stateNames = (C.states ?? []).map((st) => st.name);
+        if (stateNames.length)
+          rows.push(
+            `<label class="f hidden" id="state-wrap">State<select id="state"><option value="">default</option>${stateNames.map((n) => `<option value="${n}">${n}</option>`).join("")}</select></label>`,
+          );
+        $("controls").innerHTML = rows.join("");
+        $("controls")
+          .querySelectorAll("select, input")
+          .forEach((e) =>
+            e.addEventListener("change", async () => {
+              await enableDependency(e);
+              refresh();
+            }),
+          );
+      }
+
+      function liveOptions() {
+        const o = {
+          name: C.name,
+          scheme: $("scheme").value,
+          scale: $("scale").value,
+          label: "Label",
+        };
+        if (view.mode !== "usage" && $("state")?.value) o.state = $("state").value;
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          const el = $(`opt-${name}`);
+          if (name === "size") o.size = el.value;
+          else o[`opt.${name}`] = type === "bool" ? el.checked : el.value;
+          if (name === "label" && !el.checked) o.label = "";
+        }
+        return o;
+      }
+      const withOpts = (base, extra) => ({
+        ...base,
+        ...Object.fromEntries(
+          Object.entries(extra).map(([k, v]) => [`opt.${k}`, v]),
+        ),
+      });
+      const staticBg = (o) => {
+        const v = Object.entries(o).find(([k]) => /^opt\.static/i.test(k))?.[1];
+        return o.scheme === "dark" || v === "white"
+          ? "dark"
+          : v === "black"
+            ? "light"
+            : "";
+      };
+
+
+      // ---- stage: matrix (usage) <-> zoomed component (anatomy / specs) ------
+      const view = { mode: "usage" };
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let cellReqs = [];
+
+      const subsets = (items) => {
+        const out = [[]];
+        items.forEach((a, i) => {
+          out.push([a]);
+          items.slice(i + 1).forEach((b) => out.push([a, b]));
+        });
+        return out.sort((a, b) => a.length - b.length);
+      };
+      const fingerprint = (s) =>
+        JSON.stringify(
+          s.nodes.map((n) => [n.part, n.fill, n.color, n.stroke, n.w]),
+        );
+      let stageToken = 0;
+
+      // Copy a request back into the controls so the zoomed view matches the clicked cell.
+      function syncControls(req) {
+        for (const k of ["scheme", "scale"]) if (req[k]) $(k).value = req[k];
+        for (const [name, { type, supported }] of Object.entries(controlOpts)) {
+          if (!supported) continue;
+          const el = $(`opt-${name}`);
+          if (name === "size") {
+            if (req.size) el.value = req.size;
+          } else if (name === "label") {
+            el.checked = req.label !== "";
+          } else if (type === "bool") {
+            el.checked = !!req[`opt.${name}`];
+          } else if (req[`opt.${name}`] !== undefined) {
+            el.value = req[`opt.${name}`];
+          }
+        }
+        if ($("state")) $("state").value = req.state ?? "";
+      }
+
+      // With no cell chosen, zoom to the configuration that shows the most parts.
+      async function maxParts(o) {
+        const full = { ...o };
+        const count = async (q) =>
+          (await getScene(q)).nodes.filter((n) => n.kind !== "ring").length;
+        const gates = C.recipe.structural.filter(
+          (n) => controlOpts[n]?.type === "bool",
+        );
+        for (const n of gates) full[`opt.${n}`] = false;
+        let best = await count(full);
+        for (const n of gates) {
+          const trial = { ...full, [`opt.${n}`]: true };
+          const c = await count(trial);
+          if (c > best) {
+            full[`opt.${n}`] = true;
+            best = c;
+          }
+        }
+        return full;
+      }
+
+      // A toggle that changes nothing on its own (Emphasized without Selected)
+      // switches on the toggle it depends on, found by probing the scenes.
+      // Disabled and pending are never inferred: they override other options.
+      async function enableDependency(el) {
+        const name = el.id.replace(/^opt-/, "");
+        if (!el.checked || controlOpts[name]?.type !== "bool") return;
+        const on = liveOptions();
+        const off = { ...on, [`opt.${name}`]: false };
+        const fp = async (q) => fingerprint(await getScene(q));
+        if ((await fp(on)) !== (await fp(off))) return;
+        for (const [m, c] of Object.entries(controlOpts)) {
+          const box = $(`opt-${m}`);
+          if (
+            m === name ||
+            c.type !== "bool" ||
+            !c.supported ||
+            box.checked ||
+            /^is(Disabled|Pending)$/.test(m)
+          )
+            continue;
+          const k = `opt.${m}`;
+          if (
+            (await fp({ ...on, [k]: true })) !== (await fp({ ...off, [k]: true }))
+          ) {
+            box.checked = true;
+            return;
+          }
+        }
+      }
+
+      async function refresh(opts = {}) {
+        const token = ++stageToken;
+        const o = liveOptions();
+        $("stage").className = `stage ${staticBg(o)}`;
+        $("stage").dataset.mode = view.mode;
+        $("state-wrap")?.classList.toggle("hidden", view.mode === "usage");
+        $("back").classList.toggle("hidden", view.mode === "usage");
+        if (view.mode === "usage") await renderMatrix(o, token, opts);
+        else await renderZoom(o, token, opts);
+      }
+
+      // Columns come from states, rows from distinct visual variants.
+      async function renderMatrix(o, token, opts) {
+        const structural = new Set(C.recipe.structural);
+        const base = Object.fromEntries(
+          Object.entries(o).filter(
+            ([k]) =>
+              !k.startsWith("opt.") ||
+              structural.has(k.slice(4)) ||
+              !controlOpts[k.slice(4)] ||
+              controlOpts[k.slice(4)].type === "enum",
+          ),
+        );
+        delete base.state;
+        const toggles = Object.keys(controlOpts).filter(
+          (n) =>
+            controlOpts[n].type === "bool" &&
+            controlOpts[n].supported &&
+            !structural.has(n) &&
+            n !== "isDisabled",
+        );
+        const seen = new Set();
+        const rows = [];
+        for (const combo of subsets(toggles)) {
+          const extra = Object.fromEntries(combo.map((n) => [n, true]));
+          const s = await getScene(withOpts(base, extra));
+          const fp = fingerprint(s);
+          if (!seen.has(fp)) {
+            seen.add(fp);
+            rows.push([combo, extra]);
+          }
+        }
+        const cols = ["default", ...(C.states ?? []).map((s) => s.name)];
+        if (controlOpts.isDisabled?.supported) cols.push("disabled");
+        const reqs = [];
+        let html =
+          "<span></span>" +
+          cols.map((c) => `<span class="h">${c}</span>`).join("");
+        for (const [combo, extra] of rows) {
+          html += `<span class="rl">${combo.length ? combo.map(humanize).join(" + ") : "Standard"}</span>`;
+          for (const c of cols) {
+            const req = withOpts(
+              {
+                ...base,
+                ...(c !== "default" && c !== "disabled" ? { state: c } : {}),
+              },
+              { ...extra, ...(c === "disabled" ? { isDisabled: true } : {}) },
+            );
+            const s = await getScene(req);
+            reqs.push(req);
+            html += `<button type="button" class="cell" data-i="${reqs.length - 1}" aria-label="${esc(`${combo.map(humanize).join(" + ") || "Standard"}, ${c}`)}">${sceneSvg(s)}</button>`;
+          }
+        }
+        if (token !== stageToken) return;
+        cellReqs = reqs;
+        $("stage").innerHTML =
+          `<div class="matrix" id="matrix" style="--cols:${cols.length}">${html}</div>`;
+        if (opts.animate && !reduced)
+          $("matrix").animate(
+            [
+              { opacity: 0, transform: "scale(1.06)" },
+              { opacity: 1, transform: "none" },
+            ],
+            { duration: 300, easing: "ease-out" },
+          );
+      }
+
+      // Tokens grouped by part; a row expands to show its alias chain and mode.
+      const isColor = (v) => /^(#|rgb|hsl)/i.test(String(v));
+      function renderTokens(s, o) {
+        const groups = new Map();
+        for (const n of s.nodes)
+          for (const t of n.tokens) {
+            const g = t.prop.startsWith("press") ? "press" : n.part;
+            if (!groups.has(g)) groups.set(g, { part: n.part, rows: [] });
+            groups.get(g).rows.push(t);
+          }
+        const modes = `${o.scheme} · ${o.scale}${o.size ? ` · size ${o.size}` : ""}${o.state ? ` · state ${o.state}` : ""}`;
+        $("tokens").innerHTML = [...groups]
+          .map(([g, { part, rows }]) => {
+            const body = rows
+              .map((t) => {
+                const chain = [t.token, ...(t.chain ?? []), t.value]
+                  .map((x, i, a) =>
+                    i === a.length - 1
+                      ? `${isColor(x) ? `<span class="sw-chip" style="background:${esc(x)}"></span>` : ""}${esc(x)}`
+                      : esc(x),
+                  )
+                  .join("<i>→</i>");
+                const fv = backend.figma(t.token);
+                return `<tr class="tr" data-part="${esc(part)}" data-token="${esc(t.token)}"><td>${esc(t.prop)}</td><td class="mono">${esc(t.token)}${fv ? `<div class="fig" title="${esc(fv.collection)}">${esc(fv.name)}</div>` : ""}</td><td>${isColor(t.value) ? `<span class="sw-chip" style="background:${esc(t.value)}"></span>` : ""}${esc(t.value)}</td></tr><tr class="detail hidden"><td colspan="3"><div class="chain">${chain}</div>${fv ? `<div>Figma variable: <span class="mono">${esc(fv.collection)} / ${esc(fv.name)}</span></div>` : ""}<div>Resolved in ${esc(modes)}</div></td></tr>`;
+              })
+              .join("");
+            return `<details open data-part="${esc(part)}"><summary>${esc(g.replace(/-/g, " "))}<span class="n">${rows.length}</span></summary><table><tr><th>Property</th><th>Token</th><th>Value</th></tr>${body}</table></details>`;
+          })
+          .join("");
+      }
+
+      // Hover links the stage and the table by part name and token name.
+      const lit = (on, sel, attr, val) =>
+        document
+          .querySelectorAll(`${sel}[${attr}="${CSS.escape(val)}"]`)
+          .forEach((e) => e.classList.toggle("hl", on));
+      function link(e, on) {
+        const el = e.target.closest?.("[data-token], [data-part]");
+        if (!el) return;
+        const { part, token } = el.dataset;
+        if (token) {
+          lit(on, "#tokens tr.tr", "data-token", token);
+          lit(on, ".mono-pill", "data-token", token);
+        } else if (part) {
+          lit(on, ".pn, .co", "data-part", part);
+          lit(on, "#tokens details", "data-part", part);
+        }
+      }
+      for (const root of [$("stage"), $("tokens")]) {
+        root.addEventListener("mouseover", (e) => link(e, true));
+        root.addEventListener("mouseout", (e) => link(e, false));
+      }
+      $("tokens").addEventListener("click", (e) => {
+        const tr = e.target.closest("tr.tr");
+        tr?.nextElementSibling?.classList.toggle("hidden");
+      });
+
+      // Anatomy callouts and spec dimension lines share one zoomed component.
+      const pill = (x, y, text, color, mono) => {
+        const w = text.length * (mono ? 7.3 : 6.8) + 18;
+        return `<g class="${mono ? "mono-pill" : ""}"${mono ? ` data-token="${esc(text)}"` : ""}><rect x="${x}" y="${y - 12}" width="${w}" height="24" rx="12" fill="#fff" stroke="${color}" stroke-width="1.5"/><text x="${x + 9}" y="${y + 4}" font-size="12" fill="${color}">${esc(text)}</text></g>`;
+      };
+
+      async function renderZoom(o, token, opts) {
+        const s = await getScene(o);
+        if (token !== stageToken) return;
+        const K = 4,
+          padX = 260,
+          pad = 110,
+          W = s.width * K + padX * 2,
+          H = s.height * K + pad * 2;
+        const P = (n, fx, fy) => [
+          padX + (n.x + n.w * fx) * K,
+          pad + (n.y + n.h * fy) * K,
+        ];
+        const root = s.nodes.find((n) => n.kind === "box");
+        const parts = (C.anatomy ?? [])
+          .map((a) => [a, node(s, a.name)])
+          .filter(([, n]) => n && n.kind !== "ring");
+
+        let i = 0;
+        const callouts = parts.map(([a, n]) => {
+          const isRoot = n === root;
+          const up = isRoot || i++ % 2 === 0;
+          const [x, y] = P(n, isRoot ? 0.1 : 0.5, isRoot ? 0 : up ? 0 : 1);
+          const cx = n.x + n.w / 2 - (root.x + root.w / 2);
+          const dx = isRoot
+            ? -70
+            : Math.max(-80, Math.min(80, cx * K * 0.5 + (up ? 20 : -20)));
+          const dy = up ? -60 : 60;
+          return `<g class="co" data-part="${esc(a.name)}"><line x1="${x}" y1="${y}" x2="${x + dx}" y2="${y + dy}" stroke="var(--pink)" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="3.5" fill="var(--pink)"/>${pill(x + dx - 8, y + dy, humanize(a.name.replace(/-/g, " ")), "#d83790")}</g>`;
+        });
+
+        const B = "#4b75ff";
+        const [x0, y0] = P(root, 0, 0),
+          [x1, y1] = P(root, 1, 1);
+        const flow = s.nodes
+          .filter(
+            (n) =>
+              n !== root &&
+              n.kind !== "ring" &&
+              n.kind !== "box" &&
+              n.part !== "hold-icon",
+          )
+          .sort((a, b) => a.x - b.x);
+        const dim = (xa, ya, xb, yb) =>
+          `<line x1="${xa}" y1="${ya}" x2="${xb}" y2="${yb}" stroke="${B}" stroke-width="1.5"/>`;
+        const out = [];
+        const h = tok(root, "height") ?? tok(root, "minHeight");
+        if (h)
+          out.push(
+            dim(x1 + 24, y0, x1 + 24, y1) +
+              pill(x1 + 36, (y0 + y1) / 2, h.token, B, true),
+          );
+        const pd = tok(root, "paddingInlineStart");
+        if (pd && flow[0])
+          out.push(
+            dim(x0, y1 + 24, P(flow[0], 0, 0)[0], y1 + 24) +
+              pill(x0 - 40, y1 + 52, pd.token, B, true),
+          );
+        const gp = tok(root, "gap");
+        if (gp && flow.length > 1) {
+          const gx = P(flow[0], 1, 0)[0],
+            gx2 = P(flow[1], 0, 0)[0];
+          out.push(
+            dim(gx, y0 - 24, gx2, y0 - 24) +
+              pill(gx2 - 80, y0 - 52, gp.token, B, true),
+          );
+        }
+        const r = tok(root, "cornerRadius");
+        if (r)
+          out.push(
+            `<circle cx="${x0 + 4}" cy="${y0 + 4}" r="3" fill="${B}"/>${pill(x0 - 170, y0 - 12, r.token, B, true)}`,
+          );
+
+        // The pressed scale applies to the drawing only; measurements stay at rest size.
+        const pr = s.press;
+        const pressAttr = pr
+          ? ` transform="translate(${pr.cx} ${pr.cy}) scale(${pr.scale}) translate(${-pr.cx} ${-pr.cy})"`
+          : "";
+        if (pr) {
+          const pd = tok(root, "pressDifference");
+          out.push(
+            `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" rx="${(root.radii?.[0] ?? root.radius ?? 0) * K}" fill="none" stroke="${B}" stroke-width="1.5" stroke-dasharray="6 4"/>` +
+              pill(
+                x0,
+                y1 + 84,
+                `${pd?.token ?? "component-size-difference"} → ×${pr.scale.toFixed(3)}`,
+                B,
+                true,
+              ),
+          );
+        }
+
+        $("stage").innerHTML =
+          `<svg class="zoom" viewBox="0 0 ${W} ${H}"><g id="zg"><g transform="translate(${padX} ${pad}) scale(${K})"><g${pressAttr}>${s.nodes.map((n) => `<g class="pn" data-part="${esc(n.part)}">${nodeSvg(n)}</g>`).join("")}</g></g></g><g id="ovwrap"><g class="ov ov-anatomy">${callouts.join("")}</g><g class="ov ov-specs">${out.join("")}</g></g></svg>`;
+
+        if (opts.from?.width && !reduced) {
+          const svg = $("stage").querySelector("svg");
+          const k = svg.getBoundingClientRect().width / W;
+          const svgR = svg.getBoundingClientRect();
+          const sc = opts.from.width / k / (s.width * K);
+          const tx = (opts.from.left - svgR.left) / k - sc * padX;
+          const ty = (opts.from.top - svgR.top) / k - sc * pad;
+          const zg = $("zg");
+          zg.style.transformOrigin = "0 0";
+          zg.animate(
+            [
+              { transform: `translate(${tx}px, ${ty}px) scale(${sc})` },
+              { transform: "none" },
+            ],
+            { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" },
+          );
+          $("ovwrap").animate([{ opacity: 0 }, { opacity: 1 }], {
+            delay: 260,
+            duration: 220,
+            fill: "backwards",
+          });
+        }
+
+        $("anatomy-table").innerHTML =
+          "<tr><th>Part</th><th>Description</th></tr>" +
+          (C.anatomy ?? [])
+            .map(
+              (a) =>
+                `<tr><td>${esc(humanize(a.name.replace(/-/g, " ")))}${a.required ? "" : ' <span class="note">(optional)</span>'}</td><td>${esc(a.description ?? "")}</td></tr>`,
+            )
+            .join("");
+        renderTokens(s, o);
+      }
+
+      // ---- page chrome --------------------------------------------------------
+      function renderPage() {
+        document.title = `${C.displayName} · Spectrum Hub prototype`;
+        $("crumb").textContent =
+          `Web > RSP > ${humanize(C.meta?.category ?? "components")}`;
+        $("title").textContent = C.displayName;
+        $("desc").textContent = C.description ?? "";
+        $("blocks").innerHTML = (C.documentBlocks ?? [])
+          .map((b) => {
+            const [head, ...rest] = String(b.content).split("\n\n");
+            return rest.length
+              ? `<p><b>${esc(head)}</b>${esc(rest.join(" "))}</p>`
+              : `<p>${esc(head)}</p>`;
+          })
+          .join("");
+      }
+
+      async function load(name) {
+        C = await backend.component(name);
+        renderPage();
+        buildControls();
+        await refresh();
+      }
+
+      const tabs = ["usage", "anatomy", "specs"];
+      function syncUrl() {
+        const u = new URL(location.href);
+        u.searchParams.set("tab", view.mode);
+        if (view.mode === "usage") u.searchParams.delete("cell");
+        else {
+          const { name, ...req } = liveOptions();
+          u.searchParams.set("cell", JSON.stringify(req));
+        }
+        history.replaceState(null, "", u);
+      }
+
+      async function setMode(t, from) {
+        const prev = view.mode;
+        if (t === prev) return;
+        if (prev === "usage" && !from) syncControls(await maxParts(liveOptions()));
+        view.mode = t;
+        document
+          .querySelectorAll(".tabs button")
+          .forEach((b) => b.classList.toggle("on", b.dataset.tab === t));
+        $("thumb").style.transform = `translateX(${tabs.indexOf(t) * 100}%)`;
+        document
+          .querySelectorAll("[data-panel]")
+          .forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== t));
+        if (prev !== "usage" && t !== "usage") {
+          $("stage").dataset.mode = t;
+        } else {
+          await refresh({ from, animate: t === "usage" });
+        }
+        syncUrl();
+      }
+
+      $("tabs").addEventListener("click", (e) => {
+        const t = e.target.dataset?.tab;
+        if (t) setMode(t);
+      });
+      $("back").addEventListener("click", () => setMode("usage"));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && view.mode !== "usage") setMode("usage");
+      });
+      $("stage").addEventListener("click", (e) => {
+        const cell = e.target.closest("button.cell");
+        if (!cell) return;
+        syncControls(cellReqs[Number(cell.dataset.i)]);
+        setMode("anatomy", cell.querySelector("svg").getBoundingClientRect());
+      });
+
+      (async () => {
+        const list = await backend.components();
+        const params = new URLSearchParams(location.search);
+        const name = params.get("c") ?? list.find((c) => c.hasVisual).name;
+        $("nav").innerHTML =
+          `<div><h4>React Spectrum</h4><ul>${list.map((c) => `<li class="${c.name === name ? "on" : c.hasVisual ? "" : "dim"}" title="${c.hasVisual ? "" : "No visual recipe yet"}">${c.hasVisual ? `<a href="?c=${c.name}">${esc(c.displayName)}</a>` : esc(c.displayName)}</li>`).join("")}</ul></div>`;
+        await load(name);
+        const initial = params.get("tab");
+        if (tabs.includes(initial) && initial !== "usage") {
+          const cell = params.get("cell");
+          if (cell) syncControls({ ...JSON.parse(cell) });
+          await setMode(initial, cell ? {} : undefined);
+        }
+      })();
+    </script>
+  </body>
+</html>
