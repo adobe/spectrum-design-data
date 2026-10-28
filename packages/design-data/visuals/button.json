@@ -73,9 +73,10 @@
           }
         ],
         "gap": {
-          "relationship": {
-            "property": "space-between",
-            "context": "Spacing (icon to label)"
+          "token": {
+            "structure": "base",
+            "property": "gap",
+            "size": "{size}"
           }
         },
         "cornerRadius": {
