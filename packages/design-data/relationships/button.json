@@ -325,7 +325,7 @@
       "property": "component-pill-edge-to-visual-only-100"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "c97051d7-eccb-4d55-8487-7ffdec2b1c78"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -333,7 +333,7 @@
       "property": "component-pill-edge-to-visual-only-100"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "c97051d7-eccb-4d55-8487-7ffdec2b1c78"
+    "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f"
   },
   {
     "scope": {
@@ -341,7 +341,7 @@
       "property": "component-pill-edge-to-visual-only-200"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "2a1b4c8d-46ca-4b7c-922f-6f117faba404"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -349,7 +349,7 @@
       "property": "component-pill-edge-to-visual-only-200"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "2a1b4c8d-46ca-4b7c-922f-6f117faba404"
+    "$ref": "cc707192-e70f-4965-8582-55fa97d02184"
   },
   {
     "scope": {
@@ -357,7 +357,7 @@
       "property": "component-pill-edge-to-visual-only-300"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "f644cf28-8586-43d6-9831-bbf23d4e465a"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
@@ -365,7 +365,7 @@
       "property": "component-pill-edge-to-visual-only-300"
     },
     "context": "Spacing (start/end edges, icon only)",
-    "$ref": "f644cf28-8586-43d6-9831-bbf23d4e465a"
+    "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc"
   },
   {
     "scope": {
