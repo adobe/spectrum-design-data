@@ -142,6 +142,9 @@ enum Commands {
         /// Directory containing Component/Token Relationship (CTR) JSON files (enables SPEC-055 target resolution)
         #[arg(long, value_name = "DIR")]
         relationships_path: Option<PathBuf>,
+        /// Directory containing component visual recipe JSON files (enables SPEC-060..063)
+        #[arg(long, value_name = "DIR")]
+        visuals_path: Option<PathBuf>,
         /// Directory containing sidecar name maps (mirrors tokens/src layout); merges name objects at ingest
         #[arg(long, value_name = "DIR")]
         names_dir: Option<PathBuf>,
@@ -1207,6 +1210,7 @@ struct ValidateOpts {
     mode_sets_path: Option<PathBuf>,
     components_path: Option<PathBuf>,
     relationships_path: Option<PathBuf>,
+    visuals_path: Option<PathBuf>,
     names_dir: Option<PathBuf>,
     components_report_only: bool,
     strict: bool,
@@ -1246,6 +1250,7 @@ fn run_validate(explicit_path: Option<&Path>, opts: ValidateOpts) -> miette::Res
         opts.names_dir.as_deref(),
         None,
         relationships_dir.as_deref(),
+        opts.visuals_path.as_deref(),
     )
     .into_diagnostic()
     .wrap_err("validation failed")?;
@@ -3897,6 +3902,7 @@ fn main() -> ExitCode {
             mode_sets_path,
             components_path,
             relationships_path,
+            visuals_path,
             names_dir,
             components_report_only,
             strict,
@@ -3909,6 +3915,7 @@ fn main() -> ExitCode {
                 mode_sets_path,
                 components_path,
                 relationships_path,
+                visuals_path,
                 names_dir,
                 components_report_only,
                 strict,

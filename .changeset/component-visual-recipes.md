@@ -8,10 +8,9 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 
 - **spec/component-visuals.md**: draft RFC and schema; `design-data:validate` checks recipes.
 - **visuals/action-button.json**: pilot recipe binding parts to tokens.
-- **components/action-button.json**: declares anatomy parts and the `isPending` option.
-- **sdk (core, cli)**: `design-data render <component>` resolves a recipe to SVG.
+- **components/action-button.json**: declares anatomy (incl. `progress`) and `isPending`.
+- **sdk (core, cli)**: `render` makes SVG; `compile_recipe` pre-binds tokens.
 - **sdk/wasm**: `Dataset.renderScene` and `Dataset.renderSvg` render recipes in the browser.
-- **sdk/core**: `compile_recipe` pre-resolves token bindings for the no-WASM site.
 - **visuals/button.json**: variant, style, state, and static color recipe for `button`.
 - **components/button.json**: adds container, progress, and focus-ring anatomy and a `down` state.
 - **spec and renderers**: container `stroke`, `relativeTo: "height"` radius, pressed scale-down.
@@ -22,3 +21,4 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 - **sdk/core**: scene token refs carry alias `chain`; press tokens are tracked.
 - **switch**: `visuals/switch.json` recipe, anatomy, `hideLabel`, and 15 color relationships.
 - **sdk/core, site**: nested box layout, `around` ring, `pressTarget`, component-scoped sizes.
+- **spec rules**: SPEC-060..063 check recipes against components (`validate --visuals-path`).

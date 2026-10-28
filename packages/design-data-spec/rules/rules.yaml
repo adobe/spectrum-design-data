@@ -724,3 +724,66 @@ rules:
     message: "Alias {token} sets {field}={ownValue} but its $ref chain resolves to a token with {field}={leafValue}"
     spec_ref: spec/cascade.md#alias-resolution
     introduced_in: "1.0.0-draft"
+
+  - id: SPEC-060
+    name: visual-anatomy-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      Cross-file sibling of SPEC-020 for visual recipes (`visuals/*.json`). A JSON Schema
+      cannot read the component file, so this is not a Layer 1 check. Skipped when no
+      component catalog is loaded.
+    assert: >
+      A visual recipe's `component` MUST name a declared component. Every key of `parts` MUST
+      be a declared anatomy part. `root` MUST be a recipe part and a top-level anatomy part
+      (listed in no other part's `contains`). Each part's `children` MUST be recipe parts and
+      appear in that anatomy part's `contains`. `around` MUST name a declared anatomy part;
+      `pressTarget` MUST name a declared anatomy part that is also a recipe part.
+    message: "Recipe part '{part}' is not a declared anatomy part of '{component}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-061
+    name: visual-conditions-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      Every `when.options` key (and `visibleWhen.options` key) in a visual recipe MUST be an
+      option of the component, with a value in that option's `values` (a boolean option
+      requires a boolean). Every `when.states` / `visibleWhen.states` entry MUST be the `name`
+      of a state declared by the component.
+    message: "Option '{option}' of '{component}' has no value {value}"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-062
+    name: visual-selectors-resolve
+    severity: error
+    layer: 2
+    category: reference-integrity
+    note: >
+      `{sizeIndex}` expands over the `sizeScale` values and `{size}` over its keys before
+      resolving. Relationship `context` is compared trimmed. Token selectors match name-object
+      fields the way the visual runtime does, including the property + `scaleIndex` fallback.
+    assert: >
+      Every `{relationship: {property, context}}` selector in a visual recipe MUST resolve to
+      a relationship record whose `scope.component` is the recipe's component and whose
+      `scope.property` and `context` match. Every `{token: {...}}` selector MUST match at
+      least one token.
+    message: "No relationship for '{component}' with property '{property}' and context '{context}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"
+
+  - id: SPEC-063
+    name: visual-size-scale-valid
+    severity: error
+    layer: 2
+    category: reference-integrity
+    assert: >
+      The keys of a visual recipe's `sizeScale` MUST equal the values of the component's
+      `size` option.
+    message: "sizeScale key '{size}' is not a 'size' value of '{component}'"
+    spec_ref: spec/component-visuals.md#validation
+    introduced_in: "1.0.0-draft"

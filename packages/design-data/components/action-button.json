@@ -112,11 +112,15 @@
   "anatomy": [
     {
       "name": "container",
-      "description": "Rounded background that holds the icon, label, and hold icon.",
+      "description": "Rounded background that holds the icon, progress circle, label, and hold icon.",
       "required": true,
-      "contains": ["icon", "label", "hold-icon"]
+      "contains": ["icon", "progress", "label", "hold-icon"]
     },
     { "name": "icon", "description": "Workflow icon shown before the label." },
+    {
+      "name": "progress",
+      "description": "Progress circle that replaces the content while pending."
+    },
     { "name": "label", "description": "Text label." },
     {
       "name": "hold-icon",
