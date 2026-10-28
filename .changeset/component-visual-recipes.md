@@ -6,7 +6,7 @@
 
 Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 
-- **spec/component-visuals.md**: draft RFC and Layer 1 schema (`component-visual.schema.json`).
+- **spec/component-visuals.md**: draft RFC and schema; `design-data:validate` checks recipes.
 - **visuals/action-button.json**: pilot recipe binding parts to tokens.
 - **components/action-button.json**: declares anatomy parts and the `isPending` option.
 - **sdk (core, cli)**: `design-data render <component>` resolves a recipe to SVG.
