@@ -44,6 +44,16 @@
           "uniqueItems": true
         },
         "visibleWhen": { "$ref": "#/$defs/condition" },
+        "around": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For a ring: the part it outlines. Defaults to the root."
+        },
+        "pressTarget": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "For the root: the part the press scale applies to. Defaults to the whole scene."
+        },
         "placement": {
           "type": "object",
           "required": ["anchor"],
@@ -90,7 +100,11 @@
               "fontSize",
               "fontWeight",
               "lineHeight",
-              "gapToParent"
+              "gapToParent",
+              "pressDifference",
+              "pressWidthRatio",
+              "pressMinPerspective",
+              "pressMaxPerspective"
             ]
           },
           "additionalProperties": {

@@ -251,9 +251,19 @@ export function renderScene(compiled, req) {
       fontWeight: null,
       color: color ? color.value : null,
       stroke: null,
+      radius: null,
       tokens,
     };
-    if (kind === "icon" || kind === "progress") {
+    if (kind === "box") {
+      const bw = rp(part, "width");
+      const bh = rp(part, "height");
+      track(c.tokens, "width", bw);
+      track(c.tokens, "height", bh);
+      c.w = num(bw) ?? 0;
+      c.h = num(bh) ?? 0;
+      c.radius = rp(part, "cornerRadius");
+      track(c.tokens, "cornerRadius", c.radius);
+    } else if (kind === "icon" || kind === "progress") {
       const w = rp(part, "width");
       const ih = rp(part, "height");
       track(c.tokens, "width", w);
@@ -308,11 +318,18 @@ export function renderScene(compiled, req) {
     }),
   ];
 
+  const px = (r, basis) => {
+    const v = num(r);
+    return v === undefined ? 0 : v * (r.relativeTo === "height" ? basis : 1);
+  };
   let x = ox + pS;
   for (const c of flow) {
+    const cx0 = x;
+    const cy0 = oy + (h - c.h) / 2;
     nodes.push(
-      node(c.id, c.kind, x, oy + (h - c.h) / 2, c.w, c.h, {
+      node(c.id, c.kind, cx0, cy0, c.w, c.h, {
         stroke: c.stroke,
+        radius: c.kind === "box" ? px(c.radius, c.h) : 0,
         text: c.text,
         font_size: c.fontSize,
         font_weight: c.fontWeight,
@@ -321,6 +338,50 @@ export function renderScene(compiled, req) {
       }),
     );
     x += c.w + gap;
+
+    // A box's children sit inside it: centered across, and at the start, center or end
+    // along the inline axis. The inset equals the cross-axis gap.
+    for (const nid of parts[c.id].children ?? []) {
+      const np = parts[nid];
+      if (!np || !cx.visible(np)) continue;
+      const tokens = [];
+      const nw = rp(np, "width");
+      const nh = rp(np, "height");
+      const nfill = rp(np, "fill");
+      const nstroke = rp(np, "stroke");
+      const nsw = rp(np, "strokeWidth");
+      const nradius = rp(np, "cornerRadius");
+      const justify = rp(np, "justify");
+      for (const [n, r] of [
+        ["width", nw],
+        ["height", nh],
+        ["fill", nfill],
+        ["stroke", nstroke],
+        ["strokeWidth", nsw],
+        ["cornerRadius", nradius],
+        ["justify", justify],
+      ]) {
+        track(tokens, n, r);
+      }
+      const w2 = num(nw) ?? c.w;
+      const h2 = num(nh) ?? c.h;
+      const inset = (c.h - h2) / 2;
+      const nx =
+        justify?.value === "end"
+          ? cx0 + c.w - w2 - inset
+          : justify?.value === "center"
+            ? cx0 + (c.w - w2) / 2
+            : cx0 + inset;
+      nodes.push(
+        node(nid, "box", nx, cy0 + inset, w2, h2, {
+          fill: nfill ? nfill.value : null,
+          stroke: nstroke ? nstroke.value : null,
+          stroke_width: num(nsw) ?? 0,
+          radius: px(nradius, h2),
+          tokens,
+        }),
+      );
+    }
   }
 
   for (const [id, part] of placed) {
@@ -353,11 +414,12 @@ export function renderScene(compiled, req) {
     track(tokens, "gapToParent", gp);
     const swN = num(sw) ?? 2;
     const off = (num(gp) ?? 2) + swN / 2;
+    const t = nodes.find((n) => n.part === part.around) ?? nodes[0];
     nodes.push(
-      node(id, "ring", ox - off, oy - off, w + 2 * off, h + 2 * off, {
+      node(id, "ring", t.x - off, t.y - off, t.w + 2 * off, t.h + 2 * off, {
         stroke: stroke ? stroke.value : null,
         stroke_width: swN,
-        radius: rootRadius + off,
+        radius: t.radius + off,
         tokens,
       }),
     );
@@ -370,8 +432,15 @@ export function renderScene(compiled, req) {
   if (z !== undefined && ratio !== undefined) {
     const lo = num(pressMin) ?? 0;
     const hi = num(pressMax) ?? Number.MAX_VALUE;
-    const p = Math.min(Math.max(w * ratio, lo), hi);
-    press = { scale: p / (p - z), cx: ox + w / 2, cy: oy + h / 2 };
+    const part = root.pressTarget ?? null;
+    const t = nodes.find((n) => n.part === part) ?? nodes[0];
+    const p = Math.min(Math.max(t.w * ratio, lo), hi);
+    press = {
+      part,
+      scale: p / (p - z),
+      cx: t.x + t.w / 2,
+      cy: t.y + t.h / 2,
+    };
   }
 
   return {
@@ -415,11 +484,14 @@ const esc = (s) =>
 /** Serialize a scene as SVG, matching `scene_to_svg` in Rust. */
 export function renderSvg(scene) {
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}">`;
-  if (scene.press) {
-    const p = scene.press;
-    s += `<g transform="translate(${p.cx} ${p.cy}) scale(${p.scale}) translate(${-p.cx} ${-p.cy})">`;
-  }
+  const p = scene.press;
+  const pressOpen = p
+    ? `<g transform="translate(${p.cx} ${p.cy}) scale(${p.scale}) translate(${-p.cx} ${-p.cy})">`
+    : "";
+  if (p && !p.part) s += pressOpen;
   for (const n of scene.nodes) {
+    const pressed = p && p.part === n.part;
+    if (pressed) s += pressOpen;
     const toks = n.tokens.map((t) => `${t.prop}=${t.token}`).join(";");
     const attrs = `data-part="${esc(n.part)}" data-tokens="${esc(toks)}"`;
     const min = Math.min(n.w, n.h);
@@ -451,6 +523,7 @@ export function renderSvg(scene) {
       const r = min * 0.35;
       s += `<path ${attrs} d="M${cx - r} ${cy}H${cx + r}M${cx} ${cy - r}V${cy + r}" stroke="${esc(n.color ?? "currentColor")}" stroke-width="${Math.max(n.w / 10, 1)}" stroke-linecap="round" fill="none"/>`;
     }
+    if (pressed) s += "</g>";
   }
-  return `${s}${scene.press ? "</g>" : ""}</svg>`;
+  return `${s}${p && !p.part ? "</g>" : ""}</svg>`;
 }

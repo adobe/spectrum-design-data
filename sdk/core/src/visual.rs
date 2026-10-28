@@ -89,6 +89,8 @@ pub struct Scene {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Press {
+    /// Part the scale applies to; the whole scene when absent.
+    pub part: Option<String>,
     pub scale: f64,
     pub cx: f64,
     pub cy: f64,
@@ -116,7 +118,54 @@ struct Ctx<'a> {
     req: &'a RenderRequest,
     size_index: String,
     option_defaults: HashMap<String, Value>,
+    /// Component-scoped values that live in relationship files (see `scoped_values`).
+    scoped: &'a [crate::graph::TokenRecord],
     diags: Vec<String>,
+}
+
+/// Relationship records that carry their own `value` (a component-scoped token such as a
+/// switch track width), shaped as token records so they rank and resolve like tokens. The
+/// relationship's `options` become name fields, so `size`, `scale` and `state` filter them.
+fn scoped_values(graph: &TokenGraph, component: &str) -> Vec<crate::graph::TokenRecord> {
+    graph
+        .relationships
+        .iter()
+        .filter(|r| {
+            r.raw.get("value").is_some()
+                && r.raw.get("$ref").is_none()
+                && r.raw.pointer("/scope/component").and_then(Value::as_str) == Some(component)
+        })
+        .map(|r| {
+            let scope = r.raw.get("scope");
+            let mut name = serde_json::Map::new();
+            if let Some(p) = scope.and_then(|s| s.get("property")) {
+                name.insert("property".into(), p.clone());
+            }
+            if let Some(o) = scope
+                .and_then(|s| s.get("options"))
+                .and_then(Value::as_object)
+            {
+                name.extend(o.iter().map(|(k, v)| (k.clone(), v.clone())));
+            }
+            let key = r
+                .raw
+                .get("legacyKey")
+                .and_then(Value::as_str)
+                .or(r.uuid.as_deref())
+                .unwrap_or_default();
+            name.insert("legacyKey".into(), Value::String(key.into()));
+            crate::graph::TokenRecord {
+                name: key.into(),
+                file: r.file.clone(),
+                index: r.index,
+                schema_url: None,
+                uuid: r.uuid.clone(),
+                alias_target: None,
+                raw: serde_json::json!({ "name": name, "value": r.raw.get("value") }),
+                layer: Default::default(),
+            }
+        })
+        .collect()
 }
 
 fn value_to_string(v: &Value) -> Option<String> {
@@ -433,10 +482,21 @@ impl<'a> Ctx<'a> {
                 if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
                     if let Some(t) = self.graph.resolve_alias_key(rf) {
                         cands.push(t);
+                    } else if let Some(t) =
+                        self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf))
+                    {
+                        cands.push(t);
                     }
                 }
             }
         }
+        // A candidate pinned to another size is not an option for this one.
+        cands.retain(|t| {
+            t.raw
+                .pointer("/name/size")
+                .and_then(Value::as_str)
+                .is_none_or(|sz| sz == self.req.size)
+        });
         Some((cands, property, context))
     }
 
@@ -572,6 +632,7 @@ pub fn compile_recipe(
         })
         .unwrap_or_default();
 
+    let scoped = scoped_values(graph, component);
     let mut variants = serde_json::Map::new();
     for (size, idx) in scale {
         for mode in modes {
@@ -586,6 +647,7 @@ pub fn compile_recipe(
                 req: &req,
                 size_index: value_to_string(idx).unwrap_or_default(),
                 option_defaults: HashMap::new(),
+                scoped: &scoped,
                 diags: Vec::new(),
             };
             let mut out_parts = parts.clone();
@@ -685,11 +747,13 @@ pub fn build_scene(
                 .collect()
         })
         .unwrap_or_default();
+    let scoped = scoped_values(graph, &req.component);
     let mut cx = Ctx {
         graph,
         req,
         size_index,
         option_defaults,
+        scoped: &scoped,
         diags: Vec::new(),
     };
 
@@ -779,6 +843,7 @@ pub fn build_scene(
         font_weight: Option<String>,
         color: Option<String>,
         stroke: Option<String>,
+        radius: Option<Resolved>,
         tokens: Vec<TokenRef>,
     }
     let mut flow: Vec<Child> = Vec::new();
@@ -815,9 +880,20 @@ pub fn build_scene(
             font_weight: None,
             color: color.map(|c| c.value),
             stroke: None,
+            radius: None,
             tokens,
         };
         match kind {
+            "box" => {
+                let w = rp(&mut cx, part, "width");
+                let bh = rp(&mut cx, part, "height");
+                track(&mut c.tokens, "width", &w);
+                track(&mut c.tokens, "height", &bh);
+                c.w = w.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                c.h = bh.as_ref().and_then(Resolved::num).unwrap_or(0.0);
+                c.radius = rp(&mut cx, part, "cornerRadius");
+                track(&mut c.tokens, "cornerRadius", &c.radius);
+            }
             "icon" | "progress" => {
                 let w = rp(&mut cx, part, "width");
                 let ih = rp(&mut cx, part, "height");
@@ -891,15 +967,36 @@ pub fn build_scene(
         tokens: container_tokens,
     }];
 
+    let px = |r: &Option<Resolved>, basis: f64| -> f64 {
+        r.as_ref()
+            .and_then(|r| {
+                r.num().map(|v| match r.relative_to.as_deref() {
+                    Some("height") => v * basis,
+                    _ => v,
+                })
+            })
+            .unwrap_or(0.0)
+    };
     let mut x = ox + pad_s;
     for c in flow {
-        nodes.push(SceneNode {
-            part: c.id,
-            kind: c.kind,
-            x,
-            y: oy + (h - c.h) / 2.0,
-            w: c.w,
-            h: c.h,
+        let (cx0, cy0, cw, ch) = (x, oy + (h - c.h) / 2.0, c.w, c.h);
+        let nested_ids: Vec<String> = parts
+            .get(&c.id)
+            .and_then(|p| p.get("children"))
+            .and_then(Value::as_array)
+            .map(|a| {
+                a.iter()
+                    .filter_map(|v| v.as_str().map(String::from))
+                    .collect()
+            })
+            .unwrap_or_default();
+        let mut own = SceneNode {
+            part: c.id.clone(),
+            kind: c.kind.clone(),
+            x: cx0,
+            y: cy0,
+            w: cw,
+            h: ch,
             fill: None,
             stroke: c.stroke,
             stroke_width: 0.0,
@@ -910,8 +1007,67 @@ pub fn build_scene(
             font_weight: c.font_weight,
             color: c.color,
             tokens: c.tokens,
-        });
-        x += c.w + gap;
+        };
+        if c.kind == "box" {
+            own.radius = px(&c.radius, ch);
+        }
+        nodes.push(own);
+        x += cw + gap;
+
+        // A box's children sit inside it: centered across, and at the start, center or end
+        // along the inline axis. The inset equals the cross-axis gap, so a part shorter than
+        // the box is centered and one as tall as the box fills it.
+        for nid in nested_ids {
+            let Some(np) = parts.get(&nid) else { continue };
+            if !cx.visible(np) {
+                continue;
+            }
+            let mut tokens = Vec::new();
+            let nw = rp(&mut cx, np, "width");
+            let nh = rp(&mut cx, np, "height");
+            let nfill = rp(&mut cx, np, "fill");
+            let nstroke = rp(&mut cx, np, "stroke");
+            let nsw = rp(&mut cx, np, "strokeWidth");
+            let nradius = rp(&mut cx, np, "cornerRadius");
+            let justify = rp(&mut cx, np, "justify");
+            for (n, r) in [
+                ("width", &nw),
+                ("height", &nh),
+                ("fill", &nfill),
+                ("stroke", &nstroke),
+                ("strokeWidth", &nsw),
+                ("cornerRadius", &nradius),
+                ("justify", &justify),
+            ] {
+                track(&mut tokens, n, r);
+            }
+            let w2 = nw.as_ref().and_then(Resolved::num).unwrap_or(cw);
+            let h2 = nh.as_ref().and_then(Resolved::num).unwrap_or(ch);
+            let inset = (ch - h2) / 2.0;
+            let nx = match justify.as_ref().map(|j| j.value.as_str()) {
+                Some("end") => cx0 + cw - w2 - inset,
+                Some("center") => cx0 + (cw - w2) / 2.0,
+                _ => cx0 + inset,
+            };
+            nodes.push(SceneNode {
+                part: nid,
+                kind: "box".into(),
+                x: nx,
+                y: cy0 + inset,
+                w: w2,
+                h: h2,
+                fill: nfill.map(|f| f.value),
+                stroke: nstroke.map(|s| s.value),
+                stroke_width: nsw.as_ref().and_then(Resolved::num).unwrap_or(0.0),
+                radius: px(&nradius, h2),
+                radii: None,
+                text: None,
+                font_size: 0.0,
+                font_weight: None,
+                color: None,
+                tokens,
+            });
+        }
     }
 
     for (id, part) in placed {
@@ -943,7 +1099,7 @@ pub fn build_scene(
         });
     }
 
-    // Rings wrap the root, outside its box.
+    // Rings wrap the root, or the part named by `around`, outside its box.
     for (id, part) in parts {
         if part.get("kind").and_then(Value::as_str) != Some("ring") || !cx.visible(part) {
             continue;
@@ -957,14 +1113,19 @@ pub fn build_scene(
         track(&mut tokens, "gapToParent", &gp);
         let sw_n = sw.as_ref().and_then(Resolved::num).unwrap_or(2.0);
         let off = gp.as_ref().and_then(Resolved::num).unwrap_or(2.0) + sw_n / 2.0;
-        let r0 = nodes[0].radius;
+        let target = part
+            .get("around")
+            .and_then(Value::as_str)
+            .and_then(|t| nodes.iter().find(|n| n.part == t))
+            .unwrap_or(&nodes[0]);
+        let (tx, ty, tw, th, r0) = (target.x, target.y, target.w, target.h, target.radius);
         nodes.push(SceneNode {
             part: id.clone(),
             kind: "ring".into(),
-            x: ox - off,
-            y: oy - off,
-            w: w + 2.0 * off,
-            h: h + 2.0 * off,
+            x: tx - off,
+            y: ty - off,
+            w: tw + 2.0 * off,
+            h: th + 2.0 * off,
             fill: None,
             stroke: stroke.map(|s| s.value),
             stroke_width: sw_n,
@@ -990,11 +1151,20 @@ pub fn build_scene(
                 .as_ref()
                 .and_then(Resolved::num)
                 .unwrap_or(f64::MAX);
-            let p = (w * ratio).max(lo).min(hi);
+            let part = root
+                .get("pressTarget")
+                .and_then(Value::as_str)
+                .map(String::from);
+            let target = part
+                .as_deref()
+                .and_then(|t| nodes.iter().find(|n| n.part == t))
+                .unwrap_or(&nodes[0]);
+            let p = (target.w * ratio).max(lo).min(hi);
             Some(Press {
                 scale: p / (p - z),
-                cx: ox + w / 2.0,
-                cy: oy + h / 2.0,
+                cx: target.x + target.w / 2.0,
+                cy: target.y + target.h / 2.0,
+                part,
             })
         }
         _ => None,
@@ -1064,14 +1234,23 @@ pub fn scene_to_svg(scene: &Scene) -> String {
         w = scene.width,
         h = scene.height
     );
-    if let Some(p) = &scene.press {
-        let _ = write!(
-            s,
+    let press_open = |p: &Press| {
+        format!(
             "<g transform=\"translate({} {}) scale({}) translate({} {})\">",
             p.cx, p.cy, p.scale, -p.cx, -p.cy
-        );
+        )
+    };
+    if let Some(p) = scene.press.as_ref().filter(|p| p.part.is_none()) {
+        s.push_str(&press_open(p));
     }
     for n in &scene.nodes {
+        let pressed = scene
+            .press
+            .as_ref()
+            .filter(|p| p.part.as_deref() == Some(n.part.as_str()));
+        if let Some(p) = pressed {
+            s.push_str(&press_open(p));
+        }
         let toks = n
             .tokens
             .iter()
@@ -1194,8 +1373,11 @@ pub fn scene_to_svg(scene: &Scene) -> String {
             }
             _ => {}
         }
+        if pressed.is_some() {
+            s.push_str("</g>");
+        }
     }
-    if scene.press.is_some() {
+    if scene.press.as_ref().is_some_and(|p| p.part.is_none()) {
         s.push_str("</g>");
     }
     s.push_str("</svg>");
@@ -1260,6 +1442,44 @@ mod tests {
             c.fill
         );
         assert!(scene.nodes.iter().all(|n| n.kind != "ring"));
+    }
+
+    #[test]
+    fn switch_handle_sits_centered_at_the_start_or_end_of_the_track() {
+        let (g, _) = load();
+        let recipe: Value = serde_json::from_str(
+            &std::fs::read_to_string(root().join("visuals/switch.json")).unwrap(),
+        )
+        .unwrap();
+        let scene = |selected: bool, states: &[&str]| {
+            let mut r = req(states);
+            r.component = "switch".into();
+            r.size = "m".into();
+            if selected {
+                r.options.insert("isSelected".into(), Value::Bool(true));
+            }
+            build_scene(&g, &recipe, &r).unwrap()
+        };
+        let part = |s: &Scene, p: &str| s.nodes.iter().find(|n| n.part == p).cloned().unwrap();
+        let off = scene(false, &[]);
+        assert!(off.diagnostics.is_empty(), "{:?}", off.diagnostics);
+        let (track, handle) = (part(&off, "track"), part(&off, "handle"));
+        assert_eq!((track.w, track.h, handle.w), (26.0, 16.0, 8.0));
+        assert_eq!(handle.x - track.x, 4.0, "inset equals the cross-axis gap");
+        assert_eq!(handle.y - track.y, 4.0, "centered across the track");
+        assert_eq!(track.radius, 8.0, "pill");
+
+        let on = scene(true, &[]);
+        let (track, handle) = (part(&on, "track"), part(&on, "handle"));
+        assert_eq!(handle.w, 10.0, "selected handle is larger");
+        assert_eq!(track.x + track.w - (handle.x + handle.w), 3.0);
+        assert_eq!(handle.y - track.y, 3.0);
+
+        let focus = scene(false, &["keyboard-focus"]);
+        let ring = part(&focus, "focus-indicator");
+        assert!(ring.x < part(&focus, "track").x, "ring wraps the track");
+        let down = scene(false, &["down"]);
+        assert_eq!(down.press.unwrap().part.as_deref(), Some("handle"));
     }
 
     #[test]
