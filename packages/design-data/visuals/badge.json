@@ -928,7 +928,8 @@
         "color": [
           {
             "token": {
-              "colorFamily": "white",
+              "colorFamily": "transparent-static-white",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -939,7 +940,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -950,7 +952,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -961,7 +964,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -972,7 +976,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -983,7 +988,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1415,7 +1421,8 @@
         "color": [
           {
             "token": {
-              "colorFamily": "white",
+              "colorFamily": "transparent-static-white",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1426,7 +1433,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1437,7 +1445,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1448,7 +1457,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1459,7 +1469,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
@@ -1470,7 +1481,8 @@
               }
             },
             "token": {
-              "colorFamily": "black",
+              "colorFamily": "transparent-static-black",
+              "scaleIndex": 1000,
               "property": "color"
             }
           },
