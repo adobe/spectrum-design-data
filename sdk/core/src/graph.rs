@@ -127,6 +127,16 @@ pub struct RelationshipRecord {
     pub raw: Value,
 }
 
+/// One component visual recipe (`visuals/<component>.json`), loaded for
+/// cross-file Layer 2 checks against component and relationship data.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct VisualRecord {
+    /// The recipe's `component` field.
+    pub component: String,
+    pub file: PathBuf,
+    pub raw: Value,
+}
+
 /// One mode set declaration (new spec shape), when present in a JSON file.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct ModeSetRecord {
@@ -172,6 +182,8 @@ pub struct TokenGraph {
     /// Component/Token Relationship (CTR) entries from the spec `relationships/`
     /// catalog, flattened from each file's top-level array.
     pub relationships: Vec<RelationshipRecord>,
+    /// Component visual recipes from the `visuals/` catalog.
+    pub visuals: Vec<VisualRecord>,
     /// Cache: CTR `legacyKey` → synthetic leaf [`TokenRecord`] for inline-value
     /// CTRs (no `$ref`, e.g. `avatar-size-100`'s dimension value lives directly
     /// on the relationship). Rebuilt by [`Self::reindex_relationship_tokens`]
@@ -618,6 +630,7 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
@@ -661,6 +674,7 @@ impl TokenGraph {
             guidelines: Vec::new(),
             fields: Vec::new(),
             relationships: Vec::new(),
+            visuals: Vec::new(),
             relationship_tokens: HashMap::new(),
             relationship_tokens_by_key: HashMap::new(),
             manifest: serde_json::Value::Null,
@@ -1839,6 +1853,32 @@ impl TokenGraph {
             }
         }
         Ok(out)
+    }
+
+    /// Load component visual recipes from a `visuals/` catalog directory.
+    ///
+    /// Each file is a JSON object with a string `component` field; other
+    /// shapes are skipped (Layer 1 reports their structure).
+    pub fn load_spec_visuals(dir: &Path) -> Result<Vec<VisualRecord>, CoreError> {
+        let mut out = Vec::new();
+        for path in discover_json_files(dir)? {
+            let text = std::fs::read_to_string(&path)?;
+            let value: Value = serde_json::from_str(&text)?;
+            if let Some(component) = value.get("component").and_then(|v| v.as_str()) {
+                out.push(VisualRecord {
+                    component: component.to_string(),
+                    file: path,
+                    raw: value,
+                });
+            }
+        }
+        Ok(out)
+    }
+
+    /// Attach visual recipe records loaded from a visuals catalog directory.
+    pub fn with_visuals(mut self, visuals: Vec<VisualRecord>) -> Self {
+        self.visuals = visuals;
+        self
     }
 
     /// Attach relationship records loaded from a relationships catalog directory.

@@ -95,7 +95,18 @@ An entry on `cornerRadius` **MAY** set `relativeTo: "height"`, making its numeri
 
 ### Interim: relationship `context` strings
 
-Relationship `context` is free text today (for example `Background (selected, emphasized)`). Recipes bind to those strings so the pilot can ship without changing relationship data. This is brittle: a reworded context breaks a recipe, and a planned Layer 2 rule will report a `relationship` selector that matches no relationship. **RECOMMENDED:** a follow-up adds structured `options` to relationships so recipes can select by option and state instead of by label.
+Relationship `context` is free text today (for example `Background (selected, emphasized)`). Recipes bind to those strings so the pilot can ship without changing relationship data. This is brittle: a reworded context breaks a recipe, and SPEC-062 reports a `relationship` selector that matches no relationship. **RECOMMENDED:** a follow-up adds structured `options` to relationships so recipes can select by option and state instead of by label.
+
+## Validation
+
+The recipe schema checks one file's structure (Layer 1). A JSON Schema cannot read other files, so cross-file checks against component and relationship data are Layer 2 rules. They run only when the recipe catalog is loaded (`design-data validate --visuals-path`) and are skipped when no component catalog is loaded.
+
+| Rule     | Checks                                                                                                                                                                              |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-060 | `component` is declared; `parts` keys are anatomy parts; `root` is a top-level anatomy part; `children` appear in the anatomy part's `contains`; `around` and `pressTarget` resolve |
+| SPEC-061 | `when` and `visibleWhen` options exist with allowed values and types; states exist on the component                                                                                 |
+| SPEC-062 | `relationship` selectors resolve to a record scoped to the component; `token` selectors match a token (`{size}` and `{sizeIndex}` expand over `sizeScale` first)                    |
+| SPEC-063 | `sizeScale` keys equal the component's `size` option values                                                                                                                         |
 
 ## Render request and scene graph
 

@@ -4,7 +4,6 @@
   "component": "button",
   "root": "container",
   "sizeScale": {
-    "xs": 50,
     "s": 75,
     "m": 100,
     "l": 200,
