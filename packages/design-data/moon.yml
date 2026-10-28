@@ -58,6 +58,16 @@ tasks:
       - "/packages/design-data/naming-exceptions.json"
 
   # Validate guideline JSON files against guideline.schema.json (AJV + document-block $ref).
+  # Validate visual recipes against component-visual.schema.json (AJV).
+  validate-visuals:
+    command: node
+    args:
+      - scripts/validate-visuals.js
+    inputs:
+      - "visuals/**/*.json"
+      - "scripts/validate-visuals.js"
+      - "/packages/design-data-spec/schemas/component-visual.schema.json"
+
   validate-guidelines:
     command: node
     args:
@@ -126,6 +136,7 @@ tasks:
       - sdk:build
       - ~:validate-dataset
       - ~:validate-registry
+      - ~:validate-visuals
     inputs:
       - "@globs(tokens)"
       - "@globs(catalogs)"

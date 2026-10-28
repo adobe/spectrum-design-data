@@ -67,6 +67,7 @@ Status: **draft / RFC**. The schema is [`component-visual.schema.json`](../schem
 | `cornerRadiusStartStart`, `cornerRadiusStartEnd`, `cornerRadiusEndStart`, `cornerRadiusEndEnd` | box        | Per-corner radius (block-inline). Each falls back to `cornerRadius`. Renderers draw left-to-right, so start-start is top-left. |
 | `fill`, `stroke`, `strokeWidth`, `opacity`                                                     | box, ring  | Paint.                                                                                                                         |
 | `color`                                                                                        | text, icon | Content color.                                                                                                                 |
+| `trackColor`                                                                                   | progress   | Color of the progress track behind the arc.                                                                                    |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`                                           | text       | Text style.                                                                                                                    |
 | `gapToParent`                                                                                  | ring       | Distance between the ring and the parent box.                                                                                  |
 
