@@ -780,7 +780,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5adeb281-3183-43e0-b20c-bd4e29f4da7e"
   },
   {
@@ -788,7 +788,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a3e71134-b44f-4b52-a84d-4841e01505e6"
   },
   {
@@ -796,7 +796,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "385372e9-8b04-45ea-a7a2-f1f62ac68ad6"
   },
   {
@@ -804,7 +804,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "8cec4a84-3eea-45d6-ae1b-64907be7da78"
   },
   {
@@ -812,7 +812,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ce074ee2-a2a2-4da3-a99e-603524193d46"
   },
   {
@@ -820,7 +820,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "3fb6aa49-631f-489b-9dab-63a5712d72da"
   },
   {
@@ -828,7 +828,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "981c054e-9db5-4589-b9e7-eed307b115ca"
   },
   {
@@ -836,7 +836,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "3e9a6c2a-bd09-4d28-a95c-920109c1852f"
   },
   {
@@ -844,7 +844,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "37c3db03-6dd6-47e5-a03c-25663d116c52"
   },
   {
@@ -852,7 +852,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "f8e435de-1630-4628-8b6d-128987d66ddc"
   },
   {
@@ -860,7 +860,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "61c5e375-bff3-479f-8c32-2d2a5edb906c"
   },
   {
@@ -868,7 +868,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ff49d6b0-4f39-4cbb-a580-db03b0579a71"
   },
   {
@@ -876,7 +876,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "f6e68186-e7fe-4d36-b371-72461a271358"
   },
   {
@@ -884,7 +884,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5df9a029-dc91-4078-a198-574486948834"
   },
   {
@@ -892,7 +892,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "67d55f09-a468-4174-9b59-13008b32b44e"
   },
   {
@@ -900,7 +900,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "d4fd682d-4bef-4a92-bf14-90ce02b534e6"
   },
   {
@@ -908,7 +908,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df"
   },
   {
@@ -916,7 +916,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "b6e14409-7a61-46fc-80d0-2b7854baf871"
   },
   {
@@ -924,7 +924,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "d5cac08e-56e8-4217-a153-33f43c1a2059"
   },
   {
@@ -932,7 +932,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "49170573-9c22-42e1-a1ce-cd3d3972ddb7"
   },
   {
@@ -940,7 +940,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "f7814be9-b21f-40ff-9d34-8c0a96eea93e"
   },
   {
@@ -948,7 +948,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "be1d8187-effc-430f-ac31-3904cf83a6d6"
   },
   {
@@ -956,7 +956,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "9a727140-328d-430f-9b10-8965eebe77d1"
   },
   {
@@ -964,7 +964,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e2f2ef18-aabf-44fd-b074-d94f75862f3d"
   },
   {
@@ -972,7 +972,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "12c060c6-db12-41ca-8b53-f4fc0afd2ed7"
   },
   {
@@ -980,7 +980,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "543af64f-9c28-4e88-8597-3259cd7ebf1f"
   },
   {
@@ -988,7 +988,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "764bb832-de5a-4c21-b429-f911a931ead6"
   },
   {
@@ -996,7 +996,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "c6c435b6-34b3-4fc1-bf96-a56a15e01fe5"
   },
   {
@@ -1004,7 +1004,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "83591a94-83e1-4557-8f50-cc1fe9793b76"
   },
   {
@@ -1012,7 +1012,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "db8b9268-68dc-46be-aace-1adf8d85061b"
   },
   {
@@ -1020,7 +1020,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "23859fff-27f5-4576-83c9-0fbc316e880a"
   },
   {
@@ -1028,7 +1028,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "b7f5a677-4e89-40e1-8324-7619a628ce8b"
   },
   {
@@ -1036,7 +1036,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "dedf817e-2883-4632-936c-207fdafe7469"
   },
   {
@@ -1044,7 +1044,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ed07d8f4-390f-4124-a4c4-81b62767c6cd"
   },
   {
@@ -1052,7 +1052,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e577d521-0271-4226-a094-624b35a05826"
   },
   {
@@ -1060,7 +1060,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "720cfaa3-6bb1-4df1-946f-94fabae54e7b"
   },
   {
@@ -1068,7 +1068,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5f61f890-93b3-4ab9-bc80-d75198a5bacf"
   },
   {
@@ -1076,7 +1076,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "7b4d71d3-ad78-4e02-a48e-fa79f40854a2"
   },
   {
@@ -1084,7 +1084,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "13e66afc-a9d8-46a9-8b15-310c5b35e52f"
   },
   {
@@ -1092,7 +1092,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "4e02601f-12da-4ce2-b58c-0aa0e309442d"
   },
   {
@@ -1100,7 +1100,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5867d764-d909-4490-b947-533e89997d0a"
   },
   {
@@ -1108,7 +1108,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "c7b29eba-f8a3-43f7-b5b9-0c1a7f04bb38"
   },
   {
@@ -1116,7 +1116,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "78fc6322-a961-429a-bd40-3e1c1bf2c4e9"
   },
   {
@@ -1124,7 +1124,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "3a363aa8-cf27-48a1-8c61-b1f1eaff6110"
   },
   {
@@ -1132,7 +1132,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "b60042cd-3ce7-4952-aeae-338d2b5fe98d"
   },
   {
@@ -1140,7 +1140,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e763acbc-2c17-46c5-8484-1d8536e7ef10"
   },
   {
@@ -1148,7 +1148,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "6beacbfc-6d61-4567-86fe-39771550cf20"
   },
   {
@@ -1156,7 +1156,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "50eb3d20-ab84-4541-8807-551391016b54"
   },
   {
@@ -1164,7 +1164,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "168c3534-c54e-415b-a623-27c2a8caea8c"
   },
   {
@@ -1172,7 +1172,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "c6dcdb8e-4966-4de6-a74a-fffa0793d58e"
   },
   {
@@ -1180,7 +1180,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "fbd8df06-a6c9-462b-ad25-a3f77016128e"
   },
   {
@@ -1188,7 +1188,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "6dc7df67-2cfb-440f-9b1c-b7262a7cc2d3"
   },
   {
@@ -1196,7 +1196,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "d442e5b5-5083-443d-ba60-12c60406c452"
   },
   {
@@ -1204,7 +1204,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "8e940601-2401-46ff-a5fb-9137d12678b7"
   },
   {
@@ -1212,7 +1212,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "13d332e4-45b0-4549-a1a3-a608034960a1"
   },
   {
@@ -1220,7 +1220,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a6e04390-003e-4565-bf96-e0fb8a791cb9"
   },
   {
@@ -1228,7 +1228,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e0bb7dad-7f1b-4b6e-b2fe-99f8b14f3240"
   },
   {
@@ -1404,7 +1404,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "83fd0c1f-fbf3-4540-b370-6f44a6dbba7e"
   },
   {
@@ -1412,7 +1412,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a95998aa-d6ce-4090-9743-614196862acf"
   },
   {
@@ -1420,7 +1420,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "6529e76c-0c21-449f-a318-2629cf90a58a"
   },
   {
@@ -1428,7 +1428,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5d7cd7c1-66fa-49d4-923b-8cca2dcb4726"
   },
   {
@@ -1436,7 +1436,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "c098c385-7fce-4f16-b1d1-54a86c608e64"
   },
   {
@@ -1444,7 +1444,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "8a6b560b-50b2-4dbf-900b-0ed63233df8b"
   },
   {
@@ -1452,7 +1452,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e7e1eb3c-7590-4622-a261-8de879bb1500"
   },
   {
@@ -1460,7 +1460,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "9b2505cc-2a71-4b1e-804d-3f2ffa69d06c"
   },
   {
@@ -1468,7 +1468,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a9671857-3e09-4132-a522-cd8f5b4cf8ff"
   },
   {
@@ -1476,7 +1476,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5d5cfc7a-e6f4-4d6d-a39b-359350ddd280"
   },
   {
@@ -1484,7 +1484,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "fcb0fe04-3498-4cfa-964d-5134bbcc74c6"
   },
   {
@@ -1492,7 +1492,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a238d434-3d0b-48fe-a413-a07e9229cdda"
   },
   {
@@ -1500,7 +1500,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "2dd50902-f9bb-4f79-b31c-3997f4fd2163"
   },
   {
@@ -1508,7 +1508,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "b80c47b0-222b-49a2-9012-1465a4575092"
   },
   {
@@ -1516,7 +1516,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ab75a3ba-17ce-4aae-902f-2b3e0233b726"
   },
   {
@@ -1524,7 +1524,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "cf459b71-0d91-4cb4-96b8-f536e553f66e"
   },
   {
@@ -1532,7 +1532,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "67618d20-60a0-44d9-b98a-a84faf409788"
   },
   {
@@ -1540,7 +1540,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "2182ee3c-55aa-4d07-9cc1-f827c88ce3d6"
   },
   {
@@ -1548,7 +1548,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "3b582b64-988e-4b5d-a08d-e04269403536"
   },
   {
@@ -1556,7 +1556,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "e10ef55e-c18d-4b73-97d0-330b480e9aa4"
   },
   {
@@ -1564,7 +1564,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "3911fa84-a5b3-4ea1-b6ad-47f222482ddb"
   },
   {
@@ -1572,7 +1572,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "7623166b-5320-40eb-8a5f-2cd12f17bdb2"
   },
   {
@@ -1580,7 +1580,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "73620c8b-3943-46c0-acb8-d517e7e6081e"
   },
   {
@@ -1588,7 +1588,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "0acaf55e-7e99-45f9-b99b-e461fa78a481"
   },
   {
@@ -1596,7 +1596,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "084200e3-85bf-496e-b12a-b439e108b9fb"
   },
   {
@@ -1604,7 +1604,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "740e1c42-e68c-4c10-9bcd-30dc0bae6418"
   },
   {
@@ -1612,7 +1612,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "2f72eaf9-547a-436e-86ab-695979db4f93"
   },
   {
@@ -1620,7 +1620,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "7d52711e-43fa-4a95-a7b1-3a7367570596"
   },
   {
@@ -1628,7 +1628,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "7da4709c-caf3-401a-a2ce-07186a7e8e8c"
   },
   {
@@ -1636,7 +1636,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "93563495-60af-4a84-b811-9672fc46a1cc"
   },
   {
@@ -1644,7 +1644,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "dda05431-bce9-4686-8738-78fb409ab28f"
   },
   {
@@ -1652,7 +1652,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "533023cb-f78a-4f1c-af52-244b3c10a7bb"
   },
   {
@@ -1660,7 +1660,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "2110b943-24cf-4afd-81b2-31676f1400f8"
   },
   {
@@ -1668,7 +1668,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "a53f9f9a-8fde-4de2-83a3-944e1c4556c1"
   },
   {
@@ -1676,7 +1676,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "896f2a2f-4d02-4104-ac33-a3705a9c61e3"
   },
   {
@@ -1684,7 +1684,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "1d628f99-7c9c-423d-a470-a260d84d0d8d"
   },
   {
@@ -1692,7 +1692,31 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
+    "$ref": "9bb9c1e9-6067-49a4-b4af-13ccd87830d9"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic)",
+    "$ref": "3e62d682-c770-498d-a25a-5544775aeaa1"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic)",
+    "$ref": "28ef060d-098c-4388-b600-00f4f8fe49aa"
+  },
+  {
+    "scope": {
+      "component": "badge",
+      "property": "color"
+    },
+    "context": "Background (non-semantic)",
     "$ref": "09787c85-44e0-4efe-b427-f6e7dde544a4"
   },
   {
@@ -1700,7 +1724,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "143b0387-7069-4bef-b852-9c456d692b88"
   },
   {
@@ -1708,7 +1732,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "b526e518-47b2-4a1c-b54b-42596381b7fd"
   },
   {
@@ -1716,7 +1740,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "41f3d269-85d6-4c82-9b1c-e40ea508fa78"
   },
   {
@@ -1724,7 +1748,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "72400c8f-2e44-4757-8be6-3c1eb28d9606"
   },
   {
@@ -1732,7 +1756,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "d726501f-8920-4434-b397-b0974037161a"
   },
   {
@@ -1740,7 +1764,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "aa7d44fd-6c77-43dc-8981-4200356fd02a"
   },
   {
@@ -1748,7 +1772,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "5e5d9ba8-df94-43e1-ad40-f78312925ec5"
   },
   {
@@ -1756,7 +1780,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "4e874813-4ebc-4855-bcb3-83024a6d1ba2"
   },
   {
@@ -1764,7 +1788,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "4f1f131b-b6d1-401b-82ff-be6fc0cce9f3"
   },
   {
@@ -1772,7 +1796,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "77b47209-4527-462b-a11f-b3e5f47857ec"
   },
   {
@@ -1780,7 +1804,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ac6995d9-8982-4dac-ba85-4c79ec7850a1"
   },
   {
@@ -1788,7 +1812,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "4d114a18-a876-4b01-a356-64b6098496f4"
   },
   {
@@ -1796,7 +1820,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "68b6af88-a951-48f8-89c3-9d599a05f4dc"
   },
   {
@@ -1804,7 +1828,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "f326443a-8f5d-4aa2-8bbb-17dc7b0420d6"
   },
   {
@@ -1812,7 +1836,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "c80f665a-801e-45c8-b59b-8b9b47ebb356"
   },
   {
@@ -1820,7 +1844,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "6f596774-e326-4d80-bf1d-23f7ad1f4ccb"
   },
   {
@@ -1828,7 +1852,7 @@
       "component": "badge",
       "property": "color"
     },
-    "context": "Background (non-semantic) ",
+    "context": "Background (non-semantic)",
     "$ref": "ec3dddb5-3944-493c-b5c8-f08c3272dc06"
   },
   {
