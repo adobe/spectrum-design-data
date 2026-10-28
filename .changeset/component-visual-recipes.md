@@ -20,5 +20,6 @@ Add a draft component visual recipe format for rendering to SVG, PNG, and Figma.
 - **renderers and site**: per-corner radius props, font weight names to numbers, label presence.
 - **sdk/plugins/site**: `design-data site --out <dir>` writes a static explorer, no WASM.
 - **sdk/plugins/site**: usage matrix zooms to anatomy and specs; tokens show Figma names.
+- **components/badge.json**: remove the `isDisabled` option; badge has no disabled state.
 - **sdk/plugins/figma**: `variable_names` maps tokens to Figma variable names offline.
 - **sdk/core**: scene token refs carry alias `chain`; press tokens are tracked.

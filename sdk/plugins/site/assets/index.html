@@ -172,6 +172,10 @@
         display: grid;
         place-items: center;
       }
+      .cell.na {
+        text-align: center;
+        color: #b5b5b5;
+      }
       button.cell:hover,
       button.cell:focus-visible {
         border-color: var(--pink);
@@ -807,16 +811,28 @@
         else await renderZoom(o, token, opts);
       }
 
-      // Columns come from states, rows from distinct visual variants.
+      // Columns come from states, rows from appearance options (variant, style)
+      // crossed with distinct toggle combinations. Components without
+      // interaction states (badge) put the last appearance option in columns.
       async function renderMatrix(o, token, opts) {
         const structural = new Set(C.recipe.structural);
+        const appearance = Object.keys(controlOpts).filter(
+          (n) =>
+            controlOpts[n].type === "enum" &&
+            controlOpts[n].supported &&
+            !structural.has(n) &&
+            !/^(size|fixed)$|^static/i.test(n),
+        );
+        const valuesOf = (n) =>
+          controlOpts[n].def.values.map((v) => v.value ?? v);
         const base = Object.fromEntries(
           Object.entries(o).filter(
             ([k]) =>
               !k.startsWith("opt.") ||
               structural.has(k.slice(4)) ||
               !controlOpts[k.slice(4)] ||
-              controlOpts[k.slice(4)].type === "enum",
+              (controlOpts[k.slice(4)].type === "enum" &&
+                !appearance.includes(k.slice(4))),
           ),
         );
         delete base.state;
@@ -827,36 +843,83 @@
             !structural.has(n) &&
             n !== "isDisabled",
         );
-        const seen = new Set();
+        const interaction = (C.states ?? []).filter(
+          (st) => st.name !== "disabled",
+        );
+        const colEnum = interaction.length ? null : appearance.at(-1);
+        const rowEnums = appearance.filter((n) => n !== colEnum);
+        const product = (names) =>
+          names.reduce(
+            (acc, n) =>
+              acc.flatMap((a) => valuesOf(n).map((v) => ({ ...a, [n]: v }))),
+            [{}],
+          );
+        const colDefs = colEnum
+          ? valuesOf(colEnum).map((v) => ({
+              label: v,
+              extra: { [colEnum]: v },
+            }))
+          : ["default", ...interaction.map((st) => st.name)].map((c) => ({
+              label: c,
+              state: c === "default" ? undefined : c,
+              extra: {},
+            }));
+        if (controlOpts.isDisabled?.supported)
+          colDefs.push({ label: "disabled", extra: { isDisabled: true } });
         const rows = [];
-        for (const combo of subsets(toggles)) {
-          const extra = Object.fromEntries(combo.map((n) => [n, true]));
-          const s = await getScene(withOpts(base, extra));
-          const fp = fingerprint(s);
-          if (!seen.has(fp)) {
+        const seen = new Set();
+        for (const enums of product(rowEnums)) {
+          for (const combo of subsets(toggles)) {
+            const extra = {
+              ...enums,
+              ...Object.fromEntries(combo.map((n) => [n, true])),
+            };
+            // A disabled column is ignored so a combination that only differs
+            // there (accent outline) isn't listed as its own row.
+            const fps = [];
+            for (const c of colDefs) {
+              if (c.extra.isDisabled) continue;
+              fps.push(
+                fingerprint(
+                  await getScene(
+                    withOpts(
+                      { ...base, ...(c.state ? { state: c.state } : {}) },
+                      { ...extra, ...c.extra },
+                    ),
+                  ),
+                ),
+              );
+            }
+            const fp = fps.join("|");
+            if (seen.has(fp)) continue;
             seen.add(fp);
-            rows.push([combo, extra]);
+            const parts = [...Object.values(enums), ...combo.map(humanize)];
+            rows.push({ extra, label: parts.join(" · ") || "Standard" });
           }
         }
-        const cols = ["default", ...(C.states ?? []).map((s) => s.name)];
-        if (controlOpts.isDisabled?.supported) cols.push("disabled");
+        const cols = colDefs.map((c) => c.label);
         const reqs = [];
         let html =
           "<span></span>" +
           cols.map((c) => `<span class="h">${c}</span>`).join("");
-        for (const [combo, extra] of rows) {
-          html += `<span class="rl">${combo.length ? combo.map(humanize).join(" + ") : "Standard"}</span>`;
-          for (const c of cols) {
+        for (const row of rows) {
+          html += `<span class="rl">${esc(row.label)}</span>`;
+          let first;
+          for (const c of colDefs) {
             const req = withOpts(
-              {
-                ...base,
-                ...(c !== "default" && c !== "disabled" ? { state: c } : {}),
-              },
-              { ...extra, ...(c === "disabled" ? { isDisabled: true } : {}) },
+              { ...base, ...(c.state ? { state: c.state } : {}) },
+              { ...row.extra, ...c.extra },
             );
             const s = await getScene(req);
+            const fp = fingerprint(s);
+            first ??= fp;
+            // Not defined for this variant: it would repeat the first column.
+            if (colEnum && fp === first && c !== colDefs[0]) {
+              html += '<span class="cell na" aria-hidden="true">–</span>';
+              continue;
+            }
             reqs.push(req);
-            html += `<button type="button" class="cell" data-i="${reqs.length - 1}" aria-label="${esc(`${combo.map(humanize).join(" + ") || "Standard"}, ${c}`)}">${sceneSvg(s)}</button>`;
+            html += `<button type="button" class="cell" data-i="${reqs.length - 1}" aria-label="${esc(`${row.label}, ${c.label}`)}">${sceneSvg(s)}</button>`;
           }
         }
         if (token !== stageToken) return;
@@ -1021,9 +1084,9 @@
             gx2 = P(flow[1], 0, 0)[0],
             gm = (gx + gx2) / 2,
             cy = (y0 + y1) / 2,
-            dy = cy - (y1 - y0) * 0.2;
+            dy = cy;
           out.push(
-            hb(gx, gx2, cy + (y1 - y0) * 0.08, 5) +
+            hb(gx, gx2, cy, 5) +
               line(gm, dy, gm, y0 - 40) +
               dot(gm, dy) +
               pill(gm, y0 - 54, gp.token, B, true, "middle"),
