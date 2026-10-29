@@ -18,6 +18,7 @@ import { elevationDocumentAtom } from "../../elevation/state";
 import { ELEVATION_DEFAULTS } from "../../elevation/defaults";
 import { elevationFields } from "../../elevation/changes";
 import { semanticTokenSource, structureFoundationSource } from "./structures";
+import { opacityFoundationSource } from "./opacityFoundation";
 
 const taxonomySource: FoundationImpactSource = {
   id: "registry",
@@ -53,6 +54,7 @@ const elevationSource: FoundationImpactSource = {
 };
 
 export const FOUNDATION_IMPACT_SOURCES: readonly FoundationImpactSource[] = [
+  opacityFoundationSource,
   colorFoundationSource,
   typographyFoundationSource,
   spacingFoundationSource,

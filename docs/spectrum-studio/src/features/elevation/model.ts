@@ -16,7 +16,10 @@ export interface ShadowLayer {
   scaleTypeId: string;
   base: number;
   scale: number;
-  opacity: number;
+  opacityTokenId?: string;
+  manualOpacity?: number;
+  /** Historical percentage input, decoded only to upgrade older saved data. */
+  opacity?: number;
 }
 export interface ElevationDocument {
   schemaVersion: 1;
@@ -127,7 +130,20 @@ export function elevationIssues(value: ElevationDocument): string[] {
   for (const layer of value.layers) {
     if (!layer.id || !layer.label.trim())
       issues.push("Give each shadow a name and a stable identity.");
-    if (!finiteRange(layer.base, 0) || !finiteRange(layer.opacity, 0, 100))
+    const opacityInputs = [
+      layer.opacityTokenId,
+      layer.manualOpacity,
+      layer.opacity,
+    ].filter((value) => value !== undefined);
+    if (
+      !finiteRange(layer.base, 0) ||
+      opacityInputs.length !== 1 ||
+      (layer.opacityTokenId !== undefined &&
+        !uuid.test(layer.opacityTokenId)) ||
+      (layer.manualOpacity !== undefined &&
+        !finiteRange(layer.manualOpacity, 0, 1)) ||
+      (layer.opacity !== undefined && !finiteRange(layer.opacity, 0, 100))
+    )
       issues.push(
         `${layer.label}: enter a non-negative base and opacity between 0% and 100%.`,
       );

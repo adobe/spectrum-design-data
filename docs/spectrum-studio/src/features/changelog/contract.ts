@@ -10,6 +10,8 @@ export interface ChangeContext {
 }
 export interface AuthoredAddress {
   path: SourcePath;
+  /** Restore collection order without replacing its independently authored members. */
+  collectionOrder?: boolean;
   /** Compared working value; reset must reject a stale card. */
   expected: unknown;
 }
@@ -79,6 +81,23 @@ export function restorePath<T>(
         throw new Error("The source object is no longer available.");
       const before = isRecord(original) ? original[part] : undefined;
       if (!rest.length) {
+        if (
+          address.collectionOrder &&
+          Array.isArray(target[part]) &&
+          Array.isArray(before)
+        ) {
+          const ids = before.filter(isRecord).map((item) => item.id);
+          target[part] = [...target[part]].sort(
+            (left: unknown, right: unknown) => {
+              const rank = (value: unknown) => {
+                const index = isRecord(value) ? ids.indexOf(value.id) : -1;
+                return index < 0 ? ids.length : index;
+              };
+              return rank(left) - rank(right);
+            },
+          );
+          return;
+        }
         if (before === undefined) delete target[part];
         else target[part] = structuredClone(before);
       } else {

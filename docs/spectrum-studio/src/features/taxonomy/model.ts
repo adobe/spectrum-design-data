@@ -8,6 +8,7 @@ export type TaxonomyScope =
   | "colors"
   | "typography"
   | "elevation"
+  | "opacity"
   | "structures"
   | DimensionScope;
 export type TaxonomyValue = string | number;
@@ -71,6 +72,7 @@ const scopes: TaxonomyScope[] = [
   "colors",
   "typography",
   "elevation",
+  "opacity",
   "structures",
   ...DIMENSION_SCOPES,
 ];

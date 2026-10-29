@@ -29,6 +29,8 @@ export function elevationFields(
       "base",
       "scale",
       "opacity",
+      "opacityTokenId",
+      "manualOpacity",
     ] as const)
       fields.set(`layers/${layer.id}/${key}`, layer[key]);
   return fields;

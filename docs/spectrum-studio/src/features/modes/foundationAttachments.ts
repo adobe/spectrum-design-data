@@ -26,6 +26,7 @@ import { PALETTE_SCALE_ID, tokenStableKey, tokenUuid } from "../tokens/model";
 import { tokenModeSetIds } from "../tokens/browserModel";
 import { scaleContrasts } from "../color-system/contrastSteps";
 import { dataVisMemberId } from "../color-system/data-vis/identity";
+import { opacityDocumentAtom } from "../opacity/state";
 
 export const modeSetFoundationsAtom = atom((get) => {
   const attachments = get(foundationModeAttachmentsAtom);
@@ -182,7 +183,9 @@ export const detachFoundationModeSetAtom = atom(
         const belongs =
           input.foundation === "color"
             ? colorTokenIds.has(id)
-            : id.startsWith(`${input.foundation}-`);
+            : input.foundation === "opacity"
+              ? get(opacityDocumentAtom).levels.some((level) => level.id === id)
+              : id.startsWith(`${input.foundation}-`);
         if (!belongs) return [[id, edit]];
         const values = Object.fromEntries(
           Object.entries(edit.values).filter(

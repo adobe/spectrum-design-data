@@ -69,6 +69,7 @@ export const tshirtArtifactSourceAtom = selectAtom(
     ...dimensionSource(source),
     structures: source.structures,
     elevation: source.elevation,
+    opacity: source.opacity,
   }),
   sameReferences,
 );

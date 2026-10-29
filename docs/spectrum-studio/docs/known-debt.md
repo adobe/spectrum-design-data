@@ -17,7 +17,6 @@ item when it is fixed and its check passes; do not mark it done and leave it.
 | DEBT-004 | `normalizeModeState` (`modes/integrity.ts`) repairs ownership problems silently | The user is not told what changed | Show a visible notice of each repair |
 | DEBT-005 | Hardcoded foundation and token-type names in `modes/foundationAttachments.ts` (about line 102) and `changelog/tokenComparison.ts` `scopeKey` | Each new foundation needs edits there | Derive from the foundation and token definitions |
 | DEBT-006 | `responsibleParameterIds` falls back to Color scheme for unowned parameters (EPIC-2.3) | Unowned parameters are attributed to the wrong mode set | Resolve per EPIC-2.3 |
-| DEBT-007 | `elevation.layerOpacities` reaches impact by a different route than other mode parameters | Inconsistent Impact wiring | Route it like the other parameters |
 | DEBT-008 | Load-time throws that predate Working rule 2: stored-platform check in `edit-session/state.ts`, data-vis ownership asserts | They can stop the app loading | Convert to visible diagnostics |
 | DEBT-009 | Mode keys (generation) and mode ids (token edits) are translated in two files, `design-data/projection.ts` and `changelog/tokenComparison.ts`. The shapes are now built by `modes/combinations.ts`, but those files still convert between ids and keys themselves (not fully reviewed) | Two translation sites can drift. Canonical keys are frozen by the target contract until mode semantics are agreed | Review what conversion remains and move it next to the helpers, keeping keys unchanged |
 
@@ -48,7 +47,6 @@ item when it is fixed and its check passes; do not mark it done and leave it.
 
 | ID | What and where | Why it matters | Intended fix |
 | --- | --- | --- | --- |
-| DEBT-028 | Per-mode shadow opacities: capability `elevation.layerOpacities`, sparse patches keyed by layer id in `Mode.foundations.elevation.layerOpacities` (`elevation/resolution.ts`, `setShadowModeOpacityAtom`). Related to DEBT-007 and DEBT-003 | Intended model is dials only. This patch stands in for a missing feature: a system-wide opacity system with its own dials, whose outputs shadows reference | Build the opacity system, have layers reference its outputs, migrate and remove the patches. Needs a roadmap decision and approval |
 | DEBT-029 | `generateElevation`, `shadowCss` and `elevationTokenName` throw on invalid data. `edit-session/state.ts` (lines ~241 and ~249) calls `generateElevation` while checking a stored snapshot, so a bad document stops a restore. `generatedElevationAtom` feeds `tokens/browserState.ts` with no catch, and `ElevationElements.tsx` calls `elevationTokenName` without one. The CSS export and Comparison views and the panel actions do catch. `aliasTargets`, `projection`, `shadowArtifacts` and `tshirtArtifacts` callers were not traced | Invalid stored data could block restore or blank a view (Working rule 2). Edit-time validation is intended | Return issues from generation, restore anyway and show them. Needs approval; do not change `edit-session/storage.ts` behavior without it |
 
 ## Logic

@@ -21,6 +21,7 @@ import {
 } from "../src/features/design-data/shadowArtifacts";
 import { ELEVATION_FORMULAS } from "../src/features/elevation/formulas";
 import { generateElevation } from "../src/features/elevation/generate";
+import { resolveElevationDocument } from "../src/features/elevation/resolution";
 import {
   browserElevationSources,
   buildElevationCss,
@@ -37,6 +38,12 @@ function source(): ShadowArtifactSource {
     taxonomy: data.system.taxonomy,
     formulas: structuredClone(ELEVATION_FORMULAS),
     modeSets: data.system.modeSets,
+    opacitySource: {
+      opacity: data.system.foundations.opacity,
+      colorSystem: data.system.foundations.color,
+      modeSets: data.system.modeSets,
+      browserTokenEdits: {},
+    },
   };
 }
 const baseline = source();
@@ -45,10 +52,21 @@ const css = buildElevationCss(
   baseline.elevation,
   baseline.taxonomy,
   baseline.modeSets,
+  baseline.formulas,
+  undefined,
+  baseline.opacitySource,
 );
 const native = browserElevationSources(
   baseline.elevation,
-  generateElevation(baseline.elevation),
+  generateElevation(
+    resolveElevationDocument(
+      baseline.elevation,
+      [],
+      baseline.modeSets,
+      {},
+      baseline.opacitySource,
+    ),
+  ),
   baseline.taxonomy,
 );
 const bundle = buildShadowArtifacts(baseline);
@@ -87,7 +105,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   bundle.tokens.map((row) => Number(new Color(row.value[0].color).alpha)),
-  [0.2, 0.2, 0.2, 0.5, 0.5, 0.5],
+  [0.2, 0.2, 0.2, 0.2, 0.2, 0.2],
 );
 assert.deepEqual(Object.keys(bundle.tokens[0]).sort(), [
   "$valueType",
@@ -108,13 +126,28 @@ assert(
 for (const token of bundle.tokens) assertDraftShadowToken(token);
 assert.equal(
   css,
-  buildElevationCss(baseline.elevation, baseline.taxonomy, baseline.modeSets),
+  buildElevationCss(
+    baseline.elevation,
+    baseline.taxonomy,
+    baseline.modeSets,
+    baseline.formulas,
+    undefined,
+    baseline.opacitySource,
+  ),
 );
 assert.deepEqual(
   native,
   browserElevationSources(
     baseline.elevation,
-    generateElevation(baseline.elevation),
+    generateElevation(
+      resolveElevationDocument(
+        baseline.elevation,
+        [],
+        baseline.modeSets,
+        {},
+        baseline.opacitySource,
+      ),
+    ),
     baseline.taxonomy,
   ),
 );
@@ -160,6 +193,7 @@ assert.equal(color("rgba(0, 0, 0, 0.125)"), true);
 
 const fractional = source();
 fractional.modeSets = [];
+delete fractional.elevation.layers[0].opacityTokenId;
 fractional.elevation.depth = 50;
 fractional.elevation.layers[0].base = 3.75;
 fractional.elevation.layers[0].opacity = 12.5;
@@ -226,6 +260,7 @@ for (const count of [2, 8]) {
   layered.modeSets = [];
   layered.elevation.layers = Array.from({ length: count }, (_, index) => ({
     ...layered.elevation.layers[0],
+    opacityTokenId: undefined,
     id: crypto.randomUUID(),
     label: `Layer ${index}`,
     base: index % 2 ? 2 : 4,
@@ -510,12 +545,13 @@ for (const set of detached) {
 }
 assert.equal(
   buildShadowArtifacts({ ...baseline, modeSets: detached }).tokens.length,
-  3,
+  6,
+  "Referenced opacity keeps its Color scheme dependency after Elevation ownership is detached.",
 );
 const sparse = axis("opacity", "shadowOpacity", ["elevation.layerOpacities"]);
 sparse.modes[1].foundations.elevation = { layerOpacities: {} };
 assert.deepEqual(
-  buildShadowArtifacts({ ...baseline, modeSets: [sparse] }).tokens[3].value,
+  buildShadowArtifacts({ ...baseline, modeSets: [sparse] }).tokens[0].value,
   bundle.tokens[0].value,
 );
 for (const malformed of [
@@ -575,14 +611,15 @@ assert.throws(
 sparse.modes[1].foundations.elevation = {
   layerOpacities: { "missing-layer": 30 },
 };
-assert.throws(
-  () => buildShadowArtifacts({ ...baseline, modeSets: [sparse] }),
-  /unresolved shadow layer/,
+assert.deepEqual(
+  buildShadowArtifacts({ ...baseline, modeSets: [sparse] }).tokens[0].value,
+  bundle.tokens[0].value,
+  "Historical opacity patches no longer drive generated shadow values.",
 );
 const boundedAxes = (count: number) => [
   axis("depth", "shadowDepth", ["elevation.depth"], count),
   axis("color", "shadowColor", ["elevation.color"], count),
-  axis("opacity", "shadowOpacity", ["elevation.layerOpacities"], count),
+  axis("opacity", "shadowOpacity", ["color.backgroundLightness"], count),
 ];
 assert.equal(
   buildShadowArtifacts({ ...baseline, modeSets: boundedAxes(6) }).tokens.length,

@@ -42,7 +42,6 @@ import {
   resolvedElevationAtom,
   updateElevationModeParameterAtom,
 } from "../../features/elevation/state";
-import { ShadowOpacityControls } from "../elevation/ShadowOpacityControls";
 import { ToastQueue } from "@react-spectrum/s2";
 import { popoverDialogStyles } from "../../components/popoverLayout";
 
@@ -176,13 +175,7 @@ export function FoundationModePopover({
         placement="end"
         padding="none"
         size={
-          enabled.some(
-            (option) =>
-              option.id === "color.scales" ||
-              option.id === "elevation.layerOpacities",
-          )
-            ? "M"
-            : "S"
+          enabled.some((option) => option.id === "color.scales") ? "M" : "S"
         }
       >
         <Dialog
@@ -214,9 +207,6 @@ export function FoundationModePopover({
           {enabled.some((option) => option.id === "color.scales") && (
             <ModeScaleStopControls focusOnMount={parameters.length === 0} />
           )}
-          {enabled.some(
-            (option) => option.id === "elevation.layerOpacities",
-          ) && <ShadowOpacityControls modeSet={modeSet} mode={mode} />}
         </Dialog>
       </Popover>
     </DialogTrigger>

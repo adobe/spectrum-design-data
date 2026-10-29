@@ -1,6 +1,10 @@
 // Copyright 2026 Adobe. All rights reserved.
 import type { EditSessionSnapshot } from "../edit-session/state";
-import type { FoundationModeAttachments } from "../../state/view/foundationModeAttachments";
+import {
+  FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
+  pruneFoundationModeAttachments,
+  type FoundationModeAttachments,
+} from "../../state/view/foundationModeAttachments";
 import type {
   ChangeField,
   ChangeGroup,
@@ -59,6 +63,13 @@ export const CHANGE_DOMAINS = {
     category: "elevation",
     label: "Elevation",
     sourceKind: "elevation",
+  },
+  opacity: {
+    topic: "foundations",
+    category: "opacity",
+    label: "Opacity",
+    sourceKind: "opacity",
+    collection: "levels",
   },
   taxonomy: {
     topic: "registry",
@@ -155,6 +166,7 @@ export const FOUNDATION_LABELS: Record<string, string> = {
   size: "Size",
   radius: "Corner radius",
   elevation: "Elevation",
+  opacity: "Opacity",
   motion: "Motion",
 };
 export const FIELD_EXCLUSIONS: Readonly<Record<string, string>> = {
@@ -209,7 +221,10 @@ const display = (value: unknown): string | undefined =>
 export function compareAuthoring(
   shipped: EditSessionSnapshot,
   working: EditSessionSnapshot,
-  attachments: FoundationModeAttachments = {},
+  attachments: FoundationModeAttachments = pruneFoundationModeAttachments(
+    FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
+    working.modeSets,
+  ),
 ): AuthoringComparison {
   assertDomainCoverage(shipped);
   assertDomainCoverage(working);
@@ -237,6 +252,7 @@ export function compareAuthoring(
         ]);
         for (const key of keys) {
           if (FIELD_EXCLUSIONS[key]) continue;
+          if (definition.category === "opacity" && key === "rows") continue;
           // Source names with registered references are projections, not extra authored fields.
           if (
             key === "name" &&
@@ -309,11 +325,13 @@ export function compareAuthoring(
       if (!changed) return;
       const key = names.map(label).join(" / ") || "Value";
       const previewKind =
-        typeof (right ?? left) === "number" && foundation === "radius"
-          ? "radius"
-          : names.at(-1) === "color" && typeof (right ?? left) === "string"
-            ? "color"
-            : undefined;
+        typeof (right ?? left) === "number" && foundation === "opacity"
+          ? "opacity"
+          : typeof (right ?? left) === "number" && foundation === "radius"
+            ? "radius"
+            : names.at(-1) === "color" && typeof (right ?? left) === "string"
+              ? "color"
+              : undefined;
       fields.push({
         id: pathId(fieldPath),
         key,
@@ -321,11 +339,11 @@ export function compareAuthoring(
         before: display(left),
         after: display(right),
         ...(previewKind &&
-          typeof left === "string" && {
+          (typeof left === "string" || typeof left === "number") && {
             beforePreview: createValuePreview(previewKind, left),
           }),
         ...(previewKind &&
-          typeof right === "string" && {
+          (typeof right === "string" || typeof right === "number") && {
             afterPreview: createValuePreview(previewKind, right),
           }),
       });
@@ -452,6 +470,45 @@ export function compareAuthoring(
         readPath(before, [definition.collection]),
         readPath(after, [definition.collection]),
       );
+      if (domain === "opacity") {
+        const left = readPath(before, ["levels"]);
+        const right = readPath(after, ["levels"]);
+        const ids = (value: unknown) =>
+          Array.isArray(value)
+            ? value.filter(record).map((level) => level.id)
+            : [];
+        const changed = !sameValue(ids(left), ids(right));
+        slots.push({
+          id: pathId([domain, "levelOrder"]),
+          category: "opacity",
+          foundation: "opacity",
+          changed,
+          manual: false,
+        });
+        if (changed) {
+          const address = {
+            path: [domain, "levels"],
+            expected: right,
+            collectionOrder: true,
+          };
+          items.push({
+            id: pathId([domain, "levelOrder"]),
+            topic: "foundations",
+            sourceKind: "opacity",
+            title: "Opacity order",
+            kind: "modified",
+            address,
+            fields: [
+              {
+                key: "Level order",
+                before: display(ids(left)),
+                after: display(ids(right)),
+                address,
+              },
+            ],
+          });
+        }
+      }
       // Pending rule documents and other document fields must not disappear behind a collection.
       const rest = (value: unknown) =>
         record(value)
@@ -537,7 +594,10 @@ export function compareAuthoring(
       sourceKind: "mode-attachment",
     },
     ["attachments"],
-    {},
+    pruneFoundationModeAttachments(
+      FOUNDATION_MODE_ATTACHMENT_DEFAULTS,
+      shipped.modeSets,
+    ),
     attachments,
     "Foundation mode attachments",
   );

@@ -17,6 +17,7 @@ export { capabilityOwners } from "./ownership";
 
 export type FoundationId =
   | "color"
+  | "opacity"
   | "typography"
   | "spacing"
   | "size"
@@ -57,6 +58,7 @@ export interface FoundationDocuments {
 
 export const FOUNDATIONS: readonly FoundationDefinition[] = [
   { id: "color", label: "Color" },
+  { id: "opacity", label: "Opacity" },
   { id: "typography", label: "Typography" },
   { id: "spacing", label: "Spacing" },
   { id: "size", label: "Size" },
@@ -167,11 +169,6 @@ export const AUTHORING_CAPABILITY_OPTIONS: readonly {
   { id: "typography.textZoom", foundation: "typography", label: "Text size" },
   { id: "elevation.depth", foundation: "elevation", label: "Depth" },
   { id: "elevation.color", foundation: "elevation", label: "Shadow color" },
-  {
-    id: "elevation.layerOpacities",
-    foundation: "elevation",
-    label: "Shadow opacities",
-  },
 ];
 
 export function capabilityFoundations(
@@ -272,10 +269,6 @@ export function modeOverridesCapability(
     )
   )
     return true;
-  if (capability === "elevation.layerOpacities")
-    return (
-      Object.keys(mode.foundations.elevation?.layerOpacities ?? {}).length > 0
-    );
   if (capability === "color.scales") {
     return (
       Object.values(mode.foundations.color?.scaleStops ?? {}).some(

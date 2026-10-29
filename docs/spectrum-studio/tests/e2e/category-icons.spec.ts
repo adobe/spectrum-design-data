@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { resolveCategoryIcon } from "../../src/features/icons/categoryIcons";
 import { selectColorPanelSection } from "./colorPanelSection";
 import { enableEditMode } from "./editMode";
+import { selectMode } from "./modeControl";
 import { createDefaultSnapshot } from "../../src/features/edit-session/state";
 import {
   AUTHORING_RECORD_VERSION,
@@ -43,6 +44,52 @@ async function icon(page: Page, category: string) {
 }
 
 for (const width of [1280, 390]) {
+  test(`Opacity foundation follows Colors and shows its placeholder at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/");
+    await navigate(page, "Foundations");
+    const tabs = page
+      .locator('[data-component="FoundationsLayout"]')
+      .getByRole("tablist", { name: "Foundation sections", exact: true })
+      .getByRole("tab");
+    await expect(tabs.nth(0)).toHaveAccessibleName("Colors");
+    await expect(tabs.nth(1)).toHaveAccessibleName("Opacity");
+    await expect(tabs.nth(2)).toHaveAccessibleName("Typography");
+    await expect(page.locator('[data-category="opacity"]')).toHaveAttribute(
+      "data-category-icon",
+      "ViewTransparency",
+    );
+    await tabs.nth(1).click();
+    await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect(
+      page.getByRole("tabpanel", { name: "Opacity", exact: true }),
+    ).toHaveText("TBD");
+    const surface = page.locator(
+      '[data-component="Foundations"] [data-elements-surface]',
+    );
+    const backgrounds: string[] = [];
+    for (const mode of ["Light", "Dark"]) {
+      await page.setViewportSize({ width: 1280, height: 1000 });
+      await selectMode(page, mode);
+      await page.getByRole("radio", { name: "Elements", exact: true }).click();
+      await page.setViewportSize({ width, height: 1000 });
+      await page.getByRole("tab", { name: "Motion", exact: true }).click();
+      await expect(surface).toHaveText("Coming soon");
+      const background = await surface.evaluate(
+        (element) => getComputedStyle(element).backgroundColor,
+      );
+      backgrounds.push(background);
+      await tabs.nth(1).click();
+      await expect(surface).toHaveText("Coming soon");
+      await expect(surface).toHaveCSS("background-color", background);
+    }
+    expect(backgrounds[0]).not.toBe(backgrounds[1]);
+    await tabs.nth(0).click();
+    await expect(tabs.nth(0)).toHaveAttribute("aria-selected", "true");
+  });
+
   test(`Category workflow icons retain labels and behavior at ${width}px`, async ({
     page,
   }) => {
@@ -61,6 +108,7 @@ for (const width of [1280, 390]) {
     await navigate(page, "Foundations");
     for (const category of [
       "color",
+      "opacity",
       "typography",
       "spacing",
       "size",

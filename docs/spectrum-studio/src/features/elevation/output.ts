@@ -17,6 +17,7 @@ import { ELEVATION_FORMULAS } from "./formulas";
 import type { ScaleType } from "../scales/scaleType";
 import type { ElevationDocument, ElevationLevel } from "./model";
 import type { ColorOutputSettings } from "../color-system/outputSettings";
+import { opacityAxes, type OpacitySource } from "../opacity/generation";
 
 export function elevationTokenName(
   document: ElevationDocument,
@@ -76,15 +77,40 @@ export function browserElevationSources(
     };
   });
 }
-export function elevationOwnerIds(sets: readonly ModeSet[]): Set<string> {
+export function elevationOwnerIds(
+  sets: readonly ModeSet[],
+  opacitySource?: OpacitySource,
+  document?: ElevationDocument,
+): Set<string> {
   const owners = capabilityOwners(sets);
+  const references =
+    document &&
+    new Set(
+      document.layers.flatMap((layer) =>
+        layer.opacityTokenId ? [layer.opacityTokenId] : [],
+      ),
+    );
+  const dependencies = opacitySource && {
+    ...opacitySource,
+    opacity: opacitySource.opacity && {
+      ...opacitySource.opacity,
+      levels: opacitySource.opacity.levels.filter(
+        (level) => !references || references.has(level.id),
+      ),
+    },
+  };
   return new Set(
-    ["elevation.depth", "elevation.color", "elevation.layerOpacities"].flatMap(
-      (capability) =>
+    ["elevation.depth", "elevation.color"]
+      .flatMap((capability) =>
         owners[capability as keyof typeof owners]
           ? [owners[capability as keyof typeof owners]!]
           : [],
-    ),
+      )
+      .concat(
+        dependencies && (!references || references.size)
+          ? opacityAxes(dependencies).map((axis) => axis.id)
+          : [],
+      ),
   );
 }
 export function buildElevationCss(
@@ -93,10 +119,13 @@ export function buildElevationCss(
   sets: readonly ModeSet[],
   formulas: readonly ScaleType[] = ELEVATION_FORMULAS,
   colorOutput?: ColorOutputSettings,
+  opacitySource?: OpacitySource,
 ): string {
   if (!isFoundationPublished(document)) return "";
   const axes = sets.filter(
-    (set) => elevationOwnerIds(sets).has(set.id) && set.modes.length,
+    (set) =>
+      elevationOwnerIds(sets, opacitySource, document).has(set.id) &&
+      set.modes.length,
   );
   if (modeCombinationCount(axes) > 256)
     throw new Error("Too many Elevation mode combinations to export safely.");
@@ -105,7 +134,7 @@ export function buildElevationCss(
     throw new Error("Too many Elevation mode combinations to export safely.");
   const blocks = combinations.map((modes) => {
     const levels = generateElevation(
-      resolveElevationDocument(document, modes, sets),
+      resolveElevationDocument(document, modes, sets, {}, opacitySource),
       formulas,
       colorOutput,
     );
