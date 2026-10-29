@@ -26,8 +26,9 @@ javascript:
 node:
   # The version to use. Must be a semantic version that includes major, minor, and patch.
   # We suggest using the latest active LTS version: https://nodejs.org/en/about/releases
-  # Updated to 20.17.0 for npm 11.6.2 compatibility (required for OIDC)
-  version: "20.17.0"
+  # 22.12.0 satisfies Vite 8 (^20.19 || >=22.12) for docs/spectrum-studio and keeps
+  # npm 11.6.2 compatibility (npm 11 supports ^20.17 || >=22.9; required for OIDC).
+  version: "22.12.0"
 
 # The version of the package manager (pnpm) to use.
 pnpm:

@@ -7,7 +7,7 @@ globs: **/*.js, **/*.mjs, **/*.cjs, **/*.ts
 
 # JavaScript and TypeScript
 
-* ESM throughout (`"type": "module"`); Node.js \~20.12.
+* ESM throughout (`"type": "module"`); Node.js 22.12 toolchain (packages support >=20.12).
 * 2-space indentation and trailing commas in multiline objects and arrays; Prettier enforces formatting on commit.
 * Prefer `const`; never `var`.
 * Use `async`/`await` over `.then()` chains.
