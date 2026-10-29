@@ -19,6 +19,7 @@
     "themes": "Saturation",
     "platforms": "DeviceAll",
     "color": "Color",
+    "opacity": "ViewTransparency",
     "typography": "TextSize",
     "spacing": "DistributeSpaceVertically",
     "size": "Maximize",
