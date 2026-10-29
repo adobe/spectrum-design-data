@@ -156,7 +156,7 @@ pub(crate) fn component_relationships<'a>(
                 .get("$ref")
                 .and_then(Value::as_str)
                 .and_then(|rf| graph.resolve_alias_key(rf));
-            let states = match token {
+            let mut states = match token {
                 Some(t) => crate::visual::name_states(t.raw.get("name")),
                 None => r
                     .raw
@@ -170,6 +170,17 @@ pub(crate) fn component_relationships<'a>(
                     })
                     .unwrap_or_default(),
             };
+            if token.is_some() {
+                states.extend(
+                    r.raw
+                        .pointer("/scope/options")
+                        .and_then(Value::as_object)
+                        .map(crate::visual::scope_states)
+                        .unwrap_or_default()
+                        .iter()
+                        .filter_map(|v| v.as_str().map(String::from)),
+                );
+            }
             let options = r
                 .raw
                 .pointer("/scope/options")

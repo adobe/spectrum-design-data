@@ -119,11 +119,12 @@ impl Resolved {
     }
 }
 
-/// A candidate token with the component options its relationship pins (`None`: none).
-type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>);
+/// A candidate token with the component options its relationship pins (`None`: none) and the
+/// states that relationship adds to the token's own (its `scope.options.state`).
+type Candidate<'g> = (&'g crate::graph::TokenRecord, Option<Value>, Vec<String>);
 
-/// A relationship's `$ref` with the component options it pins.
-type PinnedRef = (String, Option<Value>);
+/// A relationship's `$ref` with the component options and states it pins.
+type PinnedRef = (String, Option<Value>, Vec<String>);
 
 /// Memoized token lookups shared across renders of one graph. A token selector's
 /// candidates do not depend on the request, so a matrix of renders can reuse them.
@@ -371,19 +372,8 @@ impl<'a> Ctx<'a> {
         active
     }
 
-    /// Mode-compatible candidates, best fit first. Candidates that contradict the
-    /// mode context are dropped; ties prefer the fewest extra name fields.
-    fn rank<'g>(
-        &self,
-        cands: Vec<&'g crate::graph::TokenRecord>,
-    ) -> Vec<&'g crate::graph::TokenRecord> {
-        self.rank_by(cands.into_iter().map(|t| (t, ())).collect())
-            .into_iter()
-            .map(|(t, ())| t)
-            .collect()
-    }
-
-    /// [`Self::rank`] for candidates that carry extra data, kept with them.
+    /// Mode-compatible candidates, best fit first, each kept with its extra data. Candidates
+    /// that contradict the mode context are dropped; ties prefer the fewest extra name fields.
     fn rank_by<'g, X>(
         &self,
         cands: Vec<(&'g crate::graph::TokenRecord, X)>,
@@ -430,15 +420,24 @@ impl<'a> Ctx<'a> {
         &self,
         cands: Vec<&'g crate::graph::TokenRecord>,
     ) -> Option<&'g crate::graph::TokenRecord> {
-        let fit = self.rank(cands);
+        self.pick_with_states(cands.into_iter().map(|t| (t, Vec::new())).collect())
+    }
+
+    /// [`Self::pick`] for candidates that carry extra states (a relationship's own).
+    fn pick_with_states<'g>(
+        &self,
+        cands: Vec<(&'g crate::graph::TokenRecord, Vec<String>)>,
+    ) -> Option<&'g crate::graph::TokenRecord> {
+        let fit = self.rank_by(cands);
         let active = self.active_states();
         fit.iter()
-            .copied()
-            .find(|t| {
-                let st = token_states(t);
+            .find(|(t, extra)| {
+                let mut st = token_states(t);
+                st.extend(extra.iter().cloned());
                 !st.is_empty() && st.iter().all(|x| active.contains(x))
             })
-            .or_else(|| fit.first().copied())
+            .or_else(|| fit.first())
+            .map(|(t, _)| *t)
     }
 
     fn terminal(&self, rec: &crate::graph::TokenRecord) -> Option<String> {
@@ -571,7 +570,11 @@ impl<'a> Ctx<'a> {
                     && c == Some(context.as_str())
                 {
                     if let Some(rf) = r.raw.get("$ref").and_then(Value::as_str) {
-                        refs.push((rf.to_string(), pinned_options(scope, &declared)));
+                        refs.push((
+                            rf.to_string(),
+                            pinned_options(scope, &declared),
+                            scope_state_ids(scope),
+                        ));
                     }
                 }
             }
@@ -582,11 +585,11 @@ impl<'a> Ctx<'a> {
             refs
         });
         let mut cands = Vec::new();
-        for (rf, options) in &refs {
+        for (rf, options, states) in &refs {
             if let Some(t) = self.graph.resolve_alias_key(rf) {
-                cands.push((t, options.clone()));
+                cands.push((t, options.clone(), states.clone()));
             } else if let Some(t) = self.scoped.iter().find(|t| t.uuid.as_deref() == Some(rf)) {
-                cands.push((t, options.clone()));
+                cands.push((t, options.clone(), states.clone()));
             }
         }
         Some((cands, property, context))
@@ -598,19 +601,19 @@ impl<'a> Ctx<'a> {
     fn select_by_options<'g>(
         &self,
         cands: Vec<Candidate<'g>>,
-    ) -> Vec<&'g crate::graph::TokenRecord> {
-        let scored: Vec<(usize, &crate::graph::TokenRecord)> = cands
+    ) -> Vec<(&'g crate::graph::TokenRecord, Vec<String>)> {
+        let scored: Vec<(usize, &crate::graph::TokenRecord, Vec<String>)> = cands
             .into_iter()
-            .filter_map(|(t, opts)| {
+            .filter_map(|(t, opts, states)| {
                 let when = opts.map(|o| serde_json::json!({ "options": o }));
-                self.when_score(when.as_ref()).map(|s| (s, t))
+                self.when_score(when.as_ref()).map(|s| (s, t, states))
             })
             .collect();
-        let best = scored.iter().map(|(s, _)| *s).max().unwrap_or(0);
+        let best = scored.iter().map(|(s, ..)| *s).max().unwrap_or(0);
         scored
             .into_iter()
-            .filter(|(s, _)| *s == best)
-            .map(|(_, t)| t)
+            .filter(|(s, ..)| *s == best)
+            .map(|(_, t, states)| (t, states))
             .collect()
     }
 
@@ -635,7 +638,7 @@ impl<'a> Ctx<'a> {
     fn resolve_relationship(&mut self, prop: &str, rel: &Value) -> Option<Resolved> {
         let (cands, property, context) = self.relationship_cands(rel)?;
         let cands = self.select_by_options(cands);
-        let Some(rec) = self.pick(cands) else {
+        let Some(rec) = self.pick_with_states(cands) else {
             self.diags.push(format!(
                 "{prop}: no relationship '{property}' / '{context}'"
             ));
@@ -654,6 +657,15 @@ impl<'a> Ctx<'a> {
 /// `scope.options` keys a relationship never pins as a component option: `state` is a token
 /// state, `scale` and `colorScheme` are modes.
 const RELATIONSHIP_RESERVED_OPTIONS: &[&str] = &["state", "scale", "colorScheme"];
+
+/// State ids a relationship's `scope.options.state` adds to its token's own, normalized like a
+/// token `name.state` (so `key-focus` is `keyboard-focus`).
+fn scope_state_ids(scope: Option<&Value>) -> Vec<String> {
+    let state = scope
+        .and_then(|s| s.get("options"))
+        .and_then(|o| o.get("state"));
+    name_states(state.map(|v| serde_json::json!({ "state": v })).as_ref())
+}
 
 /// The component options a relationship's `scope.options` pins, or `None` when it pins none.
 /// Keys the component does not declare as options are ignored.
@@ -862,7 +874,7 @@ fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
     let cands: Option<(Vec<Candidate>, String)> = if let Some(sel) = obj.get("token") {
         cx.token_cands(sel).map(|(c, sel_obj)| {
             (
-                c.into_iter().map(|t| (t, None)).collect(),
+                c.into_iter().map(|t| (t, None, Vec::new())).collect(),
                 format!("{prop}: no token matches {}", Value::Object(sel_obj)),
             )
         })
@@ -876,14 +888,16 @@ fn compile_source(cx: &Ctx, prop: &str, entry: &mut Value) {
     obj.remove("relationship");
     let (cands, miss) = cands.unwrap_or_default();
     let list: Vec<Value> = cx
-        .rank_by(cands)
+        .rank_by(cands.into_iter().map(|(t, o, s)| (t, (o, s))).collect())
         .into_iter()
-        .map(|(t, options)| {
+        .map(|(t, (options, extra))| {
+            let mut states = token_states(t);
+            states.extend(extra);
             let mut c = serde_json::json!({
                 "value": cx.terminal(t),
                 "token": Ctx::token_label(t),
                 "chain": cx.alias_chain(t),
-                "states": token_states(t),
+                "states": states,
             });
             if let Some(o) = options {
                 c["options"] = o;
